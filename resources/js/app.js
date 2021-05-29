@@ -31,7 +31,7 @@ Vue.component(AlertSuccess.name, AlertSuccess);
 
 import router from "./router";
 
-Vue.component('example-component', require('./components/mainApp.vue').default);
+Vue.component('example-component', require('./components/app.vue').default);
 
 
 const app = new Vue({
