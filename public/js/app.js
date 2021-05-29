@@ -2730,9 +2730,12 @@ var routes = [{
     path: "course/:id",
     component: courseView,
     name: "selectedCourse",
+    redirect: {
+      name: "coursePage"
+    },
     children: [{
       name: "coursePage",
-      path: "",
+      path: "coursePage",
       component: classes_tab
     }, {
       name: "announcement",

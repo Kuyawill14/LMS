@@ -1,6 +1,13 @@
 <template>
     <div class="container">
-        <Modal :based-on="showModal" title="My first modal" @close="closeModal()">
+        <md-empty-state md-icon="devices_other" md-label="Create your first class" v-if="allClass.length ==0"
+            md-description="Creating class, you'll be able to upload your design and collaborate with people.">
+            <md-button class="md-primary md-raised" @click="openAddmodal()">Create first class</md-button>
+        </md-empty-state>
+
+
+
+        <Modal :based-on="showModal" title="Class" @close="closeModal()" >
             <!-- <createClassForm :class_name="form.class_name" :class_id="form.id" /> -->
             <createClassForm v-on:closeModal="closeModal()" v-if="modalType == 'add'" />
             <editClassForm v-on:closeModal="closeModal()" :class_name="form.class_name" :class_id="form.class_id"
@@ -8,7 +15,7 @@
         </Modal>
 
 
-        <div class="row">
+        <div class="row" v-if="allClass.length !=0">
             <!-- Your Profile Views Chart -->
             <div class="col-lg-6 ">
                 <h4>My Class</h4>
@@ -25,9 +32,6 @@
 
         <hr>
         <md-list class="md-triple-line" v-for="(item, i) in allClass" :key="'class'+i">
-
-
-
             <md-list-item>
                 <md-icon style="font-size: 4rem !important;">class</md-icon>
 
@@ -37,28 +41,17 @@
                     <p>{Students Count}</p>
                 </div>
 
-                <!-- <md-button class="md-icon-button md-list-action">
-                    <md-icon>star_border</md-icon>
-
-                </md-button> -->
-
                 <md-menu md-direction="bottom-start">
-
-
                     <md-button md-menu-trigger class="md-icon-button md-list-action">
                         <md-icon>more_vert</md-icon>
-
                     </md-button>
                     <md-menu-content>
                         <md-menu-item class="pointer  menu-hover">
                             Archive</md-menu-item>
                         <md-menu-item class="pointer menu-hover" @click="openEditmodal(item.class_name,item.class_id)">
                             Edit</md-menu-item>
-
                     </md-menu-content>
                 </md-menu>
-
-
             </md-list-item>
             <md-divider class="md-inset"></md-divider>
         </md-list>

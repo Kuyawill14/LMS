@@ -266,13 +266,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
 var VueElementLoading = function VueElementLoading() {
   return Promise.resolve(/*! import() */).then(__webpack_require__.t.bind(__webpack_require__, /*! vue-element-loading */ "./node_modules/vue-element-loading/lib/vue-element-loading.min.js", 23));
 };
@@ -823,10 +816,39 @@ var render = function() {
     "div",
     { staticClass: "container" },
     [
+      _vm.allClass.length == 0
+        ? _c(
+            "md-empty-state",
+            {
+              attrs: {
+                "md-icon": "devices_other",
+                "md-label": "Create your first class",
+                "md-description":
+                  "Creating class, you'll be able to upload your design and collaborate with people."
+              }
+            },
+            [
+              _c(
+                "md-button",
+                {
+                  staticClass: "md-primary md-raised",
+                  on: {
+                    click: function($event) {
+                      return _vm.openAddmodal()
+                    }
+                  }
+                },
+                [_vm._v("Create first class")]
+              )
+            ],
+            1
+          )
+        : _vm._e(),
+      _vm._v(" "),
       _c(
         "Modal",
         {
-          attrs: { "based-on": _vm.showModal, title: "My first modal" },
+          attrs: { "based-on": _vm.showModal, title: "Class" },
           on: {
             close: function($event) {
               return _vm.closeModal()
@@ -861,33 +883,35 @@ var render = function() {
         1
       ),
       _vm._v(" "),
-      _c("div", { staticClass: "row" }, [
-        _vm._m(0),
-        _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "col-lg-6  text-right" },
-          [
+      _vm.allClass.length != 0
+        ? _c("div", { staticClass: "row" }, [
+            _vm._m(0),
+            _vm._v(" "),
             _c(
-              "md-button",
-              {
-                staticClass: "md-raised md-primary rounded",
-                on: {
-                  click: function($event) {
-                    return _vm.openAddmodal()
-                  }
-                }
-              },
+              "div",
+              { staticClass: "col-lg-6  text-right" },
               [
-                _c("md-icon", [_vm._v("add")]),
-                _vm._v(" Create Class\n            ")
+                _c(
+                  "md-button",
+                  {
+                    staticClass: "md-raised md-primary rounded",
+                    on: {
+                      click: function($event) {
+                        return _vm.openAddmodal()
+                      }
+                    }
+                  },
+                  [
+                    _c("md-icon", [_vm._v("add")]),
+                    _vm._v(" Create Class\n            ")
+                  ],
+                  1
+                )
               ],
               1
             )
-          ],
-          1
-        )
-      ]),
+          ])
+        : _vm._e(),
       _vm._v(" "),
       _c("hr"),
       _vm._v(" "),

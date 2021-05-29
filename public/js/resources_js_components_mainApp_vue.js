@@ -648,7 +648,7 @@ var render = function() {
     [
       _c(
         "router-link",
-        { attrs: { to: { name: _vm.coursePage } } },
+        { attrs: { to: { name: "selectedCourse" } } },
         [
           _c(
             "md-list-item",
@@ -667,31 +667,12 @@ var render = function() {
       _vm._v(" "),
       _c(
         "router-link",
-        { attrs: { to: { name: _vm.announcement } } },
+        { attrs: { to: { name: "announcement" } } },
         [
           _c(
             "md-list-item",
             [
               _c("md-icon", [_vm._v("announcement")]),
-              _vm._v(" "),
-              _c("span", { staticClass: "md-list-item-text" }, [
-                _vm._v("Announcement")
-              ])
-            ],
-            1
-          )
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "router-link",
-        { attrs: { to: { name: _vm.announcement } } },
-        [
-          _c(
-            "md-list-item",
-            [
-              _c("md-icon", [_vm._v("send")]),
               _vm._v(" "),
               _c("span", { staticClass: "md-list-item-text" }, [
                 _vm._v("Announcement")
