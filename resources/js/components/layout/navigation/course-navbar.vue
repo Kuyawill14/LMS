@@ -22,10 +22,13 @@
 
             </md-list-item>
         </router-link>
-        <md-list-item>
-            <md-icon>send</md-icon>
-            <span class="md-list-item-text">Announcement</span>
-        </md-list-item>
+
+        <router-link :to="{name: announcement }">
+            <md-list-item>
+                <md-icon>send</md-icon>
+                <span class="md-list-item-text">Announcement</span>
+            </md-list-item>
+        </router-link>
 
         <md-list-item>
             <md-icon>delete</md-icon>

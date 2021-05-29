@@ -32,6 +32,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -596,14 +598,21 @@ var render = function() {
         _c(
           "md-button",
           { staticClass: "md-icon-button" },
-          [_c("md-icon", [_vm._v("refresh")])],
+          [
+            _c(
+              "md-badge",
+              { attrs: { "md-content": "1", "md-dense": "" } },
+              [_c("md-icon", [_vm._v("notifications")])],
+              1
+            )
+          ],
           1
         ),
         _vm._v(" "),
         _c(
           "md-button",
           { staticClass: "md-icon-button" },
-          [_c("md-icon", [_vm._v("more_vert")])],
+          [_c("md-icon", [_vm._v("account_circle")])],
           1
         )
       ],
@@ -695,13 +704,20 @@ var render = function() {
       ),
       _vm._v(" "),
       _c(
-        "md-list-item",
+        "router-link",
+        { attrs: { to: { name: _vm.announcement } } },
         [
-          _c("md-icon", [_vm._v("send")]),
-          _vm._v(" "),
-          _c("span", { staticClass: "md-list-item-text" }, [
-            _vm._v("Announcement")
-          ])
+          _c(
+            "md-list-item",
+            [
+              _c("md-icon", [_vm._v("send")]),
+              _vm._v(" "),
+              _c("span", { staticClass: "md-list-item-text" }, [
+                _vm._v("Announcement")
+              ])
+            ],
+            1
+          )
         ],
         1
       ),

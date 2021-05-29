@@ -30,8 +30,8 @@ let mycourse = () =>
 //     import ("./components/view-course/tabs/description-tab/descriptionComponent");
 // let classwork_tab = () =>
 // import ("./components/view-course/tabs/classwork-tab/classworkComponent");
-// let announcement_tab = () =>
-//     import ("./components/course-view/tabs/announcement-tab/announcementComponent");
+let announcement_tab = () =>
+     import ("./components/course-view/tabs/announcement-tab/announcementComponent");
 // let students_tab = () =>
 //     import ("./components/view-course/tabs/students-tab/studentsComponent");
 // let settings_tab = () =>
@@ -65,11 +65,17 @@ let routes = [{
                 component: courseView,
                 name: "selectedCourse",
 
-                children: [{
+                children: [
+                    {
                         name: "coursePage",
                         path: "",
                         component: classes_tab,
 
+                    },
+                    {
+                        name: "announcement",
+                        path: "announcement",
+                        component: announcement_tab
                     },
 
 
