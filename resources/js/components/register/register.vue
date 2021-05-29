@@ -1,5 +1,8 @@
 <template>
   <div class="centered-container">
+    <div class="loading-overlay" v-if="loading">
+        <md-progress-spinner md-mode="indeterminate" :md-stroke="2"></md-progress-spinner>
+    </div>
     <form novalidate class="md-layout" @submit.prevent="validateUser">
     <md-content class="md-elevation-3">
 
@@ -21,6 +24,8 @@
                 <md-input name="first-name" id="first-name" autocomplete="given-name" v-model="form.firstName" :disabled="sending" />
                 <span class="md-error" v-if="!$v.form.firstName.required">The first name is required</span>
                 <span class="md-error" v-else-if="!$v.form.firstName.minlength">Invalid first name</span>
+                <HasError :form="form" field="first-name" />
+                 <HasError class="md-error" :form="form" field="firstName" />
               </md-field>
             </div>
 
@@ -31,6 +36,7 @@
                 <span class="md-error" v-if="!$v.form.middlename.required">The middle name is required</span>
                 <span class="md-error" v-else-if="!$v.form.middlename.minlength">Invalid middle name</span>
               </md-field>
+               <HasError class="md-error" :form="form" field="middlename" />
             </div>
 
             <div class="md-layout-item md-small-size-100">
@@ -40,6 +46,7 @@
                 <span class="md-error" v-if="!$v.form.lastName.required">The last name is required</span>
                 <span class="md-error" v-else-if="!$v.form.lastName.minlength">Invalid last name</span>
                 </md-field>
+                 <HasError class="md-error" :form="form" field="lastName" />
             </div>
 
           </div>
@@ -50,21 +57,31 @@
             <span class="md-error" v-if="!$v.form.email.required">The email is required</span>
             <span class="md-error" v-else-if="!$v.form.email.email">Invalid email</span>
           </md-field>
+          <HasError class="md-error" :form="form" field="email" />
+          
 
            <md-field :class="getValidationClass('password')">
             <label for="password">Password</label>
             <md-input type="password" name="password" id="password" v-model="form.password" :disabled="sending" />
             <span class="md-error" v-if="!$v.form.password.required">The password is required</span>
-            <span class="md-error" v-else-if="!$v.form.password.email">Invalid password</span>
+          </md-field>
+          <HasError class="md-error" :form="form" field="password" />
+
+           <md-field :class="getValidationClass('password_confirmation')">
+            <label for="password_confirmation">Confirm Password</label>
+            <md-input type="password" name="password_confirmation" id="password_confirmation" v-model="form.password_confirmation" :disabled="sending" />
+            <span class="md-error" v-if="!$v.form.password_confirmation.required">The Confirm password is required</span>
           </md-field>
 
-        <md-field>
-          <label for="country">Role</label>
-          <md-select v-model="country" name="country" id="country" md-dense>
+        <md-field :class="getValidationClass('role')">
+          <label for="role">Role</label>
+          <md-select v-model="form.role" name="role" id="role" md-dense>
             <md-option value="Teacher">Teacher</md-option>
             <md-option value="Student">Student</md-option>
           </md-select>
+          <span class="md-error" v-if="!$v.form.role.required">The role is required</span>
         </md-field>
+        <HasError class="md-error" :form="form" field="role" />
 
         <md-progress-bar md-mode="indeterminate" v-if="sending" />
 
@@ -93,18 +110,20 @@
     name: 'FormValidation',
     mixins: [validationMixin],
     data: () => ({
-      form: {
+      form: new Form({
         firstName: null,
         lastName: null,
         middlename: null,
-        gender: null,
-        age: null,
         email: null,
-        password: null
-      },
+        password: null,
+        password_confirmation: null,
+        role:''
+      }),
       userSaved: false,
       sending: false,
-      lastUser: null
+      lastUser: null,
+      loading: false,
+      confirm: false,
     }),
     validations: {
       form: {
@@ -120,24 +139,23 @@
               required,
               minLength: minLength(1)
         },
-        age: {
-          required,
-          maxLength: maxLength(3)
-        },
-        gender: {
-          required
-        },
         email: {
           required,
           email
         },
         password:{
-            required,
-            email
+            required
+        },
+        role:{
+            required
+        },
+        password_confirmation:{
+            required
         }
       }
     },
     methods: {
+
       getValidationClass (fieldName) {
         const field = this.$v.form[fieldName]
 
@@ -151,20 +169,26 @@
         this.$v.$reset()
         this.form.firstName = null
         this.form.lastName = null
-        this.form.age = null
-        this.form.gender = null
+        this.form.middlename = null
+        this.form.role = ''
         this.form.email = null
+        this.form.password = null
+        this.form.password_confirmation = null
       },
       saveUser () {
         this.sending = true
-
-        // Instead of this timeout, here you can call your API
-        window.setTimeout(() => {
-          this.lastUser = `${this.form.firstName} ${this.form.lastName}`
-          this.userSaved = true
-          this.sending = false
-          this.clearForm()
-        }, 1500)
+        this.form.post('/api/registerUser')
+        .then(() => {
+            console.log("Success");
+             this.userSaved = true
+            this.sending = false
+            this.clearForm()
+        })
+        .catch(e=>{
+            this.sending = false
+        })
+        console.log(this.form)
+        
       },
       validateUser () {
         this.$v.$touch()
@@ -173,6 +197,12 @@
           this.saveUser()
         }
       }
+    },
+    mounted(){
+        this.loading = true;
+          setTimeout(() => {
+        this.loading = false;
+      }, 1000);
     }
   }
 </script>

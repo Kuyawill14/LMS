@@ -95,6 +95,23 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -102,18 +119,20 @@ __webpack_require__.r(__webpack_exports__);
   mixins: [vuelidate__WEBPACK_IMPORTED_MODULE_0__.validationMixin],
   data: function data() {
     return {
-      form: {
+      form: new Form({
         firstName: null,
         lastName: null,
         middlename: null,
-        gender: null,
-        age: null,
         email: null,
-        password: null
-      },
+        password: null,
+        password_confirmation: null,
+        role: ''
+      }),
       userSaved: false,
       sending: false,
-      lastUser: null
+      lastUser: null,
+      loading: false,
+      confirm: false
     };
   },
   validations: {
@@ -130,20 +149,18 @@ __webpack_require__.r(__webpack_exports__);
         required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__.required,
         minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__.minLength)(1)
       },
-      age: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__.required,
-        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__.maxLength)(3)
-      },
-      gender: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__.required
-      },
       email: {
         required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__.required,
         email: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__.email
       },
       password: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__.required,
-        email: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__.email
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__.required
+      },
+      role: {
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__.required
+      },
+      password_confirmation: {
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__.required
       }
     }
   },
@@ -161,22 +178,26 @@ __webpack_require__.r(__webpack_exports__);
       this.$v.$reset();
       this.form.firstName = null;
       this.form.lastName = null;
-      this.form.age = null;
-      this.form.gender = null;
+      this.form.middlename = null;
+      this.form.role = '';
       this.form.email = null;
+      this.form.password = null;
+      this.form.password_confirmation = null;
     },
     saveUser: function saveUser() {
       var _this = this;
 
-      this.sending = true; // Instead of this timeout, here you can call your API
-
-      window.setTimeout(function () {
-        _this.lastUser = "".concat(_this.form.firstName, " ").concat(_this.form.lastName);
+      this.sending = true;
+      this.form.post('/api/registerUser').then(function () {
+        console.log("Success");
         _this.userSaved = true;
         _this.sending = false;
 
         _this.clearForm();
-      }, 1500);
+      })["catch"](function (e) {
+        _this.sending = false;
+      });
+      console.log(this.form);
     },
     validateUser: function validateUser() {
       this.$v.$touch();
@@ -185,6 +206,14 @@ __webpack_require__.r(__webpack_exports__);
         this.saveUser();
       }
     }
+  },
+  mounted: function mounted() {
+    var _this2 = this;
+
+    this.loading = true;
+    setTimeout(function () {
+      _this2.loading = false;
+    }, 1000);
   }
 });
 
@@ -322,6 +351,19 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "centered-container" }, [
+    _vm.loading
+      ? _c(
+          "div",
+          { staticClass: "loading-overlay" },
+          [
+            _c("md-progress-spinner", {
+              attrs: { "md-mode": "indeterminate", "md-stroke": 2 }
+            })
+          ],
+          1
+        )
+      : _vm._e(),
+    _vm._v(" "),
     _c(
       "form",
       {
@@ -404,7 +446,16 @@ var render = function() {
                         ? _c("span", { staticClass: "md-error" }, [
                             _vm._v("Invalid first name")
                           ])
-                        : _vm._e()
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _c("HasError", {
+                        attrs: { form: _vm.form, field: "first-name" }
+                      }),
+                      _vm._v(" "),
+                      _c("HasError", {
+                        staticClass: "md-error",
+                        attrs: { form: _vm.form, field: "firstName" }
+                      })
                     ],
                     1
                   )
@@ -451,7 +502,12 @@ var render = function() {
                         : _vm._e()
                     ],
                     1
-                  )
+                  ),
+                  _vm._v(" "),
+                  _c("HasError", {
+                    staticClass: "md-error",
+                    attrs: { form: _vm.form, field: "middlename" }
+                  })
                 ],
                 1
               ),
@@ -495,7 +551,12 @@ var render = function() {
                         : _vm._e()
                     ],
                     1
-                  )
+                  ),
+                  _vm._v(" "),
+                  _c("HasError", {
+                    staticClass: "md-error",
+                    attrs: { form: _vm.form, field: "lastName" }
+                  })
                 ],
                 1
               )
@@ -537,6 +598,11 @@ var render = function() {
               1
             ),
             _vm._v(" "),
+            _c("HasError", {
+              staticClass: "md-error",
+              attrs: { form: _vm.form, field: "email" }
+            }),
+            _vm._v(" "),
             _c(
               "md-field",
               { class: _vm.getValidationClass("password") },
@@ -565,9 +631,43 @@ var render = function() {
                   ? _c("span", { staticClass: "md-error" }, [
                       _vm._v("The password is required")
                     ])
-                  : !_vm.$v.form.password.email
+                  : _vm._e()
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c("HasError", {
+              staticClass: "md-error",
+              attrs: { form: _vm.form, field: "password" }
+            }),
+            _vm._v(" "),
+            _c(
+              "md-field",
+              { class: _vm.getValidationClass("password_confirmation") },
+              [
+                _c("label", { attrs: { for: "password_confirmation" } }, [
+                  _vm._v("Confirm Password")
+                ]),
+                _vm._v(" "),
+                _c("md-input", {
+                  attrs: {
+                    type: "password",
+                    name: "password_confirmation",
+                    id: "password_confirmation",
+                    disabled: _vm.sending
+                  },
+                  model: {
+                    value: _vm.form.password_confirmation,
+                    callback: function($$v) {
+                      _vm.$set(_vm.form, "password_confirmation", $$v)
+                    },
+                    expression: "form.password_confirmation"
+                  }
+                }),
+                _vm._v(" "),
+                !_vm.$v.form.password_confirmation.required
                   ? _c("span", { staticClass: "md-error" }, [
-                      _vm._v("Invalid password")
+                      _vm._v("The Confirm password is required")
                     ])
                   : _vm._e()
               ],
@@ -576,19 +676,20 @@ var render = function() {
             _vm._v(" "),
             _c(
               "md-field",
+              { class: _vm.getValidationClass("role") },
               [
-                _c("label", { attrs: { for: "country" } }, [_vm._v("Role")]),
+                _c("label", { attrs: { for: "role" } }, [_vm._v("Role")]),
                 _vm._v(" "),
                 _c(
                   "md-select",
                   {
-                    attrs: { name: "country", id: "country", "md-dense": "" },
+                    attrs: { name: "role", id: "role", "md-dense": "" },
                     model: {
-                      value: _vm.country,
+                      value: _vm.form.role,
                       callback: function($$v) {
-                        _vm.country = $$v
+                        _vm.$set(_vm.form, "role", $$v)
                       },
-                      expression: "country"
+                      expression: "form.role"
                     }
                   },
                   [
@@ -601,10 +702,21 @@ var render = function() {
                     ])
                   ],
                   1
-                )
+                ),
+                _vm._v(" "),
+                !_vm.$v.form.role.required
+                  ? _c("span", { staticClass: "md-error" }, [
+                      _vm._v("The role is required")
+                    ])
+                  : _vm._e()
               ],
               1
             ),
+            _vm._v(" "),
+            _c("HasError", {
+              staticClass: "md-error",
+              attrs: { form: _vm.form, field: "role" }
+            }),
             _vm._v(" "),
             _vm.sending
               ? _c("md-progress-bar", { attrs: { "md-mode": "indeterminate" } })
