@@ -27,7 +27,7 @@ class SubjectCourseController extends Controller
         $allCourseSubject = DB::table('tbl_teacher_courses')
         ->select('tbl_teacher_courses.id as useClass_id','tbl_subject_courses.*','tbl_subject_courses.id as course_id')
         ->leftJoin('tbl_subject_courses', 'tbl_teacher_courses.course_id', '=', 'tbl_subject_courses.id')
-        ->where('user_id',1)
+        ->where('user_id',$userId)
         ->orderBy('created_at', 'ASC')
         ->get();
 

@@ -1,48 +1,69 @@
 <template>
     <div>
         <md-empty-state md-icon="devices_other" md-label="Create your first project"
-            md-description="Creating project, you'll be able to upload your design and collaborate with people." v-if="allCourse.length == 0 ">
-            <md-button class="md-primary md-raised">Create first Course</md-button>
+            md-description="Creating project, you'll be able to upload your design and collaborate with people."
+            v-if="allCourse.length == 0 ">
+            <md-button class="md-fab md-primary">Create first Course</md-button>
         </md-empty-state>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col">
+                    <h2>My Courses</h2>
+                </div>
+                <div class="col text-right">
+                    <md-button class="md-raised md-primary rounded">
+                        <md-icon>add</md-icon> Create Course
+                    </md-button>
 
-        <div class="card-expansion">
-            <md-card v-for="(item, i) in allCourse" :key="'course'+i">
-                <md-card-media>
-                    <img :src="'../images/'+item.course_picture" alt="People">
-                </md-card-media>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col">
+                    <div class="card-expansion">
+                        <md-card v-for="(item, i) in allCourse" :key="'course'+i">
+                            <md-card-media>
+                                <img :src="'../images/'+item.course_picture" alt="People">
+                            </md-card-media>
 
-                <md-card-header>
-                    <router-link :to="{name: 'coursePage', params: {id: item.id}}" class="card-title">
-                        <div class="md-title"> {{item.course_code + ' - ' + item.course_name}}</div>
-                    </router-link>
+                            <md-card-header>
+                                <router-link :to="{name: 'coursePage', params: {id: item.id}}" class="card-title">
+                                    <div class="md-title"> {{item.course_code + ' - ' + item.course_name}}</div>
+                                </router-link>
 
-                    <div class="md-subhead">{Class Count}</div>
-                </md-card-header>
+                                <div class="md-subhead">{Class Count}</div>
+                            </md-card-header>
 
-                <md-card-expand>
-                    <md-card-actions md-alignment="space-between">
-                        <div>
-                            <md-button>Edit</md-button>
-                            <md-button>Remove</md-button>
-                        </div>
+                            <md-card-expand>
+                                <md-card-actions md-alignment="space-between">
+                                    <div>
+                                        <md-button>Edit</md-button>
+                                        <md-button>Remove</md-button>
+                                    </div>
 
-                        <md-card-expand-trigger>
-                            <md-button class="md-icon-button">
-                                <md-icon>keyboard_arrow_down</md-icon>
-                            </md-button>
-                        </md-card-expand-trigger>
-                    </md-card-actions>
+                                    <md-card-expand-trigger>
+                                        <md-button class="md-icon-button">
+                                            <md-icon>keyboard_arrow_down</md-icon>
+                                        </md-button>
+                                    </md-card-expand-trigger>
+                                </md-card-actions>
 
-                    <md-card-expand-content>
-                        <md-card-content>
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio itaque ea, nostrum odio.
-                            Dolores, sed accusantium quasi non, voluptas eius illo quas, saepe voluptate pariatur in
-                            deleniti minus sint. Excepturi.
-                        </md-card-content>
-                    </md-card-expand-content>
-                </md-card-expand>
-            </md-card>
+                                <md-card-expand-content>
+                                    <md-card-content>
+                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio itaque ea,
+                                        nostrum odio.
+                                        Dolores, sed accusantium quasi non, voluptas eius illo quas, saepe voluptate
+                                        pariatur in
+                                        deleniti minus sint. Excepturi.
+                                    </md-card-content>
+                                </md-card-expand-content>
+                            </md-card-expand>
+                        </md-card>
 
+                    </div>
+
+                </div>
+            </div>
         </div>
 
 

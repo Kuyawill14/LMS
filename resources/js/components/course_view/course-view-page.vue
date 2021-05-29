@@ -1,41 +1,35 @@
 <template>
     <div>
-        <div class="container-fluid" v-if="$route.matched[1].name != 'selectedCourse'">
-           <!--  <vue-element-loading :active="isloading" spinner="bar-fade-scale" /> -->
+        <div class="container">
+            <!--  <vue-element-loading :active="isloading" spinner="bar-fade-scale" /> -->
 
-            <div class="row top-container class-banner"
+            <div class="row top-container rounded"
                 v-bind:style="{ 'background-image': 'url('+'../../images/' + getcourseInfo.course_picture + ')' }">
-                <div class="fullbleed-scoped-only" style="opacity: 0.7 !important"></div>
+                <div class="fullbleed-scoped-only rounded" style="opacity: 0.7 !important"></div>
                 <div class="col-12">
-                    <div class="card_header mt-2">
-                        <button @click="GoBackToMycourse" class="btn btn_classback" type="button"><i
-                                class="fa fa-arrow-left" style="padding-right:10px "></i>Back</button>
-                    </div>
-                    <div class="card transparent" v-if="!isloading">
+                    <div class="card-body">
+                        <h3 class="card-text card-top " style="margin-top: 0">
+                            {{getcourseInfo.course_code + ' - ' + getcourseInfo.course_name}}
+                        </h3>
+                        <h5 class="card-text card-top ">{Teacher Name}</h5>
 
-                        <div class="card-body">
-                            <h3 class="card-text card-top " style="margin-top: 0">
-                                {{getcourseInfo.course_code + ' - ' + getcourseInfo.course_name}}
-                            </h3>
-                            <h5 class="card-text card-top ">{Teacher Name}</h5>
-
-                        </div>
                     </div>
+
+
                 </div>
             </div>
 
-        </div>
 
-      
+        </div>
 
         <router-view :role="role"></router-view>
 
-      
+
 
     </div>
 </template>
 <script>
-/*     import VueElementLoading from 'vue-element-loading' */
+    /*     import VueElementLoading from 'vue-element-loading' */
 
 
     import {
@@ -56,7 +50,7 @@
             }
         },
         components: {
-            VueElementLoading
+            // VueElementLoading
 
         },
         computed: {
@@ -124,7 +118,7 @@
     .top-container {
         padding-left: 0 !important;
         padding-right: 0 !important;
-        height: 100%;
+       position: relative;
     }
 
     .ttr-wrapper {

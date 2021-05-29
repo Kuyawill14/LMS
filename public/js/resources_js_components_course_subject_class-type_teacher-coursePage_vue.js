@@ -74,6 +74,27 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 // const VueElementLoading = () => import("vue-element-loading")
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -327,7 +348,7 @@ var render = function() {
               }
             },
             [
-              _c("md-button", { staticClass: "md-primary md-raised" }, [
+              _c("md-button", { staticClass: "md-fab md-primary" }, [
                 _vm._v("Create first Course")
               ])
             ],
@@ -335,109 +356,154 @@ var render = function() {
           )
         : _vm._e(),
       _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "card-expansion" },
-        _vm._l(_vm.allCourse, function(item, i) {
-          return _c(
-            "md-card",
-            { key: "course" + i },
+      _c("div", { staticClass: "container-fluid" }, [
+        _c("div", { staticClass: "row" }, [
+          _vm._m(0),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "col text-right" },
             [
-              _c("md-card-media", [
-                _c("img", {
-                  attrs: {
-                    src: "../images/" + item.course_picture,
-                    alt: "People"
-                  }
-                })
-              ]),
-              _vm._v(" "),
               _c(
-                "md-card-header",
+                "md-button",
+                { staticClass: "md-raised md-primary rounded" },
                 [
-                  _c(
-                    "router-link",
-                    {
-                      staticClass: "card-title",
-                      attrs: {
-                        to: { name: "coursePage", params: { id: item.id } }
-                      }
-                    },
-                    [
-                      _c("div", { staticClass: "md-title" }, [
-                        _vm._v(
-                          " " +
-                            _vm._s(item.course_code + " - " + item.course_name)
-                        )
-                      ])
-                    ]
-                  ),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "md-subhead" }, [
-                    _vm._v("{Class Count}")
-                  ])
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "md-card-expand",
-                [
-                  _c(
-                    "md-card-actions",
-                    { attrs: { "md-alignment": "space-between" } },
-                    [
-                      _c(
-                        "div",
-                        [
-                          _c("md-button", [_vm._v("Edit")]),
-                          _vm._v(" "),
-                          _c("md-button", [_vm._v("Remove")])
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "md-card-expand-trigger",
-                        [
-                          _c(
-                            "md-button",
-                            { staticClass: "md-icon-button" },
-                            [_c("md-icon", [_vm._v("keyboard_arrow_down")])],
-                            1
-                          )
-                        ],
-                        1
-                      )
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "md-card-expand-content",
-                    [
-                      _c("md-card-content", [
-                        _vm._v(
-                          "\n                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio itaque ea, nostrum odio.\n                        Dolores, sed accusantium quasi non, voluptas eius illo quas, saepe voluptate pariatur in\n                        deleniti minus sint. Excepturi.\n                    "
-                        )
-                      ])
-                    ],
-                    1
-                  )
+                  _c("md-icon", [_vm._v("add")]),
+                  _vm._v(" Create Course\n                ")
                 ],
                 1
               )
             ],
             1
           )
-        }),
-        1
-      )
+        ]),
+        _vm._v(" "),
+        _c("hr"),
+        _vm._v(" "),
+        _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col" }, [
+            _c(
+              "div",
+              { staticClass: "card-expansion" },
+              _vm._l(_vm.allCourse, function(item, i) {
+                return _c(
+                  "md-card",
+                  { key: "course" + i },
+                  [
+                    _c("md-card-media", [
+                      _c("img", {
+                        attrs: {
+                          src: "../images/" + item.course_picture,
+                          alt: "People"
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "md-card-header",
+                      [
+                        _c(
+                          "router-link",
+                          {
+                            staticClass: "card-title",
+                            attrs: {
+                              to: {
+                                name: "coursePage",
+                                params: { id: item.id }
+                              }
+                            }
+                          },
+                          [
+                            _c("div", { staticClass: "md-title" }, [
+                              _vm._v(
+                                " " +
+                                  _vm._s(
+                                    item.course_code + " - " + item.course_name
+                                  )
+                              )
+                            ])
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "md-subhead" }, [
+                          _vm._v("{Class Count}")
+                        ])
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "md-card-expand",
+                      [
+                        _c(
+                          "md-card-actions",
+                          { attrs: { "md-alignment": "space-between" } },
+                          [
+                            _c(
+                              "div",
+                              [
+                                _c("md-button", [_vm._v("Edit")]),
+                                _vm._v(" "),
+                                _c("md-button", [_vm._v("Remove")])
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "md-card-expand-trigger",
+                              [
+                                _c(
+                                  "md-button",
+                                  { staticClass: "md-icon-button" },
+                                  [
+                                    _c("md-icon", [
+                                      _vm._v("keyboard_arrow_down")
+                                    ])
+                                  ],
+                                  1
+                                )
+                              ],
+                              1
+                            )
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "md-card-expand-content",
+                          [
+                            _c("md-card-content", [
+                              _vm._v(
+                                "\n                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio itaque ea,\n                                    nostrum odio.\n                                    Dolores, sed accusantium quasi non, voluptas eius illo quas, saepe voluptate\n                                    pariatur in\n                                    deleniti minus sint. Excepturi.\n                                "
+                              )
+                            ])
+                          ],
+                          1
+                        )
+                      ],
+                      1
+                    )
+                  ],
+                  1
+                )
+              }),
+              1
+            )
+          ])
+        ])
+      ])
     ],
     1
   )
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col" }, [_c("h2", [_vm._v("My Courses")])])
+  }
+]
 render._withStripped = true
 
 

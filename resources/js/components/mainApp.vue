@@ -8,15 +8,15 @@
                 <span class="md-title">My Title</span>
             </md-app-toolbar>
 
-          
+
 
             <md-app-drawer :md-active.sync="menuVisible" md-persistent="mini">
-                <sidebar></sidebar>
-            
+                <sidebar :role='role'></sidebar>
+
             </md-app-drawer>
 
             <md-app-content>
-                <router-view role:></router-view>
+                <router-view :role='role'></router-view>
             </md-app-content>
         </md-app>
     </div>
@@ -40,25 +40,25 @@
     import sidebar from "./layout/sidebar";
     export default {
         name: 'Reveal',
-         data: () => ({
-             UserDetails:[],
+        data: () => ({
+            UserDetails: [],
             menuVisible: false,
-            role:''
+            role: ''
         }),
         components: {
             topHeader,
             sidebar,
         },
-      mounted(){
-        axios.get('/api/user').then((res)=>{
-            this.role = res.data.role;
-            this.UserDetails = res.data;
-            console.log(res.data);
-        }).catch((error)=>{
-            console.log(error)
-        })
-        
-      }
+        mounted() {
+            axios.get('/api/user').then((res) => {
+                this.role = res.data.role;
+                this.UserDetails = res.data;
+                console.log(res.data);
+            }).catch((error) => {
+                console.log(error)
+            })
+
+        }
     }
 
 </script>
