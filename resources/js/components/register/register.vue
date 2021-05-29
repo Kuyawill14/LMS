@@ -13,13 +13,11 @@
           <label>E-mail</label>
           <md-input type="email" v-model="form.email" autofocus></md-input>
         </md-field>
-         <HasError :form="form" field="email" />
 
         <md-field md-has-password>
           <label>Password</label>
           <md-input v-model="form.password" type="password"></md-input>
         </md-field>
-        <HasError :form="form" field="password" />
 
       </div>
 
