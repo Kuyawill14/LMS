@@ -6,7 +6,7 @@ Vue.use(Router);
 //login
 let login = () => import ("./components/login/login");
 let register = () => import ("./components/register/register");
-let register = () => import ("./components/profile/profile");
+let profile = () => import ("./components/profile/profile");
 // //Main Pages
 // let mainApp = () =>
 //     import ("./mainApp");
