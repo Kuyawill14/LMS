@@ -34,10 +34,11 @@ class AuthController extends Controller
     }
 
     public function UserRegister(Request $request){
+        return $request;
         $validated = $request->validate([
-            'First_Name' => ['required'],
-            'Middle_Name' => ['required'],
-            'Last_Name' => ['required'],
+            'firstName' => ['required'],
+            'middlename' => ['required'],
+            'lastName' => ['required'],
             'role' => ['required'],
             'email' => ['required', 'email', 'unique:users'],
             'password' => ['required', 'min:6', 'confirmed']
@@ -47,9 +48,9 @@ class AuthController extends Controller
         } */
      
        $New =  User::create([
-            'firstName' =>  $request->First_Name,
-            'middleName' =>  $request->Middle_Name,
-            'lastName' =>  $request->Last_Name,
+            'firstName' =>  $request->firstName,
+            'middleName' =>  $request->middlename,
+            'lastName' =>  $request->lastName,
             'email' =>  $request->email,
             'password' => Hash::make($request->password),
             'role' =>  $request->role,
