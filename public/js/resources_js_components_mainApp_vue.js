@@ -643,7 +643,7 @@ var render = function() {
       _vm._v(" "),
       _c(
         "router-link",
-        { attrs: { to: { name: _vm.announcement } } },
+        { attrs: { to: { name: _vm.coursePage } } },
         [
           _c(
             "md-list-item",

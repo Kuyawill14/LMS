@@ -1987,13 +1987,10 @@ var mycourse = function mycourse() {
 // let description_tab = () =>
 //     import ("./components/view-course/tabs/description-tab/descriptionComponent");
 // let classwork_tab = () =>
-
-
-Promise.resolve().then(function webpackMissingModule() { var e = new Error("Cannot find module './components/view-course/tabs/classwork-tab/classworkComponent'"); e.code = 'MODULE_NOT_FOUND'; throw e; });
-
-var announcement_tab = function announcement_tab() {
-  return Promise.resolve().then(function webpackMissingModule() { var e = new Error("Cannot find module './components/view-course/tabs/announcement-tab/announcementComponent'"); e.code = 'MODULE_NOT_FOUND'; throw e; });
-}; // let students_tab = () =>
+// import ("./components/view-course/tabs/classwork-tab/classworkComponent");
+// let announcement_tab = () =>
+//     import ("./components/course-view/tabs/announcement-tab/announcementComponent");
+// let students_tab = () =>
 //     import ("./components/view-course/tabs/students-tab/studentsComponent");
 // let settings_tab = () =>
 //     import ("./components/view-course/tabs/settings-tab/settingsComponent");
@@ -2005,13 +2002,15 @@ var announcement_tab = function announcement_tab() {
 //     import ("./components/view-course/tabs/modules-tab/modulesComponent");
 // let studentmodules_tab = () =>
 //     import ("./components/view-course/tabs/modules-tab/user-type/studentmodulesComponent");
-// let classes_tab = () =>
-//     import ("./components/view-course/tabs/classes-tab/classesComponent");
-//view course page 
+
+
+var classes_tab = function classes_tab() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_tabs_classes-tab_classesComponent_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/course-view/tabs/classes-tab/classesComponent */ "./resources/js/components/course-view/tabs/classes-tab/classesComponent.vue"));
+}; //view course page 
 
 
 var courseView = function courseView() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_course_view_course-view-page_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/course_view/course-view-page */ "./resources/js/components/course_view/course-view-page.vue"));
+  return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_course-view-page_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/course-view/course-view-page */ "./resources/js/components/course-view/course-view-page.vue"));
 };
 
 var routes = [{
@@ -2028,12 +2027,8 @@ var routes = [{
     name: "selectedCourse",
     children: [{
       name: "coursePage",
-      path: "" // component: classes_tab,
-
-    }, {
-      name: "announcement",
-      path: "announcement",
-      component: announcement_tab
+      path: "",
+      component: classes_tab
     }]
   }]
 }, {
@@ -90583,6 +90578,36 @@ var index = {
 /******/ 		};
 /******/ 	})();
 /******/ 	
+/******/ 	/* webpack/runtime/create fake namespace object */
+/******/ 	(() => {
+/******/ 		var getProto = Object.getPrototypeOf ? (obj) => (Object.getPrototypeOf(obj)) : (obj) => (obj.__proto__);
+/******/ 		var leafPrototypes;
+/******/ 		// create a fake namespace object
+/******/ 		// mode & 1: value is a module id, require it
+/******/ 		// mode & 2: merge all properties of value into the ns
+/******/ 		// mode & 4: return value when already ns object
+/******/ 		// mode & 16: return value when it's Promise-like
+/******/ 		// mode & 8|1: behave like require
+/******/ 		__webpack_require__.t = function(value, mode) {
+/******/ 			if(mode & 1) value = this(value);
+/******/ 			if(mode & 8) return value;
+/******/ 			if(typeof value === 'object' && value) {
+/******/ 				if((mode & 4) && value.__esModule) return value;
+/******/ 				if((mode & 16) && typeof value.then === 'function') return value;
+/******/ 			}
+/******/ 			var ns = Object.create(null);
+/******/ 			__webpack_require__.r(ns);
+/******/ 			var def = {};
+/******/ 			leafPrototypes = leafPrototypes || [null, getProto({}), getProto([]), getProto(getProto)];
+/******/ 			for(var current = mode & 2 && value; typeof current == 'object' && !~leafPrototypes.indexOf(current); current = getProto(current)) {
+/******/ 				Object.getOwnPropertyNames(current).forEach((key) => (def[key] = () => (value[key])));
+/******/ 			}
+/******/ 			def['default'] = () => (value);
+/******/ 			__webpack_require__.d(ns, def);
+/******/ 			return ns;
+/******/ 		};
+/******/ 	})();
+/******/ 	
 /******/ 	/* webpack/runtime/define property getters */
 /******/ 	(() => {
 /******/ 		// define getter functions for harmony exports
@@ -90613,7 +90638,7 @@ var index = {
 /******/ 		// This function allow to reference async chunks
 /******/ 		__webpack_require__.u = (chunkId) => {
 /******/ 			// return url for filenames not based on template
-/******/ 			if ({"resources_js_components_login_login_vue":1,"resources_js_components_register_register_vue":1,"resources_js_components_profile_profile_vue":1,"resources_js_components_mainApp_vue":1,"resources_js_components_course_subject_mycourse-page_vue":1,"resources_js_components_course_view_course-view-page_vue":1,"resources_js_components_course_subject_class-type_teacher-coursePage_vue":1}[chunkId]) return "js/" + chunkId + ".js";
+/******/ 			if ({"resources_js_components_login_login_vue":1,"resources_js_components_register_register_vue":1,"resources_js_components_profile_profile_vue":1,"resources_js_components_mainApp_vue":1,"resources_js_components_course_subject_mycourse-page_vue":1,"resources_js_components_course-view_tabs_classes-tab_classesComponent_vue":1,"resources_js_components_course-view_course-view-page_vue":1,"resources_js_components_course_subject_class-type_teacher-coursePage_vue":1,"resources_js_components_course-view_tabs_classes-tab_class-type_teacher-classPage_vue":1}[chunkId]) return "js/" + chunkId + ".js";
 /******/ 			// return url for filenames based on template
 /******/ 			return undefined;
 /******/ 		};

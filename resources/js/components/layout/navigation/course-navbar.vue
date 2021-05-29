@@ -14,7 +14,8 @@
 
             </md-list-item>
         </router-link>
-         <router-link :to="{name: announcement }">
+        
+         <router-link :to="{name: coursePage }">
             <md-list-item>
                 <md-icon>move_to_inbox</md-icon>
                 <span class="md-list-item-text">Classes</span>
