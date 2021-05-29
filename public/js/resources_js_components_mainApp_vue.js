@@ -22451,7 +22451,7 @@ var render = function() {
     [
       _c(
         "router-link",
-        { attrs: { to: { name: "selectedCourse" } } },
+        { attrs: { to: { name: "coursePage" }, exact: "" } },
         [
           _c(
             "md-list-item",
@@ -22470,7 +22470,7 @@ var render = function() {
       _vm._v(" "),
       _c(
         "router-link",
-        { attrs: { to: { name: "announcement" } } },
+        { attrs: { to: { name: "announcement" }, exact: "" } },
         [
           _c(
             "md-list-item",

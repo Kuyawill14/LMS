@@ -1,13 +1,13 @@
 <template>
     <md-list>
-        <router-link :to="{name: 'selectedCourse'}">
+        <router-link :to="{name: 'coursePage'}" exact>
             <md-list-item>
                 <md-icon>class</md-icon>
                 <span class="md-list-item-text">Classes</span>
 
             </md-list-item>
         </router-link>
-        <router-link :to="{name: 'announcement'}">
+        <router-link :to="{name: 'announcement'}" exact>
             <md-list-item>
                 <md-icon>announcement</md-icon>
                 <span class="md-list-item-text">Announcement</span>
