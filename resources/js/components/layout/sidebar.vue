@@ -1,9 +1,9 @@
 <template>
-    <md-app-drawer :md-active.sync="menuVisible">
+    <div>
         <md-toolbar class="md-transparent" md-elevation="0">Navigation</md-toolbar>
 
-  <mainNavbar > </mainNavbar>
-    </md-app-drawer>
+        <mainNavbar> </mainNavbar>
+    </div>
 </template>
 
 
@@ -13,7 +13,7 @@
     // import courseNavbar from './navigation/course-navbar'
 
     export default ({
-      
+
         components: {
             mainNavbar,
             // courseNavbar

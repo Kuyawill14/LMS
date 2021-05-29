@@ -30,11 +30,14 @@ Vue.component(AlertErrors.name, AlertErrors);
 Vue.component(AlertSuccess.name, AlertSuccess);
 
 import router from "./router";
+//Vuex Store
+import store from "./store/store";
 
 Vue.component('example-component', require('./components/app.vue').default);
 
 
 const app = new Vue({
     router,
+    store,
     el: '#app',
 });
