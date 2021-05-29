@@ -23,6 +23,30 @@ let mycourse = () =>
 //     import ("./components/classwork_main/classwork_main");
 
 
+
+
+// course view tabs
+// let description_tab = () =>
+//     import ("./components/view-course/tabs/description-tab/descriptionComponent");
+// let classwork_tab = () =>
+import ("./components/view-course/tabs/classwork-tab/classworkComponent");
+let announcement_tab = () =>
+    import ("./components/view-course/tabs/announcement-tab/announcementComponent");
+// let students_tab = () =>
+//     import ("./components/view-course/tabs/students-tab/studentsComponent");
+// let settings_tab = () =>
+//     import ("./components/view-course/tabs/settings-tab/settingsComponent");
+// let grading_criteria_tab = () =>
+//     import ("./components/view-course/tabs/grading_criteria-tab/grading_criteriaComponent");
+// let students_grade_tab = () =>
+//     import ("./components/view-course/tabs/students_grade-tab/student_gradeComponent");
+// let modules_tab = () =>
+//     import ("./components/view-course/tabs/modules-tab/modulesComponent");
+// let studentmodules_tab = () =>
+//     import ("./components/view-course/tabs/modules-tab/user-type/studentmodulesComponent");
+// let classes_tab = () =>
+//     import ("./components/view-course/tabs/classes-tab/classesComponent");
+
 //view course page 
 let courseView = () =>
     import ("./components/course_view/course-view-page");
@@ -46,6 +70,11 @@ let routes = [{
                         path: "",
                         // component: classes_tab,
 
+                    },
+                    {
+                        name: "announcement",
+                        path: "announcement",
+                        component: announcement_tab
                     },
 
 

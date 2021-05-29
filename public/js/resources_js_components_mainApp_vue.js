@@ -623,6 +623,44 @@ var render = function() {
       ),
       _vm._v(" "),
       _c(
+        "router-link",
+        { attrs: { to: { name: _vm.announcement } } },
+        [
+          _c(
+            "md-list-item",
+            [
+              _c("md-icon", [_vm._v("move_to_inbox")]),
+              _vm._v(" "),
+              _c("span", { staticClass: "md-list-item-text" }, [
+                _vm._v("Classes")
+              ])
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "router-link",
+        { attrs: { to: { name: _vm.announcement } } },
+        [
+          _c(
+            "md-list-item",
+            [
+              _c("md-icon", [_vm._v("move_to_inbox")]),
+              _vm._v(" "),
+              _c("span", { staticClass: "md-list-item-text" }, [
+                _vm._v("Classes")
+              ])
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
         "md-list-item",
         [
           _c("md-icon", [_vm._v("send")]),
