@@ -77,7 +77,7 @@
   </form>
 </template>
 <script>
-  import {ValidationError} from "@/components";
+  /* import {ValidationError} from "@/components";
   import formMixin from "@/mixins/form-mixin";
 
   export default {
@@ -137,5 +137,5 @@
       }
 
     }
-  };
+  }; */
 </script>
