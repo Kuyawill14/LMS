@@ -639,12 +639,12 @@ var render = function() {
     [
       _c(
         "router-link",
-        { attrs: { to: "/courses" } },
+        { attrs: { to: { name: _vm.coursePage } } },
         [
           _c(
             "md-list-item",
             [
-              _c("md-icon", [_vm._v("move_to_inbox")]),
+              _c("md-icon", [_vm._v("class")]),
               _vm._v(" "),
               _c("span", { staticClass: "md-list-item-text" }, [
                 _vm._v("Classes")
@@ -663,29 +663,10 @@ var render = function() {
           _c(
             "md-list-item",
             [
-              _c("md-icon", [_vm._v("move_to_inbox")]),
+              _c("md-icon", [_vm._v("announcement")]),
               _vm._v(" "),
               _c("span", { staticClass: "md-list-item-text" }, [
-                _vm._v("Classes")
-              ])
-            ],
-            1
-          )
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "router-link",
-        { attrs: { to: { name: _vm.coursePage } } },
-        [
-          _c(
-            "md-list-item",
-            [
-              _c("md-icon", [_vm._v("move_to_inbox")]),
-              _vm._v(" "),
-              _c("span", { staticClass: "md-list-item-text" }, [
-                _vm._v("Classes")
+                _vm._v("Announcement")
               ])
             ],
             1
@@ -697,19 +678,7 @@ var render = function() {
       _c(
         "md-list-item",
         [
-          _c("md-icon", [_vm._v("send")]),
-          _vm._v(" "),
-          _c("span", { staticClass: "md-list-item-text" }, [
-            _vm._v("Announcement")
-          ])
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "md-list-item",
-        [
-          _c("md-icon", [_vm._v("delete")]),
+          _c("md-icon", [_vm._v("assignment")]),
           _vm._v(" "),
           _c("span", { staticClass: "md-list-item-text" }, [
             _vm._v("Classwork")
@@ -721,7 +690,7 @@ var render = function() {
       _c(
         "md-list-item",
         [
-          _c("md-icon", [_vm._v("error")]),
+          _c("md-icon", [_vm._v("view_module")]),
           _vm._v(" "),
           _c("span", { staticClass: "md-list-item-text" }, [_vm._v("Modules")])
         ],
@@ -731,7 +700,7 @@ var render = function() {
       _c(
         "md-list-item",
         [
-          _c("md-icon", [_vm._v("error")]),
+          _c("md-icon", [_vm._v("groups")]),
           _vm._v(" "),
           _c("span", { staticClass: "md-list-item-text" }, [_vm._v("Students")])
         ],
@@ -741,7 +710,7 @@ var render = function() {
       _c(
         "md-list-item",
         [
-          _c("md-icon", [_vm._v("error")]),
+          _c("md-icon", [_vm._v("stairs")]),
           _vm._v(" "),
           _c("span", { staticClass: "md-list-item-text" }, [
             _vm._v("Grading Criteria")
@@ -753,7 +722,7 @@ var render = function() {
       _c(
         "md-list-item",
         [
-          _c("md-icon", [_vm._v("error")]),
+          _c("md-icon", [_vm._v("info")]),
           _vm._v(" "),
           _c("span", { staticClass: "md-list-item-text" }, [_vm._v("About")])
         ],
@@ -763,7 +732,7 @@ var render = function() {
       _c(
         "md-list-item",
         [
-          _c("md-icon", [_vm._v("error")]),
+          _c("md-icon", [_vm._v("settings")]),
           _vm._v(" "),
           _c("span", { staticClass: "md-list-item-text" }, [_vm._v("Settings")])
         ],
@@ -814,38 +783,6 @@ var render = function() {
             ],
             1
           )
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "md-list-item",
-        [
-          _c("md-icon", [_vm._v("send")]),
-          _vm._v(" "),
-          _c("span", { staticClass: "md-list-item-text" }, [
-            _vm._v("Sent Mail")
-          ])
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "md-list-item",
-        [
-          _c("md-icon", [_vm._v("delete")]),
-          _vm._v(" "),
-          _c("span", { staticClass: "md-list-item-text" }, [_vm._v("Trash")])
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "md-list-item",
-        [
-          _c("md-icon", [_vm._v("error")]),
-          _vm._v(" "),
-          _c("span", { staticClass: "md-list-item-text" }, [_vm._v("Spam")])
         ],
         1
       )

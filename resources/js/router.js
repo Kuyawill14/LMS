@@ -71,6 +71,13 @@ let routes = [{
                         component: classes_tab,
 
                     },
+                    {
+                        name: "coursePage",
+                        path: "",
+                        component: classes_tab,
+
+                    },
+
 
 
 
