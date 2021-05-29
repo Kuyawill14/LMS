@@ -35,7 +35,7 @@ const actions = {
 
     async updateClass({ commit }, classItem) {
         let response = await axios
-            .post(`/api/class/update/${classItem.id}`, { class: classItem })
+            .post(`/api/class/update/${classItem.class_id}`, { class: classItem })
             .then(res => {
 
                 let newCLass = res.data;

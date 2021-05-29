@@ -9,7 +9,8 @@
         </md-field>
 
         <div class="text-right">
-            <md-button type="submit" class="md-primary" :disabled="sending" @click="createClass">Create</md-button>
+            <md-button type="submit" class="md-primary" :disabled="sending" @click="updateClass">Save Changes
+            </md-button>
 
         </div>
 
@@ -36,7 +37,7 @@
     } from "vuex";
 
     export default {
-
+        props: ['class_id', 'class_name'],
         name: 'ErrorsMessages',
         data: () => ({
             noError: null,
@@ -46,37 +47,48 @@
             sending: false,
             form: {
                 class_name: '',
-                course_id: null
-            },
-
+                class_id: null
+            }
         }),
         computed: {
+            getClassName() {
+                return this.class_name;
+            }
 
         },
         methods: {
             ...mapActions(['fetchSubjectCourseClassList']),
             toastSuccess() {
-                return this.$toasted.success("Class Successfully Created", {
+                return this.$toasted.success("Class Successfully updated", {
                     theme: "toasted-primary",
                     position: "top-center",
                     icon: "done",
                     duration: 5000
                 });
             },
-            createClass() {
-                this.$emit('closeModal')
+            updateClass() {
                 this.sending = true;
-                if (this.form.class_name != "") {
-                    this.toastSuccess();
-
-                    this.form.course_id = this.$route.params.id;
-                    console.log(this.form);
-                    this.$store.dispatch('createClass', this.form);
-                    this.fetchSubjectCourseClassList(this.$route.params.id);
-
+                this.$emit('closeModal');
+                this.isloading = true;
+                this.form.class_id = this.class_id;
+                this.form.course_id = this.$route.params.id;
+                this.$store.dispatch('updateClass', this.form);
+                this.fetchSubjectCourseClassList(this.$route.params.id);
+                this.toastSuccess()
+                setTimeout(() => {
+                    this.isloading = false;
                     this.sending = false;
-                }
-            }
+
+                }, 1000);
+
+
+
+            },
+        },
+        mounted() {
+
+            this.form.class_name = this.getClassName;
+            console.log(this.class_id);
         }
     }
 

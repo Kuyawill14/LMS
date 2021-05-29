@@ -14,8 +14,11 @@ import 'vue-material/dist/vue-material.min.css'
 import 'vue-material/dist/theme/default.css'
 import VueModal from '@kouts/vue-modal'
 import '@kouts/vue-modal/dist/vue-modal.css'
+import Toasted from 'vue-toasted';
 Vue.use(VueMaterial)
 
+
+Vue.use(Toasted)
 
 import Form from 'vform'
 import {

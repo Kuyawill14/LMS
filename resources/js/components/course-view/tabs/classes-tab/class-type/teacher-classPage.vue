@@ -1,8 +1,10 @@
 <template>
     <div class="container">
-        <Modal :based-on="showModal" title="My first modal" @close="closeModal()" >
+        <Modal :based-on="showModal" title="My first modal" @close="closeModal()">
             <!-- <createClassForm :class_name="form.class_name" :class_id="form.id" /> -->
-            <createClassForm v-on:closeModal="closeModal()" />
+            <createClassForm v-on:closeModal="closeModal()" v-if="modalType == 'add'" />
+            <editClassForm v-on:closeModal="closeModal()" :class_name="form.class_name" :class_id="form.class_id"
+                v-if="modalType == 'edit'" />
         </Modal>
 
 
@@ -14,8 +16,7 @@
 
             </div>
             <div class="col-lg-6  text-right">
-
-                <md-button class="md-raised md-primary rounded" @click="showModal=true">
+                <md-button class="md-raised md-primary rounded" @click="openAddmodal()">
                     <md-icon>add</md-icon> Create Class
                 </md-button>
             </div>
@@ -23,7 +24,44 @@
         </div>
 
         <hr>
-        <classList/>
+        <md-list class="md-triple-line" v-for="(item, i) in allClass" :key="'class'+i">
+
+
+
+            <md-list-item>
+                <md-icon style="font-size: 4rem !important;">class</md-icon>
+
+                <div class="md-list-item-text">
+                    <span>{{item.class_name}}</span>
+                    <span> <strong>Class code: </strong> {{item.class_code}}</span>
+                    <p>{Students Count}</p>
+                </div>
+
+                <!-- <md-button class="md-icon-button md-list-action">
+                    <md-icon>star_border</md-icon>
+
+                </md-button> -->
+
+                <md-menu md-direction="bottom-start">
+
+
+                    <md-button md-menu-trigger class="md-icon-button md-list-action">
+                        <md-icon>more_vert</md-icon>
+
+                    </md-button>
+                    <md-menu-content>
+                        <md-menu-item class="pointer  menu-hover">
+                            Archive</md-menu-item>
+                        <md-menu-item class="pointer menu-hover" @click="openEditmodal(item.class_name,item.class_id)">
+                            Edit</md-menu-item>
+
+                    </md-menu-content>
+                </md-menu>
+
+
+            </md-list-item>
+            <md-divider class="md-inset"></md-divider>
+        </md-list>
 
 
     </div>
@@ -33,7 +71,8 @@
 <script>
     const VueElementLoading = () => import("vue-element-loading")
     import createClassForm from './createClass';
-    import classList from './teacher-classList'
+
+    import editClassForm from './editClass'
     import {
         mapGetters,
         mapActions
@@ -42,7 +81,7 @@
         components: {
             VueElementLoading,
             createClassForm,
-            classList
+            editClassForm
 
         },
         data() {
@@ -61,47 +100,31 @@
 
         methods: {
             ...mapActions(['fetchSubjectCourseClassList']),
-            closeModal() {this.showModal = false},
-            
+            closeModal() {
+                this.showModal = false
+            },
+
             openAddmodal() {
                 this.form.class_name = "";
                 this.modalType = "add";
+                this.showModal = true;
 
-                //console.log(this.modalType);
+                console.log(this.modalType);
             },
             openEditmodal(class_name, class_id) {
-                this.modalType = "update";
-                this.form.id = class_id;
+                this.showModal = true;
+                this.modalType = "edit";
+                this.form.class_id = class_id;
                 this.form.class_name = class_name;
-                console.log(this.form);
+                console.log(this.modalType);
 
             },
-            updateClass() {
-                if (this.form.class_name != "") {
-                    this.isloading = true;
-                    this.form.course_id = this.$route.params.id;
-                    this.$store.dispatch('updateClass', this.form);
-                    this.fetchSubjectCourseClassList(this.$route.params.id);
-                    setTimeout(() => this.isloading = false, 1000);
-                    $('.modal').modal('hide');
-                    Toast.fire({
-                        icon: "success",
-                        title: "Your class has been updated",
-                        timer: 2000
-                    });
-                } else {
-                    Toast.fire({
-                        icon: "info",
-                        title: "Please fill up the field",
-                        timer: 1500
-                    });
-                }
-            },
+
 
 
         },
         computed: mapGetters(['allClass']),
-     
+
     }
 
 </script>
