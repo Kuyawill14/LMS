@@ -4,11 +4,9 @@ Vue.use(Router);
 
 
 //login
-let login = () =>
-    import ("./components/login/login");
-// let register = () =>
-//     import ("./components/register/register");
-
+let login = () => import ("./components/login/login");
+let register = () => import ("./components/register/register");
+let register = () => import ("./components/profile/profile");
 // //Main Pages
 // let mainApp = () =>
 //     import ("./mainApp");
@@ -29,11 +27,16 @@ let routes = [
         component: login,
         name: "login"
     },
-    // {
-    //     path: "/register",
-    //     component: register,
-    //     name: "register"
-    // },
+    {
+        path: "/register",
+        component: register,
+        name: "register"
+    },
+    {
+        path: "profile",
+        component: profilePage,
+        name: "profile_page"
+    },
     // {
     //     path: '/:pathMatch(.*)*',
     //     component: error404
