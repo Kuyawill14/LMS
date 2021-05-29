@@ -34,7 +34,7 @@ let routes = [
     },
     {
         path: "profile",
-        component: profilePage,
+        component: profile,
         name: "profile_page"
     },
     // {
