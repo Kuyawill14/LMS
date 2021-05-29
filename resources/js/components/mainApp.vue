@@ -2,10 +2,7 @@
     <div class="page-container">
         <md-app md-mode="reveal">
             <md-app-toolbar class="md-primary">
-                <md-button class="md-icon-button" @click="menuVisible = !menuVisible">
-                    <md-icon>menu</md-icon>
-                </md-button>
-                <span class="md-title">My Title</span>
+               <topHeader v-on:toggleSidebar="toggle"></topHeader>
             </md-app-toolbar>
 
 
@@ -49,6 +46,11 @@
             topHeader,
             sidebar,
         },
+        methods:{
+            toggle(){
+                this.menuVisible = !this.menuVisible;
+            }
+        },
         mounted() {
             axios.get('/api/user').then((res) => {
                 this.role = res.data.role;
@@ -59,6 +61,7 @@
             })
 
         }
+        
     }
 
 </script>
