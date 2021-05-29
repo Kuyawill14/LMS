@@ -1,90 +1,190 @@
 <template>
   <div class="centered-container">
+    <form novalidate class="md-layout" @submit.prevent="validateUser">
     <md-content class="md-elevation-3">
 
       <div class="title">
         <img src="https://vuematerial.io/assets/logo-color.png">
         <div class="md-title">Vue Material</div>
-        <div class="md-body-1">Build beautiful apps with Material Design and Vue.js</div>
       </div>
+        <md-card-header>
+            <div class="heading-bx left">
+                <h2 class="title-head">Sign Up <span>Now</span></h2>
+                <p>Login Your Account <router-link :to="{name: 'login'}">Click here</router-link>
+                </p>
+            </div>
+        </md-card-header>
+          <div class="md-layout md-gutter">
+            <div class="md-layout-item md-small-size-100">
+              <md-field :class="getValidationClass('firstName')">
+                <label for="first-name">First Name</label>
+                <md-input name="first-name" id="first-name" autocomplete="given-name" v-model="form.firstName" :disabled="sending" />
+                <span class="md-error" v-if="!$v.form.firstName.required">The first name is required</span>
+                <span class="md-error" v-else-if="!$v.form.firstName.minlength">Invalid first name</span>
+              </md-field>
+            </div>
 
-      <div class="form">
+            <div class="md-layout-item md-small-size-100">
+              <md-field :class="getValidationClass('middlename')">
+                <label for="middle-name">Middle Name</label>
+                <md-input name="middle-name" id="middle-name" autocomplete="family-name" v-model="form.middlename" :disabled="sending" />
+                <span class="md-error" v-if="!$v.form.middlename.required">The middle name is required</span>
+                <span class="md-error" v-else-if="!$v.form.middlename.minlength">Invalid middle name</span>
+              </md-field>
+            </div>
+
+            <div class="md-layout-item md-small-size-100">
+                <md-field :class="getValidationClass('lastName')">
+                <label for="last-name">Last Name</label>
+                <md-input name="last-name" id="last-name" autocomplete="family-name" v-model="form.lastName" :disabled="sending" />
+                <span class="md-error" v-if="!$v.form.lastName.required">The last name is required</span>
+                <span class="md-error" v-else-if="!$v.form.lastName.minlength">Invalid last name</span>
+                </md-field>
+            </div>
+
+          </div>
+
+          <md-field :class="getValidationClass('email')">
+            <label for="email">Email</label>
+            <md-input type="email" name="email" id="email" autocomplete="email" v-model="form.email" :disabled="sending" />
+            <span class="md-error" v-if="!$v.form.email.required">The email is required</span>
+            <span class="md-error" v-else-if="!$v.form.email.email">Invalid email</span>
+          </md-field>
+
+           <md-field :class="getValidationClass('password')">
+            <label for="password">Password</label>
+            <md-input type="password" name="password" id="password" v-model="form.password" :disabled="sending" />
+            <span class="md-error" v-if="!$v.form.password.required">The password is required</span>
+            <span class="md-error" v-else-if="!$v.form.password.email">Invalid password</span>
+          </md-field>
+
         <md-field>
-          <label>E-mail</label>
-          <md-input type="email" v-model="form.email" autofocus></md-input>
+          <label for="country">Role</label>
+          <md-select v-model="country" name="country" id="country" md-dense>
+            <md-option value="Teacher">Teacher</md-option>
+            <md-option value="Student">Student</md-option>
+          </md-select>
         </md-field>
 
-        <md-field md-has-password>
-          <label>Password</label>
-          <md-input v-model="form.password" type="password"></md-input>
-        </md-field>
+        <md-progress-bar md-mode="indeterminate" v-if="sending" />
 
-      </div>
+        <md-card-actions>
+          <md-button type="submit" class="md-raised md-primary" :disabled="sending">Create user</md-button>
+        </md-card-actions>
 
-      <div class="actions md-layout md-alignment-center-space-between">
-        <a href="/resetpassword">Reset password</a>
-        <md-button class="md-raised md-primary" @click="auth">Log in</md-button>
-      </div>
 
-      <div class="loading-overlay" v-if="loading">
-        <md-progress-spinner md-mode="indeterminate" :md-stroke="2"></md-progress-spinner>
-      </div>
-
+      <md-snackbar :md-active.sync="userSaved">The user {{ lastUser }} was saved with success!</md-snackbar>
+   
     </md-content>
-    <div class="background" />
+     </form>
   </div>
 </template>
 
 <script>
-export default {
-  name: "App",
-  data() {
-    return {
-      loading: false,
-      form: new Form({
-          email:"",
-          password:""
-      })
-    };
-  },
-  methods: {
-    /*  async loginUser(){
-                this.form.post('/api/Userlogin')
-                .then((res)=>{
-                    if(res.status == 200){
-                         setTimeout(()=>{
-                            this.isLoading = true;
-                        },1000)
-                         //this.isLoading = true;
-                        this.$router.push({path: "/"})
-                    }
-                })
-               
-            }, */
-    auth() {
-      this.loading = true;
-      this.form.post('/api/Userlogin')
-        .then((res)=>{
-            if(res.status == 200){
-              
-              this.$router.push({path: "/"})
-            }
-        })
-      setTimeout(() => {
-        this.loading = false;
-      }, 3000);
+  import { validationMixin } from 'vuelidate'
+  import {
+    required,
+    email,
+    minLength,
+    maxLength
+  } from 'vuelidate/lib/validators'
+
+  export default {
+    name: 'FormValidation',
+    mixins: [validationMixin],
+    data: () => ({
+      form: {
+        firstName: null,
+        lastName: null,
+        middlename: null,
+        gender: null,
+        age: null,
+        email: null,
+        password: null
+      },
+      userSaved: false,
+      sending: false,
+      lastUser: null
+    }),
+    validations: {
+      form: {
+        firstName: {
+          required,
+          minLength: minLength(3)
+        },
+        lastName: {
+          required,
+          minLength: minLength(3)
+        },
+        middlename:{
+              required,
+              minLength: minLength(1)
+        },
+        age: {
+          required,
+          maxLength: maxLength(3)
+        },
+        gender: {
+          required
+        },
+        email: {
+          required,
+          email
+        },
+        password:{
+            required,
+            email
+        }
+      }
+    },
+    methods: {
+      getValidationClass (fieldName) {
+        const field = this.$v.form[fieldName]
+
+        if (field) {
+          return {
+            'md-invalid': field.$invalid && field.$dirty
+          }
+        }
+      },
+      clearForm () {
+        this.$v.$reset()
+        this.form.firstName = null
+        this.form.lastName = null
+        this.form.age = null
+        this.form.gender = null
+        this.form.email = null
+      },
+      saveUser () {
+        this.sending = true
+
+        // Instead of this timeout, here you can call your API
+        window.setTimeout(() => {
+          this.lastUser = `${this.form.firstName} ${this.form.lastName}`
+          this.userSaved = true
+          this.sending = false
+          this.clearForm()
+        }, 1500)
+      },
+      validateUser () {
+        this.$v.$touch()
+
+        if (!this.$v.$invalid) {
+          this.saveUser()
+        }
+      }
     }
   }
-};
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .centered-container {
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
   height: 100vh;
+
   .title {
     text-align: center;
     margin-bottom: 30px;
@@ -114,9 +214,9 @@ export default {
   }
   .md-content {
     z-index: 1;
-    padding: 40px;
+    padding: 20px;
     width: 100%;
-    max-width: 400px;
+    max-width: 45rem;
     position: relative;
   }
   .loading-overlay {

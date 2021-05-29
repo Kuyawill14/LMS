@@ -8,7 +8,7 @@
 
         <!-- Fonts -->
         <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:400,500,700,400italic|Material+Icons">
-
+        <link rel="stylesheet" type="text/css" href="{{asset('css/app.css')}}">
     </head>
     <body class="antialiased">
       

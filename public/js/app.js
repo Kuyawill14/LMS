@@ -1987,7 +1987,7 @@ var mycourse = function mycourse() {
 
 
 var courseView = function courseView() {
-  return Promise.resolve().then(function webpackMissingModule() { var e = new Error("Cannot find module './components/course-view/course-view-page'"); e.code = 'MODULE_NOT_FOUND'; throw e; });
+  return __webpack_require__.e(/*! import() */ "resources_js_components_course_view_course-view-page_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/course_view/course-view-page */ "./resources/js/components/course_view/course-view-page.vue"));
 };
 
 var routes = [{
@@ -90674,7 +90674,7 @@ var index = {
 /******/ 		// This function allow to reference async chunks
 /******/ 		__webpack_require__.u = (chunkId) => {
 /******/ 			// return url for filenames not based on template
-/******/ 			if ({"resources_js_components_login_login_vue":1,"resources_js_components_register_register_vue":1,"resources_js_components_profile_profile_vue":1,"resources_js_components_mainApp_vue":1,"resources_js_components_course_subject_mycourse-page_vue":1,"resources_js_components_course_subject_class-type_teacher-coursePage_vue":1}[chunkId]) return "js/" + chunkId + ".js";
+/******/ 			if ({"resources_js_components_login_login_vue":1,"resources_js_components_register_register_vue":1,"resources_js_components_profile_profile_vue":1,"resources_js_components_mainApp_vue":1,"resources_js_components_course_subject_mycourse-page_vue":1,"resources_js_components_course_view_course-view-page_vue":1,"resources_js_components_course_subject_class-type_teacher-coursePage_vue":1}[chunkId]) return "js/" + chunkId + ".js";
 /******/ 			// return url for filenames based on template
 /******/ 			return undefined;
 /******/ 		};

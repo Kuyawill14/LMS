@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="container-fluid" v-if="$route.matched[1].name != 'selectedCourse'">
-            <vue-element-loading :active="isloading" spinner="bar-fade-scale" />
+           <!--  <vue-element-loading :active="isloading" spinner="bar-fade-scale" /> -->
 
             <div class="row top-container class-banner"
                 v-bind:style="{ 'background-image': 'url('+'../../images/' + getcourseInfo.course_picture + ')' }">
@@ -35,7 +35,7 @@
     </div>
 </template>
 <script>
-    import VueElementLoading from 'vue-element-loading'
+/*     import VueElementLoading from 'vue-element-loading' */
 
 
     import {

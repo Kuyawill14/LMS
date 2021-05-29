@@ -16,7 +16,7 @@
             </md-app-drawer>
 
             <md-app-content>
-                <router-view></router-view>
+                <router-view role:></router-view>
             </md-app-content>
         </md-app>
     </div>
@@ -41,20 +41,24 @@
     export default {
         name: 'Reveal',
          data: () => ({
-    menuVisible: false
-  }),
+             UserDetails:[],
+            menuVisible: false,
+            role:''
+        }),
         components: {
             topHeader,
             sidebar,
         },
-
-        watch: {
-            $route(to, from) {
-                console.log(this.$route.matched);
-
-
-            }
-        },
+      mounted(){
+        axios.get('/api/user').then((res)=>{
+            this.role = res.data.role;
+            this.UserDetails = res.data;
+            console.log(res.data);
+        }).catch((error)=>{
+            console.log(error)
+        })
+        
+      }
     }
 
 </script>

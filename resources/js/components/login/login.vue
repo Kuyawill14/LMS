@@ -5,9 +5,11 @@
       <div class="title">
         <img src="https://vuematerial.io/assets/logo-color.png">
         <div class="md-title">Vue Material</div>
-        <div class="md-body-1">Build beautiful apps with Material Design and Vue.js</div>
       </div>
-
+     <div class="heading-bx left">
+          <h3 class="title-head">Login to your <span>Account</span></h3>
+          <p>Don't have an account? <router-link :to="{name: 'register'}">Create one here</router-link></p>
+      </div>
       <div class="form">
         <md-field>
           <label>E-mail</label>
@@ -20,8 +22,8 @@
           <md-input v-model="form.password" type="password"></md-input>
         </md-field>
         <HasError :form="form" field="password" />
-
       </div>
+       
 
       <div class="actions md-layout md-alignment-center-space-between">
         <a href="/resetpassword">Reset password</a>
@@ -80,7 +82,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .centered-container {
   display: flex;
   align-items: center;

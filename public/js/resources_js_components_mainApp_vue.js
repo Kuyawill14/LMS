@@ -134,17 +134,25 @@ __webpack_require__.r(__webpack_exports__);
   name: 'Reveal',
   data: function data() {
     return {
-      menuVisible: false
+      UserDetails: [],
+      menuVisible: false,
+      role: ''
     };
   },
   components: {
     topHeader: _layout_header__WEBPACK_IMPORTED_MODULE_0__.default,
     sidebar: _layout_sidebar__WEBPACK_IMPORTED_MODULE_1__.default
   },
-  watch: {
-    $route: function $route(to, from) {
-      console.log(this.$route.matched);
-    }
+  mounted: function mounted() {
+    var _this = this;
+
+    axios.get('/api/user').then(function (res) {
+      _this.role = res.data.role;
+      _this.UserDetails = res.data;
+      console.log(res.data);
+    })["catch"](function (error) {
+      console.log(error);
+    });
   }
 });
 
@@ -690,7 +698,11 @@ var render = function() {
             1
           ),
           _vm._v(" "),
-          _c("md-app-content", [_c("router-view")], 1)
+          _c(
+            "md-app-content",
+            [_c("router-view", { attrs: { "role:": "" } })],
+            1
+          )
         ],
         1
       )

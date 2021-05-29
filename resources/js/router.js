@@ -25,7 +25,7 @@ let mycourse = () =>
 
 //view course page 
 let courseView = () =>
-    import ("./components/course-view/course-view-page");
+    import ("./components/course_view/course-view-page");
 
 let routes = [{
         path: "",
