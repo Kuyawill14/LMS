@@ -21,6 +21,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -138,9 +149,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -155,6 +163,11 @@ __webpack_require__.r(__webpack_exports__);
   components: {
     topHeader: _layout_header__WEBPACK_IMPORTED_MODULE_0__.default,
     sidebar: _layout_sidebar__WEBPACK_IMPORTED_MODULE_1__.default
+  },
+  methods: {
+    toggle: function toggle() {
+      this.menuVisible = !this.menuVisible;
+    }
   },
   mounted: function mounted() {
     var _this = this;
@@ -554,28 +567,49 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "md-app-toolbar",
-    { staticClass: "md-primary" },
-    [
-      _c(
-        "md-button",
-        {
-          staticClass: "md-icon-button",
-          on: {
-            click: function($event) {
-              _vm.menuVisible = !_vm.menuVisible
+  return _c("div", { staticClass: "md-toolbar-row" }, [
+    _c(
+      "div",
+      { staticClass: "md-toolbar-section-start" },
+      [
+        _c(
+          "md-button",
+          {
+            staticClass: "md-icon-button",
+            on: {
+              click: function($event) {
+                return _vm.$emit("toggleSidebar")
+              }
             }
-          }
-        },
-        [_c("md-icon", [_vm._v("menu")])],
-        1
-      ),
-      _vm._v(" "),
-      _c("span", { staticClass: "md-title" }, [_vm._v("My Title")])
-    ],
-    1
-  )
+          },
+          [_c("md-icon", [_vm._v("menu")])],
+          1
+        )
+      ],
+      1
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      { staticClass: "md-toolbar-section-end" },
+      [
+        _c(
+          "md-button",
+          { staticClass: "md-icon-button" },
+          [_c("md-icon", [_vm._v("refresh")])],
+          1
+        ),
+        _vm._v(" "),
+        _c(
+          "md-button",
+          { staticClass: "md-icon-button" },
+          [_c("md-icon", [_vm._v("more_vert")])],
+          1
+        )
+      ],
+      1
+    )
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -896,23 +930,7 @@ var render = function() {
           _c(
             "md-app-toolbar",
             { staticClass: "md-primary" },
-            [
-              _c(
-                "md-button",
-                {
-                  staticClass: "md-icon-button",
-                  on: {
-                    click: function($event) {
-                      _vm.menuVisible = !_vm.menuVisible
-                    }
-                  }
-                },
-                [_c("md-icon", [_vm._v("menu")])],
-                1
-              ),
-              _vm._v(" "),
-              _c("span", { staticClass: "md-title" }, [_vm._v("My Title")])
-            ],
+            [_c("topHeader", { on: { toggleSidebar: _vm.toggle } })],
             1
           ),
           _vm._v(" "),
