@@ -1,22 +1,17 @@
 <template>
 
     <div class="container pt-4">
-        <vue-element-loading :active="!isLoading">
+     <!--    <vue-element-loading :active="!isLoading">
             <img :src="loadingImg" width="55px" height="55px" />
-        </vue-element-loading>
+        </vue-element-loading> -->
         <div class="row">
 
             <div class="col-lg-8 col-md-12" style="margin:auto">
-
-                <announcementCreate> </announcementCreate>
-
-
+                <announcementCreate v-on:ReloadData="fetchData"> </announcementCreate>
             </div>
 
             <div class="col-lg-8 col-md-12  pt-4" style="margin: auto;">
-
-                <announcementPostList> </announcementPostList>
-
+                <announcementPostList :PostList="getclass_post"> </announcementPostList>
             </div>
 
 
@@ -27,15 +22,20 @@
 <script>
     import announcementCreate from './announcementCreate.vue'
     import announcementPostList from './announcementPostList.vue'
-    import VueElementLoading from 'vue-element-loading'
-
+    //import VueElementLoading from 'vue-element-loading'
+    import moment from 'moment'
+    import {
+        mapGetters,
+        mapActions
+    } from "vuex";
     export default {
 
         components: {
             announcementCreate,
-            VueElementLoading,
+            //VueElementLoading,
             announcementPostList
         },
+        computed: mapGetters(["getclass_post"]),
         data () {
             return {
                 content: '',
@@ -43,8 +43,22 @@
                 loadingImg: '../../images/loading.gif'
             }
         },
+        methods:{
+            ...mapActions(['fetchClassPost']),
+             connect(){
+                let vm = this;
+                 this.fetchClassPost(this.$route.params.id);
+               /*   window.Echo.private("post."+ this.$route.params.id)
+                 .listen('NewPost', e =>{
+                     vm.fetchClassPost(this.$route.params.id);
+                 }) */
+            },
+            fetchData(){
+                this.fetchClassPost(this.$route.params.id);
+            }
+        },
         mounted() {
-
+            this.connect();
             setTimeout(() => {
                 this.isLoading = true
             }, 1000);

@@ -7,6 +7,7 @@
 require('./bootstrap');
 
 window.Vue = require('vue').default;
+
 import Vue from 'vue'
 import VueMaterial from 'vue-material'
 import 'vue-material/dist/vue-material.min.css'
@@ -14,6 +15,7 @@ import 'vue-material/dist/theme/default.css'
 import VueModal from '@kouts/vue-modal'
 import '@kouts/vue-modal/dist/vue-modal.css'
 Vue.use(VueMaterial)
+
 
 import Form from 'vform'
 import {

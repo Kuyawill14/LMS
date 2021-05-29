@@ -2687,9 +2687,11 @@ var mycourse = function mycourse() {
 //     import ("./components/view-course/tabs/description-tab/descriptionComponent");
 // let classwork_tab = () =>
 // import ("./components/view-course/tabs/classwork-tab/classworkComponent");
-// let announcement_tab = () =>
-//     import ("./components/course-view/tabs/announcement-tab/announcementComponent");
-// let students_tab = () =>
+
+
+var announcement_tab = function announcement_tab() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_tabs_announcement-tab_announcementComponent_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/course-view/tabs/announcement-tab/announcementComponent */ "./resources/js/components/course-view/tabs/announcement-tab/announcementComponent.vue"));
+}; // let students_tab = () =>
 //     import ("./components/view-course/tabs/students-tab/studentsComponent");
 // let settings_tab = () =>
 //     import ("./components/view-course/tabs/settings-tab/settingsComponent");
@@ -2729,9 +2731,9 @@ var routes = [{
       path: "",
       component: classes_tab
     }, {
-      name: "coursePage",
-      path: "",
-      component: classes_tab
+      name: "announcement",
+      path: "announcement",
+      component: announcement_tab
     }]
   }]
 }, {
@@ -91386,7 +91388,7 @@ var index = {
 /******/ 		// This function allow to reference async chunks
 /******/ 		__webpack_require__.u = (chunkId) => {
 /******/ 			// return url for filenames not based on template
-/******/ 			if ({"resources_js_components_login_login_vue":1,"resources_js_components_register_register_vue":1,"resources_js_components_profile_profile_vue":1,"resources_js_components_mainApp_vue":1,"resources_js_components_course_subject_mycourse-page_vue":1,"resources_js_components_course-view_tabs_classes-tab_classesComponent_vue":1,"resources_js_components_course-view_course-view-page_vue":1,"resources_js_components_course_subject_class-type_teacher-coursePage_vue":1,"resources_js_components_course-view_tabs_classes-tab_class-type_teacher-classPage_vue":1}[chunkId]) return "js/" + chunkId + ".js";
+/******/ 			if ({"resources_js_components_login_login_vue":1,"resources_js_components_register_register_vue":1,"resources_js_components_profile_profile_vue":1,"resources_js_components_mainApp_vue":1,"resources_js_components_course_subject_mycourse-page_vue":1,"resources_js_components_course-view_tabs_announcement-tab_announcementComponent_vue":1,"resources_js_components_course-view_tabs_classes-tab_classesComponent_vue":1,"resources_js_components_course-view_course-view-page_vue":1,"resources_js_components_course_subject_class-type_teacher-coursePage_vue":1,"resources_js_components_course-view_tabs_classes-tab_class-type_teacher-classPage_vue":1}[chunkId]) return "js/" + chunkId + ".js";
 /******/ 			// return url for filenames based on template
 /******/ 			return undefined;
 /******/ 		};
