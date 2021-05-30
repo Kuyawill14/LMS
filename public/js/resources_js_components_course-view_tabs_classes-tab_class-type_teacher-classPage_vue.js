@@ -275,11 +275,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
 var VueElementLoading = function VueElementLoading() {
   return Promise.resolve(/*! import() */).then(__webpack_require__.t.bind(__webpack_require__, /*! vue-element-loading */ "./node_modules/vue-element-loading/lib/vue-element-loading.min.js", 23));
 };
@@ -295,6 +290,20 @@ var VueElementLoading = function VueElementLoading() {
   },
   data: function data() {
     return {
+      items: [{
+        icon: 'mdi-inbox',
+        text: 'Inbox'
+      }, {
+        icon: 'mdi-star',
+        text: 'Star'
+      }, {
+        icon: 'mdi-send',
+        text: 'Send'
+      }, {
+        icon: 'mdi-email-open',
+        text: 'Drafts'
+      }],
+      model: 1,
       showModal: false,
       isloading: true,
       modalType: '',
@@ -394,7 +403,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.row[data-v-2694a1ca] {\n    align-items: center;\n}\n.card-group-row__col .fullbleed[data-v-2694a1ca] {\n    transition: all ease-in-out 0.4s !important;\n}\n.card-group-row__col:hover .fullbleed[data-v-2694a1ca] {\n    opacity: 0.4 !important;\n    transition: all ease-in-out 0.4s;\n}\n#gedf-drop1[data-v-2694a1ca]:hover {\n    color: #EFBB20 !important;\n}\n#gedf-drop1[data-v-2694a1ca] {\n    color: #000;\n}\n.clas_icon[data-v-2694a1ca] {\n    font-size: 80px;\n}\n\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.dp-menu[data-v-2694a1ca]:hover {\n    background: #F6F6F6;\n}\n.row[data-v-2694a1ca] {\n    align-items: center;\n}\n.card-group-row__col .fullbleed[data-v-2694a1ca] {\n    transition: all ease-in-out 0.4s !important;\n}\n.card-group-row__col:hover .fullbleed[data-v-2694a1ca] {\n    opacity: 0.4 !important;\n    transition: all ease-in-out 0.4s;\n}\n#gedf-drop1[data-v-2694a1ca]:hover {\n    color: #EFBB20 !important;\n}\n#gedf-drop1[data-v-2694a1ca] {\n    color: #000;\n}\n.clas_icon[data-v-2694a1ca] {\n    font-size: 80px;\n}\n\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -905,20 +914,16 @@ var render = function() {
           { staticClass: "col-lg-6  text-right" },
           [
             _c(
-              "md-button",
+              "v-btn",
               {
-                staticClass: "md-raised md-primary rounded",
+                attrs: { color: "rounded primary" },
                 on: {
                   click: function($event) {
                     return _vm.openAddmodal()
                   }
                 }
               },
-              [
-                _c("md-icon", [_vm._v("add")]),
-                _vm._v(" Create Class\n            ")
-              ],
-              1
+              [_vm._v("\n                Create Class\n            ")]
             )
           ],
           1
@@ -929,126 +934,130 @@ var render = function() {
       _vm._v(" "),
       _c(
         "v-card",
-        { staticClass: "mx-auto" },
         [
           _c(
             "v-list",
-            [
-              _c(
-                "v-list-item-group",
-                _vm._l(_vm.allClass, function(item, i) {
-                  return _c(
-                    "v-list-item",
-                    { key: "class" + i },
+            { staticClass: "p-0", attrs: { "three-line": "" } },
+            _vm._l(_vm.allClass, function(item, index) {
+              return _c(
+                "v-list-item",
+                { key: index, staticClass: "border-bottom" },
+                [
+                  _c(
+                    "v-list-item-icon",
+                    { staticClass: "pr-0" },
                     [
-                      _c(
-                        "v-list-item-icon",
-                        [_c("v-icon", [_vm._v("mdi-class")])],
-                        1
-                      ),
+                      _c("v-icon", { staticStyle: { "font-size": "4rem" } }, [
+                        _vm._v("mdi-book-variant")
+                      ])
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-list-item-content",
+                    [
+                      _c("v-list-item-title", {
+                        domProps: { innerHTML: _vm._s(item.class_name) }
+                      }),
+                      _vm._v(" "),
+                      _c("v-list-item-subtitle", {
+                        domProps: { innerHTML: _vm._s(item.class_code) }
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-menu",
+                    {
+                      attrs: { "offset-y": "" },
+                      scopedSlots: _vm._u(
+                        [
+                          {
+                            key: "activator",
+                            fn: function(ref) {
+                              var on = ref.on
+                              var attrs = ref.attrs
+                              return [
+                                _c(
+                                  "v-list-item-action",
+                                  _vm._g(
+                                    _vm._b(
+                                      {},
+                                      "v-list-item-action",
+                                      attrs,
+                                      false
+                                    ),
+                                    on
+                                  ),
+                                  [
+                                    _c(
+                                      "v-icon",
+                                      { attrs: { color: "grey lighten-1" } },
+                                      [_vm._v("mdi-dots-vertical")]
+                                    )
+                                  ],
+                                  1
+                                )
+                              ]
+                            }
+                          }
+                        ],
+                        null,
+                        true
+                      )
+                    },
+                    [
                       _vm._v(" "),
                       _c(
-                        "v-list-item-content",
+                        "v-list",
+                        { staticClass: "p-0" },
                         [
-                          _c("v-list-item-title", {
-                            domProps: { textContent: _vm._s(item.text) }
-                          })
+                          _c(
+                            "v-list-item-title",
+                            { staticClass: "p-2 pointer dp-menu" },
+                            [_vm._v("Archive ")]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-list-item-title",
+                            {
+                              staticClass: "p-2 pointer dp-menu",
+                              on: {
+                                click: function($event) {
+                                  return _vm.openEditmodal(
+                                    item.class_name,
+                                    item.class_id
+                                  )
+                                }
+                              }
+                            },
+                            [_vm._v("Edit")]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-list-item-title",
+                            { staticClass: "p-2 pointer dp-menu" },
+                            [_vm._v("Remove ")]
+                          )
                         ],
                         1
                       )
                     ],
                     1
                   )
-                }),
+                ],
                 1
               )
-            ],
+            }),
             1
           )
         ],
         1
-      ),
-      _vm._v(" "),
-      _vm._l(_vm.allClass, function(item, i) {
-        return _c(
-          "md-list",
-          { key: "class" + i, staticClass: "md-triple-line" },
-          [
-            _c(
-              "md-list-item",
-              [
-                _c(
-                  "md-icon",
-                  { staticStyle: { "font-size": "4rem !important" } },
-                  [_vm._v("class")]
-                ),
-                _vm._v(" "),
-                _c("div", { staticClass: "md-list-item-text" }, [
-                  _c("span", [_vm._v(_vm._s(item.class_name))]),
-                  _vm._v(" "),
-                  _c("span", [
-                    _c("strong", [_vm._v("Class code: ")]),
-                    _vm._v(" " + _vm._s(item.class_code))
-                  ]),
-                  _vm._v(" "),
-                  _c("p", [_vm._v("{Students Count}")])
-                ]),
-                _vm._v(" "),
-                _c(
-                  "md-menu",
-                  { attrs: { "md-direction": "bottom-start" } },
-                  [
-                    _c(
-                      "md-button",
-                      {
-                        staticClass: "md-icon-button md-list-action",
-                        attrs: { "md-menu-trigger": "" }
-                      },
-                      [_c("md-icon", [_vm._v("more_vert")])],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "md-menu-content",
-                      [
-                        _c(
-                          "md-menu-item",
-                          { staticClass: "pointer  menu-hover" },
-                          [_vm._v("\n                        Archive")]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "md-menu-item",
-                          {
-                            staticClass: "pointer menu-hover",
-                            on: {
-                              click: function($event) {
-                                return _vm.openEditmodal(
-                                  item.class_name,
-                                  item.class_id
-                                )
-                              }
-                            }
-                          },
-                          [_vm._v("\n                        Edit")]
-                        )
-                      ],
-                      1
-                    )
-                  ],
-                  1
-                )
-              ],
-              1
-            ),
-            _vm._v(" "),
-            _c("md-divider", { staticClass: "md-inset" })
-          ],
-          1
-        )
-      })
+      )
     ],
-    2
+    1
   )
 }
 var staticRenderFns = [

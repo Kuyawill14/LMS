@@ -23,52 +23,47 @@
 
             </div>
             <div class="col-lg-6  text-right">
-                <md-button class="md-raised md-primary rounded" @click="openAddmodal()">
-                    <md-icon>add</md-icon> Create Class
-                </md-button>
+                <v-btn color="rounded primary" @click="openAddmodal()">
+                    Create Class
+                </v-btn>
+
             </div>
 
         </div>
 
         <hr>
-        <v-card class="mx-auto">
-            <v-list>
-                <v-list-item-group >
-                    <v-list-item  v-for="(item, i) in allClass" :key="'class'+i">
-                        <v-list-item-icon>
-                            <v-icon>mdi-class</v-icon>
-                        </v-list-item-icon>
-                        <v-list-item-content>
-                            <v-list-item-title v-text="item.text"></v-list-item-title>
-                        </v-list-item-content>
-                    </v-list-item>
-                </v-list-item-group>
+        <v-card>
+            <v-list three-line class="p-0">
+
+
+                <v-list-item v-for="(item, index) in allClass" :key="index" class="border-bottom">
+                    <v-list-item-icon class="pr-0">
+                        <v-icon style="font-size: 4rem;">mdi-book-variant</v-icon>
+                    </v-list-item-icon>
+
+                    <v-list-item-content>
+                        <v-list-item-title v-html="item.class_name"></v-list-item-title>
+                        <v-list-item-subtitle v-html="item.class_code"></v-list-item-subtitle>
+                    </v-list-item-content>
+                    <v-menu offset-y>
+                        <template v-slot:activator="{ on, attrs }">
+                            <v-list-item-action v-bind="attrs" v-on="on">
+                                <v-icon color="grey lighten-1">mdi-dots-vertical</v-icon>
+                            </v-list-item-action>
+                        </template>
+                        <v-list class="p-0">
+                            <v-list-item-title class="p-2 pointer dp-menu">Archive </v-list-item-title>
+                            <v-list-item-title class="p-2 pointer dp-menu" @click="openEditmodal(item.class_name, item.class_id)">Edit</v-list-item-title>
+                            <v-list-item-title class="p-2 pointer dp-menu">Remove </v-list-item-title>
+                        </v-list>
+                    </v-menu>
+                </v-list-item>
+
+
+
             </v-list>
+
         </v-card>
-        <md-list class="md-triple-line" v-for="(item, i) in allClass" :key="'class'+i">
-            <md-list-item>
-                <md-icon style="font-size: 4rem !important;">class</md-icon>
-
-                <div class="md-list-item-text">
-                    <span>{{item.class_name}}</span>
-                    <span> <strong>Class code: </strong> {{item.class_code}}</span>
-                    <p>{Students Count}</p>
-                </div>
-
-                <md-menu md-direction="bottom-start">
-                    <md-button md-menu-trigger class="md-icon-button md-list-action">
-                        <md-icon>more_vert</md-icon>
-                    </md-button>
-                    <md-menu-content>
-                        <md-menu-item class="pointer  menu-hover">
-                            Archive</md-menu-item>
-                        <md-menu-item class="pointer menu-hover" @click="openEditmodal(item.class_name,item.class_id)">
-                            Edit</md-menu-item>
-                    </md-menu-content>
-                </md-menu>
-            </md-list-item>
-            <md-divider class="md-inset"></md-divider>
-        </md-list>
 
 
     </div>
@@ -91,19 +86,37 @@
             editClassForm
 
         },
-        data() {
-            return {
-                showModal: false,
-                isloading: true,
-                modalType: '',
-                class_code: null,
-                form: {
-                    id: '',
-                    class_name: '',
-                    course_id: null,
-                }
+        data: () => ({
+            items: [{
+                    icon: 'mdi-inbox',
+                    text: 'Inbox',
+                },
+                {
+                    icon: 'mdi-star',
+                    text: 'Star',
+                },
+                {
+                    icon: 'mdi-send',
+                    text: 'Send',
+                },
+                {
+                    icon: 'mdi-email-open',
+                    text: 'Drafts',
+                },
+            ],
+            model: 1,
+
+            showModal: false,
+            isloading: true,
+            modalType: '',
+            class_code: null,
+            form: {
+                id: '',
+                class_name: '',
+                course_id: null,
             }
-        },
+        }),
+
 
         methods: {
             ...mapActions(['fetchSubjectCourseClassList']),
@@ -137,6 +150,10 @@
 </script>
 
 <style scoped>
+    .dp-menu:hover {
+        background: #F6F6F6;
+    }
+
     .row {
         align-items: center;
     }
