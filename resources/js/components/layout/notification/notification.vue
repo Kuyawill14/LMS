@@ -38,10 +38,12 @@
 
             <v-list-item-content>
               <v-list-item-title>{{item.firstName+" "+item.lastName }}</v-list-item-title>
-              <v-list-item-subtitle>{{item.message}}</v-list-item-subtitle>
+              <span>{{item.message}}</span>
+             
             </v-list-item-content>
 
             <v-list-item-action>
+                 <span> {{format_date(item.created_at)}}</span>
              <!--  <v-btn
                 :class="fav ? 'red--text' : ''"
                 icon

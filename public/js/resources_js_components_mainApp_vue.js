@@ -36,7 +36,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
@@ -138,6 +137,8 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
+//
 //
 //
 //
@@ -22354,13 +22355,6 @@ var render = function() {
       _vm._v(" "),
       _c("v-spacer"),
       _vm._v(" "),
-      _c(
-        "v-btn",
-        { attrs: { icon: "" } },
-        [_c("v-icon", [_vm._v("mdi-apps")])],
-        1
-      ),
-      _vm._v(" "),
       _c("notifications"),
       _vm._v(" "),
       _c(
@@ -22369,12 +22363,19 @@ var render = function() {
         [
           _c(
             "v-avatar",
-            { attrs: { size: "32px", item: "" } },
+            { attrs: { size: "40px", item: "" } },
             [
               _c("v-img", {
                 attrs: {
-                  src: "https://cdn.vuetifyjs.com/images/logos/logo.svg",
-                  alt: "Vuetify"
+                  alt: "Vuetify",
+                  src:
+                    _vm.UserDetails.profile_pic == null ||
+                    _vm.UserDetails.profile_pic == ""
+                      ? "https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=" +
+                        (_vm.UserDetails.firstName +
+                          " " +
+                          _vm.UserDetails.lastName)
+                      : "../../images/" + _vm.UserDetails.profile_pic
                 }
               })
             ],
@@ -22692,9 +22693,7 @@ var render = function() {
                             _vm._v(_vm._s(item.firstName + " " + item.lastName))
                           ]),
                           _vm._v(" "),
-                          _c("v-list-item-subtitle", [
-                            _vm._v(_vm._s(item.message))
-                          ])
+                          _c("span", [_vm._v(_vm._s(item.message))])
                         ],
                         1
                       ),
@@ -22702,6 +22701,12 @@ var render = function() {
                       _c(
                         "v-list-item-action",
                         [
+                          _c("span", [
+                            _vm._v(
+                              " " + _vm._s(_vm.format_date(item.created_at))
+                            )
+                          ]),
+                          _vm._v(" "),
                           item.status == 0
                             ? _c(
                                 "v-btn",
