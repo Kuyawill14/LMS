@@ -13,6 +13,7 @@ use Illuminate\Validation\ValidatationException;
 class AuthController extends Controller
 {
     public function UserLogin(Request $request){
+
         $request->validate([
             'email' => ['required', 'email'],
             'password' => ['required']
