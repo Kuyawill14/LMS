@@ -61,7 +61,16 @@ export default {
                 }).catch((e)=>{
                     console.log(e);
                 })
-            }
+            },
+              logout(){
+                axios.post('/api/logout')
+                .then(()=>{
+                    this.$router.push({path: "/login"})
+                })
+                .catch((e)=>{
+                    console.log(e);
+                })
+            },
         },
         mounted(){
             this.getUserDetails();

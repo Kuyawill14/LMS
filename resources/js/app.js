@@ -15,6 +15,7 @@ import 'vue-material/dist/theme/default.css'
 import VueModal from '@kouts/vue-modal'
 import '@kouts/vue-modal/dist/vue-modal.css'
 import Toasted from 'vue-toasted';
+import vuetify from './plugin/vuetify';
 Vue.use(VueMaterial)
 
 
@@ -46,5 +47,6 @@ Vue.component('example-component', require('./components/app.vue').default);
 const app = new Vue({
     router,
     store,
+    vuetify,
     el: '#app',
 });

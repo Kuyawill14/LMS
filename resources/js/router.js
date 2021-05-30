@@ -55,6 +55,18 @@ let routes = [{
         path: "",
         component: mainApp,
         name: "mainApp",
+        beforeEnter: (to, form, next) => {
+            axios
+                .get("/api/authenticated")
+                .then(() => {
+                    next();
+                })
+                .catch(() => {
+                    return next({
+                        path: "/login"
+                    });
+                });
+        },
         children: [{
                 path: "/courses",
                 component: mycourse,
