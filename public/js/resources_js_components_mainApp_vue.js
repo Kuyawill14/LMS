@@ -112,6 +112,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({});
 
 /***/ }),
@@ -306,7 +307,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _layout_header__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./layout/header */ "./resources/js/components/layout/header.vue");
 /* harmony import */ var _layout_sidebar__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./layout/sidebar */ "./resources/js/components/layout/sidebar.vue");
-//
 //
 //
 //
@@ -22567,7 +22567,7 @@ var render = function() {
       [
         _c(
           "router-link",
-          { attrs: { to: { name: "coursePage" } } },
+          { attrs: { to: { name: "courses" } } },
           [
             _c(
               "v-list-item",
@@ -22575,7 +22575,7 @@ var render = function() {
               [
                 _c(
                   "v-list-item-action",
-                  [_c("v-icon", [_vm._v("mdi-contacts ")])],
+                  [_c("v-icon", [_vm._v("mdi-contacts")])],
                   1
                 ),
                 _vm._v(" "),
@@ -22584,7 +22584,7 @@ var render = function() {
                   [
                     _c("v-list-item-title", [
                       _vm._v(
-                        "\n                        Announcement\n                    "
+                        "\n                        Course Page\n                    "
                       )
                     ])
                   ],
@@ -22772,32 +22772,11 @@ var render = function() {
           _c("sidebar", { attrs: { role: _vm.role, drawer: _vm.drawer } }),
           _vm._v(" "),
           _c(
-            "v-btn",
-            {
-              attrs: {
-                bottom: "",
-                color: "pink",
-                dark: "",
-                fab: "",
-                fixed: "",
-                right: ""
-              },
-              on: {
-                click: function($event) {
-                  _vm.dialog = !_vm.dialog
-                }
-              }
-            },
-            [_c("v-icon", [_vm._v("mdi-plus")])],
-            1
-          ),
-          _vm._v(" "),
-          _c(
             "v-main",
             [
               _c(
                 "v-container",
-                { staticClass: "fill-height", attrs: { fluid: "" } },
+                { attrs: { fluid: "" } },
                 [_c("router-view", { attrs: { role: _vm.role } })],
                 1
               )

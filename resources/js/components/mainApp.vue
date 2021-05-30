@@ -6,15 +6,14 @@
 
 
             <sidebar :role='role' :drawer="drawer"></sidebar>
-            <v-btn bottom color="pink" dark fab fixed right @click="dialog = !dialog">
-                <v-icon>mdi-plus</v-icon>
-            </v-btn>
+            
             <v-main>
-                <v-container class="fill-height" fluid>
+
+                <v-container fluid>
                     <router-view :role='role'></router-view>
                 </v-container>
             </v-main>
-
+           
         </v-app>
     </v-app>
 </template>
@@ -36,10 +35,10 @@
     import topHeader from "./layout/header";
     import sidebar from "./layout/sidebar";
     export default {
-        
+
         data: () => ({
             UserDetails: [],
-            drawer:true,
+            drawer: true,
             menuVisible: false,
             role: ''
         }),

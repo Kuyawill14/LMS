@@ -247,13 +247,14 @@ var render = function() {
         _c(
           "div",
           {
-            staticClass: "row top-container rounded",
+            staticClass: "row top-container rounded bg-img",
             style: {
               "background-image":
                 "url(" +
                 "../../images/" +
                 _vm.getcourseInfo.course_picture +
-                ")"
+                ")",
+              "background-size": "cover"
             }
           },
           [

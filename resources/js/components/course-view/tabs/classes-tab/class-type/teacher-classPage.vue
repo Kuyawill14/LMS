@@ -1,13 +1,13 @@
 <template>
     <div class="container">
-        <md-empty-state md-icon="devices_other" md-label="Create your first class" v-if="allClass.length ==0"
+        <md-empty-state md-icon="devices_other" md-label="Create your first class" v-if="allClass.length ==12"
             md-description="Creating class, you'll be able to upload your design and collaborate with people.">
             <md-button class="md-primary md-raised" @click="openAddmodal()">Create first class</md-button>
         </md-empty-state>
 
 
 
-        <Modal :based-on="showModal" title="Class" @close="closeModal()" >
+        <Modal :based-on="showModal" title="Class" @close="closeModal()">
             <!-- <createClassForm :class_name="form.class_name" :class_id="form.id" /> -->
             <createClassForm v-on:closeModal="closeModal()" v-if="modalType == 'add'" />
             <editClassForm v-on:closeModal="closeModal()" :class_name="form.class_name" :class_id="form.class_id"
@@ -15,7 +15,7 @@
         </Modal>
 
 
-        <div class="row" v-if="allClass.length !=0">
+        <div class="row">
             <!-- Your Profile Views Chart -->
             <div class="col-lg-6 ">
                 <h4>My Class</h4>
@@ -31,6 +31,20 @@
         </div>
 
         <hr>
+        <v-card class="mx-auto">
+            <v-list>
+                <v-list-item-group >
+                    <v-list-item  v-for="(item, i) in allClass" :key="'class'+i">
+                        <v-list-item-icon>
+                            <v-icon>mdi-class</v-icon>
+                        </v-list-item-icon>
+                        <v-list-item-content>
+                            <v-list-item-title v-text="item.text"></v-list-item-title>
+                        </v-list-item-content>
+                    </v-list-item>
+                </v-list-item-group>
+            </v-list>
+        </v-card>
         <md-list class="md-triple-line" v-for="(item, i) in allClass" :key="'class'+i">
             <md-list-item>
                 <md-icon style="font-size: 4rem !important;">class</md-icon>

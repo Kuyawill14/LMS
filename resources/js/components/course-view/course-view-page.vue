@@ -3,8 +3,8 @@
         <div class="container">
             <!--  <vue-element-loading :active="isloading" spinner="bar-fade-scale" /> -->
 
-            <div class="row top-container rounded"
-                v-bind:style="{ 'background-image': 'url('+'../../images/' + getcourseInfo.course_picture + ')' }">
+            <div class="row top-container rounded bg-img"
+                v-bind:style="{ 'background-image': 'url('+'../../images/' + getcourseInfo.course_picture + ')','background-size' : 'cover' }">
                 <div class="fullbleed-scoped-only rounded" style="opacity: 0.7 !important"></div>
                 <div class="col-12">
                     <div class="card-body">

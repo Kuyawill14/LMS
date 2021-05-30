@@ -266,6 +266,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var VueElementLoading = function VueElementLoading() {
   return Promise.resolve(/*! import() */).then(__webpack_require__.t.bind(__webpack_require__, /*! vue-element-loading */ "./node_modules/vue-element-loading/lib/vue-element-loading.min.js", 23));
 };
@@ -816,7 +830,7 @@ var render = function() {
     "div",
     { staticClass: "container" },
     [
-      _vm.allClass.length == 0
+      _vm.allClass.length == 12
         ? _c(
             "md-empty-state",
             {
@@ -883,37 +897,77 @@ var render = function() {
         1
       ),
       _vm._v(" "),
-      _vm.allClass.length != 0
-        ? _c("div", { staticClass: "row" }, [
-            _vm._m(0),
-            _vm._v(" "),
+      _c("div", { staticClass: "row" }, [
+        _vm._m(0),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "col-lg-6  text-right" },
+          [
             _c(
-              "div",
-              { staticClass: "col-lg-6  text-right" },
+              "md-button",
+              {
+                staticClass: "md-raised md-primary rounded",
+                on: {
+                  click: function($event) {
+                    return _vm.openAddmodal()
+                  }
+                }
+              },
               [
-                _c(
-                  "md-button",
-                  {
-                    staticClass: "md-raised md-primary rounded",
-                    on: {
-                      click: function($event) {
-                        return _vm.openAddmodal()
-                      }
-                    }
-                  },
-                  [
-                    _c("md-icon", [_vm._v("add")]),
-                    _vm._v(" Create Class\n            ")
-                  ],
-                  1
-                )
+                _c("md-icon", [_vm._v("add")]),
+                _vm._v(" Create Class\n            ")
               ],
               1
             )
-          ])
-        : _vm._e(),
+          ],
+          1
+        )
+      ]),
       _vm._v(" "),
       _c("hr"),
+      _vm._v(" "),
+      _c(
+        "v-card",
+        { staticClass: "mx-auto" },
+        [
+          _c(
+            "v-list",
+            [
+              _c(
+                "v-list-item-group",
+                _vm._l(_vm.allClass, function(item, i) {
+                  return _c(
+                    "v-list-item",
+                    { key: "class" + i },
+                    [
+                      _c(
+                        "v-list-item-icon",
+                        [_c("v-icon", [_vm._v("mdi-class")])],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-list-item-content",
+                        [
+                          _c("v-list-item-title", {
+                            domProps: { textContent: _vm._s(item.text) }
+                          })
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                }),
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      ),
       _vm._v(" "),
       _vm._l(_vm.allClass, function(item, i) {
         return _c(
