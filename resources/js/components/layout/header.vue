@@ -1,5 +1,5 @@
 <template>
- <v-app-bar :clipped-left="$vuetify.breakpoint.lgAndUp" app color="blue darken-3" dark>
+ <v-app-bar :clipped-left="$vuetify.breakpoint.lgAndUp" app color="primary" dark>
                 <v-app-bar-nav-icon @click.stop="$emit('toggleSidebar')"></v-app-bar-nav-icon>
                 <v-toolbar-title style="width: 300px" class="ml-0 pl-4">
                     <span class="hidden-sm-and-down">Google Contacts</span>
@@ -7,15 +7,15 @@
                 <v-text-field flat solo-inverted hide-details prepend-inner-icon="mdi-magnify" label="Search"
                     class="hidden-sm-and-down"></v-text-field>
                 <v-spacer></v-spacer>
-                <v-btn icon>
-                    <v-icon>mdi-apps</v-icon>
-                </v-btn>
-                <v-btn icon>
-                    <v-icon>mdi-bell</v-icon>
-                </v-btn>
+              
+             
+                <notifications></notifications>
+         
+        
                 <v-btn icon large>
-                    <v-avatar size="32px" item>
-                        <v-img src="https://cdn.vuetifyjs.com/images/logos/logo.svg" alt="Vuetify"></v-img>
+                    <v-avatar size="40px" item>
+                      <!--   <v-img src="https://cdn.vuetifyjs.com/images/logos/logo.svg" alt="Vuetify"></v-img> -->
+                        <v-img alt="Vuetify"  :src="UserDetails.profile_pic == null || UserDetails.profile_pic == '' ? 'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=' + (UserDetails.firstName+' '+UserDetails.lastName) : '../../images/'+UserDetails.profile_pic"></v-img>
                     </v-avatar>
                 </v-btn>
             </v-app-bar>

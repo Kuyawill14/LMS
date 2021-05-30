@@ -1,64 +1,87 @@
 <template>
-     <md-menu md-size="huge" :md-offset-x="127" :md-offset-y="5">
-        <md-button  class="md-icon-button" md-menu-trigger>
-            <md-badge md-content="1" md-dense>
-            <md-icon>notifications</md-icon>
-        </md-badge></md-button>
-
-        <md-menu-content>
-          
-            <md-list-item v-for="(item, index) in get_notification" :key="index">
-            <md-icon>send</md-icon>
-                <span class="" style="font-size:13px">{{item.firstName+" "+item.lastName }}</span>
-                 {{item.message}}
-            </md-list-item>
-
-            <md-list-item>
-                <md-icon>delete</md-icon>
-                <span class="md-list-item-text">Trash</span>
-            </md-list-item>
-
-            <md-list-item>
-                <md-icon>error</md-icon>
-                <span class="md-list-item-text">Spam</span>
-            </md-list-item>
-              
+    <div class="text-center">
+    <v-menu
+      v-model="menu"
+      :close-on-content-click="false"
+      :nudge-width="200"
+      offset-y
+      :max-width="400"
       
-              
+    >
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn icon
+          v-bind="attrs"
+          v-on="on"
+        >
+          <v-badge
+            :content="get_notification_count"
+            :value="get_notification_count"
+            color="red darken-2"
+            overlap
+            >
+            <v-icon>
+            mdi-bell
+            </v-icon>
+        </v-badge>
+        </v-btn>
+      </template>
 
-              
+      <v-card>
+        <v-list>
+          <v-list-item v-for="(item, index) in get_notification" :key="index">
+            <v-list-item-avatar>
+              <img
+                src="https://cdn.vuetifyjs.com/images/john.jpg"
+                alt="John"
+              >
+            </v-list-item-avatar>
 
-        
-        
-                
-        
-           
-        </md-menu-content>
-    </md-menu>
+            <v-list-item-content>
+              <v-list-item-title>{{item.firstName+" "+item.lastName }}</v-list-item-title>
+              <span>{{item.message}}</span>
+             
+            </v-list-item-content>
+
+            <v-list-item-action>
+                 <span> {{format_date(item.created_at)}}</span>
+             <!--  <v-btn
+                :class="fav ? 'red--text' : ''"
+                icon
+                @click="fav = !fav"
+              >
+                <v-icon>mdi-heart</v-icon>
+              </v-btn> -->
+
+                <v-btn  icon v-if="item.status == 0"  @click="UnreadNotification(item.n_id)"> <v-icon>mdi-check</v-icon></v-btn>
+                <v-btn icon  v-if="item.status == 1"  @click="DeleteNotification(item.n_id)"> <v-icon>mdi-close</v-icon></v-btn>
+            </v-list-item-action>
+          </v-list-item>
+        </v-list>
+
+      </v-card>
+    </v-menu>
+  </div>
 </template>
 
 <script>
-    // Enable pusher logging - don't include this in production
-    import moment from 'moment'
+import moment from 'moment'
     
     import {
         mapGetters,
         mapActions
     } from "vuex";
-
-    export default {
-        computed: mapGetters(["get_notification", "get_notification_count"]),
-        data() {
-            return {
-                messages: [],
-                Notification:[],
-                notifCount: 0
-            }
-        },
-        methods:{
+  export default {
+    data: () => ({
+      fav: true,
+      menu: false,
+      message: false,
+      hints: true,
+    }),
+    computed: mapGetters(["get_notification", "get_notification_count"]),
+      methods:{
             ...mapActions(['fetchNotification']),
             ...mapActions(['UnreadMessage']),
-            connect(){
+           /*  connect(){
                  let newVm = this;
                  this.fetchNotification();
                  window.Echo.private("notification")
@@ -66,6 +89,9 @@
                      newVm.fetchNotification();
                  })
 
+            }, */
+            fetchNotificationData(){
+                this.fetchNotification();
             },
             UnreadNotification(id){
                 axios.post('/api/notification/'+id).then((res)=>{
@@ -92,19 +118,7 @@
         },
       
         mounted() {
-            this.connect();
-           
-            //this.fetchClassPost();
-            
+            this.fetchNotificationData();
         }
-    }
-
-</script>
-<style lang="scss" scoped>
-    .notif_list:hover{
-        background-color: gainsboro !important;
-    }
-  .md-ripple{
-      overflow: auto !important;
   }
-</style>
+</script>
