@@ -1,22 +1,22 @@
 <template>
-    <div class="page-container">
-        <md-app md-mode="reveal">
-            <md-app-toolbar class="md-primary">
-               <topHeader v-on:toggleSidebar="toggle"></topHeader>
-            </md-app-toolbar>
+    <v-app id="inspire">
+        <v-app id="inspire">
+
+            <topHeader v-on:toggleSidebar="toggle"></topHeader>
 
 
+            <sidebar :role='role' :drawer="drawer"></sidebar>
+            <v-btn bottom color="pink" dark fab fixed right @click="dialog = !dialog">
+                <v-icon>mdi-plus</v-icon>
+            </v-btn>
+            <v-main>
+                <v-container class="fill-height" fluid>
+                    <router-view :role='role'></router-view>
+                </v-container>
+            </v-main>
 
-            <md-app-drawer :md-active.sync="menuVisible" md-persistent="mini">
-                <sidebar :role='role'></sidebar>
-
-            </md-app-drawer>
-
-            <md-app-content>
-                <router-view :role='role'></router-view>
-            </md-app-content>
-        </md-app>
-    </div>
+        </v-app>
+    </v-app>
 </template>
 
 <style lang="scss" scoped>
@@ -36,9 +36,10 @@
     import topHeader from "./layout/header";
     import sidebar from "./layout/sidebar";
     export default {
-        name: 'Reveal',
+        
         data: () => ({
             UserDetails: [],
+            drawer:true,
             menuVisible: false,
             role: ''
         }),
@@ -46,9 +47,9 @@
             topHeader,
             sidebar,
         },
-        methods:{
-            toggle(){
-                this.menuVisible = !this.menuVisible;
+        methods: {
+            toggle() {
+                this.drawer = !this.drawer;
             }
         },
         mounted() {
@@ -61,7 +62,7 @@
             })
 
         }
-        
+
     }
 
 </script>

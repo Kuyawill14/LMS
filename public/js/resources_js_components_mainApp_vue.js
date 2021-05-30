@@ -36,26 +36,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
@@ -63,6 +43,8 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
+      dialog: false,
+      drawer: null,
       menuVisible: false,
       UserDetails: []
     };
@@ -93,6 +75,44 @@ __webpack_require__.r(__webpack_exports__);
     this.getUserDetails();
   }
 });
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/layout/navigation/main-navbar.vue?vue&type=script&lang=js&":
+/*!************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/layout/navigation/main-navbar.vue?vue&type=script&lang=js& ***!
+  \************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({});
 
 /***/ }),
 
@@ -239,12 +259,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['role'],
+  props: ['role', 'drawer'],
   components: {
     mainNavbar: _navigation_main_navbar__WEBPACK_IMPORTED_MODULE_0__.default,
     courseNavbar: _navigation_course_navbar__WEBPACK_IMPORTED_MODULE_1__.default
@@ -257,12 +275,10 @@ __webpack_require__.r(__webpack_exports__);
   },
   watch: {
     $route: function $route(to, from) {
-      console.log(this.$route.matched);
-      this.navBarType = this.$route.matched[1].name;
+      console.log(this.$route.matched); //  this.navBarType = this.$route.matched[1].name;
     }
   },
-  created: function created() {
-    this.navBarType = this.$route.matched[1].name;
+  created: function created() {//this.navBarType = this.$route.matched[1].name;
   } // watch: {
   //     $route(to, from) {
   //         console.log(this.$route.matched);
@@ -327,10 +343,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: 'Reveal',
   data: function data() {
     return {
       UserDetails: [],
+      drawer: true,
       menuVisible: false,
       role: ''
     };
@@ -341,7 +357,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     toggle: function toggle() {
-      this.menuVisible = !this.menuVisible;
+      this.drawer = !this.drawer;
     }
   },
   mounted: function mounted() {
@@ -21929,15 +21945,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _main_navbar_vue_vue_type_template_id_1476ca73___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./main-navbar.vue?vue&type=template&id=1476ca73& */ "./resources/js/components/layout/navigation/main-navbar.vue?vue&type=template&id=1476ca73&");
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* harmony import */ var _main_navbar_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./main-navbar.vue?vue&type=script&lang=js& */ "./resources/js/components/layout/navigation/main-navbar.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
-var script = {}
+
+
 
 
 /* normalize component */
 ;
-var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_1__.default)(
-  script,
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__.default)(
+  _main_navbar_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
   _main_navbar_vue_vue_type_template_id_1476ca73___WEBPACK_IMPORTED_MODULE_0__.render,
   _main_navbar_vue_vue_type_template_id_1476ca73___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
   false,
@@ -22088,6 +22106,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_header_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./header.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/layout/header.vue?vue&type=script&lang=js&");
  /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_header_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
+
+/***/ }),
+
+/***/ "./resources/js/components/layout/navigation/main-navbar.vue?vue&type=script&lang=js&":
+/*!********************************************************************************************!*\
+  !*** ./resources/js/components/layout/navigation/main-navbar.vue?vue&type=script&lang=js& ***!
+  \********************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_main_navbar_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./main-navbar.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/layout/navigation/main-navbar.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_main_navbar_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
 
 /***/ }),
 
@@ -22291,111 +22325,86 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "md-toolbar-row" }, [
-    _c(
-      "div",
-      { staticClass: "md-toolbar-section-start" },
-      [
-        _c(
-          "md-button",
-          {
-            staticClass: "md-icon-button",
-            on: {
-              click: function($event) {
-                return _vm.$emit("toggleSidebar")
-              }
-            }
-          },
-          [_c("md-icon", [_vm._v("menu")])],
-          1
-        )
-      ],
-      1
-    ),
-    _vm._v(" "),
-    _c(
-      "div",
-      { staticClass: "md-toolbar-section-end" },
-      [
-        _c("notifications"),
-        _vm._v(" "),
-        _c(
-          "md-menu",
-          {
-            staticClass: "ml-2",
-            attrs: { "md-size": "medium", "md-align-trigger": "" }
-          },
-          [
-            _c(
-              "md-button",
-              {
-                staticClass: "md-icon-button",
-                attrs: { "md-menu-trigger": "" }
-              },
-              [
-                _c("md-avatar", { staticClass: "md-raised" }, [
-                  _c("img", {
-                    attrs: {
-                      alt: "avatar",
-                      src:
-                        _vm.UserDetails.profile_pic == null ||
-                        _vm.UserDetails.profile_pic == ""
-                          ? "https://ui-avatars.com/api/?background=a0a0a0&color=fff&name=" +
-                            (_vm.UserDetails.firstName +
-                              " " +
-                              _vm.UserDetails.lastName)
-                          : "../../images/" + _vm.UserDetails.profile_pic,
-                      width: "10",
-                      height: "10"
-                    }
-                  })
-                ])
-              ],
-              1
-            ),
-            _vm._v(" "),
-            _c(
-              "md-menu-content",
-              [
-                _c("md-menu-item", [
-                  _c(
-                    "a",
-                    { attrs: { href: "list-view-calendar.html" } },
-                    [
-                      _c("md-icon", [_vm._v("account_circle")]),
-                      _vm._v("My Proflie")
-                    ],
-                    1
-                  )
-                ]),
-                _vm._v(" "),
-                _c("md-menu-item", [
-                  _c("a", { attrs: { href: "list-view-calendar.html" } }, [
-                    _vm._v("Activity")
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("md-menu-item", [
-                  _c("a", { attrs: { href: "list-view-calendar.html" } }, [
-                    _vm._v("Activity")
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("md-menu-item", [
-                  _c("a", { attrs: { href: "#" }, on: { click: _vm.logout } }, [
-                    _vm._v("Logout")
-                  ])
-                ])
-              ],
-              1
-            )
-          ],
-          1
-        )
-      ],
-      1
-    )
-  ])
+  return _c(
+    "v-app-bar",
+    {
+      attrs: {
+        "clipped-left": _vm.$vuetify.breakpoint.lgAndUp,
+        app: "",
+        color: "blue darken-3",
+        dark: ""
+      }
+    },
+    [
+      _c("v-app-bar-nav-icon", {
+        on: {
+          click: function($event) {
+            $event.stopPropagation()
+            return _vm.$emit("toggleSidebar")
+          }
+        }
+      }),
+      _vm._v(" "),
+      _c(
+        "v-toolbar-title",
+        { staticClass: "ml-0 pl-4", staticStyle: { width: "300px" } },
+        [
+          _c("span", { staticClass: "hidden-sm-and-down" }, [
+            _vm._v("Google Contacts")
+          ])
+        ]
+      ),
+      _vm._v(" "),
+      _c("v-text-field", {
+        staticClass: "hidden-sm-and-down",
+        attrs: {
+          flat: "",
+          "solo-inverted": "",
+          "hide-details": "",
+          "prepend-inner-icon": "mdi-magnify",
+          label: "Search"
+        }
+      }),
+      _vm._v(" "),
+      _c("v-spacer"),
+      _vm._v(" "),
+      _c(
+        "v-btn",
+        { attrs: { icon: "" } },
+        [_c("v-icon", [_vm._v("mdi-apps")])],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-btn",
+        { attrs: { icon: "" } },
+        [_c("v-icon", [_vm._v("mdi-bell")])],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-btn",
+        { attrs: { icon: "", large: "" } },
+        [
+          _c(
+            "v-avatar",
+            { attrs: { size: "32px", item: "" } },
+            [
+              _c("v-img", {
+                attrs: {
+                  src: "https://cdn.vuetifyjs.com/images/logos/logo.svg",
+                  alt: "Vuetify"
+                }
+              })
+            ],
+            1
+          )
+        ],
+        1
+      )
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -22552,28 +22561,44 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "md-list",
+    "v-list",
+    { attrs: { dense: "" } },
     [
-      _c(
-        "router-link",
-        { attrs: { to: "/courses" } },
-        [
-          _c(
-            "md-list-item",
-            [
-              _c("md-icon", [_vm._v("move_to_inbox")]),
-              _vm._v(" "),
-              _c("span", { staticClass: "md-list-item-text" }, [
-                _vm._v("My Courses")
-              ])
-            ],
-            1
-          )
-        ],
-        1
-      )
+      [
+        _c(
+          "router-link",
+          { attrs: { to: { name: "coursePage" } } },
+          [
+            _c(
+              "v-list-item",
+              { attrs: { link: "" } },
+              [
+                _c(
+                  "v-list-item-action",
+                  [_c("v-icon", [_vm._v("mdi-contacts ")])],
+                  1
+                ),
+                _vm._v(" "),
+                _c(
+                  "v-list-item-content",
+                  [
+                    _c("v-list-item-title", [
+                      _vm._v(
+                        "\n                        Announcement\n                    "
+                      )
+                    ])
+                  ],
+                  1
+                )
+              ],
+              1
+            )
+          ],
+          1
+        )
+      ]
     ],
-    1
+    2
   )
 }
 var staticRenderFns = []
@@ -22688,16 +22713,20 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "div",
+    "v-navigation-drawer",
+    {
+      attrs: { clipped: _vm.$vuetify.breakpoint.lgAndUp, app: "" },
+      model: {
+        value: _vm.drawer,
+        callback: function($$v) {
+          _vm.drawer = $$v
+        },
+        expression: "drawer"
+      }
+    },
     [
-      _c(
-        "md-toolbar",
-        { staticClass: "md-transparent", attrs: { "md-elevation": "0" } },
-        [_vm._v("Navigation")]
-      ),
-      _vm._v(" "),
       _vm.navBarType != "selectedCourse"
-        ? _c("mainNavbar", { attrs: { role: _vm.role } })
+        ? _c("mainNavbar", { attrs: { role: _vm.role, drawer: _vm.drawer } })
         : _vm._e(),
       _vm._v(" "),
       _vm.navBarType == "selectedCourse"
@@ -22731,40 +22760,48 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "div",
-    { staticClass: "page-container" },
+    "v-app",
+    { attrs: { id: "inspire" } },
     [
       _c(
-        "md-app",
-        { attrs: { "md-mode": "reveal" } },
+        "v-app",
+        { attrs: { id: "inspire" } },
         [
-          _c(
-            "md-app-toolbar",
-            { staticClass: "md-primary" },
-            [_c("topHeader", { on: { toggleSidebar: _vm.toggle } })],
-            1
-          ),
+          _c("topHeader", { on: { toggleSidebar: _vm.toggle } }),
+          _vm._v(" "),
+          _c("sidebar", { attrs: { role: _vm.role, drawer: _vm.drawer } }),
           _vm._v(" "),
           _c(
-            "md-app-drawer",
+            "v-btn",
             {
-              attrs: { "md-active": _vm.menuVisible, "md-persistent": "mini" },
+              attrs: {
+                bottom: "",
+                color: "pink",
+                dark: "",
+                fab: "",
+                fixed: "",
+                right: ""
+              },
               on: {
-                "update:mdActive": function($event) {
-                  _vm.menuVisible = $event
-                },
-                "update:md-active": function($event) {
-                  _vm.menuVisible = $event
+                click: function($event) {
+                  _vm.dialog = !_vm.dialog
                 }
               }
             },
-            [_c("sidebar", { attrs: { role: _vm.role } })],
+            [_c("v-icon", [_vm._v("mdi-plus")])],
             1
           ),
           _vm._v(" "),
           _c(
-            "md-app-content",
-            [_c("router-view", { attrs: { role: _vm.role } })],
+            "v-main",
+            [
+              _c(
+                "v-container",
+                { staticClass: "fill-height", attrs: { fluid: "" } },
+                [_c("router-view", { attrs: { role: _vm.role } })],
+                1
+              )
+            ],
             1
           )
         ],

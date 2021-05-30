@@ -1,11 +1,9 @@
 <template>
-    <div>
-        <md-toolbar class="md-transparent" md-elevation="0">Navigation</md-toolbar>
-
-        <mainNavbar :role="role" v-if="navBarType != 'selectedCourse'"> </mainNavbar>
+    <v-navigation-drawer v-model="drawer" :clipped="$vuetify.breakpoint.lgAndUp" app>
+        <mainNavbar :role="role" :drawer="drawer" v-if="navBarType != 'selectedCourse'"> </mainNavbar>
 
         <courseNavbar :role="role" v-if="navBarType == 'selectedCourse'"> </courseNavbar>
-    </div>
+    </v-navigation-drawer>
 </template>
 
 
@@ -16,7 +14,7 @@
     import courseNavbar from './navigation/course-navbar'
 
     export default ({
-        props: ['role'],
+        props: ['role', 'drawer'],
         components: {
             mainNavbar,
             courseNavbar
@@ -30,12 +28,12 @@
         watch: {
             $route(to, from) {
                 console.log(this.$route.matched);
-                this.navBarType = this.$route.matched[1].name;
+                //  this.navBarType = this.$route.matched[1].name;
 
             }
         },
         created() {
-            this.navBarType = this.$route.matched[1].name;
+            //this.navBarType = this.$route.matched[1].name;
         }
 
         // watch: {

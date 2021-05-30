@@ -1,54 +1,37 @@
 <template>
-        <div class="md-toolbar-row">
-            <div class="md-toolbar-section-start">
-                <md-button @click="$emit('toggleSidebar')" class="md-icon-button">
-                    <md-icon>menu</md-icon>
-                </md-button>
-            </div>
-
-            <div class="md-toolbar-section-end">
-                <notifications></notifications>
-                <!-- <md-menu md-size="huge" md-align-trigger>
-                    <md-button  class="md-icon-button" md-menu-trigger>
-                        <md-badge md-content="1" md-dense>
-                        <md-icon>notifications</md-icon>
-                    </md-badge></md-button>
-
-                    <md-menu-content>
-                        <md-menu-item><a href="list-view-calendar.html"> <md-icon>account_circle</md-icon>My Proflie</a></md-menu-item>
-                        <md-menu-item><a href="list-view-calendar.html">Activity</a></md-menu-item>
-                        <md-menu-item><a href="list-view-calendar.html">Activity</a></md-menu-item>
-                        <md-menu-item><a href="#" @click="logout">Logout</a></md-menu-item>
-                    </md-menu-content>
-                </md-menu> -->
-                
-                 <md-menu class="ml-2" md-size="medium" md-align-trigger>
-                    <md-button  class="md-icon-button" md-menu-trigger>
-                           <md-avatar class="md-raised">
-                          
-                                <img alt="avatar" :src="UserDetails.profile_pic == null || UserDetails.profile_pic == '' ? 'https://ui-avatars.com/api/?background=a0a0a0&color=fff&name=' + (UserDetails.firstName+' '+UserDetails.lastName) : '../../images/'+UserDetails.profile_pic" width="10" height="10">
-                            </md-avatar>
-                     </md-button>
-
-                    <md-menu-content>
-                        <md-menu-item><a href="list-view-calendar.html"> <md-icon>account_circle</md-icon>My Proflie</a></md-menu-item>
-                        <md-menu-item><a href="list-view-calendar.html">Activity</a></md-menu-item>
-                        <md-menu-item><a href="list-view-calendar.html">Activity</a></md-menu-item>
-                        <md-menu-item><a href="#" @click="logout">Logout</a></md-menu-item>
-                    </md-menu-content>
-                </md-menu>
-            </div>
-      </div>
+ <v-app-bar :clipped-left="$vuetify.breakpoint.lgAndUp" app color="blue darken-3" dark>
+                <v-app-bar-nav-icon @click.stop="$emit('toggleSidebar')"></v-app-bar-nav-icon>
+                <v-toolbar-title style="width: 300px" class="ml-0 pl-4">
+                    <span class="hidden-sm-and-down">Google Contacts</span>
+                </v-toolbar-title>
+                <v-text-field flat solo-inverted hide-details prepend-inner-icon="mdi-magnify" label="Search"
+                    class="hidden-sm-and-down"></v-text-field>
+                <v-spacer></v-spacer>
+                <v-btn icon>
+                    <v-icon>mdi-apps</v-icon>
+                </v-btn>
+                <v-btn icon>
+                    <v-icon>mdi-bell</v-icon>
+                </v-btn>
+                <v-btn icon large>
+                    <v-avatar size="32px" item>
+                        <v-img src="https://cdn.vuetifyjs.com/images/logos/logo.svg" alt="Vuetify"></v-img>
+                    </v-avatar>
+                </v-btn>
+            </v-app-bar>
 </template>
 
 
 <script>
 import notifications from './notification/notification'
 export default {
+
     components:{
         notifications
     },
       data: () => ({
+             dialog: false,
+            drawer: null,
             menuVisible: false,
             UserDetails:[]
         }),

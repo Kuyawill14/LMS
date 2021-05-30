@@ -1,13 +1,30 @@
 <template>
-    <md-list>
-        <router-link to="/courses">
-            <md-list-item>
 
-                <md-icon>move_to_inbox</md-icon>
-                <span class="md-list-item-text">My Courses</span>
+    <v-list dense>
+        <template>
+            <router-link :to="{name: 'coursePage'}">
+                <v-list-item link>
 
-            </md-list-item>
-        </router-link>
-       
-    </md-list>
+                    <v-list-item-action>
+                        <v-icon>mdi-contacts </v-icon>
+                    </v-list-item-action>
+                    <v-list-item-content>
+                        <v-list-item-title>
+                            Announcement
+                        </v-list-item-title>
+                    </v-list-item-content>
+
+                </v-list-item>
+            </router-link>
+        </template>
+    </v-list>
+
 </template>
+
+<script>
+    export default {
+
+
+    }
+
+</script>
