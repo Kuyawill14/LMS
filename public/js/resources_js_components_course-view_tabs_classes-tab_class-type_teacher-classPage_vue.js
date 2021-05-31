@@ -275,6 +275,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 var VueElementLoading = function VueElementLoading() {
   return Promise.resolve(/*! import() */).then(__webpack_require__.t.bind(__webpack_require__, /*! vue-element-loading */ "./node_modules/vue-element-loading/lib/vue-element-loading.min.js", 23));
 };
@@ -839,7 +840,7 @@ var render = function() {
     "div",
     { staticClass: "container" },
     [
-      _vm.allClass.length == 12
+      _vm.allClass.length == 0
         ? _c(
             "md-empty-state",
             {

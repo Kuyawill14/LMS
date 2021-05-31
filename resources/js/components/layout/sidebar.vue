@@ -33,7 +33,7 @@
             }
         },
         created() {
-            //this.navBarType = this.$route.matched[1].name;
+            this.navBarType = this.$route.matched[1].name;
         }
 
         // watch: {

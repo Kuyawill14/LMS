@@ -366,7 +366,8 @@ __webpack_require__.r(__webpack_exports__);
       console.log(this.$route.matched); //  this.navBarType = this.$route.matched[1].name;
     }
   },
-  created: function created() {//this.navBarType = this.$route.matched[1].name;
+  created: function created() {
+    this.navBarType = this.$route.matched[1].name;
   } // watch: {
   //     $route(to, from) {
   //         console.log(this.$route.matched);
@@ -22545,8 +22546,10 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "md-list",
+    "v-list",
+    { attrs: { dense: "" } },
     [
+<<<<<<< HEAD
       _c(
         "router-link",
         { attrs: { to: { name: "coursePage" }, exact: "" } },
@@ -22648,8 +22651,197 @@ var render = function() {
         ],
         1
       )
+=======
+      [
+        _c(
+          "v-list-item",
+          { attrs: { to: { name: "coursePage" } } },
+          [
+            _c(
+              "v-list-item-action",
+              [_c("v-icon", [_vm._v("mdi-contacts")])],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "v-list-item-content",
+              [
+                _c("v-list-item-title", [
+                  _vm._v("\n                    Course Page\n                ")
+                ])
+              ],
+              1
+            )
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c(
+          "v-list-item",
+          { attrs: { to: { name: "announcement" } } },
+          [
+            _c(
+              "v-list-item-action",
+              [_c("v-icon", [_vm._v("mdi-contacts")])],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "v-list-item-content",
+              [
+                _c("v-list-item-title", [
+                  _vm._v("\n                    Announcement\n                ")
+                ])
+              ],
+              1
+            )
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c(
+          "v-list-item",
+          { attrs: { link: "" } },
+          [
+            _c(
+              "v-list-item-action",
+              [_c("v-icon", [_vm._v("mdi-contacts")])],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "v-list-item-content",
+              [
+                _c("v-list-item-title", [
+                  _vm._v("\n                    Classwork\n                ")
+                ])
+              ],
+              1
+            )
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c(
+          "v-list-item",
+          { attrs: { link: "" } },
+          [
+            _c(
+              "v-list-item-action",
+              [_c("v-icon", [_vm._v("mdi-contacts")])],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "v-list-item-content",
+              [
+                _c("v-list-item-title", [
+                  _vm._v("\n                    Modules\n                ")
+                ])
+              ],
+              1
+            )
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c(
+          "v-list-item",
+          { attrs: { link: "" } },
+          [
+            _c(
+              "v-list-item-action",
+              [_c("v-icon", [_vm._v("mdi-contacts")])],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "v-list-item-content",
+              [
+                _c("v-list-item-title", [
+                  _vm._v("\n                    Students\n                ")
+                ])
+              ],
+              1
+            )
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c(
+          "v-list-item",
+          { attrs: { link: "" } },
+          [
+            _c(
+              "v-list-item-action",
+              [_c("v-icon", [_vm._v("mdi-contacts")])],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "v-list-item-content",
+              [
+                _c("v-list-item-title", [
+                  _vm._v(
+                    "\n                    Grading Criteria\n                "
+                  )
+                ])
+              ],
+              1
+            )
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c(
+          "v-list-item",
+          { attrs: { link: "" } },
+          [
+            _c(
+              "v-list-item-action",
+              [_c("v-icon", [_vm._v("mdi-contacts")])],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "v-list-item-content",
+              [
+                _c("v-list-item-title", [
+                  _vm._v("\n                    About\n                ")
+                ])
+              ],
+              1
+            )
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c(
+          "v-list-item",
+          { attrs: { link: "" } },
+          [
+            _c(
+              "v-list-item-action",
+              [_c("v-icon", [_vm._v("mdi-contacts")])],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "v-list-item-content",
+              [
+                _c("v-list-item-title", [
+                  _vm._v("\n                    Settings\n                ")
+                ])
+              ],
+              1
+            )
+          ],
+          1
+        )
+      ]
+>>>>>>> d69beaa2728aadd552dbf97562a2a9a495e3491f
     ],
-    1
+    2
   )
 }
 var staticRenderFns = []
@@ -22682,7 +22874,11 @@ var render = function() {
       [
         _c(
           "v-list-item",
+<<<<<<< HEAD
           { attrs: { link: "", to: { name: "courses" } } },
+=======
+          { attrs: { to: { name: "courses" } } },
+>>>>>>> d69beaa2728aadd552dbf97562a2a9a495e3491f
           [
             _c(
               "v-list-item-action",
