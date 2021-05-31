@@ -356,7 +356,8 @@ __webpack_require__.r(__webpack_exports__);
   },
   watch: {
     $route: function $route(to, from) {
-      console.log(this.$route.matched); //  this.navBarType = this.$route.matched[1].name;
+      console.log(this.$route.matched);
+      this.navBarType = this.$route.matched[1].name;
     }
   },
   created: function created() {
