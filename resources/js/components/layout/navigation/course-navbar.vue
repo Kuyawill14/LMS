@@ -38,7 +38,7 @@
 
             </v-list-item>
 
-            <v-list-item link>
+            <v-list-item link :to="{name: 'modules'}">
                 <v-list-item-action>
                     <v-icon>mdi-contacts</v-icon>
                 </v-list-item-action>

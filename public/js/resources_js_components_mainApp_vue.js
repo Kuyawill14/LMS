@@ -22615,7 +22615,7 @@ var render = function() {
         _vm._v(" "),
         _c(
           "v-list-item",
-          { attrs: { link: "" } },
+          { attrs: { link: "", to: { name: "modules" } } },
           [
             _c(
               "v-list-item-action",
@@ -23095,27 +23095,20 @@ var render = function() {
     "v-app",
     { attrs: { id: "inspire" } },
     [
+      _c("topHeader", { on: { toggleSidebar: _vm.toggle } }),
+      _vm._v(" "),
+      _c("sidebar", { attrs: { role: _vm.role, drawer: _vm.drawer } }),
+      _vm._v(" "),
       _c(
-        "v-app",
-        { attrs: { id: "inspire" } },
+        "v-main",
         [
-          _c("topHeader", { on: { toggleSidebar: _vm.toggle } }),
-          _vm._v(" "),
-          _c("sidebar", { attrs: { role: _vm.role, drawer: _vm.drawer } }),
-          _vm._v(" "),
           _c(
-            "v-main",
+            "v-container",
+            { attrs: { fluid: "" } },
             [
-              _c(
-                "v-container",
-                { attrs: { fluid: "" } },
-                [
-                  _c("router-view", {
-                    attrs: { UserDetails: _vm.UserDetails, role: _vm.role }
-                  })
-                ],
-                1
-              )
+              _c("router-view", {
+                attrs: { UserDetails: _vm.UserDetails, role: _vm.role }
+              })
             ],
             1
           )

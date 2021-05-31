@@ -1,21 +1,21 @@
 <template>
     <v-app id="inspire">
-        <v-app id="inspire">
-
-            <topHeader v-on:toggleSidebar="toggle"></topHeader>
 
 
-            <sidebar :role='role' :drawer="drawer"></sidebar>
-            
-            <v-main>
+        <topHeader v-on:toggleSidebar="toggle"></topHeader>
 
-                <v-container fluid>
-                    <router-view :UserDetails='UserDetails' :role='role'></router-view>
-                </v-container>
-            </v-main>
-           
-        </v-app>
+
+        <sidebar :role='role' :drawer="drawer"></sidebar>
+
+        <v-main>
+
+            <v-container fluid>
+                <router-view :UserDetails='UserDetails' :role='role'></router-view>
+            </v-container>
+        </v-main>
+
     </v-app>
+
 </template>
 
 <style lang="scss" scoped>

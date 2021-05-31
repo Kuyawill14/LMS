@@ -40,8 +40,8 @@ let announcement_tab = () =>
 //     import ("./components/view-course/tabs/grading_criteria-tab/grading_criteriaComponent");
 // let students_grade_tab = () =>
 //     import ("./components/view-course/tabs/students_grade-tab/student_gradeComponent");
-// let modules_tab = () =>
-//     import ("./components/view-course/tabs/modules-tab/modulesComponent");
+let modules_tab = () =>
+    import ("./components/course-view/tabs/modules-tab/modulesComponent");
 // let studentmodules_tab = () =>
 //     import ("./components/view-course/tabs/modules-tab/user-type/studentmodulesComponent");
 let classes_tab = () =>
@@ -96,6 +96,12 @@ let routes = [{
                         path: "classwork",
                         component: classwork_tab
                     },
+                    {
+                        name: "modules",
+                        path: "modules",
+                        component: modules_tab
+                    },
+
                 ],
             },
 
