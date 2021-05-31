@@ -97,6 +97,12 @@ let routes = [{
 
                 ],
             },
+
+            {
+                path: "/profile",
+                component: profile,
+                name: "profile_page"
+            },
         ],
 
     },
@@ -110,10 +116,6 @@ let routes = [{
         path: "/register",
         component: register,
         name: "register"
-    }, {
-        path: "profile",
-        component: profile,
-        name: "profile_page"
     },
 
     // {

@@ -48,7 +48,7 @@
                     <h2>My Courses</h2>
                 </div>
                 <div class="col text-right">
-                    <v-btn bottom color="pink" dark fab fixed right @click="dialog = !dialog">
+                    <v-btn bottom color="primary" dark fab fixed right @click="dialog = !dialog">
                         <v-icon>mdi-plus</v-icon>
                     </v-btn>
                 </div>

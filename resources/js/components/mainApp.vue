@@ -10,7 +10,7 @@
             <v-main>
 
                 <v-container fluid>
-                    <router-view :role='role'></router-view>
+                    <router-view :UserDetails='UserDetails' :role='role'></router-view>
                 </v-container>
             </v-main>
            

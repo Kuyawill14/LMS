@@ -2,7 +2,7 @@
   <v-app>
       <v-dialog v-model="dialog" persistent max-width="600px" min-width="360px">
           <div>
-              <v-tabs v-model="tab" show-arrows background-color="deep-purple accent-4" icons-and-text dark grow>
+              <v-tabs v-model="tab" show-arrows background-color="primary" icons-and-text dark grow>
                   <v-tabs-slider color="purple darken-4"></v-tabs-slider>
                     <v-tabs-slider color="purple darken-4"></v-tabs-slider>
                   <v-tab>
@@ -28,7 +28,7 @@
                                       </v-col>
                                       <v-spacer></v-spacer>
                                       <v-col class="d-flex" cols="12" sm="3" xsm="12" align-end>
-                                          <v-btn x-large block :disabled="!valid" color="success" @click="validate"> Login </v-btn>
+                                          <v-btn x-large block :disabled="!valid" color="primary" @click="validate"> Login </v-btn>
                                       </v-col>
                                   </v-row>
                               </v-form>
@@ -57,7 +57,7 @@
                                       </v-col>
                                       <v-spacer></v-spacer>
                                       <v-col class="d-flex ml-auto" cols="12" sm="3" xsm="12">
-                                          <v-btn x-large block :disabled="!valid" color="success" @click="validate">Register</v-btn>
+                                          <v-btn x-large block :disabled="!valid" color="primary" @click="validate">Register</v-btn>
                                       </v-col>
                                   </v-row>
                               </v-form>

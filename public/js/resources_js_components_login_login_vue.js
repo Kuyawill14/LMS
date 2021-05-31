@@ -265,7 +265,7 @@ var render = function() {
                 {
                   attrs: {
                     "show-arrows": "",
-                    "background-color": "deep-purple accent-4",
+                    "background-color": "primary",
                     "icons-and-text": "",
                     dark: "",
                     grow: ""
@@ -432,7 +432,7 @@ var render = function() {
                                                 "x-large": "",
                                                 block: "",
                                                 disabled: !_vm.valid,
-                                                color: "success"
+                                                color: "primary"
                                               },
                                               on: { click: _vm.validate }
                                             },
@@ -660,7 +660,7 @@ var render = function() {
                                                 "x-large": "",
                                                 block: "",
                                                 disabled: !_vm.valid,
-                                                color: "success"
+                                                color: "primary"
                                               },
                                               on: { click: _vm.validate }
                                             },

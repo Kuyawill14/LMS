@@ -36,6 +36,33 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
@@ -113,6 +140,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({});
 
 /***/ }),
@@ -137,6 +166,34 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -22337,7 +22394,7 @@ var render = function() {
         { staticClass: "ml-0 pl-4", staticStyle: { width: "300px" } },
         [
           _c("span", { staticClass: "hidden-sm-and-down" }, [
-            _vm._v("Google Contacts")
+            _vm._v("CCSICT-LMS")
           ])
         ]
       ),
@@ -22358,26 +22415,102 @@ var render = function() {
       _c("notifications"),
       _vm._v(" "),
       _c(
-        "v-btn",
-        { attrs: { icon: "", large: "" } },
+        "div",
+        { staticClass: "text-center" },
         [
           _c(
-            "v-avatar",
-            { attrs: { size: "40px", item: "" } },
-            [
-              _c("v-img", {
-                attrs: {
-                  alt: "Vuetify",
-                  src:
-                    _vm.UserDetails.profile_pic == null ||
-                    _vm.UserDetails.profile_pic == ""
-                      ? "https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=" +
-                        (_vm.UserDetails.firstName +
-                          " " +
-                          _vm.UserDetails.lastName)
-                      : "../../images/" + _vm.UserDetails.profile_pic
+            "v-menu",
+            {
+              attrs: { "nudge-width": 200, "offset-y": "", "max-width": 200 },
+              scopedSlots: _vm._u([
+                {
+                  key: "activator",
+                  fn: function(ref) {
+                    var on = ref.on
+                    var attrs = ref.attrs
+                    return [
+                      _c(
+                        "v-btn",
+                        _vm._g(
+                          _vm._b(
+                            { attrs: { icon: "", large: "" } },
+                            "v-btn",
+                            attrs,
+                            false
+                          ),
+                          on
+                        ),
+                        [
+                          _c(
+                            "v-avatar",
+                            { attrs: { size: "40px", item: "" } },
+                            [
+                              _c("v-img", {
+                                attrs: {
+                                  alt: "Proflie",
+                                  src:
+                                    _vm.UserDetails.profile_pic == null ||
+                                    _vm.UserDetails.profile_pic == ""
+                                      ? "https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=" +
+                                        (_vm.UserDetails.firstName +
+                                          " " +
+                                          _vm.UserDetails.lastName)
+                                      : "../../images/" +
+                                        _vm.UserDetails.profile_pic
+                                }
+                              })
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ]
+                  }
                 }
-              })
+              ])
+            },
+            [
+              _vm._v(" "),
+              _c(
+                "v-list",
+                [
+                  _c(
+                    "v-list-item",
+                    { attrs: { to: { name: "profile_page" } } },
+                    [_c("v-list-item-title", [_vm._v("My Profile")])],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-list-item",
+                    { attrs: { link: "" } },
+                    [_c("v-list-item-title", [_vm._v("Activity")])],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-list-item",
+                    { attrs: { link: "" } },
+                    [_c("v-list-item-title", [_vm._v("Message")])],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-list-item",
+                    { attrs: { link: "" } },
+                    [
+                      _c(
+                        "v-list-item-title",
+                        { attrs: { link: "" }, on: { click: _vm.logout } },
+                        [_vm._v("Logout")]
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
             ],
             1
           )
@@ -22435,7 +22568,7 @@ var render = function() {
       _vm._v(" "),
       _c(
         "router-link",
-        { attrs: { to: { name: "announcement" }, exact: "" } },
+        { attrs: { to: { name: "announcement" }, link: "" } },
         [
           _c(
             "md-list-item",
@@ -22548,30 +22681,23 @@ var render = function() {
     [
       [
         _c(
-          "router-link",
-          { attrs: { to: { name: "courses" } } },
+          "v-list-item",
+          { attrs: { link: "", to: { name: "courses" } } },
           [
             _c(
-              "v-list-item",
-              { attrs: { link: "" } },
+              "v-list-item-action",
+              [_c("v-icon", [_vm._v("mdi-contacts")])],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "v-list-item-content",
               [
-                _c(
-                  "v-list-item-action",
-                  [_c("v-icon", [_vm._v("mdi-contacts")])],
-                  1
-                ),
-                _vm._v(" "),
-                _c(
-                  "v-list-item-content",
-                  [
-                    _c("v-list-item-title", [
-                      _vm._v(
-                        "\n                        Course Page\n                    "
-                      )
-                    ])
-                  ],
-                  1
-                )
+                _c("v-list-item-title", [
+                  _vm._v(
+                    "\n                        Course Page\n                    "
+                  )
+                ])
               ],
               1
             )
@@ -22615,7 +22741,7 @@ var render = function() {
         {
           attrs: {
             "close-on-content-click": false,
-            "nudge-width": 200,
+            "nudge-width": 250,
             "offset-y": "",
             "max-width": 400
           },
@@ -22672,80 +22798,136 @@ var render = function() {
             [
               _c(
                 "v-list",
-                _vm._l(_vm.get_notification, function(item, index) {
-                  return _c(
+                [
+                  _c(
                     "v-list-item",
-                    { key: index },
                     [
-                      _c("v-list-item-avatar", [
-                        _c("img", {
-                          attrs: {
-                            src: "https://cdn.vuetifyjs.com/images/john.jpg",
-                            alt: "John"
-                          }
-                        })
-                      ]),
-                      _vm._v(" "),
                       _c(
                         "v-list-item-content",
-                        [
-                          _c("v-list-item-title", [
-                            _vm._v(_vm._s(item.firstName + " " + item.lastName))
-                          ]),
-                          _vm._v(" "),
-                          _c("span", [_vm._v(_vm._s(item.message))])
-                        ],
+                        [_c("v-list-item-title", [_vm._v("Notification")])],
                         1
                       ),
                       _vm._v(" "),
                       _c(
                         "v-list-item-action",
                         [
-                          _c("span", [
-                            _vm._v(
-                              " " + _vm._s(_vm.format_date(item.created_at))
-                            )
-                          ]),
-                          _vm._v(" "),
-                          item.status == 0
-                            ? _c(
+                          _c(
+                            "v-badge",
+                            {
+                              attrs: {
+                                bordered: "",
+                                color: "red darken-1",
+                                content: _vm.get_notification_count,
+                                value: _vm.get_notification_count,
+                                overlap: ""
+                              }
+                            },
+                            [
+                              _c(
                                 "v-btn",
                                 {
-                                  attrs: { icon: "" },
-                                  on: {
-                                    click: function($event) {
-                                      return _vm.UnreadNotification(item.n_id)
-                                    }
+                                  staticClass: "white--text",
+                                  attrs: {
+                                    color: "red darken-",
+                                    text: "white",
+                                    depressed: ""
                                   }
                                 },
-                                [_c("v-icon", [_vm._v("mdi-check")])],
-                                1
+                                [
+                                  _vm._v(
+                                    "\n                  new\n                "
+                                  )
+                                ]
                               )
-                            : _vm._e(),
-                          _vm._v(" "),
-                          item.status == 1
-                            ? _c(
-                                "v-btn",
-                                {
-                                  attrs: { icon: "" },
-                                  on: {
-                                    click: function($event) {
-                                      return _vm.DeleteNotification(item.n_id)
-                                    }
-                                  }
-                                },
-                                [_c("v-icon", [_vm._v("mdi-close")])],
-                                1
-                              )
-                            : _vm._e()
+                            ],
+                            1
+                          )
                         ],
                         1
                       )
                     ],
                     1
-                  )
-                }),
-                1
+                  ),
+                  _vm._v(" "),
+                  _c("v-divider"),
+                  _vm._v(" "),
+                  _vm._l(_vm.get_notification, function(item, index) {
+                    return _c(
+                      "v-list-item",
+                      { key: index },
+                      [
+                        _c("v-list-item-avatar", [
+                          _c("img", {
+                            attrs: {
+                              src: "https://cdn.vuetifyjs.com/images/john.jpg",
+                              alt: "John"
+                            }
+                          })
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "v-list-item-content",
+                          [
+                            _c("v-list-item-title", [
+                              _vm._v(
+                                _vm._s(item.firstName + " " + item.lastName)
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("span", [_vm._v(_vm._s(item.message))])
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "v-list-item-action",
+                          [
+                            _c("span", [
+                              _vm._v(
+                                " " + _vm._s(_vm.format_date(item.created_at))
+                              )
+                            ]),
+                            _vm._v(" "),
+                            item.status == 0
+                              ? _c(
+                                  "v-btn",
+                                  {
+                                    attrs: { icon: "" },
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.UnreadNotification(item.n_id)
+                                      }
+                                    }
+                                  },
+                                  [_c("v-icon", [_vm._v("mdi-check")])],
+                                  1
+                                )
+                              : _vm._e(),
+                            _vm._v(" "),
+                            item.status == 1
+                              ? _c(
+                                  "v-btn",
+                                  {
+                                    attrs: { icon: "" },
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.DeleteNotification(item.n_id)
+                                      }
+                                    }
+                                  },
+                                  [_c("v-icon", [_vm._v("mdi-close")])],
+                                  1
+                                )
+                              : _vm._e()
+                          ],
+                          1
+                        )
+                      ],
+                      1
+                    )
+                  })
+                ],
+                2
               )
             ],
             1
@@ -22845,7 +23027,11 @@ var render = function() {
               _c(
                 "v-container",
                 { attrs: { fluid: "" } },
-                [_c("router-view", { attrs: { role: _vm.role } })],
+                [
+                  _c("router-view", {
+                    attrs: { UserDetails: _vm.UserDetails, role: _vm.role }
+                  })
+                ],
                 1
               )
             ],

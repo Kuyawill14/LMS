@@ -7,8 +7,8 @@
 
             </md-list-item>
         </router-link>
-        <router-link :to="{name: 'announcement'}" exact>
-            <md-list-item>
+        <router-link :to="{name: 'announcement'}" link>
+            <md-list-item >
                 <md-icon>announcement</md-icon>
                 <span class="md-list-item-text">Announcement</span>
 

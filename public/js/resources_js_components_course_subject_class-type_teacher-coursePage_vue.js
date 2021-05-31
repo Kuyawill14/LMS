@@ -575,7 +575,7 @@ var render = function() {
                 {
                   attrs: {
                     bottom: "",
-                    color: "pink",
+                    color: "primary",
                     dark: "",
                     fab: "",
                     fixed: "",

@@ -3,7 +3,7 @@
     <v-menu
       v-model="menu"
       :close-on-content-click="false"
-      :nudge-width="200"
+      :nudge-width="250"
       offset-y
       :max-width="400"
       
@@ -28,6 +28,34 @@
 
       <v-card>
         <v-list>
+          <v-list-item>
+           <v-list-item-content>
+              <v-list-item-title>Notification</v-list-item-title>
+            </v-list-item-content>
+
+            <v-list-item-action>
+            
+
+               <v-badge
+                  bordered
+                  color="red darken-1"
+                  :content="get_notification_count"
+                  :value="get_notification_count"
+                  overlap
+                >
+                  <v-btn
+                    class="white--text"
+                    color="red darken-"
+                    text="white"
+                    depressed
+                  >
+                    new
+                  </v-btn>
+                </v-badge>
+            </v-list-item-action>
+            </v-list-item>
+
+          <v-divider></v-divider>
           <v-list-item v-for="(item, index) in get_notification" :key="index">
             <v-list-item-avatar>
               <img
