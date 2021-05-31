@@ -142,6 +142,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({});
 
 /***/ }),
@@ -22549,109 +22558,6 @@ var render = function() {
     "v-list",
     { attrs: { dense: "" } },
     [
-<<<<<<< HEAD
-      _c(
-        "router-link",
-        { attrs: { to: { name: "coursePage" }, exact: "" } },
-        [
-          _c(
-            "md-list-item",
-            [
-              _c("md-icon", [_vm._v("class")]),
-              _vm._v(" "),
-              _c("span", { staticClass: "md-list-item-text" }, [
-                _vm._v("Classes")
-              ])
-            ],
-            1
-          )
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "router-link",
-        { attrs: { to: { name: "announcement" }, link: "" } },
-        [
-          _c(
-            "md-list-item",
-            [
-              _c("md-icon", [_vm._v("announcement")]),
-              _vm._v(" "),
-              _c("span", { staticClass: "md-list-item-text" }, [
-                _vm._v("Announcement")
-              ])
-            ],
-            1
-          )
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "md-list-item",
-        [
-          _c("md-icon", [_vm._v("assignment")]),
-          _vm._v(" "),
-          _c("span", { staticClass: "md-list-item-text" }, [
-            _vm._v("Classwork")
-          ])
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "md-list-item",
-        [
-          _c("md-icon", [_vm._v("view_module")]),
-          _vm._v(" "),
-          _c("span", { staticClass: "md-list-item-text" }, [_vm._v("Modules")])
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "md-list-item",
-        [
-          _c("md-icon", [_vm._v("groups")]),
-          _vm._v(" "),
-          _c("span", { staticClass: "md-list-item-text" }, [_vm._v("Students")])
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "md-list-item",
-        [
-          _c("md-icon", [_vm._v("stairs")]),
-          _vm._v(" "),
-          _c("span", { staticClass: "md-list-item-text" }, [
-            _vm._v("Grading Criteria")
-          ])
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "md-list-item",
-        [
-          _c("md-icon", [_vm._v("info")]),
-          _vm._v(" "),
-          _c("span", { staticClass: "md-list-item-text" }, [_vm._v("About")])
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "md-list-item",
-        [
-          _c("md-icon", [_vm._v("settings")]),
-          _vm._v(" "),
-          _c("span", { staticClass: "md-list-item-text" }, [_vm._v("Settings")])
-        ],
-        1
-      )
-=======
       [
         _c(
           "v-list-item",
@@ -22839,7 +22745,6 @@ var render = function() {
           1
         )
       ]
->>>>>>> d69beaa2728aadd552dbf97562a2a9a495e3491f
     ],
     2
   )
@@ -22863,50 +22768,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "render": () => (/* binding */ render),
 /* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
 /* harmony export */ });
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "v-list",
-    { attrs: { dense: "" } },
-    [
-      [
-        _c(
-          "v-list-item",
-<<<<<<< HEAD
-          { attrs: { link: "", to: { name: "courses" } } },
-=======
-          { attrs: { to: { name: "courses" } } },
->>>>>>> d69beaa2728aadd552dbf97562a2a9a495e3491f
-          [
-            _c(
-              "v-list-item-action",
-              [_c("v-icon", [_vm._v("mdi-contacts")])],
-              1
-            ),
-            _vm._v(" "),
-            _c(
-              "v-list-item-content",
-              [
-                _c("v-list-item-title", [
-                  _vm._v(
-                    "\n                        Course Page\n                    "
-                  )
-                ])
-              ],
-              1
-            )
-          ],
-          1
-        )
-      ]
-    ],
-    2
-  )
-}
+var render = function () {}
 var staticRenderFns = []
-render._withStripped = true
 
 
 
