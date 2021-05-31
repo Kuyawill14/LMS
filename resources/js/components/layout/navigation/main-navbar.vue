@@ -2,7 +2,6 @@
 
     <v-list dense>
         <template>
-        
                 <v-list-item link :to="{name: 'courses'}">
                     <v-list-item-action>
                         <v-icon>mdi-contacts</v-icon>
@@ -12,13 +11,7 @@
                             Course Page
                         </v-list-item-title>
                     </v-list-item-content>
-
                 </v-list-item>
-
-                
-         
-
-
         </template>
     </v-list>
 
