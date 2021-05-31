@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <md-empty-state md-icon="devices_other" md-label="Create your first class" v-if="allClass.length ==12"
+        <md-empty-state md-icon="devices_other" md-label="Create your first class" v-if="allClass.length ==0"
             md-description="Creating class, you'll be able to upload your design and collaborate with people.">
             <md-button class="md-primary md-raised" @click="openAddmodal()">Create first class</md-button>
         </md-empty-state>
@@ -53,7 +53,8 @@
                         </template>
                         <v-list class="p-0">
                             <v-list-item-title class="p-2 pointer dp-menu">Archive </v-list-item-title>
-                            <v-list-item-title class="p-2 pointer dp-menu" @click="openEditmodal(item.class_name, item.class_id)">Edit</v-list-item-title>
+                            <v-list-item-title class="p-2 pointer dp-menu"
+                                @click="openEditmodal(item.class_name, item.class_id)">Edit</v-list-item-title>
                             <v-list-item-title class="p-2 pointer dp-menu">Remove </v-list-item-title>
                         </v-list>
                     </v-menu>

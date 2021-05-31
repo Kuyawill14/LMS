@@ -55,9 +55,9 @@
             </div>
             <hr>
             <div class="row">
-                <div class="col-3" v-for="(item, i) in allCourse" :key="'course'+i">
+                <div class="col-lg-3 col-md-6" v-for="(item, i) in allCourse" :key="'course'+i">
                     <div class="card-expansion">
-                        <v-card class="mx-auto" max-width="344">
+                        <v-card class="mx-auto">
                             <v-img :src="'../images/'+item.course_picture" height="200px"></v-img>
 
                             <v-card-title>

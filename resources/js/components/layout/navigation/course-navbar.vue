@@ -1,4 +1,110 @@
 <template>
+    <v-list dense>
+        <template>
+
+            <v-list-item :to="{name: 'coursePage'}">
+                <v-list-item-action>
+                    <v-icon>mdi-contacts</v-icon>
+                </v-list-item-action>
+                <v-list-item-content>
+                    <v-list-item-title>
+                        Course Page
+                    </v-list-item-title>
+                </v-list-item-content>
+
+            </v-list-item>
+
+            <v-list-item :to="{name: 'announcement'}">
+                <v-list-item-action>
+                    <v-icon>mdi-contacts</v-icon>
+                </v-list-item-action>
+                <v-list-item-content>
+                    <v-list-item-title>
+                        Announcement
+                    </v-list-item-title>
+                </v-list-item-content>
+
+            </v-list-item>
+
+            <v-list-item link>
+                <v-list-item-action>
+                    <v-icon>mdi-contacts</v-icon>
+                </v-list-item-action>
+                <v-list-item-content>
+                    <v-list-item-title>
+                        Classwork
+                    </v-list-item-title>
+                </v-list-item-content>
+
+            </v-list-item>
+
+            <v-list-item link>
+                <v-list-item-action>
+                    <v-icon>mdi-contacts</v-icon>
+                </v-list-item-action>
+                <v-list-item-content>
+                    <v-list-item-title>
+                        Modules
+                    </v-list-item-title>
+                </v-list-item-content>
+
+            </v-list-item>
+
+            <v-list-item link>
+                <v-list-item-action>
+                    <v-icon>mdi-contacts</v-icon>
+                </v-list-item-action>
+                <v-list-item-content>
+                    <v-list-item-title>
+                        Students
+                    </v-list-item-title>
+                </v-list-item-content>
+
+            </v-list-item>
+
+            <v-list-item link>
+                <v-list-item-action>
+                    <v-icon>mdi-contacts</v-icon>
+                </v-list-item-action>
+                <v-list-item-content>
+                    <v-list-item-title>
+                        Grading Criteria
+                    </v-list-item-title>
+                </v-list-item-content>
+
+            </v-list-item>
+
+            <v-list-item link>
+                <v-list-item-action>
+                    <v-icon>mdi-contacts</v-icon>
+                </v-list-item-action>
+                <v-list-item-content>
+                    <v-list-item-title>
+                        About
+                    </v-list-item-title>
+                </v-list-item-content>
+
+            </v-list-item>
+
+            <v-list-item link>
+                <v-list-item-action>
+                    <v-icon>mdi-contacts</v-icon>
+                </v-list-item-action>
+                <v-list-item-content>
+                    <v-list-item-title>
+                        Settings
+                    </v-list-item-title>
+                </v-list-item-content>
+
+            </v-list-item>
+
+
+
+        </template>
+    </v-list>
+
+
+    <!--     
     <md-list>
         <router-link :to="{name: 'coursePage'}" exact>
             <md-list-item>
@@ -45,5 +151,5 @@
             <md-icon>settings</md-icon>
             <span class="md-list-item-text">Settings</span>
         </md-list-item>
-    </md-list>
+    </md-list> -->
 </template>
