@@ -42,20 +42,20 @@
                 </v-card-actions>
             </v-card>
         </v-dialog>
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col">
+        <div>
+            <v-row>
+                <v-col>
                     <h2>My Courses</h2>
-                </div>
-                <div class="col text-right">
+                </v-col>
+                <v-col class="text-right">
                     <v-btn bottom color="primary" dark fab fixed right @click="dialog = !dialog">
                         <v-icon>mdi-plus</v-icon>
                     </v-btn>
-                </div>
-            </div>
-            <hr>
-            <div class="row">
-                <div class="col-lg-3 col-md-6" v-for="(item, i) in allCourse" :key="'course'+i">
+                </v-col>
+            </v-row>
+    
+            <v-row class="mt-3">
+                <v-col lg="3" md="6" v-for="(item, i) in allCourse" :key="'course'+i">
                     <div class="card-expansion">
                         <v-card class="mx-auto">
                             <v-img :src="'../images/'+item.course_picture" height="200px"></v-img>
@@ -103,8 +103,8 @@
 
                     </div>
 
-                </div>
-            </div>
+                </v-col>
+            </v-row>
         </div>
 
 

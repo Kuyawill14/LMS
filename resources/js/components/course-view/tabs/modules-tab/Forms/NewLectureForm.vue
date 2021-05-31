@@ -15,19 +15,21 @@
                         </v-col>
                         <v-col cols="12 pb-0">
                             <label> Description </label>
-                            <v-textarea label="Description" counter full-width single-line v-model=" subModuleForm.description"></v-textarea>
+                            <v-textarea label="Description" counter full-width single-line
+                                v-model=" subModuleForm.description"></v-textarea>
                         </v-col>
-                        <v-file-input show-size label="Attach File" @change="onFileChange" ref="inputFile"></v-file-input>
+                        <v-file-input show-size label="Attach File" @change="onFileChange" ref="inputFile">
+                        </v-file-input>
                     </v-row>
                 </v-container>
 
             </v-card-text>
             <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color="blue darken-1" text @click="$emit('CloseLecture')">
+                <v-btn color="blue darken-1" text @click="$emit('CloseLecture')" :disabled="sending">
                     Close
                 </v-btn>
-                <v-btn color="blue darken-1" text @click="addLecture()">
+                <v-btn color="blue darken-1" text @click="addLecture()" :disabled="sending">
                     Save
                 </v-btn>
             </v-card-actions>
@@ -44,6 +46,7 @@
         props: ['moduleId'],
         data() {
             return {
+                sending: false,
                 loading: '',
                 addLink: false,
                 showClasswork: false,
@@ -72,16 +75,21 @@
                 fd.append('main_module_id', this.moduleId);
                 fd.append('type', 'lecture');
                 fd.append('sub_module_name', this.subModuleForm.sub_module_name);
-
+                this.sending = true;
 
                 this.$store.dispatch('createSubModule', fd)
                     .then((res) => {
+
                         this.subModuleForm.sub_module_name = '';
                         this.subModuleForm.description = '';
                         this.$refs.inputFile.reset();
 
                         this.$emit('CloseLecture');
                         this.toastSuccess();
+                        setTimeout(() => {
+                            this.sending = false;
+                        }, 1000);
+                        
                     })
 
             },
