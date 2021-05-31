@@ -28,7 +28,7 @@
         watch: {
             $route(to, from) {
                 console.log(this.$route.matched);
-                //  this.navBarType = this.$route.matched[1].name;
+                 this.navBarType = this.$route.matched[1].name;
 
             }
         },
