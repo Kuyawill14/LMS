@@ -22599,7 +22599,7 @@ var render = function() {
         _vm._v(" "),
         _c(
           "v-list-item",
-          { attrs: { link: "" } },
+          { attrs: { link: "", to: { name: "classwork" } } },
           [
             _c(
               "v-list-item-action",

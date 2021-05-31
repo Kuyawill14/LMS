@@ -28,8 +28,8 @@ let mycourse = () =>
 // course view tabs
 // let description_tab = () =>
 //     import ("./components/view-course/tabs/description-tab/descriptionComponent");
-// let classwork_tab = () =>
-// import ("./components/view-course/tabs/classwork-tab/classworkComponent");
+let classwork_tab = () =>
+    import ("./components/course-view/tabs/classwork-tab/classworkComponent");
 let announcement_tab = () =>
     import ("./components/course-view/tabs/announcement-tab/announcementComponent");
 // let students_tab = () =>
@@ -90,6 +90,11 @@ let routes = [{
                         name: "announcement",
                         path: "announcement",
                         component: announcement_tab
+                    },
+                    {
+                        name: "classwork",
+                        path: "classwork",
+                        component: classwork_tab
                     },
                 ],
             },
