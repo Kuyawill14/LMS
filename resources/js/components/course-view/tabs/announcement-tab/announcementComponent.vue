@@ -59,7 +59,6 @@
                 this.isLoading = true
             }, 1000);
         }
-
     }
 
 </script>

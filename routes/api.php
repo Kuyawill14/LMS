@@ -15,6 +15,8 @@ use App\Http\Controllers\api\SubModuleController;
 use App\Http\Controllers\api\StudentSubModuleProgressController;
 use App\Http\Controllers\api\ObjectiveController;
 use App\Http\Controllers\api\GradingCriteriaController;
+use App\Http\Controllers\api\CommentController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -75,6 +77,15 @@ Route::prefix('/announcement')->group(function () {
     Route::get('/allpost/{id}', [AnnouncementController::class, 'allClassPost']);
     
 });
+
+//CommentLike
+Route::prefix('/comment')->group(function () {
+    Route::post('/insert', [CommentController::class, 'store']);
+    Route::get('/allcomment/{id}', [CommentController::class, 'index']);
+    
+});
+
+
 
 //classwork
 Route::prefix('/classwork')->group(function () {
