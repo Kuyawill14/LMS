@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div >
         <md-empty-state md-icon="devices_other" md-label="Create your first class" v-if="allClass.length ==0"
             md-description="Creating class, you'll be able to upload your design and collaborate with people.">
             <md-button class="md-primary md-raised" @click="openAddmodal()">Create first class</md-button>
@@ -13,58 +13,56 @@
             <editClassForm v-on:closeModal="closeModal()" :class_name="form.class_name" :class_id="form.class_id"
                 v-if="modalType == 'edit'" />
         </Modal>
+        <v-row>
+            <v-col>
+                <h2>My Class</h2>
+            </v-col>
 
-
-        <div class="row">
-            <!-- Your Profile Views Chart -->
-            <div class="col-lg-6 ">
-                <h4>My Class</h4>
-
-
-            </div>
-            <div class="col-lg-6  text-right">
+            <v-col class="text-right">
                 <v-btn color="rounded primary" @click="openAddmodal()">
                     Create Class
                 </v-btn>
+            </v-col>
+        </v-row>
 
-            </div>
+    
 
-        </div>
-
-        <hr>
-        <v-card>
-            <v-list three-line class="p-0">
-
-
-                <v-list-item v-for="(item, index) in allClass" :key="index" class="border-bottom">
-                    <v-list-item-icon class="pr-0">
-                        <v-icon style="font-size: 4rem;">mdi-book-variant</v-icon>
-                    </v-list-item-icon>
-
-                    <v-list-item-content>
-                        <v-list-item-title v-html="item.class_name"></v-list-item-title>
-                        <v-list-item-subtitle v-html="item.class_code"></v-list-item-subtitle>
-                    </v-list-item-content>
-                    <v-menu offset-y>
+        <v-card v-for="(item, index) in allClass" :key="index" class="mt-3">
+            <v-list-item>
+                <v-list-item-avatar>
+                    <v-icon>mdi-account-multiple</v-icon>
+                </v-list-item-avatar>
+                <v-list-item-content>
+                    <v-list-item-title>{{item.class_name}} </v-list-item-title>
+                    <v-list-item-subtitle>Class code: {{item.class_code}} </v-list-item-subtitle>
+                    <v-list-item-subtitle>{Students #} </v-list-item-subtitle>
+                </v-list-item-content>
+                <v-list-item-action>
+                    <v-menu transition="slide-y-transition" bottom>
                         <template v-slot:activator="{ on, attrs }">
-                            <v-list-item-action v-bind="attrs" v-on="on">
-                                <v-icon color="grey lighten-1">mdi-dots-vertical</v-icon>
-                            </v-list-item-action>
+                            <v-icon color="secondary " v-bind="attrs" v-on="on">mdi-dots-vertical</v-icon>
                         </template>
-                        <v-list class="p-0">
-                            <v-list-item-title class="p-2 pointer dp-menu">Archive </v-list-item-title>
-                            <v-list-item-title class="p-2 pointer dp-menu"
-                                @click="openEditmodal(item.class_name, item.class_id)">Edit</v-list-item-title>
-                            <v-list-item-title class="p-2 pointer dp-menu">Remove </v-list-item-title>
+                        <v-list>
+                            <v-list-item link>
+                                <v-list-item-title>Archive</v-list-item-title>
+
+                            </v-list-item>
+                            <v-list-item link @click="openEditmodal(item.class_name, item.class_id)">
+                                <v-list-item-title>Edit</v-list-item-title>
+
+                            </v-list-item>
+                            <v-list-item link>
+                                <v-list-item-title>Remove</v-list-item-title>
+
+                            </v-list-item>
                         </v-list>
                     </v-menu>
-                </v-list-item>
 
 
-
-            </v-list>
-
+                </v-list-item-action>
+            </v-list-item>
         </v-card>
+
 
 
     </div>

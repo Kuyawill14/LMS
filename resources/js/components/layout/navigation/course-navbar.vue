@@ -16,7 +16,7 @@
 
             <v-list-item :to="{name: 'announcement'}">
                 <v-list-item-action>
-                    <v-icon>mdi-contacts</v-icon>
+                    <v-icon>mdi-message-alert</v-icon>
                 </v-list-item-action>
                 <v-list-item-content>
                     <v-list-item-title>
@@ -26,9 +26,9 @@
 
             </v-list-item>
 
-            <v-list-item link>
+            <v-list-item link :to="{name: 'classwork'}">
                 <v-list-item-action>
-                    <v-icon>mdi-contacts</v-icon>
+                    <v-icon>mdi-book-open-variant</v-icon>
                 </v-list-item-action>
                 <v-list-item-content>
                     <v-list-item-title>
@@ -38,9 +38,9 @@
 
             </v-list-item>
 
-            <v-list-item link>
+            <v-list-item link :to="{name: 'modules'}">
                 <v-list-item-action>
-                    <v-icon>mdi-contacts</v-icon>
+                    <v-icon>mdi-book-variant-multiple</v-icon>
                 </v-list-item-action>
                 <v-list-item-content>
                     <v-list-item-title>
@@ -52,7 +52,7 @@
 
             <v-list-item link>
                 <v-list-item-action>
-                    <v-icon>mdi-contacts</v-icon>
+                    <v-icon>mdi-account-group</v-icon>
                 </v-list-item-action>
                 <v-list-item-content>
                     <v-list-item-title>
@@ -62,9 +62,10 @@
 
             </v-list-item>
 
-            <v-list-item link>
+            <v-list-item  link :to="{name: 'gradingCriteria'}">
                 <v-list-item-action>
-                    <v-icon>mdi-contacts</v-icon>
+                    <v-icon>mdi-chart-timeline-variant-shimmer
+                    </v-icon>
                 </v-list-item-action>
                 <v-list-item-content>
                     <v-list-item-title>
@@ -74,9 +75,9 @@
 
             </v-list-item>
 
-            <v-list-item link>
+            <v-list-item link :to="{name: 'about'}">
                 <v-list-item-action>
-                    <v-icon>mdi-contacts</v-icon>
+                    <v-icon>mdi-information</v-icon>
                 </v-list-item-action>
                 <v-list-item-content>
                     <v-list-item-title>
@@ -86,9 +87,9 @@
 
             </v-list-item>
 
-            <v-list-item link>
+            <v-list-item link :to="{name: 'settings'}">
                 <v-list-item-action>
-                    <v-icon>mdi-contacts</v-icon>
+                    <v-icon>mdi-tune-vertical-variant</v-icon>
                 </v-list-item-action>
                 <v-list-item-content>
                     <v-list-item-title>
@@ -97,9 +98,6 @@
                 </v-list-item-content>
 
             </v-list-item>
-
-
-
         </template>
     </v-list>
 

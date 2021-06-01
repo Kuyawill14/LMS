@@ -1,0 +1,1 @@
+(self.webpackChunk=self.webpackChunk||[]).push([[177],{8177:(e,n,t)=>{"use strict";t.r(n),t.d(n,{default:()=>u});const s={components:{teacherCoursePage:function(){return t.e(882).then(t.bind(t,4882))}}};const u=(0,t(1900).Z)(s,(function(){var e=this.$createElement,n=this._self._c||e;return n("div",[n("teacherCoursePage")],1)}),[],!1,null,null,null).exports}}]);

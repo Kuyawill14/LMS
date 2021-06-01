@@ -1,26 +1,17 @@
 <template>
     <div>
-        <div class="container">
-            <!--  <vue-element-loading :active="isloading" spinner="bar-fade-scale" /> -->
-
-            <div class="row top-container rounded bg-img"
-                v-bind:style="{ 'background-image': 'url('+'../../images/' + getcourseInfo.course_picture + ')','background-size' : 'cover' }">
-                <div class="fullbleed-scoped-only rounded" style="opacity: 0.7 !important"></div>
-                <div class="col-12">
-                    <div class="card-body">
-                        <h3 class="card-text card-top " style="margin-top: 0">
-                            {{getcourseInfo.course_code + ' - ' + getcourseInfo.course_name}}
-                        </h3>
-                        <h5 class="card-text card-top ">{Teacher Name}</h5>
-
-                    </div>
-
-
-                </div>
-            </div>
-
-
-        </div>
+        <v-card>
+              <v-img
+                :src="'../../images/' + getcourseInfo.course_picture "
+                class="white--text align-end"
+                gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
+                height="200px"
+              >
+                <v-card-title class="text-h5" v-text="getcourseInfo.course_code + ' - ' + getcourseInfo.course_name"> </v-card-title>
+                  <v-card-subtitle  class="white--text"> {teacher name}</v-card-subtitle>
+              </v-img>
+  
+            </v-card>
 
         <router-view :role="role" :UserDetails="UserDetails"></router-view>
 
@@ -118,7 +109,7 @@
     .top-container {
         padding-left: 0 !important;
         padding-right: 0 !important;
-       position: relative;
+        position: relative;
     }
 
     .ttr-wrapper {

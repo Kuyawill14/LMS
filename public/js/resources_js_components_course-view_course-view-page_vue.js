@@ -41,15 +41,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /*     import VueElementLoading from 'vue-element-loading' */
 
@@ -126,7 +117,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.course-banner {\n    /* background-image: url(https://gstatic.com/courseroom/themes/Honors.jpg); */\n    color: #fff;\n\n    /* background-color: #1E1E1C; */\n    background-repeat: no-repeat;\n    background-size: cover;\n}\n.top-container {\n    padding-left: 0 !important;\n    padding-right: 0 !important;\n   position: relative;\n}\n.ttr-wrapper {\n    min-height: 900px;\n    padding-left: 0 !important;\n    padding-right: 0 !important;\n    padding-top: 59px !important;\n}\n.transparent {\n    background: transparent;\n    border: none;\n}\n.card-top {\n    color: #fff !important;\n}\n.btn_courseback {\n    background-color: transparent !important;\n\n    font-weight: bolder;\n    min-width: 6rem;\n    max-width: 50vw;\n    border-radius: 2.7rem / 100%;\n\n    box-shadow: 0 2.8px 2.2px rgba(0, 0, 0, 0.034),\n        0 6.7px 5.3px rgba(0, 0, 0, 0.048), 0 12.5px 10px rgba(0, 0, 0, 0.06),\n        0 22.3px 17.9px rgba(0, 0, 0, 0.072);\n    transition: 0.3s;\n}\n.btn_courseback:hover {\n    background-color: #f7b205 !important;\n}\n.fullbleed-scoped-only {\n    position: absolute;\n    top: 0;\n    bottom: 0;\n    width: 100%;\n    background-color: #000;\n}\n\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.course-banner {\n    /* background-image: url(https://gstatic.com/courseroom/themes/Honors.jpg); */\n    color: #fff;\n\n    /* background-color: #1E1E1C; */\n    background-repeat: no-repeat;\n    background-size: cover;\n}\n.top-container {\n    padding-left: 0 !important;\n    padding-right: 0 !important;\n    position: relative;\n}\n.ttr-wrapper {\n    min-height: 900px;\n    padding-left: 0 !important;\n    padding-right: 0 !important;\n    padding-top: 59px !important;\n}\n.transparent {\n    background: transparent;\n    border: none;\n}\n.card-top {\n    color: #fff !important;\n}\n.btn_courseback {\n    background-color: transparent !important;\n\n    font-weight: bolder;\n    min-width: 6rem;\n    max-width: 50vw;\n    border-radius: 2.7rem / 100%;\n\n    box-shadow: 0 2.8px 2.2px rgba(0, 0, 0, 0.034),\n        0 6.7px 5.3px rgba(0, 0, 0, 0.048), 0 12.5px 10px rgba(0, 0, 0, 0.06),\n        0 22.3px 17.9px rgba(0, 0, 0, 0.072);\n    transition: 0.3s;\n}\n.btn_courseback:hover {\n    background-color: #f7b205 !important;\n}\n.fullbleed-scoped-only {\n    position: absolute;\n    top: 0;\n    bottom: 0;\n    width: 100%;\n    background-color: #000;\n}\n\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -243,55 +234,40 @@ var render = function() {
   return _c(
     "div",
     [
-      _c("div", { staticClass: "container" }, [
-        _c(
-          "div",
-          {
-            staticClass: "row top-container rounded bg-img",
-            style: {
-              "background-image":
-                "url(" +
-                "../../images/" +
-                _vm.getcourseInfo.course_picture +
-                ")",
-              "background-size": "cover"
-            }
-          },
-          [
-            _c("div", {
-              staticClass: "fullbleed-scoped-only rounded",
-              staticStyle: { opacity: "0.7 !important" }
-            }),
-            _vm._v(" "),
-            _c("div", { staticClass: "col-12" }, [
-              _c("div", { staticClass: "card-body" }, [
-                _c(
-                  "h3",
-                  {
-                    staticClass: "card-text card-top ",
-                    staticStyle: { "margin-top": "0" }
-                  },
-                  [
-                    _vm._v(
-                      "\n                        " +
-                        _vm._s(
-                          _vm.getcourseInfo.course_code +
-                            " - " +
-                            _vm.getcourseInfo.course_name
-                        ) +
-                        "\n                    "
-                    )
-                  ]
-                ),
-                _vm._v(" "),
-                _c("h5", { staticClass: "card-text card-top " }, [
-                  _vm._v("{Teacher Name}")
-                ])
+      _c(
+        "v-card",
+        [
+          _c(
+            "v-img",
+            {
+              staticClass: "white--text align-end",
+              attrs: {
+                src: "../../images/" + _vm.getcourseInfo.course_picture,
+                gradient: "to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)",
+                height: "200px"
+              }
+            },
+            [
+              _c("v-card-title", {
+                staticClass: "text-h5",
+                domProps: {
+                  textContent: _vm._s(
+                    _vm.getcourseInfo.course_code +
+                      " - " +
+                      _vm.getcourseInfo.course_name
+                  )
+                }
+              }),
+              _vm._v(" "),
+              _c("v-card-subtitle", { staticClass: "white--text" }, [
+                _vm._v(" {teacher name}")
               ])
-            ])
-          ]
-        )
-      ]),
+            ],
+            1
+          )
+        ],
+        1
+      ),
       _vm._v(" "),
       _c("router-view", {
         attrs: { role: _vm.role, UserDetails: _vm.UserDetails }

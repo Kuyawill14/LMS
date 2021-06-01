@@ -562,194 +562,193 @@ var render = function() {
         1
       ),
       _vm._v(" "),
-      _c("div", { staticClass: "container-fluid" }, [
-        _c("div", { staticClass: "row" }, [
-          _vm._m(0),
-          _vm._v(" "),
+      _c(
+        "div",
+        [
           _c(
-            "div",
-            { staticClass: "col text-right" },
+            "v-row",
             [
+              _c("v-col", [_c("h2", [_vm._v("My Courses")])]),
+              _vm._v(" "),
               _c(
-                "v-btn",
-                {
-                  attrs: {
-                    bottom: "",
-                    color: "primary",
-                    dark: "",
-                    fab: "",
-                    fixed: "",
-                    right: ""
-                  },
-                  on: {
-                    click: function($event) {
-                      _vm.dialog = !_vm.dialog
-                    }
-                  }
-                },
-                [_c("v-icon", [_vm._v("mdi-plus")])],
+                "v-col",
+                { staticClass: "text-right" },
+                [
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: {
+                        bottom: "",
+                        color: "primary",
+                        dark: "",
+                        fab: "",
+                        fixed: "",
+                        right: ""
+                      },
+                      on: {
+                        click: function($event) {
+                          _vm.dialog = !_vm.dialog
+                        }
+                      }
+                    },
+                    [_c("v-icon", [_vm._v("mdi-plus")])],
+                    1
+                  )
+                ],
                 1
               )
             ],
             1
-          )
-        ]),
-        _vm._v(" "),
-        _c("hr"),
-        _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "row" },
-          _vm._l(_vm.allCourse, function(item, i) {
-            return _c(
-              "div",
-              { key: "course" + i, staticClass: "col-lg-3 col-md-6" },
-              [
-                _c(
-                  "div",
-                  { staticClass: "card-expansion" },
-                  [
-                    _c(
-                      "v-card",
-                      { staticClass: "mx-auto" },
-                      [
-                        _c("v-img", {
-                          attrs: {
-                            src: "../images/" + item.course_picture,
-                            height: "200px"
-                          }
-                        }),
-                        _vm._v(" "),
-                        _c(
-                          "v-card-title",
-                          [
-                            _c(
-                              "router-link",
-                              {
-                                attrs: {
-                                  to: {
-                                    name: "coursePage",
-                                    params: { id: item.id }
+          ),
+          _vm._v(" "),
+          _c(
+            "v-row",
+            { staticClass: "mt-3" },
+            _vm._l(_vm.allCourse, function(item, i) {
+              return _c(
+                "v-col",
+                { key: "course" + i, attrs: { lg: "3", md: "6" } },
+                [
+                  _c(
+                    "div",
+                    { staticClass: "card-expansion" },
+                    [
+                      _c(
+                        "v-card",
+                        { staticClass: "mx-auto" },
+                        [
+                          _c("v-img", {
+                            attrs: {
+                              src: "../images/" + item.course_picture,
+                              height: "200px"
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c(
+                            "v-card-title",
+                            [
+                              _c(
+                                "router-link",
+                                {
+                                  attrs: {
+                                    to: {
+                                      name: "coursePage",
+                                      params: { id: item.id }
+                                    }
                                   }
-                                }
-                              },
-                              [
-                                _vm._v(
-                                  "\n                                " +
-                                    _vm._s(
-                                      item.course_code +
-                                        " - " +
-                                        item.course_name
-                                    ) +
-                                    "\n                            "
-                                )
-                              ]
-                            )
-                          ],
-                          1
-                        ),
-                        _vm._v(" "),
-                        _c("v-card-subtitle", [
-                          _vm._v(
-                            "\n                            {students}\n                        "
-                          )
-                        ]),
-                        _vm._v(" "),
-                        _c(
-                          "v-card-actions",
-                          [
-                            _c("v-btn", { attrs: { text: "" } }, [
-                              _vm._v("Share")
-                            ]),
-                            _vm._v(" "),
-                            _c(
-                              "v-btn",
-                              { attrs: { color: "purple", text: "" } },
-                              [
-                                _vm._v(
-                                  "\n                                Explore\n                            "
-                                )
-                              ]
-                            ),
-                            _vm._v(" "),
-                            _c("v-spacer"),
-                            _vm._v(" "),
-                            _c(
-                              "v-btn",
-                              {
-                                attrs: { icon: "" },
-                                on: {
-                                  click: function($event) {
-                                    _vm.show = !_vm.show
-                                  }
-                                }
-                              },
-                              [
-                                _c("v-icon", [
+                                },
+                                [
                                   _vm._v(
-                                    _vm._s(
-                                      _vm.show
-                                        ? "mdi-chevron-up"
-                                        : "mdi-chevron-down"
+                                    "\n                                " +
+                                      _vm._s(
+                                        item.course_code +
+                                          " - " +
+                                          item.course_name
+                                      ) +
+                                      "\n                            "
+                                  )
+                                ]
+                              )
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c("v-card-subtitle", [
+                            _vm._v(
+                              "\n                            {students}\n                        "
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "v-card-actions",
+                            [
+                              _c("v-btn", { attrs: { text: "" } }, [
+                                _vm._v("Share")
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "v-btn",
+                                { attrs: { color: "purple", text: "" } },
+                                [
+                                  _vm._v(
+                                    "\n                                Explore\n                            "
+                                  )
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c("v-spacer"),
+                              _vm._v(" "),
+                              _c(
+                                "v-btn",
+                                {
+                                  attrs: { icon: "" },
+                                  on: {
+                                    click: function($event) {
+                                      _vm.show = !_vm.show
+                                    }
+                                  }
+                                },
+                                [
+                                  _c("v-icon", [
+                                    _vm._v(
+                                      _vm._s(
+                                        _vm.show
+                                          ? "mdi-chevron-up"
+                                          : "mdi-chevron-down"
+                                      )
                                     )
+                                  ])
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c("v-expand-transition", [
+                            _c(
+                              "div",
+                              {
+                                directives: [
+                                  {
+                                    name: "show",
+                                    rawName: "v-show",
+                                    value: _vm.show,
+                                    expression: "show"
+                                  }
+                                ]
+                              },
+                              [
+                                _c("v-divider"),
+                                _vm._v(" "),
+                                _c("v-card-text", [
+                                  _vm._v(
+                                    "\n                                    I'm a thing. But, like most politicians, he promised more than he could deliver.\n                                    You\n                                    won't have time for sleeping, soldier, not with all the bed making you'll be\n                                    doing.\n                                    Then we'll go with that data file! Hey, you add a one and two zeros to that or\n                                    we\n                                    walk! You're going to do his laundry? I've got to find a way to escape.\n                                "
                                   )
                                 ])
                               ],
                               1
                             )
-                          ],
-                          1
-                        ),
-                        _vm._v(" "),
-                        _c("v-expand-transition", [
-                          _c(
-                            "div",
-                            {
-                              directives: [
-                                {
-                                  name: "show",
-                                  rawName: "v-show",
-                                  value: _vm.show,
-                                  expression: "show"
-                                }
-                              ]
-                            },
-                            [
-                              _c("v-divider"),
-                              _vm._v(" "),
-                              _c("v-card-text", [
-                                _vm._v(
-                                  "\n                                    I'm a thing. But, like most politicians, he promised more than he could deliver.\n                                    You\n                                    won't have time for sleeping, soldier, not with all the bed making you'll be\n                                    doing.\n                                    Then we'll go with that data file! Hey, you add a one and two zeros to that or\n                                    we\n                                    walk! You're going to do his laundry? I've got to find a way to escape.\n                                "
-                                )
-                              ])
-                            ],
-                            1
-                          )
-                        ])
-                      ],
-                      1
-                    )
-                  ],
-                  1
-                )
-              ]
-            )
-          }),
-          0
-        )
-      ])
+                          ])
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ]
+              )
+            }),
+            1
+          )
+        ],
+        1
+      )
     ],
     1
   )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col" }, [_c("h2", [_vm._v("My Courses")])])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 

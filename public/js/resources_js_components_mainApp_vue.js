@@ -22573,7 +22573,7 @@ var render = function() {
           [
             _c(
               "v-list-item-action",
-              [_c("v-icon", [_vm._v("mdi-contacts")])],
+              [_c("v-icon", [_vm._v("mdi-message-alert")])],
               1
             ),
             _vm._v(" "),
@@ -22592,11 +22592,11 @@ var render = function() {
         _vm._v(" "),
         _c(
           "v-list-item",
-          { attrs: { link: "" } },
+          { attrs: { link: "", to: { name: "classwork" } } },
           [
             _c(
               "v-list-item-action",
-              [_c("v-icon", [_vm._v("mdi-contacts")])],
+              [_c("v-icon", [_vm._v("mdi-book-open-variant")])],
               1
             ),
             _vm._v(" "),
@@ -22615,11 +22615,11 @@ var render = function() {
         _vm._v(" "),
         _c(
           "v-list-item",
-          { attrs: { link: "" } },
+          { attrs: { link: "", to: { name: "modules" } } },
           [
             _c(
               "v-list-item-action",
-              [_c("v-icon", [_vm._v("mdi-contacts")])],
+              [_c("v-icon", [_vm._v("mdi-book-variant-multiple")])],
               1
             ),
             _vm._v(" "),
@@ -22642,7 +22642,7 @@ var render = function() {
           [
             _c(
               "v-list-item-action",
-              [_c("v-icon", [_vm._v("mdi-contacts")])],
+              [_c("v-icon", [_vm._v("mdi-account-group")])],
               1
             ),
             _vm._v(" "),
@@ -22661,11 +22661,15 @@ var render = function() {
         _vm._v(" "),
         _c(
           "v-list-item",
-          { attrs: { link: "" } },
+          { attrs: { link: "", to: { name: "gradingCriteria" } } },
           [
             _c(
               "v-list-item-action",
-              [_c("v-icon", [_vm._v("mdi-contacts")])],
+              [
+                _c("v-icon", [
+                  _vm._v("mdi-chart-timeline-variant-shimmer\n                ")
+                ])
+              ],
               1
             ),
             _vm._v(" "),
@@ -22686,11 +22690,11 @@ var render = function() {
         _vm._v(" "),
         _c(
           "v-list-item",
-          { attrs: { link: "" } },
+          { attrs: { link: "", to: { name: "about" } } },
           [
             _c(
               "v-list-item-action",
-              [_c("v-icon", [_vm._v("mdi-contacts")])],
+              [_c("v-icon", [_vm._v("mdi-information")])],
               1
             ),
             _vm._v(" "),
@@ -22709,11 +22713,11 @@ var render = function() {
         _vm._v(" "),
         _c(
           "v-list-item",
-          { attrs: { link: "" } },
+          { attrs: { link: "", to: { name: "settings" } } },
           [
             _c(
               "v-list-item-action",
-              [_c("v-icon", [_vm._v("mdi-contacts")])],
+              [_c("v-icon", [_vm._v("mdi-tune-vertical-variant")])],
               1
             ),
             _vm._v(" "),
@@ -23095,27 +23099,20 @@ var render = function() {
     "v-app",
     { attrs: { id: "inspire" } },
     [
+      _c("topHeader", { on: { toggleSidebar: _vm.toggle } }),
+      _vm._v(" "),
+      _c("sidebar", { attrs: { role: _vm.role, drawer: _vm.drawer } }),
+      _vm._v(" "),
       _c(
-        "v-app",
-        { attrs: { id: "inspire" } },
+        "v-main",
         [
-          _c("topHeader", { on: { toggleSidebar: _vm.toggle } }),
-          _vm._v(" "),
-          _c("sidebar", { attrs: { role: _vm.role, drawer: _vm.drawer } }),
-          _vm._v(" "),
           _c(
-            "v-main",
+            "v-container",
+            { attrs: { fluid: "" } },
             [
-              _c(
-                "v-container",
-                { attrs: { fluid: "" } },
-                [
-                  _c("router-view", {
-                    attrs: { UserDetails: _vm.UserDetails, role: _vm.role }
-                  })
-                ],
-                1
-              )
+              _c("router-view", {
+                attrs: { UserDetails: _vm.UserDetails, role: _vm.role }
+              })
             ],
             1
           )
