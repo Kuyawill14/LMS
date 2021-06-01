@@ -234,41 +234,6 @@ var render = function() {
   return _c(
     "div",
     [
-      _c(
-        "v-card",
-        [
-          _c(
-            "v-img",
-            {
-              staticClass: "white--text align-end",
-              attrs: {
-                src: "../../images/" + _vm.getcourseInfo.course_picture,
-                gradient: "to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)",
-                height: "200px"
-              }
-            },
-            [
-              _c("v-card-title", {
-                staticClass: "text-h5",
-                domProps: {
-                  textContent: _vm._s(
-                    _vm.getcourseInfo.course_code +
-                      " - " +
-                      _vm.getcourseInfo.course_name
-                  )
-                }
-              }),
-              _vm._v(" "),
-              _c("v-card-subtitle", { staticClass: "white--text" }, [
-                _vm._v(" {teacher name}")
-              ])
-            ],
-            1
-          )
-        ],
-        1
-      ),
-      _vm._v(" "),
       _c("router-view", {
         attrs: { role: _vm.role, UserDetails: _vm.UserDetails }
       })

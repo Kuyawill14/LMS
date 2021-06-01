@@ -18,13 +18,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 var teacherCoursePage = function teacherCoursePage() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_course_subject_class-type_teacher-coursePage_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./class-type/teacher-coursePage */ "./resources/js/components/course_subject/class-type/teacher-coursePage.vue"));
 };
 
+var studentClassPage = function studentClassPage() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_course_subject_class-type_student-classPage_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./class-type/student-classPage */ "./resources/js/components/course_subject/class-type/student-classPage.vue"));
+};
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  props: ['role'],
   components: {
-    teacherCoursePage: teacherCoursePage
+    teacherCoursePage: teacherCoursePage,
+    studentClassPage: studentClassPage
   }
 });
 
@@ -118,7 +125,15 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [_c("teacherCoursePage")], 1)
+  return _c(
+    "div",
+    [
+      _vm.role == "Teacher" ? _c("teacherCoursePage") : _vm._e(),
+      _vm._v(" "),
+      _vm.role == "Student" ? _c("studentClassPage") : _vm._e()
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true

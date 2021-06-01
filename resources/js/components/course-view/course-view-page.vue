@@ -1,17 +1,17 @@
 <template>
     <div>
-        <v-card>
+        <!-- <v-card>
               <v-img
                 :src="'../../images/' + getcourseInfo.course_picture "
                 class="white--text align-end"
                 gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
-                height="200px"
+                height="150px"
               >
                 <v-card-title class="text-h5" v-text="getcourseInfo.course_code + ' - ' + getcourseInfo.course_name"> </v-card-title>
                   <v-card-subtitle  class="white--text"> {teacher name}</v-card-subtitle>
               </v-img>
   
-            </v-card>
+            </v-card> -->
 
         <router-view :role="role" :UserDetails="UserDetails"></router-view>
 
