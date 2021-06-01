@@ -1,38 +1,44 @@
 <template>
 
     <v-col>
+         <h2 class="pb-2">Manage Modules</h2>
         <v-dialog v-model="dialog" persistent max-width="600px">
+
             <template v-slot:activator="{ on, attrs }">
-                <v-btn color="primary" dark v-bind="attrs" v-on="on">
-                    Create Module
-                </v-btn>
+           
+                    <v-btn bottom color="primary" dark fab fixed right @click="dialog = !dialog"  v-bind="attrs" v-on="on">
+                        <v-icon>mdi-plus</v-icon>
+                    </v-btn>
             </template>
             <v-card>
-                <v-card-title>
-                    <span class="headline">Add Module</span>
-                </v-card-title>
-                <v-card-text>
-                    <v-container>
-                        <v-row>
-                            <v-col cols="12">
-                                <v-text-field label="Module Name*" v-model="moduleForm.module_name" required></v-text-field>
-                            </v-col>
-                            <v-col cols="12">
-                                <v-textarea clearable clear-icon="mdi-close-circle" label="Description"
-                                    v-model="moduleForm.description" ></v-textarea>
-                            </v-col>
-                        </v-row>
-                    </v-container>
-                </v-card-text>
-                <v-card-actions>
-                    <v-spacer></v-spacer>
-                    <v-btn color="blue darken-1" text @click="dialog = false">
-                        Close
-                    </v-btn>
-                    <v-btn color="blue darken-1" text @click=" createModule()" >
-                        Save
-                    </v-btn>
-                </v-card-actions>
+                <v-form ref="registerForm" v-model="valid" lazy-validation>
+                    <v-card-title>
+                        <span class="headline">Add Module</span>
+                    </v-card-title>
+                    <v-card-text>
+                        <v-container>
+                            <v-row>
+                                <v-col cols="12">
+                                    <v-text-field label="Module Name*" v-model="moduleForm.module_name" required>
+                                    </v-text-field>
+                                </v-col>
+                                <v-col cols="12">
+                                    <v-textarea clearable clear-icon="mdi-close-circle" label="Description"
+                                        v-model="moduleForm.description"></v-textarea>
+                                </v-col>
+                            </v-row>
+                        </v-container>
+                    </v-card-text>
+                    <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn color="blue darken-1" text @click="dialog = false" :disabled="loading">
+                            Close
+                        </v-btn>
+                        <v-btn color="blue darken-1" text @click=" createModule()" :disabled="loading">
+                            Save
+                        </v-btn>
+                    </v-card-actions>
+                </v-form>
             </v-card>
         </v-dialog>
     </v-col>
@@ -60,7 +66,7 @@
             }
         },
         methods: {
-               toastSuccess() {
+            toastSuccess() {
                 return this.$toasted.success("Module Successfully Created", {
                     theme: "toasted-primary",
                     position: "top-center",
@@ -76,14 +82,15 @@
                         console.log(res);
                         if (res.status == 201) {
                             this.moduleForm.reset()
-                          this.toastSuccess();
-                           
+                            this.toastSuccess();
+
                             this.dialog = false;
+                            setTimeout(() => {
+                                this.loading = false;
+                            }, 1000);
                         }
-                        if (res.status == 500) {
-                         
-                        }
-                        this.loading = false;
+
+
                     })
             },
 

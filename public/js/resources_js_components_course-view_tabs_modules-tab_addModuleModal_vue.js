@@ -53,6 +53,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -91,11 +97,10 @@ __webpack_require__.r(__webpack_exports__);
           _this.toastSuccess();
 
           _this.dialog = false;
+          setTimeout(function () {
+            _this.loading = false;
+          }, 1000);
         }
-
-        if (res.status == 500) {}
-
-        _this.loading = false;
       });
     }
   },
@@ -240,6 +245,8 @@ var render = function() {
   return _c(
     "v-col",
     [
+      _c("h2", { staticClass: "pb-2" }, [_vm._v("Manage Modules")]),
+      _vm._v(" "),
       _c(
         "v-dialog",
         {
@@ -255,14 +262,29 @@ var render = function() {
                     "v-btn",
                     _vm._g(
                       _vm._b(
-                        { attrs: { color: "primary", dark: "" } },
+                        {
+                          attrs: {
+                            bottom: "",
+                            color: "primary",
+                            dark: "",
+                            fab: "",
+                            fixed: "",
+                            right: ""
+                          },
+                          on: {
+                            click: function($event) {
+                              _vm.dialog = !_vm.dialog
+                            }
+                          }
+                        },
                         "v-btn",
                         attrs,
                         false
                       ),
                       on
                     ),
-                    [_vm._v("\n                Create Module\n            ")]
+                    [_c("v-icon", [_vm._v("mdi-plus")])],
+                    1
                   )
                 ]
               }
@@ -281,55 +303,85 @@ var render = function() {
           _c(
             "v-card",
             [
-              _c("v-card-title", [
-                _c("span", { staticClass: "headline" }, [_vm._v("Add Module")])
-              ]),
-              _vm._v(" "),
               _c(
-                "v-card-text",
+                "v-form",
+                {
+                  ref: "registerForm",
+                  attrs: { "lazy-validation": "" },
+                  model: {
+                    value: _vm.valid,
+                    callback: function($$v) {
+                      _vm.valid = $$v
+                    },
+                    expression: "valid"
+                  }
+                },
                 [
+                  _c("v-card-title", [
+                    _c("span", { staticClass: "headline" }, [
+                      _vm._v("Add Module")
+                    ])
+                  ]),
+                  _vm._v(" "),
                   _c(
-                    "v-container",
+                    "v-card-text",
                     [
                       _c(
-                        "v-row",
+                        "v-container",
                         [
                           _c(
-                            "v-col",
-                            { attrs: { cols: "12" } },
+                            "v-row",
                             [
-                              _c("v-text-field", {
-                                attrs: { label: "Module Name*", required: "" },
-                                model: {
-                                  value: _vm.moduleForm.module_name,
-                                  callback: function($$v) {
-                                    _vm.$set(_vm.moduleForm, "module_name", $$v)
-                                  },
-                                  expression: "moduleForm.module_name"
-                                }
-                              })
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-col",
-                            { attrs: { cols: "12" } },
-                            [
-                              _c("v-textarea", {
-                                attrs: {
-                                  clearable: "",
-                                  "clear-icon": "mdi-close-circle",
-                                  label: "Description"
-                                },
-                                model: {
-                                  value: _vm.moduleForm.description,
-                                  callback: function($$v) {
-                                    _vm.$set(_vm.moduleForm, "description", $$v)
-                                  },
-                                  expression: "moduleForm.description"
-                                }
-                              })
+                              _c(
+                                "v-col",
+                                { attrs: { cols: "12" } },
+                                [
+                                  _c("v-text-field", {
+                                    attrs: {
+                                      label: "Module Name*",
+                                      required: ""
+                                    },
+                                    model: {
+                                      value: _vm.moduleForm.module_name,
+                                      callback: function($$v) {
+                                        _vm.$set(
+                                          _vm.moduleForm,
+                                          "module_name",
+                                          $$v
+                                        )
+                                      },
+                                      expression: "moduleForm.module_name"
+                                    }
+                                  })
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-col",
+                                { attrs: { cols: "12" } },
+                                [
+                                  _c("v-textarea", {
+                                    attrs: {
+                                      clearable: "",
+                                      "clear-icon": "mdi-close-circle",
+                                      label: "Description"
+                                    },
+                                    model: {
+                                      value: _vm.moduleForm.description,
+                                      callback: function($$v) {
+                                        _vm.$set(
+                                          _vm.moduleForm,
+                                          "description",
+                                          $$v
+                                        )
+                                      },
+                                      expression: "moduleForm.description"
+                                    }
+                                  })
+                                ],
+                                1
+                              )
                             ],
                             1
                           )
@@ -338,40 +390,56 @@ var render = function() {
                       )
                     ],
                     1
-                  )
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "v-card-actions",
-                [
-                  _c("v-spacer"),
-                  _vm._v(" "),
-                  _c(
-                    "v-btn",
-                    {
-                      attrs: { color: "blue darken-1", text: "" },
-                      on: {
-                        click: function($event) {
-                          _vm.dialog = false
-                        }
-                      }
-                    },
-                    [_vm._v("\n                    Close\n                ")]
                   ),
                   _vm._v(" "),
                   _c(
-                    "v-btn",
-                    {
-                      attrs: { color: "blue darken-1", text: "" },
-                      on: {
-                        click: function($event) {
-                          return _vm.createModule()
-                        }
-                      }
-                    },
-                    [_vm._v("\n                    Save\n                ")]
+                    "v-card-actions",
+                    [
+                      _c("v-spacer"),
+                      _vm._v(" "),
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: {
+                            color: "blue darken-1",
+                            text: "",
+                            disabled: _vm.loading
+                          },
+                          on: {
+                            click: function($event) {
+                              _vm.dialog = false
+                            }
+                          }
+                        },
+                        [
+                          _vm._v(
+                            "\n                        Close\n                    "
+                          )
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: {
+                            color: "blue darken-1",
+                            text: "",
+                            disabled: _vm.loading
+                          },
+                          on: {
+                            click: function($event) {
+                              return _vm.createModule()
+                            }
+                          }
+                        },
+                        [
+                          _vm._v(
+                            "\n                        Save\n                    "
+                          )
+                        ]
+                      )
+                    ],
+                    1
                   )
                 ],
                 1

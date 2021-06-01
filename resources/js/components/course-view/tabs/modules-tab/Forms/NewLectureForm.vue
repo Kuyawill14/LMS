@@ -2,6 +2,7 @@
 
 
     <v-card>
+        
         <form class="" @submit.prevent="addLecture">
             <v-card-title>
                 <span class="headline">New Lecture</span>

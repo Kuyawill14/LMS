@@ -211,7 +211,7 @@ var render = function() {
     [
       _c("v-row", { staticClass: "pt-3" }, [_c("addModuleModal")], 1),
       _vm._v(" "),
-      _c("v-row", { staticClass: "pt-3" }, [_c("modulesListComponent")], 1)
+      _c("v-row", [_c("modulesListComponent")], 1)
     ],
     1
   )

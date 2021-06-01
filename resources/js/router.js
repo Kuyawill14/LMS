@@ -26,18 +26,18 @@ let mycourse = () =>
 
 
 // course view tabs
-// let description_tab = () =>
-//     import ("./components/view-course/tabs/description-tab/descriptionComponent");
+let about_tab = () =>
+    import ("./components/course-view/tabs/about-tab/aboutComponent");
 let classwork_tab = () =>
     import ("./components/course-view/tabs/classwork-tab/classworkComponent");
 let announcement_tab = () =>
     import ("./components/course-view/tabs/announcement-tab/announcementComponent");
 // let students_tab = () =>
 //     import ("./components/view-course/tabs/students-tab/studentsComponent");
-// let settings_tab = () =>
-//     import ("./components/view-course/tabs/settings-tab/settingsComponent");
-// let grading_criteria_tab = () =>
-//     import ("./components/view-course/tabs/grading_criteria-tab/grading_criteriaComponent");
+let settings_tab = () =>
+    import ("./components/course-view/tabs/settings-tab/settingsComponent");
+let grading_criteria_tab = () =>
+    import ("./components/course-view/tabs/grading_criteria-tab/grading_criteriaComponent");
 // let students_grade_tab = () =>
 //     import ("./components/view-course/tabs/students_grade-tab/student_gradeComponent");
 let modules_tab = () =>
@@ -101,6 +101,22 @@ let routes = [{
                         path: "modules",
                         component: modules_tab
                     },
+                    {
+                        name: "about",
+                        path: "about",
+                        component: about_tab
+                    },
+                    {
+                        name: "settings",
+                        path: "settings",
+                        component: settings_tab
+                    },
+                    {
+                        name: "gradingCriteria",
+                        path: "grading-criteria",
+                        component: grading_criteria_tab
+                    },
+
 
                 ],
             },

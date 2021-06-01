@@ -22573,7 +22573,7 @@ var render = function() {
           [
             _c(
               "v-list-item-action",
-              [_c("v-icon", [_vm._v("mdi-contacts")])],
+              [_c("v-icon", [_vm._v("mdi-message-alert")])],
               1
             ),
             _vm._v(" "),
@@ -22596,7 +22596,7 @@ var render = function() {
           [
             _c(
               "v-list-item-action",
-              [_c("v-icon", [_vm._v("mdi-contacts")])],
+              [_c("v-icon", [_vm._v("mdi-book-open-variant")])],
               1
             ),
             _vm._v(" "),
@@ -22619,7 +22619,7 @@ var render = function() {
           [
             _c(
               "v-list-item-action",
-              [_c("v-icon", [_vm._v("mdi-contacts")])],
+              [_c("v-icon", [_vm._v("mdi-book-variant-multiple")])],
               1
             ),
             _vm._v(" "),
@@ -22642,7 +22642,7 @@ var render = function() {
           [
             _c(
               "v-list-item-action",
-              [_c("v-icon", [_vm._v("mdi-contacts")])],
+              [_c("v-icon", [_vm._v("mdi-account-group")])],
               1
             ),
             _vm._v(" "),
@@ -22661,11 +22661,15 @@ var render = function() {
         _vm._v(" "),
         _c(
           "v-list-item",
-          { attrs: { link: "" } },
+          { attrs: { link: "", to: { name: "gradingCriteria" } } },
           [
             _c(
               "v-list-item-action",
-              [_c("v-icon", [_vm._v("mdi-contacts")])],
+              [
+                _c("v-icon", [
+                  _vm._v("mdi-chart-timeline-variant-shimmer\n                ")
+                ])
+              ],
               1
             ),
             _vm._v(" "),
@@ -22686,11 +22690,11 @@ var render = function() {
         _vm._v(" "),
         _c(
           "v-list-item",
-          { attrs: { link: "" } },
+          { attrs: { link: "", to: { name: "about" } } },
           [
             _c(
               "v-list-item-action",
-              [_c("v-icon", [_vm._v("mdi-contacts")])],
+              [_c("v-icon", [_vm._v("mdi-information")])],
               1
             ),
             _vm._v(" "),
@@ -22709,11 +22713,11 @@ var render = function() {
         _vm._v(" "),
         _c(
           "v-list-item",
-          { attrs: { link: "" } },
+          { attrs: { link: "", to: { name: "settings" } } },
           [
             _c(
               "v-list-item-action",
-              [_c("v-icon", [_vm._v("mdi-contacts")])],
+              [_c("v-icon", [_vm._v("mdi-tune-vertical-variant")])],
               1
             ),
             _vm._v(" "),

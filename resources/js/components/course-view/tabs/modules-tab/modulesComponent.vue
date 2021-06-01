@@ -5,7 +5,7 @@
             <addModuleModal />
         </v-row>
 
-        <v-row class="pt-3">
+        <v-row >
 
             <modulesListComponent />
 
