@@ -339,6 +339,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['PostList', 'UserDetails'],
@@ -346,9 +355,14 @@ __webpack_require__.r(__webpack_exports__);
     return {
       password: 'Password',
       show: false,
-      message: [],
+      comment: [],
       marker: true,
-      iconIndex: 0
+      iconIndex: 0,
+      data: {},
+      CommentList: [],
+      showLess: true,
+      totalComment: '',
+      showComment: false
     };
   },
   computed: {
@@ -367,15 +381,30 @@ __webpack_require__.r(__webpack_exports__);
         return moment__WEBPACK_IMPORTED_MODULE_0___default()(String(value)).format("ddd, MMMM DD, YYYY h:mm a");
       }
     },
-    toggleMarker: function toggleMarker() {
-      this.marker = !this.marker;
+    addComment: function addComment(i, post_id) {
+      var _this = this;
+
+      this.data.content = this.comment[i];
+      this.data.course_id = this.$route.params.id;
+      this.data.post_id = post_id;
+      axios.post('/api/comment/insert', this.data).then(function (res) {
+        res.data;
+
+        _this.getComments();
+
+        _this.clearComment(i);
+      });
     },
-    sendMessage: function sendMessage() {
-      this.resetIcon();
-      this.clearMessage();
+    clearComment: function clearComment(i) {
+      this.comment[i] = '';
     },
-    clearMessage: function clearMessage() {
-      this.message = '';
+    getComments: function getComments() {
+      var _this2 = this;
+
+      axios.get('/api/comment/allcomment/' + this.$route.params.id).then(function (res) {
+        console.log(res.data.length);
+        _this2.CommentList = res.data;
+      });
     }
   },
   created: function created() {
@@ -385,6 +414,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   mounted: function mounted() {
     this.test();
+    this.getComments();
   }
 });
 
@@ -455,7 +485,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.post-content img {\n    max-height: 20rem !important;\n}\n.post-content iframe{\n    width: 100% !important;\n    height: 20rem !important;\n}\n\n\n\n\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.post-content img {\n    max-height: 23rem !important;\n}\n.post-content iframe{\n    width: 100% !important;\n    height: 25rem !important;\n}\n\n\n\n\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -22407,8 +22437,7 @@ var render = function() {
                               post.profile_pic == null || post.profile_pic == ""
                                 ? "https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=" +
                                   post.name
-                                : "../../images/" + post.profile_pic,
-                            width: "40"
+                                : "../../images/" + post.profile_pic
                           }
                         })
                       ],
@@ -22466,66 +22495,42 @@ var render = function() {
           _vm._v(" "),
           _c(
             "v-container",
-            { staticClass: "mt-3 text-right pl-3 pr-3 mb-1" },
+            { staticClass: "mt-3 text-right pl-3 pr-3 mb-2 d-inline-flex" },
             [
               _c(
-                "v-row",
+                "v-btn",
+                { attrs: { text: "" } },
                 [
                   _c(
-                    "v-col",
-                    { attrs: { cols: "2" } },
+                    "v-badge",
+                    { attrs: { content: "1" } },
                     [
-                      _c(
-                        "v-btn",
-                        { attrs: { text: "" } },
-                        [
-                          _c(
-                            "v-badge",
-                            { attrs: { content: "1" } },
-                            [
-                              _c("v-icon", { staticClass: "mr-1" }, [
-                                _vm._v("mdi-thumb-up-outline")
-                              ])
-                            ],
-                            1
-                          ),
-                          _vm._v(
-                            "\n                     Like\n                    "
-                          )
-                        ],
-                        1
-                      )
+                      _c("v-icon", { staticClass: "mr-1" }, [
+                        _vm._v("mdi-thumb-up-outline")
+                      ])
                     ],
                     1
                   ),
-                  _vm._v(" "),
+                  _vm._v("\n                Like\n            ")
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-btn",
+                { attrs: { text: "" } },
+                [
                   _c(
-                    "v-col",
-                    { attrs: { cols: "1" } },
+                    "v-badge",
+                    { attrs: { content: "1" } },
                     [
-                      _c(
-                        "v-btn",
-                        { attrs: { text: "" } },
-                        [
-                          _c(
-                            "v-badge",
-                            { attrs: { content: "1" } },
-                            [
-                              _c("v-icon", { staticClass: "mr-1" }, [
-                                _vm._v("mdi-comment-outline")
-                              ])
-                            ],
-                            1
-                          ),
-                          _vm._v(
-                            "\n                     Comment\n                    "
-                          )
-                        ],
-                        1
-                      )
+                      _c("v-icon", { staticClass: "mr-1" }, [
+                        _vm._v("mdi-comment-outline")
+                      ])
                     ],
                     1
-                  )
+                  ),
+                  _vm._v("\n                Comment\n            ")
                 ],
                 1
               )
@@ -22537,13 +22542,105 @@ var render = function() {
           _vm._v(" "),
           _c(
             "v-container",
-            { staticClass: "pl-4 pr-4 pb-6 mt-2" },
+            { staticClass: "mt-2" },
             [
-              _c("v-avatar", { attrs: { color: "primary", size: "35" } }),
+              _c(
+                "v-btn",
+                {
+                  attrs: { text: "" },
+                  on: {
+                    click: function($event) {
+                      _vm.showLess = !_vm.showLess
+                    }
+                  }
+                },
+                [_vm._v("\n                Show all Comments \n            ")]
+              ),
               _vm._v(" "),
-              _c("p", [_vm._v("Test Comment")])
+              _vm._l(_vm.CommentList, function(item, x) {
+                return _c(
+                  "div",
+                  { key: x },
+                  [
+                    item.post_id == post.post_id
+                      ? _c(
+                          "v-container",
+                          { staticClass: "d-inline-flex pl-2 pr-4 " },
+                          [
+                            _c(
+                              "v-avatar",
+                              { attrs: { color: "primary", size: "36" } },
+                              [
+                                _c("v-img", {
+                                  staticClass: "rounded-circle",
+                                  attrs: {
+                                    src:
+                                      item.profile_pic == null ||
+                                      item.profile_pic == ""
+                                        ? "https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=" +
+                                          item.name
+                                        : "../../images/" + item.profile_pic
+                                  }
+                                })
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "v-container",
+                              {
+                                staticClass: "d-flex flex-row ml-1",
+                                attrs: { "ma-0": "", "pa-0": "" }
+                              },
+                              [
+                                _c(
+                                  "v-container",
+                                  {
+                                    staticClass:
+                                      "d-flex flex-column ml-1 pr-10",
+                                    attrs: { "ma-0": "", "pa-0": "" }
+                                  },
+                                  [
+                                    _c(
+                                      "span",
+                                      { staticClass: "d-block name" },
+                                      [_vm._v(_vm._s(item.name))]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "span",
+                                      {
+                                        staticClass: "caption",
+                                        staticStyle: { "line-height": "1.5" }
+                                      },
+                                      [_vm._v(_vm._s(item.content))]
+                                    )
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "v-btn",
+                                  { attrs: { icon: "" } },
+                                  [
+                                    _c("v-icon", [
+                                      _vm._v("mdi-dots-horizontal")
+                                    ])
+                                  ],
+                                  1
+                                )
+                              ],
+                              1
+                            )
+                          ],
+                          1
+                        )
+                      : _vm._e()
+                  ],
+                  1
+                )
+              })
             ],
-            1
+            2
           ),
           _vm._v(" "),
           _c(
@@ -22556,7 +22653,7 @@ var render = function() {
                 [
                   _c(
                     "v-avatar",
-                    { staticClass: "ml-5", attrs: { size: "37" } },
+                    { staticClass: "ml-5", attrs: { size: "36" } },
                     [
                       _c("v-img", {
                         attrs: {
@@ -22595,15 +22692,19 @@ var render = function() {
                       type: "text"
                     },
                     on: {
-                      "click:append-outer": _vm.sendMessage,
-                      "click:clear": _vm.clearMessage
+                      "click:append-outer": function($event) {
+                        return _vm.addComment(i, post.post_id)
+                      },
+                      "click:clear": function($event) {
+                        return _vm.clearComment(i)
+                      }
                     },
                     model: {
-                      value: _vm.message[i],
+                      value: _vm.comment[i],
                       callback: function($$v) {
-                        _vm.$set(_vm.message, i, $$v)
+                        _vm.$set(_vm.comment, i, $$v)
                       },
-                      expression: "message[i]"
+                      expression: "comment[i]"
                     }
                   })
                 ],
