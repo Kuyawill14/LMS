@@ -12,10 +12,12 @@
 
             <v-col lg="4" sm="12" md="12" class="pa-0 border">
                 <modulesListComponent />
-
             </v-col>
 
         </v-row>
+
+
+       
 
     </div>
 

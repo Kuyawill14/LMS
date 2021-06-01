@@ -19,8 +19,8 @@
         <v-expansion-panels focusable style="margin-left: 1px;">
             <v-expansion-panel v-for="(itemModule, i) in getmain_module" :key="'module'+i">
                 <v-expansion-panel-header>
-                    <span style="font-size: 1.25rem;">
-                        <v-icon style="font-size: 1.25rem; ">
+                    <span style="font-size: 1.0rem;">
+                        <v-icon style="font-size: 1.0rem; ">
                             mdi-folder
                         </v-icon>
                         {{itemModule.module_name}}

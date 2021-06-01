@@ -22749,9 +22749,7 @@ var render = function() {
                   "v-list-item-content",
                   [
                     _c("v-list-item-title", [
-                      _vm._v(
-                        "\n                    Course Page\n                "
-                      )
+                      _vm._v("\n                   Classes\n                ")
                     ])
                   ],
                   1

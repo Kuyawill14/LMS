@@ -393,9 +393,9 @@ var render = function() {
               _c("v-expansion-panel-header", [
                 _c(
                   "span",
-                  { staticStyle: { "font-size": "1.25rem" } },
+                  { staticStyle: { "font-size": "1.0rem" } },
                   [
-                    _c("v-icon", { staticStyle: { "font-size": "1.25rem" } }, [
+                    _c("v-icon", { staticStyle: { "font-size": "1.0rem" } }, [
                       _vm._v(
                         "\n                        mdi-folder\n                    "
                       )
