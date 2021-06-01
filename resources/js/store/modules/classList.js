@@ -54,21 +54,12 @@ const actions = {
             .post(`/api/student/join/${classItem.class_code}`)
             .then(response => {
                 if (response.status == 200) {
-                    Toast.fire({
-                        icon: "success",
-                        title: response.data
-                    });
-                    $('.modal').modal('hide');
+                    alert(response.data)
+
                 } else if (response.status == 202) {
-                    Toast.fire({
-                        icon: "info",
-                        title: response.data
-                    });
+                    alert(response.data)
                 } else {
-                    Toast.fire({
-                        icon: "error",
-                        title: response.data
-                    });
+                    alert(response.data)
                 }
             });
     },

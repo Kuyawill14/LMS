@@ -1,78 +1,67 @@
 <template>
-    <div>
+    <v-navigation-drawer width="100%" height="100vh">
+        <v-card class="mb-2">
+            <v-list-item>
+
+                <v-list-item-content>
+                    <v-list-item-title>Course Content</v-list-item-title>
 
 
+                </v-list-item-content>
 
-        <div class="row">
-            <div class="col p-0">
-                <div class="card">
+                <v-list-item-action>
+                    <v-btn icon>
+                        <v-icon color="grey lighten-1">mdi-close</v-icon>
+                    </v-btn>
+                </v-list-item-action>
+            </v-list-item>
+        </v-card>
+        <v-expansion-panels focusable style="margin-left: 1px;">
+            <v-expansion-panel v-for="(itemModule, i) in getmain_module" :key="'module'+i">
+                <v-expansion-panel-header>
+                    <span style="font-size: 1.25rem;">
+                        <v-icon style="font-size: 1.25rem; ">
+                            mdi-folder
+                        </v-icon>
+                        {{itemModule.module_name}}
 
-
-                    <div class="card-header" style="background: transparent;">
-                        <h5 class="mb-0">
-                            Course Modules
-                        </h5>
-                    </div>
-                </div>
-                <div id="accordion">
-                    <div class="card" v-for="(itemModule, i) in getmain_module" :key="'module'+i">
-
-
-                        <div class="card-header">
-                            <h5 class="mb-0">
-                                <a style="cursor:pointer" class="btn-link" data-toggle="collapse"
-                                    :data-target="'#mod' + itemModule.id" aria-expanded="true">
-
-                                    {{itemModule.module_name}} -
-                                    <span v-if="role=='Student' && getSub_module(itemModule.id).length != 0">
-                                        ({{((getCount(studentSubModuleProgress, itemModule.id) / getSub_module(itemModule.id).length) * 100).toFixed(2).toString()}}%)
-                                    </span>
-                                </a>
-                            </h5>
-                            <span v-if="role=='Teacher'">
-                              
-                                {{ getSub_module(itemModule.id).length}}
-
-                            </span>
-                            <span v-if="role=='Student'">
-                                {{ getCount(studentSubModuleProgress, itemModule.id) + ' / '+ getSub_module(itemModule.id).length}}
-
-                            </span>
+                    </span>
+                </v-expansion-panel-header>
+                <v-expansion-panel-content class="pa-0">
+                    <v-list-item v-for="(itemSubModule, i) in getSub_module(itemModule.id)" :key="'Submodule'+i" link
+                        class="pl-8" @click="passToMainComponent(getSub_module(itemModule.id),itemSubModule.id)">
 
 
-                        </div>
+                        <v-list-item-avatar>
 
-                        <div :id="'mod'+itemModule.id" class="collapse" data-parent="#accordion">
+                            <v-icon class="grey lighten-1" dark>
+                                mdi-folder
+                            </v-icon>
+                        </v-list-item-avatar>
 
-                            <ul class="list-group list-group-flush"
-                                v-for="(itemSubModule, i) in getSub_module(itemModule.id)" :key="'Submodule'+i">
+                        <v-list-item-content>
+                            <v-list-item-title> {{itemSubModule.sub_module_name}}</v-list-item-title>
 
-                                <a style="font-size: 1rem;cursor:pointer"
-                                    @click="addSubStudentProgress(itemModule.id,itemSubModule.id,itemSubModule.type,studentSubModuleProgress); passToMainComponent(getSub_module(itemModule.id),itemSubModule.id);">
+                            <v-list-item-subtitle> {{itemSubModule.type}}</v-list-item-subtitle>
+                        </v-list-item-content>
 
-                                    <li class="list-group-item">
-                                        <i class="fa fa-fw fa-check text-success"
-                                            v-if="checkSubModule(studentSubModuleProgress,itemSubModule.id)"></i> <i
-                                            class="fa fa-fw fa-file-text"></i>
-                                        {{itemSubModule.sub_module_name}}
-                                    </li>
-                                </a>
+                        <v-list-item-action>
+                            <v-btn icon
+                                :color="checkSubModule(studentSubModuleProgress,itemSubModule.id) ? 'success' : 'lighten'"
+                                @click="addSubStudentProgress(itemModule.id,itemSubModule.id,itemSubModule.type,studentSubModuleProgress)">
+                                <v-icon>mdi-check</v-icon>
+                            </v-btn>
+                        </v-list-item-action>
+                    </v-list-item>
 
-                            </ul>
-
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
+                </v-expansion-panel-content>
+            </v-expansion-panel>
+        </v-expansion-panels>
+    </v-navigation-drawer>
 </template>
 
-<script>
-    import VueElementLoading from 'vue-element-loading'
 
+<script>
     import {
         mapGetters,
         mapActions
@@ -80,7 +69,7 @@
     export default {
         props: ['role'],
         components: {
-            VueElementLoading,
+
 
         },
         data() {
@@ -100,54 +89,14 @@
             ...mapGetters(["getmain_module", "getSub_module", "getAll_sub_module"])
         },
         methods: {
-            passToMainComponent(sub_module,id) {
-          
-            var _sub_module = sub_module.find(item => item.id === id);
+
+            passToMainComponent(sub_module, id) {
+
+                var _sub_module = sub_module.find(item => item.id === id);
 
                 this.$emit('subModule', _sub_module);
             },
-            addLecture() {
-                this.loading = true;
 
-                this.subModuleForm.file_attachment = 'test';
-                this.subModuleForm.type = 'lecture';
-                //console.log(this.subModuleForm)
-                this.$store.dispatch('createSubModule', this.subModuleForm)
-                    .then((res) => {
-                        console.log(res);
-                        if (res.status == 201) {
-                            Swal.fire({
-                                position: 'center',
-                                icon: 'success',
-                                title: 'Lecture Successfully Created',
-                                showConfirmButton: false,
-                                timer: 1500
-                            })
-                            $('#itemTypeModal').modal('hide');
-                            this.showLecture = false;
-                        }
-                        if (res.status == 500) {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Oops...',
-                                text: 'Class name, Subject Name and Class Description cannot be blank',
-                            })
-                        }
-                        this.loading = false;
-                    })
-
-
-            },
-
-            lectureBtn() {
-                this.hasSelectedType == true;
-                this.showLecture = true;
-            },
-
-            classworkBtn() {
-                $('#itemTypeModal').modal('hide');
-                $('#Classworkmodal').modal('show');
-            },
             student_sub_module_progress(id) {
                 var data;
 
@@ -180,7 +129,19 @@
                         studentProgress: this.studentSubModuleProgressForm
                     })
                     .then((res) => {
-                        this.studentSubModuleProgress.push(res.data);
+                        var arr = this.studentSubModuleProgress;
+                        var exist = false;
+                        for (var i = 0; i < arr.length; i++) {
+                            if (arr[i].sub_module_id == subModule_id) {
+                                arr.splice(i, 1); 
+                                exist = true;
+                                break;
+                            }
+                        }
+                        if (exist == false) {
+                            this.studentSubModuleProgress.push(res.data);
+                        }
+
                     });
             },
             checkSubModule(arr, sub_module_id) {
@@ -222,110 +183,16 @@
     }
 
 </script>
-
-<style scoped>
-    .card {
-        border-top: none !important;
-        border-radius: 0%;
-    }
-
-    .button-text-image {
-        white-space: inherit;
-    }
-
-    .class-banner {
-        /* background-image: url(https://gstatic.com/classroom/themes/Honors.jpg); */
-        color: #fff;
-        height: 200px;
-        background-color: #1E1E1C;
-    }
-
-    .top-container {
-        padding-left: 0 !important;
-        padding-right: 0 !important;
-    }
-
-    .ttr-wrapper {
-        padding-left: 0 !important;
-        padding-right: 0 !important;
-        padding-top: 59px;
-    }
-
-    .transparent {
-        background: transparent;
-        border: none;
-    }
-
-    .card-top {
-        color: #fff !important;
-    }
-
-    .files input {
-        outline: 2px dashed #92b0b3;
-        outline-offset: -10px;
-        -webkit-transition: outline-offset .15s ease-in-out, background-color .15s linear;
-        transition: outline-offset .15s ease-in-out, background-color .15s linear;
-        padding: 120px 0px 85px 35%;
-        text-align: center !important;
-        margin: 0;
-        width: 100% !important;
-    }
-
-    .files input:focus {
-        outline: 2px dashed #92b0b3;
-        outline-offset: -10px;
-        -webkit-transition: outline-offset .15s ease-in-out, background-color .15s linear;
-        transition: outline-offset .15s ease-in-out, background-color .15s linear;
-        border: 1px solid #92b0b3;
-    }
-
-    .files {
-        position: relative
-    }
-
-    .files:after {
-        pointer-events: none;
+<style>
+    .pannel-btn {
         position: absolute;
-        top: 60px;
-        left: 0;
-        width: 50px;
-        right: 0;
-        height: 56px;
-        content: "";
-        background-image: url(https://image.flaticon.com/icons/png/128/109/109612.png);
-        display: block;
-        margin: 0 auto;
-        background-size: 100%;
-        background-repeat: no-repeat;
+        top: 15px;
+        right: 47px;
+        z-index: 100;
     }
 
-    .color input {
-        background-color: #f1f1f1;
-    }
-
-    .files:before {
-        position: absolute;
-        bottom: 10px;
-        left: 0;
-        pointer-events: none;
-        width: 100%;
-        right: 0;
-        height: 57px;
-        content: " or drag it here. ";
-        display: block;
-        margin: 0 auto;
-        color: #2ea591;
-        font-weight: 600;
-        text-transform: capitalize;
-        text-align: center;
-    }
-
-    .upload input[type='file'] {
-        text-indent: -999em;
-        outline: none;
-        width: 100%;
-        height: 100%;
-        position: absolute;
+    .v-expansion-panel-content__wrap {
+        padding: 0 !important;
     }
 
 </style>

@@ -1,36 +1,35 @@
 import axios from 'axios'
 
 const state = {
-    sub_module: []
+    sub_module_progress: []
 };
 const getters = {
-    getAll_sub_module: (state) => state.sub_module,
-    getSub_module: state => id => {
-        return state.sub_module.filter(sub_module => sub_module.main_module_id == id);
+    getStudentSubModuleProgress: (state) => state.sub_module_progress,
+    // getSub_module: state => id => {
+    //     return state.sub_module.filter(sub_module => sub_module.main_module_id == id);
 
 
-    }
+    // }
 
 };
 
 const actions = {
-    async fetchSubModule({ commit }, id) {
+    async fetchStudentSubModuleProgress({ commit }, id) {
 
         const res = await axios.get(
-            `/api/sub_module/all/${id}`
+            `/api/student_sub_module/all/${id}`
         );
         //console.log(res.data);
-        commit('FETCH_SUB_MODULE', res.data);
+        commit('SET_STUDENT_PROGRESS', res.data);
 
     },
 
-    async createSubModule({ commit }, SubmoduleForm) {
+    async addSubStudentProgress({ commit }, SubStudentProgressForm) {
 
-        const res = await axios.post(`/api/sub_module/insert`, SubmoduleForm);
+        const res = await axios.post(`/api/student_sub_module/insert`, SubStudentProgressForm);
 
-        let newSubModule = res.data;
-        // commit("CREATE_SUB_MODULE", newSubModule);
-        state.sub_module.push({...newSubModule })
+        let newSubModuleProgress = res.data;
+        commit("SET_STUDENT_PROGRESS", newSubModuleProgress);
 
         return res;
     },
@@ -39,8 +38,8 @@ const actions = {
 
 };
 const mutations = {
-    CREATE_SUB_MODULE: (state, sub_module) => (state.sub_module = sub_module),
-    FETCH_SUB_MODULE: (state, sub_module) => (state.sub_module = sub_module),
+    SET_STUDENT_PROGRESS: (state, sub_module_progress) => (state.sub_module_progress = sub_module_progress),
+
 };
 
 export default {

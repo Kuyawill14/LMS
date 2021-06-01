@@ -42,8 +42,8 @@ let grading_criteria_tab = () =>
 //     import ("./components/view-course/tabs/students_grade-tab/student_gradeComponent");
 let modules_tab = () =>
     import ("./components/course-view/tabs/modules-tab/modulesComponent");
-// let studentmodules_tab = () =>
-//     import ("./components/view-course/tabs/modules-tab/user-type/studentmodulesComponent");
+let studentmodules_tab = () =>
+    import ("./components/course-view/tabs/modules-tab/user-type/studentmodulesComponent");
 let classes_tab = () =>
     import ("./components/course-view/tabs/classes-tab/classesComponent");
 
@@ -82,8 +82,24 @@ let routes = [{
 
                 children: [{
                         name: "coursePage",
-                        path: "coursePage",
+                        path: "",
                         component: classes_tab,
+                        beforeEnter: (to, form, next) => {
+                            axios.get("/api/role")
+                                .then((res) => {
+                                    console.log(res.data);
+                                    if (res.data == 'Teacher') {
+                                        next();
+                                    } else if (res.data == 'Student') {
+                                        next({
+                                            path: "course/" + to.params.id + "/announcement"
+                                        });
+                                    }
+                                })
+                                .catch((e) => {
+                                    console.log(e);
+                                });
+                        },
 
                     },
                     {
@@ -99,7 +115,29 @@ let routes = [{
                     {
                         name: "modules",
                         path: "modules",
-                        component: modules_tab
+                        component: modules_tab,
+                        beforeEnter: (to, form, next) => {
+                            axios.get("/api/role")
+                                .then((res) => {
+                                    console.log(res.data);
+                                    if (res.data == 'Teacher') {
+                                        next();
+                                    } else if (res.data == 'Student') {
+                                        next({
+                                            path: "test"
+                                        });
+                                    }
+                                })
+                                .catch((e) => {
+                                    console.log(e);
+                                });
+                        },
+
+                    },
+                    {
+                        name: "test",
+                        path: "test",
+                        component: studentmodules_tab
                     },
                     {
                         name: "about",
@@ -116,6 +154,7 @@ let routes = [{
                         path: "grading-criteria",
                         component: grading_criteria_tab
                     },
+
 
 
                 ],

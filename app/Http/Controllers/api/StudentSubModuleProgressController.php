@@ -54,7 +54,7 @@ class StudentSubModuleProgressController extends Controller
         ->where('student_id','=',$userId)
         ->exists();
 
-        if(!$CheckProgress){
+        if($CheckProgress == false){
             
             $getClassId = $studentClass::
             select('class_id')
@@ -74,6 +74,13 @@ class StudentSubModuleProgressController extends Controller
 
             return $studentSubModuleProgress;
 
+
+        } else {
+            $remove =  $studentSubModuleProgress::
+            where('main_module_id','=', $request->studentProgress['main_module_id'])
+            ->where('sub_module_id','=',$request->studentProgress['sub_module_id'])
+            ->where('student_id','=',$userId)
+            ->delete();
 
         }
     }

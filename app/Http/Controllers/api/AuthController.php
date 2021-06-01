@@ -35,7 +35,7 @@ class AuthController extends Controller
     }
 
     public function UserRegister(Request $request){
-        return $request;
+   
         $validated = $request->validate([
             'firstName' => ['required'],
             'middlename' => ['required'],

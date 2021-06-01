@@ -14,6 +14,7 @@ import MainModules from './modules/main_modules'
 import SubModules from './modules/sub_modules'
 import question from './modules/question'
 import gradingCriteria from './modules/gradingCriteria'
+import studentSubmoduleProgress from './modules/student_sub_moduleProgress'
 export default new Vuex.Store({
     modules: {
         SCLass,
@@ -26,7 +27,8 @@ export default new Vuex.Store({
         MainModules,
         SubModules,
         question,
-        gradingCriteria
+        gradingCriteria,
+        studentSubmoduleProgress
 
     },
 })
