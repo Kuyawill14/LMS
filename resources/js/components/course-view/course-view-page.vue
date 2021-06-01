@@ -22,7 +22,7 @@
 
         </div>
 
-        <router-view :role="role"></router-view>
+        <router-view :role="role" :UserDetails="UserDetails"></router-view>
 
 
 
@@ -38,7 +38,7 @@
     } from "vuex";
     import axios from 'axios';
     export default {
-        props: ['role'],
+        props: ['role','UserDetails'],
         data() {
             return {
                 courseInfo: [],

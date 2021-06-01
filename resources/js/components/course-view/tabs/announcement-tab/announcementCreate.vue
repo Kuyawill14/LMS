@@ -1,48 +1,83 @@
 <template>
 <div>
 
+    
 
-     <editor placeholder="Announce something in your class!" class="border"
-      v-model="announcement.content" theme="snow" ></editor>
-       <br>
-        <div class="form-row">
-            <div class="col-sm-8">
-                <label for="file-upload" class="custom-file-upload ">
-                    <i class="fa fa-file" aria-hidden="true"></i>
-                    Upload file
-                </label>
-                <input id="file-upload" type="file" name="file" style="display:none">
-                <label id="file-name"></label></div>
-            <div class=" col-sm-2 text-right">
-                <select class="form-control">
+     <editor style="outline:none;"  placeholder="Announce something in your class!" 
+      v-model="announcement.content" @change="isEditing = true" theme="snow" :options="options"></editor>
+   <!--  <v-expand-transition> -->
+        <v-row v-if="announcement.content.length != 0" class="pl-3 pr-3 pb-1"><!-- v-if="announcement.content.length != 0" -->
+            <v-col sm="8" >
+               <div>
+                    <v-btn 
+                        class="text-none"
+                        depressed
+                        :loading="isSelecting"
+                        @click="onButtonClick"
+                    >
+                        <v-icon left>
+                        cloud_upload
+                        </v-icon>
+                            Upload file
+                    </v-btn>
+                    <input
+                        ref="uploader"
+                        class="d-none"
+                        name="file"
+                        type="file"
+                        accept="image/*"
+                        @change="onFileChanged"
+                    >
+                </div>
+            </v-col>
+
+            <v-col sm="4" class="text-right">
+                 <select class="mr-4">
                     <option>All Class</option>
                     <option>Class 1</option>
                 </select>
+                <v-btn depressed type="submit" name="create_post" color="primary"
+                    @click="createPost">Post</v-btn>
 
-            </div>
-            <div class="col-sm-2 text-right">
-                <button type="submit" name="create_post" class="btn btn-primary form-control"
-                    @click="createPost">Post</button>
+            </v-col>
 
-            </div>
-
-        </div>
-
+        </v-row>
+    <!-- </v-expand-transition> -->
 </div>
 </template>
 <script>
 export default {
     data() {
-            return {
-                value: '',
-                content: '',
-                announcement: {
-                    content: "",
-                    file: "",
-                    class_id: ""
+        return {
+                selectedFile: null,
+            isSelecting: false,
+            isEditing: false,
+            value: '',
+            content: '',
+            announcement: {
+                content: "",
+                file: "",
+                class_id: ""
                 },
+            options:{
+                modules: {
+                        'toolbar': [
+                            ['bold', 'italic', 'underline', 'strike'],
+                            [{ 'header': [1, 2, 3, 4, 5, false] }],
+                            [{ 'align': [] }],
+                            [{ 'color': [] }],
+                            [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                            ['link', 'image', 'video'],
+                        ],
+                    }
                 }
-            },
+            }
+        },
+        computed: {
+            buttonText() {
+                return this.selectedFile ? this.selectedFile.name : this.defaultButtonText
+            }
+        },
         methods: {
             val() {
                 this.value = "This's new value";
@@ -66,9 +101,49 @@ export default {
                 } 
 
             },
+            onButtonClick() {
+                this.isSelecting = true
+                window.addEventListener('focus', () => {
+                this.isSelecting = false
+                }, { once: true })
+
+                this.$refs.uploader.click()
+            },
+             onFileChanged(e) {
+                this.selectedFile = e.target.files[0]
+                
+                // do something
+            }
 
 
 
         },
 }
 </script>
+
+<style lang="scss">
+  
+        .ql-bold,.ql-italic,.ql-underline, .ql-strike
+        ,.ql-picker-label,.ql-align,.ql-list,.ql-link
+        ,.ql-image,.ql-video
+        {
+            outline: none !important;
+            border:none !important;
+        } 
+        .ql-tooltip, .ql-editing{
+            z-index: 1;
+        }
+         iframe{
+             width: 100% !important;
+            height: 20rem !important;
+         }
+         .ql-editor img{
+  
+             max-height: 25rem !important;
+         }
+         .ql-container{
+             max-height: 70rem;
+         }
+        
+
+</style>

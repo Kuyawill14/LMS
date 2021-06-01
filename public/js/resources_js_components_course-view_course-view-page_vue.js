@@ -55,7 +55,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['role'],
+  props: ['role', 'UserDetails'],
   data: function data() {
     return {
       courseInfo: [],
@@ -293,7 +293,9 @@ var render = function() {
         )
       ]),
       _vm._v(" "),
-      _c("router-view", { attrs: { role: _vm.role } })
+      _c("router-view", {
+        attrs: { role: _vm.role, UserDetails: _vm.UserDetails }
+      })
     ],
     1
   )

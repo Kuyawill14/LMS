@@ -1,23 +1,19 @@
 <template>
+    <v-container>
+        <v-row class="mt-3 mb-5" >
+            <v-col md="12" lg="8" class="ma-auto">
+                <v-card>
+                    <announcementCreate v-on:ReloadData="fetchData"> </announcementCreate>
+                </v-card>
+            </v-col>
+        </v-row>
 
-    <div class="container pt-4">
-     <!--    <vue-element-loading :active="!isLoading">
-            <img :src="loadingImg" width="55px" height="55px" />
-        </vue-element-loading> -->
-        <div class="row">
-
-            <div class="col-lg-8 col-md-12" style="margin:auto">
-                <announcementCreate v-on:ReloadData="fetchData"> </announcementCreate>
-            </div>
-
-            <div class="col-lg-8 col-md-12  pt-4" style="margin: auto;">
-                <announcementPostList :PostList="getclass_post"> </announcementPostList>
-            </div>
-
-
-
-        </div>W
-    </div>
+            <v-row class="mt-3">
+            <v-col md="12" lg="8" class="ma-auto">
+                <announcementPostList :UserDetails="UserDetails" :PostList="getclass_post"> </announcementPostList>
+            </v-col>
+        </v-row>
+    </v-container>
 </template>
 <script>
     import announcementCreate from './announcementCreate.vue'
@@ -29,7 +25,7 @@
         mapActions
     } from "vuex";
     export default {
-
+        props:['UserDetails'],
         components: {
             announcementCreate,
             //VueElementLoading,
