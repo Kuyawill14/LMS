@@ -22737,7 +22737,7 @@ var render = function() {
         _vm.role == "Teacher"
           ? _c(
               "v-list-item",
-              { attrs: { to: { name: "coursePage" } } },
+              { attrs: { link: "", to: { name: "coursePage" }, exact: "" } },
               [
                 _c(
                   "v-list-item-action",
@@ -22761,7 +22761,7 @@ var render = function() {
         _vm._v(" "),
         _c(
           "v-list-item",
-          { attrs: { to: { name: "announcement" } } },
+          { attrs: { link: "", to: { name: "announcement" }, exact: "" } },
           [
             _c(
               "v-list-item-action",
@@ -22784,7 +22784,7 @@ var render = function() {
         _vm._v(" "),
         _c(
           "v-list-item",
-          { attrs: { link: "", to: { name: "classwork" } } },
+          { attrs: { link: "", to: { name: "classwork" }, exact: "" } },
           [
             _c(
               "v-list-item-action",
@@ -22807,7 +22807,7 @@ var render = function() {
         _vm._v(" "),
         _c(
           "v-list-item",
-          { attrs: { link: "", to: { name: "modules" } } },
+          { attrs: { link: "", to: { name: "modules" }, exact: "" } },
           [
             _c(
               "v-list-item-action",
@@ -22831,7 +22831,7 @@ var render = function() {
         _vm.role == "Teacher"
           ? _c(
               "v-list-item",
-              { attrs: { link: "" } },
+              { attrs: { link: "", exact: "" } },
               [
                 _c(
                   "v-list-item-action",
@@ -22856,7 +22856,9 @@ var render = function() {
         _vm.role == "Teacher"
           ? _c(
               "v-list-item",
-              { attrs: { link: "", to: { name: "gradingCriteria" } } },
+              {
+                attrs: { link: "", to: { name: "gradingCriteria" }, exact: "" }
+              },
               [
                 _c(
                   "v-list-item-action",
@@ -22888,7 +22890,7 @@ var render = function() {
         _vm._v(" "),
         _c(
           "v-list-item",
-          { attrs: { link: "", to: { name: "about" } } },
+          { attrs: { link: "", to: { name: "about" }, exact: "" } },
           [
             _c(
               "v-list-item-action",
@@ -22912,7 +22914,7 @@ var render = function() {
         _vm.role == "Teacher"
           ? _c(
               "v-list-item",
-              { attrs: { link: "", to: { name: "settings" } } },
+              { attrs: { link: "", to: { name: "settings" }, exact: "" } },
               [
                 _c(
                   "v-list-item-action",

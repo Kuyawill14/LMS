@@ -76,10 +76,6 @@ let routes = [{
                 path: "course/:id",
                 component: courseView,
                 name: "selectedCourse",
-                redirect: {
-                    name: "coursePage"
-                },
-
                 children: [{
                         name: "coursePage",
                         path: "",

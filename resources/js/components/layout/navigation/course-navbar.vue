@@ -2,7 +2,7 @@
     <v-list dense>
         <template>
 
-            <v-list-item :to="{name: 'coursePage'}" v-if="role == 'Teacher'">
+            <v-list-item link :to="{name: 'coursePage'}" v-if="role == 'Teacher'" exact>
                 <v-list-item-action>
                     <v-icon>mdi-contacts</v-icon>
                 </v-list-item-action>
@@ -14,7 +14,7 @@
 
             </v-list-item>
 
-            <v-list-item :to="{name: 'announcement'}" >
+            <v-list-item link :to="{name: 'announcement'}" exact >
                 <v-list-item-action>
                     <v-icon>mdi-message-alert</v-icon>
                 </v-list-item-action>
@@ -26,7 +26,7 @@
 
             </v-list-item>
 
-            <v-list-item link :to="{name: 'classwork'}">
+            <v-list-item link :to="{name: 'classwork'}" exact>
                 <v-list-item-action>
                     <v-icon>mdi-book-open-variant</v-icon>
                 </v-list-item-action>
@@ -38,7 +38,7 @@
 
             </v-list-item>
 
-            <v-list-item link :to="{name: 'modules'}">
+            <v-list-item link :to="{name: 'modules'}" exact>
                 <v-list-item-action>
                     <v-icon>mdi-book-variant-multiple</v-icon>
                 </v-list-item-action>
@@ -50,7 +50,7 @@
 
             </v-list-item>
 
-            <v-list-item link  v-if="role == 'Teacher'">
+            <v-list-item link  v-if="role == 'Teacher'" exact>
                 <v-list-item-action>
                     <v-icon>mdi-account-group</v-icon>
                 </v-list-item-action>
@@ -62,7 +62,7 @@
 
             </v-list-item>
 
-            <v-list-item  link :to="{name: 'gradingCriteria'}"  v-if="role == 'Teacher'">
+            <v-list-item  link :to="{name: 'gradingCriteria'}"  v-if="role == 'Teacher'" exact>
                 <v-list-item-action>
                     <v-icon>mdi-chart-timeline-variant-shimmer
                     </v-icon>
@@ -75,7 +75,7 @@
 
             </v-list-item>
 
-            <v-list-item link :to="{name: 'about'}">
+            <v-list-item link :to="{name: 'about'}" exact>
                 <v-list-item-action>
                     <v-icon>mdi-information</v-icon>
                 </v-list-item-action>
@@ -87,7 +87,7 @@
 
             </v-list-item>
 
-            <v-list-item link :to="{name: 'settings'}"  v-if="role == 'Teacher'">
+            <v-list-item link :to="{name: 'settings'}"  v-if="role == 'Teacher'" exact>
                 <v-list-item-action>
                     <v-icon>mdi-tune-vertical-variant</v-icon>
                 </v-list-item-action>
