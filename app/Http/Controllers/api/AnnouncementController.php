@@ -13,6 +13,7 @@ use App\Models\tbl_classAnnouncement;
 use App\Models\tbl_notification;
 use App\Events\NewPost;
 use App\Events\NewNotification;
+use App\Models\tbl_comment;
 
 
 
@@ -38,7 +39,10 @@ class AnnouncementController extends Controller
         ->leftJoin('users', 'tbl_classposts.user_id', '=', 'users.id')
         ->leftJoin('tbl_user_details', 'users.id', '=', 'tbl_user_details.user_id')
         ->orderBy('created_at', 'DESC')
+        ->withCount(['comments'])
         ->get();
+
+        
 
         return $allClassPost;
 

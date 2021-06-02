@@ -12,7 +12,7 @@ class NotificationController extends Controller
     public function getNotification(){
 
 
-        $userId = auth('sanctum')->id();
+        $userId = 1;
 
        /*  $allNotification = DB::table('tbl_notifications')
         ->select('tbl_notifications.id as n_id','tbl_notifications.userid_from','tbl_notifications.notification_type',
@@ -27,9 +27,11 @@ class NotificationController extends Controller
 
         $allNotification = tbl_notification::where('tbl_notifications.userid_to',   $userId)
         ->select('tbl_notifications.id as n_id','tbl_notifications.userid_from','tbl_notifications.notification_type',
-                'tbl_notifications.event_type','tbl_notifications.message','users.firstName','users.lastName','tbl_notifications.status',
+                'tbl_notifications.event_type','tbl_notifications.message',DB::raw('CONCAT(users.firstname, " ", users.lastName) as name'),
+                'tbl_user_details.profile_pic','tbl_notifications.status',
                 'tbl_notifications.created_at')
         ->leftJoin('users', 'users.id', '=', 'tbl_notifications.userid_from')
+        ->leftJoin('tbl_user_details', 'tbl_user_details.user_id','=','users.id')
         ->orderBy('tbl_notifications.created_at', 'DESC')
         ->get();
         return $allNotification; 

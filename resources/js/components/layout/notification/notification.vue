@@ -58,14 +58,11 @@
           <v-divider></v-divider>
           <v-list-item v-for="(item, index) in get_notification" :key="index">
             <v-list-item-avatar>
-              <img
-                src="https://cdn.vuetifyjs.com/images/john.jpg"
-                alt="John"
-              >
+             <v-img alt="Proflie" :src="item.profile_pic == null || item.profile_pic == '' ? 'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=' + item.name : '../../images/'+item.profile_pic"></v-img>
             </v-list-item-avatar>
 
             <v-list-item-content>
-              <v-list-item-title>{{item.firstName+" "+item.lastName }}</v-list-item-title>
+              <v-list-item-title>{{item.name}}</v-list-item-title>
               <span>{{item.message}}</span>
              
             </v-list-item-content>

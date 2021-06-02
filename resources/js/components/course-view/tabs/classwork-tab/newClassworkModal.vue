@@ -1,57 +1,44 @@
 <template>
   
-    <div class="modal fade" id="Classworkmodal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
-            <div class="modal-dialog modal-lg" role="document">
-                  <form @submit.prevent>
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="">Create Classwork</h5>
-                  
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" >
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-               
-                        <div class="form-row">
-                            <div class="form-group col-md-8">
-                            <label for="inputTitle">Title</label>
-                            <input v-model="form.title" type="text" class="form-control" id="inputTitle" placeholder="Title">
-                            </div>
-                            <div class="form-group col-md-4">
-                            <label for="inputType">Type</label>
-                            <select id="inputType" v-model="form.type" class="form-control">
-                                <option value="1">Quiz</option>
-                                <option value="2">Assignment</option>
-                                <option value="3">Activity</option>
-                            </select>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group col-md-12">
-                                <label for="inputDescription">Description</label>
-                                 <textarea v-model="form.description" class="form-control" id="inputDescription" rows="3"></textarea>
-                            </div>
-                           
-                        </div>
-                         <div class="form-row">
-                            <div class="form-group col-md-6">
-                            <label for="inputDueDate">Due Date</label>
-                            <input v-model="form.due_date" type="datetime-local" class="form-control" id="inputDueDate" placeholder="Due date">
-                            </div>
-                        </div>
-                 
-
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn-secondry" data-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-primary" @click="SaveClasswork()"  >Save</button>
-            
-                    </div>
-                </div>
-                 </form>
-            </div>
-        </div>
+   <div>
+        <v-dialog v-model="dialog" persistent max-width="600px">
+            <template v-slot:activator="{ on, attrs }">
+                    <v-btn bottom color="primary" dark fab fixed right @click="dialog = !dialog"  v-bind="attrs" v-on="on">
+                        <v-icon>mdi-plus</v-icon>
+                    </v-btn>
+            </template>
+            <v-card>
+                <v-form ref="registerForm"  lazy-validation>
+                    <v-card-title>
+                        <span class="headline">Add Module</span>
+                    </v-card-title>
+                    <v-card-text>
+                        <v-container>
+                            <v-row>
+                                <v-col cols="12">
+                                    <v-text-field label="Module Name*"  required>
+                                    </v-text-field>
+                                </v-col>
+                                <v-col cols="12">
+                                    <v-textarea clearable clear-icon="mdi-close-circle" label="Description"
+                                        ></v-textarea>
+                                </v-col>
+                            </v-row>
+                        </v-container>
+                    </v-card-text>
+                    <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn color="blue darken-1" text>
+                            Close
+                        </v-btn>
+                        <v-btn color="blue darken-1" text>
+                            Save
+                        </v-btn>
+                    </v-card-actions>
+                </v-form>
+            </v-card>
+        </v-dialog>
+    </div>
    
 </template>
 
@@ -60,6 +47,7 @@ import Form from 'vform'
 export default {
     data(){
         return{
+            dialog: false,
              form:new Form({})
         }
     },

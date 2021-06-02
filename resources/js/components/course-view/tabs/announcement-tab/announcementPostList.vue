@@ -26,11 +26,11 @@
                 <span v-html="post.content" class="post-content"></span>
             </v-container>
              <!--Divider -->
-             <v-row class="pl-5 pr-5">
+           <!--   <v-row class="pl-5 pr-5">
                   <v-divider></v-divider>
-            </v-row>
+            </v-row> -->
             <!--Post Actions Like, Comment -->
-            <v-container class="mt-3 text-right pl-3 pr-3 mb-2 d-inline-flex">
+           <!--  <v-container class="mt-3 text-right pl-3 pr-3 mb-2 d-inline-flex">
                 <v-btn text>
                 <v-badge content="1">
                     <v-icon class="mr-1">mdi-thumb-up-outline</v-icon>
@@ -44,20 +44,25 @@
                 </v-badge>
                     Comment
                 </v-btn>
-            </v-container>
+            </v-container> -->
 
+
+
+            
             <!--Divider -->
             <v-row class="pl-5 pr-5">
                 <v-divider></v-divider>
             </v-row>
 
+            <commentList :PostId="post.post_id" :UserDetails="UserDetails" ></commentList>
+
             <!--Comment List -->
-            <v-container class="mt-2">
-                 <v-btn text @click="showLess = !showLess">
+            <!-- <v-container class="mt-2"> -->
+                 <!-- <v-btn text @click="showLess = !showLess">
                     Show all Comments 
                 </v-btn>
                 <div v-for="(item,x) in CommentList" :key="x">
-                <v-container v-if="item.post_id == post.post_id" class="d-inline-flex pl-2 pr-4 " >
+                <v-container v-if="item.post_id == post.post_id"   class="d-inline-flex pl-2 pr-4 " >
                         <v-avatar
                         color="primary"
                         size="36"
@@ -70,16 +75,16 @@
                             <span class="d-block name">{{item.name}}</span>
                             <span class="caption" style="line-height:1.5">{{item.content}}</span>
                             </v-container>
-                            <v-btn icon>
-                                <v-icon>mdi-dots-horizontal</v-icon>
+                            <v-btn icon class="align-end">
+                                <v-icon class="mr-1">mdi-dots-horizontal</v-icon>
                             </v-btn>
                         </v-container>
                 </v-container>
-                </div>
-            </v-container>
+                </div> -->
+           <!--  </v-container> -->
 
              <!--Post Actions Write Comment -->
-            <v-row class="mt-3 pr-7">
+           <!--  <v-row class="pt-1 pr-7" >
                 <v-col cols="2" sm="2" lg="1" md="1">
                     <v-avatar
                     class="ml-5"
@@ -107,7 +112,7 @@
                         >
                     </v-text-field>
                 </v-col>
-            </v-row>
+            </v-row> -->
      
         </v-card>
     </div>
@@ -116,9 +121,14 @@
 
 
 <script>
-    import moment from 'moment'
+    import moment from 'moment';
+    import commentList from './actions/commentList'
     export default {
+        
         props:['PostList','UserDetails'],
+        components:{
+            commentList
+        },
          data: () => ({
             password: 'Password',
             show: false,
@@ -127,9 +137,7 @@
             iconIndex: 0,
             data:{},
             CommentList:[],
-            showLess:true,
-            totalComment:'',
-            showComment:false
+            showLess:true
         }),
         computed: {
             icon () {

@@ -80,10 +80,14 @@ Route::prefix('/announcement')->group(function () {
 
 //CommentLike
 Route::prefix('/comment')->group(function () {
-    Route::post('/insert', [CommentController::class, 'store']);
     Route::get('/allcomment/{id}', [CommentController::class, 'index']);
-    
+    Route::get('/commentCount/{id}', [CommentController::class, 'TotalComment']);
+    Route::post('/insert', [CommentController::class, 'store']);
+    Route::delete('/remove/{id}', [CommentController::class, 'destroy']);
+  
 });
+
+
 
 
 

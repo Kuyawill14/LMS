@@ -16,19 +16,26 @@ class CommentController extends Controller
      */
     public function index($id)
     {
-        $Comment = tbl_comment::where('tbl_comments.course_id', $id)
+        $Comment = tbl_comment::where('tbl_comments.post_id', $id)
         ->select('tbl_comments.id','tbl_comments.post_id','tbl_comments.content','tbl_comments.created_at',
          DB::raw('CONCAT(users.firstname, " ", users.lastName) as name'),
-         'tbl_user_details.profile_pic')
+         'tbl_user_details.profile_pic', 'tbl_comments.id')
         ->leftJoin('users', 'users.id','=','tbl_comments.user_id')
         ->leftJoin('tbl_user_details', 'tbl_user_details.user_id','=','tbl_comments.user_id')
         ->orderBy('created_at', 'ASC')
         ->get();
-
-        foreach($Comment as $cl){
-            
-        }
         return $Comment;
+    }
+
+    /**
+     * Display a listing of the resource.
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function TotalComment($id)
+    {
+        $CommentCount = tbl_comment::where('tbl_comments.post_id', $id)->count();
+        return $CommentCount;
     }
 
     /**
@@ -101,7 +108,12 @@ class CommentController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
-    {
-        //
+    { 
+        $DelComment = tbl_comment::find($id);
+        if($DelComment){
+            $DelComment->delete();
+            return "successfully Remove.";
+        }
+        return "Comment not found";
     }
 }

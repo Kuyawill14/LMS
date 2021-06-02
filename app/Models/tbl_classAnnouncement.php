@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class tbl_classAnnouncement extends Model
 {
     use HasFactory;
+
+   
 }

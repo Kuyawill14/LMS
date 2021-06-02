@@ -421,9 +421,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -23144,22 +23141,29 @@ var render = function() {
                       "v-list-item",
                       { key: index },
                       [
-                        _c("v-list-item-avatar", [
-                          _c("img", {
-                            attrs: {
-                              src: "https://cdn.vuetifyjs.com/images/john.jpg",
-                              alt: "John"
-                            }
-                          })
-                        ]),
+                        _c(
+                          "v-list-item-avatar",
+                          [
+                            _c("v-img", {
+                              attrs: {
+                                alt: "Proflie",
+                                src:
+                                  item.profile_pic == null ||
+                                  item.profile_pic == ""
+                                    ? "https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=" +
+                                      item.name
+                                    : "../../images/" + item.profile_pic
+                              }
+                            })
+                          ],
+                          1
+                        ),
                         _vm._v(" "),
                         _c(
                           "v-list-item-content",
                           [
                             _c("v-list-item-title", [
-                              _vm._v(
-                                _vm._s(item.firstName + " " + item.lastName)
-                              )
+                              _vm._v(_vm._s(item.name))
                             ]),
                             _vm._v(" "),
                             _c("span", [_vm._v(_vm._s(item.message))])
