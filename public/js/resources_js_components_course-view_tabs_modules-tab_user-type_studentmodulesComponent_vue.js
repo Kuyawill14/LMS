@@ -39,6 +39,34 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
  //import modulesListComponent from './modulesListComponent'
 
 var modulesListComponent = function modulesListComponent() {
@@ -91,7 +119,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.bottom-content[data-v-2a6a4450] {\n\n        padding-left: 30px;\n}\n.video-c[data-v-2a6a4450] {\n        min-height: 470px;\n}\n.border[data-v-2a6a4450] {\n     border-left: 1px solid #e0e0e0;\n}\n \n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.bottom-content[data-v-2a6a4450] {\n\n    padding-left: 30px;\n}\n.video-c[data-v-2a6a4450] {\n    min-height: 470px;\n}\n.border[data-v-2a6a4450] {\n    border-left: 1px solid #e0e0e0;\n}\n\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -232,20 +260,82 @@ var render = function() {
             "v-col",
             { staticClass: "pa-1", attrs: { lg: "8", sm: "12", md: "12" } },
             [
-              _c("v-card", [
-                _c("iframe", {
-                  staticClass: "video-c",
-                  staticStyle: { width: "100%", height: "100%" },
-                  attrs: {
-                    title: "office viewer",
-                    id: "pdf-iframe",
-                    src:
-                      "https://view.officeapps.live.com/op/view.aspx?src=https://edu.stacktrek.com/uploads/courses/2304/files/research.GRgPROnP.pptx",
-                    sandbox:
-                      "allow-same-origin allow-scripts allow-popups allow-forms"
-                  }
-                })
-              ])
+              _c(
+                "v-row",
+                [
+                  _c(
+                    "v-col",
+                    [
+                      _c("v-card", [
+                        _c("iframe", {
+                          staticClass: "video-c",
+                          staticStyle: { width: "100%", height: "100%" },
+                          attrs: {
+                            title: "office viewer",
+                            id: "pdf-iframe",
+                            src:
+                              "https://view.officeapps.live.com/op/view.aspx?src=https://edu.stacktrek.com/uploads/courses/2304/files/research.GRgPROnP.pptx",
+                            sandbox:
+                              "allow-same-origin allow-scripts allow-popups allow-forms"
+                          }
+                        })
+                      ])
+                    ],
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-row",
+                [
+                  _c(
+                    "v-col",
+                    [
+                      _c(
+                        "v-card",
+                        [
+                          _c("v-card-title", [
+                            _vm._v(
+                              "\n                            " +
+                                _vm._s(_vm.subModuleData.sub_module_name) +
+                                "\n                        "
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("v-card-text", { staticClass: "text--primary" }, [
+                            _c("div", [
+                              _vm._v(
+                                " " + _vm._s(_vm.subModuleData.description)
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("div", [
+                              _vm._v(" " + _vm._s(_vm.subModuleData))
+                            ]),
+                            _vm._v(" "),
+                            _c(
+                              "a",
+                              {
+                                attrs: {
+                                  href:
+                                    "/storage/" +
+                                    _vm.subModuleData.file_attachment
+                                }
+                              },
+                              [_vm._v("Donwload")]
+                            )
+                          ])
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
             ],
             1
           ),
@@ -256,7 +346,11 @@ var render = function() {
               staticClass: "pa-0 border",
               attrs: { lg: "4", sm: "12", md: "12" }
             },
-            [_c("modulesListComponent")],
+            [
+              _c("modulesListComponent", {
+                on: { subModule: _vm.getSubModuleData }
+              })
+            ],
             1
           )
         ],

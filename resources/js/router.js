@@ -120,7 +120,7 @@ let routes = [{
                                         next();
                                     } else if (res.data == 'Student') {
                                         next({
-                                            path: "test"
+                                            path: "my-modules"
                                         });
                                     }
                                 })
@@ -131,8 +131,8 @@ let routes = [{
 
                     },
                     {
-                        name: "test",
-                        path: "test",
+                        name: "student-modules",
+                        path: "my-modules",
                         component: studentmodules_tab
                     },
                     {

@@ -17,7 +17,7 @@ class CreateTblSubjectCoursesTable extends Migration
             $table->id();
             $table->string('course_code');
             $table->string('course_name');
-            $table->longtext('course_description');
+            $table->longtext('course_description')->nullable() ;
             $table->string('course_picture');
             $table->timestamps();
         });

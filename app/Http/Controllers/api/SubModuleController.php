@@ -62,16 +62,17 @@ class SubModuleController extends Controller
         if ($files = $request->file('file')) {
                     
             //store file into document folder
-            $file = $request->file->store('public/documents');
+            $file = $request->file->store('public/biliupload/courses/' .$request->main_module_id);
 
             //store your file into database
             $subModule  = new tbl_sub_modules;
             $subModule->sub_module_name = $request->sub_module_name;
             $subModule->type = $request->type;
             $subModule->main_module_id = $request->main_module_id;
+            $subModule->description = $request->description;
             $subModule->file_attachment = $file;
             $subModule->save();
-            return $subModule;
+            return $file;
             
             // return response()->json([
             //     "success" => true,

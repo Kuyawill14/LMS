@@ -188,6 +188,7 @@ __webpack_require__.r(__webpack_exports__);
       var fd = new FormData();
       fd.append('file', this.file);
       fd.append('main_module_id', this.moduleId);
+      fd.append('description', this.subModuleForm.description);
       fd.append('type', 'lecture');
       fd.append('sub_module_name', this.subModuleForm.sub_module_name);
       this.sending = true;

@@ -1,64 +1,77 @@
 <template>
     <div>
-        <v-dialog v-model="dialog" width="800px">
+        <v-dialog v-model="dialog" width="400px">
             <v-card>
-                <v-card-title class="grey darken-2">
-                    Create contact
+                <v-card-title class="">
+                    {{modalType == 'add' ? 'Create Course' : 'Edit Course'}}
                 </v-card-title>
                 <v-container>
                     <v-row class="mx-2">
-                        <v-col class="align-center justify-space-between" cols="12">
-                            <v-row align="center" class="mr-0">
-                                <v-avatar size="40px" class="mx-3">
-                                    <img src="//ssl.gstatic.com/s2/oz/images/sge/grey_silhouette.png" alt="">
-                                </v-avatar>
-                                <v-text-field placeholder="Name"></v-text-field>
-                            </v-row>
-                        </v-col>
-                        <v-col cols="6">
-                            <v-text-field prepend-icon="mdi-account-card-details-outline" placeholder="Company">
+
+                        <v-col cols="12" class="pa-0 ma-0">
+                            <v-text-field v-model="form.course_code" filled color="primary" label="Course Code">
                             </v-text-field>
                         </v-col>
-                        <v-col cols="6">
-                            <v-text-field placeholder="Job title"></v-text-field>
-                        </v-col>
-                        <v-col cols="12">
-                            <v-text-field prepend-icon="mdi-mail" placeholder="Email"></v-text-field>
-                        </v-col>
-                        <v-col cols="12">
-                            <v-text-field type="tel" prepend-icon="mdi-phone" placeholder="(000) 000 - 0000">
+
+                        <v-col cols="12" class="pa-0 ma-0">
+                            <v-text-field v-model="form.course_name" filled color="primary" label="Course Name">
                             </v-text-field>
-                        </v-col>
-                        <v-col cols="12">
-                            <v-text-field prepend-icon="mdi-text" placeholder="Notes"></v-text-field>
                         </v-col>
                     </v-row>
                 </v-container>
                 <v-card-actions>
-                    <v-btn text color="primary">More</v-btn>
+
                     <v-spacer></v-spacer>
-                    <v-btn text color="primary" @click="dialog = false">Cancel</v-btn>
-                    <v-btn text @click="dialog = false">Save</v-btn>
+                    <v-btn text color="secondary" @click="dialog = false">Cancel</v-btn>
+                    <v-btn text color="primary" @click="modalType == 'add' ? createCourse() : updateCourse()">
+                        {{modalType == 'add' ? 'Save' : 'Update'}}</v-btn>
                 </v-card-actions>
             </v-card>
         </v-dialog>
+
         <div>
             <v-row>
                 <v-col>
                     <h2>My Courses</h2>
                 </v-col>
                 <v-col class="text-right">
-                    <v-btn bottom color="primary" dark fab fixed right @click="dialog = !dialog">
+                    <v-btn bottom color="primary" dark fab fixed right @click="openAddmodal()">
                         <v-icon>mdi-plus</v-icon>
                     </v-btn>
                 </v-col>
             </v-row>
-    
+
             <v-row class="mt-3">
                 <v-col lg="3" md="6" v-for="(item, i) in allCourse" :key="'course'+i">
                     <div class="card-expansion">
                         <v-card class="mx-auto">
-                            <v-img :src="'../images/'+item.course_picture" height="200px"></v-img>
+                            <v-img :src="'../images/'+item.course_picture" height="200px">
+                                <v-spacer></v-spacer>
+                                <v-menu transition="slide-y-transition" bottom>
+                                    <template v-slot:activator="{ on, attrs }">
+                                        <v-btn  icon v-bind="attrs" v-on="on" class="float-right" color="white">
+                                            <v-icon>
+                                                mdi-dots-vertical
+                                            </v-icon>
+
+                                        </v-btn>
+                                    </template>
+                                    <v-list>
+                                        <v-list-item link :to="{name: 'settings', params: {id: item.id}}">
+                                            <v-list-item-title>Edit</v-list-item-title>
+
+                                        </v-list-item>
+                                        <v-list-item link>
+                                            <v-list-item-title>Archive</v-list-item-title>
+
+                                        </v-list-item>
+                                        <v-list-item link>
+                                            <v-list-item-title>Delete</v-list-item-title>
+
+                                        </v-list-item>
+                                    </v-list>
+                                </v-menu>
+                            </v-img>
 
                             <v-card-title>
                                 <router-link :to="{name: 'coursePage', params: {id: item.id}}">
@@ -71,34 +84,14 @@
                             </v-card-subtitle>
 
                             <v-card-actions>
-                                <v-btn text>Share</v-btn>
 
-                                <v-btn color="purple" text>
-                                    Explore
-                                </v-btn>
 
-                                <v-spacer></v-spacer>
 
-                                <v-btn icon @click="show = !show">
-                                    <v-icon>{{ show ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
-                                </v-btn>
+
+
                             </v-card-actions>
 
-                            <v-expand-transition>
-                                <div v-show="show">
-                                    <v-divider></v-divider>
 
-                                    <v-card-text>
-                                        I'm a thing. But, like most politicians, he promised more than he could deliver.
-                                        You
-                                        won't have time for sleeping, soldier, not with all the bed making you'll be
-                                        doing.
-                                        Then we'll go with that data file! Hey, you add a one and two zeros to that or
-                                        we
-                                        walk! You're going to do his laundry? I've got to find a way to escape.
-                                    </v-card-text>
-                                </div>
-                            </v-expand-transition>
                         </v-card>
 
                     </div>
@@ -146,12 +139,22 @@
 
         methods: {
             ...mapActions(['fetchCourseList']),
+               toastSuccess(message,icon) {
+                return this.$toasted.success(message, {
+                    theme: "toasted-primary",
+                    position: "top-center",
+                    icon: "done",
+                    duration: 5000
+                });
+            },
             openAddmodal() {
+                this.dialog = !this.dialog;
                 this.form.course_name = "";
                 this.form.course_code = "";
                 this.modalType = "add";
             },
             openEditmodal(course_id) {
+                   this.dialog = !this.dialog;
                 this.modalType = "update";
                 var selectedCourse = this.allCourse.find(x => x.id === course_id);
                 this.form.id = course_id;
@@ -162,21 +165,12 @@
             updateCourse() {
                 if (this.form.course_name != "" && this.form.course_id != "") {
                     this.isloading = true;
+                    this.form.action ='edit'; 
                     this.$store.dispatch('updateCourse', this.form);
                     this.fetchCourseList();
                     setTimeout(() => this.isloading = false, 1000);
-                    $('.modal').modal('hide');
-                    Toast.fire({
-                        icon: "success",
-                        title: "Your class has been updated",
-                        timer: 2000
-                    });
-                } else {
-                    Toast.fire({
-                        icon: "info",
-                        title: "Please fill up the field",
-                        timer: 1500
-                    });
+                    this. toastSuccess("Your class has been updated", 'done')
+               
                 }
             },
             createCourse() {
@@ -185,19 +179,9 @@
                     this.$store.dispatch('createCourse', this.form);
                     this.fetchCourseList();
                     setTimeout(() => this.isloading = false, 1000);
-                    $('.modal').modal('hide');
-                    Toast.fire({
-                        icon: "success",
-                        title: "Your class has been Added",
-                        timer: 2000
-                    });
+                 
+                  this.toastSuccess("Your class has been Added", 'done')
 
-                } else {
-                    Toast.fire({
-                        icon: "info",
-                        title: "Please fill up the field",
-                        timer: 1500
-                    });
                 }
             }
 
