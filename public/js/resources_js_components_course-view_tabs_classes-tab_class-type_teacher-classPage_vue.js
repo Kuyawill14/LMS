@@ -39,6 +39,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 
@@ -125,6 +130,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 
@@ -176,8 +186,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
   }),
   mounted: function mounted() {
+    console.log(this.form);
     this.form.class_name = this.getClassName;
-    console.log(this.class_id);
+    console.log(this.form);
   }
 });
 
@@ -269,11 +280,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
 var VueElementLoading = function VueElementLoading() {
   return Promise.resolve(/*! import() */).then(__webpack_require__.t.bind(__webpack_require__, /*! vue-element-loading */ "./node_modules/vue-element-loading/lib/vue-element-loading.min.js", 23));
 };
@@ -289,20 +295,6 @@ var VueElementLoading = function VueElementLoading() {
   },
   data: function data() {
     return {
-      items: [{
-        icon: 'mdi-inbox',
-        text: 'Inbox'
-      }, {
-        icon: 'mdi-star',
-        text: 'Star'
-      }, {
-        icon: 'mdi-send',
-        text: 'Send'
-      }, {
-        icon: 'mdi-email-open',
-        text: 'Drafts'
-      }],
-      model: 1,
       showModal: false,
       isloading: true,
       modalType: '',
@@ -332,7 +324,17 @@ var VueElementLoading = function VueElementLoading() {
       console.log(this.modalType);
     }
   }),
-  computed: (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(['allClass'])
+  computed: (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(['allClass']),
+  created: function created() {
+    var _this = this;
+
+    this.isloading = true;
+    this.fetchSubjectCourseClassList(this.$route.params.id);
+    setTimeout(function () {
+      return _this.isloading = false;
+    }, 1000);
+    this.isloading = false;
+  }
 });
 
 /***/ }),
@@ -699,39 +701,70 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "div",
-    { staticStyle: { width: "100%" } },
+    "v-card",
     [
+      _c("v-card-title", {}, [
+        _vm._v("\n                Edit Class\n            ")
+      ]),
+      _vm._v(" "),
       _c(
-        "md-field",
+        "v-container",
         [
-          _c("label", [_vm._v("Class Name")]),
-          _vm._v(" "),
-          _c("md-input", {
-            attrs: { required: "" },
-            model: {
-              value: _vm.form.class_name,
-              callback: function($$v) {
-                _vm.$set(_vm.form, "class_name", $$v)
-              },
-              expression: "form.class_name"
-            }
-          }),
-          _vm._v(" "),
-          _c("span", { staticClass: "md-error" }, [_vm._v("There is an error")])
+          _c(
+            "v-row",
+            { staticClass: "mx-2" },
+            [
+              _c(
+                "v-col",
+                { staticClass: "pa-0 ma-0", attrs: { cols: "12" } },
+                [
+                  _c("v-text-field", {
+                    attrs: {
+                      required: "",
+                      filled: "",
+                      color: "primary",
+                      label: "Class Name"
+                    },
+                    model: {
+                      value: _vm.form.class_name,
+                      callback: function($$v) {
+                        _vm.$set(_vm.form, "class_name", $$v)
+                      },
+                      expression: "form.class_name"
+                    }
+                  })
+                ],
+                1
+              )
+            ],
+            1
+          )
         ],
         1
       ),
       _vm._v(" "),
       _c(
-        "div",
-        { staticClass: "text-right" },
+        "v-card-actions",
         [
+          _c("v-spacer"),
+          _vm._v(" "),
           _c(
-            "md-button",
+            "v-btn",
             {
-              staticClass: "md-primary",
-              attrs: { type: "submit", disabled: _vm.sending },
+              attrs: { text: "" },
+              on: {
+                click: function($event) {
+                  return _vm.$emit("closeModal")
+                }
+              }
+            },
+            [_vm._v("Cancel")]
+          ),
+          _vm._v(" "),
+          _c(
+            "v-btn",
+            {
+              attrs: { text: "", color: "primary", disabled: _vm.sending },
               on: { click: _vm.createClass }
             },
             [_vm._v("Create")]
@@ -767,42 +800,78 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "div",
-    { staticStyle: { width: "100%" } },
+    "v-card",
     [
+      _c("v-card-title", {}, [_vm._v("\n        Edit Class\n    ")]),
+      _vm._v(" "),
       _c(
-        "md-field",
+        "v-container",
         [
-          _c("label", [_vm._v("Class Name")]),
-          _vm._v(" "),
-          _c("md-input", {
-            attrs: { required: "" },
-            model: {
-              value: _vm.form.class_name,
-              callback: function($$v) {
-                _vm.$set(_vm.form, "class_name", $$v)
-              },
-              expression: "form.class_name"
-            }
-          }),
-          _vm._v(" "),
-          _c("span", { staticClass: "md-error" }, [_vm._v("There is an error")])
+          _c(
+            "v-row",
+            { staticClass: "mx-2" },
+            [
+              _c(
+                "v-col",
+                { staticClass: "pa-0 ma-0", attrs: { cols: "12" } },
+                [
+                  _c("v-text-field", {
+                    attrs: {
+                      required: "",
+                      filled: "",
+                      color: "primary",
+                      label: "Class Name"
+                    },
+                    model: {
+                      value: _vm.form.class_name,
+                      callback: function($$v) {
+                        _vm.$set(_vm.form, "class_name", $$v)
+                      },
+                      expression: "form.class_name"
+                    }
+                  }),
+                  _vm._v(
+                    "\n                " +
+                      _vm._s(_vm.class_id) +
+                      "    " +
+                      _vm._s(_vm.class_name) +
+                      "\n            "
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
         ],
         1
       ),
       _vm._v(" "),
       _c(
-        "div",
-        { staticClass: "text-right" },
+        "v-card-actions",
         [
+          _c("v-spacer"),
+          _vm._v(" "),
           _c(
-            "md-button",
+            "v-btn",
             {
-              staticClass: "md-primary",
-              attrs: { type: "submit", disabled: _vm.sending },
+              attrs: { text: "", color: "secondary" },
+              on: {
+                click: function($event) {
+                  return _vm.$emit("closeModal")
+                }
+              }
+            },
+            [_vm._v("Cancel")]
+          ),
+          _vm._v(" "),
+          _c(
+            "v-btn",
+            {
+              attrs: { text: "", color: "primary", disabled: _vm.sending },
               on: { click: _vm.updateClass }
             },
-            [_vm._v("Save Changes\n        ")]
+            [_vm._v("Save")]
           )
         ],
         1
@@ -836,44 +905,18 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
+    { staticClass: "pt-4" },
     [
-      _vm.allClass.length == 0
-        ? _c(
-            "md-empty-state",
-            {
-              attrs: {
-                "md-icon": "devices_other",
-                "md-label": "Create your first class",
-                "md-description":
-                  "Creating class, you'll be able to upload your design and collaborate with people."
-              }
-            },
-            [
-              _c(
-                "md-button",
-                {
-                  staticClass: "md-primary md-raised",
-                  on: {
-                    click: function($event) {
-                      return _vm.openAddmodal()
-                    }
-                  }
-                },
-                [_vm._v("Create first class")]
-              )
-            ],
-            1
-          )
-        : _vm._e(),
-      _vm._v(" "),
       _c(
-        "Modal",
+        "v-dialog",
         {
-          attrs: { "based-on": _vm.showModal, title: "Class" },
-          on: {
-            close: function($event) {
-              return _vm.closeModal()
-            }
+          attrs: { width: "400px" },
+          model: {
+            value: _vm.showModal,
+            callback: function($$v) {
+              _vm.showModal = $$v
+            },
+            expression: "showModal"
           }
         },
         [

@@ -41,7 +41,6 @@ class ClassController extends Controller
         ->get();
 
         if(auth('sanctum')->user()->role == "Student") {
-            $userId = auth('sanctum')->id();
             $allClass = DB::table('tbl_userclasses')
             ->select('tbl_userclasses.id as useClass_id',
             'tbl_classes.class_name',
@@ -142,7 +141,7 @@ class ClassController extends Controller
         ->leftJoin('tbl_classes', 'tbl_userclasses.class_id', '=', 'tbl_classes.id')
         ->leftJoin('tbl_subject_courses', 'tbl_userclasses.course_id', '=', 'tbl_subject_courses.id')
         ->where('tbl_userclasses.course_id',$course_id)
-        ->where('user_id',2)
+        ->where('user_id',$userId)
         ->get();
         return $selectedClass;
     }

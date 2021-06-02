@@ -1,22 +1,27 @@
 <template>
-    <div style="width: 100%;">
 
+    <v-card>
+                <v-card-title class="">
+                    Edit Class
+                </v-card-title>
+                <v-container>
+                    <v-row class="mx-2">
 
-        <md-field>
-            <label>Class Name</label>
-            <md-input required v-model="form.class_name"></md-input>
-            <span class="md-error">There is an error</span>
-        </md-field>
+                        <v-col cols="12" class="pa-0 ma-0">
+                            <v-text-field required v-model="form.class_name" filled color="primary"
+                            label="Class Name"></v-text-field>
+                        </v-col>
+                      
 
-        <div class="text-right">
-            <md-button type="submit" class="md-primary" :disabled="sending" @click="createClass">Create</md-button>
+                    </v-row>
+                </v-container>
+                <v-card-actions>
 
-        </div>
-
-        <!-- 
-        <md-switch v-model="hasMessages">{{ !hasMessages ? 'Show' : 'Hide' }} Errors</md-switch> -->
-
-    </div>
+                    <v-spacer></v-spacer>
+                    <v-btn text  @click="$emit('closeModal');">Cancel</v-btn>
+                    <v-btn text color="primary" :disabled="sending" @click="createClass">Create</v-btn>
+                </v-card-actions>
+            </v-card>
 </template>
 
 <script>

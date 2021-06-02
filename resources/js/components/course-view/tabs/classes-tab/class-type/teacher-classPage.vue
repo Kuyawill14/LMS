@@ -1,18 +1,13 @@
 <template>
-    <div >
-        <md-empty-state md-icon="devices_other" md-label="Create your first class" v-if="allClass.length ==0"
-            md-description="Creating class, you'll be able to upload your design and collaborate with people.">
-            <md-button class="md-primary md-raised" @click="openAddmodal()">Create first class</md-button>
-        </md-empty-state>
+    <div class="pt-4"> 
+    
 
 
-
-        <Modal :based-on="showModal" title="Class" @close="closeModal()">
-            <!-- <createClassForm :class_name="form.class_name" :class_id="form.id" /> -->
+        <v-dialog v-model="showModal" width="400px">
             <createClassForm v-on:closeModal="closeModal()" v-if="modalType == 'add'" />
             <editClassForm v-on:closeModal="closeModal()" :class_name="form.class_name" :class_id="form.class_id"
                 v-if="modalType == 'edit'" />
-        </Modal>
+        </v-dialog>
         <v-row>
             <v-col>
                 <h2>My Class</h2>
@@ -25,7 +20,7 @@
             </v-col>
         </v-row>
 
-    
+
 
         <v-card v-for="(item, index) in allClass" :key="index" class="mt-3">
             <v-list-item>
@@ -86,24 +81,8 @@
 
         },
         data: () => ({
-            items: [{
-                    icon: 'mdi-inbox',
-                    text: 'Inbox',
-                },
-                {
-                    icon: 'mdi-star',
-                    text: 'Star',
-                },
-                {
-                    icon: 'mdi-send',
-                    text: 'Send',
-                },
-                {
-                    icon: 'mdi-email-open',
-                    text: 'Drafts',
-                },
-            ],
-            model: 1,
+          
+           
 
             showModal: false,
             isloading: true,
@@ -143,6 +122,13 @@
 
         },
         computed: mapGetters(['allClass']),
+           created() {
+            this.isloading = true;
+            this.fetchSubjectCourseClassList(this.$route.params.id);
+            setTimeout(() => this.isloading = false, 1000);
+            this.isloading = false;
+        },
+
 
     }
 

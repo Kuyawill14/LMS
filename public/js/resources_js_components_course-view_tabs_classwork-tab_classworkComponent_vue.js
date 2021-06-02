@@ -45,18 +45,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 var classworkList = function classworkList() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_tabs_classwork-tab_classworkList_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./classworkList */ "./resources/js/components/course-view/tabs/classwork-tab/classworkList.vue"));
 };
@@ -245,7 +233,11 @@ var render = function() {
                       staticClass: "text-subtitle-1 text-center",
                       attrs: { cols: "12" }
                     },
-                    [_vm._v("\n      Getting your Classworks\n    ")]
+                    [
+                      _vm._v(
+                        "\n                Getting your Classworks\n            "
+                      )
+                    ]
                   ),
                   _vm._v(" "),
                   _c(

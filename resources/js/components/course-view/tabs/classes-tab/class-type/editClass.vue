@@ -1,23 +1,28 @@
 <template>
-    <div style="width: 100%;">
+    <v-card>
+        <v-card-title class="">
+            Edit Class
+        </v-card-title>
+        <v-container>
+            <v-row class="mx-2">
+
+                <v-col cols="12" class="pa-0 ma-0">
+                    <v-text-field required v-model="form.class_name" filled color="primary" label="Class Name">
+                    </v-text-field>
+                    {{class_id}}    {{class_name}}
+                </v-col>
 
 
-        <md-field>
-            <label>Class Name</label>
-            <md-input required v-model="form.class_name"></md-input>
-            <span class="md-error">There is an error</span>
-        </md-field>
+            </v-row>
+        </v-container>
+        <v-card-actions>
 
-        <div class="text-right">
-            <md-button type="submit" class="md-primary" :disabled="sending" @click="updateClass">Save Changes
-            </md-button>
+            <v-spacer></v-spacer>
+            <v-btn text color="secondary" @click="$emit('closeModal');">Cancel</v-btn>
+            <v-btn text color="primary" :disabled="sending" @click="updateClass">Save</v-btn>
+        </v-card-actions>
+    </v-card>
 
-        </div>
-
-        <!-- 
-        <md-switch v-model="hasMessages">{{ !hasMessages ? 'Show' : 'Hide' }} Errors</md-switch> -->
-
-    </div>
 </template>
 
 <script>
@@ -66,6 +71,7 @@
                     duration: 5000
                 });
             },
+
             updateClass() {
                 this.sending = true;
                 this.$emit('closeModal');
@@ -86,9 +92,10 @@
             },
         },
         mounted() {
-
+            console.log(this.form);
             this.form.class_name = this.getClassName;
-            console.log(this.class_id);
+              console.log(this.form);
+          
         }
     }
 

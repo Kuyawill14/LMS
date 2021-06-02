@@ -9,14 +9,9 @@ require('./bootstrap');
 window.Vue = require('vue').default;
 
 import Vue from 'vue'
-import VueMaterial from 'vue-material'
-import 'vue-material/dist/vue-material.min.css'
-import 'vue-material/dist/theme/default.css'
-import VueModal from '@kouts/vue-modal'
-import '@kouts/vue-modal/dist/vue-modal.css'
+
 import Toasted from 'vue-toasted';
 import vuetify from './plugin/vuetify';
-Vue.use(VueMaterial)
 
 
 Vue.use(Toasted)
@@ -35,7 +30,7 @@ Vue.component(HasError.name, HasError);
 Vue.component(AlertError.name, AlertError);
 Vue.component(AlertErrors.name, AlertErrors);
 Vue.component(AlertSuccess.name, AlertSuccess);
-Vue.component('Modal', VueModal)
+
 
 import router from "./router";
 //Vuex Store

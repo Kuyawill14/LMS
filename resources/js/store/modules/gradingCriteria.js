@@ -71,14 +71,7 @@ const mutations = {
         var index = state.gradingCriteria.findIndex(gradingCriteria => gradingCriteria.id == id)
         state.gradingCriteria.splice(index, 1);
     },
-    UPDATE_CRITERIA(state, newgradingCriteria) {
-        const idx = state.gradingCriteria.indexOf(
-            state.gradingCriteria.find(c => {
-                c.id === newgradingCriteria.id;
-            })
-        );
-        state.gradingCriteria.splice(idx, 1, newgradingCriteria);
-    },
+
     UPDATE_CRITERIA: (state, newgradingCriteria) => {
         var index = state.gradingCriteria.findIndex(function(item, i) {
             return item.id === newgradingCriteria.id;

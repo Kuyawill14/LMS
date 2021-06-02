@@ -85,14 +85,15 @@ const actions = {
 const mutations = {
     setClassList: (state, classList) => (state.classList = classList),
 
-    ADD_class: (state, newCLass) => (state.classList = newCLass),
-    EDIT_class(state, newCLass) {
-        const idx = state.classList.indexOf(
-            state.classList.find(c => {
-                c.id === newCLass.id;
-            })
-        );
-        state.classList.splice(idx, 1, newCLass);
+    ADD_class: (state, newCLass) => (state.classList.push(newCLass)),
+
+    EDIT_class: (state, newCLass) => {
+        var index = state.classList.findIndex(function(item, i) {
+            return item.id === newCLass.id;
+        });
+        state.classList[index] = classList;
+        state.classList = JSON.parse(JSON.stringify(state.classList))
+
     },
     //JOIN_class: (state, newCLass) => (state.classList = newCLass),
     Unenroll_class: (state, newCLass) => (state.classList = newCLass),
