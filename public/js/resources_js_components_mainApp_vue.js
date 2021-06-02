@@ -434,16 +434,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   computed: (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(["get_notification", "get_notification_count"]),
   methods: _objectSpread(_objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapActions)(['fetchNotification'])), (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapActions)(['UnreadMessage'])), {}, {
-    /*  connect(){
-          let newVm = this;
-          this.fetchNotification();
-          window.Echo.private("notification")
-          .listen('NewNotification', e =>{
-              newVm.fetchNotification();
-          })
-       }, */
-    fetchNotificationData: function fetchNotificationData() {
+    connect: function connect() {
+      var newVm = this;
       this.fetchNotification();
+      window.Echo["private"]("notification").listen('NewNotification', function (e) {
+        newVm.fetchNotification();
+      });
     },
     UnreadNotification: function UnreadNotification(id) {
       var _this = this;
@@ -481,7 +477,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     })
   }),
   mounted: function mounted() {
-    this.fetchNotificationData();
+    this.connect();
   }
 });
 

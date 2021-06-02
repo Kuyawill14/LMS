@@ -53,7 +53,7 @@ class ClassworkController extends Controller
         $newClasswork->user_id = $userId;
         $newClasswork->type =  $request->type;
         $newClasswork->title =  $request->title;
-        $newClasswork->description =  $request->description;
+        $newClasswork->description =  $request->instruction;
         $newClasswork->due_date =  $request->due_date;
         $newClasswork->status =  0;
         $newClasswork->save();

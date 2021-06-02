@@ -106,17 +106,13 @@ import moment from 'moment'
       methods:{
             ...mapActions(['fetchNotification']),
             ...mapActions(['UnreadMessage']),
-           /*  connect(){
+            connect(){
                  let newVm = this;
                  this.fetchNotification();
                  window.Echo.private("notification")
                  .listen('NewNotification', e =>{
                      newVm.fetchNotification();
                  })
-
-            }, */
-            fetchNotificationData(){
-                this.fetchNotification();
             },
             UnreadNotification(id){
                 axios.post('/api/notification/'+id).then((res)=>{
@@ -141,9 +137,8 @@ import moment from 'moment'
             }
           
         },
-      
         mounted() {
-            this.fetchNotificationData();
+            this.connect();
         }
   }
 </script>

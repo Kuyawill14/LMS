@@ -38,7 +38,7 @@ class AuthController extends Controller
    
         $validated = $request->validate([
             'firstName' => ['required'],
-            'middlename' => ['required'],
+            'middleName' => ['required'],
             'lastName' => ['required'],
             'role' => ['required'],
             'email' => ['required', 'email', 'unique:users'],
@@ -50,7 +50,7 @@ class AuthController extends Controller
      
        $New =  User::create([
             'firstName' =>  $request->firstName,
-            'middleName' =>  $request->middlename,
+            'middleName' =>  $request->middleName,
             'lastName' =>  $request->lastName,
             'email' =>  $request->email,
             'password' => Hash::make($request->password),

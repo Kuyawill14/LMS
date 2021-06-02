@@ -1,266 +1,204 @@
 <template>
-  <div class="centered-container">
-    <div class="loading-overlay" v-if="loading">
-        <md-progress-spinner md-mode="indeterminate" :md-stroke="2"></md-progress-spinner>
-    </div>
-    <form novalidate class="md-layout" @submit.prevent="validateUser">
-    <md-content class="md-elevation-3">
+  <v-app>
 
-      <div class="title">
-        <img src="https://vuematerial.io/assets/logo-color.png">
-        <div class="md-title">Vue Material</div>
-      </div>
-        <md-card-header>
-            <div class="heading-bx left">
-                <h2 class="title-head">Sign Up <span>Now</span></h2>
-                <p>Login Your Account <router-link :to="{name: 'login'}">Click here</router-link>
-                </p>
-            </div>
-        </md-card-header>
-          <div class="md-layout md-gutter">
-            <div class="md-layout-item md-small-size-100">
-              <md-field :class="getValidationClass('firstName')">
-                <label for="first-name">First Name</label>
-                <md-input name="first-name" id="first-name" autocomplete="given-name" v-model="form.firstName" :disabled="sending" />
-                <span class="md-error" v-if="!$v.form.firstName.required">The first name is required</span>
-                <span class="md-error" v-else-if="!$v.form.firstName.minlength">Invalid first name</span>
-                <HasError :form="form" field="first-name" />
-                 <HasError class="md-error" :form="form" field="firstName" />
-              </md-field>
-            </div>
+      <v-container class="fill-height" fluid>
+        <v-row align="center" justify="center">
+          <v-col cols="12" sm="8" md="8">
+            <v-card  class="elevation-12">
+              <v-window>
+                <v-window-item>
+                     <v-row class="fill-height">
+                        <v-col cols="12" md="4" class="primary">
+                          
+                        </v-col>
 
-            <div class="md-layout-item md-small-size-100">
-              <md-field :class="getValidationClass('middlename')">
-                <label for="middle-name">Middle Name</label>
-                <md-input name="middle-name" id="middle-name" autocomplete="family-name" v-model="form.middlename" :disabled="sending" />
-                <span class="md-error" v-if="!$v.form.middlename.required">The middle name is required</span>
-                <span class="md-error" v-else-if="!$v.form.middlename.minlength">Invalid middle name</span>
-              </md-field>
-               <HasError class="md-error" :form="form" field="middlename" />
-            </div>
+                            <v-col cols="12" md="8">
+                            <v-card-text class="pt-10">
+                                <h1
+                                class=" display-1 primary--text "
+                                >Sign Up <span>Now</span></h1>
+                                <p class="mt-2">Login Your Account <router-link :to="{name: 'login'}">Click here</router-link>
+                                </p>
 
-            <div class="md-layout-item md-small-size-100">
-                <md-field :class="getValidationClass('lastName')">
-                <label for="last-name">Last Name</label>
-                <md-input name="last-name" id="last-name" autocomplete="family-name" v-model="form.lastName" :disabled="sending" />
-                <span class="md-error" v-if="!$v.form.lastName.required">The last name is required</span>
-                <span class="md-error" v-else-if="!$v.form.lastName.minlength">Invalid last name</span>
-                </md-field>
-                 <HasError class="md-error" :form="form" field="lastName" />
-            </div>
+                                <v-form  
+                                class="text-center mt-12 pl-1 pr-5"
+                                 ref="RegisterForm"
+                                  v-model="valid" 
+                                  lazy-validation
+                                >
+                                  
+                                    <v-text-field
+            
+                                    :rules="nameRules"
+                                    label="First Name"
+                                    name="firstName"
+                                    v-model="form.firstName"
+                                    type="text"
+                                    color="primary"
+                                />
+                                
+                                <HasError class="error--text" :form="form" field="middleName" />
+                                <v-text-field
+        
+                                    label="Middle Name"
+                                    :rules="nameRules"
+                                    name="middleName"
+                                    v-model="form.middleName"
+                                    type="text"
+                                    color="primary"
+                                />
+                                  
+                                  <HasError class="error--text" :form="form" field="lastName" />
+                                    <v-text-field
+         
+                                    label="Last Name"
+                                    :rules="nameRules"
+                                    name="lastname"
+                                    v-model="form.lastName"
+                                    type="text"
+                                    color="primary"
+                                />
 
-          </div>
-
-          <md-field :class="getValidationClass('email')">
-            <label for="email">Email</label>
-            <md-input type="email" name="email" id="email" autocomplete="email" v-model="form.email" :disabled="sending" />
-            <span class="md-error" v-if="!$v.form.email.required">The email is required</span>
-            <span class="md-error" v-else-if="!$v.form.email.email">Invalid email</span>
-          </md-field>
-          <HasError class="md-error" :form="form" field="email" />
+                                 <HasError class="error--text" :form="form" field="email" />
+                                <v-text-field
           
+                                    label="Email"
+                                    name="Email"
+                                    :rules="loginEmailRules"
+                                    v-model="form.email"
+                                    type="email"
+                                    color="primary"
+                                />
 
-           <md-field :class="getValidationClass('password')">
-            <label for="password">Password</label>
-            <md-input type="password" name="password" id="password" v-model="form.password" :disabled="sending" />
-            <span class="md-error" v-if="!$v.form.password.required">The password is required</span>
-          </md-field>
-          <HasError class="md-error" :form="form" field="password" />
+                
+                                <HasError class="error--text" :form="form" field="password" />
+                                <v-text-field
+                  
+                                    :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
+                                    id="password"
+                                    label="Password"
+                                    name="password"
+                                    v-model="form.password"
+                                    :type="show ? 'text' : 'password'"
+                                    color="primary"
+                                    :rules="[rules.required, rules.min]"
+                                    counter @click:append="show = !show"
+                                />
 
-           <md-field :class="getValidationClass('password_confirmation')">
-            <label for="password_confirmation">Confirm Password</label>
-            <md-input type="password" name="password_confirmation" id="password_confirmation" v-model="form.password_confirmation" :disabled="sending" />
-            <span class="md-error" v-if="!$v.form.password_confirmation.required">The Confirm password is required</span>
-          </md-field>
+                                    <v-text-field
+                              
+                                    :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+                                    id="passwordConfirmation"
+                                    label="Confirm Password"
+                                    name="password"
+                                    v-model="form.password_confirmation"
+                                    :type="show1 ? 'text' : 'password'"
+                                    color="primary"
+                                    :rules="[rules.required, passwordMatch]"
+                                    counter @click:append="show1 = !show1"
+                                />
 
-        <md-field :class="getValidationClass('role')">
-          <label for="role">Role</label>
-          <md-select v-model="form.role" name="role" id="role" md-dense>
-            <md-option value="Teacher">Teacher</md-option>
-            <md-option value="Student">Student</md-option>
-          </md-select>
-          <span class="md-error" v-if="!$v.form.role.required">The role is required</span>
-        </md-field>
-        <HasError class="md-error" :form="form" field="role" />
+                               
+                                
+                                  <v-select
+        
+                                :items="role"
+                                v-model="form.role"
+                                :rules="RoleRules"
+                                label="Role"
+                                ></v-select>
+                                </v-form>
 
-        <md-progress-bar md-mode="indeterminate" v-if="sending" />
+                              
+                            <!--   <h3 class="text-center mt-4">Forgot your password ?</h3> -->
+                            </v-card-text>
+                            <v-container ma-0 pa-0 class="pb-5 pl-5 pr-5">
+                                <v-btn  
+                                  :disabled="!valid" 
+                                   @click="validate"
+                                  color="primary" class="mb-5">
+                                    <v-icon class="mr-3">mdi-login</v-icon>
+                                Sign Up
+                                </v-btn>
 
-        <md-card-actions>
-          <md-button type="submit" class="md-raised md-primary" :disabled="sending">Create user</md-button>
-        </md-card-actions>
+                                <v-container ma-0 pa-0 class="mt-2">
+                                    <h3>Sign Up with Social media</h3>
+                                        <v-btn  color="blue" class="mb-3 mt-1 mr-5 white--text">
+                                        <v-icon class="mr-3">mdi-facebook</v-icon>
+                                    Facebook
+                                    </v-btn>
 
-
-      <md-snackbar :md-active.sync="userSaved">The user {{ lastUser }} was saved with success!</md-snackbar>
-   
-    </md-content>
-     </form>
-  </div>
+                                    <v-btn  color="red darken-1" class="mb-3 mt-1 white--text">
+                                        <v-icon class="mr-3">mdi-google-plus</v-icon>
+                                    Google Plus
+                                    </v-btn>
+                                </v-container>
+                                
+                            </v-container> 
+                            </v-col> 
+                        </v-row>
+                </v-window-item>
+              </v-window>
+            </v-card>
+          </v-col>
+        </v-row>
+      </v-container>
+ 
+  </v-app>
 </template>
 
 <script>
-  import { validationMixin } from 'vuelidate'
-  import {
-    required,
-    email,
-    minLength,
-    maxLength
-  } from 'vuelidate/lib/validators'
 
-  export default {
-    name: 'FormValidation',
-    mixins: [validationMixin],
-    data: () => ({
-      form: new Form({
-        firstName: null,
-        lastName: null,
-        middlename: null,
-        email: null,
-        password: null,
-        password_confirmation: null,
-        role:''
+export default {
+  data: () => ({
+    valid: true,
+    role: ['Teacher', 'Student'],
+    form: new Form({
+          firstName:"",
+          middleName:"",
+          lastName:"",
+          email: "",
+          password: "",
+          password_confirmation: "",
+          role: ""
       }),
-      userSaved: false,
-      sending: false,
-      lastUser: null,
-      loading: false,
-      confirm: false,
-    }),
-    validations: {
-      form: {
-        firstName: {
-          required,
-          minLength: minLength(3)
-        },
-        lastName: {
-          required,
-          minLength: minLength(3)
-        },
-        middlename:{
-              required,
-              minLength: minLength(1)
-        },
-        email: {
-          required,
-          email
-        },
-        password:{
-            required
-        },
-        role:{
-            required
-        },
-        password_confirmation:{
-            required
-        }
-      }
-    },
-    methods: {
-
-      getValidationClass (fieldName) {
-        const field = this.$v.form[fieldName]
-
-        if (field) {
-          return {
-            'md-invalid': field.$invalid && field.$dirty
-          }
-        }
-      },
-      clearForm () {
-        this.$v.$reset()
-        this.form.firstName = null
-        this.form.lastName = null
-        this.form.middlename = null
-        this.form.role = ''
-        this.form.email = null
-        this.form.password = null
-        this.form.password_confirmation = null
-      },
-      saveUser () {
-        this.sending = true
-        this.form.post('/api/registerUser')
-        .then(() => {
-            console.log("Success");
-             this.userSaved = true
-            this.sending = false
-            this.clearForm()
-        })
-        .catch(e=>{
-            this.sending = false
-        })
-        console.log(this.form)
-        
-      },
-      validateUser () {
-        this.$v.$touch()
-
-        if (!this.$v.$invalid) {
-          this.saveUser()
-        }
-      }
-    },
-    mounted(){
-        this.loading = true;
-          setTimeout(() => {
-        this.loading = false;
-      }, 1000);
+       nameRules: [
+        v => !!v || 'Field is required',
+        v => (v && v.length <= 20) || 'Name must be less than 20 characters',
+      ],
+      loginEmailRules: [
+      v => !!v || "Field is required",
+      v => /.+@.+\..+/.test(v) || "Email must be valid"
+      ],
+       RoleRules: [
+      v => !!v || "Field is required",
+      ],
+    show: false,
+    show1: false,
+    rules: {
+      required: value => !!value || "Field is required.",
+      min: v => (v && v.length >= 6) || "min 6 characters"
     }
+  }),
+   computed: {
+    passwordMatch() {
+      return () => this.password === this.password_confirmation || "Password must match";
+    }
+  },
+  methods:{
+    Test(){
+      console.log(this.form);
+    },
+    validate() {
+      if (this.$refs.RegisterForm.validate()) {
+          this.form.post('/api/registerUser')
+          .then(() => {
+                console.log("Success");
+                this.form.reset()
+                this.valid = true;
+            })
+      }
+    },
   }
+};
 </script>
-
-<style lang="scss" scoped>
-.centered-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  height: 100vh;
-
-  .title {
-    text-align: center;
-    margin-bottom: 30px;
-    img {
-      margin-bottom: 16px;
-      max-width: 80px;
-    }
-  }
-  .actions {
-    .md-button {
-      margin: 0;
-    }
-  }
-  .form {
-    margin-bottom: 60px;
-  }
-  .background {
-    background: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxOTIwIiBoZWlnaHQ9IjEwODAiPgogIDxwYXRoIGZpbGw9IiNmM2YzZjMiIHN0cm9rZT0iI2YzZjNmMyIgc3Ryb2tlLXdpZHRoPSIxLjUxIiBkPSJNMTQ0LTQ5Nmw2MjcgMTY3IDI1OSA2eiIvPgogIDxwYXRoIGZpbGw9IiNlM2UzZTMiIHN0cm9rZT0iI2UzZTNlMyIgc3Ryb2tlLXdpZHRoPSIxLjUxIiBkPSJNNDczIDE1MjZsLTcxMCAxNDQgMTU0OS02NHoiLz4KICA8cGF0aCBmaWxsPSIjZWVlIiBzdHJva2U9IiNlZWUiIHN0cm9rZS13aWR0aD0iMS41MSIgZD0iTTEwMzAtMzIzaDU5MWwzODMtMTU5eiIvPgogIDxwYXRoIGZpbGw9IiNmMWYxZjEiIHN0cm9rZT0iI2YxZjFmMSIgc3Ryb2tlLXdpZHRoPSIxLjUxIiBkPSJNMTQ0LTQ5Nmw4ODYgMTczIDk3NC0xNTl6Ii8+CiAgPHBhdGggZmlsbD0iI2UwZTBlMCIgc3Ryb2tlPSIjZTBlMGUwIiBzdHJva2Utd2lkdGg9IjEuNTEiIGQ9Ik0yMjMxIDQ5NWwtNjIgMjA1IDEwNCAzMTJ6Ii8+CiAgPHBhdGggZmlsbD0iI2U2ZTZlNiIgc3Ryb2tlPSIjZTZlNmU2IiBzdHJva2Utd2lkdGg9IjEuNTEiIGQ9Ik0xOTc4LTQybDI1MyA1MzcgNjEtNzQ1eiIvPgogIDxwYXRoIGZpbGw9IiNlZmVmZWYiIHN0cm9rZT0iI2VmZWZlZiIgc3Ryb2tlLXdpZHRoPSIxLjUxIiBkPSJNMTQ0LTQ5NmwxODYwIDE0IDUzNC05MnoiLz4KICA8cGF0aCBmaWxsPSIjZjVmNWY1IiBzdHJva2U9IiNmNWY1ZjUiIHN0cm9rZS13aWR0aD0iMS41MSIgZD0iTS01OTgtNTYxbDc0MiA2NSAyMzk0LTc4eiIvPgogIDxwYXRoIGZpbGw9IiNlMGUwZTAiIHN0cm9rZT0iI2UwZTBlMCIgc3Ryb2tlLXdpZHRoPSIxLjUxIiBkPSJNMjI3MyAxMDEybC0xOSA0NDkgMjg0LTIwMzV6Ii8+CiAgPHBhdGggZmlsbD0iI2VhZWFlYSIgc3Ryb2tlPSIjZWFlYWVhIiBzdHJva2Utd2lkdGg9IjEuNTEiIGQ9Ik0yMDA0LTQ4MmwyODggMjMyIDI0Ni0zMjR6Ii8+CiAgPHBhdGggZmlsbD0iI2U2ZTZlNiIgc3Ryb2tlPSIjZTZlNmU2IiBzdHJva2Utd2lkdGg9IjEuNTEiIGQ9Ik0yMjkyLTI1MGwtNjEgNzQ1IDMwNy0xMDY5eiIvPgogIDxwYXRoIGZpbGw9IiNlM2UzZTMiIHN0cm9rZT0iI2UzZTNlMyIgc3Ryb2tlLXdpZHRoPSIxLjUxIiBkPSJNMjIzMSA0OTVsNDIgNTE3IDI2NS0xNTg2eiIvPgogIDxwYXRoIGZpbGw9IiNkZGQiIHN0cm9rZT0iI2RkZCIgc3Ryb2tlLXdpZHRoPSIxLjUxIiBkPSJNMTg0OSAxMDAzbC0xMDMgNDEyIDIyOSAxNDF6Ii8+CiAgPHBhdGggZmlsbD0iI2U0ZTRlNCIgc3Ryb2tlPSIjZTRlNGU0IiBzdHJva2Utd2lkdGg9IjEuNTEiIGQ9Ik0xOTc4LTQybC05MyA1MzAgMzQ2IDd6Ii8+CiAgPHBhdGggZmlsbD0iI2RjZGNkYyIgc3Ryb2tlPSIjZGNkY2RjIiBzdHJva2Utd2lkdGg9IjEuNTEiIGQ9Ik0xODQ5IDEwMDNsMTI2IDU1MyAyNzktOTV6Ii8+CiAgPHBhdGggZmlsbD0iI2RkZCIgc3Ryb2tlPSIjZGRkIiBzdHJva2Utd2lkdGg9IjEuNTEiIGQ9Ik0xODQ5IDEwMDNsNDA1IDQ1OCAxOS00NDl6Ii8+CiAgPHBhdGggZmlsbD0iI2RmZGZkZiIgc3Ryb2tlPSIjZGZkZmRmIiBzdHJva2Utd2lkdGg9IjEuNTEiIGQ9Ik0yMTY5IDcwMGwtMzIwIDMwMyA0MjQgOXoiLz4KICA8cGF0aCBmaWxsPSIjZWFlYWVhIiBzdHJva2U9IiNlYWVhZWEiIHN0cm9rZS13aWR0aD0iMS41MSIgZD0iTTIwMDQtNDgybC0yNiA0NDAgMzE0LTIwOHoiLz4KICA8cGF0aCBmaWxsPSIjZTJlMmUyIiBzdHJva2U9IiNlMmUyZTIiIHN0cm9rZS13aWR0aD0iMS41MSIgZD0iTTE4ODUgNDg4bDI4NCAyMTIgNjItMjA1eiIvPgogIDxwYXRoIGZpbGw9IiNlMmUyZTIiIHN0cm9rZT0iI2UyZTJlMiIgc3Ryb2tlLXdpZHRoPSIxLjUxIiBkPSJNMTg4NSA0ODhsLTgzIDEzMyAzNjcgNzl6Ii8+CiAgPHBhdGggZmlsbD0iI2UxZTFlMSIgc3Ryb2tlPSIjZTFlMWUxIiBzdHJva2Utd2lkdGg9IjEuNTEiIGQ9Ik0xODAyIDYyMWw0NyAzODIgMzIwLTMwM3oiLz4KICA8cGF0aCBmaWxsPSIjZGZkZmRmIiBzdHJva2U9IiNkZmRmZGYiIHN0cm9rZS13aWR0aD0iMS41MSIgZD0iTTE2ODUgMTEzOWw2MSAyNzYgMTAzLTQxMnoiLz4KICA8cGF0aCBmaWxsPSIjZTJlMmUyIiBzdHJva2U9IiNlMmUyZTIiIHN0cm9rZS13aWR0aD0iMS41MSIgZD0iTTE4MDIgNjIxbC02MiA2OCAxMDkgMzE0eiIvPgogIDxwYXRoIGZpbGw9IiNkY2RjZGMiIHN0cm9rZT0iI2RjZGNkYyIgc3Ryb2tlLXdpZHRoPSIxLjUxIiBkPSJNMTc0NiAxNDE1bC00MzQgMTkxIDY2My01MHoiLz4KICA8cGF0aCBmaWxsPSIjZTdlN2U3IiBzdHJva2U9IiNlN2U3ZTciIHN0cm9rZS13aWR0aD0iMS41MSIgZD0iTTE2MTcgMTcybDI2OCAzMTYgOTMtNTMweiIvPgogIDxwYXRoIGZpbGw9IiNlYmViZWIiIHN0cm9rZT0iI2ViZWJlYiIgc3Ryb2tlLXdpZHRoPSIxLjUxIiBkPSJNMTYyMS0zMjNsMzU3IDI4MSAyNi00NDB6Ii8+CiAgPHBhdGggZmlsbD0iI2VhZWFlYSIgc3Ryb2tlPSIjZWFlYWVhIiBzdHJva2Utd2lkdGg9IjEuNTEiIGQ9Ik0xNjIxLTMyM2wtNCA0OTUgMzYxLTIxNHoiLz4KICA8cGF0aCBmaWxsPSIjZWJlYmViIiBzdHJva2U9IiNlYmViZWIiIHN0cm9rZS13aWR0aD0iMS41MSIgZD0iTTE0MTAtNDlsMjA3IDIyMSA0LTQ5NXoiLz4KICA8cGF0aCBmaWxsPSIjZTVlNWU1IiBzdHJva2U9IiNlNWU1ZTUiIHN0cm9rZS13aWR0aD0iMS41MSIgZD0iTTE2MTcgMTcybDE4NSA0NDkgODMtMTMzeiIvPgogIDxwYXRoIGZpbGw9IiNlNWU1ZTUiIHN0cm9rZT0iI2U1ZTVlNSIgc3Ryb2tlLXdpZHRoPSIxLjUxIiBkPSJNMTYxNyAxNzJsMTIzIDUxNyA2Mi02OHoiLz4KICA8cGF0aCBmaWxsPSIjZTFlMWUxIiBzdHJva2U9IiNlMWUxZTEiIHN0cm9rZS13aWR0aD0iMS41MSIgZD0iTTE3NDAgNjg5bC01NSA0NTAgMTY0LTEzNnoiLz4KICA8cGF0aCBmaWxsPSIjZTZlNmU2IiBzdHJva2U9IiNlNmU2ZTYiIHN0cm9rZS13aWR0aD0iMS41MSIgZD0iTTE2MTcgMTcybC0zOTMgNDUxIDUxNiA2NnoiLz4KICA8cGF0aCBmaWxsPSIjZTJlMmUyIiBzdHJva2U9IiNlMmUyZTIiIHN0cm9rZS13aWR0aD0iMS41MSIgZD0iTTEyNDQgOTYybDQ0MSAxNzcgNTUtNDUweiIvPgogIDxwYXRoIGZpbGw9IiNlNWU1ZTUiIHN0cm9rZT0iI2U1ZTVlNSIgc3Ryb2tlLXdpZHRoPSIxLjUxIiBkPSJNMTIyNCA2MjNsMjAgMzM5IDQ5Ni0yNzN6Ii8+CiAgPHBhdGggZmlsbD0iI2RmZGZkZiIgc3Ryb2tlPSIjZGZkZmRmIiBzdHJva2Utd2lkdGg9IjEuNTEiIGQ9Ik0xNjg1IDExMzlsLTM3MyA0NjcgNDM0LTE5MXoiLz4KICA8cGF0aCBmaWxsPSIjZTFlMWUxIiBzdHJva2U9IiNlMWUxZTEiIHN0cm9rZS13aWR0aD0iMS41MSIgZD0iTTEyNDQgOTYybDY4IDY0NCAzNzMtNDY3eiIvPgogIDxwYXRoIGZpbGw9IiNlYWVhZWEiIHN0cm9rZT0iI2VhZWFlYSIgc3Ryb2tlLXdpZHRoPSIxLjUxIiBkPSJNMTQxMC00OWwtMzQyIDE3NSA1NDkgNDZ6Ii8+CiAgPHBhdGggZmlsbD0iI2U5ZTllOSIgc3Ryb2tlPSIjZTllOWU5IiBzdHJva2Utd2lkdGg9IjEuNTEiIGQ9Ik0xMDY4IDEyNmwxNTYgNDk3IDM5My00NTF6Ii8+CiAgPHBhdGggZmlsbD0iI2VkZWRlZCIgc3Ryb2tlPSIjZWRlZGVkIiBzdHJva2Utd2lkdGg9IjEuNTEiIGQ9Ik0xMDMwLTMyM2wzODAgMjc0IDIxMS0yNzR6Ii8+CiAgPHBhdGggZmlsbD0iI2VhZWFlYSIgc3Ryb2tlPSIjZWFlYWVhIiBzdHJva2Utd2lkdGg9IjEuNTEiIGQ9Ik0xMDY4IDEyNmwtNzkgODIgMjM1IDQxNXoiLz4KICA8cGF0aCBmaWxsPSIjZTRlNGU0IiBzdHJva2U9IiNlNGU0ZTQiIHN0cm9rZS13aWR0aD0iMS41MSIgZD0iTTkzNyA5NjJsLTE4NSA0MDkgNDkyLTQwOXoiLz4KICA8cGF0aCBmaWxsPSIjZTJlMmUyIiBzdHJva2U9IiNlMmUyZTIiIHN0cm9rZS13aWR0aD0iMS41MSIgZD0iTTEyNDQgOTYybC00OTIgNDA5IDU2MCAyMzV6Ii8+CiAgPHBhdGggZmlsbD0iI2VkZWRlZCIgc3Ryb2tlPSIjZWRlZGVkIiBzdHJva2Utd2lkdGg9IjEuNTEiIGQ9Ik0xMDMwLTMyM2wzOCA0NDkgMzQyLTE3NXoiLz4KICA8cGF0aCBmaWxsPSIjZTVlNWU1IiBzdHJva2U9IiNlNWU1ZTUiIHN0cm9rZS13aWR0aD0iMS41MSIgZD0iTTEyMjQgNjIzTDkzNyA5NjJoMzA3eiIvPgogIDxwYXRoIGZpbGw9IiNlMmUyZTIiIHN0cm9rZT0iI2UyZTJlMiIgc3Ryb2tlLXdpZHRoPSIxLjUxIiBkPSJNNzUyIDEzNzFsLTI3OSAxNTUgODM5IDgweiIvPgogIDxwYXRoIGZpbGw9IiNlYWVhZWEiIHN0cm9rZT0iI2VhZWFlYSIgc3Ryb2tlLXdpZHRoPSIxLjUxIiBkPSJNOTg5IDIwOEw3ODMgNDAxbDQ0MSAyMjJ6Ii8+CiAgPHBhdGggZmlsbD0iI2U3ZTdlNyIgc3Ryb2tlPSIjZTdlN2U3IiBzdHJva2Utd2lkdGg9IjEuNTEiIGQ9Ik03NDggNzg5bDE4OSAxNzMgMjg3LTMzOXoiLz4KICA8cGF0aCBmaWxsPSIjZTllOWU5IiBzdHJva2U9IiNlOWU5ZTkiIHN0cm9rZS13aWR0aD0iMS41MSIgZD0iTTc4MyA0MDFsLTM1IDM4OCA0NzYtMTY2eiIvPgogIDxwYXRoIGZpbGw9IiNmMGYwZjAiIHN0cm9rZT0iI2YwZjBmMCIgc3Ryb2tlLXdpZHRoPSIxLjUxIiBkPSJNNzcxLTMyOWwtMTIgNDU0IDI3MS00NDh6Ii8+CiAgPHBhdGggZmlsbD0iI2VlZSIgc3Ryb2tlPSIjZWVlIiBzdHJva2Utd2lkdGg9IjEuNTEiIGQ9Ik0xMDMwLTMyM0w3NTkgMTI1bDMwOSAxeiIvPgogIDxwYXRoIGZpbGw9IiNlY2VjZWMiIHN0cm9rZT0iI2VjZWNlYyIgc3Ryb2tlLXdpZHRoPSIxLjUxIiBkPSJNNzU5IDEyNWwyMzAgODMgNzktODJ6Ii8+CiAgPHBhdGggZmlsbD0iI2U1ZTVlNSIgc3Ryb2tlPSIjZTVlNWU1IiBzdHJva2Utd2lkdGg9IjEuNTEiIGQ9Ik00ODEgMTEwNWwyNzEgMjY2IDE4NS00MDl6Ii8+CiAgPHBhdGggZmlsbD0iI2VjZWNlYyIgc3Ryb2tlPSIjZWNlY2VjIiBzdHJva2Utd2lkdGg9IjEuNTEiIGQ9Ik03NTkgMTI1bDI0IDI3NiAyMDYtMTkzeiIvPgogIDxwYXRoIGZpbGw9IiNlN2U3ZTciIHN0cm9rZT0iI2U3ZTdlNyIgc3Ryb2tlLXdpZHRoPSIxLjUxIiBkPSJNNzQ4IDc4OWwtMjY3IDMxNiA0NTYtMTQzeiIvPgogIDxwYXRoIGZpbGw9IiNlOGU4ZTgiIHN0cm9rZT0iI2U4ZThlOCIgc3Ryb2tlLXdpZHRoPSIxLjUxIiBkPSJNNTE5IDc4MmwtMzggMzIzIDI2Ny0zMTZ6Ii8+CiAgPHBhdGggZmlsbD0iI2YxZjFmMSIgc3Ryb2tlPSIjZjFmMWYxIiBzdHJva2Utd2lkdGg9IjEuNTEiIGQ9Ik0zMzUtMTQ4bDQyNCAyNzMgMTItNDU0eiIvPgogIDxwYXRoIGZpbGw9IiNmNGY0ZjQiIHN0cm9rZT0iI2Y0ZjRmNCIgc3Ryb2tlLXdpZHRoPSIxLjUxIiBkPSJNMTcyLTQyOGwxNjMgMjgwIDQzNi0xODF6Ii8+CiAgPHBhdGggZmlsbD0iI2Y2ZjZmNiIgc3Ryb2tlPSIjZjZmNmY2IiBzdHJva2Utd2lkdGg9IjEuNTEiIGQ9Ik0xNDQtNDk2bDI4IDY4IDU5OSA5OXoiLz4KICA8cGF0aCBmaWxsPSIjZWFlYWVhIiBzdHJva2U9IiNlYWVhZWEiIHN0cm9rZS13aWR0aD0iMS41MSIgZD0iTTUxOSA3ODJsMjI5IDcgMzUtMzg4eiIvPgogIDxwYXRoIGZpbGw9IiNlZWUiIHN0cm9rZT0iI2VlZSIgc3Ryb2tlLXdpZHRoPSIxLjUxIiBkPSJNNzU5IDEyNUwyMDIgMjU5bDU4MSAxNDJ6Ii8+CiAgPHBhdGggZmlsbD0iI2VjZWNlYyIgc3Ryb2tlPSIjZWNlY2VjIiBzdHJva2Utd2lkdGg9IjEuNTEiIGQ9Ik0yMDIgMjU5bDMxNyA1MjMgMjY0LTM4MXoiLz4KICA8cGF0aCBmaWxsPSIjZjBmMGYwIiBzdHJva2U9IiNmMGYwZjAiIHN0cm9rZS13aWR0aD0iMS41MSIgZD0iTTMzNS0xNDhMMjAyIDI1OWw1NTctMTM0eiIvPgogIDxwYXRoIGZpbGw9IiNlNWU1ZTUiIHN0cm9rZT0iI2U1ZTVlNSIgc3Ryb2tlLXdpZHRoPSIxLjUxIiBkPSJNNDgxIDExMDVsLTggNDIxIDI3OS0xNTV6Ii8+CiAgPHBhdGggZmlsbD0iI2U4ZThlOCIgc3Ryb2tlPSIjZThlOGU4IiBzdHJva2Utd2lkdGg9IjEuNTEiIGQ9Ik0tMTc5IDEwNDZsNjUyIDQ4MCA4LTQyMXoiLz4KICA8cGF0aCBmaWxsPSIjZWNlY2VjIiBzdHJva2U9IiNlY2VjZWMiIHN0cm9rZS13aWR0aD0iMS41MSIgZD0iTS01IDU5M2wtMTc0IDQ1MyA2NjAgNTl6Ii8+CiAgPHBhdGggZmlsbD0iI2ViZWJlYiIgc3Ryb2tlPSIjZWJlYmViIiBzdHJva2Utd2lkdGg9IjEuNTEiIGQ9Ik0tNSA1OTNsNDg2IDUxMiAzOC0zMjN6Ii8+CiAgPHBhdGggZmlsbD0iI2VlZSIgc3Ryb2tlPSIjZWVlIiBzdHJva2Utd2lkdGg9IjEuNTEiIGQ9Ik0yMDIgMjU5TC01IDU5M2w1MjQgMTg5eiIvPgogIDxwYXRoIGZpbGw9IiNlOGU4ZTgiIHN0cm9rZT0iI2U4ZThlOCIgc3Ryb2tlLXdpZHRoPSIxLjUxIiBkPSJNLTE3OSAxMDQ2bC01OCA2MjQgNzEwLTE0NHoiLz4KICA8cGF0aCBmaWxsPSIjZjNmM2YzIiBzdHJva2U9IiNmM2YzZjMiIHN0cm9rZS13aWR0aD0iMS41MSIgZD0iTS0xMDktMjNsMzExIDI4MiAxMzMtNDA3eiIvPgogIDxwYXRoIGZpbGw9IiNmNWY1ZjUiIHN0cm9rZT0iI2Y1ZjVmNSIgc3Ryb2tlLXdpZHRoPSIxLjUxIiBkPSJNMTcyLTQyOEwtMTA5LTIzbDQ0NC0xMjV6Ii8+CiAgPHBhdGggZmlsbD0iI2VlZSIgc3Ryb2tlPSIjZWVlIiBzdHJva2Utd2lkdGg9IjEuNTEiIGQ9Ik0tMjQ1IDc3Mmw2NiAyNzRMLTUgNTkzeiIvPgogIDxwYXRoIGZpbGw9IiNmMWYxZjEiIHN0cm9rZT0iI2YxZjFmMSIgc3Ryb2tlLXdpZHRoPSIxLjUxIiBkPSJNLTk2IDI5N2w5MSAyOTYgMjA3LTMzNHoiLz4KICA8cGF0aCBmaWxsPSIjZjNmM2YzIiBzdHJva2U9IiNmM2YzZjMiIHN0cm9rZS13aWR0aD0iMS41MSIgZD0iTS0xMDktMjNsMTMgMzIwIDI5OC0zOHoiLz4KICA8cGF0aCBmaWxsPSIjZjdmN2Y3IiBzdHJva2U9IiNmN2Y3ZjciIHN0cm9rZS13aWR0aD0iMS41MSIgZD0iTTE0NC00OTZMLTEwOS0yM2wyODEtNDA1eiIvPgogIDxwYXRoIGZpbGw9IiNmOWY5ZjkiIHN0cm9rZT0iI2Y5ZjlmOSIgc3Ryb2tlLXdpZHRoPSIxLjUxIiBkPSJNLTU5OC01NjFsNDg5IDUzOCAyNTMtNDczeiIvPgogIDxwYXRoIGZpbGw9IiNlYmViZWIiIHN0cm9rZT0iI2ViZWJlYiIgc3Ryb2tlLXdpZHRoPSIxLjUxIiBkPSJNLTU1NCAxMzkybDMxNyAyNzggNTgtNjI0eiIvPgogIDxwYXRoIGZpbGw9IiNmNGY0ZjQiIHN0cm9rZT0iI2Y0ZjRmNCIgc3Ryb2tlLXdpZHRoPSIxLjUxIiBkPSJNLTEwOS0yM2wtMjQ4IDE1MSAyNjEgMTY5eiIvPgogIDxwYXRoIGZpbGw9IiNmMGYwZjAiIHN0cm9rZT0iI2YwZjBmMCIgc3Ryb2tlLXdpZHRoPSIxLjUxIiBkPSJNLTk2IDI5N2wtMTQ5IDQ3NUwtNSA1OTN6Ii8+CiAgPHBhdGggZmlsbD0iI2VkZWRlZCIgc3Ryb2tlPSIjZWRlZGVkIiBzdHJva2Utd2lkdGg9IjEuNTEiIGQ9Ik0tNTUwIDExODFsLTQgMjExIDM3NS0zNDZ6Ii8+CiAgPHBhdGggZmlsbD0iI2Y4ZjhmOCIgc3Ryb2tlPSIjZjhmOGY4IiBzdHJva2Utd2lkdGg9IjEuNTEiIGQ9Ik0tNTk4LTU2MWwyNDEgNjg5IDI0OC0xNTF6Ii8+CiAgPHBhdGggZmlsbD0iI2YyZjJmMiIgc3Ryb2tlPSIjZjJmMmYyIiBzdHJva2Utd2lkdGg9IjEuNTEiIGQ9Ik0tNDM1IDIwN2wxOTAgNTY1IDE0OS00NzV6Ii8+CiAgPHBhdGggZmlsbD0iI2Y0ZjRmNCIgc3Ryb2tlPSIjZjRmNGY0IiBzdHJva2Utd2lkdGg9IjEuNTEiIGQ9Ik0tMzU3IDEyOGwtNzggNzkgMzM5IDkweiIvPgogIDxwYXRoIGZpbGw9IiNlZWUiIHN0cm9rZT0iI2VlZSIgc3Ryb2tlLXdpZHRoPSIxLjUxIiBkPSJNLTI0NSA3NzJsLTMwNSA0MDkgMzcxLTEzNXoiLz4KICA8cGF0aCBmaWxsPSIjZjFmMWYxIiBzdHJva2U9IiNmMWYxZjEiIHN0cm9rZS13aWR0aD0iMS41MSIgZD0iTS00MzUgMjA3bC0xMTUgOTc0IDMwNS00MDl6Ii8+CiAgPHBhdGggZmlsbD0iI2Y4ZjhmOCIgc3Ryb2tlPSIjZjhmOGY4IiBzdHJva2Utd2lkdGg9IjEuNTEiIGQ9Ik0tNTk4LTU2MWwxNjMgNzY4IDc4LTc5eiIvPgogIDxwYXRoIGZpbGw9IiNmNWY1ZjUiIHN0cm9rZT0iI2Y1ZjVmNSIgc3Ryb2tlLXdpZHRoPSIxLjUxIiBkPSJNLTU5OC01NjFsNDggMTc0MiAxMTUtOTc0eiIvPgogIDxwYXRoIGZpbGw9IiNmMmYyZjIiIHN0cm9rZT0iI2YyZjJmMiIgc3Ryb2tlLXdpZHRoPSIxLjUxIiBkPSJNLTU5OC01NjFsNDQgMTk1MyA0LTIxMXoiLz4KPC9zdmc+Cg==);
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    left: 0;
-    z-index: 0;
-  }
-  .md-content {
-    z-index: 1;
-    padding: 20px;
-    width: 100%;
-    max-width: 45rem;
-    position: relative;
-  }
-  .loading-overlay {
-    z-index: 10;
-    top: 0;
-    left: 0;
-    right: 0;
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background: rgba(255, 255, 255, 0.9);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-}
-</style>

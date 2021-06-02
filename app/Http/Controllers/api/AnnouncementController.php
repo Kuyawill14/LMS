@@ -39,7 +39,7 @@ class AnnouncementController extends Controller
         ->leftJoin('users', 'tbl_classposts.user_id', '=', 'users.id')
         ->leftJoin('tbl_user_details', 'users.id', '=', 'tbl_user_details.user_id')
         ->orderBy('created_at', 'DESC')
-        ->withCount(['comments'])
+  /*       ->withCount(['comments']) */
         ->get();
 
         
@@ -116,8 +116,7 @@ class AnnouncementController extends Controller
                 $newNotification->userid_to = $us_id->user_id;
                 $newNotification->class_id = $NewPost->class_id;
                 $newNotification->message = "Posted new announcement in ".$us_id->course_name;
-                $newNotification->event_type = 1;
-                $newNotification->notification_type = $NewPost->id;
+                $newNotification->notification_type = 1;
                 $newNotification->status = 0;
                 $newNotification->save();
             }

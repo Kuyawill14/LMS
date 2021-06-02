@@ -83,7 +83,62 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  data: function data() {
+    return {
+      dialog: true,
+      valid: true,
+      form: new Form({
+        email: "",
+        password: ""
+      }),
+      loginEmailRules: [function (v) {
+        return !!v || "Required";
+      }, function (v) {
+        return /.+@.+\..+/.test(v) || "Email must be valid";
+      }],
+      emailRules: [function (v) {
+        return !!v || "Required";
+      }, function (v) {
+        return /.+@.+\..+/.test(v) || "Email must be valid";
+      }],
+      show: false,
+      rules: {
+        required: function required(value) {
+          return !!value || "Required.";
+        },
+        min: function min(v) {
+          return v && v.length >= 6 || "Min 6 characters";
+        }
+      }
+    };
+  },
   computed: {
     passwordMatch: function passwordMatch() {
       var _this = this;
@@ -113,41 +168,6 @@ __webpack_require__.r(__webpack_exports__);
     resetValidation: function resetValidation() {
       this.$refs.form.resetValidation();
     }
-  },
-  data: function data() {
-    return {
-      dialog: true,
-      tab: 0,
-      valid: true,
-      firstName: "",
-      lastName: "",
-      email: "",
-      password: "",
-      verify: "",
-      form: new Form({
-        email: "",
-        password: ""
-      }),
-      loginEmailRules: [function (v) {
-        return !!v || "Required";
-      }, function (v) {
-        return /.+@.+\..+/.test(v) || "E-mail must be valid";
-      }],
-      emailRules: [function (v) {
-        return !!v || "Required";
-      }, function (v) {
-        return /.+@.+\..+/.test(v) || "E-mail must be valid";
-      }],
-      show1: false,
-      rules: {
-        required: function required(value) {
-          return !!value || "Required.";
-        },
-        min: function min(v) {
-          return v && v.length >= 6 || "Min 8 characters";
-        }
-      }
-    };
   }
 });
 
@@ -245,426 +265,285 @@ var render = function() {
     "v-app",
     [
       _c(
-        "v-dialog",
-        {
-          attrs: { persistent: "", "max-width": "600px", "min-width": "360px" },
-          model: {
-            value: _vm.dialog,
-            callback: function($$v) {
-              _vm.dialog = $$v
-            },
-            expression: "dialog"
-          }
-        },
+        "v-container",
+        { staticClass: "fill-height", attrs: { fluid: "" } },
         [
           _c(
-            "div",
+            "v-row",
+            { attrs: { align: "center", justify: "center" } },
             [
               _c(
-                "v-tabs",
-                {
-                  attrs: {
-                    "show-arrows": "",
-                    "background-color": "primary",
-                    "icons-and-text": "",
-                    dark: "",
-                    grow: ""
-                  },
-                  model: {
-                    value: _vm.tab,
-                    callback: function($$v) {
-                      _vm.tab = $$v
-                    },
-                    expression: "tab"
-                  }
-                },
+                "v-col",
+                { attrs: { cols: "12", sm: "8", md: "8" } },
                 [
-                  _c("v-tabs-slider", { attrs: { color: "purple darken-4" } }),
-                  _vm._v(" "),
-                  _c("v-tabs-slider", { attrs: { color: "purple darken-4" } }),
-                  _vm._v(" "),
                   _c(
-                    "v-tab",
-                    [
-                      _c("v-icon", { attrs: { large: "" } }, [
-                        _vm._v("mdi-account")
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "caption py-1" }, [
-                        _vm._v("Login")
-                      ])
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-tab",
-                    [
-                      _c("v-icon", { attrs: { large: "" } }, [
-                        _vm._v("mdi-account-outline")
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "caption py-1" }, [
-                        _vm._v("Register")
-                      ])
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-tab-item",
+                    "v-card",
+                    { staticClass: "elevation-12" },
                     [
                       _c(
-                        "v-card",
-                        { staticClass: "px-4" },
+                        "v-window",
                         [
                           _c(
-                            "v-card-text",
+                            "v-window-item",
+                            { attrs: { value: 1 } },
                             [
                               _c(
-                                "v-form",
-                                {
-                                  ref: "loginForm",
-                                  attrs: { "lazy-validation": "" },
-                                  model: {
-                                    value: _vm.valid,
-                                    callback: function($$v) {
-                                      _vm.valid = $$v
-                                    },
-                                    expression: "valid"
-                                  }
-                                },
+                                "v-row",
                                 [
+                                  _c("v-col", {
+                                    staticClass: "primary",
+                                    attrs: { cols: "12", md: "4" }
+                                  }),
+                                  _vm._v(" "),
                                   _c(
-                                    "v-row",
+                                    "v-col",
+                                    { attrs: { cols: "12", md: "8" } },
                                     [
                                       _c(
-                                        "v-col",
-                                        { attrs: { cols: "12" } },
-                                        [
-                                          _c("v-text-field", {
-                                            attrs: {
-                                              rules: _vm.loginEmailRules,
-                                              label: "E-mail",
-                                              required: ""
-                                            },
-                                            model: {
-                                              value: _vm.form.email,
-                                              callback: function($$v) {
-                                                _vm.$set(_vm.form, "email", $$v)
-                                              },
-                                              expression: "form.email"
-                                            }
-                                          })
-                                        ],
-                                        1
-                                      ),
-                                      _vm._v(" "),
-                                      _c(
-                                        "v-col",
-                                        { attrs: { cols: "12" } },
-                                        [
-                                          _c("v-text-field", {
-                                            attrs: {
-                                              "append-icon": _vm.show1
-                                                ? "eye"
-                                                : "eye-off",
-                                              rules: [
-                                                _vm.rules.required,
-                                                _vm.rules.min
-                                              ],
-                                              type: _vm.show1
-                                                ? "text"
-                                                : "password",
-                                              name: "input-10-1",
-                                              label: "Password",
-                                              hint: "At least 8 characters",
-                                              counter: ""
-                                            },
-                                            on: {
-                                              "click:append": function($event) {
-                                                _vm.show1 = !_vm.show1
-                                              }
-                                            },
-                                            model: {
-                                              value: _vm.form.password,
-                                              callback: function($$v) {
-                                                _vm.$set(
-                                                  _vm.form,
-                                                  "password",
-                                                  $$v
-                                                )
-                                              },
-                                              expression: "form.password"
-                                            }
-                                          })
-                                        ],
-                                        1
-                                      ),
-                                      _vm._v(" "),
-                                      _c("v-col", {
-                                        staticClass: "d-flex",
-                                        attrs: {
-                                          cols: "12",
-                                          sm: "6",
-                                          xsm: "12"
-                                        }
-                                      }),
-                                      _vm._v(" "),
-                                      _c("v-spacer"),
-                                      _vm._v(" "),
-                                      _c(
-                                        "v-col",
-                                        {
-                                          staticClass: "d-flex",
-                                          attrs: {
-                                            cols: "12",
-                                            sm: "3",
-                                            xsm: "12",
-                                            "align-end": ""
-                                          }
-                                        },
+                                        "v-card-text",
+                                        { staticClass: "pt-12" },
                                         [
                                           _c(
-                                            "v-btn",
+                                            "h1",
                                             {
-                                              attrs: {
-                                                "x-large": "",
-                                                block: "",
-                                                disabled: !_vm.valid,
-                                                color: "primary"
-                                              },
-                                              on: { click: _vm.validate }
+                                              staticClass:
+                                                " display-1 primary--text "
                                             },
-                                            [_vm._v(" Login ")]
+                                            [
+                                              _vm._v("Login to your "),
+                                              _c("span", [_vm._v("Account")])
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "p",
+                                            { staticClass: "mt-2" },
+                                            [
+                                              _vm._v("Don't have an account? "),
+                                              _c(
+                                                "router-link",
+                                                {
+                                                  attrs: {
+                                                    to: { name: "register" }
+                                                  }
+                                                },
+                                                [_vm._v("Create one here")]
+                                              )
+                                            ],
+                                            1
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "v-form",
+                                            {
+                                              ref: "loginForm",
+                                              staticClass:
+                                                "text-center mt-12 pl-3 pr-10",
+                                              attrs: { "lazy-validation": "" },
+                                              model: {
+                                                value: _vm.valid,
+                                                callback: function($$v) {
+                                                  _vm.valid = $$v
+                                                },
+                                                expression: "valid"
+                                              }
+                                            },
+                                            [
+                                              _c("v-text-field", {
+                                                attrs: {
+                                                  label: "Email",
+                                                  rules: _vm.loginEmailRules,
+                                                  name: "Email",
+                                                  "prepend-icon": "email",
+                                                  type: "email",
+                                                  color: "primary",
+                                                  required: ""
+                                                },
+                                                model: {
+                                                  value: _vm.form.email,
+                                                  callback: function($$v) {
+                                                    _vm.$set(
+                                                      _vm.form,
+                                                      "email",
+                                                      $$v
+                                                    )
+                                                  },
+                                                  expression: "form.email"
+                                                }
+                                              }),
+                                              _vm._v(" "),
+                                              _c("v-text-field", {
+                                                attrs: {
+                                                  "append-icon": _vm.show
+                                                    ? "mdi-eye"
+                                                    : "mdi-eye-off",
+                                                  rules: [
+                                                    _vm.rules.required,
+                                                    _vm.rules.min
+                                                  ],
+                                                  type: _vm.show
+                                                    ? "text"
+                                                    : "password",
+                                                  name: "password",
+                                                  label: "Password",
+                                                  "prepend-icon": "lock",
+                                                  hint: "At least 6 characters",
+                                                  color: "primary",
+                                                  counter: ""
+                                                },
+                                                on: {
+                                                  "click:append": function(
+                                                    $event
+                                                  ) {
+                                                    _vm.show = !_vm.show
+                                                  }
+                                                },
+                                                model: {
+                                                  value: _vm.form.password,
+                                                  callback: function($$v) {
+                                                    _vm.$set(
+                                                      _vm.form,
+                                                      "password",
+                                                      $$v
+                                                    )
+                                                  },
+                                                  expression: "form.password"
+                                                }
+                                              })
+                                            ],
+                                            1
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "v-row",
+                                            { staticClass: "pl-9 pr-9" },
+                                            [
+                                              _c(
+                                                "v-col",
+                                                [
+                                                  _c("v-checkbox", {
+                                                    staticClass: "ma-0 pa-0",
+                                                    attrs: {
+                                                      "ma-0": "",
+                                                      "pa-0": "",
+                                                      label: "Remember me"
+                                                    }
+                                                  })
+                                                ],
+                                                1
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "v-col",
+                                                { staticClass: "float-right" },
+                                                [
+                                                  _c(
+                                                    "a",
+                                                    {
+                                                      staticClass:
+                                                        "float-right",
+                                                      attrs: {
+                                                        href:
+                                                          "forget-password.html"
+                                                      }
+                                                    },
+                                                    [_vm._v("Forgot Password?")]
+                                                  )
+                                                ]
+                                              )
+                                            ],
+                                            1
                                           )
                                         ],
                                         1
-                                      )
-                                    ],
-                                    1
-                                  )
-                                ],
-                                1
-                              )
-                            ],
-                            1
-                          )
-                        ],
-                        1
-                      )
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-tab-item",
-                    [
-                      _c(
-                        "v-card",
-                        { staticClass: "px-4" },
-                        [
-                          _c(
-                            "v-card-text",
-                            [
-                              _c(
-                                "v-form",
-                                {
-                                  ref: "registerForm",
-                                  attrs: { "lazy-validation": "" },
-                                  model: {
-                                    value: _vm.valid,
-                                    callback: function($$v) {
-                                      _vm.valid = $$v
-                                    },
-                                    expression: "valid"
-                                  }
-                                },
-                                [
-                                  _c(
-                                    "v-row",
-                                    [
+                                      ),
+                                      _vm._v(" "),
                                       _c(
-                                        "v-col",
+                                        "v-container",
                                         {
-                                          attrs: {
-                                            cols: "12",
-                                            sm: "6",
-                                            md: "6"
-                                          }
-                                        },
-                                        [
-                                          _c("v-text-field", {
-                                            attrs: {
-                                              rules: [_vm.rules.required],
-                                              label: "First Name",
-                                              maxlength: "20",
-                                              required: ""
-                                            },
-                                            model: {
-                                              value: _vm.firstName,
-                                              callback: function($$v) {
-                                                _vm.firstName = $$v
-                                              },
-                                              expression: "firstName"
-                                            }
-                                          })
-                                        ],
-                                        1
-                                      ),
-                                      _vm._v(" "),
-                                      _c(
-                                        "v-col",
-                                        {
-                                          attrs: {
-                                            cols: "12",
-                                            sm: "6",
-                                            md: "6"
-                                          }
-                                        },
-                                        [
-                                          _c("v-text-field", {
-                                            attrs: {
-                                              rules: [_vm.rules.required],
-                                              label: "Last Name",
-                                              maxlength: "20",
-                                              required: ""
-                                            },
-                                            model: {
-                                              value: _vm.lastName,
-                                              callback: function($$v) {
-                                                _vm.lastName = $$v
-                                              },
-                                              expression: "lastName"
-                                            }
-                                          })
-                                        ],
-                                        1
-                                      ),
-                                      _vm._v(" "),
-                                      _c(
-                                        "v-col",
-                                        { attrs: { cols: "12" } },
-                                        [
-                                          _c("v-text-field", {
-                                            attrs: {
-                                              rules: _vm.emailRules,
-                                              label: "E-mail",
-                                              required: ""
-                                            },
-                                            model: {
-                                              value: _vm.email,
-                                              callback: function($$v) {
-                                                _vm.email = $$v
-                                              },
-                                              expression: "email"
-                                            }
-                                          })
-                                        ],
-                                        1
-                                      ),
-                                      _vm._v(" "),
-                                      _c(
-                                        "v-col",
-                                        { attrs: { cols: "12" } },
-                                        [
-                                          _c("v-text-field", {
-                                            attrs: {
-                                              "append-icon": _vm.show1
-                                                ? "mdi-eye"
-                                                : "mdi-eye-off",
-                                              rules: [
-                                                _vm.rules.required,
-                                                _vm.rules.min
-                                              ],
-                                              type: _vm.show1
-                                                ? "text"
-                                                : "password",
-                                              name: "input-10-1",
-                                              label: "Password",
-                                              hint: "At least 8 characters",
-                                              counter: ""
-                                            },
-                                            on: {
-                                              "click:append": function($event) {
-                                                _vm.show1 = !_vm.show1
-                                              }
-                                            },
-                                            model: {
-                                              value: _vm.password,
-                                              callback: function($$v) {
-                                                _vm.password = $$v
-                                              },
-                                              expression: "password"
-                                            }
-                                          })
-                                        ],
-                                        1
-                                      ),
-                                      _vm._v(" "),
-                                      _c(
-                                        "v-col",
-                                        { attrs: { cols: "12" } },
-                                        [
-                                          _c("v-text-field", {
-                                            attrs: {
-                                              block: "",
-                                              "append-icon": _vm.show1
-                                                ? "mdi-eye"
-                                                : "mdi-eye-off",
-                                              rules: [
-                                                _vm.rules.required,
-                                                _vm.passwordMatch
-                                              ],
-                                              type: _vm.show1
-                                                ? "text"
-                                                : "password",
-                                              name: "input-10-1",
-                                              label: "Confirm Password",
-                                              counter: ""
-                                            },
-                                            on: {
-                                              "click:append": function($event) {
-                                                _vm.show1 = !_vm.show1
-                                              }
-                                            },
-                                            model: {
-                                              value: _vm.verify,
-                                              callback: function($$v) {
-                                                _vm.verify = $$v
-                                              },
-                                              expression: "verify"
-                                            }
-                                          })
-                                        ],
-                                        1
-                                      ),
-                                      _vm._v(" "),
-                                      _c("v-spacer"),
-                                      _vm._v(" "),
-                                      _c(
-                                        "v-col",
-                                        {
-                                          staticClass: "d-flex ml-auto",
-                                          attrs: {
-                                            cols: "12",
-                                            sm: "3",
-                                            xsm: "12"
-                                          }
+                                          staticClass: "pb-5 pl-5 pr-5",
+                                          attrs: { "ma-0": "", "pa-0": "" }
                                         },
                                         [
                                           _c(
                                             "v-btn",
                                             {
+                                              staticClass: "mb-5",
                                               attrs: {
-                                                "x-large": "",
-                                                block: "",
-                                                disabled: !_vm.valid,
-                                                color: "primary"
+                                                color: "primary",
+                                                disabled: !_vm.valid
                                               },
                                               on: { click: _vm.validate }
                                             },
-                                            [_vm._v("Register")]
+                                            [
+                                              _c(
+                                                "v-icon",
+                                                { staticClass: "mr-3" },
+                                                [_vm._v("mdi-login")]
+                                              ),
+                                              _vm._v(
+                                                "\n                          Login\n                          "
+                                              )
+                                            ],
+                                            1
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "v-container",
+                                            {
+                                              staticClass: "mt-3",
+                                              attrs: { "ma-0": "", "pa-0": "" }
+                                            },
+                                            [
+                                              _c("h3", [
+                                                _vm._v(
+                                                  "Login with Social media"
+                                                )
+                                              ]),
+                                              _vm._v(" "),
+                                              _c(
+                                                "v-btn",
+                                                {
+                                                  staticClass:
+                                                    "mb-3 mt-1 mr-5 white--text",
+                                                  attrs: { color: "blue" }
+                                                },
+                                                [
+                                                  _c(
+                                                    "v-icon",
+                                                    { staticClass: "mr-3" },
+                                                    [_vm._v("mdi-facebook")]
+                                                  ),
+                                                  _vm._v(
+                                                    "\n                          Facebook\n                          "
+                                                  )
+                                                ],
+                                                1
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "v-btn",
+                                                {
+                                                  staticClass:
+                                                    "mb-3 mt-1 white--text",
+                                                  attrs: {
+                                                    color: "red darken-1"
+                                                  }
+                                                },
+                                                [
+                                                  _c(
+                                                    "v-icon",
+                                                    { staticClass: "mr-3" },
+                                                    [_vm._v("mdi-google-plus")]
+                                                  ),
+                                                  _vm._v(
+                                                    "\n                          Google Plus\n                          "
+                                                  )
+                                                ],
+                                                1
+                                              )
+                                            ],
+                                            1
                                           )
                                         ],
                                         1
@@ -690,7 +569,8 @@ var render = function() {
             ],
             1
           )
-        ]
+        ],
+        1
       )
     ],
     1

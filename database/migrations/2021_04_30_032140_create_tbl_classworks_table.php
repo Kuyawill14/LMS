@@ -17,7 +17,7 @@ class CreateTblClassworksTable extends Migration
             $table->id();
             $table->integer("course_id");
             $table->integer("user_id");
-            $table->integer("type");
+            $table->string("type");
             $table->string("title");
             $table->mediumText("description");
             $table->dateTime("due_date");

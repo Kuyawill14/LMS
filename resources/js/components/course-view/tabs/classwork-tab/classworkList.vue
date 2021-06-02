@@ -1,7 +1,7 @@
 <template>
     <div class="container pt-4">
         <!-- Modal -->
-       <!--  <newClassworkModal v-on:realodClassworks="fetchAll()"></newClassworkModal> -->
+        <editModal v-on:closeEditModal="dialog = !dialog" :editData="editData" :dialog="dialog"></editModal>
     
          <v-row class="pl-5 pr-5">
             <v-divider></v-divider>
@@ -13,40 +13,41 @@
                 <v-col cols="12" lg="6" v-for="(item, index) in classworks" :key="index">
                         <v-card >
                             <v-container class="pl-3 pr-3 pt-5 pb-5 d-flex flex-row justify-space-between">
-                            <div class="d-flex flex-row">
-                                <v-icon class="pl-2 pr-3" large>mdi-book-open-variant</v-icon>
-                                <div>
-                                    <h2 ma-0 pa-0> {{item.title}}</h2>
-                                    <small class="card-subtitle text-50">{{role == 'Teacher' ? 'Created: ' + format_date(item.created_at) + ' | Due Date: '+format_date(item.due_date): 'Due Date: '+format_date(item.due_date)}}</small>
+                                <div class="d-flex flex-row">
+                                    <v-icon class="pl-2 pr-3" large>mdi-book-open-variant</v-icon>
+                                    <div>
+                                        <h2 ma-0 pa-0> {{item.title}}</h2>
+                                        <small class="card-subtitle text-50">{{role == 'Teacher' ? 'Created: ' + format_date(item.created_at) + ' | Due Date: '+format_date(item.due_date): 'Due Date: '+format_date(item.due_date)}}</small>
+                                    </div>
                                 </div>
-
-                    
-                            </div>
-                            <v-menu v-if="role == 'Teacher'" bottom offset-y>
-                                <template v-slot:activator="{ on, attrs }">
-                                    <v-btn
-                                    icon
-                                    v-bind="attrs"
-                                    v-on="on"
-                                    >
-                                    <v-icon >mdi-dots-vertical</v-icon>
-                                    </v-btn>
-                                </template>
-                                <v-list pa-0 ma-0>
-                                    <v-list-item ma-0 pa-0>
-                                        <v-list-item-title><v-btn @click="showShareClass(item.id)" text>Publish Classwork</v-btn></v-list-item-title>
-                                    </v-list-item>
-                                    <v-list-item ma-0 pa-0>
-                                        <v-list-item-title><v-btn text>Review Classwork</v-btn></v-list-item-title>
-                                    </v-list-item>
-                                     <v-list-item ma-0 pa-0>
-                                        <v-list-item-title><v-btn text>Edit Classwork</v-btn></v-list-item-title>
-                                    </v-list-item>
-                                     <v-list-item ma-0 pa-0>
-                                        <v-list-item-title><v-btn text>Remove Classwork</v-btn></v-list-item-title>
-                                    </v-list-item>
-                                </v-list>
-                            </v-menu>
+                                <v-menu v-if="role == 'Teacher'" bottom offset-y>
+                                    <template v-slot:activator="{ on, attrs }">
+                                        <v-btn
+                                        icon
+                                        v-bind="attrs"
+                                        v-on="on"
+                                        >
+                                        <v-icon >mdi-dots-vertical</v-icon>
+                                        </v-btn>
+                                    </template>
+                                    <v-list pa-0 ma-0>
+                                        <v-list-item ma-0 pa-0>
+                                            <v-list-item-title><v-btn @click="showShareClass(item.id)" text>Publish Classwork</v-btn></v-list-item-title>
+                                        </v-list-item>
+                                         <v-list-item ma-0 pa-0>
+                                            <v-list-item-title><v-btn text>View Submission</v-btn></v-list-item-title>
+                                        </v-list-item>
+                                        <v-list-item ma-0 pa-0>
+                                            <v-list-item-title><v-btn text>Review Classwork</v-btn></v-list-item-title>
+                                        </v-list-item>
+                                        <v-list-item ma-0 pa-0>
+                                            <v-list-item-title><v-btn @click="editClasswork(item)" text>Edit Classwork</v-btn></v-list-item-title>
+                                        </v-list-item>
+                                        <v-list-item ma-0 pa-0>
+                                            <v-list-item-title><v-btn text>Remove Classwork</v-btn></v-list-item-title>
+                                        </v-list-item>
+                                    </v-list>
+                                </v-menu>
 
                                 <v-tooltip v-if="role == 'Student'" top>
                                     <template v-slot:activator="{ on, attrs }">
@@ -82,13 +83,11 @@
                                         </v-col>
                                     </v-row>
 
-
                                     <v-container class="d-flex flex-row justify-space-between">
                                         <div class="title">Class names</div>
                                         <div class="title">Status</div>
                                     </v-container>
                                 
-
                                     <v-row class="pl-5 pr-5 pt-1 p-1">
                                         <v-divider></v-divider>
                                     </v-row>
@@ -117,7 +116,6 @@
                                 </v-container >
                             </v-expand-transition>
                         </v-card >
-                   
                 </v-col>
             </v-row>
 
@@ -126,64 +124,41 @@
 </template>
 
 <script>
+    import editModal from './editClassworkModal';
     import VueElementLoading from 'vue-element-loading';
-    import newClassworkModal from './newClassworkModal';
     import moment from 'moment';
     import {
         mapGetters,
         mapActions
     } from "vuex";
     export default {
-        props: ['role'],
+        props: ['role','classworks'],
         components: {
             VueElementLoading,
-            newClassworkModal
+            editModal
         },
         data() {
             return {
+                dialog:false,
                 isLoaded:false,
                 isLoading: true,
                 counter: 0,
                 classNames: [],
                 temp_id: "",
                 showClass: false,
-                classworks: [],
                 form: {
                     title: "",
                     type: "",
                     description: "",
                     due_date: ""
                 },
+                editData:{}
             }
         },
         computed: mapGetters(['allClass']),
         methods: {
             ...mapActions(['fetchClassList']),
-            OpenModal() {
-                $('#Classworkmodal').modal('show');
-            },
-            SaveClasswork() {
-                axios.post('/api/classwork/insert', this.form)
-                    .then(res => {
-                        if (res.status == 201) {
-                            this.getGeneralClassworks();
-                            this.fetchClassnames();
-                        }
-                    }).catch(e => {
-                        console.log(e);
-                    })
-                this.isLoading = false;
-            },
-            getGeneralClassworks() {
-                    axios.get('/api/classwork/all/' + this.$route.params.id).then(res => {
-                        this.classworks = res.data;
-                    }).catch(e => {
-                        console.log(e);
-                    })
-                this.isLoading = false;
-            },
             showShareClass(id) {
-              
                 if(!this.isLoaded){
                     this.fetchAll();
                 }
@@ -221,9 +196,6 @@
                     }
                 })
             },
-            AddNewClasswork() {
-                $('#Classworkmodal').modal('show');
-            },
             format_date(value) {
                 if (value) {
                     return moment(String(value)).format("MMMM DD, YYYY")
@@ -232,42 +204,13 @@
             fetchAll() {
                 this.fetchClassnames(); 
                 this.fetchClassList();
+            },
+            editClasswork(data){
+                this.dialog = !this.dialog;
+                this.editData = data;
+
             }
-
         },
-        mounted() {
-            this.getGeneralClassworks();
-        }
+       
     }
-
 </script>
-
-<style scoped>
-    .class-banner {
-        /* background-image: url(https://gstatic.com/classroom/themes/Honors.jpg); */
-        color: #fff;
-        height: 200px;
-        background-color: #1E1E1C;
-    }
-
-    .top-container {
-        padding-left: 0 !important;
-        padding-right: 0 !important;
-    }
-
-    .ttr-wrapper {
-        padding-left: 0 !important;
-        padding-right: 0 !important;
-        padding-top: 59px;
-    }
-
-    .transparent {
-        background: transparent;
-        border: none;
-    }
-
-    .card-top {
-        color: #fff !important;
-    }
-
-</style>

@@ -25,95 +25,15 @@
             <v-container class="pl-4 pr-4 pb-6">
                 <span v-html="post.content" class="post-content"></span>
             </v-container>
-             <!--Divider -->
-           <!--   <v-row class="pl-5 pr-5">
-                  <v-divider></v-divider>
-            </v-row> -->
-            <!--Post Actions Like, Comment -->
-           <!--  <v-container class="mt-3 text-right pl-3 pr-3 mb-2 d-inline-flex">
-                <v-btn text>
-                <v-badge content="1">
-                    <v-icon class="mr-1">mdi-thumb-up-outline</v-icon>
-                </v-badge>
-                    Like
-                </v-btn>
-            
-                <v-btn text>
-                <v-badge content="1">
-                    <v-icon class="mr-1">mdi-comment-outline</v-icon>
-                </v-badge>
-                    Comment
-                </v-btn>
-            </v-container> -->
-
-
-
-            
+          
             <!--Divider -->
             <v-row class="pl-5 pr-5">
                 <v-divider></v-divider>
             </v-row>
-
+            
+              <!--Comment List -->
             <commentList :PostId="post.post_id" :UserDetails="UserDetails" ></commentList>
-
-            <!--Comment List -->
-            <!-- <v-container class="mt-2"> -->
-                 <!-- <v-btn text @click="showLess = !showLess">
-                    Show all Comments 
-                </v-btn>
-                <div v-for="(item,x) in CommentList" :key="x">
-                <v-container v-if="item.post_id == post.post_id"   class="d-inline-flex pl-2 pr-4 " >
-                        <v-avatar
-                        color="primary"
-                        size="36"
-                        >
-                        <v-img class="rounded-circle"  
-                            :src="item.profile_pic == null || item.profile_pic == ''? 'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=' + item.name : '../../images/'+item.profile_pic"></v-img> 
-                        </v-avatar>
-                        <v-container  class="d-flex flex-row ml-1" ma-0 pa-0>
-                            <v-container  class="d-flex flex-column ml-1 pr-10" ma-0 pa-0>
-                            <span class="d-block name">{{item.name}}</span>
-                            <span class="caption" style="line-height:1.5">{{item.content}}</span>
-                            </v-container>
-                            <v-btn icon class="align-end">
-                                <v-icon class="mr-1">mdi-dots-horizontal</v-icon>
-                            </v-btn>
-                        </v-container>
-                </v-container>
-                </div> -->
-           <!--  </v-container> -->
-
-             <!--Post Actions Write Comment -->
-           <!--  <v-row class="pt-1 pr-7" >
-                <v-col cols="2" sm="2" lg="1" md="1">
-                    <v-avatar
-                    class="ml-5"
-                    size="36"
-                    >
-                    <v-img 
-                    :src="post.profile_pic == null || post.profile_pic == ''? 'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=' + post.name : '../../images/'+post.profile_pic"></v-img>
-                    </v-avatar>
-                </v-col>
-                    <v-col cols="10" sm="10" lg="11" md="11" class="pr-5" >
-                    <v-text-field
-                        v-model="comment[i]"
-                        append-outer-icon="mdi-send"
-                        prepend-avatar="mdi-emoticon-dead"
-                        filled
-                        rounded
-                        dense
-                        clear-icon="mdi-close-circle"
-                        clearable
-                        placeholder="Comment"
-                        class="text-caption"
-                        type="text"
-                        @click:append-outer="addComment(i,post.post_id)"
-                        @click:clear="clearComment(i)"
-                        >
-                    </v-text-field>
-                </v-col>
-            </v-row> -->
-     
+            
         </v-card>
     </div>
 
@@ -145,6 +65,7 @@
             },
         },
         methods: {
+            
             test() {
                 $('.img-fluid').click(function () {
                     console.log($('.img-fluid').attr('src'))

@@ -22,6 +22,7 @@ const actions = {
         );
         //console.log(res.data);
         commit('FETCH_CLASSPOST', res.data);
+        return res.status;
 
 
     },

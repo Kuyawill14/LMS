@@ -19,8 +19,7 @@ class CreateTblNotificationsTable extends Migration
             $table->integer('userid_to');
             $table->integer('class_id');
             $table->string('message');
-            $table->string('notification_type');
-            $table->string('event_type');
+            $table->integer('notification_type');
             $table->integer('status');
             $table->timestamps();
         });

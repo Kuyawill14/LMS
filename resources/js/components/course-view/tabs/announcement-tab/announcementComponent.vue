@@ -3,7 +3,7 @@
         <v-row class="mt-3 mb-5" >
             <v-col md="12" lg="8" class="ma-auto">
                 <v-card>
-                    <announcementCreate v-on:ReloadData="fetchData"> </announcementCreate>
+                    <announcementCreate v-on:ReloadData="connect"> </announcementCreate>
                 </v-card>
             </v-col>
         </v-row>
@@ -16,8 +16,8 @@
     </v-container>
 </template>
 <script>
-    import announcementCreate from './announcementCreate.vue'
-    import announcementPostList from './announcementPostList.vue'
+    const announcementCreate = () => import('./announcementCreate')
+    const announcementPostList = () => import('./announcementPostList')
     //import VueElementLoading from 'vue-element-loading'
     import moment from 'moment'
     import {
@@ -42,22 +42,23 @@
         methods:{
             ...mapActions(['fetchClassPost']),
              connect(){
-                let vm = this;
-                 this.fetchClassPost(this.$route.params.id);
-               /*   window.Echo.private("post."+ this.$route.params.id)
+                //let vm = this;
+                 this.fetchClassPost(this.$route.params.id)
+                 .then(res=>{
+                     if(res == 200){
+                         this.isLoading = false;
+                     }
+                 })
+                /*  window.Echo.private("post."+ this.$route.params.id)
                  .listen('NewPost', e =>{
                      vm.fetchClassPost(this.$route.params.id);
                  }) */
             },
-            fetchData(){
-                this.fetchClassPost(this.$route.params.id);
-            }
+          
         },
         mounted() {
             this.connect();
-            setTimeout(() => {
-                this.isLoading = true
-            }, 1000);
+           
         }
     }
 

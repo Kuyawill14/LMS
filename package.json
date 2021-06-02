@@ -27,7 +27,10 @@
     },
     "dependencies": {
         "@kouts/vue-modal": "^2.0.10",
+        "laravel-echo": "^1.10.0",
+        "laravel-mix-bundle-analyzer": "^1.0.5",
         "moment": "^2.29.1",
+        "pusher-js": "^7.0.3",
         "vform": "^2.0.4",
         "vue-element-loading": "^2.0.2",
         "vue-material": "^1.0.0-beta-15",
