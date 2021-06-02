@@ -17,6 +17,7 @@ class CreateTblSubModules extends Migration
             $table->id();
             $table->integer('main_module_id');
             $table->string('sub_module_name');
+            $table->string('description');
             $table->string('type');
             $table->string('file_attachment');
             $table->timestamps();

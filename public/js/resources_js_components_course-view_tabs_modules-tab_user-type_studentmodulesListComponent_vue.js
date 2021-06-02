@@ -91,6 +91,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['role'],
@@ -403,6 +404,19 @@ var render = function() {
                     _vm._v(
                       "\n                    " +
                         _vm._s(itemModule.module_name) +
+                        " "
+                    ),
+                    _c("br"),
+                    _vm._v(
+                      "\n                           " +
+                        _vm._s(
+                          _vm.getCount(
+                            _vm.studentSubModuleProgress,
+                            itemModule.id
+                          ) +
+                            " / " +
+                            _vm.getSub_module(itemModule.id).length
+                        ) +
                         "\n\n                "
                     )
                   ],

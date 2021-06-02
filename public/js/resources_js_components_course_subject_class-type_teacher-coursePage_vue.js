@@ -129,13 +129,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
 // const VueElementLoading = () => import("vue-element-loading")
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -159,12 +152,22 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     };
   },
   methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)(['fetchCourseList'])), {}, {
+    toastSuccess: function toastSuccess(message, icon) {
+      return this.$toasted.success(message, {
+        theme: "toasted-primary",
+        position: "top-center",
+        icon: "done",
+        duration: 5000
+      });
+    },
     openAddmodal: function openAddmodal() {
+      this.dialog = !this.dialog;
       this.form.course_name = "";
       this.form.course_code = "";
       this.modalType = "add";
     },
     openEditmodal: function openEditmodal(course_id) {
+      this.dialog = !this.dialog;
       this.modalType = "update";
       var selectedCourse = this.allCourse.find(function (x) {
         return x.id === course_id;
@@ -179,23 +182,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       if (this.form.course_name != "" && this.form.course_id != "") {
         this.isloading = true;
+        this.form.action = 'edit';
         this.$store.dispatch('updateCourse', this.form);
         this.fetchCourseList();
         setTimeout(function () {
           return _this.isloading = false;
         }, 1000);
-        $('.modal').modal('hide');
-        Toast.fire({
-          icon: "success",
-          title: "Your class has been updated",
-          timer: 2000
-        });
-      } else {
-        Toast.fire({
-          icon: "info",
-          title: "Please fill up the field",
-          timer: 1500
-        });
+        this.toastSuccess("Your class has been updated", 'done');
       }
     },
     createCourse: function createCourse() {
@@ -208,18 +201,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         setTimeout(function () {
           return _this2.isloading = false;
         }, 1000);
-        $('.modal').modal('hide');
-        Toast.fire({
-          icon: "success",
-          title: "Your class has been Added",
-          timer: 2000
-        });
-      } else {
-        Toast.fire({
-          icon: "info",
-          title: "Please fill up the field",
-          timer: 1500
-        });
+        this.toastSuccess("Your class has been Added", 'done');
       }
     }
   }),
@@ -381,7 +363,7 @@ var render = function() {
       _c(
         "v-dialog",
         {
-          attrs: { width: "800px" },
+          attrs: { width: "400px" },
           model: {
             value: _vm.dialog,
             callback: function($$v) {
@@ -394,8 +376,14 @@ var render = function() {
           _c(
             "v-card",
             [
-              _c("v-card-title", { staticClass: "grey darken-2" }, [
-                _vm._v("\n                Create contact\n            ")
+              _c("v-card-title", {}, [
+                _vm._v(
+                  "\n                " +
+                    _vm._s(
+                      _vm.modalType == "add" ? "Create Course" : "Edit Course"
+                    ) +
+                    "\n            "
+                )
               ]),
               _vm._v(" "),
               _c(
@@ -407,51 +395,20 @@ var render = function() {
                     [
                       _c(
                         "v-col",
-                        {
-                          staticClass: "align-center justify-space-between",
-                          attrs: { cols: "12" }
-                        },
-                        [
-                          _c(
-                            "v-row",
-                            { staticClass: "mr-0", attrs: { align: "center" } },
-                            [
-                              _c(
-                                "v-avatar",
-                                {
-                                  staticClass: "mx-3",
-                                  attrs: { size: "40px" }
-                                },
-                                [
-                                  _c("img", {
-                                    attrs: {
-                                      src:
-                                        "//ssl.gstatic.com/s2/oz/images/sge/grey_silhouette.png",
-                                      alt: ""
-                                    }
-                                  })
-                                ]
-                              ),
-                              _vm._v(" "),
-                              _c("v-text-field", {
-                                attrs: { placeholder: "Name" }
-                              })
-                            ],
-                            1
-                          )
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "v-col",
-                        { attrs: { cols: "6" } },
+                        { staticClass: "pa-0 ma-0", attrs: { cols: "12" } },
                         [
                           _c("v-text-field", {
                             attrs: {
-                              "prepend-icon":
-                                "mdi-account-card-details-outline",
-                              placeholder: "Company"
+                              filled: "",
+                              color: "primary",
+                              label: "Course Code"
+                            },
+                            model: {
+                              value: _vm.form.course_code,
+                              callback: function($$v) {
+                                _vm.$set(_vm.form, "course_code", $$v)
+                              },
+                              expression: "form.course_code"
                             }
                           })
                         ],
@@ -460,52 +417,20 @@ var render = function() {
                       _vm._v(" "),
                       _c(
                         "v-col",
-                        { attrs: { cols: "6" } },
-                        [
-                          _c("v-text-field", {
-                            attrs: { placeholder: "Job title" }
-                          })
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "v-col",
-                        { attrs: { cols: "12" } },
+                        { staticClass: "pa-0 ma-0", attrs: { cols: "12" } },
                         [
                           _c("v-text-field", {
                             attrs: {
-                              "prepend-icon": "mdi-mail",
-                              placeholder: "Email"
-                            }
-                          })
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "v-col",
-                        { attrs: { cols: "12" } },
-                        [
-                          _c("v-text-field", {
-                            attrs: {
-                              type: "tel",
-                              "prepend-icon": "mdi-phone",
-                              placeholder: "(000) 000 - 0000"
-                            }
-                          })
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "v-col",
-                        { attrs: { cols: "12" } },
-                        [
-                          _c("v-text-field", {
-                            attrs: {
-                              "prepend-icon": "mdi-text",
-                              placeholder: "Notes"
+                              filled: "",
+                              color: "primary",
+                              label: "Course Name"
+                            },
+                            model: {
+                              value: _vm.form.course_name,
+                              callback: function($$v) {
+                                _vm.$set(_vm.form, "course_name", $$v)
+                              },
+                              expression: "form.course_name"
                             }
                           })
                         ],
@@ -521,16 +446,12 @@ var render = function() {
               _c(
                 "v-card-actions",
                 [
-                  _c("v-btn", { attrs: { text: "", color: "primary" } }, [
-                    _vm._v("More")
-                  ]),
-                  _vm._v(" "),
                   _c("v-spacer"),
                   _vm._v(" "),
                   _c(
                     "v-btn",
                     {
-                      attrs: { text: "", color: "primary" },
+                      attrs: { text: "", color: "secondary" },
                       on: {
                         click: function($event) {
                           _vm.dialog = false
@@ -543,14 +464,21 @@ var render = function() {
                   _c(
                     "v-btn",
                     {
-                      attrs: { text: "" },
+                      attrs: { text: "", color: "primary" },
                       on: {
                         click: function($event) {
-                          _vm.dialog = false
+                          _vm.modalType == "add"
+                            ? _vm.createCourse()
+                            : _vm.updateCourse()
                         }
                       }
                     },
-                    [_vm._v("Save")]
+                    [
+                      _vm._v(
+                        "\n                    " +
+                          _vm._s(_vm.modalType == "add" ? "Save" : "Update")
+                      )
+                    ]
                   )
                 ],
                 1
@@ -587,7 +515,7 @@ var render = function() {
                       },
                       on: {
                         click: function($event) {
-                          _vm.dialog = !_vm.dialog
+                          return _vm.openAddmodal()
                         }
                       }
                     },
@@ -617,12 +545,120 @@ var render = function() {
                         "v-card",
                         { staticClass: "mx-auto" },
                         [
-                          _c("v-img", {
-                            attrs: {
-                              src: "../images/" + item.course_picture,
-                              height: "200px"
-                            }
-                          }),
+                          _c(
+                            "v-img",
+                            {
+                              attrs: {
+                                src: "../images/" + item.course_picture,
+                                height: "200px"
+                              }
+                            },
+                            [
+                              _c("v-spacer"),
+                              _vm._v(" "),
+                              _c(
+                                "v-menu",
+                                {
+                                  attrs: {
+                                    transition: "slide-y-transition",
+                                    bottom: ""
+                                  },
+                                  scopedSlots: _vm._u(
+                                    [
+                                      {
+                                        key: "activator",
+                                        fn: function(ref) {
+                                          var on = ref.on
+                                          var attrs = ref.attrs
+                                          return [
+                                            _c(
+                                              "v-btn",
+                                              _vm._g(
+                                                _vm._b(
+                                                  {
+                                                    staticClass: "float-right",
+                                                    attrs: {
+                                                      icon: "",
+                                                      color: "white"
+                                                    }
+                                                  },
+                                                  "v-btn",
+                                                  attrs,
+                                                  false
+                                                ),
+                                                on
+                                              ),
+                                              [
+                                                _c("v-icon", [
+                                                  _vm._v(
+                                                    "\n                                            mdi-dots-vertical\n                                        "
+                                                  )
+                                                ])
+                                              ],
+                                              1
+                                            )
+                                          ]
+                                        }
+                                      }
+                                    ],
+                                    null,
+                                    true
+                                  )
+                                },
+                                [
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-list",
+                                    [
+                                      _c(
+                                        "v-list-item",
+                                        {
+                                          attrs: {
+                                            link: "",
+                                            to: {
+                                              name: "settings",
+                                              params: { id: item.id }
+                                            }
+                                          }
+                                        },
+                                        [
+                                          _c("v-list-item-title", [
+                                            _vm._v("Edit")
+                                          ])
+                                        ],
+                                        1
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-list-item",
+                                        { attrs: { link: "" } },
+                                        [
+                                          _c("v-list-item-title", [
+                                            _vm._v("Archive")
+                                          ])
+                                        ],
+                                        1
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-list-item",
+                                        { attrs: { link: "" } },
+                                        [
+                                          _c("v-list-item-title", [
+                                            _vm._v("Delete")
+                                          ])
+                                        ],
+                                        1
+                                      )
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          ),
                           _vm._v(" "),
                           _c(
                             "v-card-title",
@@ -659,77 +695,7 @@ var render = function() {
                             )
                           ]),
                           _vm._v(" "),
-                          _c(
-                            "v-card-actions",
-                            [
-                              _c("v-btn", { attrs: { text: "" } }, [
-                                _vm._v("Share")
-                              ]),
-                              _vm._v(" "),
-                              _c(
-                                "v-btn",
-                                { attrs: { color: "purple", text: "" } },
-                                [
-                                  _vm._v(
-                                    "\n                                Explore\n                            "
-                                  )
-                                ]
-                              ),
-                              _vm._v(" "),
-                              _c("v-spacer"),
-                              _vm._v(" "),
-                              _c(
-                                "v-btn",
-                                {
-                                  attrs: { icon: "" },
-                                  on: {
-                                    click: function($event) {
-                                      _vm.show = !_vm.show
-                                    }
-                                  }
-                                },
-                                [
-                                  _c("v-icon", [
-                                    _vm._v(
-                                      _vm._s(
-                                        _vm.show
-                                          ? "mdi-chevron-up"
-                                          : "mdi-chevron-down"
-                                      )
-                                    )
-                                  ])
-                                ],
-                                1
-                              )
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c("v-expand-transition", [
-                            _c(
-                              "div",
-                              {
-                                directives: [
-                                  {
-                                    name: "show",
-                                    rawName: "v-show",
-                                    value: _vm.show,
-                                    expression: "show"
-                                  }
-                                ]
-                              },
-                              [
-                                _c("v-divider"),
-                                _vm._v(" "),
-                                _c("v-card-text", [
-                                  _vm._v(
-                                    "\n                                    I'm a thing. But, like most politicians, he promised more than he could deliver.\n                                    You\n                                    won't have time for sleeping, soldier, not with all the bed making you'll be\n                                    doing.\n                                    Then we'll go with that data file! Hey, you add a one and two zeros to that or\n                                    we\n                                    walk! You're going to do his laundry? I've got to find a way to escape.\n                                "
-                                  )
-                                ])
-                              ],
-                              1
-                            )
-                          ])
+                          _c("v-card-actions")
                         ],
                         1
                       )

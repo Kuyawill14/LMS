@@ -245,7 +245,7 @@ var render = function() {
   return _c(
     "v-col",
     [
-      _c("h2", { staticClass: "pb-2" }, [_vm._v("Manage Modules")]),
+      _c("h2", { staticClass: "pb-0" }, [_vm._v("Manage Modules")]),
       _vm._v(" "),
       _c(
         "v-dialog",

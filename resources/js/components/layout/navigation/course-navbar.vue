@@ -1,5 +1,5 @@
 <template>
-    <v-list dense>
+    <v-list dense v-if="role!= undefined">
         <template>
 
             <v-list-item link :to="{name: 'coursePage'}" v-if="role == 'Teacher'" exact>
@@ -38,7 +38,18 @@
 
             </v-list-item>
 
-            <v-list-item link :to="{name: 'modules'}" exact>
+            <v-list-item link :to="{name: 'modules'}" exact  v-if="role == 'Teacher'">
+                <v-list-item-action>
+                    <v-icon>mdi-book-variant-multiple</v-icon>
+                </v-list-item-action>
+                <v-list-item-content>
+                    <v-list-item-title>
+                        Modules
+                    </v-list-item-title>
+                </v-list-item-content>
+
+            </v-list-item>
+              <v-list-item link :to="{name: 'student-modules'}" exact  v-if="role == 'Student'">
                 <v-list-item-action>
                     <v-icon>mdi-book-variant-multiple</v-icon>
                 </v-list-item-action>

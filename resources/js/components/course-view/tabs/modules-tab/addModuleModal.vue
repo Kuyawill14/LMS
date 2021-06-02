@@ -1,7 +1,7 @@
 <template>
 
     <v-col>
-         <h2 class="pb-2">Manage Modules</h2>
+         <h2 class="pb-0">Manage Modules</h2>
         <v-dialog v-model="dialog" persistent max-width="600px">
 
             <template v-slot:activator="{ on, attrs }">
