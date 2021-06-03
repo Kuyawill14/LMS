@@ -1,63 +1,89 @@
 <template>
-    <div class="pt-4"> 
-    
-
-
-        <v-dialog v-model="showModal" width="400px">
-            <createClassForm v-on:closeModal="closeModal()" v-if="modalType == 'add'" />
-            <editClassForm v-on:closeModal="closeModal()" :class_name="form.class_name" :class_id="form.class_id"
-                v-if="modalType == 'edit'" />
-        </v-dialog>
-        <v-row>
-            <v-col>
-                <h2>My Class</h2>
-            </v-col>
-
-            <v-col class="text-right">
-                <v-btn color="rounded primary" @click="openAddmodal()">
-                    Create Class
-                </v-btn>
+    <div class="pt-4">
+        <v-row align="center" justify="center" class="pt-10" v-if="classLength == 0">
+            <v-col cols="12" sm="8" md="4" class="text-center">
+                <v-icon style="font-size:14rem">
+                    mdi-google-classroom
+                </v-icon>
+                <h1> Empty Class </h1>
+                <p> Creating Class, you'll be able to share class code to your students and let them join. </p>
+                <v-btn color="primary" @click="openAddmodal()"> CREATE CLASS </v-btn>
             </v-col>
         </v-row>
 
+        <v-container v-if="isGetting" style="height: 400px;">
+            <v-row class="fill-height" align-content="center" justify="center">
+                <v-icon style="font-size:14rem">
+                    mdi-google-classroom
+                </v-icon>
+                <v-col class="text-subtitle-1 text-center" cols="12">
+                    <h2> Loading your Classes </h2>
+                </v-col>
+                <v-col cols="6">
+                    <v-progress-linear color="primary" indeterminate rounded height="6"></v-progress-linear>
+                </v-col>
+            </v-row>
+        </v-container>
+
+        <v-dialog v-model="showModal" width="400px">
+            <createClassForm v-on:closeModal="closeModal()" v-if="modalType == 'add'"
+                v-on:createclass="updateTeacherClasses()" />
+            <editClassForm v-on:closeModal="closeModal()" :class_name="form.class_name" :class_id="form.class_id"
+                v-if="modalType == 'edit'" />
+        </v-dialog>
+        <div v-if="!isGetting && classLength > 0">
 
 
-        <v-card v-for="(item, index) in allClass" :key="index" class="mt-3">
-            <v-list-item>
-                <v-list-item-avatar>
-                    <v-icon>mdi-account-multiple</v-icon>
-                </v-list-item-avatar>
-                <v-list-item-content>
-                    <v-list-item-title>{{item.class_name}} </v-list-item-title>
-                    <v-list-item-subtitle>Class code: {{item.class_code}} </v-list-item-subtitle>
-                    <v-list-item-subtitle>{Students #} </v-list-item-subtitle>
-                </v-list-item-content>
-                <v-list-item-action>
-                    <v-menu transition="slide-y-transition" bottom>
-                        <template v-slot:activator="{ on, attrs }">
-                            <v-icon color="secondary " v-bind="attrs" v-on="on">mdi-dots-vertical</v-icon>
-                        </template>
-                        <v-list>
-                            <v-list-item link>
-                                <v-list-item-title>Archive</v-list-item-title>
+            <v-row>
+                <v-col>
+                    <h2>My Class</h2>
+                </v-col>
 
-                            </v-list-item>
-                            <v-list-item link @click="openEditmodal(item.class_name, item.class_id)">
-                                <v-list-item-title>Edit</v-list-item-title>
-
-                            </v-list-item>
-                            <v-list-item link>
-                                <v-list-item-title>Remove</v-list-item-title>
-
-                            </v-list-item>
-                        </v-list>
-                    </v-menu>
+                <v-col class="text-right">
+                    <v-btn color="rounded primary" @click="openAddmodal()">
+                        Create Class
+                    </v-btn>
+                </v-col>
+            </v-row>
 
 
-                </v-list-item-action>
-            </v-list-item>
-        </v-card>
 
+            <v-card v-for="(item, index) in allClass" :key="index" class="mt-3">
+                <v-list-item>
+                    <v-list-item-avatar>
+                        <v-icon>mdi-account-multiple</v-icon>
+                    </v-list-item-avatar>
+                    <v-list-item-content>
+                        <v-list-item-title>{{item.class_name}} </v-list-item-title>
+                        <v-list-item-subtitle>Class code: {{item.class_code}} </v-list-item-subtitle>
+                        <v-list-item-subtitle>{Students #} </v-list-item-subtitle>
+                    </v-list-item-content>
+                    <v-list-item-action>
+                        <v-menu transition="slide-y-transition" bottom>
+                            <template v-slot:activator="{ on, attrs }">
+                                <v-icon color="secondary " v-bind="attrs" v-on="on">mdi-dots-vertical</v-icon>
+                            </template>
+                            <v-list>
+                                <v-list-item link>
+                                    <v-list-item-title>Archive</v-list-item-title>
+
+                                </v-list-item>
+                                <v-list-item link @click="openEditmodal(item.class_name, item.class_id)">
+                                    <v-list-item-title>Edit</v-list-item-title>
+
+                                </v-list-item>
+                                <v-list-item link>
+                                    <v-list-item-title>Remove</v-list-item-title>
+
+                                </v-list-item>
+                            </v-list>
+                        </v-menu>
+
+
+                    </v-list-item-action>
+                </v-list-item>
+            </v-card>
+        </div>
 
 
     </div>
@@ -81,13 +107,13 @@
 
         },
         data: () => ({
-          
-           
 
+            isGetting: false,
             showModal: false,
             isloading: true,
             modalType: '',
             class_code: null,
+            classLength: null,
             form: {
                 id: '',
                 class_name: '',
@@ -117,16 +143,39 @@
                 console.log(this.modalType);
 
             },
+            getTeacherClasses() {
+                this.isGetting = true;
+                this.fetchSubjectCourseClassList(this.$route.params.id)
+                    .then(() => {
+                        setTimeout(() => {
+                            this.isGetting = false;
+                            this.classLength = this.allClass.length;
+                        }, 1000);
+
+
+                    })
+            },
+            updateTeacherClasses() {
+
+                this.fetchSubjectCourseClassList(this.$route.params.id)
+                    .then((res) => {
+                        setTimeout(() => {
+                            this.classLength = this.allClass.length;
+
+                        }, 500);
+
+                    })
+            },
 
 
 
         },
         computed: mapGetters(['allClass']),
-           created() {
-            this.isloading = true;
-            this.fetchSubjectCourseClassList(this.$route.params.id);
-            setTimeout(() => this.isloading = false, 1000);
-            this.isloading = false;
+        mounted() {
+
+            this.getTeacherClasses();
+
+
         },
 
 

@@ -4,7 +4,7 @@
 
             <v-list-item link :to="{name: 'coursePage'}" v-if="role == 'Teacher'" exact>
                 <v-list-item-action>
-                    <v-icon>mdi-contacts</v-icon>
+                    <v-icon>mdi-google-classroom</v-icon>
                 </v-list-item-action>
                 <v-list-item-content>
                     <v-list-item-title>

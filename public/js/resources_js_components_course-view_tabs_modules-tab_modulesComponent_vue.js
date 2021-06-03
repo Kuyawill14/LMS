@@ -13,6 +13,57 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var vue_element_loading__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-element-loading */ "./node_modules/vue-element-loading/lib/vue-element-loading.min.js");
 /* harmony import */ var vue_element_loading__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue_element_loading__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -51,8 +102,49 @@ var modulesListComponent = function modulesListComponent() {
   },
   data: function data() {
     return {
-      loading: false
+      openModal: false,
+      loading: false,
+      isGetting: false,
+      moduleLength: null
     };
+  },
+  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(["getmain_module", "getSub_module", "getAll_sub_module"])),
+  methods: {
+    fetchAllModule: function fetchAllModule() {
+      var _this = this;
+
+      this.isGetting = true;
+      axios.get("/api/student_sub_module/all/".concat(this.$route.params.id)).then(function (res) {
+        _this.studentSubModuleProgress = res.data;
+
+        _this.$store.dispatch('fetchMainModule', _this.$route.params.id).then(function () {
+          setTimeout(function () {
+            _this.isGetting = false;
+            _this.moduleLength = _this.getmain_module.length;
+          }, 1000);
+        });
+
+        _this.$store.dispatch('fetchSubModule', _this.$route.params.id);
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    UpdateAllModule: function UpdateAllModule() {
+      var _this2 = this;
+
+      axios.get("/api/student_sub_module/all/".concat(this.$route.params.id)).then(function (res) {
+        _this2.$store.dispatch('fetchMainModule', _this2.$route.params.id).then(function () {
+          _this2.moduleLength = _this2.getmain_module.length;
+        });
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    }
+  },
+  mounted: function mounted() {
+    this.fetchAllModule();
+    console.log(this.isGetting);
+    console.log(this.moduleLength);
   }
 });
 
@@ -209,9 +301,185 @@ var render = function() {
   return _c(
     "div",
     [
-      _c("v-row", { staticClass: "pt-3" }, [_c("addModuleModal")], 1),
+      _vm.moduleLength == 0
+        ? _c(
+            "v-row",
+            {
+              staticClass: "pt-10",
+              attrs: { align: "center", justify: "center" }
+            },
+            [
+              _c(
+                "v-col",
+                {
+                  staticClass: "text-center",
+                  attrs: { cols: "12", sm: "8", md: "4" }
+                },
+                [
+                  _c("v-icon", { staticStyle: { "font-size": "14rem" } }, [
+                    _vm._v(
+                      "\n                mdi-book-variant-multiple\n            "
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("h1", [_vm._v(" Empty Course Module ")]),
+                  _vm._v(" "),
+                  _c("p", [
+                    _vm._v(
+                      " Creating Module, you'll be able to upload and share it with your class. "
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: { color: "primary" },
+                      on: {
+                        click: function($event) {
+                          _vm.openModal = true
+                        }
+                      }
+                    },
+                    [_vm._v(" CREATE MODULE ")]
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c("addModuleModal", {
+                attrs: { openModal: _vm.openModal },
+                on: {
+                  createdModal: function($event) {
+                    return _vm.UpdateAllModule()
+                  }
+                }
+              })
+            ],
+            1
+          )
+        : _vm._e(),
       _vm._v(" "),
-      _c("v-row", [_c("modulesListComponent")], 1)
+      _vm.isGetting
+        ? _c(
+            "v-container",
+            { staticStyle: { height: "400px" } },
+            [
+              _c(
+                "v-row",
+                {
+                  staticClass: "fill-height",
+                  attrs: { "align-content": "center", justify: "center" }
+                },
+                [
+                  _c("v-icon", { staticStyle: { "font-size": "14rem" } }, [
+                    _vm._v(
+                      "\n                mdi-google-classroom\n            "
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "v-col",
+                    {
+                      staticClass: "text-subtitle-1 text-center",
+                      attrs: { cols: "12" }
+                    },
+                    [_c("h2", [_vm._v(" Loading your Classes ")])]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-col",
+                    { attrs: { cols: "6" } },
+                    [
+                      _c("v-progress-linear", {
+                        attrs: {
+                          color: "primary",
+                          indeterminate: "",
+                          rounded: "",
+                          height: "6"
+                        }
+                      })
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.moduleLength > 0
+        ? _c(
+            "div",
+            [
+              _c(
+                "v-row",
+                {
+                  staticClass: "pt-3",
+                  scopedSlots: _vm._u(
+                    [
+                      {
+                        key: "activator",
+                        fn: function(ref) {
+                          var on = ref.on
+                          var attrs = ref.attrs
+                          return [
+                            _c(
+                              "v-btn",
+                              _vm._g(
+                                _vm._b(
+                                  {
+                                    attrs: {
+                                      bottom: "",
+                                      color: "primary",
+                                      dark: "",
+                                      fab: "",
+                                      fixed: "",
+                                      right: ""
+                                    },
+                                    on: {
+                                      click: function($event) {
+                                        _vm.dialog = !_vm.dialog
+                                      }
+                                    }
+                                  },
+                                  "v-btn",
+                                  attrs,
+                                  false
+                                ),
+                                on
+                              ),
+                              [_c("v-icon", [_vm._v("mdi-plus")])],
+                              1
+                            )
+                          ]
+                        }
+                      }
+                    ],
+                    null,
+                    false,
+                    1693666535
+                  )
+                },
+                [
+                  _c("v-col", [
+                    _c("h2", { staticClass: "pb-0" }, [
+                      _vm._v("Manage Modules")
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _vm._v(" "),
+                  _c("addModuleModal")
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c("v-row", [_c("modulesListComponent")], 1)
+            ],
+            1
+          )
+        : _vm._e()
     ],
     1
   )

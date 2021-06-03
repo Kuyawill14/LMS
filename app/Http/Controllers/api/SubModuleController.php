@@ -72,7 +72,7 @@ class SubModuleController extends Controller
             $subModule->description = $request->description;
             $subModule->file_attachment = $file;
             $subModule->save();
-            return $file;
+            return $subModule;
             
             // return response()->json([
             //     "success" => true,
