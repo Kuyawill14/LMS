@@ -21711,6 +21711,7 @@ var render = function() {
                                 [
                                   _c("v-col", {
                                     staticClass: "primary",
+                                    staticStyle: { height: "5vh" },
                                     attrs: { cols: "12", md: "12" }
                                   }),
                                   _vm._v(" "),

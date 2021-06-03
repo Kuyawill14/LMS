@@ -16,7 +16,7 @@
               <v-window>
                 <v-window-item >
                     <v-row style="height:60vh">
-                        <v-col  cols="12" md="12" class="primary">
+                        <v-col style="height:5vh"  cols="12" md="12" class="primary">
                        
                         </v-col>
                           <v-col cols="12" md="12" class="pl-7 pr-9 pt-5">
