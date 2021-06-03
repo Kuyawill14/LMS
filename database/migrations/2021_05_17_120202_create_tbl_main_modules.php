@@ -18,6 +18,7 @@ class CreateTblMainModules extends Migration
             $table->integer('course_id');
             $table->string('module_name');
             $table->string('description');
+            $table->integer('position');
             $table->timestamps();
         });
     }

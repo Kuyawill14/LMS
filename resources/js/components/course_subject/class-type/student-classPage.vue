@@ -39,11 +39,17 @@
                 <v-col lg="3" md="6" v-for="(item, i) in allClass" :key="'class' + i">
                     <div class="card-expansion">
                         <v-card class="mx-auto">
-                            <v-img :src="'../images/'+item.course_picture" height="200px">
-                           
+                            <v-img :src="'../images/'+item.course_picture" height="200px"
+                                gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)" class="white--text align-end">
+                                <v-card-subtitle>
+                                    <v-progress-linear :value="item.progress" height="6" class="rounded-sm" >
+                                    </v-progress-linear>
+                                    <span class="text-caption float-right"> {{ parseFloat(item.progress.toFixed(2))}}% </span>
+                                    <span class="text-caption "> Completed </span>
+                                </v-card-subtitle>
                             </v-img>
-                            
-                          
+
+
 
                             <v-card-title>
                                 <router-link :to="{name: 'coursePage', params: {id: item.course_id}}">
@@ -52,14 +58,14 @@
                             </v-card-title>
                             <v-card-subtitle>
                                 {{ item.class_name}} <br>
-                                Class code:{{ item.class_code}}
+                                Class code:{{ item.class_code}} <br> <br>
+
                             </v-card-subtitle>
 
-                            
 
-                          
-                        <div> <v-progress-linear :value="item.progress" height="15">   {{ item.progress.toFixed(2).toString()}}%</v-progress-linear></div>
-  
+
+                            <div> </div>
+
                         </v-card>
 
                     </div>
@@ -122,18 +128,25 @@
                 this.fetchClassList();
 
                 setTimeout(() => (this.isloading = false), 1000);
+            },
+            fetchClass() {
+                this.$store.dispatch('fetchClassList').then(() => {
+                    console.log('fetching class');
+                });
             }
         },
         computed: mapGetters(["allClass"]),
         mounted() {
-            this.isloading = true;
-            this.fetchClassList();
-            setTimeout(() => (this.isloading = false), 500);
+            this.fetchClass();
+
         }
     };
 
 </script>
 
 <style scoped>
+    .text-caption {
+        color: #fff !important;
+    }
 
 </style>

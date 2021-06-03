@@ -125,6 +125,7 @@ Route::prefix('/notification')->group(function () {
 Route::prefix('/main_module')->group(function () {
     Route::get('/all/{id}', [MainModuleController::class, 'index']);
     Route::post('/insert', [MainModuleController::class, 'store']);
+    Route::post('/arrange', [MainModuleController::class, 'newArrangement']);
     
 });
 

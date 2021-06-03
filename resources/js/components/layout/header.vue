@@ -10,7 +10,7 @@
 
 
         <notifications></notifications>
-
+ 
         <div class="text-center">
             <v-menu :nudge-width="200" offset-y :max-width="200">
                 <template v-slot:activator="{ on, attrs }">

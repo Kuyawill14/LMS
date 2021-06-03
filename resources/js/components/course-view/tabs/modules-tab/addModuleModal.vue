@@ -82,7 +82,7 @@
                         console.log(res);
                         if (res.status == 201) {
                             this.moduleForm.reset()
-                       
+                             this.loading = false;
                             this.$emit('createdModal');
                             this.openModal = false;
                                  this.toastSuccess();

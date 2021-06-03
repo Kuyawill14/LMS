@@ -20,6 +20,7 @@ class MainModuleController extends Controller
         ->select('tbl_main_modules.*')
         ->leftJoin('tbl_subject_courses', 'tbl_main_modules.course_id', '=', 'tbl_subject_courses.id')
         ->where('tbl_main_modules.course_id', $id )
+        ->orderBy('position')
         ->get();
         return $allMainModules;
     }
@@ -32,6 +33,21 @@ class MainModuleController extends Controller
     public function create()
     {
         //
+    }
+    public function newArrangement(Request $request) {
+
+        $mainModulesReq =  $request->mainModules;
+ 
+        $mainModule  = new tbl_main_modules;
+        for($i =0 ; $i < count($mainModulesReq); $i++) {
+            DB::table('tbl_main_modules')
+            ->where('id', $mainModulesReq[$i]['id'])  // find your user by their email
+            ->limit(1)  // optional - to ensure only one record is updated.
+            ->update(['position' => $i  ]);
+        }
+
+
+
     }
 
     /**
@@ -48,6 +64,7 @@ class MainModuleController extends Controller
          $mainModule->module_name = $request->moduleForm['module_name'];
          $mainModule->description = $request->moduleForm['description'];
          $mainModule->course_id = $request->moduleForm['course_id'];
+         $mainModule->position = $request->moduleForm['course_id'] + 1;
          $mainModule->save();
          return $mainModule;
 

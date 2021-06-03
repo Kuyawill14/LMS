@@ -24,7 +24,7 @@
 
                             <v-card-text class="text--primary">
                                 <div> {{subModuleData.description}}</div>
-                                 <div> {{subModuleData}}</div>
+                           
                                 <a :href="'/storage/' + subModuleData.file_attachment">Donwload</a>
 
                             </v-card-text>

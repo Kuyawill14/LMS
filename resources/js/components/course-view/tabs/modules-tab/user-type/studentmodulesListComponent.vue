@@ -4,7 +4,22 @@
             <v-list-item>
 
                 <v-list-item-content>
-                    <v-list-item-title>Course Content</v-list-item-title>
+                    <v-list-item-title class="course_content_header">
+                        Course Content
+                        <v-spacer></v-spacer>
+                        <v-tooltip bottom>
+                            <template v-slot:activator="{ on, attrs }">
+
+                                <v-progress-circular v-bind="attrs" v-on="on" :value="studentProgressPercentage()" :rotate="-90" :size="40"
+                                    color="green lighten-2" class="float-right"><span>{{parseInt(studentProgressPercentage())}} </span></v-progress-circular>
+
+                            </template>
+                            <span>{{studentSubModuleProgress.length}} of {{getAll_sub_module.length}} complete</span>
+                        </v-tooltip>
+
+
+                    </v-list-item-title>
+
 
 
                 </v-list-item-content>
@@ -24,7 +39,7 @@
                             mdi-folder
                         </v-icon>
                         {{itemModule.module_name}} <br>
-                               {{ getCount(studentSubModuleProgress, itemModule.id) + ' / '+ getSub_module(itemModule.id).length}}
+                        {{ getCount(studentSubModuleProgress, itemModule.id) + ' / '+ getSub_module(itemModule.id).length}}
 
                     </span>
                 </v-expansion-panel-header>
@@ -58,6 +73,7 @@
                 </v-expansion-panel-content>
             </v-expansion-panel>
         </v-expansion-panels>
+    
     </v-navigation-drawer>
 </template>
 
@@ -102,15 +118,7 @@
                 var data;
 
             },
-            getCount(module_id) {
-                var count = 0;
-                for (var i = 0; i < this.studentSubModuleProgress.length; i++) {
-                    if (this.studentSubModuleProgress.main_module_id == module_id) {
-                        count++;
-                    }
-                }
-                return count;
-            },
+          
             getCount(arr, mainModule_id) {
                 var count = 0;
                 for (var i = 0; i < arr.length; i++) {
@@ -130,11 +138,12 @@
                         studentProgress: this.studentSubModuleProgressForm
                     })
                     .then((res) => {
+                        this.$store.dispatch('fetchClassList')
                         var arr = this.studentSubModuleProgress;
                         var exist = false;
                         for (var i = 0; i < arr.length; i++) {
                             if (arr[i].sub_module_id == subModule_id) {
-                                arr.splice(i, 1); 
+                                arr.splice(i, 1);
                                 exist = true;
                                 break;
                             }
@@ -154,11 +163,21 @@
                     }
                 }
                 return check;
+            },
+              fetchClass() {
+                this.$store.dispatch('fetchClassList').then(() => {
+                    console.log('fetching class');
+                });
+            },
+            studentProgressPercentage() {
+                var total =  (this.studentSubModuleProgress.length /this.getAll_sub_module.length) * 100;
+                return parseFloat(total.toFixed(2));
             }
 
 
         },
         async mounted() {
+              this.fetchClass();
             axios.get(
                 `/api/student_sub_module/all/${this.$route.params.id}`
             ).then((res) => {
@@ -170,16 +189,8 @@
             }).catch((error) => {
                 console.log(error)
             })
-
-
-
-
-
-
         },
-        created() {
-
-        }
+      
 
     }
 
@@ -194,6 +205,11 @@
 
     .v-expansion-panel-content__wrap {
         padding: 0 !important;
+    }
+
+    .course_content_header {
+        display: flex;
+        align-items: center;
     }
 
 </style>

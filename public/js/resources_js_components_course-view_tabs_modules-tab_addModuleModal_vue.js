@@ -95,6 +95,8 @@ __webpack_require__.r(__webpack_exports__);
         if (res.status == 201) {
           _this.moduleForm.reset();
 
+          _this.loading = false;
+
           _this.$emit('createdModal');
 
           _this.openModal = false;

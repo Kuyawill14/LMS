@@ -68,7 +68,7 @@ let routes = [{
                 });
         },
         children: [{
-                path: "/courses",
+                path: "",
                 component: mycourse,
                 name: "courses"
             },
