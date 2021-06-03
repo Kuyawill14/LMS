@@ -95,6 +95,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
     this.isloading = true;
     this.course_id = this.$route.params.id;
+    this.routeName = this.$route.matched[2].name;
     this.$store.dispatch('fetchScourse', this.course_id);
     setInterval(function () {
       return _this.isloading = false;
