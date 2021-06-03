@@ -1,103 +1,113 @@
 <template>
 
     <v-col>
+        <vue-element-loading :active="isDrag" spinner="bar-fade-scale" color="#FF6700" />
         <v-expansion-panels focusable>
-            <v-expansion-panel v-for="(itemModule, i) in getmain_module" :key="'module'+i">
-                <span class="text-right pannel-btn">
-                    <v-btn icon float-right>
-                        <v-icon>mdi-pencil</v-icon>
-                    </v-btn>
-                    <v-btn icon right>
-                        <v-icon>mdi-delete</v-icon>
-                    </v-btn>
-
-                </span>
-                <v-expansion-panel-header>
-                    <span style="font-size: 1.5rem;">
-                        <v-icon style="font-size: 2.25rem; ">
-                            mdi-folder
-                        </v-icon>
-                        {{itemModule.module_name}}
-
-                    </span>
-                </v-expansion-panel-header>
-                <v-expansion-panel-content class="pa-0">
-                    <v-list-item v-for="(itemSubModule, i) in getSub_module(itemModule.id)" :key="'Submodule'+i" link class="pl-8">
-                        <v-list-item-avatar>
-                            <v-icon class="grey lighten-1" dark>
-                                mdi-folder
-                            </v-icon>
-                        </v-list-item-avatar>
-
-                        <v-list-item-content>
-                            <v-list-item-title> {{itemSubModule.sub_module_name}}</v-list-item-title>
-
-                            <v-list-item-subtitle> {{itemSubModule.type}}</v-list-item-subtitle>
-                        </v-list-item-content>
-
-                        <v-list-item-action>
-                            <v-btn icon>
-                                <v-icon color="grey lighten-1">mdi-information</v-icon>
+            <draggable v-model="mainModule" style="width: 100%" @change="onEnd"
+                @start="isDragging = true" @end="isDragging = false" v-bind="dragOptions">
+                <transition-group type="transition" name="flip-list">
+                    <v-expansion-panel v-for="(itemModule, i) in mainModule" :key="'module'+i" draggable="true">
+                        <span class="text-right pannel-btn">
+                            <v-btn icon float-right>
+                                <v-icon>mdi-pencil</v-icon>
                             </v-btn>
-                        </v-list-item-action>
-                    </v-list-item>
-                    <hr v-if="getSub_module(itemModule.id).length != 0">
+                            <v-btn icon right>
+                                <v-icon>mdi-delete</v-icon>
+                            </v-btn>
 
-                    <v-list-item>
-                        <v-list-item-content>
-                            <v-list-item-title> </v-list-item-title>
+                        </span>
+                        <v-expansion-panel-header>
+                            <span style="font-size: 1.5rem;">
+                                <v-icon style="font-size: 2.25rem; ">
+                                    mdi-folder
+                                </v-icon>
+                                {{itemModule.module_name}}
 
-                            <v-list-item-subtitle></v-list-item-subtitle>
-                        </v-list-item-content>
-                        <v-list-item-action>
-                            <v-menu transition="slide-y-transition" bottom>
-                                <template v-slot:activator="{ on, attrs }">
-                                    <v-btn tile class="secondary" v-bind="attrs" v-on="on">
-                                        <v-icon left>
-                                            mdi-plus
-                                        </v-icon>
-                                        Add item
+                            </span>
+                        </v-expansion-panel-header>
+                        <v-expansion-panel-content class="pa-0">
+                            <v-list-item v-for="(itemSubModule, i) in getSub_module(itemModule.id)" :key="'Submodule'+i"
+                                link class="pl-8">
+                                <v-list-item-avatar>
+                                    <v-icon class="grey lighten-1" dark>
+                                        mdi-folder
+                                    </v-icon>
+                                </v-list-item-avatar>
+
+                                <v-list-item-content>
+                                    <v-list-item-title> {{itemSubModule.sub_module_name}}</v-list-item-title>
+
+                                    <v-list-item-subtitle> {{itemSubModule.type}}</v-list-item-subtitle>
+                                </v-list-item-content>
+
+                                <v-list-item-action>
+                                    <v-btn icon>
+                                        <v-icon color="grey lighten-1">mdi-information</v-icon>
                                     </v-btn>
-                                </template>
-                                <v-list>
-                                    <v-list-item link @click="lectureBtn(itemModule.id)">
-                                        <v-list-item-title>Lecture</v-list-item-title>
+                                </v-list-item-action>
+                            </v-list-item>
+                            <hr v-if="getSub_module(itemModule.id).length != 0">
 
-                                    </v-list-item>
-                                    <v-list-item link>
-                                        <v-list-item-title>Upload</v-list-item-title>
+                            <v-list-item>
+                                <v-list-item-content>
+                                    <v-list-item-title> </v-list-item-title>
 
-                                    </v-list-item>
-                                    <v-list-item link>
-                                        <v-list-item-title>Quiz</v-list-item-title>
+                                    <v-list-item-subtitle></v-list-item-subtitle>
+                                </v-list-item-content>
+                                <v-list-item-action>
+                                    <v-menu transition="slide-y-transition" bottom>
+                                        <template v-slot:activator="{ on, attrs }">
+                                            <v-btn tile class="secondary" v-bind="attrs" v-on="on">
+                                                <v-icon left>
+                                                    mdi-plus
+                                                </v-icon>
+                                                Add item
+                                            </v-btn>
+                                        </template>
+                                        <v-list>
+                                            <v-list-item link @click="lectureBtn(itemModule.id)">
+                                                <v-list-item-title>Lecture</v-list-item-title>
 
-                                    </v-list-item>
-                                    <v-list-item link>
-                                        <v-list-item-title>Assignment</v-list-item-title>
+                                            </v-list-item>
+                                            <v-list-item link>
+                                                <v-list-item-title>Upload</v-list-item-title>
 
-                                    </v-list-item>
-                                </v-list>
-                            </v-menu>
+                                            </v-list-item>
+                                            <v-list-item link>
+                                                <v-list-item-title>Quiz</v-list-item-title>
+
+                                            </v-list-item>
+                                            <v-list-item link>
+                                                <v-list-item-title>Assignment</v-list-item-title>
+
+                                            </v-list-item>
+                                        </v-list>
+                                    </v-menu>
 
 
-                        </v-list-item-action>
-                    </v-list-item>
+                                </v-list-item-action>
+                            </v-list-item>
 
-                </v-expansion-panel-content>
-            </v-expansion-panel>
+                        </v-expansion-panel-content>
+                    </v-expansion-panel>
+                </transition-group>
+            </draggable>
         </v-expansion-panels>
 
         <!-- New lecture -->
         <v-dialog v-model="lectureDialog" persistent max-width="600px">
-
-            <newLectureForm v-on:CloseLecture="lectureDialog = false" :moduleId="mainModule_id"/>
+            <newLectureForm v-on:CloseLecture="lectureDialog = false" :moduleId="mainModule_id" />
         </v-dialog>
+
+
     </v-col>
 
 
 </template>
 
 <script>
+    import draggable from "vuedraggable";
+
     import VueElementLoading from 'vue-element-loading'
     import newLectureForm from './Forms/NewLectureForm'
     import newClassworkForm from './Forms/NewClassworkForm'
@@ -105,15 +115,18 @@
         mapGetters,
         mapActions
     } from "vuex";
+    import axios from 'axios';
     export default {
         props: ['role'],
         components: {
             VueElementLoading,
             newLectureForm,
-            newClassworkForm
+            newClassworkForm,
+            draggable
         },
         data() {
             return {
+                isDrag: false,
                 lectureDialog: false,
                 temp_id: null,
                 showLecture: false,
@@ -127,16 +140,35 @@
             }
         },
         computed: {
-            ...mapGetters(["getmain_module", "getSub_module", "getAll_sub_module"])
+            ...mapGetters(["getmain_module", "getSub_module", "getAll_sub_module"]),
+            dragOptions() {
+                return {
+                    animation: 0,
+                    group: "description",
+                    disabled: false,
+                    ghostClass: "ghost"
+                };
+            },
+
         },
         methods: {
-            test() {
-                alert('12312')
+            onEnd() {
+                this.isDrag = true;
+                axios.post(`/api/main_module/arrange`, {
+                        mainModules: this.mainModule
+                    })
+                    .then((res) => {
+                        this.isDrag = false;
+                    })
             },
-         
+            getdata() {
+                this.mainModule = this.getmain_module;
+            },
+
+
             lectureBtn(module_id) {
-              this.lectureDialog= !this.lectureDialog;
-              this.mainModule_id = module_id;
+                this.lectureDialog = !this.lectureDialog;
+                this.mainModule_id = module_id;
 
             },
 
@@ -193,6 +225,7 @@
 
         },
         async mounted() {
+            this.getdata();
             // axios.get(
             //     `/api/student_sub_module/all/${this.$route.params.id}`
             // ).then((res) => {
@@ -218,15 +251,32 @@
     }
 
 </script>
+<style scoped>
 
-<style >
+</style>
+<style>
+    .flip-list-move {
+        transition: transform 0.5s !important;
+    }
+
+    .no-move {
+        transition: transform 0s !important;
+    }
+
     .pannel-btn {
         position: absolute;
         top: 15px;
         right: 47px;
         z-index: 100;
     }
+
     .v-expansion-panel-content__wrap {
         padding: 0 !important;
     }
+
+    .ghost {
+        border-left: 10px solid #FF5400 !important;
+        ;
+    }
+
 </style>

@@ -14,8 +14,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
-var _methods;
-
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -28,6 +26,22 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -110,7 +124,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     };
   },
   computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(["getmain_module", "getSub_module", "getAll_sub_module"])),
-  methods: (_methods = {
+  methods: {
     passToMainComponent: function passToMainComponent(sub_module, id) {
       var _sub_module = sub_module.find(function (item) {
         return item.id === id;
@@ -121,64 +135,67 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     student_sub_module_progress: function student_sub_module_progress(id) {
       var data;
     },
-    getCount: function getCount(module_id) {
+    getCount: function getCount(arr, mainModule_id) {
       var count = 0;
 
-      for (var i = 0; i < this.studentSubModuleProgress.length; i++) {
-        if (this.studentSubModuleProgress.main_module_id == module_id) {
+      for (var i = 0; i < arr.length; i++) {
+        if (arr[i].main_module_id == mainModule_id) {
           count++;
         }
       }
 
       return count;
-    }
-  }, _defineProperty(_methods, "getCount", function getCount(arr, mainModule_id) {
-    var count = 0;
+    },
+    addSubStudentProgress: function addSubStudentProgress(mainModule_id, subModule_id, type) {
+      var _this = this;
 
-    for (var i = 0; i < arr.length; i++) {
-      if (arr[i].main_module_id == mainModule_id) {
-        count++;
-      }
-    }
+      this.tempSubId = subModule_id;
+      this.studentSubModuleProgressForm.main_module_id = mainModule_id;
+      this.studentSubModuleProgressForm.sub_module_id = subModule_id;
+      this.studentSubModuleProgressForm.type = type;
+      this.studentSubModuleProgressForm.course_id = this.$route.params.id;
+      axios.post("/api/student_sub_module/insert", {
+        studentProgress: this.studentSubModuleProgressForm
+      }).then(function (res) {
+        _this.$store.dispatch('fetchClassList');
 
-    return count;
-  }), _defineProperty(_methods, "addSubStudentProgress", function addSubStudentProgress(mainModule_id, subModule_id, type) {
-    var _this = this;
+        var arr = _this.studentSubModuleProgress;
+        var exist = false;
 
-    this.tempSubId = subModule_id;
-    this.studentSubModuleProgressForm.main_module_id = mainModule_id;
-    this.studentSubModuleProgressForm.sub_module_id = subModule_id;
-    this.studentSubModuleProgressForm.type = type;
-    this.studentSubModuleProgressForm.course_id = this.$route.params.id;
-    axios.post("/api/student_sub_module/insert", {
-      studentProgress: this.studentSubModuleProgressForm
-    }).then(function (res) {
-      var arr = _this.studentSubModuleProgress;
-      var exist = false;
+        for (var i = 0; i < arr.length; i++) {
+          if (arr[i].sub_module_id == subModule_id) {
+            arr.splice(i, 1);
+            exist = true;
+            break;
+          }
+        }
+
+        if (exist == false) {
+          _this.studentSubModuleProgress.push(res.data);
+        }
+      });
+    },
+    checkSubModule: function checkSubModule(arr, sub_module_id) {
+      var check = false; //console.log(arr);
 
       for (var i = 0; i < arr.length; i++) {
-        if (arr[i].sub_module_id == subModule_id) {
-          arr.splice(i, 1);
-          exist = true;
-          break;
+        if (arr[i].sub_module_id == sub_module_id) {
+          check = true;
         }
       }
 
-      if (exist == false) {
-        _this.studentSubModuleProgress.push(res.data);
-      }
-    });
-  }), _defineProperty(_methods, "checkSubModule", function checkSubModule(arr, sub_module_id) {
-    var check = false; //console.log(arr);
-
-    for (var i = 0; i < arr.length; i++) {
-      if (arr[i].sub_module_id == sub_module_id) {
-        check = true;
-      }
+      return check;
+    },
+    fetchClass: function fetchClass() {
+      this.$store.dispatch('fetchClassList').then(function () {
+        console.log('fetching class');
+      });
+    },
+    studentProgressPercentage: function studentProgressPercentage() {
+      var total = this.studentSubModuleProgress.length / this.getAll_sub_module.length * 100;
+      return parseFloat(total.toFixed(2));
     }
-
-    return check;
-  }), _methods),
+  },
   mounted: function mounted() {
     var _this2 = this;
 
@@ -187,6 +204,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
+              _this2.fetchClass();
+
               axios.get("/api/student_sub_module/all/".concat(_this2.$route.params.id)).then(function (res) {
                 _this2.studentSubModuleProgress = res.data;
 
@@ -199,15 +218,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 console.log(error);
               });
 
-            case 1:
+            case 2:
             case "end":
               return _context.stop();
           }
         }
       }, _callee);
     }))();
-  },
-  created: function created() {}
+  }
 });
 
 /***/ }),
@@ -229,7 +247,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.pannel-btn {\n    position: absolute;\n    top: 15px;\n    right: 47px;\n    z-index: 100;\n}\n.v-expansion-panel-content__wrap {\n    padding: 0 !important;\n}\n\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.pannel-btn {\n    position: absolute;\n    top: 15px;\n    right: 47px;\n    z-index: 100;\n}\n.v-expansion-panel-content__wrap {\n    padding: 0 !important;\n}\n.course_content_header {\n    display: flex;\n    align-items: center;\n}\n\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -356,7 +374,79 @@ var render = function() {
             [
               _c(
                 "v-list-item-content",
-                [_c("v-list-item-title", [_vm._v("Course Content")])],
+                [
+                  _c(
+                    "v-list-item-title",
+                    { staticClass: "course_content_header" },
+                    [
+                      _vm._v(
+                        "\n                    Course Content\n                    "
+                      ),
+                      _c("v-spacer"),
+                      _vm._v(" "),
+                      _c(
+                        "v-tooltip",
+                        {
+                          attrs: { bottom: "" },
+                          scopedSlots: _vm._u([
+                            {
+                              key: "activator",
+                              fn: function(ref) {
+                                var on = ref.on
+                                var attrs = ref.attrs
+                                return [
+                                  _c(
+                                    "v-progress-circular",
+                                    _vm._g(
+                                      _vm._b(
+                                        {
+                                          staticClass: "float-right",
+                                          attrs: {
+                                            value: _vm.studentProgressPercentage(),
+                                            rotate: -90,
+                                            size: 40,
+                                            color: "green lighten-2"
+                                          }
+                                        },
+                                        "v-progress-circular",
+                                        attrs,
+                                        false
+                                      ),
+                                      on
+                                    ),
+                                    [
+                                      _c("span", [
+                                        _vm._v(
+                                          _vm._s(
+                                            parseInt(
+                                              _vm.studentProgressPercentage()
+                                            )
+                                          ) + " "
+                                        )
+                                      ])
+                                    ]
+                                  )
+                                ]
+                              }
+                            }
+                          ])
+                        },
+                        [
+                          _vm._v(" "),
+                          _c("span", [
+                            _vm._v(
+                              _vm._s(_vm.studentSubModuleProgress.length) +
+                                " of " +
+                                _vm._s(_vm.getAll_sub_module.length) +
+                                " complete"
+                            )
+                          ])
+                        ]
+                      )
+                    ],
+                    1
+                  )
+                ],
                 1
               ),
               _vm._v(" "),
@@ -408,7 +498,7 @@ var render = function() {
                     ),
                     _c("br"),
                     _vm._v(
-                      "\n                           " +
+                      "\n                    " +
                         _vm._s(
                           _vm.getCount(
                             _vm.studentSubModuleProgress,

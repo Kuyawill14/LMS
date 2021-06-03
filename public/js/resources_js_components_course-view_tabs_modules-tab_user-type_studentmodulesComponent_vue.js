@@ -311,10 +311,6 @@ var render = function() {
                               )
                             ]),
                             _vm._v(" "),
-                            _c("div", [
-                              _vm._v(" " + _vm._s(_vm.subModuleData))
-                            ]),
-                            _vm._v(" "),
                             _c(
                               "a",
                               {

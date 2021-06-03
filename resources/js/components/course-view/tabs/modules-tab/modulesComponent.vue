@@ -21,7 +21,7 @@
                     mdi-google-classroom
                 </v-icon>
                 <v-col class="text-subtitle-1 text-center" cols="12">
-                    <h2> Loading your Classes </h2>
+                    <h2> Loading your Modules </h2>
                 </v-col>
                 <v-col cols="6">
                     <v-progress-linear color="primary" indeterminate rounded height="6"></v-progress-linear>

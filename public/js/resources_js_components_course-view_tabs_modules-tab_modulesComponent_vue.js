@@ -383,7 +383,7 @@ var render = function() {
                       staticClass: "text-subtitle-1 text-center",
                       attrs: { cols: "12" }
                     },
-                    [_c("h2", [_vm._v(" Loading your Classes ")])]
+                    [_c("h2", [_vm._v(" Loading your Modules ")])]
                   ),
                   _vm._v(" "),
                   _c(
