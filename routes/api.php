@@ -100,6 +100,9 @@ Route::prefix('/classwork')->group(function () {
     Route::post('/insert', [ClassworkController::class, 'store']);
     Route::post('/share', [ClassworkController::class, 'ShareClasswork']);
 
+    Route::put('/update/{id}', [ClassworkController::class, 'update']);
+    
+
     
 });
 

@@ -28,7 +28,7 @@ class ClassworkController extends Controller
         else{
             $classworkAll = tbl_classClassworks::where('tbl_userclasses.course_id','=', $id)
             ->where('tbl_userclasses.user_id','=', $userId)
-            ->select('tbl_class_classworks.*', 'tbl_classworks.type', 'tbl_classworks.title', 'tbl_classworks.description', 'tbl_classworks.due_date')
+            ->select('tbl_class_classworks.*', 'tbl_classworks.type', 'tbl_classworks.title', 'tbl_classworks.instruction', 'tbl_classworks.due_date')
             ->leftJoin('tbl_classworks', 'tbl_classworks.id', '=', 'tbl_class_classworks.classwork_id')
             ->leftJoin('tbl_userclasses', 'tbl_class_classworks.class_id', '=', 'tbl_userclasses.class_id')
             ->orderBy('created_at', 'DESC')
@@ -53,8 +53,9 @@ class ClassworkController extends Controller
         $newClasswork->user_id = $userId;
         $newClasswork->type =  $request->type;
         $newClasswork->title =  $request->title;
-        $newClasswork->description =  $request->instruction;
+        $newClasswork->instruction =  $request->instruction;
         $newClasswork->due_date =  $request->due_date;
+        $newClasswork->duration =  $request->duration;
         $newClasswork->status =  0;
         $newClasswork->save();
         return $newClasswork;
@@ -112,7 +113,17 @@ class ClassworkController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $UpdateClasswork = tbl_classwork::find($id);
+        if($UpdateClasswork){
+            $UpdateClasswork->type =  $request->type;
+            $UpdateClasswork->title =  $request->title;
+            $UpdateClasswork->instruction =  $request->instruction;
+            $UpdateClasswork->due_date =  $request->due_date;
+            $UpdateClasswork->duration =  $request->duration;
+            $UpdateClasswork->save();
+            return $UpdateClasswork;
+        }
+        return "Classwork not found";
     }
 
     /**

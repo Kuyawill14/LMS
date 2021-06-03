@@ -1,7 +1,9 @@
 <template>
     <div class="container pt-4">
         <!-- Modal -->
-        <editModal v-on:closeEditModal="dialog = !dialog" :editData="editData" :dialog="dialog"></editModal>
+        <v-dialog v-model="dialog" persistent max-width="600px">
+            <editModal v-if="isEditing" v-on:closeEditModal="dialog = !dialog, isEditing = !isEditing" :editData="editData"></editModal>
+         </v-dialog>
     
          <v-row class="pl-5 pr-5">
             <v-divider></v-divider>
@@ -32,19 +34,19 @@
                                     </template>
                                     <v-list pa-0 ma-0>
                                         <v-list-item ma-0 pa-0>
-                                            <v-list-item-title><v-btn @click="showShareClass(item.id)" text>Publish Classwork</v-btn></v-list-item-title>
+                                            <v-list-item-title><v-btn @click="showShareClass(item.id)" text><v-icon class="mr-1">mdi-file-upload-outline</v-icon>Publish Classwork</v-btn></v-list-item-title>
                                         </v-list-item>
                                          <v-list-item ma-0 pa-0>
-                                            <v-list-item-title><v-btn text>View Submission</v-btn></v-list-item-title>
+                                            <v-list-item-title><v-btn text><v-icon class="mr-1">mdi-file-eye-outline</v-icon>View Submission</v-btn></v-list-item-title>
                                         </v-list-item>
                                         <v-list-item ma-0 pa-0>
-                                            <v-list-item-title><v-btn text>Review Classwork</v-btn></v-list-item-title>
+                                            <v-list-item-title><v-btn text><v-icon class="mr-1">mdi-notebook-edit-outline</v-icon>Review Classwork</v-btn></v-list-item-title>
                                         </v-list-item>
                                         <v-list-item ma-0 pa-0>
-                                            <v-list-item-title><v-btn @click="editClasswork(item)" text>Edit Classwork</v-btn></v-list-item-title>
+                                            <v-list-item-title><v-btn @click="editClasswork(item)" text><v-icon class="mr-1">mdi-square-edit-outline</v-icon>Edit Classwork</v-btn></v-list-item-title>
                                         </v-list-item>
                                         <v-list-item ma-0 pa-0>
-                                            <v-list-item-title><v-btn text>Remove Classwork</v-btn></v-list-item-title>
+                                            <v-list-item-title><v-btn text><v-icon class="mr-1">mdi-delete-outline</v-icon>Remove Classwork</v-btn></v-list-item-title>
                                         </v-list-item>
                                     </v-list>
                                 </v-menu>
@@ -139,6 +141,7 @@
         },
         data() {
             return {
+                isEditing:false,
                 dialog:false,
                 isLoaded:false,
                 isLoading: true,
@@ -208,6 +211,7 @@
             editClasswork(data){
                 this.dialog = !this.dialog;
                 this.editData = data;
+                this.isEditing = true;
 
             }
         },

@@ -148,6 +148,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
 
 
 
@@ -160,6 +162,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   data: function data() {
     return {
+      isEditing: false,
       dialog: false,
       isLoaded: false,
       isLoading: true,
@@ -231,6 +234,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     editClasswork: function editClasswork(data) {
       this.dialog = !this.dialog;
       this.editData = data;
+      this.isEditing = true;
     }
   })
 });
@@ -250,7 +254,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var vform__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vform */ "./node_modules/vform/dist/vform.es.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var vform__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vform */ "./node_modules/vform/dist/vform.es.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_3__);
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -328,27 +336,28 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
+
+
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['dialog', 'editData'],
   data: function data() {
     return {
       loading: false,
-      form: new vform__WEBPACK_IMPORTED_MODULE_1__.default({})
+      due_date: null,
+      form: new vform__WEBPACK_IMPORTED_MODULE_2__.default({})
     };
   },
   methods: {
     toastSuccess: function toastSuccess() {
-      return this.$toasted.success("Classwork Successfully added", {
+      return this.$toasted.success("Classwork successfully updated", {
         theme: "toasted-primary",
         position: "top-center",
         icon: "done",
         duration: 3000
       });
     },
-    SaveClasswork: function SaveClasswork() {
+    UpdateClasswork: function UpdateClasswork() {
       var _this = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
@@ -356,32 +365,44 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _this.form.course_id = _this.$route.params.id;
-                axios.post('/api/classwork/insert', _this.form).then(function (res) {
-                  if (res.status == 201) {
-                    _this.toastSuccess();
+                console.log(_this.$refs.Due_date.value);
+                _this.form.due_date = _this.$refs.Due_date.value;
+                axios__WEBPACK_IMPORTED_MODULE_3___default().put('/api/classwork/update/' + _this.form.id, _this.form).then(function (res) {
+                  _this.toastSuccess();
 
-                    _this.form.reset();
-
-                    _this.dialog = false;
-
-                    _this.$emit('realodClassworks');
-                  }
-                })["catch"](function (e) {
-                  console.log(e);
+                  _this.$emit('closeEditModal');
                 });
+                /*  this.form.course_id = this.$route.params.id;
+                 axios.post('/api/classwork/insert', this.form)
+                 .then(res=>{
+                     if(res.status == 201){
+                         this.toastSuccess();
+                         this.form.reset()
+                         this.dialog = false;
+                         this.$emit('realodClassworks');
+                       }
+                   }).catch(e=>{
+                     console.log(e);
+                 }) */
 
-              case 2:
+              case 3:
               case "end":
                 return _context.stop();
             }
           }
         }, _callee);
       }))();
+    },
+    format_date: function format_date(value) {
+      if (value) {
+        return moment__WEBPACK_IMPORTED_MODULE_1___default()(String(value)).format("YYYY-MM-DDThh:mm");
+      }
     }
   },
   mounted: function mounted() {
-    console.log("sasasaass" + this.editData);
+    this.due_date = this.format_date(this.editData.due_date);
+    this.form = this.editData;
+    console.log(this.editData);
   }
 });
 
@@ -22045,14 +22066,33 @@ var render = function() {
     "div",
     { staticClass: "container pt-4" },
     [
-      _c("editModal", {
-        attrs: { editData: _vm.editData, dialog: _vm.dialog },
-        on: {
-          closeEditModal: function($event) {
-            _vm.dialog = !_vm.dialog
+      _c(
+        "v-dialog",
+        {
+          attrs: { persistent: "", "max-width": "600px" },
+          model: {
+            value: _vm.dialog,
+            callback: function($$v) {
+              _vm.dialog = $$v
+            },
+            expression: "dialog"
           }
-        }
-      }),
+        },
+        [
+          _vm.isEditing
+            ? _c("editModal", {
+                attrs: { editData: _vm.editData },
+                on: {
+                  closeEditModal: function($event) {
+                    ;(_vm.dialog = !_vm.dialog),
+                      (_vm.isEditing = !_vm.isEditing)
+                  }
+                }
+              })
+            : _vm._e()
+        ],
+        1
+      ),
       _vm._v(" "),
       _c("v-row", { staticClass: "pl-5 pr-5" }, [_c("v-divider")], 1),
       _vm._v(" "),
@@ -22175,7 +22215,19 @@ var render = function() {
                                                 }
                                               }
                                             },
-                                            [_vm._v("Publish Classwork")]
+                                            [
+                                              _c(
+                                                "v-icon",
+                                                { staticClass: "mr-1" },
+                                                [
+                                                  _vm._v(
+                                                    "mdi-file-upload-outline"
+                                                  )
+                                                ]
+                                              ),
+                                              _vm._v("Publish Classwork")
+                                            ],
+                                            1
                                           )
                                         ],
                                         1
@@ -22191,9 +22243,19 @@ var render = function() {
                                       _c(
                                         "v-list-item-title",
                                         [
-                                          _c("v-btn", { attrs: { text: "" } }, [
-                                            _vm._v("View Submission")
-                                          ])
+                                          _c(
+                                            "v-btn",
+                                            { attrs: { text: "" } },
+                                            [
+                                              _c(
+                                                "v-icon",
+                                                { staticClass: "mr-1" },
+                                                [_vm._v("mdi-file-eye-outline")]
+                                              ),
+                                              _vm._v("View Submission")
+                                            ],
+                                            1
+                                          )
                                         ],
                                         1
                                       )
@@ -22208,9 +22270,23 @@ var render = function() {
                                       _c(
                                         "v-list-item-title",
                                         [
-                                          _c("v-btn", { attrs: { text: "" } }, [
-                                            _vm._v("Review Classwork")
-                                          ])
+                                          _c(
+                                            "v-btn",
+                                            { attrs: { text: "" } },
+                                            [
+                                              _c(
+                                                "v-icon",
+                                                { staticClass: "mr-1" },
+                                                [
+                                                  _vm._v(
+                                                    "mdi-notebook-edit-outline"
+                                                  )
+                                                ]
+                                              ),
+                                              _vm._v("Review Classwork")
+                                            ],
+                                            1
+                                          )
                                         ],
                                         1
                                       )
@@ -22235,7 +22311,19 @@ var render = function() {
                                                 }
                                               }
                                             },
-                                            [_vm._v("Edit Classwork")]
+                                            [
+                                              _c(
+                                                "v-icon",
+                                                { staticClass: "mr-1" },
+                                                [
+                                                  _vm._v(
+                                                    "mdi-square-edit-outline"
+                                                  )
+                                                ]
+                                              ),
+                                              _vm._v("Edit Classwork")
+                                            ],
+                                            1
                                           )
                                         ],
                                         1
@@ -22251,9 +22339,19 @@ var render = function() {
                                       _c(
                                         "v-list-item-title",
                                         [
-                                          _c("v-btn", { attrs: { text: "" } }, [
-                                            _vm._v("Remove Classwork")
-                                          ])
+                                          _c(
+                                            "v-btn",
+                                            { attrs: { text: "" } },
+                                            [
+                                              _c(
+                                                "v-icon",
+                                                { staticClass: "mr-1" },
+                                                [_vm._v("mdi-delete-outline")]
+                                              ),
+                                              _vm._v("Remove Classwork")
+                                            ],
+                                            1
+                                          )
                                         ],
                                         1
                                       )
@@ -22542,128 +22640,51 @@ var render = function() {
   return _c(
     "div",
     [
-      _vm.dialog
-        ? _c(
-            "v-dialog",
-            { attrs: { persistent: "", "max-width": "600px" } },
+      _c(
+        "v-card",
+        [
+          _c(
+            "v-form",
+            { ref: "registerForm", attrs: { "lazy-validation": "" } },
             [
+              _c("v-card-title", [
+                _c("span", { staticClass: "headline" }, [
+                  _vm._v("Classwork Details")
+                ])
+              ]),
+              _vm._v(" "),
               _c(
-                "v-card",
+                "v-card-text",
                 [
                   _c(
-                    "v-form",
-                    { ref: "registerForm", attrs: { "lazy-validation": "" } },
+                    "v-container",
                     [
-                      _c("v-card-title", [
-                        _c("span", { staticClass: "headline" }, [
-                          _vm._v("Add Classwork")
-                        ])
-                      ]),
-                      _vm._v(" "),
                       _c(
-                        "v-card-text",
+                        "v-row",
                         [
                           _c(
-                            "v-container",
+                            "v-col",
+                            { attrs: { cols: "12" } },
                             [
                               _c(
                                 "v-row",
                                 [
                                   _c(
                                     "v-col",
-                                    { attrs: { cols: "12" } },
+                                    { attrs: { cols: "12", lg: "8", md: "8" } },
                                     [
-                                      _c(
-                                        "v-row",
-                                        [
-                                          _c(
-                                            "v-col",
-                                            {
-                                              attrs: {
-                                                cols: "12",
-                                                lg: "8",
-                                                md: "8"
-                                              }
-                                            },
-                                            [
-                                              _c("v-text-field", {
-                                                attrs: {
-                                                  label: "Title",
-                                                  type: "text",
-                                                  required: ""
-                                                },
-                                                model: {
-                                                  value: _vm.form.title,
-                                                  callback: function($$v) {
-                                                    _vm.$set(
-                                                      _vm.form,
-                                                      "title",
-                                                      $$v
-                                                    )
-                                                  },
-                                                  expression: "form.title"
-                                                }
-                                              })
-                                            ],
-                                            1
-                                          ),
-                                          _vm._v(" "),
-                                          _c(
-                                            "v-col",
-                                            {
-                                              attrs: {
-                                                cols: "12",
-                                                lg: "4",
-                                                md: "4"
-                                              }
-                                            },
-                                            [
-                                              _c("v-select", {
-                                                attrs: {
-                                                  items: ["Quiz", "test"],
-                                                  label: "Type"
-                                                },
-                                                model: {
-                                                  value: _vm.form.type,
-                                                  callback: function($$v) {
-                                                    _vm.$set(
-                                                      _vm.form,
-                                                      "type",
-                                                      $$v
-                                                    )
-                                                  },
-                                                  expression: "form.type"
-                                                }
-                                              })
-                                            ],
-                                            1
-                                          )
-                                        ],
-                                        1
-                                      )
-                                    ],
-                                    1
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "v-col",
-                                    { attrs: { cols: "12" } },
-                                    [
-                                      _c("v-textarea", {
+                                      _c("v-text-field", {
                                         attrs: {
-                                          label: "Instruction",
-                                          "auto-grow": ""
+                                          label: "Title",
+                                          type: "text",
+                                          required: ""
                                         },
                                         model: {
-                                          value: _vm.form.instruction,
+                                          value: _vm.form.title,
                                           callback: function($$v) {
-                                            _vm.$set(
-                                              _vm.form,
-                                              "instruction",
-                                              $$v
-                                            )
+                                            _vm.$set(_vm.form, "title", $$v)
                                           },
-                                          expression: "form.instruction"
+                                          expression: "form.title"
                                         }
                                       })
                                     ],
@@ -22672,64 +22693,99 @@ var render = function() {
                                   _vm._v(" "),
                                   _c(
                                     "v-col",
-                                    { attrs: { cols: "12" } },
+                                    { attrs: { cols: "12", lg: "4", md: "4" } },
                                     [
-                                      _c(
-                                        "v-row",
-                                        [
-                                          _c(
-                                            "v-col",
-                                            [
-                                              _c("v-text-field", {
-                                                attrs: {
-                                                  label: "Due Date",
-                                                  type: "datetime-local",
-                                                  required: ""
-                                                },
-                                                model: {
-                                                  value: _vm.form.due_date,
-                                                  callback: function($$v) {
-                                                    _vm.$set(
-                                                      _vm.form,
-                                                      "due_date",
-                                                      $$v
-                                                    )
-                                                  },
-                                                  expression: "form.due_date"
-                                                }
-                                              })
-                                            ],
-                                            1
-                                          ),
-                                          _vm._v(" "),
-                                          _c(
-                                            "v-col",
-                                            [
-                                              _c("v-text-field", {
-                                                attrs: {
-                                                  hint: "mins",
-                                                  label: "Duration",
-                                                  type: "number",
-                                                  required: ""
-                                                },
-                                                model: {
-                                                  value: _vm.form.duration,
-                                                  callback: function($$v) {
-                                                    _vm.$set(
-                                                      _vm.form,
-                                                      "duration",
-                                                      $$v
-                                                    )
-                                                  },
-                                                  expression: "form.duration"
-                                                }
-                                              })
-                                            ],
-                                            1
-                                          )
-                                        ],
-                                        1
-                                      )
+                                      _c("v-select", {
+                                        attrs: {
+                                          items: ["Quiz", "test"],
+                                          label: "Type"
+                                        },
+                                        model: {
+                                          value: _vm.form.type,
+                                          callback: function($$v) {
+                                            _vm.$set(_vm.form, "type", $$v)
+                                          },
+                                          expression: "form.type"
+                                        }
+                                      })
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-col",
+                            { attrs: { cols: "12" } },
+                            [
+                              _c("v-textarea", {
+                                attrs: {
+                                  label: "Instruction",
+                                  "auto-grow": ""
+                                },
+                                model: {
+                                  value: _vm.form.instruction,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.form, "instruction", $$v)
+                                  },
+                                  expression: "form.instruction"
+                                }
+                              })
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-col",
+                            { attrs: { cols: "12" } },
+                            [
+                              _c(
+                                "v-row",
+                                [
+                                  _c(
+                                    "v-col",
+                                    [
+                                      _c("v-text-field", {
+                                        ref: "Due_date",
+                                        attrs: {
+                                          label: "Due Date",
+                                          type: "datetime-local",
+                                          required: ""
+                                        },
+                                        model: {
+                                          value: _vm.due_date,
+                                          callback: function($$v) {
+                                            _vm.due_date = $$v
+                                          },
+                                          expression: "due_date"
+                                        }
+                                      })
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-col",
+                                    [
+                                      _c("v-text-field", {
+                                        attrs: {
+                                          hint: "mins",
+                                          label: "Duration",
+                                          type: "number",
+                                          required: ""
+                                        },
+                                        model: {
+                                          value: _vm.form.duration,
+                                          callback: function($$v) {
+                                            _vm.$set(_vm.form, "duration", $$v)
+                                          },
+                                          expression: "form.duration"
+                                        }
+                                      })
                                     ],
                                     1
                                   )
@@ -22741,59 +22797,51 @@ var render = function() {
                           )
                         ],
                         1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "v-card-actions",
-                        [
-                          _c("v-spacer"),
-                          _vm._v(" "),
-                          _c(
-                            "v-btn",
-                            {
-                              attrs: {
-                                color: "blue darken-1",
-                                text: "",
-                                disabled: _vm.loading
-                              },
-                              on: {
-                                click: function($event) {
-                                  return _vm.$emit("closeEditModal")
-                                }
-                              }
-                            },
-                            [
-                              _vm._v(
-                                "\n                         Close\n                     "
-                              )
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-btn",
-                            {
-                              attrs: {
-                                color: "blue darken-1",
-                                text: "",
-                                disabled: _vm.loading
-                              },
-                              on: {
-                                click: function($event) {
-                                  return _vm.SaveClasswork()
-                                }
-                              }
-                            },
-                            [
-                              _vm._v(
-                                "\n                         Save\n                     "
-                              )
-                            ]
-                          )
-                        ],
-                        1
                       )
                     ],
                     1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-card-actions",
+                [
+                  _c("v-spacer"),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: {
+                        color: "blue darken-1",
+                        text: "",
+                        disabled: _vm.loading
+                      },
+                      on: {
+                        click: function($event) {
+                          return _vm.$emit("closeEditModal")
+                        }
+                      }
+                    },
+                    [_vm._v("\n                     Close\n                 ")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: {
+                        color: "blue darken-1",
+                        text: "",
+                        disabled: _vm.loading
+                      },
+                      on: {
+                        click: function($event) {
+                          return _vm.UpdateClasswork()
+                        }
+                      }
+                    },
+                    [_vm._v("\n                     Save\n                 ")]
                   )
                 ],
                 1
@@ -22801,7 +22849,9 @@ var render = function() {
             ],
             1
           )
-        : _vm._e()
+        ],
+        1
+      )
     ],
     1
   )
