@@ -92,12 +92,12 @@ export default {
                     this.isloading = true;
                     setTimeout(() => this.isloading = false, 1500);
 
-
                     this.announcement.file = "sample"
                     this.announcement.class_id = this.$route.params.id;
                     this.announcement.content = this.announcement.content.replaceAll('p>', 'div>');
                     this.$store.dispatch('createClassPost', this.announcement);
                     this.announcement.content = '';
+                    this.$emit("SetShowComment");
                 } 
 
             },

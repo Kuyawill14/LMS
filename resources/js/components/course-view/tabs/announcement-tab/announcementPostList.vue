@@ -32,7 +32,11 @@
             </v-row>
             
               <!--Comment List -->
-            <commentList :commentCount="post.comment_count" :PostId="post.post_id" :UserDetails="UserDetails" ></commentList>
+            <commentList 
+            v-on:AddCount="post.comment_count++"
+            v-on:MinusCount="post.comment_count--" 
+            :commentCount="post.comment_count" 
+            :PostId="post.post_id" :UserDetails="UserDetails" ></commentList>
             
         </v-card>
     </div>

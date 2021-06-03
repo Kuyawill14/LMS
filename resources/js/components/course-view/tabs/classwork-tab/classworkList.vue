@@ -40,7 +40,8 @@
                                             <v-list-item-title><v-btn text><v-icon class="mr-1">mdi-file-eye-outline</v-icon>View Submission</v-btn></v-list-item-title>
                                         </v-list-item>
                                         <v-list-item ma-0 pa-0>
-                                            <v-list-item-title><v-btn text><v-icon class="mr-1">mdi-notebook-edit-outline</v-icon>Review Classwork</v-btn></v-list-item-title>
+                                            <v-list-item-title><v-btn text @click="$router.push({name: 'clwk',params: {id: $route.params.id},query: {clwk: item.id}})"
+                                            ><v-icon class="mr-1">mdi-notebook-edit-outline</v-icon>Review Classwork</v-btn></v-list-item-title>
                                         </v-list-item>
                                         <v-list-item ma-0 pa-0>
                                             <v-list-item-title><v-btn @click="editClasswork(item)" text><v-icon class="mr-1">mdi-square-edit-outline</v-icon>Edit Classwork</v-btn></v-list-item-title>

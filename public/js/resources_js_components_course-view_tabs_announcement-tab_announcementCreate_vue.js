@@ -113,6 +113,7 @@ __webpack_require__.r(__webpack_exports__);
         this.announcement.content = this.announcement.content.replaceAll('p>', 'div>');
         this.$store.dispatch('createClassPost', this.announcement);
         this.announcement.content = '';
+        this.$emit("SetShowComment");
       }
     },
     onButtonClick: function onButtonClick() {

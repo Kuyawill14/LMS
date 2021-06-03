@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\tbl_classwork;
 use App\Models\tbl_classClassworks;
+use App\Models\tbl_Questions;
 use Illuminate\Support\Facades\DB;
 
 class ClassworkController extends Controller
@@ -99,9 +100,22 @@ class ClassworkController extends Controller
      */
     public function show($id)
     {
-        $classworkDetails = tbl_classwork::where('tbl_classworks.course_id','=', $id)
+        /* $classworkDetails = tbl_classwork::where('tbl_classworks.id','=', $id)
         ->get();
-        return $classworkDetails; 
+        return $classworkDetails;  */
+        $classworkDetails = tbl_classwork::where('tbl_classworks.id','=', $id)
+        ->get();
+
+        $Items = tbl_Questions::where('classwork_id','=', $id)
+        ->select('tbl_questions.points')
+        ->get();
+        $count = 0;
+        $points = 0;
+        foreach($Items as $i){
+            $count++;
+            $points+= $i->points;
+        }
+        return ['Details'=>$classworkDetails,'ItemsCount'=>$count,'totalpoints'=>$points];
     }
 
     /**

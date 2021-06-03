@@ -118,6 +118,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   props: ['PostId', 'UserDetails', 'commentCount'],
   data: function data() {
     return {
+      totalComment: null,
       isLengthLoaded: false,
       CommentList: [],
       password: 'Password',
@@ -137,7 +138,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }
   },
   methods: {
-    getComments: function getComments() {
+    CheckCommentLoad: function CheckCommentLoad() {
       var _this = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
@@ -146,20 +147,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context.prev = _context.next) {
               case 0:
                 if (!_this.showComment) {
-                  axios.get('/api/comment/allcomment/' + _this.PostId, {
-                    Check: _this.showLess
-                  }).then(function (res) {
-                    _this.CommentList = res.data;
-
-                    _this.getCommentCount();
-                  });
+                  _this.getComments();
                 }
 
-                setTimeout(function () {
-                  _this.showComment = false;
-                }, 5000);
-
-              case 2:
+              case 1:
               case "end":
                 return _context.stop();
             }
@@ -167,7 +158,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee);
       }))();
     },
-    getCommentCount: function getCommentCount() {
+    getComments: function getComments() {
       var _this2 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
@@ -175,9 +166,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                axios.get('/api/comment/commentCount/' + _this2.PostId).then(function (res) {
-                  _this2.commentLength = res.data;
-                  _this2.isLengthLoaded = true;
+                axios.get('/api/comment/allcomment/' + _this2.PostId, {
+                  Check: _this2.showLess
+                }).then(function (res) {
+                  _this2.CommentList = res.data;
+
+                  _this2.getCommentCount();
                 });
 
               case 1:
@@ -188,7 +182,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee2);
       }))();
     },
-    addComment: function addComment() {
+    getCommentCount: function getCommentCount() {
       var _this3 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
@@ -196,21 +190,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                _this3.data.content = _this3.comment;
-                _this3.data.course_id = _this3.$route.params.id;
-                _this3.data.post_id = _this3.PostId;
-                axios.post('/api/comment/insert', _this3.data).then(function (res) {
-                  _this3.showComment = true;
-
-                  _this3.getCommentCount();
-
-                  _this3.clearComment();
-
-                  _this3.getComments(); //this.CommentList.push({...res.data})
-
+                axios.get('/api/comment/commentCount/' + _this3.PostId).then(function (res) {
+                  _this3.commentLength = res.data;
+                  _this3.isLengthLoaded = true;
                 });
 
-              case 4:
+              case 1:
               case "end":
                 return _context3.stop();
             }
@@ -218,10 +203,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee3);
       }))();
     },
-    clearComment: function clearComment() {
-      this.comment = '';
-    },
-    RemoveComment: function RemoveComment(id) {
+    addComment: function addComment() {
       var _this4 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
@@ -229,18 +211,53 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
-                axios["delete"]('/api/comment/remove/' + id).then(function () {
-                  _this4.getCommentCount();
+                _this4.data.content = _this4.comment;
+                _this4.data.course_id = _this4.$route.params.id;
+                _this4.data.post_id = _this4.PostId;
+                axios.post('/api/comment/insert', _this4.data).then(function (res) {
+                  _this4.showComment = true;
 
-                  _this4.getComments();
+                  _this4.$emit("AddCount"); //this.getCommentCount();
+
+
+                  _this4.clearComment();
+
+                  _this4.getComments(); //this.CommentList.push({...res.data})
+
                 });
 
-              case 1:
+              case 4:
               case "end":
                 return _context4.stop();
             }
           }
         }, _callee4);
+      }))();
+    },
+    clearComment: function clearComment() {
+      this.comment = '';
+    },
+    RemoveComment: function RemoveComment(id) {
+      var _this5 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee5$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                axios["delete"]('/api/comment/remove/' + id).then(function () {
+                  _this5.$emit("MinusCount"); //this.getCommentCount();
+
+
+                  _this5.getComments();
+                });
+
+              case 1:
+              case "end":
+                return _context5.stop();
+            }
+          }
+        }, _callee5);
       }))();
     }
   }
@@ -262,6 +279,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _actions_commentList__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./actions/commentList */ "./resources/js/components/course-view/tabs/announcement-tab/actions/commentList.vue");
+//
+//
+//
+//
 //
 //
 //
@@ -613,8 +634,9 @@ var render = function() {
               attrs: { text: "" },
               on: {
                 click: function($event) {
-                  _vm.CommentCountAll != 0
-                    ? (_vm.getComments(), (_vm.showComment = !_vm.showComment))
+                  _vm.commentCount != 0
+                    ? (_vm.CheckCommentLoad(),
+                      (_vm.showComment = !_vm.showComment))
                     : ""
                 }
               }
@@ -623,14 +645,7 @@ var render = function() {
               _c(
                 "v-badge",
                 {
-                  attrs: {
-                    content: !_vm.isLengthLoaded
-                      ? _vm.CommentCountAll
-                      : _vm.commentLength,
-                    value: !_vm.isLengthLoaded
-                      ? _vm.CommentCountAll
-                      : _vm.commentLength
-                  }
+                  attrs: { content: _vm.commentCount, value: _vm.commentCount }
                 },
                 [
                   _c("v-icon", { staticClass: "mr-1" }, [
@@ -1006,6 +1021,14 @@ var render = function() {
               commentCount: post.comment_count,
               PostId: post.post_id,
               UserDetails: _vm.UserDetails
+            },
+            on: {
+              AddCount: function($event) {
+                post.comment_count++
+              },
+              MinusCount: function($event) {
+                post.comment_count--
+              }
             }
           })
         ],

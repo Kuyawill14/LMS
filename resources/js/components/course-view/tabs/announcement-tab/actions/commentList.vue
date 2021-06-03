@@ -7,10 +7,10 @@
         </v-badge>
             Like
         </v-btn>
-        <v-btn text @click="CommentCountAll != 0 ? (getComments(), showComment = !showComment) : ''">
+        <v-btn text @click="commentCount != 0 ? (CheckCommentLoad(), showComment = !showComment) : ''">
         <v-badge 
-        :content="!isLengthLoaded ? CommentCountAll : commentLength"
-        :value="!isLengthLoaded ? CommentCountAll : commentLength"
+        :content="commentCount"
+        :value="commentCount"
         >
             <v-icon class="mr-1">mdi-comment-outline</v-icon>
         </v-badge>
@@ -98,6 +98,7 @@ export default {
     props:['PostId', 'UserDetails','commentCount'],
     data(){
         return{
+            totalComment: null,
             isLengthLoaded:false,
             CommentList:[],
             password: 'Password',
@@ -117,19 +118,20 @@ export default {
         }
     },
     methods:{
-        async getComments(){
-            if(!this.showComment){
-                axios.get('/api/comment/allcomment/'+this.PostId, {Check: this.showLess})
-                .then((res)=>{
-                    this.CommentList = res.data;
-                    this.getCommentCount();
-                })
-               
-            }
-             setTimeout(() => {
-                    this.showComment = false;
-                }, 5000);
+        async CheckCommentLoad(){
+                if(!this.showComment){
+                    this.getComments();
+                }
+             
 
+        },
+        async getComments(){ 
+            axios.get('/api/comment/allcomment/'+this.PostId, {Check: this.showLess})
+            .then((res)=>{
+                this.CommentList = res.data;
+                this.getCommentCount();
+            })
+        
         },
         async getCommentCount(){
             axios.get('/api/comment/commentCount/'+this.PostId)
@@ -145,7 +147,8 @@ export default {
             axios.post('/api/comment/insert',this.data)
             .then(res=>{
                 this.showComment = true;
-                this.getCommentCount();
+                this.$emit("AddCount");
+                //this.getCommentCount();
                 this.clearComment();
                 this.getComments();
 
@@ -158,15 +161,11 @@ export default {
         async RemoveComment(id){
             axios.delete('/api/comment/remove/'+id)
             .then(()=>{
-                this.getCommentCount();
+                this.$emit("MinusCount");
+                //this.getCommentCount();
                 this.getComments();
             })
         }
-
-    },
- 
- 
-    
-   
+    },  
 }
 </script>

@@ -150,6 +150,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 
 
@@ -22272,7 +22273,20 @@ var render = function() {
                                         [
                                           _c(
                                             "v-btn",
-                                            { attrs: { text: "" } },
+                                            {
+                                              attrs: { text: "" },
+                                              on: {
+                                                click: function($event) {
+                                                  return _vm.$router.push({
+                                                    name: "clwk",
+                                                    params: {
+                                                      id: _vm.$route.params.id
+                                                    },
+                                                    query: { clwk: item.id }
+                                                  })
+                                                }
+                                              }
+                                            },
                                             [
                                               _c(
                                                 "v-icon",

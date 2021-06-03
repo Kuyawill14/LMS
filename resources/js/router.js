@@ -51,6 +51,12 @@ let classes_tab = () =>
 let courseView = () =>
     import ("./components/course-view/course-view-page");
 
+//View Classworks Details
+let classworkView = () =>
+    import ("./components/Classwork_View/classworkDetailsView");
+
+    
+
 let routes = [{
         path: "",
         component: mainApp,
@@ -163,6 +169,12 @@ let routes = [{
             },
         ],
 
+    },
+    {
+        path: "/classwork/:id",
+        component: classworkView,
+        name: "clwk",
+        props: true
     },
 
 
