@@ -7,7 +7,6 @@
                 </v-card-title>
                 <v-container>
                     <v-row class="mx-2">
-
                         <v-col cols="12" class="pa-0 ma-0">
                             <v-text-field v-model="form.course_code" filled color="primary" label="Course Code">
                             </v-text-field>
@@ -84,9 +83,6 @@
                             </v-card-subtitle>
 
                             <v-card-actions>
-
-
-
 
 
                             </v-card-actions>
