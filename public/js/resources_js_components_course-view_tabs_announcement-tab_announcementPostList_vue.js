@@ -115,9 +115,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['PostId', 'UserDetails'],
+  props: ['PostId', 'UserDetails', 'commentCount'],
   data: function data() {
     return {
+      isLengthLoaded: false,
       CommentList: [],
       password: 'Password',
       showLess: true,
@@ -130,6 +131,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       isRemoving: false
     };
   },
+  computed: {
+    CommentCountAll: function CommentCountAll() {
+      return this.commentCount;
+    }
+  },
   methods: {
     getComments: function getComments() {
       var _this = this;
@@ -139,13 +145,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                axios.get('/api/comment/allcomment/' + _this.PostId, {
-                  Check: _this.showLess
-                }).then(function (res) {
-                  _this.CommentList = res.data;
-                });
+                if (!_this.showComment) {
+                  axios.get('/api/comment/allcomment/' + _this.PostId, {
+                    Check: _this.showLess
+                  }).then(function (res) {
+                    _this.CommentList = res.data;
 
-              case 1:
+                    _this.getCommentCount();
+                  });
+                }
+
+                setTimeout(function () {
+                  _this.showComment = false;
+                }, 5000);
+
+              case 2:
               case "end":
                 return _context.stop();
             }
@@ -163,6 +177,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 axios.get('/api/comment/commentCount/' + _this2.PostId).then(function (res) {
                   _this2.commentLength = res.data;
+                  _this2.isLengthLoaded = true;
                 });
 
               case 1:
@@ -228,9 +243,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee4);
       }))();
     }
-  },
-  created: function created() {
-    this.getCommentCount();
   }
 });
 
@@ -601,7 +613,7 @@ var render = function() {
               attrs: { text: "" },
               on: {
                 click: function($event) {
-                  _vm.commentLength != 0
+                  _vm.CommentCountAll != 0
                     ? (_vm.getComments(), (_vm.showComment = !_vm.showComment))
                     : ""
                 }
@@ -612,8 +624,12 @@ var render = function() {
                 "v-badge",
                 {
                   attrs: {
-                    content: _vm.commentLength,
-                    value: _vm.commentLength
+                    content: !_vm.isLengthLoaded
+                      ? _vm.CommentCountAll
+                      : _vm.commentLength,
+                    value: !_vm.isLengthLoaded
+                      ? _vm.CommentCountAll
+                      : _vm.commentLength
                   }
                 },
                 [
@@ -986,7 +1002,11 @@ var render = function() {
           _c("v-row", { staticClass: "pl-5 pr-5" }, [_c("v-divider")], 1),
           _vm._v(" "),
           _c("commentList", {
-            attrs: { PostId: post.post_id, UserDetails: _vm.UserDetails }
+            attrs: {
+              commentCount: post.comment_count,
+              PostId: post.post_id,
+              UserDetails: _vm.UserDetails
+            }
           })
         ],
         1

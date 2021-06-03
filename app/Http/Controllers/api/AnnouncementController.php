@@ -41,8 +41,7 @@ class AnnouncementController extends Controller
         ->leftJoin('users', 'tbl_classposts.user_id', '=', 'users.id')
         ->leftJoin('tbl_user_details', 'users.id', '=', 'tbl_user_details.user_id')
         ->orderBy('created_at', 'DESC')
-  /*       ->withCount(['comments']) */
-        ->groupBy('tbl_classposts.id','tbl_class_announcements.id','tbl_class_announcements.content','tbl_class_announcements.file','ccsictdb.tbl_class_announcements.created_at','ccsictdb.tbl_class_announcements.updated_at','tbl_user_details.profile_pic','users.firstName','users.lastName')
+        ->groupBy('tbl_classposts.id','tbl_class_announcements.id','tbl_class_announcements.content','tbl_class_announcements.file','tbl_class_announcements.created_at','tbl_class_announcements.updated_at','tbl_user_details.profile_pic','users.firstName','users.lastName')
 
   
         ->get();
@@ -150,7 +149,8 @@ class AnnouncementController extends Controller
             'created_at'=>$NewAnnouncement->created_at, 
             'updated_at'=>$NewAnnouncement->updated_at, 
             'name' => $username[0]->name,
-            'profile_pic' => $username[0]->profile_pic
+            'profile_pic' => $username[0]->profile_pic,
+            'comment_count' => 0
         ]);
      
     }

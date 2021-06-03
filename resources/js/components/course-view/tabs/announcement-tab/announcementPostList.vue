@@ -32,7 +32,7 @@
             </v-row>
             
               <!--Comment List -->
-            <commentList :PostId="post.post_id" :UserDetails="UserDetails" ></commentList>
+            <commentList :commentCount="post.comment_count" :PostId="post.post_id" :UserDetails="UserDetails" ></commentList>
             
         </v-card>
     </div>

@@ -7,10 +7,10 @@
         </v-badge>
             Like
         </v-btn>
-        <v-btn text @click="commentLength != 0 ? (getComments(), showComment = !showComment) : ''">
+        <v-btn text @click="CommentCountAll != 0 ? (getComments(), showComment = !showComment) : ''">
         <v-badge 
-        :content="commentLength"
-        :value="commentLength"
+        :content="!isLengthLoaded ? CommentCountAll : commentLength"
+        :value="!isLengthLoaded ? CommentCountAll : commentLength"
         >
             <v-icon class="mr-1">mdi-comment-outline</v-icon>
         </v-badge>
@@ -95,9 +95,10 @@
 </template>
 <script>
 export default {
-    props:['PostId', 'UserDetails'],
+    props:['PostId', 'UserDetails','commentCount'],
     data(){
         return{
+            isLengthLoaded:false,
             CommentList:[],
             password: 'Password',
             showLess: true,
@@ -110,18 +111,31 @@ export default {
             isRemoving: false
         }
     },
+    computed:{
+        CommentCountAll(){
+            return this.commentCount;
+        }
+    },
     methods:{
         async getComments(){
-            axios.get('/api/comment/allcomment/'+this.PostId, {Check: this.showLess})
-            .then((res)=>{
-                
-                this.CommentList = res.data;
-            }) 
+            if(!this.showComment){
+                axios.get('/api/comment/allcomment/'+this.PostId, {Check: this.showLess})
+                .then((res)=>{
+                    this.CommentList = res.data;
+                    this.getCommentCount();
+                })
+               
+            }
+             setTimeout(() => {
+                    this.showComment = false;
+                }, 5000);
+
         },
         async getCommentCount(){
             axios.get('/api/comment/commentCount/'+this.PostId)
             .then((res)=>{
                 this.commentLength = res.data;
+                this.isLengthLoaded = true;
             })
         },
         async addComment () {
@@ -150,9 +164,7 @@ export default {
         }
 
     },
-    created(){
-        this.getCommentCount();
-    }
+ 
  
     
    
