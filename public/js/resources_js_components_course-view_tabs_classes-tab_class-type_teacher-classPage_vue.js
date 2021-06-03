@@ -74,6 +74,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     createClass: function createClass() {
       this.$emit('closeModal');
+      this.$emit('createclass');
       this.sending = true;
 
       if (this.form.class_name != "") {
@@ -280,6 +281,32 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var VueElementLoading = function VueElementLoading() {
   return Promise.resolve(/*! import() */).then(__webpack_require__.t.bind(__webpack_require__, /*! vue-element-loading */ "./node_modules/vue-element-loading/lib/vue-element-loading.min.js", 23));
 };
@@ -295,10 +322,12 @@ var VueElementLoading = function VueElementLoading() {
   },
   data: function data() {
     return {
+      isGetting: false,
       showModal: false,
       isloading: true,
       modalType: '',
       class_code: null,
+      classLength: null,
       form: {
         id: '',
         class_name: '',
@@ -322,18 +351,31 @@ var VueElementLoading = function VueElementLoading() {
       this.form.class_id = class_id;
       this.form.class_name = class_name;
       console.log(this.modalType);
+    },
+    getTeacherClasses: function getTeacherClasses() {
+      var _this = this;
+
+      this.isGetting = true;
+      this.fetchSubjectCourseClassList(this.$route.params.id).then(function () {
+        setTimeout(function () {
+          _this.isGetting = false;
+          _this.classLength = _this.allClass.length;
+        }, 1000);
+      });
+    },
+    updateTeacherClasses: function updateTeacherClasses() {
+      var _this2 = this;
+
+      this.fetchSubjectCourseClassList(this.$route.params.id).then(function (res) {
+        setTimeout(function () {
+          _this2.classLength = _this2.allClass.length;
+        }, 500);
+      });
     }
   }),
   computed: (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(['allClass']),
-  created: function created() {
-    var _this = this;
-
-    this.isloading = true;
-    this.fetchSubjectCourseClassList(this.$route.params.id);
-    setTimeout(function () {
-      return _this.isloading = false;
-    }, 1000);
-    this.isloading = false;
+  mounted: function mounted() {
+    this.getTeacherClasses();
   }
 });
 
@@ -703,9 +745,7 @@ var render = function() {
   return _c(
     "v-card",
     [
-      _c("v-card-title", {}, [
-        _vm._v("\n                Edit Class\n            ")
-      ]),
+      _c("v-card-title", {}, [_vm._v("\n        Edit Class\n    ")]),
       _vm._v(" "),
       _c(
         "v-container",
@@ -907,6 +947,105 @@ var render = function() {
     "div",
     { staticClass: "pt-4" },
     [
+      _vm.classLength == 0
+        ? _c(
+            "v-row",
+            {
+              staticClass: "pt-10",
+              attrs: { align: "center", justify: "center" }
+            },
+            [
+              _c(
+                "v-col",
+                {
+                  staticClass: "text-center",
+                  attrs: { cols: "12", sm: "8", md: "4" }
+                },
+                [
+                  _c("v-icon", { staticStyle: { "font-size": "14rem" } }, [
+                    _vm._v(
+                      "\n                mdi-google-classroom\n            "
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("h1", [_vm._v(" Empty Class ")]),
+                  _vm._v(" "),
+                  _c("p", [
+                    _vm._v(
+                      " Creating Class, you'll be able to share class code to your students and let them join. "
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: { color: "primary" },
+                      on: {
+                        click: function($event) {
+                          return _vm.openAddmodal()
+                        }
+                      }
+                    },
+                    [_vm._v(" CREATE CLASS ")]
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.isGetting
+        ? _c(
+            "v-container",
+            { staticStyle: { height: "400px" } },
+            [
+              _c(
+                "v-row",
+                {
+                  staticClass: "fill-height",
+                  attrs: { "align-content": "center", justify: "center" }
+                },
+                [
+                  _c("v-icon", { staticStyle: { "font-size": "14rem" } }, [
+                    _vm._v(
+                      "\n                mdi-google-classroom\n            "
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "v-col",
+                    {
+                      staticClass: "text-subtitle-1 text-center",
+                      attrs: { cols: "12" }
+                    },
+                    [_c("h2", [_vm._v(" Loading your Classes ")])]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-col",
+                    { attrs: { cols: "6" } },
+                    [
+                      _c("v-progress-linear", {
+                        attrs: {
+                          color: "primary",
+                          indeterminate: "",
+                          rounded: "",
+                          height: "6"
+                        }
+                      })
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        : _vm._e(),
+      _vm._v(" "),
       _c(
         "v-dialog",
         {
@@ -925,6 +1064,9 @@ var render = function() {
                 on: {
                   closeModal: function($event) {
                     return _vm.closeModal()
+                  },
+                  createclass: function($event) {
+                    return _vm.updateTeacherClasses()
                   }
                 }
               })
@@ -947,133 +1089,168 @@ var render = function() {
         1
       ),
       _vm._v(" "),
-      _c(
-        "v-row",
-        [
-          _c("v-col", [_c("h2", [_vm._v("My Class")])]),
-          _vm._v(" "),
-          _c(
-            "v-col",
-            { staticClass: "text-right" },
+      !_vm.isGetting && _vm.classLength > 0
+        ? _c(
+            "div",
             [
               _c(
-                "v-btn",
-                {
-                  attrs: { color: "rounded primary" },
-                  on: {
-                    click: function($event) {
-                      return _vm.openAddmodal()
-                    }
-                  }
-                },
-                [_vm._v("\n                Create Class\n            ")]
-              )
-            ],
-            1
-          )
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _vm._l(_vm.allClass, function(item, index) {
-        return _c(
-          "v-card",
-          { key: index, staticClass: "mt-3" },
-          [
-            _c(
-              "v-list-item",
-              [
-                _c(
-                  "v-list-item-avatar",
-                  [_c("v-icon", [_vm._v("mdi-account-multiple")])],
-                  1
-                ),
-                _vm._v(" "),
-                _c(
-                  "v-list-item-content",
-                  [
-                    _c("v-list-item-title", [
-                      _vm._v(_vm._s(item.class_name) + " ")
-                    ]),
-                    _vm._v(" "),
-                    _c("v-list-item-subtitle", [
-                      _vm._v("Class code: " + _vm._s(item.class_code) + " ")
-                    ]),
-                    _vm._v(" "),
-                    _c("v-list-item-subtitle", [_vm._v("{Students #} ")])
-                  ],
-                  1
-                ),
-                _vm._v(" "),
-                _c(
-                  "v-list-item-action",
+                "v-row",
+                [
+                  _c("v-col", [_c("h2", [_vm._v("My Class")])]),
+                  _vm._v(" "),
+                  _c(
+                    "v-col",
+                    { staticClass: "text-right" },
+                    [
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: { color: "rounded primary" },
+                          on: {
+                            click: function($event) {
+                              return _vm.openAddmodal()
+                            }
+                          }
+                        },
+                        [
+                          _vm._v(
+                            "\n                    Create Class\n                "
+                          )
+                        ]
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _vm._l(_vm.allClass, function(item, index) {
+                return _c(
+                  "v-card",
+                  { key: index, staticClass: "mt-3" },
                   [
                     _c(
-                      "v-menu",
-                      {
-                        attrs: { transition: "slide-y-transition", bottom: "" },
-                        scopedSlots: _vm._u(
-                          [
-                            {
-                              key: "activator",
-                              fn: function(ref) {
-                                var on = ref.on
-                                var attrs = ref.attrs
-                                return [
-                                  _c(
-                                    "v-icon",
-                                    _vm._g(
-                                      _vm._b(
-                                        { attrs: { color: "secondary " } },
-                                        "v-icon",
-                                        attrs,
-                                        false
-                                      ),
-                                      on
-                                    ),
-                                    [_vm._v("mdi-dots-vertical")]
-                                  )
-                                ]
-                              }
-                            }
-                          ],
-                          null,
-                          true
-                        )
-                      },
+                      "v-list-item",
                       [
+                        _c(
+                          "v-list-item-avatar",
+                          [_c("v-icon", [_vm._v("mdi-account-multiple")])],
+                          1
+                        ),
                         _vm._v(" "),
                         _c(
-                          "v-list",
+                          "v-list-item-content",
+                          [
+                            _c("v-list-item-title", [
+                              _vm._v(_vm._s(item.class_name) + " ")
+                            ]),
+                            _vm._v(" "),
+                            _c("v-list-item-subtitle", [
+                              _vm._v(
+                                "Class code: " + _vm._s(item.class_code) + " "
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("v-list-item-subtitle", [
+                              _vm._v("{Students #} ")
+                            ])
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "v-list-item-action",
                           [
                             _c(
-                              "v-list-item",
-                              { attrs: { link: "" } },
-                              [_c("v-list-item-title", [_vm._v("Archive")])],
-                              1
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "v-list-item",
+                              "v-menu",
                               {
-                                attrs: { link: "" },
-                                on: {
-                                  click: function($event) {
-                                    return _vm.openEditmodal(
-                                      item.class_name,
-                                      item.class_id
-                                    )
-                                  }
-                                }
+                                attrs: {
+                                  transition: "slide-y-transition",
+                                  bottom: ""
+                                },
+                                scopedSlots: _vm._u(
+                                  [
+                                    {
+                                      key: "activator",
+                                      fn: function(ref) {
+                                        var on = ref.on
+                                        var attrs = ref.attrs
+                                        return [
+                                          _c(
+                                            "v-icon",
+                                            _vm._g(
+                                              _vm._b(
+                                                {
+                                                  attrs: { color: "secondary " }
+                                                },
+                                                "v-icon",
+                                                attrs,
+                                                false
+                                              ),
+                                              on
+                                            ),
+                                            [_vm._v("mdi-dots-vertical")]
+                                          )
+                                        ]
+                                      }
+                                    }
+                                  ],
+                                  null,
+                                  true
+                                )
                               },
-                              [_c("v-list-item-title", [_vm._v("Edit")])],
-                              1
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "v-list-item",
-                              { attrs: { link: "" } },
-                              [_c("v-list-item-title", [_vm._v("Remove")])],
+                              [
+                                _vm._v(" "),
+                                _c(
+                                  "v-list",
+                                  [
+                                    _c(
+                                      "v-list-item",
+                                      { attrs: { link: "" } },
+                                      [
+                                        _c("v-list-item-title", [
+                                          _vm._v("Archive")
+                                        ])
+                                      ],
+                                      1
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "v-list-item",
+                                      {
+                                        attrs: { link: "" },
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.openEditmodal(
+                                              item.class_name,
+                                              item.class_id
+                                            )
+                                          }
+                                        }
+                                      },
+                                      [
+                                        _c("v-list-item-title", [
+                                          _vm._v("Edit")
+                                        ])
+                                      ],
+                                      1
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "v-list-item",
+                                      { attrs: { link: "" } },
+                                      [
+                                        _c("v-list-item-title", [
+                                          _vm._v("Remove")
+                                        ])
+                                      ],
+                                      1
+                                    )
+                                  ],
+                                  1
+                                )
+                              ],
                               1
                             )
                           ],
@@ -1085,15 +1262,13 @@ var render = function() {
                   ],
                   1
                 )
-              ],
-              1
-            )
-          ],
-          1
-        )
-      })
+              })
+            ],
+            2
+          )
+        : _vm._e()
     ],
-    2
+    1
   )
 }
 var staticRenderFns = []

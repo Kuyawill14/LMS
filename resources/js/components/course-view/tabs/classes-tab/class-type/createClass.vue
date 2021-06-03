@@ -1,27 +1,27 @@
 <template>
 
     <v-card>
-                <v-card-title class="">
-                    Edit Class
-                </v-card-title>
-                <v-container>
-                    <v-row class="mx-2">
+        <v-card-title class="">
+            Edit Class
+        </v-card-title>
+        <v-container>
+            <v-row class="mx-2">
 
-                        <v-col cols="12" class="pa-0 ma-0">
-                            <v-text-field required v-model="form.class_name" filled color="primary"
-                            label="Class Name"></v-text-field>
-                        </v-col>
-                      
+                <v-col cols="12" class="pa-0 ma-0">
+                    <v-text-field required v-model="form.class_name" filled color="primary" label="Class Name">
+                    </v-text-field>
+                </v-col>
 
-                    </v-row>
-                </v-container>
-                <v-card-actions>
 
-                    <v-spacer></v-spacer>
-                    <v-btn text  @click="$emit('closeModal');">Cancel</v-btn>
-                    <v-btn text color="primary" :disabled="sending" @click="createClass">Create</v-btn>
-                </v-card-actions>
-            </v-card>
+            </v-row>
+        </v-container>
+        <v-card-actions>
+
+            <v-spacer></v-spacer>
+            <v-btn text @click="$emit('closeModal');">Cancel</v-btn>
+            <v-btn text color="primary" :disabled="sending" @click="createClass">Create</v-btn>
+        </v-card-actions>
+    </v-card>
 </template>
 
 <script>
@@ -70,6 +70,7 @@
             },
             createClass() {
                 this.$emit('closeModal')
+                this.$emit('createclass')
                 this.sending = true;
                 if (this.form.class_name != "") {
                     this.toastSuccess();

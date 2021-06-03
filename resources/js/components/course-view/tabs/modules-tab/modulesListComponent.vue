@@ -193,17 +193,17 @@
 
         },
         async mounted() {
-            axios.get(
-                `/api/student_sub_module/all/${this.$route.params.id}`
-            ).then((res) => {
-                this.studentSubModuleProgress = res.data;
+            // axios.get(
+            //     `/api/student_sub_module/all/${this.$route.params.id}`
+            // ).then((res) => {
+            //     this.studentSubModuleProgress = res.data;
 
-                this.getCount(this.studentSubModuleProgress, 23);
-                this.$store.dispatch('fetchMainModule', this.$route.params.id);
-                this.$store.dispatch('fetchSubModule', this.$route.params.id);
-            }).catch((error) => {
-                console.log(error)
-            })
+            //     this.getCount(this.studentSubModuleProgress, 23);
+            //     this.$store.dispatch('fetchMainModule', this.$route.params.id);
+            //     this.$store.dispatch('fetchSubModule', this.$route.params.id);
+            // }).catch((error) => {
+            //     console.log(error)
+            // })
 
 
 
