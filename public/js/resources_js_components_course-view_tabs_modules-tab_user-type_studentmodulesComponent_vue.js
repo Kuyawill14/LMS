@@ -317,10 +317,11 @@ var render = function() {
                                 attrs: {
                                   href:
                                     "/storage/" +
-                                    _vm.subModuleData.file_attachment
+                                    _vm.subModuleData.file_attachment,
+                                  target: "_blank"
                                 }
                               },
-                              [_vm._v("Donwload")]
+                              [_vm._v("Download")]
                             )
                           ])
                         ],
