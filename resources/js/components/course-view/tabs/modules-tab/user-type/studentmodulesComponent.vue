@@ -6,10 +6,19 @@
 
                     <v-col>
                         <v-card>
-                            <iframe title="office viewer" class="video-c" id="pdf-iframe"
+                            <iframe title="office viewer" class="video-c" 
                                 :src="'https://view.officeapps.live.com/op/view.aspx?src=https://edu.stacktrek.com/uploads/courses/2304/files/research.GRgPROnP.pptx'"
                                 sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
                                 style="width: 100%;height: 100%"></iframe>
+
+<!-- 
+                            <LazyYoutube ref="youtubeLazyVideo" src="https://www.youtube.com/watch?v=TcMBFSGVi1c"
+                                max-width="720px" aspect-ratio="16:9" thumbnail-quality="standard" />
+                            <div class="player-container">
+            
+                            <vue-core-video-player v-if="subModuleData.file_attachment" :src="'/storage/' + subModuleData.file_attachment" ></vue-core-video-player>
+
+                            </div> -->
                         </v-card>
                     </v-col>
 
@@ -24,7 +33,7 @@
 
                             <v-card-text class="text--primary">
                                 <div> {{subModuleData.description}}</div>
-                           
+
                                 <a :href="'/storage/' + subModuleData.file_attachment" target="_blank">Download</a>
 
                             </v-card-text>
@@ -53,6 +62,12 @@
 </template>
 
 <script>
+
+
+    import {
+        LazyYoutube
+    } from 'vue-lazytube'
+
     import VueElementLoading from 'vue-element-loading'
     //import modulesListComponent from './modulesListComponent'
 
@@ -66,6 +81,7 @@
         components: {
             VueElementLoading,
             modulesListComponent,
+            LazyYoutube
 
 
         },

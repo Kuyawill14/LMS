@@ -12,7 +12,7 @@ import Vue from 'vue'
 
 import Toasted from 'vue-toasted';
 import vuetify from './plugin/vuetify';
-
+import VueCoreVideoPlayer from 'vue-core-video-player'
 
 Vue.use(Toasted)
 
@@ -31,6 +31,7 @@ Vue.component(AlertError.name, AlertError);
 Vue.component(AlertErrors.name, AlertErrors);
 Vue.component(AlertSuccess.name, AlertSuccess);
 
+Vue.use(VueCoreVideoPlayer)
 
 import router from "./router";
 //Vuex Store

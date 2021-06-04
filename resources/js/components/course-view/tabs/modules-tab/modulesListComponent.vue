@@ -66,20 +66,15 @@
                                         </template>
                                         <v-list>
                                             <v-list-item link @click="lectureBtn(itemModule.id)">
-                                                <v-list-item-title>Lecture</v-list-item-title>
+                                                <v-list-item-title>File</v-list-item-title>
 
                                             </v-list-item>
                                             <v-list-item link>
-                                                <v-list-item-title>Upload</v-list-item-title>
+                                                <v-list-item-title>Link</v-list-item-title>
 
                                             </v-list-item>
                                             <v-list-item link>
-                                                <v-list-item-title>Quiz</v-list-item-title>
-
-                                            </v-list-item>
-                                            <v-list-item link>
-                                                <v-list-item-title>Assignment</v-list-item-title>
-
+                                                <v-list-item-title>Classwork</v-list-item-title>
                                             </v-list-item>
                                         </v-list>
                                     </v-menu>

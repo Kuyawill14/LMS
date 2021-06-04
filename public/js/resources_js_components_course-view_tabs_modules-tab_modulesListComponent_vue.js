@@ -350,11 +350,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
 
 
 
@@ -5263,7 +5258,7 @@ var render = function() {
                                             },
                                             [
                                               _c("v-list-item-title", [
-                                                _vm._v("Lecture")
+                                                _vm._v("File")
                                               ])
                                             ],
                                             1
@@ -5274,7 +5269,7 @@ var render = function() {
                                             { attrs: { link: "" } },
                                             [
                                               _c("v-list-item-title", [
-                                                _vm._v("Upload")
+                                                _vm._v("Link")
                                               ])
                                             ],
                                             1
@@ -5285,18 +5280,7 @@ var render = function() {
                                             { attrs: { link: "" } },
                                             [
                                               _c("v-list-item-title", [
-                                                _vm._v("Quiz")
-                                              ])
-                                            ],
-                                            1
-                                          ),
-                                          _vm._v(" "),
-                                          _c(
-                                            "v-list-item",
-                                            { attrs: { link: "" } },
-                                            [
-                                              _c("v-list-item-title", [
-                                                _vm._v("Assignment")
+                                                _vm._v("Classwork")
                                               ])
                                             ],
                                             1
