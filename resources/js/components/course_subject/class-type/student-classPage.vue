@@ -146,10 +146,12 @@
                 this.dialog = false;
                 this.$store.dispatch("joinClass", this.form).then(()=> {
                         this.fetchClasses();
+                        form.class_code = '';
+                       
                 });
             
 
-                setTimeout(() => (this.isloading = false), 1000);
+             
 
             },
             Unenroll(id) {
@@ -162,7 +164,7 @@
             },
             fetchClasses() {
                 this.isGetting = true;
-                this.$store.dispatch('fetchCourseList').then(() => {
+                this.$store.dispatch('fetchClassList').then(() => {
                     this.coursesLength = this.allClass.length;
                     this.isGetting = false;
                 });

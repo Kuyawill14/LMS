@@ -10,7 +10,7 @@
                 <p> Creating Module, you'll be able to upload and share it with your class. </p>
                 <v-btn color="primary" @click="openModal = true"> CREATE MODULE </v-btn>
             </v-col>
-      <addModuleModal :openModal="openModal" v-on:createdModal="UpdateAllModule()" />
+         <addModuleModal :openModal="openModal" v-on:createdModal="UpdateAllModule()" />
       
         </v-row>
 

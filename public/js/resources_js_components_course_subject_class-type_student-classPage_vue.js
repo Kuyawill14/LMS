@@ -159,10 +159,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.dialog = false;
       this.$store.dispatch("joinClass", this.form).then(function () {
         _this.fetchClasses();
+
+        form.class_code = '';
       });
-      setTimeout(function () {
-        return _this.isloading = false;
-      }, 1000);
     },
     Unenroll: function Unenroll(id) {
       var _this2 = this;
@@ -178,7 +177,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var _this3 = this;
 
       this.isGetting = true;
-      this.$store.dispatch('fetchCourseList').then(function () {
+      this.$store.dispatch('fetchClassList').then(function () {
         _this3.coursesLength = _this3.allClass.length;
         _this3.isGetting = false;
       });

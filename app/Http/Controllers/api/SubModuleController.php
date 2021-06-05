@@ -47,39 +47,52 @@ class SubModuleController extends Controller
      */
     public function store(Request $request)
     {
-   
-    //     $validator = Validator::make($request->sub_module['file_attachment']->all(), 
-    //     [ 
-        
-    //     'file' => 'required|mimes:doc,docx,pdf,txt|max:2048',
-    //    ]);   
+       
 
-    //     if ($validator->fails()) {          
-    //         return response()->json(['error'=>$validator->errors()], 401);                        
-    //     }  
+   if($request->type == 'Video' || $request->type == 'Document') {
+        //     $validator = Validator::make($request->sub_module['file_attachment']->all(), 
+            //     [ 
+                
+            //     'file' => 'required|mimes:doc,docx,pdf,txt|max:2048',
+            //    ]);   
 
+            //     if ($validator->fails()) {          
+            //         return response()->json(['error'=>$validator->errors()], 401);                        
+            //     }  
 
-        if ($files = $request->file('file')) {
-                    
-            //store file into document folder
-            $file = $request->file->store('public/upload/courses/' .$request->main_module_id);
+            if ($files = $request->file('file')) {
+                        
+                //store file into document folder
+                $file = $request->file->store('public/upload/courses/' .$request->main_module_id);
 
-            //store your file into database
+                //store your file into database
+                $subModule  = new tbl_sub_modules;
+                $subModule->sub_module_name = $request->sub_module_name;
+                $subModule->type = $request->type;
+                $subModule->main_module_id = $request->main_module_id;
+                $subModule->description = $request->description;
+                $subModule->file_attachment = preg_replace('/\bpublic\/\b/', '', $file);;
+                $subModule->save();
+                return $subModule;
+                
+                // return response()->json([
+                //     "success" => true,
+                //     "message" => "File successfully uploaded",
+                //     "file" => $file
+                // ]);
+            }
+
+        } else  if($request->type == 'Link') {
             $subModule  = new tbl_sub_modules;
             $subModule->sub_module_name = $request->sub_module_name;
             $subModule->type = $request->type;
             $subModule->main_module_id = $request->main_module_id;
             $subModule->description = $request->description;
-            $subModule->file_attachment = preg_replace('/\bpublic\/\b/', '', $file);;
+            $subModule->link =  $request->link;
             $subModule->save();
             return $subModule;
-            
-            // return response()->json([
-            //     "success" => true,
-            //     "message" => "File successfully uploaded",
-            //     "file" => $file
-            // ]);
         }
+        
 
         
  

@@ -103,10 +103,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/modules-tab/Forms/NewLectureForm.vue?vue&type=script&lang=js&":
-/*!********************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/modules-tab/Forms/NewLectureForm.vue?vue&type=script&lang=js& ***!
-  \********************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/modules-tab/Forms/addFileForm.vue?vue&type=script&lang=js&":
+/*!*****************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/modules-tab/Forms/addFileForm.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -165,6 +165,139 @@ __webpack_require__.r(__webpack_exports__);
       addLink: false,
       showClasswork: false,
       subModuleForm: {},
+      ext: '',
+      file: null,
+      allowedExt: ['pdf', 'pptx', 'ppt', 'xls', 'xlsx', 'doc', 'docx', 'mp4']
+    };
+  },
+  computed: (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)(["getmain_module", "getSub_module", "getAll_sub_module"]),
+  methods: {
+    getFileExt: function getFileExt(filename) {
+      var split = filename.split('.');
+      return split[split.length - 1];
+    },
+    onFileChange: function onFileChange(file) {
+      var _this = this;
+
+      console.log('selected file', file.name);
+      alert(this.getFileExt(file.name));
+      this.ext = this.getFileExt(file.name);
+      this.allowedExt.forEach(function (_ext) {
+        if (_ext != _this.ext) {
+          console.log('Invalid File type');
+        } else {
+          if (_this.ext == 'mp4') {
+            _this.type = 'Video';
+          } else {
+            _this.type = 'Document';
+          }
+        }
+      });
+      this.file = file;
+    },
+    toastSuccess: function toastSuccess() {
+      return this.$toasted.success("Lecture Successfully Created", {
+        theme: "toasted-primary",
+        position: "top-center",
+        icon: "done",
+        duration: 5000
+      });
+    },
+    addFile: function addFile() {
+      var _this2 = this;
+
+      var fd = new FormData();
+      fd.append('file', this.file);
+      fd.append('main_module_id', this.moduleId);
+      fd.append('description', this.subModuleForm.description);
+      fd.append('type', this.type);
+      fd.append('sub_module_name', this.subModuleForm.sub_module_name);
+      this.sending = true;
+      this.$store.dispatch('createSubModule', fd).then(function (res) {
+        _this2.subModuleForm.sub_module_name = '';
+        _this2.subModuleForm.description = '';
+
+        _this2.$refs.inputFile.reset();
+
+        _this2.$emit('CloseLecture');
+
+        _this2.toastSuccess();
+
+        setTimeout(function () {
+          _this2.sending = false;
+        }, 1000);
+      });
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/modules-tab/Forms/addLinkForm.vue?vue&type=script&lang=js&":
+/*!*****************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/modules-tab/Forms/addLinkForm.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  props: ['moduleId'],
+  data: function data() {
+    return {
+      sending: false,
+      loading: '',
+      addLink: false,
+      showClasswork: false,
+      linkForm: {},
       file: null
     };
   },
@@ -185,18 +318,12 @@ __webpack_require__.r(__webpack_exports__);
     addLecture: function addLecture() {
       var _this = this;
 
-      var fd = new FormData();
-      fd.append('file', this.file);
-      fd.append('main_module_id', this.moduleId);
-      fd.append('description', this.subModuleForm.description);
-      fd.append('type', 'lecture');
-      fd.append('sub_module_name', this.subModuleForm.sub_module_name);
-      this.sending = true;
-      this.$store.dispatch('createSubModule', fd).then(function (res) {
-        _this.subModuleForm.sub_module_name = '';
-        _this.subModuleForm.description = '';
-
-        _this.$refs.inputFile.reset();
+      this.linkForm.type = 'Link';
+      this.linkForm.main_module_id = this.moduleId;
+      this.$store.dispatch('createSubModule', this.linkForm).then(function (res) {
+        _this.linkForm.sub_module_name = '';
+        _this.linkForm.link = '';
+        _this.linkForm.type = '';
 
         _this.$emit('CloseLecture');
 
@@ -229,11 +356,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuedraggable__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vuedraggable__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var vue_element_loading__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue-element-loading */ "./node_modules/vue-element-loading/lib/vue-element-loading.min.js");
 /* harmony import */ var vue_element_loading__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(vue_element_loading__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _Forms_NewLectureForm__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Forms/NewLectureForm */ "./resources/js/components/course-view/tabs/modules-tab/Forms/NewLectureForm.vue");
-/* harmony import */ var _Forms_NewClassworkForm__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Forms/NewClassworkForm */ "./resources/js/components/course-view/tabs/modules-tab/Forms/NewClassworkForm.vue");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _Forms_addFileForm__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Forms/addFileForm */ "./resources/js/components/course-view/tabs/modules-tab/Forms/addFileForm.vue");
+/* harmony import */ var _Forms_addLinkForm__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Forms/addLinkForm */ "./resources/js/components/course-view/tabs/modules-tab/Forms/addLinkForm.vue");
+/* harmony import */ var _Forms_NewClassworkForm__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Forms/NewClassworkForm */ "./resources/js/components/course-view/tabs/modules-tab/Forms/NewClassworkForm.vue");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_6__);
 var _methods;
 
 
@@ -350,6 +478,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+
 
 
 
@@ -360,14 +491,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   props: ['role'],
   components: {
     VueElementLoading: (vue_element_loading__WEBPACK_IMPORTED_MODULE_2___default()),
-    newLectureForm: _Forms_NewLectureForm__WEBPACK_IMPORTED_MODULE_3__.default,
-    newClassworkForm: _Forms_NewClassworkForm__WEBPACK_IMPORTED_MODULE_4__.default,
+    addFileForm: _Forms_addFileForm__WEBPACK_IMPORTED_MODULE_3__.default,
+    addLinkForm: _Forms_addLinkForm__WEBPACK_IMPORTED_MODULE_4__.default,
+    newClassworkForm: _Forms_NewClassworkForm__WEBPACK_IMPORTED_MODULE_5__.default,
     draggable: (vuedraggable__WEBPACK_IMPORTED_MODULE_1___default())
   },
   data: function data() {
     return {
+      itemType: '',
       isDrag: false,
-      lectureDialog: false,
+      itemDialog: false,
       temp_id: null,
       showLecture: false,
       addLink: false,
@@ -379,7 +512,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       studentSubModuleProgressForm: {}
     };
   },
-  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_6__.mapGetters)(["getmain_module", "getSub_module", "getAll_sub_module"])), {}, {
+  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_7__.mapGetters)(["getmain_module", "getSub_module", "getAll_sub_module"])), {}, {
     dragOptions: function dragOptions() {
       return {
         animation: 0,
@@ -394,7 +527,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var _this = this;
 
       this.isDrag = true;
-      axios__WEBPACK_IMPORTED_MODULE_5___default().post("/api/main_module/arrange", {
+      axios__WEBPACK_IMPORTED_MODULE_6___default().post("/api/main_module/arrange", {
         mainModules: this.mainModule
       }).then(function (res) {
         _this.isDrag = false;
@@ -403,9 +536,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     getdata: function getdata() {
       this.mainModule = this.getmain_module;
     },
-    lectureBtn: function lectureBtn(module_id) {
-      this.lectureDialog = !this.lectureDialog;
+    addFileBtn: function addFileBtn(module_id) {
+      this.itemDialog = !this.itemDialog;
       this.mainModule_id = module_id;
+      this.itemType = 'add_file';
+    },
+    addLinkBtn: function addLinkBtn(module_id) {
+      this.itemDialog = !this.itemDialog;
+      this.mainModule_id = module_id;
+      this.itemType = 'add_link';
     },
     classworkBtn: function classworkBtn() {
       $('#itemTypeModal').modal('hide');
@@ -443,7 +582,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     this.studentSubModuleProgressForm.sub_module_id = subModule_id;
     this.studentSubModuleProgressForm.type = type;
     this.studentSubModuleProgressForm.course_id = this.$route.params.id;
-    axios__WEBPACK_IMPORTED_MODULE_5___default().post("/api/student_sub_module/insert", {
+    axios__WEBPACK_IMPORTED_MODULE_6___default().post("/api/student_sub_module/insert", {
       studentProgress: this.studentSubModuleProgressForm
     }).then(function (res) {
       _this2.studentSubModuleProgress.push(res.data);
@@ -510,30 +649,6 @@ __webpack_require__.r(__webpack_exports__);
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
 ___CSS_LOADER_EXPORT___.push([module.id, "\ninput[data-v-253ea14b], select[data-v-253ea14b]{\n    border-left: none;\n    border-right: none;\n    border-top: none;\n}\n\n\n", ""]);
-// Exports
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
-
-
-/***/ }),
-
-/***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/modules-tab/Forms/NewLectureForm.vue?vue&type=style&index=0&id=25754ec0&scoped=true&lang=css&":
-/*!****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/modules-tab/Forms/NewLectureForm.vue?vue&type=style&index=0&id=25754ec0&scoped=true&lang=css& ***!
-  \****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
-/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
-// Imports
-
-var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
-// Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.button-text-image[data-v-25754ec0] {\n    white-space: inherit;\n}\n.class-banner[data-v-25754ec0] {\n    /* background-image: url(https://gstatic.com/classroom/themes/Honors.jpg); */\n    color: #fff;\n    height: 200px;\n    background-color: #1E1E1C;\n}\n.top-container[data-v-25754ec0] {\n    padding-left: 0 !important;\n    padding-right: 0 !important;\n}\n.ttr-wrapper[data-v-25754ec0] {\n    padding-left: 0 !important;\n    padding-right: 0 !important;\n    padding-top: 59px;\n}\n.transparent[data-v-25754ec0] {\n    background: transparent;\n    border: none;\n}\n.card-top[data-v-25754ec0] {\n    color: #fff !important;\n}\n.files input[data-v-25754ec0] {\n    outline: 2px dashed #92b0b3;\n    outline-offset: -10px;\n    transition: outline-offset .15s ease-in-out, background-color .15s linear;\n    padding: 120px 0px 85px 35%;\n    text-align: center !important;\n    margin: 0;\n    width: 100% !important;\n}\n.files input[data-v-25754ec0]:focus {\n    outline: 2px dashed #92b0b3;\n    outline-offset: -10px;\n    transition: outline-offset .15s ease-in-out, background-color .15s linear;\n    border: 1px solid #92b0b3;\n}\n.files[data-v-25754ec0] {\n    position: relative\n}\n.files[data-v-25754ec0]:after {\n    pointer-events: none;\n    position: absolute;\n    top: 60px;\n    left: 0;\n    width: 50px;\n    right: 0;\n    height: 56px;\n    content: \"\";\n    background-image: url(https://image.flaticon.com/icons/png/128/109/109612.png);\n    display: block;\n    margin: 0 auto;\n    background-size: 100%;\n    background-repeat: no-repeat;\n}\n.color input[data-v-25754ec0] {\n    background-color: #f1f1f1;\n}\n.files[data-v-25754ec0]:before {\n    position: absolute;\n    bottom: 5px;\n    left: 0;\n    pointer-events: none;\n    width: 100%;\n    right: 0;\n    height: 57px;\n    content: \" or drag it here. \";\n    display: block;\n    margin: 0 auto;\n    color: #2ea591;\n    font-weight: 600;\n    text-transform: capitalize;\n    text-align: center;\n}\n.upload input[type='file'][data-v-25754ec0] {\n    text-indent: -999em;\n    outline: none;\n    width: 100%;\n    height: 100%;\n    position: absolute;\n}\n\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -4322,10 +4437,10 @@ component.options.__file = "resources/js/components/course-view/tabs/modules-tab
 
 /***/ }),
 
-/***/ "./resources/js/components/course-view/tabs/modules-tab/Forms/NewLectureForm.vue":
-/*!***************************************************************************************!*\
-  !*** ./resources/js/components/course-view/tabs/modules-tab/Forms/NewLectureForm.vue ***!
-  \***************************************************************************************/
+/***/ "./resources/js/components/course-view/tabs/modules-tab/Forms/addFileForm.vue":
+/*!************************************************************************************!*\
+  !*** ./resources/js/components/course-view/tabs/modules-tab/Forms/addFileForm.vue ***!
+  \************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -4333,32 +4448,69 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _NewLectureForm_vue_vue_type_template_id_25754ec0_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./NewLectureForm.vue?vue&type=template&id=25754ec0&scoped=true& */ "./resources/js/components/course-view/tabs/modules-tab/Forms/NewLectureForm.vue?vue&type=template&id=25754ec0&scoped=true&");
-/* harmony import */ var _NewLectureForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./NewLectureForm.vue?vue&type=script&lang=js& */ "./resources/js/components/course-view/tabs/modules-tab/Forms/NewLectureForm.vue?vue&type=script&lang=js&");
-/* harmony import */ var _NewLectureForm_vue_vue_type_style_index_0_id_25754ec0_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./NewLectureForm.vue?vue&type=style&index=0&id=25754ec0&scoped=true&lang=css& */ "./resources/js/components/course-view/tabs/modules-tab/Forms/NewLectureForm.vue?vue&type=style&index=0&id=25754ec0&scoped=true&lang=css&");
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* harmony import */ var _addFileForm_vue_vue_type_template_id_7f154093___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./addFileForm.vue?vue&type=template&id=7f154093& */ "./resources/js/components/course-view/tabs/modules-tab/Forms/addFileForm.vue?vue&type=template&id=7f154093&");
+/* harmony import */ var _addFileForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./addFileForm.vue?vue&type=script&lang=js& */ "./resources/js/components/course-view/tabs/modules-tab/Forms/addFileForm.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
-;
 
 
 /* normalize component */
-
-var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__.default)(
-  _NewLectureForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
-  _NewLectureForm_vue_vue_type_template_id_25754ec0_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render,
-  _NewLectureForm_vue_vue_type_template_id_25754ec0_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__.default)(
+  _addFileForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
+  _addFileForm_vue_vue_type_template_id_7f154093___WEBPACK_IMPORTED_MODULE_0__.render,
+  _addFileForm_vue_vue_type_template_id_7f154093___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
   false,
   null,
-  "25754ec0",
+  null,
   null
   
 )
 
 /* hot reload */
 if (false) { var api; }
-component.options.__file = "resources/js/components/course-view/tabs/modules-tab/Forms/NewLectureForm.vue"
+component.options.__file = "resources/js/components/course-view/tabs/modules-tab/Forms/addFileForm.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/course-view/tabs/modules-tab/Forms/addLinkForm.vue":
+/*!************************************************************************************!*\
+  !*** ./resources/js/components/course-view/tabs/modules-tab/Forms/addLinkForm.vue ***!
+  \************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _addLinkForm_vue_vue_type_template_id_0f6c9d11___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./addLinkForm.vue?vue&type=template&id=0f6c9d11& */ "./resources/js/components/course-view/tabs/modules-tab/Forms/addLinkForm.vue?vue&type=template&id=0f6c9d11&");
+/* harmony import */ var _addLinkForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./addLinkForm.vue?vue&type=script&lang=js& */ "./resources/js/components/course-view/tabs/modules-tab/Forms/addLinkForm.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__.default)(
+  _addLinkForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
+  _addLinkForm_vue_vue_type_template_id_0f6c9d11___WEBPACK_IMPORTED_MODULE_0__.render,
+  _addLinkForm_vue_vue_type_template_id_0f6c9d11___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/course-view/tabs/modules-tab/Forms/addLinkForm.vue"
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
 
 /***/ }),
@@ -4420,10 +4572,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/course-view/tabs/modules-tab/Forms/NewLectureForm.vue?vue&type=script&lang=js&":
-/*!****************************************************************************************************************!*\
-  !*** ./resources/js/components/course-view/tabs/modules-tab/Forms/NewLectureForm.vue?vue&type=script&lang=js& ***!
-  \****************************************************************************************************************/
+/***/ "./resources/js/components/course-view/tabs/modules-tab/Forms/addFileForm.vue?vue&type=script&lang=js&":
+/*!*************************************************************************************************************!*\
+  !*** ./resources/js/components/course-view/tabs/modules-tab/Forms/addFileForm.vue?vue&type=script&lang=js& ***!
+  \*************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -4431,8 +4583,24 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_NewLectureForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./NewLectureForm.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/modules-tab/Forms/NewLectureForm.vue?vue&type=script&lang=js&");
- /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_NewLectureForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_addFileForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./addFileForm.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/modules-tab/Forms/addFileForm.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_addFileForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
+
+/***/ }),
+
+/***/ "./resources/js/components/course-view/tabs/modules-tab/Forms/addLinkForm.vue?vue&type=script&lang=js&":
+/*!*************************************************************************************************************!*\
+  !*** ./resources/js/components/course-view/tabs/modules-tab/Forms/addLinkForm.vue?vue&type=script&lang=js& ***!
+  \*************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_addLinkForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./addLinkForm.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/modules-tab/Forms/addLinkForm.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_addLinkForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
 
 /***/ }),
 
@@ -4469,19 +4637,36 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/course-view/tabs/modules-tab/Forms/NewLectureForm.vue?vue&type=template&id=25754ec0&scoped=true&":
-/*!**********************************************************************************************************************************!*\
-  !*** ./resources/js/components/course-view/tabs/modules-tab/Forms/NewLectureForm.vue?vue&type=template&id=25754ec0&scoped=true& ***!
-  \**********************************************************************************************************************************/
+/***/ "./resources/js/components/course-view/tabs/modules-tab/Forms/addFileForm.vue?vue&type=template&id=7f154093&":
+/*!*******************************************************************************************************************!*\
+  !*** ./resources/js/components/course-view/tabs/modules-tab/Forms/addFileForm.vue?vue&type=template&id=7f154093& ***!
+  \*******************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_NewLectureForm_vue_vue_type_template_id_25754ec0_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render),
-/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_NewLectureForm_vue_vue_type_template_id_25754ec0_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_addFileForm_vue_vue_type_template_id_7f154093___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_addFileForm_vue_vue_type_template_id_7f154093___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_NewLectureForm_vue_vue_type_template_id_25754ec0_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./NewLectureForm.vue?vue&type=template&id=25754ec0&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/modules-tab/Forms/NewLectureForm.vue?vue&type=template&id=25754ec0&scoped=true&");
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_addFileForm_vue_vue_type_template_id_7f154093___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./addFileForm.vue?vue&type=template&id=7f154093& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/modules-tab/Forms/addFileForm.vue?vue&type=template&id=7f154093&");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/course-view/tabs/modules-tab/Forms/addLinkForm.vue?vue&type=template&id=0f6c9d11&":
+/*!*******************************************************************************************************************!*\
+  !*** ./resources/js/components/course-view/tabs/modules-tab/Forms/addLinkForm.vue?vue&type=template&id=0f6c9d11& ***!
+  \*******************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_addLinkForm_vue_vue_type_template_id_0f6c9d11___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_addLinkForm_vue_vue_type_template_id_0f6c9d11___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_addLinkForm_vue_vue_type_template_id_0f6c9d11___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./addLinkForm.vue?vue&type=template&id=0f6c9d11& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/modules-tab/Forms/addLinkForm.vue?vue&type=template&id=0f6c9d11&");
 
 
 /***/ }),
@@ -4515,23 +4700,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_NewClassworkForm_vue_vue_type_style_index_0_id_253ea14b_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_NewClassworkForm_vue_vue_type_style_index_0_id_253ea14b_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__);
 /* harmony reexport (unknown) */ var __WEBPACK_REEXPORT_OBJECT__ = {};
 /* harmony reexport (unknown) */ for(const __WEBPACK_IMPORT_KEY__ in _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_NewClassworkForm_vue_vue_type_style_index_0_id_253ea14b_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== "default") __WEBPACK_REEXPORT_OBJECT__[__WEBPACK_IMPORT_KEY__] = () => _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_NewClassworkForm_vue_vue_type_style_index_0_id_253ea14b_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__[__WEBPACK_IMPORT_KEY__]
-/* harmony reexport (unknown) */ __webpack_require__.d(__webpack_exports__, __WEBPACK_REEXPORT_OBJECT__);
-
-
-/***/ }),
-
-/***/ "./resources/js/components/course-view/tabs/modules-tab/Forms/NewLectureForm.vue?vue&type=style&index=0&id=25754ec0&scoped=true&lang=css&":
-/*!************************************************************************************************************************************************!*\
-  !*** ./resources/js/components/course-view/tabs/modules-tab/Forms/NewLectureForm.vue?vue&type=style&index=0&id=25754ec0&scoped=true&lang=css& ***!
-  \************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_NewLectureForm_vue_vue_type_style_index_0_id_25754ec0_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../../node_modules/vue-style-loader/index.js!../../../../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./NewLectureForm.vue?vue&type=style&index=0&id=25754ec0&scoped=true&lang=css& */ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/modules-tab/Forms/NewLectureForm.vue?vue&type=style&index=0&id=25754ec0&scoped=true&lang=css&");
-/* harmony import */ var _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_NewLectureForm_vue_vue_type_style_index_0_id_25754ec0_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_NewLectureForm_vue_vue_type_style_index_0_id_25754ec0_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__);
-/* harmony reexport (unknown) */ var __WEBPACK_REEXPORT_OBJECT__ = {};
-/* harmony reexport (unknown) */ for(const __WEBPACK_IMPORT_KEY__ in _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_NewLectureForm_vue_vue_type_style_index_0_id_25754ec0_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== "default") __WEBPACK_REEXPORT_OBJECT__[__WEBPACK_IMPORT_KEY__] = () => _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_NewLectureForm_vue_vue_type_style_index_0_id_25754ec0_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__[__WEBPACK_IMPORT_KEY__]
 /* harmony reexport (unknown) */ __webpack_require__.d(__webpack_exports__, __WEBPACK_REEXPORT_OBJECT__);
 
 
@@ -4821,10 +4989,10 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/modules-tab/Forms/NewLectureForm.vue?vue&type=template&id=25754ec0&scoped=true&":
-/*!*************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/modules-tab/Forms/NewLectureForm.vue?vue&type=template&id=25754ec0&scoped=true& ***!
-  \*************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/modules-tab/Forms/addFileForm.vue?vue&type=template&id=7f154093&":
+/*!**********************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/modules-tab/Forms/addFileForm.vue?vue&type=template&id=7f154093& ***!
+  \**********************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -4844,13 +5012,13 @@ var render = function() {
         on: {
           submit: function($event) {
             $event.preventDefault()
-            return _vm.addLecture($event)
+            return _vm.addFile($event)
           }
         }
       },
       [
         _c("v-card-title", [
-          _c("span", { staticClass: "headline" }, [_vm._v("New Lecture")])
+          _c("span", { staticClass: "headline" }, [_vm._v("Add File")])
         ]),
         _vm._v(" "),
         _c(
@@ -4867,7 +5035,7 @@ var render = function() {
                       { attrs: { cols: "12 pb-0" } },
                       [
                         _c("v-text-field", {
-                          attrs: { label: "Lecture Name", required: "" },
+                          attrs: { label: "Title", required: "" },
                           model: {
                             value: _vm.subModuleForm.sub_module_name,
                             callback: function($$v) {
@@ -4914,6 +5082,170 @@ var render = function() {
                       attrs: { "show-size": "", label: "Attach File" },
                       on: { change: _vm.onFileChange }
                     })
+                  ],
+                  1
+                )
+              ],
+              1
+            )
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c(
+          "v-card-actions",
+          [
+            _c("v-spacer"),
+            _vm._v(" "),
+            _c(
+              "v-btn",
+              {
+                attrs: {
+                  color: "blue darken-1",
+                  text: "",
+                  disabled: _vm.sending
+                },
+                on: {
+                  click: function($event) {
+                    return _vm.$emit("CloseLecture")
+                  }
+                }
+              },
+              [_vm._v("\n                Close\n            ")]
+            ),
+            _vm._v(" "),
+            _c(
+              "v-btn",
+              {
+                attrs: {
+                  color: "blue darken-1",
+                  text: "",
+                  disabled: _vm.sending
+                },
+                on: {
+                  click: function($event) {
+                    return _vm.addFile()
+                  }
+                }
+              },
+              [_vm._v("\n                Save\n            ")]
+            )
+          ],
+          1
+        )
+      ],
+      1
+    )
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/modules-tab/Forms/addLinkForm.vue?vue&type=template&id=0f6c9d11&":
+/*!**********************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/modules-tab/Forms/addLinkForm.vue?vue&type=template&id=0f6c9d11& ***!
+  \**********************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("v-card", [
+    _c(
+      "form",
+      {
+        on: {
+          submit: function($event) {
+            $event.preventDefault()
+            return _vm.addLecture($event)
+          }
+        }
+      },
+      [
+        _c("v-card-title", [
+          _c("span", { staticClass: "headline" }, [_vm._v("Add Link")])
+        ]),
+        _vm._v(" "),
+        _c(
+          "v-card-text",
+          [
+            _c(
+              "v-container",
+              [
+                _c(
+                  "v-row",
+                  [
+                    _c(
+                      "v-col",
+                      { attrs: { cols: "12 pb-0" } },
+                      [
+                        _c("v-text-field", {
+                          attrs: { label: "Title", required: "" },
+                          model: {
+                            value: _vm.linkForm.sub_module_name,
+                            callback: function($$v) {
+                              _vm.$set(_vm.linkForm, "sub_module_name", $$v)
+                            },
+                            expression: "linkForm.sub_module_name"
+                          }
+                        })
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "v-col",
+                      { attrs: { cols: "12 pb-0" } },
+                      [
+                        _c("v-text-field", {
+                          attrs: { label: "Link", type: "url", required: "" },
+                          model: {
+                            value: _vm.linkForm.link,
+                            callback: function($$v) {
+                              _vm.$set(_vm.linkForm, "link", $$v)
+                            },
+                            expression: "linkForm.link"
+                          }
+                        })
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "v-col",
+                      { attrs: { cols: "12 pb-0" } },
+                      [
+                        _c("label", [_vm._v(" Description ")]),
+                        _vm._v(" "),
+                        _c("v-textarea", {
+                          attrs: {
+                            label: "Description",
+                            counter: "",
+                            "full-width": "",
+                            "single-line": ""
+                          },
+                          model: {
+                            value: _vm.linkForm.description,
+                            callback: function($$v) {
+                              _vm.$set(_vm.linkForm, "description", $$v)
+                            },
+                            expression: " linkForm.description"
+                          }
+                        })
+                      ],
+                      1
+                    )
                   ],
                   1
                 )
@@ -5250,7 +5582,7 @@ var render = function() {
                                               attrs: { link: "" },
                                               on: {
                                                 click: function($event) {
-                                                  return _vm.lectureBtn(
+                                                  return _vm.addFileBtn(
                                                     itemModule.id
                                                   )
                                                 }
@@ -5266,7 +5598,16 @@ var render = function() {
                                           _vm._v(" "),
                                           _c(
                                             "v-list-item",
-                                            { attrs: { link: "" } },
+                                            {
+                                              attrs: { link: "" },
+                                              on: {
+                                                click: function($event) {
+                                                  return _vm.addLinkBtn(
+                                                    itemModule.id
+                                                  )
+                                                }
+                                              }
+                                            },
                                             [
                                               _c("v-list-item-title", [
                                                 _vm._v("Link")
@@ -5318,22 +5659,35 @@ var render = function() {
         {
           attrs: { persistent: "", "max-width": "600px" },
           model: {
-            value: _vm.lectureDialog,
+            value: _vm.itemDialog,
             callback: function($$v) {
-              _vm.lectureDialog = $$v
+              _vm.itemDialog = $$v
             },
-            expression: "lectureDialog"
+            expression: "itemDialog"
           }
         },
         [
-          _c("newLectureForm", {
-            attrs: { moduleId: _vm.mainModule_id },
-            on: {
-              CloseLecture: function($event) {
-                _vm.lectureDialog = false
-              }
-            }
-          })
+          _vm.itemType == "add_file"
+            ? _c("addFileForm", {
+                attrs: { moduleId: _vm.mainModule_id },
+                on: {
+                  CloseLecture: function($event) {
+                    _vm.itemDialog = false
+                  }
+                }
+              })
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.itemType == "add_link"
+            ? _c("addLinkForm", {
+                attrs: { moduleId: _vm.mainModule_id },
+                on: {
+                  CloseLecture: function($event) {
+                    _vm.itemDialog = false
+                  }
+                }
+              })
+            : _vm._e()
         ],
         1
       )
@@ -5364,27 +5718,6 @@ if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
 var add = __webpack_require__(/*! !../../../../../../../node_modules/vue-style-loader/lib/addStylesClient.js */ "./node_modules/vue-style-loader/lib/addStylesClient.js").default
 var update = add("587f7ab6", content, false, {});
-// Hot Module Replacement
-if(false) {}
-
-/***/ }),
-
-/***/ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/modules-tab/Forms/NewLectureForm.vue?vue&type=style&index=0&id=25754ec0&scoped=true&lang=css&":
-/*!*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-style-loader/index.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/modules-tab/Forms/NewLectureForm.vue?vue&type=style&index=0&id=25754ec0&scoped=true&lang=css& ***!
-  \*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(/*! !!../../../../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./NewLectureForm.vue?vue&type=style&index=0&id=25754ec0&scoped=true&lang=css& */ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/modules-tab/Forms/NewLectureForm.vue?vue&type=style&index=0&id=25754ec0&scoped=true&lang=css&");
-if(content.__esModule) content = content.default;
-if(typeof content === 'string') content = [[module.id, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var add = __webpack_require__(/*! !../../../../../../../node_modules/vue-style-loader/lib/addStylesClient.js */ "./node_modules/vue-style-loader/lib/addStylesClient.js").default
-var update = add("94fe7f3c", content, false, {});
 // Hot Module Replacement
 if(false) {}
 

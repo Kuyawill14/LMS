@@ -3,8 +3,8 @@
     <v-col>
         <vue-element-loading :active="isDrag" spinner="bar-fade-scale" color="#FF6700" />
         <v-expansion-panels focusable>
-            <draggable v-model="mainModule" style="width: 100%" @change="onEnd"
-                @start="isDragging = true" @end="isDragging = false" v-bind="dragOptions">
+            <draggable v-model="mainModule" style="width: 100%" @change="onEnd" @start="isDragging = true"
+                @end="isDragging = false" v-bind="dragOptions">
                 <transition-group type="transition" name="flip-list">
                     <v-expansion-panel v-for="(itemModule, i) in mainModule" :key="'module'+i" draggable="true">
                         <span class="text-right pannel-btn">
@@ -65,11 +65,11 @@
                                             </v-btn>
                                         </template>
                                         <v-list>
-                                            <v-list-item link @click="lectureBtn(itemModule.id)">
+                                            <v-list-item link @click="addFileBtn(itemModule.id)">
                                                 <v-list-item-title>File</v-list-item-title>
 
                                             </v-list-item>
-                                            <v-list-item link>
+                                            <v-list-item link @click="addLinkBtn(itemModule.id)">
                                                 <v-list-item-title>Link</v-list-item-title>
 
                                             </v-list-item>
@@ -90,8 +90,10 @@
         </v-expansion-panels>
 
         <!-- New lecture -->
-        <v-dialog v-model="lectureDialog" persistent max-width="600px">
-            <newLectureForm v-on:CloseLecture="lectureDialog = false" :moduleId="mainModule_id" />
+        <v-dialog v-model="itemDialog" persistent max-width="600px">
+            <addFileForm v-on:CloseLecture="itemDialog = false" :moduleId="mainModule_id" v-if="itemType == 'add_file'" />
+            <addLinkForm v-on:CloseLecture="itemDialog = false" :moduleId="mainModule_id" v-if="itemType == 'add_link'" />
+            <!-- <addClassworkForm v-on:CloseLecture="itemDialog = false" :moduleId="mainModule_id" /> -->
         </v-dialog>
 
 
@@ -104,7 +106,8 @@
     import draggable from "vuedraggable";
 
     import VueElementLoading from 'vue-element-loading'
-    import newLectureForm from './Forms/NewLectureForm'
+    import addFileForm from './Forms/addFileForm'
+    import addLinkForm from './Forms/addLinkForm'
     import newClassworkForm from './Forms/NewClassworkForm'
     import {
         mapGetters,
@@ -115,14 +118,16 @@
         props: ['role'],
         components: {
             VueElementLoading,
-            newLectureForm,
+            addFileForm,
+            addLinkForm,
             newClassworkForm,
             draggable
         },
         data() {
             return {
+                itemType: '',
                 isDrag: false,
-                lectureDialog: false,
+                itemDialog: false,
                 temp_id: null,
                 showLecture: false,
                 addLink: false,
@@ -161,10 +166,15 @@
             },
 
 
-            lectureBtn(module_id) {
-                this.lectureDialog = !this.lectureDialog;
+            addFileBtn(module_id) {
+                this.itemDialog = !this.itemDialog;
                 this.mainModule_id = module_id;
-
+                this.itemType = 'add_file';
+            },
+             addLinkBtn(module_id) {
+                this.itemDialog = !this.itemDialog;
+                this.mainModule_id = module_id;
+                 this.itemType = 'add_link';
             },
 
             classworkBtn() {
