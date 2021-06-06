@@ -11,8 +11,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var vue_element_loading__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-element-loading */ "./node_modules/vue-element-loading/lib/vue-element-loading.min.js");
-/* harmony import */ var vue_element_loading__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue_element_loading__WEBPACK_IMPORTED_MODULE_0__);
+Object(function webpackMissingModule() { var e = new Error("Cannot find module 'vue-lazytube'"); e.code = 'MODULE_NOT_FOUND'; throw e; }());
+/* harmony import */ var vue_element_loading__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-element-loading */ "./node_modules/vue-element-loading/lib/vue-element-loading.min.js");
+/* harmony import */ var vue_element_loading__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue_element_loading__WEBPACK_IMPORTED_MODULE_1__);
 //
 //
 //
@@ -67,6 +68,34 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
  //import modulesListComponent from './modulesListComponent'
 
 var modulesListComponent = function modulesListComponent() {
@@ -77,25 +106,40 @@ var modulesListComponent = function modulesListComponent() {
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['role'],
   components: {
-    VueElementLoading: (vue_element_loading__WEBPACK_IMPORTED_MODULE_0___default()),
-    modulesListComponent: modulesListComponent
+    VueElementLoading: (vue_element_loading__WEBPACK_IMPORTED_MODULE_1___default()),
+    modulesListComponent: modulesListComponent,
+    LazyYoutube: Object(function webpackMissingModule() { var e = new Error("Cannot find module 'vue-lazytube'"); e.code = 'MODULE_NOT_FOUND'; throw e; }())
   },
   data: function data() {
     return {
       loading: false,
-      subModuleData: {
-        sub_module_name: "123",
-        file_attachment: null
-      },
-      iframeSrc: null
+      subModuleData: null,
+      googledocsParams: '?pid=explorer&efh=false&a=v&chrome=false&embedded=true',
+      allowedExt: ['pdf', 'pptx', 'ppt', 'xls', 'xlsx', 'doc', 'docx'],
+      type: '',
+      ext: null,
+      iframeSrc: null,
+      isSelectedModule: false
     };
   },
   methods: {
-    getSubModuleData: function getSubModuleData(value) {
+    getFileExt: function getFileExt(filename) {
+      if (this.subModuleData.file_attachment) {
+        var split = filename.split('.');
+        return split[split.length - 1];
+      }
+    },
+    getsubModuleData: function getsubModuleData(value) {
+      this.isSelectedModule = true;
       this.subModuleData = value;
+      this.ext = this.getFileExt(value.file_attachment);
+      this.type = this.subModuleData.type;
+      this.documentUrl(value.file_attachment);
+    },
+    documentUrl: function documentUrl(file) {
       var origin_url = window.location.origin;
-      var base_src = 'https://view.officeapps.live.com/op/view.aspx?src=';
-      this.iframeSrc = 'https://view.officeapps.live.com/op/view.aspx?src=https://edu.stacktrek.com/uploads/courses/2304/files/research.GRgPROnP.pptx';
+      var base_src = 'https://drive.google.com/viewerng/viewer?url=' + origin_url;
+      this.iframeSrc = base_src + '/storage/' + file;
     }
   }
 });
@@ -119,7 +163,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.bottom-content[data-v-2a6a4450] {\n\n    padding-left: 30px;\n}\n.video-c[data-v-2a6a4450] {\n    min-height: 470px;\n}\n.border[data-v-2a6a4450] {\n    border-left: 1px solid #e0e0e0;\n}\n\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.bottom-content[data-v-2a6a4450] {\n\n    padding-left: 30px;\n}\n.video-c[data-v-2a6a4450] {\n    min-height: 470px;\n}\n.border[data-v-2a6a4450] {\n    border-left: 1px solid #e0e0e0;\n}\n.ipOhDr[data-v-2a6a4450] {\n    max-width: 100%;\n}\n\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -266,64 +310,53 @@ var render = function() {
                   _c(
                     "v-col",
                     [
-                      _c("v-card", [
-                        _c("iframe", {
-                          staticClass: "video-c",
-                          staticStyle: { width: "100%", height: "100%" },
-                          attrs: {
-                            title: "office viewer",
-                            id: "pdf-iframe",
-                            src:
-                              "https://view.officeapps.live.com/op/view.aspx?src=https://edu.stacktrek.com/uploads/courses/2304/files/research.GRgPROnP.pptx",
-                            sandbox:
-                              "allow-same-origin allow-scripts allow-popups allow-forms"
-                          }
-                        })
-                      ])
-                    ],
-                    1
-                  )
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "v-row",
-                [
-                  _c(
-                    "v-col",
-                    [
                       _c(
                         "v-card",
                         [
-                          _c("v-card-title", [
-                            _vm._v(
-                              "\n                            " +
-                                _vm._s(_vm.subModuleData.sub_module_name) +
-                                "\n                        "
-                            )
-                          ]),
-                          _vm._v(" "),
-                          _c("v-card-text", { staticClass: "text--primary" }, [
-                            _c("div", [
-                              _vm._v(
-                                " " + _vm._s(_vm.subModuleData.description)
-                              )
-                            ]),
-                            _vm._v(" "),
-                            _c(
-                              "a",
-                              {
+                          _vm.type == "Document"
+                            ? _c("iframe", {
+                                staticClass: "video-c",
+                                staticStyle: { width: "100%", height: "100%" },
                                 attrs: {
-                                  href:
-                                    "/storage/" +
-                                    _vm.subModuleData.file_attachment,
-                                  target: "_blank"
+                                  title: "office viewer",
+                                  src: _vm.iframeSrc + _vm.googledocsParams,
+                                  sandbox:
+                                    "allow-same-origin allow-scripts allow-popups allow-forms"
                                 }
-                              },
-                              [_vm._v("Download")]
-                            )
-                          ])
+                              })
+                            : _vm._e(),
+                          _vm._v(" "),
+                          _vm.type == "Link"
+                            ? _c("LazyYoutube", {
+                                ref: "youtubeLazyVideo",
+                                staticStyle: {
+                                  width: "100% !important",
+                                  height: "100%"
+                                },
+                                attrs: {
+                                  src: _vm.subModuleData.link,
+                                  "aspect-ratio": "16:9",
+                                  "thumbnail-quality": "standard"
+                                }
+                              })
+                            : _vm._e(),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            { staticClass: "player-container" },
+                            [
+                              _vm.ext == "mp4" && _vm.type == "Video"
+                                ? _c("vue-core-video-player", {
+                                    attrs: {
+                                      src:
+                                        "/storage/" +
+                                        _vm.subModuleData.file_attachment
+                                    }
+                                  })
+                                : _vm._e()
+                            ],
+                            1
+                          )
                         ],
                         1
                       )
@@ -332,7 +365,101 @@ var render = function() {
                   )
                 ],
                 1
-              )
+              ),
+              _vm._v(" "),
+              _vm.isSelectedModule
+                ? _c(
+                    "v-row",
+                    [
+                      _c(
+                        "v-col",
+                        [
+                          _c(
+                            "v-card",
+                            [
+                              _c("v-card-title", [
+                                _vm._v(
+                                  "\n                            " +
+                                    _vm._s(_vm.subModuleData.sub_module_name) +
+                                    "\n                        "
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "v-card-text",
+                                { staticClass: "text--primary" },
+                                [
+                                  _c("div", [
+                                    _vm._v(
+                                      " " +
+                                        _vm._s(_vm.subModuleData.description)
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c(
+                                    "a",
+                                    {
+                                      attrs: {
+                                        href:
+                                          "/storage/" +
+                                          _vm.subModuleData.file_attachment,
+                                        target: "_blank"
+                                      }
+                                    },
+                                    [_vm._v("Download")]
+                                  )
+                                ]
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              !_vm.isSelectedModule
+                ? _c(
+                    "v-row",
+                    {
+                      staticClass: "pt-10",
+                      attrs: { align: "center", justify: "center" }
+                    },
+                    [
+                      _c(
+                        "v-col",
+                        {
+                          staticClass: "text-center",
+                          attrs: { cols: "12", sm: "8", md: "6" }
+                        },
+                        [
+                          _c(
+                            "v-icon",
+                            { staticStyle: { "font-size": "14rem" } },
+                            [
+                              _vm._v(
+                                "\n                        mdi-book-variant-multiple\n                    "
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c("h1", [_vm._v(" Select Module ")]),
+                          _vm._v(" "),
+                          _c("p", [
+                            _vm._v(
+                              " Selecting Module, you'll be able to view and download course content. "
+                            )
+                          ])
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                : _vm._e()
             ],
             1
           ),
@@ -345,7 +472,7 @@ var render = function() {
             },
             [
               _c("modulesListComponent", {
-                on: { subModule: _vm.getSubModuleData }
+                on: { subModule: _vm.getsubModuleData }
               })
             ],
             1

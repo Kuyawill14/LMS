@@ -48,7 +48,7 @@ const actions = {
 const mutations = {
     setcourseList: (state, courseList) => (state.courseList = courseList),
 
-    ADD_COURSE: (state, newCourse) => (state.courseList = newCourse),
+    ADD_COURSE: (state, newCourse) => (state.courseList.push(courseList)),
     EDIT_COURSE(state, newCourse) {
         const idx = state.courseList.indexOf(
             state.courseList.find(c => {

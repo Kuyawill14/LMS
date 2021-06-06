@@ -125,6 +125,36 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 // const VueElementLoading = () => import("vue-element-loading")
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -132,6 +162,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   data: function data() {
     return {
+      coursesLength: null,
+      isGetting: false,
       dialog: false,
       isloading: true,
       modalType: '',
@@ -173,50 +205,37 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.form.course_code = selectedCourse.course_code;
       this.form.course_id = selectedCourse.course_id;
     },
-    updateCourse: function updateCourse() {
-      var _this = this;
-
-      if (this.form.course_name != "" && this.form.course_id != "") {
-        this.isloading = true;
-        this.form.action = 'edit';
-        this.$store.dispatch('updateCourse', this.form);
-        this.fetchCourseList();
-        setTimeout(function () {
-          return _this.isloading = false;
-        }, 1000);
-        this.toastSuccess("Your class has been updated", 'done');
-      }
-    },
     createCourse: function createCourse() {
-      var _this2 = this;
-
       if (this.form.course_name != "" && this.form.course_code != "") {
         this.isloading = true;
         this.$store.dispatch('createCourse', this.form);
-        this.fetchCourseList();
-        setTimeout(function () {
-          return _this2.isloading = false;
-        }, 1000);
+        this.fetchCourses();
+        this.dialog = false;
         this.toastSuccess("Your class has been Added", 'done');
       }
+    },
+    fetchCourses: function fetchCourses() {
+      var _this = this;
+
+      this.isGetting = true;
+      this.$store.dispatch('fetchCourseList').then(function () {
+        _this.coursesLength = _this.allCourse.length;
+        _this.isGetting = false;
+      });
     }
   }),
   computed: (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)(['allCourse']),
   created: function created() {
-    var _this3 = this;
+    var _this2 = this;
 
     this.isloading = true;
     this.fetchCourseList();
     setTimeout(function () {
-      return _this3.isloading = false;
+      return _this2.isloading = false;
     }, 1000);
   },
   mounted: function mounted() {
-    var _this4 = this;
-
-    setTimeout(function () {
-      _this4.isPageLoading = true;
-    }, 1000);
+    this.fetchCourses();
   }
 });
 
@@ -356,6 +375,105 @@ var render = function() {
   return _c(
     "div",
     [
+      _vm.coursesLength == 0
+        ? _c(
+            "v-row",
+            {
+              staticClass: "pt-10",
+              attrs: { align: "center", justify: "center" }
+            },
+            [
+              _c(
+                "v-col",
+                {
+                  staticClass: "text-center",
+                  attrs: { cols: "12", sm: "8", md: "4" }
+                },
+                [
+                  _c("v-icon", { staticStyle: { "font-size": "14rem" } }, [
+                    _vm._v(
+                      "\n                mdi-book-variant-multiple\n            "
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("h1", [_vm._v(" Create your first Course ")]),
+                  _vm._v(" "),
+                  _c("p", [
+                    _vm._v(
+                      " Creating Module, you'll be able to upload and share it with your class. "
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: { color: "primary" },
+                      on: {
+                        click: function($event) {
+                          return _vm.openAddmodal()
+                        }
+                      }
+                    },
+                    [_vm._v(" CREATE COURSE ")]
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.isGetting
+        ? _c(
+            "v-container",
+            { staticStyle: { height: "400px" } },
+            [
+              _c(
+                "v-row",
+                {
+                  staticClass: "fill-height",
+                  attrs: { "align-content": "center", justify: "center" }
+                },
+                [
+                  _c("v-icon", { staticStyle: { "font-size": "14rem" } }, [
+                    _vm._v(
+                      "\n                mdi-google-contacts\n            "
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "v-col",
+                    {
+                      staticClass: "text-subtitle-1 text-center",
+                      attrs: { cols: "12" }
+                    },
+                    [_c("h2", [_vm._v(" Loading your Courses ")])]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-col",
+                    { attrs: { cols: "6" } },
+                    [
+                      _c("v-progress-linear", {
+                        attrs: {
+                          color: "primary",
+                          indeterminate: "",
+                          rounded: "",
+                          height: "6"
+                        }
+                      })
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        : _vm._e(),
+      _vm._v(" "),
       _c(
         "v-dialog",
         {
@@ -486,163 +604,168 @@ var render = function() {
         1
       ),
       _vm._v(" "),
-      _c(
-        "div",
-        [
-          _c(
-            "v-row",
+      _vm.coursesLength != 0 && _vm.isGetting == false
+        ? _c(
+            "div",
             [
-              _c("v-col", [_c("h2", [_vm._v("My Courses")])]),
-              _vm._v(" "),
               _c(
-                "v-col",
-                { staticClass: "text-right" },
+                "v-row",
                 [
+                  _c("v-col", [_c("h2", [_vm._v("My Courses")])]),
+                  _vm._v(" "),
                   _c(
-                    "v-btn",
-                    {
-                      attrs: {
-                        bottom: "",
-                        color: "primary",
-                        dark: "",
-                        fab: "",
-                        fixed: "",
-                        right: ""
-                      },
-                      on: {
-                        click: function($event) {
-                          return _vm.openAddmodal()
-                        }
-                      }
-                    },
-                    [_c("v-icon", [_vm._v("mdi-plus")])],
+                    "v-col",
+                    { staticClass: "text-right" },
+                    [
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: {
+                            bottom: "",
+                            color: "primary",
+                            dark: "",
+                            fab: "",
+                            fixed: "",
+                            right: ""
+                          },
+                          on: {
+                            click: function($event) {
+                              return _vm.openAddmodal()
+                            }
+                          }
+                        },
+                        [_c("v-icon", [_vm._v("mdi-plus")])],
+                        1
+                      )
+                    ],
                     1
                   )
                 ],
                 1
-              )
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "v-row",
-            { staticClass: "mt-3" },
-            _vm._l(_vm.allCourse, function(item, i) {
-              return _c(
-                "v-col",
-                { key: "course" + i, attrs: { lg: "3", md: "6" } },
-                [
-                  _c(
-                    "div",
-                    { staticClass: "card-expansion" },
+              ),
+              _vm._v(" "),
+              _c(
+                "v-row",
+                { staticClass: "mt-3" },
+                _vm._l(_vm.allCourse, function(item, i) {
+                  return _c(
+                    "v-col",
+                    { key: "course" + i, attrs: { lg: "3", md: "6" } },
                     [
                       _c(
-                        "v-card",
-                        { staticClass: "mx-auto" },
+                        "div",
+                        { staticClass: "card-expansion" },
                         [
                           _c(
-                            "v-img",
-                            {
-                              attrs: {
-                                src: "../images/" + item.course_picture,
-                                height: "200px"
-                              }
-                            },
+                            "v-card",
+                            { staticClass: "mx-auto" },
                             [
-                              _c("v-spacer"),
-                              _vm._v(" "),
                               _c(
-                                "v-menu",
+                                "v-img",
                                 {
                                   attrs: {
-                                    transition: "slide-y-transition",
-                                    bottom: ""
-                                  },
-                                  scopedSlots: _vm._u(
-                                    [
-                                      {
-                                        key: "activator",
-                                        fn: function(ref) {
-                                          var on = ref.on
-                                          var attrs = ref.attrs
-                                          return [
-                                            _c(
-                                              "v-btn",
-                                              _vm._g(
-                                                _vm._b(
-                                                  {
-                                                    staticClass: "float-right",
-                                                    attrs: {
-                                                      icon: "",
-                                                      color: "white"
-                                                    }
-                                                  },
-                                                  "v-btn",
-                                                  attrs,
-                                                  false
-                                                ),
-                                                on
-                                              ),
-                                              [
-                                                _c("v-icon", [
-                                                  _vm._v(
-                                                    "\n                                            mdi-dots-vertical\n                                        "
-                                                  )
-                                                ])
-                                              ],
-                                              1
-                                            )
-                                          ]
-                                        }
-                                      }
-                                    ],
-                                    null,
-                                    true
-                                  )
+                                    src: "../images/" + item.course_picture,
+                                    height: "200px"
+                                  }
                                 },
                                 [
+                                  _c("v-spacer"),
                                   _vm._v(" "),
                                   _c(
-                                    "v-list",
-                                    [
-                                      _c(
-                                        "v-list-item",
-                                        {
-                                          attrs: {
-                                            link: "",
-                                            to: {
-                                              name: "settings",
-                                              params: { id: item.id }
+                                    "v-menu",
+                                    {
+                                      attrs: {
+                                        transition: "slide-y-transition",
+                                        bottom: ""
+                                      },
+                                      scopedSlots: _vm._u(
+                                        [
+                                          {
+                                            key: "activator",
+                                            fn: function(ref) {
+                                              var on = ref.on
+                                              var attrs = ref.attrs
+                                              return [
+                                                _c(
+                                                  "v-btn",
+                                                  _vm._g(
+                                                    _vm._b(
+                                                      {
+                                                        staticClass:
+                                                          "float-right",
+                                                        attrs: {
+                                                          icon: "",
+                                                          color: "white"
+                                                        }
+                                                      },
+                                                      "v-btn",
+                                                      attrs,
+                                                      false
+                                                    ),
+                                                    on
+                                                  ),
+                                                  [
+                                                    _c("v-icon", [
+                                                      _vm._v(
+                                                        "\n                                            mdi-dots-vertical\n                                        "
+                                                      )
+                                                    ])
+                                                  ],
+                                                  1
+                                                )
+                                              ]
                                             }
                                           }
-                                        },
-                                        [
-                                          _c("v-list-item-title", [
-                                            _vm._v("Edit")
-                                          ])
                                         ],
-                                        1
-                                      ),
+                                        null,
+                                        true
+                                      )
+                                    },
+                                    [
                                       _vm._v(" "),
                                       _c(
-                                        "v-list-item",
-                                        { attrs: { link: "" } },
+                                        "v-list",
                                         [
-                                          _c("v-list-item-title", [
-                                            _vm._v("Archive")
-                                          ])
-                                        ],
-                                        1
-                                      ),
-                                      _vm._v(" "),
-                                      _c(
-                                        "v-list-item",
-                                        { attrs: { link: "" } },
-                                        [
-                                          _c("v-list-item-title", [
-                                            _vm._v("Delete")
-                                          ])
+                                          _c(
+                                            "v-list-item",
+                                            {
+                                              attrs: {
+                                                link: "",
+                                                to: {
+                                                  name: "settings",
+                                                  params: { id: item.id }
+                                                }
+                                              }
+                                            },
+                                            [
+                                              _c("v-list-item-title", [
+                                                _vm._v("Edit")
+                                              ])
+                                            ],
+                                            1
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "v-list-item",
+                                            { attrs: { link: "" } },
+                                            [
+                                              _c("v-list-item-title", [
+                                                _vm._v("Archive")
+                                              ])
+                                            ],
+                                            1
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "v-list-item",
+                                            { attrs: { link: "" } },
+                                            [
+                                              _c("v-list-item-title", [
+                                                _vm._v("Delete")
+                                              ])
+                                            ],
+                                            1
+                                          )
                                         ],
                                         1
                                       )
@@ -651,61 +774,63 @@ var render = function() {
                                   )
                                 ],
                                 1
-                              )
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-card-title",
-                            [
+                              ),
+                              _vm._v(" "),
                               _c(
-                                "router-link",
-                                {
-                                  attrs: {
-                                    to: {
-                                      name: "coursePage",
-                                      params: { id: item.id }
-                                    }
-                                  }
-                                },
+                                "v-card-title",
                                 [
-                                  _vm._v(
-                                    "\n                                " +
-                                      _vm._s(
-                                        item.course_code +
-                                          " - " +
-                                          item.course_name
-                                      ) +
-                                      "\n                            "
+                                  _c(
+                                    "router-link",
+                                    {
+                                      attrs: {
+                                        to: {
+                                          name: "coursePage",
+                                          params: { id: item.id }
+                                        }
+                                      }
+                                    },
+                                    [
+                                      _vm._v(
+                                        "\n                                " +
+                                          _vm._s(
+                                            item.course_code +
+                                              " - " +
+                                              item.course_name
+                                          ) +
+                                          "\n                            "
+                                      )
+                                    ]
                                   )
-                                ]
-                              )
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c("v-card-subtitle", [
+                                _vm._v(
+                                  "\n                            {# of students} "
+                                ),
+                                _c("br"),
+                                _vm._v(
+                                  "\n                            {# of class}\n                        "
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("v-card-actions")
                             ],
                             1
-                          ),
-                          _vm._v(" "),
-                          _c("v-card-subtitle", [
-                            _vm._v(
-                              "\n                            {students}\n                        "
-                            )
-                          ]),
-                          _vm._v(" "),
-                          _c("v-card-actions")
+                          )
                         ],
                         1
                       )
-                    ],
-                    1
+                    ]
                   )
-                ]
+                }),
+                1
               )
-            }),
+            ],
             1
           )
-        ],
-        1
-      )
+        : _vm._e()
     ],
     1
   )

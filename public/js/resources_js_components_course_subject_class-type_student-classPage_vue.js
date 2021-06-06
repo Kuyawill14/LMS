@@ -104,11 +104,41 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {},
   data: function data() {
     return {
+      coursesLength: null,
+      isGetting: false,
       dialog: false,
       isloading: true,
       isStudent: false,
@@ -119,41 +149,43 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     };
   },
   methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)(["fetchClassList"])), {}, {
-    openAddmodal: function openAddmodal() {
-      this.form.reset();
-      this.modalType = "add";
-      $("#modalJoin").modal("show"); //console.log(this.modalType);
+    openJoinmodal: function openJoinmodal() {
+      this.dialog = !this.dialogl;
     },
     joinClass: function joinClass() {
       var _this = this;
 
       this.isloading = true;
       this.dialog = false;
-      this.$store.dispatch("joinClass", this.form);
-      this.fetchClassList();
-      setTimeout(function () {
-        return _this.isloading = false;
-      }, 1000);
+      this.$store.dispatch("joinClass", this.form).then(function () {
+        _this.fetchClasses();
+
+        form.class_code = '';
+      });
     },
     Unenroll: function Unenroll(id) {
       var _this2 = this;
 
       this.isloading = true;
       this.$store.dispatch("Unenroll", id);
-      this.fetchClassList();
+      this.fetchClasses();
       setTimeout(function () {
         return _this2.isloading = false;
       }, 1000);
     },
-    fetchClass: function fetchClass() {
+    fetchClasses: function fetchClasses() {
+      var _this3 = this;
+
+      this.isGetting = true;
       this.$store.dispatch('fetchClassList').then(function () {
-        console.log('fetching class');
+        _this3.coursesLength = _this3.allClass.length;
+        _this3.isGetting = false;
       });
     }
   }),
   computed: (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)(["allClass"]),
   mounted: function mounted() {
-    this.fetchClass();
+    this.fetchClasses();
   }
 });
 
@@ -293,6 +325,101 @@ var render = function() {
   return _c(
     "div",
     [
+      _vm.coursesLength == 0
+        ? _c(
+            "v-row",
+            {
+              staticClass: "pt-10",
+              attrs: { align: "center", justify: "center" }
+            },
+            [
+              _c(
+                "v-col",
+                {
+                  staticClass: "text-center",
+                  attrs: { cols: "12", sm: "8", md: "4" }
+                },
+                [
+                  _c("v-icon", { staticStyle: { "font-size": "14rem" } }, [
+                    _vm._v(
+                      "\n                mdi-book-variant-multiple\n            "
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("h1", [_vm._v(" Join your first class ")]),
+                  _vm._v(" "),
+                  _c("p", [
+                    _vm._v(
+                      " Creating Module, you'll be able to upload and share it with your class. "
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: { color: "primary" },
+                      on: { click: _vm.openJoinmodal }
+                    },
+                    [_vm._v(" Join Class ")]
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.isGetting
+        ? _c(
+            "v-container",
+            { staticStyle: { height: "400px" } },
+            [
+              _c(
+                "v-row",
+                {
+                  staticClass: "fill-height",
+                  attrs: { "align-content": "center", justify: "center" }
+                },
+                [
+                  _c("v-icon", { staticStyle: { "font-size": "14rem" } }, [
+                    _vm._v(
+                      "\n                mdi-google-contacts\n            "
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "v-col",
+                    {
+                      staticClass: "text-subtitle-1 text-center",
+                      attrs: { cols: "12" }
+                    },
+                    [_c("h2", [_vm._v(" Loading your Classes ")])]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-col",
+                    { attrs: { cols: "6" } },
+                    [
+                      _c("v-progress-linear", {
+                        attrs: {
+                          color: "primary",
+                          indeterminate: "",
+                          rounded: "",
+                          height: "6"
+                        }
+                      })
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        : _vm._e(),
+      _vm._v(" "),
       _c(
         "v-dialog",
         {
@@ -384,166 +511,174 @@ var render = function() {
         1
       ),
       _vm._v(" "),
-      _c(
-        "div",
-        [
-          _c(
-            "v-row",
+      _vm.coursesLength != 0 && _vm.isGetting == false
+        ? _c(
+            "div",
             [
-              _c("v-col", [_c("h2", [_vm._v("My Classes")])]),
-              _vm._v(" "),
               _c(
-                "v-col",
-                { staticClass: "text-right" },
+                "v-row",
                 [
+                  _c("v-col", [_c("h2", [_vm._v("My Classes")])]),
+                  _vm._v(" "),
                   _c(
-                    "v-btn",
-                    {
-                      attrs: {
-                        bottom: "",
-                        color: "primary",
-                        dark: "",
-                        fab: "",
-                        fixed: "",
-                        right: ""
-                      },
-                      on: {
-                        click: function($event) {
-                          _vm.dialog = !_vm.dialog
-                        }
-                      }
-                    },
-                    [_c("v-icon", [_vm._v("mdi-plus")])],
-                    1
-                  )
-                ],
-                1
-              )
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "v-row",
-            { staticClass: "mt-3" },
-            _vm._l(_vm.allClass, function(item, i) {
-              return _c(
-                "v-col",
-                { key: "class" + i, attrs: { lg: "3", md: "6" } },
-                [
-                  _c(
-                    "div",
-                    { staticClass: "card-expansion" },
+                    "v-col",
+                    { staticClass: "text-right" },
                     [
                       _c(
-                        "v-card",
-                        { staticClass: "mx-auto" },
-                        [
-                          _c(
-                            "v-img",
-                            {
-                              staticClass: "white--text align-end",
-                              attrs: {
-                                src: "../images/" + item.course_picture,
-                                height: "200px",
-                                gradient:
-                                  "to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
-                              }
-                            },
-                            [
-                              _c(
-                                "v-card-subtitle",
-                                [
-                                  _c("v-progress-linear", {
-                                    staticClass: "rounded-sm",
-                                    attrs: { value: item.progress, height: "6" }
-                                  }),
-                                  _vm._v(" "),
-                                  _c(
-                                    "span",
-                                    { staticClass: "text-caption float-right" },
-                                    [
-                                      _vm._v(
-                                        " " +
-                                          _vm._s(
-                                            parseFloat(item.progress.toFixed(2))
-                                          ) +
-                                          "% "
-                                      )
-                                    ]
-                                  ),
-                                  _vm._v(" "),
-                                  _c("span", { staticClass: "text-caption " }, [
-                                    _vm._v(" Completed ")
-                                  ])
-                                ],
-                                1
-                              )
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-card-title",
-                            [
-                              _c(
-                                "router-link",
-                                {
-                                  attrs: {
-                                    to: {
-                                      name: "coursePage",
-                                      params: { id: item.course_id }
-                                    }
-                                  }
-                                },
-                                [
-                                  _vm._v(
-                                    "\n                                " +
-                                      _vm._s(
-                                        item.course_code +
-                                          " - " +
-                                          item.course_name
-                                      ) +
-                                      "\n                            "
-                                  )
-                                ]
-                              )
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c("v-card-subtitle", [
-                            _vm._v(
-                              "\n                            " +
-                                _vm._s(item.class_name) +
-                                " "
-                            ),
-                            _c("br"),
-                            _vm._v(
-                              "\n                            Class code:" +
-                                _vm._s(item.class_code) +
-                                " "
-                            ),
-                            _c("br"),
-                            _vm._v(" "),
-                            _c("br")
-                          ]),
-                          _vm._v(" "),
-                          _c("div")
-                        ],
+                        "v-btn",
+                        {
+                          attrs: {
+                            bottom: "",
+                            color: "primary",
+                            dark: "",
+                            fab: "",
+                            fixed: "",
+                            right: ""
+                          },
+                          on: { click: _vm.openJoinmodal }
+                        },
+                        [_c("v-icon", [_vm._v("mdi-plus")])],
                         1
                       )
                     ],
                     1
                   )
-                ]
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-row",
+                { staticClass: "mt-3" },
+                _vm._l(_vm.allClass, function(item, i) {
+                  return _c(
+                    "v-col",
+                    { key: "class" + i, attrs: { lg: "3", md: "6" } },
+                    [
+                      _c(
+                        "div",
+                        { staticClass: "card-expansion" },
+                        [
+                          _c(
+                            "v-card",
+                            { staticClass: "mx-auto" },
+                            [
+                              _c(
+                                "v-img",
+                                {
+                                  staticClass: "white--text align-end",
+                                  attrs: {
+                                    src: "../images/" + item.course_picture,
+                                    height: "200px",
+                                    gradient:
+                                      "to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
+                                  }
+                                },
+                                [
+                                  _c(
+                                    "v-card-subtitle",
+                                    [
+                                      _c("v-progress-linear", {
+                                        staticClass: "rounded-sm",
+                                        attrs: {
+                                          value: item.progress,
+                                          height: "6"
+                                        }
+                                      }),
+                                      _vm._v(" "),
+                                      _c(
+                                        "span",
+                                        {
+                                          staticClass:
+                                            "text-caption float-right"
+                                        },
+                                        [
+                                          _vm._v(
+                                            " " +
+                                              _vm._s(
+                                                parseFloat(
+                                                  item.progress.toFixed(2)
+                                                )
+                                              ) +
+                                              "%\n                                "
+                                          )
+                                        ]
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "span",
+                                        { staticClass: "text-caption " },
+                                        [_vm._v(" Completed ")]
+                                      )
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-card-title",
+                                [
+                                  _c(
+                                    "router-link",
+                                    {
+                                      attrs: {
+                                        to: {
+                                          name: "coursePage",
+                                          params: { id: item.course_id }
+                                        }
+                                      }
+                                    },
+                                    [
+                                      _vm._v(
+                                        "\n                                " +
+                                          _vm._s(
+                                            item.course_code +
+                                              " - " +
+                                              item.course_name
+                                          ) +
+                                          "\n                            "
+                                      )
+                                    ]
+                                  )
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c("v-card-subtitle", [
+                                _vm._v(
+                                  "\n                            " +
+                                    _vm._s(item.class_name) +
+                                    " "
+                                ),
+                                _c("br"),
+                                _vm._v(
+                                  "\n                            Class code:" +
+                                    _vm._s(item.class_code) +
+                                    " "
+                                ),
+                                _c("br"),
+                                _vm._v(" "),
+                                _c("br")
+                              ]),
+                              _vm._v(" "),
+                              _c("div")
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ]
+                  )
+                }),
+                1
               )
-            }),
+            ],
             1
           )
-        ],
-        1
-      )
+        : _vm._e()
     ],
     1
   )

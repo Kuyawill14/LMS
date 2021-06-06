@@ -1,5 +1,35 @@
 <template>
     <div>
+
+        <v-row align="center" justify="center" class="pt-10" v-if="coursesLength == 0">
+            <v-col cols="12" sm="8" md="4" class="text-center">
+                <v-icon style="font-size:14rem">
+                    mdi-book-variant-multiple
+                </v-icon>
+
+                <h1> Create your first Course </h1>
+                <p> Creating Module, you'll be able to upload and share it with your class. </p>
+                <v-btn color="primary" @click="openAddmodal()"> CREATE COURSE </v-btn>
+            </v-col>
+        </v-row>
+
+
+        <v-container v-if="isGetting" style="height: 400px;">
+            <v-row class="fill-height" align-content="center" justify="center">
+                <v-icon style="font-size:14rem">
+                    mdi-google-contacts
+                </v-icon>
+                <v-col class="text-subtitle-1 text-center" cols="12">
+                    <h2> Loading your Courses </h2>
+                </v-col>
+                <v-col cols="6">
+                    <v-progress-linear color="primary" indeterminate rounded height="6"></v-progress-linear>
+                </v-col>
+            </v-row>
+        </v-container>
+
+
+
         <v-dialog v-model="dialog" width="400px">
             <v-card>
                 <v-card-title class="">
@@ -19,7 +49,6 @@
                     </v-row>
                 </v-container>
                 <v-card-actions>
-
                     <v-spacer></v-spacer>
                     <v-btn text color="secondary" @click="dialog = false">Cancel</v-btn>
                     <v-btn text color="primary" @click="modalType == 'add' ? createCourse() : updateCourse()">
@@ -28,7 +57,8 @@
             </v-card>
         </v-dialog>
 
-        <div>
+        <div v-if="coursesLength != 0 && isGetting == false">
+
             <v-row>
                 <v-col>
                     <h2>My Courses</h2>
@@ -39,7 +69,6 @@
                     </v-btn>
                 </v-col>
             </v-row>
-
             <v-row class="mt-3">
                 <v-col lg="3" md="6" v-for="(item, i) in allCourse" :key="'course'+i">
                     <div class="card-expansion">
@@ -48,7 +77,7 @@
                                 <v-spacer></v-spacer>
                                 <v-menu transition="slide-y-transition" bottom>
                                     <template v-slot:activator="{ on, attrs }">
-                                        <v-btn  icon v-bind="attrs" v-on="on" class="float-right" color="white">
+                                        <v-btn icon v-bind="attrs" v-on="on" class="float-right" color="white">
                                             <v-icon>
                                                 mdi-dots-vertical
                                             </v-icon>
@@ -79,7 +108,8 @@
                             </v-card-title>
 
                             <v-card-subtitle>
-                                {students}
+                                {# of students} <br>
+                                {# of class}
                             </v-card-subtitle>
 
                             <v-card-actions>
@@ -117,6 +147,8 @@
         },
         data() {
             return {
+                coursesLength: null,
+                isGetting: false,
                 dialog: false,
                 isloading: true,
                 modalType: '',
@@ -158,28 +190,24 @@
                 this.form.course_code = selectedCourse.course_code;
                 this.form.course_id = selectedCourse.course_id;
             },
-            updateCourse() {
-                if (this.form.course_name != "" && this.form.course_id != "") {
-                    this.isloading = true;
-                    this.form.action ='edit'; 
-                    this.$store.dispatch('updateCourse', this.form);
-                    this.fetchCourseList();
-                    setTimeout(() => this.isloading = false, 1000);
-                    this. toastSuccess("Your class has been updated", 'done')
-               
-                }
-            },
+        
             createCourse() {
                 if (this.form.course_name != "" && this.form.course_code != "") {
                     this.isloading = true;
                     this.$store.dispatch('createCourse', this.form);
-                    this.fetchCourseList();
-                    setTimeout(() => this.isloading = false, 1000);
-                 
+                     this. fetchCourses();
+                     this.dialog = false;
                   this.toastSuccess("Your class has been Added", 'done')
 
                 }
-            }
+            },
+              fetchCourses() {
+                  this.isGetting = true;
+                this.$store.dispatch('fetchCourseList').then(() => {
+                    this.coursesLength = this.allCourse.length;
+                       this.isGetting = false;
+                });
+            },
 
         },
         computed: mapGetters(['allCourse']),
@@ -191,9 +219,7 @@
 
         },
         mounted() {
-            setTimeout(() => {
-                this.isPageLoading = true
-            }, 1000);
+          this. fetchCourses();
         },
     }
 
