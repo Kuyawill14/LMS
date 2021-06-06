@@ -49,6 +49,15 @@
         methods: {
             toggle() {
                 this.drawer = !this.drawer;
+                console.log(this.drawer);
+                  setInterval(() => {
+                if ($('.v-overlay__scrim').length > 0 && this.drawer ==true) {
+                    $('.v-overlay__scrim').click(function () {
+                         this.drawer =false;
+                       console.log(this.drawer)
+                    })
+                }
+            }, 100)
             }
         },
         mounted() {
@@ -58,8 +67,11 @@
                 console.log(res.data);
             }).catch((error) => {
                 console.log(error)
-            })
-
+            });
+              
+        },
+        created() {
+          
         }
 
     }

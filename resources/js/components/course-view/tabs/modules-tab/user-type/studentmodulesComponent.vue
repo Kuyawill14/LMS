@@ -1,11 +1,15 @@
 <template>
     <div>
         <v-row>
-            <v-col lg="8" sm="12" md="12" class="pa-1">
+            <v-col :lg="isExpand == true ? 12 : 8" sm="12" md="12" cols="12" class="pa-0">
                 <v-row>
 
                     <v-col>
-                        <v-card>
+                        <v-container fluid class="pa-0"  @mouseover="contentHover=true" @mouseleave="contentHover = false">
+                            <v-btn bottom color="secondary" dark right class="exitFullscreen" v-if="isExpand && contentHover" @click="isExpand =false ">
+                                <v-icon>mdi-arrow-left</v-icon>
+                            </v-btn>
+
                             <iframe title="office viewer" class="video-c" v-if="type=='Document' "
                                 :src="iframeSrc + googledocsParams"
                                 sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
@@ -23,32 +27,32 @@
                                     :src="'/storage/' + subModuleData.file_attachment"></vue-core-video-player>
                             </div>
 
-                        </v-card>
+                        </v-container>
                     </v-col>
 
                 </v-row>
 
-                <v-row  v-if="isSelectedModule">
+                <v-row v-if="isSelectedModule" class="px-5 pt-0">
                     <v-col>
-                        <v-card>
-                            <v-card-title>
-                                {{subModuleData.sub_module_name}}
-                            </v-card-title>
 
-                            <v-card-text class="text--primary">
-                                <div> {{subModuleData.description}}</div>
+                        <v-card-title>
+                            <h2> {{subModuleData.sub_module_name}} </h2>
+                        </v-card-title>
+                        <v-divider></v-divider>
+                        <v-card-text class="text--primary">
+                            <div> {{subModuleData.description}}</div>
 
-                                <a :href="'/storage/' + subModuleData.file_attachment" target="_blank">Download</a>
+                            <a :href="'/storage/' + subModuleData.file_attachment" target="_blank">Download</a>
 
-                            </v-card-text>
+                        </v-card-text>
 
-                        </v-card>
+
                     </v-col>
 
 
                 </v-row>
 
-                 <v-row align="center" justify="center" class="pt-10" v-if="!isSelectedModule">
+                <v-row align="center" justify="center" class="pt-10" v-if="!isSelectedModule">
                     <v-col cols="12" sm="8" md="6" class="text-center">
                         <v-icon style="font-size:14rem">
                             mdi-book-variant-multiple
@@ -56,22 +60,24 @@
 
                         <h1> Select Module </h1>
                         <p> Selecting Module, you'll be able to view and download course content. </p>
-                     
+
                     </v-col>
-                  
-
                 </v-row>
-
-
             </v-col>
 
-            <v-col lg="4" sm="12" md="12" class="pa-0 border">
-                <modulesListComponent v-on:subModule="getsubModuleData" />
+            <v-col lg="4" cols="12" sm="12" md="12" class="pa-0 border" v-if="isExpand == false && isChangeSize == false">
+                <modulesListComponent v-on:subModule="getsubModuleData" v-on:listClose="expandContent" :expand="removeX"
+                    style="height:100vh;" />
             </v-col>
 
+            <v-dialog v-model="listDialaog" max-width="600px" class="list_modal">
+                <modulesListComponent v-on:subModule="getsubModuleData" v-on:listClose="expandContent" :expand="!removeX" v-if="listDialaog"/>
+            </v-dialog>
         </v-row>
 
-
+        <v-btn bottom color="primary" dark fab fixed right v-if="isExpand || isChangeSize" @click="listDialaog = true" style="z-index:999">
+            <v-icon>mdi-menu</v-icon>
+        </v-btn>
 
 
     </div>
@@ -104,6 +110,9 @@
         },
         data() {
             return {
+                contentHover: false,
+                removeX : true,
+                listDialaog: false,
                 loading: false,
                 subModuleData: null,
                 googledocsParams: '?pid=explorer&efh=false&a=v&chrome=false&embedded=true',
@@ -112,9 +121,16 @@
                 ext: null,
                 iframeSrc: null,
                 isSelectedModule: false,
+                isExpand: false,
+                isChangeSize: false,
+                screenWidth: window.innerWidth
             }
         },
         methods: {
+            expandContent() {
+                this.isExpand = !this.isExpand;
+
+            },
             getFileExt(filename) {
                 if (this.subModuleData.file_attachment) {
                     var split = filename.split('.');
@@ -144,12 +160,33 @@
 
             }
         },
+        created() {
+            if (this.subModuleData) {
+                this.loading = true;
+            }
+            setInterval(() => {
+                if (window.innerWidth < 1264) {
+                    this.isChangeSize = true;
+                } else {
+                    this.isChangeSize = false;
+                }
+
+            }, 1000)
+        },
 
     }
 
 </script>
 
 <style scoped>
+    .exitFullscreen {
+        position: absolute;
+        border-radius: 0;
+        right: 0;
+        top: 70px;
+        z-index: 99;
+    }
+
     .bottom-content {
 
         padding-left: 30px;
@@ -167,6 +204,13 @@
 
     .ipOhDr {
         max-width: 100%;
+    }
+
+</style>
+
+<style>
+    .v-dialog--active {
+        overflow: hidden;
     }
 
 </style>

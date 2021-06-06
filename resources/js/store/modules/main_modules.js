@@ -22,9 +22,9 @@ const actions = {
 
     async createMainModule({ commit }, moduleForm) {
 
-        const res = await axios.post(`/api/main_module/insert`, { moduleForm: moduleForm });
+        var res = await axios.post(`/api/main_module/insert`, { moduleForm: moduleForm });
 
-        let newMainModule = res.data;
+        var newMainModule = res.data;
         // commit("CREATE_MAIN_MODULE", newMainModule);
         state.main_module.push({...newMainModule })
 
@@ -32,12 +32,48 @@ const actions = {
         return res;
     },
 
+    async updateMainModule({ commit }, moduleForm) {
+        var module_id = moduleForm.id;
+        var res = await axios.post(`/api/main_module/update/${module_id}`, { moduleForm: moduleForm });
+
+        var newMainModule = res.data;
+        commit("EDIT_MODULE", newMainModule);
+        state.main_module.push({...newMainModule })
+
+
+        return res;
+    },
+    async deleteMainModule({ commit }, id) {
+        var res = await axios.delete(`/api/main_module/delete/${id}`);
+
+        var newMainModule = res.data;
+        commit("DELETE_MODULE", newMainModule);
+        return newMainModule;
+
+
+    }
+
 
 
 };
 const mutations = {
     CREATE_MAIN_MODULE: (state, main_module) => (state.main_module = main_module),
     FETCH_MAIN_MODULE: (state, main_module) => (state.main_module = main_module),
+    EDIT_MODULE: (state, main_module) => {
+        var index = state.main_module.findIndex(function(item, i) {
+            return item.id === main_module.id;
+        });
+        state.main_module[index] = main_module;
+        state.main_module = JSON.parse(JSON.stringify(state.main_module))
+
+    },
+    DELETE_MODULE(state, main_module) {
+        var index = state.main_module.findIndex(function(item, i) {
+            return item.id === main_module.id;
+        });
+        state.main_module.splice(index, 1)
+
+    },
 };
 
 export default {

@@ -1,6 +1,6 @@
 <template>
-    <v-navigation-drawer v-model="drawer" :clipped="$vuetify.breakpoint.lgAndUp" app>
-        <mainNavbar :role="role" :drawer="drawer" v-if="navBarType != 'selectedCourse'"> </mainNavbar>
+    <v-navigation-drawer v-model="newDrawer" :clipped="$vuetify.breakpoint.lgAndUp" app>
+        <mainNavbar :role="role" :drawer="newDrawer" v-if="navBarType != 'selectedCourse'"> </mainNavbar>
 
         <courseNavbar :role="role" v-if="navBarType == 'selectedCourse'"> </courseNavbar>
     </v-navigation-drawer>
@@ -21,6 +21,7 @@
         },
         data() {
             return {
+
                 logo: "../../images/logo.png",
                 navBarType: ''
             }
@@ -28,12 +29,26 @@
         watch: {
             $route(to, from) {
                 console.log(this.$route.matched);
-                 this.navBarType = this.$route.matched[1].name;
+                this.navBarType = this.$route.matched[1].name;
 
+            }
+        },
+        computed: {
+            newDrawer: {
+                get() {
+                    return this.drawer;
+                },
+                set(newName) {
+                    return newName;
+                }
             }
         },
         created() {
             this.navBarType = this.$route.matched[1].name;
+           
+        
+
+
         }
 
         // watch: {

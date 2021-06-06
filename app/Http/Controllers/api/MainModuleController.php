@@ -102,6 +102,25 @@ class MainModuleController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $mainModule = tbl_main_modules::find($id);
+        if($mainModule){
+            $mainModule->module_name = $request->moduleForm['module_name'];
+            $mainModule->description = $request->moduleForm['description'];
+            $mainModule->course_id = $request->moduleForm['course_id'];
+            $mainModule->save();
+            return $mainModule;
+        }
+     
+
+    }
+    public function deleteModule($id)
+    {
+        $mainModule = tbl_main_modules::find($id);
+        if($mainModule){
+            $mainModule->delete();
+            return $mainModule;
+        }
+       
     }
 
     /**

@@ -362,15 +362,6 @@ var VueElementLoading = function VueElementLoading() {
           _this.classLength = _this.allClass.length;
         }, 1000);
       });
-    },
-    updateTeacherClasses: function updateTeacherClasses() {
-      var _this2 = this;
-
-      this.fetchSubjectCourseClassList(this.$route.params.id).then(function (res) {
-        setTimeout(function () {
-          _this2.classLength = _this2.allClass.length;
-        }, 500);
-      });
     }
   }),
   computed: (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(['allClass']),
@@ -1066,7 +1057,7 @@ var render = function() {
                     return _vm.closeModal()
                   },
                   createclass: function($event) {
-                    return _vm.updateTeacherClasses()
+                    _vm.classLength++
                   }
                 }
               })

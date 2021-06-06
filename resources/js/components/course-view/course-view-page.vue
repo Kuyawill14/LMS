@@ -1,10 +1,9 @@
 <template>
     <div>
 
-        <v-card>
+        <v-card v-if="showCard">
             <v-img :src="'../../images/' + getcourseInfo.course_picture " class="white--text align-end"
-                gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)" height="150px"
-                v-if="this.routeName != 'student-modules'">
+                gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)" height="150px">
                 <v-card-title class="text-h5" v-text="getcourseInfo.course_code + ' - ' + getcourseInfo.course_name">
                 </v-card-title>
                 <v-card-subtitle class="white--text"> {teacher name}</v-card-subtitle>
@@ -37,6 +36,8 @@
                 fullPage: true,
                 class_id: '',
                 routeName: '',
+                showCard: true,
+
 
             }
         },
@@ -59,13 +60,19 @@
         },
         watch: {
             $route(to, from) {
-                this.routeName = this.$route.matched[2].name;
-
-
+              this.hideCard();
 
             }
         },
         methods: {
+            hideCard() {
+  this.routeName = this.$route.matched[2].name;
+              
+                if (this.routeName == 'student-modules' || this.routeName == 'modules-preview') {
+                    this.showCard = false;
+                }
+            
+            },
             ...mapActions(['fetchScourse']),
             disconnect() {
                 window.Echo.leave("post." + this.$route.params.id)
@@ -90,6 +97,7 @@
 
 
         created() {
+             this.hideCard();
             this.isloading = true;
             this.course_id = this.$route.params.id;
             this.routeName = this.$route.matched[2].name;

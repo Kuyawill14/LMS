@@ -47,10 +47,10 @@ let studentmodules_tab = () =>
 let classes_tab = () =>
     import ("./components/course-view/tabs/classes-tab/classesComponent");
 
-    //Quiz Page
+//Quiz Page
 let QuizPage = () =>
     import ("./components/Classwork_View/StudentPage/ExamQuestionListPage");
-    
+
 //view course page 
 let courseView = () =>
     import ("./components/course-view/course-view-page");
@@ -59,7 +59,7 @@ let courseView = () =>
 let classworkView = () =>
     import ("./components/Classwork_View/classworkDetailsView");
 
-    
+
 
 let routes = [{
         path: "",
@@ -143,6 +143,11 @@ let routes = [{
                     {
                         name: "student-modules",
                         path: "my-modules",
+                        component: studentmodules_tab
+                    },
+                    {
+                        name: "modules-preview",
+                        path: "modules-preview",
                         component: studentmodules_tab
                     },
                     {

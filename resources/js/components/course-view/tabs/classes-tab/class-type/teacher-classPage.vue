@@ -27,7 +27,7 @@
 
         <v-dialog v-model="showModal" width="400px">
             <createClassForm v-on:closeModal="closeModal()" v-if="modalType == 'add'"
-                v-on:createclass="updateTeacherClasses()" />
+                v-on:createclass="classLength++" />
             <editClassForm v-on:closeModal="closeModal()" :class_name="form.class_name" :class_id="form.class_id"
                 v-if="modalType == 'edit'" />
         </v-dialog>
@@ -155,17 +155,7 @@
 
                     })
             },
-            updateTeacherClasses() {
-
-                this.fetchSubjectCourseClassList(this.$route.params.id)
-                    .then((res) => {
-                        setTimeout(() => {
-                            this.classLength = this.allClass.length;
-
-                        }, 500);
-
-                    })
-            },
+           
 
 
 
