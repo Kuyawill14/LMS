@@ -22,7 +22,7 @@
                 size="80"
                 color="grey"
             >
-                 <v-img alt="Proflie" :src="UserDetails.profile_pic == null || UserDetails.profile_pic == '' ? 'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=' + (UserDetails.firstName+' '+UserDetails.lastName) : '../../images/'+UserDetails.profile_pic"></v-img>
+                 <v-img alt="Proflie" :src="get_CurrentUser.profile_pic == null || get_CurrentUser.profile_pic == '' ? 'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=' + (get_CurrentUser.firstName+' '+get_CurrentUser.lastName) : '../../images/'+get_CurrentUser.profile_pic"></v-img>
             </v-list-item-avatar>
             </v-list-item>
 
@@ -34,23 +34,23 @@
                                 <v-card-text>
                                     
                                     <v-text-field
-                                        v-model="UserDetails.firstName"
+                                        v-model="get_CurrentUser.firstName"
                                         label="FirstName"></v-text-field>
                                     <v-text-field
-                                        v-model="UserDetails.middleName"
+                                        v-model="get_CurrentUser.middleName"
                                         label="Last Name"></v-text-field>
                                     <v-text-field
-                                        v-model="UserDetails.lastName"
+                                        v-model="get_CurrentUser.lastName"
                                         label="Last Name"></v-text-field>
                                     <v-text-field
-                                        v-model="UserDetails.email"
+                                        v-model="get_CurrentUser.email"
                                         label="Email Address"></v-text-field>
 
                                     <v-text-field
-                                        v-model="UserDetails.address"
+                                        v-model="get_CurrentUser.address"
                                         label="Address"></v-text-field>
                                     <v-text-field
-                                        v-model="UserDetails.cp_no"
+                                        v-model="get_CurrentUser.cp_no"
                                         label="Cp #"></v-text-field>
                                 </v-card-text>
                                 <v-card-actions class="mb-4">
@@ -91,13 +91,13 @@
                                 <v-card-text>
                                     
                                     <v-text-field
-                                        v-model="UserDetails.firstName"
+                                        v-model="get_CurrentUser.firstName"
                                         label="FirstName"></v-text-field>
                                     <v-text-field
-                                        v-model="UserDetails.middleName"
+                                        v-model="get_CurrentUser.middleName"
                                         label="Last Name"></v-text-field>
                                     <v-text-field
-                                        v-model="UserDetails.lastName"
+                                        v-model="get_CurrentUser.lastName"
                                         label="Last Name"></v-text-field>
 
                                 </v-card-text>
@@ -121,6 +121,10 @@
 </template>
 
 <script>
+    import {
+        mapGetters,
+        mapActions
+    } from "vuex";
     export default {
         props:['UserDetails'],
         pageTitle: 'My Profile',
@@ -137,6 +141,7 @@
                 showAvatarPicker: false
             }
         },
+        computed: mapGetters(['get_CurrentUser']),
         methods: {
             openAvatarPicker () {
                 this.showAvatarPicker = true
@@ -144,6 +149,6 @@
             selectAvatar (avatar) {
                 this.form.avatar = avatar
             }
-        }
+        },
     }
 </script>

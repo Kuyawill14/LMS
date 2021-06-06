@@ -139,7 +139,6 @@ class StudentController extends Controller
         $newNotification->userid_to = $userInClass[0]->user_id;
         $newNotification->class_id = $JoinClass->class_id;
         $newNotification->message = "Join to your ".$userInClass[0]->course_name." - " .$userInClass[0]->class_name ." class";
-        $newNotification->event_type = 2;
         $newNotification->notification_type = 1;
         $newNotification->status = 0;
         $newNotification->save();

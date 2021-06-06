@@ -47,6 +47,10 @@ let studentmodules_tab = () =>
 let classes_tab = () =>
     import ("./components/course-view/tabs/classes-tab/classesComponent");
 
+    //Quiz Page
+let QuizPage = () =>
+    import ("./components/Classwork_View/StudentPage/ExamQuestionListPage");
+    
 //view course page 
 let courseView = () =>
     import ("./components/course-view/course-view-page");
@@ -176,7 +180,12 @@ let routes = [{
         name: "clwk",
         props: true
     },
-
+    {
+        path: "/quiz/:id",
+        component: QuizPage,
+        name: "quizstart",
+        props: true
+    },
 
     {
         path: "/login",

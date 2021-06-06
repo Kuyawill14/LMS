@@ -11,6 +11,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 //
 //
 //
@@ -133,6 +134,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['UserDetails'],
   pageTitle: 'My Profile',
@@ -147,6 +149,7 @@ __webpack_require__.r(__webpack_exports__);
       showAvatarPicker: false
     };
   },
+  computed: (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)(['get_CurrentUser']),
   methods: {
     openAvatarPicker: function openAvatarPicker() {
       this.showAvatarPicker = true;
@@ -292,14 +295,14 @@ var render = function() {
                             attrs: {
                               alt: "Proflie",
                               src:
-                                _vm.UserDetails.profile_pic == null ||
-                                _vm.UserDetails.profile_pic == ""
+                                _vm.get_CurrentUser.profile_pic == null ||
+                                _vm.get_CurrentUser.profile_pic == ""
                                   ? "https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=" +
-                                    (_vm.UserDetails.firstName +
+                                    (_vm.get_CurrentUser.firstName +
                                       " " +
-                                      _vm.UserDetails.lastName)
+                                      _vm.get_CurrentUser.lastName)
                                   : "../../images/" +
-                                    _vm.UserDetails.profile_pic
+                                    _vm.get_CurrentUser.profile_pic
                             }
                           })
                         ],
@@ -328,90 +331,92 @@ var render = function() {
                                       _c("v-text-field", {
                                         attrs: { label: "FirstName" },
                                         model: {
-                                          value: _vm.UserDetails.firstName,
+                                          value: _vm.get_CurrentUser.firstName,
                                           callback: function($$v) {
                                             _vm.$set(
-                                              _vm.UserDetails,
+                                              _vm.get_CurrentUser,
                                               "firstName",
                                               $$v
                                             )
                                           },
-                                          expression: "UserDetails.firstName"
+                                          expression:
+                                            "get_CurrentUser.firstName"
                                         }
                                       }),
                                       _vm._v(" "),
                                       _c("v-text-field", {
                                         attrs: { label: "Last Name" },
                                         model: {
-                                          value: _vm.UserDetails.middleName,
+                                          value: _vm.get_CurrentUser.middleName,
                                           callback: function($$v) {
                                             _vm.$set(
-                                              _vm.UserDetails,
+                                              _vm.get_CurrentUser,
                                               "middleName",
                                               $$v
                                             )
                                           },
-                                          expression: "UserDetails.middleName"
+                                          expression:
+                                            "get_CurrentUser.middleName"
                                         }
                                       }),
                                       _vm._v(" "),
                                       _c("v-text-field", {
                                         attrs: { label: "Last Name" },
                                         model: {
-                                          value: _vm.UserDetails.lastName,
+                                          value: _vm.get_CurrentUser.lastName,
                                           callback: function($$v) {
                                             _vm.$set(
-                                              _vm.UserDetails,
+                                              _vm.get_CurrentUser,
                                               "lastName",
                                               $$v
                                             )
                                           },
-                                          expression: "UserDetails.lastName"
+                                          expression: "get_CurrentUser.lastName"
                                         }
                                       }),
                                       _vm._v(" "),
                                       _c("v-text-field", {
                                         attrs: { label: "Email Address" },
                                         model: {
-                                          value: _vm.UserDetails.email,
+                                          value: _vm.get_CurrentUser.email,
                                           callback: function($$v) {
                                             _vm.$set(
-                                              _vm.UserDetails,
+                                              _vm.get_CurrentUser,
                                               "email",
                                               $$v
                                             )
                                           },
-                                          expression: "UserDetails.email"
+                                          expression: "get_CurrentUser.email"
                                         }
                                       }),
                                       _vm._v(" "),
                                       _c("v-text-field", {
                                         attrs: { label: "Address" },
                                         model: {
-                                          value: _vm.UserDetails.address,
+                                          value: _vm.get_CurrentUser.address,
                                           callback: function($$v) {
                                             _vm.$set(
-                                              _vm.UserDetails,
+                                              _vm.get_CurrentUser,
                                               "address",
                                               $$v
                                             )
                                           },
-                                          expression: "UserDetails.address"
+                                          expression: "get_CurrentUser.address"
                                         }
                                       }),
                                       _vm._v(" "),
                                       _c("v-text-field", {
                                         attrs: { label: "Cp #" },
                                         model: {
-                                          value: _vm.UserDetails.cp_no,
+                                          value: _vm.get_CurrentUser.cp_no,
                                           callback: function($$v) {
                                             _vm.$set(
-                                              _vm.UserDetails,
+                                              _vm.get_CurrentUser,
                                               "cp_no",
                                               $$v
                                             )
                                           },
-                                          expression: "UserDetails.cp_no"
+                                          expression: "get_CurrentUser.cp_no"
                                         }
                                       })
                                     ],
@@ -522,45 +527,47 @@ var render = function() {
                                       _c("v-text-field", {
                                         attrs: { label: "FirstName" },
                                         model: {
-                                          value: _vm.UserDetails.firstName,
+                                          value: _vm.get_CurrentUser.firstName,
                                           callback: function($$v) {
                                             _vm.$set(
-                                              _vm.UserDetails,
+                                              _vm.get_CurrentUser,
                                               "firstName",
                                               $$v
                                             )
                                           },
-                                          expression: "UserDetails.firstName"
+                                          expression:
+                                            "get_CurrentUser.firstName"
                                         }
                                       }),
                                       _vm._v(" "),
                                       _c("v-text-field", {
                                         attrs: { label: "Last Name" },
                                         model: {
-                                          value: _vm.UserDetails.middleName,
+                                          value: _vm.get_CurrentUser.middleName,
                                           callback: function($$v) {
                                             _vm.$set(
-                                              _vm.UserDetails,
+                                              _vm.get_CurrentUser,
                                               "middleName",
                                               $$v
                                             )
                                           },
-                                          expression: "UserDetails.middleName"
+                                          expression:
+                                            "get_CurrentUser.middleName"
                                         }
                                       }),
                                       _vm._v(" "),
                                       _c("v-text-field", {
                                         attrs: { label: "Last Name" },
                                         model: {
-                                          value: _vm.UserDetails.lastName,
+                                          value: _vm.get_CurrentUser.lastName,
                                           callback: function($$v) {
                                             _vm.$set(
-                                              _vm.UserDetails,
+                                              _vm.get_CurrentUser,
                                               "lastName",
                                               $$v
                                             )
                                           },
-                                          expression: "UserDetails.lastName"
+                                          expression: "get_CurrentUser.lastName"
                                         }
                                       })
                                     ],

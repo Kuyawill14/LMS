@@ -19,25 +19,27 @@ const actions = {
         const res = await axios.get(
             `/api/question/all/${id}`
         );
-        //console.log(res.data.Question.length);
         let data = [res.data, res.data.Question.length];
-        //console.log(data[0]);
         commit('FETCH_QUESTIONS', res.data);
         return data;
     },
 
     async addQuestions({ commit }, data) {
 
-       if(data.questions.type != 4){
-            const res = await axios.post(`/api/question/insert/${data.ansLength}/${data.clw}`, 
+       if(data.questions.type != 'Two Colums Multiple Choice'){
+            const res = await axios.post(`/api/question/insert`, 
             {   questions: data.questions, 
-                answers: data.answers
+                answers: data.answers,
+                length:data.ansLength,
+                classwork_id: data.clw
             });
        }
        else{
-           const res = await axios.post(`/api/question/insert/${data.dataLength}/${data.clw}`, 
+           const res = await axios.post(`/api/question/insert`, 
            {   questions: data.questions, 
-               answers: data.answers
+               answers: data.answers,
+               length:data.ansLength,
+              classwork_id: data.clw
            });
        }
        

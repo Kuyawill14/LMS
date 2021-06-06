@@ -2,15 +2,17 @@
   <v-app>
       <v-container class="fill-height" fluid>
         <v-row align="center" justify="center">
-          <v-col cols="12" sm="8" md="8">
+          <v-col cols="12" sm="8" md="8">  
             <v-card  class="elevation-12">
               <v-window>
                 <v-window-item :value="1">
+                 
                      <v-row >
                         <v-col  cols="12" md="4" class="primary">
-                       
+                          <v-row style="height:10vh"></v-row>
                         </v-col>
                         <v-col cols="12" md="8">
+                          <v-row style="height:10vh"></v-row>
                         <v-card-text class="pt-12">
                             <h1
                             class=" display-1 primary--text "
@@ -97,6 +99,7 @@
 </template>
 
 <script>
+
 export default {
   data(){
     return{
@@ -127,11 +130,13 @@ export default {
     }
   },
   methods: {
+    
     validate() {
       if (this.$refs.loginForm.validate()) {
         this.form.post('/api/Userlogin')
         .then((res)=>{
             if(res.status == 200){
+              this.$store.dispatch('fetchCurrentUser');
               this.$router.push({path: "/"})
             }
         })

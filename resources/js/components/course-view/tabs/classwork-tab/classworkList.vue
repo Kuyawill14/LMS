@@ -34,27 +34,29 @@
                                     </template>
                                     <v-list pa-0 ma-0>
                                         <v-list-item ma-0 pa-0>
-                                            <v-list-item-title><v-btn @click="showShareClass(item.id)" text><v-icon class="mr-1">mdi-file-upload-outline</v-icon>Publish Classwork</v-btn></v-list-item-title>
+                                            <v-list-item-title><v-btn rounded @click="showShareClass(item.id)" text><v-icon class="mr-1">mdi-file-upload-outline</v-icon>Publish Classwork</v-btn></v-list-item-title>
                                         </v-list-item>
                                          <v-list-item ma-0 pa-0>
-                                            <v-list-item-title><v-btn text><v-icon class="mr-1">mdi-file-eye-outline</v-icon>View Submission</v-btn></v-list-item-title>
+                                            <v-list-item-title><v-btn rounded text><v-icon class="mr-1">mdi-file-eye-outline</v-icon>View Submission</v-btn></v-list-item-title>
                                         </v-list-item>
                                         <v-list-item ma-0 pa-0>
-                                            <v-list-item-title><v-btn text @click="$router.push({name: 'clwk',params: {id: $route.params.id},query: {clwk: item.id}})"
+                                            <v-list-item-title><v-btn rounded text @click="$router.push({name: 'clwk',params: {id: $route.params.id},query: {clwk: item.id}})"
                                             ><v-icon class="mr-1">mdi-notebook-edit-outline</v-icon>Review Classwork</v-btn></v-list-item-title>
                                         </v-list-item>
                                         <v-list-item ma-0 pa-0>
-                                            <v-list-item-title><v-btn @click="editClasswork(item)" text><v-icon class="mr-1">mdi-square-edit-outline</v-icon>Edit Classwork</v-btn></v-list-item-title>
+                                            <v-list-item-title><v-btn rounded @click="editClasswork(item)" text><v-icon class="mr-1">mdi-square-edit-outline</v-icon>Edit Classwork</v-btn></v-list-item-title>
                                         </v-list-item>
                                         <v-list-item ma-0 pa-0>
-                                            <v-list-item-title><v-btn text><v-icon class="mr-1">mdi-delete-outline</v-icon>Remove Classwork</v-btn></v-list-item-title>
+                                            <v-list-item-title><v-btn rounded text><v-icon class="mr-1">mdi-delete-outline</v-icon>Remove Classwork</v-btn></v-list-item-title>
                                         </v-list-item>
                                     </v-list>
                                 </v-menu>
 
                                 <v-tooltip v-if="role == 'Student'" top>
                                     <template v-slot:activator="{ on, attrs }">
-                                        <v-btn class="mt-1 mr-5 pa-2 mx-1" icon
+                                        <v-btn
+                                        @click="$router.push({name: 'clwk',params: {id: $route.params.id},query: {clwk: item.id}})"
+                                        class="mt-1 mr-5 pa-2 mx-1" icon
                                         v-bind="attrs"
                                         v-on="on"
                                         fab

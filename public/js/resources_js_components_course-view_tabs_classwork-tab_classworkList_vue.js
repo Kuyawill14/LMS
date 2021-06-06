@@ -151,6 +151,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
 
 
 
@@ -22207,7 +22209,7 @@ var render = function() {
                                           _c(
                                             "v-btn",
                                             {
-                                              attrs: { text: "" },
+                                              attrs: { rounded: "", text: "" },
                                               on: {
                                                 click: function($event) {
                                                   return _vm.showShareClass(
@@ -22246,7 +22248,9 @@ var render = function() {
                                         [
                                           _c(
                                             "v-btn",
-                                            { attrs: { text: "" } },
+                                            {
+                                              attrs: { rounded: "", text: "" }
+                                            },
                                             [
                                               _c(
                                                 "v-icon",
@@ -22274,7 +22278,7 @@ var render = function() {
                                           _c(
                                             "v-btn",
                                             {
-                                              attrs: { text: "" },
+                                              attrs: { rounded: "", text: "" },
                                               on: {
                                                 click: function($event) {
                                                   return _vm.$router.push({
@@ -22318,7 +22322,7 @@ var render = function() {
                                           _c(
                                             "v-btn",
                                             {
-                                              attrs: { text: "" },
+                                              attrs: { rounded: "", text: "" },
                                               on: {
                                                 click: function($event) {
                                                   return _vm.editClasswork(item)
@@ -22355,7 +22359,9 @@ var render = function() {
                                         [
                                           _c(
                                             "v-btn",
-                                            { attrs: { text: "" } },
+                                            {
+                                              attrs: { rounded: "", text: "" }
+                                            },
                                             [
                                               _c(
                                                 "v-icon",
@@ -22400,7 +22406,18 @@ var render = function() {
                                               {
                                                 staticClass:
                                                   "mt-1 mr-5 pa-2 mx-1",
-                                                attrs: { icon: "", fab: "" }
+                                                attrs: { icon: "", fab: "" },
+                                                on: {
+                                                  click: function($event) {
+                                                    return _vm.$router.push({
+                                                      name: "clwk",
+                                                      params: {
+                                                        id: _vm.$route.params.id
+                                                      },
+                                                      query: { clwk: item.id }
+                                                    })
+                                                  }
+                                                }
                                               },
                                               "v-btn",
                                               attrs,

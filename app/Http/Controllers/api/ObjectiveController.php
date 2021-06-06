@@ -47,9 +47,14 @@ class ObjectiveController extends Controller
             ->select('tbl_sub_questions.id','tbl_sub_questions.answer_id','tbl_sub_questions.sub_question')
             ->get();
 
-            if($cl->type != 4){
-                
-                $tempData2 = $tempData1->shuffle();
+            if($cl->type != 'Two Colums Multiple Choice'){
+                $tempData2;
+                if(auth('sanctum')->user()->role == 'Student'){
+                    $tempData2  = $tempData1->shuffle();
+                }
+                else{
+                    $tempData2 = $tempData1;
+                }
                 $FinalAnswer[] =  $tempData2;
             }
             else{
@@ -89,11 +94,11 @@ class ObjectiveController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $length, $id)
+    public function store(Request $request)
     {
 
         $newQuestion  = new tbl_Questions;
-        $newQuestion->classwork_id = $id;
+        $newQuestion->classwork_id = $request->classwork_id;
         $newQuestion->question = $request->questions['question'];
         $newQuestion->answer = $request->questions['answer'];
         $newQuestion->type = $request->questions['type'];
@@ -102,10 +107,10 @@ class ObjectiveController extends Controller
 
         $objectAnswer = array();
         $objectAnswer1 = array();
-        if($request->questions['type'] == 1){
+        if($request->questions['type'] == 'Multiple Choice'){
             
             $temPata = array();
-            for ($i=0; $i < $length ; $i++) { 
+            for ($i=0; $i < $request->length ; $i++) { 
                 foreach($request->answers[$i] as $cl){
                     $temPata[] = $cl;
                 }
@@ -116,8 +121,8 @@ class ObjectiveController extends Controller
                 $objectAnswer[] =  $QuestionChoice;
             }
         }
-        elseif ($request->questions['type'] == 4) {
-            for ($i=0; $i < $length ; $i++) { 
+        elseif ($request->questions['type'] == 'Two Colums Multiple Choice') {
+            for ($i=0; $i < $request->length ; $i++) { 
                 $temp = array();
                 foreach($request->answers[$i] as $cl){
                    $temp[] = $cl;

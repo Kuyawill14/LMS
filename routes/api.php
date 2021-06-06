@@ -147,7 +147,7 @@ Route::prefix('/student_sub_module')->group(function () {
 //Objective Questions
 Route::prefix('/question')->group(function () {
     Route::get('/all/{id}', [ObjectiveController::class, 'index']);
-    Route::post('/insert/{id}/{length}', [ObjectiveController::class, 'store']);
+    Route::post('/insert', [ObjectiveController::class, 'store']);
     Route::post('/check/{id}', [ObjectiveController::class, 'check']);
     
     Route::delete('/{id}', [ObjectiveController::class, 'destroy']);

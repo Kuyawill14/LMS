@@ -49,51 +49,27 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+var studentStartPage = function studentStartPage() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_type_studentStartPage_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./type/studentStartPage */ "./resources/js/components/Classwork_View/type/studentStartPage.vue"));
+};
+
+var teacherStartPage = function teacherStartPage() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_type_teacherStartPage_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./type/teacherStartPage */ "./resources/js/components/Classwork_View/type/teacherStartPage.vue"));
+};
+
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  components: {
+    studentStartPage: studentStartPage,
+    teacherStartPage: teacherStartPage
+  },
   data: function data() {
     return {
+      isloading: false,
       classworkDetails: [],
       totalPoints: null,
-      totalQuestion: null
+      totalQuestion: null,
+      CurrentUser: []
     };
   },
   methods: {
@@ -113,7 +89,14 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   mounted: function mounted() {
+    var _this2 = this;
+
+    this.isloading = !this.isloading;
     this.getClassworkDetails();
+    this.$store.dispatch('fetchCurrentUser').then(function (res) {
+      _this2.isloading = !_this2.isloading;
+      _this2.CurrentUser = res;
+    });
   }
 });
 
@@ -21654,14 +21637,15 @@ var render = function() {
               _c(
                 "v-col",
                 {
-                  staticClass: "primary pl-5 pt-5",
+                  staticClass: "primary pl-5 pt-2",
                   attrs: { cols: "12", md: "12" }
                 },
                 [
                   _c(
                     "v-btn",
                     {
-                      attrs: { small: "" },
+                      staticClass: "white--text",
+                      attrs: { rounded: "", text: "" },
                       on: {
                         click: function($event) {
                           return _vm.$router.push({
@@ -21671,284 +21655,11 @@ var render = function() {
                         }
                       }
                     },
-                    [_vm._v("\n                      Back\n                  ")]
-                  )
-                ],
-                1
-              )
-            ],
-            1
-          )
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "v-container",
-        { staticClass: "fill-height", attrs: { fluid: "" } },
-        [
-          _c(
-            "v-row",
-            { attrs: { align: "center", justify: "center" } },
-            [
-              _c(
-                "v-col",
-                { attrs: { cols: "12", sm: "12", md: "5" } },
-                [
-                  _c(
-                    "v-card",
-                    { staticClass: "elevation-12" },
                     [
-                      _c(
-                        "v-window",
-                        [
-                          _c(
-                            "v-window-item",
-                            [
-                              _c(
-                                "v-row",
-                                { staticStyle: { height: "60vh" } },
-                                [
-                                  _c("v-col", {
-                                    staticClass: "primary",
-                                    staticStyle: { height: "5vh" },
-                                    attrs: { cols: "12", md: "12" }
-                                  }),
-                                  _vm._v(" "),
-                                  _c(
-                                    "v-col",
-                                    {
-                                      staticClass: "pl-7 pr-9 pt-5",
-                                      attrs: { cols: "12", md: "12" }
-                                    },
-                                    [
-                                      _c(
-                                        "v-row",
-                                        [
-                                          _c(
-                                            "v-col",
-                                            { attrs: { cols: "12" } },
-                                            [
-                                              _c(
-                                                "v-container",
-                                                {
-                                                  staticClass:
-                                                    "d-flex flex-row justify-space-between",
-                                                  attrs: {
-                                                    "ma-0": "",
-                                                    "pa-0": ""
-                                                  }
-                                                },
-                                                [
-                                                  _c(
-                                                    "v-btn",
-                                                    {
-                                                      staticClass: "mx-2",
-                                                      attrs: {
-                                                        fab: "",
-                                                        dark: "",
-                                                        color: "primary"
-                                                      }
-                                                    },
-                                                    [
-                                                      _c(
-                                                        "v-icon",
-                                                        {
-                                                          attrs: {
-                                                            "x-large": ""
-                                                          }
-                                                        },
-                                                        [
-                                                          _vm._v(
-                                                            "\n                                      mdi-book-open-variant\n                                      "
-                                                          )
-                                                        ]
-                                                      )
-                                                    ],
-                                                    1
-                                                  ),
-                                                  _vm._v(" "),
-                                                  _c(
-                                                    "div",
-                                                    {
-                                                      staticClass:
-                                                        "float-right mt-3",
-                                                      attrs: { fab: "" }
-                                                    },
-                                                    [
-                                                      _c(
-                                                        "div",
-                                                        {
-                                                          staticClass:
-                                                            "text-md-h5"
-                                                        },
-                                                        [
-                                                          _c(
-                                                            "v-icon",
-                                                            {
-                                                              attrs: {
-                                                                large: "",
-                                                                color: "primary"
-                                                              }
-                                                            },
-                                                            [
-                                                              _vm._v(
-                                                                "mdi-book-clock-outline"
-                                                              )
-                                                            ]
-                                                          ),
-                                                          _vm._v(
-                                                            " " +
-                                                              _vm._s(
-                                                                _vm
-                                                                  .classworkDetails
-                                                                  .duration
-                                                              ) +
-                                                              " mins"
-                                                          )
-                                                        ],
-                                                        1
-                                                      ),
-                                                      _vm._v(" "),
-                                                      _c(
-                                                        "div",
-                                                        {
-                                                          staticClass:
-                                                            "caption ml-2"
-                                                        },
-                                                        [
-                                                          _vm._v(
-                                                            "Due " +
-                                                              _vm._s(
-                                                                _vm.format_date(
-                                                                  _vm
-                                                                    .classworkDetails
-                                                                    .due_date
-                                                                )
-                                                              )
-                                                          )
-                                                        ]
-                                                      )
-                                                    ]
-                                                  )
-                                                ],
-                                                1
-                                              )
-                                            ],
-                                            1
-                                          ),
-                                          _vm._v(" "),
-                                          _c(
-                                            "v-col",
-                                            {
-                                              staticClass: "pl-7 pr-5",
-                                              attrs: { cols: "12" }
-                                            },
-                                            [
-                                              _c(
-                                                "div",
-                                                {
-                                                  staticClass:
-                                                    "text-sm-body-2 text-md-h5 text-xl-h3"
-                                                },
-                                                [
-                                                  _vm._v(
-                                                    _vm._s(
-                                                      _vm.classworkDetails.title
-                                                    )
-                                                  )
-                                                ]
-                                              ),
-                                              _vm._v(" "),
-                                              _c(
-                                                "div",
-                                                {
-                                                  staticClass:
-                                                    "pt-2 d-flex flex-row "
-                                                },
-                                                [
-                                                  _c(
-                                                    "div",
-                                                    { staticClass: "captions" },
-                                                    [
-                                                      _c("v-icon", [
-                                                        _vm._v(
-                                                          "mdi-circle-medium"
-                                                        )
-                                                      ]),
-                                                      _vm._v(
-                                                        _vm._s(
-                                                          _vm.totalQuestion
-                                                        ) + " Question"
-                                                      )
-                                                    ],
-                                                    1
-                                                  ),
-                                                  _vm._v(" "),
-                                                  _c(
-                                                    "div",
-                                                    { staticClass: "captions" },
-                                                    [
-                                                      _c("v-icon", [
-                                                        _vm._v(
-                                                          "mdi-circle-medium"
-                                                        )
-                                                      ]),
-                                                      _vm._v(
-                                                        _vm._s(
-                                                          _vm.totalPoints
-                                                        ) + " Points"
-                                                      )
-                                                    ],
-                                                    1
-                                                  )
-                                                ]
-                                              ),
-                                              _vm._v(" "),
-                                              _c("v-divider")
-                                            ],
-                                            1
-                                          ),
-                                          _vm._v(" "),
-                                          _c(
-                                            "v-col",
-                                            {
-                                              staticClass: "pl-10 pr-5 pb-10",
-                                              attrs: { cols: "12" }
-                                            },
-                                            [
-                                              _c(
-                                                "div",
-                                                {
-                                                  staticClass: "text-sm-body-2"
-                                                },
-                                                [
-                                                  _vm._v(
-                                                    " " +
-                                                      _vm._s(
-                                                        _vm.classworkDetails
-                                                          .instruction
-                                                      )
-                                                  )
-                                                ]
-                                              )
-                                            ]
-                                          )
-                                        ],
-                                        1
-                                      )
-                                    ],
-                                    1
-                                  )
-                                ],
-                                1
-                              )
-                            ],
-                            1
-                          )
-                        ],
-                        1
-                      )
+                      _c("v-icon", { attrs: { left: "", dark: "" } }, [
+                        _vm._v("mdi-arrow-left-thick")
+                      ]),
+                      _vm._v("\n                      Back\n                  ")
                     ],
                     1
                   )
@@ -21960,7 +21671,62 @@ var render = function() {
           )
         ],
         1
-      )
+      ),
+      _vm._v(" "),
+      _vm.isloading
+        ? _c(
+            "v-container",
+            { staticClass: "fill-height", staticStyle: { height: "500px" } },
+            [
+              _c(
+                "v-row",
+                { attrs: { "align-content": "center", justify: "center" } },
+                [
+                  _c(
+                    "v-col",
+                    {
+                      staticClass: "text-subtitle-1 text-center",
+                      attrs: { cols: "12" }
+                    },
+                    [_vm._v("\n                  Loading\n              ")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-col",
+                    { attrs: { cols: "6" } },
+                    [
+                      _c("v-progress-linear", {
+                        attrs: {
+                          color: "primary",
+                          indeterminate: "",
+                          rounded: "",
+                          height: "6"
+                        }
+                      })
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      !_vm.isloading && _vm.CurrentUser.role == "Teacher"
+        ? _c("teacherStartPage")
+        : _vm._e(),
+      _vm._v(" "),
+      !_vm.isloading && _vm.CurrentUser.role == "Student"
+        ? _c("studentStartPage", {
+            attrs: {
+              classworkDetails: _vm.classworkDetails,
+              totalPoints: _vm.totalPoints,
+              totalQuestion: _vm.totalQuestion
+            }
+          })
+        : _vm._e()
     ],
     1
   )

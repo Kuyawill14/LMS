@@ -12,12 +12,66 @@
         <notifications></notifications>
  
         <div class="text-center">
-            <v-menu :nudge-width="200" offset-y :max-width="200">
+            <v-menu
+        bottom
+        min-width="200px"
+        rounded
+        offset-y
+      >
+        <template v-slot:activator="{ on }">
+          <v-btn
+            icon
+            x-large
+            v-on="on"
+          >
+            <v-avatar
+              color="brown"
+              size="40"
+            >
+              <v-img alt="Proflie"
+                    :src="UserDetails.profile_pic == null || UserDetails.profile_pic == '' ? 'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=' + (UserDetails.firstName+' '+UserDetails.lastName) : '../../images/'+UserDetails.profile_pic">
+                </v-img>
+            </v-avatar>
+          </v-btn>
+        </template>
+        <v-card>
+          <v-list-item-content class="justify-center">
+            <div class="mx-auto text-center">
+              <v-avatar
+                color="brown"
+                size="40"
+              >
+                 <v-img alt="Proflie"
+                    :src="UserDetails.profile_pic == null || UserDetails.profile_pic == '' ? 'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=' + (UserDetails.firstName+' '+UserDetails.lastName) : '../../images/'+UserDetails.profile_pic">
+                </v-img>
+              </v-avatar>
+              <h3>{{ UserDetails.firstName+' '+UserDetails.lastName }}</h3>
+              <p class="text-caption mt-1">
+                {{ UserDetails.email }}
+              </p>
+              <v-divider class="my-3"></v-divider>
+              <v-btn @click="$router.push({name: 'profile_page'})" depressed rounded text>
+                My Profile
+              </v-btn>
+              <v-divider class="my-3"></v-divider>
+              <v-btn
+              @click="logout"
+                depressed
+                rounded
+                text
+              >
+                Logout
+              </v-btn>
+            </div>
+          </v-list-item-content>
+        </v-card>
+      </v-menu>
+          <!--   <v-menu :nudge-width="200" offset-y :max-width="200">
                 <template v-slot:activator="{ on, attrs }">
                     <v-btn icon large v-bind="attrs" v-on="on">
                         <v-avatar size="40px" item>
 
-                            <!--   <v-img src="https://cdn.vuetifyjs.com/images/logos/logo.svg" alt="Vuetify"></v-img> -->
+                           
                             <v-img alt="Proflie"
                                 :src="UserDetails.profile_pic == null || UserDetails.profile_pic == '' ? 'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=' + (UserDetails.firstName+' '+UserDetails.lastName) : '../../images/'+UserDetails.profile_pic">
                             </v-img>
@@ -40,7 +94,7 @@
                     </v-list-item>
 
                 </v-list>
-            </v-menu>
+            </v-menu> -->
         </div>
           
     </v-app-bar>

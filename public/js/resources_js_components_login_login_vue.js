@@ -109,6 +109,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -155,6 +157,8 @@ __webpack_require__.r(__webpack_exports__);
       if (this.$refs.loginForm.validate()) {
         this.form.post('/api/Userlogin').then(function (res) {
           if (res.status == 200) {
+            _this2.$store.dispatch('fetchCurrentUser');
+
             _this2.$router.push({
               path: "/"
             });
@@ -290,15 +294,28 @@ var render = function() {
                               _c(
                                 "v-row",
                                 [
-                                  _c("v-col", {
-                                    staticClass: "primary",
-                                    attrs: { cols: "12", md: "4" }
-                                  }),
+                                  _c(
+                                    "v-col",
+                                    {
+                                      staticClass: "primary",
+                                      attrs: { cols: "12", md: "4" }
+                                    },
+                                    [
+                                      _c("v-row", {
+                                        staticStyle: { height: "10vh" }
+                                      })
+                                    ],
+                                    1
+                                  ),
                                   _vm._v(" "),
                                   _c(
                                     "v-col",
                                     { attrs: { cols: "12", md: "8" } },
                                     [
+                                      _c("v-row", {
+                                        staticStyle: { height: "10vh" }
+                                      }),
+                                      _vm._v(" "),
                                       _c(
                                         "v-card-text",
                                         { staticClass: "pt-12" },

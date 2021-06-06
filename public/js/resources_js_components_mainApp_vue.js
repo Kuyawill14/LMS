@@ -61,6 +61,60 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
@@ -22665,29 +22719,25 @@ var render = function() {
           _c(
             "v-menu",
             {
-              attrs: { "nudge-width": 200, "offset-y": "", "max-width": 200 },
+              attrs: {
+                bottom: "",
+                "min-width": "200px",
+                rounded: "",
+                "offset-y": ""
+              },
               scopedSlots: _vm._u([
                 {
                   key: "activator",
                   fn: function(ref) {
                     var on = ref.on
-                    var attrs = ref.attrs
                     return [
                       _c(
                         "v-btn",
-                        _vm._g(
-                          _vm._b(
-                            { attrs: { icon: "", large: "" } },
-                            "v-btn",
-                            attrs,
-                            false
-                          ),
-                          on
-                        ),
+                        _vm._g({ attrs: { icon: "", "x-large": "" } }, on),
                         [
                           _c(
                             "v-avatar",
-                            { attrs: { size: "40px", item: "" } },
+                            { attrs: { color: "brown", size: "40" } },
                             [
                               _c("v-img", {
                                 attrs: {
@@ -22717,41 +22767,84 @@ var render = function() {
             [
               _vm._v(" "),
               _c(
-                "v-list",
+                "v-card",
                 [
-                  _c(
-                    "v-list-item",
-                    { attrs: { to: { name: "profile_page" } } },
-                    [_c("v-list-item-title", [_vm._v("My Profile")])],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-list-item",
-                    { attrs: { link: "" } },
-                    [_c("v-list-item-title", [_vm._v("Activity")])],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-list-item",
-                    { attrs: { link: "" } },
-                    [_c("v-list-item-title", [_vm._v("Message")])],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-list-item",
-                    { attrs: { link: "" } },
-                    [
-                      _c(
-                        "v-list-item-title",
-                        { attrs: { link: "" }, on: { click: _vm.logout } },
-                        [_vm._v("Logout")]
-                      )
-                    ],
-                    1
-                  )
+                  _c("v-list-item-content", { staticClass: "justify-center" }, [
+                    _c(
+                      "div",
+                      { staticClass: "mx-auto text-center" },
+                      [
+                        _c(
+                          "v-avatar",
+                          { attrs: { color: "brown", size: "40" } },
+                          [
+                            _c("v-img", {
+                              attrs: {
+                                alt: "Proflie",
+                                src:
+                                  _vm.UserDetails.profile_pic == null ||
+                                  _vm.UserDetails.profile_pic == ""
+                                    ? "https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=" +
+                                      (_vm.UserDetails.firstName +
+                                        " " +
+                                        _vm.UserDetails.lastName)
+                                    : "../../images/" +
+                                      _vm.UserDetails.profile_pic
+                              }
+                            })
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c("h3", [
+                          _vm._v(
+                            _vm._s(
+                              _vm.UserDetails.firstName +
+                                " " +
+                                _vm.UserDetails.lastName
+                            )
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("p", { staticClass: "text-caption mt-1" }, [
+                          _vm._v(
+                            "\n            " +
+                              _vm._s(_vm.UserDetails.email) +
+                              "\n          "
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("v-divider", { staticClass: "my-3" }),
+                        _vm._v(" "),
+                        _c(
+                          "v-btn",
+                          {
+                            attrs: { depressed: "", rounded: "", text: "" },
+                            on: {
+                              click: function($event) {
+                                return _vm.$router.push({
+                                  name: "profile_page"
+                                })
+                              }
+                            }
+                          },
+                          [_vm._v("\n            My Profile\n          ")]
+                        ),
+                        _vm._v(" "),
+                        _c("v-divider", { staticClass: "my-3" }),
+                        _vm._v(" "),
+                        _c(
+                          "v-btn",
+                          {
+                            attrs: { depressed: "", rounded: "", text: "" },
+                            on: { click: _vm.logout }
+                          },
+                          [_vm._v("\n            Logout\n          ")]
+                        )
+                      ],
+                      1
+                    )
+                  ])
                 ],
                 1
               )
