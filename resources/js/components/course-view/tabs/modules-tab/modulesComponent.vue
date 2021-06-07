@@ -8,10 +8,13 @@
 
                 <h1> Empty Course Module </h1>
                 <p> Creating Module, you'll be able to upload and share it with your class. </p>
-                <v-btn color="primary" @click="openModal = true"> CREATE MODULE </v-btn>
+                <v-btn color="primary" @click=" openModal()"> CREATE MODULE </v-btn>
             </v-col>
-         <addModuleModal :openModal="openModal" v-on:createdModal="UpdateAllModule()" />
-      
+
+            <v-dialog v-model="moduleDialog" persistent max-width="600px">
+
+                <ModuleForm v-on:closeModal="moduleDialog = false" v-on:createdModule="moduleLength++" />
+            </v-dialog>
         </v-row>
 
 
@@ -37,13 +40,22 @@
                 <v-col>
                     <h2 class="pb-0">Manage Modules</h2>
                 </v-col>
-                <template v-slot:activator="{ on, attrs }">
-                    <v-btn bottom color="primary" dark fab fixed right @click="dialog = !dialog" v-bind="attrs"
-                        v-on="on">
-                        <v-icon>mdi-plus</v-icon>
-                    </v-btn>
-                </template>
-                <addModuleModal />
+                  <v-col class="text-right">
+                     <v-btn bottom color="secondary" @click="preview()">
+                    <v-icon left>mdi-eye</v-icon>
+                    Preview
+                </v-btn>
+
+                </v-col>
+
+                <v-btn bottom color="primary" dark fab fixed right @click="openModal()">
+                    <v-icon>mdi-plus</v-icon>
+                </v-btn>
+
+
+                <v-dialog v-model="moduleDialog" persistent max-width="600px">
+                    <ModuleForm v-on:closeModal="moduleDialog = false" />
+                </v-dialog>
             </v-row>
 
             <v-row>
@@ -63,7 +75,7 @@
 <script>
     import VueElementLoading from 'vue-element-loading'
     //import modulesListComponent from './modulesListComponent'
-    const addModuleModal = () => import("./addModuleModal")
+    import ModuleForm from './Forms/ModuleForm'
     const modulesListComponent = () => import("./modulesListComponent")
     import {
         mapGetters,
@@ -74,12 +86,13 @@
         components: {
             VueElementLoading,
             modulesListComponent,
-            addModuleModal,
+
+            ModuleForm,
 
         },
         data() {
             return {
-                openModal: false,
+                moduleDialog: false,
                 loading: false,
                 isGetting: false,
                 moduleLength: null,
@@ -89,6 +102,13 @@
             ...mapGetters(["getmain_module", "getSub_module", "getAll_sub_module"])
         },
         methods: {
+            openModal() {
+                this.moduleDialog = !this.moduleDialog;
+            },
+            preview() {
+                var id = this.$route.params.id;
+            this.$router.push({ name: 'modules-preview', params: {id:id}});
+            },
             fetchAllModule() {
                 this.isGetting = true;
                 axios.get(
@@ -109,18 +129,18 @@
                 })
             },
             UpdateAllModule() {
-            
+
                 axios.get(
                     `/api/student_sub_module/all/${this.$route.params.id}`
                 ).then((res) => {
-                  
+
                     this.$store.dispatch('fetchMainModule', this.$route.params.id).then(() => {
-                   
-                         
-                            this.moduleLength = this.getmain_module.length;
-                       
+
+
+                        this.moduleLength = this.getmain_module.length;
+
                     });
-                   
+
 
 
                 }).catch((error) => {

@@ -1,17 +1,18 @@
 <template>
-    <v-navigation-drawer width="100%" height="100vh">
+    <div style="width:100%;">
         <v-card class="mb-2">
             <v-list-item>
 
                 <v-list-item-content>
                     <v-list-item-title class="course_content_header">
-                        Course Content
+                        Modules Content
                         <v-spacer></v-spacer>
                         <v-tooltip bottom>
                             <template v-slot:activator="{ on, attrs }">
 
-                                <v-progress-circular v-bind="attrs" v-on="on" :value="studentProgressPercentage()" :rotate="-90" :size="40"
-                                    color="green lighten-2" class="float-right"><span>{{parseInt(studentProgressPercentage())}} </span></v-progress-circular>
+                                <v-progress-circular v-bind="attrs" v-on="on" :value="studentProgressPercentage()"
+                                    :rotate="-90" :size="40" color="green lighten-2" class="float-right">
+                                    <span>{{studentProgressPercentage()}} </span></v-progress-circular>
 
                             </template>
                             <span>{{studentSubModuleProgress.length}} of {{getAll_sub_module.length}} complete</span>
@@ -24,8 +25,8 @@
 
                 </v-list-item-content>
 
-                <v-list-item-action>
-                    <v-btn icon>
+                <v-list-item-action v-if="expand">
+                    <v-btn icon @click="$emit('listClose')">
                         <v-icon color="grey lighten-1">mdi-close</v-icon>
                     </v-btn>
                 </v-list-item-action>
@@ -73,8 +74,8 @@
                 </v-expansion-panel-content>
             </v-expansion-panel>
         </v-expansion-panels>
-    
-    </v-navigation-drawer>
+
+    </div>
 </template>
 
 
@@ -84,13 +85,14 @@
         mapActions
     } from "vuex";
     export default {
-        props: ['role'],
+        props: ['role','expand'],
         components: {
 
 
         },
         data() {
             return {
+                loading: true,
                 temp_id: null,
                 showLecture: false,
                 addLink: false,
@@ -118,7 +120,7 @@
                 var data;
 
             },
-          
+
             getCount(arr, mainModule_id) {
                 var count = 0;
                 for (var i = 0; i < arr.length; i++) {
@@ -164,20 +166,24 @@
                 }
                 return check;
             },
-              fetchClass() {
+            fetchClass() {
                 this.$store.dispatch('fetchClassList').then(() => {
                     console.log('fetching class');
                 });
             },
             studentProgressPercentage() {
-                var total =  (this.studentSubModuleProgress.length /this.getAll_sub_module.length) * 100;
-                return parseFloat(total.toFixed(2));
+                if (this.getmain_module != null) {
+                    var total = (this.studentSubModuleProgress.length / this.getAll_sub_module.length) * 100;
+                    return parseInt(total.toFixed(2));
+
+                }
+
             }
 
 
         },
         async mounted() {
-              this.fetchClass();
+            this.fetchClass();
             axios.get(
                 `/api/student_sub_module/all/${this.$route.params.id}`
             ).then((res) => {
@@ -186,11 +192,12 @@
                 this.getCount(this.studentSubModuleProgress, 23);
                 this.$store.dispatch('fetchMainModule', this.$route.params.id);
                 this.$store.dispatch('fetchSubModule', this.$route.params.id);
+                this.loading = false;
             }).catch((error) => {
                 console.log(error)
             })
         },
-      
+
 
     }
 

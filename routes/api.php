@@ -125,6 +125,8 @@ Route::prefix('/notification')->group(function () {
 Route::prefix('/main_module')->group(function () {
     Route::get('/all/{id}', [MainModuleController::class, 'index']);
     Route::post('/insert', [MainModuleController::class, 'store']);
+    Route::post('/update/{id}', [MainModuleController::class, 'update']);
+    Route::delete('/delete/{id}', [MainModuleController::class, 'deleteModule']);
     Route::post('/arrange', [MainModuleController::class, 'newArrangement']);
     
 });

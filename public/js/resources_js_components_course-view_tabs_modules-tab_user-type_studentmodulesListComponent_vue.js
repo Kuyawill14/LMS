@@ -106,12 +106,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['role'],
+  props: ['role', 'expand'],
   components: {},
   data: function data() {
     return {
+      loading: true,
       temp_id: null,
       showLecture: false,
       addLink: false,
@@ -192,8 +194,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
     },
     studentProgressPercentage: function studentProgressPercentage() {
-      var total = this.studentSubModuleProgress.length / this.getAll_sub_module.length * 100;
-      return parseFloat(total.toFixed(2));
+      if (this.getmain_module != null) {
+        var total = this.studentSubModuleProgress.length / this.getAll_sub_module.length * 100;
+        return parseInt(total.toFixed(2));
+      }
     }
   },
   mounted: function mounted() {
@@ -214,6 +218,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 _this2.$store.dispatch('fetchMainModule', _this2.$route.params.id);
 
                 _this2.$store.dispatch('fetchSubModule', _this2.$route.params.id);
+
+                _this2.loading = false;
               })["catch"](function (error) {
                 console.log(error);
               });
@@ -362,8 +368,8 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "v-navigation-drawer",
-    { attrs: { width: "100%", height: "100vh" } },
+    "div",
+    { staticStyle: { width: "100%" } },
     [
       _c(
         "v-card",
@@ -380,7 +386,7 @@ var render = function() {
                     { staticClass: "course_content_header" },
                     [
                       _vm._v(
-                        "\n                    Course Content\n                    "
+                        "\n                    Modules Content\n                    "
                       ),
                       _c("v-spacer"),
                       _vm._v(" "),
@@ -418,9 +424,7 @@ var render = function() {
                                       _c("span", [
                                         _vm._v(
                                           _vm._s(
-                                            parseInt(
-                                              _vm.studentProgressPercentage()
-                                            )
+                                            _vm.studentProgressPercentage()
                                           ) + " "
                                         )
                                       ])
@@ -450,22 +454,31 @@ var render = function() {
                 1
               ),
               _vm._v(" "),
-              _c(
-                "v-list-item-action",
-                [
-                  _c(
-                    "v-btn",
-                    { attrs: { icon: "" } },
+              _vm.expand
+                ? _c(
+                    "v-list-item-action",
                     [
-                      _c("v-icon", { attrs: { color: "grey lighten-1" } }, [
-                        _vm._v("mdi-close")
-                      ])
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: { icon: "" },
+                          on: {
+                            click: function($event) {
+                              return _vm.$emit("listClose")
+                            }
+                          }
+                        },
+                        [
+                          _c("v-icon", { attrs: { color: "grey lighten-1" } }, [
+                            _vm._v("mdi-close")
+                          ])
+                        ],
+                        1
+                      )
                     ],
                     1
                   )
-                ],
-                1
-              )
+                : _vm._e()
             ],
             1
           )

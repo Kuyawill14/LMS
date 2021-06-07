@@ -8,10 +8,11 @@
                 <transition-group type="transition" name="flip-list">
                     <v-expansion-panel v-for="(itemModule, i) in mainModule" :key="'module'+i" draggable="true">
                         <span class="text-right pannel-btn">
-                            <v-btn icon float-right>
+
+                            <v-btn icon float-right @click="editModuleBtn(itemModule.id,itemModule)">
                                 <v-icon>mdi-pencil</v-icon>
                             </v-btn>
-                            <v-btn icon right>
+                            <v-btn icon right @click="deleteMoudleBtn(itemModule.id)">
                                 <v-icon>mdi-delete</v-icon>
                             </v-btn>
 
@@ -41,9 +42,27 @@
                                 </v-list-item-content>
 
                                 <v-list-item-action>
-                                    <v-btn icon>
-                                        <v-icon color="grey lighten-1">mdi-information</v-icon>
-                                    </v-btn>
+
+                                    <v-menu transition="slide-y-transition" bottom>
+                                        <template v-slot:activator="{ on, attrs }">
+                                            <v-btn icon v-bind="attrs" v-on="on">
+                                                <v-icon color="grey lighten-1">mdi-dots-vertical</v-icon>
+                                            </v-btn>
+                                        </template>
+                                        <v-list>
+                                            <v-list-item link @click="editFileBtn(itemModule.id)">
+                                                <v-list-item-title>Edit</v-list-item-title>
+
+                                            </v-list-item>
+                                            <v-list-item link @click="editLinkBtn(itemModule.id)">
+                                                <v-list-item-title>Delete</v-list-item-title>
+
+                                            </v-list-item>
+                                            <v-list-item link>
+                                                <v-list-item-title>Archive</v-list-item-title>
+                                            </v-list-item>
+                                        </v-list>
+                                    </v-menu>
                                 </v-list-item-action>
                             </v-list-item>
                             <hr v-if="getSub_module(itemModule.id).length != 0">
@@ -82,7 +101,6 @@
 
                                 </v-list-item-action>
                             </v-list-item>
-
                         </v-expansion-panel-content>
                     </v-expansion-panel>
                 </transition-group>
@@ -91,9 +109,14 @@
 
         <!-- New lecture -->
         <v-dialog v-model="itemDialog" persistent max-width="600px">
-            <addFileForm v-on:CloseLecture="itemDialog = false" :moduleId="mainModule_id" v-if="itemType == 'add_file'" />
-            <addLinkForm v-on:CloseLecture="itemDialog = false" :moduleId="mainModule_id" v-if="itemType == 'add_link'" />
-            <!-- <addClassworkForm v-on:CloseLecture="itemDialog = false" :moduleId="mainModule_id" /> -->
+            <moduleFormEdit v-on:closeModal="itemDialog = false; itemType = ''" :propModule="propModule" :type="'edit'"
+                v-if="itemType == 'edit_module'" />
+            <fileForm v-on:CloseLecture="itemDialog = false ; itemType = ''" :moduleId="mainModule_id"
+                v-if="itemType == 'add_file'" />
+            <linkForm v-on:CloseLecture="itemDialog = false; itemType = ''" :moduleId="mainModule_id"
+                v-if="itemType == 'add_link'" />
+            <deleteForm v-on:closeModal="itemDialog = false; itemType = ''" :moduleId="mainModule_id"
+                :type="'delete_module'" v-if="itemType == 'delete_module'" />
         </v-dialog>
 
 
@@ -106,25 +129,31 @@
     import draggable from "vuedraggable";
 
     import VueElementLoading from 'vue-element-loading'
-    import addFileForm from './Forms/addFileForm'
-    import addLinkForm from './Forms/addLinkForm'
+    import fileForm from './Forms/FileForm'
+    import linkForm from './Forms/LinkForm'
+    import moduleFormEdit from './Forms/ModuleForm'
+    import deleteForm from './Forms/deleteForm'
     import newClassworkForm from './Forms/NewClassworkForm'
     import {
         mapGetters,
         mapActions
     } from "vuex";
-    import axios from 'axios';
+
     export default {
         props: ['role'],
         components: {
             VueElementLoading,
-            addFileForm,
-            addLinkForm,
+            fileForm,
+            linkForm,
             newClassworkForm,
-            draggable
+            draggable,
+            moduleFormEdit,
+            deleteForm
         },
         data() {
             return {
+                moduleName: '',
+                isEdit: false,
                 itemType: '',
                 isDrag: false,
                 itemDialog: false,
@@ -135,6 +164,7 @@
                 subModuleForm: {},
                 mainModule_id: '',
                 mainModule: [],
+                propModule: [],
                 studentSubModuleProgress: [],
                 studentSubModuleProgressForm: {},
             }
@@ -164,17 +194,28 @@
             getdata() {
                 this.mainModule = this.getmain_module;
             },
+            deleteMoudleBtn(module_id) {
+                this.itemDialog = !this.itemDialog;
+                this.itemType = 'delete_module';
+                this.mainModule_id = module_id;
+            },
+            editModuleBtn(module_id, itemModule) {
 
-
+                this.itemDialog = !this.itemDialog;
+                this.propModule = itemModule;
+                console.log(this.propModule);
+                this.mainModule_id = module_id;
+                this.itemType = 'edit_module';
+            },
             addFileBtn(module_id) {
                 this.itemDialog = !this.itemDialog;
                 this.mainModule_id = module_id;
                 this.itemType = 'add_file';
             },
-             addLinkBtn(module_id) {
+            addLinkBtn(module_id) {
                 this.itemDialog = !this.itemDialog;
                 this.mainModule_id = module_id;
-                 this.itemType = 'add_link';
+                this.itemType = 'add_link';
             },
 
             classworkBtn() {

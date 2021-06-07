@@ -99,22 +99,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
@@ -593,6 +577,16 @@ __webpack_require__.r(__webpack_exports__);
       this.navBarType = this.$route.matched[1].name;
     }
   },
+  computed: {
+    newDrawer: {
+      get: function get() {
+        return this.drawer;
+      },
+      set: function set(newName) {
+        return newName;
+      }
+    }
+  },
   created: function created() {
     this.navBarType = this.$route.matched[1].name;
   } // watch: {
@@ -672,20 +666,32 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     toggle: function toggle() {
+      var _this = this;
+
       this.drawer = !this.drawer;
+      console.log(this.drawer);
+      setInterval(function () {
+        if ($('.v-overlay__scrim').length > 0 && _this.drawer == true) {
+          $('.v-overlay__scrim').click(function () {
+            this.drawer = false;
+            console.log(this.drawer);
+          });
+        }
+      }, 100);
     }
   },
   mounted: function mounted() {
-    var _this = this;
+    var _this2 = this;
 
     axios.get('/api/user').then(function (res) {
-      _this.role = res.data.role;
-      _this.UserDetails = res.data;
+      _this2.role = res.data.role;
+      _this2.UserDetails = res.data;
       console.log(res.data);
     })["catch"](function (error) {
       console.log(error);
     });
-  }
+  },
+  created: function created() {}
 });
 
 /***/ }),
@@ -731,7 +737,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.pointer[data-v-37f0c7d7] {\r\n    cursor: pointer;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.pointer[data-v-37f0c7d7] {\n    cursor: pointer;\n}\n\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -22808,9 +22814,9 @@ var render = function() {
                         _vm._v(" "),
                         _c("p", { staticClass: "text-caption mt-1" }, [
                           _vm._v(
-                            "\n            " +
+                            "\n                                " +
                               _vm._s(_vm.UserDetails.email) +
-                              "\n          "
+                              "\n                            "
                           )
                         ]),
                         _vm._v(" "),
@@ -22828,7 +22834,11 @@ var render = function() {
                               }
                             }
                           },
-                          [_vm._v("\n            My Profile\n          ")]
+                          [
+                            _vm._v(
+                              "\n                                My Profile\n                            "
+                            )
+                          ]
                         ),
                         _vm._v(" "),
                         _c("v-divider", { staticClass: "my-3" }),
@@ -22839,7 +22849,11 @@ var render = function() {
                             attrs: { depressed: "", rounded: "", text: "" },
                             on: { click: _vm.logout }
                           },
-                          [_vm._v("\n            Logout\n          ")]
+                          [
+                            _vm._v(
+                              "\n                                Logout\n                            "
+                            )
+                          ]
                         )
                       ],
                       1
@@ -23469,16 +23483,16 @@ var render = function() {
     {
       attrs: { clipped: _vm.$vuetify.breakpoint.lgAndUp, app: "" },
       model: {
-        value: _vm.drawer,
+        value: _vm.newDrawer,
         callback: function($$v) {
-          _vm.drawer = $$v
+          _vm.newDrawer = $$v
         },
-        expression: "drawer"
+        expression: "newDrawer"
       }
     },
     [
       _vm.navBarType != "selectedCourse"
-        ? _c("mainNavbar", { attrs: { role: _vm.role, drawer: _vm.drawer } })
+        ? _c("mainNavbar", { attrs: { role: _vm.role, drawer: _vm.newDrawer } })
         : _vm._e(),
       _vm._v(" "),
       _vm.navBarType == "selectedCourse"

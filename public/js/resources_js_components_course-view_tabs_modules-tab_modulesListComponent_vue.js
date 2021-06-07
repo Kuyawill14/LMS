@@ -1,112 +1,9 @@
 (self["webpackChunk"] = self["webpackChunk"] || []).push([["resources_js_components_course-view_tabs_modules-tab_modulesListComponent_vue"],{
 
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/modules-tab/Forms/NewClassworkForm.vue?vue&type=script&lang=js&":
-/*!**********************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/modules-tab/Forms/NewClassworkForm.vue?vue&type=script&lang=js& ***!
-  \**********************************************************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var vform__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vform */ "./node_modules/vform/dist/vform.es.js");
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  data: function data() {
-    return {
-      form: new vform__WEBPACK_IMPORTED_MODULE_0__.default({})
-    };
-  },
-  methods: {
-    SaveClasswork: function SaveClasswork() {
-      var _this = this;
-
-      this.form.class_id = this.$route.params.id;
-      axios.post('/api/classwork/insert', this.form).then(function (res) {
-        if (res.status == 201) {
-          _this.form.reset();
-
-          $('#Classworkmodal').modal('hide');
-          Swal.fire({
-            position: 'center',
-            icon: 'success',
-            title: 'Classwork Successfully Created',
-            showConfirmButton: false,
-            timer: 1500
-          });
-        }
-      })["catch"](function (e) {
-        console.log(e);
-      });
-    }
-  }
-});
-
-/***/ }),
-
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/modules-tab/Forms/addFileForm.vue?vue&type=script&lang=js&":
-/*!*****************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/modules-tab/Forms/addFileForm.vue?vue&type=script&lang=js& ***!
-  \*****************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/modules-tab/Forms/FileForm.vue?vue&type=script&lang=js&":
+/*!**************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/modules-tab/Forms/FileForm.vue?vue&type=script&lang=js& ***!
+  \**************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -233,10 +130,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/modules-tab/Forms/addLinkForm.vue?vue&type=script&lang=js&":
-/*!*****************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/modules-tab/Forms/addLinkForm.vue?vue&type=script&lang=js& ***!
-  \*****************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/modules-tab/Forms/LinkForm.vue?vue&type=script&lang=js&":
+/*!**************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/modules-tab/Forms/LinkForm.vue?vue&type=script&lang=js& ***!
+  \**************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -339,6 +236,198 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/modules-tab/Forms/NewClassworkForm.vue?vue&type=script&lang=js&":
+/*!**********************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/modules-tab/Forms/NewClassworkForm.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var vform__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vform */ "./node_modules/vform/dist/vform.es.js");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  data: function data() {
+    return {
+      form: new vform__WEBPACK_IMPORTED_MODULE_0__.default({})
+    };
+  },
+  methods: {
+    SaveClasswork: function SaveClasswork() {
+      var _this = this;
+
+      this.form.class_id = this.$route.params.id;
+      axios.post('/api/classwork/insert', this.form).then(function (res) {
+        if (res.status == 201) {
+          _this.form.reset();
+
+          $('#Classworkmodal').modal('hide');
+          Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: 'Classwork Successfully Created',
+            showConfirmButton: false,
+            timer: 1500
+          });
+        }
+      })["catch"](function (e) {
+        console.log(e);
+      });
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/modules-tab/Forms/deleteForm.vue?vue&type=script&lang=js&":
+/*!****************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/modules-tab/Forms/deleteForm.vue?vue&type=script&lang=js& ***!
+  \****************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  props: ['type', 'moduleId'],
+  data: function data() {
+    return {
+      loading: false,
+      dialog: false,
+      moduleForm: new Form({
+        module_name: '',
+        description: '',
+        course_id: ''
+      }),
+      class_details: '',
+      id: ''
+    };
+  },
+  methods: {
+    toastSuccess: function toastSuccess(message) {
+      return this.$toasted.success(message, {
+        theme: "toasted-primary",
+        position: "top-center",
+        icon: "done",
+        duration: 5000
+      });
+    },
+    deleteModule: function deleteModule() {
+      var _this = this;
+
+      this.$store.dispatch('deleteMainModule', this.id).then(function (res) {
+        console.log(res);
+        _this.loading = false;
+
+        _this.$emit('closeModal');
+
+        _this.toastSuccess("Module Successfully Deleted");
+      });
+    }
+  },
+  mounted: function mounted() {
+    if (this.type == 'delete_module') {
+      this.id = this.moduleId;
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/modules-tab/modulesListComponent.vue?vue&type=script&lang=js&":
 /*!********************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/modules-tab/modulesListComponent.vue?vue&type=script&lang=js& ***!
@@ -356,12 +445,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuedraggable__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vuedraggable__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var vue_element_loading__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue-element-loading */ "./node_modules/vue-element-loading/lib/vue-element-loading.min.js");
 /* harmony import */ var vue_element_loading__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(vue_element_loading__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _Forms_addFileForm__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Forms/addFileForm */ "./resources/js/components/course-view/tabs/modules-tab/Forms/addFileForm.vue");
-/* harmony import */ var _Forms_addLinkForm__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Forms/addLinkForm */ "./resources/js/components/course-view/tabs/modules-tab/Forms/addLinkForm.vue");
-/* harmony import */ var _Forms_NewClassworkForm__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Forms/NewClassworkForm */ "./resources/js/components/course-view/tabs/modules-tab/Forms/NewClassworkForm.vue");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _Forms_FileForm__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Forms/FileForm */ "./resources/js/components/course-view/tabs/modules-tab/Forms/FileForm.vue");
+/* harmony import */ var _Forms_LinkForm__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Forms/LinkForm */ "./resources/js/components/course-view/tabs/modules-tab/Forms/LinkForm.vue");
+/* harmony import */ var _Forms_ModuleForm__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Forms/ModuleForm */ "./resources/js/components/course-view/tabs/modules-tab/Forms/ModuleForm.vue");
+/* harmony import */ var _Forms_deleteForm__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Forms/deleteForm */ "./resources/js/components/course-view/tabs/modules-tab/Forms/deleteForm.vue");
+/* harmony import */ var _Forms_NewClassworkForm__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./Forms/NewClassworkForm */ "./resources/js/components/course-view/tabs/modules-tab/Forms/NewClassworkForm.vue");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 var _methods;
 
 
@@ -480,6 +569,30 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 
@@ -491,13 +604,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   props: ['role'],
   components: {
     VueElementLoading: (vue_element_loading__WEBPACK_IMPORTED_MODULE_2___default()),
-    addFileForm: _Forms_addFileForm__WEBPACK_IMPORTED_MODULE_3__.default,
-    addLinkForm: _Forms_addLinkForm__WEBPACK_IMPORTED_MODULE_4__.default,
-    newClassworkForm: _Forms_NewClassworkForm__WEBPACK_IMPORTED_MODULE_5__.default,
-    draggable: (vuedraggable__WEBPACK_IMPORTED_MODULE_1___default())
+    fileForm: _Forms_FileForm__WEBPACK_IMPORTED_MODULE_3__.default,
+    linkForm: _Forms_LinkForm__WEBPACK_IMPORTED_MODULE_4__.default,
+    newClassworkForm: _Forms_NewClassworkForm__WEBPACK_IMPORTED_MODULE_7__.default,
+    draggable: (vuedraggable__WEBPACK_IMPORTED_MODULE_1___default()),
+    moduleFormEdit: _Forms_ModuleForm__WEBPACK_IMPORTED_MODULE_5__.default,
+    deleteForm: _Forms_deleteForm__WEBPACK_IMPORTED_MODULE_6__.default
   },
   data: function data() {
     return {
+      moduleName: '',
+      isEdit: false,
       itemType: '',
       isDrag: false,
       itemDialog: false,
@@ -508,11 +625,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       subModuleForm: {},
       mainModule_id: '',
       mainModule: [],
+      propModule: [],
       studentSubModuleProgress: [],
       studentSubModuleProgressForm: {}
     };
   },
-  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_7__.mapGetters)(["getmain_module", "getSub_module", "getAll_sub_module"])), {}, {
+  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_8__.mapGetters)(["getmain_module", "getSub_module", "getAll_sub_module"])), {}, {
     dragOptions: function dragOptions() {
       return {
         animation: 0,
@@ -527,7 +645,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var _this = this;
 
       this.isDrag = true;
-      axios__WEBPACK_IMPORTED_MODULE_6___default().post("/api/main_module/arrange", {
+      axios.post("/api/main_module/arrange", {
         mainModules: this.mainModule
       }).then(function (res) {
         _this.isDrag = false;
@@ -535,6 +653,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     getdata: function getdata() {
       this.mainModule = this.getmain_module;
+    },
+    deleteMoudleBtn: function deleteMoudleBtn(module_id) {
+      this.itemDialog = !this.itemDialog;
+      this.itemType = 'delete_module';
+      this.mainModule_id = module_id;
+    },
+    editModuleBtn: function editModuleBtn(module_id, itemModule) {
+      this.itemDialog = !this.itemDialog;
+      this.propModule = itemModule;
+      console.log(this.propModule);
+      this.mainModule_id = module_id;
+      this.itemType = 'edit_module';
     },
     addFileBtn: function addFileBtn(module_id) {
       this.itemDialog = !this.itemDialog;
@@ -582,7 +712,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     this.studentSubModuleProgressForm.sub_module_id = subModule_id;
     this.studentSubModuleProgressForm.type = type;
     this.studentSubModuleProgressForm.course_id = this.$route.params.id;
-    axios__WEBPACK_IMPORTED_MODULE_6___default().post("/api/student_sub_module/insert", {
+    axios.post("/api/student_sub_module/insert", {
       studentProgress: this.studentSubModuleProgressForm
     }).then(function (res) {
       _this2.studentSubModuleProgress.push(res.data);
@@ -4396,6 +4526,84 @@ Sortable.mount(Remove, Revert);
 
 /***/ }),
 
+/***/ "./resources/js/components/course-view/tabs/modules-tab/Forms/FileForm.vue":
+/*!*********************************************************************************!*\
+  !*** ./resources/js/components/course-view/tabs/modules-tab/Forms/FileForm.vue ***!
+  \*********************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _FileForm_vue_vue_type_template_id_27765afe___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./FileForm.vue?vue&type=template&id=27765afe& */ "./resources/js/components/course-view/tabs/modules-tab/Forms/FileForm.vue?vue&type=template&id=27765afe&");
+/* harmony import */ var _FileForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./FileForm.vue?vue&type=script&lang=js& */ "./resources/js/components/course-view/tabs/modules-tab/Forms/FileForm.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__.default)(
+  _FileForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
+  _FileForm_vue_vue_type_template_id_27765afe___WEBPACK_IMPORTED_MODULE_0__.render,
+  _FileForm_vue_vue_type_template_id_27765afe___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/course-view/tabs/modules-tab/Forms/FileForm.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/course-view/tabs/modules-tab/Forms/LinkForm.vue":
+/*!*********************************************************************************!*\
+  !*** ./resources/js/components/course-view/tabs/modules-tab/Forms/LinkForm.vue ***!
+  \*********************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _LinkForm_vue_vue_type_template_id_90649108___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./LinkForm.vue?vue&type=template&id=90649108& */ "./resources/js/components/course-view/tabs/modules-tab/Forms/LinkForm.vue?vue&type=template&id=90649108&");
+/* harmony import */ var _LinkForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./LinkForm.vue?vue&type=script&lang=js& */ "./resources/js/components/course-view/tabs/modules-tab/Forms/LinkForm.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__.default)(
+  _LinkForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
+  _LinkForm_vue_vue_type_template_id_90649108___WEBPACK_IMPORTED_MODULE_0__.render,
+  _LinkForm_vue_vue_type_template_id_90649108___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/course-view/tabs/modules-tab/Forms/LinkForm.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
 /***/ "./resources/js/components/course-view/tabs/modules-tab/Forms/NewClassworkForm.vue":
 /*!*****************************************************************************************!*\
   !*** ./resources/js/components/course-view/tabs/modules-tab/Forms/NewClassworkForm.vue ***!
@@ -4437,10 +4645,10 @@ component.options.__file = "resources/js/components/course-view/tabs/modules-tab
 
 /***/ }),
 
-/***/ "./resources/js/components/course-view/tabs/modules-tab/Forms/addFileForm.vue":
-/*!************************************************************************************!*\
-  !*** ./resources/js/components/course-view/tabs/modules-tab/Forms/addFileForm.vue ***!
-  \************************************************************************************/
+/***/ "./resources/js/components/course-view/tabs/modules-tab/Forms/deleteForm.vue":
+/*!***********************************************************************************!*\
+  !*** ./resources/js/components/course-view/tabs/modules-tab/Forms/deleteForm.vue ***!
+  \***********************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -4448,8 +4656,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _addFileForm_vue_vue_type_template_id_7f154093___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./addFileForm.vue?vue&type=template&id=7f154093& */ "./resources/js/components/course-view/tabs/modules-tab/Forms/addFileForm.vue?vue&type=template&id=7f154093&");
-/* harmony import */ var _addFileForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./addFileForm.vue?vue&type=script&lang=js& */ "./resources/js/components/course-view/tabs/modules-tab/Forms/addFileForm.vue?vue&type=script&lang=js&");
+/* harmony import */ var _deleteForm_vue_vue_type_template_id_0372d2e6___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./deleteForm.vue?vue&type=template&id=0372d2e6& */ "./resources/js/components/course-view/tabs/modules-tab/Forms/deleteForm.vue?vue&type=template&id=0372d2e6&");
+/* harmony import */ var _deleteForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./deleteForm.vue?vue&type=script&lang=js& */ "./resources/js/components/course-view/tabs/modules-tab/Forms/deleteForm.vue?vue&type=script&lang=js&");
 /* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -4459,9 +4667,9 @@ __webpack_require__.r(__webpack_exports__);
 /* normalize component */
 ;
 var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__.default)(
-  _addFileForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
-  _addFileForm_vue_vue_type_template_id_7f154093___WEBPACK_IMPORTED_MODULE_0__.render,
-  _addFileForm_vue_vue_type_template_id_7f154093___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  _deleteForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
+  _deleteForm_vue_vue_type_template_id_0372d2e6___WEBPACK_IMPORTED_MODULE_0__.render,
+  _deleteForm_vue_vue_type_template_id_0372d2e6___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
   false,
   null,
   null,
@@ -4471,46 +4679,7 @@ var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__
 
 /* hot reload */
 if (false) { var api; }
-component.options.__file = "resources/js/components/course-view/tabs/modules-tab/Forms/addFileForm.vue"
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
-
-/***/ }),
-
-/***/ "./resources/js/components/course-view/tabs/modules-tab/Forms/addLinkForm.vue":
-/*!************************************************************************************!*\
-  !*** ./resources/js/components/course-view/tabs/modules-tab/Forms/addLinkForm.vue ***!
-  \************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _addLinkForm_vue_vue_type_template_id_0f6c9d11___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./addLinkForm.vue?vue&type=template&id=0f6c9d11& */ "./resources/js/components/course-view/tabs/modules-tab/Forms/addLinkForm.vue?vue&type=template&id=0f6c9d11&");
-/* harmony import */ var _addLinkForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./addLinkForm.vue?vue&type=script&lang=js& */ "./resources/js/components/course-view/tabs/modules-tab/Forms/addLinkForm.vue?vue&type=script&lang=js&");
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
-
-
-
-
-
-/* normalize component */
-;
-var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__.default)(
-  _addLinkForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
-  _addLinkForm_vue_vue_type_template_id_0f6c9d11___WEBPACK_IMPORTED_MODULE_0__.render,
-  _addLinkForm_vue_vue_type_template_id_0f6c9d11___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
-  false,
-  null,
-  null,
-  null
-  
-)
-
-/* hot reload */
-if (false) { var api; }
-component.options.__file = "resources/js/components/course-view/tabs/modules-tab/Forms/addLinkForm.vue"
+component.options.__file = "resources/js/components/course-view/tabs/modules-tab/Forms/deleteForm.vue"
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
 
 /***/ }),
@@ -4556,6 +4725,38 @@ component.options.__file = "resources/js/components/course-view/tabs/modules-tab
 
 /***/ }),
 
+/***/ "./resources/js/components/course-view/tabs/modules-tab/Forms/FileForm.vue?vue&type=script&lang=js&":
+/*!**********************************************************************************************************!*\
+  !*** ./resources/js/components/course-view/tabs/modules-tab/Forms/FileForm.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_FileForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./FileForm.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/modules-tab/Forms/FileForm.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_FileForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
+
+/***/ }),
+
+/***/ "./resources/js/components/course-view/tabs/modules-tab/Forms/LinkForm.vue?vue&type=script&lang=js&":
+/*!**********************************************************************************************************!*\
+  !*** ./resources/js/components/course-view/tabs/modules-tab/Forms/LinkForm.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_LinkForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./LinkForm.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/modules-tab/Forms/LinkForm.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_LinkForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
+
+/***/ }),
+
 /***/ "./resources/js/components/course-view/tabs/modules-tab/Forms/NewClassworkForm.vue?vue&type=script&lang=js&":
 /*!******************************************************************************************************************!*\
   !*** ./resources/js/components/course-view/tabs/modules-tab/Forms/NewClassworkForm.vue?vue&type=script&lang=js& ***!
@@ -4572,10 +4773,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/course-view/tabs/modules-tab/Forms/addFileForm.vue?vue&type=script&lang=js&":
-/*!*************************************************************************************************************!*\
-  !*** ./resources/js/components/course-view/tabs/modules-tab/Forms/addFileForm.vue?vue&type=script&lang=js& ***!
-  \*************************************************************************************************************/
+/***/ "./resources/js/components/course-view/tabs/modules-tab/Forms/deleteForm.vue?vue&type=script&lang=js&":
+/*!************************************************************************************************************!*\
+  !*** ./resources/js/components/course-view/tabs/modules-tab/Forms/deleteForm.vue?vue&type=script&lang=js& ***!
+  \************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -4583,24 +4784,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_addFileForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./addFileForm.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/modules-tab/Forms/addFileForm.vue?vue&type=script&lang=js&");
- /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_addFileForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
-
-/***/ }),
-
-/***/ "./resources/js/components/course-view/tabs/modules-tab/Forms/addLinkForm.vue?vue&type=script&lang=js&":
-/*!*************************************************************************************************************!*\
-  !*** ./resources/js/components/course-view/tabs/modules-tab/Forms/addLinkForm.vue?vue&type=script&lang=js& ***!
-  \*************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_addLinkForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./addLinkForm.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/modules-tab/Forms/addLinkForm.vue?vue&type=script&lang=js&");
- /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_addLinkForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_deleteForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./deleteForm.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/modules-tab/Forms/deleteForm.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_deleteForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
 
 /***/ }),
 
@@ -4617,6 +4802,40 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_modulesListComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./modulesListComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/modules-tab/modulesListComponent.vue?vue&type=script&lang=js&");
  /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_modulesListComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
+
+/***/ }),
+
+/***/ "./resources/js/components/course-view/tabs/modules-tab/Forms/FileForm.vue?vue&type=template&id=27765afe&":
+/*!****************************************************************************************************************!*\
+  !*** ./resources/js/components/course-view/tabs/modules-tab/Forms/FileForm.vue?vue&type=template&id=27765afe& ***!
+  \****************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_FileForm_vue_vue_type_template_id_27765afe___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_FileForm_vue_vue_type_template_id_27765afe___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_FileForm_vue_vue_type_template_id_27765afe___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./FileForm.vue?vue&type=template&id=27765afe& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/modules-tab/Forms/FileForm.vue?vue&type=template&id=27765afe&");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/course-view/tabs/modules-tab/Forms/LinkForm.vue?vue&type=template&id=90649108&":
+/*!****************************************************************************************************************!*\
+  !*** ./resources/js/components/course-view/tabs/modules-tab/Forms/LinkForm.vue?vue&type=template&id=90649108& ***!
+  \****************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_LinkForm_vue_vue_type_template_id_90649108___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_LinkForm_vue_vue_type_template_id_90649108___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_LinkForm_vue_vue_type_template_id_90649108___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./LinkForm.vue?vue&type=template&id=90649108& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/modules-tab/Forms/LinkForm.vue?vue&type=template&id=90649108&");
+
 
 /***/ }),
 
@@ -4637,36 +4856,19 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/course-view/tabs/modules-tab/Forms/addFileForm.vue?vue&type=template&id=7f154093&":
-/*!*******************************************************************************************************************!*\
-  !*** ./resources/js/components/course-view/tabs/modules-tab/Forms/addFileForm.vue?vue&type=template&id=7f154093& ***!
-  \*******************************************************************************************************************/
+/***/ "./resources/js/components/course-view/tabs/modules-tab/Forms/deleteForm.vue?vue&type=template&id=0372d2e6&":
+/*!******************************************************************************************************************!*\
+  !*** ./resources/js/components/course-view/tabs/modules-tab/Forms/deleteForm.vue?vue&type=template&id=0372d2e6& ***!
+  \******************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_addFileForm_vue_vue_type_template_id_7f154093___WEBPACK_IMPORTED_MODULE_0__.render),
-/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_addFileForm_vue_vue_type_template_id_7f154093___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_deleteForm_vue_vue_type_template_id_0372d2e6___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_deleteForm_vue_vue_type_template_id_0372d2e6___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_addFileForm_vue_vue_type_template_id_7f154093___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./addFileForm.vue?vue&type=template&id=7f154093& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/modules-tab/Forms/addFileForm.vue?vue&type=template&id=7f154093&");
-
-
-/***/ }),
-
-/***/ "./resources/js/components/course-view/tabs/modules-tab/Forms/addLinkForm.vue?vue&type=template&id=0f6c9d11&":
-/*!*******************************************************************************************************************!*\
-  !*** ./resources/js/components/course-view/tabs/modules-tab/Forms/addLinkForm.vue?vue&type=template&id=0f6c9d11& ***!
-  \*******************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_addLinkForm_vue_vue_type_template_id_0f6c9d11___WEBPACK_IMPORTED_MODULE_0__.render),
-/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_addLinkForm_vue_vue_type_template_id_0f6c9d11___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
-/* harmony export */ });
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_addLinkForm_vue_vue_type_template_id_0f6c9d11___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./addLinkForm.vue?vue&type=template&id=0f6c9d11& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/modules-tab/Forms/addLinkForm.vue?vue&type=template&id=0f6c9d11&");
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_deleteForm_vue_vue_type_template_id_0372d2e6___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./deleteForm.vue?vue&type=template&id=0372d2e6& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/modules-tab/Forms/deleteForm.vue?vue&type=template&id=0372d2e6&");
 
 
 /***/ }),
@@ -4718,6 +4920,326 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (unknown) */ var __WEBPACK_REEXPORT_OBJECT__ = {};
 /* harmony reexport (unknown) */ for(const __WEBPACK_IMPORT_KEY__ in _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_modulesListComponent_vue_vue_type_style_index_1_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== "default") __WEBPACK_REEXPORT_OBJECT__[__WEBPACK_IMPORT_KEY__] = () => _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_modulesListComponent_vue_vue_type_style_index_1_lang_css___WEBPACK_IMPORTED_MODULE_0__[__WEBPACK_IMPORT_KEY__]
 /* harmony reexport (unknown) */ __webpack_require__.d(__webpack_exports__, __WEBPACK_REEXPORT_OBJECT__);
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/modules-tab/Forms/FileForm.vue?vue&type=template&id=27765afe&":
+/*!*******************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/modules-tab/Forms/FileForm.vue?vue&type=template&id=27765afe& ***!
+  \*******************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("v-card", [
+    _c(
+      "form",
+      {
+        on: {
+          submit: function($event) {
+            $event.preventDefault()
+            return _vm.addFile($event)
+          }
+        }
+      },
+      [
+        _c("v-card-title", [
+          _c("span", { staticClass: "headline" }, [_vm._v("Add File")])
+        ]),
+        _vm._v(" "),
+        _c(
+          "v-card-text",
+          [
+            _c(
+              "v-container",
+              [
+                _c(
+                  "v-row",
+                  [
+                    _c(
+                      "v-col",
+                      { attrs: { cols: "12 pb-0" } },
+                      [
+                        _c("v-text-field", {
+                          attrs: { label: "Title", required: "" },
+                          model: {
+                            value: _vm.subModuleForm.sub_module_name,
+                            callback: function($$v) {
+                              _vm.$set(
+                                _vm.subModuleForm,
+                                "sub_module_name",
+                                $$v
+                              )
+                            },
+                            expression: "subModuleForm.sub_module_name"
+                          }
+                        })
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "v-col",
+                      { attrs: { cols: "12 pb-0" } },
+                      [
+                        _c("label", [_vm._v(" Description ")]),
+                        _vm._v(" "),
+                        _c("v-textarea", {
+                          attrs: {
+                            label: "Description",
+                            counter: "",
+                            "full-width": "",
+                            "single-line": ""
+                          },
+                          model: {
+                            value: _vm.subModuleForm.description,
+                            callback: function($$v) {
+                              _vm.$set(_vm.subModuleForm, "description", $$v)
+                            },
+                            expression: " subModuleForm.description"
+                          }
+                        })
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c("v-file-input", {
+                      ref: "inputFile",
+                      attrs: { "show-size": "", label: "Attach File" },
+                      on: { change: _vm.onFileChange }
+                    })
+                  ],
+                  1
+                )
+              ],
+              1
+            )
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c(
+          "v-card-actions",
+          [
+            _c("v-spacer"),
+            _vm._v(" "),
+            _c(
+              "v-btn",
+              {
+                attrs: {
+                  color: "blue darken-1",
+                  text: "",
+                  disabled: _vm.sending
+                },
+                on: {
+                  click: function($event) {
+                    return _vm.$emit("CloseLecture")
+                  }
+                }
+              },
+              [_vm._v("\n                Close\n            ")]
+            ),
+            _vm._v(" "),
+            _c(
+              "v-btn",
+              {
+                attrs: {
+                  color: "blue darken-1",
+                  text: "",
+                  disabled: _vm.sending
+                },
+                on: {
+                  click: function($event) {
+                    return _vm.addFile()
+                  }
+                }
+              },
+              [_vm._v("\n                Save\n            ")]
+            )
+          ],
+          1
+        )
+      ],
+      1
+    )
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/modules-tab/Forms/LinkForm.vue?vue&type=template&id=90649108&":
+/*!*******************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/modules-tab/Forms/LinkForm.vue?vue&type=template&id=90649108& ***!
+  \*******************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("v-card", [
+    _c(
+      "form",
+      {
+        on: {
+          submit: function($event) {
+            $event.preventDefault()
+            return _vm.addLecture($event)
+          }
+        }
+      },
+      [
+        _c("v-card-title", [
+          _c("span", { staticClass: "headline" }, [_vm._v("Add Link")])
+        ]),
+        _vm._v(" "),
+        _c(
+          "v-card-text",
+          [
+            _c(
+              "v-container",
+              [
+                _c(
+                  "v-row",
+                  [
+                    _c(
+                      "v-col",
+                      { attrs: { cols: "12 pb-0" } },
+                      [
+                        _c("v-text-field", {
+                          attrs: { label: "Title", required: "" },
+                          model: {
+                            value: _vm.linkForm.sub_module_name,
+                            callback: function($$v) {
+                              _vm.$set(_vm.linkForm, "sub_module_name", $$v)
+                            },
+                            expression: "linkForm.sub_module_name"
+                          }
+                        })
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "v-col",
+                      { attrs: { cols: "12 pb-0" } },
+                      [
+                        _c("v-text-field", {
+                          attrs: { label: "Link", type: "url", required: "" },
+                          model: {
+                            value: _vm.linkForm.link,
+                            callback: function($$v) {
+                              _vm.$set(_vm.linkForm, "link", $$v)
+                            },
+                            expression: "linkForm.link"
+                          }
+                        })
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "v-col",
+                      { attrs: { cols: "12 pb-0" } },
+                      [
+                        _c("label", [_vm._v(" Description ")]),
+                        _vm._v(" "),
+                        _c("v-textarea", {
+                          attrs: {
+                            label: "Description",
+                            counter: "",
+                            "full-width": "",
+                            "single-line": ""
+                          },
+                          model: {
+                            value: _vm.linkForm.description,
+                            callback: function($$v) {
+                              _vm.$set(_vm.linkForm, "description", $$v)
+                            },
+                            expression: " linkForm.description"
+                          }
+                        })
+                      ],
+                      1
+                    )
+                  ],
+                  1
+                )
+              ],
+              1
+            )
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c(
+          "v-card-actions",
+          [
+            _c("v-spacer"),
+            _vm._v(" "),
+            _c(
+              "v-btn",
+              {
+                attrs: {
+                  color: "blue darken-1",
+                  text: "",
+                  disabled: _vm.sending
+                },
+                on: {
+                  click: function($event) {
+                    return _vm.$emit("CloseLecture")
+                  }
+                }
+              },
+              [_vm._v("\n                Close\n            ")]
+            ),
+            _vm._v(" "),
+            _c(
+              "v-btn",
+              {
+                attrs: {
+                  color: "blue darken-1",
+                  text: "",
+                  disabled: _vm.sending
+                },
+                on: {
+                  click: function($event) {
+                    return _vm.addLecture()
+                  }
+                }
+              },
+              [_vm._v("\n                Save\n            ")]
+            )
+          ],
+          1
+        )
+      ],
+      1
+    )
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
 
 
 /***/ }),
@@ -4989,10 +5511,10 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/modules-tab/Forms/addFileForm.vue?vue&type=template&id=7f154093&":
-/*!**********************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/modules-tab/Forms/addFileForm.vue?vue&type=template&id=7f154093& ***!
-  \**********************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/modules-tab/Forms/deleteForm.vue?vue&type=template&id=0372d2e6&":
+/*!*********************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/modules-tab/Forms/deleteForm.vue?vue&type=template&id=0372d2e6& ***!
+  \*********************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -5005,302 +5527,82 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("v-card", [
-    _c(
-      "form",
-      {
-        on: {
-          submit: function($event) {
-            $event.preventDefault()
-            return _vm.addFile($event)
-          }
-        }
-      },
-      [
-        _c("v-card-title", [
-          _c("span", { staticClass: "headline" }, [_vm._v("Add File")])
-        ]),
-        _vm._v(" "),
-        _c(
-          "v-card-text",
-          [
-            _c(
-              "v-container",
-              [
-                _c(
-                  "v-row",
-                  [
-                    _c(
-                      "v-col",
-                      { attrs: { cols: "12 pb-0" } },
-                      [
-                        _c("v-text-field", {
-                          attrs: { label: "Title", required: "" },
-                          model: {
-                            value: _vm.subModuleForm.sub_module_name,
-                            callback: function($$v) {
-                              _vm.$set(
-                                _vm.subModuleForm,
-                                "sub_module_name",
-                                $$v
-                              )
-                            },
-                            expression: "subModuleForm.sub_module_name"
-                          }
-                        })
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "v-col",
-                      { attrs: { cols: "12 pb-0" } },
-                      [
-                        _c("label", [_vm._v(" Description ")]),
-                        _vm._v(" "),
-                        _c("v-textarea", {
-                          attrs: {
-                            label: "Description",
-                            counter: "",
-                            "full-width": "",
-                            "single-line": ""
-                          },
-                          model: {
-                            value: _vm.subModuleForm.description,
-                            callback: function($$v) {
-                              _vm.$set(_vm.subModuleForm, "description", $$v)
-                            },
-                            expression: " subModuleForm.description"
-                          }
-                        })
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c("v-file-input", {
-                      ref: "inputFile",
-                      attrs: { "show-size": "", label: "Attach File" },
-                      on: { change: _vm.onFileChange }
-                    })
-                  ],
-                  1
-                )
-              ],
-              1
-            )
-          ],
-          1
-        ),
-        _vm._v(" "),
-        _c(
-          "v-card-actions",
-          [
-            _c("v-spacer"),
-            _vm._v(" "),
-            _c(
-              "v-btn",
-              {
-                attrs: {
-                  color: "blue darken-1",
-                  text: "",
-                  disabled: _vm.sending
-                },
-                on: {
-                  click: function($event) {
-                    return _vm.$emit("CloseLecture")
-                  }
-                }
-              },
-              [_vm._v("\n                Close\n            ")]
-            ),
-            _vm._v(" "),
-            _c(
-              "v-btn",
-              {
-                attrs: {
-                  color: "blue darken-1",
-                  text: "",
-                  disabled: _vm.sending
-                },
-                on: {
-                  click: function($event) {
-                    return _vm.addFile()
-                  }
-                }
-              },
-              [_vm._v("\n                Save\n            ")]
-            )
-          ],
-          1
-        )
-      ],
-      1
-    )
-  ])
-}
-var staticRenderFns = []
-render._withStripped = true
-
-
-
-/***/ }),
-
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/modules-tab/Forms/addLinkForm.vue?vue&type=template&id=0f6c9d11&":
-/*!**********************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/modules-tab/Forms/addLinkForm.vue?vue&type=template&id=0f6c9d11& ***!
-  \**********************************************************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "render": () => (/* binding */ render),
-/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
-/* harmony export */ });
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("v-card", [
-    _c(
-      "form",
-      {
-        on: {
-          submit: function($event) {
-            $event.preventDefault()
-            return _vm.addLecture($event)
-          }
-        }
-      },
-      [
-        _c("v-card-title", [
-          _c("span", { staticClass: "headline" }, [_vm._v("Add Link")])
-        ]),
-        _vm._v(" "),
-        _c(
-          "v-card-text",
-          [
-            _c(
-              "v-container",
-              [
-                _c(
-                  "v-row",
-                  [
-                    _c(
-                      "v-col",
-                      { attrs: { cols: "12 pb-0" } },
-                      [
-                        _c("v-text-field", {
-                          attrs: { label: "Title", required: "" },
-                          model: {
-                            value: _vm.linkForm.sub_module_name,
-                            callback: function($$v) {
-                              _vm.$set(_vm.linkForm, "sub_module_name", $$v)
-                            },
-                            expression: "linkForm.sub_module_name"
-                          }
-                        })
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "v-col",
-                      { attrs: { cols: "12 pb-0" } },
-                      [
-                        _c("v-text-field", {
-                          attrs: { label: "Link", type: "url", required: "" },
-                          model: {
-                            value: _vm.linkForm.link,
-                            callback: function($$v) {
-                              _vm.$set(_vm.linkForm, "link", $$v)
-                            },
-                            expression: "linkForm.link"
-                          }
-                        })
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "v-col",
-                      { attrs: { cols: "12 pb-0" } },
-                      [
-                        _c("label", [_vm._v(" Description ")]),
-                        _vm._v(" "),
-                        _c("v-textarea", {
-                          attrs: {
-                            label: "Description",
-                            counter: "",
-                            "full-width": "",
-                            "single-line": ""
-                          },
-                          model: {
-                            value: _vm.linkForm.description,
-                            callback: function($$v) {
-                              _vm.$set(_vm.linkForm, "description", $$v)
-                            },
-                            expression: " linkForm.description"
-                          }
-                        })
-                      ],
-                      1
+  return _c(
+    "v-card",
+    [
+      _c(
+        "v-form",
+        { ref: "registerForm" },
+        [
+          _c("v-card-title", [
+            _c("span", { staticClass: "headline" }, [_vm._v("Confirmation")])
+          ]),
+          _vm._v(" "),
+          _c(
+            "v-card-text",
+            [
+              _c(
+                "v-container",
+                [
+                  _c("v-col", { attrs: { cols: "12" } }, [
+                    _vm._v(
+                      "\n                    Are you sure you want to delete this item?\n                "
                     )
-                  ],
-                  1
-                )
-              ],
-              1
-            )
-          ],
-          1
-        ),
-        _vm._v(" "),
-        _c(
-          "v-card-actions",
-          [
-            _c("v-spacer"),
-            _vm._v(" "),
-            _c(
-              "v-btn",
-              {
-                attrs: {
-                  color: "blue darken-1",
-                  text: "",
-                  disabled: _vm.sending
-                },
-                on: {
-                  click: function($event) {
-                    return _vm.$emit("CloseLecture")
+                  ])
+                ],
+                1
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-card-actions",
+            [
+              _c("v-spacer"),
+              _vm._v(" "),
+              _c(
+                "v-btn",
+                {
+                  attrs: {
+                    color: "blue darken-1",
+                    text: "",
+                    disabled: _vm.loading
+                  },
+                  on: {
+                    click: function($event) {
+                      return _vm.$emit("closeModal")
+                    }
                   }
-                }
-              },
-              [_vm._v("\n                Close\n            ")]
-            ),
-            _vm._v(" "),
-            _c(
-              "v-btn",
-              {
-                attrs: {
-                  color: "blue darken-1",
-                  text: "",
-                  disabled: _vm.sending
                 },
-                on: {
-                  click: function($event) {
-                    return _vm.addLecture()
+                [_vm._v("\n                Cancel\n            ")]
+              ),
+              _vm._v(" "),
+              _c(
+                "v-btn",
+                {
+                  attrs: {
+                    color: "blue darken-1",
+                    text: "",
+                    disabled: _vm.loading
+                  },
+                  on: {
+                    click: function($event) {
+                      return _vm.deleteModule()
+                    }
                   }
-                }
-              },
-              [_vm._v("\n                Save\n            ")]
-            )
-          ],
-          1
-        )
-      ],
-      1
-    )
-  ])
+                },
+                [_vm._v("\n                Delete\n            ")]
+              )
+            ],
+            1
+          )
+        ],
+        1
+      )
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -5381,14 +5683,31 @@ var render = function() {
                         [
                           _c(
                             "v-btn",
-                            { attrs: { icon: "", "float-right": "" } },
+                            {
+                              attrs: { icon: "", "float-right": "" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.editModuleBtn(
+                                    itemModule.id,
+                                    itemModule
+                                  )
+                                }
+                              }
+                            },
                             [_c("v-icon", [_vm._v("mdi-pencil")])],
                             1
                           ),
                           _vm._v(" "),
                           _c(
                             "v-btn",
-                            { attrs: { icon: "", right: "" } },
+                            {
+                              attrs: { icon: "", right: "" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.deleteMoudleBtn(itemModule.id)
+                                }
+                              }
+                            },
                             [_c("v-icon", [_vm._v("mdi-delete")])],
                             1
                           )
@@ -5476,15 +5795,114 @@ var render = function() {
                                   "v-list-item-action",
                                   [
                                     _c(
-                                      "v-btn",
-                                      { attrs: { icon: "" } },
+                                      "v-menu",
+                                      {
+                                        attrs: {
+                                          transition: "slide-y-transition",
+                                          bottom: ""
+                                        },
+                                        scopedSlots: _vm._u(
+                                          [
+                                            {
+                                              key: "activator",
+                                              fn: function(ref) {
+                                                var on = ref.on
+                                                var attrs = ref.attrs
+                                                return [
+                                                  _c(
+                                                    "v-btn",
+                                                    _vm._g(
+                                                      _vm._b(
+                                                        { attrs: { icon: "" } },
+                                                        "v-btn",
+                                                        attrs,
+                                                        false
+                                                      ),
+                                                      on
+                                                    ),
+                                                    [
+                                                      _c(
+                                                        "v-icon",
+                                                        {
+                                                          attrs: {
+                                                            color:
+                                                              "grey lighten-1"
+                                                          }
+                                                        },
+                                                        [
+                                                          _vm._v(
+                                                            "mdi-dots-vertical"
+                                                          )
+                                                        ]
+                                                      )
+                                                    ],
+                                                    1
+                                                  )
+                                                ]
+                                              }
+                                            }
+                                          ],
+                                          null,
+                                          true
+                                        )
+                                      },
                                       [
+                                        _vm._v(" "),
                                         _c(
-                                          "v-icon",
-                                          {
-                                            attrs: { color: "grey lighten-1" }
-                                          },
-                                          [_vm._v("mdi-information")]
+                                          "v-list",
+                                          [
+                                            _c(
+                                              "v-list-item",
+                                              {
+                                                attrs: { link: "" },
+                                                on: {
+                                                  click: function($event) {
+                                                    return _vm.editFileBtn(
+                                                      itemModule.id
+                                                    )
+                                                  }
+                                                }
+                                              },
+                                              [
+                                                _c("v-list-item-title", [
+                                                  _vm._v("Edit")
+                                                ])
+                                              ],
+                                              1
+                                            ),
+                                            _vm._v(" "),
+                                            _c(
+                                              "v-list-item",
+                                              {
+                                                attrs: { link: "" },
+                                                on: {
+                                                  click: function($event) {
+                                                    return _vm.editLinkBtn(
+                                                      itemModule.id
+                                                    )
+                                                  }
+                                                }
+                                              },
+                                              [
+                                                _c("v-list-item-title", [
+                                                  _vm._v("Delete")
+                                                ])
+                                              ],
+                                              1
+                                            ),
+                                            _vm._v(" "),
+                                            _c(
+                                              "v-list-item",
+                                              { attrs: { link: "" } },
+                                              [
+                                                _c("v-list-item-title", [
+                                                  _vm._v("Archive")
+                                                ])
+                                              ],
+                                              1
+                                            )
+                                          ],
+                                          1
                                         )
                                       ],
                                       1
@@ -5667,23 +6085,49 @@ var render = function() {
           }
         },
         [
+          _vm.itemType == "edit_module"
+            ? _c("moduleFormEdit", {
+                attrs: { propModule: _vm.propModule, type: "edit" },
+                on: {
+                  closeModal: function($event) {
+                    _vm.itemDialog = false
+                    _vm.itemType = ""
+                  }
+                }
+              })
+            : _vm._e(),
+          _vm._v(" "),
           _vm.itemType == "add_file"
-            ? _c("addFileForm", {
+            ? _c("fileForm", {
                 attrs: { moduleId: _vm.mainModule_id },
                 on: {
                   CloseLecture: function($event) {
                     _vm.itemDialog = false
+                    _vm.itemType = ""
                   }
                 }
               })
             : _vm._e(),
           _vm._v(" "),
           _vm.itemType == "add_link"
-            ? _c("addLinkForm", {
+            ? _c("linkForm", {
                 attrs: { moduleId: _vm.mainModule_id },
                 on: {
                   CloseLecture: function($event) {
                     _vm.itemDialog = false
+                    _vm.itemType = ""
+                  }
+                }
+              })
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.itemType == "delete_module"
+            ? _c("deleteForm", {
+                attrs: { moduleId: _vm.mainModule_id, type: "delete_module" },
+                on: {
+                  closeModal: function($event) {
+                    _vm.itemDialog = false
+                    _vm.itemType = ""
                   }
                 }
               })

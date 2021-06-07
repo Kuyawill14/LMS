@@ -39,7 +39,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
 
 /*     import VueElementLoading from 'vue-element-loading' */
 
@@ -53,7 +52,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       course_id: '',
       fullPage: true,
       class_id: '',
-      routeName: ''
+      routeName: '',
+      showCard: true
     };
   },
   components: {// VueElementLoading
@@ -69,10 +69,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   }),
   watch: {
     $route: function $route(to, from) {
-      this.routeName = this.$route.matched[2].name;
+      this.hideCard();
     }
   },
-  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapActions)(['fetchScourse'])), {}, {
+  methods: _objectSpread(_objectSpread({
+    hideCard: function hideCard() {
+      this.routeName = this.$route.matched[2].name;
+
+      if (this.routeName == 'student-modules' || this.routeName == 'modules-preview') {
+        this.showCard = false;
+      }
+    }
+  }, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapActions)(['fetchScourse'])), {}, {
     disconnect: function disconnect() {
       window.Echo.leave("post." + this.$route.params.id);
     },
@@ -93,6 +101,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   created: function created() {
     var _this = this;
 
+    this.hideCard();
     this.isloading = true;
     this.course_id = this.$route.params.id;
     this.routeName = this.$route.matched[2].name;
@@ -240,11 +249,11 @@ var render = function() {
   return _c(
     "div",
     [
-      _c(
-        "v-card",
-        [
-          this.routeName != "student-modules"
-            ? _c(
+      _vm.showCard
+        ? _c(
+            "v-card",
+            [
+              _c(
                 "v-img",
                 {
                   staticClass: "white--text align-end",
@@ -272,10 +281,10 @@ var render = function() {
                 ],
                 1
               )
-            : _vm._e()
-        ],
-        1
-      ),
+            ],
+            1
+          )
+        : _vm._e(),
       _vm._v(" "),
       _c("router-view", {
         attrs: { role: _vm.role, UserDetails: _vm.UserDetails }
