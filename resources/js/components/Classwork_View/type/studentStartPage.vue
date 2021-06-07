@@ -53,9 +53,9 @@
                                       <v-btn
                                       rounded
                                       color="primary"
-                                      dark
-                                     
-                                      @click="$router.push({name: 'quizstart',params: {id: $route.params.id},query: {clwk: classworkDetails.id}})"
+                                      :dark="totalQuestion != 0"
+                                      :disabled="totalQuestion == 0"
+                                      @click="start()"
                                     >
                                       Take Quiz<v-icon right dark>mdi-book-arrow-right-outline</v-icon>
                                     </v-btn>
@@ -83,6 +83,13 @@ export default {
                 return moment(String(value)).format('dddd, h:mm a')
             }
         },
+        start(){
+       
+          if(this.totalQuestion != 0){
+            localStorage.removeItem('time_remaining');
+            this.$router.push({name: 'quizstart',params: {id: this.$route.params.id},query: {clwk: this.classworkDetails.id}})
+          }
+        }
     }
 }
 </script>

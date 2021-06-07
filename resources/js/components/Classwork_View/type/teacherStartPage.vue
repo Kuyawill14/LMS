@@ -1,6 +1,10 @@
 <template>
     <v-app>
+     
          <div class="container">
+               
+
+ 
             <questionAdd></questionAdd>
          </div>
         <!--    list tab -->

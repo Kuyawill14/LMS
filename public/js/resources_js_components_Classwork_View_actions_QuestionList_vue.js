@@ -548,6 +548,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 var deleteDialog = function deleteDialog() {
   return Promise.resolve(/*! import() */).then(__webpack_require__.bind(__webpack_require__, /*! ../dialog/deleteDialog */ "./resources/js/components/Classwork_View/actions/dialog/deleteDialog.vue"));
 };
@@ -2333,6 +2335,7 @@ var render = function() {
               "v-card",
               {
                 staticClass: "pl-3 pr-3 pt-8",
+                style: _vm.preview ? "border-top:5px solid #EF6C00" : "",
                 attrs: { elevation: _vm.preview && hover ? 20 : 5 }
               },
               [
@@ -2411,8 +2414,7 @@ var render = function() {
                                             },
                                             on: {
                                               click: function($event) {
-                                                ;(_vm.isEditing = !_vm.isEditing),
-                                                  (_vm.QuetionsList.answer = "")
+                                                _vm.isEditing = !_vm.isEditing
                                               }
                                             }
                                           },
@@ -2882,9 +2884,14 @@ var render = function() {
                             ]),
                             _vm._v(" "),
                             _c("v-container", [
-                              _c("div", { staticClass: "title" }, [
-                                _vm._v(_vm._s(_vm.QuetionsList.question))
-                              ])
+                              _c(
+                                "div",
+                                {
+                                  staticClass: "title",
+                                  staticStyle: { "line-height": "1.2" }
+                                },
+                                [_vm._v(_vm._s(_vm.QuetionsList.question))]
+                              )
                             ]),
                             _vm._v(" "),
                             _c(

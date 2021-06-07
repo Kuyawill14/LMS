@@ -53,7 +53,7 @@ export default {
         }
     },
     methods:{
-          getClassworkDetails(){
+        getClassworkDetails(){
             axios.get('/api/classwork/showDetails/'+ this.$route.query.clwk)
             .then(res=>{
                this.classworkDetails = res.data.Details[0];

@@ -95,6 +95,20 @@ __webpack_require__.r(__webpack_exports__);
       if (value) {
         return moment__WEBPACK_IMPORTED_MODULE_0___default()(String(value)).format('dddd, h:mm a');
       }
+    },
+    start: function start() {
+      if (this.totalQuestion != 0) {
+        localStorage.removeItem('time_remaining');
+        this.$router.push({
+          name: 'quizstart',
+          params: {
+            id: this.$route.params.id
+          },
+          query: {
+            clwk: this.classworkDetails.id
+          }
+        });
+      }
     }
   }
 });
@@ -442,20 +456,12 @@ var render = function() {
                                               attrs: {
                                                 rounded: "",
                                                 color: "primary",
-                                                dark: ""
+                                                dark: _vm.totalQuestion != 0,
+                                                disabled: _vm.totalQuestion == 0
                                               },
                                               on: {
                                                 click: function($event) {
-                                                  return _vm.$router.push({
-                                                    name: "quizstart",
-                                                    params: {
-                                                      id: _vm.$route.params.id
-                                                    },
-                                                    query: {
-                                                      clwk:
-                                                        _vm.classworkDetails.id
-                                                    }
-                                                  })
+                                                  return _vm.start()
                                                 }
                                               }
                                             },
