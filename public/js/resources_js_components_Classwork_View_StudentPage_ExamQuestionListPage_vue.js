@@ -568,6 +568,8 @@ __webpack_require__.r(__webpack_exports__);
 
       if (format == 'pm') {
         finalHour = parseInt(hour) + 12;
+      } else {
+        finalHour = hour;
       }
 
       var SubDuration;

@@ -66,6 +66,9 @@ export default {
                 if(format == 'pm'){
                     finalHour = ((parseInt(hour)+12))
                 }
+                else{
+                    finalHour = hour;
+                }
                 
 
                 let SubDuration;
