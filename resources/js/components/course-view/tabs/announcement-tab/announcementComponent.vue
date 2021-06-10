@@ -3,7 +3,7 @@
         <v-row class="mt-3 mb-5" >
             <v-col md="12" lg="8" class="ma-auto">
                 <v-card>
-                    <announcementCreate v-on:ReloadData="connect"> </announcementCreate>
+                    <announcementCreate :UserDetails='UserDetails' v-on:ReloadData="connect"> </announcementCreate>
                 </v-card>
             </v-col>
         </v-row>

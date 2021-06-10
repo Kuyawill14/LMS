@@ -5,6 +5,8 @@ namespace App\Http\Controllers\api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\tbl_comment;
+use App\Models\tbl_like;
+
 use Illuminate\Support\Facades\DB;
 
 class CommentController extends Controller
@@ -115,5 +117,24 @@ class CommentController extends Controller
             return "successfully Remove.";
         }
         return "Comment not found";
+    }
+
+    /**
+     * Display a listing of the resource.
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function TotalLikes($id)
+    {
+        $likes = tbl_like::where('post_id', );
+       /*  $Comment = tbl_comment::where('tbl_comments.post_id', $id)
+        ->select('tbl_comments.id','tbl_comments.post_id','tbl_comments.content','tbl_comments.created_at',
+         DB::raw('CONCAT(users.firstname, " ", users.lastName) as name'),
+         'tbl_user_details.profile_pic', 'tbl_comments.id')
+        ->leftJoin('users', 'users.id','=','tbl_comments.user_id')
+        ->leftJoin('tbl_user_details', 'tbl_user_details.user_id','=','tbl_comments.user_id')
+        ->orderBy('created_at', 'ASC')
+        ->get();
+        return $Comment; */
     }
 }

@@ -46,7 +46,11 @@ let studentmodules_tab = () =>
     import ("./components/course-view/tabs/modules-tab/user-type/studentmodulesComponent");
 let classes_tab = () =>
     import ("./components/course-view/tabs/classes-tab/classesComponent");
+let studentListComponent = () =>
+    import ("./components/course-view/tabs/student-list/studentListComponent");
 
+
+    
 //Quiz Page
 let QuizPage = () =>
     import ("./components/Classwork_View/StudentPage/ExamQuestionListPage");
@@ -58,10 +62,25 @@ let courseView = () =>
 //View Classworks Details
 let classworkView = () =>
     import ("./components/Classwork_View/classworkDetailsView");
+let addQuestionTab = () =>
+    import ("./components/Classwork_View/tabs/addQuestionTab");
+let questionList = () =>
+    import ("./components/Classwork_View/tabs/questionListTab");
+
+let questionnAnalyticstab = () =>
+    import ("./components/Classwork_View/tabs/questionnAnalyticstab");
+let submissionListTab = () =>
+    import ("./components/Classwork_View/tabs/submissionListTab");
+let publishClassworkTab = () =>
+    import ("./components/Classwork_View/tabs/publishClassworkTab");
+    
+    
+    
 
 
-
-let routes = [{
+const router = new Router({
+mode: "history",
+ routes : [{
         path: "",
         component: mainApp,
         name: "mainApp",
@@ -151,6 +170,11 @@ let routes = [{
                         component: studentmodules_tab
                     },
                     {
+                        name: "Student-list",
+                        path: "Student-list",
+                        component: studentListComponent
+                    },
+                    {
                         name: "about",
                         path: "about",
                         component: about_tab
@@ -182,8 +206,36 @@ let routes = [{
     {
         path: "/classwork/:id",
         component: classworkView,
-        name: "clwk",
-        props: true
+      
+        props: true,
+        children:[
+            {
+                name: "clwk",
+                path: "add-question",
+                component: addQuestionTab
+            },
+            {
+                name: "question-list",
+                path: "question-list",
+                component: questionList
+            },
+            {
+                name: "submission-list",
+                path: "submission-list",
+                component: submissionListTab
+            },
+            {
+                name: "question-analytics",
+                path: "question-analytics",
+                component: questionnAnalyticstab
+            },
+            {
+                name: "publish-to",
+                path: "publish-to",
+                component: publishClassworkTab
+            }
+
+        ]
     },
     {
         path: "/quiz/:id",
@@ -210,10 +262,26 @@ let routes = [{
     //     path: "/nopermission",
     //     component: error404
     // }
-];
+    
+]
+})
 
-export default new Router({
+/* router.beforeEach((to, from, next) => {
+    
+    if (to.name) {
+        app.$Progress.start();
+    }
+    
+    next()
+  })
+  router.afterEach(() => {
+    app.$Progress.finish();
+  })
+ */
+/* export default new Router({
     mode: "history",
 
     routes
 });
+ */
+export default router

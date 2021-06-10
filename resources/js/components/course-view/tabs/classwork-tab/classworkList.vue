@@ -11,7 +11,6 @@
 
      
             <v-row class="pl-1 pr-1" ma-0 pa-0>
-            <!--  <vue-element-loading :active="isLoading" spinner="bar-fade-scale" /> -->
                 <v-col cols="12" lg="6" v-for="(item, index) in classworks" :key="index">
                         <v-card >
                             <v-container class="pl-3 pr-3 pt-5 pb-5 d-flex flex-row justify-space-between">
@@ -55,7 +54,7 @@
                                 <v-tooltip v-if="role == 'Student'" top>
                                     <template v-slot:activator="{ on, attrs }">
                                         <v-btn
-                                        @click="$router.push({name: 'clwk',params: {id: $route.params.id},query: {clwk: item.id}})"
+                                        @click="$router.push({name: 'clwk',params: {id: $route.params.id},query: {clwk: item.classwork_id}})"
                                         class="mt-1 mr-5 pa-2 mx-1" icon
                                         v-bind="attrs"
                                         v-on="on"

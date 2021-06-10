@@ -2,9 +2,9 @@
   <v-app>
       <v-container fluid>
            <v-row>
-                <v-col  cols="12" md="12" class="primary pl-5 pt-2">
-                    <v-btn rounded text="" class="white--text"
-                    @click="$router.push({name: 'classwork',params: {id: $route.params.id}})" >
+                <v-col  cols="12" md="12" class="pl-5 pt-2">
+                    <v-btn rounded text="" class=""
+                    @click="$router.push({name: 'classwork'})" >
                         <v-icon left dark>mdi-arrow-left-thick</v-icon>
                         Back
                     </v-btn>

@@ -114,7 +114,8 @@
                             </v-card-text>
                             <v-container ma-0 pa-0 class="pb-5 pl-5 pr-5">
                                 <v-btn  
-                                  :disabled="!valid" 
+                                  :disabled="!valid"
+                                  :loading="isSubmit"
                                    @click="validate"
                                   color="primary" class="mb-5">
                                     <v-icon class="mr-3">mdi-login</v-icon>
@@ -123,17 +124,16 @@
 
                                 <v-container ma-0 pa-0 class="mt-2">
                                     <h3>Sign Up with Social media</h3>
-                                        <v-btn  color="blue" class="mb-3 mt-1 mr-5 white--text">
-                                        <v-icon class="mr-3">mdi-facebook</v-icon>
-                                    Facebook
+                                        <v-btn color="blue" class="mb-3 mt-1 mr-5 white--text">
+                                        <v-icon :class="$vuetify.breakpoint.xs ? '': 'mr-3'">mdi-facebook</v-icon>
+                                    {{$vuetify.breakpoint.xs ? '':'Facebook'}}
                                     </v-btn>
 
                                     <v-btn  color="red darken-1" class="mb-3 mt-1 white--text">
-                                        <v-icon class="mr-3">mdi-google-plus</v-icon>
-                                    Google Plus
+                                        <v-icon :class="$vuetify.breakpoint.xs ? '': 'mr-3'">mdi-google-plus</v-icon>
+                                     {{$vuetify.breakpoint.xs ? '':' Google Plus'}}
                                     </v-btn>
                                 </v-container>
-                                
                             </v-container> 
                             </v-col> 
                         </v-row>
@@ -160,7 +160,8 @@ export default {
           email: "",
           password: "",
           password_confirmation: "",
-          role: ""
+          role: "",
+          isSubmit:false
       }),
        nameRules: [
         v => !!v || 'Field is required',
@@ -190,12 +191,17 @@ export default {
       console.log(this.form);
     },
     validate() {
+      
       if (this.$refs.RegisterForm.validate()) {
+         this.isSubmit = true;
           this.form.post('/api/registerUser')
           .then(() => {
                 console.log("Success");
-                this.form.reset()
+                this.$refs.RegisterForm.reset()
                 this.valid = true;
+              
+                  this.isSubmit = false;
+          
             })
       }
     },

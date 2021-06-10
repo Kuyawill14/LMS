@@ -1,19 +1,22 @@
 <template>
-    <v-container class="mb-0 pb-0 mt-2" >
+    <v-container class="mb-0 pb-0 mt-2">
     <v-row  align-content="center" justify="center">
-        <v-col class="text-subtitle-1 text-center" cols="11" md="10" lg="10">
-            <v-card class="pt-5">
+        <v-col class="text-subtitle-1 text-center" cols="12" md="10" lg="10" xl="12">
+            <v-card :class="!isLoaded ? 'pt-5 pb-5': 'pt-5'">
                 <div class="ma-0 pa-0 title">Time Remaining</div>
-                <v-container class="d-flex justify-center">
-                    <div fab class="pa-3">
+                <v-container v-if="isLoaded" class="d-flex justify-center">
+                    
+                    <div v-if="displayHours != 0" fab class="">
                         <div class="text-md-h5">{{displayHours}}</div>
                         <div class="caption ml-2">Hours</div>  
                     </div>
-                     <div fab class="pa-3">
+                    {{displayHours != 0 ? ':' : ''}}
+                     <div fab class="">
                         <div class="text-md-h5">{{displayMinutes}}</div>
                         <div class="caption ml-2">Minutes </div>  
                     </div>
-                      <div fab class="pa-3">
+                    :
+                      <div fab class="">
                         <div class="text-md-h5">{{displaySeconds}}</div>
                         <div class="caption ml-2">Seconds </div>  
                     </div>
@@ -26,11 +29,13 @@
 <script>
 import moment from 'moment';
 export default {
+    props:['duration'],
     data: ()=> ({
         displayHours: 0,
         displayMinutes: 0,
         displaySeconds: 0,
-        duration:''
+        SecondProgress:1000,
+        isLoaded: false
     }),
     computed: {
         _seconds:()=>1000,
@@ -51,131 +56,103 @@ export default {
             }
         },
         ShowTimer(){
-            const EndDate = new Date();
-          
+            const StartTime = new Date();
+            
             let finalHour;
-            let format = moment(EndDate).format('a');
-            let hour = moment(EndDate).format('h');
-            let minutes = moment(EndDate).format('mm');
+            let format = moment(StartTime).format('a');
+            let hour = moment(StartTime).format('h');
+            let minutes = moment(StartTime).format('mm');
 
-            const year = moment(EndDate).format('YYYY');
-            const month = moment(EndDate).format('M');
-            const day = moment(EndDate).format('D');
+            let finalSeconds;
+            let seconds_tic = localStorage.getItem('seconds_tic')
+            if(seconds_tic == null){ 
+                finalSeconds = parseInt(moment(StartTime).format('ss'))+1;
+                localStorage.setItem('seconds_tic', finalSeconds);
+            }
+            else{
+                finalSeconds = parseInt(localStorage.getItem('seconds_tic'))+1;
+            }
+            
+           
+            const year = moment(StartTime).format('YYYY');
+            const month = moment(StartTime).format('M');
+            const day = moment(StartTime).format('D');
 
-        
-                if(format == 'pm'){
-                    finalHour = ((parseInt(hour)+12))
+            finalHour = format == 'pm' ? ((parseInt(hour)+12)) : hour;
+
+            if(format == 'pm'){
+                if(parseInt(hour) == 12){
+                    finalHour = hour;
+                }
+                else{
+                    finalHour = (parseInt(hour)+12);
+                }
+            }
+            else{
+                if(parseInt(hour) == 12){
+                    finalHour = 0;
                 }
                 else{
                     finalHour = hour;
                 }
-                
-
-                let SubDuration;
-                let subMinutes = localStorage.getItem('time_remaining');
-                if(subMinutes == null){
-                    localStorage.setItem('time_remaining', this.duration);
-                    SubDuration = this.duration
-                }
-                else{
-                     SubDuration = (parseInt(subMinutes))
-                }
-
-                let letFinalMinutes = ((SubDuration-1)+(parseInt(minutes)));
-                
-
-                const timer = setInterval(()=>{
               
-                const nowDate = new Date();
-                const endDate = new Date(2021,6,6,finalHour,letFinalMinutes,60,10);
-                const timeRemain = endDate.getTime() - nowDate.getTime();
-                
+            }
 
-        
-                let time = timeRemain; 
-                let saved_countdown = localStorage.getItem('saved_countdown');      
-                
+            let SubDuration;
+            let subMinutes = localStorage.getItem('time_remaining');
+            if(subMinutes == null){
+                localStorage.setItem('time_remaining', this.duration);
+                SubDuration = this.duration
+            }
+            else{
+                SubDuration = (parseInt(subMinutes))
+            }
 
-                if(saved_countdown == null) {
-                    // Set the time we're counting down to using the time allowed
-                    let new_countdown = new Date().getTime();
-                    time = new_countdown;
-                    localStorage.setItem('saved_countdown', new_countdown);
-                } else {
-                    time = saved_countdown;
-                }
-
-                
-              
-
-
-
-                const days = Math.floor(timeRemain/this._day);
-                const hours = Math.floor((timeRemain % this._day)/this._hour);
-                const minutes = Math.floor((timeRemain % this._hour)/this._minutes);
-                const second = Math.floor((timeRemain % this._minutes)/this._seconds);
-                this.displayHours = hours < 10 ?"0" + hours :hours;
-                this.displayMinutes = minutes < 10 ?"0" + minutes :minutes;
-                this.displaySeconds = second < 10 ?"0" + second :second; 
-                
-                if(second == 0){
-                    let remai_time = this.displayMinutes;
-                    localStorage.setItem('time_remaining', remai_time);
-                    
-                    let check = localStorage.getItem('time_remaining');
-                    console.log(check)
-                    if(check == '00'){
-                        alert("Success");
-                        clearInterval(timer);
-                        localStorage.removeItem('time_remaining');
-                    }
-                   
-                }
-
-                
-
+            let letFinalMinutes = ((SubDuration)+(parseInt(minutes)));
+  
          
-              /*   else if(subMinutes <= 0){
-                    clearInterval(timer);
-                    alert("Success")
-                } */
-               /*  this.displayMinutes = this.duration < 10 ?"0" + this.duration :this.duration */
-                /* const now = new Date();
-                const distance = time - now;
-                let counter = Math.floor((distance % (1000 * 60)) / 1000);
-                 this.displaySeconds = counter < 10 ?"0" + counter :counter;
-                //console.log(counter)
-
-                if(counter <= 0){
-                    clearInterval(timer);
-                    localStorage.removeItem('saved_countdown');
-                  
-                } */
-                 //this.displaySeconds = counter < 10 ?"0" + second :second;
-
-
-                /* const now = new Date();
-                const end = new Date(year,month,day,finalHour,letFinalMinutes,60,10);
-                const timeRemain = end.getTime() - now.getTime();
-
                 
-                const days = Math.floor(timeRemain/this._day);
-                const hours = Math.floor((timeRemain % this._day)/this._hour);
-                const minutes = Math.floor((timeRemain % this._hour)/this._minutes);
-                const second = Math.floor((timeRemain % this._minutes)/this._seconds);
-                this.displayHours = hours < 10 ?"0" + hours :hours;
-                this.displayMinutes = minutes < 10 ?"0" + minutes :minutes;
-                this.displaySeconds = second < 10 ?"0" + second :second; */
+
+   
+                
+
+            const timer = setInterval(()=>{
+            
+            const nowDate = new Date();
+            const endDate = new Date(year,month,day,finalHour,letFinalMinutes,finalSeconds);
+            const timeRemain = endDate.getTime() - nowDate.getTime();
+            
+            const days = Math.floor(timeRemain/this._day);
+            const hours = Math.floor((timeRemain % this._day)/this._hour);
+            const minutes = Math.floor((timeRemain % this._hour)/this._minutes);
+            const second = Math.floor((timeRemain % this._minutes)/this._seconds);
+            this.displayHours = hours < 10 ?"0" + hours :hours;
+            this.displayMinutes = minutes < 10 ?"0" + minutes :minutes;
+
+
+                this.displaySeconds = second < 10 ?"0" + second :second;
+
+                this.SecondProgress =   (this.displaySeconds / 100)
+
+                if(second == 0){
+                    let remain_time =parseInt((localStorage.getItem('time_remaining'))-1);
+                    localStorage.setItem('time_remaining', remain_time);
+                    let check = localStorage.getItem('time_remaining');
+                    if(check == '0'){
+                        clearInterval(timer);
+                        this.$router.push({path: '/'});
+                        localStorage.removeItem('time_remaining');
+                        localStorage.removeItem('seconds_tic');
+                    }
+                }
+                this.isLoaded = true;
             },1000)
+            
         }
     },
     mounted(){
-         axios.get('/api/classwork/showDetails/'+ this.$route.query.clwk)
-        .then(res=>{
-            this.duration = res.data.Details[0].duration;
-            this.ShowTimer();
-        })
         
+         this.ShowTimer();
      
        
 

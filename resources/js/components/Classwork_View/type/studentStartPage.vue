@@ -90,6 +90,9 @@ export default {
             this.$router.push({name: 'quizstart',params: {id: this.$route.params.id},query: {clwk: this.classworkDetails.id}})
           }
         }
+    },
+    beforeMount(){
+      window.history.forward(1)
     }
 }
 </script>

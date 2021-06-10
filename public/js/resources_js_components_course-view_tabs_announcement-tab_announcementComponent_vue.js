@@ -21664,7 +21664,12 @@ var render = function() {
             [
               _c(
                 "v-card",
-                [_c("announcementCreate", { on: { ReloadData: _vm.connect } })],
+                [
+                  _c("announcementCreate", {
+                    attrs: { UserDetails: _vm.UserDetails },
+                    on: { ReloadData: _vm.connect }
+                  })
+                ],
                 1
               )
             ],

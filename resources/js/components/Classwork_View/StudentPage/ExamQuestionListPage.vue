@@ -2,10 +2,17 @@
 <template>
 <v-app>
 
+<v-dialog v-model="dialog" persistent max-width="550">
+    <confirmDialog
+    v-on:toggleCancelDialog="dialog = !dialog"
+    v-on:toggleSubmit="SubmitAnswer()"
+     v-if="dialog"></confirmDialog>
+</v-dialog>
+
 <v-container class="fill-height" v-if="isLoading" style="height: 600px;">
     <v-row  align-content="center" justify="center">
         <v-col class="text-subtitle-1 text-center" cols="12">
-            Loading Questions
+            {{isSubmitting? 'Submitting Questions':'Loading Questions'}}
         </v-col>
         <v-col cols="6">
             <v-progress-linear color="primary" indeterminate rounded height="6"></v-progress-linear>
@@ -14,7 +21,7 @@
 </v-container>
 
 <div>
-    <quizTimer v-if="!isLoading"></quizTimer>
+    <quizTimer :duration="duration" v-if="!isLoading"></quizTimer>
 </div>
 
 
@@ -22,8 +29,8 @@
   <v-container  fluid>
         <v-row align="center" justify="center">
            
-            <v-col cols="12" sm="12" md="8">
-                <v-container class="d-flex flex-row">
+            <v-col cols="12" sm="12" md="8" lg="8" xl="8">
+                <v-container class="d-flex flex-row justify-center">
                     <v-card style="border-top:5px solid #EF6C00" :class="$vuetify.breakpoint.xs? 'd-none mr-0':'mr-2'" >
                       <v-window >
                           <v-window-item >
@@ -44,16 +51,15 @@
                       </v-window>
                     </v-card>
 
-                      <v-card style="border-top:5px solid #EF6C00">
+                      <v-card style="border-top:5px solid #EF6C00;width:100%">
                         <v-window>
                             <v-window-item >
                                 <v-row>
                                     <v-row>
-                                        <v-col cols="12" md="12" class="primary">
+                                        <v-col cols="12" md="12" lg="12" class="primary">
                                             
                                         </v-col>
-                                        <v-col cols="12" md="12" class="pa-10">
-                                            
+                                        <v-col  cols="12" md="12" lg="12" class="pa-10">
                                             <v-container ma-0 pa-0 v-for="(item, index) in getAll_questions.Question" :key="index">
                                             <div v-show="index === questionIndex">
                                                     <v-row ma-0 pa-0>
@@ -67,38 +73,40 @@
                                             
                                                         <v-col class=" mt-0 pt-1" cols="12" md="11" lg="11">
                                                             <v-container ma-0 pa-0 class="ma-0 pa-0">
-                                                                <div :style="$vuetify.breakpoint.xs ? 'line-height:1.2': ''" class="subtitle-1">{{item.question}}</div>
+                                                                <div :style="$vuetify.breakpoint.xs ? 'line-height:1.1': ''" class="subtitle-1">{{item.question}}</div>
                                                             </v-container> 
                                                         </v-col>
                                             
                                                     </v-row>
                                                     
                                                     <v-container v-if="item.type == 'Multiple Choice'">
-                                                        <v-form ref="form" v-model="valid" lazy-validation>
-                                                        <v-container ma-0 pa-0>
-                                                            <v-container class="d-flex flex-row ma-0 pa-0 mb-1" v-for="(Ans, i) in getAll_questions.Answer[index]" :key="i">
-                                                            <v-radio-group :name="'option'+index"  class="ma-0 pa-0" v-model="AnswerRadio[index]">
-                                                                <v-radio
-                                                                
-                                                                @click="PickAnswers.ans = AnswerRadio[index],
-                                                                PickAnswers_id.quesId = item.id, 
-                                                                Questype = item.type, checker[index] = AnswerRadio[index]"
-                                                                color="primary"
-                                                                :key="index"
-                                                                @mouseup="reset(index,index)"
-                                                                :value="Ans.Choice"
-                                                                ></v-radio>
-                                                                </v-radio-group>
-                                                                <div style="line-height:1.4" class="Subtitle-1 ma-0 pa-0">
-                                                                    {{Ans.Choice}}
-                                                                </div>
-                                                                </v-container>
+                                                      <v-row>
+                                                          <v-col cols="12" md="12">
+                                                            <v-container>
+                                                                <v-container class="d-flex flex-row ma-0 pa-0 mb-1" v-for="(Ans, i) in getAll_questions.Answer[index]" :key="i">
+                                                                <v-radio-group :name="'option'+index"  class="ma-0 pa-0" v-model="AnswerRadio[index]">
+                                                                    <v-radio
+                                                                    
+                                                                    @click="PickAnswers.ans = AnswerRadio[index],
+                                                                    PickAnswers_id.quesId = item.id, 
+                                                                    Questype = item.type, checker[index] = AnswerRadio[index]"
+                                                                    color="primary"
+                                                                    :key="index"
+                                                                    @mouseup="reset(index,index)"
+                                                                    :value="Ans.Choice"
+                                                                    ></v-radio>
+                                                                    </v-radio-group>
+                                                                    <div style="line-height:1.4" class="Subtitle-1 ma-0 pa-0">
+                                                                        {{Ans.Choice}}
+                                                                    </div>
+                                                                    </v-container>
 
-                                                                <v-container class="mb-0 pb-0 d-flex flex-row-reverse">
-                                                                    <v-btn @click="reset(index,index)" text rounded small>Reset selection</v-btn>
+                                                                    <v-container class="mb-0 pb-0 d-flex flex-row-reverse">
+                                                                        <v-btn @click="reset(index,index)" text rounded small>Reset selection</v-btn>
+                                                                    </v-container>
                                                                 </v-container>
-                                                            </v-container>
-                                                        </v-form>
+                                                            </v-col>
+                                                        </v-row>
                                                     </v-container>
 
                                                     <v-container v-if="item.type == 'Identification'">
@@ -139,15 +147,15 @@
                                                                 </v-container>
                                                         </v-container>
                                                     </v-container>
-                                                <!--  
+                                                
 
                                                 
 
-                                                    <v-container v-if="item.type == 'Two Colums Multiple Choice'">
+                                                    <v-container class="mb-4" v-if="item.type == 'Two Colums Multiple Choice'">
                                                         <v-row ma-0 pa-0>
                                                                 <v-col  ma-0 pa-0 class="ma-0 pa-0 mb-3" cols="12" lg="12" md="12">
                                                                 <v-row>
-                                                                    <v-col cols="7">
+                                                                    <v-col cols="8">
                                                                         <div class="mt-1 text-sm-h3 text-md-h5 text-xl-h3">
                                                                             Column A 
                                                                             </div>
@@ -161,10 +169,30 @@
                                                                 </v-col>
                                                                 <v-col ma-0 pa-0 class="ma-0 pa-0" cols="12" lg="12" md="12" v-for="(Ans, i) in getAll_questions.Answer[index].SubQuestion" :key="i">
                                                                     <v-row>
+                                                                        <v-col class="mb-0 pb-0"  cols="2" sm="2" md="1" lg="1" xl="1">
+                                                                            <v-text-field class="centered-input" 
+                                                                             @onkeyup="SubAnswers[i] = SubAnswers[i].toUpperCase()" v-model="SubAnswers[i]" 
+                                                                             @change="quesNumber[i] = Ans.id,  PickAnswers_id.quesId = item.id, Questype = item.type"
+                                                                            single-line ></v-text-field>
+                                                                        </v-col>
+
+                                                                         <v-col class="mb-0 pb-0"  cols="6" sm="6" md="7" lg="7" xl="7">
+                                                                            <div :style="$vuetify.breakpoint.xs ? 'line-height:1.2': 'line-height:1.3'" 
+                                                                            :class="$vuetify.breakpoint.xs ? 'OVERLINE mt-4' : 'subtitle-1 mt-4'">
+                                                                                {{Ans.sub_question}}</div>
+                                                                        </v-col>
+                                                                           <v-col class="mb-0 pb-0" cols="4" sm="4" md="4" lg="4" xl="4">
+                                                                            <div :style="$vuetify.breakpoint.xs ? 'line-height:1.2': 'line-height:1.3'" 
+                                                                            :class="$vuetify.breakpoint.xs ? 'OVERLINE mt-4' : 'subtitle-1 mt-4'">
+                                                                                <span class="font-weight-medium">{{Alphabet[i]}}</span>. {{getAll_questions.Answer[index].SubAnswer[i].Choice}}</div>
+                                                                        </v-col>
+                                                                        
+                                                                    </v-row>
+                                                                   <!--  <v-row>
                                                                         <v-col cols="6" class="pt-0 pb-0 mt-0 mb-0">
                                                                             <v-textarea
                                                                                 rows="1"
-                                                                                :readonly="!isEditing || isEditing_Id != item.id"
+                                                                          
                                                                                 v-model="Ans.sub_question"
                                                                                 filled
                                                                                 class="pa-0 ma-0"
@@ -178,7 +206,7 @@
                                                                     <v-col cols="5" class="pt-0 pb-0 mt-0 mb-0">
                                                                             <v-textarea
                                                                                 rows="1"
-                                                                                :readonly="!isEditing || isEditing_Id != item.id"
+                                                                               
                                                                                 v-model="getAll_questions.Answer[index].SubAnswer[i].Choice"
                                                                                 filled
                                                                                 class="pa-0 ma-0"
@@ -188,10 +216,10 @@
                                                                                 >
                                                                                 </v-textarea>
                                                                         </v-col>
-                                                                </v-row>
+                                                                </v-row> -->
                                                                 </v-col>
                                                             </v-row>
-                                                    </v-container> -->
+                                                    </v-container>
 
                                             </div>
                                             </v-container>
@@ -203,10 +231,18 @@
                                                     
                                                     </v-btn>
 
-                                                <v-btn rounded color="primary" @click="next">
+                                                    <v-btn v-if="questionIndex != Qlength-1"   rounded color="primary" @click="next">
                                                     {{$vuetify.breakpoint.xs ? '' : 'Next'}}
                                                     <v-icon>mdi-arrow-right</v-icon>
                                                     </v-btn>
+
+
+                                                    <v-btn v-if="questionIndex == Qlength-1"  rounded color="success" @click="SubmitPromp">
+                                                    Submit
+                                                    <v-icon>mdi-lock</v-icon>
+                                                    </v-btn>
+
+
 
                                                 <!--  <div v-if="questionIndex > 0" class="col-7 mt-2 text-right">
                                                     <button type="button" class="btn btn-secondry" v-if="questionIndex > 0"  @click="prev"><i class="fa fa-arrow-left" aria-hidden="true"></i> previous</button>  
@@ -232,11 +268,13 @@
 
 </template>
 <script>
+import confirmDialog from './confirmDialog'
 import quizTimer from './QuizTimer'
  import {mapGetters, mapActions } from "vuex";
 export default {
     components:{
-        quizTimer
+        quizTimer,
+        confirmDialog
     },
     data(){
         return{
@@ -244,8 +282,7 @@ export default {
             checker:[],
             dialog:false,
             inputCheck:['True','False'],
-            isRemoving:false,
-            isRemoving_id:null,
+            isSubmitting:false,
             Qlength:'',
             isStart: false,
             isEditing_Id:'',
@@ -256,14 +293,22 @@ export default {
             PickAnswers: {},
             PickAnswers_id: {},
             FinalAnswers: [],
+            SubAnswers: [],
+            quesNumber: [],
             AnswerRadio:[],
             Questype: "",
             questionIndex: 0,
+            duration:'',
+            Alphabet: ""
         }
     },
     computed: 
     mapGetters(["getAll_questions"]),
     methods:{
+        SubmitPromp(){
+            this.isRemoving = true;
+            this.dialog = true;;
+        },
         reset (value,index) {
         if (this.AnswerRadio[index] === value) {
             this.$nextTick(() => {
@@ -356,7 +401,7 @@ export default {
                 }
             }
 
-            if (this.Questype == 4) {
+            if (this.Questype == 'Two Colums Multiple Choice') {
                 if (this.FinalAnswers.length != 0) {
                     let check = false;
                     let index = 0;
@@ -371,10 +416,10 @@ export default {
                     }
                     if (check == true) {
                         let Ans = new Array();
-                         for (let i = 0; i < this.Questions.Answer[this.questionIndex].SubAnswer.length; i++) {
-                            for (let x = 0; x < this.Questions.Answer[this.questionIndex].SubAnswer.length; x++) {
+                         for (let i = 0; i < this.getAll_questions.Answer[this.questionIndex].SubAnswer.length; i++) {
+                            for (let x = 0; x < this.getAll_questions.Answer[this.questionIndex].SubAnswer.length; x++) {
                                 if(this.Alphabet[x].toUpperCase() == this.SubAnswers[i].toUpperCase()){
-                                        Ans[i] = this.Questions.Answer[this.questionIndex].SubAnswer[x].Choice;
+                                        Ans[i] = this.getAll_questions.Answer[this.questionIndex].SubAnswer[x].Choice;
                                     } 
                                 }     
                         }
@@ -387,10 +432,10 @@ export default {
                         console.log(this.FinalAnswers);
                     } else {
                         let Ans = new Array();
-                         for (let i = 0; i < this.Questions.Answer[this.questionIndex].SubAnswer.length; i++) {
-                            for (let x = 0; x < this.Questions.Answer[this.questionIndex].SubAnswer.length; x++) {
+                         for (let i = 0; i < this.getAll_questions.Answer[this.questionIndex].SubAnswer.length; i++) {
+                            for (let x = 0; x < this.getAll_questions.Answer[this.questionIndex].SubAnswer.length; x++) {
                                 if(this.Alphabet[x].toUpperCase() == this.SubAnswers[i].toUpperCase()){
-                                        Ans[i] = this.Questions.Answer[this.questionIndex].SubAnswer[x].Choice;
+                                        Ans[i] = this.getAll_questions.Answer[this.questionIndex].SubAnswer[x].Choice;
                                     }
                                     
                             }   
@@ -406,10 +451,10 @@ export default {
                     }
                 } else {
                      let Ans = new Array();
-                        for (let i = 0; i < this.Questions.Answer[this.questionIndex].SubAnswer.length; i++) {
-                        for (let x = 0; x < this.Questions.Answer[this.questionIndex].SubAnswer.length; x++) {
+                        for (let i = 0; i < this.getAll_questions.Answer[this.questionIndex].SubAnswer.length; i++) {
+                        for (let x = 0; x < this.getAll_questions.Answer[this.questionIndex].SubAnswer.length; x++) {
                             if(this.Alphabet[x].toUpperCase() == this.SubAnswers[i].toUpperCase()){
-                                Ans[i] = this.Questions.Answer[this.questionIndex].SubAnswer[x].Choice;
+                                Ans[i] = this.getAll_questions.Answer[this.questionIndex].SubAnswer[x].Choice;
                             }
                                 
                         }   
@@ -436,7 +481,21 @@ export default {
         prev: function() {
             this.questionIndex--;
         },
+         SubmitAnswer(){
+            this.isLoading = !this.isLoading;
+            this.isSubmitting = !this.isSubmitting;
+            this.dialog = !this.dialog;
+            this.next();
+            axios.post('/api/question/check/'+this.$route.query.clwk, {item: this.FinalAnswers, AnsLength:this.questionIndex})
+            .then(()=>{
+                 setTimeout(() => {
+                    this.isLoading = !this.isLoading;
+                    this.isSubmitting = !this.isSubmitting;
+                }, 2000);
+            })
+        },
         fetchQuestions(){
+          
             this.$store.dispatch('fetchQuestions', this.$route.query.clwk).then(res=>{
                 this.Qlength = res[1];
                 this.isLoading = false;
@@ -461,62 +520,49 @@ export default {
     }, */
     mounted(){
         this.isStart = true;
-        //this.getAllQuestion();
-  
-        this.Show = false
-        this.fetchQuestions();
-         this.Show = true
+         const alphabet = [
+            "A",
+            "B",
+            "C",
+            "D",
+            "E",
+            "F",
+            "G",
+            "H",
+            "I",
+            "J",
+            "K",
+            "L",
+            "M",
+            "N",
+            "O",
+            "P",
+            "q",
+            "r",
+            "s",
+            "t",
+            "u",
+            "v",
+            "w",
+            "x",
+            "y",
+            "z"
+        ];
+        this.Alphabet = alphabet;
+         axios.get('/api/classwork/showDetails/'+ this.$route.query.clwk)
+        .then(res=>{
+            this.duration = res.data.Details[0].duration;
+            this.fetchQuestions();
+        })
         
+
     }
   
 }
 </script>
 
 <style scoped>
-    a{
-        cursor: pointer !important;
-    }
-    input,select{
-        border-left: none;
-        border-right: none;
-        border-top: none;
-    }
-     textarea{
-    box-shadow: none;
-    height: 39px;
-    font-size: 13px;
-    line-height: 20px;
-    padding: 9px 12px;
-    display: block;
-    width: 100%;
-    overflow: hidden;
-    resize: none;
-    min-height: 38px;
-    max-height: 150px;
-    border: 1px solid #e1e6eb ;
-    border-left: none;
-    border-right: none;
-    border-top: none;
-    outline: none;
-
-   
-  }
-   
-
-    select {
-        font-family: 'FontAwesome', Arial;
-    }
-    .addInput{
-        text-align: left !important;
-        margin-right: 0 ;
-    }
-  @media only screen and (max-width: 600px) {
-      .form-check-input{
-          margin-left: 8px !important;
-      }
-    }
-    .row{
-        transition: height 2s !important;
-    }
-        
+    .centered-input >>> input {
+      text-align: center
+    }    
 </style>

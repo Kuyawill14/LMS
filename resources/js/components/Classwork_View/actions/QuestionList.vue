@@ -13,7 +13,7 @@
   <v-container pa-0 ma-0  class="pa-0 pa-0" fluid>
         <v-row align="center" justify="center">
             <v-col cols="12" sm="12" md="12">
-                <v-card  class="elevation-12">
+                <v-card  class="elevation-5">
                     <v-window>
                         <v-window-item >
                                 <v-row>
@@ -22,39 +22,63 @@
                                             <div class="mt-1 text-sm-h3 text-md-h5 text-xl-h3 white--text">
                                             Question List  ({{Qlength}})</div>
                                             <v-btn icon  @click="Show = !Show" >
-                                                <v-icon color="white">mdi-{{Show ? 'window-close':'eye'}}</v-icon>
+                                                <v-icon color="white">mdi-{{Show ? 'eye':'eye-off'}}</v-icon>
                                             </v-btn>
                                         </v-container>
                                     </v-col>
-                                    <v-col v-if="Show" cols="12" md="12" class="pl-5 pr-5 pt-1">
+
+                                    <v-col class="pl-8 pr-7 pt-3 pb-4 mb-0" cols="12" md="12">
+                                        <v-row>
+                                            <v-col cols="9" class="text-left pb-0 mb-0">
+                                                <v-btn
+                                                class="ml-2 mt-2"
+                                                rounded
+                                                outlined
+                                                color="primary"
+                                                @click="previewAll = !previewAll">
+                                                Preview All
+                                                <v-icon>mdi-{{previewAll ? 'eye-off' : 'eye'}}</v-icon>
+                                            </v-btn>
+                                            </v-col>
+                                            <v-col cols="3" class="text-right pb-0 mb-0">
+                                            <v-row class="ml-3 mt-1 ">
+                                                 <v-col class="ma-0 pa-0" cols="10">
+                                                     <v-select
+                                                     v-model="ListType"
+                                                    :items="['All','Multiple Choice', 'Identification', 'True or False', 'Matching type']"
+                                                    class=""
+                                                    label="Type"
+                                                    dense
+                                                    solo
+                                                    ></v-select>
+                                                 </v-col>
+                                             </v-row>
+                                            </v-col>
+                                        </v-row>
+                                     
                                         
-                                        <v-container class="mb-1" v-for="(item, index) in getAll_questions.Question" :key="index">
-                                             
-                                                 <div v-if="item.type == 'Multiple Choice'" class="mb-2">
-                                                     <multipleChoiceList v-on:reloadList="fetchQuestionsList()" v-if="item.type == 'Multiple Choice'" :number="index+1" :Question="item" :Choices="getAll_questions.Answer[index]"></multipleChoiceList>
+                                    </v-col>
+                                  
+                                    <v-col v-if="Show" cols="12" md="12" class="pl-5 pr-5 pt-1">
+                                        <v-container class="mb-1 pt-0 mt-0" v-for="(item, index) in getAll_questions.Question" :key="index">
+                                                <div v-if="(item.type == 'Multiple Choice' && ListType == 'All' || ListType == 'Multiple Choice')" class="mb-2">
+                                                     <multipleChoiceList :previewAll="previewAll" v-on:reloadList="fetchQuestionsList()" v-if="item.type == 'Multiple Choice'" :number="index+1" :Question="item" :Choices="getAll_questions.Answer[index]"></multipleChoiceList>
                                                 </div>
-
-                                                 <div v-if="item.type == 'Identification'" class="mb-2">
-                                                     <indentificationList v-on:reloadList="fetchQuestionsList()" v-if="item.type == 'Identification'" :number="index+1" :Question="item"></indentificationList>
+                                                 <div v-if="(item.type == 'Identification' && ListType == 'All' || ListType == 'Identification')" class="mb-2">
+                                                     <indentificationList :previewAll="previewAll" v-on:reloadList="fetchQuestionsList()" v-if="item.type == 'Identification'" :number="index+1" :Question="item"></indentificationList>
                                                 </div>
-
-                                                 <div v-if="item.type == 'True or False'" class="mb-2">
-                                                     <trueOrfalseList v-on:reloadList="fetchQuestionsList()" v-if="item.type == 'True or False'" :number="index+1" :Question="item"></trueOrfalseList>
+                                                 <div v-if="(item.type == 'True or False' && ListType == 'All' || ListType == 'True or False')" class="mb-2">
+                                                     <trueOrfalseList :previewAll="previewAll" v-on:reloadList="fetchQuestionsList()" v-if="item.type == 'True or False'" :number="index+1" :Question="item"></trueOrfalseList>
                                                 </div>
-
-                                                 <div v-if="item.type == 'Two Colums Multiple Choice'" class="mb-2">
-                                                     <twoColumnsList v-on:reloadList="fetchQuestionsList()" v-if="item.type == 'Two Colums Multiple Choice'" 
+                                                 <div v-if="(item.type == 'Matching type' && ListType == 'All' || ListType == 'Matching type')" class="mb-2">
+                                                     <twoColumnsList v-on:reloadList="fetchQuestionsList()" v-if="item.type == 'Matching type'" 
                                                      :number="index+1" 
                                                      :Question="item" 
                                                      :SubQuestion="getAll_questions.Answer[index].SubQuestion"
                                                      :Answers="getAll_questions.Answer[index].SubAnswer"
                                                      ></twoColumnsList>
                                                 </div>
-
-                                                
-                                            
                                         </v-container>
-                                        
                                     </v-col>
                                 </v-row>
                         </v-window-item>
@@ -82,6 +106,8 @@ export default {
     },
     data(){
         return{
+            ListType:'All',
+            previewAll:false,
             dialog:false,
             isRemoving:false,
             isRemoving_id:null,

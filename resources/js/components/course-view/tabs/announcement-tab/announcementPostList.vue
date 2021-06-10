@@ -35,7 +35,8 @@
             <commentList 
             v-on:AddCount="post.comment_count++"
             v-on:MinusCount="post.comment_count--" 
-            :commentCount="post.comment_count" 
+            :commentCount="post.comment_count"
+            :LikesCount="post.likes_count"
             :PostId="post.post_id" :UserDetails="UserDetails" ></commentList>
             
         </v-card>

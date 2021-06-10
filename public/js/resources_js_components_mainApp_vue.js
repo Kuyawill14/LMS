@@ -94,11 +94,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
@@ -383,6 +378,10 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
+//
+//
+//
 //
 //
 //
@@ -22814,9 +22813,9 @@ var render = function() {
                         _vm._v(" "),
                         _c("p", { staticClass: "text-caption mt-1" }, [
                           _vm._v(
-                            "\n                                " +
+                            "\n                            " +
                               _vm._s(_vm.UserDetails.email) +
-                              "\n                            "
+                              "\n                        "
                           )
                         ]),
                         _vm._v(" "),
@@ -22836,7 +22835,7 @@ var render = function() {
                           },
                           [
                             _vm._v(
-                              "\n                                My Profile\n                            "
+                              "\n                            My Profile\n                        "
                             )
                           ]
                         ),
@@ -22851,7 +22850,7 @@ var render = function() {
                           },
                           [
                             _vm._v(
-                              "\n                                Logout\n                            "
+                              "\n                            Logout\n                        "
                             )
                           ]
                         )
@@ -23043,7 +23042,9 @@ var render = function() {
             _vm.role == "Teacher"
               ? _c(
                   "v-list-item",
-                  { attrs: { link: "", exact: "" } },
+                  {
+                    attrs: { link: "", to: { name: "Student-list" }, exact: "" }
+                  },
                   [
                     _c(
                       "v-list-item-action",
@@ -23252,7 +23253,7 @@ var render = function() {
             "close-on-content-click": false,
             "nudge-width": 250,
             "offset-y": "",
-            "max-width": 400
+            "max-width": 450
           },
           scopedSlots: _vm._u([
             {
@@ -23337,9 +23338,10 @@ var render = function() {
                                 {
                                   staticClass: "white--text",
                                   attrs: {
-                                    color: "red darken-",
-                                    text: "white",
-                                    depressed: ""
+                                    color: "red darken",
+                                    text: "",
+                                    depressed: "",
+                                    rounded: ""
                                   }
                                 },
                                 [
@@ -23386,9 +23388,11 @@ var render = function() {
                         _c(
                           "v-list-item-content",
                           [
-                            _c("v-list-item-title", [
-                              _vm._v(_vm._s(item.name))
-                            ]),
+                            _c(
+                              "v-list-item-title",
+                              { staticClass: "font-weight-medium" },
+                              [_vm._v(_vm._s(item.name))]
+                            ),
                             _vm._v(" "),
                             _c("span", [_vm._v(_vm._s(item.message))])
                           ],

@@ -172,7 +172,8 @@ __webpack_require__.r(__webpack_exports__);
         email: "",
         password: "",
         password_confirmation: "",
-        role: ""
+        role: "",
+        isSubmit: false
       }),
       nameRules: [function (v) {
         return !!v || 'Field is required';
@@ -216,12 +217,14 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       if (this.$refs.RegisterForm.validate()) {
+        this.isSubmit = true;
         this.form.post('/api/registerUser').then(function () {
           console.log("Success");
 
-          _this2.form.reset();
+          _this2.$refs.RegisterForm.reset();
 
           _this2.valid = true;
+          _this2.isSubmit = false;
         });
       }
     }
@@ -639,6 +642,7 @@ var render = function() {
                                               staticClass: "mb-5",
                                               attrs: {
                                                 disabled: !_vm.valid,
+                                                loading: _vm.isSubmit,
                                                 color: "primary"
                                               },
                                               on: { click: _vm.validate }
@@ -679,11 +683,23 @@ var render = function() {
                                                 [
                                                   _c(
                                                     "v-icon",
-                                                    { staticClass: "mr-3" },
+                                                    {
+                                                      class: _vm.$vuetify
+                                                        .breakpoint.xs
+                                                        ? ""
+                                                        : "mr-3"
+                                                    },
                                                     [_vm._v("mdi-facebook")]
                                                   ),
                                                   _vm._v(
-                                                    "\n                                  Facebook\n                                  "
+                                                    "\n                                  " +
+                                                      _vm._s(
+                                                        _vm.$vuetify.breakpoint
+                                                          .xs
+                                                          ? ""
+                                                          : "Facebook"
+                                                      ) +
+                                                      "\n                                  "
                                                   )
                                                 ],
                                                 1
@@ -701,11 +717,23 @@ var render = function() {
                                                 [
                                                   _c(
                                                     "v-icon",
-                                                    { staticClass: "mr-3" },
+                                                    {
+                                                      class: _vm.$vuetify
+                                                        .breakpoint.xs
+                                                        ? ""
+                                                        : "mr-3"
+                                                    },
                                                     [_vm._v("mdi-google-plus")]
                                                   ),
                                                   _vm._v(
-                                                    "\n                                  Google Plus\n                                  "
+                                                    "\n                                   " +
+                                                      _vm._s(
+                                                        _vm.$vuetify.breakpoint
+                                                          .xs
+                                                          ? ""
+                                                          : " Google Plus"
+                                                      ) +
+                                                      "\n                                  "
                                                   )
                                                 ],
                                                 1

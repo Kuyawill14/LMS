@@ -5,7 +5,7 @@
       :close-on-content-click="false"
       :nudge-width="250"
       offset-y
-      :max-width="400"
+      :max-width="450"
       
     >
       <template v-slot:activator="{ on, attrs }">
@@ -45,9 +45,10 @@
                 >
                   <v-btn
                     class="white--text"
-                    color="red darken-"
-                    text="white"
+                    color="red darken"
+                    text
                     depressed
+                    rounded
                   >
                     new
                   </v-btn>
@@ -57,12 +58,13 @@
 
           <v-divider></v-divider>
           <v-list-item v-for="(item, index) in get_notification" :key="index">
+           
             <v-list-item-avatar>
              <v-img alt="Proflie" :src="item.profile_pic == null || item.profile_pic == '' ? 'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=' + item.name : '../../images/'+item.profile_pic"></v-img>
             </v-list-item-avatar>
 
             <v-list-item-content>
-              <v-list-item-title>{{item.name}}</v-list-item-title>
+              <v-list-item-title class="font-weight-medium">{{item.name}}</v-list-item-title>
               <span>{{item.message}}</span>
              
             </v-list-item-content>
@@ -80,7 +82,9 @@
                 <v-btn  icon v-if="item.status == 0"  @click="UnreadNotification(item.n_id)"> <v-icon>mdi-check</v-icon></v-btn>
                 <v-btn icon  v-if="item.status == 1"  @click="DeleteNotification(item.n_id)"> <v-icon>mdi-close</v-icon></v-btn>
             </v-list-item-action>
+            
           </v-list-item>
+
         </v-list>
 
       </v-card>
@@ -90,7 +94,6 @@
 
 <script>
 import moment from 'moment'
-    
     import {
         mapGetters,
         mapActions

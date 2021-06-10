@@ -61,7 +61,7 @@
 
             </v-list-item>
 
-            <v-list-item link  v-if="role == 'Teacher'" exact>
+            <v-list-item link :to="{name: 'Student-list'}"  v-if="role == 'Teacher'" exact>
                 <v-list-item-action>
                     <v-icon>mdi-account-group</v-icon>
                 </v-list-item-action>
@@ -72,7 +72,7 @@
                 </v-list-item-content>
 
             </v-list-item>
-
+   
             <v-list-item  link :to="{name: 'gradingCriteria'}"  v-if="role == 'Teacher'" exact>
                 <v-list-item-action>
                     <v-icon>mdi-chart-timeline-variant-shimmer

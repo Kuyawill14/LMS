@@ -66,7 +66,7 @@
                                     :readonly="!isEditing"
                                     v-model="QuetionsList.type"
                                     class="pa-0 ma-0"
-                                    :items="['Multiple Choice', 'Identification', 'True or False', 'Two Colums Multiple Choice']"
+                                    :items="['Multiple Choice', 'Identification', 'True or False', 'Matching type']"
                                     filled
                                     label="Type"
                                     ></v-select>
@@ -123,7 +123,7 @@
                                                 <v-btn
                                                 
                                                 icon class="mt-2 pl-2 pr-2">
-                                                    <v-icon>mdi-window-close</v-icon>
+                                                    <v-icon>mdi-delete</v-icon>
 
                                                 </v-btn>
                                         </v-col>
@@ -174,7 +174,7 @@
 </v-hover>
 </template>
 <script>
-const deleteDialog = () => import('../dialog/deleteDialog')
+const deleteDialog = () => import('../dialogs/deleteDialog')
  import {mapGetters, mapActions } from "vuex";
 export default {
     props:['number', 'Question','SubQuestion','Answers'],

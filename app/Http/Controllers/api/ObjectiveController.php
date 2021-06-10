@@ -24,7 +24,7 @@ class ObjectiveController extends Controller
         $Questions = tbl_Questions::where('tbl_questions.classwork_id', $id)
         ->Select('tbl_questions.id', 'tbl_questions.question', 'tbl_questions.type',
         'tbl_questions.answer','tbl_questions.points')
-        ->orderBy('created_at', 'DESC')
+        ->orderBy('created_at','DESC')
         ->get();
         
         $temQuest;
@@ -47,7 +47,7 @@ class ObjectiveController extends Controller
             ->select('tbl_sub_questions.id','tbl_sub_questions.answer_id','tbl_sub_questions.sub_question')
             ->get();
 
-            if($cl->type != 'Two Colums Multiple Choice'){
+            if($cl->type != 'Matching type'){
                 $tempData2;
                 if(auth('sanctum')->user()->role == 'Student'){
                     $tempData2  = $tempData1->shuffle();
@@ -69,8 +69,7 @@ class ObjectiveController extends Controller
                 } 
                 $tmp =  ["SubQuestion"=>$temQues , "SubAnswer"=>$tempAns];
                 $FinalAnswer[] = $tmp;    
-            }  
-               
+            }     
         }
         return ["Question"=>$temQuest , "Answer"=>$FinalAnswer];
 
@@ -121,7 +120,7 @@ class ObjectiveController extends Controller
                 $objectAnswer[] =  $QuestionChoice;
             }
         }
-        elseif ($request->questions['type'] == 'Two Colums Multiple Choice') {
+        elseif ($request->questions['type'] == 'Matching type') {
             for ($i=0; $i < $request->length ; $i++) { 
                 $temp = array();
                 foreach($request->answers[$i] as $cl){
@@ -240,7 +239,33 @@ class ObjectiveController extends Controller
      */
     public function check(Request $request, $id)
     {
-        return $request;
+        $questionCount = tbl_Questions::where('tbl_questions.classwork_id', $id)->count();
+        $Questions = tbl_Questions::where('tbl_questions.classwork_id', $id)
+        ->Select('tbl_questions.id', 'tbl_questions.type','tbl_questions.answer','tbl_questions.points')
+        ->get();
+
+        $tempData = array();
+
+        /* foreach($Questions as $ques){
+            echo $ques['id'];
+        } */
+        $score = 0;
+        foreach($request->item as $cl){
+            if($cl['type'] == 'Multiple Choice' || $cl['type'] == 'Identification' || $cl['type'] == 'True or False'){
+                foreach($Questions as $ques){
+                    if($ques['id'] == $cl['Question_id']){
+                        if($ques['answer'] == $cl['Answer']){
+                            $score += $ques['points'];
+                        }
+                    }
+                }
+            }
+        }
+           
+            
+
+        
+        return $score;
     }
  
 }

@@ -26,7 +26,7 @@ const actions = {
 
     async addQuestions({ commit }, data) {
 
-       if(data.questions.type != 'Two Colums Multiple Choice'){
+       if(data.questions.type != 'Matching type'){
             const res = await axios.post(`/api/question/insert`, 
             {   questions: data.questions, 
                 answers: data.answers,
