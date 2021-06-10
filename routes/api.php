@@ -16,7 +16,7 @@ use App\Http\Controllers\api\StudentSubModuleProgressController;
 use App\Http\Controllers\api\ObjectiveController;
 use App\Http\Controllers\api\GradingCriteriaController;
 use App\Http\Controllers\api\CommentController;
-
+use App\Http\Controllers\api\GradebookController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -164,6 +164,14 @@ Route::prefix('/grading-criteria')->group(function () {
     Route::post('/insert', [GradingCriteriaController::class, 'store']);
     Route::delete('/remove/{id}', [GradingCriteriaController::class, 'deleteCriteria']);
     Route::post('/update/{id}', [GradingCriteriaController::class, 'update']);
+});
+
+
+
+//Grading Criteria
+Route::prefix('/grade-book')->group(function () {
+    Route::get('/classworks/{id}', [GradebookController::class, 'fetchClassworks']);
+    
 });
 
 

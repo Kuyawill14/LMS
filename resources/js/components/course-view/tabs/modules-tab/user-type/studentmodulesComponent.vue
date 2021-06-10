@@ -5,16 +5,23 @@
                 <v-row>
 
                     <v-col>
-                        <v-container fluid class="pa-0"  @mouseover="contentHover=true" @mouseleave="contentHover = false">
-                            <v-btn bottom color="secondary" dark right class="exitFullscreen" v-if="isExpand && contentHover" @click="isExpand =false ">
+                        <v-container fluid class="pa-0" @mouseover="contentHover=true"
+                            @mouseleave="contentHover = false">
+                            <v-btn bottom color="secondary" dark right class="exitFullscreen"
+                                v-if="isExpand && contentHover" @click="isExpand =false ">
                                 <v-icon>mdi-arrow-left</v-icon>
                             </v-btn>
 
-                            <iframe title="office viewer" class="video-c" v-if="type=='Document' "
+                            <!-- <iframe title="office viewer" class="video-c" v-if="type=='Document' "
                                 :src="iframeSrc + googledocsParams"
                                 sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
                                 style="width: 100%;height: 100%"></iframe>
+ -->
 
+                            <iframe title="office viewer" class="video-c" v-if="type=='Document' "
+                                :src="'https://docs.google.com/viewer?url=http://infolab.stanford.edu/pub/papers/google.pdf&embedded=true&a=bi&pagenumber=5'"
+                                sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
+                                style="width: 100%;height: 100%"></iframe>
 
                             <LazyYoutube ref="youtubeLazyVideo" :src="subModuleData.link" v-if="type=='Link'"
                                 style="width: 100% !important;height: 100%" aspect-ratio="16:9"
@@ -28,6 +35,9 @@
                             </div>
 
                         </v-container>
+
+
+
                     </v-col>
 
                 </v-row>
@@ -45,8 +55,23 @@
                             <a :href="'/storage/' + subModuleData.file_attachment" target="_blank">Download</a>
 
                         </v-card-text>
+                        <div id="pdf-wrapper">
 
+                            <pdf
+                                src="https://edu.stacktrek.com/uploads/courses/2304/files/multiculturalbanks.7vQ3q5Vj.pdf">
+                                <template slot="loading">
+                                    loading content here...
+                                </template>
+                            </pdf>
 
+                        </div>
+                        <div id="info">
+                            <h1>PDF info:</h1>
+                            <div v-for="item in info" :key="item.name">
+                                <span>{{ item.name }}: {{ item.value }}</span>
+                                <br />
+                            </div>
+                        </div>
                     </v-col>
 
 
@@ -65,17 +90,20 @@
                 </v-row>
             </v-col>
 
-            <v-col lg="4" cols="12" sm="12" md="12" class="pa-0 border" v-if="isExpand == false && isChangeSize == false">
+            <v-col lg="4" cols="12" sm="12" md="12" class="pa-0 border"
+                v-if="isExpand == false && isChangeSize == false">
                 <modulesListComponent v-on:subModule="getsubModuleData" v-on:listClose="expandContent" :expand="removeX"
                     style="height:100vh;" />
             </v-col>
 
             <v-dialog v-model="listDialaog" max-width="600px" class="list_modal">
-                <modulesListComponent v-on:subModule="getsubModuleData" v-on:listClose="expandContent" :expand="!removeX" v-if="listDialaog"/>
+                <modulesListComponent v-on:subModule="getsubModuleData" v-on:listClose="expandContent"
+                    :expand="!removeX" v-if="listDialaog" />
             </v-dialog>
         </v-row>
 
-        <v-btn bottom color="primary" dark fab fixed right v-if="isExpand || isChangeSize" @click="listDialaog = true" style="z-index:999">
+        <v-btn bottom color="primary" dark fab fixed right v-if="isExpand || isChangeSize" @click="listDialaog = true"
+            style="z-index:999">
             <v-icon>mdi-menu</v-icon>
         </v-btn>
 
@@ -106,12 +134,12 @@
             LazyYoutube,
 
 
-
         },
         data() {
             return {
+                info: [],
                 contentHover: false,
-                removeX : true,
+                removeX: true,
                 listDialaog: false,
                 loading: false,
                 subModuleData: null,
@@ -127,6 +155,10 @@
             }
         },
         methods: {
+            openHandler(pdfApp) {
+                window._pdfApp = pdfApp;
+            },
+
             expandContent() {
                 this.isExpand = !this.isExpand;
 

@@ -106,60 +106,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -387,7 +333,11 @@ var render = function() {
                                                     to: { name: "login" }
                                                   }
                                                 },
-                                                [_vm._v("Click here")]
+                                                [
+                                                  _vm._v(
+                                                    "Click\n                                                here"
+                                                  )
+                                                ]
                                               )
                                             ],
                                             1
@@ -654,7 +604,7 @@ var render = function() {
                                                 [_vm._v("mdi-login")]
                                               ),
                                               _vm._v(
-                                                "\n                              Sign Up\n                              "
+                                                "\n                                            Sign Up\n                                        "
                                               )
                                             ],
                                             1
@@ -692,6 +642,9 @@ var render = function() {
                                                     [_vm._v("mdi-facebook")]
                                                   ),
                                                   _vm._v(
+<<<<<<< HEAD
+                                                    "\n                                                Facebook\n                                            "
+=======
                                                     "\n                                  " +
                                                       _vm._s(
                                                         _vm.$vuetify.breakpoint
@@ -700,6 +653,7 @@ var render = function() {
                                                           : "Facebook"
                                                       ) +
                                                       "\n                                  "
+>>>>>>> 69f1285b92fcf8f1db3d3aa68b295f5b3fc1a69d
                                                   )
                                                 ],
                                                 1
@@ -726,6 +680,9 @@ var render = function() {
                                                     [_vm._v("mdi-google-plus")]
                                                   ),
                                                   _vm._v(
+<<<<<<< HEAD
+                                                    "\n                                                Google Plus\n                                            "
+=======
                                                     "\n                                   " +
                                                       _vm._s(
                                                         _vm.$vuetify.breakpoint
@@ -734,6 +691,7 @@ var render = function() {
                                                           : " Google Plus"
                                                       ) +
                                                       "\n                                  "
+>>>>>>> 69f1285b92fcf8f1db3d3aa68b295f5b3fc1a69d
                                                   )
                                                 ],
                                                 1
