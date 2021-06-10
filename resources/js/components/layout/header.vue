@@ -50,12 +50,7 @@
                 <template v-slot:activator="{ on, attrs }">
                     <v-btn icon large v-bind="attrs" v-on="on">
                         <v-avatar size="40px" item>
-<<<<<<< HEAD
-
-                           
-=======
                             <v-img src="https://cdn.vuetifyjs.com/images/logos/logo.svg" alt="Vuetify"></v-img> 
->>>>>>> ef50d237a03539ccf3a38932de812138bdb601dd
                             <v-img alt="Proflie"
                                 :src="UserDetails.profile_pic == null || UserDetails.profile_pic == '' ? 'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=' + (UserDetails.firstName+' '+UserDetails.lastName) : '../../images/'+UserDetails.profile_pic">
                             </v-img>

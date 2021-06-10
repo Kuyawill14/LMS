@@ -1,8 +1,8 @@
 <template>
 <v-container pa-0 ma-0 class="pa-0 ma-0" fluid>
         <v-row align="center" justify="center">
-          <v-col cols="12" sm="12" md="12">
-            <v-card  class="elevation-12">
+          <v-col cols="12" lg="10" md="10">
+            <v-card  class="elevation-5">
               <v-window>
                 <v-window-item >
                     <v-form ref="form" v-model="valid" lazy-validation>
@@ -22,7 +22,7 @@
                                     <v-col class="pa-0 ma-0" cols="3"  md="1" lg="1">
                                         <v-text-field @click="quesForm.points == 0 ? quesForm.points = '': ''" 
                                         :rules="PointsRule" filled type="number" 
-                                        v-model="quesForm.points" class="pa-0 ma-0"  
+                                        v-model="quesForm.points" class="centered-input pa-0 ma-0"  
                                         label="Points">
                                         </v-text-field>
                                     </v-col>
@@ -46,7 +46,7 @@
                                             <v-select
                                             v-model="quesForm.type"
                                             class="pa-0 ma-0"
-                                            :items="['Multiple Choice', 'Identification', 'True or False', 'Two Colums Multiple Choice']"
+                                            :items="['Multiple Choice', 'Identification', 'True or False', 'Matching type']"
                                             filled
                                             label="Type"
                                             ></v-select>
@@ -65,36 +65,56 @@
                                                             @click="tempAnswer = item.answer, test()"
                                                             color="primary"
                                                             class="pa-0 ma-0"
-                                                                :disabled="item.answer.length == 0"
-                                                                :key="i"
-                                                                name="Answer" 
-                                                                :value="item.answer"
+                                                            :disabled="item.answer.length == 0"
+                                                            :key="i"
+                                                            name="Answer" 
+                                                            :value="item.answer"
                                                             ></v-radio>
                                                             </v-radio-group>
 
+
+                                                        <!--   Text iNput -->
                                                             <v-textarea
+                                                    
                                                             ref="Choice"
                                                             :rules="rules"
                                                             @keyup="checker = item.answer"
                                                             filled
                                                             rows="1"
                                                             v-model="item.answer"
-                                                        
                                                             class="pa-0 ma-0"
-                                                            :label="'Choice '+(i+1)"
+                                                            :label="'Option '+(i+1)"
                                                             auto-grow
                                                             required
                                                             ></v-textarea>
+                                                            <!--  Image Input -->
+                                                           <!--  <v-file-input
+                                                                :rules="Imagerules"
+                                                                v-show="selectedImage[i] != null"
+                                                                :id="'uploader'+i"
+                                                                v-model="selectedImage[i]"
+                                                                prepend-icon=""
+                                                                accept="image/png, image/jpeg, image/bmp"
+                                                                @change="onFileChange"
+                                                                filled
+                                                                :label="'Option'+(i+1)"
+                                                            ></v-file-input>
+                                                                    
+                                                         
+                                                             <v-btn class="mt-2 pl-2 pr-2" icon 
+                                                             @click="onButtonClick(i), inputIndex = i">
+                                                                <v-icon>
+                                                                    mdi-camera
+                                                                </v-icon>
+                                                            </v-btn> -->
 
                                                             <v-btn
                                                             @click="item.answer == quesForm.answer ? (remove(i), quesForm.answer = '') : (remove(i),quesForm.answer = tempAnswer) "
                                                             icon class="mt-2 pl-2 pr-2">
                                                                 <v-icon>mdi-window-close</v-icon>
-
                                                             </v-btn>
                                                         </v-container>
                                                     </v-col>
-
                                                 </v-row>
                                         </v-col>
                                         <v-col ma-0 pa-0 class="pa-0 ma-0 text-right" cols="12" md="8" lg="8">
@@ -103,13 +123,11 @@
                                             rounded
                                             class="mt-2"
                                             color="primary"
-                                            
                                             @click="add(), checker = ''"
                                             >
                                             <v-icon dark large>mdi-plus</v-icon>
                                             </v-btn>
                                         </v-col>
-                                
                                     </v-row>
                                 
                                 </v-container>
@@ -158,7 +176,7 @@
                                     </v-row>
                                 </v-container>
 
-                                 <v-container  v-if="quesForm.type == 'Two Colums Multiple Choice'">
+                                 <v-container  v-if="quesForm.type == 'Matching type'">
                                     <v-row ma-0 pa-0>
                                         <v-col  v-for="(item, i) in MatchQuestion" :key="i" ma-0 pa-0 class="ma-0 pa-0" cols="12">
                                            <v-row>
@@ -198,12 +216,10 @@
                                            </v-row>
                                         </v-col>
                                         <v-col class="ma-0 pa-0 text-right">
-                                            <v-btn
-                                                      
+                                            <v-btn    
                                             rounded
                                             class="mt-2"
                                             color="primary"
-                                
                                             @click="addNewMatch()"
                                             >
                                             <v-icon dark large>mdi-plus</v-icon>
@@ -213,8 +229,6 @@
                                     </v-row>
                                 </v-container>
 
-
-                                
                                 <v-container class="mb-5">
                                         <v-btn
                                         rounded
@@ -226,12 +240,7 @@
                                         Add Question<v-icon right dark>mdi-note-plus-outline</v-icon>
                                     </v-btn>
                                 </v-container>
-
-
-
-
                             </v-col>
-                            
                         </v-row>
                     </v-form>
                 </v-window-item>
@@ -247,7 +256,10 @@ import {mapGetters, mapActions} from "vuex";
 export default {
     data(){
         return{
+            inputIndex:'',
             checker:'',
+            testDetails:'',
+            selectedImage:[],
             valid: false,
             tempAnswer:null,
             inputCheck:['True','False'],
@@ -265,7 +277,7 @@ export default {
             },
             form:[
                 {
-                    answer:''
+                    answer:'',
                 },
             ],
              MatchQuestion:[
@@ -282,6 +294,9 @@ export default {
                     v => !!v || 'required',
                     v => (v && v != 0) || 'Must assign atleast 1 points',
                 ],
+            Imagerules: [
+                value => !value || value.size < 5000000 || 'Avatar size should be less than 5 MB!',
+            ],
             
         }
     },
@@ -293,6 +308,31 @@ export default {
                 icon: "done",
                 duration: 3000
             });
+        },
+        onFileChange(element){
+        if (this.selectedImage[this.inputIndex] != '' || null) {
+                
+            console.log(this.inputIndex)
+            const file = element;
+            console.log(file);
+            let reader = new FileReader();
+            let baseData;
+            reader.onloadend = (res)=>{
+                this.form[this.inputIndex].answer = '<div>'+'<img src="'+reader.result+'">'+'</div>';
+                //console.log('Result', reader.result);
+            }
+            reader.readAsDataURL(file);
+            this.checker = "Success";
+            }
+        },
+        onButtonClick(i) {
+            /* this.isSelecting = true
+            window.addEventListener('focus', () => {
+            this.isSelecting = false
+            }, { once: true })
+
+            this.$refs.form.$refs.input.click(); */
+            $("#uploader"+i).click();
         },
         validateChoice(){
             this.$refs.Choice.validate()
@@ -309,11 +349,12 @@ export default {
             if(this.form.length == 0){
                 this.check = true;
                 this.form.push({ answer: '' });
+                 //this.form.push({ answer: '' , image : null});
             }
             else{
-                 if(this.form[this.form.length-1].answer != ''){
+                 if(this.form[this.form.length-1].answer != '' /* || this.form[this.form.length-1].image != null */){
                      this.check = true;
-                     this.form.push({ answer: '' });
+                    this.form.push({ answer: '' });
                  }
                  else{
                       this.check = false;
@@ -337,18 +378,16 @@ export default {
                     
                     this.finalData.ansLength = this.form.length;
                     this.finalData.clw = this.$route.query.clwk;
+                   /*  this.quesForm.answer = '<div>'+'<img src="'+this.quesForm.answer+'">'+'</div>'; */
                     this.finalData.questions = this.quesForm;
                     this.finalData.answers = this.form;
+                   
                     this.$store.dispatch('addQuestions', this.finalData )
                      .then( (success)  => {
                         this.toastSuccess();
-                        this.$store.dispatch('fetchQuestions', this.$route.query.clwk);
-                         //Object.assign(this.$data, this.$options.data.call(this));
-                         this.CallReset();
+                        //this.$store.dispatch('fetchQuestions', this.$route.query.clwk);
+                        this.CallReset();
                     })
-                    .catch( (error) => {
-                   
-                    });
                 }
                 else if(this.quesForm.answer != '' && this.quesForm.points == 0){
                    /*  Swal.fire({
@@ -381,7 +420,7 @@ export default {
                     this.$store.dispatch('addQuestions', this.finalData)
                     .then( (success)  => {
                        this.toastSuccess();
-                        this.$store.dispatch('fetchQuestions', this.$route.query.clwk);
+                        //this.$store.dispatch('fetchQuestions', this.$route.query.clwk);
                         this.CallReset();
                     })
                 }
@@ -393,7 +432,7 @@ export default {
                     }) */
                 }
             }
-            else if(this.quesForm.type == 'Two Colums Multiple Choice'){
+            else if(this.quesForm.type == 'Matching type'){
                  this.quesForm.answer = 'Matching Type';
                  this.finalData.ansLength = this.MatchQuestion.length;
                  this.finalData.clw = this.$route.query.clwk;
@@ -402,7 +441,7 @@ export default {
                  this.$store.dispatch('addQuestions', this.finalData)
                   .then( (success)  => {
                     this.toastSuccess();
-                    this.$store.dispatch('fetchQuestions', this.$route.query.clwk);
+                    //this.$store.dispatch('fetchQuestions', this.$route.query.clwk);
                     this.CallReset();
                 })
             }
@@ -419,9 +458,10 @@ export default {
                
                 for (let i = 0; i < this.form.length; i++) {
                     this.form[i].answer = '';
+                    this.selectedImage[i]='';
                 }
             }
-            if(this.quesForm.type == 'Two Colums Multiple Choice')
+            if(this.quesForm.type == 'Matching type')
             {
                 for (let i = 0; i < this.MatchQuestion.length; i++) {
                     this.MatchQuestion[i].question = '';
@@ -438,5 +478,7 @@ export default {
 </script>
 
 <style scoped>
-
+     .centered-input >>> input {
+      text-align: center
+    } 
 </style>

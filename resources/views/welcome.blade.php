@@ -19,7 +19,7 @@
         <div id="app">
             <example-component></example-component>
           </div>
-
+          
         <script src="{{mix('js/app.js')}}"> </script>
         <script src="https://cdn.jsdelivr.net/npm/@morioh/v-quill-editor/dist/editor.min.js" type="text/javascript"></script>
     </body>

@@ -45,6 +45,33 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var classworkList = function classworkList() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_tabs_classwork-tab_classworkList_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./classworkList */ "./resources/js/components/course-view/tabs/classwork-tab/classworkList.vue"));
 };
@@ -63,7 +90,9 @@ var newClassworkModal = function newClassworkModal() {
   data: function data() {
     return {
       classworks: [],
-      isGetting: false
+      isGetting: false,
+      dialog: false,
+      ClassworkLength: null
     };
   },
   computed: (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)(['get_Classworks']),
@@ -74,7 +103,9 @@ var newClassworkModal = function newClassworkModal() {
       this.isGetting = true;
       this.$store.dispatch('fetchClassworks', this.$route.params.id).then(function (res) {
         if (res == 200) {
-          _this.isGetting = false;
+          _this.ClassworkLength = _this.get_Classworks.length; //setTimeout(() => {
+
+          _this.isGetting = false; //}, 1000);
         }
       });
     }
@@ -177,39 +208,134 @@ var render = function() {
   return _c(
     "div",
     [
-      _vm.role == "Teacher"
-        ? _c("newClassworkModal", {
-            on: {
-              realodClassworks: function($event) {
-                return _vm.getGeneralClassworks()
-              }
-            }
-          })
-        : _vm._e(),
-      _vm._v(" "),
       _c(
-        "v-container",
+        "v-dialog",
+        {
+          attrs: { persistent: "", "max-width": "45%" },
+          model: {
+            value: _vm.dialog,
+            callback: function($$v) {
+              _vm.dialog = $$v
+            },
+            expression: "dialog"
+          }
+        },
         [
-          _c(
-            "v-row",
-            [
-              _c("v-col", [
-                _c("h2", [
-                  _vm._v(
-                    _vm._s(
-                      _vm.role == "Teacher" ? "Manage Classworks" : "Classworks"
-                    )
-                  )
-                ])
-              ])
-            ],
-            1
-          )
+          _vm.dialog && _vm.role == "Teacher"
+            ? _c("newClassworkModal", {
+                on: {
+                  CloseDialog: function($event) {
+                    _vm.dialog = !_vm.dialog
+                  },
+                  realodClassworks: function($event) {
+                    _vm.getGeneralClassworks(), (_vm.dialog = !_vm.dialog)
+                  }
+                }
+              })
+            : _vm._e()
         ],
         1
       ),
       _vm._v(" "),
-      !_vm.isGetting
+      _vm.role == "Teacher" && !_vm.isGetting && _vm.ClassworkLength == 0
+        ? _c(
+            "v-row",
+            {
+              staticClass: "pt-10",
+              attrs: { align: "center", justify: "center" }
+            },
+            [
+              _c(
+                "v-col",
+                {
+                  staticClass: "text-center",
+                  attrs: { cols: "12", sm: "8", md: "4" }
+                },
+                [
+                  _c("v-icon", { staticStyle: { "font-size": "14rem" } }, [
+                    _vm._v(
+                      "\n                mdi-book-open-variant\n            "
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("h1", [_vm._v(" Empty Classwork ")]),
+                  _vm._v(" "),
+                  _c("p", [
+                    _vm._v(
+                      " Creating Classwork, you'll be able to publish classwork to your class. "
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: { color: "primary" },
+                      on: {
+                        click: function($event) {
+                          _vm.dialog = !_vm.dialog
+                        }
+                      }
+                    },
+                    [_vm._v(" CREATE CLASS ")]
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      !_vm.isGetting && _vm.role == "Teacher" && _vm.ClassworkLength != 0
+        ? _c(
+            "v-btn",
+            {
+              attrs: {
+                bottom: "",
+                color: "primary",
+                dark: "",
+                fab: "",
+                fixed: "",
+                right: ""
+              },
+              on: {
+                click: function($event) {
+                  _vm.dialog = !_vm.dialog
+                }
+              }
+            },
+            [_c("v-icon", [_vm._v("mdi-plus")])],
+            1
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      (!_vm.isGetting && _vm.ClassworkLength != 0) || _vm.role == "Student"
+        ? _c(
+            "v-container",
+            [
+              _c(
+                "v-row",
+                [
+                  _c("v-col", [
+                    _c("h2", [
+                      _vm._v(
+                        _vm._s(
+                          _vm.role == "Teacher"
+                            ? "Manage Classworks"
+                            : "Classworks"
+                        )
+                      )
+                    ])
+                  ])
+                ],
+                1
+              )
+            ],
+            1
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      !_vm.isGetting && _vm.ClassworkLength != 0
         ? _c("classworkList", {
             attrs: { classworks: _vm.get_Classworks, role: _vm.role }
           })
@@ -227,17 +353,19 @@ var render = function() {
                   attrs: { "align-content": "center", justify: "center" }
                 },
                 [
+                  _c("v-icon", { staticStyle: { "font-size": "14rem" } }, [
+                    _vm._v(
+                      "\n                mdi-book-open-variant\n            "
+                    )
+                  ]),
+                  _vm._v(" "),
                   _c(
                     "v-col",
                     {
                       staticClass: "text-subtitle-1 text-center",
                       attrs: { cols: "12" }
                     },
-                    [
-                      _vm._v(
-                        "\n                Getting your Classworks\n            "
-                      )
-                    ]
+                    [_c("h2", [_vm._v(" Getting your Classworks ")])]
                   ),
                   _vm._v(" "),
                   _c(

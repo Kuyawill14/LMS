@@ -103,7 +103,7 @@ class ClassworkController extends Controller
         /* $classworkDetails = tbl_classwork::where('tbl_classworks.id','=', $id)
         ->get();
         return $classworkDetails;  */
-        $classworkDetails = tbl_classwork::where('tbl_classworks.id','=', $id)
+        $classworkDetails = tbl_classwork::where('id','=', $id)
         ->get();
 
         $Items = tbl_Questions::where('classwork_id','=', $id)

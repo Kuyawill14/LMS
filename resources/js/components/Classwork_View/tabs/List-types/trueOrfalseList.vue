@@ -1,7 +1,7 @@
 
 <template>
 <v-hover v-slot="{ hover }">
-<v-card :elevation="preview && hover ? 20 : 5" class="pl-3 pr-3 pt-8">
+<v-card :style="preview || previewAll ? 'border-top:5px solid #EF6C00':''" :elevation="preview && hover ? 20 : 5" class="pl-3 pr-3 pt-8">
     <v-dialog v-model="dialog" persistent max-width="370">
             <deleteDialog 
             :DeleteDetails="DeleteDetails"
@@ -11,7 +11,7 @@
             v-if="dialog"></deleteDialog>
         </v-dialog>
         <v-row>
-            <v-col v-if="!preview" cols="12" md="12" class="pl-4 pr-4 pt-2">
+            <v-col v-if="!preview && !previewAll" cols="12" md="12" class="pl-4 pr-4 pt-2">
                 <v-container class="mb-1">
                         <v-container ma-0 pa-0 class="mb-3 d-flex flex-row justify-space-between">
                             <v-container ma-0 pa-0 class="pa-0 ma-0">
@@ -65,14 +65,13 @@
                                     :readonly="!isEditing"
                                     v-model="QuetionsList.type"
                                     class="pa-0 ma-0"
-                                    :items="['Multiple Choice', 'Identification', 'True or False', 'Two Colums Multiple Choice']"
+                                    :items="['Multiple Choice', 'Identification', 'True or False', 'Matching type']"
                                     filled
                                     label="Type"
                                     ></v-select>
                                 </v-col>
                             </v-row>
                         </v-container>
-                        
                         <v-container>
                              <v-row ma-0 pa-0>
                                     <v-col v-for="(x, n) in inputCheck" :key="n"  ma-0 pa-0 class="ma-0 pa-0" cols="8">
@@ -102,11 +101,20 @@
                         </v-container>
                 </v-container>
             </v-col>
-            <v-col @dblclick="preview =  !preview"  v-if="preview" cols="12" md="12" class="pl-4 pr-4 pt-2">
- 
-                    <h2>Question #{{number}}</h2>
+            <v-col @dblclick="previewAll ? preview = false: preview = !preview"  v-if="preview || previewAll" cols="12" md="12" class="pl-4 pr-4 pt-2">
+                   <v-container class="d-flex flex-row justify-space-between">
+                        <h2>Question #{{number}}</h2>
+                            <v-btn
+                            rounded
+                            outlined
+                            color="primary"
+                            @click="previewAll ? preview = false: preview = !preview">
+                            {{$vuetify.breakpoint.xs ? '' : 'Preview'}}
+                            <v-icon>mdi-{{preview ? 'eye-off' : 'eye-off'}}</v-icon>
+                        </v-btn>
+                    </v-container>
                     <v-container>
-                        <div class="title">{{QuetionsList.question}}</div>
+                        <div :style="$vuetify.breakpoint.xs ? 'line-height:1.1':'line-height:1.2'" class="title">{{QuetionsList.question}}</div>
                     </v-container>
                      <v-container class="pl-5 pr-5">
                         <v-container class="d-flex flex-row ma-0 pa-0" v-for="(x, n) in inputCheck" :key="n">
@@ -121,9 +129,9 @@
                             </v-radio-group>
 
                             <div class="Subtitle 1">
-                                {{inputCheck[n]}}<span class="caption primary--text ml-1" v-if="QuetionsList.answer == inputCheck[n]">correct answer</span>
+                                {{inputCheck[n]}}<span class="caption primary--text ml-1" v-if="QuetionsList.answer == inputCheck[n]">(correct answer)</span>
                             </div>
-                             </v-container>
+                            </v-container>
                     </v-container>
             </v-col>
         </v-row>
@@ -131,10 +139,10 @@
 </v-hover>      
 </template>
 <script>
-const deleteDialog = () => import('../dialog/deleteDialog')
+const deleteDialog = () => import('../dialogs/deleteDialog')
  import {mapGetters, mapActions } from "vuex";
 export default {
-    props:['Question','number'],
+    props:['Question','number','previewAll'],
     components:{
         deleteDialog,
     },

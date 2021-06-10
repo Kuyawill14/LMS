@@ -110,6 +110,9 @@ __webpack_require__.r(__webpack_exports__);
         });
       }
     }
+  },
+  beforeMount: function beforeMount() {
+    window.history.forward(1);
   }
 });
 

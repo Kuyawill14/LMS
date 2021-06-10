@@ -152,7 +152,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
 
 
 
@@ -22414,7 +22413,9 @@ var render = function() {
                                                       params: {
                                                         id: _vm.$route.params.id
                                                       },
-                                                      query: { clwk: item.id }
+                                                      query: {
+                                                        clwk: item.classwork_id
+                                                      }
                                                     })
                                                   }
                                                 }

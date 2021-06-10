@@ -21,8 +21,9 @@ class CreateTblClassworksTable extends Migration
             $table->string("title");
             $table->mediumText("instruction");
             $table->dateTime("due_date");
-            $table->integer("duration");
+            $table->integer("duration")->nullable();
             $table->integer("status");
+            $table->integer("points")->nullable();
             $table->timestamps();
         });
     }

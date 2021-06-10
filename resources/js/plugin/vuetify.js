@@ -1,7 +1,9 @@
 import Vue from 'vue'
+import DatetimePicker from 'vuetify-datetime-picker'
 import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
 Vue.use(Vuetify)
+Vue.use(DatetimePicker)
 
 export default new Vuetify({
     theme: {

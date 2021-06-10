@@ -114,8 +114,27 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['PostId', 'UserDetails', 'commentCount'],
+  props: ['PostId', 'UserDetails', 'commentCount', 'LikesCount'],
   data: function data() {
     return {
       totalComment: null,
@@ -129,7 +148,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       data: {},
       showComment: false,
       commentLength: null,
-      isRemoving: false
+      isRemoving: false,
+      isEditing: false,
+      idEditing_id: null,
+      UpdateComment: ''
     };
   },
   computed: {
@@ -259,7 +281,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           }
         }, _callee5);
       }))();
-    }
+    },
+    UpdateCommentData: function UpdateCommentData() {}
   }
 });
 
@@ -279,6 +302,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _actions_commentList__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./actions/commentList */ "./resources/js/components/course-view/tabs/announcement-tab/actions/commentList.vue");
+//
 //
 //
 //
@@ -611,11 +635,11 @@ var render = function() {
         [
           _c(
             "v-btn",
-            { attrs: { text: "" } },
+            { attrs: { rounded: "", text: "" } },
             [
               _c(
                 "v-badge",
-                { attrs: { content: "1" } },
+                { attrs: { content: _vm.LikesCount, value: _vm.LikesCount } },
                 [
                   _c("v-icon", { staticClass: "mr-1" }, [
                     _vm._v("mdi-thumb-up-outline")
@@ -631,7 +655,7 @@ var render = function() {
           _c(
             "v-btn",
             {
-              attrs: { text: "" },
+              attrs: { rounded: "", text: "" },
               on: {
                 click: function($event) {
                   _vm.commentCount != 0
@@ -683,7 +707,13 @@ var render = function() {
                     [
                       _c(
                         "v-avatar",
-                        { attrs: { size: "36" } },
+                        {
+                          class:
+                            _vm.isEditing && _vm.idEditing_id == item.id
+                              ? "mt-1"
+                              : "",
+                          attrs: { size: "36" }
+                        },
                         [
                           _c("v-img", {
                             staticClass: "rounded-circle",
@@ -714,19 +744,56 @@ var render = function() {
                               attrs: { "ma-0": "", "pa-0": "" }
                             },
                             [
-                              _c("span", { staticClass: "d-block name" }, [
-                                _vm._v(_vm._s(item.name))
-                              ]),
+                              !_vm.isEditing || _vm.idEditing_id != item.id
+                                ? _c("span", { staticClass: "d-block name" }, [
+                                    _vm._v(_vm._s(item.name))
+                                  ])
+                                : _vm._e(),
                               _vm._v(" "),
-                              _c(
-                                "span",
-                                {
-                                  staticClass: "caption",
-                                  staticStyle: { "line-height": "1.5" }
-                                },
-                                [_vm._v(_vm._s(item.content))]
-                              )
-                            ]
+                              !_vm.isEditing || _vm.idEditing_id != item.id
+                                ? _c(
+                                    "span",
+                                    {
+                                      staticClass: "caption",
+                                      staticStyle: { "line-height": "1.5" }
+                                    },
+                                    [_vm._v(_vm._s(item.content))]
+                                  )
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _vm.isEditing && _vm.idEditing_id == item.id
+                                ? _c("v-text-field", {
+                                    staticClass: "text-caption",
+                                    attrs: {
+                                      "append-outer-icon": "mdi-send",
+                                      "prepend-avatar": "mdi-emoticon-dead",
+                                      filled: "",
+                                      rounded: "",
+                                      dense: "",
+                                      "clear-icon": "mdi-close-circle",
+                                      clearable: "",
+                                      placeholder: "Comment",
+                                      type: "text"
+                                    },
+                                    on: {
+                                      "click:append-outer": function($event) {
+                                        return _vm.UpdateCommentData()
+                                      },
+                                      "click:clear": function($event) {
+                                        _vm.UpdateComment = ""
+                                      }
+                                    },
+                                    model: {
+                                      value: _vm.UpdateComment,
+                                      callback: function($$v) {
+                                        _vm.UpdateComment = $$v
+                                      },
+                                      expression: "UpdateComment"
+                                    }
+                                  })
+                                : _vm._e()
+                            ],
+                            1
                           ),
                           _vm._v(" "),
                           _c(
@@ -773,6 +840,35 @@ var render = function() {
                                 "v-list",
                                 { attrs: { "pa-0": "", "ma-0": "" } },
                                 [
+                                  _c(
+                                    "v-list-item",
+                                    { attrs: { "ma-0": "", "pa-0": "" } },
+                                    [
+                                      _c(
+                                        "v-list-item-title",
+                                        [
+                                          _c(
+                                            "v-btn",
+                                            {
+                                              attrs: { text: "" },
+                                              on: {
+                                                click: function($event) {
+                                                  ;(_vm.UpdateComment =
+                                                    item.content),
+                                                    (_vm.isEditing = true),
+                                                    (_vm.idEditing_id = item.id)
+                                                }
+                                              }
+                                            },
+                                            [_vm._v("Edit")]
+                                          )
+                                        ],
+                                        1
+                                      )
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
                                   _c(
                                     "v-list-item",
                                     { attrs: { "ma-0": "", "pa-0": "" } },
@@ -1019,6 +1115,7 @@ var render = function() {
           _c("commentList", {
             attrs: {
               commentCount: post.comment_count,
+              LikesCount: post.likes_count,
               PostId: post.post_id,
               UserDetails: _vm.UserDetails
             },

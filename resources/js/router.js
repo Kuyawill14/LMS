@@ -55,6 +55,10 @@ let pdftest_tab = () =>
 
 
 
+let studentListComponent = () =>
+    import ("./components/course-view/tabs/student-list/studentListComponent");
+
+
 
 //Quiz Page
 let QuizPage = () =>
@@ -67,172 +71,235 @@ let courseView = () =>
 //View Classworks Details
 let classworkView = () =>
     import ("./components/Classwork_View/classworkDetailsView");
+let addQuestionTab = () =>
+    import ("./components/Classwork_View/tabs/addQuestionTab");
+let questionList = () =>
+    import ("./components/Classwork_View/tabs/questionListTab");
+
+let questionnAnalyticstab = () =>
+    import ("./components/Classwork_View/tabs/questionnAnalyticstab");
+let submissionListTab = () =>
+    import ("./components/Classwork_View/tabs/submissionListTab");
+let publishClassworkTab = () =>
+    import ("./components/Classwork_View/tabs/publishClassworkTab");
 
 
 
-let routes = [{
-        path: "",
-        component: mainApp,
-        name: "mainApp",
-        beforeEnter: (to, form, next) => {
-            axios
-                .get("/api/authenticated")
-                .then(() => {
-                    next();
-                })
-                .catch(() => {
-                    return next({
-                        path: "/login"
+
+
+const router = new Router({
+    mode: "history",
+    routes: [{
+            path: "",
+            component: mainApp,
+            name: "mainApp",
+            beforeEnter: (to, form, next) => {
+                axios
+                    .get("/api/authenticated")
+                    .then(() => {
+                        next();
+                    })
+                    .catch(() => {
+                        return next({
+                            path: "/login"
+                        });
                     });
-                });
+            },
+            children: [{
+                    path: "",
+                    component: mycourse,
+                    name: "courses"
+                },
+                {
+                    path: "course/:id",
+                    component: courseView,
+                    name: "selectedCourse",
+                    children: [{
+                            name: "coursePage",
+                            path: "",
+                            component: classes_tab,
+                            beforeEnter: (to, form, next) => {
+                                axios.get("/api/role")
+                                    .then((res) => {
+                                        console.log(res.data);
+                                        if (res.data == 'Teacher') {
+                                            next();
+                                        } else if (res.data == 'Student') {
+                                            next({
+                                                path: "course/" + to.params.id + "/announcement"
+                                            });
+                                        }
+                                    })
+                                    .catch((e) => {
+                                        console.log(e);
+                                    });
+                            },
+
+                        },
+                        {
+                            name: "announcement",
+                            path: "announcement",
+                            component: announcement_tab
+                        },
+                        {
+                            name: "classwork",
+                            path: "classwork",
+                            component: classwork_tab
+                        },
+                        {
+                            name: "modules",
+                            path: "modules",
+                            component: modules_tab,
+                            beforeEnter: (to, form, next) => {
+                                axios.get("/api/role")
+                                    .then((res) => {
+                                        console.log(res.data);
+                                        if (res.data == 'Teacher') {
+                                            next();
+                                        } else if (res.data == 'Student') {
+                                            next({
+                                                path: "my-modules"
+                                            });
+                                        }
+                                    })
+                                    .catch((e) => {
+                                        console.log(e);
+                                    });
+                            },
+
+                        },
+                        {
+                            name: "student-modules",
+                            path: "my-modules",
+                            component: studentmodules_tab
+                        },
+                        {
+                            name: "modules-preview",
+                            path: "modules-preview",
+                            component: studentmodules_tab
+                        },
+                        {
+                            name: "Student-list",
+                            path: "Student-list",
+                            component: studentListComponent
+                        },
+                        {
+                            name: "about",
+                            path: "about",
+                            component: about_tab
+                        },
+                        {
+                            name: "settings",
+                            path: "settings",
+                            component: settings_tab
+                        },
+                        {
+                            name: "gradingCriteria",
+                            path: "grading-criteria",
+                            component: grading_criteria_tab
+                        },
+                        {
+                            name: "gradebook",
+                            path: "grade-book",
+                            component: gradeBook_tab
+                        },
+                        {
+                            name: "pdftest",
+                            path: "pdftest",
+                            component: pdftest_tab
+                        },
+
+
+
+                    ],
+                },
+
+                {
+                    path: "/profile",
+                    component: profile,
+                    name: "profile_page"
+                },
+            ],
+
         },
-        children: [{
-                path: "",
-                component: mycourse,
-                name: "courses"
-            },
-            {
-                path: "course/:id",
-                component: courseView,
-                name: "selectedCourse",
-                children: [{
-                        name: "coursePage",
-                        path: "",
-                        component: classes_tab,
-                        beforeEnter: (to, form, next) => {
-                            axios.get("/api/role")
-                                .then((res) => {
-                                    console.log(res.data);
-                                    if (res.data == 'Teacher') {
-                                        next();
-                                    } else if (res.data == 'Student') {
-                                        next({
-                                            path: "course/" + to.params.id + "/announcement"
-                                        });
-                                    }
-                                })
-                                .catch((e) => {
-                                    console.log(e);
-                                });
-                        },
+        {
+            path: "/classwork/:id",
+            component: classworkView,
 
-                    },
-                    {
-                        name: "announcement",
-                        path: "announcement",
-                        component: announcement_tab
-                    },
-                    {
-                        name: "classwork",
-                        path: "classwork",
-                        component: classwork_tab
-                    },
-                    {
-                        name: "modules",
-                        path: "modules",
-                        component: modules_tab,
-                        beforeEnter: (to, form, next) => {
-                            axios.get("/api/role")
-                                .then((res) => {
-                                    console.log(res.data);
-                                    if (res.data == 'Teacher') {
-                                        next();
-                                    } else if (res.data == 'Student') {
-                                        next({
-                                            path: "my-modules"
-                                        });
-                                    }
-                                })
-                                .catch((e) => {
-                                    console.log(e);
-                                });
-                        },
+            props: true,
+            children: [{
+                    name: "clwk",
+                    path: "add-question",
+                    component: addQuestionTab
+                },
+                {
+                    name: "question-list",
+                    path: "question-list",
+                    component: questionList
+                },
+                {
+                    name: "submission-list",
+                    path: "submission-list",
+                    component: submissionListTab
+                },
+                {
+                    name: "question-analytics",
+                    path: "question-analytics",
+                    component: questionnAnalyticstab
+                },
+                {
+                    name: "publish-to",
+                    path: "publish-to",
+                    component: publishClassworkTab
+                }
 
-                    },
-                    {
-                        name: "student-modules",
-                        path: "my-modules",
-                        component: studentmodules_tab
-                    },
-                    {
-                        name: "modules-preview",
-                        path: "modules-preview",
-                        component: studentmodules_tab
-                    },
-                    {
-                        name: "about",
-                        path: "about",
-                        component: about_tab
-                    },
-                    {
-                        name: "settings",
-                        path: "settings",
-                        component: settings_tab
-                    },
-                    {
-                        name: "gradingCriteria",
-                        path: "grading-criteria",
-                        component: grading_criteria_tab
-                    },
-                    {
-                        name: "gradebook",
-                        path: "grade-book",
-                        component: gradeBook_tab
-                    },
-                    {
-                        name: "pdftest",
-                        path: "pdftest",
-                        component: pdftest_tab
-                    },
+            ]
+        },
+        {
+            path: "/quiz/:id",
+            component: QuizPage,
+            name: "quizstart",
+            props: true
+        },
 
+        {
+            path: "/login",
+            component: login,
+            name: "login"
+        }, {
+            path: "/register",
+            component: register,
+            name: "register"
+        },
 
+        // {
+        //     path: '/:pathMatch(.*)*',
+        //     component: error404
+        // },
+        // {
+        //     path: "/nopermission",
+        //     component: error404
+        // }
 
-                ],
-            },
+    ]
+})
 
-            {
-                path: "/profile",
-                component: profile,
-                name: "profile_page"
-            },
-        ],
-
-    },
-    {
-        path: "/classwork/:id",
-        component: classworkView,
-        name: "clwk",
-        props: true
-    },
-    {
-        path: "/quiz/:id",
-        component: QuizPage,
-        name: "quizstart",
-        props: true
-    },
-
-    {
-        path: "/login",
-        component: login,
-        name: "login"
-    }, {
-        path: "/register",
-        component: register,
-        name: "register"
-    },
-
-    // {
-    //     path: '/:pathMatch(.*)*',
-    //     component: error404
-    // },
-    // {
-    //     path: "/nopermission",
-    //     component: error404
-    // }
-];
-
-export default new Router({
+/* router.beforeEach((to, from, next) => {
+    
+    if (to.name) {
+        app.$Progress.start();
+    }
+    
+    next()
+  })
+  router.afterEach(() => {
+    app.$Progress.finish();
+  })
+ */
+/* export default new Router({
     mode: "history",
 
     routes
 });
+ */
+export default router

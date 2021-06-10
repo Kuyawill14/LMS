@@ -29,7 +29,9 @@
 <script>
 export default {
     props:['DeleteDetails'],
-
+    data: ()=>({
+      DeleteData:{}
+    }),
     methods:{
          toastSuccess() {
             return this.$toasted.success("Question Successfully re", {
@@ -42,9 +44,15 @@ export default {
          RemoveQuestion(id){
             axios.delete('/api/question/remove/'+ id)
             .then((res)=>{
+                this.DeleteData = {};
                 this.$emit('reloadList');
             })
         }
+    },
+    mounted(){
+      this.DeleteData = this.DeleteDetails;
+      console.log(this.DeleteDetails);
     }
+
 }
 </script>

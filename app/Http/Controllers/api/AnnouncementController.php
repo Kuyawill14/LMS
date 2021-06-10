@@ -35,9 +35,11 @@ class AnnouncementController extends Controller
         $allClassPost = tbl_classpost::where('tbl_classposts.class_id', $id)
         ->select('tbl_classposts.id as post_id', 'tbl_class_announcements.id as announcement_id','tbl_class_announcements.*','tbl_user_details.profile_pic', DB::raw('CONCAT(users.firstname, " ", users.lastName) as name'))
         ->selectRaw('count(tbl_comments.id ) as comment_count')
+        ->selectRaw('count(tbl_likes.id ) as likes_count')
         ->leftJoin('tbl_classworks', 'tbl_classposts.classwork_id', '=', 'tbl_classworks.id')
         ->leftJoin('tbl_class_announcements', 'tbl_classposts.announcement_id', '=', 'tbl_class_announcements.id')
         ->leftJoin('tbl_comments', 'tbl_classposts.id', '=', 'tbl_comments.post_id')
+        ->leftJoin('tbl_likes', 'tbl_classposts.id', '=', 'tbl_likes.post_id')
         ->leftJoin('users', 'tbl_classposts.user_id', '=', 'users.id')
         ->leftJoin('tbl_user_details', 'users.id', '=', 'tbl_user_details.user_id')
         ->orderBy('created_at', 'DESC')
@@ -150,7 +152,8 @@ class AnnouncementController extends Controller
             'updated_at'=>$NewAnnouncement->updated_at, 
             'name' => $username[0]->name,
             'profile_pic' => $username[0]->profile_pic,
-            'comment_count' => 0
+            'comment_count' => 0,
+            'likes_count' => 0
         ]);
      
     }

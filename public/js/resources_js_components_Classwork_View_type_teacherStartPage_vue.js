@@ -27,18 +27,36 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-var questionAdd = function questionAdd() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_actions_QuestionAdd_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../actions/QuestionAdd */ "./resources/js/components/Classwork_View/actions/QuestionAdd.vue"));
-};
-
-var questionList = function questionList() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_actions_QuestionList_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../actions/QuestionList */ "./resources/js/components/Classwork_View/actions/QuestionList.vue"));
-};
-
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  components: {
-    questionAdd: questionAdd,
-    questionList: questionList
+  data: function data() {
+    return {
+      activeTab: "",
+      tabs: [{
+        name: "clwk",
+        text: "ADD QUESTION",
+        icon: "mdi-text-box-plus-outline"
+      }, {
+        name: "question-list",
+        text: "QUESTION LIST",
+        icon: "mdi-clipboard-list"
+      }, {
+        name: "publish-to",
+        text: "PUBLISH TO",
+        icon: "mdi-publish"
+      }, {
+        name: "submission-list",
+        text: "SUBMISSION LIST",
+        icon: "mdi-notebook-check-outline"
+      }, {
+        name: "question-analytics",
+        text: "QUESTION ANALYTICS",
+        icon: "mdi-google-analytics"
+      }]
+    };
   }
 });
 
@@ -132,11 +150,60 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("v-app", [
-    _c("div", { staticClass: "container" }, [_c("questionAdd")], 1),
-    _vm._v(" "),
-    _c("div", { staticClass: "container" }, [_c("questionList")], 1)
-  ])
+  return _c(
+    "v-app",
+    [
+      _c(
+        "v-tabs",
+        {
+          staticClass: "pt-2",
+          attrs: { rounded: "", centered: "" },
+          model: {
+            value: _vm.activeTab,
+            callback: function($$v) {
+              _vm.activeTab = $$v
+            },
+            expression: "activeTab"
+          }
+        },
+        [
+          _vm._l(_vm.tabs, function(item, index) {
+            return _c(
+              "v-tab",
+              {
+                key: index,
+                attrs: {
+                  to: {
+                    name: item.name,
+                    query: { clwk: _vm.$route.query.clwk }
+                  }
+                }
+              },
+              [
+                _c("v-icon", { attrs: { left: "" } }, [
+                  _vm._v(
+                    "\n            " + _vm._s(item.icon) + "\n            "
+                  )
+                ]),
+                _vm._v(
+                  "\n            " +
+                    _vm._s(_vm.$vuetify.breakpoint.xs ? "" : item.text) +
+                    "\n        "
+                )
+              ],
+              1
+            )
+          }),
+          _vm._v(" "),
+          _c("v-tabs-items", { attrs: { value: _vm.activeTab } }, [
+            _c("div", { staticClass: "container" }, [_c("router-view")], 1)
+          ])
+        ],
+        2
+      )
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true

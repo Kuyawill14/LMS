@@ -21636,22 +21636,15 @@ var render = function() {
             [
               _c(
                 "v-col",
-                {
-                  staticClass: "primary pl-5 pt-2",
-                  attrs: { cols: "12", md: "12" }
-                },
+                { staticClass: "pl-5 pt-2", attrs: { cols: "12", md: "12" } },
                 [
                   _c(
                     "v-btn",
                     {
-                      staticClass: "white--text",
                       attrs: { rounded: "", text: "" },
                       on: {
                         click: function($event) {
-                          return _vm.$router.push({
-                            name: "classwork",
-                            params: { id: _vm.$route.params.id }
-                          })
+                          return _vm.$router.push({ name: "classwork" })
                         }
                       }
                     },
