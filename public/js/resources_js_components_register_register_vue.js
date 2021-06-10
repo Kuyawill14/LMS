@@ -106,60 +106,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -384,7 +330,11 @@ var render = function() {
                                                     to: { name: "login" }
                                                   }
                                                 },
-                                                [_vm._v("Click here")]
+                                                [
+                                                  _vm._v(
+                                                    "Click\n                                                here"
+                                                  )
+                                                ]
                                               )
                                             ],
                                             1
@@ -650,7 +600,7 @@ var render = function() {
                                                 [_vm._v("mdi-login")]
                                               ),
                                               _vm._v(
-                                                "\n                              Sign Up\n                              "
+                                                "\n                                            Sign Up\n                                        "
                                               )
                                             ],
                                             1
@@ -683,7 +633,7 @@ var render = function() {
                                                     [_vm._v("mdi-facebook")]
                                                   ),
                                                   _vm._v(
-                                                    "\n                                  Facebook\n                                  "
+                                                    "\n                                                Facebook\n                                            "
                                                   )
                                                 ],
                                                 1
@@ -705,7 +655,7 @@ var render = function() {
                                                     [_vm._v("mdi-google-plus")]
                                                   ),
                                                   _vm._v(
-                                                    "\n                                  Google Plus\n                                  "
+                                                    "\n                                                Google Plus\n                                            "
                                                   )
                                                 ],
                                                 1

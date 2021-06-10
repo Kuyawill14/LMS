@@ -46,6 +46,15 @@ let studentmodules_tab = () =>
     import ("./components/course-view/tabs/modules-tab/user-type/studentmodulesComponent");
 let classes_tab = () =>
     import ("./components/course-view/tabs/classes-tab/classesComponent");
+let gradeBook_tab = () =>
+    import ("./components/course-view/tabs/gradebook-tab/gradebookComponent");
+let pdftest_tab = () =>
+    import ("./components/course-view/tabs/modules-tab/user-type/test");
+
+
+
+
+
 
 //Quiz Page
 let QuizPage = () =>
@@ -164,6 +173,16 @@ let routes = [{
                         name: "gradingCriteria",
                         path: "grading-criteria",
                         component: grading_criteria_tab
+                    },
+                    {
+                        name: "gradebook",
+                        path: "grade-book",
+                        component: gradeBook_tab
+                    },
+                    {
+                        name: "pdftest",
+                        path: "pdftest",
+                        component: pdftest_tab
                     },
 
 

@@ -102,6 +102,34 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
  //import modulesListComponent from './modulesListComponent'
 
@@ -119,6 +147,7 @@ var modulesListComponent = function modulesListComponent() {
   },
   data: function data() {
     return {
+      info: [],
       contentHover: false,
       removeX: true,
       listDialaog: false,
@@ -136,6 +165,9 @@ var modulesListComponent = function modulesListComponent() {
     };
   },
   methods: {
+    openHandler: function openHandler(pdfApp) {
+      window._pdfApp = pdfApp;
+    },
     expandContent: function expandContent() {
       this.isExpand = !this.isExpand;
     },
@@ -457,7 +489,8 @@ var render = function() {
                                 staticStyle: { width: "100%", height: "100%" },
                                 attrs: {
                                   title: "office viewer",
-                                  src: _vm.iframeSrc + _vm.googledocsParams,
+                                  src:
+                                    "https://docs.google.com/viewer?url=http://infolab.stanford.edu/pub/papers/google.pdf&embedded=true&a=bi&pagenumber=5",
                                   sandbox:
                                     "allow-same-origin allow-scripts allow-popups allow-forms"
                                 }
@@ -544,7 +577,55 @@ var render = function() {
                               },
                               [_vm._v("Download")]
                             )
-                          ])
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            { attrs: { id: "pdf-wrapper" } },
+                            [
+                              _c(
+                                "pdf",
+                                {
+                                  attrs: {
+                                    src:
+                                      "https://edu.stacktrek.com/uploads/courses/2304/files/multiculturalbanks.7vQ3q5Vj.pdf"
+                                  }
+                                },
+                                [
+                                  _c("template", { slot: "loading" }, [
+                                    _vm._v(
+                                      "\n                                   loading content here...\n                               "
+                                    )
+                                  ])
+                                ],
+                                2
+                              )
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            { attrs: { id: "info" } },
+                            [
+                              _c("h1", [_vm._v("PDF info:")]),
+                              _vm._v(" "),
+                              _vm._l(_vm.info, function(item) {
+                                return _c("div", { key: item.name }, [
+                                  _c("span", [
+                                    _vm._v(
+                                      _vm._s(item.name) +
+                                        ": " +
+                                        _vm._s(item.value)
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("br")
+                                ])
+                              })
+                            ],
+                            2
+                          )
                         ],
                         1
                       )
@@ -573,7 +654,7 @@ var render = function() {
                             { staticStyle: { "font-size": "14rem" } },
                             [
                               _vm._v(
-                                "\n                        mdi-book-variant-multiple\n                    "
+                                "\n                           mdi-book-variant-multiple\n                       "
                               )
                             ]
                           ),
