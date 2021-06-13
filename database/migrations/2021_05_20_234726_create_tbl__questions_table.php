@@ -20,6 +20,8 @@ class CreateTblQuestionsTable extends Migration
             $table->mediumText('answer');
             $table->string('type');
             $table->integer('points');
+            $table->boolean('sensitivity')->default(0);
+            $table->boolean('required')->default(0);
             $table->timestamps();
         });
     }

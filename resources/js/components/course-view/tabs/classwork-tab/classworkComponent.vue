@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-dialog v-model="dialog" persistent max-width="45%">
+        <v-dialog v-model="dialog" persistent max-width="600">
             <newClassworkModal
             v-on:CloseDialog="dialog =!dialog"
             v-on:realodClassworks="getGeneralClassworks(), dialog = !dialog" 

@@ -282,7 +282,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 
 
 
@@ -314,22 +313,40 @@ __webpack_require__.r(__webpack_exports__);
       Questype: "",
       questionIndex: 0,
       duration: '',
-      Alphabet: ""
+      Alphabet: "",
+      options: {
+        modules: {
+          'toolbar': [['bold', 'italic', 'underline', 'strike'], [{
+            'list': 'bullet'
+          }], ['image']]
+        }
+      },
+      TimerCount: [],
+      tempCounter: 0,
+      timeCount: null
     };
   },
   computed: (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(["getAll_questions"]),
   methods: {
+    CountTime: function CountTime() {
+      var _this = this;
+
+      this.timeCount = setInterval(function () {
+        _this.tempCounter = _this.tempCounter + 1;
+        /* console.log(this.tempCounter); */
+      }, 1000);
+    },
     SubmitPromp: function SubmitPromp() {
       this.isRemoving = true;
       this.dialog = true;
       ;
     },
     reset: function reset(value, index) {
-      var _this = this;
+      var _this2 = this;
 
       if (this.AnswerRadio[index] === value) {
         this.$nextTick(function () {
-          _this.AnswerRadio[index] = null;
+          _this2.AnswerRadio[index] = null;
         });
       }
     },
@@ -342,147 +359,176 @@ __webpack_require__.r(__webpack_exports__);
       ;
     },
     next: function next() {
-      if (this.Questype == 'Multiple Choice' || this.Questype == 'True or False') {
-        if (this.FinalAnswers.length != 0) {
-          var check = false;
-          var index = 0;
+      if (this.TimerCount[this.questionIndex] != null || '') {
+        this.TimerCount[this.questionIndex] = this.TimerCount[this.questionIndex] + this.tempCounter;
+      } else {
+        this.TimerCount[this.questionIndex] = this.tempCounter;
+      }
 
-          for (var i = 0; i < this.FinalAnswers.length; i++) {
-            if (this.FinalAnswers[i].Question_id == this.PickAnswers_id.quesId) {
-              check = true;
-              index = i;
+      clearInterval(this.timeCount);
+      this.tempCounter = 0;
+      this.CountTime();
+
+      if (this.PickAnswers.ans == undefined || this.PickAnswers.ans == '') {
+        this.FinalAnswers.push({
+          Answer: '',
+          Question_id: this.getAll_questions.Question[this.questionIndex].id,
+          type: this.getAll_questions.Question[this.questionIndex].type,
+          timeConsume: this.TimerCount[this.questionIndex]
+        });
+        console.log(this.FinalAnswers);
+      } else {
+        if (this.Questype == 'Multiple Choice' || this.Questype == 'True or False') {
+          if (this.FinalAnswers.length != 0) {
+            var check = false;
+            var index = 0;
+
+            for (var i = 0; i < this.FinalAnswers.length; i++) {
+              if (this.FinalAnswers[i].Question_id == this.PickAnswers_id.quesId) {
+                check = true;
+                index = i;
+              }
             }
-          }
 
-          if (check == true) {
-            this.FinalAnswers[index] = {
-              Answer: this.PickAnswers.ans,
-              Question_id: this.PickAnswers_id.quesId,
-              type: this.Questype
-            };
-            console.log(this.FinalAnswers);
+            if (check == true) {
+              this.FinalAnswers[index] = {
+                Answer: this.PickAnswers.ans,
+                Question_id: this.PickAnswers_id.quesId,
+                type: this.Questype,
+                timeConsume: this.TimerCount[this.questionIndex]
+              };
+              console.log(this.FinalAnswers);
+            } else {
+              this.FinalAnswers.push({
+                Answer: this.PickAnswers.ans,
+                Question_id: this.PickAnswers_id.quesId,
+                type: this.Questype,
+                timeConsume: this.TimerCount[this.questionIndex]
+              });
+              console.log(this.FinalAnswers);
+            }
           } else {
             this.FinalAnswers.push({
               Answer: this.PickAnswers.ans,
               Question_id: this.PickAnswers_id.quesId,
-              type: this.Questype
+              type: this.Questype,
+              timeConsume: this.TimerCount[this.questionIndex]
             });
             console.log(this.FinalAnswers);
           }
-        } else {
-          this.FinalAnswers.push({
-            Answer: this.PickAnswers.ans,
-            Question_id: this.PickAnswers_id.quesId,
-            type: this.Questype
-          });
-          console.log(this.FinalAnswers);
         }
-      }
 
-      if (this.Questype == 'Identification') {
-        if (this.FinalAnswers.length != 0) {
-          var _check = false;
-          var _index = 0;
+        if (this.Questype == 'Identification') {
+          if (this.FinalAnswers.length != 0) {
+            var _check = false;
+            var _index = 0;
 
-          for (var _i = 0; _i < this.FinalAnswers.length; _i++) {
-            if (this.FinalAnswers[_i].Question_id == this.PickAnswers_id.quesId) {
-              _check = true;
-              _index = _i;
+            for (var _i = 0; _i < this.FinalAnswers.length; _i++) {
+              if (this.FinalAnswers[_i].Question_id == this.PickAnswers_id.quesId) {
+                _check = true;
+                _index = _i;
+              }
             }
-          }
 
-          if (_check == true) {
-            this.FinalAnswers[_index] = {
-              Answer: this.IdentificationAns[this.questionIndex],
-              Question_id: this.PickAnswers_id.quesId,
-              type: this.Questype
-            };
-            console.log(this.FinalAnswers);
+            if (_check == true) {
+              this.FinalAnswers[_index] = {
+                Answer: this.IdentificationAns[this.questionIndex],
+                Question_id: this.PickAnswers_id.quesId,
+                type: this.Questype,
+                timeConsume: this.TimerCount[this.questionIndex]
+              };
+              console.log(this.FinalAnswers);
+            } else {
+              this.FinalAnswers.push({
+                Answer: this.IdentificationAns[this.questionIndex],
+                Question_id: this.PickAnswers_id.quesId,
+                type: this.Questype,
+                timeConsume: this.TimerCount[this.questionIndex]
+              });
+              console.log(this.FinalAnswers);
+            }
           } else {
             this.FinalAnswers.push({
               Answer: this.IdentificationAns[this.questionIndex],
               Question_id: this.PickAnswers_id.quesId,
-              type: this.Questype
+              type: this.Questype,
+              timeConsume: this.TimerCount[this.questionIndex]
             });
             console.log(this.FinalAnswers);
           }
-        } else {
-          this.FinalAnswers.push({
-            Answer: this.IdentificationAns[this.questionIndex],
-            Question_id: this.PickAnswers_id.quesId,
-            type: this.Questype
-          });
-          console.log(this.FinalAnswers);
         }
-      }
 
-      if (this.Questype == 'Two Colums Multiple Choice') {
-        if (this.FinalAnswers.length != 0) {
-          var _check2 = false;
-          var _index2 = 0;
+        if (this.Questype == 'Two Colums Multiple Choice') {
+          if (this.FinalAnswers.length != 0) {
+            var _check2 = false;
+            var _index2 = 0;
 
-          for (var _i2 = 0; _i2 < this.FinalAnswers.length; _i2++) {
-            if (this.FinalAnswers[_i2].Question_id == this.PickAnswers_id.quesId) {
-              _check2 = true;
-              _index2 = _i2;
+            for (var _i2 = 0; _i2 < this.FinalAnswers.length; _i2++) {
+              if (this.FinalAnswers[_i2].Question_id == this.PickAnswers_id.quesId) {
+                _check2 = true;
+                _index2 = _i2;
+              }
             }
-          }
 
-          if (_check2 == true) {
-            var Ans = new Array();
+            if (_check2 == true) {
+              var Ans = new Array();
 
-            for (var _i3 = 0; _i3 < this.getAll_questions.Answer[this.questionIndex].SubAnswer.length; _i3++) {
-              for (var x = 0; x < this.getAll_questions.Answer[this.questionIndex].SubAnswer.length; x++) {
-                if (this.Alphabet[x].toUpperCase() == this.SubAnswers[_i3].toUpperCase()) {
-                  Ans[_i3] = this.getAll_questions.Answer[this.questionIndex].SubAnswer[x].Choice;
+              for (var _i3 = 0; _i3 < this.getAll_questions.Answer[this.questionIndex].SubAnswer.length; _i3++) {
+                for (var x = 0; x < this.getAll_questions.Answer[this.questionIndex].SubAnswer.length; x++) {
+                  if (this.Alphabet[x].toUpperCase() == this.SubAnswers[_i3].toUpperCase()) {
+                    Ans[_i3] = this.getAll_questions.Answer[this.questionIndex].SubAnswer[x].Choice;
+                  }
+                }
+              }
+
+              this.FinalAnswers[_index2] = {
+                Answer: this.SubAnswers,
+                Question_id: this.PickAnswers_id.quesId,
+                SubQuestion_id: this.quesNumber,
+                type: this.Questype,
+                timeConsume: this.TimerCount[this.questionIndex]
+              };
+              console.log(this.FinalAnswers);
+            } else {
+              var _Ans = new Array();
+
+              for (var _i4 = 0; _i4 < this.getAll_questions.Answer[this.questionIndex].SubAnswer.length; _i4++) {
+                for (var _x = 0; _x < this.getAll_questions.Answer[this.questionIndex].SubAnswer.length; _x++) {
+                  if (this.Alphabet[_x].toUpperCase() == this.SubAnswers[_i4].toUpperCase()) {
+                    _Ans[_i4] = this.getAll_questions.Answer[this.questionIndex].SubAnswer[_x].Choice;
+                  }
+                }
+              }
+
+              this.FinalAnswers.push({
+                Answer: _Ans,
+                Question_id: this.PickAnswers_id.quesId,
+                SubQuestion_id: this.quesNumber,
+                type: this.Questype,
+                timeConsume: this.TimerCount[this.questionIndex]
+              });
+              console.log(this.FinalAnswers);
+            }
+          } else {
+            var _Ans2 = new Array();
+
+            for (var _i5 = 0; _i5 < this.getAll_questions.Answer[this.questionIndex].SubAnswer.length; _i5++) {
+              for (var _x2 = 0; _x2 < this.getAll_questions.Answer[this.questionIndex].SubAnswer.length; _x2++) {
+                if (this.Alphabet[_x2].toUpperCase() == this.SubAnswers[_i5].toUpperCase()) {
+                  _Ans2[_i5] = this.getAll_questions.Answer[this.questionIndex].SubAnswer[_x2].Choice;
                 }
               }
             }
 
-            this.FinalAnswers[_index2] = {
-              Answer: this.SubAnswers,
-              Question_id: this.PickAnswers_id.quesId,
-              SubQuestion_id: this.quesNumber,
-              type: this.Questype
-            };
-            console.log(this.FinalAnswers);
-          } else {
-            var _Ans = new Array();
-
-            for (var _i4 = 0; _i4 < this.getAll_questions.Answer[this.questionIndex].SubAnswer.length; _i4++) {
-              for (var _x = 0; _x < this.getAll_questions.Answer[this.questionIndex].SubAnswer.length; _x++) {
-                if (this.Alphabet[_x].toUpperCase() == this.SubAnswers[_i4].toUpperCase()) {
-                  _Ans[_i4] = this.getAll_questions.Answer[this.questionIndex].SubAnswer[_x].Choice;
-                }
-              }
-            }
-
             this.FinalAnswers.push({
-              Answer: _Ans,
+              Answer: _Ans2,
               Question_id: this.PickAnswers_id.quesId,
               SubQuestion_id: this.quesNumber,
-              type: this.Questype
+              type: this.Questype,
+              timeConsume: this.TimerCount[this.questionIndex]
             });
             console.log(this.FinalAnswers);
           }
-        } else {
-          var _Ans2 = new Array();
-
-          for (var _i5 = 0; _i5 < this.getAll_questions.Answer[this.questionIndex].SubAnswer.length; _i5++) {
-            for (var _x2 = 0; _x2 < this.getAll_questions.Answer[this.questionIndex].SubAnswer.length; _x2++) {
-              if (this.Alphabet[_x2].toUpperCase() == this.SubAnswers[_i5].toUpperCase()) {
-                _Ans2[_i5] = this.getAll_questions.Answer[this.questionIndex].SubAnswer[_x2].Choice;
-              }
-            }
-          }
-
-          this.FinalAnswers.push({
-            Answer: _Ans2,
-            Question_id: this.PickAnswers_id.quesId,
-            SubQuestion_id: this.quesNumber,
-            type: this.Questype
-          });
-          console.log(this.FinalAnswers);
         }
       }
 
@@ -496,10 +542,19 @@ __webpack_require__.r(__webpack_exports__);
     },
     // Go to previous question
     prev: function prev() {
+      if (this.TimerCount[this.questionIndex] != null || '') {
+        this.TimerCount[this.questionIndex] = this.TimerCount[this.questionIndex] + this.tempCounter;
+      } else {
+        this.TimerCount[this.questionIndex] = this.tempCounter;
+      }
+
+      clearInterval(this.timeCount);
+      this.tempCounter = 0;
+      this.CountTime();
       this.questionIndex--;
     },
     SubmitAnswer: function SubmitAnswer() {
-      var _this2 = this;
+      var _this3 = this;
 
       this.isLoading = !this.isLoading;
       this.isSubmitting = !this.isSubmitting;
@@ -507,20 +562,37 @@ __webpack_require__.r(__webpack_exports__);
       this.next();
       axios.post('/api/question/check/' + this.$route.query.clwk, {
         item: this.FinalAnswers,
-        AnsLength: this.questionIndex
+        AnsLength: this.questionIndex,
+        timerCount: this.TimerCount
       }).then(function () {
         setTimeout(function () {
-          _this2.isLoading = !_this2.isLoading;
-          _this2.isSubmitting = !_this2.isSubmitting;
+          _this3.isLoading = !_this3.isLoading;
+          _this3.isSubmitting = !_this3.isSubmitting;
+        }, 2000);
+      });
+    },
+    TimesUpSubmit: function TimesUpSubmit() {
+      var _this4 = this;
+
+      this.isLoading = !this.isLoading;
+      this.isSubmitting = !this.isSubmitting;
+      axios.post('/api/question/check/' + this.$route.query.clwk, {
+        item: this.FinalAnswers,
+        AnsLength: this.questionIndex,
+        timerCount: this.TimerCount
+      }).then(function () {
+        setTimeout(function () {
+          _this4.isLoading = !_this4.isLoading;
+          _this4.isSubmitting = !_this4.isSubmitting;
         }, 2000);
       });
     },
     fetchQuestions: function fetchQuestions() {
-      var _this3 = this;
+      var _this5 = this;
 
       this.$store.dispatch('fetchQuestions', this.$route.query.clwk).then(function (res) {
-        _this3.Qlength = res[1];
-        _this3.isLoading = false;
+        _this5.Qlength = res[1];
+        _this5.isLoading = false;
       });
     },
     preventNav: function preventNav(event) {
@@ -540,16 +612,17 @@ __webpack_require__.r(__webpack_exports__);
          
       }, */
   mounted: function mounted() {
-    var _this4 = this;
+    var _this6 = this;
 
     this.isStart = true;
     var alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
     this.Alphabet = alphabet;
     axios.get('/api/classwork/showDetails/' + this.$route.query.clwk).then(function (res) {
-      _this4.duration = res.data.Details[0].duration;
+      _this6.duration = res.data.Details[0].duration;
 
-      _this4.fetchQuestions();
+      _this6.fetchQuestions();
     });
+    this.CountTime();
   }
 });
 
@@ -596,11 +669,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['duration'],
   data: function data() {
     return {
+      checkTime: null,
       displayHours: 0,
       displayMinutes: 0,
       displaySeconds: 0,
@@ -643,7 +718,7 @@ __webpack_require__.r(__webpack_exports__);
         finalSeconds = parseInt(moment__WEBPACK_IMPORTED_MODULE_0___default()(StartTime).format('ss')) + 1;
         localStorage.setItem('seconds_tic', finalSeconds);
       } else {
-        finalSeconds = parseInt(localStorage.getItem('seconds_tic')) + 1;
+        finalSeconds = parseInt(localStorage.getItem('seconds_tic'));
       }
 
       var year = moment__WEBPACK_IMPORTED_MODULE_0___default()(StartTime).format('YYYY');
@@ -665,17 +740,19 @@ __webpack_require__.r(__webpack_exports__);
         }
       }
 
+      var letFinalMinutes;
       var SubDuration;
       var subMinutes = localStorage.getItem('time_remaining');
 
       if (subMinutes == null) {
-        localStorage.setItem('time_remaining', this.duration);
+        localStorage.setItem('time_remaining', this.duration - 1);
         SubDuration = this.duration;
+        letFinalMinutes = SubDuration + parseInt(minutes);
       } else {
         SubDuration = parseInt(subMinutes);
+        letFinalMinutes = SubDuration + parseInt(minutes);
       }
 
-      var letFinalMinutes = SubDuration + parseInt(minutes);
       var timer = setInterval(function () {
         var nowDate = new Date();
         var endDate = new Date(year, month, day, finalHour, letFinalMinutes, finalSeconds);
@@ -686,23 +763,33 @@ __webpack_require__.r(__webpack_exports__);
         var second = Math.floor(timeRemain % _this._minutes / _this._seconds);
         _this.displayHours = hours < 10 ? "0" + hours : hours;
         _this.displayMinutes = minutes < 10 ? "0" + minutes : minutes;
+
+        if (parseInt(localStorage.getItem('time_remaining')) == 0) {
+          _this.displayHours = '00';
+          _this.displayMinutes = '00';
+        }
+        /*   else{
+               this.displayHours = hours < 10 ?"0" + hours :hours;
+               this.displayMinutes = minutes < 10 ?"0" + minutes :minutes;
+          } */
+
+
         _this.displaySeconds = second < 10 ? "0" + second : second;
         _this.SecondProgress = _this.displaySeconds / 100;
 
-        if (second == 0) {
-          var remain_time = parseInt(localStorage.getItem('time_remaining') - 1);
-          localStorage.setItem('time_remaining', remain_time);
+        if (second == '00') {
           var check = localStorage.getItem('time_remaining');
 
           if (check == '0') {
-            clearInterval(timer);
+            _this.$emit('TimesUp');
 
-            _this.$router.push({
-              path: '/'
-            });
+            clearInterval(timer); //this.$router.push({path: '/'});
 
             localStorage.removeItem('time_remaining');
             localStorage.removeItem('seconds_tic');
+          } else {
+            var remain_time = parseInt(localStorage.getItem('time_remaining'));
+            localStorage.setItem('time_remaining', remain_time - 1);
           }
         }
 
@@ -762,10 +849,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/StudentPage/ExamQuestionListPage.vue?vue&type=style&index=0&id=38e5e010&scoped=true&lang=css&":
-/*!**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/StudentPage/ExamQuestionListPage.vue?vue&type=style&index=0&id=38e5e010&scoped=true&lang=css& ***!
-  \**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/StudentPage/ExamQuestionListPage.vue?vue&type=style&index=0&lang=css&":
+/*!**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/StudentPage/ExamQuestionListPage.vue?vue&type=style&index=0&lang=css& ***!
+  \**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /***/ ((module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -779,7 +866,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.centered-input[data-v-38e5e010] input {\n  text-align: center\n}    \n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.centered-input >>> input {\n      text-align: center\n}\n.post-content img{\n        \n     max-height: 8rem !important;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -22231,9 +22318,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _ExamQuestionListPage_vue_vue_type_template_id_38e5e010_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ExamQuestionListPage.vue?vue&type=template&id=38e5e010&scoped=true& */ "./resources/js/components/Classwork_View/StudentPage/ExamQuestionListPage.vue?vue&type=template&id=38e5e010&scoped=true&");
+/* harmony import */ var _ExamQuestionListPage_vue_vue_type_template_id_38e5e010___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ExamQuestionListPage.vue?vue&type=template&id=38e5e010& */ "./resources/js/components/Classwork_View/StudentPage/ExamQuestionListPage.vue?vue&type=template&id=38e5e010&");
 /* harmony import */ var _ExamQuestionListPage_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ExamQuestionListPage.vue?vue&type=script&lang=js& */ "./resources/js/components/Classwork_View/StudentPage/ExamQuestionListPage.vue?vue&type=script&lang=js&");
-/* harmony import */ var _ExamQuestionListPage_vue_vue_type_style_index_0_id_38e5e010_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ExamQuestionListPage.vue?vue&type=style&index=0&id=38e5e010&scoped=true&lang=css& */ "./resources/js/components/Classwork_View/StudentPage/ExamQuestionListPage.vue?vue&type=style&index=0&id=38e5e010&scoped=true&lang=css&");
+/* harmony import */ var _ExamQuestionListPage_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ExamQuestionListPage.vue?vue&type=style&index=0&lang=css& */ "./resources/js/components/Classwork_View/StudentPage/ExamQuestionListPage.vue?vue&type=style&index=0&lang=css&");
 /* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -22245,11 +22332,11 @@ __webpack_require__.r(__webpack_exports__);
 
 var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__.default)(
   _ExamQuestionListPage_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
-  _ExamQuestionListPage_vue_vue_type_template_id_38e5e010_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render,
-  _ExamQuestionListPage_vue_vue_type_template_id_38e5e010_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  _ExamQuestionListPage_vue_vue_type_template_id_38e5e010___WEBPACK_IMPORTED_MODULE_0__.render,
+  _ExamQuestionListPage_vue_vue_type_template_id_38e5e010___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
   false,
   null,
-  "38e5e010",
+  null,
   null
   
 )
@@ -22387,19 +22474,19 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/Classwork_View/StudentPage/ExamQuestionListPage.vue?vue&type=template&id=38e5e010&scoped=true&":
-/*!********************************************************************************************************************************!*\
-  !*** ./resources/js/components/Classwork_View/StudentPage/ExamQuestionListPage.vue?vue&type=template&id=38e5e010&scoped=true& ***!
-  \********************************************************************************************************************************/
+/***/ "./resources/js/components/Classwork_View/StudentPage/ExamQuestionListPage.vue?vue&type=template&id=38e5e010&":
+/*!********************************************************************************************************************!*\
+  !*** ./resources/js/components/Classwork_View/StudentPage/ExamQuestionListPage.vue?vue&type=template&id=38e5e010& ***!
+  \********************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ExamQuestionListPage_vue_vue_type_template_id_38e5e010_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render),
-/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ExamQuestionListPage_vue_vue_type_template_id_38e5e010_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ExamQuestionListPage_vue_vue_type_template_id_38e5e010___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ExamQuestionListPage_vue_vue_type_template_id_38e5e010___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ExamQuestionListPage_vue_vue_type_template_id_38e5e010_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ExamQuestionListPage.vue?vue&type=template&id=38e5e010&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/StudentPage/ExamQuestionListPage.vue?vue&type=template&id=38e5e010&scoped=true&");
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ExamQuestionListPage_vue_vue_type_template_id_38e5e010___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ExamQuestionListPage.vue?vue&type=template&id=38e5e010& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/StudentPage/ExamQuestionListPage.vue?vue&type=template&id=38e5e010&");
 
 
 /***/ }),
@@ -22438,27 +22525,27 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/Classwork_View/StudentPage/ExamQuestionListPage.vue?vue&type=style&index=0&id=38e5e010&scoped=true&lang=css&":
-/*!**********************************************************************************************************************************************!*\
-  !*** ./resources/js/components/Classwork_View/StudentPage/ExamQuestionListPage.vue?vue&type=style&index=0&id=38e5e010&scoped=true&lang=css& ***!
-  \**********************************************************************************************************************************************/
+/***/ "./resources/js/components/Classwork_View/StudentPage/ExamQuestionListPage.vue?vue&type=style&index=0&lang=css&":
+/*!**********************************************************************************************************************!*\
+  !*** ./resources/js/components/Classwork_View/StudentPage/ExamQuestionListPage.vue?vue&type=style&index=0&lang=css& ***!
+  \**********************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ExamQuestionListPage_vue_vue_type_style_index_0_id_38e5e010_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-style-loader/index.js!../../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ExamQuestionListPage.vue?vue&type=style&index=0&id=38e5e010&scoped=true&lang=css& */ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/StudentPage/ExamQuestionListPage.vue?vue&type=style&index=0&id=38e5e010&scoped=true&lang=css&");
-/* harmony import */ var _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ExamQuestionListPage_vue_vue_type_style_index_0_id_38e5e010_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ExamQuestionListPage_vue_vue_type_style_index_0_id_38e5e010_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ExamQuestionListPage_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-style-loader/index.js!../../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ExamQuestionListPage.vue?vue&type=style&index=0&lang=css& */ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/StudentPage/ExamQuestionListPage.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ExamQuestionListPage_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ExamQuestionListPage_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__);
 /* harmony reexport (unknown) */ var __WEBPACK_REEXPORT_OBJECT__ = {};
-/* harmony reexport (unknown) */ for(const __WEBPACK_IMPORT_KEY__ in _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ExamQuestionListPage_vue_vue_type_style_index_0_id_38e5e010_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== "default") __WEBPACK_REEXPORT_OBJECT__[__WEBPACK_IMPORT_KEY__] = () => _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ExamQuestionListPage_vue_vue_type_style_index_0_id_38e5e010_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__[__WEBPACK_IMPORT_KEY__]
+/* harmony reexport (unknown) */ for(const __WEBPACK_IMPORT_KEY__ in _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ExamQuestionListPage_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== "default") __WEBPACK_REEXPORT_OBJECT__[__WEBPACK_IMPORT_KEY__] = () => _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ExamQuestionListPage_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__[__WEBPACK_IMPORT_KEY__]
 /* harmony reexport (unknown) */ __webpack_require__.d(__webpack_exports__, __WEBPACK_REEXPORT_OBJECT__);
 
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/StudentPage/ExamQuestionListPage.vue?vue&type=template&id=38e5e010&scoped=true&":
-/*!***********************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/StudentPage/ExamQuestionListPage.vue?vue&type=template&id=38e5e010&scoped=true& ***!
-  \***********************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/StudentPage/ExamQuestionListPage.vue?vue&type=template&id=38e5e010&":
+/*!***********************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/StudentPage/ExamQuestionListPage.vue?vue&type=template&id=38e5e010& ***!
+  \***********************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -22558,7 +22645,14 @@ var render = function() {
         "div",
         [
           !_vm.isLoading
-            ? _c("quizTimer", { attrs: { duration: _vm.duration } })
+            ? _c("quizTimer", {
+                attrs: { duration: _vm.duration },
+                on: {
+                  TimesUp: function($event) {
+                    return _vm.TimesUpSubmit()
+                  }
+                }
+              })
             : _vm._e()
         ],
         1
@@ -22882,10 +22976,17 @@ var render = function() {
                                                                                     : ""
                                                                                 },
                                                                                 [
-                                                                                  _vm._v(
-                                                                                    _vm._s(
-                                                                                      item.question
-                                                                                    )
+                                                                                  _c(
+                                                                                    "span",
+                                                                                    {
+                                                                                      staticClass:
+                                                                                        "post-content",
+                                                                                      domProps: {
+                                                                                        innerHTML: _vm._s(
+                                                                                          item.question
+                                                                                        )
+                                                                                      }
+                                                                                    }
                                                                                   )
                                                                                 ]
                                                                               )
@@ -23025,12 +23126,17 @@ var render = function() {
                                                                                                   }
                                                                                                 },
                                                                                                 [
-                                                                                                  _vm._v(
-                                                                                                    "\r\n                                                                        " +
-                                                                                                      _vm._s(
-                                                                                                        Ans.Choice
-                                                                                                      ) +
-                                                                                                      "\r\n                                                                    "
+                                                                                                  _c(
+                                                                                                    "span",
+                                                                                                    {
+                                                                                                      staticClass:
+                                                                                                        "post-content",
+                                                                                                      domProps: {
+                                                                                                        innerHTML: _vm._s(
+                                                                                                          Ans.Choice
+                                                                                                        )
+                                                                                                      }
+                                                                                                    }
                                                                                                   )
                                                                                                 ]
                                                                                               )
@@ -23126,53 +23232,67 @@ var render = function() {
                                                                                 },
                                                                                 [
                                                                                   _c(
-                                                                                    "v-textarea",
+                                                                                    "v-card",
                                                                                     {
                                                                                       staticClass:
-                                                                                        "pa-0 ma-0",
-                                                                                      attrs: {
-                                                                                        filled:
-                                                                                          "",
-                                                                                        label:
-                                                                                          "Answer",
-                                                                                        "auto-grow":
-                                                                                          ""
-                                                                                      },
-                                                                                      on: {
-                                                                                        change: function(
-                                                                                          $event
-                                                                                        ) {
-                                                                                          ;(_vm.PickAnswers_id.quesId =
-                                                                                            item.id),
-                                                                                            (_vm.Questype =
-                                                                                              item.type),
-                                                                                            (_vm.checker[
-                                                                                              index
-                                                                                            ] =
-                                                                                              _vm.IdentificationAns[
-                                                                                                index
-                                                                                              ])
-                                                                                        }
-                                                                                      },
-                                                                                      model: {
-                                                                                        value:
-                                                                                          _vm
-                                                                                            .IdentificationAns[
-                                                                                            index
-                                                                                          ],
-                                                                                        callback: function(
-                                                                                          $$v
-                                                                                        ) {
-                                                                                          _vm.$set(
-                                                                                            _vm.IdentificationAns,
-                                                                                            index,
-                                                                                            $$v
-                                                                                          )
-                                                                                        },
-                                                                                        expression:
-                                                                                          "IdentificationAns[index]"
+                                                                                        "mb-3",
+                                                                                      staticStyle: {
+                                                                                        width:
+                                                                                          "100%"
                                                                                       }
-                                                                                    }
+                                                                                    },
+                                                                                    [
+                                                                                      _c(
+                                                                                        "editor",
+                                                                                        {
+                                                                                          attrs: {
+                                                                                            id:
+                                                                                              "editor-container",
+                                                                                            placeholder:
+                                                                                              "Answer",
+                                                                                            theme:
+                                                                                              "snow",
+                                                                                            options:
+                                                                                              _vm.options
+                                                                                          },
+                                                                                          on: {
+                                                                                            change: function(
+                                                                                              $event
+                                                                                            ) {
+                                                                                              ;(_vm.PickAnswers_id.quesId =
+                                                                                                item.id),
+                                                                                                (_vm.Questype =
+                                                                                                  item.type),
+                                                                                                (_vm.checker[
+                                                                                                  index
+                                                                                                ] =
+                                                                                                  _vm.IdentificationAns[
+                                                                                                    index
+                                                                                                  ])
+                                                                                            }
+                                                                                          },
+                                                                                          model: {
+                                                                                            value:
+                                                                                              _vm
+                                                                                                .IdentificationAns[
+                                                                                                index
+                                                                                              ],
+                                                                                            callback: function(
+                                                                                              $$v
+                                                                                            ) {
+                                                                                              _vm.$set(
+                                                                                                _vm.IdentificationAns,
+                                                                                                index,
+                                                                                                $$v
+                                                                                              )
+                                                                                            },
+                                                                                            expression:
+                                                                                              "IdentificationAns[index]"
+                                                                                          }
+                                                                                        }
+                                                                                      )
+                                                                                    ],
+                                                                                    1
                                                                                   )
                                                                                 ],
                                                                                 1
@@ -23862,22 +23982,19 @@ var render = function() {
                         "v-container",
                         { staticClass: "d-flex justify-center" },
                         [
-                          _vm.displayHours != 0
-                            ? _c("div", { attrs: { fab: "" } }, [
-                                _c("div", { staticClass: "text-md-h5" }, [
-                                  _vm._v(_vm._s(_vm.displayHours))
-                                ]),
-                                _vm._v(" "),
-                                _c("div", { staticClass: "caption ml-2" }, [
-                                  _vm._v("Hours")
-                                ])
-                              ])
-                            : _vm._e(),
+                          _c("div", { attrs: { fab: "" } }, [
+                            _c("div", { staticClass: "text-md-h5" }, [
+                              _vm._v(_vm._s(_vm.displayHours))
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "caption ml-2" }, [
+                              _vm._v("Hours")
+                            ])
+                          ]),
                           _vm._v(
-                            "\n                    " +
-                              _vm._s(_vm.displayHours != 0 ? ":" : "") +
-                              "\n                     "
+                            "\n                    :\n                    "
                           ),
+                          _vm._v(" "),
                           _c("div", { attrs: { fab: "" } }, [
                             _c("div", { staticClass: "text-md-h5" }, [
                               _vm._v(_vm._s(_vm.displayMinutes))
@@ -24003,22 +24120,22 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/StudentPage/ExamQuestionListPage.vue?vue&type=style&index=0&id=38e5e010&scoped=true&lang=css&":
-/*!*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-style-loader/index.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/StudentPage/ExamQuestionListPage.vue?vue&type=style&index=0&id=38e5e010&scoped=true&lang=css& ***!
-  \*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/StudentPage/ExamQuestionListPage.vue?vue&type=style&index=0&lang=css&":
+/*!*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-style-loader/index.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/StudentPage/ExamQuestionListPage.vue?vue&type=style&index=0&lang=css& ***!
+  \*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(/*! !!../../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ExamQuestionListPage.vue?vue&type=style&index=0&id=38e5e010&scoped=true&lang=css& */ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/StudentPage/ExamQuestionListPage.vue?vue&type=style&index=0&id=38e5e010&scoped=true&lang=css&");
+var content = __webpack_require__(/*! !!../../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ExamQuestionListPage.vue?vue&type=style&index=0&lang=css& */ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/StudentPage/ExamQuestionListPage.vue?vue&type=style&index=0&lang=css&");
 if(content.__esModule) content = content.default;
 if(typeof content === 'string') content = [[module.id, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
 var add = __webpack_require__(/*! !../../../../../node_modules/vue-style-loader/lib/addStylesClient.js */ "./node_modules/vue-style-loader/lib/addStylesClient.js").default
-var update = add("3b780d62", content, false, {});
+var update = add("08734392", content, false, {});
 // Hot Module Replacement
 if(false) {}
 

@@ -114,12 +114,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
       isTimer: false,
+      files: null,
       loading: false,
       dialog: false,
       form: new vform__WEBPACK_IMPORTED_MODULE_2__.default({}),
@@ -191,6 +195,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee);
       }))();
     }
+  },
+  beforeMount: function beforeMount() {
+    /* this.form.type = 'Objective Type'; */
   }
 });
 
@@ -21720,6 +21727,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "v-card",
+    { staticStyle: { "border-top": "3px solid #EF6C00" } },
     [
       _c(
         "v-form",
@@ -21740,66 +21748,68 @@ var render = function() {
                     [
                       _c(
                         "v-col",
-                        { attrs: { cols: "12" } },
+                        {
+                          staticClass: "mb-0 pb-0 pt-0 mt-0",
+                          attrs: { cols: "12" }
+                        },
                         [
-                          _c(
-                            "v-row",
-                            [
-                              _c(
-                                "v-col",
-                                { attrs: { cols: "12", lg: "8", md: "8" } },
-                                [
-                                  _c("v-text-field", {
-                                    attrs: {
-                                      label: "Title",
-                                      type: "text",
-                                      required: ""
-                                    },
-                                    model: {
-                                      value: _vm.form.title,
-                                      callback: function($$v) {
-                                        _vm.$set(_vm.form, "title", $$v)
-                                      },
-                                      expression: "form.title"
-                                    }
-                                  })
-                                ],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "v-col",
-                                { attrs: { cols: "12", lg: "4", md: "4" } },
-                                [
-                                  _c("v-select", {
-                                    attrs: {
-                                      items: ["Quiz", "test"],
-                                      label: "Type"
-                                    },
-                                    model: {
-                                      value: _vm.form.type,
-                                      callback: function($$v) {
-                                        _vm.$set(_vm.form, "type", $$v)
-                                      },
-                                      expression: "form.type"
-                                    }
-                                  })
-                                ],
-                                1
-                              )
-                            ],
-                            1
-                          )
+                          _c("v-select", {
+                            attrs: {
+                              outlined: "",
+                              items: ["Objective Type", "Subjective Type"],
+                              label: "Type"
+                            },
+                            model: {
+                              value: _vm.form.type,
+                              callback: function($$v) {
+                                _vm.$set(_vm.form, "type", $$v)
+                              },
+                              expression: "form.type"
+                            }
+                          })
                         ],
                         1
                       ),
                       _vm._v(" "),
                       _c(
                         "v-col",
-                        { attrs: { cols: "12" } },
+                        {
+                          staticClass: "mb-0 pb-0 pt-0 mt-0",
+                          attrs: { cols: "12" }
+                        },
                         [
                           _c("v-textarea", {
-                            attrs: { label: "Instruction", "auto-grow": "" },
+                            attrs: {
+                              rows: "1",
+                              outlined: "",
+                              label: "Title",
+                              "auto-grow": ""
+                            },
+                            model: {
+                              value: _vm.form.title,
+                              callback: function($$v) {
+                                _vm.$set(_vm.form, "title", $$v)
+                              },
+                              expression: "form.title"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-col",
+                        {
+                          staticClass: "mb-0 pb-0 pt-0 mt-0",
+                          attrs: { cols: "12" }
+                        },
+                        [
+                          _c("v-textarea", {
+                            attrs: {
+                              outlined: "",
+                              label: "Instruction",
+                              "auto-grow": ""
+                            },
                             model: {
                               value: _vm.form.instruction,
                               callback: function($$v) {
@@ -21812,111 +21822,108 @@ var render = function() {
                         1
                       ),
                       _vm._v(" "),
-                      _c(
-                        "v-col",
-                        { attrs: { cols: "12" } },
-                        [
-                          _c(
-                            "v-row",
+                      _vm.form.type == "Objective Type"
+                        ? _c(
+                            "v-col",
+                            {
+                              staticClass: "mb-0 pb-0 pt-0 mt-0",
+                              attrs: { cols: "12" }
+                            },
                             [
-                              _c(
-                                "v-col",
-                                [
-                                  _c("v-datetime-picker", {
-                                    attrs: {
-                                      label: "Due Date",
-                                      "text-field-props": _vm.textFieldProps,
-                                      "date-picker-props": _vm.dateProps,
-                                      "time-picker-props": _vm.timeProps,
-                                      "time-format": "HH:mm:ss",
-                                      color: "primary"
-                                    },
-                                    model: {
-                                      value: _vm.datetime,
-                                      callback: function($$v) {
-                                        _vm.datetime = $$v
-                                      },
-                                      expression: "datetime"
-                                    }
-                                  })
-                                ],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "v-col",
-                                [
-                                  _c(
-                                    "v-container",
-                                    {
-                                      staticClass:
-                                        "d-flex flex-row mb-0 pb-0 pt-0 mt-0"
-                                    },
-                                    [
-                                      _c(
-                                        "v-btn",
-                                        {
-                                          staticClass: "mr-1 mt-3",
-                                          attrs: { icon: "" },
-                                          on: {
-                                            click: function($event) {
-                                              _vm.isTimer = !_vm.isTimer
-                                            }
-                                          }
-                                        },
-                                        [
-                                          _c(
-                                            "v-icon",
-                                            {
-                                              attrs: {
-                                                color: _vm.isTimer
-                                                  ? "primary"
-                                                  : ""
-                                              }
-                                            },
-                                            [
-                                              _vm._v(
-                                                "\n                                            mdi-" +
-                                                  _vm._s(
-                                                    _vm.isTimer
-                                                      ? "timer"
-                                                      : "timer-off"
-                                                  ) +
-                                                  "\n                                        "
-                                              )
-                                            ]
-                                          )
-                                        ],
-                                        1
-                                      ),
-                                      _vm._v(" "),
-                                      _c("v-text-field", {
-                                        attrs: {
-                                          disabled: !_vm.isTimer,
-                                          hint: "mins",
-                                          label: "Time Limit",
-                                          type: "number"
-                                        },
-                                        model: {
-                                          value: _vm.form.duration,
-                                          callback: function($$v) {
-                                            _vm.$set(_vm.form, "duration", $$v)
-                                          },
-                                          expression: "form.duration"
-                                        }
-                                      })
-                                    ],
-                                    1
-                                  )
-                                ],
-                                1
-                              )
+                              _c("v-text-field", {
+                                attrs: {
+                                  "append-icon":
+                                    "mdi-" +
+                                    (_vm.isTimer ? "timer" : "timer-off"),
+                                  outlined: "",
+                                  min: "0",
+                                  hint: "mins",
+                                  label: "Time Limit",
+                                  type: "number"
+                                },
+                                on: {
+                                  click: function($event) {
+                                    _vm.isTimer = !_vm.isTimer
+                                  }
+                                },
+                                model: {
+                                  value: _vm.form.duration,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.form, "duration", $$v)
+                                  },
+                                  expression: "form.duration"
+                                }
+                              })
                             ],
                             1
                           )
-                        ],
-                        1
-                      )
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _vm.form.type == "Subjective Type"
+                        ? _c(
+                            "v-col",
+                            {
+                              staticClass: "mb-0 pb-0 pt-0 mt-0",
+                              attrs: { cols: "12" }
+                            },
+                            [
+                              _vm.form.type == "Subjective Type"
+                                ? _c("v-file-input", {
+                                    attrs: {
+                                      placeholder: "Upload your documents",
+                                      label: "File input",
+                                      outlined: "",
+                                      "show-size": "",
+                                      counter: "",
+                                      multiple: "",
+                                      "prepend-icon": "",
+                                      "prepend-inner-icon": "mdi-paperclip"
+                                    },
+                                    scopedSlots: _vm._u(
+                                      [
+                                        {
+                                          key: "selection",
+                                          fn: function(ref) {
+                                            var text = ref.text
+                                            return [
+                                              _c(
+                                                "v-chip",
+                                                {
+                                                  attrs: {
+                                                    small: "",
+                                                    label: "",
+                                                    color: "primary"
+                                                  }
+                                                },
+                                                [
+                                                  _vm._v(
+                                                    "\n                                " +
+                                                      _vm._s(text) +
+                                                      "\n                            "
+                                                  )
+                                                ]
+                                              )
+                                            ]
+                                          }
+                                        }
+                                      ],
+                                      null,
+                                      false,
+                                      1221588800
+                                    ),
+                                    model: {
+                                      value: _vm.files,
+                                      callback: function($$v) {
+                                        _vm.files = $$v
+                                      },
+                                      expression: "files"
+                                    }
+                                  })
+                                : _vm._e()
+                            ],
+                            1
+                          )
+                        : _vm._e()
                     ],
                     1
                   )

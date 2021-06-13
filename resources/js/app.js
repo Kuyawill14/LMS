@@ -8,23 +8,6 @@ require('./bootstrap');
 
 window.Vue = require('vue').default;
 
-import Vue from 'vue'
-
-import router from "./router";
-import VueProgressBar from 'vue-progressbar'
-Vue.use(VueProgressBar, {
-    color: '#EF6C00',
-    failedColor: '#B71C1C',
-    thickness: '6px',
-    transition: {
-        speed: '0.2s',
-        opacity: '0.6s',
-        termination: 300
-    },
-        
-});
-
-
 import Toasted from 'vue-toasted';
 import vuetify from './plugin/vuetify';
 import VueCoreVideoPlayer from 'vue-core-video-player'
@@ -47,8 +30,11 @@ Vue.component(AlertSuccess.name, AlertSuccess);
 Vue.use(VueCoreVideoPlayer)
 
 
+
+
 //Vuex Store
 import store from "./store/store";
+import router from "./router";
 
 Vue.component('example-component', require('./components/app.vue').default);
 

@@ -2,13 +2,10 @@
     <v-container class="fill-height" fluid>
         <v-row align="center" justify="center">
           <v-col cols="12" sm="12" md="5">
-            <v-card  class="elevation-12">
+            <v-card  class="elevation-12" style="border-top:5px solid #EF6C00">
               <v-window>
                 <v-window-item >
                     <v-row>
-                        <v-col cols="12" md="12" class="primary">
-                          
-                        </v-col>
                           <v-col cols="12" md="12" class="pl-7 pr-9 pt-5">
                             <v-row style="height:5vh"></v-row>
                               <v-row>

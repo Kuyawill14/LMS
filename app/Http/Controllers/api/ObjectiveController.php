@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\DB;
 use App\Models\tbl_Questions;
 use App\Models\tbl_SubQuestion;
 use App\Models\tbl_choice;
+use App\Models\tbl_questionAnalytic;
+
 
 use Illuminate\Support\Collection;
 
@@ -24,7 +26,7 @@ class ObjectiveController extends Controller
         $Questions = tbl_Questions::where('tbl_questions.classwork_id', $id)
         ->Select('tbl_questions.id', 'tbl_questions.question', 'tbl_questions.type',
         'tbl_questions.answer','tbl_questions.points')
-        ->orderBy('created_at','DESC')
+        /* ->orderBy('created_at','DESC') */
         ->get();
         
         $temQuest;
@@ -95,13 +97,15 @@ class ObjectiveController extends Controller
      */
     public function store(Request $request)
     {
-
+       
         $newQuestion  = new tbl_Questions;
         $newQuestion->classwork_id = $request->classwork_id;
         $newQuestion->question = $request->questions['question'];
         $newQuestion->answer = $request->questions['answer'];
         $newQuestion->type = $request->questions['type'];
         $newQuestion->points = $request->questions['points'];
+        $newQuestion->required = $request->questions['Required'];
+        $newQuestion->sensitivity = $request->questions['Sensitive'];
         $newQuestion->save();
 
         $objectAnswer = array();
@@ -223,7 +227,6 @@ class ObjectiveController extends Controller
            
            
           $DelQuestion->delete();
-
           return "Success";
             
         }
@@ -239,26 +242,43 @@ class ObjectiveController extends Controller
      */
     public function check(Request $request, $id)
     {
+        return $request;
         $questionCount = tbl_Questions::where('tbl_questions.classwork_id', $id)->count();
         $Questions = tbl_Questions::where('tbl_questions.classwork_id', $id)
         ->Select('tbl_questions.id', 'tbl_questions.type','tbl_questions.answer','tbl_questions.points')
         ->get();
 
         $tempData = array();
-
-        /* foreach($Questions as $ques){
-            echo $ques['id'];
-        } */
         $score = 0;
+       
+
         foreach($request->item as $cl){
-            if($cl['type'] == 'Multiple Choice' || $cl['type'] == 'Identification' || $cl['type'] == 'True or False'){
+            if($cl['type'] == 'Multiple Choice' || $cl['type'] == 'Identification' || $cl['type'] == 'True or False')
+            {
                 foreach($Questions as $ques){
                     if($ques['id'] == $cl['Question_id']){
                         if($ques['answer'] == $cl['Answer']){
                             $score += $ques['points'];
+                            $AnalyticsFind = tbl_questionAnalytic::where('questions_id', $cl['Question_id']);
+                            if($AnalyticsFind){
+                                $AnalyticsFind->correct_count = ($AnalyticsFind->correct_count+1);
+                              /*   if($AnalyticsFind->shortest_time < ) */
+                            }
+                            else{
+
+                            }
                         }
+                        else{
+
+                        }
+                        
+                      
+                        //$newAnalytics  = new tbl_questionAnalytic;
                     }
                 }
+            }
+            else if ($cl['type'] == 'Matching Type'){
+
             }
         }
            

@@ -29,7 +29,7 @@ class ClassworkController extends Controller
         else{
             $classworkAll = tbl_classClassworks::where('tbl_userclasses.course_id','=', $id)
             ->where('tbl_userclasses.user_id','=', $userId)
-            ->select('tbl_class_classworks.*', 'tbl_classworks.type', 'tbl_classworks.title', 'tbl_classworks.instruction', 'tbl_classworks.due_date')
+            ->select('tbl_class_classworks.*', 'tbl_classworks.type', 'tbl_classworks.title', 'tbl_classworks.instruction')
             ->leftJoin('tbl_classworks', 'tbl_classworks.id', '=', 'tbl_class_classworks.classwork_id')
             ->leftJoin('tbl_userclasses', 'tbl_class_classworks.class_id', '=', 'tbl_userclasses.class_id')
             ->orderBy('created_at', 'DESC')
@@ -55,9 +55,7 @@ class ClassworkController extends Controller
         $newClasswork->type =  $request->type;
         $newClasswork->title =  $request->title;
         $newClasswork->instruction =  $request->instruction;
-        $newClasswork->due_date =  $request->due_date;
         $newClasswork->duration =  $request->duration;
-        $newClasswork->status =  0;
         $newClasswork->save();
         return $newClasswork;
     }
@@ -86,6 +84,14 @@ class ClassworkController extends Controller
         $shareClasswork = new tbl_classClassworks;
         $shareClasswork->class_id = $request->get('class_id');
         $shareClasswork->classwork_id = $request->get('classwork_id');
+        $shareClasswork->due_date = $request->get('due_date');
+        //$shareClasswork->showAnswer = $request->get('showAnswer');
+        if($request->get('showAnswer') == 'false'){
+            $shareClasswork->showAnswer = 0;
+        }else{
+            $shareClasswork->showAnswer = 1;
+        }
+        $shareClasswork->grading_criteria = $request->get('grading_id');
         $shareClasswork->save();
         return $shareClasswork;
   
@@ -103,12 +109,29 @@ class ClassworkController extends Controller
         /* $classworkDetails = tbl_classwork::where('tbl_classworks.id','=', $id)
         ->get();
         return $classworkDetails;  */
-        $classworkDetails = tbl_classwork::where('id','=', $id)
-        ->get();
+        $userId = auth('sanctum')->id();
+        $classworkDetails;
+        if(auth('sanctum')->user()->role != 'Student'){
+            $classworkDetails = tbl_classwork::where('tbl_classworks.id','=', $id)
+            ->get();
+        }
+        else{
+   
+            $classworkDetails = tbl_classwork::where('tbl_classworks.id','=', $id)
+            ->select('tbl_classworks.*', 'tbl_class_classworks.due_date','tbl_userclasses.user_id')
+            ->leftJoin('tbl_class_classworks', 'tbl_class_classworks.classwork_id','=','tbl_classworks.id')
+            ->leftJoin('tbl_userclasses', 'tbl_userclasses.user_id','=', 'tbl_classworks.user_id')
+            ->get();
+
+         
+        }
+
 
         $Items = tbl_Questions::where('classwork_id','=', $id)
         ->select('tbl_questions.points')
         ->get();
+
+
         $count = 0;
         $points = 0;
         foreach($Items as $i){
@@ -132,7 +155,7 @@ class ClassworkController extends Controller
             $UpdateClasswork->type =  $request->type;
             $UpdateClasswork->title =  $request->title;
             $UpdateClasswork->instruction =  $request->instruction;
-            $UpdateClasswork->due_date =  $request->due_date;
+            //$UpdateClasswork->due_date =  $request->due_date;
             $UpdateClasswork->duration =  $request->duration;
             $UpdateClasswork->save();
             return $UpdateClasswork;

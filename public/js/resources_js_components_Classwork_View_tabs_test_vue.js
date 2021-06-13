@@ -62,7 +62,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     getPdf: function getPdf() {
-      var pdf = '../../storage/test';
+      var pdf = '../../storage/test.pdf';
       return pdf;
     },
     base64ToArrayBuffer: function base64ToArrayBuffer(base64) {

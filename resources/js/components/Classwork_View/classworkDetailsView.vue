@@ -22,7 +22,9 @@
             </v-row>
         </v-container>
 
-      <teacherStartPage v-if="!isloading && CurrentUser.role == 'Teacher'" ></teacherStartPage>
+      <teacherStartPage v-if="!isloading && CurrentUser.role == 'Teacher'" 
+      :classworkDetails="classworkDetails"
+      ></teacherStartPage>
 
       <!-- Student Start Page -->
       <studentStartPage v-if="!isloading && CurrentUser.role == 'Student'" 

@@ -1,5 +1,6 @@
 
 <template>
+<v-app id="QuestionList">
 <v-hover v-slot="{ hover }">
 <v-expand-transition>
 <v-card :style="preview || previewAll ? 'border-top:5px solid #EF6C00':''" :elevation="preview && hover ? 20 : 5" class="pl-3 pr-3 pt-8">
@@ -52,24 +53,42 @@
                         <h2>Question #{{number}}</h2>
                         <v-row  class="pa-0 ma-0">
                             <v-col class="pa-0 ma-0" cols="3"  md="1" lg="1">
-                                <v-text-field :readonly="!isEditing" filled type="number" v-model="getQuestion.points" class="pa-0 ma-0"  label="Points"></v-text-field>
+                                   <v-text-field min="0" :readonly="!isEditing" outlined type="number" v-model="getQuestion.points" class="pa-0 ma-0"  label="Points"></v-text-field>
+                            </v-col>
+                            <v-col class="pa-0 ma-0 pl-2 pl-sm-0 text-right" cols="9" md="11" lg="11">
+                                    <v-select
+                                    :readonly="!isEditing"
+                                    v-model="getQuestion.type"
+                                    class="float-right pa-0 ma-0"
+                                    :items="['Multiple Choice', 'Identification', 'True or False', 'Matching type']"
+                                    outlined
+                                    label="Type"
+                                    ></v-select>
                             </v-col>
                         </v-row>
                         <v-container class="pa-0 ma-0" ma-0 pa-0> 
                             <v-row class="pa-0 ma-0">
-                                <v-col class="pa-0 ma-0" cols="12" md="9" lg="9">
-                                    <v-textarea
+                                <div class="font-weight-medium">Question</div>
+                                <v-col class="pa-0 ma-0" cols="12" md="12" lg="12">
+                                   <!--  <v-textarea
                                     rows="1"
-                                    :readonly="!isEditing"
+                                   
                                     v-model="getQuestion.question"
                                     filled
                                     class="pa-0 ma-0"
                                     label="Question"
                                     auto-grow
                                     required
-                                    ></v-textarea>
+                                    ></v-textarea> -->
+                                     <v-card style="width:100%" class="mb-3">
+                                        <editor
+                                            ref="Question"
+                                            v-model="getQuestion.question"
+                                            placeholder="Question" 
+                                            theme="snow" :options="options"></editor>
+                                    </v-card>
                                 </v-col>
-                                <v-col class="pa-0 ma-0 pl-md-3 pl-sm-0" cols="12" md="3" lg="3">
+                              <!--   <v-col class="pa-0 ma-0 pl-md-3 pl-sm-0" cols="12" md="3" lg="3">
                                     <v-select
                                     :readonly="!isEditing"
                                     v-model="getQuestion.type"
@@ -78,15 +97,16 @@
                                     filled
                                     label="Type"
                                     ></v-select>
-                                </v-col>
+                                </v-col> -->
                             </v-row>
                         </v-container>
                         
                         <v-container>
                             <v-row ma-0 pa-0>
-                                    <v-col ma-0 pa-0 class="ma-0 pa-0" cols="10" lg="12" md="12" v-for="(Ans, i) in getAnswerList" :key="Ans.id">
+                                <div class="font-weight-medium">Options</div>
+                                    <v-col ma-0 pa-0 class="ma-0 pa-0" cols="12" lg="12" md="12" v-for="(Ans, i) in getAnswerList" :key="Ans.id">
                                             <v-row>
-                                                <v-col cols="12" lg="9" md="9" class="pa-0 ma-0">
+                                                <v-col cols="12" lg="12" md="12" >
                                                     <v-container ma-0 pa-0 class="d-flex flex-row ma-0 pa-0">
                                                     <v-radio-group  v-model="getQuestion.answer">
                                                         <v-radio
@@ -99,7 +119,7 @@
                                                         ></v-radio>
                                                         </v-radio-group>
 
-                                                        <v-textarea
+                                                       <!--  <v-textarea
                                                         :readonly="!isEditing"
                                                         rows="1"
                                                         v-model="Ans.Choice"
@@ -108,7 +128,15 @@
                                                         :label="'Choice '+(i+1)"
                                                         auto-grow
                                                         required
-                                                        ></v-textarea>
+                                                        ></v-textarea> -->
+
+                                                        <v-card style="width:100%" class="mb-3">
+                                                            <editor
+                                                                v-model="Ans.Choice"
+                                                                id="editor-container"  :placeholder="'Option '+(i+1)" 
+                                                                theme="snow" :options="options"></editor>
+                                                        </v-card>
+
                                                         <v-btn
                                                         v-if="isEditing"
                                                         @click="removeOption(i,Ans.id, getAnswerList.length) "
@@ -149,14 +177,14 @@
                         </v-btn>
                     </v-container>
                     <v-container>
-                        <div :style="$vuetify.breakpoint.xs ? 'line-height:1.1':'line-height:1.2'" class="title">{{getQuestion.question}}</div>
+                        <div :style="$vuetify.breakpoint.xs ? 'line-height:1.1':'line-height:1.5'" class="subtitle-2"> <span v-html="getQuestion.question" class="post-content"></span></div>
                     </v-container>
                      <v-container class="pl-5 pr-5">
                         <v-container class="d-flex flex-row ma-0 pa-0" v-for="(Ans, i) in getAnswerList" :key="i">
                            <v-radio-group  class="ma-0 pa-0"  v-model="getQuestion.answer">
                             <v-radio
                             readonly
-                            @click="tempAnswer = getQuestion.answer, test()"
+                          
                             color="primary"
                             :key="i"
                            
@@ -164,8 +192,9 @@
                             ></v-radio>
                             </v-radio-group>
 
-                            <div class="Subtitle 1">
-                                {{Ans.Choice}}<span class="caption primary--text ml-1" v-if="getQuestion.answer == Ans.Choice">(correct answer)</span>
+                            <div class="Subtitle-1 d-flex">
+                                <span v-html="Ans.Choice" class="post-content"></span>
+                                <span class="caption primary--text ml-1 mt-1" v-if="getQuestion.answer == Ans.Choice">(correct answer)</span>
                             </div>
                              </v-container>
                     </v-container>
@@ -174,6 +203,7 @@
 </v-card>
 </v-expand-transition>
 </v-hover>
+</v-app>
 </template>
 <script>
 const deleteDialog = () => import('../dialogs/deleteDialog')
@@ -205,6 +235,16 @@ export default {
             DeleteDetails:{},
             message:'',
             isOptionIndex:null,
+            options:{
+            modules: {
+                    'toolbar': [
+                        ['bold', 'italic', 'underline', 'strike'],
+                
+                        [{ 'list': 'bullet' }],
+                        ['image'],
+                    ],
+                }
+            }
         }
     },
     computed:{
@@ -267,17 +307,28 @@ export default {
             }
           
         },
+        PreventScroll(){
+           $(document).ready(function(){
+               //$(this).scrollTop(0,5);
+                $(this).scrollTop({top: 0, behavior: "smooth"});
+                //window.scroll({top: 0, behavior: "smooth"})
+            });
+        }
         
     },
     mounted(){
         this.QuetionsList = this.Question;
         this.AnswerList =  this.Choices;
-    }
+        this.PreventScroll();
+    },
+    
     
 }
 </script>
 
 <style scoped>
-  
+  #QuestionList{
+      scroll-behavior:smooth !important;
+  }
         
 </style>

@@ -84,9 +84,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['classworkDetails', 'totalPoints', 'totalQuestion'],
@@ -220,7 +217,10 @@ var render = function() {
             [
               _c(
                 "v-card",
-                { staticClass: "elevation-12" },
+                {
+                  staticClass: "elevation-12",
+                  staticStyle: { "border-top": "5px solid #EF6C00" }
+                },
                 [
                   _c(
                     "v-window",
@@ -231,11 +231,6 @@ var render = function() {
                           _c(
                             "v-row",
                             [
-                              _c("v-col", {
-                                staticClass: "primary",
-                                attrs: { cols: "12", md: "12" }
-                              }),
-                              _vm._v(" "),
                               _c(
                                 "v-col",
                                 {

@@ -61,11 +61,7 @@
 
             </v-list-item>
 
-<<<<<<< HEAD
-            <v-list-item link v-if="role == 'Teacher'" exact>
-=======
             <v-list-item link :to="{name: 'Student-list'}"  v-if="role == 'Teacher'" exact>
->>>>>>> 69f1285b92fcf8f1db3d3aa68b295f5b3fc1a69d
                 <v-list-item-action>
                     <v-icon>mdi-account-group</v-icon>
                 </v-list-item-action>
@@ -76,25 +72,8 @@
                 </v-list-item-content>
 
             </v-list-item>
-<<<<<<< HEAD
-
-             <v-list-item link :to="{name: 'gradebook'}" exact v-if="role == 'Teacher'">
-                <v-list-item-action>
-                    <v-icon>mdi-book-open</v-icon>
-                </v-list-item-action>
-                <v-list-item-content>
-                    <v-list-item-title>
-                        Grade Book
-                    </v-list-item-title>
-                </v-list-item-content>
-
-            </v-list-item>
-
-            <v-list-item link :to="{name: 'gradingCriteria'}" v-if="role == 'Teacher'" exact>
-=======
    
             <v-list-item  link :to="{name: 'gradingCriteria'}"  v-if="role == 'Teacher'" exact>
->>>>>>> 69f1285b92fcf8f1db3d3aa68b295f5b3fc1a69d
                 <v-list-item-action>
                     <v-icon>mdi-chart-timeline-variant-shimmer
                     </v-icon>

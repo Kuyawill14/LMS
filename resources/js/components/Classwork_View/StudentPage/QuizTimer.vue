@@ -6,11 +6,12 @@
                 <div class="ma-0 pa-0 title">Time Remaining</div>
                 <v-container v-if="isLoaded" class="d-flex justify-center">
                     
-                    <div v-if="displayHours != 0" fab class="">
+                    <div  fab class="">
                         <div class="text-md-h5">{{displayHours}}</div>
                         <div class="caption ml-2">Hours</div>  
                     </div>
-                    {{displayHours != 0 ? ':' : ''}}
+                    :
+                    <!-- {{displayHours != 0 ? ':' : ''}} -->
                      <div fab class="">
                         <div class="text-md-h5">{{displayMinutes}}</div>
                         <div class="caption ml-2">Minutes </div>  
@@ -31,6 +32,7 @@ import moment from 'moment';
 export default {
     props:['duration'],
     data: ()=> ({
+        checkTime:null,
         displayHours: 0,
         displayMinutes: 0,
         displaySeconds: 0,
@@ -64,13 +66,14 @@ export default {
             let minutes = moment(StartTime).format('mm');
 
             let finalSeconds;
-            let seconds_tic = localStorage.getItem('seconds_tic')
+            let seconds_tic = localStorage.getItem('seconds_tic');
             if(seconds_tic == null){ 
                 finalSeconds = parseInt(moment(StartTime).format('ss'))+1;
                 localStorage.setItem('seconds_tic', finalSeconds);
+       
             }
             else{
-                finalSeconds = parseInt(localStorage.getItem('seconds_tic'))+1;
+                finalSeconds = parseInt(localStorage.getItem('seconds_tic'));
             }
             
            
@@ -98,26 +101,20 @@ export default {
               
             }
 
+            let letFinalMinutes;
             let SubDuration;
             let subMinutes = localStorage.getItem('time_remaining');
             if(subMinutes == null){
-                localStorage.setItem('time_remaining', this.duration);
+                localStorage.setItem('time_remaining', (this.duration-1));
                 SubDuration = this.duration
+                letFinalMinutes = ((SubDuration)+(parseInt(minutes)));
             }
             else{
                 SubDuration = (parseInt(subMinutes))
+                letFinalMinutes = ((SubDuration)+(parseInt(minutes)));
             }
-
-            let letFinalMinutes = ((SubDuration)+(parseInt(minutes)));
-  
-         
-                
-
-   
-                
-
+    
             const timer = setInterval(()=>{
-            
             const nowDate = new Date();
             const endDate = new Date(year,month,day,finalHour,letFinalMinutes,finalSeconds);
             const timeRemain = endDate.getTime() - nowDate.getTime();
@@ -126,23 +123,38 @@ export default {
             const hours = Math.floor((timeRemain % this._day)/this._hour);
             const minutes = Math.floor((timeRemain % this._hour)/this._minutes);
             const second = Math.floor((timeRemain % this._minutes)/this._seconds);
-            this.displayHours = hours < 10 ?"0" + hours :hours;
+
+             this.displayHours = hours < 10 ?"0" + hours :hours;
             this.displayMinutes = minutes < 10 ?"0" + minutes :minutes;
+            
+            if(parseInt(localStorage.getItem('time_remaining')) == 0){
+                this.displayHours = '00';
+                this.displayMinutes = '00';
+            }
+          /*   else{
+                 this.displayHours = hours < 10 ?"0" + hours :hours;
+                 this.displayMinutes = minutes < 10 ?"0" + minutes :minutes;
+            } */
+           
 
 
-                this.displaySeconds = second < 10 ?"0" + second :second;
+            this.displaySeconds = second < 10 ? "0" + second :second;
 
-                this.SecondProgress =   (this.displaySeconds / 100)
+            this.SecondProgress =   (this.displaySeconds / 100)
 
-                if(second == 0){
-                    let remain_time =parseInt((localStorage.getItem('time_remaining'))-1);
-                    localStorage.setItem('time_remaining', remain_time);
+                if(second == '00'){
                     let check = localStorage.getItem('time_remaining');
                     if(check == '0'){
+                        this.$emit('TimesUp');
                         clearInterval(timer);
-                        this.$router.push({path: '/'});
+                        //this.$router.push({path: '/'});
                         localStorage.removeItem('time_remaining');
                         localStorage.removeItem('seconds_tic');
+                        
+                    }
+                    else{
+                        let remain_time = parseInt(localStorage.getItem('time_remaining'));
+                        localStorage.setItem('time_remaining', (remain_time-1));
                     }
                 }
                 this.isLoaded = true;

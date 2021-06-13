@@ -45,14 +45,30 @@
                             </v-container>
                         <h2>Question #{{number}}</h2>
                         <v-row class="pa-0 ma-0">
-                            <v-col class="pa-0 ma-0" cols="3"  md="1" lg="1">
+                          <!--   <v-col class="pa-0 ma-0" cols="3"  md="1" lg="1">
                                 <v-text-field :readonly="!isEditing" filled type="number" v-model="QuetionsList.points" class="pa-0 ma-0"  label="Points"></v-text-field>
+                            </v-col> -->
+
+                            <v-col class="pa-0 ma-0" cols="3"  md="1" lg="1">
+                                    <v-text-field min="0" :readonly="!isEditing" outlined type="number" v-model="QuetionsList.points" class="pa-0 ma-0"  label="Points"></v-text-field>
+                            </v-col>
+                            <v-col class="pa-0 ma-0 pl-2 pl-sm-0 text-right" cols="9" md="11" lg="11">
+                                    <v-select
+                                    :readonly="!isEditing"
+                                    v-model="QuetionsList.type"
+                                    class="float-right pa-0 ma-0"
+                                    :items="['Multiple Choice', 'Identification', 'True or False', 'Matching type']"
+                                    outlined
+                                    label="Type"
+                                    ></v-select>
                             </v-col>
                         </v-row>
                         <v-container class="pa-0 ma-0" ma-0 pa-0> 
                             <v-row class="pa-0 ma-0">
-                                <v-col class="pa-0 ma-0" cols="12" md="9" lg="9">
-                                    <v-textarea
+                                
+                                <div class="font-weight-medium">Question</div>
+                                <v-col class="pa-0 ma-0" cols="12" md="12" lg="12">
+                                   <!--  <v-textarea
                                     rows="1"
                                     :readonly="!isEditing"
                                     v-model="QuetionsList.question"
@@ -61,9 +77,18 @@
                                     label="Question"
                                     auto-grow
                                     required
-                                    ></v-textarea>
+                                    ></v-textarea> -->
+                                      <v-card style="width:100%" class="mb-3">
+                                        <editor
+                                            ref="Question"
+                                            
+                                             :readonly="!isEditing"
+                                            v-model="QuetionsList.question"
+                                            id="editor-container"  placeholder="Question" 
+                                            theme="snow" :options="options"></editor>
+                                    </v-card>
                                 </v-col>
-                                <v-col class="pa-0 ma-0 pl-md-3 pl-sm-0" cols="12" md="3" lg="3">
+                              <!--   <v-col class="pa-0 ma-0 pl-md-3 pl-sm-0" cols="12" md="3" lg="3">
                                     <v-select
                                     :readonly="!isEditing"
                                     v-model="QuetionsList.type"
@@ -72,22 +97,29 @@
                                     filled
                                     label="Type"
                                     ></v-select>
-                                </v-col>
+                                </v-col> -->
                             </v-row>
                         </v-container>
                         
                         <v-container>
                             <v-row ma-0 pa-0>
-                                <v-col  ma-0 pa-0 class="ma-0 pa-0" cols="12">
-                                    <v-textarea
+                                <div class="font-weight-medium">  Answer</div>
+                                <v-col  ma-0 pa-0 class="ma-0 pa-0 " cols="12">
+                                  <!--   <v-textarea
                                     :readonly="!isEditing"
-                        
                                     v-model="QuetionsList.answer"
                                     filled
                                     class="pa-0 ma-0"
                                     label="Answer"
                                     auto-grow
-                                    ></v-textarea>
+                                    ></v-textarea> -->
+                                      <v-card style="width:100%" class="mb-3">
+                                        <editor
+                                        ref="Answer"
+                                            v-model="QuetionsList.answer"
+                                            id="editor-container"  placeholder="Question" 
+                                            :theme="!isEditing ? 'bubble' : 'snow'" :options="options"></editor>
+                                    </v-card>
                                 </v-col>
                             </v-row>
                         </v-container>
@@ -107,12 +139,13 @@
                         </v-btn>
                     </v-container>
                     <v-container>
-                        <div :style="$vuetify.breakpoint.xs ? 'line-height:1.1':'line-height:1.2'" class="title">{{QuetionsList.question}}</div>
+                        <div :style="$vuetify.breakpoint.xs ? 'line-height:1.1':'line-height:1.5'" class="subtitle-2"> <span v-html="QuetionsList.question" class="post-content"></span><!-- {{QuetionsList.question}} --></div>
                     </v-container>
                      <v-container class="pl-5 pr-5">
                          <div class="subtitle-2 font-weight-bold">Answer</div>
-                         <div class="subtitle-1">
-                             {{QuetionsList.answer}}<span class="caption primary--text ml-1">(correct answer)</span>
+                         <div class="subtitle-1 d-flex item">
+                             <span v-html="QuetionsList.answer" class="post-content"></span>
+                             <!-- {{QuetionsList.answer}} --><!-- <span class="caption primary--text ml-1">(correct answer)</span> -->
                          </div>
                       <!--   <v-container class="d-flex flex-row ma-0 pa-0" v-for="(x, n) in inputCheck" :key="n">
                            <v-radio-group  class="ma-0 pa-0"  v-model="QuetionsList.answer">
@@ -153,6 +186,16 @@ export default {
             isEditing: false,
             DeleteDetails:{},
             preview:false,
+            options:{
+            modules: {
+                    'toolbar': [
+                        ['bold', 'italic', 'underline', 'strike'],
+                
+                        [{ 'list': 'bullet' }],
+                        ['image'],
+                    ],
+                }
+            }
         }
     },
     methods:{
@@ -165,15 +208,39 @@ export default {
             this.isRemoving_id = id;
             this.dialog = true;;
         },
+         PreventScroll(){
+           $(document).ready(function(){
+                $(this).scroll({top: -1, behavior: "smooth"});
+                //window.scroll({top: 0, behavior: "smooth"})
+            });
+        }
+        
     },
-    mounted(){
+    created(){
         this.QuetionsList = this.Question;
-    }
+    },
+   
+    
     
 }
 </script>
 
-<style scoped>
-  
-        
+<style >
+/*  .ql-toolbar.ql-snow {
+        background: #f2f2f2;
+        border: none;
+ } */
+    .centered-input >>> input {
+    text-align: center
+}
+ .ql-editor img{
+
+    max-height: 10rem !important;
+}
+.ql-container{
+    max-height: 50rem;
+}
+.post-content img{
+     max-height: 10rem !important;
+}
 </style>

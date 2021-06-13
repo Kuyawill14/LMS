@@ -17,6 +17,12 @@ class CreateTblClassClassworksTable extends Migration
             $table->id();
             $table->integer('class_id');
             $table->integer('classwork_id');
+            $table->boolean("enable_due")->default(0);
+            $table->dateTime("due_date")->nullable();
+            $table->boolean("showAnswer")->default(0);
+            $table->dateTime("showDate")->nullable();
+            $table->boolean("response_late")->default(0);
+            $table->integer("grading_criteria")->nullable();
             $table->timestamps();
         });
     }

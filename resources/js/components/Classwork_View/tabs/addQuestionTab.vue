@@ -1,37 +1,62 @@
 <template>
-<v-container pa-0 ma-0 class="pa-0 ma-0" fluid>
+<div>
+<v-container class="fill-height" v-if="isloading" style="height: 500px;">
+    <v-row  align-content="center" justify="center">
+        <v-col class="text-subtitle-1 text-center" cols="12">
+            Loading
+        </v-col>
+        <v-col cols="6">
+            <v-progress-linear color="primary" indeterminate rounded height="6"></v-progress-linear>
+        </v-col>
+    </v-row>
+</v-container>
+
+<v-container v-if="!isloading" pa-0 ma-0 class="pa-0 ma-0" fluid>
         <v-row align="center" justify="center">
-          <v-col cols="12" lg="10" md="10">
-            <v-card  class="elevation-5">
+          <v-col cols="12" lg="12" md="12">
+            <v-card  class="elevation-5" style="border-top:5px solid #EF6C00">
               <v-window>
                 <v-window-item >
                     <v-form ref="form" v-model="valid" lazy-validation>
                         <v-row>
-                            <v-col cols="12" md="12" class="primary">
+                           <!--  <v-col cols="12" md="12" class="primary">
                                 <v-container class="d-flex flex-row justify-space-between">
                                     <div class="mt-1 text-sm-h3 text-md-h5 text-xl-h3 white--text">
                                     Add Question <v-icon color="white">mdi-book-plus</v-icon></div>
                                     <v-btn icon  @click="ShowAdd = !ShowAdd" >
-                                     
                                          <v-icon color="white">mdi-{{ShowAdd ? 'window-close':'eye'}}</v-icon>
                                     </v-btn>
                                 </v-container>
-                            </v-col>
-                            <v-col v-if="ShowAdd"  cols="12" md="12" class="pl-7 pr-9 pt-5">
-                                <v-row class="pa-0 ma-0">
+                            </v-col> -->
+                            <v-col v-if="ShowAdd"  cols="12" md="12" class="pl-7 pr-9 pt-10">
+                                <v-row mb-0 pb-0 class="pa-0 ma-0">
                                     <v-col class="pa-0 ma-0" cols="3"  md="1" lg="1">
-                                        <v-text-field @click="quesForm.points == 0 ? quesForm.points = '': ''" 
-                                        :rules="PointsRule" filled type="number" 
+                                        <v-text-field 
+                                        min="0"
+                                        :rules="PointsRule" outlined type="number" 
                                         v-model="quesForm.points" class="centered-input pa-0 ma-0"  
-                                        label="Points">
+                                        label="Points"
+                                      
+                                        >
+                                        
                                         </v-text-field>
+                                    </v-col>
+                                    <v-col class="pa-0 ma-0 pl-2 pl-sm-0 text-right" cols="9" md="11" lg="11">
+                                         <v-select
+                                            v-model="quesForm.type"
+                                            class="pa-0 ma-0 float-right"
+                                            :items="['Multiple Choice', 'Identification', 'True or False', 'Matching type']"
+                                            outlined
+                                            label="Question Type"
+                                            ></v-select> 
                                     </v-col>
                                 </v-row>
 
                                 <v-container class="pa-0 ma-0" ma-0 pa-0> 
                                     <v-row class="pa-0 ma-0">
-                                        <v-col class="pa-0 ma-0" cols="12" md="9" lg="9">
-                                            <v-textarea
+                                        <div class="font-weight-medium">Question</div>
+                                        <v-col class="pa-0 ma-0 mb-2" cols="12" md="12" lg="12">
+                                           <!--  <v-textarea
                                             rows="1"
                                             v-model="quesForm.question"
                                             filled
@@ -40,9 +65,16 @@
                                             label="Question"
                                             auto-grow
                                             required
-                                            ></v-textarea>
+                                            ></v-textarea> -->
+                                               <v-card  style="width:100%" class="mb-3">
+                                                <editor class="outlined" required :rules="rules"
+                                         
+                                                    v-model="quesForm.question"
+                                                     id="editor-container"  placeholder="Question" 
+                                                    theme="snow" :options="options"></editor>
+                                            </v-card>
                                         </v-col>
-                                        <v-col class="pa-0 ma-0 pl-md-3 pl-sm-0" cols="12" md="3" lg="3">
+                                       <!--  <v-col class="pa-0 ma-0 pl-md-3 pl-sm-0" cols="12" md="3" lg="3">
                                             <v-select
                                             v-model="quesForm.type"
                                             class="pa-0 ma-0"
@@ -50,21 +82,23 @@
                                             filled
                                             label="Type"
                                             ></v-select>
-                                        </v-col>
+                                        </v-col> -->
                                     </v-row>
                                 </v-container>
 
                                 <v-container  v-if="quesForm.type == 'Multiple Choice'">
-                                    <v-row ma-0 pa-0>
-                                        <v-col class="ma-0 pa-0 ml-2" cols="10" lg="12" md="12" v-for="(item, i) in form" :key="i">
+                                    
+                                    <v-row>
+                                    <div class="font-weight-medium">Options</div>
+                                        <v-col class="ma-0 pa-0 ml-2" cols="12" lg="12" md="12" v-for="(item, i) in form" :key="i">
                                                 <v-row>
-                                                    <v-col cols="12" lg="9" md="9" class="pa-0 ma-0">
-                                                        <v-container ma-0 pa-0 class="d-flex flex-row ma-0 pa-0">
+                                                    <v-col cols="12" lg="12" md="12" >
+                                                        <v-container  class="d-flex flex-row ma-0 pa-0">
                                                         <v-radio-group :rules="rules" v-model="quesForm.answer">
                                                             <v-radio
                                                             @click="tempAnswer = item.answer, test()"
                                                             color="primary"
-                                                            class="pa-0 ma-0"
+                                                            class="pa-0 ma-0 mt-4"
                                                             :disabled="item.answer.length == 0"
                                                             :key="i"
                                                             name="Answer" 
@@ -74,7 +108,7 @@
 
 
                                                         <!--   Text iNput -->
-                                                            <v-textarea
+                                                           <!--  <v-textarea
                                                     
                                                             ref="Choice"
                                                             :rules="rules"
@@ -86,7 +120,16 @@
                                                             :label="'Option '+(i+1)"
                                                             auto-grow
                                                             required
-                                                            ></v-textarea>
+                                                            ></v-textarea> -->
+
+                                                              <v-card style="width:100%" class="mb-3">
+                                                                <editor :rules="rules"
+                                                               
+                                                                 @change="checker = item.answer"
+                                                                 v-model="item.answer" 
+                                                                id="editor-container"  :placeholder="'Option '+(i+1)" 
+                                                                 theme="snow" :options="options"></editor>
+                                                            </v-card>
                                                             <!--  Image Input -->
                                                            <!--  <v-file-input
                                                                 :rules="Imagerules"
@@ -111,13 +154,13 @@
                                                             <v-btn
                                                             @click="item.answer == quesForm.answer ? (remove(i), quesForm.answer = '') : (remove(i),quesForm.answer = tempAnswer) "
                                                             icon class="mt-2 pl-2 pr-2">
-                                                                <v-icon>mdi-window-close</v-icon>
+                                                                <v-icon>mdi-delete</v-icon>
                                                             </v-btn>
                                                         </v-container>
                                                     </v-col>
                                                 </v-row>
                                         </v-col>
-                                        <v-col ma-0 pa-0 class="pa-0 ma-0 text-right" cols="12" md="8" lg="8">
+                                        <v-col ma-0 pa-0 class="pa-0 ma-0 text-right" cols="12" md="10" lg="10">
                                             <v-btn
                                             :disabled="checker.length == 0 && form.length >= 1"
                                             rounded
@@ -128,29 +171,39 @@
                                             <v-icon dark large>mdi-plus</v-icon>
                                             </v-btn>
                                         </v-col>
+                                          
                                     </v-row>
                                 
                                 </v-container>
 
                                 <v-container  v-if="quesForm.type == 'Identification'">
                                     <v-row ma-0 pa-0>
-                                        <v-col  ma-0 pa-0 class="ma-0 pa-0" cols="12">
-                                            <v-textarea
+                                        <div class="font-weight-medium">Answer</div>
+                                        <v-col  ma-0 pa-0 class="ma-0 pa-0 pl-9 pr-7" cols="12">
+                                            <!-- <v-textarea
                                             :rules="rules"
                                             v-model="quesForm.answer"
                                             filled
                                             class="pa-0 ma-0"
                                             label="Answer"
                                             auto-grow
-                                            ></v-textarea>
+                                            ></v-textarea> -->
+                                              <v-card style="width:100%" class="mb-3">
+                                                <editor :rules="rules"
+                                                    v-model="quesForm.answer" 
+                                                id="editor-container" placeholder="Answer" 
+                                                    theme="snow" :options="options"></editor>
+                                            </v-card>
                                         </v-col>
+                                        
+                                        
                                     </v-row>
                                 </v-container>
 
-                                <v-container  v-if="quesForm.type == 'True or False'">
-                                    <v-row ma-0 pa-0>
-                                        <v-col v-for="(x, n) in inputCheck" :key="n"  ma-0 pa-0 class="ma-0 pa-0" cols="12">
-                                            <v-container ma-0 pa-0 class="d-flex flex-row ma-0 pa-0">
+                                <v-container class="ma-0 pa-0"  v-if="quesForm.type == 'True or False'">
+                                    <v-row >
+                                        <v-col v-for="(x, n) in inputCheck" :key="n" class="ma-0 pa-0" cols="12">
+                                            <v-container class="d-flex flex-row ma-0 pa-0">
                                                 <v-radio-group :rules="rules" v-model="quesForm.answer">
                                                     <v-radio
                                                     
@@ -164,7 +217,7 @@
                                                     <v-textarea
                                                     readonly
                                                     rows="1"
-                                                    filled
+                                                    outlined
                                                     class="pa-0 ma-0"
                                                     :value="inputCheck[n]"
                                                     auto-grow
@@ -173,46 +226,78 @@
                                                     
                                                 </v-container>
                                         </v-col>
+                                         
                                     </v-row>
                                 </v-container>
 
                                  <v-container  v-if="quesForm.type == 'Matching type'">
                                     <v-row ma-0 pa-0>
+                                        
                                         <v-col  v-for="(item, i) in MatchQuestion" :key="i" ma-0 pa-0 class="ma-0 pa-0" cols="12">
                                            <v-row>
-                                               <v-col class="pt-0 pb-0 mt-0 mb-0" cols="7">
-                                                   <v-textarea
+                                            
+                                               <v-col  cols="12">
+                                                   <v-container  class="d-flex flex-row ma-0 pa-0">
+                                                   <!-- <v-textarea
                                                     @keyup="checker = item.answer"
                                                     rows="1"
                                                     :rules="rules"
                                                     v-model="item.question"
-                                                    filled
+                                                    outlined
                                                     class="pa-0 ma-0"
                                                     :label="'Question '+(i+1)"
                                                     auto-grow
                                                     required
-                                                    ></v-textarea>
+                                                    ></v-textarea> -->
+                                                    
+                                                    <v-card style="width:100%" outlined class="pa-3 mb-2">
+                                                          <div class="font-weight-medium">{{'Pair '}}{{i+1}}</div>
+                                               
+                                                      <v-card style="width:100%" class="mb-3">
+                                                        <editor :rules="rules"
+                                                            @change="checker = item.answer"
+                                                            v-model="item.question" 
+                                                        id="editor-container"  :placeholder="'Question '+(i+1)" 
+                                                            theme="snow" :options="options"></editor>
+                                                        </v-card>
+
+                                                         <v-card style="width:100%" class="mb-3">
+                                                        <editor :rules="rules"
+                                                            @change="checker = item.answer"
+                                                            v-model="item.answer" 
+                                                        id="editor-container"  :placeholder="'Answer '+(i+1)" 
+                                                            theme="snow" :options="options"></editor>
+                                                        </v-card>
+                                                    </v-card>
+
+                                                     <v-btn
+                                                    @click="removeMatch(i)"
+                                                    icon class="mt-12 pl-2 pr-2">
+                                                        <v-icon>mdi-delete</v-icon>
+
+                                                    </v-btn>
+                                                    </v-container>
                                                </v-col>
-                                               <v-col class="pt-0 pb-0 mt-0 mb-0" cols="4">
+                                            <!--    <v-col class="pt-0 pb-0 mt-0 mb-0" cols="4">
                                                     <v-textarea
                                                     @keyup="checker = item.answer"
                                                     :rules="rules"
                                                     rows="1"
                                                     v-model="item.answer"
-                                                    filled
+                                                    outlined
                                                     class="pa-0 ma-0"
                                                     :label="'Answer '+(i+1)"
                                                     auto-grow
                                                     ></v-textarea> 
-                                               </v-col>
-                                                <v-col class="pt-0 pb-0 mt-0 mb-0" cols="1">
+                                               </v-col> -->
+                                              <!--   <v-col class="pt-0 pb-0 mt-0 mb-0" cols="1">
                                                     <v-btn
                                                     @click="removeMatch(i)"
                                                     icon class="mt-2 pl-2 pr-2">
                                                         <v-icon>mdi-window-close</v-icon>
 
                                                     </v-btn>
-                                               </v-col>
+                                               </v-col> -->
                                            </v-row>
                                         </v-col>
                                         <v-col class="ma-0 pa-0 text-right">
@@ -225,10 +310,23 @@
                                             <v-icon dark large>mdi-plus</v-icon>
                                             </v-btn>
                                         </v-col>
+                                        
 
                                     </v-row>
                                 </v-container>
-
+                                <v-container class="pt-0 mt-0">
+                                     <v-switch
+                                     v-if="quesForm.type == 'Identification'"
+                                        v-model="quesForm.Sensitive"
+                                        class="float-right"
+                                        label="Case Sensitive">
+                                    </v-switch>
+                                    <v-switch
+                                    v-model="quesForm.Required"
+                                    class="float-right mr-2"
+                                    label="Required">
+                                    </v-switch>
+                                </v-container>
                                 <v-container class="mb-5">
                                         <v-btn
                                         rounded
@@ -250,12 +348,14 @@
           </v-col>
         </v-row>
       </v-container>
+</div>
 </template>
 <script>
 import {mapGetters, mapActions} from "vuex";
 export default {
     data(){
         return{
+            isloading: true,
             inputIndex:'',
             checker:'',
             testDetails:'',
@@ -273,6 +373,8 @@ export default {
                 question:'',
                 answer:'',
                 points: 0,
+                Required: false,
+                Sensitive:false,
                 type:'Multiple Choice'
             },
             form:[
@@ -297,6 +399,16 @@ export default {
             Imagerules: [
                 value => !value || value.size < 5000000 || 'Avatar size should be less than 5 MB!',
             ],
+            options:{
+            modules: {
+                    'toolbar': [
+                        ['bold', 'italic', 'underline', 'strike'],
+                
+                        [{ 'list': 'bullet' }],
+                        ['image'],
+                    ],
+                }
+            }
             
         }
     },
@@ -389,6 +501,14 @@ export default {
                         this.CallReset();
                     })
                 }
+                else if(this.quesForm.question == ""){
+                     return this.$toasted.error("Question is required!", {
+                        theme: "toasted-primary",
+                        position: "top-center",
+                        icon: "error",
+                        duration: 3000
+                    });
+                }
                 else if(this.quesForm.answer != '' && this.quesForm.points == 0){
                    /*  Swal.fire({
                         icon: 'info',
@@ -472,13 +592,29 @@ export default {
         },
           
     },
+
+    beforeMount(){
+        this.isloading = !this.isloading;
+        
+    }
   
   
 }
 </script>
 
-<style scoped>
-     .centered-input >>> input {
-      text-align: center
-    } 
+<style >
+/*  .ql-toolbar.ql-snow {
+        background: #f2f2f2;
+        border: none;
+ } */
+    .centered-input >>> input {
+    text-align: center
+}
+ .ql-editor img{
+
+    max-height: 10rem !important;
+}
+.ql-container{
+    max-height: 50rem;
+}
 </style>
