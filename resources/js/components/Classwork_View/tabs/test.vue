@@ -46,11 +46,6 @@ export default {
   methods:{
       getPdf() {
         const pdf = '../../storage/test.pdf'
-<<<<<<< HEAD
-           
-
-=======
->>>>>>> b0d83189871837b9f0cf60f15b4133ea78cddf84
          return pdf;
     },
     base64ToArrayBuffer(base64) {

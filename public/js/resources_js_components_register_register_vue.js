@@ -106,60 +106,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -219,68 +165,14 @@ __webpack_require__.r(__webpack_exports__);
         this.form.post('/api/registerUser').then(function () {
           console.log("Success");
 
-          _this2.form.reset();
+          _this2.$refs.RegisterForm.reset();
 
           _this2.valid = true;
         });
       }
     }
   }
-}); // export default {
-//   data: () => ({
-//     valid: true,
-//     role: ['Teacher', 'Student'],
-//     form: new Form({
-//           firstName:"",
-//           middleName:"",
-//           lastName:"",
-//           email: "",
-//           password: "",
-//           password_confirmation: "",
-//           role: "",
-//           isSubmit:false
-//       }),
-//        nameRules: [
-//         v => !!v || 'Field is required',
-//         v => (v && v.length <= 20) || 'Name must be less than 20 characters',
-//       ],
-//       loginEmailRules: [
-//       v => !!v || "Field is required",
-//       v => /.+@.+\..+/.test(v) || "Email must be valid"
-//       ],
-//        RoleRules: [
-//       v => !!v || "Field is required",
-//       ],
-//     show: false,
-//     show1: false,
-//     rules: {
-//       required: value => !!value || "Field is required.",
-//       min: v => (v && v.length >= 6) || "min 6 characters"
-//     }
-//   }),
-//    computed: {
-//     passwordMatch() {
-//       return () => this.password === this.password_confirmation || "Password must match";
-//     }
-//   },
-//   methods:{
-//     Test(){
-//       console.log(this.form);
-//     },
-//     validate() {
-//       if (this.$refs.RegisterForm.validate()) {
-//          this.isSubmit = true;
-//           this.form.post('/api/registerUser')
-//           .then(() => {
-//                 console.log("Success");
-//                 this.$refs.RegisterForm.reset()
-//                 this.valid = true;
-//                   this.isSubmit = false;
-//             })
-//       }
-//     },
-//   }
-// };
+});
 
 /***/ }),
 
@@ -438,7 +330,11 @@ var render = function() {
                                                     to: { name: "login" }
                                                   }
                                                 },
-                                                [_vm._v("Click here")]
+                                                [
+                                                  _vm._v(
+                                                    "Click\n                                                here"
+                                                  )
+                                                ]
                                               )
                                             ],
                                             1
@@ -704,7 +600,7 @@ var render = function() {
                                                 [_vm._v("mdi-login")]
                                               ),
                                               _vm._v(
-                                                "\n                              Sign Up\n                              "
+                                                "\n                                            Sign Up\n                                        "
                                               )
                                             ],
                                             1
@@ -737,18 +633,7 @@ var render = function() {
                                                     [_vm._v("mdi-facebook")]
                                                   ),
                                                   _vm._v(
-<<<<<<< HEAD
-                                                    "\n                                  " +
-                                                      _vm._s(
-                                                        _vm.$vuetify.breakpoint
-                                                          .xs
-                                                          ? ""
-                                                          : "Facebook"
-                                                      ) +
-                                                      "\n                                  "
-=======
                                                     "\n                                                Facebook\n                                            "
->>>>>>> b0d83189871837b9f0cf60f15b4133ea78cddf84
                                                   )
                                                 ],
                                                 1
@@ -770,18 +655,7 @@ var render = function() {
                                                     [_vm._v("mdi-google-plus")]
                                                   ),
                                                   _vm._v(
-<<<<<<< HEAD
-                                                    "\n                                   " +
-                                                      _vm._s(
-                                                        _vm.$vuetify.breakpoint
-                                                          .xs
-                                                          ? ""
-                                                          : " Google Plus"
-                                                      ) +
-                                                      "\n                                  "
-=======
                                                     "\n                                                Google Plus\n                                            "
->>>>>>> b0d83189871837b9f0cf60f15b4133ea78cddf84
                                                   )
                                                 ],
                                                 1

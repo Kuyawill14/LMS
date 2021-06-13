@@ -10,12 +10,14 @@
                         <v-tooltip bottom>
                             <template v-slot:activator="{ on, attrs }">
 
-                                <v-progress-circular v-bind="attrs" v-on="on" :value="getStudentModulePercentage"
-                                    :rotate="-90" :size="40" color="green lighten-2" class="float-right">
-                                    <span> {{getStudentModulePercentage}}</span></v-progress-circular>
+                                <v-progress-circular v-bind="attrs" v-on="on"
+                                    :value="getStudentModuleProgress.percentage" :rotate="-90" :size="40"
+                                    color="green lighten-2" class="float-right">
+                                    <span> {{getStudentModuleProgress.percentage}}</span></v-progress-circular>
 
                             </template>
-                            <span>{{studentSubModuleProgress.length}} of {{getAll_sub_module.length}} complete</span>
+                            <span>{{getStudentModuleProgress.completed}} of
+                                {{getStudentModuleProgress.submodules_count}} complete</span>
                         </v-tooltip>
                     </v-list-item-title>
                 </v-list-item-content>
@@ -118,7 +120,7 @@
             }
         },
         computed: {
-            ...mapGetters(["getmain_module", "getSub_module", "getAll_sub_module", "getStudentModulePercentage"])
+            ...mapGetters(["getmain_module", "getSub_module", "getAll_sub_module", "getStudentModuleProgress"])
         },
         methods: {
 
@@ -131,14 +133,37 @@
             },
 
             getCount(arr, mainModule_id) {
+
                 var count = 0;
-                for (var i = 0; i < arr.length; i++) {
-                    if (arr[i].main_module_id == mainModule_id) {
-                        count++;
+                var subModules_arr = this.getSub_module(mainModule_id);
+                console.log(subModules_arr);
+                for (var i = 0; i < subModules_arr.length; i++) {
+                    for (var j = 0; j < arr.length; j++) {
+
+                        if (arr[j] !== undefined && subModules_arr[i] !== undefined) {
+                            if (arr[j].sub_module_id == subModules_arr[i].id) {
+                                if (arr[j].time_spent >= subModules_arr[i].required_time) {
+
+                                    count++;
+                                }
+                            }
+                        }
+
+
                     }
+
+
                 }
                 return count;
             },
+
+            //  if (arr[i].sub_module_id == sub_module.id) {
+            //             if (arr[i].time_spent >= time_spent) {
+            //                 this.$store.dispatch('studentmodule_progress', this.$route.params.id);
+            //                 this.$store.dispatch('fetchClassList')
+            //                 check = true;
+            //             }
+            //         }
             addSubStudentProgress(mainModule_id, subModule_id, type) {
                 this.tempSubId = subModule_id;
                 this.studentSubModuleProgressForm.main_module_id = mainModule_id;
@@ -150,7 +175,7 @@
                         studentProgress: this.studentSubModuleProgressForm
                     })
                     .then((res) => {
-                        this.$store.dispatch('studentModulePercentage', this.$route.params.id);
+                        this.$store.dispatch('studentmodule_progress', this.$route.params.id);
                         this.$store.dispatch('fetchClassList')
 
                         this.fetchStudentModuleProgress();
@@ -160,12 +185,12 @@
             },
             checkTimeSpent(arr, sub_module, time_spent) {
                 var check = false;
-                //console.log(arr);
+
                 for (var i = 0; i < arr.length; i++) {
                     if (arr[i].sub_module_id == sub_module.id) {
                         if (arr[i].time_spent >= time_spent) {
-                            this.$store.dispatch('studentModulePercentage', this.$route.params.id);
-                            this.$store.dispatch('fetchClassList')
+                            // this.$store.dispatch('studentmodule_progress', this.$route.params.id);
+                            // this.$store.dispatch('fetchClassList')
                             check = true;
                         }
                     }
@@ -234,7 +259,8 @@
                             .sub_module_id) {
 
                             this.studentSubModuleProgress[i].time_spent = data.time_spent;
-
+                            this.$store.dispatch('studentmodule_progress', this.$route.params.id);
+                            this.$store.dispatch('fetchClassList')
                             break;
                         }
                     }
@@ -262,7 +288,7 @@
 
             this.$store.dispatch('fetchMainModule', this.$route.params.id);
             this.$store.dispatch('fetchSubModule', this.$route.params.id);
-            this.$store.dispatch('studentModulePercentage', this.$route.params.id);
+            this.$store.dispatch('studentmodule_progress', this.$route.params.id);
             this.loading = false;
 
         },

@@ -2,14 +2,14 @@ import axios from 'axios'
 
 const state = {
     sub_module: [],
-    percentage: 0
+    module_progress: []
 };
 const getters = {
     getAll_sub_module: (state) => state.sub_module,
     getSub_module: state => id => {
         return state.sub_module.filter(sub_module => sub_module.main_module_id == id);
     },
-    getStudentModulePercentage: (state) => state.percentage,
+    getStudentModuleProgress: (state) => state.module_progress,
 
 };
 
@@ -34,13 +34,14 @@ const actions = {
 
         return res;
     },
-    async studentModulePercentage({ commit }, id) {
+    async studentmodule_progress({ commit }, id) {
 
         const res = await axios.get(
             `/api/student_sub_module/student_progress/${id}`
         );
         //console.log(res.data);
-        commit('FETCH_STUDENT_MODULE_PERCENTAGE', res.data);
+        commit('FETCH_STUDENT_MODULE_PROGRESS', res.data);
+        return;
     },
 
 
@@ -48,7 +49,7 @@ const actions = {
 const mutations = {
     CREATE_SUB_MODULE: (state, sub_module) => (state.sub_module = sub_module),
     FETCH_SUB_MODULE: (state, sub_module) => (state.sub_module = sub_module),
-    FETCH_STUDENT_MODULE_PERCENTAGE: (state, percentage) => (state.percentage = percentage),
+    FETCH_STUDENT_MODULE_PROGRESS: (state, module_progress) => (state.module_progress = module_progress),
 };
 
 export default {

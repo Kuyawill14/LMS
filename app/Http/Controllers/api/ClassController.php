@@ -97,18 +97,17 @@ class ClassController extends Controller
                     }
                    
                 }
-                // if($allStudentSubmoduleProgress != 0 ) {
-                //     $totalProgress =  ( $allStudentSubmoduleProgress / $allClassSubModules) * 100;
-                // } else {
-                //     $totalProgress = 0;
-                // }
+                if(count($allSubModules) ) {
+                      
+                    $totalProgress = ($completed / count($allSubModules)) * 100;;
+                } else {
+                    $totalProgress = 0;
+                }
                 
-                $total = ($completed / count($allSubModules)) * 100;;
-    
                 DB::table('tbl_userclasses')
                 ->where('user_id', $userId)
                 ->where('course_id', $value ->course_id)
-                ->update(['progress' =>   $total]);
+                ->update(['progress' =>   $totalProgress]);
     
          
         

@@ -49,6 +49,7 @@ class StudentSubModuleProgressController extends Controller
                 if($allSubModulesProgress[$j]['sub_module_id'] == $allSubModules[$i]['id'] ){
                     if($allSubModulesProgress[$j]['time_spent'] >= $allSubModules[$i]['required_time'] ){
                     $completed++;
+                    
                     }
                 }
             }
@@ -56,9 +57,14 @@ class StudentSubModuleProgressController extends Controller
         }
 
 
+        if(count($allSubModules) ) {
+                      
+            $totalProgress = round(($completed / count($allSubModules)) * 100);
+        } else {
+            $totalProgress = 0;
+        }
 
-
-        return ($completed / count($allSubModules)) * 100;
+        return response()->json(['percentage' => $totalProgress , 'completed' => $completed, 'submodules_count' => count($allSubModules)] );
     }
     /**
      * Show the form for creating a new resource.

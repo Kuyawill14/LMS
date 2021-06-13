@@ -76,7 +76,7 @@
             },
             onFileChange(file) {
                 console.log('selected file', file.name);
-                alert(this.getFileExt(file.name));
+              
                 this.ext = this.getFileExt(file.name);
 
                 this.allowedExt.forEach(_ext => {
@@ -89,6 +89,10 @@
 
                         } else {
                             this.type = 'Document';
+                            if(this.ext != 'pdf') 
+                            {
+                                  alert('Invalid File Type, Convert file document to pdf!');
+                            }
                         }
 
                     }

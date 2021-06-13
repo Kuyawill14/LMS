@@ -318,7 +318,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-<<<<<<< HEAD
 //
 //
 //
@@ -334,8 +333,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-=======
->>>>>>> b0d83189871837b9f0cf60f15b4133ea78cddf84
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['role']
 });
@@ -23076,6 +23073,33 @@ var render = function() {
                         _c("v-list-item-title", [
                           _vm._v(
                             "\n                    Students\n                "
+                          )
+                        ])
+                      ],
+                      1
+                    )
+                  ],
+                  1
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.role == "Teacher"
+              ? _c(
+                  "v-list-item",
+                  { attrs: { link: "", to: { name: "gradebook" }, exact: "" } },
+                  [
+                    _c(
+                      "v-list-item-action",
+                      [_c("v-icon", [_vm._v("mdi-book-open")])],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "v-list-item-content",
+                      [
+                        _c("v-list-item-title", [
+                          _vm._v(
+                            "\n                    Grade Book\n                "
                           )
                         ])
                       ],

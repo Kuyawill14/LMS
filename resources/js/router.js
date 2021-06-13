@@ -85,6 +85,11 @@ let submissionListTab = () =>
     import ("./components/Classwork_View/tabs/submissionListTab");
 let publishClassworkTab = () =>
     import ("./components/Classwork_View/tabs/publishClassworkTab");
+let test = () =>
+    import ("./components/Classwork_View/tabs/test");
+
+let settingsTab = () =>
+    import ("./components/Classwork_View/tabs/settingsTab");
 
 
 

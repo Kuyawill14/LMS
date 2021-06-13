@@ -86,7 +86,6 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       console.log('selected file', file.name);
-      alert(this.getFileExt(file.name));
       this.ext = this.getFileExt(file.name);
       this.allowedExt.forEach(function (_ext) {
         if (_ext != _this.ext) {
@@ -96,6 +95,10 @@ __webpack_require__.r(__webpack_exports__);
             _this.type = 'Video';
           } else {
             _this.type = 'Document';
+
+            if (_this.ext != 'pdf') {
+              alert('Invalid File Type, Convert file document to pdf!');
+            }
           }
         }
       });

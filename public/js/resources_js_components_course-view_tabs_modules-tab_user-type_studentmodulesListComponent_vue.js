@@ -116,6 +116,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['role', 'expand'],
@@ -138,7 +140,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       percentage: 0
     };
   },
-  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(["getmain_module", "getSub_module", "getAll_sub_module", "getStudentModulePercentage"])),
+  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(["getmain_module", "getSub_module", "getAll_sub_module", "getStudentModuleProgress"])),
   methods: {
     passToMainComponent: function passToMainComponent(sub_module, id) {
       var _sub_module = sub_module.find(function (item) {
@@ -152,15 +154,30 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     getCount: function getCount(arr, mainModule_id) {
       var count = 0;
+      var subModules_arr = this.getSub_module(mainModule_id);
+      console.log(subModules_arr);
 
-      for (var i = 0; i < arr.length; i++) {
-        if (arr[i].main_module_id == mainModule_id) {
-          count++;
+      for (var i = 0; i < subModules_arr.length; i++) {
+        for (var j = 0; j < arr.length; j++) {
+          if (arr[j] !== undefined && subModules_arr[i] !== undefined) {
+            if (arr[j].sub_module_id == subModules_arr[i].id) {
+              if (arr[j].time_spent >= subModules_arr[i].required_time) {
+                count++;
+              }
+            }
+          }
         }
       }
 
       return count;
     },
+    //  if (arr[i].sub_module_id == sub_module.id) {
+    //             if (arr[i].time_spent >= time_spent) {
+    //                 this.$store.dispatch('studentmodule_progress', this.$route.params.id);
+    //                 this.$store.dispatch('fetchClassList')
+    //                 check = true;
+    //             }
+    //         }
     addSubStudentProgress: function addSubStudentProgress(mainModule_id, subModule_id, type) {
       var _this = this;
 
@@ -172,7 +189,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       axios.post("/api/student_sub_module/insert", {
         studentProgress: this.studentSubModuleProgressForm
       }).then(function (res) {
-        _this.$store.dispatch('studentModulePercentage', _this.$route.params.id);
+        _this.$store.dispatch('studentmodule_progress', _this.$route.params.id);
 
         _this.$store.dispatch('fetchClassList');
 
@@ -180,13 +197,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
     },
     checkTimeSpent: function checkTimeSpent(arr, sub_module, time_spent) {
-      var check = false; //console.log(arr);
+      var check = false;
 
       for (var i = 0; i < arr.length; i++) {
         if (arr[i].sub_module_id == sub_module.id) {
           if (arr[i].time_spent >= time_spent) {
-            this.$store.dispatch('studentModulePercentage', this.$route.params.id);
-            this.$store.dispatch('fetchClassList');
+            // this.$store.dispatch('studentmodule_progress', this.$route.params.id);
+            // this.$store.dispatch('fetchClassList')
             check = true;
           }
         }
@@ -248,6 +265,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         for (var i = 0; i < _this3.studentSubModuleProgress.length; i++) {
           if (_this3.studentSubModuleProgress[i].sub_module_id == data.sub_module_id) {
             _this3.studentSubModuleProgress[i].time_spent = data.time_spent;
+
+            _this3.$store.dispatch('studentmodule_progress', _this3.$route.params.id);
+
+            _this3.$store.dispatch('fetchClassList');
+
             break;
           }
         }
@@ -277,7 +299,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
               _this5.$store.dispatch('fetchSubModule', _this5.$route.params.id);
 
-              _this5.$store.dispatch('studentModulePercentage', _this5.$route.params.id);
+              _this5.$store.dispatch('studentmodule_progress', _this5.$route.params.id);
 
               _this5.loading = false;
 
@@ -470,7 +492,8 @@ var render = function() {
                                           staticClass: "float-right",
                                           attrs: {
                                             value:
-                                              _vm.getStudentModulePercentage,
+                                              _vm.getStudentModuleProgress
+                                                .percentage,
                                             rotate: -90,
                                             size: 40,
                                             color: "green lighten-2"
@@ -487,7 +510,8 @@ var render = function() {
                                         _vm._v(
                                           " " +
                                             _vm._s(
-                                              _vm.getStudentModulePercentage
+                                              _vm.getStudentModuleProgress
+                                                .percentage
                                             )
                                         )
                                       ])
@@ -502,9 +526,11 @@ var render = function() {
                           _vm._v(" "),
                           _c("span", [
                             _vm._v(
-                              _vm._s(_vm.studentSubModuleProgress.length) +
-                                " of " +
-                                _vm._s(_vm.getAll_sub_module.length) +
+                              _vm._s(_vm.getStudentModuleProgress.completed) +
+                                " of\n                            " +
+                                _vm._s(
+                                  _vm.getStudentModuleProgress.submodules_count
+                                ) +
                                 " complete"
                             )
                           ])
