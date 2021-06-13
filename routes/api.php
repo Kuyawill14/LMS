@@ -138,11 +138,12 @@ Route::prefix('/sub_module')->group(function () {
     
 });
 
-//student sub  modules
+//student sub  modules progress
 Route::prefix('/student_sub_module')->group(function () {
     Route::get('/all/{id}', [StudentSubModuleProgressController::class, 'index']);
     Route::post('/insert', [StudentSubModuleProgressController::class, 'store']);
-    
+    Route::post('/updatetime', [StudentSubModuleProgressController::class, 'updateTimespent']);
+    Route::get('/student_progress/{id}', [StudentSubModuleProgressController::class, 'fetchSubmoduleProgress']);
 });
 
 

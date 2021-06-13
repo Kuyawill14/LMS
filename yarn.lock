@@ -7115,6 +7115,13 @@ vue-material@^1.0.0-beta-15:
     vue-github-buttons "^3.1.0"
     vue-toc "0.0.1"
 
+vue-pdf-app@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/vue-pdf-app/-/vue-pdf-app-2.1.0.tgz#71c2a91760b629b8e66023a4329c61ce95267058"
+  integrity sha512-eQUeDBdvwxBUvnrojBY+jfaKmwEVwHNC7be6eHreG1yxPSvPFoBzFa93411u15/Ze4NmZCIJKXEWvFz/RM6lxQ==
+  dependencies:
+    vue "^2.6.11"
+
 vue-pdf@^4.2.0:
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/vue-pdf/-/vue-pdf-4.2.0.tgz#d553e2a46704f9acd15479d8cf32c73e90989b77"
@@ -7198,6 +7205,11 @@ vue@^2.5.21, vue@^2.5.22, vue@^2.6.10, vue@^2.6.12:
   version "2.6.12"
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.6.12.tgz#f5ebd4fa6bd2869403e29a896aed4904456c9123"
   integrity sha512-uhmLFETqPPNyuLLbsKz6ioJ4q7AZHzD8ZVFNATNyICSZouqP2Sz0rotWQC8UNBF6VGSCs5abnKJoStA6JbCbfg==
+
+vue@^2.6.11:
+  version "2.6.14"
+  resolved "https://registry.yarnpkg.com/vue/-/vue-2.6.14.tgz#e51aa5250250d569a3fbad3a8a5a687d6036e235"
+  integrity sha512-x2284lgYvjOMj3Za7kqzRcUSxBboHqtgRE2zlos1qWaOye5yUmHn42LB1250NJBLRwEcdrB0JRwyPTEPhfQjiQ==
 
 vuedraggable@^2.24.3:
   version "2.24.3"

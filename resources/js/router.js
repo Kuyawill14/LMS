@@ -49,7 +49,7 @@ let classes_tab = () =>
 let gradeBook_tab = () =>
     import ("./components/course-view/tabs/gradebook-tab/gradebookComponent");
 let pdftest_tab = () =>
-    import ("./components/course-view/tabs/modules-tab/user-type/test");
+    import ("./components/course-view/tabs/modules-tab/user-type/pdfview");
 
 
 

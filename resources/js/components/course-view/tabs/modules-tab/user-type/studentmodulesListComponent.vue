@@ -10,19 +10,14 @@
                         <v-tooltip bottom>
                             <template v-slot:activator="{ on, attrs }">
 
-                                <v-progress-circular v-bind="attrs" v-on="on" :value="studentProgressPercentage()"
+                                <v-progress-circular v-bind="attrs" v-on="on" :value="getStudentModulePercentage"
                                     :rotate="-90" :size="40" color="green lighten-2" class="float-right">
-                                    <span>{{studentProgressPercentage()}} </span></v-progress-circular>
+                                    <span> {{getStudentModulePercentage}}</span></v-progress-circular>
 
                             </template>
                             <span>{{studentSubModuleProgress.length}} of {{getAll_sub_module.length}} complete</span>
                         </v-tooltip>
-
-
                     </v-list-item-title>
-
-
-
                 </v-list-item-content>
 
                 <v-list-item-action v-if="expand">
@@ -34,6 +29,7 @@
         </v-card>
         <v-expansion-panels focusable style="margin-left: 1px;">
             <v-expansion-panel v-for="(itemModule, i) in getmain_module" :key="'module'+i">
+
                 <v-expansion-panel-header>
                     <span style="font-size: 1.0rem;">
                         <v-icon style="font-size: 1.0rem; ">
@@ -46,8 +42,13 @@
                 </v-expansion-panel-header>
                 <v-expansion-panel-content class="pa-0">
                     <v-list-item v-for="(itemSubModule, i) in getSub_module(itemModule.id)" :key="'Submodule'+i" link
-                        class="pl-8" @click="passToMainComponent(getSub_module(itemModule.id),itemSubModule.id)">
+                        class="pl-8" @click="
+                        setTimeSpent(itemModule.id,itemSubModule.id,studentSubModuleProgress); 
+                        passToMainComponent(getSub_module(itemModule.id),itemSubModule.id);
+                        addSubStudentProgress(itemModule.id,itemSubModule.id,itemSubModule.type,studentSubModuleProgress);
+                         ">
 
+                        <!--  -->
 
                         <v-list-item-avatar>
 
@@ -60,14 +61,22 @@
                             <v-list-item-title> {{itemSubModule.sub_module_name}}</v-list-item-title>
 
                             <v-list-item-subtitle> {{itemSubModule.type}}</v-list-item-subtitle>
+                            <v-list-item-subtitle> Time spent:
+                                {{ convertTime(itemSubModule.id)}}
+
+                            </v-list-item-subtitle>
+                            <v-list-item-subtitle> Required time:
+                                {{ itemSubModule.required_time}}
+
+                            </v-list-item-subtitle>
                         </v-list-item-content>
 
                         <v-list-item-action>
-                            <v-btn icon
-                                :color="checkSubModule(studentSubModuleProgress,itemSubModule.id) ? 'success' : 'lighten'"
-                                @click="addSubStudentProgress(itemModule.id,itemSubModule.id,itemSubModule.type,studentSubModuleProgress)">
-                                <v-icon>mdi-check</v-icon>
-                            </v-btn>
+
+                            <v-icon
+                                :color="checkTimeSpent(studentSubModuleProgress,itemSubModule,itemSubModule.required_time) ? 'success' : 'lighten'">
+                                mdi-check</v-icon>
+
                         </v-list-item-action>
                     </v-list-item>
 
@@ -85,7 +94,7 @@
         mapActions
     } from "vuex";
     export default {
-        props: ['role','expand'],
+        props: ['role', 'expand'],
         components: {
 
 
@@ -102,23 +111,23 @@
                 mainModule: [],
                 studentSubModuleProgress: [],
                 studentSubModuleProgressForm: {},
+                timespent: 0,
+                time: false,
+                updateTime: false,
+                percentage: 0,
             }
         },
         computed: {
-            ...mapGetters(["getmain_module", "getSub_module", "getAll_sub_module"])
+            ...mapGetters(["getmain_module", "getSub_module", "getAll_sub_module", "getStudentModulePercentage"])
         },
         methods: {
 
             passToMainComponent(sub_module, id) {
-
                 var _sub_module = sub_module.find(item => item.id === id);
-
                 this.$emit('subModule', _sub_module);
             },
-
             student_sub_module_progress(id) {
                 var data;
-
             },
 
             getCount(arr, mainModule_id) {
@@ -136,67 +145,131 @@
                 this.studentSubModuleProgressForm.sub_module_id = subModule_id;
                 this.studentSubModuleProgressForm.type = type;
                 this.studentSubModuleProgressForm.course_id = this.$route.params.id;
+
                 axios.post(`/api/student_sub_module/insert`, {
                         studentProgress: this.studentSubModuleProgressForm
                     })
                     .then((res) => {
+                        this.$store.dispatch('studentModulePercentage', this.$route.params.id);
                         this.$store.dispatch('fetchClassList')
-                        var arr = this.studentSubModuleProgress;
-                        var exist = false;
-                        for (var i = 0; i < arr.length; i++) {
-                            if (arr[i].sub_module_id == subModule_id) {
-                                arr.splice(i, 1);
-                                exist = true;
-                                break;
-                            }
-                        }
-                        if (exist == false) {
-                            this.studentSubModuleProgress.push(res.data);
-                        }
+
+                        this.fetchStudentModuleProgress();
+
 
                     });
             },
-            checkSubModule(arr, sub_module_id) {
+            checkTimeSpent(arr, sub_module, time_spent) {
                 var check = false;
                 //console.log(arr);
                 for (var i = 0; i < arr.length; i++) {
-                    if (arr[i].sub_module_id == sub_module_id) {
-                        check = true;
+                    if (arr[i].sub_module_id == sub_module.id) {
+                        if (arr[i].time_spent >= time_spent) {
+                            this.$store.dispatch('studentModulePercentage', this.$route.params.id);
+                            this.$store.dispatch('fetchClassList')
+                            check = true;
+                        }
                     }
                 }
                 return check;
             },
+
             fetchClass() {
                 this.$store.dispatch('fetchClassList').then(() => {
                     console.log('fetching class');
                 });
             },
-            studentProgressPercentage() {
-                if (this.getmain_module != null) {
-                    var total = (this.studentSubModuleProgress.length / this.getAll_sub_module.length) * 100;
-                    return parseInt(total.toFixed(2));
+            getTimeSpent(arr, sub_module_id) {
+                for (var i = 0; i < arr.length; i++) {
+                    if (arr[i].sub_module_id == sub_module_id) {
+                        return arr[i].time_spent;
 
+                    }
                 }
+                return 0;
 
-            }
 
+
+            },
+            convertTime(sub_module_id) {
+                var time = this.getTimeSpent(this.studentSubModuleProgress, sub_module_id);
+                if (time === undefined) {
+                    time = 0;
+                }
+                return new Date(parseInt(time) * 1000).toISOString().substr(11, 8);
+            },
+
+
+            setTimeSpent(mainModule_id, subModule_id, arr) {
+
+
+                clearInterval(this.ctrTime);
+                clearInterval(this.updateTime);
+                this.timespent = this.getTimeSpent(this.studentSubModuleProgress, subModule_id);
+
+                this.ctrTime = false;
+                this.updateTime = false;
+                this.ctrTime = setInterval(() => {
+                    this.timespent++;
+                    this.time = true;
+
+                }, 1000);
+                this.updateTime = setInterval(() => {
+                    this.updateStudentTimeProgress(mainModule_id, subModule_id, this.timespent);
+                }, 5000);
+            },
+            updateStudentTimeProgress(main_module_id, subModule_id, time_spent) {
+                var studentProgress = {};
+                studentProgress.main_module_id = main_module_id;
+                studentProgress.sub_module_id = subModule_id;
+                studentProgress.time_spent = time_spent;
+
+                const res = axios.post(`/api/student_sub_module/updatetime`, {
+                    studentProgress: studentProgress
+                }).then((res) => {
+                    var data = res.data['studentProgress'];
+
+
+                    for (var i = 0; i < this.studentSubModuleProgress.length; i++) {
+                        if (this.studentSubModuleProgress[i].sub_module_id == data
+                            .sub_module_id) {
+
+                            this.studentSubModuleProgress[i].time_spent = data.time_spent;
+
+                            break;
+                        }
+                    }
+
+
+
+                });
+
+
+            },
+            fetchStudentModuleProgress() {
+                axios.get(
+                    `/api/student_sub_module/all/${this.$route.params.id}`
+                ).then((res) => {
+                    this.studentSubModuleProgress = res.data;
+                });
+            },
 
         },
         async mounted() {
-            this.fetchClass();
-            axios.get(
-                `/api/student_sub_module/all/${this.$route.params.id}`
-            ).then((res) => {
-                this.studentSubModuleProgress = res.data;
 
-                this.getCount(this.studentSubModuleProgress, 23);
-                this.$store.dispatch('fetchMainModule', this.$route.params.id);
-                this.$store.dispatch('fetchSubModule', this.$route.params.id);
-                this.loading = false;
-            }).catch((error) => {
-                console.log(error)
-            })
+            this.fetchClass();
+
+            this.fetchStudentModuleProgress();
+
+            this.$store.dispatch('fetchMainModule', this.$route.params.id);
+            this.$store.dispatch('fetchSubModule', this.$route.params.id);
+            this.$store.dispatch('studentModulePercentage', this.$route.params.id);
+            this.loading = false;
+
         },
+        beforeDestroy() {
+            clearInterval(this.ctrTime);
+            clearInterval(this.updateTime);
+        }
 
 
     }

@@ -71,6 +71,7 @@ class SubModuleController extends Controller
                 $subModule->type = $request->type;
                 $subModule->main_module_id = $request->main_module_id;
                 $subModule->description = $request->description;
+                $subModule->required_time = $request->required_time;
                 $subModule->file_attachment = preg_replace('/\bpublic\/\b/', '', $file);;
                 $subModule->save();
                 return $subModule;

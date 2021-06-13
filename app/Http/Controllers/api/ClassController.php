@@ -58,30 +58,57 @@ class ClassController extends Controller
             ->where('user_id',$userId)
             ->get();
             foreach($allClass as $key => $value) {
-                $allClassSubModules = DB::table('tbl_sub_modules')
-                ->select('tbl_sub_modules.id')
-                ->leftJoin('tbl_main_modules', 'tbl_sub_modules.main_module_id', '=', 'tbl_main_modules.id')
-                ->where('tbl_main_modules.course_id', $value ->course_id )
-                ->count();
+                // $allClassSubModules = DB::table('tbl_sub_modules')
+                // ->select('tbl_sub_modules.id')
+                // ->leftJoin('tbl_main_modules', 'tbl_sub_modules.main_module_id', '=', 'tbl_main_modules.id')
+                // ->where('tbl_main_modules.course_id', $value ->course_id )
+                // ->count();
         
         
-                $allStudentSubmoduleProgress = DB::table('tbl_student_sub_module_progress')
-                ->select('tbl_student_sub_module_progress.sub_module_id')
-                ->leftJoin('tbl_sub_modules', 'tbl_student_sub_module_progress.sub_module_id', '=', 'tbl_sub_modules.id')
-                ->where('tbl_student_sub_module_progress.course_id', $value ->course_id )
-                ->count();
+                // $allStudentSubmoduleProgress = DB::table('tbl_student_sub_module_progress')
+                // ->select('tbl_student_sub_module_progress.sub_module_id')
+                // ->leftJoin('tbl_sub_modules', 'tbl_student_sub_module_progress.sub_module_id', '=', 'tbl_sub_modules.id')
+                // ->where('tbl_student_sub_module_progress.course_id', $value ->course_id )
+                // ->count();
                 
-                if($allStudentSubmoduleProgress != 0 ) {
-                    $totalProgress =  ( $allStudentSubmoduleProgress / $allClassSubModules) * 100;
-                } else {
-                    $totalProgress = 0;
+
+                $allSubModulesProgress = DB::table('tbl_student_sub_module_progress')
+                ->select('tbl_student_sub_module_progress.*')
+                ->leftJoin('tbl_sub_modules', 'tbl_sub_modules.id', '=', 'tbl_student_sub_module_progress.sub_module_id')
+                ->where('tbl_student_sub_module_progress.course_id', $value ->course_id )
+                ->where('tbl_student_sub_module_progress.student_id',  $userId )
+                ->get();
+                $allSubModulesProgress = json_decode($allSubModulesProgress, true);
+        
+                $allSubModules = DB::table('tbl_sub_modules')
+                ->select('tbl_sub_modules.*', "course_id")
+                ->leftJoin('tbl_main_modules', 'tbl_main_modules.id', '=', 'tbl_sub_modules.main_module_id')
+                ->where('tbl_main_modules.course_id', $value ->course_id)
+                ->get();
+                $allSubModules = json_decode($allSubModules, true);
+                $completed = 0;
+                for($i = 0 ; $i < count($allSubModules) ; $i++) {
+                    for($j = 0; $j < count($allSubModulesProgress); $j++) {
+                        if($allSubModulesProgress[$j]['sub_module_id'] == $allSubModules[$i]['id'] ){
+                            if($allSubModulesProgress[$j]['time_spent'] >= $allSubModules[$i]['required_time'] ){
+                            $completed++;
+                            }
+                        }
+                    }
+                   
                 }
-               
+                // if($allStudentSubmoduleProgress != 0 ) {
+                //     $totalProgress =  ( $allStudentSubmoduleProgress / $allClassSubModules) * 100;
+                // } else {
+                //     $totalProgress = 0;
+                // }
+                
+                $total = ($completed / count($allSubModules)) * 100;;
     
                 DB::table('tbl_userclasses')
                 ->where('user_id', $userId)
                 ->where('course_id', $value ->course_id)
-                ->update(['progress' =>  $totalProgress]);
+                ->update(['progress' =>   $total]);
     
          
         

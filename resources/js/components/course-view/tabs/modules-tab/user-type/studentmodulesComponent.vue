@@ -18,11 +18,6 @@
                                 style="width: 100%;height: 100%"></iframe>
  -->
 
-                            <iframe title="office viewer" class="video-c" v-if="type=='Document' "
-                                :src="'https://docs.google.com/viewer?url=http://infolab.stanford.edu/pub/papers/google.pdf&embedded=true&a=bi&pagenumber=5'"
-                                sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
-                                style="width: 100%;height: 100%"></iframe>
-
                             <LazyYoutube ref="youtubeLazyVideo" :src="subModuleData.link" v-if="type=='Link'"
                                 style="width: 100% !important;height: 100%" aspect-ratio="16:9"
                                 thumbnail-quality="standard" />
@@ -34,6 +29,9 @@
                                     :src="'/storage/' + subModuleData.file_attachment"></vue-core-video-player>
                             </div>
 
+                            <v-dialog v-model="pdfdialog" v-if="type=='Document' " fullscreen hide-overlay transition="dialog-bottom-transition">
+                                <pdfviewer :title="subModuleData.lsub_module_nameink" :pdf_file="'/storage/' + subModuleData.file_attachment" v-on:closePdf="pdfdialog = false"/>
+                            </v-dialog>
                         </v-container>
 
 
@@ -55,23 +53,8 @@
                             <a :href="'/storage/' + subModuleData.file_attachment" target="_blank">Download</a>
 
                         </v-card-text>
-                        <div id="pdf-wrapper">
 
-                            <pdf
-                                src="https://edu.stacktrek.com/uploads/courses/2304/files/multiculturalbanks.7vQ3q5Vj.pdf">
-                                <template slot="loading">
-                                    loading content here...
-                                </template>
-                            </pdf>
 
-                        </div>
-                        <div id="info">
-                            <h1>PDF info:</h1>
-                            <div v-for="item in info" :key="item.name">
-                                <span>{{ item.name }}: {{ item.value }}</span>
-                                <br />
-                            </div>
-                        </div>
                     </v-col>
 
 
@@ -114,6 +97,10 @@
 </template>
 
 <script>
+    import VuePdfApp from "vue-pdf-app";
+    // import this to use default icons for buttons
+    import "vue-pdf-app/dist/icons/main.css";
+    import pdfviewer from "./pdfview"
     import {
         LazyYoutube
     } from 'vue-lazytube'
@@ -132,12 +119,21 @@
             VueElementLoading,
             modulesListComponent,
             LazyYoutube,
+            VuePdfApp,
+            pdfviewer
 
 
         },
         data() {
             return {
-                info: [],
+                pdfdialog: false,
+                config: {
+                    toolbar: {
+                        toolbarViewerLeft: {
+                            findbar: false
+                        }
+                    }
+                },
                 contentHover: false,
                 removeX: true,
                 listDialaog: false,
@@ -155,9 +151,6 @@
             }
         },
         methods: {
-            openHandler(pdfApp) {
-                window._pdfApp = pdfApp;
-            },
 
             expandContent() {
                 this.isExpand = !this.isExpand;
@@ -178,7 +171,7 @@
 
                 this.type = this.subModuleData.type;
                 this.documentUrl(value.file_attachment)
-
+                this.pdfdialog = true;
 
 
 

@@ -52,6 +52,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['moduleId'],
@@ -107,6 +116,7 @@ __webpack_require__.r(__webpack_exports__);
       fd.append('file', this.file);
       fd.append('main_module_id', this.moduleId);
       fd.append('description', this.subModuleForm.description);
+      fd.append('required_time', this.subModuleForm.required_time);
       fd.append('type', this.type);
       fd.append('sub_module_name', this.subModuleForm.sub_module_name);
       this.sending = true;
@@ -4991,8 +5001,6 @@ var render = function() {
                       "v-col",
                       { attrs: { cols: "12 pb-0" } },
                       [
-                        _c("label", [_vm._v(" Description ")]),
-                        _vm._v(" "),
                         _c("v-textarea", {
                           attrs: {
                             label: "Description",
@@ -5006,6 +5014,29 @@ var render = function() {
                               _vm.$set(_vm.subModuleForm, "description", $$v)
                             },
                             expression: " subModuleForm.description"
+                          }
+                        })
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "v-col",
+                      { attrs: { cols: "12 pb-0" } },
+                      [
+                        _c("v-text-field", {
+                          attrs: {
+                            label:
+                              "Required time spent for Completion (minutes)",
+                            type: "number",
+                            required: ""
+                          },
+                          model: {
+                            value: _vm.subModuleForm.required_time,
+                            callback: function($$v) {
+                              _vm.$set(_vm.subModuleForm, "required_time", $$v)
+                            },
+                            expression: "subModuleForm.required_time"
                           }
                         })
                       ],

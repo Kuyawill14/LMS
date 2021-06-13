@@ -38,6 +38,7 @@
         "vue-lazytube": "^1.0.2",
         "vue-material": "^1.0.0-beta-15",
         "vue-pdf": "^4.2.0",
+        "vue-pdf-app": "^2.1.0",
         "vue-progressbar": "^0.7.5",
         "vue-router": "^3.5.1",
         "vue-sidebar-menu": "^4.7.4",

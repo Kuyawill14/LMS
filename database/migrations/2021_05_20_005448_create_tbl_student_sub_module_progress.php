@@ -22,6 +22,7 @@ class CreateTblStudentSubModuleProgress extends Migration
             $table->integer('student_id')->nullable();
             $table->integer('completed');
             $table->string('type');
+            $table->integer('time_spent')->default(0);;
             $table->timestamps();
         });
     }

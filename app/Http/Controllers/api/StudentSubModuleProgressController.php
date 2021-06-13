@@ -27,6 +27,39 @@ class StudentSubModuleProgressController extends Controller
           return $allSubModules;
     }
 
+    public function fetchSubmoduleProgress($id) {
+        $userId = auth('sanctum')->id();
+        $allSubModulesProgress = DB::table('tbl_student_sub_module_progress')
+        ->select('tbl_student_sub_module_progress.*')
+        ->leftJoin('tbl_sub_modules', 'tbl_sub_modules.id', '=', 'tbl_student_sub_module_progress.sub_module_id')
+        ->where('tbl_student_sub_module_progress.course_id', $id )
+        ->where('tbl_student_sub_module_progress.student_id',  $userId )
+        ->get();
+        $allSubModulesProgress = json_decode($allSubModulesProgress, true);
+
+        $allSubModules = DB::table('tbl_sub_modules')
+        ->select('tbl_sub_modules.*', "course_id")
+        ->leftJoin('tbl_main_modules', 'tbl_main_modules.id', '=', 'tbl_sub_modules.main_module_id')
+        ->where('tbl_main_modules.course_id', $id )
+        ->get();
+        $allSubModules = json_decode($allSubModules, true);
+        $completed = 0;
+        for($i = 0 ; $i < count($allSubModules) ; $i++) {
+            for($j = 0; $j < count($allSubModulesProgress); $j++) {
+                if($allSubModulesProgress[$j]['sub_module_id'] == $allSubModules[$i]['id'] ){
+                    if($allSubModulesProgress[$j]['time_spent'] >= $allSubModules[$i]['required_time'] ){
+                    $completed++;
+                    }
+                }
+            }
+           
+        }
+
+
+
+
+        return ($completed / count($allSubModules)) * 100;
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -75,14 +108,23 @@ class StudentSubModuleProgressController extends Controller
             return $studentSubModuleProgress;
 
 
-        } else {
-            $remove =  $studentSubModuleProgress::
-            where('main_module_id','=', $request->studentProgress['main_module_id'])
-            ->where('sub_module_id','=',$request->studentProgress['sub_module_id'])
-            ->where('student_id','=',$userId)
-            ->delete();
+        } 
+    }
 
-        }
+    public function updateTimespent(Request $request) {
+        $userId = auth('sanctum')->id();
+    
+    
+        
+        DB::table('tbl_student_sub_module_progress')
+        ->where('main_module_id', $request->studentProgress['main_module_id'])
+        ->where('sub_module_id', $request->studentProgress['sub_module_id'])
+        ->where('student_id', $userId)
+        ->update(['time_spent' =>  $request->studentProgress['time_spent']]);
+    
+    
+        
+   return  $request;
     }
 
     /**

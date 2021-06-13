@@ -14,13 +14,22 @@
                             <v-text-field label="Title" required v-model="subModuleForm.sub_module_name">
                             </v-text-field>
                         </v-col>
+
                         <v-col cols="12 pb-0">
-                            <label> Description </label>
+
                             <v-textarea label="Description" counter full-width single-line
                                 v-model=" subModuleForm.description"></v-textarea>
                         </v-col>
+                        <v-col cols="12 pb-0">
+                            <v-text-field label="Required time spent for Completion (minutes)" type="number" required
+                                v-model="subModuleForm.required_time">
+                            </v-text-field>
+                        </v-col>
+
                         <v-file-input show-size label="Attach File" @change="onFileChange" ref="inputFile">
                         </v-file-input>
+
+
                     </v-row>
                 </v-container>
 
@@ -60,10 +69,10 @@
         computed: mapGetters(["getmain_module", "getSub_module", "getAll_sub_module"]),
         methods: {
             getFileExt(filename) {
-               
-                    var split = filename.split('.');
-                    return split[split.length - 1];
-                
+
+                var split = filename.split('.');
+                return split[split.length - 1];
+
             },
             onFileChange(file) {
                 console.log('selected file', file.name);
@@ -74,7 +83,7 @@
                     if (_ext != this.ext) {
                         console.log('Invalid File type');
                     } else {
-                     
+
                         if (this.ext == 'mp4') {
                             this.type = 'Video';
 
@@ -84,7 +93,7 @@
 
                     }
                 });
-                   this.file = file;
+                this.file = file;
 
 
             },
@@ -102,7 +111,8 @@
                 fd.append('file', this.file);
                 fd.append('main_module_id', this.moduleId);
                 fd.append('description', this.subModuleForm.description);
-                fd.append('type',this.type);
+                fd.append('required_time', this.subModuleForm.required_time);
+                fd.append('type', this.type);
                 fd.append('sub_module_name', this.subModuleForm.sub_module_name);
                 this.sending = true;
 

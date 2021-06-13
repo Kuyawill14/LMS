@@ -19,6 +19,7 @@ class CreateTblSubModules extends Migration
             $table->string('sub_module_name');
             $table->mediumText('description');
             $table->string('type');
+            $table->string('required_time');
             $table->string('file_attachment')->nullable();
             $table->string('link')->nullable();
             $table->timestamps();
