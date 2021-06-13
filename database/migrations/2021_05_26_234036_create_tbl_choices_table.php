@@ -17,7 +17,6 @@ class CreateTblChoicesTable extends Migration
             $table->id();
             $table->integer('question_id');
             $table->mediumText('Choice');
-            $table->mediumText('answer')->nullable();
             $table->timestamps();
         });
     }

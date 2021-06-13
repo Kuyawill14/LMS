@@ -43,14 +43,28 @@
                   
                         <h2>Question #{{number}}</h2>
                         <v-row  class="pa-0 ma-0">
-                            <v-col class="pa-0 ma-0" cols="3"  md="1" lg="1">
+                           <!--  <v-col class="pa-0 ma-0" cols="3"  md="1" lg="1">
                                 <v-text-field :readonly="!isEditing" filled type="number" v-model="QuetionsList.points" class="pa-0 ma-0"  label="Points"></v-text-field>
+                            </v-col> -->
+                             <v-col class="pa-0 ma-0" cols="3"  md="1" lg="1">
+                                    <v-text-field min="0" :readonly="!isEditing" outlined type="number" v-model="QuetionsList.points" class="pa-0 ma-0"  label="Points"></v-text-field>
+                            </v-col>
+                            <v-col class="pa-0 ma-0 pl-2 pl-sm-0 text-right" cols="9" md="11" lg="11">
+                                    <v-select
+                                    :readonly="!isEditing"
+                                    v-model="QuetionsList.type"
+                                    class="float-right pa-0 ma-0"
+                                    :items="['Multiple Choice', 'Identification', 'True or False', 'Matching type']"
+                                    outlined
+                                    label="Type"
+                                    ></v-select>
                             </v-col>
                         </v-row>
                         <v-container class="pa-0 ma-0" ma-0 pa-0> 
-                            <v-row class="pa-0 ma-0">
-                                <v-col class="pa-0 ma-0" cols="12" md="9" lg="9">
-                                    <v-textarea
+                            <v-row >
+                                <div class="font-weight-medium">Question</div>
+                                <v-col  class="mb-5" cols="12" md="12" lg="12">
+                                 <!--    <v-textarea
                                     rows="1"
                                     :readonly="!isEditing"
                                     v-model="QuetionsList.question"
@@ -59,9 +73,18 @@
                                     label="Question"
                                     auto-grow
                                     required
-                                    ></v-textarea>
+                                    ></v-textarea> -->
+                          
+                                      <v-card style="width:100%" class="mb-3">
+                                        <editor
+                                            ref="Question"
+                                             :readonly="!isEditing"
+                                            v-model="QuetionsList.question"
+                                            id="editor-container"  placeholder="Question" 
+                                            theme="snow" :options="options"></editor>
+                                    </v-card>
                                 </v-col>
-                                <v-col class="pa-0 ma-0 pl-md-3 pl-sm-0" cols="12" md="3" lg="3">
+                              <!--   <v-col class="pa-0 ma-0 pl-md-3 pl-sm-0" cols="12" md="3" lg="3">
                                     <v-select
                                     :readonly="!isEditing"
                                     v-model="QuetionsList.type"
@@ -70,30 +93,18 @@
                                     filled
                                     label="Type"
                                     ></v-select>
-                                </v-col>
+                                </v-col> -->
                             </v-row>
                         </v-container>
                         
                         <v-container>
-                            <v-row ma-0 pa-0>
-                                <v-col  ma-0 pa-0 class="ma-0 pa-0 mb-3" cols="12" lg="12" md="12">
-                                    <v-row>
-                                        <v-col cols="7">
-                                            <div class="mt-1 text-sm-h3 text-md-h5 text-xl-h3">
-                                            Column A 
-                                            </div>
-                                        </v-col>
-                                        <v-col>
-                                                <div class="mt-1 text-sm-h3 text-md-h5 text-xl-h3">
-                                            Column B
-                                            </div>
-                                        </v-col>
-                                    </v-row>
-                                </v-col>
-                                <v-col ma-0 pa-0 class="ma-0 pa-0" cols="12" lg="12" md="12" v-for="(Ans, i) in SubQuestionList" :key="i">
+                            <v-row>
+                            <div class="font-weight-medium">Options</div>
+                                <v-col class="ma-0 pa-0" cols="12" lg="12" md="12" v-for="(Ans, i) in SubQuestionList" :key="i">
                                         <v-row>
-                                        <v-col cols="6" class="pt-0 pb-0 mt-0 mb-0">
-                                                <v-textarea
+                                            
+                                        <v-col cols="12" >
+                                             <!--    <v-textarea
                                                 rows="1"
                                                 :readonly="!isEditing"
                                                 v-model="Ans.sub_question"
@@ -103,10 +114,36 @@
                                                 auto-grow
                                                 required
                                                 >
-                                                </v-textarea>
+                                                </v-textarea> -->
+
+                                            <v-container class="d-flex flex-row ma-0 pa-0">
+                                                <v-card style="width:100%" outlined class="pa-3 mb-2">
+                                                        <div class="font-weight-medium">{{'Pair '}}{{i+1}}</div>
+                                            
+                                                    <v-card style="width:100%" class="mb-3">
+                                                    <editor :rules="rules"
+                                                        v-model="Ans.sub_question" 
+                                                    id="editor-container"  :placeholder="'Question '+(i+1)" 
+                                                        theme="snow" :options="options"></editor>
+                                                    </v-card>
+
+                                                        <v-card style="width:100%" class="mb-3">
+                                                    <editor 
+                                                    
+                                                         v-model="AnswerList[i].Choice"
+                                                    id="editor-container"  :placeholder="'Answer '+(i+1)" 
+                                                        theme="snow" :options="options"></editor>
+                                                    </v-card>
+                                                </v-card>
+
+                                                    <v-btn v-if="isEditing"
+                                                        icon class="mt-12 pl-2 pr-2">
+                                                        <v-icon>mdi-delete</v-icon>
+                                                </v-btn>
+                                            </v-container>
                                         </v-col>
 
-                                        <v-col cols="5" class="pt-0 pb-0 mt-0 mb-0">
+                                       <!--  <v-col cols="5" class="pt-0 pb-0 mt-0 mb-0">
                                                 <v-textarea
                                                 rows="1"
                                                 :readonly="!isEditing"
@@ -118,15 +155,15 @@
                                                 required
                                                 >
                                                 </v-textarea>
-                                        </v-col>
-                                            <v-col v-if="isEditing" class="pt-0 pb-0 mt-0 mb-0" cols="1">
+                                        </v-col> -->
+                                           <!--  <v-col v-if="isEditing" class="pt-0 pb-0 mt-0 mb-0" cols="1">
                                                 <v-btn
                                                 
                                                 icon class="mt-2 pl-2 pr-2">
                                                     <v-icon>mdi-delete</v-icon>
 
                                                 </v-btn>
-                                        </v-col>
+                                        </v-col> -->
                                     </v-row>
                                 </v-col>
                                     <v-col v-if="isEditing" class="ma-0 pa-0 pb-5 text-right">
@@ -197,6 +234,16 @@ export default {
             Show: true,
             DeleteDetails:{},
             message:'',
+            options:{
+            modules: {
+                    'toolbar': [
+                        ['bold', 'italic', 'underline', 'strike'],
+                
+                        [{ 'list': 'bullet' }],
+                        ['image'],
+                    ],
+                }
+            }
         }
     },
     methods:{
@@ -236,7 +283,7 @@ export default {
         },
         
     },
-    mounted(){
+    created(){
         this.QuetionsList = this.Question;
         this.AnswerList =  this.Answers;
         this.SubQuestionList = this.SubQuestion

@@ -42,14 +42,27 @@
                             </v-container>
                         <h2>Question #{{number}}</h2>
                         <v-row class="pa-0 ma-0">
+                            <v-col class="pa-0 ma-0" cols="12"  md="12" lg="12">
+                               
+                            </v-col>
                             <v-col class="pa-0 ma-0" cols="3"  md="1" lg="1">
-                                <v-text-field :readonly="!isEditing" filled type="number" v-model="QuetionsList.points" class="pa-0 ma-0"  label="Points"></v-text-field>
+                                 <v-text-field min="0" :readonly="!isEditing" outlined type="number" v-model="QuetionsList.points" class="pa-0 ma-0"  label="Points"></v-text-field>
+                            </v-col>
+                            <v-col class="pa-0 ma-0 pl-2 pl-sm-0 text-right" cols="9" md="11" lg="11">
+                                    <v-select
+                                    :readonly="!isEditing"
+                                    v-model="QuetionsList.type"
+                                    class="float-right pa-0 ma-0"
+                                    :items="['Multiple Choice', 'Identification', 'True or False', 'Matching type']"
+                                    outlined
+                                    label="Type"
+                                    ></v-select>
                             </v-col>
                         </v-row>
                         <v-container class="pa-0 ma-0" ma-0 pa-0> 
                             <v-row class="pa-0 ma-0">
-                                <v-col class="pa-0 ma-0" cols="12" md="9" lg="9">
-                                    <v-textarea
+                                <v-col class="pa-0 ma-0" cols="12" md="12" lg="12">
+                                   <!--  <v-textarea
                                     rows="1"
                                     :readonly="!isEditing"
                                     v-model="QuetionsList.question"
@@ -58,9 +71,15 @@
                                     label="Question"
                                     auto-grow
                                     required
-                                    ></v-textarea>
+                                    ></v-textarea> -->
+                                      <v-card style="width:100%" class="mb-3">
+                                        <editor
+                                            v-model="QuetionsList.question"
+                                            id="editor-container" placeholder="Question" 
+                                            theme="snow" :options="options"></editor>
+                                    </v-card>
                                 </v-col>
-                                <v-col class="pa-0 ma-0 pl-md-3 pl-sm-0" cols="12" md="3" lg="3">
+                               <!--  <v-col class="pa-0 ma-0 pl-md-3 pl-sm-0" cols="12" md="3" lg="3">
                                     <v-select
                                     :readonly="!isEditing"
                                     v-model="QuetionsList.type"
@@ -69,7 +88,7 @@
                                     filled
                                     label="Type"
                                     ></v-select>
-                                </v-col>
+                                </v-col> -->
                             </v-row>
                         </v-container>
                         <v-container>
@@ -89,7 +108,7 @@
                                                 <v-textarea
                                                 readonly
                                                 rows="1"
-                                                filled
+                                                outlined
                                                 class="pa-0 ma-0"
                                                 :value="inputCheck[n]"
                                                 auto-grow
@@ -154,7 +173,17 @@ export default {
             dialog:false,
             isRemoving:false,
             isEditing: false,
-            DeleteDetails:{}
+            DeleteDetails:{},
+            options:{
+            modules: {
+                    'toolbar': [
+                        ['bold', 'italic', 'underline', 'strike'],
+                
+                        [{ 'list': 'bullet' }],
+                        ['image'],
+                    ],
+                }
+            }
         }
     },
     methods:{

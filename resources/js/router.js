@@ -1,6 +1,10 @@
 import Vue from "vue";
 import Router from "vue-router";
+import NProgress from 'nprogress';
+//import '../node_modules/nprogress/nprogress.css'
+import '../../node_modules/nprogress/nprogress.css'
 Vue.use(Router);
+
 
 
 //login
@@ -57,7 +61,6 @@ let pdftest_tab = () =>
 
 let studentListComponent = () =>
     import ("./components/course-view/tabs/student-list/studentListComponent");
-
 
 
 //Quiz Page
@@ -198,16 +201,6 @@ const router = new Router({
                             path: "grading-criteria",
                             component: grading_criteria_tab
                         },
-                        {
-                            name: "gradebook",
-                            path: "grade-book",
-                            component: gradeBook_tab
-                        },
-                        {
-                            name: "pdftest",
-                            path: "pdftest",
-                            component: pdftest_tab
-                        },
 
 
 
@@ -251,7 +244,14 @@ const router = new Router({
                     name: "publish-to",
                     path: "publish-to",
                     component: publishClassworkTab
+                },
+                {
+                    name: "classwork-seting",
+                    path: "classwork-seting",
+                    component: settingsTab
                 }
+
+
 
             ]
         },
@@ -272,6 +272,14 @@ const router = new Router({
             name: "register"
         },
 
+        {
+            path: "/testing",
+            component: test,
+            name: "testing"
+        },
+
+
+
         // {
         //     path: '/:pathMatch(.*)*',
         //     component: error404
@@ -284,18 +292,18 @@ const router = new Router({
     ]
 })
 
-/* router.beforeEach((to, from, next) => {
-    
+router.beforeEach((to, from, next) => {
+
     if (to.name) {
-        app.$Progress.start();
+        NProgress.start()
     }
-    
     next()
-  })
-  router.afterEach(() => {
-    app.$Progress.finish();
-  })
- */
+})
+router.afterEach(() => {
+    //app.$Progress.finish();
+    NProgress.done()
+})
+
 /* export default new Router({
     mode: "history",
 

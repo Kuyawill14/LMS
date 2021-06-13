@@ -61,8 +61,6 @@
 //
 //
 //
-//
-//
 
 /***/ }),
 
@@ -181,7 +179,10 @@ var render = function() {
                 [
                   _c(
                     "v-card",
-                    { staticClass: "elevation-5" },
+                    {
+                      staticClass: "elevation-5",
+                      staticStyle: { "border-top": "5px solid #EF6C00" }
+                    },
                     [
                       _c(
                         "v-window",
@@ -192,11 +193,6 @@ var render = function() {
                               _c(
                                 "v-row",
                                 [
-                                  _c("v-col", {
-                                    staticClass: "pa-7 primary",
-                                    attrs: { cols: "12", md: "12" }
-                                  }),
-                                  _vm._v(" "),
                                   _c(
                                     "v-col",
                                     {

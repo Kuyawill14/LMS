@@ -31,7 +31,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  props: ['classworkDetails'],
   data: function data() {
     return {
       activeTab: "",
@@ -55,6 +61,10 @@ __webpack_require__.r(__webpack_exports__);
         name: "question-analytics",
         text: "QUESTION ANALYTICS",
         icon: "mdi-google-analytics"
+      }, {
+        name: "classwork-seting",
+        text: "SETTINGS",
+        icon: "mdi-file-cog"
       }]
     };
   }
@@ -156,8 +166,14 @@ var render = function() {
       _c(
         "v-tabs",
         {
-          staticClass: "pt-2",
-          attrs: { rounded: "", centered: "" },
+          attrs: {
+            rounded: "",
+            "next-icon": "mdi-arrow-right-bold-box-outline",
+            "prev-icon": "mdi-arrow-left-bold-box-outline",
+            "show-arrows": "",
+            centered: "",
+            "icons-and-text": ""
+          },
           model: {
             value: _vm.activeTab,
             callback: function($$v) {
@@ -167,6 +183,8 @@ var render = function() {
           }
         },
         [
+          _c("v-tabs-slider", { attrs: { color: "primary" } }),
+          _vm._v(" "),
           _vm._l(_vm.tabs, function(item, index) {
             return _c(
               "v-tab",
@@ -180,23 +198,32 @@ var render = function() {
                 }
               },
               [
+                _vm._v(
+                  "\n          " +
+                    _vm._s(_vm.$vuetify.breakpoint.xs ? "" : item.text) +
+                    "\n            "
+                ),
                 _c("v-icon", { attrs: { left: "" } }, [
                   _vm._v(
                     "\n            " + _vm._s(item.icon) + "\n            "
                   )
-                ]),
-                _vm._v(
-                  "\n            " +
-                    _vm._s(_vm.$vuetify.breakpoint.xs ? "" : item.text) +
-                    "\n        "
-                )
+                ])
               ],
               1
             )
           }),
           _vm._v(" "),
           _c("v-tabs-items", { attrs: { value: _vm.activeTab } }, [
-            _c("div", { staticClass: "container" }, [_c("router-view")], 1)
+            _c(
+              "div",
+              { staticClass: "container" },
+              [
+                _c("router-view", {
+                  attrs: { classworkDetails: _vm.classworkDetails }
+                })
+              ],
+              1
+            )
           ])
         ],
         2

@@ -5,13 +5,11 @@
   <v-container pa-0 ma-0  class="pa-0 pa-0" fluid>
         <v-row align="center" justify="center">
             <v-col cols="12" lg="10" md="10">
-                <v-card  class="elevation-5">
+                <v-card  class="elevation-5" style="border-top:5px solid #EF6C00">
                     <v-window>
                         <v-window-item >
                                 <v-row>
-                                    <v-col  cols="12" md="12" class="pa-7 primary">
-                                 
-                                    </v-col>
+                              
                                     <v-col  cols="12" md="12" class="pt-1">
                                          <v-simple-table fixed-header max-height="500px">
                                             <template v-slot:default>

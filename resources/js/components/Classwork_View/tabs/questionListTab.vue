@@ -21,14 +21,26 @@
     </v-row>
 </v-container>
 
-  <v-container v-if="!isloading" pa-0 ma-0  class="pa-0 pa-0" fluid>
+
+  <v-row align="center" justify="center" class="pt-10" v-if="Qlength == 0 && !isFetching">
+    <v-col cols="12" sm="8" md="4" class="text-center">
+        <v-icon style="font-size:14rem">
+            mdi-book-open-variant
+        </v-icon>
+        <h1> Empty Question </h1>
+        <p> Start adding question for this classwork.</p>
+        <v-btn color="primary" @click="$router.push({name: 'clwk',query: {clwk: $route.query.clwk} })"> Add Question </v-btn>
+    </v-col>
+</v-row>
+
+  <v-container v-if="!isloading && Qlength != 0" pa-0 ma-0  class="pa-0 pa-0" fluid>
         <v-row align="center" justify="center">
-            <v-col cols="12" lg="10" md="10">
-                <v-card  class="elevation-5">
+            <v-col cols="12" lg="12" md="12">
+                <v-card  class="elevation-5" style="border-top:5px solid #EF6C00">
                     <v-window>
                         <v-window-item >
                                 <v-row>
-                                    <v-col cols="12" md="12" class="primary">
+                                   <!--  <v-col cols="12" md="12" class="primary">
                                         <v-container class="d-flex flex-row justify-space-between">
                                             <div class="mt-1 text-sm-h3 text-md-h5 text-xl-h3 white--text">
                                             Question List  ({{Qlength}})</div>
@@ -36,11 +48,11 @@
                                                 <v-icon color="white">mdi-{{Show ? 'eye':'eye-off'}}</v-icon>
                                             </v-btn>
                                         </v-container>
-                                    </v-col>
+                                    </v-col> -->
 
-                                    <v-col v-if="Show && Qlength != 0" class="pl-8 pr-7 pt-3 pb-4 mb-0" cols="12" md="12">
+                                    <v-col v-if="Show && Qlength != 0" class="pl-8 pr-7 pt-10 pb-4 mb-0" cols="12" md="12">
                                         <v-row>
-                                            <v-col cols="9" class="text-left pb-0 mb-0">
+                                            <v-col cols="6" md="9" lg=9 class="text-left pb-0 mb-0">
                                                 <v-btn
                                                 class="ml-2 mt-2"
                                                 rounded
@@ -51,7 +63,7 @@
                                                 <v-icon>mdi-{{previewAll ? 'eye-off' : 'eye'}}</v-icon>
                                             </v-btn>
                                             </v-col>
-                                            <v-col cols="3" class="text-right pb-0 mb-0">
+                                            <v-col cols="6" md="3" lg="3" class="text-right pb-0 mb-0">
                                             <v-row class="ml-3 mt-1 ">
                                                  <v-col class="ma-0 pa-0" cols="10">
                                                      <v-select
@@ -128,7 +140,8 @@ export default {
             isloading: true,
             Show: true,
             DeleteDetails:{},
-            QuestionsList:[]
+            QuestionsList:[],
+            isFetching: true,
           
         }
     },
@@ -169,25 +182,25 @@ export default {
                 this.Qlength = res[1];
                 this.QuestionsList = res[0];
                 this.isloading = false;
+                this.isFetching = false;
             });
-
-            
-
-        }
+        },
     },
-    mounted(){
+    beforeMount(){
         //this.getAllQuestion();
         this.isLoading = true;
         this.Show = false
         this.fetchQuestionsList();
          this.Show = true
         this.isLoading = false;
+      
     }
   
 }
 </script>
 
-<style scoped>
+<style>
   
+
         
 </style>

@@ -693,7 +693,6 @@ var render = function() {
                                               staticClass: "mb-5",
                                               attrs: {
                                                 disabled: !_vm.valid,
-                                                loading: _vm.isSubmit,
                                                 color: "primary"
                                               },
                                               on: { click: _vm.validate }
@@ -734,15 +733,11 @@ var render = function() {
                                                 [
                                                   _c(
                                                     "v-icon",
-                                                    {
-                                                      class: _vm.$vuetify
-                                                        .breakpoint.xs
-                                                        ? ""
-                                                        : "mr-3"
-                                                    },
+                                                    { staticClass: "mr-3" },
                                                     [_vm._v("mdi-facebook")]
                                                   ),
                                                   _vm._v(
+<<<<<<< HEAD
                                                     "\n                                  " +
                                                       _vm._s(
                                                         _vm.$vuetify.breakpoint
@@ -751,6 +746,9 @@ var render = function() {
                                                           : "Facebook"
                                                       ) +
                                                       "\n                                  "
+=======
+                                                    "\n                                                Facebook\n                                            "
+>>>>>>> b0d83189871837b9f0cf60f15b4133ea78cddf84
                                                   )
                                                 ],
                                                 1
@@ -768,15 +766,11 @@ var render = function() {
                                                 [
                                                   _c(
                                                     "v-icon",
-                                                    {
-                                                      class: _vm.$vuetify
-                                                        .breakpoint.xs
-                                                        ? ""
-                                                        : "mr-3"
-                                                    },
+                                                    { staticClass: "mr-3" },
                                                     [_vm._v("mdi-google-plus")]
                                                   ),
                                                   _vm._v(
+<<<<<<< HEAD
                                                     "\n                                   " +
                                                       _vm._s(
                                                         _vm.$vuetify.breakpoint
@@ -785,6 +779,9 @@ var render = function() {
                                                           : " Google Plus"
                                                       ) +
                                                       "\n                                  "
+=======
+                                                    "\n                                                Google Plus\n                                            "
+>>>>>>> b0d83189871837b9f0cf60f15b4133ea78cddf84
                                                   )
                                                 ],
                                                 1

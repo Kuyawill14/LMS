@@ -5,62 +5,53 @@
                 <v-card-title>
                     <span class="headline">Classwork Details</span>
                 </v-card-title>
-                <v-card-text>
+                <v-card-text class="mb-0 pb-0 pt-0 mt-0">
                     <v-container>
                         <v-row>
-                            <v-col cols="12">
-                                <v-row>
-                                    <v-col cols="12" lg="8" md="8">
-                                            <v-text-field 
-                                            v-model="form.title"
-                                            label="Title" type="text"  required>
-                                            </v-text-field>
-                                    </v-col>
-                                    <v-col cols="12" lg="4" md="4">
-                                        <v-select
-                                        v-model="form.type"
-                                        :items="['Quiz', 'test']"
-                                        label="Type"
-                                        ></v-select>
-                                    </v-col>
-                                </v-row>
+                            <v-col class="mb-0 pb-0 pt-0 mt-0" cols="12"> 
+                            <v-select
+                            outlined
+                            v-model="form.type"
+                            :items="['Quiz', 'test']"
+                            label="Type"
+                            ></v-select>
                             </v-col>
-                            <v-col cols="12">
+                            <v-col class="mb-0 pb-0 pt-0 mt-0" cols="12">
+                                <v-text-field
+                                outlined
+                                v-model="form.title"
+                                label="Title" type="text"  required>
+                                </v-text-field>
+                            </v-col>
+                            <v-col class="mb-0 pb-0 pt-0 mt-0" cols="12">
                                 <v-textarea
+                                outlined
                                     v-model="form.instruction"
                                     label="Instruction"
                                     auto-grow
                                     >
                                 </v-textarea>
-                            </v-col>
-
-                                <v-col cols="12">
-                                    <v-row>
-                                        <v-col>
-                                        <v-text-field
-                                        v-model="due_date"   
-                                        ref="Due_date"
-                                        label="Due Date" type="datetime-local"  required>
-                                        </v-text-field>
-                                        </v-col>
-                                        <v-col>
-                                            <v-text-field
-                                            v-model="form.duration"
-                                            hint="mins" label="Duration" type="number"  required>
-                                            </v-text-field>
-                                        </v-col>
-                                    </v-row>
+                            </v-col >
+                                <v-col class="mb-0 pb-0 pt-0 mt-0" cols="12">
+                        
+                                <v-text-field
+                                append-icon="mdi-timer"
+                                outlined
+                                v-model="form.duration"
+                                hint="mins" label="Time Limit" 
+                                type="number">
+                                </v-text-field>
                             </v-col>
                         </v-row>
                     </v-container>
                 </v-card-text>
-                <v-card-actions>
+                <v-card-actions >
                     <v-spacer></v-spacer>
                     <v-btn color="blue darken-1" text @click="$emit('closeEditModal')" :disabled="loading">
                         Close
                     </v-btn>
                     <v-btn color="blue darken-1" text @click="UpdateClasswork()" :disabled="loading">
-                        Save
+                        Update
                     </v-btn>
                 </v-card-actions>
             </v-form>

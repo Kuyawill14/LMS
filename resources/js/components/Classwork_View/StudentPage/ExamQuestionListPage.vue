@@ -21,7 +21,7 @@
 </v-container>
 
 <div>
-    <quizTimer :duration="duration" v-if="!isLoading"></quizTimer>
+    <quizTimer v-on:TimesUp="TimesUpSubmit()" :duration="duration" v-if="!isLoading"></quizTimer>
 </div>
 
 
@@ -60,7 +60,7 @@
                                             
                                         </v-col>
                                         <v-col  cols="12" md="12" lg="12" class="pa-10">
-                                            <v-container ma-0 pa-0 v-for="(item, index) in getAll_questions.Question" :key="index">
+                                        <v-container ma-0 pa-0 v-for="(item, index) in getAll_questions.Question" :key="index">
                                             <div v-show="index === questionIndex">
                                                     <v-row ma-0 pa-0>
                                                         <v-col class="mb-0 pb-0" cols="12">
@@ -73,7 +73,7 @@
                                             
                                                         <v-col class=" mt-0 pt-1" cols="12" md="11" lg="11">
                                                             <v-container ma-0 pa-0 class="ma-0 pa-0">
-                                                                <div :style="$vuetify.breakpoint.xs ? 'line-height:1.1': ''" class="subtitle-1">{{item.question}}</div>
+                                                                <div :style="$vuetify.breakpoint.xs ? 'line-height:1.1': ''" class="subtitle-1"><span v-html="item.question" class="post-content"></span><!-- {{item.question}} --></div>
                                                             </v-container> 
                                                         </v-col>
                                             
@@ -82,11 +82,11 @@
                                                     <v-container v-if="item.type == 'Multiple Choice'">
                                                       <v-row>
                                                           <v-col cols="12" md="12">
-                                                            <v-container>
+                                                            <v-container >
                                                                 <v-container class="d-flex flex-row ma-0 pa-0 mb-1" v-for="(Ans, i) in getAll_questions.Answer[index]" :key="i">
                                                                 <v-radio-group :name="'option'+index"  class="ma-0 pa-0" v-model="AnswerRadio[index]">
                                                                     <v-radio
-                                                                    
+                                                                 
                                                                     @click="PickAnswers.ans = AnswerRadio[index],
                                                                     PickAnswers_id.quesId = item.id, 
                                                                     Questype = item.type, checker[index] = AnswerRadio[index]"
@@ -97,7 +97,8 @@
                                                                     ></v-radio>
                                                                     </v-radio-group>
                                                                     <div style="line-height:1.4" class="Subtitle-1 ma-0 pa-0">
-                                                                        {{Ans.Choice}}
+                                                                      <!--   {{Ans.Choice}} -->
+                                                                        <span v-html="Ans.Choice" class="post-content"></span>
                                                                     </div>
                                                                     </v-container>
 
@@ -112,16 +113,14 @@
                                                     <v-container v-if="item.type == 'Identification'">
                                                         <v-row ma-0 pa-0>
                                                             <v-col  ma-0 pa-0 class="ma-0 pa-0 mt-5" cols="12">
-                                                                <v-textarea
-                                                                @change="PickAnswers_id.quesId = item.id, 
-                                                                Questype = item.type, checker[index] = IdentificationAns[index]" 
-                                                                v-model="IdentificationAns[index]"
-                                                                filled
-                                                            
-                                                                class="pa-0 ma-0"
-                                                                label="Answer"
-                                                                auto-grow
-                                                                ></v-textarea>
+                                                                <v-card style="width:100%" class="mb-3">
+                                                                    <editor 
+                                                                    @change="PickAnswers_id.quesId = item.id, 
+                                                                    Questype = item.type, checker[index] = IdentificationAns[index]" 
+                                                                        v-model="IdentificationAns[index]" 
+                                                                        id="editor-container" placeholder="Answer" 
+                                                                        theme="snow" :options="options"></editor>
+                                                                </v-card>
                                                             </v-col>
                                                         </v-row>
                                                     </v-container>
@@ -299,12 +298,31 @@ export default {
             Questype: "",
             questionIndex: 0,
             duration:'',
-            Alphabet: ""
+            Alphabet: "",
+            options:{
+            modules: {
+                    'toolbar': [
+                        ['bold', 'italic', 'underline', 'strike'],
+                
+                        [{ 'list': 'bullet' }],
+                        ['image'],
+                    ],
+                }
+            },
+            TimerCount:[],
+            tempCounter:0,
+            timeCount:null
         }
     },
     computed: 
     mapGetters(["getAll_questions"]),
     methods:{
+        CountTime(){
+            this.timeCount = setInterval(()=>{
+                this.tempCounter = this.tempCounter +1
+                /* console.log(this.tempCounter); */
+            },1000)
+        },
         SubmitPromp(){
             this.isRemoving = true;
             this.dialog = true;;
@@ -323,120 +341,166 @@ export default {
             this.isRemoving_id = id;
             this.dialog = true;;
         },
-          next: function() {
-            if (this.Questype == 'Multiple Choice' || this.Questype == 'True or False') {
-               
-                if (this.FinalAnswers.length != 0) {
-                    let check = false;
-                    let index = 0;
-                    for (let i = 0; i < this.FinalAnswers.length; i++) {
-                        if (
-                            this.FinalAnswers[i].Question_id ==
-                            this.PickAnswers_id.quesId
-                        ) {
-                            check = true;
-                            index = i;
+        next: function() {
+            if(this.TimerCount[this.questionIndex] != null || ''){
+                this.TimerCount[this.questionIndex] = this.TimerCount[this.questionIndex]+this.tempCounter;
+            }
+            else{
+                this.TimerCount[this.questionIndex] = this.tempCounter;
+            }
+            clearInterval(this.timeCount);
+            this.tempCounter = 0;
+            this.CountTime();
+    
+            if(this.PickAnswers.ans == undefined || this.PickAnswers.ans == ''){
+                 this.FinalAnswers.push({
+                    Answer: '',
+                    Question_id: this.getAll_questions.Question[this.questionIndex].id,
+                    type:this.getAll_questions.Question[this.questionIndex].type,
+                    timeConsume: this.TimerCount[this.questionIndex]
+                });
+                console.log(this.FinalAnswers);
+            }
+            else{
+                if (this.Questype == 'Multiple Choice' || this.Questype == 'True or False') {
+                
+                    if (this.FinalAnswers.length != 0) {
+                        let check = false;
+                        let index = 0;
+                        for (let i = 0; i < this.FinalAnswers.length; i++) {
+                            if (
+                                this.FinalAnswers[i].Question_id == this.PickAnswers_id.quesId
+                            ) {
+                                check = true;
+                                index = i;
+                            }
                         }
-                    }
-                    if (check == true) {
-                        this.FinalAnswers[index] = {
-                            Answer: this.PickAnswers.ans,
-                            Question_id: this.PickAnswers_id.quesId,
-                            type:this.Questype
-                        };
-                        console.log(this.FinalAnswers);
+                        if (check == true) {
+                            this.FinalAnswers[index] = {
+                                Answer: this.PickAnswers.ans,
+                                Question_id: this.PickAnswers_id.quesId,
+                                type:this.Questype,
+                                timeConsume: this.TimerCount[this.questionIndex]
+                            };
+                            console.log(this.FinalAnswers);
+                        } else {
+                            this.FinalAnswers.push({
+                                Answer: this.PickAnswers.ans,
+                                Question_id: this.PickAnswers_id.quesId,
+                                type:this.Questype,
+                                timeConsume: this.TimerCount[this.questionIndex]
+                            });
+                            console.log(this.FinalAnswers);
+                        }
                     } else {
                         this.FinalAnswers.push({
                             Answer: this.PickAnswers.ans,
                             Question_id: this.PickAnswers_id.quesId,
-                            type:this.Questype
+                            type:this.Questype,
+                            timeConsume: this.TimerCount[this.questionIndex]
                         });
                         console.log(this.FinalAnswers);
                     }
-                } else {
-                    this.FinalAnswers.push({
-                        Answer: this.PickAnswers.ans,
-                        Question_id: this.PickAnswers_id.quesId,
-                        type:this.Questype
-                    });
-                    console.log(this.FinalAnswers);
                 }
-            }
 
-            if (this.Questype == 'Identification') {
-                if (this.FinalAnswers.length != 0) {
-                    let check = false;
-                    let index = 0;
-                    for (let i = 0; i < this.FinalAnswers.length; i++) {
-                        if (
-                            this.FinalAnswers[i].Question_id ==
-                            this.PickAnswers_id.quesId
-                        ) {
-                            check = true;
-                            index = i;
+                if (this.Questype == 'Identification') {
+                    if (this.FinalAnswers.length != 0) {
+                        let check = false;
+                        let index = 0;
+                        for (let i = 0; i < this.FinalAnswers.length; i++) {
+                            if (
+                                this.FinalAnswers[i].Question_id ==
+                                this.PickAnswers_id.quesId
+                            ) {
+                                check = true;
+                                index = i;
+                            }
                         }
-                    }
-                    if (check == true) {
-                        this.FinalAnswers[index] = {
-                            Answer: this.IdentificationAns[this.questionIndex],
-                            Question_id: this.PickAnswers_id.quesId,
-                            type:this.Questype
-                        };
-                        console.log(this.FinalAnswers);
+                        if (check == true) {
+                            this.FinalAnswers[index] = {
+                                Answer: this.IdentificationAns[this.questionIndex],
+                                Question_id: this.PickAnswers_id.quesId,
+                                type:this.Questype,
+                                timeConsume: this.TimerCount[this.questionIndex]
+                            };
+                            console.log(this.FinalAnswers);
+                        } else {
+                            this.FinalAnswers.push({
+                                Answer: this.IdentificationAns[this.questionIndex],
+                                Question_id: this.PickAnswers_id.quesId,
+                                type:this.Questype,
+                                timeConsume: this.TimerCount[this.questionIndex]
+                            });
+                            console.log(this.FinalAnswers);
+                        }
                     } else {
                         this.FinalAnswers.push({
                             Answer: this.IdentificationAns[this.questionIndex],
                             Question_id: this.PickAnswers_id.quesId,
-                            type:this.Questype
+                            type:this.Questype,
+                            timeConsume: this.TimerCount[this.questionIndex]
                         });
                         console.log(this.FinalAnswers);
                     }
-                } else {
-                    this.FinalAnswers.push({
-                        Answer: this.IdentificationAns[this.questionIndex],
-                        Question_id: this.PickAnswers_id.quesId,
-                        type:this.Questype
-                    });
-                    console.log(this.FinalAnswers);
                 }
-            }
 
-            if (this.Questype == 'Two Colums Multiple Choice') {
-                if (this.FinalAnswers.length != 0) {
-                    let check = false;
-                    let index = 0;
-                    for (let i = 0; i < this.FinalAnswers.length; i++) {
-                        if (
-                            this.FinalAnswers[i].Question_id ==
-                            this.PickAnswers_id.quesId
-                        ) {
-                            check = true;
-                            index = i;
+                if (this.Questype == 'Two Colums Multiple Choice') {
+                    if (this.FinalAnswers.length != 0) {
+                        let check = false;
+                        let index = 0;
+                        for (let i = 0; i < this.FinalAnswers.length; i++) {
+                            if (
+                                this.FinalAnswers[i].Question_id ==
+                                this.PickAnswers_id.quesId
+                            ) {
+                                check = true;
+                                index = i;
+                            }
                         }
-                    }
-                    if (check == true) {
-                        let Ans = new Array();
-                         for (let i = 0; i < this.getAll_questions.Answer[this.questionIndex].SubAnswer.length; i++) {
-                            for (let x = 0; x < this.getAll_questions.Answer[this.questionIndex].SubAnswer.length; x++) {
-                                if(this.Alphabet[x].toUpperCase() == this.SubAnswers[i].toUpperCase()){
-                                        Ans[i] = this.getAll_questions.Answer[this.questionIndex].SubAnswer[x].Choice;
-                                    } 
-                                }     
+                        if (check == true) {
+                            let Ans = new Array();
+                            for (let i = 0; i < this.getAll_questions.Answer[this.questionIndex].SubAnswer.length; i++) {
+                                for (let x = 0; x < this.getAll_questions.Answer[this.questionIndex].SubAnswer.length; x++) {
+                                    if(this.Alphabet[x].toUpperCase() == this.SubAnswers[i].toUpperCase()){
+                                            Ans[i] = this.getAll_questions.Answer[this.questionIndex].SubAnswer[x].Choice;
+                                        } 
+                                    }     
+                            }
+                            this.FinalAnswers[index] = {
+                                Answer: this.SubAnswers,
+                                Question_id: this.PickAnswers_id.quesId,
+                                SubQuestion_id: this.quesNumber,
+                                type:this.Questype,
+                                timeConsume: this.TimerCount[this.questionIndex]
+                            };
+                            console.log(this.FinalAnswers);
+                        } else {
+                            let Ans = new Array();
+                            for (let i = 0; i < this.getAll_questions.Answer[this.questionIndex].SubAnswer.length; i++) {
+                                for (let x = 0; x < this.getAll_questions.Answer[this.questionIndex].SubAnswer.length; x++) {
+                                    if(this.Alphabet[x].toUpperCase() == this.SubAnswers[i].toUpperCase()){
+                                            Ans[i] = this.getAll_questions.Answer[this.questionIndex].SubAnswer[x].Choice;
+                                        }
+                                        
+                                }   
+                            }
+                            this.FinalAnswers.push({
+                                Answer: Ans,
+                                Question_id: this.PickAnswers_id.quesId,
+                                SubQuestion_id: this.quesNumber,
+                                type:this.Questype,
+                                timeConsume: this.TimerCount[this.questionIndex]
+                            });
+                            console.log(this.FinalAnswers);
+                        
                         }
-                        this.FinalAnswers[index] = {
-                            Answer: this.SubAnswers,
-                            Question_id: this.PickAnswers_id.quesId,
-                            SubQuestion_id: this.quesNumber,
-                            type:this.Questype
-                        };
-                        console.log(this.FinalAnswers);
                     } else {
                         let Ans = new Array();
-                         for (let i = 0; i < this.getAll_questions.Answer[this.questionIndex].SubAnswer.length; i++) {
+                            for (let i = 0; i < this.getAll_questions.Answer[this.questionIndex].SubAnswer.length; i++) {
                             for (let x = 0; x < this.getAll_questions.Answer[this.questionIndex].SubAnswer.length; x++) {
                                 if(this.Alphabet[x].toUpperCase() == this.SubAnswers[i].toUpperCase()){
-                                        Ans[i] = this.getAll_questions.Answer[this.questionIndex].SubAnswer[x].Choice;
-                                    }
+                                    Ans[i] = this.getAll_questions.Answer[this.questionIndex].SubAnswer[x].Choice;
+                                }
                                     
                             }   
                         }
@@ -444,49 +508,54 @@ export default {
                             Answer: Ans,
                             Question_id: this.PickAnswers_id.quesId,
                             SubQuestion_id: this.quesNumber,
-                            type:this.Questype
+                            type:this.Questype,
+                            timeConsume: this.TimerCount[this.questionIndex]
                         });
                         console.log(this.FinalAnswers);
-                      
                     }
-                } else {
-                     let Ans = new Array();
-                        for (let i = 0; i < this.getAll_questions.Answer[this.questionIndex].SubAnswer.length; i++) {
-                        for (let x = 0; x < this.getAll_questions.Answer[this.questionIndex].SubAnswer.length; x++) {
-                            if(this.Alphabet[x].toUpperCase() == this.SubAnswers[i].toUpperCase()){
-                                Ans[i] = this.getAll_questions.Answer[this.questionIndex].SubAnswer[x].Choice;
-                            }
-                                
-                        }   
-                    }
-                    this.FinalAnswers.push({
-                        Answer: Ans,
-                        Question_id: this.PickAnswers_id.quesId,
-                        SubQuestion_id: this.quesNumber,
-                        type:this.Questype
-                    });
-                    console.log(this.FinalAnswers);
                 }
-            }
 
-            this.Questype = "";
-            this.PickAnswers.ans = "";
-            this.PickAnswers_id.quesId = "";
-            if(this.questionIndex != this.Qlength-1){
-                this.questionIndex++;
-            }
+               
+              }
+               this.Questype = "";
+                this.PickAnswers.ans = "";
+                this.PickAnswers_id.quesId = "";
+                if(this.questionIndex != this.Qlength-1){
+                    this.questionIndex++;
+                }
             
         },
         // Go to previous question
         prev: function() {
+            if(this.TimerCount[this.questionIndex] != null || ''){
+                this.TimerCount[this.questionIndex] = this.TimerCount[this.questionIndex]+this.tempCounter;
+            }
+            else{
+                this.TimerCount[this.questionIndex] = this.tempCounter;
+            }
+            clearInterval(this.timeCount);
+            this.tempCounter = 0;
+            this.CountTime();
             this.questionIndex--;
+            
         },
          SubmitAnswer(){
             this.isLoading = !this.isLoading;
             this.isSubmitting = !this.isSubmitting;
             this.dialog = !this.dialog;
             this.next();
-            axios.post('/api/question/check/'+this.$route.query.clwk, {item: this.FinalAnswers, AnsLength:this.questionIndex})
+            axios.post('/api/question/check/'+this.$route.query.clwk, {item: this.FinalAnswers, AnsLength:this.questionIndex, timerCount: this.TimerCount})
+            .then(()=>{
+                 setTimeout(() => {
+                    this.isLoading = !this.isLoading;
+                    this.isSubmitting = !this.isSubmitting;
+                }, 2000);
+            })
+        },
+        TimesUpSubmit(){
+            this.isLoading = !this.isLoading;
+            this.isSubmitting = !this.isSubmitting;
+             axios.post('/api/question/check/'+this.$route.query.clwk, {item: this.FinalAnswers, AnsLength:this.questionIndex,timerCount: this.TimerCount})
             .then(()=>{
                  setTimeout(() => {
                     this.isLoading = !this.isLoading;
@@ -554,6 +623,7 @@ export default {
             this.duration = res.data.Details[0].duration;
             this.fetchQuestions();
         })
+        this.CountTime();
         
 
     }
@@ -561,8 +631,12 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
     .centered-input >>> input {
       text-align: center
-    }    
+    }
+    .post-content img{
+        
+     max-height: 8rem !important;
+}
 </style>

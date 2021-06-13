@@ -21,7 +21,7 @@
           <v-btn
             color="primary"
             rounded
-            @click="$emit('toggleSubmit')"
+            @click="$emit('set')"
           >
             Confirm
           </v-btn>

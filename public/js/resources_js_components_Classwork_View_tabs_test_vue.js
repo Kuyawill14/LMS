@@ -62,7 +62,11 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     getPdf: function getPdf() {
+<<<<<<< HEAD
       var pdf = 'http://infolab.stanford.edu/pub/papers/google.pdf';
+=======
+      var pdf = '../../storage/test.pdf';
+>>>>>>> b0d83189871837b9f0cf60f15b4133ea78cddf84
       return pdf;
     },
     base64ToArrayBuffer: function base64ToArrayBuffer(base64) {

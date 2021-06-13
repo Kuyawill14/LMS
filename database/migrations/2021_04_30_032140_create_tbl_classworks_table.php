@@ -16,13 +16,12 @@ class CreateTblClassworksTable extends Migration
         Schema::create('tbl_classworks', function (Blueprint $table) {
             $table->id();
             $table->integer("course_id");
+            $table->integer("module_id")->nullable();
             $table->integer("user_id");
             $table->string("type");
             $table->string("title");
             $table->mediumText("instruction");
-            $table->dateTime("due_date");
             $table->integer("duration")->nullable();
-            $table->integer("status");
             $table->integer("points")->nullable();
             $table->timestamps();
         });

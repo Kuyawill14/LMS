@@ -82,14 +82,54 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+var publishDialog = function publishDialog() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_tabs_dialogs_publishDialog_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./dialogs/publishDialog */ "./resources/js/components/Classwork_View/tabs/dialogs/publishDialog.vue"));
+};
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  components: {
+    publishDialog: publishDialog
+  },
   data: function data() {
     return {
       classNames: [],
-      isloading: true
+      isloading: true,
+      dialog: false,
+      Details: {},
+      isPublishing: false
     };
   },
   methods: {
+    OpenPublishDialog: function OpenPublishDialog(item_id, class_id, class_name, status) {
+      this.isPublishing = !this.isPublishing;
+      this.Details.id = item_id;
+      this.Details.class_id = class_id;
+      this.Details.class_name = class_name;
+      this.Details.status = status;
+      this.dialog = !this.dialog;
+    },
     toastSuccess: function toastSuccess(class_name) {
       return this.$toasted.success("Classwork Successfully published to " + class_name, {
         theme: "toasted-primary",
@@ -123,7 +163,7 @@ __webpack_require__.r(__webpack_exports__);
       });
     }
   },
-  mounted: function mounted() {
+  beforeMount: function beforeMount() {
     this.fetchClassnames();
   }
 });
@@ -221,6 +261,39 @@ var render = function() {
   return _c(
     "v-app",
     [
+      _c(
+        "v-dialog",
+        {
+          attrs: { persistent: "", "max-width": "600" },
+          model: {
+            value: _vm.dialog,
+            callback: function($$v) {
+              _vm.dialog = $$v
+            },
+            expression: "dialog"
+          }
+        },
+        [
+          _vm.dialog
+            ? _c("publishDialog", {
+                attrs: { Details: _vm.Details },
+                on: {
+                  toggleDialog: function($event) {
+                    ;(_vm.dialog = !_vm.dialog),
+                      (_vm.isPublishing = !_vm.isPublishing)
+                  },
+                  successPublish: function($event) {
+                    _vm.fetchClassnames(),
+                      (_vm.dialog = !_vm.dialog),
+                      (_vm.isPublishing = !_vm.isPublishing)
+                  }
+                }
+              })
+            : _vm._e()
+        ],
+        1
+      ),
+      _vm._v(" "),
       _vm.isloading
         ? _c(
             "v-container",
@@ -280,7 +353,10 @@ var render = function() {
                     [
                       _c(
                         "v-card",
-                        { staticClass: "elevation-5" },
+                        {
+                          staticClass: "elevation-5",
+                          staticStyle: { "border-top": "5px solid #EF6C00" }
+                        },
                         [
                           _c(
                             "v-window",
@@ -291,11 +367,6 @@ var render = function() {
                                   _c(
                                     "v-row",
                                     [
-                                      _c("v-col", {
-                                        staticClass: "pa-7 primary",
-                                        attrs: { cols: "12", md: "12" }
-                                      }),
-                                      _vm._v(" "),
                                       _c(
                                         "v-col",
                                         {
@@ -352,20 +423,27 @@ var render = function() {
                                                             { key: x },
                                                             [
                                                               data.uc_id ==
-                                                              details.class_id
+                                                                details.id &&
+                                                              data.cl_id ==
+                                                                _vm.$route.query
+                                                                  .clwk
                                                                 ? _c(
                                                                     "v-btn",
                                                                     {
                                                                       attrs: {
-                                                                        id:
-                                                                          "check",
+                                                                        loading:
+                                                                          _vm.isPublishing &&
+                                                                          _vm
+                                                                            .Details
+                                                                            .class_id ==
+                                                                            details.class_id,
                                                                         color:
                                                                           "primary",
                                                                         outlined:
                                                                           data.uc_id ==
-                                                                            details.class_id &&
+                                                                            details.id &&
                                                                           data.status ==
-                                                                            0,
+                                                                            false,
                                                                         rounded:
                                                                           "",
                                                                         dark: ""
@@ -374,13 +452,14 @@ var render = function() {
                                                                         click: function(
                                                                           $event
                                                                         ) {
-                                                                          return _vm.shareClasswork(
+                                                                          return _vm.OpenPublishDialog(
                                                                             _vm
                                                                               .$route
                                                                               .query
                                                                               .clwk,
                                                                             details.class_id,
-                                                                            details.class_name
+                                                                            details.class_name,
+                                                                            data.status
                                                                           )
                                                                         }
                                                                       }
@@ -395,11 +474,11 @@ var render = function() {
                                                                               .xs
                                                                               ? ""
                                                                               : data.uc_id ==
-                                                                                  details.class_id &&
+                                                                                  details.id &&
                                                                                 data.status ==
                                                                                   0
                                                                               ? "Publish"
-                                                                              : "Published"
+                                                                              : "Unpublish"
                                                                           ) +
                                                                           "\r\n                                                            "
                                                                       ),

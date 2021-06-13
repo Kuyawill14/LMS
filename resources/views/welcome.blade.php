@@ -12,15 +12,16 @@
        <link href="https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css" rel="stylesheet">
        <link rel="stylesheet" type="text/css" href="{{asset('css/app.css')}}">
         <link href="https://cdn.jsdelivr.net/npm/@morioh/v-quill-editor/dist/editor.css" rel="stylesheet">
-
+        <link href="https://cdn.quilljs.com/1.0.0/quill.snow.css" rel="stylesheet">
     </head>
     <body class="antialiased">
       
         <div id="app">
             <example-component></example-component>
           </div>
-          
+
         <script src="{{mix('js/app.js')}}"> </script>
+        <script src="https://cdn.quilljs.com/1.0.0/quill.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@morioh/v-quill-editor/dist/editor.min.js" type="text/javascript"></script>
     </body>
 </html>

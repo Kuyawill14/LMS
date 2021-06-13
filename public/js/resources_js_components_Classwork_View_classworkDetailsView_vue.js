@@ -49,6 +49,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 var studentStartPage = function studentStartPage() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_type_studentStartPage_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./type/studentStartPage */ "./resources/js/components/Classwork_View/type/studentStartPage.vue"));
 };
@@ -21708,7 +21710,9 @@ var render = function() {
         : _vm._e(),
       _vm._v(" "),
       !_vm.isloading && _vm.CurrentUser.role == "Teacher"
-        ? _c("teacherStartPage")
+        ? _c("teacherStartPage", {
+            attrs: { classworkDetails: _vm.classworkDetails }
+          })
         : _vm._e(),
       _vm._v(" "),
       !_vm.isloading && _vm.CurrentUser.role == "Student"
