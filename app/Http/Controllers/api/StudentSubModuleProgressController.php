@@ -122,8 +122,6 @@ class StudentSubModuleProgressController extends Controller
     public function studentSubProgress($id) {
           // $userId = auth('sanctum')->id();
 
-          
-      
           $allSubModulesProgress = DB::table('tbl_userclasses')
           ->select('tbl_userclasses.id as uc_id', 'users.firstName','users.middleName','users.lastName',
           'tbl_main_modules.module_name',
