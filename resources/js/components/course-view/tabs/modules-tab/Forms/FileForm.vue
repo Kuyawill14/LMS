@@ -16,9 +16,9 @@
                         </v-col>
 
                         <v-col cols="12 pb-0">
-
-                            <v-textarea label="Description" counter full-width single-line
-                                v-model=" subModuleForm.description"></v-textarea>
+                            <editor style="outline:none;" placeholder="Description" v-model="subModuleForm.drescription"
+                                theme="snow" :options="options"></editor>
+                           
                         </v-col>
                         <v-col cols="12 pb-0">
                             <v-text-field label="Required time spent for Completion (minutes)" type="number" required
@@ -40,7 +40,7 @@
                     Close
                 </v-btn>
                 <v-btn color="blue darken-1" text @click="addFile()" :disabled="sending">
-                    Save
+                    Add
                 </v-btn>
             </v-card-actions>
         </form>
@@ -64,6 +64,28 @@
                 ext: '',
                 file: null,
                 allowedExt: ['pdf', 'pptx', 'ppt', 'xls', 'xlsx', 'doc', 'docx', 'mp4'],
+                options: {
+                    modules: {
+                        'toolbar': [
+                            ['bold', 'italic', 'underline', 'strike'],
+                            [{
+                                'header': [1, 2, 3, 4, 5, false]
+                            }],
+                            [{
+                                'align': []
+                            }],
+                            [{
+                                'color': []
+                            }],
+                            [{
+                                'list': 'ordered'
+                            }, {
+                                'list': 'bullet'
+                            }],
+                            ['link', 'image', 'video'],
+                        ],
+                    },
+                }
             }
         },
         computed: mapGetters(["getmain_module", "getSub_module", "getAll_sub_module"]),
@@ -76,7 +98,7 @@
             },
             onFileChange(file) {
                 console.log('selected file', file.name);
-              
+
                 this.ext = this.getFileExt(file.name);
 
                 this.allowedExt.forEach(_ext => {
@@ -89,9 +111,8 @@
 
                         } else {
                             this.type = 'Document';
-                            if(this.ext != 'pdf') 
-                            {
-                                  alert('Invalid File Type, Convert file document to pdf!');
+                            if (this.ext != 'pdf') {
+                                alert('Invalid File Type, Convert file document to pdf!');
                             }
                         }
 
@@ -115,7 +136,7 @@
                 fd.append('file', this.file);
                 fd.append('main_module_id', this.moduleId);
                 fd.append('description', this.subModuleForm.description);
-                fd.append('required_time', this.subModuleForm.required_time);
+                fd.append('required_time', this.subModuleForm.required_time * 60);
                 fd.append('type', this.type);
                 fd.append('sub_module_name', this.subModuleForm.sub_module_name);
                 this.sending = true;

@@ -15,6 +15,7 @@ import SubModules from './modules/sub_modules'
 import question from './modules/question'
 import gradingCriteria from './modules/gradingCriteria'
 import studentSubmoduleProgress from './modules/student_sub_moduleProgress'
+import studentMainmoduleProgress from './modules/student_main_moduleProgress'
 import classwork from './modules/classwork'
 
 export default new Vuex.Store({
@@ -31,7 +32,8 @@ export default new Vuex.Store({
         question,
         gradingCriteria,
         studentSubmoduleProgress,
-        classwork
+        classwork,
+        studentMainmoduleProgress
 
     },
 })

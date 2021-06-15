@@ -34,7 +34,7 @@ class StudentController extends Controller
         ->leftJoin('users', 'tbl_userclasses.user_id', '=', 'users.id', )
         ->leftJoin('tbl_user_details', 'tbl_user_details.user_id', '=', 'users.id', )
         ->where('tbl_userclasses.course_id', $id)
-        //->where('users.role', 'Student')
+        ->where('users.role', 'Student')
         ->orderBy('users.lastName', 'ASC')
         ->get();
         return $StudentList;

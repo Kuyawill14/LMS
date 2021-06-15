@@ -600,7 +600,7 @@ var render = function() {
                     ),
                     _c("br"),
                     _vm._v(
-                      "\n                    " +
+                      "    " +
                         _vm._s(
                           _vm.getCount(
                             _vm.studentSubModuleProgress,
@@ -609,7 +609,7 @@ var render = function() {
                             " / " +
                             _vm.getSub_module(itemModule.id).length
                         ) +
-                        "\n\n                "
+                        "\n                \n\n                "
                     )
                   ],
                   1

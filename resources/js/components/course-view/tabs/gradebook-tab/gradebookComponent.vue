@@ -5,7 +5,7 @@
             <v-col cols="6">
 
                 <h2>
-                    Grading Criteria
+                   Student Grades
                 </h2>
             </v-col>
             <v-col cols="6">

@@ -17,8 +17,8 @@ let profile = () =>
 //Main Pages
 let mainApp = () =>
     import ("./components/mainApp");
-// let dashboard = () =>
-//     import ("./components/dashboard/dashboard-page");
+let dashboard = () =>
+    import ("./components/dashboard/dashboardComponent");
 // let myclass = () =>
 //     import ("./components/class/myclass-page");
 let mycourse = () =>
@@ -54,7 +54,8 @@ let gradeBook_tab = () =>
     import ("./components/course-view/tabs/gradebook-tab/gradebookComponent");
 let pdftest_tab = () =>
     import ("./components/course-view/tabs/modules-tab/user-type/pdfview");
-
+let studentProgress_tab = () =>
+    import ("./components/course-view/tabs/studentProgress-tab/studentProgressComponent");
 
 
 
@@ -206,6 +207,16 @@ const router = new Router({
                             path: "grading-criteria",
                             component: grading_criteria_tab
                         },
+                        {
+                            name: "studentProgress",
+                            path: "progress",
+                            component: studentProgress_tab
+                        },
+                        {
+                            name: "gradebook",
+                            path: "grade-book",
+                            component: gradeBook_tab
+                        },
 
 
 
@@ -216,6 +227,11 @@ const router = new Router({
                     path: "/profile",
                     component: profile,
                     name: "profile_page"
+                },
+                {
+                    path: "/dashboard",
+                    component: dashboard,
+                    name: "dashboard"
                 },
             ],
 
