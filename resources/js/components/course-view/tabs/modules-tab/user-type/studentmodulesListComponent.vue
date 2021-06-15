@@ -37,8 +37,8 @@
                         <v-icon style="font-size: 1.0rem; ">
                             mdi-folder
                         </v-icon>
-                        {{itemModule.module_name}} <br>
-                        {{ getCount(studentSubModuleProgress, itemModule.id) + ' / '+ getSub_module(itemModule.id).length}}
+                        {{itemModule.module_name}} <br>    {{ getCount(studentSubModuleProgress, itemModule.id) + ' / '+ getSub_module(itemModule.id).length}}
+                    
 
                     </span>
                 </v-expansion-panel-header>

@@ -297,9 +297,7 @@ var render = function() {
         "v-row",
         [
           _c("v-col", { attrs: { cols: "6" } }, [
-            _c("h2", [
-              _vm._v("\n                Grading Criteria\n            ")
-            ])
+            _c("h2", [_vm._v("\n               Student Grades\n            ")])
           ]),
           _vm._v(" "),
           _c(

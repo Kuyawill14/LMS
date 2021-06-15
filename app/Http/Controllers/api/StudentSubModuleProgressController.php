@@ -49,7 +49,15 @@ class StudentSubModuleProgressController extends Controller
                 if($allSubModulesProgress[$j]['sub_module_id'] == $allSubModules[$i]['id'] ){
                     if($allSubModulesProgress[$j]['time_spent'] >= $allSubModules[$i]['required_time'] ){
                     $completed++;
-                    
+                    DB::table('tbl_student_sub_module_progress')
+                    ->where('student_id', $userId)
+                    ->where('sub_module_id',$allSubModulesProgress[$j]['sub_module_id'])
+                    ->update(['completed' =>   1]);
+                    } else {
+                        DB::table('tbl_student_sub_module_progress')
+                        ->where('student_id', $userId)
+                        ->where('sub_module_id',$allSubModulesProgress[$j]['sub_module_id'])
+                        ->update(['completed' =>   0]);
                     }
                 }
             }
@@ -64,7 +72,87 @@ class StudentSubModuleProgressController extends Controller
             $totalProgress = 0;
         }
 
-        return response()->json(['percentage' => $totalProgress , 'completed' => $completed, 'submodules_count' => count($allSubModules)] );
+        return response()->json(
+            [
+            'percentage' => $totalProgress , 
+            'completed' => $completed, 
+            'submodules_count' => count($allSubModules),
+            ]);
+    }
+
+    public function studentMainProgress($id) {
+        // $userId = auth('sanctum')->id();
+        $allSubModulesProgress = DB::table('tbl_student_sub_module_progress')
+        
+        ->select(
+        'tbl_student_sub_module_progress.id', 
+        'tbl_student_sub_module_progress.student_id', 
+        'tbl_student_sub_module_progress.sub_module_id', 
+        'tbl_student_sub_module_progress.main_module_id', 
+        'tbl_main_modules.module_name',
+        'users.firstName',
+        'users.middleName',
+        'users.lastName',
+        'tbl_sub_modules.sub_module_name',
+        'tbl_sub_modules.sub_module_name',
+        DB::raw('SUM(tbl_student_sub_module_progress.time_spent) AS total_time_spent'),
+        DB::raw('SUM(tbl_sub_modules.required_time) AS total_required_time'),
+        DB::raw('COUNT(case when tbl_student_sub_module_progress.completed = 1 then 1 else 0 end ) AS completed'))
+        ->leftJoin('users', 'users.id', '=', 'tbl_student_sub_module_progress.student_id')
+        ->leftJoin('tbl_main_modules', 'tbl_main_modules.id', '=', 'tbl_student_sub_module_progress.main_module_id')
+        ->leftJoin('tbl_sub_modules', 'tbl_sub_modules.id', '=', 'tbl_student_sub_module_progress.sub_module_id')
+        ->where('tbl_student_sub_module_progress.course_id', $id )
+        // ->where('tbl_student_sub_module_progress.student_id',1 )
+        ->groupBy( 'tbl_student_sub_module_progress.student_id')
+
+        ->get();
+
+        // $allSubModules = DB::table('tbl_sub_modules')
+        // ->select('tbl_sub_modules.*','tbl_main_modules.module_name')
+        // ->leftJoin('tbl_main_modules', 'tbl_main_modules.id', '=', 'tbl_sub_modules.main_module_id')
+        // ->where('tbl_main_modules.course_id', $id )
+        // ->get();
+
+
+        return $allSubModulesProgress;
+    }
+
+    public function studentSubProgress($id) {
+          // $userId = auth('sanctum')->id();
+          $allSubModulesProgress = DB::table('tbl_sub_modules')
+        
+          ->select(
+          'tbl_student_sub_module_progress.id', 
+          'tbl_student_sub_module_progress.student_id', 
+          'tbl_student_sub_module_progress.sub_module_id', 
+          'tbl_student_sub_module_progress.main_module_id', 
+          'tbl_main_modules.module_name',
+          'users.firstName',
+          'users.middleName',
+          'users.lastName',
+          'tbl_sub_modules.sub_module_name',
+          'tbl_sub_modules.sub_module_name',
+          'tbl_student_sub_module_progress.time_spent',
+          'tbl_sub_modules.required_time',
+          )
+          ->leftJoin('tbl_student_sub_module_progress', 'tbl_student_sub_module_progress.sub_module_id', '=', 'tbl_sub_modules.id')
+          ->leftJoin('users', 'users.id', '=', 'tbl_student_sub_module_progress.student_id')
+          ->leftJoin('tbl_main_modules', 'tbl_main_modules.id', '=', 'tbl_student_sub_module_progress.main_module_id')
+         
+  
+          ->get();
+  
+          // $allSubModules = DB::table('tbl_sub_modules')
+          // ->select('tbl_sub_modules.*','tbl_main_modules.module_name')
+          // ->leftJoin('tbl_main_modules', 'tbl_main_modules.id', '=', 'tbl_sub_modules.main_module_id')
+          // ->where('tbl_main_modules.course_id', $id )
+          // ->get();
+  
+  
+          return $allSubModulesProgress;
+
+
+        return $allSubModulesProgress;
     }
     /**
      * Show the form for creating a new resource.

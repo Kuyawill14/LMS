@@ -49,6 +49,17 @@
                 </v-list-item-content>
 
             </v-list-item>
+            <v-list-item link :to="{name: 'studentProgress'}" exact v-if="role == 'Teacher'">
+                <v-list-item-action>
+                    <v-icon>mdi-book-variant-multiple</v-icon>
+                </v-list-item-action>
+                <v-list-item-content>
+                    <v-list-item-title>
+                      Student's Progress
+                    </v-list-item-title>
+                </v-list-item-content>
+            </v-list-item>
+            
             <v-list-item link :to="{name: 'student-modules'}" exact v-if="role == 'Student'">
                 <v-list-item-action>
                     <v-icon>mdi-book-variant-multiple</v-icon>
@@ -62,7 +73,8 @@
             </v-list-item>
 
 
-            <v-list-item link :to="{name: 'Student-list'}"  v-if="role == 'Teacher'" exact>
+
+            <v-list-item link :to="{name: 'Student-list'}" v-if="role == 'Teacher'" exact>
                 <v-list-item-action>
                     <v-icon>mdi-account-group</v-icon>
                 </v-list-item-action>
@@ -74,7 +86,7 @@
 
             </v-list-item>
 
-             <v-list-item link :to="{name: 'gradebook'}" exact v-if="role == 'Teacher'">
+            <v-list-item link :to="{name: 'gradebook'}" exact v-if="role == 'Teacher'">
                 <v-list-item-action>
                     <v-icon>mdi-book-open</v-icon>
                 </v-list-item-action>
@@ -86,9 +98,9 @@
 
             </v-list-item>
 
-      
-   
-            <v-list-item  link :to="{name: 'gradingCriteria'}"  v-if="role == 'Teacher'" exact>
+
+
+            <v-list-item link :to="{name: 'gradingCriteria'}" v-if="role == 'Teacher'" exact>
                 <v-list-item-action>
                     <v-icon>mdi-chart-timeline-variant-shimmer
                     </v-icon>
@@ -100,6 +112,7 @@
                 </v-list-item-content>
 
             </v-list-item>
+
 
             <v-list-item link :to="{name: 'about'}" exact>
                 <v-list-item-action>
