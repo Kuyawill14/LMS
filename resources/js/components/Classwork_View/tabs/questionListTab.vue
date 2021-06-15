@@ -185,6 +185,7 @@ export default {
                 this.isFetching = false;
             });
         },
+        
     },
     beforeMount(){
         //this.getAllQuestion();
@@ -194,7 +195,8 @@ export default {
          this.Show = true
         this.isLoading = false;
       
-    }
+    },
+  
   
 }
 </script>

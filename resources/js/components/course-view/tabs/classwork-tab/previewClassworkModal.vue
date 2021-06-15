@@ -11,12 +11,24 @@
                 <v-btn @click="$emit('toggleCloseDialog')" icon>
                     <v-icon>mdi-window-close</v-icon>
                 </v-btn>
-               
             </v-card-title>
             <v-card-text class="mt-12 ml-0 pl-0 pl-2">
-                 <v-row style="height:2vh"></v-row> 
-                <v-row>
-                      <v-col cols="12">
+                 <v-row style="height:2vh"></v-row>
+                 <v-row   class="fill-height" align-content="center"
+                 justify="center" v-if="isloading" style="height:30vh">
+                     <v-col cols="6">
+                        <v-progress-linear
+                            w
+                            color="primary"
+                            indeterminate
+                            rounded
+                            height="4"
+                        ></v-progress-linear>
+                     </v-col>
+                     
+                 </v-row>
+                <v-row v-if="!isloading">
+                      <v-col cols="12" v-if="Details.type != 'Subjective Type'">
                         <v-container ma-0 pa-0 class="d-flex flex-row justify-space-between">
                         <v-btn
                         
@@ -43,18 +55,23 @@
                             <div class="text-sm-body-2 text-md-h5 text-xl-h3 font-weight-medium">{{Details.title}}</div>
                             
                                 <div class="pt-2 d-flex flex-row ">
-                                    <div class="captions font-weight-medium"><v-icon>mdi-circle-medium</v-icon>{{totalQuestion}} Question</div>
-                                    <div class="captions font-weight-medium"><v-icon>mdi-circle-medium</v-icon>{{totalPoints}} Points</div>
+                                    <div v-if="Details.type == 'Objective Type'" class="captions font-weight-medium"><v-icon>mdi-circle-medium</v-icon>{{totalQuestion}} Question</div>
+                                    <div class="captions font-weight-medium"><v-icon>mdi-circle-medium</v-icon>{{Details.type == 'Objective Type' ? totalPoints : Details.points}} Points</div>
                                 </div>
                             <v-divider></v-divider>
                         </v-col>
 
-                        <v-col cols="12" class="pl-8 pr-5 pb-10">
+                        <v-col cols="12" class="pl-8 pr-5 ">
                             <div class="text-sm-body-2 font-weight-regular"> {{Details.instruction}}</div>
                         </v-col>
 
-                        <v-col cols="12" class="pl-10 pr-5 pb-10 text-right">
+                        <v-col v-if="Details.type == 'Subjective Type'" cols="8" class="pl-5 pr-5 pb-2">
+                            <v-btn v-if="Details.type == 'Subjective Type'" text x-large @click="DownLoadFile(Details.attachment)" class="text-sm-body-2 font-weight-regular blue--text"> <v-icon>mdi-file-word</v-icon> {{Details.attachment_name}}</v-btn>
+                        </v-col>
+
+                        <v-col cols="12" class="pl-10 pr-5 pb-5 text-right">
                             <v-btn
+                            v-if="Details.type == 'Objective Type'"
                             rounded
                             color="primary"
                             :dark="totalQuestion != 0"
@@ -63,6 +80,21 @@
                         >
                             Take Quiz<v-icon right dark>mdi-book-arrow-right-outline</v-icon>
                         </v-btn>
+
+                          <v-btn
+                          v-if="Details.type == 'Subjective Type'"
+                            rounded
+                            color="primary"
+                            dark
+                
+                             @click="$router.push({name: 'clwk',params: {id: $route.params.id},query: {clwk: Preview_id}})"
+                        >
+                            Submit Work<v-icon right dark>mdi-book-arrow-right-outline</v-icon>
+                        </v-btn>
+                        
+                          
+
+                        
                         </v-col>
                     </v-row>
                  <v-row style="height:2vh"></v-row> 
@@ -79,7 +111,7 @@ export default {
     props:['Preview_id'],
     data(){
         return{
-            isloading:false,
+            isloading:true,
             totalPoints:null,
             totalQuestion:null,
             Details:{}
@@ -90,6 +122,7 @@ export default {
             axios.get('/api/classwork/showDetails/'+ this.Preview_id)
             .then(res=>{
                 this.Details = res.data.Details[0];
+                this.isloading = !this.isloading;
                 this.totalPoints = res.data.totalpoints;
                 this.totalQuestion = res.data.ItemsCount;
             })
@@ -99,6 +132,9 @@ export default {
                 return moment(String(value)).format('dddd, h:mm a')
             }
         },
+        DownLoadFile(file){
+            window.location = "/storage/"+file;
+        }
     },
     beforeMount(){
         this.getClassworkDetails();

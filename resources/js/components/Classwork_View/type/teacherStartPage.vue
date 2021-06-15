@@ -6,7 +6,9 @@
         show-arrows centered icons-and-text v-model="activeTab">
             <v-tabs-slider color="primary"></v-tabs-slider>
             <v-tab v-for="(item,index) in tabs" :key="index"
+
             :to="{name: item.name, query: {clwk: $route.query.clwk}}">
+
               {{$vuetify.breakpoint.xs ? '' : item.text}}
                 <v-icon left>
                 {{item.icon}}
@@ -29,16 +31,33 @@ export default {
     data(){
         return{
             activeTab: "",
-            tabs: [
-                { name: "clwk", text: "ADD QUESTION", icon:"mdi-text-box-plus-outline"}, 
+            ObjectIveTabs: [
+                { name: "clwk", text: "CLASSWORK DETAILS", icon:"mdi-file-cog"},
+                { name: "add-question", text: "ADD QUESTION", icon:"mdi-text-box-plus-outline"}, 
                 { name: "question-list", text: "QUESTION LIST", icon:"mdi-clipboard-list"},
                 { name: "publish-to", text: "PUBLISH TO", icon:"mdi-publish"},
                 { name: "submission-list", text: "SUBMISSION LIST", icon:"mdi-notebook-check-outline"},
                 { name: "question-analytics", text: "QUESTION ANALYTICS", icon:"mdi-google-analytics"},
-                { name: "classwork-seting", text: "SETTINGS", icon:"mdi-file-cog"}
+               
             ],
+            SubjectiveTabs: [
+                 { name: "clwk", text: "CLASSWORK DETAILS", icon:"mdi-file-cog"},
+                { name: "publish-to", text: "PUBLISH TO", icon:"mdi-publish"},
+                { name: "submission-list", text: "SUBMISSION LIST", icon:"mdi-notebook-check-outline"},
+              
+            ],
+            tabs: null,
         }
     },
+    mounted(){
+        if (this.classworkDetails.type == 'Subjective Type') {
+            this.tabs = this.SubjectiveTabs;
+        }
+        else if(this.classworkDetails.type == 'Objective Type'){
+            this.tabs = this.ObjectIveTabs;
+        }
+        
+    }
 
     
 }

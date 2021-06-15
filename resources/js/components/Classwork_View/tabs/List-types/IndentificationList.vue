@@ -12,36 +12,28 @@
             v-if="dialog"></deleteDialog>
         </v-dialog>
         <v-row>
-            <v-col v-if="!preview && !previewAll" cols="12" md="12" class="pl-4 pr-4 pt-2">
+            <v-col v-if="!preview" cols="12" md="12" class="pl-4 pr-4 pt-2">
                 <v-container class="mb-1">
-                        <v-container ma-0 pa-0 class="mb-3 d-flex flex-row justify-space-between">
-                            <v-container ma-0 pa-0 class="pa-0 ma-0">
-                                 <v-btn class="mr-2 mb-xs-2" :color="isEditing  ? 'primary' : ''" rounded  @click="isEditing = !isEditing">
-                              
-                                    {{$vuetify.breakpoint.xs ? isEditing ?'Update':'' : isEditing ?'Update':'Edit'}}
-                                    <v-icon>mdi-square-edit-outline</v-icon>
-                                </v-btn>
-                                <v-btn
-                                    rounded
-                                    :disabled="isRemoving"
-                                    :loading="isRemoving"
-                                    @click="removePropt((number), QuetionsList.id)">
-                                    {{$vuetify.breakpoint.xs ? '' : 'Delete'}}
-                                    <v-icon>mdi-delete-outline</v-icon>
-                                </v-btn>
-                            </v-container>
-                                  <v-btn
-                                  
-                                    rounded
-                                    
-                                    outlined
-                                    
-                                    color="primary"
-                                    @click="preview = !preview">
-                                    
-                                    {{$vuetify.breakpoint.xs ? '' : 'Preview'}}
-                                    <v-icon>mdi-eye</v-icon>
-                                </v-btn>
+                        <v-container ma-0 pa-0 class="mb-3 d-flex flex-row ">
+                                <v-container ma-0 pa-0 class="pa-0 ma-0 d-flex justify-end">
+                                    <v-btn
+                                    class="mr-2"
+                                        rounded
+                                        :disabled="isRemoving"
+                                        :loading="isRemoving"
+                                        @click="removePropt((number), QuetionsList.id)">
+                                        {{$vuetify.breakpoint.xs ? '' : 'Delete'}}
+                                        <v-icon>mdi-delete-outline</v-icon>
+                                    </v-btn>
+                                    <v-btn
+                                        rounded
+                                        color="primary"
+                                        @click="preview = !preview">
+                                        
+                                        {{$vuetify.breakpoint.xs ? '' : 'Update'}}
+                                        <v-icon>mdi-square-edit-outline</v-icon>
+                                    </v-btn>
+                                </v-container>
                             </v-container>
                         <h2>Question #{{number}}</h2>
                         <v-row class="pa-0 ma-0">
@@ -105,14 +97,6 @@
                             <v-row ma-0 pa-0>
                                 <div class="font-weight-medium">  Answer</div>
                                 <v-col  ma-0 pa-0 class="ma-0 pa-0 " cols="12">
-                                  <!--   <v-textarea
-                                    :readonly="!isEditing"
-                                    v-model="QuetionsList.answer"
-                                    filled
-                                    class="pa-0 ma-0"
-                                    label="Answer"
-                                    auto-grow
-                                    ></v-textarea> -->
                                       <v-card style="width:100%" class="mb-3">
                                         <editor
                                         ref="Answer"
@@ -131,11 +115,9 @@
                         <h2>Question #{{number}}</h2>
                             <v-btn
                             rounded
-                            outlined
-                            color="primary"
                             @click="previewAll ? preview = false :preview = !preview">
-                            {{$vuetify.breakpoint.xs ? '' : 'Preview'}}
-                            <v-icon>mdi-{{preview ? 'eye-off' : 'eye-off'}}</v-icon>
+                            {{$vuetify.breakpoint.xs ? '' : 'Edit'}}
+                            <v-icon right>mdi-square-edit-outline</v-icon>
                         </v-btn>
                     </v-container>
                     <v-container>
@@ -180,12 +162,11 @@ export default {
     data(){
         return{
             QuetionsList:{},
-            preview:false,
+            preview:true,
             dialog:false,
             isRemoving:false,
             isEditing: false,
             DeleteDetails:{},
-            preview:false,
             options:{
             modules: {
                     'toolbar': [
@@ -208,12 +189,6 @@ export default {
             this.isRemoving_id = id;
             this.dialog = true;;
         },
-         PreventScroll(){
-           $(document).ready(function(){
-                $(this).scroll({top: -1, behavior: "smooth"});
-                //window.scroll({top: 0, behavior: "smooth"})
-            });
-        }
         
     },
     created(){

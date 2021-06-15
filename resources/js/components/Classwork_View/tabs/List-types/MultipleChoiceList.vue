@@ -1,6 +1,6 @@
 
 <template>
-<v-app id="QuestionList">
+
 <v-hover v-slot="{ hover }">
 <v-expand-transition>
 <v-card :style="preview || previewAll ? 'border-top:5px solid #EF6C00':''" :elevation="preview && hover ? 20 : 5" class="pl-3 pr-3 pt-8">
@@ -23,32 +23,26 @@
             <v-col v-if="!preview && !CheckPreview" cols="12" md="12" class="pl-4 pr-4 pt-2">
                 <v-container class="mb-1">
                         <v-container ma-0 pa-0 class="mb-3 d-flex flex-row justify-space-between">
-                            <v-container ma-0 pa-0 class="pa-0 ma-0">
-                                 <v-btn class="mr-2 mb-xs-2" :color="isEditing  ? 'primary' : ''" rounded  
-                                 @click="isEditing = !isEditing">
-                              
-                                {{$vuetify.breakpoint.xs ? isEditing ?'Update':'' : isEditing ?'Update':'Edit'}}
-                                <v-icon>mdi-square-edit-outline</v-icon>
-                                </v-btn>
+                            <v-container ma-0 pa-0 class="pa-0 ma-0 d-flex justify-end">
                                 <v-btn
+                                class="mr-2"
                                     rounded
-                                    :disabled="isQuestionRemove"
-                                    :loading="isQuestionRemove"
-                                    @click="removePropt((number), getQuestion.id)">
+                                    :disabled="isRemoving"
+                                    :loading="isRemoving"
+                                    @click="removePropt((number), QuetionsList.id)">
                                     {{$vuetify.breakpoint.xs ? '' : 'Delete'}}
                                     <v-icon>mdi-delete-outline</v-icon>
                                 </v-btn>
-                            </v-container>
-                                  <v-btn
+                                <v-btn
                                     rounded
-                                    outlined
                                     color="primary"
-                                    @click="CheckPreview ? (preview = true, CheckPreview = false) : preview = !preview">
+                                    @click="preview = !preview">
                                     
-                                    {{$vuetify.breakpoint.xs ? '' : 'Preview'}}
-                                    <v-icon>mdi-eye</v-icon>
+                                    {{$vuetify.breakpoint.xs ? '' : 'Update'}}
+                                    <v-icon>mdi-square-edit-outline</v-icon>
                                 </v-btn>
                             </v-container>
+                        </v-container>
 
                         <h2>Question #{{number}}</h2>
                         <v-row  class="pa-0 ma-0">
@@ -167,13 +161,11 @@
             <v-col @dblclick="CheckPreview ? preview = false: preview = !preview"  v-if="preview || CheckPreview" cols="12" md="12" class="pl-4 pr-4 pt-2">
                     <v-container class="d-flex flex-row justify-space-between">
                         <h2>Question #{{number}}</h2>
-                            <v-btn
+                             <v-btn
                             rounded
-                            outlined
-                            color="primary"
-                            @click="CheckPreview ? (preview = true, CheckPreview = false) :preview = !preview">
-                            {{$vuetify.breakpoint.xs ? '' : 'Preview'}}
-                            <v-icon>mdi-{{preview ? 'eye-off' : 'eye-off'}}</v-icon>
+                            @click="previewAll ? preview = false :preview = !preview">
+                            {{$vuetify.breakpoint.xs ? '' : 'Edit'}}
+                            <v-icon right>mdi-square-edit-outline</v-icon>
                         </v-btn>
                     </v-container>
                     <v-container>
@@ -203,7 +195,7 @@
 </v-card>
 </v-expand-transition>
 </v-hover>
-</v-app>
+
 </template>
 <script>
 const deleteDialog = () => import('../dialogs/deleteDialog')
@@ -220,7 +212,7 @@ export default {
             
             QuetionsList:{},
             AnswerList:{},
-            preview: false,
+            preview: true,
             dialog:false,
             inputCheck:['True','False'],
             isRemoving:false,
@@ -307,19 +299,11 @@ export default {
             }
           
         },
-        PreventScroll(){
-           $(document).ready(function(){
-               //$(this).scrollTop(0,5);
-                $(this).scrollTop({top: 0, behavior: "smooth"});
-                //window.scroll({top: 0, behavior: "smooth"})
-            });
-        }
-        
+
     },
-    mounted(){
+    created(){
         this.QuetionsList = this.Question;
         this.AnswerList =  this.Choices;
-        this.PreventScroll();
     },
     
     

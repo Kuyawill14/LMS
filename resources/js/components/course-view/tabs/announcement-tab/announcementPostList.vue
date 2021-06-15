@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-card class="mb-10" v-for="(post, i) in PostList" v-bind:key="i">
+        <v-card class="mb-10" v-for="(post) in PostList" :key="post.id">
            <!--Post Poser -->
             <v-row  class="pl-5 pr-5 pt-2 mb-3 " >
                 <v-col cols="8">
@@ -23,7 +23,12 @@
             </v-row>
             <!--Post Content -->
             <v-container class="pl-4 pr-4 pb-6">
-                <span v-html="post.content" class="post-content"></span>
+                <v-row>
+                    <v-col cols="12">
+                        <span v-html="post.content" class="post-content"></span>
+                    </v-col>
+                </v-row>
+            
             </v-container>
           
             <!--Divider -->

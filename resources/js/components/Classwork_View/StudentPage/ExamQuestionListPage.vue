@@ -116,7 +116,7 @@
                                                                 <v-card style="width:100%" class="mb-3">
                                                                     <editor 
                                                                     @change="PickAnswers_id.quesId = item.id, 
-                                                                    Questype = item.type, checker[index] = IdentificationAns[index]" 
+                                                                    Questype = item.type, checker[index] = IdentificationAns[index], PickAnswers.ans = IdentificationAns[index]" 
                                                                         v-model="IdentificationAns[index]" 
                                                                         id="editor-container" placeholder="Answer" 
                                                                         theme="snow" :options="options"></editor>
@@ -150,72 +150,53 @@
 
                                                 
 
-                                                    <v-container class="mb-4" v-if="item.type == 'Two Colums Multiple Choice'">
-                                                        <v-row ma-0 pa-0>
-                                                                <v-col  ma-0 pa-0 class="ma-0 pa-0 mb-3" cols="12" lg="12" md="12">
-                                                                <v-row>
-                                                                    <v-col cols="8">
-                                                                        <div class="mt-1 text-sm-h3 text-md-h5 text-xl-h3">
-                                                                            Column A 
-                                                                            </div>
-                                                                    </v-col>
-                                                                    <v-col>
-                                                                            <div class="mt-1 text-sm-h3 text-md-h5 text-xl-h3">
-                                                                            Column B
-                                                                            </div>
-                                                                    </v-col>
-                                                                </v-row>
-                                                                </v-col>
-                                                                <v-col ma-0 pa-0 class="ma-0 pa-0" cols="12" lg="12" md="12" v-for="(Ans, i) in getAll_questions.Answer[index].SubQuestion" :key="i">
-                                                                    <v-row>
-                                                                        <v-col class="mb-0 pb-0"  cols="2" sm="2" md="1" lg="1" xl="1">
-                                                                            <v-text-field class="centered-input" 
-                                                                             @onkeyup="SubAnswers[i] = SubAnswers[i].toUpperCase()" v-model="SubAnswers[i]" 
-                                                                             @change="quesNumber[i] = Ans.id,  PickAnswers_id.quesId = item.id, Questype = item.type"
-                                                                            single-line ></v-text-field>
-                                                                        </v-col>
-
-                                                                         <v-col class="mb-0 pb-0"  cols="6" sm="6" md="7" lg="7" xl="7">
-                                                                            <div :style="$vuetify.breakpoint.xs ? 'line-height:1.2': 'line-height:1.3'" 
-                                                                            :class="$vuetify.breakpoint.xs ? 'OVERLINE mt-4' : 'subtitle-1 mt-4'">
-                                                                                {{Ans.sub_question}}</div>
-                                                                        </v-col>
-                                                                           <v-col class="mb-0 pb-0" cols="4" sm="4" md="4" lg="4" xl="4">
-                                                                            <div :style="$vuetify.breakpoint.xs ? 'line-height:1.2': 'line-height:1.3'" 
-                                                                            :class="$vuetify.breakpoint.xs ? 'OVERLINE mt-4' : 'subtitle-1 mt-4'">
-                                                                                <span class="font-weight-medium">{{Alphabet[i]}}</span>. {{getAll_questions.Answer[index].SubAnswer[i].Choice}}</div>
-                                                                        </v-col>
-                                                                        
-                                                                    </v-row>
-                                                                   <!--  <v-row>
-                                                                        <v-col cols="6" class="pt-0 pb-0 mt-0 mb-0">
-                                                                            <v-textarea
-                                                                                rows="1"
-                                                                          
-                                                                                v-model="Ans.sub_question"
-                                                                                filled
-                                                                                class="pa-0 ma-0"
-                                                                                :label="'Question '+(i+1)"
-                                                                                auto-grow
-                                                                                required
-                                                                                >
-                                                                                </v-textarea>
-                                                                        </v-col>
-
-                                                                    <v-col cols="5" class="pt-0 pb-0 mt-0 mb-0">
-                                                                            <v-textarea
-                                                                                rows="1"
-                                                                               
-                                                                                v-model="getAll_questions.Answer[index].SubAnswer[i].Choice"
-                                                                                filled
-                                                                                class="pa-0 ma-0"
-                                                                                :label="'Answer '+(i+1)"
-                                                                                auto-grow
-                                                                                required
-                                                                                >
-                                                                                </v-textarea>
-                                                                        </v-col>
-                                                                </v-row> -->
+                                                    <v-container class="mb-4" v-if="item.type == 'Matching type'">
+                                                        <v-row >
+                                                                <v-col ma-0 pa-0 class="ma-0 pa-0" cols="12" lg="12" md="12" >
+                                                                    <v-container class="pl-5 pr-5">
+                                                                        <v-container>
+                                                                            <v-row>
+                                                                                <v-col class="font-weight-bold" cols="2" md="1" lg="1">
+                                                                                   
+                                                                                </v-col>
+                                                                                <v-col class="font-weight-bold" cols="6">
+                                                                                    Column A
+                                                                                </v-col>
+                                                                                <v-col class="font-weight-bold" cols="4">
+                                                                                    Column B
+                                                                                </v-col>
+                                                                            </v-row>
+                                                                        </v-container>
+                                                                        <v-divider></v-divider>
+                                                                        <v-container class="mb-0 pb-0" v-for="(List, i) in getAll_questions.Answer[index].SubQuestion" :key="List.id">
+                                                                            
+                                                                            <v-row>
+                                                                                <v-col class="mb-1 pb-0 pt-0 mt-0" cols="2" md="1" lg="1">
+                                                                                    <v-text-field 
+                                                                                    @onkeyup="SubAnswers[i] = SubAnswers[i].toUpperCase()"
+                                                                                    v-model="SubAnswers[i]"
+                                                                                      @change="(quesNumber[i] = List.id),(PickAnswers_id.quesId =item.id),(Questype = item.type),PickAnswers.ans = 'Matching Type'"
+                                                                                    class="centered-input"
+                                                                                        
+                                                                                    ></v-text-field>
+                                                                                </v-col>
+                                                                                <v-col class="mb-1 pb-0 pt-0 mt-0" cols="5" md="7" lg="7">
+                                                                                    <div class="d-flex mt-7">
+                                                                                        <span class="font-weight-medium mr-1">{{(i+1+'. ')}}</span>
+                                                                                        <span :style="$vuetify.breakpoint.xs ? 'line-height:1.1':'line-height:1.5'" v-html="List.sub_question" class="subquestion-content"></span>
+                                                                                    </div>
+                                                                                </v-col>
+                                                                                <v-col class="mb-1 pb-0 pt-0 mt-0"  cols="5" md="4" lg="4">
+                                                                                    <div class="d-flex mt-7"> 
+                                                                                        <span class="font-weight-medium mr-1">{{(Alphabet[i]+'. ')}}</span>
+                                                                                       
+                                                                                        <span :style="$vuetify.breakpoint.xs ? 'line-height:1.1':'line-height:1.5'" v-html="getAll_questions.Answer[index].SubAnswer[i].Choice" class="subchoices-content"></span>
+                                                                                    </div>
+                                                                                </v-col>
+                                                                            </v-row>
+                                                                        </v-container>
+                                                                    </v-container>
+                                                                  
                                                                 </v-col>
                                                             </v-row>
                                                     </v-container>
@@ -444,7 +425,8 @@ export default {
                     }
                 }
 
-                if (this.Questype == 'Two Colums Multiple Choice') {
+                if (this.Questype == 'Matching type') {
+                  
                     if (this.FinalAnswers.length != 0) {
                         let check = false;
                         let index = 0;
@@ -639,4 +621,8 @@ export default {
         
      max-height: 8rem !important;
 }
+ .centered-input input {
+  text-align: center
+ }
+
 </style>

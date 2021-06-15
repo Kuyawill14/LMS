@@ -157,6 +157,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 var editModal = function editModal() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_tabs_classwork-tab_editClassworkModal_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./editClassworkModal */ "./resources/js/components/course-view/tabs/classwork-tab/editClassworkModal.vue"));
 };
@@ -21903,10 +21904,28 @@ var render = function() {
                             _c(
                               "div",
                               {
-                                staticClass: "h1 ml-1 font-weight-bold",
+                                staticClass: "h1 ml-1",
                                 attrs: { "ma-0": "", "pa-0": "" }
                               },
-                              [_vm._v(" " + _vm._s(item.title))]
+                              [
+                                _c(
+                                  "span",
+                                  { staticClass: "font-weight-bold" },
+                                  [_vm._v(_vm._s(item.title))]
+                                ),
+                                _vm._v(" "),
+                                item.type == "Subjective Type"
+                                  ? _c(
+                                      "small",
+                                      { staticClass: "primary--text" },
+                                      [
+                                        _vm._v(
+                                          "(" + _vm._s(item.points) + " points)"
+                                        )
+                                      ]
+                                    )
+                                  : _vm._e()
+                              ]
                             ),
                             _vm._v(" "),
                             _vm.role == "Student"
@@ -22140,7 +22159,7 @@ var render = function() {
                                               on: {
                                                 click: function($event) {
                                                   return _vm.$router.push({
-                                                    name: "classwork-seting",
+                                                    name: "clwk",
                                                     params: {
                                                       id: _vm.$route.params.id
                                                     },
@@ -22230,7 +22249,8 @@ var render = function() {
                                                 on: {
                                                   click: function($event) {
                                                     ;(_vm.Previewdialog = !_vm.Previewdialog),
-                                                      (_vm.Preview_id = item.id)
+                                                      (_vm.Preview_id =
+                                                        item.classwork_id)
                                                   }
                                                 }
                                               },

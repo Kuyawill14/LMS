@@ -82,14 +82,16 @@ export default {
             const day = moment(StartTime).format('D');
 
             finalHour = format == 'pm' ? ((parseInt(hour)+12)) : hour;
-
+            let additioanal;
             if(format == 'pm'){
                 if(parseInt(hour) == 12){
                     finalHour = hour;
+                    
                 }
                 else{
                     finalHour = (parseInt(hour)+12);
                 }
+                additioanal = 1;
             }
             else{
                 if(parseInt(hour) == 12){
@@ -98,6 +100,7 @@ export default {
                 else{
                     finalHour = hour;
                 }
+                additioanal = 0;
               
             }
 
@@ -112,6 +115,7 @@ export default {
             else{
                 SubDuration = (parseInt(subMinutes))
                 letFinalMinutes = ((SubDuration)+(parseInt(minutes)));
+                
             }
     
             const timer = setInterval(()=>{
@@ -142,9 +146,9 @@ export default {
 
             this.SecondProgress =   (this.displaySeconds / 100)
 
-                if(second == '00'){
+                if(second == '00' || second == 0){
                     let check = localStorage.getItem('time_remaining');
-                    if(check == '0'){
+                    if(check == '0' || check == '00'){
                         this.$emit('TimesUp');
                         clearInterval(timer);
                         //this.$router.push({path: '/'});

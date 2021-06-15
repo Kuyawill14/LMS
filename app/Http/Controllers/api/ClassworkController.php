@@ -29,7 +29,7 @@ class ClassworkController extends Controller
         else{
             $classworkAll = tbl_classClassworks::where('tbl_userclasses.course_id','=', $id)
             ->where('tbl_userclasses.user_id','=', $userId)
-            ->select('tbl_class_classworks.*', 'tbl_classworks.type', 'tbl_classworks.title', 'tbl_classworks.instruction')
+            ->select('tbl_class_classworks.*', 'tbl_classworks.type', 'tbl_classworks.title', 'tbl_classworks.points','tbl_classworks.instruction')
             ->leftJoin('tbl_classworks', 'tbl_classworks.id', '=', 'tbl_class_classworks.classwork_id')
             ->leftJoin('tbl_userclasses', 'tbl_class_classworks.class_id', '=', 'tbl_userclasses.class_id')
             ->orderBy('created_at', 'DESC')
@@ -51,11 +51,21 @@ class ClassworkController extends Controller
         $userId = auth('sanctum')->id();
         $newClasswork = new tbl_classwork;
         $newClasswork->course_id = $request->course_id;
+        $newClasswork->module_id = 1;
         $newClasswork->user_id = $userId;
         $newClasswork->type =  $request->type;
         $newClasswork->title =  $request->title;
         $newClasswork->instruction =  $request->instruction;
+        if($request->type == "Subjective Type"){
+            $newClasswork->attachment_name =  $request->attachment_name;
+            $file = $request->file('file');
+            if($file != ""){
+                $newFile = $file->store('public/upload/classworkAttachments/'.$userId);
+                $newClasswork->attachment = preg_replace('/\bpublic\/\b/', '', $newFile);
+            }
+        }
         $newClasswork->duration =  $request->duration;
+        $newClasswork->points =  $request->points;
         $newClasswork->save();
         return $newClasswork;
     }
@@ -68,6 +78,7 @@ class ClassworkController extends Controller
      */
     public function ShareClasswork(Request $request)
     {
+        //return $request;
        
         $userId = auth('sanctum')->id();
         $Check = tbl_classClassworks::where('class_id','=', $request->get('class_id'))
@@ -84,18 +95,19 @@ class ClassworkController extends Controller
         $shareClasswork = new tbl_classClassworks;
         $shareClasswork->class_id = $request->get('class_id');
         $shareClasswork->classwork_id = $request->get('classwork_id');
-        $shareClasswork->due_date = $request->get('due_date');
-        //$shareClasswork->showAnswer = $request->get('showAnswer');
-        if($request->get('showAnswer') == 'false'){
-            $shareClasswork->showAnswer = 0;
-        }else{
-            $shareClasswork->showAnswer = 1;
+        $shareClasswork->enable_due =  $request->get('EnableDue') == 'true' ? 1 : 0;
+      
+        $request->get('EnableDue') == 'true' ? $shareClasswork->due_date = $request->get('due_date') : '';
+        $shareClasswork->showAnswer =  $request->get('showAnswer') == 'true' ? 1 : 0;
+        if($request->get('showAnswer') == 'true'){
+            $request->get('showAnswerType') == 'Set Date' ? $shareClasswork->showDate = $request->get('showAnswerDate') : '';
         }
+        //$request->get('showAnswer') == 'true' ? $shareClasswork->showDate = $request->get('showAnswerDate') : '';
+        $shareClasswork->response_late = $request->get('response_late') == 'true'  ? 1 : 0;
         $shareClasswork->grading_criteria = $request->get('grading_id');
         $shareClasswork->save();
         return $shareClasswork;
   
-       
     }
 
     /**
@@ -106,9 +118,6 @@ class ClassworkController extends Controller
      */
     public function show($id)
     {
-        /* $classworkDetails = tbl_classwork::where('tbl_classworks.id','=', $id)
-        ->get();
-        return $classworkDetails;  */
         $userId = auth('sanctum')->id();
         $classworkDetails;
         if(auth('sanctum')->user()->role != 'Student'){
@@ -116,22 +125,16 @@ class ClassworkController extends Controller
             ->get();
         }
         else{
-   
             $classworkDetails = tbl_classwork::where('tbl_classworks.id','=', $id)
             ->select('tbl_classworks.*', 'tbl_class_classworks.due_date','tbl_userclasses.user_id')
             ->leftJoin('tbl_class_classworks', 'tbl_class_classworks.classwork_id','=','tbl_classworks.id')
             ->leftJoin('tbl_userclasses', 'tbl_userclasses.user_id','=', 'tbl_classworks.user_id')
             ->get();
-
-         
         }
-
 
         $Items = tbl_Questions::where('classwork_id','=', $id)
         ->select('tbl_questions.points')
         ->get();
-
-
         $count = 0;
         $points = 0;
         foreach($Items as $i){
@@ -155,7 +158,7 @@ class ClassworkController extends Controller
             $UpdateClasswork->type =  $request->type;
             $UpdateClasswork->title =  $request->title;
             $UpdateClasswork->instruction =  $request->instruction;
-            //$UpdateClasswork->due_date =  $request->due_date;
+            $UpdateClasswork->type == "Subjective Type" ? $UpdateClasswork->points =  $request->points : '';
             $UpdateClasswork->duration =  $request->duration;
             $UpdateClasswork->save();
             return $UpdateClasswork;

@@ -117,13 +117,32 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
+      valid: false,
       isTimer: false,
-      files: null,
+      file: null,
       loading: false,
       dialog: false,
       form: new vform__WEBPACK_IMPORTED_MODULE_2__.default({}),
@@ -140,10 +159,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       timeProps: {
         useSeconds: true,
         ampmInTitle: true
-      }
+      },
+      FieldRules: [function (v) {
+        return !!v || 'Field is required';
+      }]
     };
   },
   methods: {
+    validate: function validate() {
+      if (this.$refs.NewClassworkForm.validate()) {
+        this.SaveClasswork();
+      }
+    },
     toastSuccess: function toastSuccess() {
       return this.$toasted.success("Classwork Successfully added", {
         theme: "toasted-primary",
@@ -156,14 +183,30 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _this = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        var fd;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _this.form.due_date = moment__WEBPACK_IMPORTED_MODULE_1___default()(_this.datetime).format("YYYY-MM-DD, h:mm:ss");
-                _this.form.course_id = _this.$route.params.id;
+                fd = new FormData();
+                fd.append('course_id', _this.$route.params.id);
+                fd.append('type', _this.form.type);
+                fd.append('title', _this.form.title);
+                fd.append('instruction', _this.form.instruction);
 
-                _this.$store.dispatch('createClasswork', _this.form).then(function (res) {
+                if (_this.form.type == 'Objective Type') {
+                  _this.form.points = '';
+                } else if (_this.form.type == 'Subjective Type') {
+                  _this.form.duration = '';
+                }
+
+                fd.append('points', _this.form.points);
+                fd.append('duration', _this.form.duration);
+                fd.append('attachment_name', _this.file_name); //fd.append('attachment', this.file);
+
+                fd.append('file', _this.file); //this.form.course_id = this.$route.params.id;
+
+                _this.$store.dispatch('createClasswork', fd).then(function (res) {
                   if (res == 201) {
                     _this.toastSuccess();
 
@@ -174,26 +217,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     _this.$emit('realodClassworks');
                   }
                 });
-                /*  axios.post('/api/classwork/insert', )
-                 .then(res=>{
-                     if(res.status == 201){
-                         this.toastSuccess();
-                         this.form.reset()
-                         this.dialog = false;
-                         this.$emit('realodClassworks');
-                       }
-                   }).catch(e=>{
-                     console.log(e);
-                 }) */
 
-
-              case 3:
+              case 11:
               case "end":
                 return _context.stop();
             }
           }
         }, _callee);
       }))();
+    },
+    onFileChange: function onFileChange(element) {
+      this.file = element[0];
+      this.file_name = element[0].name; //this.ext = this.getFileExt(file.name);
+      //this.file = file;
     }
   },
   beforeMount: function beforeMount() {
@@ -21727,11 +21763,20 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "v-card",
-    { staticStyle: { "border-top": "3px solid #EF6C00" } },
     [
       _c(
         "v-form",
-        { ref: "registerForm", attrs: { "lazy-validation": "" } },
+        {
+          ref: "NewClassworkForm",
+          attrs: { "lazy-validation": "" },
+          model: {
+            value: _vm.valid,
+            callback: function($$v) {
+              _vm.valid = $$v
+            },
+            expression: "valid"
+          }
+        },
         [
           _c("v-card-title", [
             _c("span", { staticClass: "headline" }, [_vm._v("Add Classwork")])
@@ -21756,6 +21801,7 @@ var render = function() {
                           _c("v-select", {
                             attrs: {
                               outlined: "",
+                              rules: _vm.FieldRules,
                               items: ["Objective Type", "Subjective Type"],
                               label: "Type"
                             },
@@ -21782,6 +21828,7 @@ var render = function() {
                             attrs: {
                               rows: "1",
                               outlined: "",
+                              rules: _vm.FieldRules,
                               label: "Title",
                               "auto-grow": ""
                             },
@@ -21807,6 +21854,7 @@ var render = function() {
                           _c("v-textarea", {
                             attrs: {
                               outlined: "",
+                              rules: _vm.FieldRules,
                               label: "Instruction",
                               "auto-grow": ""
                             },
@@ -21832,6 +21880,7 @@ var render = function() {
                             [
                               _c("v-text-field", {
                                 attrs: {
+                                  rules: _vm.FieldRules,
                                   "append-icon":
                                     "mdi-" +
                                     (_vm.isTimer ? "timer" : "timer-off"),
@@ -21869,6 +21918,7 @@ var render = function() {
                             [
                               _vm.form.type == "Subjective Type"
                                 ? _c("v-file-input", {
+                                    ref: "inputFile",
                                     attrs: {
                                       placeholder: "Upload your documents",
                                       label: "File input",
@@ -21879,6 +21929,7 @@ var render = function() {
                                       "prepend-icon": "",
                                       "prepend-inner-icon": "mdi-paperclip"
                                     },
+                                    on: { change: _vm.onFileChange },
                                     scopedSlots: _vm._u(
                                       [
                                         {
@@ -21910,13 +21961,37 @@ var render = function() {
                                       null,
                                       false,
                                       1221588800
-                                    ),
+                                    )
+                                  })
+                                : _vm._e()
+                            ],
+                            1
+                          )
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _vm.form.type == "Subjective Type"
+                        ? _c(
+                            "v-col",
+                            {
+                              staticClass: "mb-0 pb-0 pt-0 mt-0",
+                              attrs: { cols: "12" }
+                            },
+                            [
+                              _vm.form.type == "Subjective Type"
+                                ? _c("v-text-field", {
+                                    attrs: {
+                                      rules: _vm.FieldRules,
+                                      outlined: "",
+                                      min: "0",
+                                      label: "Points",
+                                      type: "number"
+                                    },
                                     model: {
-                                      value: _vm.files,
+                                      value: _vm.form.points,
                                       callback: function($$v) {
-                                        _vm.files = $$v
+                                        _vm.$set(_vm.form, "points", $$v)
                                       },
-                                      expression: "files"
+                                      expression: "form.points"
                                     }
                                   })
                                 : _vm._e()
@@ -21966,7 +22041,7 @@ var render = function() {
                   },
                   on: {
                     click: function($event) {
-                      return _vm.SaveClasswork()
+                      return _vm.validate()
                     }
                   }
                 },

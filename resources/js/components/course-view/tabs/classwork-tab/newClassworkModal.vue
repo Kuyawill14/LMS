@@ -1,7 +1,7 @@
 <template>
   
-    <v-card style="border-top:3px solid #EF6C00">
-        <v-form ref="registerForm" lazy-validation>
+    <v-card ><!-- style="border-top:3px solid #EF6C00" -->
+        <v-form ref="NewClassworkForm" v-model="valid" lazy-validation>
             <v-card-title>
                 <span class="headline">Add Classwork</span>
             </v-card-title>
@@ -11,6 +11,7 @@
                         <v-col class="mb-0 pb-0 pt-0 mt-0" cols="12"> 
                             <v-select
                             outlined
+                            :rules="FieldRules"
                             v-model="form.type"
                             :items="['Objective Type', 'Subjective Type']"
                             label="Type"
@@ -20,8 +21,9 @@
                       
                         <v-col class="mb-0 pb-0 pt-0 mt-0" cols="12">
                              <v-textarea
-                             rows="1"
-                            outlined
+                                rows="1"
+                                outlined
+                                :rules="FieldRules"
                                 v-model="form.title"
                                 label="Title"
                                 auto-grow
@@ -30,7 +32,8 @@
                         </v-col>
                         <v-col class="mb-0 pb-0 pt-0 mt-0" cols="12">
                             <v-textarea
-                            outlined
+                                outlined
+                                :rules="FieldRules"
                                 v-model="form.instruction"
                                 label="Instruction"
                                 auto-grow
@@ -40,6 +43,7 @@
 
                         <v-col v-if="form.type == 'Objective Type'" class="mb-0 pb-0 pt-0 mt-0" cols="12">
                             <v-text-field
+                            :rules="FieldRules"
                             @click="isTimer = !isTimer"
                             :append-icon="'mdi-'+(isTimer ? 'timer':'timer-off')"
                             outlined
@@ -52,7 +56,8 @@
                         
                         <v-col v-if="form.type == 'Subjective Type'" class="mb-0 pb-0 pt-0 mt-0" cols="12">
                              <v-file-input
-                                v-model="files"
+               
+                                @change="onFileChange" ref="inputFile"
                                 v-if="form.type == 'Subjective Type'"
                                 placeholder="Upload your documents"
                                 label="File input"
@@ -74,6 +79,19 @@
                                 </template>
                             </v-file-input>
                         </v-col>
+
+
+                          <v-col v-if="form.type == 'Subjective Type'" class="mb-0 pb-0 pt-0 mt-0" cols="12">
+                            <v-text-field
+                                :rules="FieldRules"
+                                v-if="form.type == 'Subjective Type'"
+                                outlined
+                                min="0"
+                                v-model="form.points"
+                                label="Points" 
+                                type="number">
+                                </v-text-field>
+                        </v-col>
                     </v-row>
                 </v-container>
             </v-card-text>
@@ -82,7 +100,7 @@
                 <v-btn color="blue darken-1" text @click="$emit('CloseDialog')" :disabled="loading">
                     Close
                 </v-btn>
-                <v-btn color="blue darken-1" text @click="SaveClasswork()" :disabled="loading">
+                <v-btn color="blue darken-1" text @click="validate()" :disabled="loading">
                     Save
                 </v-btn>
             </v-card-actions>
@@ -99,9 +117,10 @@ import Form from 'vform'
 export default {
     data(){
         return{
-             isTimer: false,
-             files:null,
-             loading: false,
+            valid:false,
+            isTimer: false,
+            file:null,
+            loading: false,
             dialog: false,
             form:new Form({}),
             nullDatetime: null,
@@ -117,10 +136,19 @@ export default {
             timeProps: {
                 useSeconds: true,
                 ampmInTitle: true
-            }
+            },
+            FieldRules: [
+                v => !!v || 'Field is required',
+            ],
+          
         }
     },
     methods:{
+         validate() {
+            if (this.$refs.NewClassworkForm.validate()) {
+                this.SaveClasswork(); 
+            }
+        },
          toastSuccess() {
                 return this.$toasted.success("Classwork Successfully added", {
                     theme: "toasted-primary",
@@ -130,9 +158,28 @@ export default {
                 });
             },
          async SaveClasswork(){
-            this.form.due_date = moment(this.datetime).format("YYYY-MM-DD, h:mm:ss")
-             this.form.course_id = this.$route.params.id;
-            this.$store.dispatch('createClasswork', this.form)
+            let fd = new FormData;
+            fd.append('course_id', this.$route.params.id);
+            fd.append('type', this.form.type);
+            fd.append('title', this.form.title);
+            fd.append('instruction', this.form.instruction);
+            if(this.form.type == 'Objective Type'){
+                this.form.points = '';
+            }
+            else if(this.form.type == 'Subjective Type'){
+                this.form.duration = '';
+            }
+            fd.append('points', this.form.points);
+            fd.append('duration', this.form.duration);
+            fd.append('attachment_name',  this.file_name);
+            //fd.append('attachment', this.file);
+            fd.append('file', this.file);
+            
+             
+            
+
+             //this.form.course_id = this.$route.params.id;
+            this.$store.dispatch('createClasswork', fd)
             .then(res=>{
                 if(res == 201){
                     this.toastSuccess();
@@ -141,23 +188,18 @@ export default {
                     this.$emit('realodClassworks');
                 }
             })
-
-           
-           /*  axios.post('/api/classwork/insert', )
-            .then(res=>{
-                if(res.status == 201){
-                    this.toastSuccess();
-                    this.form.reset()
-                    this.dialog = false;
-                    this.$emit('realodClassworks');
-
-                }
-
-            }).catch(e=>{
-                console.log(e);
-            }) */
-           
         },
+
+        onFileChange(element) {
+                this.file = element[0];
+                this.file_name = element[0].name;
+                //this.ext = this.getFileExt(file.name);
+
+               
+                //this.file = file;
+
+
+            },
     },
     beforeMount(){
         /* this.form.type = 'Objective Type'; */

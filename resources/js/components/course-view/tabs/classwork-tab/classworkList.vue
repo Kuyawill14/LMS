@@ -21,7 +21,8 @@
                                 <div class="d-flex flex-row">
                                     <v-icon class="pl-2 pr-3" :color="role != 'Teacher' ? CheckFormatDue(item.due_date) > DateToday ? '':'red darken-4':''" large>mdi-book-open-variant</v-icon>
                                     <div>
-                                        <div ma-0 pa-0 class="h1 ml-1 font-weight-bold"> {{item.title}}</div>
+                                        
+                                        <div ma-0 pa-0 class="h1 ml-1"> <span class="font-weight-bold">{{item.title}}</span> <small class="primary--text" v-if="item.type == 'Subjective Type'">({{item.points}} points)</small></div> 
                                         <small v-if="role == 'Student'" :class="CheckFormatDue(item.due_date) > DateToday ? 'card-subtitle text-50': 'card-subtitle text-50 red--text'">
                                             <v-icon :color="CheckFormatDue(item.due_date) > DateToday ? '':'red darken-4'" small>mdi-clock</v-icon> {{CheckFormatDue(item.due_date) > CheckFormatDue(DateToday) ? '' : "Late"}}
                                             Due Date: {{format_date(item.due_date)}} </small>
@@ -51,7 +52,7 @@
                                         </v-list-item>
                                         <v-list-item ma-0 pa-0>
                                             <!-- editClasswork(item) -->
-                                            <v-list-item-title><v-btn rounded @click="$router.push({name: 'classwork-seting',params: {id: $route.params.id},query: {clwk: item.id}})" text><v-icon class="mr-1">mdi-square-edit-outline</v-icon>Edit Classwork</v-btn></v-list-item-title>
+                                            <v-list-item-title><v-btn rounded @click="$router.push({name: 'clwk',params: {id: $route.params.id},query: {clwk: item.id}})" text><v-icon class="mr-1">mdi-square-edit-outline</v-icon>Edit Classwork</v-btn></v-list-item-title>
                                         </v-list-item>
                                         <v-list-item ma-0 pa-0>
                                             <v-list-item-title><v-btn rounded text><v-icon class="mr-1">mdi-delete-outline</v-icon>Remove Classwork</v-btn></v-list-item-title>
@@ -62,9 +63,9 @@
                                 <v-tooltip v-if="role == 'Student'" top>
                                     <template v-slot:activator="{ on, attrs }">
                                         <!--  @click="$router.push({name: 'clwk',params: {id: $route.params.id},query: {clwk: item.classwork_id}})" -->
-                                        
+                              
                                         <v-btn
-                                        @click="Previewdialog = !Previewdialog, Preview_id = item.id"
+                                        @click="Previewdialog = !Previewdialog, Preview_id = item.classwork_id"
                                         class="mt-1 mr-5 pa-2 mx-1" icon
                                         v-bind="attrs"
                                         v-on="on"

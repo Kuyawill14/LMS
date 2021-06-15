@@ -125,8 +125,8 @@ __webpack_require__.r(__webpack_exports__);
     return {
       ClassDetails: {},
       loading: false,
-      nullDatetime: null,
       duedate: null,
+      ShowAnswerDate: null,
       datetime: new Date(),
       datetimeString: '2019-01-01 12:00',
       formattedDatetime: '09/01/2019 12:00',
@@ -141,6 +141,7 @@ __webpack_require__.r(__webpack_exports__);
         ampmInTitle: true
       },
       showAns: false,
+      EnableDue: false,
       response_late: false,
       showAnsType: 'After Classwork Done',
       GradingCriteria_id: ''
@@ -153,8 +154,12 @@ __webpack_require__.r(__webpack_exports__);
       var fd = new FormData();
       fd.append("classwork_id", this.ClassDetails.id);
       fd.append("class_id", this.ClassDetails.class_id);
+      fd.append("EnableDue", this.EnableDue);
       fd.append("due_date", this.duedate);
       fd.append("showAnswer", this.showAns);
+      fd.append("showAnswerType", this.showAnsType);
+      fd.append("showAnswerDate", this.ShowAnswerDate);
+      fd.append("response_late", this.response_late);
       fd.append("grading_id", this.GradingCriteria_id);
       axios.post('/api/classwork/share', fd).then(function (res) {
         _this.$emit('successPublish');
@@ -167,11 +172,13 @@ __webpack_require__.r(__webpack_exports__);
         var newDate = new Date();
         this.duedate = moment__WEBPACK_IMPORTED_MODULE_0___default()(newDate).format("YYYY-MM-DDTHH:mm:ss");
         this.ClassDetails = this.Details;
+        this.ShowAnswerDate = this.duedate;
       } else {
         var _newDate = new Date();
 
         this.duedate = moment__WEBPACK_IMPORTED_MODULE_0___default()(_newDate).format("YYYY-MM-DDTHH:mm:ss");
         this.ClassDetails = this.Details;
+        this.ShowAnswerDate = this.duedate;
       }
     }
   },
@@ -21766,37 +21773,13 @@ var render = function() {
                             [
                               _c("v-checkbox", {
                                 staticClass: "pa-0 ma-0",
-                                attrs: { label: "" },
+                                attrs: { label: "Enable Due Date" },
                                 model: {
-                                  value: _vm.showAns,
+                                  value: _vm.EnableDue,
                                   callback: function($$v) {
-                                    _vm.showAns = $$v
+                                    _vm.EnableDue = $$v
                                   },
-                                  expression: "showAns"
-                                }
-                              }),
-                              _vm._v(" "),
-                              _c("v-checkbox", {
-                                staticClass: "pa-0 ma-0",
-                                attrs: { label: "Show correct answer" },
-                                model: {
-                                  value: _vm.showAns,
-                                  callback: function($$v) {
-                                    _vm.showAns = $$v
-                                  },
-                                  expression: "showAns"
-                                }
-                              }),
-                              _vm._v(" "),
-                              _c("v-checkbox", {
-                                staticClass: "ml-2 pa-0 ma-0",
-                                attrs: { label: "Accept late response" },
-                                model: {
-                                  value: _vm.response_late,
-                                  callback: function($$v) {
-                                    _vm.response_late = $$v
-                                  },
-                                  expression: "response_late"
+                                  expression: "EnableDue"
                                 }
                               })
                             ],
@@ -21806,27 +21789,51 @@ var render = function() {
                         1
                       ),
                       _vm._v(" "),
+                      _vm.EnableDue
+                        ? _c(
+                            "v-col",
+                            {
+                              staticClass: "pa-0 ma-0",
+                              attrs: { "ma-0": "", "pa-0": "", cols: "12" }
+                            },
+                            [
+                              _c("v-text-field", {
+                                staticClass: "pa-0 ma-0",
+                                attrs: {
+                                  outlined: "",
+                                  label: "Due Date",
+                                  type: "datetime-local",
+                                  required: ""
+                                },
+                                model: {
+                                  value: _vm.duedate,
+                                  callback: function($$v) {
+                                    _vm.duedate = $$v
+                                  },
+                                  expression: "duedate"
+                                }
+                              })
+                            ],
+                            1
+                          )
+                        : _vm._e(),
+                      _vm._v(" "),
                       _c(
                         "v-col",
                         {
-                          staticClass: "pa-0 ma-0",
+                          staticClass: "text-left pa-0 ma-0",
                           attrs: { "ma-0": "", "pa-0": "", cols: "12" }
                         },
                         [
-                          _c("v-text-field", {
+                          _c("v-checkbox", {
                             staticClass: "pa-0 ma-0",
-                            attrs: {
-                              outlined: "",
-                              label: "Due Date",
-                              type: "datetime-local",
-                              required: ""
-                            },
+                            attrs: { label: "Show correct answer" },
                             model: {
-                              value: _vm.duedate,
+                              value: _vm.showAns,
                               callback: function($$v) {
-                                _vm.duedate = $$v
+                                _vm.showAns = $$v
                               },
-                              expression: "duedate"
+                              expression: "showAns"
                             }
                           })
                         ],
@@ -21879,18 +21886,40 @@ var render = function() {
                                       required: ""
                                     },
                                     model: {
-                                      value: _vm.duedate,
+                                      value: _vm.ShowAnswerDate,
                                       callback: function($$v) {
-                                        _vm.duedate = $$v
+                                        _vm.ShowAnswerDate = $$v
                                       },
-                                      expression: "duedate"
+                                      expression: "ShowAnswerDate"
                                     }
                                   })
                                 : _vm._e()
                             ],
                             1
                           )
-                        : _vm._e()
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _c(
+                        "v-col",
+                        {
+                          staticClass: "text-left pa-0 ma-0",
+                          attrs: { "ma-0": "", "pa-0": "", cols: "12" }
+                        },
+                        [
+                          _c("v-checkbox", {
+                            staticClass: "pa-0 ma-0",
+                            attrs: { label: "Accept late response" },
+                            model: {
+                              value: _vm.response_late,
+                              callback: function($$v) {
+                                _vm.response_late = $$v
+                              },
+                              expression: "response_late"
+                            }
+                          })
+                        ],
+                        1
+                      )
                     ],
                     1
                   )

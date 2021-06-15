@@ -1,7 +1,7 @@
 
 <template>
 <v-hover v-slot="{ hover }">
-<v-card :elevation="preview && hover ? 20 : 5" class="pl-3 pr-3 pt-8">
+<v-card :style="preview || previewAll ? 'border-top:5px solid #EF6C00':''" :elevation="preview && hover ? 20 : 5" class="pl-3 pr-3 pt-8">
     <v-dialog v-model="dialog" persistent max-width="370">
             <deleteDialog 
             :DeleteDetails="DeleteDetails"
@@ -11,17 +11,12 @@
             v-if="dialog"></deleteDialog>
         </v-dialog>
         <v-row >
-            <v-col v-if="!preview" cols="12" md="12" class="pl-4 pr-4 pt-2">
+            <v-col v-if="!preview" cols="12" md="12" class="pl-4 pr-4">
                 <v-container class="mb-1">
                         <v-container ma-0 pa-0 class="mb-3 d-flex flex-row justify-space-between">
-                            <v-container ma-0 pa-0 class="pa-0 ma-0">
-                                 <v-btn class="mr-2 mb-xs-2" :color="isEditing  ? 'primary' : ''" rounded  
-                                 @click="isEditing = !isEditing, QuetionsList.answer = ''">
-                              
-                                {{$vuetify.breakpoint.xs ? isEditing ?'Update':'' : isEditing ?'Update':'Edit'}}
-                                <v-icon>mdi-square-edit-outline</v-icon>
-                                </v-btn>
+                                <v-container ma-0 pa-0 class="pa-0 ma-0 d-flex justify-end">
                                 <v-btn
+                                class="mr-2"
                                     rounded
                                     :disabled="isRemoving"
                                     :loading="isRemoving"
@@ -29,17 +24,17 @@
                                     {{$vuetify.breakpoint.xs ? '' : 'Delete'}}
                                     <v-icon>mdi-delete-outline</v-icon>
                                 </v-btn>
-                            </v-container>
-                                  <v-btn
+                                <v-btn
                                     rounded
-                                    outlined
                                     color="primary"
                                     @click="preview = !preview">
                                     
-                                    {{$vuetify.breakpoint.xs ? '' : 'Preview'}}
-                                    <v-icon>mdi-eye</v-icon>
+                                    {{$vuetify.breakpoint.xs ? '' : 'Update'}}
+                                    <v-icon>mdi-square-edit-outline</v-icon>
                                 </v-btn>
-                            </v-container>
+                        </v-container>
+                                 
+                    </v-container>
                   
                         <h2>Question #{{number}}</h2>
                         <v-row  class="pa-0 ma-0">
@@ -62,7 +57,7 @@
                         </v-row>
                         <v-container class="pa-0 ma-0" ma-0 pa-0> 
                             <v-row >
-                                <div class="font-weight-medium">Question</div>
+                                <div class="font-weight-medium">Insructions</div>
                                 <v-col  class="mb-5" cols="12" md="12" lg="12">
                                  <!--    <v-textarea
                                     rows="1"
@@ -84,50 +79,30 @@
                                             theme="snow" :options="options"></editor>
                                     </v-card>
                                 </v-col>
-                              <!--   <v-col class="pa-0 ma-0 pl-md-3 pl-sm-0" cols="12" md="3" lg="3">
-                                    <v-select
-                                    :readonly="!isEditing"
-                                    v-model="QuetionsList.type"
-                                    class="pa-0 ma-0"
-                                    :items="['Multiple Choice', 'Identification', 'True or False', 'Matching type']"
-                                    filled
-                                    label="Type"
-                                    ></v-select>
-                                </v-col> -->
                             </v-row>
                         </v-container>
                         
                         <v-container>
                             <v-row>
-                            <div class="font-weight-medium">Options</div>
+                           
                                 <v-col class="ma-0 pa-0" cols="12" lg="12" md="12" v-for="(Ans, i) in SubQuestionList" :key="i">
                                         <v-row>
                                             
                                         <v-col cols="12" >
-                                             <!--    <v-textarea
-                                                rows="1"
-                                                :readonly="!isEditing"
-                                                v-model="Ans.sub_question"
-                                                filled
-                                                class="pa-0 ma-0"
-                                                :label="'Question '+(i+1)"
-                                                auto-grow
-                                                required
-                                                >
-                                                </v-textarea> -->
-
                                             <v-container class="d-flex flex-row ma-0 pa-0">
                                                 <v-card style="width:100%" outlined class="pa-3 mb-2">
-                                                        <div class="font-weight-medium">{{'Pair '}}{{i+1}}</div>
+                                                    <div class="font-weight-medium">{{'Question '}}{{i+1}}</div>
                                             
                                                     <v-card style="width:100%" class="mb-3">
+                                                      
                                                     <editor :rules="rules"
                                                         v-model="Ans.sub_question" 
                                                     id="editor-container"  :placeholder="'Question '+(i+1)" 
                                                         theme="snow" :options="options"></editor>
                                                     </v-card>
-
+                                                      <div class="font-weight-medium">{{'Answer '}}{{i+1}}</div>
                                                         <v-card style="width:100%" class="mb-3">
+                                                             
                                                     <editor 
                                                     
                                                          v-model="AnswerList[i].Choice"
@@ -142,28 +117,6 @@
                                                 </v-btn>
                                             </v-container>
                                         </v-col>
-
-                                       <!--  <v-col cols="5" class="pt-0 pb-0 mt-0 mb-0">
-                                                <v-textarea
-                                                rows="1"
-                                                :readonly="!isEditing"
-                                                v-model="AnswerList[i].Choice"
-                                                filled
-                                                class="pa-0 ma-0"
-                                                :label="'Answer '+(i+1)"
-                                                auto-grow
-                                                required
-                                                >
-                                                </v-textarea>
-                                        </v-col> -->
-                                           <!--  <v-col v-if="isEditing" class="pt-0 pb-0 mt-0 mb-0" cols="1">
-                                                <v-btn
-                                                
-                                                icon class="mt-2 pl-2 pr-2">
-                                                    <v-icon>mdi-delete</v-icon>
-
-                                                </v-btn>
-                                        </v-col> -->
                                     </v-row>
                                 </v-col>
                                     <v-col v-if="isEditing" class="ma-0 pa-0 pb-5 text-right">
@@ -181,31 +134,50 @@
                 </v-container>
             </v-col>
 
-           <!--  <v-col @dblclick="preview =  !preview"  v-if="preview" cols="12" md="12" class="pl-4 pr-4 pt-2">
- 
-                    <h2>Question #{{number}}</h2>
+            <v-col @dblclick="preview =  !preview"  v-if="preview" cols="12" md="12" class="pl-4 pr-4 pt-2">
+                    <v-container class="d-flex flex-row justify-space-between">
+                        <h2>Question #{{number}}</h2>
+                             <v-btn
+                            rounded
+                            @click="previewAll ? preview = false :preview = !preview">
+                            {{$vuetify.breakpoint.xs ? '' : 'Edit'}}
+                            <v-icon right>mdi-square-edit-outline</v-icon>
+                        </v-btn>
+                    </v-container>
                     <v-container>
-                        <div class="title">{{QuetionsList.question}}</div>
+                       <div :style="$vuetify.breakpoint.xs ? 'line-height:1.1':'line-height:1.5'" class="subtitle-2"> <span v-html="QuetionsList.question" class="post-content"></span><!-- {{QuetionsList.question}} --></div>
                     </v-container>
                      <v-container class="pl-5 pr-5">
-                        <v-container class="d-flex flex-row ma-0 pa-0" v-for="(Ans, i) in AnswerList" :key="i">
-                           <v-radio-group  class="ma-0 pa-0"  v-model="QuetionsList.answer">
-                            <v-radio
-                            :readonly="!isEditing"
-                            @click="tempAnswer = QuetionsList.answer, test()"
-                            color="primary"
-                            :key="i"
-                           
-                            :value="Ans.Choice"
-                            ></v-radio>
-                            </v-radio-group>
-
-                            <div class="Subtitle 1">
-                                {{Ans.Choice}}<span class="caption primary--text ml-1" v-if="QuetionsList.answer == Ans.Choice">correct answer</span>
-                            </div>
-                             </v-container>
+                        <v-container>
+                            <v-row>
+                                <v-col class="font-weight-bold" cols="7">
+                                    Column A<small>(question)</small>
+                                </v-col>
+                                 <v-col class="font-weight-bold" cols="5">
+                                     Column B<small>(answers)</small>
+                                </v-col>
+                            </v-row>
+                        </v-container>
+                        <v-divider></v-divider>
+                        <v-container class="mb-0 pb-0" v-for="(List, i) in SubQuestionList" :key="List.id">
+                            
+                            <v-row>
+                                <v-col class="mb-1 pb-0 pt-0 mt-0"  cols="7">
+                                    <div class="d-flex"> 
+                                        <span class="font-weight-medium mr-1">{{(i+1+'. ')}}</span>
+                                        <span v-html="List.sub_question" class="subquestion-content"></span>
+                                    </div>
+                                </v-col>
+                                 <v-col class="mb-1 pb-0 pt-0 mt-0"  cols="5">
+                                      <div class="d-flex"> 
+                                        <span class="font-weight-medium mr-1">{{(Alphabet[i]+'. ')}}</span>
+                                        <span v-html="AnswerList[i].Choice" class="subchoices-content"></span>
+                                    </div>
+                                </v-col>
+                            </v-row>
+                        </v-container>
                     </v-container>
-            </v-col> -->
+            </v-col>
         </v-row>
 </v-card>
 </v-hover>
@@ -220,15 +192,16 @@ export default {
     },
     data(){
         return{
+            Alphabet: "",
             QuetionsList:{},
             SubQuestionList:{},
             AnswerList:{},
-            preview: false,
+            preview: true,
             dialog:false,
             isRemoving:false,
             isRemoving_id:null,
             Qlength:'',
-            isEditing: false,
+            isEditing: true,
             isEditing_Id:'',
             isLoading: true,
             Show: true,
@@ -287,6 +260,37 @@ export default {
         this.QuetionsList = this.Question;
         this.AnswerList =  this.Answers;
         this.SubQuestionList = this.SubQuestion
+    },
+    mounted(){
+         const alphabet = [
+            "A",
+            "B",
+            "C",
+            "D",
+            "E",
+            "F",
+            "G",
+            "H",
+            "I",
+            "J",
+            "K",
+            "L",
+            "M",
+            "N",
+            "O",
+            "P",
+            "q",
+            "r",
+            "s",
+            "t",
+            "u",
+            "v",
+            "w",
+            "x",
+            "y",
+            "z"
+        ];
+        this.Alphabet = alphabet;
     }
     
 }

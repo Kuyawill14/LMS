@@ -36,13 +36,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['classworkDetails'],
   data: function data() {
     return {
       activeTab: "",
-      tabs: [{
+      ObjectIveTabs: [{
         name: "clwk",
+        text: "CLASSWORK DETAILS",
+        icon: "mdi-file-cog"
+      }, {
+        name: "add-question",
         text: "ADD QUESTION",
         icon: "mdi-text-box-plus-outline"
       }, {
@@ -61,12 +67,29 @@ __webpack_require__.r(__webpack_exports__);
         name: "question-analytics",
         text: "QUESTION ANALYTICS",
         icon: "mdi-google-analytics"
-      }, {
-        name: "classwork-seting",
-        text: "SETTINGS",
+      }],
+      SubjectiveTabs: [{
+        name: "clwk",
+        text: "CLASSWORK DETAILS",
         icon: "mdi-file-cog"
-      }]
+      }, {
+        name: "publish-to",
+        text: "PUBLISH TO",
+        icon: "mdi-publish"
+      }, {
+        name: "submission-list",
+        text: "SUBMISSION LIST",
+        icon: "mdi-notebook-check-outline"
+      }],
+      tabs: null
     };
+  },
+  mounted: function mounted() {
+    if (this.classworkDetails.type == 'Subjective Type') {
+      this.tabs = this.SubjectiveTabs;
+    } else if (this.classworkDetails.type == 'Objective Type') {
+      this.tabs = this.ObjectIveTabs;
+    }
   }
 });
 
@@ -199,7 +222,7 @@ var render = function() {
               },
               [
                 _vm._v(
-                  "\n          " +
+                  "\n\n          " +
                     _vm._s(_vm.$vuetify.breakpoint.xs ? "" : item.text) +
                     "\n            "
                 ),

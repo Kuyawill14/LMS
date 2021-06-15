@@ -21,6 +21,8 @@ class CreateTblClassworksTable extends Migration
             $table->string("type");
             $table->string("title");
             $table->mediumText("instruction");
+            $table->mediumText("attachment_name")->nullable();
+            $table->mediumText("attachment")->nullable(); 
             $table->integer("duration")->nullable();
             $table->integer("points")->nullable();
             $table->timestamps();

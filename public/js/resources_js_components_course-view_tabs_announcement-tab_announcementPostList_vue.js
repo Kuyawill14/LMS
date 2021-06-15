@@ -349,6 +349,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -1031,10 +1036,10 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    _vm._l(_vm.PostList, function(post, i) {
+    _vm._l(_vm.PostList, function(post) {
       return _c(
         "v-card",
-        { key: i, staticClass: "mb-10" },
+        { key: post.id, staticClass: "mb-10" },
         [
           _c(
             "v-row",
@@ -1103,12 +1108,25 @@ var render = function() {
             1
           ),
           _vm._v(" "),
-          _c("v-container", { staticClass: "pl-4 pr-4 pb-6" }, [
-            _c("span", {
-              staticClass: "post-content",
-              domProps: { innerHTML: _vm._s(post.content) }
-            })
-          ]),
+          _c(
+            "v-container",
+            { staticClass: "pl-4 pr-4 pb-6" },
+            [
+              _c(
+                "v-row",
+                [
+                  _c("v-col", { attrs: { cols: "12" } }, [
+                    _c("span", {
+                      staticClass: "post-content",
+                      domProps: { innerHTML: _vm._s(post.content) }
+                    })
+                  ])
+                ],
+                1
+              )
+            ],
+            1
+          ),
           _vm._v(" "),
           _c("v-row", { staticClass: "pl-5 pr-5" }, [_c("v-divider")], 1),
           _vm._v(" "),

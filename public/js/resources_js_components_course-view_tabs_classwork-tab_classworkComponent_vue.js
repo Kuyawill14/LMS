@@ -237,7 +237,7 @@ var render = function() {
         1
       ),
       _vm._v(" "),
-      _vm.role == "Teacher" && !_vm.isGetting && _vm.ClassworkLength == 0
+      !_vm.isGetting && _vm.ClassworkLength == 0
         ? _c(
             "v-row",
             {
@@ -262,22 +262,32 @@ var render = function() {
                   _vm._v(" "),
                   _c("p", [
                     _vm._v(
-                      " Creating Classwork, you'll be able to publish classwork to your class. "
+                      " " +
+                        _vm._s(
+                          _vm.role == "Teacher"
+                            ? "'Creating Classwork, you'll be able to publish classwork to your class."
+                            : "No, Assign Classwork Yet!"
+                        ) +
+                        " "
                     )
                   ]),
                   _vm._v(" "),
-                  _c(
-                    "v-btn",
-                    {
-                      attrs: { color: "primary" },
-                      on: {
-                        click: function($event) {
-                          _vm.dialog = !_vm.dialog
-                        }
-                      }
-                    },
-                    [_vm._v(" CREATE CLASS ")]
-                  )
+                  _vm.role == "Teacher"
+                    ? _c(
+                        "v-btn",
+                        {
+                          attrs: { color: "primary" },
+                          on: {
+                            click: function($event) {
+                              _vm.role == "Teacher"
+                                ? (_vm.dialog = !_vm.dialog)
+                                : ""
+                            }
+                          }
+                        },
+                        [_vm._v(" CREATE CLASS ")]
+                      )
+                    : _vm._e()
                 ],
                 1
               )
@@ -309,7 +319,7 @@ var render = function() {
           )
         : _vm._e(),
       _vm._v(" "),
-      (!_vm.isGetting && _vm.ClassworkLength != 0) || _vm.role == "Student"
+      !_vm.isGetting && _vm.ClassworkLength != 0
         ? _c(
             "v-container",
             [

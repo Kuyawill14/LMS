@@ -88,11 +88,12 @@ let publishClassworkTab = () =>
 let test = () =>
     import ("./components/Classwork_View/tabs/test");
 
-let settingsTab = () =>
-    import ("./components/Classwork_View/tabs/settingsTab");
+let classworkDetailsTab = () =>
+    import ("./components/Classwork_View/tabs/classworkDetailsTab");
 
-
-
+let documentPreview = () =>
+    import ("./components/course-view/tabs/classwork-tab/documentPreview");
+    
 
 
 const router = new Router({
@@ -225,8 +226,14 @@ const router = new Router({
             component: classworkView,
 
             props: true,
-            children: [{
+            children: [
+                {
                     name: "clwk",
+                    path: "classwork-details",
+                    component: classworkDetailsTab
+                },
+                {
+                    name: "add-question",
                     path: "add-question",
                     component: addQuestionTab
                 },
@@ -249,14 +256,7 @@ const router = new Router({
                     name: "publish-to",
                     path: "publish-to",
                     component: publishClassworkTab
-                },
-                {
-                    name: "classwork-seting",
-                    path: "classwork-seting",
-                    component: settingsTab
-                }
-
-
+                }, 
 
             ]
         },
@@ -283,8 +283,14 @@ const router = new Router({
             name: "testing"
         },
 
+        {
+            path: "/documentPreview",
+            component: documentPreview,
+            name: "documentPreview"
+        },
 
 
+        
         // {
         //     path: '/:pathMatch(.*)*',
         //     component: error404
