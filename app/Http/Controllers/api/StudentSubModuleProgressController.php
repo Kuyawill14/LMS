@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\tbl_student_sub_module_progress;
 use App\Models\tbl_userclass;
+use App\Models\User;
 class StudentSubModuleProgressController extends Controller
 {
     /**
@@ -29,6 +30,7 @@ class StudentSubModuleProgressController extends Controller
 
     public function fetchSubmoduleProgress($id) {
         $userId = auth('sanctum')->id();
+
         $allSubModulesProgress = DB::table('tbl_student_sub_module_progress')
         ->select('tbl_student_sub_module_progress.*')
         ->leftJoin('tbl_sub_modules', 'tbl_sub_modules.id', '=', 'tbl_student_sub_module_progress.sub_module_id')
@@ -119,7 +121,28 @@ class StudentSubModuleProgressController extends Controller
 
     public function studentSubProgress($id) {
           // $userId = auth('sanctum')->id();
-          $allSubModulesProgress = DB::table('tbl_sub_modules')
+
+          
+      
+          $allSubModulesProgress = DB::table('tbl_userclasses')
+          ->select('tbl_userclasses.id as uc_id', 'users.firstName','users.middleName','users.lastName',
+          'tbl_main_modules.module_name',
+          'tbl_main_modules.id as main_module_id',
+          'tbl_sub_modules.sub_module_name',
+          'tbl_student_sub_module_progress.time_spent',
+          'tbl_sub_modules.required_time',
+          'tbl_student_sub_module_progress.id as subProgress_id', 
+          )
+
+          ->leftJoin('users', 'users.id','=','tbl_userclasses.user_id')
+          ->leftJoin('tbl_main_modules', 'tbl_main_modules.course_id','=','tbl_userclasses.course_id')
+          ->leftJoin('tbl_sub_modules', 'tbl_sub_modules.main_module_id','=','tbl_main_modules.id')
+          ->leftJoin('tbl_student_sub_module_progress', 'tbl_student_sub_module_progress.sub_module_id','=','tbl_sub_modules.id')
+          ->where('users.role', 'Student')
+          ->where('tbl_userclasses.course_id', $id)
+          ->get();
+
+        /*   $allSubModulesProgress = DB::table('tbl_sub_modules')
         
           ->select(
           'tbl_student_sub_module_progress.id', 
@@ -140,7 +163,7 @@ class StudentSubModuleProgressController extends Controller
           ->leftJoin('tbl_main_modules', 'tbl_main_modules.id', '=', 'tbl_student_sub_module_progress.main_module_id')
          
   
-          ->get();
+          ->get(); */
   
           // $allSubModules = DB::table('tbl_sub_modules')
           // ->select('tbl_sub_modules.*','tbl_main_modules.module_name')
