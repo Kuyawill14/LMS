@@ -99,32 +99,23 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr v-for="(main, i) in getStudentMainModuleProgress"
-                                            :key="'get_gradingCriteria'+i">
+                                        <tr  v-for="(student, index) in students" :key="index">
 
-                                            <td class="text-center">{{main.firstName}} {{main.lastName}}
+                                            <td class="text-center">
+                                                {{student.firstName}} {{student.lastName}}
                                               </td>
 
-                                            <td class="text-center"
-                                                v-for="(subModule, index) in SubModuleProgress(main_module.id ,main.student_id)"
-                                                :key="index">
-                                                {{ convertTime(subModule.time_spent)}}
+                                            <td class="text-center" v-for="(subModule1, index1) in SubModuleProgress(main_module.id,student.id )"  :key="index1">
+                                                {{ subModule1.time_spent}}
                                             </td>
 
-                                          
-                                            <td class="text-center"
-                                                v-for="(subModule, index) in  getSub_module(main_module.id)"
-                                                :key="index"
-                                                v-if="SubModuleProgress(main_module.id ,main.student_id).length == 0">
-                                                -
-                                            </td>
-
+                                       
 
                                             <td class="text-center">
-                                                {{ convertTime(_totalTimeSpent(SubModuleProgress(main_module.id ,main.student_id)))}}
+                                                <!-- {{ _totalTimeSpent(SubModuleProgress(main_module.id ,main.student_id))}} -->
                                             </td>
                                             <td class="text-center">
-                                                {{convertTime(_totalRequiredTime(SubModuleProgress(main_module.id ,main.student_id)))}}
+                                                <!-- {{_totalRequiredTime(SubModuleProgress(main_module.id ,main.student_id))}} -->
                                             </td>
 
                                         </tr>
@@ -271,7 +262,7 @@
 
         created() {
             this.fetchStudentModuleProgress();
-           
+            this.getStudentList();
             for(var i = 0; i < this.students.length; i++) {
                 
             }
