@@ -126,21 +126,46 @@ class StudentSubModuleProgressController extends Controller
           ->select('tbl_userclasses.id as uc_id', 'users.firstName','users.middleName','users.lastName',
           'tbl_main_modules.module_name',
           'tbl_main_modules.id as main_module_id',
+          'tbl_sub_modules.id as sub_module_id',
           'tbl_sub_modules.sub_module_name',
-          'tbl_student_sub_module_progress.time_spent',
           'tbl_sub_modules.required_time',
-          'tbl_student_sub_module_progress.id as subProgress_id', 
           'tbl_userclasses.user_id as student_id', 
           )
 
           ->leftJoin('users', 'users.id','=','tbl_userclasses.user_id')
           ->leftJoin('tbl_main_modules', 'tbl_main_modules.course_id','=','tbl_userclasses.course_id')
           ->leftJoin('tbl_sub_modules', 'tbl_sub_modules.main_module_id','=','tbl_main_modules.id')
-          ->leftJoin('tbl_student_sub_module_progress', 'tbl_student_sub_module_progress.sub_module_id','=','tbl_sub_modules.id' ,'AND' , 'tbl_student_sub_module_progress.student_id','=','users.id' )
           ->where('users.role', 'Student')
           ->where('tbl_userclasses.course_id', $id)
-    
           ->get();
+
+          $allSubModulesProgress = json_decode($allSubModulesProgress, true);
+          $studentProgress = DB::table('tbl_student_sub_module_progress')
+          ->where('tbl_student_sub_module_progress.course_id',$id)
+          ->get();
+          $studentProgress = json_decode($studentProgress, true);
+
+
+          for($i = 0; $i < count($allSubModulesProgress) ; $i++) {
+            $allSubModulesProgress[$i]['time_spent'] = 0;
+            for($j = 0; $j < count($studentProgress) ; $j++) {
+                if($allSubModulesProgress[$i]['student_id'] == $studentProgress[$j]['student_id']  && $allSubModulesProgress[$i]['sub_module_id'] == $studentProgress[$j]['sub_module_id']){
+                    $allSubModulesProgress[$i]['time_spent'] = $studentProgress[$j]['time_spent'];
+                } 
+                  
+            }
+          
+          }
+
+
+
+
+
+
+
+
+
+
 
         /*   $allSubModulesProgress = DB::table('tbl_sub_modules')
         
@@ -172,10 +197,9 @@ class StudentSubModuleProgressController extends Controller
           // ->get();
   
   
-          return $allSubModulesProgress;
 
 
-        return $allSubModulesProgress;
+        return   $allSubModulesProgress;
     }
     /**
      * Show the form for creating a new resource.
