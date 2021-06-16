@@ -47,6 +47,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['propModule', 'type'],
@@ -59,7 +61,22 @@ __webpack_require__.r(__webpack_exports__);
         description: '',
         course_id: ''
       }),
-      class_details: ''
+      class_details: '',
+      options: {
+        modules: {
+          'toolbar': [['bold', 'italic', 'underline', 'strike'], [{
+            'header': [1, 2, 3, 4, 5, false]
+          }], [{
+            'align': []
+          }], [{
+            'color': []
+          }], [{
+            'list': 'ordered'
+          }, {
+            'list': 'bullet'
+          }], ['link', 'image', 'video']]
+        }
+      }
     };
   },
   methods: {
@@ -514,7 +531,9 @@ var render = function() {
         { ref: "registerForm" },
         [
           _c("v-card-title", [
-            _c("span", { staticClass: "headline" }, [_vm._v("Add Module")])
+            _c("span", { staticClass: "headline" }, [
+              _vm._v(_vm._s(_vm.type == "edit" ? "Add Module" : "Edit Module"))
+            ])
           ]),
           _vm._v(" "),
           _c(
@@ -546,13 +565,14 @@ var render = function() {
                       _vm._v(" "),
                       _c(
                         "v-col",
-                        { attrs: { cols: "12" } },
+                        { attrs: { cols: "12 pb-0" } },
                         [
-                          _c("v-textarea", {
+                          _c("editor", {
+                            staticStyle: { outline: "none" },
                             attrs: {
-                              clearable: "",
-                              "clear-icon": "mdi-close-circle",
-                              label: "Description"
+                              placeholder: "Description",
+                              theme: "snow",
+                              options: _vm.options
                             },
                             model: {
                               value: _vm.moduleForm.description,
@@ -865,7 +885,11 @@ var render = function() {
                 1
               ),
               _vm._v(" "),
-              _c("v-row", [_c("modulesListComponent")], 1)
+              _c(
+                "v-row",
+                [_c("modulesListComponent", { attrs: { role: _vm.role } })],
+                1
+              )
             ],
             1
           )

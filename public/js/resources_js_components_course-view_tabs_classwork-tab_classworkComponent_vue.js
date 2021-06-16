@@ -285,7 +285,7 @@ var render = function() {
                             }
                           }
                         },
-                        [_vm._v(" CREATE CLASS ")]
+                        [_vm._v(" CREATE CLASSWORK ")]
                       )
                     : _vm._e()
                 ],

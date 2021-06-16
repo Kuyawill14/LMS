@@ -213,6 +213,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['moduleId'],
@@ -5027,11 +5033,11 @@ var render = function() {
                             options: _vm.options
                           },
                           model: {
-                            value: _vm.subModuleForm.drescription,
+                            value: _vm.subModuleForm.description,
                             callback: function($$v) {
-                              _vm.$set(_vm.subModuleForm, "drescription", $$v)
+                              _vm.$set(_vm.subModuleForm, "description", $$v)
                             },
-                            expression: "subModuleForm.drescription"
+                            expression: "subModuleForm.description"
                           }
                         })
                       ],
@@ -5225,6 +5231,29 @@ var render = function() {
                               _vm.$set(_vm.linkForm, "description", $$v)
                             },
                             expression: " linkForm.description"
+                          }
+                        })
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "v-col",
+                      { attrs: { cols: "12 pb-0" } },
+                      [
+                        _c("v-text-field", {
+                          attrs: {
+                            label:
+                              "Required time spent for Completion (minutes)",
+                            type: "number",
+                            required: ""
+                          },
+                          model: {
+                            value: _vm.linkForm.required_time,
+                            callback: function($$v) {
+                              _vm.$set(_vm.linkForm, "required_time", $$v)
+                            },
+                            expression: "linkForm.required_time"
                           }
                         })
                       ],

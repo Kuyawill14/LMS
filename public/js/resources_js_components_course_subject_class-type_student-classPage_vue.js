@@ -126,12 +126,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {},
@@ -618,11 +612,14 @@ var render = function() {
                               ),
                               _vm._v(" "),
                               _c(
-                                "v-card-title",
+                                "v-card-subtitle",
                                 [
                                   _c(
                                     "router-link",
                                     {
+                                      staticStyle: {
+                                        "text-decoration": "none"
+                                      },
                                       attrs: {
                                         to: {
                                           name: "coursePage",
@@ -631,39 +628,42 @@ var render = function() {
                                       }
                                     },
                                     [
-                                      _vm._v(
-                                        "\n                                " +
-                                          _vm._s(
-                                            item.course_code +
-                                              " - " +
-                                              item.course_name
-                                          ) +
-                                          "\n                            "
+                                      _c(
+                                        "p",
+                                        {
+                                          staticStyle: { "font-size": "16px" }
+                                        },
+                                        [
+                                          _vm._v(
+                                            _vm._s(item.course_code) +
+                                              " \n                                "
+                                          ),
+                                          _c("br"),
+                                          _vm._v(
+                                            " " +
+                                              _vm._s(item.course_name) +
+                                              "\n                                "
+                                          )
+                                        ]
                                       )
                                     ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("hr"),
+                                  _vm._v(
+                                    "\n                               " +
+                                      _vm._s(item.class_name) +
+                                      " "
+                                  ),
+                                  _c("br"),
+                                  _vm._v(
+                                    "\n                            Class code:" +
+                                      _vm._s(item.class_code) +
+                                      " \n                        "
                                   )
                                 ],
                                 1
-                              ),
-                              _vm._v(" "),
-                              _c("v-card-subtitle", [
-                                _vm._v(
-                                  "\n                            " +
-                                    _vm._s(item.class_name) +
-                                    " "
-                                ),
-                                _c("br"),
-                                _vm._v(
-                                  "\n                            Class code:" +
-                                    _vm._s(item.class_code) +
-                                    " "
-                                ),
-                                _c("br"),
-                                _vm._v(" "),
-                                _c("br")
-                              ]),
-                              _vm._v(" "),
-                              _c("div")
+                              )
                             ],
                             1
                           )

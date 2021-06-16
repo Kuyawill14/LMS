@@ -37,8 +37,9 @@
                         <v-icon style="font-size: 1.0rem; ">
                             mdi-folder
                         </v-icon>
-                        {{itemModule.module_name}} <br>    {{ getCount(studentSubModuleProgress, itemModule.id) + ' / '+ getSub_module(itemModule.id).length}}
-                    
+                        {{itemModule.module_name}} <br>
+                        {{ getCount(studentSubModuleProgress, itemModule.id) + ' / '+ getSub_module(itemModule.id).length}}
+
 
                     </span>
                 </v-expansion-panel-header>
@@ -64,11 +65,11 @@
 
                             <v-list-item-subtitle> {{itemSubModule.type}}</v-list-item-subtitle>
                             <v-list-item-subtitle> Time spent:
-                                {{ convertTime(itemSubModule.id)}}
+                                {{ convertTime(itemSubModule.id, -1)}}
 
                             </v-list-item-subtitle>
                             <v-list-item-subtitle> Required time:
-                                {{ itemSubModule.required_time}}
+                                {{ convertTime(-1,itemSubModule.required_time)}}
 
                             </v-list-item-subtitle>
                         </v-list-item-content>
@@ -136,7 +137,7 @@
 
                 var count = 0;
                 var subModules_arr = this.getSub_module(mainModule_id);
-                console.log(subModules_arr);
+                //   console.log(subModules_arr);
                 for (var i = 0; i < subModules_arr.length; i++) {
                     for (var j = 0; j < arr.length; j++) {
 
@@ -165,22 +166,25 @@
             //             }
             //         }
             addSubStudentProgress(mainModule_id, subModule_id, type) {
-                this.tempSubId = subModule_id;
-                this.studentSubModuleProgressForm.main_module_id = mainModule_id;
-                this.studentSubModuleProgressForm.sub_module_id = subModule_id;
-                this.studentSubModuleProgressForm.type = type;
-                this.studentSubModuleProgressForm.course_id = this.$route.params.id;
+                if (this.role == 'Student') {
+                    this.tempSubId = subModule_id;
+                    this.studentSubModuleProgressForm.main_module_id = mainModule_id;
+                    this.studentSubModuleProgressForm.sub_module_id = subModule_id;
+                    this.studentSubModuleProgressForm.type = type;
+                    this.studentSubModuleProgressForm.course_id = this.$route.params.id;
 
-                axios.post(`/api/student_sub_module/insert`, {
-                        studentProgress: this.studentSubModuleProgressForm
-                    })
-                    .then((res) => {
-                        this.$store.dispatch('studentmodule_progress', this.$route.params.id);
-                        this.$store.dispatch('fetchClassList')
-                        this.fetchStudentModuleProgress();
+                    axios.post(`/api/student_sub_module/insert`, {
+                            studentProgress: this.studentSubModuleProgressForm
+                        })
+                        .then((res) => {
+                            this.$store.dispatch('studentmodule_progress', this.$route.params.id);
+                            this.$store.dispatch('fetchClassList')
+                            this.fetchStudentModuleProgress();
 
 
-                    });
+                        });
+                }
+
             },
             checkTimeSpent(arr, sub_module, time_spent) {
                 var check = false;
@@ -214,32 +218,41 @@
 
 
             },
-            convertTime(sub_module_id) {
-                var time = this.getTimeSpent(this.studentSubModuleProgress, sub_module_id);
-                if (time === undefined) {
-                    time = 0;
+            convertTime(sub_module_id, dataTime) {
+                if (dataTime == -1) {
+                    var time = this.getTimeSpent(this.studentSubModuleProgress, sub_module_id);
+                    if (time === undefined) {
+                        time = 0;
+                    }
+                    return new Date(parseInt(time) * 1000).toISOString().substr(11, 8);
+                } else {
+                    return new Date(parseInt(dataTime) * 1000).toISOString().substr(11, 8);
                 }
-                return new Date(parseInt(time) * 1000).toISOString().substr(11, 8);
+
+
             },
 
 
+
+
             setTimeSpent(mainModule_id, subModule_id, arr) {
+                if (this.role == 'Student') {
 
+                    clearInterval(this.ctrTime);
+                    clearInterval(this.updateTime);
+                    this.timespent = this.getTimeSpent(this.studentSubModuleProgress, subModule_id);
 
-                clearInterval(this.ctrTime);
-                clearInterval(this.updateTime);
-                this.timespent = this.getTimeSpent(this.studentSubModuleProgress, subModule_id);
+                    this.ctrTime = false;
+                    this.updateTime = false;
+                    this.ctrTime = setInterval(() => {
+                        this.timespent++;
+                        this.time = true;
 
-                this.ctrTime = false;
-                this.updateTime = false;
-                this.ctrTime = setInterval(() => {
-                    this.timespent++;
-                    this.time = true;
-
-                }, 1000);
-                this.updateTime = setInterval(() => {
-                    this.updateStudentTimeProgress(mainModule_id, subModule_id, this.timespent);
-                }, 5000);
+                    }, 1000);
+                    this.updateTime = setInterval(() => {
+                        this.updateStudentTimeProgress(mainModule_id, subModule_id, this.timespent);
+                    }, 5000);
+                }
             },
             updateStudentTimeProgress(main_module_id, subModule_id, time_spent) {
                 var studentProgress = {};
@@ -280,6 +293,7 @@
 
         },
         async mounted() {
+            console.log(this.role);
 
             this.fetchClass();
 

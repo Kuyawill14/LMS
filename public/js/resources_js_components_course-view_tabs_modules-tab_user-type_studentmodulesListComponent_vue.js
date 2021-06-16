@@ -118,6 +118,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['role', 'expand'],
@@ -154,8 +155,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     getCount: function getCount(arr, mainModule_id) {
       var count = 0;
-      var subModules_arr = this.getSub_module(mainModule_id);
-      console.log(subModules_arr);
+      var subModules_arr = this.getSub_module(mainModule_id); //   console.log(subModules_arr);
 
       for (var i = 0; i < subModules_arr.length; i++) {
         for (var j = 0; j < arr.length; j++) {
@@ -181,20 +181,22 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     addSubStudentProgress: function addSubStudentProgress(mainModule_id, subModule_id, type) {
       var _this = this;
 
-      this.tempSubId = subModule_id;
-      this.studentSubModuleProgressForm.main_module_id = mainModule_id;
-      this.studentSubModuleProgressForm.sub_module_id = subModule_id;
-      this.studentSubModuleProgressForm.type = type;
-      this.studentSubModuleProgressForm.course_id = this.$route.params.id;
-      axios.post("/api/student_sub_module/insert", {
-        studentProgress: this.studentSubModuleProgressForm
-      }).then(function (res) {
-        _this.$store.dispatch('studentmodule_progress', _this.$route.params.id);
+      if (this.role == 'Student') {
+        this.tempSubId = subModule_id;
+        this.studentSubModuleProgressForm.main_module_id = mainModule_id;
+        this.studentSubModuleProgressForm.sub_module_id = subModule_id;
+        this.studentSubModuleProgressForm.type = type;
+        this.studentSubModuleProgressForm.course_id = this.$route.params.id;
+        axios.post("/api/student_sub_module/insert", {
+          studentProgress: this.studentSubModuleProgressForm
+        }).then(function (res) {
+          _this.$store.dispatch('studentmodule_progress', _this.$route.params.id);
 
-        _this.$store.dispatch('fetchClassList');
+          _this.$store.dispatch('fetchClassList');
 
-        _this.fetchStudentModuleProgress();
-      });
+          _this.fetchStudentModuleProgress();
+        });
+      }
     },
     checkTimeSpent: function checkTimeSpent(arr, sub_module, time_spent) {
       var check = false;
@@ -225,30 +227,36 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       return 0;
     },
-    convertTime: function convertTime(sub_module_id) {
-      var time = this.getTimeSpent(this.studentSubModuleProgress, sub_module_id);
+    convertTime: function convertTime(sub_module_id, dataTime) {
+      if (dataTime == -1) {
+        var time = this.getTimeSpent(this.studentSubModuleProgress, sub_module_id);
 
-      if (time === undefined) {
-        time = 0;
+        if (time === undefined) {
+          time = 0;
+        }
+
+        return new Date(parseInt(time) * 1000).toISOString().substr(11, 8);
+      } else {
+        return new Date(parseInt(dataTime) * 1000).toISOString().substr(11, 8);
       }
-
-      return new Date(parseInt(time) * 1000).toISOString().substr(11, 8);
     },
     setTimeSpent: function setTimeSpent(mainModule_id, subModule_id, arr) {
       var _this2 = this;
 
-      clearInterval(this.ctrTime);
-      clearInterval(this.updateTime);
-      this.timespent = this.getTimeSpent(this.studentSubModuleProgress, subModule_id);
-      this.ctrTime = false;
-      this.updateTime = false;
-      this.ctrTime = setInterval(function () {
-        _this2.timespent++;
-        _this2.time = true;
-      }, 1000);
-      this.updateTime = setInterval(function () {
-        _this2.updateStudentTimeProgress(mainModule_id, subModule_id, _this2.timespent);
-      }, 5000);
+      if (this.role == 'Student') {
+        clearInterval(this.ctrTime);
+        clearInterval(this.updateTime);
+        this.timespent = this.getTimeSpent(this.studentSubModuleProgress, subModule_id);
+        this.ctrTime = false;
+        this.updateTime = false;
+        this.ctrTime = setInterval(function () {
+          _this2.timespent++;
+          _this2.time = true;
+        }, 1000);
+        this.updateTime = setInterval(function () {
+          _this2.updateStudentTimeProgress(mainModule_id, subModule_id, _this2.timespent);
+        }, 5000);
+      }
     },
     updateStudentTimeProgress: function updateStudentTimeProgress(main_module_id, subModule_id, time_spent) {
       var _this3 = this;
@@ -291,6 +299,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
+              console.log(_this5.role);
+
               _this5.fetchClass();
 
               _this5.fetchStudentModuleProgress();
@@ -303,7 +313,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
               _this5.loading = false;
 
-            case 6:
+            case 7:
             case "end":
               return _context.stop();
           }
@@ -600,7 +610,7 @@ var render = function() {
                     ),
                     _c("br"),
                     _vm._v(
-                      "    " +
+                      "\n                    " +
                         _vm._s(
                           _vm.getCount(
                             _vm.studentSubModuleProgress,
@@ -609,7 +619,7 @@ var render = function() {
                             " / " +
                             _vm.getSub_module(itemModule.id).length
                         ) +
-                        "\n                \n\n                "
+                        "\n\n\n                "
                     )
                   ],
                   1
@@ -683,7 +693,7 @@ var render = function() {
                           _c("v-list-item-subtitle", [
                             _vm._v(
                               " Time spent:\n                            " +
-                                _vm._s(_vm.convertTime(itemSubModule.id)) +
+                                _vm._s(_vm.convertTime(itemSubModule.id, -1)) +
                                 "\n\n                        "
                             )
                           ]),
@@ -691,7 +701,12 @@ var render = function() {
                           _c("v-list-item-subtitle", [
                             _vm._v(
                               " Required time:\n                            " +
-                                _vm._s(itemSubModule.required_time) +
+                                _vm._s(
+                                  _vm.convertTime(
+                                    -1,
+                                    itemSubModule.required_time
+                                  )
+                                ) +
                                 "\n\n                        "
                             )
                           ])

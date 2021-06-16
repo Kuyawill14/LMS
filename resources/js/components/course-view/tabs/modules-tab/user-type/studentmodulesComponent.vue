@@ -29,9 +29,12 @@
                                     :src="'/storage/' + subModuleData.file_attachment"></vue-core-video-player>
                             </div>
 
-                            <v-dialog v-model="pdfdialog" v-if="type=='Document' " fullscreen hide-overlay transition="dialog-bottom-transition">
-                                <pdfviewer :title="subModuleData.lsub_module_nameink" :pdf_file="'/storage/' + subModuleData.file_attachment" v-on:closePdf="pdfdialog = false"/>
-                            </v-dialog>
+                            <!-- <v-dialog v-model="pdfdialog" v-if="type=='Document' " fullscreen hide-overlay transition="dialog-bottom-transition"> -->
+                            <pdfviewer :key="subModuleData.sub_module_name + 1"
+                                v-if="type=='Document'  && isSelectedModule " :title="subModuleData.sub_module_name"
+                                :pdf_file="'/storage/' + subModuleData.file_attachment"
+                                v-on:closePdf="pdfdialog = false" />
+                            <!-- </v-dialog> -->
                         </v-container>
 
 
@@ -43,17 +46,41 @@
                 <v-row v-if="isSelectedModule" class="px-5 pt-0">
                     <v-col>
 
-                        <v-card-title>
-                            <h2> {{subModuleData.sub_module_name}} </h2>
-                        </v-card-title>
-                        <v-divider></v-divider>
-                        <v-card-text class="text--primary">
-                            <div> {{subModuleData.description}}</div>
+                        <v-tabs color="primary" center>
+                            <v-tab href="#overview">
+                                Overview
+                            </v-tab>
+                            <v-tab href="#description">
+                                Description
+                            </v-tab>
 
-                            <a :href="'/storage/' + subModuleData.file_attachment" target="_blank">Download</a>
+                            <v-tab-item id="overview">
+                                <v-card-title>
+                                    <h2> {{getMainModulebyId(subModuleData.main_module_id).module_name}} -
+                                        {{subModuleData.sub_module_name}} </h2>
+                                </v-card-title>
+                                <v-divider></v-divider>
+                                <v-card-text class="text--primary">
+                                    <div v-html="getMainModulebyId(subModuleData.main_module_id).description"></div>
 
-                        </v-card-text>
+                                </v-card-text>
+                            </v-tab-item>
 
+
+                            <v-tab-item id="description">
+                           
+                                <v-card-text class="text--primary">
+                                    <div v-html="subModuleData.description"></div>
+
+                                    <a :href="'/storage/' + subModuleData.file_attachment" target="_blank">Download</a>
+
+                                </v-card-text>
+                            </v-tab-item>
+
+
+                        </v-tabs>
+
+                        
 
                     </v-col>
 
@@ -124,6 +151,9 @@
 
 
         },
+        computed: {
+            ...mapGetters(["getmain_module"])
+        },
         data() {
             return {
                 pdfdialog: false,
@@ -151,6 +181,14 @@
             }
         },
         methods: {
+            getMainModulebyId(id) {
+                for (var i = 0; this.getmain_module.length; i++) {
+                    if (this.getmain_module[i].id == id) {
+                        return this.getmain_module[i];
+                    }
+                }
+
+            },
 
             expandContent() {
                 this.isExpand = !this.isExpand;

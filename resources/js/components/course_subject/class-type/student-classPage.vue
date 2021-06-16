@@ -76,23 +76,17 @@
                                     <span class="text-caption "> Completed </span>
                                 </v-card-subtitle>
                             </v-img>
-
-
-
-                            <v-card-title>
-                                <router-link :to="{name: 'coursePage', params: {id: item.course_id}}">
-                                    {{item.course_code + ' - ' + item.course_name}}
-                                </router-link>
-                            </v-card-title>
                             <v-card-subtitle>
-                                {{ item.class_name}} <br>
-                                Class code:{{ item.class_code}} <br> <br>
-
+                                <router-link :to="{name: 'coursePage', params: {id: item.course_id}}" style="text-decoration: none">
+                                    <p style="font-size: 16px;">{{item.course_code }} 
+                                    <br> {{ item.course_name}}
+                                    </p>
+                                </router-link>
+                                <hr>
+                                   {{ item.class_name}} <br>
+                                Class code:{{ item.class_code}} 
                             </v-card-subtitle>
-
-
-
-                            <div> </div>
+                        
 
                         </v-card>
 
@@ -138,20 +132,20 @@
         methods: {
             ...mapActions(["fetchClassList"]),
             openJoinmodal() {
-            this.dialog = !this.dialogl;
+                this.dialog = !this.dialogl;
             },
             joinClass() {
 
                 this.isloading = true;
                 this.dialog = false;
-                this.$store.dispatch("joinClass", this.form).then(()=> {
-                        this.fetchClasses();
-                        form.class_code = '';
-                       
-                });
-            
+                this.$store.dispatch("joinClass", this.form).then(() => {
+                    this.fetchClasses();
+                    form.class_code = '';
 
-             
+                });
+
+
+
 
             },
             Unenroll(id) {

@@ -51,7 +51,7 @@
             </v-list-item>
             <v-list-item link :to="{name: 'studentProgress'}" exact v-if="role == 'Teacher'">
                 <v-list-item-action>
-                    <v-icon>mdi-book-variant-multiple</v-icon>
+                    <v-icon>mdi-chart-box-outline</v-icon>
                 </v-list-item-action>
                 <v-list-item-content>
                     <v-list-item-title>
@@ -62,7 +62,7 @@
 
              <v-list-item link :to="{name: 'studentProgress'}" exact v-if="role == 'Student'">
                 <v-list-item-action>
-                    <v-icon>mdi-book-variant-multiple</v-icon>
+                    <v-icon>mdi-chart-box-outline</v-icon>
                 </v-list-item-action>
                 <v-list-item-content>
                     <v-list-item-title>

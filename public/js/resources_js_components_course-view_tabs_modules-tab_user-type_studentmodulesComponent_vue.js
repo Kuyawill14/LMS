@@ -111,6 +111,40 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_lazytube__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(vue_lazytube__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var vue_element_loading__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vue-element-loading */ "./node_modules/vue-element-loading/lib/vue-element-loading.min.js");
 /* harmony import */ var vue_element_loading__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(vue_element_loading__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -230,6 +264,7 @@ var modulesListComponent = function modulesListComponent() {
     VuePdfApp: (vue_pdf_app__WEBPACK_IMPORTED_MODULE_0___default()),
     pdfviewer: _pdfview__WEBPACK_IMPORTED_MODULE_2__.default
   },
+  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_5__.mapGetters)(["getmain_module"])),
   data: function data() {
     return {
       pdfdialog: false,
@@ -257,6 +292,13 @@ var modulesListComponent = function modulesListComponent() {
     };
   },
   methods: {
+    getMainModulebyId: function getMainModulebyId(id) {
+      for (var i = 0; this.getmain_module.length; i++) {
+        if (this.getmain_module[i].id == id) {
+          return this.getmain_module[i];
+        }
+      }
+    },
     expandContent: function expandContent() {
       this.isExpand = !this.isExpand;
     },
@@ -336,6 +378,30 @@ var ___CSS_LOADER_URL_REPLACEMENT_4___ = _css_loader_dist_runtime_getUrl_js__WEB
 var ___CSS_LOADER_URL_REPLACEMENT_5___ = _css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_1___default()(_pdf_svg__WEBPACK_IMPORTED_MODULE_6__.default, { hash: "?#pdf" });
 // Module
 ___CSS_LOADER_EXPORT___.push([module.id, "@font-face{font-family:\"pdf\";src:url(" + ___CSS_LOADER_URL_REPLACEMENT_0___ + ");src:url(" + ___CSS_LOADER_URL_REPLACEMENT_1___ + ") format(\"embedded-opentype\"),url(" + ___CSS_LOADER_URL_REPLACEMENT_2___ + ") format(\"woff2\"),url(" + ___CSS_LOADER_URL_REPLACEMENT_3___ + ") format(\"woff\"),url(" + ___CSS_LOADER_URL_REPLACEMENT_4___ + ") format(\"truetype\"),url(" + ___CSS_LOADER_URL_REPLACEMENT_5___ + ") format(\"svg\");font-weight:normal;font-style:normal}.vue-pdf-app-icon::before,.vue-pdf-app-icon::after{font-family:\"pdf\";font-size:1.1rem;display:inline;text-decoration:inherit;text-align:center;font-variant:normal;text-transform:none;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}.vue-pdf-app-icon.sidebar-toggle::before{content:\"\"}.vue-pdf-app-icon.dropdown-toolbar-button::after{content:\"\"}.vue-pdf-app-icon.secondary-toolbar-toggle::before{content:\"\"}.vue-pdf-app-icon.find-previous::before{content:\"\"}.vue-pdf-app-icon.find-next::before{content:\"\"}.vue-pdf-app-icon.page-up::before{content:\"\"}.vue-pdf-app-icon.page-down::before{content:\"\"}.vue-pdf-app-icon.zoom-out::before{content:\"\"}.vue-pdf-app-icon.zoom-in::before{content:\"\"}.vue-pdf-app-icon.presentation-mode::before{content:\"\"}.vue-pdf-app-icon.print-button::before{content:\"\"}.vue-pdf-app-icon.open-file::before{content:\"\"}.vue-pdf-app-icon.download-button::before{content:\"\"}.vue-pdf-app-icon.bookmark-button::before{content:\"\"}.vue-pdf-app-icon.view-thumbnail::before{content:\"\"}.vue-pdf-app-icon.view-outline::before{content:\"\"}.vue-pdf-app-icon.view-attachments::before{content:\"\"}.vue-pdf-app-icon.view-find::before{content:\"\"}.vue-pdf-app-icon.first-page::before{content:\"\"}.vue-pdf-app-icon.last-page::before{content:\"\"}.vue-pdf-app-icon.rotate-clockwise::before{content:\"\"}.vue-pdf-app-icon.rotate-counter-clockwise::before{content:\"\"}.vue-pdf-app-icon.select-tool::before{content:\"\"}.vue-pdf-app-icon.hand-tool::before{content:\"\"}.vue-pdf-app-icon.scroll-vertical::before{content:\"\"}.vue-pdf-app-icon.scroll-horizontal::before{content:\"\"}.vue-pdf-app-icon.scroll-wrapped::before{content:\"\"}.vue-pdf-app-icon.spread-none::before{content:\"\"}.vue-pdf-app-icon.spread-odd::before{content:\"\"}.vue-pdf-app-icon.spread-even::before{content:\"\"}.vue-pdf-app-icon.document-properties::before{content:\"\"}html[dir=rtl] .vue-pdf-app-icon.find-previous::before{content:\"\"}html[dir=rtl] .vue-pdf-app-icon.find-next::before{content:\"\"}html[dir=rtl] .vue-pdf-app-icon.first-page::before{content:\"\"}html[dir=rtl] .vue-pdf-app-icon.last-page::before{content:\"\"}\n", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/modules-tab/user-type/pdfview.vue?vue&type=style&index=0&lang=css&":
+/*!*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/modules-tab/user-type/pdfview.vue?vue&type=style&index=0&lang=css& ***!
+  \*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+// Imports
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, "\n.toolbar {\n    z-index: 1 !important;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -561,15 +627,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _pdfview_vue_vue_type_template_id_069cef14___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./pdfview.vue?vue&type=template&id=069cef14& */ "./resources/js/components/course-view/tabs/modules-tab/user-type/pdfview.vue?vue&type=template&id=069cef14&");
 /* harmony import */ var _pdfview_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./pdfview.vue?vue&type=script&lang=js& */ "./resources/js/components/course-view/tabs/modules-tab/user-type/pdfview.vue?vue&type=script&lang=js&");
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* harmony import */ var _pdfview_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./pdfview.vue?vue&type=style&index=0&lang=css& */ "./resources/js/components/course-view/tabs/modules-tab/user-type/pdfview.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
+;
 
 
 /* normalize component */
-;
-var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__.default)(
+
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__.default)(
   _pdfview_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
   _pdfview_vue_vue_type_template_id_069cef14___WEBPACK_IMPORTED_MODULE_0__.render,
   _pdfview_vue_vue_type_template_id_069cef14___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
@@ -696,6 +764,23 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/course-view/tabs/modules-tab/user-type/pdfview.vue?vue&type=style&index=0&lang=css&":
+/*!*********************************************************************************************************************!*\
+  !*** ./resources/js/components/course-view/tabs/modules-tab/user-type/pdfview.vue?vue&type=style&index=0&lang=css& ***!
+  \*********************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_pdfview_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../../node_modules/vue-style-loader/index.js!../../../../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./pdfview.vue?vue&type=style&index=0&lang=css& */ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/modules-tab/user-type/pdfview.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_pdfview_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_pdfview_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ var __WEBPACK_REEXPORT_OBJECT__ = {};
+/* harmony reexport (unknown) */ for(const __WEBPACK_IMPORT_KEY__ in _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_pdfview_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== "default") __WEBPACK_REEXPORT_OBJECT__[__WEBPACK_IMPORT_KEY__] = () => _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_pdfview_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__[__WEBPACK_IMPORT_KEY__]
+/* harmony reexport (unknown) */ __webpack_require__.d(__webpack_exports__, __WEBPACK_REEXPORT_OBJECT__);
+
+
+/***/ }),
+
 /***/ "./resources/js/components/course-view/tabs/modules-tab/user-type/studentmodulesComponent.vue?vue&type=style&index=0&id=2a6a4450&scoped=true&lang=css&":
 /*!*************************************************************************************************************************************************************!*\
   !*** ./resources/js/components/course-view/tabs/modules-tab/user-type/studentmodulesComponent.vue?vue&type=style&index=0&id=2a6a4450&scoped=true&lang=css& ***!
@@ -751,7 +836,10 @@ var render = function() {
     [
       _c(
         "v-toolbar",
-        { attrs: { dark: "", color: "primary" } },
+        {
+          staticStyle: { display: "none" },
+          attrs: { dark: "", color: "primary" }
+        },
         [
           _c(
             "v-btn",
@@ -798,14 +886,13 @@ var render = function() {
       _vm._v(" "),
       _c(
         "div",
-        { staticStyle: { height: "94vh" } },
         [
           _c("vue-pdf-app", {
-            staticStyle: { height: "100vh" },
+            staticStyle: { height: "80vh" },
             attrs: {
               pdf: _vm.pdf_path,
               "id-config": _vm.idConfig,
-              "page-scale": 80
+              "page-scale": _vm.page - _vm.fit
             },
             on: { "pages-rendered": _vm.pagesRendered }
           })
@@ -932,41 +1019,21 @@ var render = function() {
                             1
                           ),
                           _vm._v(" "),
-                          _vm.type == "Document"
-                            ? _c(
-                                "v-dialog",
-                                {
-                                  attrs: {
-                                    fullscreen: "",
-                                    "hide-overlay": "",
-                                    transition: "dialog-bottom-transition"
-                                  },
-                                  model: {
-                                    value: _vm.pdfdialog,
-                                    callback: function($$v) {
-                                      _vm.pdfdialog = $$v
-                                    },
-                                    expression: "pdfdialog"
-                                  }
+                          _vm.type == "Document" && _vm.isSelectedModule
+                            ? _c("pdfviewer", {
+                                key: _vm.subModuleData.sub_module_name + 1,
+                                attrs: {
+                                  title: _vm.subModuleData.sub_module_name,
+                                  pdf_file:
+                                    "/storage/" +
+                                    _vm.subModuleData.file_attachment
                                 },
-                                [
-                                  _c("pdfviewer", {
-                                    attrs: {
-                                      title:
-                                        _vm.subModuleData.lsub_module_nameink,
-                                      pdf_file:
-                                        "/storage/" +
-                                        _vm.subModuleData.file_attachment
-                                    },
-                                    on: {
-                                      closePdf: function($event) {
-                                        _vm.pdfdialog = false
-                                      }
-                                    }
-                                  })
-                                ],
-                                1
-                              )
+                                on: {
+                                  closePdf: function($event) {
+                                    _vm.pdfdialog = false
+                                  }
+                                }
+                              })
                             : _vm._e()
                         ],
                         1
@@ -986,38 +1053,101 @@ var render = function() {
                       _c(
                         "v-col",
                         [
-                          _c("v-card-title", [
-                            _c("h2", [
-                              _vm._v(
-                                " " +
-                                  _vm._s(_vm.subModuleData.sub_module_name) +
-                                  " "
+                          _c(
+                            "v-tabs",
+                            { attrs: { color: "primary", center: "" } },
+                            [
+                              _c("v-tab", { attrs: { href: "#overview" } }, [
+                                _vm._v(
+                                  "\n                               Overview\n                           "
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("v-tab", { attrs: { href: "#description" } }, [
+                                _vm._v(
+                                  "\n                               Description\n                           "
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "v-tab-item",
+                                { attrs: { id: "overview" } },
+                                [
+                                  _c("v-card-title", [
+                                    _c("h2", [
+                                      _vm._v(
+                                        " " +
+                                          _vm._s(
+                                            _vm.getMainModulebyId(
+                                              _vm.subModuleData.main_module_id
+                                            ).module_name
+                                          ) +
+                                          " -\n                                       " +
+                                          _vm._s(
+                                            _vm.subModuleData.sub_module_name
+                                          ) +
+                                          " "
+                                      )
+                                    ])
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("v-divider"),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-card-text",
+                                    { staticClass: "text--primary" },
+                                    [
+                                      _c("div", {
+                                        domProps: {
+                                          innerHTML: _vm._s(
+                                            _vm.getMainModulebyId(
+                                              _vm.subModuleData.main_module_id
+                                            ).description
+                                          )
+                                        }
+                                      })
+                                    ]
+                                  )
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-tab-item",
+                                { attrs: { id: "description" } },
+                                [
+                                  _c(
+                                    "v-card-text",
+                                    { staticClass: "text--primary" },
+                                    [
+                                      _c("div", {
+                                        domProps: {
+                                          innerHTML: _vm._s(
+                                            _vm.subModuleData.description
+                                          )
+                                        }
+                                      }),
+                                      _vm._v(" "),
+                                      _c(
+                                        "a",
+                                        {
+                                          attrs: {
+                                            href:
+                                              "/storage/" +
+                                              _vm.subModuleData.file_attachment,
+                                            target: "_blank"
+                                          }
+                                        },
+                                        [_vm._v("Download")]
+                                      )
+                                    ]
+                                  )
+                                ],
+                                1
                               )
-                            ])
-                          ]),
-                          _vm._v(" "),
-                          _c("v-divider"),
-                          _vm._v(" "),
-                          _c("v-card-text", { staticClass: "text--primary" }, [
-                            _c("div", [
-                              _vm._v(
-                                " " + _vm._s(_vm.subModuleData.description)
-                              )
-                            ]),
-                            _vm._v(" "),
-                            _c(
-                              "a",
-                              {
-                                attrs: {
-                                  href:
-                                    "/storage/" +
-                                    _vm.subModuleData.file_attachment,
-                                  target: "_blank"
-                                }
-                              },
-                              [_vm._v("Download")]
-                            )
-                          ])
+                            ],
+                            1
+                          )
                         ],
                         1
                       )
@@ -63828,6 +63958,27 @@ if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
 var add = __webpack_require__(/*! !../../../vue-style-loader/lib/addStylesClient.js */ "./node_modules/vue-style-loader/lib/addStylesClient.js").default
 var update = add("021c84ab", content, false, {});
+// Hot Module Replacement
+if(false) {}
+
+/***/ }),
+
+/***/ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/modules-tab/user-type/pdfview.vue?vue&type=style&index=0&lang=css&":
+/*!******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-style-loader/index.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/modules-tab/user-type/pdfview.vue?vue&type=style&index=0&lang=css& ***!
+  \******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(/*! !!../../../../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./pdfview.vue?vue&type=style&index=0&lang=css& */ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/modules-tab/user-type/pdfview.vue?vue&type=style&index=0&lang=css&");
+if(content.__esModule) content = content.default;
+if(typeof content === 'string') content = [[module.id, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var add = __webpack_require__(/*! !../../../../../../../node_modules/vue-style-loader/lib/addStylesClient.js */ "./node_modules/vue-style-loader/lib/addStylesClient.js").default
+var update = add("3b914bce", content, false, {});
 // Hot Module Replacement
 if(false) {}
 

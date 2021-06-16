@@ -1,12 +1,15 @@
 import axios from 'axios'
 
 const state = {
-    main_module: []
+    main_module: [],
+    single_main_module: []
 };
 const getters = {
     getmain_module: (state) => state.main_module,
 
-
+    getmain_modulebyId: state => id => {
+        return state.main_module.filter(main_module => main_module.main_module_id == id);
+    },
 };
 
 const actions = {

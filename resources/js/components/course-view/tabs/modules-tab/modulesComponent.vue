@@ -60,7 +60,7 @@
 
             <v-row>
 
-                <modulesListComponent />
+                <modulesListComponent :role="role" />
 
             </v-row>
 

@@ -101,21 +101,16 @@
                                 </v-menu>
                             </v-img>
 
-                            <v-card-title>
-                                <router-link :to="{name: 'coursePage', params: {id: item.id}}">
-                                    {{item.course_code + ' - ' + item.course_name}}
-                                </router-link>
-                            </v-card-title>
-
                             <v-card-subtitle>
-                                {# of students} <br>
+                               <router-link :to="{name: 'coursePage', params: {id: item.id}}" style="text-decoration: none">
+                                    <p style="font-size: 16px;">{{item.course_code }} 
+                                    <br> {{ item.course_name}}
+                                    </p>
+                                </router-link>
+                                 <hr>
+                                  {# of students} <br>
                                 {# of class}
                             </v-card-subtitle>
-
-                            <v-card-actions>
-
-
-                            </v-card-actions>
 
 
                         </v-card>

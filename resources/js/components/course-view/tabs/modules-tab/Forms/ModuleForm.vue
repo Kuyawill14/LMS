@@ -2,7 +2,7 @@
     <v-card>
         <v-form ref="registerForm">
             <v-card-title>
-                <span class="headline">Add Module</span>
+                <span class="headline">{{type == 'edit' ? 'Add Module' : 'Edit Module'}}</span>
             </v-card-title>
             <v-card-text>
                 <v-container>
@@ -11,10 +11,12 @@
                             <v-text-field label="Module Name*" v-model="moduleForm.module_name" required>
                             </v-text-field>
                         </v-col>
-                        <v-col cols="12">
-                            <v-textarea clearable clear-icon="mdi-close-circle" label="Description"
-                                v-model="moduleForm.description"></v-textarea>
+                          <v-col cols="12 pb-0">
+                            <editor style="outline:none;" placeholder="Description" v-model="moduleForm.description"
+                                theme="snow" :options="options"></editor>
+                           
                         </v-col>
+                        
                     </v-row>
                 </v-container>
             </v-card-text>
@@ -52,6 +54,28 @@
                     course_id: ''
                 }),
                 class_details: '',
+                options: {
+                    modules: {
+                        'toolbar': [
+                            ['bold', 'italic', 'underline', 'strike'],
+                            [{
+                                'header': [1, 2, 3, 4, 5, false]
+                            }],
+                            [{
+                                'align': []
+                            }],
+                            [{
+                                'color': []
+                            }],
+                            [{
+                                'list': 'ordered'
+                            }, {
+                                'list': 'bullet'
+                            }],
+                            ['link', 'image', 'video'],
+                        ],
+                    },
+                }
             }
         },
         methods: {

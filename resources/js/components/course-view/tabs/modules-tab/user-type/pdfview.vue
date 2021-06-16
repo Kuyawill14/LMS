@@ -4,7 +4,7 @@
 
     <v-card>
         
-        <v-toolbar dark color="primary">
+        <v-toolbar dark color="primary" style="display:none">
             <v-btn icon dark @click="$emit('closePdf')">
                 <v-icon>mdi-close</v-icon>
             </v-btn>
@@ -23,10 +23,10 @@
             </v-toolbar-items>
         </v-toolbar>
      
-        <div style="height: 94vh;">
+        <div >
 
-            <vue-pdf-app :pdf="pdf_path" :id-config="idConfig" :page-scale="80" @pages-rendered="pagesRendered"
-                style="height:100vh">
+            <vue-pdf-app :pdf="pdf_path" :id-config="idConfig" :page-scale="page-fit" @pages-rendered="pagesRendered"
+                style="height:80vh">
                
             </vue-pdf-app>
 
@@ -85,3 +85,10 @@
     };
 
 </script>
+
+
+<style >
+    .toolbar {
+        z-index: 1 !important;
+    }
+</style>

@@ -16,7 +16,7 @@
                         </v-col>
 
                         <v-col cols="12 pb-0">
-                            <editor style="outline:none;" placeholder="Description" v-model="subModuleForm.drescription"
+                            <editor style="outline:none;" placeholder="Description" v-model="subModuleForm.description"
                                 theme="snow" :options="options"></editor>
                            
                         </v-col>

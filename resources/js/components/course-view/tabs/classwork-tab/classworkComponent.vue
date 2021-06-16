@@ -15,7 +15,7 @@
                 </v-icon>
                 <h1> Empty Classwork </h1>
                 <p> {{role == 'Teacher' ? "'Creating Classwork, you'll be able to publish classwork to your class.": 'No, Assign Classwork Yet!'}} </p>
-                <v-btn v-if="role == 'Teacher'" color="primary" @click="role == 'Teacher' ? dialog = !dialog:''"> CREATE CLASS </v-btn>
+                <v-btn v-if="role == 'Teacher'" color="primary" @click="role == 'Teacher' ? dialog = !dialog:''"> CREATE CLASSWORK </v-btn>
             </v-col>
         </v-row>
 
