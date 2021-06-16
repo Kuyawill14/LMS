@@ -325,6 +325,8 @@ var modulesListComponent = function modulesListComponent() {
   created: function created() {
     var _this = this;
 
+    console.log(this.role);
+
     if (this.subModuleData) {
       this.loading = true;
     }
@@ -1209,7 +1211,7 @@ var render = function() {
                 [
                   _c("modulesListComponent", {
                     staticStyle: { height: "100vh" },
-                    attrs: { expand: _vm.removeX },
+                    attrs: { role: _vm.role, expand: _vm.removeX },
                     on: {
                       subModule: _vm.getsubModuleData,
                       listClose: _vm.expandContent

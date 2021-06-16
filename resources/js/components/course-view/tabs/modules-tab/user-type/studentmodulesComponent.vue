@@ -102,7 +102,7 @@
 
             <v-col lg="4" cols="12" sm="12" md="12" class="pa-0 border"
                 v-if="isExpand == false && isChangeSize == false">
-                <modulesListComponent v-on:subModule="getsubModuleData" v-on:listClose="expandContent" :expand="removeX"
+                <modulesListComponent v-on:subModule="getsubModuleData" :role="role" v-on:listClose="expandContent" :expand="removeX"
                     style="height:100vh;" />
             </v-col>
 
@@ -224,6 +224,7 @@
             }
         },
         created() {
+            console.log(this.role);
             if (this.subModuleData) {
                 this.loading = true;
             }

@@ -293,7 +293,6 @@
 
         },
         async mounted() {
-            console.log(this.role);
 
             this.fetchClass();
 

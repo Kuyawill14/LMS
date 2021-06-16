@@ -181,7 +181,9 @@ const router = new Router({
                         {
                             name: "student-modules",
                             path: "my-modules",
-                            component: studentmodules_tab
+                            component: studentmodules_tab,
+                            props: { role: 'Student' }
+
                         },
                         {
                             name: "modules-preview",

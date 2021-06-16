@@ -299,8 +299,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              console.log(_this5.role);
-
               _this5.fetchClass();
 
               _this5.fetchStudentModuleProgress();
@@ -313,7 +311,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
               _this5.loading = false;
 
-            case 7:
+            case 6:
             case "end":
               return _context.stop();
           }
