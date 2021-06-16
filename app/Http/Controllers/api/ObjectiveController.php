@@ -22,18 +22,22 @@ class ObjectiveController extends Controller
      */
     public function index($id)
     {
-        
-        $Questions = tbl_Questions::where('tbl_questions.classwork_id', $id)
-        ->Select('tbl_questions.id', 'tbl_questions.question', 'tbl_questions.type',
-        'tbl_questions.answer','tbl_questions.points')
-        /* ->orderBy('created_at','DESC') */
-        ->get();
+       
         
         $temQuest;
         if(auth('sanctum')->user()->role == 'Student'){
+            $Questions = tbl_Questions::where('tbl_questions.classwork_id', $id)
+            ->Select('tbl_questions.id', 'tbl_questions.question', 'tbl_questions.type','tbl_questions.points')
+            ->orderBy('created_at','DESC')
+            ->get();
             $temQuest = $Questions->shuffle();
         }
         else{
+            $Questions = tbl_Questions::where('tbl_questions.classwork_id', $id)
+            ->Select('tbl_questions.id', 'tbl_questions.question', 'tbl_questions.type',
+            'tbl_questions.answer','tbl_questions.points')
+            ->orderBy('created_at','DESC')
+            ->get();
             $temQuest = $Questions;
         }
         $FinalAnswer = array();
@@ -41,13 +45,30 @@ class ObjectiveController extends Controller
         $tempAnswer = new Collection();
         foreach($temQuest as $cl){
            
-            $tempData1 = tbl_choice::where('tbl_choices.question_id',$cl->id)
-            ->select('tbl_choices.id','tbl_choices.question_id','tbl_choices.Choice')
-            ->get();
+            $tempData1;
+            $tempSubQuestion;
+            if(auth('sanctum')->user()->role == 'Student'){
+                $tempData1 = tbl_choice::where('tbl_choices.question_id',$cl->id)
+                ->select('tbl_choices.id','tbl_choices.question_id','tbl_choices.Choice')
+                ->get();
 
-            $tempSubQuestion = tbl_SubQuestion::where('tbl_sub_questions.mainQuestion_id',$cl->id)
-            ->select('tbl_sub_questions.id','tbl_sub_questions.answer_id','tbl_sub_questions.sub_question')
-            ->get();
+                $tempSubQuestion = tbl_SubQuestion::where('tbl_sub_questions.mainQuestion_id',$cl->id)
+                ->select('tbl_sub_questions.id','tbl_sub_questions.sub_question')
+                ->get();
+            }
+            else{
+                $tempData1 = tbl_choice::where('tbl_choices.question_id',$cl->id)
+                ->select('tbl_choices.id','tbl_choices.question_id','tbl_choices.Choice')
+                ->get();
+
+                $tempSubQuestion = tbl_SubQuestion::where('tbl_sub_questions.mainQuestion_id',$cl->id)
+                ->select('tbl_sub_questions.id','tbl_sub_questions.answer_id','tbl_sub_questions.sub_question')
+                ->get();
+            }
+
+            
+
+           
 
             if($cl->type != 'Matching type'){
                 $tempData2;
@@ -242,7 +263,7 @@ class ObjectiveController extends Controller
      */
     public function check(Request $request, $id)
     {
-        return $request;
+    
         $questionCount = tbl_Questions::where('tbl_questions.classwork_id', $id)->count();
         $Questions = tbl_Questions::where('tbl_questions.classwork_id', $id)
         ->Select('tbl_questions.id', 'tbl_questions.type','tbl_questions.answer','tbl_questions.points')
@@ -250,8 +271,7 @@ class ObjectiveController extends Controller
 
         $tempData = array();
         $score = 0;
-       
-
+    
         foreach($request->item as $cl){
             if($cl['type'] == 'Multiple Choice' || $cl['type'] == 'Identification' || $cl['type'] == 'True or False')
             {
@@ -259,21 +279,56 @@ class ObjectiveController extends Controller
                     if($ques['id'] == $cl['Question_id']){
                         if($ques['answer'] == $cl['Answer']){
                             $score += $ques['points'];
-                            $AnalyticsFind = tbl_questionAnalytic::where('questions_id', $cl['Question_id']);
+                            $AnalyticsFind = tbl_questionAnalytic::where("tbl_question_analytics.question_id",$cl['Question_id'])->first();
+                        
                             if($AnalyticsFind){
                                 $AnalyticsFind->correct_count = ($AnalyticsFind->correct_count+1);
-                              /*   if($AnalyticsFind->shortest_time < ) */
+                                if($AnalyticsFind->shortest_time > $cl['timeConsume']){
+                                   $AnalyticsFind->shortest_time = $cl['timeConsume'];
+                                }
+
+                                if($AnalyticsFind->longest_time < $cl['timeConsume']){
+                                    $AnalyticsFind->longest_time  = $cl['timeConsume'];
+                                }
+                                $AnalyticsFind->average_time = $AnalyticsFind->average_time + $cl['timeConsume'];
+                                $AnalyticsFind->save();
                             }
                             else{
-
+                                $NewAnalytics  = new tbl_questionAnalytic;
+                                $NewAnalytics->question_id = $cl['Question_id'];
+                                $NewAnalytics->correct_count = 1;
+                                $NewAnalytics->wrong_count = 0;
+                                $NewAnalytics->shortest_time = $cl['timeConsume'];
+                                $NewAnalytics->longest_time = $cl['timeConsume'];
+                                $NewAnalytics->average_time = $cl['timeConsume'];
+                                $NewAnalytics->save();
                             }
                         }
                         else{
+                            $AnalyticsFind = tbl_questionAnalytic::where("tbl_question_analytics.question_id",$cl['Question_id'])->first();
+                            if($AnalyticsFind){
+                                $AnalyticsFind->wrong_count = ($AnalyticsFind->correct_count+1);
+                                if($AnalyticsFind->shortest_time > $cl['timeConsume']){
+                                   $AnalyticsFind->shortest_time = $cl['timeConsume'];
+                                }
 
+                                if($AnalyticsFind->longest_time < $cl['timeConsume']){
+                                    $AnalyticsFind->longest_time  = $cl['timeConsume'];
+                                }
+                                $AnalyticsFind->average_time = $AnalyticsFind->average_time + $cl['timeConsume'];
+                                $AnalyticsFind->save();
+                            }
+                            else{
+                                $NewAnalytics  = new tbl_questionAnalytic;
+                                $NewAnalytics->question_id = $cl['Question_id'];
+                                $NewAnalytics->correct_count = 0;
+                                $NewAnalytics->wrong_count = 1;
+                                $NewAnalytics->shortest_time = $cl['timeConsume'];
+                                $NewAnalytics->longest_time = $cl['timeConsume'];
+                                $NewAnalytics->average_time = $cl['timeConsume'];
+                                $NewAnalytics->save();
+                            }
                         }
-                        
-                      
-                        //$newAnalytics  = new tbl_questionAnalytic;
                     }
                 }
             }
