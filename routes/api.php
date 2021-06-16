@@ -17,6 +17,8 @@ use App\Http\Controllers\api\ObjectiveController;
 use App\Http\Controllers\api\GradingCriteriaController;
 use App\Http\Controllers\api\CommentController;
 use App\Http\Controllers\api\GradebookController;
+use App\Http\Controllers\api\AnalyticsController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -177,6 +179,14 @@ Route::prefix('/grade-book')->group(function () {
     Route::get('/classworks/{id}', [GradebookController::class, 'fetchClassworks']);
     
 });
+
+
+//Question Analytics
+Route::prefix('/QAnalytics')->group(function () {
+    Route::get('/all/{id}', [AnalyticsController::class, 'index']);
+    
+});
+
 
 
 

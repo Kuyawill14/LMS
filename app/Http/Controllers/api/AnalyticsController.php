@@ -4,17 +4,26 @@ namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Models\tbl_Questions;
 
 class AnalyticsController extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
+     *@param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($id)
     {
-        //
+        $analytics = tbl_Questions::where('tbl_questions.classwork_id','=',$id)
+        ->select('tbl_questions.id','tbl_questions.question', 
+        'tbl_question_analytics.correct_count','tbl_question_analytics.wrong_count','tbl_question_analytics.average_time')
+        ->leftJoin('tbl_question_analytics', 'tbl_question_analytics.question_id', '=', 'tbl_questions.id')
+        ->orderBy('tbl_questions.created_at','DESC')
+        ->get();
+        return $analytics;
+
     }
 
     /**

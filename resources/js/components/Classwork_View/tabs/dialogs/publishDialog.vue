@@ -1,6 +1,6 @@
 <template>
    <v-card style="border-top:3px solid #EF6C00">
-        <v-form ref="registerForm" lazy-validation>
+        <v-form ref="publishForm" v-model="valid" lazy-validation>
             <v-card-title>
                 <span class="headline">Publish to <span class="primary--text">"{{ClassDetails.class_name}}"</span></span>
             </v-card-title>
@@ -8,14 +8,22 @@
                 <v-container >
                     <v-row>
                         <v-col  ma-0 pa-0 class="pa-0 ma-0" cols="12">
-                          <v-select
-                          style="width:100%"
-                            
-                            class="pa-0 ma-0"
-                            :items="['Quiz', 'Prelim', 'Midterm', 'Finals']"
-                            outlined
-                            label="Grading Criteria"
-                            ></v-select> 
+                            <v-select
+                                :rules="FieldRules"
+                                :items="GradingItems"
+                                item-text="value"
+                                v-model="GradingCriteria_id"
+                                item-value="id"
+                                outlined
+                                label="Grading Criteria"
+                                >
+                                <template slot="selection" slot-scope="data">
+                                    {{ data.item.name }} - {{ data.item.percentage+'%'}}
+                                </template>
+                                <template slot="item" slot-scope="data">
+                                    {{ data.item.name }} - {{ data.item.percentage+'%' }}
+                                </template>
+                            </v-select>
                        </v-col>
 
                         <v-col  ma-0 pa-0 class="text-left pa-0 ma-0" cols="12">
@@ -40,6 +48,7 @@
                                 > 
                             </v-datetime-picker> -->
                             <v-text-field
+                                :rules="FieldRules"
                                 class="pa-0 ma-0"
                                 v-model="duedate"
                                 outlined
@@ -68,6 +77,7 @@
 
                             <v-col v-if="showAnsType == 'Set Date'"  ma-0 pa-0 class="text-left pa-0 ma-0" cols="12">
                                  <v-text-field
+                                :rules="FieldRules"
                                 v-if="showAnsType == 'Set Date'"
                                 class="pa-0 ma-0"
                                 v-model="ShowAnswerDate"
@@ -93,7 +103,7 @@
             <v-card-actions class="pb-5">
                 <v-spacer></v-spacer>
                
-                <v-btn rounded  color="primary" text  @click="shareClasswork()" :disabled="loading">
+                <v-btn rounded  color="primary" text  @click="validate()" :disabled="loading">
                     {{!ClassDetails.status ? 'Publish': 'Unpublish'}}
                 </v-btn>
                  <v-btn  rounded color="secondary" text @click="$emit('toggleDialog')" :disabled="loading">
@@ -109,6 +119,7 @@ export default {
     props:['Details'],
     data(){
         return{
+            valid: false,
             ClassDetails:{},
             loading:false,
             duedate:null,
@@ -130,11 +141,20 @@ export default {
             EnableDue: false,
             response_late:false,
             showAnsType:'After Classwork Done',
-            GradingCriteria_id:''
+            GradingCriteria_id:'',
+            GradingItems:[],
+            FieldRules: [
+                v => !!v || 'Field is required',
+            ],
         }
     },
     methods:{
-        shareClasswork() {
+         validate () {
+            if(this.$refs.publishForm.validate()){
+                this.shareClasswork();
+            }
+        },
+        async shareClasswork() {
             const fd = new FormData();
             fd.append("classwork_id", this.ClassDetails.id);
             fd.append("class_id", this.ClassDetails.class_id);
@@ -152,22 +172,22 @@ export default {
                     console.log(e);
                 })
         },
-        getPublishDetails(){
-            if(this.Details.status == false){
-                 let newDate = new Date();
-                this.duedate = moment(newDate).format("YYYY-MM-DDTHH:mm:ss");
-                this.ClassDetails = this.Details;
-                this.ShowAnswerDate =  this.duedate;
-            }else{
-                 let newDate = new Date();
-                 
-                this.duedate = moment(newDate).format("YYYY-MM-DDTHH:mm:ss");
-                this.ClassDetails = this.Details;
-                this.ShowAnswerDate =  this.duedate;
-            }
+        async getPublishDetails(){
+            let newDate = new Date();
+            this.duedate = moment(newDate).format("YYYY-MM-DDTHH:mm:ss");
+            this.ClassDetails = this.Details;
+            this.ShowAnswerDate =  this.duedate;
+        },
+        async getGradingCriteria(){
+            axios.get('/api/grading-criteria/all/'+this.$route.params.id)
+            .then(res=>{
+                this.GradingItems = res.data;
+            })
+            
         }
     },
-    mounted(){
+    created(){
+        this.getGradingCriteria();
        this.getPublishDetails();
     }
 }

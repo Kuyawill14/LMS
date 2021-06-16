@@ -11,7 +11,7 @@
                                 <v-row>
                               
                                     <v-col  cols="12" md="12" class="pt-1">
-                                         <v-simple-table fixed-header max-height="500px">
+                                         <v-simple-table class="mt-3" fixed-header max-height="500px">
                                             <template v-slot:default>
                                             <thead>
                                                 <tr>
@@ -32,12 +32,18 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <td class="text-center">1</td>
-                                                    <td width="450">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</td>
-                                                    <td class="text-center">5</td>
-                                                    <td class="text-center">10</td>
-                                                    <td class="text-center">2mins</td>
+                                                <tr v-for="item in List" :key="item.id">
+                                                    <td class="text-center">{{item.id}}</td>
+                                                    <td class="text-left ">
+                                                         <div :style="$vuetify.breakpoint.xs ? 'line-height:1.1': 'line-height:1.5'" class="caption">
+                                                             <span v-html="item.question" class="post-content"></span>
+                                                        </div>
+                                                    </td>
+                                                    
+                                                  
+                                                    <td class="text-center">{{item.correct_count == null ? 0 : item.correct_count}}</td>
+                                                    <td class="text-center">{{item.wrong_count == null ? 0 : item.wrong_count}}</td>
+                                                    <td class="text-center">{{item.average_time/(item.correct_count+item.wrong_count)}}{{item.average_time == null ? '' : 's' }}</td>
                                                 
                                                 </tr>
                                             </tbody>
@@ -54,8 +60,24 @@
 </v-app>
 </template>
 <script>
-
-
+export default {
+    data(){
+        return{
+            List:[]
+        }
+    },
+    methods:{
+       async GetList(){
+            axios.get('/api/QAnalytics/all/'+this.$route.query.clwk)
+            .then(res=>{
+                this.List = res.data;
+            })
+        }
+    },
+    mounted(){
+        this.GetList();
+    }
+}
 </script>
 
 <style scoped>
