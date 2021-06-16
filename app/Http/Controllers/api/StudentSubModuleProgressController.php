@@ -99,13 +99,14 @@ class StudentSubModuleProgressController extends Controller
         'tbl_sub_modules.sub_module_name',
         DB::raw('SUM(tbl_student_sub_module_progress.time_spent) AS total_time_spent'),
         DB::raw('SUM(tbl_sub_modules.required_time) AS total_required_time'),
-        DB::raw('COUNT(case when tbl_student_sub_module_progress.completed = 1 then 1 else 0 end ) AS completed'))
+        DB::raw('SUM(case when tbl_student_sub_module_progress.completed = 1 then 1 else 0 end ) AS completed'))
         ->leftJoin('users', 'users.id', '=', 'tbl_student_sub_module_progress.student_id')
         ->leftJoin('tbl_main_modules', 'tbl_main_modules.id', '=', 'tbl_student_sub_module_progress.main_module_id')
         ->leftJoin('tbl_sub_modules', 'tbl_sub_modules.id', '=', 'tbl_student_sub_module_progress.sub_module_id')
         ->where('tbl_student_sub_module_progress.course_id', $id )
         // ->where('tbl_student_sub_module_progress.student_id',1 )
         ->groupBy( 'tbl_student_sub_module_progress.student_id')
+        ->orderBy('users.lastName', 'ASC')
 
         ->get();
 
@@ -120,30 +121,57 @@ class StudentSubModuleProgressController extends Controller
     }
 
     public function studentSubProgress($id) {
-          // $userId = auth('sanctum')->id();
 
-          $allSubModulesProgress = DB::table('tbl_userclasses')
-          ->select('tbl_userclasses.id as uc_id', 'users.firstName','users.middleName','users.lastName',
-          'tbl_main_modules.module_name',
-          'tbl_main_modules.id as main_module_id',
-          'tbl_sub_modules.id as sub_module_id',
-          'tbl_sub_modules.sub_module_name',
-          'tbl_sub_modules.required_time',
-          'tbl_userclasses.user_id as student_id', 
-          )
-
-          ->leftJoin('users', 'users.id','=','tbl_userclasses.user_id')
-          ->leftJoin('tbl_main_modules', 'tbl_main_modules.course_id','=','tbl_userclasses.course_id')
-          ->leftJoin('tbl_sub_modules', 'tbl_sub_modules.main_module_id','=','tbl_main_modules.id')
-          ->where('users.role', 'Student')
-          ->where('tbl_userclasses.course_id', $id)
-          ->get();
-
-          $allSubModulesProgress = json_decode($allSubModulesProgress, true);
-          $studentProgress = DB::table('tbl_student_sub_module_progress')
-          ->where('tbl_student_sub_module_progress.course_id',$id)
-          ->get();
-          $studentProgress = json_decode($studentProgress, true);
+          $userId = auth('sanctum')->id();
+            if(auth('sanctum')->user()->role == 'Teacher') {
+                $allSubModulesProgress = DB::table('tbl_userclasses')
+                ->select('tbl_userclasses.id as uc_id', 'users.firstName','users.middleName','users.lastName',
+                'tbl_main_modules.module_name',
+                'tbl_main_modules.id as main_module_id',
+                'tbl_sub_modules.id as sub_module_id',
+                'tbl_sub_modules.sub_module_name',
+                'tbl_sub_modules.required_time',
+                'tbl_userclasses.user_id as student_id', 
+                )
+      
+                ->leftJoin('users', 'users.id','=','tbl_userclasses.user_id')
+                ->leftJoin('tbl_main_modules', 'tbl_main_modules.course_id','=','tbl_userclasses.course_id')
+                ->leftJoin('tbl_sub_modules', 'tbl_sub_modules.main_module_id','=','tbl_main_modules.id')
+                ->where('users.role', 'Student')
+                ->where('tbl_userclasses.course_id', $id)
+                ->get();
+      
+                $allSubModulesProgress = json_decode($allSubModulesProgress, true);
+                $studentProgress = DB::table('tbl_student_sub_module_progress')
+                ->where('tbl_student_sub_module_progress.course_id',$id)
+                ->get();
+                $studentProgress = json_decode($studentProgress, true);
+            } else if (auth('sanctum')->user()->role == 'Student') {
+                $allSubModulesProgress = DB::table('tbl_userclasses')
+                ->select('tbl_userclasses.id as uc_id', 'users.firstName','users.middleName','users.lastName',
+                'tbl_main_modules.module_name',
+                'tbl_main_modules.id as main_module_id',
+                'tbl_sub_modules.id as sub_module_id',
+                'tbl_sub_modules.sub_module_name',
+                'tbl_sub_modules.required_time',
+                'tbl_userclasses.user_id as student_id', 
+                )
+      
+                ->leftJoin('users', 'users.id','=','tbl_userclasses.user_id')
+                ->leftJoin('tbl_main_modules', 'tbl_main_modules.course_id','=','tbl_userclasses.course_id')
+                ->leftJoin('tbl_sub_modules', 'tbl_sub_modules.main_module_id','=','tbl_main_modules.id')
+                ->where('users.role', 'Student')
+                ->where('tbl_userclasses.course_id', $id)
+                ->where('users.id', $userId)
+                ->get();
+               
+                $allSubModulesProgress = json_decode($allSubModulesProgress, true);
+                $studentProgress = DB::table('tbl_student_sub_module_progress')
+                ->where('tbl_student_sub_module_progress.course_id',$id)
+                ->get();
+                $studentProgress = json_decode($studentProgress, true);
+            }
+         
 
 
           for($i = 0; $i < count($allSubModulesProgress) ; $i++) {

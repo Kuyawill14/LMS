@@ -61,18 +61,18 @@
         },
         watch: {
             $route(to, from) {
-              this.hideCard();
+                this.hideCard();
 
             }
         },
         methods: {
             hideCard() {
-  this.routeName = this.$route.matched[2].name;
-              
+                this.routeName = this.$route.matched[2].name;
+
                 if (this.routeName == 'student-modules' || this.routeName == 'modules-preview') {
                     this.showCard = false;
                 }
-            
+
             },
             ...mapActions(['fetchScourse']),
             disconnect() {
@@ -98,7 +98,7 @@
 
 
         created() {
-             this.hideCard();
+            this.hideCard();
             this.isloading = true;
             this.course_id = this.$route.params.id;
             this.routeName = this.$route.matched[2].name;

@@ -177,7 +177,6 @@
                     .then((res) => {
                         this.$store.dispatch('studentmodule_progress', this.$route.params.id);
                         this.$store.dispatch('fetchClassList')
-
                         this.fetchStudentModuleProgress();
 
 

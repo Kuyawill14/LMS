@@ -346,6 +346,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['role']
 });
@@ -23057,6 +23068,39 @@ var render = function() {
                         _c("v-list-item-title", [
                           _vm._v(
                             "\n                  Student's Progress\n                "
+                          )
+                        ])
+                      ],
+                      1
+                    )
+                  ],
+                  1
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.role == "Student"
+              ? _c(
+                  "v-list-item",
+                  {
+                    attrs: {
+                      link: "",
+                      to: { name: "studentProgress" },
+                      exact: ""
+                    }
+                  },
+                  [
+                    _c(
+                      "v-list-item-action",
+                      [_c("v-icon", [_vm._v("mdi-book-variant-multiple")])],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "v-list-item-content",
+                      [
+                        _c("v-list-item-title", [
+                          _vm._v(
+                            "\n                 My Progress\n                "
                           )
                         ])
                       ],

@@ -39,7 +39,7 @@ const actions = {
         const res = await axios.get(
             `/api/student_sub_module/student_progress/${id}`
         );
-        //console.log(res.data);
+
         commit('FETCH_STUDENT_MODULE_PROGRESS', res.data);
         return;
     },
