@@ -49,7 +49,7 @@ export default {
             tabs: null,
         }
     },
-    mounted(){
+    created(){
         if (this.classworkDetails.type == 'Subjective Type') {
             this.tabs = this.SubjectiveTabs;
         }

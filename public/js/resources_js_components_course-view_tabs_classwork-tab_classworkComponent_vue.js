@@ -103,9 +103,8 @@ var newClassworkModal = function newClassworkModal() {
       this.isGetting = true;
       this.$store.dispatch('fetchClassworks', this.$route.params.id).then(function (res) {
         if (res == 200) {
-          _this.ClassworkLength = _this.get_Classworks.length; //setTimeout(() => {
-
-          _this.isGetting = false; //}, 1000);
+          _this.ClassworkLength = _this.get_Classworks.length;
+          _this.isGetting = false;
         }
       });
     }
@@ -347,7 +346,12 @@ var render = function() {
       _vm._v(" "),
       !_vm.isGetting && _vm.ClassworkLength != 0
         ? _c("classworkList", {
-            attrs: { classworks: _vm.get_Classworks, role: _vm.role }
+            attrs: { classworks: _vm.get_Classworks, role: _vm.role },
+            on: {
+              ToggleRefresh: function($event) {
+                return _vm.getGeneralClassworks()
+              }
+            }
           })
         : _vm._e(),
       _vm._v(" "),

@@ -29,9 +29,11 @@ class ClassworkController extends Controller
         else{
             $classworkAll = tbl_classClassworks::where('tbl_userclasses.course_id','=', $id)
             ->where('tbl_userclasses.user_id','=', $userId)
-            ->select('tbl_class_classworks.*', 'tbl_classworks.type', 'tbl_classworks.title', 'tbl_classworks.points','tbl_classworks.instruction')
+            ->select('tbl_class_classworks.*', 'tbl_classworks.type', 'tbl_classworks.title', 'tbl_classworks.points'
+            ,'tbl_classworks.instruction', 'tbl_submissions.status', 'tbl_submissions.points as score', 'tbl_submissions.created_at as Sub_date')
             ->leftJoin('tbl_classworks', 'tbl_classworks.id', '=', 'tbl_class_classworks.classwork_id')
             ->leftJoin('tbl_userclasses', 'tbl_class_classworks.class_id', '=', 'tbl_userclasses.class_id')
+            ->leftJoin('tbl_submissions', 'tbl_submissions.classwork_id', '=', 'tbl_class_classworks.classwork_id')
             ->orderBy('created_at', 'DESC')
             ->get();
             return $classworkAll;  
@@ -126,7 +128,10 @@ class ClassworkController extends Controller
         }
         else{
             $classworkDetails = tbl_classwork::where('tbl_classworks.id','=', $id)
-            ->select('tbl_classworks.*', 'tbl_class_classworks.due_date','tbl_userclasses.user_id')
+            ->select('tbl_classworks.*', 
+            'tbl_class_classworks.enable_due','tbl_class_classworks.due_date','tbl_class_classworks.showAnswer','tbl_class_classworks.showDate',
+            'tbl_class_classworks.response_late',
+            'tbl_userclasses.user_id')
             ->leftJoin('tbl_class_classworks', 'tbl_class_classworks.classwork_id','=','tbl_classworks.id')
             ->leftJoin('tbl_userclasses', 'tbl_userclasses.user_id','=', 'tbl_classworks.user_id')
             ->get();
@@ -174,6 +179,18 @@ class ClassworkController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $DelCLasswork = tbl_classwork::find($id);
+        if($DelCLasswork){
+            if($DelCLasswork->type == "Objective Type"){
+                $DelClass_Classwork = tbl_classClassworks::where('tbl_class_classworks.classwork_id', $id)
+                ->leftJoin('tbl_questions', 'tbl_questions.classwork_id','=','tbl_class_classworks.classwork_id')
+                ->LeftJoin('tbl_choices', 'tbl_choices.question_id','=', 'tbl_questions.id')
+                ->LeftJoin('tbl_sub_questions', 'tbl_sub_questions.mainQuestion_id','=', 'tbl_questions.id')
+                ->LeftJoin('tbl_question_analytics', 'tbl_question_analytics.question_id','=', 'tbl_questions.id')
+                ->delete();
+            }
+            $DelCLasswork->delete();
+            return "Successfully Remove";
+        }
     }
 }

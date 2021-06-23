@@ -2,16 +2,16 @@
     <v-container class="mb-0 pb-0 mt-2">
     <v-row  align-content="center" justify="center">
         <v-col class="text-subtitle-1 text-center" cols="12" md="10" lg="10" xl="12">
-            <v-card :class="!isLoaded ? 'pt-5 pb-5': 'pt-5'">
+            <v-card :class="!isLoaded ? 'pt-5 pb-5': 'pt-5 pb-5'">
                 <div class="ma-0 pa-0 title">Time Remaining</div>
-                <v-container v-if="isLoaded" class="d-flex justify-center">
+               <!--  <v-container v-if="isLoaded" class="d-flex justify-center">
+
                     
                     <div  fab class="">
                         <div class="text-md-h5">{{displayHours}}</div>
                         <div class="caption ml-2">Hours</div>  
                     </div>
                     :
-                    <!-- {{displayHours != 0 ? ':' : ''}} -->
                      <div fab class="">
                         <div class="text-md-h5">{{displayMinutes}}</div>
                         <div class="caption ml-2">Minutes </div>  
@@ -21,8 +21,37 @@
                         <div class="text-md-h5">{{displaySeconds}}</div>
                         <div class="caption ml-2">Seconds </div>  
                     </div>
-                </v-container>
+                </v-container> -->
+                 <vue-countdown-timer
+          
+                    @end_callback="EndTimer()"
+                    :start-time="Startdate"
+                    :end-time="EndDate"
+                    :interval="1000"
+                    :hour-txt="'hours'"
+                    :minutes-txt="'minutes'"
+                    :seconds-txt="'seconds'">
+                    <template slot="countdown" slot-scope="scope">
+                    <v-container  class="d-flex justify-center">
+                        <div fab >
+                              <div class="text-md-h5"> {{scope.props.hours}}</div>
+                              <div class="caption ml-2">{{scope.props.hourTxt}}</div>  
+                        </div>
+                         :
+                        <div fab class="">
+                            <div class="text-md-h5">{{scope.props.minutes}}</div>
+                            <div class="caption ml-2">{{scope.props.minutesTxt}}</div>  
+                        </div>
+                        :
+                        <div fab class="">
+                            <div class="text-md-h5">{{scope.props.seconds}}</div>
+                            <div class="caption ml-2">{{scope.props.secondsTxt}} </div>  
+                        </div>
+                    </v-container>
+                    </template>
+                    </vue-countdown-timer>
             </v-card>
+        
         </v-col>
     </v-row>
 </v-container>
@@ -30,16 +59,21 @@
 <script>
 import moment from 'moment';
 export default {
-    props:['duration'],
+    props:['duration','StopTimer'],
     data: ()=> ({
+        Startdate: (new Date).getTime(),
+        EndDate: null,
         checkTime:null,
+        NewTimer: null,
         displayHours: 0,
         displayMinutes: 0,
         displaySeconds: 0,
         SecondProgress:1000,
         isLoaded: false
     }),
+ 
     computed: {
+       
         _seconds:()=>1000,
         _minutes(){
             return this._seconds * 60;
@@ -117,24 +151,26 @@ export default {
                 letFinalMinutes = ((SubDuration)+(parseInt(minutes)));
                 
             }
-    
+        let due = (this.duration*60) * 1000;
             const timer = setInterval(()=>{
             const nowDate = new Date();
-            const endDate = new Date(year,month,day,finalHour,letFinalMinutes,finalSeconds);
-            const timeRemain = endDate.getTime() - nowDate.getTime();
+            //const endDate = new Date(year,month,day,finalHour,letFinalMinutes,finalSeconds);
             
+            const timeRemain = nowDate.getTime() -  nowDate.getTime()+due;
+
             const days = Math.floor(timeRemain/this._day);
             const hours = Math.floor((timeRemain % this._day)/this._hour);
             const minutes = Math.floor((timeRemain % this._hour)/this._minutes);
             const second = Math.floor((timeRemain % this._minutes)/this._seconds);
-
+            
+        
              this.displayHours = hours < 10 ?"0" + hours :hours;
             this.displayMinutes = minutes < 10 ?"0" + minutes :minutes;
             
-            if(parseInt(localStorage.getItem('time_remaining')) == 0){
+           /*  if(parseInt(localStorage.getItem('time_remaining')) == 0){
                 this.displayHours = '00';
                 this.displayMinutes = '00';
-            }
+            } */
           /*   else{
                  this.displayHours = hours < 10 ?"0" + hours :hours;
                  this.displayMinutes = minutes < 10 ?"0" + minutes :minutes;
@@ -144,7 +180,7 @@ export default {
 
             this.displaySeconds = second < 10 ? "0" + second :second;
 
-            this.SecondProgress =   (this.displaySeconds / 100)
+         /*    this.SecondProgress =   (this.displaySeconds / 100)
 
                 if(second == '00' || second == 0){
                     let check = localStorage.getItem('time_remaining');
@@ -160,17 +196,66 @@ export default {
                         let remain_time = parseInt(localStorage.getItem('time_remaining'));
                         localStorage.setItem('time_remaining', (remain_time-1));
                     }
-                }
+                } */
                 this.isLoaded = true;
             },1000)
+            
+        },
+        startTimer(){
+            let due;
+            let timer_time = localStorage.getItem('timer_time');
+            if(timer_time == null){
+                due = (this.duration*60) * 1000;
+                localStorage.setItem('timer_time', due)
+            }
+            else{
+                due = (parseInt(timer_time));
+         
+               
+            }
+            let final = '';
+            this.NewTimer = setInterval(()=>{
+                if(this.StopTimer != true){
+                      if(final == ''){
+                    final = due - 1000;
+                    localStorage.setItem('timer_time', final)
+                    }
+                    else{
+                        final = final - 1000;
+                        localStorage.setItem('timer_time', final)
+                    }
+                }
+                else{
+                    clearInterval(this.NewTimer);
+                    localStorage.removeItem('timer_time');
+                     this.$emit('TimerStop');
+                }
+              
+            },1000)
+            this.EndDate = (new Date).getTime()+due;
+        },
+        EndTimer(){
+            if(localStorage.getItem('timer_time') == 0){
+                clearInterval(this.NewTimer);
+                localStorage.removeItem('timer_time');
+                this.$emit('TimesUp');
+            }
             
         }
     },
     mounted(){
         
-         this.ShowTimer();
-     
+         //this.ShowTimer();
        
+            this.startTimer();
+       
+             
+            
+     
+   
+        
+      
+      
 
     },
    

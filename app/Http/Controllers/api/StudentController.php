@@ -6,9 +6,12 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\tbl_userclass;
+use App\Models\User;
 use App\Models\Tbl_class;
 use App\Models\tbl_notification;
+use App\Models\tbl_Submission;
 use App\Events\NewNotification;
+
 
 class StudentController extends Controller
 {
@@ -72,9 +75,14 @@ class StudentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function UpdateStatus(Request $request)
     {
-        //
+        $userId = auth('sanctum')->id();
+        $StatusUpdate = new tbl_Submission;
+        $StatusUpdate->classwork_id = $request->id;
+        $StatusUpdate->user_id =  $userId;
+        $StatusUpdate->status = "Taking";
+        $StatusUpdate->save();
     }
 
     /**
@@ -83,9 +91,27 @@ class StudentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function checkSubmissionStatus($id)
     {
-        //
+        //$userId = auth('sanctum')->id();
+        $userId = 2;
+        $CheckStatus = User::where('users.id', $userId)
+        
+        ->select('users.id', 'tbl_submissions.status','tbl_submissions.points as score','tbl_submissions.Submitted_Answers',
+        'tbl_classworks.points as totalPoints'
+        ,'tbl_userclasses.class_id','tbl_classworks.id as cl_id')
+        ->leftJoin('tbl_userclasses', 'tbl_userclasses.user_id', '=', 'users.id')
+        ->leftJoin('tbl_classworks', 'tbl_classworks.course_id', '=', 'tbl_userclasses.course_id')
+        ->leftJoin('tbl_submissions', 'tbl_submissions.classwork_id', '=', 'tbl_classworks.id')
+        ->where('tbl_classworks.id', $id)
+        ->get();
+        
+       /*  if($CheckStatus[0]->status == "Submitted"){
+
+        } */
+        $TempAnswer = unserialize($CheckStatus[0]->Submitted_Answers);
+        $CheckStatus[0]->Submitted_Answers = $TempAnswer;
+        return $CheckStatus;
     }
 
     /**

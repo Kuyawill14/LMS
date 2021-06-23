@@ -33,7 +33,7 @@
         </v-container>
 
 
-        <classworkList v-if="!isGetting && ClassworkLength != 0" :classworks="get_Classworks" :role="role"></classworkList>
+        <classworkList v-on:ToggleRefresh="getGeneralClassworks()" v-if="!isGetting && ClassworkLength != 0" :classworks="get_Classworks" :role="role"></classworkList>
         <v-container v-if="isGetting" style="height: 400px;">
             <v-row class="fill-height" align-content="center" justify="center">
                  <v-icon style="font-size:14rem">
@@ -79,15 +79,12 @@
             getGeneralClassworks() {
                 this.isGetting = true;
                 this.$store.dispatch('fetchClassworks', this.$route.params.id)
-                    .then(res => {
-                        if (res == 200) {
-                            this.ClassworkLength = this.get_Classworks.length;
-                           
-                             //setTimeout(() => {
-                            this.isGetting = false;
-                        //}, 1000);
-                        }
-                    })
+                .then(res => {
+                    if (res == 200) {
+                        this.ClassworkLength = this.get_Classworks.length;
+                        this.isGetting = false;
+                    }
+                })
             },
         },
         mounted() {

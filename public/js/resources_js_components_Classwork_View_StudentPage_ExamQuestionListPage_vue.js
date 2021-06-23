@@ -11,9 +11,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _confirmDialog__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./confirmDialog */ "./resources/js/components/Classwork_View/StudentPage/confirmDialog.vue");
-/* harmony import */ var _QuizTimer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./QuizTimer */ "./resources/js/components/Classwork_View/StudentPage/QuizTimer.vue");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _confirmDialog__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./confirmDialog */ "./resources/js/components/Classwork_View/StudentPage/confirmDialog.vue");
+/* harmony import */ var _QuizTimer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./QuizTimer */ "./resources/js/components/Classwork_View/StudentPage/QuizTimer.vue");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 //
 //
 //
@@ -268,11 +276,12 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
-    quizTimer: _QuizTimer__WEBPACK_IMPORTED_MODULE_1__.default,
-    confirmDialog: _confirmDialog__WEBPACK_IMPORTED_MODULE_0__.default
+    quizTimer: _QuizTimer__WEBPACK_IMPORTED_MODULE_2__.default,
+    confirmDialog: _confirmDialog__WEBPACK_IMPORTED_MODULE_1__.default
   },
   data: function data() {
     return {
+      StopTimer: false,
       valid: false,
       checker: [],
       dialog: false,
@@ -307,7 +316,7 @@ __webpack_require__.r(__webpack_exports__);
       timeCount: null
     };
   },
-  computed: (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(["getAll_questions"]),
+  computed: (0,vuex__WEBPACK_IMPORTED_MODULE_3__.mapGetters)(["getAll_questions"]),
   methods: {
     CountTime: function CountTime() {
       var _this = this;
@@ -356,8 +365,7 @@ __webpack_require__.r(__webpack_exports__);
           Question_id: this.getAll_questions.Question[this.questionIndex].id,
           type: this.getAll_questions.Question[this.questionIndex].type,
           timeConsume: this.TimerCount[this.questionIndex]
-        });
-        console.log(this.FinalAnswers);
+        }); //console.log(this.FinalAnswers);
       } else {
         if (this.Questype == 'Multiple Choice' || this.Questype == 'True or False') {
           if (this.FinalAnswers.length != 0) {
@@ -550,6 +558,15 @@ __webpack_require__.r(__webpack_exports__);
           _this3.isLoading = !_this3.isLoading;
           _this3.isSubmitting = !_this3.isSubmitting;
         }, 2000);
+
+        _this3.$router.push({
+          name: 'result-page',
+          params: {
+            id: _this3.$route.query.clwk
+          }
+        });
+
+        localStorage.removeItem('timer_time');
       });
     },
     TimesUpSubmit: function TimesUpSubmit() {
@@ -566,6 +583,15 @@ __webpack_require__.r(__webpack_exports__);
           _this4.isLoading = !_this4.isLoading;
           _this4.isSubmitting = !_this4.isSubmitting;
         }, 2000);
+
+        _this4.$router.push({
+          name: 'result-page',
+          params: {
+            id: _this4.$route.query.clwk
+          }
+        });
+
+        localStorage.removeItem('timer_time');
       });
     },
     fetchQuestions: function fetchQuestions() {
@@ -581,6 +607,49 @@ __webpack_require__.r(__webpack_exports__);
       event.preventDefault(); // Chrome requires returnValue to be set.
 
       event.returnValue = "";
+    },
+    CheckStatus: function CheckStatus() {
+      var _this6 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                axios.get('/api/student/check-status/' + _this6.$route.query.clwk).then(function (res) {
+                  if (res.data[0].status == 'Taking') {
+                    _this6.StartQuiz();
+                  } else {
+                    //this.isLoading = false;
+                    _this6.$router.push({
+                      name: 'result-page',
+                      params: {
+                        id: _this6.$route.query.clwk
+                      }
+                    });
+                  }
+                });
+
+              case 1:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
+    },
+    StartQuiz: function StartQuiz() {
+      var _this7 = this;
+
+      this.isStart = true;
+      var alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
+      this.Alphabet = alphabet;
+      axios.get('/api/classwork/showDetails/' + this.$route.query.clwk).then(function (res) {
+        _this7.duration = res.data.Details[0].duration;
+
+        _this7.fetchQuestions();
+      });
+      this.CountTime();
     }
   },
 
@@ -593,17 +662,7 @@ __webpack_require__.r(__webpack_exports__);
          
       }, */
   mounted: function mounted() {
-    var _this6 = this;
-
-    this.isStart = true;
-    var alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
-    this.Alphabet = alphabet;
-    axios.get('/api/classwork/showDetails/' + this.$route.query.clwk).then(function (res) {
-      _this6.duration = res.data.Details[0].duration;
-
-      _this6.fetchQuestions();
-    });
-    this.CountTime();
+    this.CheckStatus();
   }
 });
 
@@ -651,12 +710,44 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['duration'],
+  props: ['duration', 'StopTimer'],
   data: function data() {
     return {
+      Startdate: new Date().getTime(),
+      EndDate: null,
       checkTime: null,
+      NewTimer: null,
       displayHours: 0,
       displayMinutes: 0,
       displaySeconds: 0,
@@ -739,52 +830,91 @@ __webpack_require__.r(__webpack_exports__);
         letFinalMinutes = SubDuration + parseInt(minutes);
       }
 
+      var due = this.duration * 60 * 1000;
       var timer = setInterval(function () {
-        var nowDate = new Date();
-        var endDate = new Date(year, month, day, finalHour, letFinalMinutes, finalSeconds);
-        var timeRemain = endDate.getTime() - nowDate.getTime();
+        var nowDate = new Date(); //const endDate = new Date(year,month,day,finalHour,letFinalMinutes,finalSeconds);
+
+        var timeRemain = nowDate.getTime() - nowDate.getTime() + due;
         var days = Math.floor(timeRemain / _this._day);
         var hours = Math.floor(timeRemain % _this._day / _this._hour);
         var minutes = Math.floor(timeRemain % _this._hour / _this._minutes);
         var second = Math.floor(timeRemain % _this._minutes / _this._seconds);
         _this.displayHours = hours < 10 ? "0" + hours : hours;
         _this.displayMinutes = minutes < 10 ? "0" + minutes : minutes;
+        /*  if(parseInt(localStorage.getItem('time_remaining')) == 0){
+             this.displayHours = '00';
+             this.displayMinutes = '00';
+         } */
 
-        if (parseInt(localStorage.getItem('time_remaining')) == 0) {
-          _this.displayHours = '00';
-          _this.displayMinutes = '00';
-        }
         /*   else{
                this.displayHours = hours < 10 ?"0" + hours :hours;
                this.displayMinutes = minutes < 10 ?"0" + minutes :minutes;
           } */
 
-
         _this.displaySeconds = second < 10 ? "0" + second : second;
-        _this.SecondProgress = _this.displaySeconds / 100;
-
-        if (second == '00' || second == 0) {
-          var check = localStorage.getItem('time_remaining');
-
-          if (check == '0' || check == '00') {
-            _this.$emit('TimesUp');
-
-            clearInterval(timer); //this.$router.push({path: '/'});
-
-            localStorage.removeItem('time_remaining');
-            localStorage.removeItem('seconds_tic');
-          } else {
-            var remain_time = parseInt(localStorage.getItem('time_remaining'));
-            localStorage.setItem('time_remaining', remain_time - 1);
-          }
-        }
+        /*    this.SecondProgress =   (this.displaySeconds / 100)
+                 if(second == '00' || second == 0){
+                   let check = localStorage.getItem('time_remaining');
+                   if(check == '0' || check == '00'){
+                       this.$emit('TimesUp');
+                       clearInterval(timer);
+                       //this.$router.push({path: '/'});
+                       localStorage.removeItem('time_remaining');
+                       localStorage.removeItem('seconds_tic');
+                       
+                   }
+                   else{
+                       let remain_time = parseInt(localStorage.getItem('time_remaining'));
+                       localStorage.setItem('time_remaining', (remain_time-1));
+                   }
+               } */
 
         _this.isLoaded = true;
       }, 1000);
+    },
+    startTimer: function startTimer() {
+      var _this2 = this;
+
+      var due;
+      var timer_time = localStorage.getItem('timer_time');
+
+      if (timer_time == null) {
+        due = this.duration * 60 * 1000;
+        localStorage.setItem('timer_time', due);
+      } else {
+        due = parseInt(timer_time);
+      }
+
+      var _final = '';
+      this.NewTimer = setInterval(function () {
+        if (_this2.StopTimer != true) {
+          if (_final == '') {
+            _final = due - 1000;
+            localStorage.setItem('timer_time', _final);
+          } else {
+            _final = _final - 1000;
+            localStorage.setItem('timer_time', _final);
+          }
+        } else {
+          clearInterval(_this2.NewTimer);
+          localStorage.removeItem('timer_time');
+
+          _this2.$emit('TimerStop');
+        }
+      }, 1000);
+      this.EndDate = new Date().getTime() + due;
+    },
+    EndTimer: function EndTimer() {
+      if (localStorage.getItem('timer_time') == 0) {
+        clearInterval(this.NewTimer);
+        localStorage.removeItem('timer_time');
+        this.$emit('TimesUp');
+      }
     }
   },
   mounted: function mounted() {
-    this.ShowTimer();
+    //this.ShowTimer();
+    this.startTimer();
   }
 });
 
@@ -22567,7 +22697,7 @@ var render = function() {
                     _vm.dialog = !_vm.dialog
                   },
                   toggleSubmit: function($event) {
-                    return _vm.SubmitAnswer()
+                    _vm.StopTimer = true
                   }
                 }
               })
@@ -22632,8 +22762,11 @@ var render = function() {
         [
           !_vm.isLoading
             ? _c("quizTimer", {
-                attrs: { duration: _vm.duration },
+                attrs: { StopTimer: _vm.StopTimer, duration: _vm.duration },
                 on: {
+                  TimerStop: function($event) {
+                    ;(_vm.StopTimer = false), _vm.SubmitAnswer()
+                  },
                   TimesUp: function($event) {
                     return _vm.TimesUpSubmit()
                   }
@@ -23987,54 +24120,75 @@ var render = function() {
             [
               _c(
                 "v-card",
-                { class: !_vm.isLoaded ? "pt-5 pb-5" : "pt-5" },
+                { class: !_vm.isLoaded ? "pt-5 pb-5" : "pt-5 pb-5" },
                 [
                   _c("div", { staticClass: "ma-0 pa-0 title" }, [
                     _vm._v("Time Remaining")
                   ]),
                   _vm._v(" "),
-                  _vm.isLoaded
-                    ? _c(
-                        "v-container",
-                        { staticClass: "d-flex justify-center" },
-                        [
-                          _c("div", { attrs: { fab: "" } }, [
-                            _c("div", { staticClass: "text-md-h5" }, [
-                              _vm._v(_vm._s(_vm.displayHours))
-                            ]),
-                            _vm._v(" "),
-                            _c("div", { staticClass: "caption ml-2" }, [
-                              _vm._v("Hours")
-                            ])
-                          ]),
-                          _vm._v(
-                            "\n                    :\n                    "
-                          ),
-                          _vm._v(" "),
-                          _c("div", { attrs: { fab: "" } }, [
-                            _c("div", { staticClass: "text-md-h5" }, [
-                              _vm._v(_vm._s(_vm.displayMinutes))
-                            ]),
-                            _vm._v(" "),
-                            _c("div", { staticClass: "caption ml-2" }, [
-                              _vm._v("Minutes ")
-                            ])
-                          ]),
-                          _vm._v(
-                            "\n                    :\n                      "
-                          ),
-                          _c("div", { attrs: { fab: "" } }, [
-                            _c("div", { staticClass: "text-md-h5" }, [
-                              _vm._v(_vm._s(_vm.displaySeconds))
-                            ]),
-                            _vm._v(" "),
-                            _c("div", { staticClass: "caption ml-2" }, [
-                              _vm._v("Seconds ")
-                            ])
-                          ])
-                        ]
-                      )
-                    : _vm._e()
+                  _c("vue-countdown-timer", {
+                    attrs: {
+                      "start-time": _vm.Startdate,
+                      "end-time": _vm.EndDate,
+                      interval: 1000,
+                      "hour-txt": "hours",
+                      "minutes-txt": "minutes",
+                      "seconds-txt": "seconds"
+                    },
+                    on: {
+                      end_callback: function($event) {
+                        return _vm.EndTimer()
+                      }
+                    },
+                    scopedSlots: _vm._u([
+                      {
+                        key: "countdown",
+                        fn: function(scope) {
+                          return [
+                            _c(
+                              "v-container",
+                              { staticClass: "d-flex justify-center" },
+                              [
+                                _c("div", { attrs: { fab: "" } }, [
+                                  _c("div", { staticClass: "text-md-h5" }, [
+                                    _vm._v(" " + _vm._s(scope.props.hours))
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "caption ml-2" }, [
+                                    _vm._v(_vm._s(scope.props.hourTxt))
+                                  ])
+                                ]),
+                                _vm._v(
+                                  "\n                         :\n                        "
+                                ),
+                                _c("div", { attrs: { fab: "" } }, [
+                                  _c("div", { staticClass: "text-md-h5" }, [
+                                    _vm._v(_vm._s(scope.props.minutes))
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "caption ml-2" }, [
+                                    _vm._v(_vm._s(scope.props.minutesTxt))
+                                  ])
+                                ]),
+                                _vm._v(
+                                  "\n                        :\n                        "
+                                ),
+                                _c("div", { attrs: { fab: "" } }, [
+                                  _c("div", { staticClass: "text-md-h5" }, [
+                                    _vm._v(_vm._s(scope.props.seconds))
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "caption ml-2" }, [
+                                    _vm._v(_vm._s(scope.props.secondsTxt) + " ")
+                                  ])
+                                ])
+                              ]
+                            )
+                          ]
+                        }
+                      }
+                    ])
+                  })
                 ],
                 1
               )

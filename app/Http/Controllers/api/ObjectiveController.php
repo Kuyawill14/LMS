@@ -6,8 +6,10 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\tbl_Questions;
+use App\Models\tbl_classwork;
 use App\Models\tbl_SubQuestion;
 use App\Models\tbl_choice;
+use App\Models\tbl_Submission;
 use App\Models\tbl_questionAnalytic;
 
 
@@ -167,7 +169,15 @@ class ObjectiveController extends Controller
                  $SubQuestion->save();
             }
         }
-     
+        
+        $UpdateClassworkPoints = tbl_classwork::find($request->classwork_id);
+        if($UpdateClassworkPoints){
+            $UpdateClassworkPoints ->points = $UpdateClassworkPoints ->points + $request->questions['points'];
+            $UpdateClassworkPoints->save();
+        }
+
+       
+
         $jsonString = json_encode($objectAnswer);
         $object = json_decode($jsonString);
         return ["Question"=>$newQuestion , "Answer"=>$object];
@@ -263,7 +273,9 @@ class ObjectiveController extends Controller
      */
     public function check(Request $request, $id)
     {
-    
+        //return $request->item;
+        //return serialize($request->item);
+        $userId = auth('sanctum')->id();
         $questionCount = tbl_Questions::where('tbl_questions.classwork_id', $id)->count();
         $Questions = tbl_Questions::where('tbl_questions.classwork_id', $id)
         ->Select('tbl_questions.id', 'tbl_questions.type','tbl_questions.answer','tbl_questions.points')
@@ -339,7 +351,14 @@ class ObjectiveController extends Controller
            
             
 
-        
+        $UpdateStatus = tbl_Submission::where("tbl_submissions.user_id",$userId)->first();
+        if($UpdateStatus){
+            $UpdateStatus->status = 'Submitted';
+            $UpdateStatus->points = $score;
+            $UpdateStatus->Submitted_Answers = serialize($request->item);
+            $UpdateStatus->save();
+        }
+       
         return $score;
     }
  

@@ -96,6 +96,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  props: ['UserDetails'],
   components: {
     notifications: _notification_notification__WEBPACK_IMPORTED_MODULE_0__.default
   },
@@ -103,8 +104,7 @@ __webpack_require__.r(__webpack_exports__);
     return {
       dialog: false,
       drawer: null,
-      menuVisible: false,
-      UserDetails: []
+      menuVisible: false
     };
   },
   methods: {
@@ -113,29 +113,17 @@ __webpack_require__.r(__webpack_exports__);
         path: "/"
       });
     },
-    getUserDetails: function getUserDetails() {
+    logout: function logout() {
       var _this = this;
 
-      axios.get('/api/GetDetails').then(function (res) {
-        _this.UserDetails = res.data[0];
-      })["catch"](function (e) {
-        console.log(e);
-      });
-    },
-    logout: function logout() {
-      var _this2 = this;
-
       axios.post('/api/logout').then(function () {
-        _this2.$router.push({
+        _this.$router.push({
           path: "/login"
         });
       })["catch"](function (e) {
         console.log(e);
       });
     }
-  },
-  mounted: function mounted() {
-    this.getUserDetails();
   }
 });
 
@@ -503,14 +491,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -721,15 +701,13 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     var _this2 = this;
 
-    axios.get('/api/user').then(function (res) {
-      _this2.role = res.data.role;
-      _this2.UserDetails = res.data;
-      console.log(res.data);
+    axios.get('/api/profile/details').then(function (res) {
+      _this2.role = res.data[0].role;
+      _this2.UserDetails = res.data[0];
     })["catch"](function (error) {
       console.log(error);
     });
-  },
-  created: function created() {}
+  }
 });
 
 /***/ }),
@@ -22793,8 +22771,7 @@ var render = function() {
                                         (_vm.UserDetails.firstName +
                                           " " +
                                           _vm.UserDetails.lastName)
-                                      : "../../images/" +
-                                        _vm.UserDetails.profile_pic
+                                      : _vm.UserDetails.profile_pic
                                 }
                               })
                             ],
@@ -22832,8 +22809,7 @@ var render = function() {
                                       (_vm.UserDetails.firstName +
                                         " " +
                                         _vm.UserDetails.lastName)
-                                    : "../../images/" +
-                                      _vm.UserDetails.profile_pic
+                                    : _vm.UserDetails.profile_pic
                               }
                             })
                           ],
@@ -22863,7 +22839,7 @@ var render = function() {
                         _c(
                           "v-btn",
                           {
-                            attrs: { depressed: "", rounded: "", text: "" },
+                            attrs: { rounded: "", color: "primary" },
                             on: {
                               click: function($event) {
                                 return _vm.$router.push({
@@ -22873,10 +22849,12 @@ var render = function() {
                             }
                           },
                           [
-                            _vm._v(
-                              "\n                            My Profile\n                        "
-                            )
-                          ]
+                            _c("v-icon", { attrs: { left: "" } }, [
+                              _vm._v("mdi-account")
+                            ]),
+                            _vm._v(" My Profile\n                        ")
+                          ],
+                          1
                         ),
                         _vm._v(" "),
                         _c("v-divider", { staticClass: "my-3" }),
@@ -22888,10 +22866,12 @@ var render = function() {
                             on: { click: _vm.logout }
                           },
                           [
-                            _vm._v(
-                              "\n                            Logout\n                        "
-                            )
-                          ]
+                            _c("v-icon", { attrs: { left: "" } }, [
+                              _vm._v("mdi-power")
+                            ]),
+                            _vm._v(" Logout\n                        ")
+                          ],
+                          1
                         )
                       ],
                       1
@@ -23385,7 +23365,7 @@ var render = function() {
             "close-on-content-click": false,
             "nudge-width": 250,
             "offset-y": "",
-            "max-width": 450
+            "max-width": 400
           },
           scopedSlots: _vm._u([
             {
@@ -23510,7 +23490,7 @@ var render = function() {
                                   item.profile_pic == ""
                                     ? "https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=" +
                                       item.name
-                                    : "../../images/" + item.profile_pic
+                                    : item.profile_pic
                               }
                             })
                           ],
@@ -23526,7 +23506,13 @@ var render = function() {
                               [_vm._v(_vm._s(item.name))]
                             ),
                             _vm._v(" "),
-                            _c("span", [_vm._v(_vm._s(item.message))])
+                            _c("div", { staticClass: "Caption" }, [
+                              _vm._v(_vm._s(item.message))
+                            ]),
+                            _vm._v(" "),
+                            _c("small", [
+                              _vm._v(_vm._s(_vm.format_date(item.created_at)))
+                            ])
                           ],
                           1
                         ),
@@ -23534,12 +23520,6 @@ var render = function() {
                         _c(
                           "v-list-item-action",
                           [
-                            _c("span", [
-                              _vm._v(
-                                " " + _vm._s(_vm.format_date(item.created_at))
-                              )
-                            ]),
-                            _vm._v(" "),
                             item.status == 0
                               ? _c(
                                   "v-btn",
@@ -23665,7 +23645,10 @@ var render = function() {
     "v-app",
     { attrs: { id: "inspire" } },
     [
-      _c("topHeader", { on: { toggleSidebar: _vm.toggle } }),
+      _c("topHeader", {
+        attrs: { UserDetails: _vm.UserDetails },
+        on: { toggleSidebar: _vm.toggle }
+      }),
       _vm._v(" "),
       _c("sidebar", { attrs: { role: _vm.role, drawer: _vm.drawer } }),
       _vm._v(" "),

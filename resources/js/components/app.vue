@@ -3,6 +3,16 @@
       <router-view></router-view>
   </div>
 </template>
+<script>
+export default {
+  beforeMount(){
+   /*  window.addEventListener('contextmenu', function (e) { 
+      // do something here... 
+      e.preventDefault(); 
+    }, false); */
+  }
+}
+</script>
 <style >
   #nprogress .bar {
   background: #E0E0E0 !important;

@@ -5,7 +5,7 @@
 <v-dialog v-model="dialog" persistent max-width="550">
     <confirmDialog
     v-on:toggleCancelDialog="dialog = !dialog"
-    v-on:toggleSubmit="SubmitAnswer()"
+    v-on:toggleSubmit="StopTimer = true"
      v-if="dialog"></confirmDialog>
 </v-dialog>
 
@@ -21,7 +21,7 @@
 </v-container>
 
 <div>
-    <quizTimer v-on:TimesUp="TimesUpSubmit()" :duration="duration" v-if="!isLoading"></quizTimer>
+    <quizTimer :StopTimer="StopTimer" v-on:TimerStop="StopTimer = false, SubmitAnswer()" v-on:TimesUp="TimesUpSubmit()" :duration="duration" v-if="!isLoading"></quizTimer>
 </div>
 
 
@@ -258,6 +258,7 @@ export default {
     },
     data(){
         return{
+            StopTimer: false,
             valid: false,
             checker:[],
             dialog:false,
@@ -340,7 +341,7 @@ export default {
                     type:this.getAll_questions.Question[this.questionIndex].type,
                     timeConsume: this.TimerCount[this.questionIndex]
                 });
-                console.log(this.FinalAnswers);
+                //console.log(this.FinalAnswers);
             }
             else{
                 if (this.Questype == 'Multiple Choice' || this.Questype == 'True or False') {
@@ -532,7 +533,11 @@ export default {
                     this.isLoading = !this.isLoading;
                     this.isSubmitting = !this.isSubmitting;
                 }, 2000);
+                 this.$router.push({name: 'result-page', params:{id: this.$route.query.clwk}})
+                  localStorage.removeItem('timer_time');
             })
+
+              
         },
         TimesUpSubmit(){
             this.isLoading = !this.isLoading;
@@ -543,6 +548,8 @@ export default {
                     this.isLoading = !this.isLoading;
                     this.isSubmitting = !this.isSubmitting;
                 }, 2000);
+                 this.$router.push({name: 'result-page', params:{id: this.$route.query.clwk}})
+                  localStorage.removeItem('timer_time');
             })
         },
         fetchQuestions(){
@@ -560,6 +567,58 @@ export default {
             // Chrome requires returnValue to be set.
             event.returnValue = "";
         },
+        async CheckStatus(){
+            axios.get('/api/student/check-status/'+this.$route.query.clwk)
+            .then(res=>{
+                if(res.data[0].status == 'Taking'){
+                    this.StartQuiz();
+                }
+                else{
+                     //this.isLoading = false;
+                    this.$router.push({name: 'result-page', params:{id: this.$route.query.clwk}})
+                }
+            })
+        },
+        StartQuiz(){
+            this.isStart = true;
+            const alphabet = [
+                "A",
+                "B",
+                "C",
+                "D",
+                "E",
+                "F",
+                "G",
+                "H",
+                "I",
+                "J",
+                "K",
+                "L",
+                "M",
+                "N",
+                "O",
+                "P",
+                "q",
+                "r",
+                "s",
+                "t",
+                "u",
+                "v",
+                "w",
+                "x",
+                "y",
+                "z"
+            ];
+            this.Alphabet = alphabet;
+            axios.get('/api/classwork/showDetails/'+ this.$route.query.clwk)
+            .then(res=>{
+                this.duration = res.data.Details[0].duration;
+                this.fetchQuestions();
+
+            })
+            this.CountTime();
+        }
+
     },
 /*     beforeMount() {
         window.addEventListener("beforeunload", this.preventNav);
@@ -570,42 +629,7 @@ export default {
        
     }, */
     mounted(){
-        this.isStart = true;
-         const alphabet = [
-            "A",
-            "B",
-            "C",
-            "D",
-            "E",
-            "F",
-            "G",
-            "H",
-            "I",
-            "J",
-            "K",
-            "L",
-            "M",
-            "N",
-            "O",
-            "P",
-            "q",
-            "r",
-            "s",
-            "t",
-            "u",
-            "v",
-            "w",
-            "x",
-            "y",
-            "z"
-        ];
-        this.Alphabet = alphabet;
-         axios.get('/api/classwork/showDetails/'+ this.$route.query.clwk)
-        .then(res=>{
-            this.duration = res.data.Details[0].duration;
-            this.fetchQuestions();
-        })
-        this.CountTime();
+      this.CheckStatus();
         
 
     }

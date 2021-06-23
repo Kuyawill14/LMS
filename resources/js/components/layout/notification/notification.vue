@@ -5,7 +5,7 @@
       :close-on-content-click="false"
       :nudge-width="250"
       offset-y
-      :max-width="450"
+      :max-width="400"
       
     >
       <template v-slot:activator="{ on, attrs }">
@@ -60,25 +60,17 @@
           <v-list-item v-for="(item, index) in get_notification" :key="index">
            
             <v-list-item-avatar>
-             <v-img alt="Proflie" :src="item.profile_pic == null || item.profile_pic == '' ? 'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=' + item.name : '../../images/'+item.profile_pic"></v-img>
+             <v-img alt="Proflie" :src="item.profile_pic == null || item.profile_pic == '' ? 'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=' + item.name : item.profile_pic"></v-img>
             </v-list-item-avatar>
 
             <v-list-item-content>
               <v-list-item-title class="font-weight-medium">{{item.name}}</v-list-item-title>
-              <span>{{item.message}}</span>
+              <div class="Caption">{{item.message}}</div>
+              <small>{{format_date(item.created_at)}}</small>
              
             </v-list-item-content>
 
             <v-list-item-action>
-                 <span> {{format_date(item.created_at)}}</span>
-             <!--  <v-btn
-                :class="fav ? 'red--text' : ''"
-                icon
-                @click="fav = !fav"
-              >
-                <v-icon>mdi-heart</v-icon>
-              </v-btn> -->
-
                 <v-btn  icon v-if="item.status == 0"  @click="UnreadNotification(item.n_id)"> <v-icon>mdi-check</v-icon></v-btn>
                 <v-btn icon  v-if="item.status == 1"  @click="DeleteNotification(item.n_id)"> <v-icon>mdi-close</v-icon></v-btn>
             </v-list-item-action>

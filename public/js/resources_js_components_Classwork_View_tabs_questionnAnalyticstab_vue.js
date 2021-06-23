@@ -80,10 +80,81 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
-      List: []
+      List: [],
+      search: '',
+      selectedTasks: [],
+      isloading: true,
+      headers: [{
+        text: 'id',
+        align: 'start',
+        value: 'id',
+        icon: ''
+      }, {
+        text: 'Question',
+        value: 'question',
+        icon: ''
+      }, {
+        text: '# of Correct',
+        value: 'status',
+        align: 'center',
+        icon: 'mdi-account-multiple-check'
+      }, {
+        text: '# of Wrong',
+        value: 'points',
+        icon: 'mdi-account-multiple-remove'
+      }, {
+        text: 'Average Time Consume',
+        value: 'time',
+        icon: 'mdi-timer'
+      }, {
+        text: 'Actions',
+        sortable: false,
+        icon: 'mdi-cog'
+      }]
     };
   },
   methods: {
@@ -97,6 +168,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 axios.get('/api/QAnalytics/all/' + _this.$route.query.clwk).then(function (res) {
                   _this.List = res.data;
+                  _this.isloading = !_this.isloading;
                 });
 
               case 1:
@@ -206,272 +278,381 @@ var render = function() {
   return _c(
     "v-app",
     [
-      _c(
-        "v-container",
-        {
-          staticClass: "pa-0 pa-0",
-          attrs: { "pa-0": "", "ma-0": "", fluid: "" }
-        },
-        [
-          _c(
-            "v-row",
-            { attrs: { align: "center", justify: "center" } },
+      _vm.isloading
+        ? _c(
+            "v-container",
+            { staticClass: "fill-height", staticStyle: { height: "500px" } },
             [
               _c(
-                "v-col",
-                { attrs: { cols: "12", lg: "10", md: "10" } },
+                "v-row",
+                { attrs: { "align-content": "center", justify: "center" } },
                 [
                   _c(
-                    "v-card",
+                    "v-col",
                     {
-                      staticClass: "elevation-5",
-                      staticStyle: { "border-top": "5px solid #EF6C00" }
+                      staticClass: "text-subtitle-1 text-center",
+                      attrs: { cols: "12" }
                     },
+                    [_vm._v("\r\n            Loading\r\n        ")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-col",
+                    { attrs: { cols: "6" } },
+                    [
+                      _c("v-progress-linear", {
+                        attrs: {
+                          color: "primary",
+                          indeterminate: "",
+                          rounded: "",
+                          height: "6"
+                        }
+                      })
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      !_vm.isloading
+        ? _c(
+            "v-container",
+            {
+              staticClass: "pa-0 pa-0",
+              attrs: { "pa-0": "", "ma-0": "", fluid: "" }
+            },
+            [
+              _c(
+                "v-row",
+                { attrs: { align: "center", justify: "center" } },
+                [
+                  _c(
+                    "v-col",
+                    { attrs: { cols: "12", lg: "12", md: "12" } },
                     [
                       _c(
-                        "v-window",
+                        "v-card",
+                        {
+                          staticClass: "elevation-5",
+                          staticStyle: { "border-top": "4px solid #EF6C00" }
+                        },
                         [
                           _c(
-                            "v-window-item",
+                            "v-window",
                             [
                               _c(
-                                "v-row",
+                                "v-window-item",
                                 [
                                   _c(
-                                    "v-col",
-                                    {
-                                      staticClass: "pt-1",
-                                      attrs: { cols: "12", md: "12" }
-                                    },
+                                    "v-row",
                                     [
-                                      _c("v-simple-table", {
-                                        staticClass: "mt-3",
-                                        attrs: {
-                                          "fixed-header": "",
-                                          "max-height": "500px"
+                                      _c(
+                                        "v-col",
+                                        {
+                                          staticClass: "pt-3",
+                                          attrs: { cols: "12", md: "12" }
                                         },
-                                        scopedSlots: _vm._u([
-                                          {
-                                            key: "default",
-                                            fn: function() {
-                                              return [
-                                                _c("thead", [
-                                                  _c("tr", [
-                                                    _c(
-                                                      "th",
-                                                      {
-                                                        staticClass:
-                                                          "text-center"
-                                                      },
-                                                      [_vm._v("#")]
-                                                    ),
-                                                    _vm._v(" "),
-                                                    _c("th", [
-                                                      _vm._v("Question")
-                                                    ]),
-                                                    _vm._v(" "),
-                                                    _c(
-                                                      "th",
-                                                      {
-                                                        staticClass:
-                                                          "text-center"
-                                                      },
-                                                      [
-                                                        _c("v-icon", [
-                                                          _vm._v(
-                                                            "mdi-account-multiple-check"
-                                                          )
-                                                        ]),
-                                                        _vm._v(
-                                                          "\r\n                                                        " +
-                                                            _vm._s(
-                                                              _vm.$vuetify
-                                                                .breakpoint.xs
-                                                                ? ""
-                                                                : "Correct"
-                                                            ) +
-                                                            "\r\n                                                    "
-                                                        )
-                                                      ],
-                                                      1
-                                                    ),
-                                                    _vm._v(" "),
-                                                    _c(
-                                                      "th",
-                                                      {
-                                                        staticClass:
-                                                          "text-center"
-                                                      },
-                                                      [
-                                                        _c("v-icon", [
-                                                          _vm._v(
-                                                            "mdi-account-multiple-remove"
-                                                          )
-                                                        ]),
-                                                        _vm._v(
-                                                          "\r\n                                                        " +
-                                                            _vm._s(
-                                                              _vm.$vuetify
-                                                                .breakpoint.xs
-                                                                ? ""
-                                                                : "Wrong"
-                                                            ) +
-                                                            "\r\n                                                    "
-                                                        )
-                                                      ],
-                                                      1
-                                                    ),
-                                                    _vm._v(" "),
-                                                    _c(
-                                                      "th",
-                                                      {
-                                                        staticClass:
-                                                          "text-center"
-                                                      },
-                                                      [
-                                                        _c("v-icon", [
-                                                          _vm._v("mdi-timer")
-                                                        ]),
-                                                        _vm._v(
-                                                          "\r\n                                                         " +
-                                                            _vm._s(
-                                                              _vm.$vuetify
-                                                                .breakpoint.xs
-                                                                ? ""
-                                                                : "Average Time Consume"
-                                                            ) +
-                                                            "\r\n                                                    "
-                                                        )
-                                                      ],
-                                                      1
-                                                    )
-                                                  ])
-                                                ]),
-                                                _vm._v(" "),
-                                                _c(
-                                                  "tbody",
-                                                  _vm._l(_vm.List, function(
-                                                    item
-                                                  ) {
-                                                    return _c(
-                                                      "tr",
-                                                      { key: item.id },
-                                                      [
-                                                        _c(
-                                                          "td",
-                                                          {
-                                                            staticClass:
-                                                              "text-center"
-                                                          },
-                                                          [
-                                                            _vm._v(
-                                                              _vm._s(item.id)
-                                                            )
-                                                          ]
-                                                        ),
-                                                        _vm._v(" "),
-                                                        _c(
-                                                          "td",
-                                                          {
-                                                            staticClass:
-                                                              "text-left "
-                                                          },
-                                                          [
-                                                            _c(
-                                                              "div",
-                                                              {
-                                                                staticClass:
-                                                                  "caption",
-                                                                style: _vm
-                                                                  .$vuetify
-                                                                  .breakpoint.xs
-                                                                  ? "line-height:1.1"
-                                                                  : "line-height:1.5"
-                                                              },
-                                                              [
-                                                                _c("span", {
-                                                                  staticClass:
-                                                                    "post-content",
-                                                                  domProps: {
-                                                                    innerHTML: _vm._s(
-                                                                      item.question
-                                                                    )
-                                                                  }
-                                                                })
-                                                              ]
-                                                            )
-                                                          ]
-                                                        ),
-                                                        _vm._v(" "),
-                                                        _c(
-                                                          "td",
-                                                          {
-                                                            staticClass:
-                                                              "text-center"
-                                                          },
-                                                          [
-                                                            _vm._v(
-                                                              _vm._s(
-                                                                item.correct_count ==
-                                                                  null
-                                                                  ? 0
-                                                                  : item.correct_count
-                                                              )
-                                                            )
-                                                          ]
-                                                        ),
-                                                        _vm._v(" "),
-                                                        _c(
-                                                          "td",
-                                                          {
-                                                            staticClass:
-                                                              "text-center"
-                                                          },
-                                                          [
-                                                            _vm._v(
-                                                              _vm._s(
-                                                                item.wrong_count ==
-                                                                  null
-                                                                  ? 0
-                                                                  : item.wrong_count
-                                                              )
-                                                            )
-                                                          ]
-                                                        ),
-                                                        _vm._v(" "),
-                                                        _c(
-                                                          "td",
-                                                          {
-                                                            staticClass:
-                                                              "text-center"
-                                                          },
-                                                          [
-                                                            _vm._v(
-                                                              _vm._s(
-                                                                item.average_time /
-                                                                  (item.correct_count +
-                                                                    item.wrong_count)
-                                                              ) +
-                                                                _vm._s(
-                                                                  item.average_time ==
-                                                                    null
-                                                                    ? ""
-                                                                    : "s"
-                                                                )
-                                                            )
-                                                          ]
-                                                        )
-                                                      ]
-                                                    )
-                                                  }),
-                                                  0
-                                                )
-                                              ]
+                                        [
+                                          _c(
+                                            "v-card-title",
+                                            [
+                                              _c("v-text-field", {
+                                                attrs: {
+                                                  "append-icon": "mdi-magnify",
+                                                  label: "Search",
+                                                  "single-line": "",
+                                                  outlined: "",
+                                                  "hide-details": ""
+                                                },
+                                                model: {
+                                                  value: _vm.search,
+                                                  callback: function($$v) {
+                                                    _vm.search = $$v
+                                                  },
+                                                  expression: "search"
+                                                }
+                                              })
+                                            ],
+                                            1
+                                          ),
+                                          _vm._v(" "),
+                                          _c("v-data-table", {
+                                            attrs: {
+                                              headers: _vm.headers,
+                                              "hide-default-header": "",
+                                              items: _vm.List,
+                                              search: _vm.search,
+                                              "item-key": "id",
+                                              "show-select": ""
                                             },
-                                            proxy: true
-                                          }
-                                        ])
-                                      })
+                                            scopedSlots: _vm._u(
+                                              [
+                                                {
+                                                  key: "header",
+                                                  fn: function(ref) {
+                                                    var headers =
+                                                      ref.props.headers
+                                                    return [
+                                                      _c("thead", [
+                                                        _c(
+                                                          "tr",
+                                                          _vm._l(
+                                                            headers,
+                                                            function(header) {
+                                                              return _c(
+                                                                "th",
+                                                                {
+                                                                  key:
+                                                                    header.value,
+                                                                  staticClass:
+                                                                    "text-uppercase"
+                                                                },
+                                                                [
+                                                                  _c("v-icon", [
+                                                                    _vm._v(
+                                                                      _vm._s(
+                                                                        header.icon
+                                                                      )
+                                                                    )
+                                                                  ]),
+                                                                  _vm._v(
+                                                                    " \r\n                                                         " +
+                                                                      _vm._s(
+                                                                        _vm
+                                                                          .$vuetify
+                                                                          .breakpoint
+                                                                          .xs
+                                                                          ? ""
+                                                                          : header.text
+                                                                      ) +
+                                                                      "\r\n                                                    "
+                                                                  )
+                                                                ],
+                                                                1
+                                                              )
+                                                            }
+                                                          ),
+                                                          0
+                                                        )
+                                                      ])
+                                                    ]
+                                                  }
+                                                },
+                                                {
+                                                  key: "body",
+                                                  fn: function(ref) {
+                                                    var items = ref.items
+                                                    return [
+                                                      _c(
+                                                        "tbody",
+                                                        _vm._l(items, function(
+                                                          item
+                                                        ) {
+                                                          return _c(
+                                                            "tr",
+                                                            { key: item.id },
+                                                            [
+                                                              _c(
+                                                                "td",
+                                                                [
+                                                                  _c(
+                                                                    "v-checkbox",
+                                                                    {
+                                                                      staticStyle: {
+                                                                        margin:
+                                                                          "0px",
+                                                                        padding:
+                                                                          "0px"
+                                                                      },
+                                                                      attrs: {
+                                                                        value: item,
+                                                                        "hide-details":
+                                                                          ""
+                                                                      },
+                                                                      model: {
+                                                                        value:
+                                                                          _vm.selectedTasks,
+                                                                        callback: function(
+                                                                          $$v
+                                                                        ) {
+                                                                          _vm.selectedTasks = $$v
+                                                                        },
+                                                                        expression:
+                                                                          "selectedTasks"
+                                                                      }
+                                                                    }
+                                                                  )
+                                                                ],
+                                                                1
+                                                              ),
+                                                              _vm._v(" "),
+                                                              _c(
+                                                                "td",
+                                                                {
+                                                                  staticClass:
+                                                                    "text-center"
+                                                                },
+                                                                [
+                                                                  _vm._v(
+                                                                    _vm._s(
+                                                                      item.id
+                                                                    )
+                                                                  )
+                                                                ]
+                                                              ),
+                                                              _vm._v(" "),
+                                                              _c(
+                                                                "td",
+                                                                {
+                                                                  staticClass:
+                                                                    "text-left "
+                                                                },
+                                                                [
+                                                                  _c(
+                                                                    "div",
+                                                                    {
+                                                                      staticClass:
+                                                                        "caption",
+                                                                      style: _vm
+                                                                        .$vuetify
+                                                                        .breakpoint
+                                                                        .xs
+                                                                        ? "line-height:1.1"
+                                                                        : "line-height:1.5"
+                                                                    },
+                                                                    [
+                                                                      _c(
+                                                                        "span",
+                                                                        {
+                                                                          staticClass:
+                                                                            "post-content",
+                                                                          domProps: {
+                                                                            innerHTML: _vm._s(
+                                                                              item.question
+                                                                            )
+                                                                          }
+                                                                        }
+                                                                      )
+                                                                    ]
+                                                                  )
+                                                                ]
+                                                              ),
+                                                              _vm._v(" "),
+                                                              _c(
+                                                                "td",
+                                                                {
+                                                                  staticClass:
+                                                                    "text-center"
+                                                                },
+                                                                [
+                                                                  _vm._v(
+                                                                    _vm._s(
+                                                                      item.correct_count ==
+                                                                        null
+                                                                        ? 0
+                                                                        : item.correct_count
+                                                                    )
+                                                                  )
+                                                                ]
+                                                              ),
+                                                              _vm._v(" "),
+                                                              _c(
+                                                                "td",
+                                                                {
+                                                                  staticClass:
+                                                                    "text-center"
+                                                                },
+                                                                [
+                                                                  _vm._v(
+                                                                    _vm._s(
+                                                                      item.wrong_count ==
+                                                                        null
+                                                                        ? 0
+                                                                        : item.wrong_count
+                                                                    )
+                                                                  )
+                                                                ]
+                                                              ),
+                                                              _vm._v(" "),
+                                                              _c(
+                                                                "td",
+                                                                {
+                                                                  staticClass:
+                                                                    "text-center"
+                                                                },
+                                                                [
+                                                                  _vm._v(
+                                                                    _vm._s(
+                                                                      item.average_time !=
+                                                                        null
+                                                                        ? item.average_time /
+                                                                            (item.correct_count +
+                                                                              item.wrong_count)
+                                                                        : ""
+                                                                    ) +
+                                                                      _vm._s(
+                                                                        item.average_time ==
+                                                                          null
+                                                                          ? ""
+                                                                          : "s"
+                                                                      )
+                                                                  )
+                                                                ]
+                                                              ),
+                                                              _vm._v(" "),
+                                                              _c(
+                                                                "td",
+                                                                [
+                                                                  _c(
+                                                                    "v-btn",
+                                                                    {
+                                                                      attrs: {
+                                                                        text:
+                                                                          "",
+                                                                        icon:
+                                                                          "",
+                                                                        "x-small":
+                                                                          ""
+                                                                      }
+                                                                    },
+                                                                    [
+                                                                      _vm._v(
+                                                                        "\r\n                                                            Edit\r\n                                                        "
+                                                                      )
+                                                                    ]
+                                                                  )
+                                                                ],
+                                                                1
+                                                              )
+                                                            ]
+                                                          )
+                                                        }),
+                                                        0
+                                                      )
+                                                    ]
+                                                  }
+                                                }
+                                              ],
+                                              null,
+                                              false,
+                                              2705651619
+                                            ),
+                                            model: {
+                                              value: _vm.selectedTasks,
+                                              callback: function($$v) {
+                                                _vm.selectedTasks = $$v
+                                              },
+                                              expression: "selectedTasks"
+                                            }
+                                          })
+                                        ],
+                                        1
+                                      )
                                     ],
                                     1
                                   )
@@ -493,9 +674,7 @@ var render = function() {
             ],
             1
           )
-        ],
-        1
-      )
+        : _vm._e()
     ],
     1
   )
