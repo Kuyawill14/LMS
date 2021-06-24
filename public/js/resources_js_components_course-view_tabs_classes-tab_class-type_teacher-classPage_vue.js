@@ -736,7 +736,7 @@ var render = function() {
   return _c(
     "v-card",
     [
-      _c("v-card-title", {}, [_vm._v("\n        Edit Class\n    ")]),
+      _c("v-card-title", {}, [_vm._v("\n        Create Class\n    ")]),
       _vm._v(" "),
       _c(
         "v-container",
@@ -860,14 +860,7 @@ var render = function() {
                       },
                       expression: "form.class_name"
                     }
-                  }),
-                  _vm._v(
-                    "\n                " +
-                      _vm._s(_vm.class_id) +
-                      "    " +
-                      _vm._s(_vm.class_name) +
-                      "\n            "
-                  )
+                  })
                 ],
                 1
               )

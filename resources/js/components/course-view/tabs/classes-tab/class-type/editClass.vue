@@ -9,7 +9,7 @@
                 <v-col cols="12" class="pa-0 ma-0">
                     <v-text-field required v-model="form.class_name" filled color="primary" label="Class Name">
                     </v-text-field>
-                    {{class_id}}    {{class_name}}
+               
                 </v-col>
 
 

@@ -78,6 +78,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       if (this.routeName == 'student-modules' || this.routeName == 'modules-preview') {
         this.showCard = false;
+      } else {
+        this.showCard = true;
       }
     }
   }, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapActions)(['fetchScourse'])), {}, {
@@ -98,7 +100,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.disconnect();
     }
   }),
-  created: function created() {
+  mounted: function mounted() {
     var _this = this;
 
     this.hideCard();

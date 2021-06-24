@@ -92,6 +92,12 @@
 
 
 <script>
+
+  import VueConfetti from 'vue-confetti'
+
+  Vue.use(VueConfetti)
+
+
     import {
         mapGetters,
         mapActions
@@ -118,12 +124,21 @@
                 time: false,
                 updateTime: false,
                 percentage: 0,
+                firstLoad: false
             }
         },
         computed: {
             ...mapGetters(["getmain_module", "getSub_module", "getAll_sub_module", "getStudentModuleProgress"])
         },
         methods: {
+            start() {
+                this.$confetti.start();
+            },
+
+            stop() {
+                this.$confetti.stop();
+            },
+
 
             passToMainComponent(sub_module, id) {
                 var _sub_module = sub_module.find(item => item.id === id);
@@ -146,6 +161,7 @@
                                 if (arr[j].time_spent >= subModules_arr[i].required_time) {
 
                                     count++;
+                                  
                                 }
                             }
                         }
@@ -192,9 +208,19 @@
                 for (var i = 0; i < arr.length; i++) {
                     if (arr[i].sub_module_id == sub_module.id) {
                         if (arr[i].time_spent >= time_spent) {
+                            
                             // this.$store.dispatch('studentmodule_progress', this.$route.params.id);
                             // this.$store.dispatch('fetchClassList')
                             check = true;
+
+                            //   if(this.firstLoad == false) {
+                            //               this.$confetti.start();
+
+                            //               setTimeout(() => {
+                            //                     this.$confetti.stop();
+                            //               }, 3000);
+                            //         }
+
                         }
                     }
                 }
@@ -302,7 +328,14 @@
             this.$store.dispatch('fetchSubModule', this.$route.params.id);
             this.$store.dispatch('studentmodule_progress', this.$route.params.id);
             this.loading = false;
+            setTimeout(() => {
+                    this.firstLoad = false;
+            }, 5000);
+        
 
+        },
+        created() {
+            this.firstLoad = true;
         },
         beforeDestroy() {
             clearInterval(this.ctrTime);

@@ -71,6 +71,8 @@
 
                 if (this.routeName == 'student-modules' || this.routeName == 'modules-preview') {
                     this.showCard = false;
+                } else {
+                      this.showCard = true;
                 }
 
             },
@@ -97,7 +99,7 @@
 
 
 
-        created() {
+        mounted() {
             this.hideCard();
             this.isloading = true;
             this.course_id = this.$route.params.id;

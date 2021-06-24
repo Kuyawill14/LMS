@@ -23,7 +23,6 @@
                 <v-tab v-for="(gradingCriteria, index) in get_gradingCriteria" :key="index">
                     {{gradingCriteria.name}}
                 </v-tab>
-
                 <v-tab-item v-for="(gradingCriteria, index) in get_gradingCriteria" :key="index">
 
                     <v-card-title>
