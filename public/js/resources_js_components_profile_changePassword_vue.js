@@ -118,7 +118,11 @@ var render = function() {
               _c(
                 "v-col",
                 { attrs: { cols: "12", md: "5" } },
-                [_c("v-text-field", { attrs: { dense: "", outlined: "" } })],
+                [
+                  _c("v-text-field", {
+                    attrs: { dense: "", outlined: "", type: "password" }
+                  })
+                ],
                 1
               )
             ],
@@ -147,7 +151,11 @@ var render = function() {
               _c(
                 "v-col",
                 { attrs: { cols: "12", md: "5" } },
-                [_c("v-text-field", { attrs: { dense: "", outlined: "" } })],
+                [
+                  _c("v-text-field", {
+                    attrs: { dense: "", outlined: "", type: "password" }
+                  })
+                ],
                 1
               )
             ],
@@ -180,7 +188,11 @@ var render = function() {
               _c(
                 "v-col",
                 { attrs: { cols: "12", md: "5" } },
-                [_c("v-text-field", { attrs: { dense: "", outlined: "" } })],
+                [
+                  _c("v-text-field", {
+                    attrs: { dense: "", outlined: "", type: "password" }
+                  })
+                ],
                 1
               )
             ],

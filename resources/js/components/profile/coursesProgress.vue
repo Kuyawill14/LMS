@@ -1,5 +1,8 @@
 <template>
-     <v-row class="pb-5">
+<div>
+     
+
+     <v-row>
         <v-col cols="12" class="mb-0 pb-0">
            <h3>COURSES</h3>
         
@@ -9,45 +12,85 @@
             <v-divider></v-divider>
         </v-col>
 
+        <v-col cols="12" v-if="isloading">
+            <v-container class="fill-height" v-if="isloading" >
+            <v-row  align-content="center" justify="center">
+                <v-col class="text-subtitle-1 text-center" cols="12">
+                    Loading
+                </v-col>
+                <v-col cols="6">
+                    <v-progress-linear color="primary" indeterminate rounded height="6"></v-progress-linear>
+                </v-col>
+            </v-row>
+            </v-container>
+        </v-col>
+
         
-        <v-col cols="12">
+        <v-col v-if="!isloading"  cols="12">
          
              <v-row>
-                 <v-col cols="4" v-for="(n, index) in 5" :key="index">
+                 <v-col cols="6" md="3" lg="3" v-for="(item) in details" :key="item.course_id">
                     <v-card
+                        style="border-top: 3px solid #EF6C00;cursor:pointer"
                         class="mx-auto"
                         max-width="344"
                         outlined
                     >
                         <v-list-item>
-                        <v-list-item-content>
-                            <div class="text-center">
-                            Programming 1
-                            </div>
+                        <v-list-item-content style="max-height:30px;overflow:hidden">
+                              <v-tooltip top>
+                                <template v-slot:activator="{ on, attrs }">
+                                     <div  v-bind="attrs" v-on="on" class="text-center blue--text">
+                                        {{item.course_code +' - '+item.course_name}}
+                                    </div>
+                                </template>
+                                <span>{{item.course_code +' - '+item.course_name}}</span>
+                                </v-tooltip>
+                           
                         </v-list-item-content>
                         </v-list-item>
-                          <v-divider></v-divider>
+
+                  
+                 
+                            <div class="text-center pl-4 pr-4">
+                                <v-divider></v-divider>
+                            </div>
+                   
+
+
+                      
 
                            <v-list-item>
                         <v-list-item-content >
                             <div class="pa-2">
                                 <div class="text-center">
-                                89%
+                                {{UserDetails.role != 'Teacher' ? item.progress+'%' : item.student_count}}
                                 </div>
 
-                                <div class="text-center">
-                                Progress
+                              
+
+                                <div v-if="UserDetails.role != 'Teacher'" class="text-center pb-1 pt-1">
+                                 <v-progress-linear v-if="UserDetails.role != 'Teacher'" :value="item.progress" height="4" class="rounded-sm">
+                                    </v-progress-linear>
                                 </div>
+                                  <div class="text-center">
+                                {{UserDetails.role != 'Teacher' ? 'Progress' : 'Students'}}
+                                </div>
+                                
                              </div>
                           
                         </v-list-item-content>
                         </v-list-item>
-                          <v-divider></v-divider>
+
+                   
+                           <div class="text-center pl-4 pr-4">
+                                <v-divider></v-divider>
+                            </div>
 
                            <v-list-item>
                         <v-list-item-content>
-                            <div class="text-center">
-                            Course Name
+                            <div class="text-center overline">
+                            {{UserDetails.role != 'Teacher' ? 'Rank 1':'Classworks '+item.classwork_count}}
                             </div>
                         </v-list-item-content>
                         </v-list-item>
@@ -61,30 +104,40 @@
                     </v-card>
                  </v-col>
                
-            
-
-              
-                 
              </v-row>
-                    
-                    
-
-           
-
-               
-           
         </v-col>
-        
-    
-
-     
-
       
-
-    
-
-       
-
      
     </v-row>
+</div>
 </template>
+<script>
+ import {
+        mapGetters,
+        mapActions
+    } from "vuex";
+export default {
+    props:['UserDetails'],
+    data(){
+        return{
+            isloading: true,
+            coursesLength: null,
+            details:[]
+        }
+    },
+    computed: mapGetters(['allCourse','allClass']),
+    methods:{
+         async fetchCourses() {
+           axios.get('/api/profile/ClassesList')
+           .then(res=>{
+               this.details = res.data;
+               this.isloading = false;
+           })
+        },
+    },
+    beforeMount(){
+        this.fetchCourses();
+    }
+
+}
+</script>

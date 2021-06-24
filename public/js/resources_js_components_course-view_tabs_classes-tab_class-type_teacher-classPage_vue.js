@@ -1144,7 +1144,7 @@ var render = function() {
                             ]),
                             _vm._v(" "),
                             _c("v-list-item-subtitle", [
-                              _vm._v("{Students #} ")
+                              _vm._v("Students: " + _vm._s(item.student_count))
                             ])
                           ],
                           1

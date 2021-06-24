@@ -7,9 +7,15 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use App\Models\tbl_userDetails;
+use App\Models\Tbl_class;
+use App\Models\tbl_userclass;
+use App\Models\tbl_student_sub_module_progress;
+use App\Models\tbl_sub_modules;
 use Illuminate\Support\Str;
+
 
 class UserProfileController extends Controller
 {
@@ -26,8 +32,11 @@ class UserProfileController extends Controller
         'tbl_user_details.*')
         ->leftJoin('users', 'users.id', '=', 'tbl_user_details.user_id')
         ->get();
+        
         return $userDetails;
     }
+
+
 
     /**
      * Show the form for creating a new resource.
@@ -64,12 +73,88 @@ class UserProfileController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function getCourseAndClassesList()
     {
-        //
+        $i = [];
+        $totalProgress = 0;
+        $userId = auth('sanctum')->id();
+        if(auth('sanctum')->user()->role != "Student") {
+            $allClass = tbl_userclass::select('tbl_subject_courses.course_name',
+            'tbl_subject_courses.course_code',
+            'tbl_subject_courses.id as course_id',
+            )
+            ->selectRaw('count(tbl_userclasses.course_id ) as student_count')
+            ->selectRaw('count(tbl_class_classworks.class_id ) as classwork_count')
+            
+
+            ->leftJoin('tbl_classes', 'tbl_userclasses.class_id', '=', 'tbl_classes.id')
+            ->leftJoin('tbl_subject_courses', 'tbl_userclasses.course_id', '=', 'tbl_subject_courses.id')
+            ->leftJoin('tbl_class_classworks','tbl_class_classworks.class_id','=','tbl_classes.id')
+            ->groupBy('tbl_subject_courses.course_name','tbl_subject_courses.course_code','tbl_subject_courses.id')
+            ->where('user_id',$userId)
+            ->get();
+
+            foreach($allClass as $key => $value) {
+                
+                $StudentCount = tbl_userclass::where('course_id', $value ->course_id)
+                ->leftJoin('users','users.id','=','tbl_userclasses.user_id')
+                ->where('users.role','Student')
+                ->count();
+                $value->student_count = $StudentCount;
+            }
+            return $allClass;
+
+        }
+        else{
+
+            $allClass = tbl_userclass::select('tbl_classes.class_name','tbl_subject_courses.course_name',
+            'tbl_subject_courses.course_code','tbl_subject_courses.id as course_id',
+            'tbl_classes.id as class_id','tbl_userclasses.progress')
+            ->leftJoin('tbl_classes', 'tbl_userclasses.class_id', '=', 'tbl_classes.id')
+            ->leftJoin('tbl_subject_courses', 'tbl_userclasses.course_id', '=', 'tbl_subject_courses.id')
+            ->where('user_id',$userId)
+            ->get();
+
+            foreach($allClass as $key => $value) {
+                $allSubModulesProgress = tbl_student_sub_module_progress::select('tbl_student_sub_module_progress.*')
+                ->leftJoin('tbl_sub_modules', 'tbl_sub_modules.id', '=', 'tbl_student_sub_module_progress.sub_module_id')
+                ->where('tbl_student_sub_module_progress.course_id', $value ->course_id )
+                ->where('tbl_student_sub_module_progress.student_id',  $userId )
+                ->get();
+                $allSubModulesProgress = json_decode($allSubModulesProgress, true);
+        
+                $allSubModules = tbl_sub_modules::select('tbl_sub_modules.*', "course_id")
+                ->leftJoin('tbl_main_modules', 'tbl_main_modules.id', '=', 'tbl_sub_modules.main_module_id')
+                ->where('tbl_main_modules.course_id', $value ->course_id)
+                ->get();
+
+                $allSubModules = json_decode($allSubModules, true);
+                $completed = 0;
+                for($i = 0 ; $i < count($allSubModules) ; $i++) {
+                    for($j = 0; $j < count($allSubModulesProgress); $j++) {
+                        if($allSubModulesProgress[$j]['sub_module_id'] == $allSubModules[$i]['id'] ){
+                            if($allSubModulesProgress[$j]['time_spent'] >= $allSubModules[$i]['required_time'] ){
+                            $completed++;
+                            }
+                        }
+                    }
+                   
+                }
+                if(count($allSubModules) ) {
+                      
+                    $totalProgress = ($completed / count($allSubModules)) * 100;;
+                } else {
+                    $totalProgress = 0;
+                }
+                
+                tbl_userclass::where('user_id', $userId)
+                ->where('course_id', $value ->course_id)
+                ->update(['progress' => $totalProgress]);
+            }
+            return $allClass;
+        }
     }
 
     /**

@@ -41,6 +41,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 //return user role
 Route::middleware('auth:sanctum')->get('/role', function (Request $request) {
+    /* return base64_encode($request->user()->role); */
     return $request->user()->role;
 });
 
@@ -203,11 +204,15 @@ Route::prefix('/submission')->group(function () {
 
 
 //User Profile 
-Route::middleware('auth:sanctum')->prefix('/profile')->group(function () {
+/* middleware('auth:sanctum')-> */
+Route::prefix('/profile')->group(function () {
     Route::get('/details', [UserProfileController::class, 'index']);
     Route::post('/profile_picture', [UserProfileController::class, 'updatePicture']);
     Route::post('/updateDetails', [UserProfileController::class, 'updateDetails']);
+    Route::get('/ClassesList', [UserProfileController::class, 'getCourseAndClassesList']);
 });
+
+
 
 
 

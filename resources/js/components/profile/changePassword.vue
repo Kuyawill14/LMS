@@ -25,7 +25,7 @@
                        <v-text-field
                             dense
                           outlined
-                         
+                          type="password"
                         ></v-text-field>
                 </v-col>
             </v-row>
@@ -40,7 +40,7 @@
                        <v-text-field
                        dense
                           outlined
-                          
+                           type="password"
                         ></v-text-field>
                 </v-col>
             </v-row>
@@ -55,7 +55,7 @@
                        <v-text-field
                        dense
                           outlined
-                          
+                          type="password"
                         ></v-text-field>
                 </v-col>
             </v-row>

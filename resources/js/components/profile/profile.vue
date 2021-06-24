@@ -40,7 +40,7 @@
 
         <h2 v-if="!isloading">USER PROFILE</h2>
         <v-row v-if="!isloading" class="mt-2">
-            <v-col cols="12" md="3">
+            <v-col cols="12" md="3" lg="3" xl="2" >
               <v-card
                 elevation="1"
                 outlined
@@ -96,7 +96,7 @@
                      </v-col>
                       <v-col cols="12" class="mb-0 pb-0 mt-1 pt-0 d-flex justify-center">
                         
-                            <v-btn icon text>
+                            <v-btn icon text @click="UserDetails.social_account != null ? OpenSocialAccount(UserDetails.social_account) : ''">
                             <v-icon color="blue"  >
                                 mdi-facebook
                             </v-icon>
@@ -121,6 +121,18 @@
                                 Edit Profile
                             </v-btn> -->
                             <v-tabs v-model="tab" vertical class="mt-2">
+                                 <v-tab class="d-flex justify-start">
+                                    <v-icon left>
+                                    mdi-alert-circle-outline
+                                    </v-icon>
+                                    About
+                                </v-tab>
+                                 <v-tab class="d-flex justify-start">
+                                    <v-icon left>
+                                    mdi-account
+                                    </v-icon>
+                                    Profile
+                                </v-tab>
                                 <v-tab class="d-flex justify-start">
                                     <v-icon left>
                                     mdi-google-classroom
@@ -133,12 +145,7 @@
                                     </v-icon>
                                     Classwork Results
                                 </v-tab>
-                                <v-tab class="d-flex justify-start">
-                                    <v-icon left>
-                                    mdi-account
-                                    </v-icon>
-                                    Profile
-                                </v-tab>
+                               
                                  <v-tab class="d-flex justify-start">
                                     <v-icon left>
                                     mdi-lock
@@ -154,13 +161,20 @@
    
                  
             </v-col>
-            <v-col cols="12" md="9">
+            <v-col cols="12" md="9" lg="9" xl="10">
                   <v-card
                   class="pt-3 pb-3 pl-5 pr-5"
                 elevation="1" outlinedS>
                <v-row>
                    <v-col cols="12">
                        <v-tabs-items :value="tab">
+                     
+                             <v-tab-item>
+                                <aboutTab :UserDetails="UserDetails"></aboutTab>
+                            </v-tab-item>
+                            <v-tab-item>
+                                <editProfile :UserDetails="UserDetails"></editProfile>
+                            </v-tab-item>
                             <v-tab-item>
                                 <coursesProgress :UserDetails="UserDetails"></coursesProgress>
                             </v-tab-item>
@@ -190,9 +204,6 @@
                                 </v-card>
                             </v-tab-item>
                             <v-tab-item>
-                                <editProfile :UserDetails="UserDetails"></editProfile>
-                            </v-tab-item>
-                               <v-tab-item>
                                 <changePassword ></changePassword>
                             </v-tab-item>
                        </v-tabs-items>
@@ -208,13 +219,15 @@
     const editProfile = () => import('./editprofile')
     const changePassword = () => import('./changePassword')
     const coursesProgress = () => import('./coursesProgress')
+    const aboutTab = () => import('./aboutTab')
     
     export default {
         props:['role','UserDetails'],
         components:{
             editProfile,
             changePassword,
-            coursesProgress
+            coursesProgress,
+            aboutTab
         },
         data () {
             return {
@@ -265,6 +278,9 @@
                    
                 })
             },
+            OpenSocialAccount(link){
+                window.location = link
+            }
             
         },
         mounted(){

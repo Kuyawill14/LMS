@@ -12,11 +12,11 @@ require('dotenv').config();
  |
  */
 
- require('laravel-mix-bundle-analyzer');
+/*  require('laravel-mix-bundle-analyzer');
  
  if (mix.isWatching()) {
      mix.bundleAnalyzer();
- }
+ } */
 
 mix.js('resources/js/app.js', 'public/js')
     .vue()

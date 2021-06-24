@@ -200,11 +200,29 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['UserDetails'],
   data: function data() {
     return {
+      valid: false,
       editEmail: true,
+      editPhone: true,
       isSaving: false,
       Details: [],
       emailRules: [function (v) {
@@ -212,8 +230,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }, function (v) {
         return /.+@.+\..+/.test(v) || 'E-mail must be valid';
       }],
+      FieldRules: [function (v) {
+        return !!v || 'Field is required';
+      }],
       message: null,
-      type: null
+      type: null,
+      isloading: true
     };
   },
   methods: {
@@ -232,6 +254,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           icon: "error",
           duration: 3000
         });
+      }
+    },
+    validate: function validate() {
+      if (this.$refs.form.validate()) {
+        this.UpdateDetails();
       }
     },
     UpdateDetails: function UpdateDetails() {
@@ -275,8 +302,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     }
   },
-  mounted: function mounted() {
-    this.Details = this.UserDetails;
+  beforeMount: function beforeMount() {
+    var _this2 = this;
+
+    setTimeout(function () {
+      _this2.isloading = !_this2.isloading;
+    }, 1000);
   }
 });
 
@@ -371,228 +402,640 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "v-row",
-    { staticClass: "pb-5" },
+    "v-form",
+    {
+      ref: "form",
+      attrs: { "lazy-validation": "" },
+      model: {
+        value: _vm.valid,
+        callback: function($$v) {
+          _vm.valid = $$v
+        },
+        expression: "valid"
+      }
+    },
     [
-      _c("v-col", { staticClass: "mb-0 pb-0", attrs: { cols: "12" } }, [
-        _c("h3", [_vm._v("EDIT PROFILE")])
-      ]),
-      _vm._v(" "),
       _c(
-        "v-col",
-        { attrs: { cols: "12" } },
+        "v-row",
+        { staticClass: "pb-5" },
         [
-          _c("v-divider"),
+          _c("v-col", { staticClass: "mb-0 pb-0", attrs: { cols: "12" } }, [
+            _c("h3", [_vm._v("EDIT PROFILE")])
+          ]),
           _vm._v(" "),
           _c(
-            "v-row",
-            [
-              _c("v-col", { attrs: { cols: "12", md: "2" } }),
-              _vm._v(" "),
-              _c("v-col", { attrs: { cols: "12", md: "10" } }, [
-                _c("h4", { staticClass: "mt-5" }, [
-                  _vm._v("1. Personal Details")
-                ])
-              ])
-            ],
+            "v-col",
+            { staticClass: "mb-0 pb-0", attrs: { cols: "12" } },
+            [_c("v-divider")],
             1
-          )
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "v-col",
-        { staticClass: "mb-0 pb-0", attrs: { cols: "12" } },
-        [
-          _c(
-            "v-row",
-            [
-              _c(
+          ),
+          _vm._v(" "),
+          _vm.isloading
+            ? _c(
                 "v-col",
-                {
-                  class: _vm.$vuetify.breakpoint.xs ? "mb-0 pb-0" : "mt-2",
-                  attrs: { cols: "12", md: "2" }
-                },
-                [_vm._v("\n                 First Name\n            ")]
-              ),
-              _vm._v(" "),
-              _c(
-                "v-col",
-                { attrs: { cols: "12", md: "6" } },
+                { attrs: { cols: "12" } },
                 [
-                  _c("v-text-field", {
-                    attrs: { dense: "", outlined: "" },
-                    model: {
-                      value: _vm.UserDetails.firstName,
-                      callback: function($$v) {
-                        _vm.$set(_vm.UserDetails, "firstName", $$v)
-                      },
-                      expression: "UserDetails.firstName"
-                    }
-                  })
+                  _vm.isloading
+                    ? _c(
+                        "v-container",
+                        { staticClass: "fill-height" },
+                        [
+                          _c(
+                            "v-row",
+                            {
+                              attrs: {
+                                "align-content": "center",
+                                justify: "center"
+                              }
+                            },
+                            [
+                              _c(
+                                "v-col",
+                                {
+                                  staticClass: "text-subtitle-1 text-center",
+                                  attrs: { cols: "12" }
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                   Loading\n               "
+                                  )
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-col",
+                                { attrs: { cols: "6" } },
+                                [
+                                  _c("v-progress-linear", {
+                                    attrs: {
+                                      color: "primary",
+                                      indeterminate: "",
+                                      rounded: "",
+                                      height: "6"
+                                    }
+                                  })
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    : _vm._e()
                 ],
                 1
               )
-            ],
-            1
-          )
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "v-col",
-        { staticClass: "mt-0 pt-0 mb-0 pb-0", attrs: { cols: "12" } },
-        [
-          _c(
-            "v-row",
-            [
-              _c(
+            : _vm._e(),
+          _vm._v(" "),
+          !_vm.isloading
+            ? _c(
                 "v-col",
-                {
-                  class: _vm.$vuetify.breakpoint.xs ? "mb-0 pb-0" : "mt-2",
-                  attrs: { cols: "12", md: "2" }
-                },
-                [_vm._v("\n                 Middle Name\n            ")]
-              ),
-              _vm._v(" "),
-              _c(
-                "v-col",
-                { attrs: { cols: "12", md: "6" } },
-                [
-                  _c("v-text-field", {
-                    attrs: { dense: "", outlined: "" },
-                    model: {
-                      value: _vm.UserDetails.middleName,
-                      callback: function($$v) {
-                        _vm.$set(_vm.UserDetails, "middleName", $$v)
-                      },
-                      expression: "UserDetails.middleName"
-                    }
-                  })
-                ],
-                1
-              )
-            ],
-            1
-          )
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "v-col",
-        { staticClass: "mt-0 pt-0 mb-0 pb-0", attrs: { cols: "12" } },
-        [
-          _c(
-            "v-row",
-            [
-              _c(
-                "v-col",
-                {
-                  class: _vm.$vuetify.breakpoint.xs ? "mb-0 pb-0" : "mt-2",
-                  attrs: { cols: "12", md: "2" }
-                },
-                [_vm._v("\n                 Last Name\n            ")]
-              ),
-              _vm._v(" "),
-              _c(
-                "v-col",
-                { attrs: { cols: "12", md: "6" } },
-                [
-                  _c("v-text-field", {
-                    attrs: { dense: "", outlined: "" },
-                    model: {
-                      value: _vm.UserDetails.lastName,
-                      callback: function($$v) {
-                        _vm.$set(_vm.UserDetails, "lastName", $$v)
-                      },
-                      expression: "UserDetails.lastName"
-                    }
-                  })
-                ],
-                1
-              )
-            ],
-            1
-          )
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "v-col",
-        { staticClass: "mt-0 pt-0 mb-0 pb-0", attrs: { cols: "12" } },
-        [
-          _c(
-            "v-row",
-            [
-              _c(
-                "v-col",
-                {
-                  class: _vm.$vuetify.breakpoint.xs
-                    ? "mb-0 pb-0 mr-0 pr-0"
-                    : "mt-2 mr-0 pr-0",
-                  attrs: { cols: "12", md: "2" }
-                },
-                [_vm._v("\n                 Email Address.\n            ")]
-              ),
-              _vm._v(" "),
-              _c(
-                "v-col",
-                { attrs: { cols: "10", md: "6" } },
-                [
-                  _c("v-text-field", {
-                    attrs: {
-                      disabled: _vm.editEmail,
-                      rules: _vm.emailRules,
-                      dense: "",
-                      outlined: "",
-                      hint: _vm.editEmail
-                        ? ""
-                        : "Please use an active email address!"
-                    },
-                    model: {
-                      value: _vm.UserDetails.email,
-                      callback: function($$v) {
-                        _vm.$set(_vm.UserDetails, "email", $$v)
-                      },
-                      expression: "UserDetails.email"
-                    }
-                  })
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "v-col",
-                { staticClass: "ml-0 pl-0 mt-1 mr-4", attrs: { cols: "1" } },
+                { staticClass: "ma-0 pa-0", attrs: { cols: "12" } },
                 [
                   _c(
-                    "v-btn",
+                    "v-col",
+                    { attrs: { cols: "12" } },
+                    [
+                      _c(
+                        "v-row",
+                        [
+                          _c("v-col", { attrs: { cols: "12", md: "2" } }),
+                          _vm._v(" "),
+                          _c("v-col", { attrs: { cols: "12", md: "10" } }, [
+                            _c("h4", { staticClass: "mt-5" }, [
+                              _vm._v("1. Personal Details")
+                            ])
+                          ])
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-col",
+                    { staticClass: "mb-0 pb-0", attrs: { cols: "12" } },
+                    [
+                      _c(
+                        "v-row",
+                        [
+                          _c(
+                            "v-col",
+                            {
+                              class: _vm.$vuetify.breakpoint.xs
+                                ? "mb-0 pb-0"
+                                : "mt-2",
+                              attrs: { cols: "12", md: "2" }
+                            },
+                            [
+                              _vm._v(
+                                "\n                       First Name\n                   "
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-col",
+                            {
+                              staticClass: "pb-0 mb-0",
+                              attrs: { cols: "12", md: "6" }
+                            },
+                            [
+                              _c("v-text-field", {
+                                attrs: {
+                                  dense: "",
+                                  rules: _vm.FieldRules,
+                                  outlined: ""
+                                },
+                                model: {
+                                  value: _vm.UserDetails.firstName,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.UserDetails, "firstName", $$v)
+                                  },
+                                  expression: "UserDetails.firstName"
+                                }
+                              })
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-col",
                     {
-                      attrs: { text: "", icon: "" },
-                      on: {
-                        click: function($event) {
-                          _vm.editEmail = !_vm.editEmail
-                        }
-                      }
+                      staticClass: "mt-0 pt-0 mb-0 pb-0",
+                      attrs: { cols: "12" }
                     },
                     [
                       _c(
-                        "v-icon",
-                        { attrs: { color: _vm.editEmail ? "" : "primary" } },
+                        "v-row",
                         [
-                          _vm._v(
-                            "mdi-" +
-                              _vm._s(
-                                _vm.editEmail
-                                  ? "pencil-off-outline"
-                                  : "pencil-outline"
+                          _c(
+                            "v-col",
+                            {
+                              class: _vm.$vuetify.breakpoint.xs
+                                ? "mb-0 pb-0"
+                                : "mt-2",
+                              attrs: { cols: "12", md: "2" }
+                            },
+                            [
+                              _vm._v(
+                                "\n                       Middle Name\n                   "
                               )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-col",
+                            {
+                              staticClass: "pb-0 mb-0",
+                              attrs: { cols: "12", md: "6" }
+                            },
+                            [
+                              _c("v-text-field", {
+                                attrs: {
+                                  dense: "",
+                                  outlined: "",
+                                  rules: _vm.FieldRules
+                                },
+                                model: {
+                                  value: _vm.UserDetails.middleName,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.UserDetails, "middleName", $$v)
+                                  },
+                                  expression: "UserDetails.middleName"
+                                }
+                              })
+                            ],
+                            1
                           )
-                        ]
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-col",
+                    {
+                      staticClass: "mt-0 pt-0 mb-0 pb-0",
+                      attrs: { cols: "12" }
+                    },
+                    [
+                      _c(
+                        "v-row",
+                        [
+                          _c(
+                            "v-col",
+                            {
+                              class: _vm.$vuetify.breakpoint.xs
+                                ? "mb-0 pb-0"
+                                : "mt-2",
+                              attrs: { cols: "12", md: "2" }
+                            },
+                            [
+                              _vm._v(
+                                "\n                       Last Name\n                   "
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-col",
+                            {
+                              staticClass: "pb-0 mb-0",
+                              attrs: { cols: "12", md: "6" }
+                            },
+                            [
+                              _c("v-text-field", {
+                                attrs: {
+                                  dense: "",
+                                  outlined: "",
+                                  rules: _vm.FieldRules
+                                },
+                                model: {
+                                  value: _vm.UserDetails.lastName,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.UserDetails, "lastName", $$v)
+                                  },
+                                  expression: "UserDetails.lastName"
+                                }
+                              })
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-col",
+                    { staticClass: "mt-0 pt-0 ", attrs: { cols: "12" } },
+                    [
+                      _c(
+                        "v-row",
+                        [
+                          _c("v-col", { attrs: { cols: "12", md: "2" } }),
+                          _vm._v(" "),
+                          _c("v-col", { attrs: { cols: "12", md: "10" } }, [
+                            _c("h4", { staticClass: "mt-5" }, [
+                              _vm._v("2. Contact")
+                            ])
+                          ])
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-col",
+                    {
+                      staticClass: "mt-0 pt-0 mb-0 pb-0",
+                      attrs: { cols: "12" }
+                    },
+                    [
+                      _c(
+                        "v-row",
+                        [
+                          _c(
+                            "v-col",
+                            {
+                              class: _vm.$vuetify.breakpoint.xs
+                                ? "mb-0 pb-0 mr-0 pr-0"
+                                : "mt-2 mr-0 pr-0",
+                              attrs: { cols: "12", md: "2" }
+                            },
+                            [
+                              _vm._v(
+                                "\n                       Email Address.\n                   "
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-col",
+                            {
+                              staticClass: "pb-0 mb-0",
+                              attrs: { cols: "10", md: "6" }
+                            },
+                            [
+                              _c("v-text-field", {
+                                attrs: {
+                                  disabled: _vm.editEmail,
+                                  rules: _vm.emailRules,
+                                  dense: "",
+                                  outlined: "",
+                                  hint: _vm.editEmail
+                                    ? ""
+                                    : "Please use an active email address!"
+                                },
+                                model: {
+                                  value: _vm.UserDetails.email,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.UserDetails, "email", $$v)
+                                  },
+                                  expression: "UserDetails.email"
+                                }
+                              })
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-col",
+                            {
+                              staticClass: "ml-0 pl-0 mt-1 mr-4",
+                              attrs: { cols: "1" }
+                            },
+                            [
+                              _c(
+                                "v-btn",
+                                {
+                                  attrs: { text: "", icon: "" },
+                                  on: {
+                                    click: function($event) {
+                                      _vm.editEmail = !_vm.editEmail
+                                    }
+                                  }
+                                },
+                                [
+                                  _c(
+                                    "v-icon",
+                                    {
+                                      attrs: {
+                                        color: _vm.editEmail ? "" : "primary"
+                                      }
+                                    },
+                                    [
+                                      _vm._v(
+                                        "mdi-" +
+                                          _vm._s(
+                                            _vm.editEmail
+                                              ? "pencil-off-outline"
+                                              : "pencil-outline"
+                                          )
+                                      )
+                                    ]
+                                  )
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-col",
+                    {
+                      staticClass: "mt-0 pt-0 mb-0 pb-0",
+                      attrs: { cols: "12" }
+                    },
+                    [
+                      _c(
+                        "v-row",
+                        [
+                          _c(
+                            "v-col",
+                            {
+                              class: _vm.$vuetify.breakpoint.xs
+                                ? "mb-0 pb-0"
+                                : "mt-2",
+                              attrs: { cols: "12", md: "2" }
+                            },
+                            [
+                              _vm._v(
+                                "\n                       Phone No.\n                   "
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-col",
+                            {
+                              staticClass: "pb-0 mb-0",
+                              attrs: { cols: "10", md: "6" }
+                            },
+                            [
+                              _c("v-text-field", {
+                                attrs: {
+                                  dense: "",
+                                  outlined: "",
+                                  disabled: _vm.editPhone,
+                                  hint: _vm.editPhone
+                                    ? ""
+                                    : "Please use an active phone number"
+                                },
+                                model: {
+                                  value: _vm.UserDetails.cp_no,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.UserDetails, "cp_no", $$v)
+                                  },
+                                  expression: "UserDetails.cp_no"
+                                }
+                              })
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-col",
+                            {
+                              staticClass: "ml-0 pl-0 mt-1 mr-4",
+                              attrs: { cols: "1" }
+                            },
+                            [
+                              _c(
+                                "v-btn",
+                                {
+                                  attrs: { text: "", icon: "" },
+                                  on: {
+                                    click: function($event) {
+                                      _vm.editPhone = !_vm.editPhone
+                                    }
+                                  }
+                                },
+                                [
+                                  _c(
+                                    "v-icon",
+                                    {
+                                      attrs: {
+                                        color: _vm.editPhone ? "" : "primary"
+                                      }
+                                    },
+                                    [
+                                      _vm._v(
+                                        "mdi-" +
+                                          _vm._s(
+                                            _vm.editPhone
+                                              ? "pencil-off-outline"
+                                              : "pencil-outline"
+                                          )
+                                      )
+                                    ]
+                                  )
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-col",
+                    { staticClass: "mt-0 pt-0 ", attrs: { cols: "12" } },
+                    [
+                      _c(
+                        "v-row",
+                        [
+                          _c("v-col", { attrs: { cols: "12", md: "2" } }),
+                          _vm._v(" "),
+                          _c("v-col", { attrs: { cols: "12", md: "10" } }, [
+                            _c("h4", { staticClass: "mt-5" }, [
+                              _vm._v("3. Social Link")
+                            ])
+                          ])
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-col",
+                    {
+                      staticClass: "mt-0 pt-0 mb-0 pb-0",
+                      attrs: { cols: "12" }
+                    },
+                    [
+                      _c(
+                        "v-row",
+                        [
+                          _c(
+                            "v-col",
+                            {
+                              class: _vm.$vuetify.breakpoint.xs
+                                ? "mb-0 pb-0"
+                                : "mt-2",
+                              attrs: { cols: "12", md: "2" }
+                            },
+                            [
+                              _vm._v(
+                                "\n                       Facebook\n                   "
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-col",
+                            {
+                              staticClass: "pb-0 mb-0",
+                              attrs: { cols: "12", md: "6" }
+                            },
+                            [
+                              _c("v-text-field", {
+                                staticClass: "blue--text",
+                                attrs: { dense: "", outlined: "" },
+                                model: {
+                                  value: _vm.UserDetails.social_account,
+                                  callback: function($$v) {
+                                    _vm.$set(
+                                      _vm.UserDetails,
+                                      "social_account",
+                                      $$v
+                                    )
+                                  },
+                                  expression: "UserDetails.social_account"
+                                }
+                              })
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-col",
+                    { staticClass: "mb-0 pb-5", attrs: { cols: "12" } },
+                    [
+                      _c(
+                        "v-row",
+                        [
+                          _c("v-col", {
+                            class: _vm.$vuetify.breakpoint.xs
+                              ? "mb-0 pb-0"
+                              : "mt-2",
+                            attrs: { cols: "12", md: "2" }
+                          }),
+                          _vm._v(" "),
+                          _c(
+                            "v-col",
+                            { attrs: { cols: "12", md: "6" } },
+                            [
+                              _c(
+                                "v-btn",
+                                {
+                                  attrs: {
+                                    color: "primary",
+                                    rounded: "",
+                                    loading: _vm.isSaving,
+                                    dark: ""
+                                  },
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.validate()
+                                    }
+                                  }
+                                },
+                                [_vm._v("Save Changes")]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-btn",
+                                {
+                                  attrs: {
+                                    color: "secondary",
+                                    rounded: "",
+                                    dark: ""
+                                  }
+                                },
+                                [_vm._v("Cancel")]
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
                       )
                     ],
                     1
@@ -600,245 +1043,7 @@ var render = function() {
                 ],
                 1
               )
-            ],
-            1
-          )
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "v-col",
-        { staticClass: "mt-0 pt-0 mb-0 pb-0", attrs: { cols: "12" } },
-        [
-          _c(
-            "v-row",
-            [
-              _c(
-                "v-col",
-                {
-                  class: _vm.$vuetify.breakpoint.xs ? "mb-0 pb-0" : "mt-2",
-                  attrs: { cols: "12", md: "2" }
-                },
-                [_vm._v("\n                 Phone No.\n            ")]
-              ),
-              _vm._v(" "),
-              _c(
-                "v-col",
-                { staticClass: "pb-0 mb-0", attrs: { cols: "12", md: "6" } },
-                [
-                  _c("v-text-field", {
-                    attrs: { dense: "", outlined: "" },
-                    model: {
-                      value: _vm.UserDetails.cp_no,
-                      callback: function($$v) {
-                        _vm.$set(_vm.UserDetails, "cp_no", $$v)
-                      },
-                      expression: "UserDetails.cp_no"
-                    }
-                  })
-                ],
-                1
-              )
-            ],
-            1
-          )
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "v-col",
-        { staticClass: "mt-0 pt-0 ", attrs: { cols: "12" } },
-        [
-          _c(
-            "v-row",
-            [
-              _c("v-col", { attrs: { cols: "12", md: "2" } }),
-              _vm._v(" "),
-              _c("v-col", { attrs: { cols: "12", md: "10" } }, [
-                _c("h4", { staticClass: "mt-5" }, [_vm._v("2. Address")])
-              ])
-            ],
-            1
-          )
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "v-col",
-        { staticClass: "mt-0 pt-0 mb-0 pb-0", attrs: { cols: "12" } },
-        [
-          _c(
-            "v-row",
-            [
-              _c(
-                "v-col",
-                {
-                  class: _vm.$vuetify.breakpoint.xs ? "mb-0 pb-0" : "mt-2",
-                  attrs: { cols: "12", md: "2" }
-                },
-                [_vm._v("\n                 Address\n            ")]
-              ),
-              _vm._v(" "),
-              _c(
-                "v-col",
-                { staticClass: "pb-0 mb-0", attrs: { cols: "12", md: "6" } },
-                [
-                  _c("v-text-field", {
-                    attrs: { dense: "", outlined: "" },
-                    model: {
-                      value: _vm.UserDetails.address,
-                      callback: function($$v) {
-                        _vm.$set(_vm.UserDetails, "address", $$v)
-                      },
-                      expression: "UserDetails.address"
-                    }
-                  })
-                ],
-                1
-              )
-            ],
-            1
-          )
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "v-col",
-        { staticClass: "mt-0 pt-0 ", attrs: { cols: "12" } },
-        [
-          _c(
-            "v-row",
-            [
-              _c("v-col", { attrs: { cols: "12", md: "2" } }),
-              _vm._v(" "),
-              _c("v-col", { attrs: { cols: "12", md: "10" } }, [
-                _c("h4", { staticClass: "mt-5" }, [_vm._v("3. Social Link")])
-              ])
-            ],
-            1
-          )
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "v-col",
-        { staticClass: "mt-0 pt-0 mb-0 pb-0", attrs: { cols: "12" } },
-        [
-          _c(
-            "v-row",
-            [
-              _c(
-                "v-col",
-                {
-                  class: _vm.$vuetify.breakpoint.xs ? "mb-0 pb-0" : "mt-2",
-                  attrs: { cols: "12", md: "2" }
-                },
-                [_vm._v("\n                 Facebook\n            ")]
-              ),
-              _vm._v(" "),
-              _c(
-                "v-col",
-                { staticClass: "pb-0 mb-0", attrs: { cols: "12", md: "6" } },
-                [
-                  _c("v-text-field", {
-                    attrs: { dense: "", outlined: "" },
-                    model: {
-                      value: _vm.UserDetails.social_account,
-                      callback: function($$v) {
-                        _vm.$set(_vm.UserDetails, "social_account", $$v)
-                      },
-                      expression: "UserDetails.social_account"
-                    }
-                  })
-                ],
-                1
-              )
-            ],
-            1
-          )
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "v-col",
-        { staticClass: "mt-0 pt-0 mb-0 pb-0", attrs: { cols: "12" } },
-        [
-          _c(
-            "v-row",
-            [
-              _c(
-                "v-col",
-                {
-                  class: _vm.$vuetify.breakpoint.xs ? "mb-0 pb-0" : "mt-2",
-                  attrs: { cols: "12", md: "2" }
-                },
-                [_vm._v("\n                 Google+\n            ")]
-              ),
-              _vm._v(" "),
-              _c(
-                "v-col",
-                { staticClass: "pb-0 mb-0", attrs: { cols: "12", md: "6" } },
-                [_c("v-text-field", { attrs: { dense: "", outlined: "" } })],
-                1
-              )
-            ],
-            1
-          )
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "v-col",
-        { staticClass: "mb-0 pb-5", attrs: { cols: "12" } },
-        [
-          _c(
-            "v-row",
-            [
-              _c("v-col", {
-                class: _vm.$vuetify.breakpoint.xs ? "mb-0 pb-0" : "mt-2",
-                attrs: { cols: "12", md: "2" }
-              }),
-              _vm._v(" "),
-              _c(
-                "v-col",
-                { attrs: { cols: "12", md: "6" } },
-                [
-                  _c(
-                    "v-btn",
-                    {
-                      attrs: {
-                        color: "primary",
-                        rounded: "",
-                        loading: _vm.isSaving,
-                        dark: ""
-                      },
-                      on: {
-                        click: function($event) {
-                          return _vm.UpdateDetails()
-                        }
-                      }
-                    },
-                    [_vm._v("Save Changes")]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-btn",
-                    { attrs: { color: "secondary", rounded: "", dark: "" } },
-                    [_vm._v("Cancel")]
-                  )
-                ],
-                1
-              )
-            ],
-            1
-          )
+            : _vm._e()
         ],
         1
       )

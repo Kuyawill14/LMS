@@ -225,6 +225,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var editProfile = function editProfile() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_profile_editprofile_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./editprofile */ "./resources/js/components/profile/editprofile.vue"));
 };
@@ -237,12 +248,17 @@ var coursesProgress = function coursesProgress() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_profile_coursesProgress_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./coursesProgress */ "./resources/js/components/profile/coursesProgress.vue"));
 };
 
+var aboutTab = function aboutTab() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_profile_aboutTab_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./aboutTab */ "./resources/js/components/profile/aboutTab.vue"));
+};
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['role', 'UserDetails'],
   components: {
     editProfile: editProfile,
     changePassword: changePassword,
-    coursesProgress: coursesProgress
+    coursesProgress: coursesProgress,
+    aboutTab: aboutTab
   },
   data: function data() {
     return {
@@ -311,6 +327,9 @@ var coursesProgress = function coursesProgress() {
           }
         }, _callee);
       }))();
+    },
+    OpenSocialAccount: function OpenSocialAccount(link) {
+      window.location = link;
     }
   },
   mounted: function mounted() {
@@ -469,7 +488,7 @@ var render = function() {
             [
               _c(
                 "v-col",
-                { attrs: { cols: "12", md: "3" } },
+                { attrs: { cols: "12", md: "3", lg: "3", xl: "2" } },
                 [
                   _c(
                     "v-card",
@@ -662,7 +681,18 @@ var render = function() {
                             [
                               _c(
                                 "v-btn",
-                                { attrs: { icon: "", text: "" } },
+                                {
+                                  attrs: { icon: "", text: "" },
+                                  on: {
+                                    click: function($event) {
+                                      _vm.UserDetails.social_account != null
+                                        ? _vm.OpenSocialAccount(
+                                            _vm.UserDetails.social_account
+                                          )
+                                        : ""
+                                    }
+                                  }
+                                },
                                 [
                                   _c("v-icon", { attrs: { color: "blue" } }, [
                                     _vm._v(
@@ -732,6 +762,38 @@ var render = function() {
                                     [
                                       _c("v-icon", { attrs: { left: "" } }, [
                                         _vm._v(
+                                          "\n                                mdi-alert-circle-outline\n                                "
+                                        )
+                                      ]),
+                                      _vm._v(
+                                        "\n                                About\n                            "
+                                      )
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-tab",
+                                    { staticClass: "d-flex justify-start" },
+                                    [
+                                      _c("v-icon", { attrs: { left: "" } }, [
+                                        _vm._v(
+                                          "\n                                mdi-account\n                                "
+                                        )
+                                      ]),
+                                      _vm._v(
+                                        "\n                                Profile\n                            "
+                                      )
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-tab",
+                                    { staticClass: "d-flex justify-start" },
+                                    [
+                                      _c("v-icon", { attrs: { left: "" } }, [
+                                        _vm._v(
                                           "\n                                mdi-google-classroom\n                                "
                                         )
                                       ]),
@@ -753,22 +815,6 @@ var render = function() {
                                       ]),
                                       _vm._v(
                                         "\n                                Classwork Results\n                            "
-                                      )
-                                    ],
-                                    1
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "v-tab",
-                                    { staticClass: "d-flex justify-start" },
-                                    [
-                                      _c("v-icon", { attrs: { left: "" } }, [
-                                        _vm._v(
-                                          "\n                                mdi-account\n                                "
-                                        )
-                                      ]),
-                                      _vm._v(
-                                        "\n                                Profile\n                            "
                                       )
                                     ],
                                     1
@@ -807,7 +853,7 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "v-col",
-                { attrs: { cols: "12", md: "9" } },
+                { attrs: { cols: "12", md: "9", lg: "9", xl: "10" } },
                 [
                   _c(
                     "v-card",
@@ -827,6 +873,26 @@ var render = function() {
                                 "v-tabs-items",
                                 { attrs: { value: _vm.tab } },
                                 [
+                                  _c(
+                                    "v-tab-item",
+                                    [
+                                      _c("aboutTab", {
+                                        attrs: { UserDetails: _vm.UserDetails }
+                                      })
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-tab-item",
+                                    [
+                                      _c("editProfile", {
+                                        attrs: { UserDetails: _vm.UserDetails }
+                                      })
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
                                   _c(
                                     "v-tab-item",
                                     [
@@ -878,16 +944,6 @@ var render = function() {
                                         ],
                                         1
                                       )
-                                    ],
-                                    1
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "v-tab-item",
-                                    [
-                                      _c("editProfile", {
-                                        attrs: { UserDetails: _vm.UserDetails }
-                                      })
                                     ],
                                     1
                                   ),

@@ -108,38 +108,38 @@ class ClassController extends Controller
                 ->where('user_id', $userId)
                 ->where('course_id', $value ->course_id)
                 ->update(['progress' =>   $totalProgress]);
-    
-         
-        
             }
         }
         
-       
-
-
         return $allClass;
     }
 
     public function subjectCourseClassList($course_id) {
         $userId = auth('sanctum')->id();
-        $allClass = DB::table('tbl_userclasses')
-        ->select('tbl_userclasses.id as useClass_id',
-        'tbl_classes.class_name',
+        $allClass = tbl_userclass::where('tbl_userclasses.course_id',$course_id)
+        ->select('tbl_classes.class_name',
         'tbl_classes.class_code',
-        'tbl_subject_courses.course_picture',
         'tbl_subject_courses.course_name',
         'tbl_subject_courses.course_code',
-        'tbl_subject_courses.course_picture',
-        'tbl_subject_courses.id as course_id',
         'tbl_classes.id as class_id',
-        'tbl_userclasses.progress'
         )
+        ->selectRaw('count(tbl_userclasses.course_id ) as student_count')
         ->leftJoin('tbl_classes', 'tbl_userclasses.class_id', '=', 'tbl_classes.id')
         ->leftJoin('tbl_subject_courses', 'tbl_userclasses.course_id', '=', 'tbl_subject_courses.id')
+        ->groupBy('tbl_classes.class_name','tbl_classes.class_code', 'tbl_subject_courses.course_name'
+        ,'tbl_subject_courses.course_code', 'tbl_classes.id')
         ->where('user_id', $userId)
-        ->where('tbl_userclasses.course_id',$course_id)
         ->get();
-        return  $allClass;
+
+        foreach($allClass as $key => $value) {
+            $StudentCount = tbl_userclass::where('class_id', $value ->class_id)
+            ->leftJoin('users','users.id','=','tbl_userclasses.user_id')
+            ->where('users.role','Student')
+            ->count();
+            $value->student_count = $StudentCount;
+        }
+
+        return $allClass;
     }
 
     public function ClassDetails($id)

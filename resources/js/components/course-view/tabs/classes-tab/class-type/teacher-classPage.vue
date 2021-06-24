@@ -56,7 +56,7 @@
                     <v-list-item-content>
                         <v-list-item-title>{{item.class_name}} </v-list-item-title>
                         <v-list-item-subtitle>Class code: {{item.class_code}} </v-list-item-subtitle>
-                        <v-list-item-subtitle>{Students #} </v-list-item-subtitle>
+                        <v-list-item-subtitle>Students: {{item.student_count}}</v-list-item-subtitle>
                     </v-list-item-content>
                     <v-list-item-action>
                         <v-menu transition="slide-y-transition" bottom>
