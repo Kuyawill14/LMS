@@ -2,7 +2,7 @@
 
     <v-card>
         <v-card-title class="">
-            Edit Class
+            Create Class
         </v-card-title>
         <v-container>
             <v-row class="mx-2">
