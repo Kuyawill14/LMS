@@ -67,23 +67,5 @@ class AuthController extends Controller
     public function logout() {
         Auth::logout();
     }
-
-    //GetUserDetails
-    public function GetDetails() {
-        $userId = auth('sanctum')->id();
-        $userDetails = tbl_userDetails::where('user_id',$userId)
-        ->select('users.firstName','users.middleName','users.lastName','users.email','tbl_user_details.*')
-        ->leftJoin('users', 'users.id', '=', 'tbl_user_details.user_id')
-        ->get();
-        return $userDetails;
-
-       /*  ->select('users.firstName','users.lastName',
-        'tbl_user_details.student_id', 'tbl_user_details.address', 'tbl_user_details.cp_no', 
-        'tbl_user_details.profile_pic','tbl_user_details.social_account','tbl_user_details.info',
-        'tbl_user_details.created_at')
-        ->leftJoin('users', 'users.id', '=', 'tbl_user_details.user_id') */
-
-        
-    }
 }   
 

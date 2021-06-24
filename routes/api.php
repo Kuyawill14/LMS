@@ -18,6 +18,10 @@ use App\Http\Controllers\api\GradingCriteriaController;
 use App\Http\Controllers\api\CommentController;
 use App\Http\Controllers\api\GradebookController;
 use App\Http\Controllers\api\AnalyticsController;
+use App\Http\Controllers\api\SubmissionController;
+use App\Http\Controllers\api\UserProfileController;
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -103,7 +107,7 @@ Route::prefix('/classwork')->group(function () {
     Route::post('/share', [ClassworkController::class, 'ShareClasswork']);
 
     Route::put('/update/{id}', [ClassworkController::class, 'update']);
-    
+    Route::delete('/remove/{id}', [ClassworkController::class, 'destroy']);
 
     
 });
@@ -111,9 +115,13 @@ Route::prefix('/classwork')->group(function () {
 //Student
 Route::prefix('/student')->group(function () {
     Route::get('/all/{id}', [StudentController::class, 'getStudentList']);
+    Route::get('/check-status/{id}', [StudentController::class, 'checkSubmissionStatus']);
     Route::post('/join/{id}', [StudentController::class, 'JoinClass']);
+    Route::post('/update-status', [StudentController::class, 'UpdateStatus']);
     Route::delete('/{id}', [StudentController::class, 'Unenroll']);
 });
+
+
 
 //notification
 Route::prefix('/notification')->group(function () {
@@ -187,12 +195,31 @@ Route::prefix('/QAnalytics')->group(function () {
     
 });
 
+//Submission List
+Route::prefix('/submission')->group(function () {
+    Route::get('/all/{id}', [SubmissionController::class, 'index']);
+    
+});
+
+
+//User Profile 
+Route::middleware('auth:sanctum')->prefix('/profile')->group(function () {
+    Route::get('/details', [UserProfileController::class, 'index']);
+    Route::post('/profile_picture', [UserProfileController::class, 'updatePicture']);
+    Route::post('/updateDetails', [UserProfileController::class, 'updateDetails']);
+});
 
 
 
 
 
-Route::get('/GetDetails', [AuthController::class, 'GetDetails']);
+
+
+
+
+
+
+//Route::get('/GetDetails', [AuthController::class, 'GetDetails']);
 Route::post('/Userlogin', [AuthController::class, 'UserLogin']);
 Route::post('/logout', [AuthController::class, 'logout']);
 Route::post('/registerUser', [AuthController::class, 'UserRegister']);

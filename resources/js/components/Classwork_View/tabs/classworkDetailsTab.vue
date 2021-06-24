@@ -1,23 +1,6 @@
 
 <template>
 <v-app>
-  
- <!--  <v-snackbar
-    v-model="isUpdatingSnackBar"
-
-      :timeout="4000"
-      :value="true"
-      absolute
-      centered
-
-     text
-     color="success"
-      top
-    >
-    <v-icon left color="success">mdi-checkbox-marked-circle</v-icon>
-      Classwork successfully updated.
-    </v-snackbar> -->
-
 <v-container class="fill-height" v-if="isloading" style="height: 500px;">
     <v-row  align-content="center" justify="center">
         <v-col class="text-subtitle-1 text-center" cols="12">
@@ -81,16 +64,16 @@
                                          <v-col v-if="Details.type == 'Subjective Type'" cols="12" class="mb-0 pb-0 pt-0 mt-0">
                                             <v-text-field
                                                 @click="TestUpload"
-                                            prepend-inner-icon="mdi-paperclip"
-                                            v-if="Details.type == 'Subjective Type'"
-                                            :rules="FieldRules"
-                                            class="mb-0 pb-0 pt-0 mt-0"
-                                            label="File input"
-                                            show-size
-                                            outlined
-                                            multiple
-                                            chips
-                                            v-model="Details.attachment_name">
+                                                prepend-inner-icon="mdi-paperclip"
+                                                v-if="Details.type == 'Subjective Type'"
+                                                :rules="FieldRules"
+                                                class="mb-0 pb-0 pt-0 mt-0"
+                                                label="File input"
+                                                show-size
+                                                outlined
+                                                multiple
+                                                chips
+                                                v-model="Details.attachment_name">
                                         </v-text-field>
                                         </v-col>
                                         <v-col v-if="Details.type == 'Subjective Type'" class="mb-0 pb-0 pt-0 mt-0 d-none"  cols="12">

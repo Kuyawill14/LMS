@@ -1,38 +1,75 @@
 
 <template>
 <v-app>
+<v-container class="fill-height" v-if="isloading" style="height: 500px;">
+    <v-row  align-content="center" justify="center">
+        <v-col class="text-subtitle-1 text-center" cols="12">
+            Loading
+        </v-col>
+        <v-col cols="6">
+            <v-progress-linear color="primary" indeterminate rounded height="6"></v-progress-linear>
+        </v-col>
+    </v-row>
+</v-container>
 
-  <v-container pa-0 ma-0  class="pa-0 pa-0" fluid>
+  <v-container v-if="!isloading" pa-0 ma-0  class="pa-0 pa-0" fluid>
         <v-row align="center" justify="center">
-            <v-col cols="12" lg="10" md="10">
-                <v-card  class="elevation-5" style="border-top:5px solid #EF6C00">
+            <v-col cols="12" lg="12" md="12">
+                <v-card  class="elevation-5" style="border-top:4px solid #EF6C00">
                     <v-window>
                         <v-window-item >
                                 <v-row>
                               
-                                    <v-col  cols="12" md="12" class="pt-1">
-                                         <v-simple-table class="mt-3" fixed-header max-height="500px">
-                                            <template v-slot:default>
-                                            <thead>
+                                    <v-col  cols="12" md="12" class="pt-3">
+
+                                        <v-card-title>
+                                            <v-text-field
+                                                v-model="search"
+                                                append-icon="mdi-magnify"
+                                                label="Search"
+                                                single-line
+                                                outlined
+                                                hide-details
+                                            ></v-text-field>
+                                        </v-card-title>
+
+
+                                           <v-data-table 
+                                           v-model="selectedTasks" 
+                                           :headers="headers"
+                                           hide-default-header
+                                           :items="List"
+                                           :search="search"
+                                           item-key="id" 
+                                           show-select>
+
+                                          
+
+                                            <template v-slot:header="{ props: { headers  } }">
+                                                <thead>
                                                 <tr>
-                                                    <th class="text-center">#</th>
-                                                    <th>Question</th>
-                                                    <th class="text-center">
-                                                        <v-icon>mdi-account-multiple-check</v-icon>
-                                                        {{$vuetify.breakpoint.xs ? '':'Correct'}}
+                                                     <th
+                                                        v-for="header in headers"
+                                                        :key="header.value"
+                                                        class="text-uppercase"
+                                                       
+                                                        >
+                                                        <v-icon>{{header.icon}}</v-icon> 
+                                                         {{$vuetify.breakpoint.xs ? '': header.text }}
                                                     </th>
-                                                    <th class="text-center">
-                                                        <v-icon>mdi-account-multiple-remove</v-icon>
-                                                        {{$vuetify.breakpoint.xs ? '':'Wrong'}}
-                                                    </th>
-                                                    <th class="text-center">
-                                                        <v-icon>mdi-timer</v-icon>
-                                                         {{$vuetify.breakpoint.xs ? '':'Average Time Consume'}}
-                                                    </th>
+                                                
                                                 </tr>
-                                            </thead>
+                                                </thead>
+                                            </template>
+
+
+                                            <template v-slot:body="{ items }">
                                             <tbody>
-                                                <tr v-for="item in List" :key="item.id">
+                                                <tr v-for="item in items" :key="item.id">
+                                                    <td>
+                                                        <v-checkbox v-model="selectedTasks" :value="item" style="margin:0px;padding:0px"
+                                                            hide-details />
+                                                    </td>
                                                     <td class="text-center">{{item.id}}</td>
                                                     <td class="text-left ">
                                                          <div :style="$vuetify.breakpoint.xs ? 'line-height:1.1': 'line-height:1.5'" class="caption">
@@ -43,12 +80,16 @@
                                                   
                                                     <td class="text-center">{{item.correct_count == null ? 0 : item.correct_count}}</td>
                                                     <td class="text-center">{{item.wrong_count == null ? 0 : item.wrong_count}}</td>
-                                                    <td class="text-center">{{item.average_time/(item.correct_count+item.wrong_count)}}{{item.average_time == null ? '' : 's' }}</td>
-                                                
+                                                    <td class="text-center">{{item.average_time != null? item.average_time/(item.correct_count+item.wrong_count):''}}{{item.average_time == null ? '' : 's' }}</td>
+                                                    <td>
+                                                        <v-btn text icon x-small>
+                                                            Edit
+                                                        </v-btn>
+                                                    </td>
                                                 </tr>
                                             </tbody>
                                             </template>
-                                        </v-simple-table>
+                                        </v-data-table>
                                     </v-col>
                                 </v-row>
                         </v-window-item>
@@ -63,7 +104,25 @@
 export default {
     data(){
         return{
-            List:[]
+            List:[],
+            search:'',
+            selectedTasks: [],
+            isloading: true,
+             headers: [
+                {
+                    text: 'id',
+                    align: 'start',
+                    value: 'id',
+                    icon:''
+                },
+                { text: 'Question', value: 'question',icon:'' },
+                { text: '# of Correct', value: 'status',align: 'center',icon:'mdi-account-multiple-check'},
+                { text: '# of Wrong', value: 'points' ,icon:'mdi-account-multiple-remove'},
+                { text: 'Average Time Consume', value:'time',icon:'mdi-timer'},
+                { text: 'Actions',sortable: false,icon:'mdi-cog'},
+                
+            ],
+           
         }
     },
     methods:{
@@ -71,6 +130,7 @@ export default {
             axios.get('/api/QAnalytics/all/'+this.$route.query.clwk)
             .then(res=>{
                 this.List = res.data;
+                this.isloading = !this.isloading;
             })
         }
     },

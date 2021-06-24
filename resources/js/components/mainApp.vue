@@ -2,7 +2,7 @@
     <v-app id="inspire">
 
 
-        <topHeader v-on:toggleSidebar="toggle"></topHeader>
+        <topHeader :UserDetails="UserDetails" v-on:toggleSidebar="toggle"></topHeader>
 
 
         <sidebar :role='role' :drawer="drawer"></sidebar>
@@ -61,19 +61,13 @@
             }
         },
         mounted() {
-            axios.get('/api/user').then((res) => {
-                this.role = res.data.role;
-                this.UserDetails = res.data;
-                console.log(res.data);
+            axios.get('/api/profile/details').then((res) => {
+                this.role = res.data[0].role;
+                this.UserDetails = res.data[0];
             }).catch((error) => {
                 console.log(error)
             });
-              
         },
-        created() {
-          
-        }
-
     }
 
 </script>

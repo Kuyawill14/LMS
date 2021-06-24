@@ -11,7 +11,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 //
 //
 //
@@ -134,29 +141,180 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+var editProfile = function editProfile() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_profile_editprofile_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./editprofile */ "./resources/js/components/profile/editprofile.vue"));
+};
+
+var changePassword = function changePassword() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_profile_changePassword_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./changePassword */ "./resources/js/components/profile/changePassword.vue"));
+};
+
+var coursesProgress = function coursesProgress() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_profile_coursesProgress_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./coursesProgress */ "./resources/js/components/profile/coursesProgress.vue"));
+};
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['UserDetails'],
-  pageTitle: 'My Profile',
+  props: ['role', 'UserDetails'],
+  components: {
+    editProfile: editProfile,
+    changePassword: changePassword,
+    coursesProgress: coursesProgress
+  },
   data: function data() {
     return {
+      tab: null,
+      imageFile: '',
+      Details: null,
       loading: false,
-      form: {
-        firstName: 'John',
-        lastName: 'Doe',
-        contactEmail: 'john@doe.com'
-      },
-      showAvatarPicker: false
+      isloading: true,
+      message: null,
+      type: null
     };
   },
-  computed: (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)(['get_CurrentUser']),
   methods: {
-    openAvatarPicker: function openAvatarPicker() {
-      this.showAvatarPicker = true;
+    toastSuccess: function toastSuccess() {
+      return this.$toasted.success("Profile Successfully Updated", {
+        theme: "toasted-primary",
+        position: "top-center",
+        icon: "done",
+        duration: 3000
+      });
     },
-    selectAvatar: function selectAvatar(avatar) {
-      this.form.avatar = avatar;
+    getUserDetails: function getUserDetails() {
+      var _this = this;
+
+      axios.get('/api/profile/details').then(function (res) {
+        _this.UserDetails = res.data[0];
+        _this.isloading = !_this.isloading;
+      })["catch"](function (e) {
+        console.log(e);
+      });
+    },
+    TestUpload: function TestUpload() {
+      this.$refs.fileInput.click();
+    },
+    onFileChange: function onFileChange(element) {
+      var _this2 = this;
+
+      var file = element.target.files[0];
+      var reader = new FileReader();
+      reader.readAsDataURL(file);
+      var testFile;
+
+      reader.onload = function () {
+        _this2.UserDetails.profile_pic = reader.result;
+        testFile = reader.result;
+
+        _this2.UpdateProfile();
+      };
+    },
+    UpdateProfile: function UpdateProfile() {
+      var _this3 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                axios.post('/api/profile/profile_picture', {
+                  data: _this3.UserDetails.profile_pic
+                }).then(function (res) {});
+
+              case 1:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
     }
+  },
+  mounted: function mounted() {
+    this.isloading = !this.isloading;
   }
 });
 
@@ -252,205 +410,381 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "v-container",
+    { attrs: { fluid: "" } },
     [
-      _c(
-        "v-row",
-        { staticClass: "mb-6", attrs: { "no-gutters": "" } },
-        [
-          _c(
-            "v-col",
-            { staticClass: "col-md-5 col-lg-8" },
+      _vm.isloading
+        ? _c(
+            "v-container",
+            { staticStyle: { height: "400px" } },
             [
               _c(
-                "v-card",
+                "v-row",
                 {
-                  staticClass: "mx-auto pd-0",
-                  attrs: { "max-width": "100%", outlined: "" }
+                  staticClass: "fill-height",
+                  attrs: { "align-content": "center", justify: "center" }
                 },
                 [
+                  _c("v-icon", { staticStyle: { "font-size": "10rem" } }, [
+                    _vm._v("\n                mdi-account\n            ")
+                  ]),
+                  _vm._v(" "),
                   _c(
-                    "v-list-item",
+                    "v-col",
+                    {
+                      staticClass: "text-subtitle-1 text-center",
+                      attrs: { cols: "12" }
+                    },
+                    [_c("h3", [_vm._v(" Loading Profile ")])]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-col",
+                    { attrs: { cols: "6" } },
+                    [
+                      _c("v-progress-linear", {
+                        attrs: {
+                          color: "primary",
+                          indeterminate: "",
+                          rounded: "",
+                          height: "6"
+                        }
+                      })
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      !_vm.isloading ? _c("h2", [_vm._v("USER PROFILE")]) : _vm._e(),
+      _vm._v(" "),
+      !_vm.isloading
+        ? _c(
+            "v-row",
+            { staticClass: "mt-2" },
+            [
+              _c(
+                "v-col",
+                { attrs: { cols: "12", md: "3" } },
+                [
+                  _c(
+                    "v-card",
+                    {
+                      staticClass: "pt-5",
+                      attrs: { elevation: "1", outlined: "" }
+                    },
                     [
                       _c(
-                        "v-list-item-content",
+                        "v-row",
                         [
                           _c(
-                            "v-list-item-title",
-                            { staticClass: "headline mb-1" },
+                            "v-col",
+                            {
+                              staticClass: "mb-0 pb-0 d-flex justify-center",
+                              attrs: { cols: "12" }
+                            },
                             [
-                              _vm._v(
-                                "\n              Personal Details\n              "
+                              _c(
+                                "v-avatar",
+                                {
+                                  attrs: { size: "80" },
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.TestUpload()
+                                    }
+                                  }
+                                },
+                                [
+                                  _c("v-hover", {
+                                    scopedSlots: _vm._u(
+                                      [
+                                        {
+                                          key: "default",
+                                          fn: function(ref) {
+                                            var hover = ref.hover
+                                            return [
+                                              _c(
+                                                "div",
+                                                [
+                                                  _c(
+                                                    "v-avatar",
+                                                    {
+                                                      staticStyle: {
+                                                        cursor: "pointer"
+                                                      },
+                                                      attrs: { size: "80" }
+                                                    },
+                                                    [
+                                                      _c("v-img", {
+                                                        attrs: {
+                                                          alt: "Proflie",
+                                                          src:
+                                                            _vm.UserDetails
+                                                              .profile_pic ==
+                                                              null ||
+                                                            _vm.UserDetails
+                                                              .profile_pic == ""
+                                                              ? "https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=" +
+                                                                (_vm.UserDetails
+                                                                  .firstName +
+                                                                  " " +
+                                                                  _vm
+                                                                    .UserDetails
+                                                                    .lastName)
+                                                              : _vm.UserDetails
+                                                                  .profile_pic
+                                                        }
+                                                      })
+                                                    ],
+                                                    1
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _c(
+                                                    "v-fade-transition",
+                                                    [
+                                                      hover
+                                                        ? _c(
+                                                            "v-overlay",
+                                                            {
+                                                              staticStyle: {
+                                                                cursor:
+                                                                  "pointer"
+                                                              },
+                                                              attrs: {
+                                                                absolute: "",
+                                                                color: "#212121"
+                                                              }
+                                                            },
+                                                            [
+                                                              _c(
+                                                                "div",
+                                                                {},
+                                                                [
+                                                                  _c(
+                                                                    "v-icon",
+                                                                    {
+                                                                      attrs: {
+                                                                        small:
+                                                                          ""
+                                                                      }
+                                                                    },
+                                                                    [
+                                                                      _vm._v(
+                                                                        "mdi-camera"
+                                                                      )
+                                                                    ]
+                                                                  ),
+                                                                  _vm._v(
+                                                                    " Update"
+                                                                  )
+                                                                ],
+                                                                1
+                                                              )
+                                                            ]
+                                                          )
+                                                        : _vm._e()
+                                                    ],
+                                                    1
+                                                  )
+                                                ],
+                                                1
+                                              )
+                                            ]
+                                          }
+                                        }
+                                      ],
+                                      null,
+                                      false,
+                                      1122338967
+                                    )
+                                  })
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c("input", {
+                                ref: "fileInput",
+                                staticClass: "d-none",
+                                attrs: { type: "file", accept: "image/jpeg" },
+                                on: { change: _vm.onFileChange }
+                              })
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-col",
+                            {
+                              staticClass:
+                                "mb-0 pb-0 mt-0 pt-0 d-flex justify-center",
+                              attrs: { cols: "12" }
+                            },
+                            [
+                              _c("h3", { staticClass: "font-weight-bold" }, [
+                                _vm._v(
+                                  _vm._s(
+                                    _vm.UserDetails.firstName +
+                                      " " +
+                                      _vm.UserDetails.lastName
+                                  )
+                                )
+                              ])
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-col",
+                            {
+                              staticClass:
+                                "mb-0 pb-0 mt-0 pt-0 d-flex justify-center",
+                              attrs: { cols: "12" }
+                            },
+                            [
+                              _c(
+                                "div",
+                                { staticClass: "grey--text font-italic" },
+                                [_vm._v(_vm._s(_vm.UserDetails.email))]
                               )
                             ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-col",
+                            {
+                              staticClass:
+                                "mb-0 pb-0 mt-1 pt-0 d-flex justify-center",
+                              attrs: { cols: "12" }
+                            },
+                            [
+                              _c(
+                                "v-btn",
+                                { attrs: { icon: "", text: "" } },
+                                [
+                                  _c("v-icon", { attrs: { color: "blue" } }, [
+                                    _vm._v(
+                                      "\n                            mdi-facebook\n                        "
+                                    )
+                                  ])
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-btn",
+                                {
+                                  staticClass: "ml-2",
+                                  attrs: { icon: "", text: "" }
+                                },
+                                [
+                                  _c("v-icon", { attrs: { color: "red" } }, [
+                                    _vm._v(
+                                      "\n                            mdi-google-plus\n                        "
+                                    )
+                                  ])
+                                ],
+                                1
+                              )
+                            ],
+                            1
                           )
                         ],
                         1
                       ),
                       _vm._v(" "),
                       _c(
-                        "v-list-item-avatar",
-                        { attrs: { tile: "", size: "80", color: "grey" } },
-                        [
-                          _c("v-img", {
-                            attrs: {
-                              alt: "Proflie",
-                              src:
-                                _vm.get_CurrentUser.profile_pic == null ||
-                                _vm.get_CurrentUser.profile_pic == ""
-                                  ? "https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=" +
-                                    (_vm.get_CurrentUser.firstName +
-                                      " " +
-                                      _vm.get_CurrentUser.lastName)
-                                  : "../../images/" +
-                                    _vm.get_CurrentUser.profile_pic
-                            }
-                          })
-                        ],
-                        1
-                      )
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-list-item",
-                    [
-                      _c(
-                        "v-list-item-content",
+                        "v-row",
                         [
                           _c(
-                            "v-layout",
-                            { attrs: { column: "" } },
+                            "v-col",
+                            {
+                              staticClass: "pl-5 pr-5 pb-0",
+                              attrs: { cols: "12" }
+                            },
+                            [_c("v-divider")],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-col",
+                            { staticClass: "pl-3", attrs: { cols: "12" } },
                             [
                               _c(
-                                "v-card",
+                                "v-tabs",
+                                {
+                                  staticClass: "mt-2",
+                                  attrs: { vertical: "" },
+                                  model: {
+                                    value: _vm.tab,
+                                    callback: function($$v) {
+                                      _vm.tab = $$v
+                                    },
+                                    expression: "tab"
+                                  }
+                                },
                                 [
                                   _c(
-                                    "v-card-text",
+                                    "v-tab",
+                                    { staticClass: "d-flex justify-start" },
                                     [
-                                      _c("v-text-field", {
-                                        attrs: { label: "FirstName" },
-                                        model: {
-                                          value: _vm.get_CurrentUser.firstName,
-                                          callback: function($$v) {
-                                            _vm.$set(
-                                              _vm.get_CurrentUser,
-                                              "firstName",
-                                              $$v
-                                            )
-                                          },
-                                          expression:
-                                            "get_CurrentUser.firstName"
-                                        }
-                                      }),
-                                      _vm._v(" "),
-                                      _c("v-text-field", {
-                                        attrs: { label: "Last Name" },
-                                        model: {
-                                          value: _vm.get_CurrentUser.middleName,
-                                          callback: function($$v) {
-                                            _vm.$set(
-                                              _vm.get_CurrentUser,
-                                              "middleName",
-                                              $$v
-                                            )
-                                          },
-                                          expression:
-                                            "get_CurrentUser.middleName"
-                                        }
-                                      }),
-                                      _vm._v(" "),
-                                      _c("v-text-field", {
-                                        attrs: { label: "Last Name" },
-                                        model: {
-                                          value: _vm.get_CurrentUser.lastName,
-                                          callback: function($$v) {
-                                            _vm.$set(
-                                              _vm.get_CurrentUser,
-                                              "lastName",
-                                              $$v
-                                            )
-                                          },
-                                          expression: "get_CurrentUser.lastName"
-                                        }
-                                      }),
-                                      _vm._v(" "),
-                                      _c("v-text-field", {
-                                        attrs: { label: "Email Address" },
-                                        model: {
-                                          value: _vm.get_CurrentUser.email,
-                                          callback: function($$v) {
-                                            _vm.$set(
-                                              _vm.get_CurrentUser,
-                                              "email",
-                                              $$v
-                                            )
-                                          },
-                                          expression: "get_CurrentUser.email"
-                                        }
-                                      }),
-                                      _vm._v(" "),
-                                      _c("v-text-field", {
-                                        attrs: { label: "Address" },
-                                        model: {
-                                          value: _vm.get_CurrentUser.address,
-                                          callback: function($$v) {
-                                            _vm.$set(
-                                              _vm.get_CurrentUser,
-                                              "address",
-                                              $$v
-                                            )
-                                          },
-                                          expression: "get_CurrentUser.address"
-                                        }
-                                      }),
-                                      _vm._v(" "),
-                                      _c("v-text-field", {
-                                        attrs: { label: "Cp #" },
-                                        model: {
-                                          value: _vm.get_CurrentUser.cp_no,
-                                          callback: function($$v) {
-                                            _vm.$set(
-                                              _vm.get_CurrentUser,
-                                              "cp_no",
-                                              $$v
-                                            )
-                                          },
-                                          expression: "get_CurrentUser.cp_no"
-                                        }
-                                      })
+                                      _c("v-icon", { attrs: { left: "" } }, [
+                                        _vm._v(
+                                          "\n                                mdi-google-classroom\n                                "
+                                        )
+                                      ]),
+                                      _vm._v(
+                                        "\n                                Courses\n                            "
+                                      )
                                     ],
                                     1
                                   ),
                                   _vm._v(" "),
                                   _c(
-                                    "v-card-actions",
-                                    { staticClass: "mb-4" },
+                                    "v-tab",
+                                    { staticClass: "d-flex justify-start" },
                                     [
-                                      _c(
-                                        "v-btn",
-                                        {
-                                          attrs: {
-                                            color: "primary",
-                                            loading: _vm.loading
-                                          },
-                                          nativeOn: {
-                                            click: function($event) {
-                                              return _vm.update($event)
-                                            }
-                                          }
-                                        },
-                                        [
-                                          _c(
-                                            "v-icon",
-                                            { attrs: { left: "", dark: "" } },
-                                            [_vm._v("check")]
-                                          ),
-                                          _vm._v(
-                                            "\n                                      Save Changes\n                                  "
-                                          )
-                                        ],
-                                        1
+                                      _c("v-icon", { attrs: { left: "" } }, [
+                                        _vm._v(
+                                          "\n                                mdi-book-open-variant\n                                "
+                                        )
+                                      ]),
+                                      _vm._v(
+                                        "\n                                Classwork Results\n                            "
+                                      )
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-tab",
+                                    { staticClass: "d-flex justify-start" },
+                                    [
+                                      _c("v-icon", { attrs: { left: "" } }, [
+                                        _vm._v(
+                                          "\n                                mdi-account\n                                "
+                                        )
+                                      ]),
+                                      _vm._v(
+                                        "\n                                Profile\n                            "
+                                      )
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-tab",
+                                    { staticClass: "d-flex justify-start" },
+                                    [
+                                      _c("v-icon", { attrs: { left: "" } }, [
+                                        _vm._v(
+                                          "\n                                mdi-lock\n                                "
+                                        )
+                                      ]),
+                                      _vm._v(
+                                        "\n                                Change Password\n                            "
                                       )
                                     ],
                                     1
@@ -469,143 +803,96 @@ var render = function() {
                   )
                 ],
                 1
-              )
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "v-col",
-            { staticClass: "col-md-5 col-lg-4" },
-            [
+              ),
+              _vm._v(" "),
               _c(
-                "v-card",
-                {
-                  staticClass: "mx-auto",
-                  attrs: { "max-width": "344", outlined: "" }
-                },
+                "v-col",
+                { attrs: { cols: "12", md: "9" } },
                 [
                   _c(
-                    "v-list-item",
-                    { attrs: { "three-line": "" } },
+                    "v-card",
+                    {
+                      staticClass: "pt-3 pb-3 pl-5 pr-5",
+                      attrs: { elevation: "1", outlinedS: "" }
+                    },
                     [
                       _c(
-                        "v-list-item-content",
+                        "v-row",
                         [
                           _c(
-                            "v-list-item-title",
-                            { staticClass: "headline mb-1" },
-                            [
-                              _vm._v(
-                                "\n              Change Password\n          "
-                              )
-                            ]
-                          )
-                        ],
-                        1
-                      )
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-list-item",
-                    [
-                      _c(
-                        "v-list-item-content",
-                        [
-                          _c(
-                            "v-layout",
-                            { attrs: { column: "" } },
+                            "v-col",
+                            { attrs: { cols: "12" } },
                             [
                               _c(
-                                "v-card",
+                                "v-tabs-items",
+                                { attrs: { value: _vm.tab } },
                                 [
                                   _c(
-                                    "v-card-text",
+                                    "v-tab-item",
                                     [
-                                      _c("v-text-field", {
-                                        attrs: { label: "FirstName" },
-                                        model: {
-                                          value: _vm.get_CurrentUser.firstName,
-                                          callback: function($$v) {
-                                            _vm.$set(
-                                              _vm.get_CurrentUser,
-                                              "firstName",
-                                              $$v
-                                            )
-                                          },
-                                          expression:
-                                            "get_CurrentUser.firstName"
-                                        }
-                                      }),
-                                      _vm._v(" "),
-                                      _c("v-text-field", {
-                                        attrs: { label: "Last Name" },
-                                        model: {
-                                          value: _vm.get_CurrentUser.middleName,
-                                          callback: function($$v) {
-                                            _vm.$set(
-                                              _vm.get_CurrentUser,
-                                              "middleName",
-                                              $$v
-                                            )
-                                          },
-                                          expression:
-                                            "get_CurrentUser.middleName"
-                                        }
-                                      }),
-                                      _vm._v(" "),
-                                      _c("v-text-field", {
-                                        attrs: { label: "Last Name" },
-                                        model: {
-                                          value: _vm.get_CurrentUser.lastName,
-                                          callback: function($$v) {
-                                            _vm.$set(
-                                              _vm.get_CurrentUser,
-                                              "lastName",
-                                              $$v
-                                            )
-                                          },
-                                          expression: "get_CurrentUser.lastName"
-                                        }
+                                      _c("coursesProgress", {
+                                        attrs: { UserDetails: _vm.UserDetails }
                                       })
                                     ],
                                     1
                                   ),
                                   _vm._v(" "),
                                   _c(
-                                    "v-card-actions",
-                                    { staticClass: "mb-4" },
+                                    "v-tab-item",
                                     [
                                       _c(
-                                        "v-btn",
-                                        {
-                                          attrs: {
-                                            color: "primary",
-                                            loading: _vm.loading
-                                          },
-                                          nativeOn: {
-                                            click: function($event) {
-                                              return _vm.update($event)
-                                            }
-                                          }
-                                        },
+                                        "v-card",
+                                        { attrs: { flat: "" } },
                                         [
-                                          _c(
-                                            "v-icon",
-                                            { attrs: { left: "", dark: "" } },
-                                            [_vm._v("check")]
-                                          ),
-                                          _vm._v(
-                                            "\n                                      Change Password\n                                  "
-                                          )
+                                          _c("v-card-text", [
+                                            _c("p", [
+                                              _vm._v(
+                                                "\n                                Morbi nec metus. Suspendisse faucibus, nunc et pellentesque egestas, lacus ante convallis tellus, vitae iaculis lacus elit id tortor. Sed mollis, eros et ultrices tempus, mauris ipsum aliquam libero, non adipiscing dolor urna a orci. Curabitur ligula sapien, tincidunt non, euismod vitae, posuere imperdiet, leo. Nunc sed turpis.\n                                "
+                                              )
+                                            ]),
+                                            _vm._v(" "),
+                                            _c("p", [
+                                              _vm._v(
+                                                "\n                                Suspendisse feugiat. Suspendisse faucibus, nunc et pellentesque egestas, lacus ante convallis tellus, vitae iaculis lacus elit id tortor. Proin viverra, ligula sit amet ultrices semper, ligula arcu tristique sapien, a accumsan nisi mauris ac eros. In hac habitasse platea dictumst. Fusce ac felis sit amet ligula pharetra condimentum.\n                                "
+                                              )
+                                            ]),
+                                            _vm._v(" "),
+                                            _c("p", [
+                                              _vm._v(
+                                                "\n                                Sed consequat, leo eget bibendum sodales, augue velit cursus nunc, quis gravida magna mi a libero. Nam commodo suscipit quam. In consectetuer turpis ut velit. Sed cursus turpis vitae tortor. Aliquam eu nunc.\n                                "
+                                              )
+                                            ]),
+                                            _vm._v(" "),
+                                            _c("p", [
+                                              _vm._v(
+                                                "\n                                Etiam ut purus mattis mauris sodales aliquam. Ut varius tincidunt libero. Aenean viverra rhoncus pede. Duis leo. Fusce fermentum odio nec arcu.\n                                "
+                                              )
+                                            ]),
+                                            _vm._v(" "),
+                                            _c("p", { staticClass: "mb-0" }, [
+                                              _vm._v(
+                                                "\n                                Donec venenatis vulputate lorem. Aenean viverra rhoncus pede. In dui magna, posuere eget, vestibulum et, tempor auctor, justo. Fusce commodo aliquam arcu. Suspendisse enim turpis, dictum sed, iaculis a, condimentum nec, nisi.\n                                "
+                                              )
+                                            ])
+                                          ])
                                         ],
                                         1
                                       )
                                     ],
                                     1
-                                  )
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-tab-item",
+                                    [
+                                      _c("editProfile", {
+                                        attrs: { UserDetails: _vm.UserDetails }
+                                      })
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c("v-tab-item", [_c("changePassword")], 1)
                                 ],
                                 1
                               )
@@ -624,9 +911,7 @@ var render = function() {
             ],
             1
           )
-        ],
-        1
-      )
+        : _vm._e()
     ],
     1
   )

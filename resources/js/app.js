@@ -29,7 +29,8 @@ Vue.component(AlertErrors.name, AlertErrors);
 Vue.component(AlertSuccess.name, AlertSuccess);
 Vue.use(VueCoreVideoPlayer)
 
-
+import VueCountdownTimer from 'vuejs-countdown-timer';
+Vue.use(VueCountdownTimer);
 
 
 //Vuex Store

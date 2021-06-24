@@ -19,9 +19,11 @@
             Cancel
           </v-btn>
           <v-btn
+            :disabled="isLoading"
+            :loading="isLoading"
             color="primary"
             rounded
-            @click="$emit('set')"
+            @click="isLoading = !isLoading, $emit('set')"
           >
             Confirm
           </v-btn>
@@ -30,6 +32,10 @@
 </template>
 <script>
 export default {
-    
+    data(){
+      return {
+        isLoading: false,
+      }
+    }
 }
 </script>

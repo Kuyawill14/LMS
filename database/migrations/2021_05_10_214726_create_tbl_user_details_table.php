@@ -19,7 +19,7 @@ class CreateTblUserDetailsTable extends Migration
             $table->integer('student_id')->nullable();
             $table->string('address')->nullable();
             $table->string('cp_no')->nullable();
-            $table->string('profile_pic')->nullable();
+            $table->mediumText('profile_pic')->nullable();
             $table->string('social_account')->nullable();
             $table->string('info')->nullable();
             $table->timestamps();

@@ -84,7 +84,7 @@ __webpack_require__.r(__webpack_exports__);
       tabs: null
     };
   },
-  mounted: function mounted() {
+  created: function created() {
     if (this.classworkDetails.type == 'Subjective Type') {
       this.tabs = this.SubjectiveTabs;
     } else if (this.classworkDetails.type == 'Objective Type') {

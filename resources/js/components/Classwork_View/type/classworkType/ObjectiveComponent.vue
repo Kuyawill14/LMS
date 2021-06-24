@@ -34,7 +34,7 @@
                             
                                 <div class="pt-2 d-flex flex-row ">
                                     <div class="captions"><v-icon>mdi-circle-medium</v-icon>{{totalQuestion}} Question</div>
-                                    <div class="captions"><v-icon>mdi-circle-medium</v-icon>{{totalPoints}} Points</div>
+                                    <div class="captions"><v-icon>mdi-circle-medium</v-icon>{{classworkDetails.points}} Points</div>
                                 </div>
                             <v-divider></v-divider>
                         </v-col>
@@ -45,13 +45,14 @@
 
                             <v-col cols="12" class="pl-10 pr-5 pb-10 text-right">
                                 <v-btn
+                   
                                 rounded
                                 color="primary"
                                 :dark="totalQuestion != 0"
                                 :disabled="totalQuestion == 0"
-                                @click="start()"
+                                @click="status == null  ? start(): ''"
                             >
-                                Take Quiz<v-icon right dark>mdi-book-arrow-right-outline</v-icon>
+                                {{status == null ? 'Take Quiz' : 'View Submission'}}<v-icon right dark>mdi-book-arrow-right-outline</v-icon>
                             </v-btn>
                         </v-col>
                         </v-row>   
@@ -68,6 +69,12 @@
 import moment from 'moment';
 export default {
     props:['classworkDetails','totalPoints','totalQuestion'],
+    data(){
+        return{
+            status: null,
+        }
+        
+    },
     methods:{
          format_date(value) {
             if (value) {
@@ -75,14 +82,29 @@ export default {
             }
         },
         start(){
-       
-          if(this.totalQuestion != 0){
-            localStorage.removeItem('time_remaining');
+          
+          if(this.totalQuestion != 0 && this.status == null){
+              this.UpdateStatus( this.classworkDetails.id);
+            localStorage.removeItem('timer_time');
             this.$router.push({name: 'quizstart',params: {id: this.$route.params.id},query: {clwk: this.classworkDetails.id}})
           }
+        },
+        async checkStatus(){
+            axios.get('/api/student/check-status/'+this.classworkDetails.id)
+            .then(res=>{
+       
+                this.status = res.data[0].status;
+            })
+        },
+        async UpdateStatus(id){
+            axios.post('/api/student/update-status',{id})
+            .then(res=>{
+
+            })
         }
     },
     beforeMount(){
+        this.checkStatus();
       window.history.forward(1)
     }
 }

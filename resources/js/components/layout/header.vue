@@ -17,7 +17,7 @@
                     <v-btn icon x-large v-on="on">
                         <v-avatar color="brown" size="40">
                             <v-img alt="Proflie"
-                                :src="UserDetails.profile_pic == null || UserDetails.profile_pic == '' ? 'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=' + (UserDetails.firstName+' '+UserDetails.lastName) : '../../images/'+UserDetails.profile_pic">
+                                :src="UserDetails.profile_pic == null || UserDetails.profile_pic == '' ? 'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=' + (UserDetails.firstName+' '+UserDetails.lastName) : UserDetails.profile_pic">
                             </v-img>
                         </v-avatar>
                     </v-btn>
@@ -27,7 +27,7 @@
                         <div class="mx-auto text-center">
                             <v-avatar color="brown" size="40">
                                 <v-img alt="Proflie"
-                                    :src="UserDetails.profile_pic == null || UserDetails.profile_pic == '' ? 'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=' + (UserDetails.firstName+' '+UserDetails.lastName) : '../../images/'+UserDetails.profile_pic">
+                                    :src="UserDetails.profile_pic == null || UserDetails.profile_pic == '' ? 'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=' + (UserDetails.firstName+' '+UserDetails.lastName) : UserDetails.profile_pic">
                                 </v-img>
                             </v-avatar>
                             <h3>{{ UserDetails.firstName+' '+UserDetails.lastName }}</h3>
@@ -35,12 +35,12 @@
                                 {{ UserDetails.email }}
                             </p>
                             <v-divider class="my-3"></v-divider>
-                            <v-btn @click="$router.push({name: 'profile_page'})" depressed rounded text>
-                                My Profile
+                            <v-btn @click="$router.push({name: 'profile_page'})"  rounded color="primary">
+                                <v-icon left>mdi-account</v-icon> My Profile
                             </v-btn>
                             <v-divider class="my-3"></v-divider>
                             <v-btn @click="logout" depressed rounded text>
-                                Logout
+                                <v-icon left>mdi-power</v-icon> Logout
                             </v-btn>
                         </div>
                     </v-list-item-content>
@@ -83,7 +83,7 @@
 <script>
     import notifications from './notification/notification'
     export default {
-
+        props:['UserDetails'],
         components: {
             notifications
         },
@@ -91,21 +91,12 @@
             dialog: false,
             drawer: null,
             menuVisible: false,
-            UserDetails: []
+            
         }),
         methods: {
             goHome() {
                 this.$router.push({
                     path: "/"
-                })
-            },
-            getUserDetails() {
-                axios.get('/api/GetDetails').then((res) => {
-                    this.UserDetails = res.data[0];
-
-
-                }).catch((e) => {
-                    console.log(e);
                 })
             },
             logout() {
@@ -120,9 +111,7 @@
                     })
             },
         },
-        mounted() {
-            this.getUserDetails();
-        }
+        
     }
 
 </script>

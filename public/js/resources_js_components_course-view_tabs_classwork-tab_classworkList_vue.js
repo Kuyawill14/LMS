@@ -11,9 +11,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -134,36 +142,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-var editModal = function editModal() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_tabs_classwork-tab_editClassworkModal_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./editClassworkModal */ "./resources/js/components/course-view/tabs/classwork-tab/editClassworkModal.vue"));
+var previewClassworkModal = function previewClassworkModal() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_tabs_classwork-tab_dialogs_previewClassworkModal_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./dialogs/previewClassworkModal */ "./resources/js/components/course-view/tabs/classwork-tab/dialogs/previewClassworkModal.vue"));
 };
 
-var previewClassworkModal = function previewClassworkModal() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_tabs_classwork-tab_previewClassworkModal_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./previewClassworkModal */ "./resources/js/components/course-view/tabs/classwork-tab/previewClassworkModal.vue"));
+var deleteDialog = function deleteDialog() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_tabs_classwork-tab_dialogs_deleteDiaglog_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./dialogs/deleteDiaglog */ "./resources/js/components/course-view/tabs/classwork-tab/dialogs/deleteDiaglog.vue"));
 };
 
 
@@ -171,11 +155,13 @@ var previewClassworkModal = function previewClassworkModal() {
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['role', 'classworks'],
   components: {
-    editModal: editModal,
-    previewClassworkModal: previewClassworkModal
+    previewClassworkModal: previewClassworkModal,
+    deleteDialog: deleteDialog
   },
   data: function data() {
     return {
+      Removedialog: false,
+      DeleteDetails: [],
       Previewdialog: false,
       Preview_id: null,
       totalPoints: '',
@@ -198,8 +184,8 @@ var previewClassworkModal = function previewClassworkModal() {
       DateToday: ''
     };
   },
-  computed: (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(['allClass']),
-  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapActions)(['fetchClassList'])), {}, {
+  computed: (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(['allClass']),
+  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapActions)(['fetchClassList'])), {}, {
     showShareClass: function showShareClass(id) {
       if (!this.isLoaded) {
         this.fetchAll();
@@ -243,7 +229,7 @@ var previewClassworkModal = function previewClassworkModal() {
     },
     format_date: function format_date(value) {
       if (value) {
-        return moment__WEBPACK_IMPORTED_MODULE_0___default()(String(value)).format("MMMM DD, YYYY, h:mm a");
+        return moment__WEBPACK_IMPORTED_MODULE_1___default()(String(value)).format('MMMM Do YYYY, hh:mm A');
       }
     },
     fetchAll: function fetchAll() {
@@ -257,13 +243,37 @@ var previewClassworkModal = function previewClassworkModal() {
     },
     CheckFormatDue: function CheckFormatDue(value) {
       if (value) {
-        return moment__WEBPACK_IMPORTED_MODULE_0___default()(String(value)).format("YYYY-MM-DDTHH:mm:ss");
+        return moment__WEBPACK_IMPORTED_MODULE_1___default()(String(value)).format("YYYY-MM-DDTHH:mm:ss");
       }
+    },
+    RemoveCLasswork: function RemoveCLasswork(details) {
+      var _this3 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _this3.DeleteDetails = details;
+                _this3.Removedialog = !_this3.Removedialog;
+                /*   axios.delete('/api/classwork/remove/'+id)
+                  .then(res=>{
+                      
+                     this.$emit("ToggleRefresh");
+                  }) */
+
+              case 2:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
     }
   }),
   mounted: function mounted() {
     var newDate = new Date();
-    this.DateToday = moment__WEBPACK_IMPORTED_MODULE_0___default()(newDate).format("YYYY-MM-DDTHH:mm:ss");
+    this.DateToday = moment__WEBPACK_IMPORTED_MODULE_1___default()(newDate).format("YYYY-MM-DDTHH:mm:ss");
   }
 });
 
@@ -21798,23 +21808,26 @@ var render = function() {
       _c(
         "v-dialog",
         {
-          attrs: { persistent: "", "max-width": "600" },
+          attrs: { persistent: "", "max-width": "400" },
           model: {
-            value: _vm.dialog,
+            value: _vm.Removedialog,
             callback: function($$v) {
-              _vm.dialog = $$v
+              _vm.Removedialog = $$v
             },
-            expression: "dialog"
+            expression: "Removedialog"
           }
         },
         [
-          _vm.isEditing
-            ? _c("editModal", {
-                attrs: { editData: _vm.editData },
+          _vm.Removedialog
+            ? _c("deleteDialog", {
+                attrs: { DeleteDetails: _vm.DeleteDetails },
                 on: {
-                  closeEditModal: function($event) {
-                    ;(_vm.dialog = !_vm.dialog),
-                      (_vm.isEditing = !_vm.isEditing)
+                  toggleDialog: function($event) {
+                    _vm.Removedialog = !_vm.Removedialog
+                  },
+                  ToggleRefresh: function($event) {
+                    _vm.$emit("ToggleRefresh"),
+                      (_vm.Removedialog = !_vm.Removedialog)
                   }
                 }
               })
@@ -21868,6 +21881,8 @@ var render = function() {
                       ? ""
                       : _vm.CheckFormatDue(item.due_date) > _vm.DateToday
                       ? ""
+                      : item.status == "Submitted"
+                      ? ""
                       : "border:1px  solid #B71C1C"
                 },
                 [
@@ -21892,12 +21907,22 @@ var render = function() {
                                     ? _vm.CheckFormatDue(item.due_date) >
                                       _vm.DateToday
                                       ? ""
+                                      : item.status == "Submitted"
+                                      ? "success"
                                       : "red darken-4"
                                     : "",
                                 large: ""
                               }
                             },
-                            [_vm._v("mdi-book-open-variant")]
+                            [
+                              _vm._v(
+                                _vm._s(
+                                  item.status == "Submitted"
+                                    ? "mdi-check"
+                                    : "mdi-book-open-variant"
+                                )
+                              )
+                            ]
                           ),
                           _vm._v(" "),
                           _c("div", [
@@ -21928,13 +21953,15 @@ var render = function() {
                               ]
                             ),
                             _vm._v(" "),
-                            _vm.role == "Student"
+                            _vm.role == "Student" && item.status == null
                               ? _c(
                                   "small",
                                   {
                                     class:
                                       _vm.CheckFormatDue(item.due_date) >
                                       _vm.DateToday
+                                        ? "card-subtitle text-50"
+                                        : item.status == "Submitted"
                                         ? "card-subtitle text-50"
                                         : "card-subtitle text-50 red--text"
                                   },
@@ -21946,6 +21973,8 @@ var render = function() {
                                           color:
                                             _vm.CheckFormatDue(item.due_date) >
                                             _vm.DateToday
+                                              ? ""
+                                              : item.status == "Submitted"
                                               ? ""
                                               : "red darken-4",
                                           small: ""
@@ -21963,6 +21992,29 @@ var render = function() {
                                         ) +
                                         "\n                                        Due Date: " +
                                         _vm._s(_vm.format_date(item.due_date)) +
+                                        " "
+                                    )
+                                  ],
+                                  1
+                                )
+                              : _vm._e(),
+                            _vm._v(" "),
+                            _vm.role == "Student" && item.status != null
+                              ? _c(
+                                  "small",
+                                  {
+                                    staticClass:
+                                      "card-subtitle text-50 success--text"
+                                  },
+                                  [
+                                    _c(
+                                      "v-icon",
+                                      { attrs: { color: "", small: "" } },
+                                      [_vm._v("mdi-clock")]
+                                    ),
+                                    _vm._v(
+                                      " \n                                        Submitted: " +
+                                        _vm._s(_vm.format_date(item.Sub_date)) +
                                         " "
                                     )
                                   ],
@@ -22045,9 +22097,57 @@ var render = function() {
                                               attrs: { rounded: "", text: "" },
                                               on: {
                                                 click: function($event) {
-                                                  return _vm.showShareClass(
-                                                    item.id
+                                                  return _vm.$router.push({
+                                                    name: "clwk",
+                                                    params: {
+                                                      id: _vm.$route.params.id
+                                                    },
+                                                    query: { clwk: item.id }
+                                                  })
+                                                }
+                                              }
+                                            },
+                                            [
+                                              _c(
+                                                "v-icon",
+                                                { staticClass: "mr-1" },
+                                                [
+                                                  _vm._v(
+                                                    "mdi-notebook-edit-outline"
                                                   )
+                                                ]
+                                              ),
+                                              _vm._v("Review Classwork")
+                                            ],
+                                            1
+                                          )
+                                        ],
+                                        1
+                                      )
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-list-item",
+                                    { attrs: { "ma-0": "", "pa-0": "" } },
+                                    [
+                                      _c(
+                                        "v-list-item-title",
+                                        [
+                                          _c(
+                                            "v-btn",
+                                            {
+                                              attrs: { rounded: "", text: "" },
+                                              on: {
+                                                click: function($event) {
+                                                  return _vm.$router.push({
+                                                    name: "publish-to",
+                                                    params: {
+                                                      id: _vm.$route.params.id
+                                                    },
+                                                    query: { clwk: item.id }
+                                                  })
                                                 }
                                               }
                                             },
@@ -22114,13 +22214,9 @@ var render = function() {
                                               attrs: { rounded: "", text: "" },
                                               on: {
                                                 click: function($event) {
-                                                  return _vm.$router.push({
-                                                    name: "clwk",
-                                                    params: {
-                                                      id: _vm.$route.params.id
-                                                    },
-                                                    query: { clwk: item.id }
-                                                  })
+                                                  return _vm.RemoveCLasswork(
+                                                    item
+                                                  )
                                                 }
                                               }
                                             },
@@ -22128,13 +22224,9 @@ var render = function() {
                                               _c(
                                                 "v-icon",
                                                 { staticClass: "mr-1" },
-                                                [
-                                                  _vm._v(
-                                                    "mdi-notebook-edit-outline"
-                                                  )
-                                                ]
+                                                [_vm._v("mdi-archive")]
                                               ),
-                                              _vm._v("Review Classwork")
+                                              _vm._v("Archive Classwork")
                                             ],
                                             1
                                           )
@@ -22158,48 +22250,11 @@ var render = function() {
                                               attrs: { rounded: "", text: "" },
                                               on: {
                                                 click: function($event) {
-                                                  return _vm.$router.push({
-                                                    name: "clwk",
-                                                    params: {
-                                                      id: _vm.$route.params.id
-                                                    },
-                                                    query: { clwk: item.id }
-                                                  })
+                                                  return _vm.RemoveCLasswork(
+                                                    item
+                                                  )
                                                 }
                                               }
-                                            },
-                                            [
-                                              _c(
-                                                "v-icon",
-                                                { staticClass: "mr-1" },
-                                                [
-                                                  _vm._v(
-                                                    "mdi-square-edit-outline"
-                                                  )
-                                                ]
-                                              ),
-                                              _vm._v("Edit Classwork")
-                                            ],
-                                            1
-                                          )
-                                        ],
-                                        1
-                                      )
-                                    ],
-                                    1
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "v-list-item",
-                                    { attrs: { "ma-0": "", "pa-0": "" } },
-                                    [
-                                      _c(
-                                        "v-list-item-title",
-                                        [
-                                          _c(
-                                            "v-btn",
-                                            {
-                                              attrs: { rounded: "", text: "" }
                                             },
                                             [
                                               _c(
@@ -22238,41 +22293,91 @@ var render = function() {
                                       var on = ref.on
                                       var attrs = ref.attrs
                                       return [
-                                        _c(
-                                          "v-btn",
-                                          _vm._g(
-                                            _vm._b(
-                                              {
-                                                staticClass:
-                                                  "mt-1 mr-5 pa-2 mx-1",
-                                                attrs: { icon: "", fab: "" },
-                                                on: {
-                                                  click: function($event) {
-                                                    ;(_vm.Previewdialog = !_vm.Previewdialog),
-                                                      (_vm.Preview_id =
-                                                        item.classwork_id)
-                                                  }
-                                                }
-                                              },
+                                        item.status == null &&
+                                        item.status != "Submitted"
+                                          ? _c(
                                               "v-btn",
-                                              attrs,
-                                              false
-                                            ),
-                                            on
-                                          ),
-                                          [
-                                            _c(
-                                              "v-icon",
-                                              { attrs: { size: "32" } },
+                                              _vm._g(
+                                                _vm._b(
+                                                  {
+                                                    staticClass:
+                                                      "mt-1 mr-5 pa-2 mx-1",
+                                                    attrs: {
+                                                      icon: "",
+                                                      fab: ""
+                                                    },
+                                                    on: {
+                                                      click: function($event) {
+                                                        ;(_vm.Previewdialog = !_vm.Previewdialog),
+                                                          (_vm.Preview_id =
+                                                            item.classwork_id)
+                                                      }
+                                                    }
+                                                  },
+                                                  "v-btn",
+                                                  attrs,
+                                                  false
+                                                ),
+                                                on
+                                              ),
+                                              [
+                                                _c(
+                                                  "v-icon",
+                                                  { attrs: { size: "32" } },
+                                                  [
+                                                    _vm._v(
+                                                      "\n                                    mdi-book-open-page-variant\n                                    "
+                                                    )
+                                                  ]
+                                                )
+                                              ],
+                                              1
+                                            )
+                                          : _vm._e(),
+                                        _vm._v(" "),
+                                        (item.status != null ||
+                                          item.status == "Taking") &&
+                                        item.score != null
+                                          ? _c(
+                                              "v-btn",
+                                              _vm._g(
+                                                _vm._b(
+                                                  {
+                                                    staticClass:
+                                                      "mt-1 mr-5 pa-2 mx-1 black--text",
+                                                    attrs: {
+                                                      icon: "",
+                                                      "x-large": ""
+                                                    },
+                                                    on: {
+                                                      click: function($event) {
+                                                        return _vm.$router.push(
+                                                          {
+                                                            name: "result-page",
+                                                            params: {
+                                                              id:
+                                                                item.classwork_id
+                                                            }
+                                                          }
+                                                        )
+                                                      }
+                                                    }
+                                                  },
+                                                  "v-btn",
+                                                  attrs,
+                                                  false
+                                                ),
+                                                on
+                                              ),
                                               [
                                                 _vm._v(
-                                                  "\n                                    mdi-book-open-page-variant\n                                    "
+                                                  "\n                                        " +
+                                                    _vm._s(item.score) +
+                                                    "\n                                    "
                                                 )
                                               ]
                                             )
-                                          ],
-                                          1
-                                        )
+                                          : _vm._e()
                                       ]
                                     }
                                   }
@@ -22283,180 +22388,16 @@ var render = function() {
                             },
                             [
                               _vm._v(" "),
-                              _c("span", [_vm._v("View Classwork")])
+                              _c("span", [
+                                _vm._v(
+                                  _vm._s(
+                                    item.status == null
+                                      ? "View Classwork"
+                                      : "View Submission"
+                                  )
+                                )
+                              ])
                             ]
-                          )
-                        : _vm._e()
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-expand-transition",
-                    [
-                      _vm.showClass && item.id == _vm.temp_id
-                        ? _c(
-                            "v-container",
-                            { attrs: { "ma-0": "", "pa-0": "" } },
-                            [
-                              _c(
-                                "v-row",
-                                { staticClass: "pr-3" },
-                                [
-                                  _c(
-                                    "v-col",
-                                    { staticClass: "text-right" },
-                                    [
-                                      _c(
-                                        "v-btn",
-                                        {
-                                          attrs: { icon: "" },
-                                          on: {
-                                            click: function($event) {
-                                              _vm.showClass =
-                                                 false && 0
-                                            }
-                                          }
-                                        },
-                                        [_c("v-icon", [_vm._v("mdi-close")])],
-                                        1
-                                      )
-                                    ],
-                                    1
-                                  )
-                                ],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "v-container",
-                                {
-                                  staticClass:
-                                    "d-flex flex-row justify-space-between"
-                                },
-                                [
-                                  _c("div", { staticClass: "title" }, [
-                                    _vm._v("Class names")
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("div", { staticClass: "title" }, [
-                                    _vm._v("Status")
-                                  ])
-                                ]
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "v-row",
-                                { staticClass: "pl-5 pr-5 pt-1 p-1" },
-                                [_c("v-divider")],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "div",
-                                { staticClass: "pl-5 pr-5 mt-2" },
-                                _vm._l(_vm.classNames.allClass, function(
-                                  details,
-                                  i
-                                ) {
-                                  return _c(
-                                    "v-row",
-                                    {
-                                      key: i,
-                                      staticClass: "mt-1",
-                                      attrs: { "ma-0": "", "pa-0": "" }
-                                    },
-                                    [
-                                      _c(
-                                        "v-col",
-                                        { attrs: { "ma-0": "", "pa-0": "" } },
-                                        [
-                                          _c(
-                                            "div",
-                                            { staticClass: "overline" },
-                                            [
-                                              _vm._v(
-                                                " " +
-                                                  _vm._s(details.class_name) +
-                                                  " - "
-                                              )
-                                            ]
-                                          ),
-                                          _vm._v(" "),
-                                          _c("span", [
-                                            _vm._v(_vm._s(details.subject_name))
-                                          ])
-                                        ]
-                                      ),
-                                      _vm._v(" "),
-                                      _c(
-                                        "v-col",
-                                        { attrs: { align: "right" } },
-                                        [
-                                          _c(
-                                            "div",
-                                            {},
-                                            _vm._l(
-                                              _vm.classNames.check,
-                                              function(data, x) {
-                                                return _c(
-                                                  "div",
-                                                  { key: x },
-                                                  [
-                                                    data.uc_id == details.id &&
-                                                    data.cl_id == item.id
-                                                      ? _c("v-checkbox", {
-                                                          staticClass:
-                                                            "ma-0 pa-0 float-right",
-                                                          attrs: {
-                                                            "ma-0": "",
-                                                            "pa-0": "",
-                                                            "hide-details": "",
-                                                            id: "check"
-                                                          },
-                                                          on: {
-                                                            change: function(
-                                                              $event
-                                                            ) {
-                                                              return _vm.shareClasswork(
-                                                                item.id,
-                                                                details.class_id
-                                                              )
-                                                            }
-                                                          },
-                                                          model: {
-                                                            value: data.status,
-                                                            callback: function(
-                                                              $$v
-                                                            ) {
-                                                              _vm.$set(
-                                                                data,
-                                                                "status",
-                                                                $$v
-                                                              )
-                                                            },
-                                                            expression:
-                                                              "data.status"
-                                                          }
-                                                        })
-                                                      : _vm._e()
-                                                  ],
-                                                  1
-                                                )
-                                              }
-                                            ),
-                                            0
-                                          )
-                                        ]
-                                      )
-                                    ],
-                                    1
-                                  )
-                                }),
-                                1
-                              )
-                            ],
-                            1
                           )
                         : _vm._e()
                     ],

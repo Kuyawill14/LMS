@@ -1,154 +1,274 @@
 <template>
-    <v-container>
-    <v-row
-      class="mb-6"
-      no-gutters
-      >
-      <v-col class="col-md-5 col-lg-8">
-        <v-card
-            class="mx-auto pd-0"
-            max-width="100%"
-            outlined
-        >
-            <v-list-item>
-            <v-list-item-content>
-                <v-list-item-title class="headline mb-1">
-                Personal Details
-                </v-list-item-title>
-            </v-list-item-content>
+    <v-container fluid>
+
+        <v-container v-if="isloading" style="height: 400px;">
+            <v-row class="fill-height" align-content="center" justify="center">
+                 <v-icon style="font-size:10rem">
+                    mdi-account
+                </v-icon>
+                <v-col class="text-subtitle-1 text-center" cols="12">
+                    <h3> Loading Profile </h3>
+                </v-col>
+                <v-col cols="6">
+                    <v-progress-linear color="primary" indeterminate rounded height="6"></v-progress-linear>
+                </v-col>
+            </v-row>
+        </v-container>
+
+
         
-            <v-list-item-avatar
-                tile
-                size="80"
-                color="grey"
-            >
-                 <v-img alt="Proflie" :src="get_CurrentUser.profile_pic == null || get_CurrentUser.profile_pic == '' ? 'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=' + (get_CurrentUser.firstName+' '+get_CurrentUser.lastName) : '../../images/'+get_CurrentUser.profile_pic"></v-img>
-            </v-list-item-avatar>
-            </v-list-item>
-
-            <v-list-item>
-                <v-list-item-content>
-         
-                        <v-layout column>
-                            <v-card>
-                                <v-card-text>
-                                    
-                                    <v-text-field
-                                        v-model="get_CurrentUser.firstName"
-                                        label="FirstName"></v-text-field>
-                                    <v-text-field
-                                        v-model="get_CurrentUser.middleName"
-                                        label="Last Name"></v-text-field>
-                                    <v-text-field
-                                        v-model="get_CurrentUser.lastName"
-                                        label="Last Name"></v-text-field>
-                                    <v-text-field
-                                        v-model="get_CurrentUser.email"
-                                        label="Email Address"></v-text-field>
-
-                                    <v-text-field
-                                        v-model="get_CurrentUser.address"
-                                        label="Address"></v-text-field>
-                                    <v-text-field
-                                        v-model="get_CurrentUser.cp_no"
-                                        label="Cp #"></v-text-field>
-                                </v-card-text>
-                                <v-card-actions class="mb-4">
-                                    <v-btn color="primary"  :loading="loading" @click.native="update">
-                                        <v-icon left dark>check</v-icon>
-                                        Save Changes
-                                    </v-btn>
-                                </v-card-actions>
-                            </v-card>
-                        </v-layout>
+     <!--    <v-row v-if="!isloading">
+            <v-col>
+                <v-card
+                    elevation="1"
+                    outlined
+                    class="pa-5"
+                    >
+                    <v-row>
+                        <v-col cols="12" class="d-flex justify-center mb-0 pb-0">
+                             <div class="display-2">Hi {{UserDetails.firstName}}! </div>
+                        </v-col>
+                         <v-col cols="12" class="d-flex justify-center mt-0 pt-0">
+                             <small>What would you like to learn today?</small>
+                        </v-col>
+                    </v-row>
+                   
                     
-        
-            </v-list-item-content>
-        </v-list-item>
+                </v-card>
+            </v-col>
+        </v-row> -->
 
-    </v-card>
-    </v-col>
+        <h2 v-if="!isloading">USER PROFILE</h2>
+        <v-row v-if="!isloading" class="mt-2">
+            <v-col cols="12" md="3">
+              <v-card
+                elevation="1"
+                outlined
+                class="pt-5"
+                >
+                 <v-row >
+                     <v-col cols="12" class="mb-0 pb-0 d-flex justify-center">
+                  
+                            <v-avatar
+                            
+                            size="80"
+                            @click="TestUpload()"
+                            >
+                            <v-hover>
+                                 <template v-slot:default="{ hover }">
+                                     <div>
+                                     <v-avatar
+                                    size="80"
+                                    style="cursor: pointer"
+                                    >
+                                     <v-img alt="Proflie" :src="UserDetails.profile_pic == null || UserDetails.profile_pic == '' ? 'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=' + (UserDetails.firstName+' '+UserDetails.lastName) : UserDetails.profile_pic"></v-img>
+                                    </v-avatar>
+                                      <v-fade-transition>
+                                        <v-overlay
+                                            v-if="hover"
+                                            absolute
+                                            color="#212121"
+                                            style="cursor: pointer;"
+                                            
+                                        >
+                                        <div class=""><v-icon small>mdi-camera</v-icon> Update</div>
+                                          <!--   <v-btn rounded disabled class=" transition-fast-in-fast-out " text>Update</v-btn> -->
+                                        </v-overlay>
+                                        </v-fade-transition>
+                                    </div>
+                                </template>
+                             </v-hover>
+                            </v-avatar>
+                            <input
+                            ref="fileInput"
+                            class="d-none"
+                            type="file"
+                            accept="image/jpeg"
+                            @change="onFileChange">
+                     </v-col>
 
-    <v-col class="col-md-5 col-lg-4">
-    <v-card
-        class="mx-auto"
-        max-width="344"
-        outlined
-    >
-        <v-list-item three-line>
-        <v-list-item-content>
-            <v-list-item-title class="headline mb-1">
-                Change Password
-            </v-list-item-title>
-        </v-list-item-content>
-        </v-list-item>
+                     <v-col cols="12" class="mb-0 pb-0 mt-0 pt-0 d-flex justify-center">
+                         <h3 class="font-weight-bold">{{UserDetails.firstName+' '+UserDetails.lastName}}</h3>
+                         
+                     </v-col>
+                      <v-col cols="12" class="mb-0 pb-0 mt-0 pt-0 d-flex justify-center">
+                          <div class="grey--text font-italic">{{UserDetails.email}}</div>
+                     </v-col>
+                      <v-col cols="12" class="mb-0 pb-0 mt-1 pt-0 d-flex justify-center">
+                        
+                            <v-btn icon text>
+                            <v-icon color="blue"  >
+                                mdi-facebook
+                            </v-icon>
+                            </v-btn>
 
-        <v-list-item>
-            <v-list-item-content>
-        
-                        <v-layout column>
-                            <v-card>
+                            <v-btn class="ml-2" icon text>
+                            <v-icon color="red"  >
+                                mdi-google-plus
+                            </v-icon>
+                            </v-btn>
+                     </v-col>
+                    </v-row>
+
+                    <v-row>
+                        <v-col cols="12" class="pl-5 pr-5 pb-0">
+                            <v-divider></v-divider>
+                        </v-col>
+                     <v-col cols="12" class="pl-3">
+                            
+                           <!--  <v-btn text rounded class="primary--text"> 
+                                <v-icon left>mdi-account-edit-outline</v-icon>
+                                Edit Profile
+                            </v-btn> -->
+                            <v-tabs v-model="tab" vertical class="mt-2">
+                                <v-tab class="d-flex justify-start">
+                                    <v-icon left>
+                                    mdi-google-classroom
+                                    </v-icon>
+                                    Courses
+                                </v-tab>
+                                <v-tab class="d-flex justify-start">
+                                    <v-icon left>
+                                    mdi-book-open-variant
+                                    </v-icon>
+                                    Classwork Results
+                                </v-tab>
+                                <v-tab class="d-flex justify-start">
+                                    <v-icon left>
+                                    mdi-account
+                                    </v-icon>
+                                    Profile
+                                </v-tab>
+                                 <v-tab class="d-flex justify-start">
+                                    <v-icon left>
+                                    mdi-lock
+                                    </v-icon>
+                                    Change Password
+                                </v-tab>
+
+                            </v-tabs>
+                     </v-col>
+                    </v-row>
+                </v-card>
+
+   
+                 
+            </v-col>
+            <v-col cols="12" md="9">
+                  <v-card
+                  class="pt-3 pb-3 pl-5 pr-5"
+                elevation="1" outlinedS>
+               <v-row>
+                   <v-col cols="12">
+                       <v-tabs-items :value="tab">
+                            <v-tab-item>
+                                <coursesProgress :UserDetails="UserDetails"></coursesProgress>
+                            </v-tab-item>
+                            <v-tab-item>
+                                <v-card flat>
                                 <v-card-text>
-                                    
-                                    <v-text-field
-                                        v-model="get_CurrentUser.firstName"
-                                        label="FirstName"></v-text-field>
-                                    <v-text-field
-                                        v-model="get_CurrentUser.middleName"
-                                        label="Last Name"></v-text-field>
-                                    <v-text-field
-                                        v-model="get_CurrentUser.lastName"
-                                        label="Last Name"></v-text-field>
+                                    <p>
+                                    Morbi nec metus. Suspendisse faucibus, nunc et pellentesque egestas, lacus ante convallis tellus, vitae iaculis lacus elit id tortor. Sed mollis, eros et ultrices tempus, mauris ipsum aliquam libero, non adipiscing dolor urna a orci. Curabitur ligula sapien, tincidunt non, euismod vitae, posuere imperdiet, leo. Nunc sed turpis.
+                                    </p>
 
+                                    <p>
+                                    Suspendisse feugiat. Suspendisse faucibus, nunc et pellentesque egestas, lacus ante convallis tellus, vitae iaculis lacus elit id tortor. Proin viverra, ligula sit amet ultrices semper, ligula arcu tristique sapien, a accumsan nisi mauris ac eros. In hac habitasse platea dictumst. Fusce ac felis sit amet ligula pharetra condimentum.
+                                    </p>
+
+                                    <p>
+                                    Sed consequat, leo eget bibendum sodales, augue velit cursus nunc, quis gravida magna mi a libero. Nam commodo suscipit quam. In consectetuer turpis ut velit. Sed cursus turpis vitae tortor. Aliquam eu nunc.
+                                    </p>
+
+                                    <p>
+                                    Etiam ut purus mattis mauris sodales aliquam. Ut varius tincidunt libero. Aenean viverra rhoncus pede. Duis leo. Fusce fermentum odio nec arcu.
+                                    </p>
+
+                                    <p class="mb-0">
+                                    Donec venenatis vulputate lorem. Aenean viverra rhoncus pede. In dui magna, posuere eget, vestibulum et, tempor auctor, justo. Fusce commodo aliquam arcu. Suspendisse enim turpis, dictum sed, iaculis a, condimentum nec, nisi.
+                                    </p>
                                 </v-card-text>
-                                <v-card-actions class="mb-4">
-                                    <v-btn color="primary"  :loading="loading" @click.native="update">
-                                        <v-icon left dark>check</v-icon>
-                                        Change Password
-                                    </v-btn>
-                                </v-card-actions>
-                            </v-card>
-                        </v-layout>
-                </v-list-item-content>
-            </v-list-item>
-            
-            
-           
-        </v-card>
-      </v-col>
-    </v-row>
-  </v-container>
+                                </v-card>
+                            </v-tab-item>
+                            <v-tab-item>
+                                <editProfile :UserDetails="UserDetails"></editProfile>
+                            </v-tab-item>
+                               <v-tab-item>
+                                <changePassword ></changePassword>
+                            </v-tab-item>
+                       </v-tabs-items>
+                   </v-col>
+               </v-row>
+            </v-card>
+            </v-col>
+        </v-row>
+    </v-container>
 </template>
 
 <script>
-    import {
-        mapGetters,
-        mapActions
-    } from "vuex";
+    const editProfile = () => import('./editprofile')
+    const changePassword = () => import('./changePassword')
+    const coursesProgress = () => import('./coursesProgress')
+    
     export default {
-        props:['UserDetails'],
-        pageTitle: 'My Profile',
-
+        props:['role','UserDetails'],
+        components:{
+            editProfile,
+            changePassword,
+            coursesProgress
+        },
         data () {
             return {
+                tab: null,
+                imageFile:'',
+                Details:null,
                 loading: false,
-                form: {
-                    firstName: 'John',
-                    lastName: 'Doe',
-                    contactEmail: 'john@doe.com',
-
-                },
-                showAvatarPicker: false
+                isloading: true,
+                message:null,
+                type:null
             }
         },
-        computed: mapGetters(['get_CurrentUser']),
         methods: {
-            openAvatarPicker () {
-                this.showAvatarPicker = true
+             toastSuccess() {
+                return this.$toasted.success("Profile Successfully Updated", {
+                    theme: "toasted-primary",
+                    position: "top-center",
+                    icon: "done",
+                    duration: 3000
+                });
             },
-            selectAvatar (avatar) {
-                this.form.avatar = avatar
-            }
+            getUserDetails() {
+                axios.get('/api/profile/details').then((res) => {
+                    this.UserDetails = res.data[0];
+                    this.isloading = !this.isloading;
+
+                }).catch((e) => {
+                    console.log(e);
+                })
+            },
+            TestUpload(){
+             this.$refs.fileInput.click();
+            },
+            onFileChange(element) {
+                const file = element.target.files[0];
+                var reader = new FileReader()
+                reader.readAsDataURL(file)
+                let testFile;
+                reader.onload = () => {
+                    this.UserDetails.profile_pic = reader.result;
+                    testFile = reader.result;
+                    this.UpdateProfile();
+                }
+            },
+            async UpdateProfile(){
+                axios.post('/api/profile/profile_picture', {data:this.UserDetails.profile_pic})
+                .then(res=>{
+                   
+                })
+            },
+            
         },
+        mounted(){
+            this.isloading = !this.isloading;
+        }
     }
 </script>

@@ -67,7 +67,10 @@ let studentListComponent = () =>
 //Quiz Page
 let QuizPage = () =>
     import ("./components/Classwork_View/StudentPage/ExamQuestionListPage");
+let resultPage = () =>
+    import ("./components/Classwork_View/StudentPage/resultPage");
 
+    
 //view course page 
 let courseView = () =>
     import ("./components/course-view/course-view-page");
@@ -283,6 +286,13 @@ const router = new Router({
             name: "quizstart",
             props: true
         },
+        {
+            path: "/submitted-result/:id",
+            component: resultPage,
+            name: "result-page",
+            props: true
+        },
+
 
         {
             path: "/login",
