@@ -5,12 +5,12 @@
             <v-col cols="6">
 
                 <h2>
-                   Student Grades
+                    Student Grades
                 </h2>
             </v-col>
             <v-col cols="6">
-                <v-select :items="classList" @change="test(selectedClass)" v-model="selectedClass"
-                    item-text='class_name' item-value='class_id' label="Select Class" class="float-right">
+                <v-select :items="classList" v-model="selectedClass" @change="getClassworkList()" item-text='class_name'
+                    item-value='class_id' label="Select Class" class="float-right">
 
 
                 </v-select>
@@ -20,22 +20,34 @@
 
         <v-card>
             <v-tabs color="deep-purple accent-4" right>
-                <v-tab v-for="(gradingCriteria, index) in get_gradingCriteria" :key="index">
+                <v-tab v-for="(gradingCriteria, index) in get_gradingCriteria" :key="index"
+                    @click="_getClassworkListbyTab(gradingCriteria.id)">
                     {{gradingCriteria.name}}
                 </v-tab>
                 <v-tab-item v-for="(gradingCriteria, index) in get_gradingCriteria" :key="index">
 
-                    <v-card-title>
+                    <v-card-title>{{get_gradingCriteria[0].id}}
                         {{gradingCriteria.name}}
                         <v-spacer></v-spacer>
                         <v-text-field v-model="search" append-icon="mdi-magnify" label="Search" single-line
                             hide-details>
                         </v-text-field>
                     </v-card-title>
-                    <v-data-table :headers="headers">
+                    <v-data-table :headers="headers" :items="students" v-if="headers.length != 0">
+                        <template v-slot:body="{ items }">
+                            <tbody>
+                                <tr v-for="item in items" :key="item.id">
+                                    <td>{{item.firstName}} </td>
+                                 
+                                    <td v-for="(classworkGrades, index) in StudentClassworkGrades(item.id,gradingCriteria.id)" :key="index">
+                                    {{classworkGrades.points}}
+                                    </td>
 
+                                </tr>
+                            </tbody>
+                        </template>
                     </v-data-table>
-
+                    <!-- {{headers}} -->
                 </v-tab-item>
             </v-tabs>
         </v-card>
@@ -68,36 +80,93 @@
                 course_id: '',
                 delId: '',
                 classworkList: [],
-
-                headers: [
-
-                ],
-                classList: []
+                headers: [],
+                classList: [],
+                students: null
             }
 
         },
         computed: {
-            ...mapGetters(["get_gradingCriteria", "allClass"])
+            ...mapGetters(["get_gradingCriteria", "allClass", "StudentClassworkGrades"])
         },
 
         methods: {
+            getStudentList() {
+                axios.get('/api/student/all/' + this.$route.params.id)
+                    .then((res) => {
+                        this.students = res.data
+
+                    }).catch((error) => {
+                        console.log(error)
+                    })
+            },
             getAllGradeCriteria() {
                 this.$store.dispatch('fetchGradingCriteria', this.$route.params.id);
             },
-            test(class_id) {
+            getClassworkList() {
+                
+                this.headers = [];
+                this.headers.push({
+                    text: 'name',
+                    value: 'name'
+                });
 
-                axios.get('/api/grade-book/classworks/' + class_id).then(res => {
+                axios.get('/api/grade-book/classworks/' + this.selectedClass).then(res => {
                     this.classworkList = res.data;
                     console.log(res.data);
 
-                    // this.headers.assign(res.data, {
-                    //     text: res.data.title
-                    // })
-                    for (var i = 0; i < this.classworkList.length; i++ ) {
-                        this.headers[i] = {text: this.classworkList[0]['name'], value: this.classworkList[0]['name']};
+                    for (var i = 0; i < this.classworkList.length; i++) {
+                        // this.headers[i+1] = {text: this.classworkList[i]['title'], value: this.classworkList[i]['title']};
+                        if (this.classworkList[i]['grading_criteria_id'] == this.get_gradingCriteria[0].id)
+                            this.headers.push({
+                                text: this.classworkList[i]['title'],
+                                value: this.classworkList[i]['title']
+                            });
                     }
-                    console.log(  this.headers)
-                   
+                    //    console.log(grading_criteria_id)
+
+                })
+                  this.$store.dispatch('fetchStudentClassworkGrades', this.selectedClass);
+            },
+            _getClassworkListbyTab(grading_criteria_id) {
+                this.headers = [];
+                this.headers.push({
+                    text: 'name',
+                    value: 'name'
+                });
+
+                axios.get('/api/grade-book/classworks/' + this.selectedClass).then(res => {
+                    this.classworkList = res.data;
+                    console.log(res.data);
+
+                    for (var i = 0; i < this.classworkList.length; i++) {
+                        // this.headers[i+1] = {text: this.classworkList[i]['title'], value: this.classworkList[i]['title']};
+                        if (this.classworkList[i]['grading_criteria_id'] == grading_criteria_id) {
+                            this.headers.push({
+                                text: this.classworkList[i]['title'],
+                                value: this.classworkList[i]['title']
+                            });
+                        }
+
+                    }
+
+
+                })
+            },
+            getStudentClassworksGrades(grading_criteria_id) {
+                axios.get('/api/grade-book/classworkGrades/' + this.selectedClass).then(res => {
+                    this.classworkList = res.data;
+                    console.log(res.data);
+
+                    for (var i = 0; i < this.classworkList.length; i++) {
+                       
+                        if (this.classworkList[i]['grading_criteria_id'] == grading_criteria_id) {
+
+                        }
+
+                    }
+              
+
                 })
             },
 
@@ -115,15 +184,21 @@
             getClassList() {
                 this.$store.dispatch('fetchSubjectCourseClassList', this.$route.params.id).then(() => {
                     this.classList = this.allClass;
+
+                    this.selectedClass = this.classList[0].class_id;
+                    this.getClassworkList();
+                   
                     console.log('class Liost: ', this.classList);
                 });
             }
         },
 
-        mounted() {
+        created() {
             this.loading = true;
             this.getAllGradeCriteria();
+            this.getStudentList();
             this.getClassList();
+           
             this.loading = false;
         }
 

@@ -65,6 +65,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -86,31 +98,80 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       delId: '',
       classworkList: [],
       headers: [],
-      classList: []
+      classList: [],
+      students: null
     };
   },
-  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(["get_gradingCriteria", "allClass"])),
+  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(["get_gradingCriteria", "allClass", "StudentClassworkGrades"])),
   methods: {
+    getStudentList: function getStudentList() {
+      var _this = this;
+
+      axios.get('/api/student/all/' + this.$route.params.id).then(function (res) {
+        _this.students = res.data;
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
     getAllGradeCriteria: function getAllGradeCriteria() {
       this.$store.dispatch('fetchGradingCriteria', this.$route.params.id);
     },
-    test: function test(class_id) {
-      var _this = this;
+    getClassworkList: function getClassworkList() {
+      var _this2 = this;
 
-      axios.get('/api/grade-book/classworks/' + class_id).then(function (res) {
-        _this.classworkList = res.data;
-        console.log(res.data); // this.headers.assign(res.data, {
-        //     text: res.data.title
-        // })
+      this.headers = [];
+      this.headers.push({
+        text: 'name',
+        value: 'name'
+      });
+      axios.get('/api/grade-book/classworks/' + this.selectedClass).then(function (res) {
+        _this2.classworkList = res.data;
+        console.log(res.data);
 
-        for (var i = 0; i < _this.classworkList.length; i++) {
-          _this.headers[i] = {
-            text: _this.classworkList[0]['name'],
-            value: _this.classworkList[0]['name']
-          };
+        for (var i = 0; i < _this2.classworkList.length; i++) {
+          // this.headers[i+1] = {text: this.classworkList[i]['title'], value: this.classworkList[i]['title']};
+          if (_this2.classworkList[i]['grading_criteria_id'] == _this2.get_gradingCriteria[0].id) _this2.headers.push({
+            text: _this2.classworkList[i]['title'],
+            value: _this2.classworkList[i]['title']
+          });
+        } //    console.log(grading_criteria_id)
+
+      });
+      this.$store.dispatch('fetchStudentClassworkGrades', this.selectedClass);
+    },
+    _getClassworkListbyTab: function _getClassworkListbyTab(grading_criteria_id) {
+      var _this3 = this;
+
+      this.headers = [];
+      this.headers.push({
+        text: 'name',
+        value: 'name'
+      });
+      axios.get('/api/grade-book/classworks/' + this.selectedClass).then(function (res) {
+        _this3.classworkList = res.data;
+        console.log(res.data);
+
+        for (var i = 0; i < _this3.classworkList.length; i++) {
+          // this.headers[i+1] = {text: this.classworkList[i]['title'], value: this.classworkList[i]['title']};
+          if (_this3.classworkList[i]['grading_criteria_id'] == grading_criteria_id) {
+            _this3.headers.push({
+              text: _this3.classworkList[i]['title'],
+              value: _this3.classworkList[i]['title']
+            });
+          }
         }
+      });
+    },
+    getStudentClassworksGrades: function getStudentClassworksGrades(grading_criteria_id) {
+      var _this4 = this;
 
-        console.log(_this.headers);
+      axios.get('/api/grade-book/classworkGrades/' + this.selectedClass).then(function (res) {
+        _this4.classworkList = res.data;
+        console.log(res.data);
+
+        for (var i = 0; i < _this4.classworkList.length; i++) {
+          if (_this4.classworkList[i]['grading_criteria_id'] == grading_criteria_id) {}
+        }
       });
     },
     _totalPercent: function _totalPercent(percentage_data) {
@@ -122,17 +183,22 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       return total;
     },
     getClassList: function getClassList() {
-      var _this2 = this;
+      var _this5 = this;
 
       this.$store.dispatch('fetchSubjectCourseClassList', this.$route.params.id).then(function () {
-        _this2.classList = _this2.allClass;
-        console.log('class Liost: ', _this2.classList);
+        _this5.classList = _this5.allClass;
+        _this5.selectedClass = _this5.classList[0].class_id;
+
+        _this5.getClassworkList();
+
+        console.log('class Liost: ', _this5.classList);
       });
     }
   },
-  mounted: function mounted() {
+  created: function created() {
     this.loading = true;
     this.getAllGradeCriteria();
+    this.getStudentList();
     this.getClassList();
     this.loading = false;
   }
@@ -296,7 +362,7 @@ var render = function() {
         "v-row",
         [
           _c("v-col", { attrs: { cols: "6" } }, [
-            _c("h2", [_vm._v("\n               Student Grades\n            ")])
+            _c("h2", [_vm._v("\n                Student Grades\n            ")])
           ]),
           _vm._v(" "),
           _c(
@@ -313,7 +379,7 @@ var render = function() {
                 },
                 on: {
                   change: function($event) {
-                    return _vm.test(_vm.selectedClass)
+                    return _vm.getClassworkList()
                   }
                 },
                 model: {
@@ -339,13 +405,24 @@ var render = function() {
             { attrs: { color: "deep-purple accent-4", right: "" } },
             [
               _vm._l(_vm.get_gradingCriteria, function(gradingCriteria, index) {
-                return _c("v-tab", { key: index }, [
-                  _vm._v(
-                    "\n                " +
-                      _vm._s(gradingCriteria.name) +
-                      "\n            "
-                  )
-                ])
+                return _c(
+                  "v-tab",
+                  {
+                    key: index,
+                    on: {
+                      click: function($event) {
+                        return _vm._getClassworkListbyTab(gradingCriteria.id)
+                      }
+                    }
+                  },
+                  [
+                    _vm._v(
+                      "\n                " +
+                        _vm._s(gradingCriteria.name) +
+                        "\n            "
+                    )
+                  ]
+                )
               }),
               _vm._v(" "),
               _vm._l(_vm.get_gradingCriteria, function(gradingCriteria, index) {
@@ -357,7 +434,8 @@ var render = function() {
                       "v-card-title",
                       [
                         _vm._v(
-                          "\n                    " +
+                          _vm._s(_vm.get_gradingCriteria[0].id) +
+                            "\n                    " +
                             _vm._s(gradingCriteria.name) +
                             "\n                    "
                         ),
@@ -382,7 +460,65 @@ var render = function() {
                       1
                     ),
                     _vm._v(" "),
-                    _c("v-data-table", { attrs: { headers: _vm.headers } })
+                    _vm.headers.length != 0
+                      ? _c("v-data-table", {
+                          attrs: { headers: _vm.headers, items: _vm.students },
+                          scopedSlots: _vm._u(
+                            [
+                              {
+                                key: "body",
+                                fn: function(ref) {
+                                  var items = ref.items
+                                  return [
+                                    _c(
+                                      "tbody",
+                                      _vm._l(items, function(item) {
+                                        return _c(
+                                          "tr",
+                                          { key: item.id },
+                                          [
+                                            _c("td", [
+                                              _vm._v(
+                                                _vm._s(item.firstName) + " "
+                                              )
+                                            ]),
+                                            _vm._v(" "),
+                                            _vm._l(
+                                              _vm.StudentClassworkGrades(
+                                                item.id,
+                                                gradingCriteria.id
+                                              ),
+                                              function(classworkGrades, index) {
+                                                return _c(
+                                                  "td",
+                                                  { key: index },
+                                                  [
+                                                    _vm._v(
+                                                      "\n                                " +
+                                                        _vm._s(
+                                                          classworkGrades.points
+                                                        ) +
+                                                        "\n                                "
+                                                    )
+                                                  ]
+                                                )
+                                              }
+                                            )
+                                          ],
+                                          2
+                                        )
+                                      }),
+                                      0
+                                    )
+                                  ]
+                                }
+                              }
+                            ],
+                            null,
+                            true
+                          )
+                        })
+                      : _vm._e()
                   ],
                   1
                 )

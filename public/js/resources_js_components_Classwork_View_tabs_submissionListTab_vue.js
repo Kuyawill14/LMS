@@ -89,7 +89,8 @@ var subjectiveSubmission = function subjectiveSubmission() {
     }
   },
   mounted: function mounted() {
-    this.isloading = !this.isloading; //this.GetList();
+    //this.isloading = !this.isloading;
+    this.GetList();
   }
 });
 

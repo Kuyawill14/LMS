@@ -50,8 +50,8 @@ export default {
         }
     },
     mounted(){
-        this.isloading = !this.isloading;
-        //this.GetList();
+        //this.isloading = !this.isloading;
+        this.GetList();
     }
     
 }

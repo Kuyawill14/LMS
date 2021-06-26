@@ -17,7 +17,7 @@ import gradingCriteria from './modules/gradingCriteria'
 import studentSubmoduleProgress from './modules/student_sub_moduleProgress'
 import studentMainmoduleProgress from './modules/student_main_moduleProgress'
 import classwork from './modules/classwork'
-
+import studentClassworkGrades from './modules/student_classwork_grades'
 export default new Vuex.Store({
     modules: {
         SCLass,
@@ -33,7 +33,9 @@ export default new Vuex.Store({
         gradingCriteria,
         studentSubmoduleProgress,
         classwork,
-        studentMainmoduleProgress
+        studentMainmoduleProgress,
+        studentClassworkGrades
+
 
     },
 })

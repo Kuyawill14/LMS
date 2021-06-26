@@ -20,20 +20,67 @@ class GradebookController extends Controller
     }
 
     public function fetchClassworks($class_id) {
-        $allSubModules = DB::table('tbl_sub_modules')
-        ->select('tbl_sub_modules.id as sub_module_id',
-        'tbl_classworks.title as name',
-        'tbl_classworks.point as points',
-        'tbl_classworks.id as classwork_id',
-        'tbl_class_classworks.class_id as class_id'
-        )
-        
-        ->leftJoin('tbl_classworks', 'tbl_sub_modules.classwork_id', '=', 'tbl_classworks.id')
+        // $allSubModules = DB::table('tbl_sub_modules')
+        // ->select(
+        // 'tbl_classworks.title as name',
+        // 'tbl_classworks.points as points',
+        // 'tbl_classworks.id as classwork_id',
+        // 'tbl_class_classworks.class_id as class_id'
+        // )
+        // ->leftJoin('tbl_class_classworks', 'tbl_classworks.id', '=', 'tbl_class_classworks.classwork_id')
+        // ->leftJoin('tbl_classworks', 'tbl_classworks.id', '=', 'tbl_class_classworks.classwork_id')
+        // ->where('tbl_class_classworks.class_id', $class_id )
+        // ->get();
+        // return $allSubModules;
+
+        $classworks = DB::table('tbl_classworks')
+        ->select('tbl_classworks.id as classwork_id','title','points','tbl_class_classworks.class_id as class_id', 'grading_criteria as grading_criteria_id')
         ->leftJoin('tbl_class_classworks', 'tbl_classworks.id', '=', 'tbl_class_classworks.classwork_id')
+        ->leftJoin('tbl_main_grade_categories' , 'tbl_main_grade_categories.id' , '=' , 'tbl_class_classworks.grading_criteria')
         ->where('tbl_class_classworks.class_id', $class_id )
-        ->where('tbl_sub_modules.type', 'classwork' )
         ->get();
-        return $allSubModules;
+
+        return $classworks;
+    }
+
+    public function fetchClassworkGrades($class_id) {
+        
+        $studentList = DB::table('users')
+        ->select('users.id as student_id',
+        'tbl_class_classworks.classwork_id',
+        'tbl_userclasses.class_id',
+        'grading_criteria as grading_criteria_id'
+        )
+        ->leftJoin('tbl_userclasses' , 'tbl_userclasses.user_id' , '=' , 'users.id')
+        ->leftJoin('tbl_class_classworks' , 'tbl_class_classworks.class_id' , '=' , 'tbl_userclasses.class_id')
+        ->leftJoin('tbl_main_grade_categories' , 'tbl_main_grade_categories.id' , '=' , 'tbl_class_classworks.grading_criteria')
+        ->where('tbl_userclasses.class_id', $class_id )
+        ->where('role', 'Student')
+        ->get();
+
+        $studentList = json_decode($studentList, true);
+
+        $submissions = DB::table('tbl_submissions')
+        ->select('tbl_submissions.classwork_id','status' ,'points', 'user_id')
+        ->leftJoin('tbl_class_classworks' , 'tbl_class_classworks.classwork_id' , '=' , 'tbl_submissions.classwork_id')
+        ->where('tbl_class_classworks.class_id', $class_id )
+        ->get();
+        $submissions = json_decode($submissions, true);
+
+        for($i=0; $i < count($studentList); $i++) {
+            $studentList[$i]['points'] = 0 ;
+            for($j=0; $j < count($submissions); $j++) {
+                if($studentList[$i]['classwork_id'] == $submissions[$j]['classwork_id']  && $studentList[$i]['student_id'] == $submissions[$j]['user_id']){
+                    $studentList[$i]['points'] =  $submissions[$j]['points'];
+                }
+            }
+
+        }
+
+
+        return $studentList;
+
+
     }
     /**
      * Show the form for creating a new resource.

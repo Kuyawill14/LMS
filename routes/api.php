@@ -189,7 +189,7 @@ Route::prefix('/grading-criteria')->group(function () {
 //Grading Criteria
 Route::prefix('/grade-book')->group(function () {
     Route::get('/classworks/{id}', [GradebookController::class, 'fetchClassworks']);
-    
+    Route::get('/classworkGrades/{id}', [GradebookController::class, 'fetchClassworkGrades']);
 });
 
 
