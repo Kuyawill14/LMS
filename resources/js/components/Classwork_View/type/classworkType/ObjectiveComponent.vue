@@ -72,6 +72,7 @@ export default {
     data(){
         return{
             status: null,
+            updateDetails:{}
         }
         
     },
@@ -92,20 +93,22 @@ export default {
         async checkStatus(){
             axios.get('/api/student/check-status/'+this.classworkDetails.id)
             .then(res=>{
-       
                 this.status = res.data[0].status;
             })
         },
         async UpdateStatus(id){
-            axios.post('/api/student/update-status',{id})
+          
+            this.updateDetails.id = id;
+            this.updateDetails.type = this.classworkDetails.type;
+            axios.post('/api/student/update-status',this.updateDetails)
             .then(res=>{
 
             })
         }
     },
-    beforeMount(){
+  /*   beforeMount(){
         this.checkStatus();
       window.history.forward(1)
-    }
+    } */
 }
 </script>

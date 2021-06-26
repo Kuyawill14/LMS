@@ -259,7 +259,7 @@ var render = function() {
                         "v-col",
                         { attrs: { cols: "12", lg: "12", md: "12" } },
                         [
-                          _vm.classworkDetails.type == "Objective Type"
+                          _vm.classworkDetails.type == "Subjective Type"
                             ? _c("subjectiveSubmission")
                             : _vm._e()
                         ],

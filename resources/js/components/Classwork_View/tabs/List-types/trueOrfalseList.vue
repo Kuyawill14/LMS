@@ -1,5 +1,6 @@
 
 <template>
+
 <v-hover v-slot="{ hover }">
 <v-card :style="preview || previewAll ? 'border-top:5px solid #EF6C00':''" :elevation="preview && hover ? 20 : 5" class="pl-3 pr-3 pt-8">
     <v-dialog v-model="dialog" persistent max-width="370">

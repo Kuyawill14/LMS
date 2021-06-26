@@ -1,6 +1,6 @@
 
 <template>
-<div>
+<v-app>
     <v-dialog v-model="dialog" persistent max-width="370">
             <deleteDialog 
             :DeleteDetails="DeleteDetails"
@@ -110,7 +110,7 @@
             </v-col>
         </v-row>
     </v-container>
-</div>
+</v-app>
 </template>
 <script>
 import indentificationList from './List-types/IndentificationList'

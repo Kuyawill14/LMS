@@ -167,7 +167,13 @@ export default {
             fd.append("grading_id", this.GradingCriteria_id);
             axios.post('/api/classwork/share', fd)
                 .then(res => {
-                    this.$emit('successPublish', res.data)
+                    if(res.dat != 'Unshare'){
+                        this.$emit('successPublish', res.data)
+                    }
+                    else{
+                        this.$emit('UnPublish')
+                    }
+                    
                 }).catch(e => {
                     console.log(e);
                 })

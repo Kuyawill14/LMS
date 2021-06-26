@@ -5,12 +5,12 @@
 </template>
 <script>
 export default {
-  beforeMount(){
-   /*  window.addEventListener('contextmenu', function (e) { 
+ /*  beforeMount(){
+    window.addEventListener('contextmenu', function (e) { 
       // do something here... 
       e.preventDefault(); 
-    }, false); */
-  }
+    }, false);
+  } */
 }
 </script>
 <style >

@@ -92,7 +92,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   props: ['classworkDetails', 'totalPoints', 'totalQuestion'],
   data: function data() {
     return {
-      status: null
+      status: null,
+      updateDetails: {}
     };
   },
   methods: {
@@ -137,16 +138,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     UpdateStatus: function UpdateStatus(id) {
+      var _this2 = this;
+
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                axios.post('/api/student/update-status', {
-                  id: id
-                }).then(function (res) {});
+                _this2.updateDetails.id = id;
+                _this2.updateDetails.type = _this2.classworkDetails.type;
+                axios.post('/api/student/update-status', _this2.updateDetails).then(function (res) {});
 
-              case 1:
+              case 3:
               case "end":
                 return _context2.stop();
             }
@@ -154,11 +157,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee2);
       }))();
     }
-  },
-  beforeMount: function beforeMount() {
-    this.checkStatus();
-    window.history.forward(1);
   }
+  /*   beforeMount(){
+        this.checkStatus();
+      window.history.forward(1)
+    } */
+
 });
 
 /***/ }),

@@ -116,7 +116,6 @@ class AnnouncementController extends Controller
           ->get();
 
         foreach($userInClass as $us_id){
-            
             if($us_id->user_id != $userId){
                 $newNotification = new tbl_notification;
                 $newNotification->userid_from = $userId;
@@ -127,7 +126,6 @@ class AnnouncementController extends Controller
                 $newNotification->status = 0;
                 $newNotification->save();
             }
-           
         }
 
           

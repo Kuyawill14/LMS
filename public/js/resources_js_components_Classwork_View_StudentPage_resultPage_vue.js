@@ -117,7 +117,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 axios.get('/api/student/check-status/' + _this.$route.params.id).then(function (res) {
                   _this.details = res.data[0];
-                  console.log(res.data[0].Submitted_Answers[0].type);
                   _this.isloading = false;
                 });
 
