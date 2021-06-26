@@ -617,7 +617,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context.prev = _context.next) {
               case 0:
                 axios.get('/api/student/check-status/' + _this6.$route.query.clwk).then(function (res) {
-                  if (res.data[0].status == 'Taking') {
+                  if (res.data[0].status == 'Taking' || res.data[0].status == '') {
                     _this6.StartQuiz();
                   } else {
                     //this.isLoading = false;
