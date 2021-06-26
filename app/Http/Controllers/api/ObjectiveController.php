@@ -351,7 +351,9 @@ class ObjectiveController extends Controller
            
             
 
-        $UpdateStatus = tbl_Submission::where("tbl_submissions.user_id",$userId)->first();
+        $UpdateStatus = tbl_Submission::where("tbl_submissions.user_id",$userId)
+        ->where('tbl_submissions.classwork_id', $id)
+        ->first();
         if($UpdateStatus){
             $UpdateStatus->status = 'Submitted';
             $UpdateStatus->points = $score;
@@ -359,7 +361,7 @@ class ObjectiveController extends Controller
             $UpdateStatus->save();
         }
        
-        return $score;
+        return $UpdateStatus;
     }
  
 }

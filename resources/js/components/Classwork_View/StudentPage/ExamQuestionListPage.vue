@@ -570,8 +570,8 @@ export default {
         async CheckStatus(){
             axios.get('/api/student/checking/'+this.$route.query.clwk)
             .then(res=>{
-                console.log(res.data[0].status)
-                if(res.data[0].status == 'Taking' || res.data[0].status == ''){
+                console.log(res.data.status)
+                if(res.data.status == 'Taking' || res.data.status == ''){
                     this.StartQuiz();
                 }
                 else{
