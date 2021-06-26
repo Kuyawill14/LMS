@@ -77,6 +77,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -99,15 +103,47 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       classworkList: [],
       headers: [],
       classList: [],
-      students: null
+      students: [],
+      classworkTotalPoints: 0
     };
   },
   computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(["get_gradingCriteria", "allClass", "StudentClassworkGrades"])),
   methods: {
+    totalPercentHeader: function totalPercentHeader() {
+      this.headers.push({
+        text: 'Total Points' + ' (' + this.classworkTotalPoints + 'pts)',
+        value: 'total'
+      }, {
+        text: 'Total Percentage',
+        value: 'Percentage'
+      });
+    },
+    classworkTotalPoins: function classworkTotalPoins() {},
+    totalPoints: function totalPoints(arr) {
+      var total = 0;
+
+      for (var i = 0; i < arr.length; i++) {
+        total += arr[i]['points'];
+      }
+
+      return total;
+    },
+    totalPercentage: function totalPercentage(arr) {
+      var total = 0;
+
+      for (var i = 0; i < arr.length; i++) {
+        total += arr[i]['points'];
+      }
+
+      console.log('tota;', total);
+      console.log('classworktoal', this.classworkTotalPoints);
+      var result = total / this.classworkTotalPoints * 100;
+      return isNaN(result) == true ? 0 : result.toFixed(2);
+    },
     getStudentList: function getStudentList() {
       var _this = this;
 
-      axios.get('/api/student/all/' + this.$route.params.id).then(function (res) {
+      axios.get('/api/student/all_by_class/' + this.selectedClass).then(function (res) {
         _this.students = res.data;
       })["catch"](function (error) {
         console.log(error);
@@ -119,9 +155,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     getClassworkList: function getClassworkList() {
       var _this2 = this;
 
+      var total = 0;
+      this.getStudentList();
       this.headers = [];
       this.headers.push({
-        text: 'name',
+        text: 'Name',
         value: 'name'
       });
       axios.get('/api/grade-book/classworks/' + this.selectedClass).then(function (res) {
@@ -130,21 +168,30 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
         for (var i = 0; i < _this2.classworkList.length; i++) {
           // this.headers[i+1] = {text: this.classworkList[i]['title'], value: this.classworkList[i]['title']};
-          if (_this2.classworkList[i]['grading_criteria_id'] == _this2.get_gradingCriteria[0].id) _this2.headers.push({
-            text: _this2.classworkList[i]['title'],
-            value: _this2.classworkList[i]['title']
-          });
+          if (_this2.classworkList[i]['grading_criteria_id'] == _this2.get_gradingCriteria[0].id) {
+            _this2.headers.push({
+              text: _this2.classworkList[i]['title'] + ' (' + _this2.classworkList[i]['points'] + 'pts)',
+              value: _this2.classworkList[i]['title']
+            });
+
+            total += _this2.classworkList[i]['points'];
+          }
         } //    console.log(grading_criteria_id)
 
+
+        _this2.classworkTotalPoints = total;
+
+        _this2.totalPercentHeader();
       });
       this.$store.dispatch('fetchStudentClassworkGrades', this.selectedClass);
     },
     _getClassworkListbyTab: function _getClassworkListbyTab(grading_criteria_id) {
       var _this3 = this;
 
+      var total = 0;
       this.headers = [];
       this.headers.push({
-        text: 'name',
+        text: 'Name',
         value: 'name'
       });
       axios.get('/api/grade-book/classworks/' + this.selectedClass).then(function (res) {
@@ -155,11 +202,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           // this.headers[i+1] = {text: this.classworkList[i]['title'], value: this.classworkList[i]['title']};
           if (_this3.classworkList[i]['grading_criteria_id'] == grading_criteria_id) {
             _this3.headers.push({
-              text: _this3.classworkList[i]['title'],
+              text: _this3.classworkList[i]['title'] + ' (' + _this3.classworkList[i]['points'] + 'pts)',
               value: _this3.classworkList[i]['title']
             });
+
+            total += _this3.classworkList[i]['points'];
           }
         }
+
+        _this3.classworkTotalPoints = total;
+
+        _this3.totalPercentHeader();
       });
     },
     getStudentClassworksGrades: function getStudentClassworksGrades(grading_criteria_id) {
@@ -191,6 +244,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
         _this5.getClassworkList();
 
+        _this5.getStudentList();
+
         console.log('class Liost: ', _this5.classList);
       });
     }
@@ -198,7 +253,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   created: function created() {
     this.loading = true;
     this.getAllGradeCriteria();
-    this.getStudentList();
     this.getClassList();
     this.loading = false;
   }
@@ -434,8 +488,7 @@ var render = function() {
                       "v-card-title",
                       [
                         _vm._v(
-                          _vm._s(_vm.get_gradingCriteria[0].id) +
-                            "\n                    " +
+                          "\n                    " +
                             _vm._s(gradingCriteria.name) +
                             "\n                    "
                         ),
@@ -472,20 +525,24 @@ var render = function() {
                                   return [
                                     _c(
                                       "tbody",
-                                      _vm._l(items, function(item) {
+                                      _vm._l(items, function(student) {
                                         return _c(
                                           "tr",
-                                          { key: item.id },
+                                          { key: student.id },
                                           [
                                             _c("td", [
                                               _vm._v(
-                                                _vm._s(item.firstName) + " "
+                                                _vm._s(
+                                                  student.lastName +
+                                                    ", " +
+                                                    student.firstName
+                                                ) + " "
                                               )
                                             ]),
                                             _vm._v(" "),
                                             _vm._l(
                                               _vm.StudentClassworkGrades(
-                                                item.id,
+                                                student.id,
                                                 gradingCriteria.id
                                               ),
                                               function(classworkGrades, index) {
@@ -494,7 +551,7 @@ var render = function() {
                                                   { key: index },
                                                   [
                                                     _vm._v(
-                                                      "\n                                " +
+                                                      "\n                                    " +
                                                         _vm._s(
                                                           classworkGrades.points
                                                         ) +
@@ -503,7 +560,37 @@ var render = function() {
                                                   ]
                                                 )
                                               }
-                                            )
+                                            ),
+                                            _vm._v(" "),
+                                            _c("td", [
+                                              _vm._v(
+                                                "\n                                    " +
+                                                  _vm._s(
+                                                    _vm.totalPoints(
+                                                      _vm.StudentClassworkGrades(
+                                                        student.id,
+                                                        gradingCriteria.id
+                                                      )
+                                                    )
+                                                  ) +
+                                                  "\n                                "
+                                              )
+                                            ]),
+                                            _vm._v(" "),
+                                            _c("td", [
+                                              _vm._v(
+                                                "\n                                    " +
+                                                  _vm._s(
+                                                    _vm.totalPercentage(
+                                                      _vm.StudentClassworkGrades(
+                                                        student.id,
+                                                        gradingCriteria.id
+                                                      )
+                                                    )
+                                                  ) +
+                                                  "%\n                                "
+                                              )
+                                            ])
                                           ],
                                           2
                                         )

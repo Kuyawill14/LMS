@@ -57,7 +57,17 @@ class StudentController extends Controller
         
     }
 
-    
+    public function getStudentListbyClass($class_id) {
+        $StudentList = DB::table('tbl_userclasses')
+        ->select('tbl_userclasses.id as uc_id','users.id','users.firstName','users.email','users.lastName','users.role' )
+        ->leftJoin('users', 'tbl_userclasses.user_id', '=', 'users.id', )
+        ->leftJoin('tbl_user_details', 'tbl_user_details.user_id', '=', 'users.id', )
+        ->where('tbl_userclasses.class_id', $class_id)
+        ->where('role', 'Student')
+        ->orderBy('users.lastName', 'ASC')
+        ->get();
+        return $StudentList;
+    }
 
     /**
      * Show the form for creating a new resource.

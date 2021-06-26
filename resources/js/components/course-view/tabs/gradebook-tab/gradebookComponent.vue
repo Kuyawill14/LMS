@@ -11,13 +11,9 @@
             <v-col cols="6">
                 <v-select :items="classList" v-model="selectedClass" @change="getClassworkList()" item-text='class_name'
                     item-value='class_id' label="Select Class" class="float-right">
-
-
                 </v-select>
             </v-col>
-
         </v-row>
-
         <v-card>
             <v-tabs color="deep-purple accent-4" right>
                 <v-tab v-for="(gradingCriteria, index) in get_gradingCriteria" :key="index"
@@ -26,21 +22,29 @@
                 </v-tab>
                 <v-tab-item v-for="(gradingCriteria, index) in get_gradingCriteria" :key="index">
 
-                    <v-card-title>{{get_gradingCriteria[0].id}}
+                    <v-card-title>
                         {{gradingCriteria.name}}
                         <v-spacer></v-spacer>
                         <v-text-field v-model="search" append-icon="mdi-magnify" label="Search" single-line
                             hide-details>
                         </v-text-field>
                     </v-card-title>
-                    <v-data-table :headers="headers" :items="students" v-if="headers.length != 0" >
+                    <v-data-table :headers="headers" :items="students" v-if="headers.length != 0">
                         <template v-slot:body="{ items }">
                             <tbody>
-                                <tr v-for="item in items" :key="item.id">
-                                    <td>{{item.firstName}} </td>
-                                 
-                                    <td v-for="(classworkGrades, index) in StudentClassworkGrades(item.id,gradingCriteria.id)" :key="index">
-                                    {{classworkGrades.points}}
+                                <tr v-for="student in items" :key="student.id">
+                                    <td>{{student.lastName + ', ' + student.firstName }} </td>
+
+                                    <td v-for="(classworkGrades, index) in StudentClassworkGrades(student.id,gradingCriteria.id)"
+                                        :key="index">
+                                        {{classworkGrades.points}}
+                                    </td>
+
+                                    <td>
+                                        {{totalPoints(StudentClassworkGrades(student.id,gradingCriteria.id))}}
+                                    </td>
+                                    <td>
+                                        {{totalPercentage(StudentClassworkGrades(student.id,gradingCriteria.id))}}%
                                     </td>
 
                                 </tr>
@@ -82,7 +86,8 @@
                 classworkList: [],
                 headers: [],
                 classList: [],
-                students: null
+                students: [],
+                classworkTotalPoints: 0,
             }
 
         },
@@ -91,8 +96,37 @@
         },
 
         methods: {
+            totalPercentHeader() {
+                this.headers.push({
+                    text: 'Total Points' + ' (' + this.classworkTotalPoints + 'pts)',
+                    value: 'total'
+                }, {
+                    text: 'Total Percentage',
+                    value: 'Percentage'
+                });
+            },
+            classworkTotalPoins() {
+
+            },
+            totalPoints(arr) {
+                var total = 0;
+                for (var i = 0; i < arr.length; i++) {
+                    total += arr[i]['points'];
+                }
+                return total;
+            },
+            totalPercentage(arr) {
+                var total = 0;
+                for (var i = 0; i < arr.length; i++) {
+                    total += arr[i]['points'];
+                }
+                console.log('tota;', total);
+                console.log('classworktoal', this.classworkTotalPoints)
+                let result = (total / this.classworkTotalPoints) * 100;
+                return isNaN(result) == true ? 0 : result.toFixed(2);
+            },
             getStudentList() {
-                axios.get('/api/student/all/' + this.$route.params.id)
+                axios.get('/api/student/all_by_class/' + this.selectedClass)
                     .then((res) => {
                         this.students = res.data
 
@@ -104,10 +138,11 @@
                 this.$store.dispatch('fetchGradingCriteria', this.$route.params.id);
             },
             getClassworkList() {
-                
+                var total = 0;
+                this.getStudentList();
                 this.headers = [];
                 this.headers.push({
-                    text: 'name',
+                    text: 'Name',
                     value: 'name'
                 });
 
@@ -117,21 +152,30 @@
 
                     for (var i = 0; i < this.classworkList.length; i++) {
                         // this.headers[i+1] = {text: this.classworkList[i]['title'], value: this.classworkList[i]['title']};
-                        if (this.classworkList[i]['grading_criteria_id'] == this.get_gradingCriteria[0].id)
+                        if (this.classworkList[i]['grading_criteria_id'] == this.get_gradingCriteria[0].id) {
                             this.headers.push({
-                                text: this.classworkList[i]['title'],
+                                text: this.classworkList[i]['title'] + ' (' + this.classworkList[i][
+                                    'points'
+                                ] + 'pts)',
                                 value: this.classworkList[i]['title']
                             });
+                              total += this.classworkList[i]['points'];
+                        }
+                      
                     }
-                    //    console.log(grading_criteria_id)
 
+                    //    console.log(grading_criteria_id)
+                    this.classworkTotalPoints = total;
+                    this.totalPercentHeader();
                 })
-                  this.$store.dispatch('fetchStudentClassworkGrades', this.selectedClass);
+
+                this.$store.dispatch('fetchStudentClassworkGrades', this.selectedClass);
             },
             _getClassworkListbyTab(grading_criteria_id) {
+                var total = 0;
                 this.headers = [];
                 this.headers.push({
-                    text: 'name',
+                    text: 'Name',
                     value: 'name'
                 });
 
@@ -143,13 +187,17 @@
                         // this.headers[i+1] = {text: this.classworkList[i]['title'], value: this.classworkList[i]['title']};
                         if (this.classworkList[i]['grading_criteria_id'] == grading_criteria_id) {
                             this.headers.push({
-                                text: this.classworkList[i]['title'],
+                                text: this.classworkList[i]['title'] + ' (' + this.classworkList[i][
+                                    'points'
+                                ] + 'pts)',
                                 value: this.classworkList[i]['title']
                             });
+                            total += this.classworkList[i]['points'];
                         }
 
                     }
-
+                    this.classworkTotalPoints = total;
+                    this.totalPercentHeader();
 
                 })
             },
@@ -159,14 +207,12 @@
                     console.log(res.data);
 
                     for (var i = 0; i < this.classworkList.length; i++) {
-                       
+
                         if (this.classworkList[i]['grading_criteria_id'] == grading_criteria_id) {
 
                         }
 
                     }
-              
-
                 })
             },
 
@@ -187,7 +233,8 @@
 
                     this.selectedClass = this.classList[0].class_id;
                     this.getClassworkList();
-                   
+                    this.getStudentList();
+
                     console.log('class Liost: ', this.classList);
                 });
             }
@@ -196,9 +243,9 @@
         created() {
             this.loading = true;
             this.getAllGradeCriteria();
-            this.getStudentList();
+
             this.getClassList();
-           
+
             this.loading = false;
         }
 
