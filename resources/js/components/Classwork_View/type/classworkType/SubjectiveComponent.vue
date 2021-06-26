@@ -1,5 +1,5 @@
 <template>
-<div>
+<v-app>
   <v-dialog v-model="AttachLink" persistent max-width="400">
             <attachlinkDiaglog 
             v-on:toggleCancelDialog="AttachLink = !AttachLink"
@@ -10,7 +10,7 @@
 
     <v-row>
         <v-col cols="12" md="4" lg="4" >
-          <v-card outlined elevation="0">
+          <v-card  elevation="5">
                 <v-row>
                     <v-col cols="12" md="12" class="pt-5">
                         
@@ -105,7 +105,7 @@
         </v-col>
 
          <v-col cols="12" md="8" lg="8" >
-             <v-card class="pl-5 pr-5 pb-5 pt-3" outlined elevation="0">
+             <v-card class="pl-5 pr-5 pb-5 pt-3"  elevation="5">
                <v-row >
                     <v-col cols="12" class="pl-1 pr-1 pb-0 mb-0">
                         <div class="font-weight-medium text-sm-body-2 text-md-h6 text-xl-h5">SUBMIT ANSWER</div> 
@@ -116,53 +116,21 @@
 
                    <v-col cols="12">
                      
-                            <v-container ma-0 pa-0 v-if="!file">
+                            <v-container ma-0 pa-0 v-if="!file && StatusDetails.status == null">
                                 <div :class="['dropZone', dragging ? 'dropZone-over' : '']" @dragenter="dragging = true" @dragleave="dragging = false">
                                 <v-container class="dropZone-info" @drag="onChange">
-                                   
                                       <div > 
                                       <v-icon class="dropZone-title" style="font-size:4rem">mdi-cloud-upload-outline</v-icon>
                                       </div>
                                     <span class="dropZone-title">Your work is empty.</span>
-                                  
                                 </v-container>
                                 <input ref="UploadAttachFile" type="file" @change="onChange">
                                 </div>
-                                <div class="mt-4">
-                                   <!--  <v-btn><v-icon left>mdi-link-variant</v-icon> Attach Link</v-btn> -->
-                                   <div>
-                                    <v-menu offset-y>
-                                      <template v-slot:activator="{ on, attrs }">
-                                        <v-btn
-                                          rounded
-                                          color="primary"
-                                          dark
-                                          v-bind="attrs"
-                                          v-on="on"
-                                        >
-                                        {{attrs.expanded}}
-                                          Attach <v-icon right>mdi-chevron-up</v-icon>
-                                        </v-btn>
-                                      </template>
-                                      <v-list>
-                                        <v-list-item>
-                                             <v-btn @click="UploadFile()" block text rounded>
-                                              <v-icon left>mdi-cloud-upload-outline</v-icon> Upload File
-                                             </v-btn>
-                                        </v-list-item>
-                                         <v-list-item>
-                                             <v-btn @click="AttachLink = !AttachLink"  block text rounded>
-                                                  <v-icon left>mdi-link-variant</v-icon>Attach Link
-                                             </v-btn>
-                                        </v-list-item>
-                                      </v-list>
-                                    </v-menu>
-                                  </div>
-                                </div>
-                          
                             </v-container>
-                            <v-container pl-0 v-else class="dropZone-uploaded">
-                                <v-container ma-0 pa-0  class="dropZone-uploaded-info">
+
+
+                            <v-container v-else-if="file || StatusDetails.status == 'Submitted'" pl-0 pb-0 class="dropZone-uploaded">
+                                <v-container v-if="StatusDetails.status != 'Submitted'" ma-0 pa-0  class="dropZone-uploaded-info">
                                   <div class="filePreview ">
                                     <v-hover v-slot="{ hover }">
                                       <v-alert
@@ -170,8 +138,10 @@
                                           style="cursor:pointer"
                                             :class="hover ? 'grey lighten-2' :''"
                                             outlined
-                                            :icon="extension == 'pdf' ? 'mdi-file-pdf': extension == 'docx'? 'mdi-file-word':''"
-                                          :color="extension == 'pdf' ? 'red' : extension == 'docx'? 'blue':''"
+                                            :icon="extension == 'pdf' ? 'mdi-file-pdf': extension == 'docx'? 'mdi-file-word': 
+                                            extension == 'jpg' ||  extension == 'png' ||  extension == 'bmp' ? 'mdi-folder-multiple-image' :''"
+                                          :color="extension == 'pdf' ? 'red' : extension == 'docx'? 'blue':
+                                           extension == 'jpg' ||  extension == 'png' ||  extension == 'bmp' ? 'info': ''"
                                         >
                                           <v-row align="center" >
                                             <v-col class="grow text-left">
@@ -196,6 +166,37 @@
                                   </div>
                                 </v-container>
                             </v-container>
+
+                               <div class="mt-4 d-flex justify-space-between">
+                                    <v-menu offset-y>
+                                      <template v-slot:activator="{ on, attrs }">
+                                        <v-btn
+                                          rounded
+                                          color="primary"
+                                          dark
+                                          outlined
+                                          v-bind="attrs"
+                                          v-on="on"
+                                        >
+                                        {{attrs.expanded}}
+                                          Attach <v-icon right>mdi-chevron-down</v-icon>
+                                        </v-btn>
+                                      </template>
+                                      <v-list>
+                                        <v-list-item>
+                                             <v-btn @click="UploadFile()" block text rounded>
+                                              <v-icon left>mdi-cloud-upload-outline</v-icon> Upload File
+                                             </v-btn>
+                                        </v-list-item>
+                                         <v-list-item>
+                                             <v-btn @click="AttachLink = !AttachLink"  block text rounded>
+                                                  <v-icon left>mdi-link-variant</v-icon>Attach Link
+                                             </v-btn>
+                                        </v-list-item>
+                                      </v-list>
+                                    </v-menu>
+                                    <v-btn rounded color="primary">Submit Classwork</v-btn>
+                                </div>
                             
                             <div class="uploadedFile-info">
                                 <div>fileName: {{ file.name }}</div>
@@ -207,12 +208,13 @@
           </v-card>
         </v-col>
     </v-row>
-</div>          
+</v-app>          
 </template>
 
 <script>
 const attachlinkDiaglog = () => import('./attachLinkDialog')
 import moment from 'moment';
+import axios from 'axios';
 export default {
     props:['classworkDetails'],
     components:{
@@ -224,7 +226,9 @@ export default {
             file: '',
             fileSize:null,
             dragging: false,
-            link: "test12"
+            link: "test12",
+            StatusDetails:[],
+            uploadPercentage: 0
         }
     },
      computed: {
@@ -257,31 +261,28 @@ export default {
         },
         onChange(e) {
             var files = e.target.files || e.dataTransfer.files;
-            
             if (!files.length) {
                 this.dragging = false;
                 return;
             }
-            
             this.createFile(files[0]);
             },
         createFile(file) {
-
-            
-            this.file = file;
-            let tempSize = file.size;
-            if(tempSize > 1000000){
-                let kbsize = tempSize * 0.001;
-                let mbsize = kbsize * 0.001;
-                let finalSize = parseInt(mbsize);
-                this.fileSize = finalSize+'mb';
-            }
-            else{
-                let sizeFile = tempSize* 0.001;
-                let finalSize = parseInt(sizeFile);
-                this.fileSize =finalSize+'kb';
-            }
-            this.dragging = false;
+              this.file = file;
+              let tempSize = file.size;
+              if(tempSize > 1000000){
+                  let kbsize = tempSize * 0.001;
+                  let mbsize = kbsize * 0.001;
+                  let finalSize = parseInt(mbsize);
+                  this.fileSize = finalSize+'mb';
+              }
+              else{
+                  let sizeFile = tempSize* 0.001;
+                  let finalSize = parseInt(sizeFile);
+                  this.fileSize =finalSize+'kb';
+              }
+              this.dragging = false;
+              this.UpdateSubmission(file);
             },
         removeFile() {
             this.file = '';
@@ -289,11 +290,41 @@ export default {
             test(){
               let data = '<iframe class="ql-video" frameborder="0" allowfullscreen="true" src="'+this.link+'"></iframe><div><br></div>'
               console.log(data);
-            }
+            },
+            async checkStatus(){
+              axios.get('/api/student/check-status/'+this.classworkDetails.id)
+              .then(res=>{
+                  this.StatusDetails = res.data[0];
+              })
+          },
+          async UpdateSubmission(file){
+              let fd = new FormData;
+              fd.append('id', this.classworkDetails.id);
+              fd.append('type', this.classworkDetails.type);
+              fd.append('file', file);
+            
+
+              let config = {
+                onUploadProgress: function(progressEvent) {
+                  var percentCompleted = Math.round( (progressEvent.loaded * 100) / progressEvent.total );
+                }
+              };
+
+                axios.post('/api/student/update-status',fd,config)
+              .then(res=>{})
+
+             /*  axios.post('/api/student/update-status', fd, {
+                    progress(e) {
+                      if (e.lengthComputable) {
+                        console.log(e.loaded / e.total * 100);
+                      }
+                    }
+                }); */
+          }
 
     },
-    mounted(){
-      this.test();
+    created(){
+      this.checkStatus();
     }
     
 }

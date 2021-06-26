@@ -92,7 +92,7 @@ export default {
             .then(res=>{
                 this.details = res.data[0];
             
-                console.log(res.data[0].Submitted_Answers[0].type);
+              
                this.isloading = false;
             })
         }

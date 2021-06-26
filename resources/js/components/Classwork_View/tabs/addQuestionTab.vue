@@ -1,5 +1,5 @@
 <template>
-<div>
+<v-app>
 <v-container class="fill-height" v-if="isloading" style="height: 500px;">
     <v-row  align-content="center" justify="center">
         <v-col class="text-subtitle-1 text-center" cols="12">
@@ -348,7 +348,7 @@
           </v-col>
         </v-row>
       </v-container>
-</div>
+</v-app>
 </template>
 <script>
 import {mapGetters, mapActions} from "vuex";

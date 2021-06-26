@@ -78,11 +78,18 @@ class StudentController extends Controller
     public function UpdateStatus(Request $request)
     {
         $userId = auth('sanctum')->id();
-        $StatusUpdate = new tbl_Submission;
-        $StatusUpdate->classwork_id = $request->id;
-        $StatusUpdate->user_id =  $userId;
-        $StatusUpdate->status = "Taking";
-        $StatusUpdate->save();
+        if($request->type == 'Objective Type'){
+            $StatusUpdate = new tbl_Submission;
+            $StatusUpdate->classwork_id = $request->id;
+            $StatusUpdate->user_id =  $userId;
+            $StatusUpdate->status = "Taking";
+            $StatusUpdate->save();
+        }
+        elseif($request->type == 'Subjective Type'){
+            return $request->file('file');
+        }
+        
+       
     }
 
     /**
