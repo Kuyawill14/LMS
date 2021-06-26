@@ -33,7 +33,7 @@
                             hide-details>
                         </v-text-field>
                     </v-card-title>
-                    <v-data-table :headers="headers" :items="students" v-if="headers.length != 0">
+                    <v-data-table :headers="headers" :items="students" v-if="headers.length != 0" >
                         <template v-slot:body="{ items }">
                             <tbody>
                                 <tr v-for="item in items" :key="item.id">

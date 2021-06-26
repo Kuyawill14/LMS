@@ -94,6 +94,7 @@ export default {
             axios.get('/api/student/check-status/'+this.classworkDetails.id)
             .then(res=>{
                 this.status = res.data[0].status;
+                console.log(res.data[0].status);
             })
         },
         async UpdateStatus(id){

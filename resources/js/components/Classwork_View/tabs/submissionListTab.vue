@@ -42,6 +42,7 @@ export default {
     },
     methods:{
        async GetList(){
+         
             axios.get('/api/submission/all/'+this.$route.query.clwk)
             .then(res=>{
                 this.List = res.data;
@@ -50,7 +51,7 @@ export default {
         }
     },
     mounted(){
-        //this.isloading = !this.isloading;
+        
         this.GetList();
     }
     
