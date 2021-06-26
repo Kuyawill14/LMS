@@ -20,8 +20,9 @@ class ClassworkController extends Controller
      */
     public function index($id)
     {
+        //$userId = 2;
         $userId = auth('sanctum')->id();
-        //$userId = 3;
+        
         if(auth('sanctum')->user()->role != 'Student'){
             
             $classwork = tbl_classwork::where('course_id',  $id)
@@ -36,17 +37,27 @@ class ClassworkController extends Controller
             ,'tbl_classworks.instruction', 'tbl_submissions.status', 'tbl_submissions.points as score', 'tbl_submissions.created_at as Sub_date')
             ->leftJoin('tbl_classworks', 'tbl_classworks.id', '=', 'tbl_class_classworks.classwork_id')
             ->leftJoin('tbl_userclasses', 'tbl_class_classworks.class_id', '=', 'tbl_userclasses.class_id')
-            ->leftJoin('tbl_submissions', 'tbl_submissions.user_id', '=', 'tbl_userclasses.user_id')
+            ->leftJoin('tbl_submissions', 'tbl_submissions.classwork_id', '=', 'tbl_classworks.id')
             ->orderBy('created_at', 'DESC')
             ->get();
-            
-            $Submission = tbl_Submission::where('tbl_submissions.user_id', $userId)->get();
-            foreach($Submission as $subM){
+
+            $Submission = tbl_Submission::where("tbl_submissions.user_id",$userId)->first();
+            if(!$Submission){
                 foreach($classworkAll as $classW){
-                    if($subM->classwork_id != $classW->classwork_id){
-                        $classW->status = null;
-                        $classW->score = null;
-                        $classW->Sub_date = null;
+                    $classW->status = null;
+                    $classW->score = null;
+                    $classW->Sub_date = null;
+                }
+            
+            }else{
+                $CheckSub = tbl_Submission::where("tbl_submissions.user_id",$userId)->get();
+                foreach($CheckSub as $subM){
+                    foreach($classworkAll as $classW){
+                        if($subM->classwork_id != $classW->classwork_id){
+                            $classW->status = null;
+                            $classW->score = null;
+                            $classW->Sub_date = null;
+                        }
                     }
                 }
             }

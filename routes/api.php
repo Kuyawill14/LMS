@@ -117,6 +117,8 @@ Route::prefix('/classwork')->group(function () {
 Route::prefix('/student')->group(function () {
     Route::get('/all/{id}', [StudentController::class, 'getStudentList']);
     Route::get('/check-status/{id}', [StudentController::class, 'checkSubmissionStatus']);
+    Route::get('/checking/{id}', [StudentController::class, 'CheckStatus']);
+    
     Route::post('/join/{id}', [StudentController::class, 'JoinClass']);
     Route::post('/update-status', [StudentController::class, 'UpdateStatus']);
     Route::delete('/{id}', [StudentController::class, 'Unenroll']);

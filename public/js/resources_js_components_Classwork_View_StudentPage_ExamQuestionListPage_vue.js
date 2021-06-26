@@ -616,17 +616,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                axios.get('/api/student/check-status/' + _this6.$route.query.clwk).then(function (res) {
+                axios.get('/api/student/checking/' + _this6.$route.query.clwk).then(function (res) {
+                  console.log(res.data[0].status);
+
                   if (res.data[0].status == 'Taking' || res.data[0].status == '') {
                     _this6.StartQuiz();
-                  } else {
-                    //this.isLoading = false;
-                    _this6.$router.push({
-                      name: 'result-page',
-                      params: {
-                        id: _this6.$route.query.clwk
-                      }
-                    });
+                  } else {//this.isLoading = false;
+                    //this.$router.push({name: 'result-page', params:{id: this.$route.query.clwk}})
                   }
                 });
 

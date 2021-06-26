@@ -568,15 +568,15 @@ export default {
             event.returnValue = "";
         },
         async CheckStatus(){
-            axios.get('/api/student/check-status/'+this.$route.query.clwk)
+            axios.get('/api/student/checking/'+this.$route.query.clwk)
             .then(res=>{
-                
+                console.log(res.data[0].status)
                 if(res.data[0].status == 'Taking' || res.data[0].status == ''){
                     this.StartQuiz();
                 }
                 else{
                      //this.isLoading = false;
-                    this.$router.push({name: 'result-page', params:{id: this.$route.query.clwk}})
+                    //this.$router.push({name: 'result-page', params:{id: this.$route.query.clwk}})
                 }
             })
         },

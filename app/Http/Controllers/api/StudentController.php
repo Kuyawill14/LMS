@@ -103,21 +103,39 @@ class StudentController extends Controller
 
 
         $userId = auth('sanctum')->id();
-        //$userId = 3;
+        //$userId = 2;
         $CheckStatus = User::where('users.id',$userId)
         ->select('users.id', 'tbl_submissions.status','tbl_submissions.points as score','tbl_submissions.Submitted_Answers',
         'tbl_classworks.points as totalPoints'
         ,'tbl_userclasses.class_id','tbl_classworks.id as cl_id')
         ->leftJoin('tbl_userclasses', 'tbl_userclasses.user_id', '=', 'users.id')
         ->leftJoin('tbl_classworks', 'tbl_classworks.course_id', '=', 'tbl_userclasses.course_id')
-        ->leftJoin('tbl_submissions', 'tbl_submissions.user_id', '=', 'users.id')
-        ->where('tbl_classworks.id', $id)
+        ->leftJoin('tbl_submissions', 'tbl_submissions.classwork_id', '=', 'tbl_classworks.id')
+        ->where('tbl_classworks.id','!=',null)
         ->get();
         
         if(count($CheckStatus) != 0){
             $TempAnswer = unserialize($CheckStatus[0]->Submitted_Answers);
             $CheckStatus[0]->Submitted_Answers = $TempAnswer;
         }
+        return $CheckStatus;
+
+    }
+
+     /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function CheckStatus($id)
+    {
+
+        $userId = auth('sanctum')->id();
+        $CheckStatus = User::where('users.id',$userId)
+        ->select('users.id', 'tbl_submissions.status')
+        ->leftJoin('tbl_submissions', 'tbl_submissions.user_id', '=', 'users.id')
+        ->get();
         return $CheckStatus;
 
     }
