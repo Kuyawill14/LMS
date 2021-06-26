@@ -11,6 +11,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 //
 //
 //
@@ -152,15 +160,92 @@ var publishDialog = function publishDialog() {
         console.log(e);
       });
     },
+    closeDiaglog: function closeDiaglog() {
+      this.dialog = !this.dialog, this.isPublishing = !this.isPublishing;
+      this.fetchClassnames();
+    },
     fetchClassnames: function fetchClassnames() {
       var _this2 = this;
 
-      axios.get('/api/class/allnames/' + this.$route.params.id).then(function (res) {
-        _this2.classNames = res.data;
-        _this2.isloading = false;
-      })["catch"](function (e) {
-        console.log(e);
-      });
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                axios.get('/api/class/allnames/' + _this2.$route.params.id).then(function (res) {
+                  _this2.classNames = res.data;
+                  _this2.isloading = false;
+                })["catch"](function (e) {
+                  console.log(e);
+                });
+
+              case 1:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
+    },
+    fetchClassFornotify: function fetchClassFornotify(data) {
+      var _this3 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _this3.dialog = !_this3.dialog, _this3.isPublishing = !_this3.isPublishing;
+                axios.get('/api/class/allnames/' + _this3.$route.params.id).then(function (res) {
+                  _this3.classNames = res.data;
+                  _this3.isloading = false;
+
+                  _this3.NewNotification(data);
+                })["catch"](function (e) {
+                  console.log(e);
+                });
+
+              case 2:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }))();
+    },
+    SuccessPublishNotify: function SuccessPublishNotify(data) {
+      var _this4 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _this4.fetchClassFornotify(data);
+
+              case 1:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3);
+      }))();
+    },
+    NewNotification: function NewNotification(data) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                axios.post('/api/notification/new', data).then(function (res) {});
+
+              case 1:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4);
+      }))();
     }
   },
   beforeMount: function beforeMount() {
@@ -282,10 +367,9 @@ var render = function() {
                     ;(_vm.dialog = !_vm.dialog),
                       (_vm.isPublishing = !_vm.isPublishing)
                   },
-                  successPublish: function($event) {
-                    _vm.fetchClassnames(),
-                      (_vm.dialog = !_vm.dialog),
-                      (_vm.isPublishing = !_vm.isPublishing)
+                  successPublish: _vm.SuccessPublishNotify,
+                  UnPublish: function($event) {
+                    return _vm.closeDiaglog()
                   }
                 }
               })

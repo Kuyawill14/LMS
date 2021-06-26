@@ -485,12 +485,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -23417,6 +23411,9 @@ var render = function() {
           _vm._v(" "),
           _c(
             "v-card",
+            {
+              style: _vm.$vuetify.breakpoint.xs ? "height:65vh" : "height:80vh"
+            },
             [
               _c(
                 "v-list",
@@ -23434,36 +23431,21 @@ var render = function() {
                         "v-list-item-action",
                         [
                           _c(
-                            "v-badge",
+                            "v-btn",
                             {
+                              staticClass: "white--text caption",
                               attrs: {
-                                bordered: "",
-                                color: "red darken-1",
-                                content: _vm.get_notification_count,
-                                value: _vm.get_notification_count,
-                                overlap: ""
+                                color: "blue",
+                                text: "",
+                                depressed: "",
+                                rounded: ""
                               }
                             },
                             [
-                              _c(
-                                "v-btn",
-                                {
-                                  staticClass: "white--text",
-                                  attrs: {
-                                    color: "red darken",
-                                    text: "",
-                                    depressed: "",
-                                    rounded: ""
-                                  }
-                                },
-                                [
-                                  _vm._v(
-                                    "\n                  new\n                "
-                                  )
-                                ]
+                              _vm._v(
+                                "\n                  See all\n                "
                               )
-                            ],
-                            1
+                            ]
                           )
                         ],
                         1
@@ -23506,7 +23488,7 @@ var render = function() {
                               [_vm._v(_vm._s(item.name))]
                             ),
                             _vm._v(" "),
-                            _c("div", { staticClass: "Caption" }, [
+                            _c("div", { staticClass: "caption" }, [
                               _vm._v(_vm._s(item.message))
                             ]),
                             _vm._v(" "),

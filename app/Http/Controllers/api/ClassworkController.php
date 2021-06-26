@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\tbl_classwork;
 use App\Models\tbl_classClassworks;
 use App\Models\tbl_Questions;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 
 class ClassworkController extends Controller
@@ -60,6 +61,8 @@ class ClassworkController extends Controller
         $newClasswork->instruction =  $request->instruction;
         if($request->type == "Subjective Type"){
             $newClasswork->attachment_name =  $request->attachment_name;
+            $newClasswork->attachment_size =  $request->attachment_size;
+    
             $file = $request->file('file');
             if($file != ""){
                 $newFile = $file->store('public/upload/classworkAttachments/'.$userId);
@@ -179,6 +182,7 @@ class ClassworkController extends Controller
      */
     public function destroy($id)
     {
+        $userId = auth('sanctum')->id();
         $DelCLasswork = tbl_classwork::find($id);
         if($DelCLasswork){
             if($DelCLasswork->type == "Objective Type"){
@@ -188,6 +192,12 @@ class ClassworkController extends Controller
                 ->LeftJoin('tbl_sub_questions', 'tbl_sub_questions.mainQuestion_id','=', 'tbl_questions.id')
                 ->LeftJoin('tbl_question_analytics', 'tbl_question_analytics.question_id','=', 'tbl_questions.id')
                 ->delete();
+            }
+            elseif($DelCLasswork->type == "Subjective Type"){
+                $DelClass_Classwork = tbl_classClassworks::where('tbl_class_classworks.classwork_id', $id)
+                ->delete();
+                Storage::delete('public/'.$DelCLasswork->attachment);
+
             }
             $DelCLasswork->delete();
             return "Successfully Remove";

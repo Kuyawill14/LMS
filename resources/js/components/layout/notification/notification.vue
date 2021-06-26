@@ -26,7 +26,7 @@
         </v-btn>
       </template>
 
-      <v-card>
+      <v-card :style="$vuetify.breakpoint.xs ? 'height:65vh':'height:80vh'">
         <v-list>
           <v-list-item>
            <v-list-item-content>
@@ -36,23 +36,17 @@
             <v-list-item-action>
             
 
-               <v-badge
-                  bordered
-                  color="red darken-1"
-                  :content="get_notification_count"
-                  :value="get_notification_count"
-                  overlap
-                >
+             
                   <v-btn
-                    class="white--text"
-                    color="red darken"
+                    class="white--text caption"
+                    color="blue"
                     text
                     depressed
                     rounded
                   >
-                    new
+                    See all
                   </v-btn>
-                </v-badge>
+                
             </v-list-item-action>
             </v-list-item>
 
@@ -65,7 +59,7 @@
 
             <v-list-item-content>
               <v-list-item-title class="font-weight-medium">{{item.name}}</v-list-item-title>
-              <div class="Caption">{{item.message}}</div>
+              <div class="caption">{{item.message}}</div>
               <small>{{format_date(item.created_at)}}</small>
              
             </v-list-item-content>

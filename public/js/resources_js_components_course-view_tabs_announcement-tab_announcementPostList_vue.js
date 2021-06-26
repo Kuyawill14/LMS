@@ -728,7 +728,7 @@ var render = function() {
                                 item.profile_pic == ""
                                   ? "https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=" +
                                     item.name
-                                  : "../../images/" + item.profile_pic
+                                  : item.profile_pic
                             }
                           })
                         ],
@@ -959,7 +959,7 @@ var render = function() {
                             (_vm.UserDetails.firstName +
                               " " +
                               _vm.UserDetails.lastName)
-                          : "../../images/" + _vm.UserDetails.profile_pic
+                          : _vm.UserDetails.profile_pic
                     }
                   })
                 ],
@@ -1061,7 +1061,7 @@ var render = function() {
                               post.profile_pic == null || post.profile_pic == ""
                                 ? "https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=" +
                                   post.name
-                                : "../../images/" + post.profile_pic
+                                : post.profile_pic
                           }
                         })
                       ],

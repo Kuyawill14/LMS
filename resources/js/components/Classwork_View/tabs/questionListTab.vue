@@ -22,7 +22,7 @@
 </v-container>
 
 
-  <v-row align="center" justify="center" class="pt-10" v-if="Qlength == 0 && !isFetching">
+  <v-row align="center"  justify="center" class="pt-10" v-if="Qlength == 0 && !isFetching">
     <v-col cols="12" sm="8" md="4" class="text-center">
         <v-icon style="font-size:14rem">
             mdi-book-open-variant

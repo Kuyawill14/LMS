@@ -50,14 +50,14 @@
 
             <v-card v-for="(item, index) in allClass" :key="index" class="mt-3">
                 <v-list-item>
-                    <v-list-item-avatar>
-                        <v-icon>mdi-account-multiple</v-icon>
-                    </v-list-item-avatar>
-                    <v-list-item-content>
-                        <v-list-item-title>{{item.class_name}} </v-list-item-title>
-                        <v-list-item-subtitle>Class code: {{item.class_code}} </v-list-item-subtitle>
-                        <v-list-item-subtitle>Students: {{item.student_count}}</v-list-item-subtitle>
-                    </v-list-item-content>
+                        <v-list-item-avatar>
+                            <v-icon>mdi-account-multiple</v-icon>
+                        </v-list-item-avatar>
+                        <v-list-item-content>
+                            <v-list-item-title>{{item.class_name}} </v-list-item-title>
+                            <v-list-item-subtitle>Class code: {{item.class_code}} </v-list-item-subtitle>
+                            <v-list-item-subtitle>Students: {{item.student_count}}</v-list-item-subtitle>
+                        </v-list-item-content>
                     <v-list-item-action>
                         <v-menu transition="slide-y-transition" bottom>
                             <template v-slot:activator="{ on, attrs }">
@@ -78,8 +78,6 @@
                                 </v-list-item>
                             </v-list>
                         </v-menu>
-
-
                     </v-list-item-action>
                 </v-list-item>
             </v-card>

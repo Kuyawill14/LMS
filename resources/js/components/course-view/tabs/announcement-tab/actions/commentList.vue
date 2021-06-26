@@ -33,7 +33,7 @@
             size="36"
             :class="isEditing && idEditing_id == item.id ? 'mt-1': ''">
             <v-img class="rounded-circle"  
-                :src="item.profile_pic == null || item.profile_pic == ''? 'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=' + item.name : '../../images/'+item.profile_pic"></v-img> 
+                :src="item.profile_pic == null || item.profile_pic == ''? 'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=' + item.name : item.profile_pic"></v-img> 
             </v-avatar>
             <v-container class="d-flex flex-row ml-1 mt-1" ma-0 pa-0>
                 <v-container  class="d-flex flex-column ml-1 pr-10" ma-0 pa-0>
@@ -88,7 +88,7 @@
             size="36"
             >
             <v-img 
-            :src="UserDetails.profile_pic == null || UserDetails.profile_pic == ''? 'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=' + (UserDetails.firstName+' '+UserDetails.lastName) : '../../images/'+UserDetails.profile_pic"></v-img>
+            :src="UserDetails.profile_pic == null || UserDetails.profile_pic == ''? 'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=' + (UserDetails.firstName+' '+UserDetails.lastName) : UserDetails.profile_pic"></v-img>
             </v-avatar>
         </v-col>
             <v-col cols="10" sm="10" lg="11" md="11" class="pr-5" >

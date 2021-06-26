@@ -120,6 +120,7 @@ export default {
             valid:false,
             isTimer: false,
             file:null,
+            fileSize: null,
             loading: false,
             dialog: false,
             form:new Form({}),
@@ -172,6 +173,7 @@ export default {
             fd.append('points', this.form.points);
             fd.append('duration', this.form.duration);
             fd.append('attachment_name',  this.file_name);
+             fd.append('attachment_size',  this.fileSize);
             //fd.append('attachment', this.file);
             fd.append('file', this.file);
             
@@ -193,6 +195,20 @@ export default {
         onFileChange(element) {
                 this.file = element[0];
                 this.file_name = element[0].name;
+                if(element[0].size > 1000000){
+                    let kbsize = element[0].size * 0.001;
+                    let mbsize = kbsize * 0.001;
+                    let finalSize = parseInt(mbsize);
+                    this.fileSize = finalSize+'mb';
+                }
+                else{
+                    let sizeFile = element[0].size * 0.001;
+                    let finalSize = parseInt(sizeFile);
+                     this.fileSize =finalSize+'kb';
+                }
+                
+               
+
                 //this.ext = this.getFileExt(file.name);
 
                
