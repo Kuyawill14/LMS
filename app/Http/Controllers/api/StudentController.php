@@ -100,8 +100,7 @@ class StudentController extends Controller
      */
     public function checkSubmissionStatus($id)
     {
-        //$userId = auth('sanctum')->id();
-        $userId = 2;
+        $userId = auth('sanctum')->id();
         $CheckStatus = User::where('users.id', $userId)
         
         ->select('users.id', 'tbl_submissions.status','tbl_submissions.points as score','tbl_submissions.Submitted_Answers',

@@ -25,9 +25,13 @@ class SubmissionController extends Controller
         DB::raw('CONCAT(users.firstname, " ", users.lastName) as name'), 'tbl_submissions.Submitted_Answers')
         ->leftjoin('users','users.id','=','tbl_submissions.user_id')
         ->get();
-
-        $TempAnswer = unserialize($SubmissionList[0]->Submitted_Answers);
-        $SubmissionList[0]->Submitted_Answers = $TempAnswer;
+        
+        if(count($SubmissionList) != 0){
+            $TempAnswer = unserialize($SubmissionList[0]->Submitted_Answers);
+            $SubmissionList[0]->Submitted_Answers = $TempAnswer; 
+        }
+  
+      
         return $SubmissionList;
     }
 
