@@ -20,9 +20,8 @@ class ClassworkController extends Controller
      */
     public function index($id)
     {
-        //$userId = 2;
+        //$userId = 3;
         $userId = auth('sanctum')->id();
-        
         if(auth('sanctum')->user()->role != 'Student'){
             
             $classwork = tbl_classwork::where('course_id',  $id)
@@ -32,36 +31,37 @@ class ClassworkController extends Controller
         }
         else{
             $classworkAll = tbl_classClassworks::where('tbl_userclasses.course_id','=', $id)
-            ->where('tbl_userclasses.user_id','=', $userId)
             ->select('tbl_class_classworks.*', 'tbl_classworks.type', 'tbl_classworks.title', 'tbl_classworks.points'
-            ,'tbl_classworks.instruction', 'tbl_submissions.status', 'tbl_submissions.points as score', 'tbl_submissions.created_at as Sub_date')
+            ,'tbl_classworks.instruction')
             ->leftJoin('tbl_classworks', 'tbl_classworks.id', '=', 'tbl_class_classworks.classwork_id')
             ->leftJoin('tbl_userclasses', 'tbl_class_classworks.class_id', '=', 'tbl_userclasses.class_id')
-            ->leftJoin('tbl_submissions', 'tbl_submissions.classwork_id', '=', 'tbl_classworks.id')
+            ->where('tbl_userclasses.user_id','=', $userId)
             ->orderBy('created_at', 'DESC')
             ->get();
 
-            $Submission = tbl_Submission::where("tbl_submissions.user_id",$userId)->first();
-            if(!$Submission){
+            $CheckSub = tbl_Submission::where("tbl_submissions.user_id",$userId)
+            ->orderBy('classwork_id', 'DESC')
+            ->get();
+            //return $CheckSub;
+            foreach($CheckSub as $subM){
                 foreach($classworkAll as $classW){
-                    $classW->status = null;
-                    $classW->score = null;
-                    $classW->Sub_date = null;
-                }
-            
-            }else{
-                $CheckSub = tbl_Submission::where("tbl_submissions.user_id",$userId)->get();
-                foreach($CheckSub as $subM){
-                    foreach($classworkAll as $classW){
-                        if($subM->classwork_id != $classW->classwork_id){
+                    if($subM->classwork_id === $classW->classwork_id){
+                       
+                        $classW->status = $subM->status;
+                        $classW->score = $subM->points;
+                        $classW->Sub_date = $subM->updated_at;
+                    }
+                    else{
+                        if($classW->status == null){
                             $classW->status = null;
                             $classW->score = null;
                             $classW->Sub_date = null;
                         }
+                       
                     }
                 }
             }
-            return $classworkAll;  
+            return  $classworkAll;
         }
         
     }

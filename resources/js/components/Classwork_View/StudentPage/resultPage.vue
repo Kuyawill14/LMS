@@ -90,7 +90,7 @@ export default {
         async GetScoreDetails(){
             axios.get('/api/student/check-status/'+this.$route.params.id)
             .then(res=>{
-                this.details = res.data[0];
+                this.details = res.data;
             
               
                this.isloading = false;
