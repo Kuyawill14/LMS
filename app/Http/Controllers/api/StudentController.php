@@ -100,24 +100,25 @@ class StudentController extends Controller
      */
     public function checkSubmissionStatus($id)
     {
+
+
         $userId = auth('sanctum')->id();
-        $CheckStatus = User::where('users.id', $userId)
-        
+        $CheckStatus = User::where('users.id',$userId)
         ->select('users.id', 'tbl_submissions.status','tbl_submissions.points as score','tbl_submissions.Submitted_Answers',
         'tbl_classworks.points as totalPoints'
         ,'tbl_userclasses.class_id','tbl_classworks.id as cl_id')
         ->leftJoin('tbl_userclasses', 'tbl_userclasses.user_id', '=', 'users.id')
         ->leftJoin('tbl_classworks', 'tbl_classworks.course_id', '=', 'tbl_userclasses.course_id')
-        ->leftJoin('tbl_submissions', 'tbl_submissions.classwork_id', '=', 'tbl_classworks.id')
+        ->leftJoin('tbl_submissions', 'tbl_submissions.user_id', '=', 'users.id')
         ->where('tbl_classworks.id', $id)
         ->get();
         
-       /*  if($CheckStatus[0]->status == "Submitted"){
-
-        } */
-        $TempAnswer = unserialize($CheckStatus[0]->Submitted_Answers);
-        $CheckStatus[0]->Submitted_Answers = $TempAnswer;
+        if(count($CheckStatus) != 0){
+            $TempAnswer = unserialize($CheckStatus[0]->Submitted_Answers);
+            $CheckStatus[0]->Submitted_Answers = $TempAnswer;
+        }
         return $CheckStatus;
+
     }
 
     /**
