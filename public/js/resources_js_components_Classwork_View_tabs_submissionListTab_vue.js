@@ -260,7 +260,9 @@ var render = function() {
                         { attrs: { cols: "12", lg: "12", md: "12" } },
                         [
                           _vm.classworkDetails.type == "Subjective Type"
-                            ? _c("subjectiveSubmission")
+                            ? _c("subjectiveSubmission", {
+                                attrs: { ListData: _vm.List }
+                              })
                             : _vm._e()
                         ],
                         1

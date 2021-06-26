@@ -62,9 +62,22 @@ class SubmissionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function checkSubjectiveSubmission($id)
     {
-        //
+        //$userId = auth('sanctum')->id();
+        $userId = 3;
+        $CheckStatus = User::where('users.id',  $userId )
+        ->select('users.id','tbl_classworks.course_id','tbl_classworks.id as classwork_id',
+        'tbl_submissions.status','tbl_submissions.points as score','tbl_submissions.Submitted_Answers',
+        'tbl_classworks.points as totalPoints')
+        ->leftJoin('tbl_userclasses','tbl_userclasses.user_id','=','users.id')
+        ->leftJoin('tbl_classworks','tbl_classworks.course_id','=','tbl_userclasses.course_id')
+        ->leftJoin('tbl_submissions','tbl_submissions.classwork_id','=','tbl_classworks.id')
+        ->where('tbl_classworks.id',$id)
+        ->first();
+        $CheckStatus->Submitted_Answers = unserialize($CheckStatus->Submitted_Answers);
+
+        return $CheckStatus;
     }
 
     /**
