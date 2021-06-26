@@ -34,7 +34,7 @@ class ClassworkController extends Controller
             ,'tbl_classworks.instruction', 'tbl_submissions.status', 'tbl_submissions.points as score', 'tbl_submissions.created_at as Sub_date')
             ->leftJoin('tbl_classworks', 'tbl_classworks.id', '=', 'tbl_class_classworks.classwork_id')
             ->leftJoin('tbl_userclasses', 'tbl_class_classworks.class_id', '=', 'tbl_userclasses.class_id')
-            ->leftJoin('tbl_submissions', 'tbl_submissions.classwork_id', '=', 'tbl_class_classworks.classwork_id')
+            ->leftJoin('tbl_submissions', 'tbl_submissions.user_id', '=', 'tbl_userclasses.user_id')
             ->orderBy('created_at', 'DESC')
             ->get();
             return $classworkAll;  
@@ -52,6 +52,7 @@ class ClassworkController extends Controller
     public function store(Request $request)
     {
         $userId = auth('sanctum')->id();
+
         $newClasswork = new tbl_classwork;
         $newClasswork->course_id = $request->course_id;
         $newClasswork->module_id = 1;
