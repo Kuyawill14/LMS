@@ -354,7 +354,7 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
       var _this2 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
-        var fd, config;
+        var fd;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
@@ -363,12 +363,9 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
                 fd.append('id', _this2.classworkDetails.id);
                 fd.append('type', _this2.classworkDetails.type);
                 fd.append('file', file);
-                config = {
-                  onUploadProgress: function onUploadProgress(progressEvent) {
-                    var percentCompleted = Math.round(progressEvent.loaded * 100 / progressEvent.total);
-                  }
-                };
-                axios__WEBPACK_IMPORTED_MODULE_2___default().post('/api/student/update-status', fd, config).then(function (res) {});
+                /*    axios.post('/api/student/update-status',fd,config)
+                 .then(res=>{}) */
+
                 /*  axios.post('/api/student/update-status', fd, {
                        progress(e) {
                          if (e.lengthComputable) {
@@ -377,7 +374,7 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
                        }
                    }); */
 
-              case 6:
+              case 4:
               case "end":
                 return _context2.stop();
             }

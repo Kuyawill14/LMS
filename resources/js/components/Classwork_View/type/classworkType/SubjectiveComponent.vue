@@ -304,14 +304,12 @@ export default {
               fd.append('file', file);
             
 
-              let config = {
-                onUploadProgress: function(progressEvent) {
-                  var percentCompleted = Math.round( (progressEvent.loaded * 100) / progressEvent.total );
-                }
-              };
+             
 
-                axios.post('/api/student/update-status',fd,config)
-              .then(res=>{})
+             /*    axios.post('/api/student/update-status',fd,config)
+              .then(res=>{}) */
+
+              
 
              /*  axios.post('/api/student/update-status', fd, {
                     progress(e) {
