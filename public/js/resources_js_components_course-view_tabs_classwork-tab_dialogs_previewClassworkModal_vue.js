@@ -120,6 +120,24 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['Preview_id'],
@@ -130,6 +148,12 @@ __webpack_require__.r(__webpack_exports__);
       totalQuestion: null,
       Details: {}
     };
+  },
+  computed: {
+    Fileextension: function Fileextension() {
+      var attach = this.Details.attachment;
+      return attach.split('.').pop();
+    }
   },
   methods: {
     getClassworkDetails: function getClassworkDetails() {
@@ -482,34 +506,116 @@ var render = function() {
                             "v-col",
                             {
                               staticClass: "pl-5 pr-5 pb-2",
-                              attrs: { cols: "8" }
+                              attrs: { cols: "12" }
                             },
                             [
-                              _vm.Details.type == "Subjective Type"
-                                ? _c(
-                                    "v-btn",
+                              _c("v-hover", {
+                                scopedSlots: _vm._u(
+                                  [
                                     {
-                                      staticClass:
-                                        "text-sm-body-2 font-weight-regular blue--text",
-                                      attrs: { text: "", "x-large": "" },
-                                      on: {
-                                        click: function($event) {
-                                          return _vm.DownLoadFile(
-                                            _vm.Details.attachment
+                                      key: "default",
+                                      fn: function(ref) {
+                                        var hover = ref.hover
+                                        return [
+                                          _c(
+                                            "v-alert",
+                                            {
+                                              class: hover
+                                                ? "grey lighten-2"
+                                                : "",
+                                              staticStyle: {
+                                                cursor: "pointer"
+                                              },
+                                              attrs: {
+                                                outlined: "",
+                                                icon:
+                                                  _vm.Fileextension == "pdf"
+                                                    ? "mdi-file-pdf"
+                                                    : _vm.Fileextension ==
+                                                      "docx"
+                                                    ? "mdi-file-word"
+                                                    : "",
+                                                color:
+                                                  _vm.Fileextension == "pdf"
+                                                    ? "red"
+                                                    : _vm.Fileextension ==
+                                                      "docx"
+                                                    ? "blue"
+                                                    : ""
+                                              },
+                                              on: {
+                                                click: function($event) {
+                                                  return _vm.DownLoadFile(
+                                                    _vm.Details.attachment
+                                                  )
+                                                }
+                                              }
+                                            },
+                                            [
+                                              _c(
+                                                "v-row",
+                                                { attrs: { align: "center" } },
+                                                [
+                                                  _c(
+                                                    "v-col",
+                                                    { staticClass: "grow" },
+                                                    [
+                                                      _c(
+                                                        "div",
+                                                        {
+                                                          class: hover
+                                                            ? "text-decoration-underline"
+                                                            : ""
+                                                        },
+                                                        [
+                                                          _vm._v(
+                                                            " " +
+                                                              _vm._s(
+                                                                _vm.Details
+                                                                  .attachment_name
+                                                              )
+                                                          )
+                                                        ]
+                                                      )
+                                                    ]
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _c(
+                                                    "v-col",
+                                                    { staticClass: "shrink" },
+                                                    [
+                                                      _c(
+                                                        "div",
+                                                        {
+                                                          staticClass:
+                                                            "black--text font-weight-medium"
+                                                        },
+                                                        [
+                                                          _vm._v(
+                                                            _vm._s(
+                                                              _vm.Details
+                                                                .attachment_size
+                                                            )
+                                                          )
+                                                        ]
+                                                      )
+                                                    ]
+                                                  )
+                                                ],
+                                                1
+                                              )
+                                            ],
+                                            1
                                           )
-                                        }
+                                        ]
                                       }
-                                    },
-                                    [
-                                      _c("v-icon", [_vm._v("mdi-file-word")]),
-                                      _vm._v(
-                                        " " +
-                                          _vm._s(_vm.Details.attachment_name)
-                                      )
-                                    ],
-                                    1
-                                  )
-                                : _vm._e()
+                                    }
+                                  ],
+                                  null,
+                                  false,
+                                  3831247556
+                                )
+                              })
                             ],
                             1
                           )

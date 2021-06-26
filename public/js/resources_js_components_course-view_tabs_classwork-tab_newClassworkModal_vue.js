@@ -143,6 +143,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       valid: false,
       isTimer: false,
       file: null,
+      fileSize: null,
       loading: false,
       dialog: false,
       form: new vform__WEBPACK_IMPORTED_MODULE_2__.default({}),
@@ -202,7 +203,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                 fd.append('points', _this.form.points);
                 fd.append('duration', _this.form.duration);
-                fd.append('attachment_name', _this.file_name); //fd.append('attachment', this.file);
+                fd.append('attachment_name', _this.file_name);
+                fd.append('attachment_size', _this.fileSize); //fd.append('attachment', this.file);
 
                 fd.append('file', _this.file); //this.form.course_id = this.$route.params.id;
 
@@ -218,7 +220,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   }
                 });
 
-              case 11:
+              case 12:
               case "end":
                 return _context.stop();
             }
@@ -228,8 +230,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     onFileChange: function onFileChange(element) {
       this.file = element[0];
-      this.file_name = element[0].name; //this.ext = this.getFileExt(file.name);
+      this.file_name = element[0].name;
+
+      if (element[0].size > 1000000) {
+        var kbsize = element[0].size * 0.001;
+        var mbsize = kbsize * 0.001;
+        var finalSize = parseInt(mbsize);
+        this.fileSize = finalSize + 'mb';
+      } else {
+        var sizeFile = element[0].size * 0.001;
+
+        var _finalSize = parseInt(sizeFile);
+
+        this.fileSize = _finalSize + 'kb';
+      } //this.ext = this.getFileExt(file.name);
       //this.file = file;
+
     }
   },
   beforeMount: function beforeMount() {

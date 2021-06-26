@@ -196,7 +196,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 fd.append("response_late", _this.response_late);
                 fd.append("grading_id", _this.GradingCriteria_id);
                 axios.post('/api/classwork/share', fd).then(function (res) {
-                  _this.$emit('successPublish');
+                  _this.$emit('successPublish', res.data);
                 })["catch"](function (e) {
                   console.log(e);
                 });

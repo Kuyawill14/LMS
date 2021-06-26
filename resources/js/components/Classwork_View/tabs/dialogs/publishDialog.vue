@@ -167,7 +167,7 @@ export default {
             fd.append("grading_id", this.GradingCriteria_id);
             axios.post('/api/classwork/share', fd)
                 .then(res => {
-                    this.$emit('successPublish')
+                    this.$emit('successPublish', res.data)
                 }).catch(e => {
                     console.log(e);
                 })
@@ -184,7 +184,8 @@ export default {
                 this.GradingItems = res.data;
             })
             
-        }
+        },
+        
     },
     created(){
         this.getGradingCriteria();

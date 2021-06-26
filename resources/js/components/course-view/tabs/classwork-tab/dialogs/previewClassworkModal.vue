@@ -65,8 +65,26 @@
                             <div class="text-sm-body-2 font-weight-regular"> {{Details.instruction}}</div>
                         </v-col>
 
-                        <v-col v-if="Details.type == 'Subjective Type'" cols="8" class="pl-5 pr-5 pb-2">
-                            <v-btn v-if="Details.type == 'Subjective Type'" text x-large @click="DownLoadFile(Details.attachment)" class="text-sm-body-2 font-weight-regular blue--text"> <v-icon>mdi-file-word</v-icon> {{Details.attachment_name}}</v-btn>
+                        <v-col v-if="Details.type == 'Subjective Type'" cols="12" class="pl-5 pr-5 pb-2">
+                            <v-hover v-slot="{ hover }">
+                                <v-alert
+                                @click="DownLoadFile(Details.attachment)"
+                                style="cursor:pointer"
+                                :class="hover ? 'grey lighten-2' :''"
+                                    outlined
+                                    :icon="Fileextension == 'pdf' ? 'mdi-file-pdf': Fileextension == 'docx'? 'mdi-file-word':''"
+                                :color="Fileextension == 'pdf' ? 'red' : Fileextension == 'docx'? 'blue':''"
+                                >
+                                <v-row align="center">
+                                    <v-col class="grow">
+                                    <div :class="hover ? 'text-decoration-underline':''"> {{Details.attachment_name}}</div>
+                                    </v-col>
+                                    <v-col class="shrink">
+                                    <div class="black--text font-weight-medium">{{Details.attachment_size}}</div>
+                                    </v-col>
+                                </v-row>
+                                </v-alert>
+                            </v-hover>
                         </v-col>
 
                         <v-col cols="12" class="pl-10 pr-5 pb-5 text-right">
@@ -115,6 +133,12 @@ export default {
             totalPoints:null,
             totalQuestion:null,
             Details:{}
+        }
+    },
+    computed:{
+        Fileextension() {
+             let attach = this.Details.attachment;
+            return attach.split('.').pop();
         }
     },
     methods:{

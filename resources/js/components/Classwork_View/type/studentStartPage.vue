@@ -1,5 +1,5 @@
 <template>
-    <v-container fluid>
+    <v-container  fluid>
         <v-row align="center" justify="center">
 
           <v-col v-if="classworkDetails.response_late == 0" cols="12" sm="12" md="5">

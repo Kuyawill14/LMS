@@ -5,8 +5,8 @@
             <publishDialog 
             :Details="Details"
             v-on:toggleDialog="dialog = !dialog, isPublishing = !isPublishing"
-            v-on:successPublish="fetchClassnames(), dialog = !dialog,isPublishing = !isPublishing"
-            
+            v-on:successPublish="SuccessPublishNotify"
+            v-on:UnPublish="closeDiaglog()"
             v-if="dialog"></publishDialog>
         </v-dialog>
 
@@ -132,13 +132,18 @@ export default {
             fd.append("class_id", class_id);
             axios.post('/api/classwork/share', fd)
                 .then(res => {
+                    
                     this.toastSuccess(class_name)
                     this.fetchClassnames();
                 }).catch(e => {
                     console.log(e);
                 })
         },
-        fetchClassnames() {
+        closeDiaglog(){
+            this.dialog = !this.dialog,this.isPublishing = !this.isPublishing
+            this.fetchClassnames();
+        },
+        async fetchClassnames() {
             axios.get('/api/class/allnames/' + this.$route.params.id).then(res => {
                 this.classNames = res.data;
                 this.isloading = false;
@@ -146,6 +151,26 @@ export default {
                 console.log(e)
             })
         },
+          async fetchClassFornotify(data) {
+            this.dialog = !this.dialog,this.isPublishing = !this.isPublishing
+            axios.get('/api/class/allnames/' + this.$route.params.id).then(res => {
+                this.classNames = res.data;
+                this.isloading = false;
+                this.NewNotification(data)
+            }).catch(e => {
+                console.log(e)
+            })
+        },
+        async SuccessPublishNotify(data){
+           
+            this.fetchClassFornotify(data)
+        },
+        async NewNotification(data){
+            axios.post('/api/notification/new', data)
+            .then(res=>{
+                
+            })
+        }
     },
     beforeMount(){
         this.fetchClassnames();
