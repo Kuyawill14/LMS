@@ -2,7 +2,7 @@
     <v-card>
         <v-form ref="registerForm">
             <v-card-title>
-                <span class="headline">{{type == 'edit' ? 'Add Module' : 'Edit Module'}}</span>
+                <span class="headline">{{type == 'edit' ?  'Edit Module' : 'Add Module' }}</span>
             </v-card-title>
             <v-card-text>
                 <v-container>

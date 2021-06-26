@@ -532,7 +532,7 @@ var render = function() {
         [
           _c("v-card-title", [
             _c("span", { staticClass: "headline" }, [
-              _vm._v(_vm._s(_vm.type == "edit" ? "Add Module" : "Edit Module"))
+              _vm._v(_vm._s(_vm.type == "edit" ? "Edit Module" : "Add Module"))
             ])
           ]),
           _vm._v(" "),

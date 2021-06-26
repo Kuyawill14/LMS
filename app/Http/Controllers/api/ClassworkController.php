@@ -35,6 +35,7 @@ class ClassworkController extends Controller
             ->leftJoin('tbl_classworks', 'tbl_classworks.id', '=', 'tbl_class_classworks.classwork_id')
             ->leftJoin('tbl_userclasses', 'tbl_class_classworks.class_id', '=', 'tbl_userclasses.class_id')
             ->leftJoin('tbl_submissions', 'tbl_submissions.classwork_id', '=', 'tbl_class_classworks.classwork_id')
+            
             ->orderBy('created_at', 'DESC')
             ->get();
             return $classworkAll;  
