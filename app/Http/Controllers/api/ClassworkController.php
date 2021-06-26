@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\tbl_classwork;
 use App\Models\tbl_classClassworks;
 use App\Models\tbl_Questions;
+use App\Models\tbl_Submission;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 
@@ -20,6 +21,7 @@ class ClassworkController extends Controller
     public function index($id)
     {
         $userId = auth('sanctum')->id();
+        //$userId = 3;
         if(auth('sanctum')->user()->role != 'Student'){
             
             $classwork = tbl_classwork::where('course_id',  $id)
@@ -37,6 +39,17 @@ class ClassworkController extends Controller
             ->leftJoin('tbl_submissions', 'tbl_submissions.user_id', '=', 'tbl_userclasses.user_id')
             ->orderBy('created_at', 'DESC')
             ->get();
+            
+            $Submission = tbl_Submission::where('tbl_submissions.user_id', $userId)->get();
+            foreach($Submission as $subM){
+                foreach($classworkAll as $classW){
+                    if($subM->classwork_id != $classW->classwork_id){
+                        $classW->status = null;
+                        $classW->score = null;
+                        $classW->Sub_date = null;
+                    }
+                }
+            }
             return $classworkAll;  
         }
         

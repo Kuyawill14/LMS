@@ -103,6 +103,7 @@ class StudentController extends Controller
 
 
         $userId = auth('sanctum')->id();
+        //$userId = 3;
         $CheckStatus = User::where('users.id',$userId)
         ->select('users.id', 'tbl_submissions.status','tbl_submissions.points as score','tbl_submissions.Submitted_Answers',
         'tbl_classworks.points as totalPoints'
