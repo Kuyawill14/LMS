@@ -7130,6 +7130,11 @@ vue-chartjs@^3.5.1:
   dependencies:
     "@types/chart.js" "^2.7.55"
 
+vue-confetti@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/vue-confetti/-/vue-confetti-2.2.1.tgz#5cc5f96c43a7fe2b0a831bb2cf04473c1f65b017"
+  integrity sha512-yWDb21phC9jQtdjBi9r40UCTnBG1IEu9VuZUaoTSlDao4RwRJEb+rCKa5qWUkzwGZViwJGguEWFWCw9I2V/bQw==
+
 vue-core-video-player@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/vue-core-video-player/-/vue-core-video-player-0.2.0.tgz#70da2d5607554fda67bf8477f27002354263a681"
