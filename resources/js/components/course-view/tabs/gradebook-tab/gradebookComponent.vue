@@ -35,15 +35,28 @@
                                 <tr v-for="student in items" :key="student.id">
                                     <td>{{student.lastName + ', ' + student.firstName }} </td>
 
-                                    <td v-for="(classworkGrades, index) in StudentClassworkGrades(student.id,gradingCriteria.id)"
+                                    <td class="text-center" v-for="(classworkGrades, index) in StudentClassworkGrades(student.id,gradingCriteria.id)"
                                         :key="index">
                                         {{classworkGrades.points}}
+
+                                        <v-tooltip v-model="show" top v-if="classworkGrades.points == null">
+                                            <template v-slot:activator="{ on, attrs }">
+                                                <v-btn icon v-bind="attrs" v-on="on">
+                                                    <v-icon color="grey lighten-1">
+                                                        mdi-close
+                                                    </v-icon>
+                                                </v-btn>
+                                            </template>
+                                            <span>No Submission</span>
+                                        </v-tooltip>
+
+                                        
                                     </td>
 
-                                    <td>
+                                    <td class="text-center">
                                         {{totalPoints(StudentClassworkGrades(student.id,gradingCriteria.id))}}
                                     </td>
-                                    <td>
+                                    <td class="text-center">
                                         {{totalPercentage(StudentClassworkGrades(student.id,gradingCriteria.id))}}%
                                     </td>
 
@@ -99,9 +112,11 @@
             totalPercentHeader() {
                 this.headers.push({
                     text: 'Total Points' + ' (' + this.classworkTotalPoints + 'pts)',
+                     align: 'center',
                     value: 'total'
                 }, {
                     text: 'Total Percentage',
+                     align: 'center',
                     value: 'Percentage'
                 });
             },
@@ -157,11 +172,12 @@
                                 text: this.classworkList[i]['title'] + ' (' + this.classworkList[i][
                                     'points'
                                 ] + 'pts)',
+                                 align: 'center',
                                 value: this.classworkList[i]['title']
                             });
-                              total += this.classworkList[i]['points'];
+                            total += this.classworkList[i]['points'];
                         }
-                      
+
                     }
 
                     //    console.log(grading_criteria_id)
@@ -190,6 +206,7 @@
                                 text: this.classworkList[i]['title'] + ' (' + this.classworkList[i][
                                     'points'
                                 ] + 'pts)',
+                                 align: 'center',
                                 value: this.classworkList[i]['title']
                             });
                             total += this.classworkList[i]['points'];
