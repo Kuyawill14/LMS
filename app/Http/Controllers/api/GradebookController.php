@@ -68,7 +68,7 @@ class GradebookController extends Controller
         $submissions = json_decode($submissions, true);
 
         for($i=0; $i < count($studentList); $i++) {
-            $studentList[$i]['points'] = 0 ;
+            $studentList[$i]['points'] = null ;
             for($j=0; $j < count($submissions); $j++) {
                 if($studentList[$i]['classwork_id'] == $submissions[$j]['classwork_id']  && $studentList[$i]['student_id'] == $submissions[$j]['user_id']){
                     $studentList[$i]['points'] =  $submissions[$j]['points'];
