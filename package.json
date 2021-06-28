@@ -30,6 +30,7 @@
         "@kouts/vue-modal": "^2.0.10",
         "chart.js": "^3.3.2",
         "echarts": "^5.1.2",
+        "filepond": "^4.28.2",
         "laravel-echo": "^1.10.0",
         "laravel-mix-bundle-analyzer": "^1.0.5",
         "moment": "^2.29.1",

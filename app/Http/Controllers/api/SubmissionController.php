@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\tbl_Submission;
 use App\Models\tbl_userclass;
+use Illuminate\Support\Facades\Storage;
 use App\Models\User;
 
 class SubmissionController extends Controller
@@ -38,11 +39,18 @@ class SubmissionController extends Controller
     /**
      * Show the form for creating a new resource.
      *
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function RemoveUploadedFile($id)
     {
-        //
+        $RemoveSubmissionFile = tbl_Submission::find($id);
+        if($RemoveSubmissionFile){
+            
+            $Ans = unserialize($RemoveSubmissionFile->Submitted_Answers);
+            Storage::delete('public/'.$Ans['link']);
+            $RemoveSubmissionFile->delete();
+        }
     }
 
     /**
@@ -64,11 +72,10 @@ class SubmissionController extends Controller
      */
     public function checkSubjectiveSubmission($id)
     {
-        //$userId = auth('sanctum')->id();
-        $userId = 3;
+        $userId = auth('sanctum')->id();
         $CheckStatus = User::where('users.id',  $userId )
         ->select('users.id','tbl_classworks.course_id','tbl_classworks.id as classwork_id',
-        'tbl_submissions.status','tbl_submissions.points as score','tbl_submissions.Submitted_Answers',
+        'tbl_submissions.status','tbl_submissions.points as score','tbl_submissions.Submitted_Answers','tbl_submissions.id as Sub_id',
         'tbl_classworks.points as totalPoints')
         ->leftJoin('tbl_userclasses','tbl_userclasses.user_id','=','users.id')
         ->leftJoin('tbl_classworks','tbl_classworks.course_id','=','tbl_userclasses.course_id')
@@ -76,7 +83,6 @@ class SubmissionController extends Controller
         ->where('tbl_classworks.id',$id)
         ->first();
         $CheckStatus->Submitted_Answers = unserialize($CheckStatus->Submitted_Answers);
-
         return $CheckStatus;
     }
 

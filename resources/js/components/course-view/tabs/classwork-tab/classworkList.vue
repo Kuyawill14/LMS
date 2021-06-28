@@ -30,11 +30,11 @@
                                     <div>
                                         
                                         <div ma-0 pa-0 class="h1 ml-1"> <span class="font-weight-bold">{{item.title}}</span> <small class="primary--text" v-if="item.type == 'Subjective Type'">({{item.points}} points)</small></div> 
-                                        <small v-if="role == 'Student' && item.status == null " :class="CheckFormatDue(item.due_date) > DateToday ? 'card-subtitle text-50': item.status == 'Submitted' ? 'card-subtitle text-50':'card-subtitle text-50 red--text'">
+                                        <small v-if="role == 'Student' && (item.status == null || item.status == 'Submitting' )" :class="CheckFormatDue(item.due_date) > DateToday ? 'card-subtitle text-50': item.status == 'Submitted' ? 'card-subtitle text-50':'card-subtitle text-50 red--text'">
                                             <v-icon :color="CheckFormatDue(item.due_date) > DateToday ? '': item.status == 'Submitted' ? '':'red darken-4'" small>mdi-clock</v-icon> {{CheckFormatDue(item.due_date) > CheckFormatDue(DateToday) ? '' : "Late"}}
                                             Due Date: {{format_date(item.due_date)}} </small>
 
-                                        <small v-if="role == 'Student' && item.status != null " class="card-subtitle text-50 success--text">
+                                        <small v-if="role == 'Student' && item.status == 'Submitted' " class="card-subtitle text-50 success--text">
                                             <v-icon color="" small>mdi-clock</v-icon> 
                                             Submitted: {{format_date(item.Sub_date)}} </small>
                                         
@@ -79,7 +79,7 @@
                                         <!--  @click="$router.push({name: 'clwk',params: {id: $route.params.id},query: {clwk: item.classwork_id}})" -->
                               
                                         <v-btn
-                                        v-if="item.status == null && item.status != 'Submitted'"
+                                        v-if="item.status == null || (item.status == 'Submitting'|| item.status == 'Taking')"
                                         @click="Previewdialog = !Previewdialog, Preview_id = item.classwork_id"
                                         class="mt-1 mr-5 pa-2 mx-1" icon
                                         v-bind="attrs"
@@ -99,7 +99,7 @@
                                         v-bind="attrs"
                                         v-on="on"
                                          class="mt-1 mr-5 pa-2 mx-1 black--text" icon x-large
-                                        v-if="(item.status != null || item.status == 'Taking') && item.score != null">
+                                        v-if="((item.status != null) && (item.status == 'Taking' || item.status == 'Submitted')) && item.score != null">
                                             {{item.score}}
                                         </v-btn>
                                        

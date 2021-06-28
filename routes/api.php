@@ -123,6 +123,8 @@ Route::prefix('/student')->group(function () {
     Route::post('/join/{id}', [StudentController::class, 'JoinClass']);
     Route::post('/update-status', [StudentController::class, 'UpdateStatus']);
     Route::delete('/{id}', [StudentController::class, 'Unenroll']);
+    Route::put('/submit-classwork/{id}', [StudentController::class, 'SubmitClassworkSubj']);
+    
 });
 
 
@@ -206,7 +208,7 @@ Route::prefix('/QAnalytics')->group(function () {
 Route::prefix('/submission')->group(function () {
     Route::get('/all/{id}', [SubmissionController::class, 'index']);
     Route::get('/check-sbj/{id}', [SubmissionController::class, 'checkSubjectiveSubmission']);
-    
+    Route::put('/file-remove/{id}', [SubmissionController::class, 'RemoveUploadedFile']);
 });
 
 

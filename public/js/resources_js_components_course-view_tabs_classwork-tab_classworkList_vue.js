@@ -21954,7 +21954,8 @@ var render = function() {
                               ]
                             ),
                             _vm._v(" "),
-                            _vm.role == "Student" && item.status == null
+                            _vm.role == "Student" &&
+                            (item.status == null || item.status == "Submitting")
                               ? _c(
                                   "small",
                                   {
@@ -22000,7 +22001,7 @@ var render = function() {
                                 )
                               : _vm._e(),
                             _vm._v(" "),
-                            _vm.role == "Student" && item.status != null
+                            _vm.role == "Student" && item.status == "Submitted"
                               ? _c(
                                   "small",
                                   {
@@ -22294,8 +22295,9 @@ var render = function() {
                                       var on = ref.on
                                       var attrs = ref.attrs
                                       return [
-                                        item.status == null &&
-                                        item.status != "Submitted"
+                                        item.status == null ||
+                                        item.status == "Submitting" ||
+                                          item.status == "Taking"
                                           ? _c(
                                               "v-btn",
                                               _vm._g(
@@ -22336,8 +22338,9 @@ var render = function() {
                                             )
                                           : _vm._e(),
                                         _vm._v(" "),
-                                        (item.status != null ||
-                                          item.status == "Taking") &&
+                                        item.status != null &&
+                                        (item.status == "Taking" ||
+                                          item.status == "Submitted") &&
                                         item.score != null
                                           ? _c(
                                               "v-btn",

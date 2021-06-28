@@ -129,8 +129,8 @@
                             </v-container>
 
 
-                            <v-container v-else-if="file || StatusDetails.status == 'Submitted'" pl-0 pb-0 class="dropZone-uploaded">
-                                <v-container v-if="StatusDetails.status != 'Submitted'" ma-0 pa-0  class="dropZone-uploaded-info">
+                            <v-container v-else-if="file || (StatusDetails.status == 'Submitted' || StatusDetails.status == 'Submitting')" pl-0 pb-0 class="dropZone-uploaded">
+                                <v-container v-if="StatusDetails.status != 'Submitting' && StatusDetails.status != 'Submitted' " ma-0 pa-0  class="dropZone-uploaded-info">
                                   <div class="filePreview ">
                                     <v-hover v-slot="{ hover }">
                                       <v-alert
@@ -144,13 +144,15 @@
                                            extension == 'jpg' ||  extension == 'png' ||  extension == 'bmp' ? 'info': ''"
                                         >
                                           <v-row align="center" >
-                                            <v-col class="grow text-left">
+                                            <v-col :class="uploadPercentage != 100 ? 'grow text-left mb-0 pb-0':'grow text-left'">
                                               <div :class="hover ? 'text-decoration-underline':''"> {{file.name}}</div>
                                             </v-col>
-                                            <v-col class="shrink d-flex">
+                                            <v-col :class="uploadPercentage != 100 ? 'shrink d-flex mb-0 pb-0':'shrink d-flex'">
                                               <div class="black--text mt-1 mr-2">{{fileSize}}</div>
+                                             
+                                              
                                               <div>
-                                                 <v-tooltip top>
+                                                 <v-tooltip v-if="!isUploading || uploadPercentage == 100" top>
                                                     <template v-slot:activator="{ on, attrs }">
                                                         <v-btn v-bind="attrs" v-on="on" 
                                                         rounded small icon text @click="removeFile"> <v-icon>mdi-close</v-icon></v-btn>
@@ -159,6 +161,9 @@
                                                   </v-tooltip>
                                                 </div>
                                              
+                                            </v-col>
+                                            <v-col class="pt-0 mt-0" v-if="isUploading && uploadPercentage != 100" cols="12">
+                                               <v-progress-linear rounded :value="uploadPercentage"></v-progress-linear>
                                             </v-col>
                                           </v-row>
                                         </v-alert>
@@ -185,15 +190,14 @@
                                             <v-col class="shrink d-flex">
                                               <div class="black--text mt-1 mr-2">{{StatusDetails.Submitted_Answers.fileSize}}</div>
                                               <div>
-                                                 <v-tooltip top>
+                                                 <v-tooltip  top>
                                                     <template v-slot:activator="{ on, attrs }">
-                                                        <v-btn v-bind="attrs" v-on="on" 
-                                                        rounded small icon text @click="removeFile"> <v-icon>mdi-close</v-icon></v-btn>
+                                                        <v-btn  v-bind="attrs" v-on="on" 
+                                                        rounded small icon text @click="DeleteUpload()"> <v-icon>mdi-close</v-icon></v-btn>
                                                     </template>
                                                     <span>Delete</span>
                                                   </v-tooltip>
                                                 </div>
-                                             
                                             </v-col>
                                           </v-row>
                                         </v-alert>
@@ -202,6 +206,15 @@
                                 </v-container>
                             </v-container>
                             
+                              <div>
+                                 <v-textarea
+                                    clearable
+                                    auto-grow
+                                    clear-icon="mdi-close-circle"
+                                    label="Description"
+                                    rows="1"
+                                  ></v-textarea>
+                              </div>
 
                                <div class="mt-4 d-flex justify-space-between">
                                     <v-menu offset-y>
@@ -231,13 +244,16 @@
                                         </v-list-item>
                                       </v-list>
                                     </v-menu>
-                                    <v-btn @click="StatusDetails.status == 'Submitted' ? '' :UpdateSubmission()" rounded color="primary">{{StatusDetails.status == 'Submitted'? 'Submitted' :'Submit Classwork'}}</v-btn>
+                                    <v-btn @click="StatusDetails.status == 'Submitted' ? '' :SubmitClasswork()" rounded 
+                                    :color="StatusDetails.status == 'Submitted'? '': 'primary'">{{StatusDetails.status == 'Submitted'? 'Submitted' :'Submit Classwork'}}</v-btn>
                                 </div>
                             
                             <div class="uploadedFile-info">
                                 <div>fileName: {{ file.name }}</div>
                                 <div>fileZise(bytes): {{ file.size }}</div>
                                 <div>extension：{{ extension }}</div>
+                           
+                                
                             </div>
                    </v-col>
                 </v-row> 
@@ -264,7 +280,9 @@ export default {
             dragging: false,
             link: "test12",
             StatusDetails:[],
-            uploadPercentage: 0
+            uploadPercentage: 0,
+            isUploading: false,
+            tempId: null
         }
     },
      computed: {
@@ -300,14 +318,17 @@ export default {
             window.location = "/storage/"+file;
         },
         onChange(e) {
+        
             var files = e.target.files || e.dataTransfer.files;
             if (!files.length) {
                 this.dragging = false;
                 return;
             }
+            
             this.createFile(files[0]);
             },
         createFile(file) {
+              this.isUploading = !this.isUploading;
               this.file = file;
               let tempSize = file.size;
               if(tempSize > 1000000){
@@ -322,10 +343,18 @@ export default {
                   this.fileSize =finalSize+'kb';
               }
               this.dragging = false;
-              //this.UpdateSubmission(file);
+              this.UpdateSubmission();
             },
-        removeFile() {
-            this.file = '';
+            removeFile() {
+            
+              
+               axios.put('/api/submission/file-remove/'+this.tempId).then(res=>{
+                  this.uploadPercentage = 0;
+                   this.file = ''; 
+                   this.tempId = null;
+                   this.isUploading = false;
+              })
+
             },
             test(){
               let data = '<iframe class="ql-video" frameborder="0" allowfullscreen="true" src="'+this.link+'"></iframe><div><br></div>'
@@ -335,6 +364,7 @@ export default {
               axios.get('/api/submission/check-sbj/'+this.classworkDetails.id)
               .then(res=>{
                   this.StatusDetails = res.data;
+                  this.tempId = res.data.Sub_id;
               })
           },
           UpdateSubmission(){
@@ -344,11 +374,35 @@ export default {
               fd.append('fileName', this.file.name);
               fd.append('fileSize', this.fileSize);
               fd.append('file', this.file);
-              axios.post('/api/student/update-status', fd)
+               axios.post('/api/student/update-status', fd,{
+                 onUploadProgress:(progressEvent)=>{
+                   const total = progressEvent.total;
+                   const totalLength = progressEvent.lengthComputable ? total : null;
+                   if(totalLength != null){
+                     this.uploadPercentage = Math.round((progressEvent.loaded*100)/totalLength);
+                   }
+                 }
+               })
               .then(res=>{
-
+                this.tempId = res.data;
               })
+          },
+          DeleteUpload(){
+              axios.put('/api/submission/file-remove/'+this.tempId).then(res=>{
+                 this.checkStatus();
+                  this.uploadPercentage = 0;
+                   this.isUploading = false;
+              })
+          },
+          async SubmitClasswork(){
+            axios.put('/api/student/submit-classwork/'+this.tempId).then(res=>{
+              if(res.status == 200){
+                this.checkStatus();
+              }
+            })
           }
+
+            
 
     },
     created(){

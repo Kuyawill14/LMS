@@ -100,7 +100,7 @@ class StudentController extends Controller
             $StatusUpdate = new tbl_Submission;
             $StatusUpdate->classwork_id = $request->id;
             $StatusUpdate->user_id =  $userId;
-            $StatusUpdate->status = "Submitted";
+            $StatusUpdate->status = "Submitting";
             $file = $request->file('file');
             if($file != ""){
                 $newFile = $file->store('public/upload/classworkSubmission/'.$userId);
@@ -109,10 +109,32 @@ class StudentController extends Controller
             }
             $StatusUpdate->Submitted_Answers = serialize($StatusUpdate->Submitted_Answers);
             $StatusUpdate->save();
+            return $StatusUpdate->id;
         }
-        
-       
     }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function SubmitClassworkSubj($id)
+    {
+
+        $userId = auth('sanctum')->id();
+        $SubmitSubj = tbl_Submission::find($id);
+        if($SubmitSubj){
+            $SubmitSubj->status = "Submitted";
+            $SubmitSubj->save();
+        }
+        return $SubmitSubj;
+
+    }
+
+
+
+
 
     /**
      * Display the specified resource.
