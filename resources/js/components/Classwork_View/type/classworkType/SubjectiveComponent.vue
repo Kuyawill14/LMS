@@ -165,7 +165,43 @@
                                     </v-hover>
                                   </div>
                                 </v-container>
+                                 <v-container v-else ma-0 pa-0  class="dropZone-uploaded-info">
+                                  <div class="filePreview ">
+                                    <v-hover v-slot="{ hover }">
+                                      <v-alert
+                                      
+                                          style="cursor:pointer"
+                                            :class="hover ? 'grey lighten-2' :''"
+                                            outlined
+                                            :icon="SubmittedFilextension == 'pdf' ? 'mdi-file-pdf': SubmittedFilextension == 'docx'? 'mdi-file-word': 
+                                            SubmittedFilextension == 'jpg' ||  SubmittedFilextension == 'png' ||  SubmittedFilextension == 'bmp' ? 'mdi-folder-multiple-image' :''"
+                                          :color="SubmittedFilextension == 'pdf' ? 'red' : SubmittedFilextension == 'docx'? 'blue':
+                                           SubmittedFilextension == 'jpg' ||  SubmittedFilextension == 'png' ||  SubmittedFilextension == 'bmp' ? 'info': ''"
+                                        >
+                                          <v-row align="center" >
+                                            <v-col class="grow text-left">
+                                              <div :class="hover ? 'text-decoration-underline':''"> {{StatusDetails.Submitted_Answers.name}}</div>
+                                            </v-col>
+                                            <v-col class="shrink d-flex">
+                                              <div class="black--text mt-1 mr-2">{{StatusDetails.Submitted_Answers.fileSize}}</div>
+                                              <div>
+                                                 <v-tooltip top>
+                                                    <template v-slot:activator="{ on, attrs }">
+                                                        <v-btn v-bind="attrs" v-on="on" 
+                                                        rounded small icon text @click="removeFile"> <v-icon>mdi-close</v-icon></v-btn>
+                                                    </template>
+                                                    <span>Delete</span>
+                                                  </v-tooltip>
+                                                </div>
+                                             
+                                            </v-col>
+                                          </v-row>
+                                        </v-alert>
+                                    </v-hover>
+                                  </div>
+                                </v-container>
                             </v-container>
+                            
 
                                <div class="mt-4 d-flex justify-space-between">
                                     <v-menu offset-y>
@@ -195,7 +231,7 @@
                                         </v-list-item>
                                       </v-list>
                                     </v-menu>
-                                    <v-btn rounded color="primary">Submit Classwork</v-btn>
+                                    <v-btn @click="StatusDetails.status == 'Submitted' ? '' :UpdateSubmission()" rounded color="primary">{{StatusDetails.status == 'Submitted'? 'Submitted' :'Submit Classwork'}}</v-btn>
                                 </div>
                             
                             <div class="uploadedFile-info">
@@ -237,6 +273,10 @@ export default {
         },
          Fileextension() {
              let attach = this.classworkDetails.attachment;
+            return attach.split('.').pop();
+        },
+         SubmittedFilextension() {
+             let attach = this.StatusDetails.Submitted_Answers.name;
             return attach.split('.').pop();
         }
     },
@@ -282,7 +322,7 @@ export default {
                   this.fileSize =finalSize+'kb';
               }
               this.dragging = false;
-              this.UpdateSubmission(file);
+              //this.UpdateSubmission(file);
             },
         removeFile() {
             this.file = '';
@@ -292,32 +332,22 @@ export default {
               console.log(data);
             },
             async checkStatus(){
-              axios.get('/api/student/check-status/'+this.classworkDetails.id)
+              axios.get('/api/submission/check-sbj/'+this.classworkDetails.id)
               .then(res=>{
-                  this.StatusDetails = res.data[0];
+                  this.StatusDetails = res.data;
               })
           },
-          async UpdateSubmission(file){
+          UpdateSubmission(){
               let fd = new FormData;
               fd.append('id', this.classworkDetails.id);
               fd.append('type', this.classworkDetails.type);
-              fd.append('file', file);
-            
+              fd.append('fileName', this.file.name);
+              fd.append('fileSize', this.fileSize);
+              fd.append('file', this.file);
+              axios.post('/api/student/update-status', fd)
+              .then(res=>{
 
-             
-
-             /*    axios.post('/api/student/update-status',fd,config)
-              .then(res=>{}) */
-
-              
-
-             /*  axios.post('/api/student/update-status', fd, {
-                    progress(e) {
-                      if (e.lengthComputable) {
-                        console.log(e.loaded / e.total * 100);
-                      }
-                    }
-                }); */
+              })
           }
 
     },

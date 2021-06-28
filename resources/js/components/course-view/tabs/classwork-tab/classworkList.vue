@@ -94,7 +94,8 @@
                                         </v-btn>
 
                                         <v-btn
-                                        @click="$router.push({name:'result-page', params:{id: item.classwork_id}})"
+                                        @click="item.type == 'Objective Type' ? $router.push({name:'result-page', params:{id: item.classwork_id}})
+                                        : $router.push({name: 'clwk',params: {id: $route.params.id},query: {clwk: item.classwork_id}})"
                                         v-bind="attrs"
                                         v-on="on"
                                          class="mt-1 mr-5 pa-2 mx-1 black--text" icon x-large

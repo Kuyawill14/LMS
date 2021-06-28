@@ -142,6 +142,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 var previewClassworkModal = function previewClassworkModal() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_tabs_classwork-tab_dialogs_previewClassworkModal_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./dialogs/previewClassworkModal */ "./resources/js/components/course-view/tabs/classwork-tab/dialogs/previewClassworkModal.vue"));
 };
@@ -22351,15 +22352,28 @@ var render = function() {
                                                     },
                                                     on: {
                                                       click: function($event) {
-                                                        return _vm.$router.push(
-                                                          {
-                                                            name: "result-page",
-                                                            params: {
-                                                              id:
-                                                                item.classwork_id
-                                                            }
-                                                          }
-                                                        )
+                                                        item.type ==
+                                                        "Objective Type"
+                                                          ? _vm.$router.push({
+                                                              name:
+                                                                "result-page",
+                                                              params: {
+                                                                id:
+                                                                  item.classwork_id
+                                                              }
+                                                            })
+                                                          : _vm.$router.push({
+                                                              name: "clwk",
+                                                              params: {
+                                                                id:
+                                                                  _vm.$route
+                                                                    .params.id
+                                                              },
+                                                              query: {
+                                                                clwk:
+                                                                  item.classwork_id
+                                                              }
+                                                            })
                                                       }
                                                     }
                                                   },

@@ -18,7 +18,7 @@
                 <objectiveSubmission v-if="classworkDetails.type == 'Objective Type'" :ListData="List"></objectiveSubmission>    
             </v-col>
             <v-col v-if="classworkDetails.type == 'Subjective Type'" cols="12" lg="12" md="12">
-                <subjectiveSubmission v-if="classworkDetails.type == 'Subjective Type'"></subjectiveSubmission>    
+                <subjectiveSubmission v-if="classworkDetails.type == 'Subjective Type'" :ListData="List"></subjectiveSubmission>    
             </v-col>
         </v-row>
     </v-container>

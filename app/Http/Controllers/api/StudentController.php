@@ -96,7 +96,19 @@ class StudentController extends Controller
             $StatusUpdate->save();
         }
         elseif($request->type == 'Subjective Type'){
-            return $request->file('file');
+           
+            $StatusUpdate = new tbl_Submission;
+            $StatusUpdate->classwork_id = $request->id;
+            $StatusUpdate->user_id =  $userId;
+            $StatusUpdate->status = "Submitted";
+            $file = $request->file('file');
+            if($file != ""){
+                $newFile = $file->store('public/upload/classworkSubmission/'.$userId);
+                $StatusUpdate->Submitted_Answers = ["link"=> preg_replace('/\bpublic\/\b/', '', $newFile) , 
+                "name"=> $request->fileName,"fileSize"=> $request->fileSize];
+            }
+            $StatusUpdate->Submitted_Answers = serialize($StatusUpdate->Submitted_Answers);
+            $StatusUpdate->save();
         }
         
        
@@ -111,28 +123,27 @@ class StudentController extends Controller
     public function checkSubmissionStatus($id)
     {
 
-
         $userId = auth('sanctum')->id();
-        //$userId = 3;
         $CheckStatus = tbl_Submission::where('tbl_submissions.classwork_id', $id)
         ->select('tbl_submissions.status','tbl_submissions.points as score','tbl_submissions.Submitted_Answers',
         'tbl_classworks.points as totalPoints','tbl_classworks.id as cl_id','tbl_classworks.course_id')
         ->leftJoin('tbl_classworks', 'tbl_classworks.id','=','tbl_submissions.classwork_id')
         ->where('tbl_submissions.user_id',  $userId)
         ->first();
-
-        $ClassId = tbl_userclass::where('course_id',$CheckStatus->course_id)
-        ->select('class_id')
-        ->where('user_id', $userId)
-        ->first();
-       
-        $CheckStatus->class_id =  $ClassId->class_id;
-        $CheckStatus->id = $userId;
         if($CheckStatus){
-            $TempAnswer = unserialize($CheckStatus->Submitted_Answers);
-            $CheckStatus->Submitted_Answers = $TempAnswer;
+            $ClassId = tbl_userclass::where('course_id',$CheckStatus->course_id)
+            ->select('class_id')
+            ->where('user_id', $userId)
+            ->first();
+
+            $CheckStatus->class_id =  $ClassId->class_id;
+            $CheckStatus->id = $userId;
+            if($CheckStatus){
+                $TempAnswer = unserialize($CheckStatus->Submitted_Answers);
+                $CheckStatus->Submitted_Answers = $TempAnswer;
+            }
         }
-        
+       
         return $CheckStatus;
 
     }

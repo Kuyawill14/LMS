@@ -205,6 +205,7 @@ Route::prefix('/QAnalytics')->group(function () {
 //Submission List
 Route::prefix('/submission')->group(function () {
     Route::get('/all/{id}', [SubmissionController::class, 'index']);
+    Route::get('/check-sbj/{id}', [SubmissionController::class, 'checkSubjectiveSubmission']);
     
 });
 

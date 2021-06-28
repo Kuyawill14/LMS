@@ -236,6 +236,42 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var attachlinkDiaglog = function attachlinkDiaglog() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_type_classworkType_attachLinkDialog_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./attachLinkDialog */ "./resources/js/components/Classwork_View/type/classworkType/attachLinkDialog.vue"));
 };
@@ -264,6 +300,10 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
     },
     Fileextension: function Fileextension() {
       var attach = this.classworkDetails.attachment;
+      return attach.split('.').pop();
+    },
+    SubmittedFilextension: function SubmittedFilextension() {
+      var attach = this.StatusDetails.Submitted_Answers.name;
       return attach.split('.').pop();
     }
   },
@@ -320,8 +360,7 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
         this.fileSize = _finalSize + 'kb';
       }
 
-      this.dragging = false;
-      this.UpdateSubmission(file);
+      this.dragging = false; //this.UpdateSubmission(file);
     },
     removeFile: function removeFile() {
       this.file = '';
@@ -338,8 +377,8 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                axios__WEBPACK_IMPORTED_MODULE_2___default().get('/api/student/check-status/' + _this.classworkDetails.id).then(function (res) {
-                  _this.StatusDetails = res.data[0];
+                axios__WEBPACK_IMPORTED_MODULE_2___default().get('/api/submission/check-sbj/' + _this.classworkDetails.id).then(function (res) {
+                  _this.StatusDetails = res.data;
                 });
 
               case 1:
@@ -350,37 +389,14 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
         }, _callee);
       }))();
     },
-    UpdateSubmission: function UpdateSubmission(file) {
-      var _this2 = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
-        var fd;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                fd = new FormData();
-                fd.append('id', _this2.classworkDetails.id);
-                fd.append('type', _this2.classworkDetails.type);
-                fd.append('file', file);
-                /*    axios.post('/api/student/update-status',fd,config)
-                 .then(res=>{}) */
-
-                /*  axios.post('/api/student/update-status', fd, {
-                       progress(e) {
-                         if (e.lengthComputable) {
-                           console.log(e.loaded / e.total * 100);
-                         }
-                       }
-                   }); */
-
-              case 4:
-              case "end":
-                return _context2.stop();
-            }
-          }
-        }, _callee2);
-      }))();
+    UpdateSubmission: function UpdateSubmission() {
+      var fd = new FormData();
+      fd.append('id', this.classworkDetails.id);
+      fd.append('type', this.classworkDetails.type);
+      fd.append('fileName', this.file.name);
+      fd.append('fileSize', this.fileSize);
+      fd.append('file', this.file);
+      axios__WEBPACK_IMPORTED_MODULE_2___default().post('/api/student/update-status', fd).then(function (res) {});
     }
   },
   created: function created() {
@@ -1292,7 +1308,235 @@ var render = function() {
                                           )
                                         ]
                                       )
-                                    : _vm._e()
+                                    : _c(
+                                        "v-container",
+                                        {
+                                          staticClass: "dropZone-uploaded-info",
+                                          attrs: { "ma-0": "", "pa-0": "" }
+                                        },
+                                        [
+                                          _c(
+                                            "div",
+                                            { staticClass: "filePreview " },
+                                            [
+                                              _c("v-hover", {
+                                                scopedSlots: _vm._u([
+                                                  {
+                                                    key: "default",
+                                                    fn: function(ref) {
+                                                      var hover = ref.hover
+                                                      return [
+                                                        _c(
+                                                          "v-alert",
+                                                          {
+                                                            class: hover
+                                                              ? "grey lighten-2"
+                                                              : "",
+                                                            staticStyle: {
+                                                              cursor: "pointer"
+                                                            },
+                                                            attrs: {
+                                                              outlined: "",
+                                                              icon:
+                                                                _vm.SubmittedFilextension ==
+                                                                "pdf"
+                                                                  ? "mdi-file-pdf"
+                                                                  : _vm.SubmittedFilextension ==
+                                                                    "docx"
+                                                                  ? "mdi-file-word"
+                                                                  : _vm.SubmittedFilextension ==
+                                                                      "jpg" ||
+                                                                    _vm.SubmittedFilextension ==
+                                                                      "png" ||
+                                                                    _vm.SubmittedFilextension ==
+                                                                      "bmp"
+                                                                  ? "mdi-folder-multiple-image"
+                                                                  : "",
+                                                              color:
+                                                                _vm.SubmittedFilextension ==
+                                                                "pdf"
+                                                                  ? "red"
+                                                                  : _vm.SubmittedFilextension ==
+                                                                    "docx"
+                                                                  ? "blue"
+                                                                  : _vm.SubmittedFilextension ==
+                                                                      "jpg" ||
+                                                                    _vm.SubmittedFilextension ==
+                                                                      "png" ||
+                                                                    _vm.SubmittedFilextension ==
+                                                                      "bmp"
+                                                                  ? "info"
+                                                                  : ""
+                                                            }
+                                                          },
+                                                          [
+                                                            _c(
+                                                              "v-row",
+                                                              {
+                                                                attrs: {
+                                                                  align:
+                                                                    "center"
+                                                                }
+                                                              },
+                                                              [
+                                                                _c(
+                                                                  "v-col",
+                                                                  {
+                                                                    staticClass:
+                                                                      "grow text-left"
+                                                                  },
+                                                                  [
+                                                                    _c(
+                                                                      "div",
+                                                                      {
+                                                                        class: hover
+                                                                          ? "text-decoration-underline"
+                                                                          : ""
+                                                                      },
+                                                                      [
+                                                                        _vm._v(
+                                                                          " " +
+                                                                            _vm._s(
+                                                                              _vm
+                                                                                .StatusDetails
+                                                                                .Submitted_Answers
+                                                                                .name
+                                                                            )
+                                                                        )
+                                                                      ]
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _vm._v(" "),
+                                                                _c(
+                                                                  "v-col",
+                                                                  {
+                                                                    staticClass:
+                                                                      "shrink d-flex"
+                                                                  },
+                                                                  [
+                                                                    _c(
+                                                                      "div",
+                                                                      {
+                                                                        staticClass:
+                                                                          "black--text mt-1 mr-2"
+                                                                      },
+                                                                      [
+                                                                        _vm._v(
+                                                                          _vm._s(
+                                                                            _vm
+                                                                              .StatusDetails
+                                                                              .Submitted_Answers
+                                                                              .fileSize
+                                                                          )
+                                                                        )
+                                                                      ]
+                                                                    ),
+                                                                    _vm._v(" "),
+                                                                    _c(
+                                                                      "div",
+                                                                      [
+                                                                        _c(
+                                                                          "v-tooltip",
+                                                                          {
+                                                                            attrs: {
+                                                                              top:
+                                                                                ""
+                                                                            },
+                                                                            scopedSlots: _vm._u(
+                                                                              [
+                                                                                {
+                                                                                  key:
+                                                                                    "activator",
+                                                                                  fn: function(
+                                                                                    ref
+                                                                                  ) {
+                                                                                    var on =
+                                                                                      ref.on
+                                                                                    var attrs =
+                                                                                      ref.attrs
+                                                                                    return [
+                                                                                      _c(
+                                                                                        "v-btn",
+                                                                                        _vm._g(
+                                                                                          _vm._b(
+                                                                                            {
+                                                                                              attrs: {
+                                                                                                rounded:
+                                                                                                  "",
+                                                                                                small:
+                                                                                                  "",
+                                                                                                icon:
+                                                                                                  "",
+                                                                                                text:
+                                                                                                  ""
+                                                                                              },
+                                                                                              on: {
+                                                                                                click:
+                                                                                                  _vm.removeFile
+                                                                                              }
+                                                                                            },
+                                                                                            "v-btn",
+                                                                                            attrs,
+                                                                                            false
+                                                                                          ),
+                                                                                          on
+                                                                                        ),
+                                                                                        [
+                                                                                          _c(
+                                                                                            "v-icon",
+                                                                                            [
+                                                                                              _vm._v(
+                                                                                                "mdi-close"
+                                                                                              )
+                                                                                            ]
+                                                                                          )
+                                                                                        ],
+                                                                                        1
+                                                                                      )
+                                                                                    ]
+                                                                                  }
+                                                                                }
+                                                                              ],
+                                                                              null,
+                                                                              true
+                                                                            )
+                                                                          },
+                                                                          [
+                                                                            _vm._v(
+                                                                              " "
+                                                                            ),
+                                                                            _c(
+                                                                              "span",
+                                                                              [
+                                                                                _vm._v(
+                                                                                  "Delete"
+                                                                                )
+                                                                              ]
+                                                                            )
+                                                                          ]
+                                                                        )
+                                                                      ],
+                                                                      1
+                                                                    )
+                                                                  ]
+                                                                )
+                                                              ],
+                                                              1
+                                                            )
+                                                          ],
+                                                          1
+                                                        )
+                                                      ]
+                                                    }
+                                                  }
+                                                ])
+                                              })
+                                            ],
+                                            1
+                                          )
+                                        ]
+                                      )
                                 ],
                                 1
                               )
@@ -1435,8 +1679,25 @@ var render = function() {
                               _vm._v(" "),
                               _c(
                                 "v-btn",
-                                { attrs: { rounded: "", color: "primary" } },
-                                [_vm._v("Submit Classwork")]
+                                {
+                                  attrs: { rounded: "", color: "primary" },
+                                  on: {
+                                    click: function($event) {
+                                      _vm.StatusDetails.status == "Submitted"
+                                        ? ""
+                                        : _vm.UpdateSubmission()
+                                    }
+                                  }
+                                },
+                                [
+                                  _vm._v(
+                                    _vm._s(
+                                      _vm.StatusDetails.status == "Submitted"
+                                        ? "Submitted"
+                                        : "Submit Classwork"
+                                    )
+                                  )
+                                ]
                               )
                             ],
                             1
