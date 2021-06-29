@@ -490,7 +490,7 @@ var render = function() {
                     _vm._v(
                       "\n                " +
                         _vm._s(gradingCriteria.name) +
-                        "\n            "
+                        "  \n            "
                     )
                   ]
                 )
@@ -507,7 +507,9 @@ var render = function() {
                         _vm._v(
                           "\n                    " +
                             _vm._s(gradingCriteria.name) +
-                            "\n                    "
+                            " - " +
+                            _vm._s(gradingCriteria.percentage) +
+                            "%\n                    "
                         ),
                         _c("v-spacer"),
                         _vm._v(" "),

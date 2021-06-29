@@ -191,10 +191,12 @@ Route::prefix('/grading-criteria')->group(function () {
 
 
 
-//Grading Criteria
+//Grading book
 Route::prefix('/grade-book')->group(function () {
     Route::get('/classworks/{id}', [GradebookController::class, 'fetchClassworks']);
     Route::get('/classworkGrades/{id}', [GradebookController::class, 'fetchClassworkGrades']);
+    Route::get('/student-classworkGrades/{id}', [GradebookController::class, 'fetchStudentClassworkGrades']);
+    Route::get('/student-finalgrade/{id}', [GradebookController::class, 'fetchStudentFinalGrades']);
 });
 
 

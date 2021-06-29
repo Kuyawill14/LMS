@@ -55,22 +55,12 @@
                 </v-list-item-action>
                 <v-list-item-content>
                     <v-list-item-title>
-                      Student's Progress
+                        Student's Progress
                     </v-list-item-title>
                 </v-list-item-content>
             </v-list-item>
 
-             <v-list-item link :to="{name: 'studentProgress'}" exact v-if="role == 'Student'">
-                <v-list-item-action>
-                    <v-icon>mdi-chart-box-outline</v-icon>
-                </v-list-item-action>
-                <v-list-item-content>
-                    <v-list-item-title>
-                     My Progress
-                    </v-list-item-title>
-                </v-list-item-content>
-            </v-list-item>
-            
+
             <v-list-item link :to="{name: 'student-modules'}" exact v-if="role == 'Student'">
                 <v-list-item-action>
                     <v-icon>mdi-book-variant-multiple</v-icon>
@@ -81,6 +71,27 @@
                     </v-list-item-title>
                 </v-list-item-content>
 
+            </v-list-item>
+            <v-list-item link :to="{name: 'studentProgress'}" exact v-if="role == 'Student'">
+                <v-list-item-action>
+                    <v-icon>mdi-chart-box-outline</v-icon>
+                </v-list-item-action>
+                <v-list-item-content>
+                    <v-list-item-title>
+                        My Progress
+                    </v-list-item-title>
+                </v-list-item-content>
+            </v-list-item>
+
+            <v-list-item link :to="{name: 'studentGradebook'}" exact v-if="role == 'Student'">
+                <v-list-item-action>
+                             <v-icon>mdi-book-open</v-icon>
+                </v-list-item-action>
+                <v-list-item-content>
+                    <v-list-item-title>
+                        My Grades
+                    </v-list-item-title>
+                </v-list-item-content>
             </v-list-item>
 
 
