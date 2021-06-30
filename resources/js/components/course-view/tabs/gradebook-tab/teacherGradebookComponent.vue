@@ -57,7 +57,7 @@
                                         {{totalPoints(AllStudentClassworkGrades(student.id,gradingCriteria.id))}}
                                     </td>
                                     <td class="text-center">
-                                        {{totalPercentage(AllStudentClassworkGrades(student.id,gradingCriteria.id))}}%
+                                        {{totalPercentage(AllStudentClassworkGrades(student.id,gradingCriteria.id),gradingCriteria.percentage)}}%
                                     </td>
 
                                 </tr>
@@ -130,14 +130,14 @@
                 }
                 return total;
             },
-            totalPercentage(arr) {
+            totalPercentage(arr,grading_percentage) {
                 var total = 0;
                 for (var i = 0; i < arr.length; i++) {
                     total += arr[i]['points'];
                 }
                 console.log('tota;', total);
                 console.log('classworktoal', this.classworkTotalPoints)
-                let result = (total / this.classworkTotalPoints) * 100;
+                let result = (total / this.classworkTotalPoints) * grading_percentage;
                 return isNaN(result) == true ? 0 : result.toFixed(2);
             },
             getStudentList() {

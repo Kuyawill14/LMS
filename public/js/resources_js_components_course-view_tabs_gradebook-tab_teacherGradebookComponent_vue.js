@@ -143,7 +143,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       return total;
     },
-    totalPercentage: function totalPercentage(arr) {
+    totalPercentage: function totalPercentage(arr, grading_percentage) {
       var total = 0;
 
       for (var i = 0; i < arr.length; i++) {
@@ -152,7 +152,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       console.log('tota;', total);
       console.log('classworktoal', this.classworkTotalPoints);
-      var result = total / this.classworkTotalPoints * 100;
+      var result = total / this.classworkTotalPoints * grading_percentage;
       return isNaN(result) == true ? 0 : result.toFixed(2);
     },
     getStudentList: function getStudentList() {
@@ -695,7 +695,8 @@ var render = function() {
                                                         _vm.AllStudentClassworkGrades(
                                                           student.id,
                                                           gradingCriteria.id
-                                                        )
+                                                        ),
+                                                        gradingCriteria.percentage
                                                       )
                                                     ) +
                                                     "%\n                                "
