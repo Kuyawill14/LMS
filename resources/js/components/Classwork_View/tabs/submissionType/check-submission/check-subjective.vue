@@ -40,11 +40,8 @@
                 <v-col cols="12">
                     <v-row>
                         <v-col cols="12">
-                          
-                                <h2>{{classworkDetails.title}}</h2>
-                                (<span class="primary--text">{{classworkDetails.points}} <small>points</small> </span>)
-                            
-                            
+                            <h2>{{classworkDetails.title}}</h2>
+                            (<span class="primary--text">{{classworkDetails.points}} <small>points</small> </span>)
                         </v-col>
                         <v-col v-for="(item, index) in CheckData.Submitted_Answers" :key="index" class="ma-0 pa-0 " cols="12" md="8" lg="8" xl="8">
                            <div class="d-flex">
@@ -134,7 +131,7 @@ import moment from 'moment';
                 .then(res=>{
                     if(res.status == 200){
                         this.toastSuccess();
-                        this.$$emit('UpdateSubmission')
+                        this.$emit('UpdateSubmission')
                     }
                 })
             }

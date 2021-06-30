@@ -29,7 +29,7 @@
                 <objectiveSubmission v-if="classworkDetails.type == 'Objective Type'" :ListData="List"></objectiveSubmission>    
             </v-col>
             <v-col v-if="classworkDetails.type == 'Subjective Type'" cols="12" lg="10" xl="6" md="10">
-                <subjectiveSubmission v-on:UpdateSubmission="GetList" v-if="classworkDetails.type == 'Subjective Type'" :classworkDetails="classworkDetails"  :ListData="List"></subjectiveSubmission>    
+                <subjectiveSubmission v-on:UpdateSubmission="GetListAfterEmit" v-if="classworkDetails.type == 'Subjective Type'" :classworkDetails="classworkDetails"  :ListData="List"></subjectiveSubmission>    
             </v-col>
         </v-row>
     </v-container>
@@ -58,6 +58,12 @@ export default {
             .then(res=>{
                 this.List = res.data;
                 this.isloading = !this.isloading;
+            })
+        },
+          async GetListAfterEmit(){
+            axios.get('/api/submission/all/'+this.$route.query.clwk)
+            .then(res=>{
+                this.List = res.data;
             })
         }
     },

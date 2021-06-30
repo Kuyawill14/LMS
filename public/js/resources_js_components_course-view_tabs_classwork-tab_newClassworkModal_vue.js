@@ -168,8 +168,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   methods: {
     validate: function validate() {
+      var _this = this;
+
+      this.loading = !this.loading;
+
       if (this.$refs.NewClassworkForm.validate()) {
         this.SaveClasswork();
+      } else {
+        setTimeout(function () {
+          _this.loading = !_this.loading;
+        }, 1000);
       }
     },
     toastSuccess: function toastSuccess() {
@@ -181,7 +189,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       });
     },
     SaveClasswork: function SaveClasswork() {
-      var _this = this;
+      var _this2 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
         var fd;
@@ -190,32 +198,33 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context.prev = _context.next) {
               case 0:
                 fd = new FormData();
-                fd.append('course_id', _this.$route.params.id);
-                fd.append('type', _this.form.type);
-                fd.append('title', _this.form.title);
-                fd.append('instruction', _this.form.instruction);
+                fd.append('course_id', _this2.$route.params.id);
+                fd.append('type', _this2.form.type);
+                fd.append('title', _this2.form.title);
+                fd.append('instruction', _this2.form.instruction);
 
-                if (_this.form.type == 'Objective Type') {
-                  _this.form.points = '';
-                } else if (_this.form.type == 'Subjective Type') {
-                  _this.form.duration = '';
+                if (_this2.form.type == 'Objective Type') {
+                  _this2.form.points = '';
+                } else if (_this2.form.type == 'Subjective Type') {
+                  _this2.form.duration = '';
                 }
 
-                fd.append('points', _this.form.points);
-                fd.append('duration', _this.form.duration);
-                fd.append('attachment_name', _this.file_name);
-                fd.append('attachment_size', _this.fileSize);
-                fd.append('file', _this.file); //this.form.course_id = this.$route.params.id;
+                fd.append('points', _this2.form.points);
+                fd.append('duration', _this2.form.duration);
+                fd.append('attachment_name', _this2.file_name);
+                fd.append('attachment_size', _this2.fileSize);
+                fd.append('file', _this2.file); //this.form.course_id = this.$route.params.id;
 
-                _this.$store.dispatch('createClasswork', fd).then(function (res) {
+                _this2.$store.dispatch('createClasswork', fd).then(function (res) {
                   if (res.status == 201) {
-                    _this.toastSuccess();
+                    _this2.toastSuccess();
 
-                    _this.form.reset();
+                    _this2.form.reset();
 
-                    _this.dialog = false;
+                    _this2.dialog = false;
+                    _this2.loading = !_this2.loading;
 
-                    _this.$router.push({
+                    _this2.$router.push({
                       name: 'clwk',
                       params: {
                         id: res.data.course_id
@@ -225,7 +234,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                       }
                     });
 
-                    _this.$emit('realodClassworks');
+                    _this2.$emit('realodClassworks');
                   }
                 });
 
@@ -22062,7 +22071,8 @@ var render = function() {
                   attrs: {
                     color: "blue darken-1",
                     text: "",
-                    disabled: _vm.loading
+                    disabled: _vm.loading,
+                    loading: _vm.loading
                   },
                   on: {
                     click: function($event) {
