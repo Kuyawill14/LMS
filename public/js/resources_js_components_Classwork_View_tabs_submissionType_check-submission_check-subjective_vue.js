@@ -115,9 +115,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['CheckData', 'classworkDetails'],
@@ -165,7 +162,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     if (res.status == 200) {
                       _this.toastSuccess();
 
-                      _this.$$emit('UpdateSubmission');
+                      _this.$emit('UpdateSubmission');
                     }
                   });
                 } else {
@@ -410,14 +407,12 @@ var render = function() {
                     [
                       _c("v-col", { attrs: { cols: "12" } }, [
                         _c("h2", [_vm._v(_vm._s(_vm.classworkDetails.title))]),
-                        _vm._v("\n                          ("),
+                        _vm._v("\n                      ("),
                         _c("span", { staticClass: "primary--text" }, [
                           _vm._v(_vm._s(_vm.classworkDetails.points) + " "),
                           _c("small", [_vm._v("points")])
                         ]),
-                        _vm._v(
-                          ")\n                      \n                      \n                  "
-                        )
+                        _vm._v(")\n                  ")
                       ]),
                       _vm._v(" "),
                       _vm._l(_vm.CheckData.Submitted_Answers, function(

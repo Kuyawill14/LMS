@@ -97,6 +97,26 @@ var subjectiveSubmission = function subjectiveSubmission() {
           }
         }, _callee);
       }))();
+    },
+    GetListAfterEmit: function GetListAfterEmit() {
+      var _this2 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                axios.get('/api/submission/all/' + _this2.$route.query.clwk).then(function (res) {
+                  _this2.List = res.data;
+                });
+
+              case 1:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }))();
     }
   },
   mounted: function mounted() {
@@ -305,7 +325,7 @@ var render = function() {
                                   classworkDetails: _vm.classworkDetails,
                                   ListData: _vm.List
                                 },
-                                on: { UpdateSubmission: _vm.GetList }
+                                on: { UpdateSubmission: _vm.GetListAfterEmit }
                               })
                             : _vm._e()
                         ],

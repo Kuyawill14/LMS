@@ -100,7 +100,7 @@
                 <v-btn color="blue darken-1" text @click="$emit('CloseDialog')" :disabled="loading">
                     Close
                 </v-btn>
-                <v-btn color="blue darken-1" text @click="validate()" :disabled="loading">
+                <v-btn color="blue darken-1" text @click="validate()" :disabled="loading" :loading="loading">
                     Save
                 </v-btn>
             </v-card-actions>
@@ -146,8 +146,14 @@ export default {
     },
     methods:{
          validate() {
+            this.loading = !this.loading;
             if (this.$refs.NewClassworkForm.validate()) {
                 this.SaveClasswork(); 
+            }
+            else{
+                setTimeout(() => {
+                   this.loading = !this.loading;
+                }, 1000);
             }
         },
          toastSuccess() {
@@ -183,6 +189,7 @@ export default {
                 this.toastSuccess();
                 this.form.reset()
                 this.dialog = false;
+                this.loading = !this.loading;
                 this.$router.push({name: 'clwk',params: {id: res.data.course_id},query: {clwk: res.data.id}})
                 this.$emit('realodClassworks');
               }
