@@ -50,8 +50,11 @@ let studentmodules_tab = () =>
     import ("./components/course-view/tabs/modules-tab/user-type/studentmodulesComponent");
 let classes_tab = () =>
     import ("./components/course-view/tabs/classes-tab/classesComponent");
-let gradeBook_tab = () =>
-    import ("./components/course-view/tabs/gradebook-tab/gradebookComponent");
+let teacherGradeBook_tab = () =>
+    import ("./components/course-view/tabs/gradebook-tab/teacherGradebookComponent");
+let studentGradeBook_tab = () =>
+    import ("./components/course-view/tabs/gradebook-tab/studentGradebookComponent");
+
 let pdftest_tab = () =>
     import ("./components/course-view/tabs/modules-tab/user-type/pdfview");
 let studentProgress_tab = () =>
@@ -70,7 +73,7 @@ let QuizPage = () =>
 let resultPage = () =>
     import ("./components/Classwork_View/StudentPage/resultPage");
 
-    
+
 //view course page 
 let courseView = () =>
     import ("./components/course-view/course-view-page");
@@ -221,7 +224,12 @@ const router = new Router({
                         {
                             name: "gradebook",
                             path: "grade-book",
-                            component: gradeBook_tab
+                            component: teacherGradeBook_tab
+                        },
+                        {
+                            name: "studentGradebook",
+                            path: "my-grades",
+                            component: studentGradeBook_tab
                         },
 
 

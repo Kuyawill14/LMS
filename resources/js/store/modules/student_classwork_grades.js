@@ -5,18 +5,31 @@ const state = {
 };
 const getters = {
 
-    StudentClassworkGrades: state => (student_id, grading_criteria_id) => {
+    AllStudentClassworkGrades: state => (student_id, grading_criteria_id) => {
         return state.classworks_grades.filter(classworks_grades => classworks_grades.student_id == student_id && classworks_grades.grading_criteria_id == grading_criteria_id);
+    },
+    StudentClassworkGrades: state => (grading_criteria_id) => {
+        return state.classworks_grades.filter(classworks_grades => classworks_grades.grading_criteria_id == grading_criteria_id);
     },
 
 };
 
 const actions = {
 
-    async fetchStudentClassworkGrades({ commit }, id) {
+    async fetchAllStudentClassworkGrades({ commit }, id) {
 
         const res = await axios.get(
             `/api/grade-book/classworkGrades/${id}`
+        );
+
+        commit('FETCH_STUDENT_CLASSWORK_GRADES', res.data);
+        return;
+    },
+
+    async fetchStudentClassworkGrades({ commit }, id) {
+
+        const res = await axios.get(
+            `/api/grade-book/student-classworkGrades/${id}`
         );
 
         commit('FETCH_STUDENT_CLASSWORK_GRADES', res.data);
