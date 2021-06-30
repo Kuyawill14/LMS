@@ -136,7 +136,7 @@
             },
             validate() {
                 if (this.$refs.RegisterForm.validate()) {
-                    this.form.post('/api/registerUser')
+                    this.form.post('/api/register')
                     .then(() => {
                         console.log("Success");
                         this.$refs.RegisterForm.reset()

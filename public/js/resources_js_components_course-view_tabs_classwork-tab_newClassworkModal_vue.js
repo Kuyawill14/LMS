@@ -204,17 +204,26 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 fd.append('points', _this.form.points);
                 fd.append('duration', _this.form.duration);
                 fd.append('attachment_name', _this.file_name);
-                fd.append('attachment_size', _this.fileSize); //fd.append('attachment', this.file);
-
+                fd.append('attachment_size', _this.fileSize);
                 fd.append('file', _this.file); //this.form.course_id = this.$route.params.id;
 
                 _this.$store.dispatch('createClasswork', fd).then(function (res) {
-                  if (res == 201) {
+                  if (res.status == 201) {
                     _this.toastSuccess();
 
                     _this.form.reset();
 
                     _this.dialog = false;
+
+                    _this.$router.push({
+                      name: 'clwk',
+                      params: {
+                        id: res.data.course_id
+                      },
+                      query: {
+                        clwk: res.data.id
+                      }
+                    });
 
                     _this.$emit('realodClassworks');
                   }

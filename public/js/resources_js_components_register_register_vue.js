@@ -162,7 +162,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       if (this.$refs.RegisterForm.validate()) {
-        this.form.post('/api/registerUser').then(function () {
+        this.form.post('/api/register').then(function () {
           console.log("Success");
 
           _this2.$refs.RegisterForm.reset();

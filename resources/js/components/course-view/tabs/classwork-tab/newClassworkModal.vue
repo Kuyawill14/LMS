@@ -173,22 +173,22 @@ export default {
             fd.append('points', this.form.points);
             fd.append('duration', this.form.duration);
             fd.append('attachment_name',  this.file_name);
-             fd.append('attachment_size',  this.fileSize);
-            //fd.append('attachment', this.file);
+            fd.append('attachment_size',  this.fileSize);
             fd.append('file', this.file);
             
-             
-            
-
              //this.form.course_id = this.$route.params.id;
             this.$store.dispatch('createClasswork', fd)
             .then(res=>{
-                if(res == 201){
-                    this.toastSuccess();
-                    this.form.reset()
-                    this.dialog = false;
-                    this.$emit('realodClassworks');
-                }
+              if(res.status == 201){
+                this.toastSuccess();
+                this.form.reset()
+                this.dialog = false;
+                this.$router.push({name: 'clwk',params: {id: res.data.course_id},query: {clwk: res.data.id}})
+                this.$emit('realodClassworks');
+              }
+               
+
+              
             })
         },
 

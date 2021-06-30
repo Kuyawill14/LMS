@@ -20,12 +20,17 @@ class ClassworkController extends Controller
      */
     public function index($id)
     {
-        //$userId = 3;
+        //$userId = 1;
         $userId = auth('sanctum')->id();
         if(auth('sanctum')->user()->role != 'Student'){
-            
             $classwork = tbl_classwork::where('course_id',  $id)
+            ->select('tbl_classworks.id', 'tbl_classworks.course_id','tbl_classworks.module_id','tbl_classworks.type',
+            'tbl_classworks.title','tbl_classworks.duration','tbl_classworks.points','tbl_classworks.created_at')
+            ->selectRaw('count(tbl_submissions.classwork_id ) as submittion_count')
+            ->leftJoin('tbl_submissions', 'tbl_submissions.classwork_id', '=','tbl_classworks.id')
             ->orderBy('created_at', 'DESC')
+            ->groupBy('tbl_classworks.id','tbl_classworks.course_id','tbl_classworks.module_id','tbl_classworks.type',
+            'tbl_classworks.title','tbl_classworks.duration','tbl_classworks.points','tbl_classworks.created_at')
             ->get();
             return $classwork;
         }

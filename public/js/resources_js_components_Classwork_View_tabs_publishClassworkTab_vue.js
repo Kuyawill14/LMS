@@ -433,7 +433,7 @@ var render = function() {
                 [
                   _c(
                     "v-col",
-                    { attrs: { cols: "12", lg: "10", md: "10" } },
+                    { attrs: { cols: "12", lg: "10", xl: "6", md: "10" } },
                     [
                       _c(
                         "v-card",

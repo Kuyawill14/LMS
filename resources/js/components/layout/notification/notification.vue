@@ -26,7 +26,7 @@
         </v-btn>
       </template>
 
-      <v-card :style="$vuetify.breakpoint.xs ? 'height:65vh':'height:80vh'">
+      <v-card :style="$vuetify.breakpoint.xs ? 'max-height:65vh':'max-height:80vh'">
         <v-list>
           <v-list-item>
            <v-list-item-content>

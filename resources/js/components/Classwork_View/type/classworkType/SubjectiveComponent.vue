@@ -9,12 +9,12 @@
 
 
     <v-row>
-        <v-col cols="12" md="4" lg="4" >
+        <v-col cols="12" md="4" lg="4" class="mb-0 pb-0">
           <v-card  elevation="5">
-                <v-row>
-                    <v-col cols="12" md="12" class="pt-5">
+                <v-row class="mb-0 pb-0">
+                    <v-col cols="12" md="12" class="pt-5 ma-0">
                         
-                            <v-row>
+                            <v-row >
                                 <v-col cols="12" class="pr-7">
                                     <v-container ma-0 pa-0 class="d-flex flex-row justify-space-between">
                                     <v-btn
@@ -85,18 +85,9 @@
                                           </v-alert>
                                        </v-hover>
                                      </v-col>
-                                    
                                    </v-row>
-
-                                   <!--  <v-btn block text x-large @click="DownLoadFile(classworkDetails.attachment)" class="text-sm-body-2 font-weight-regular blue--text text-left"> 
-                                        <v-icon v-if="Fileextension == 'docx'">mdi-file-word</v-icon>
-                                         <v-icon v-if="Fileextension == 'pdf'">mdi-file-pdf</v-icon>
-                                        {{classworkDetails.attachment_name}}</v-btn> -->
                                 </v-col>
-
-                               
                             </v-row>   
-                            
                     </v-col>
                 </v-row>
           </v-card>
@@ -104,19 +95,38 @@
            
         </v-col>
 
-         <v-col cols="12" md="8" lg="8" >
+         <v-col class="mt-0 pt-0" cols="12" md="8" lg="8" >
              <v-card class="pl-5 pr-5 pb-5 pt-3"  elevation="5">
                <v-row >
-                    <v-col cols="12" class="pl-1 pr-1 pb-0 mb-0">
-                        <div class="font-weight-medium text-sm-body-2 text-md-h6 text-xl-h5">SUBMIT ANSWER</div> 
+                    <v-col v-if="!StatusDetails.graded" cols="12" class="pl-1 pr-1 pb-0 mb-0 d-flex justify-space-between">
+                        <div class="font-weight-medium text-sm-body-2 text-md-h6 text-xl-h5">SUBMIT ANSWER</div>
+                        <v-btn v-if="StatusDetails.status == 'Submitted'" @click="isResubmit = !isResubmit" rounded text class="blue--text">{{isResubmit ? 'Cancel': 'Resubmit'}}</v-btn>
+                   </v-col>
+
+                   <v-col v-if="StatusDetails.graded" cols="12" class="pl-1 pr-1 pb-0 mb-0 d-flex justify-space-between">
+                        <div class="font-weight-medium text-sm-body-2 text-md-h6 text-xl-h5">SUBMIT ANSWER</div>
+                        <v-btn  rounded text class="success--text"><v-icon left>mdi-check</v-icon> Graded: {{StatusDetails.score}}/{{StatusDetails.totalPoints}}</v-btn>
                    </v-col>
                    <v-col cols="12" class="pl-1 pr-1">
                        <v-divider></v-divider>
                    </v-col>
 
-                   <v-col cols="12">
-                     
-                            <v-container ma-0 pa-0 v-if="!file && StatusDetails.status == null">
+                   <v-col cols="12" v-if="isloading">
+                      <v-container class="fill-height" v-if="isloading">
+                        <v-row  align-content="center" justify="center">
+                            <v-col class="text-subtitle-1 text-center" cols="12">
+                                Loading
+                            </v-col>
+                            <v-col cols="6">
+                                <v-progress-linear color="primary" indeterminate rounded height="3"></v-progress-linear>
+                            </v-col>
+                        </v-row>
+                   </v-container>
+                   </v-col>
+                     <input ref="AttAchMoreFile" type="file" class="d-none" @change="onChange">
+                   <v-col class="ma-0 pa-0" cols="12" v-if="!isloading">
+                          <v-col class="ma-0 pa-0 mb-2" cols="12" v-if="!file[0] && StatusDetails.status == null">
+                            <v-container ma-0 pa-0 >
                                 <div :class="['dropZone', dragging ? 'dropZone-over' : '']" @dragenter="dragging = true" @dragleave="dragging = false">
                                 <v-container class="dropZone-info" @drag="onChange">
                                       <div > 
@@ -124,137 +134,143 @@
                                       </div>
                                     <span class="dropZone-title">Your work is empty.</span>
                                 </v-container>
-                                <input ref="UploadAttachFile" type="file" @change="onChange">
+                                 <input ref="UploadAttachFile" type="file" @change="onChange">
                                 </div>
                             </v-container>
-
-
-                            <v-container v-else-if="file || (StatusDetails.status == 'Submitted' || StatusDetails.status == 'Submitting')" pl-0 pb-0 class="dropZone-uploaded">
-                                <v-container v-if="StatusDetails.status != 'Submitting' && StatusDetails.status != 'Submitted' " ma-0 pa-0  class="dropZone-uploaded-info">
-                                  <div class="filePreview ">
-                                    <v-hover v-slot="{ hover }">
-                                      <v-alert
-                                      
-                                          style="cursor:pointer"
-                                            :class="hover ? 'grey lighten-2' :''"
-                                            outlined
-                                            :icon="extension == 'pdf' ? 'mdi-file-pdf': extension == 'docx'? 'mdi-file-word': 
-                                            extension == 'jpg' ||  extension == 'png' ||  extension == 'bmp' ? 'mdi-folder-multiple-image' :''"
-                                          :color="extension == 'pdf' ? 'red' : extension == 'docx'? 'blue':
-                                           extension == 'jpg' ||  extension == 'png' ||  extension == 'bmp' ? 'info': ''"
-                                        >
-                                          <v-row align="center" >
-                                            <v-col :class="uploadPercentage != 100 ? 'grow text-left mb-0 pb-0':'grow text-left'">
-                                              <div :class="hover ? 'text-decoration-underline':''"> {{file.name}}</div>
-                                            </v-col>
-                                            <v-col :class="uploadPercentage != 100 ? 'shrink d-flex mb-0 pb-0':'shrink d-flex'">
-                                              <div class="black--text mt-1 mr-2">{{fileSize}}</div>
-                                             
-                                              
-                                              <div>
-                                                 <v-tooltip v-if="!isUploading || uploadPercentage == 100" top>
-                                                    <template v-slot:activator="{ on, attrs }">
-                                                        <v-btn v-bind="attrs" v-on="on" 
-                                                        rounded small icon text @click="removeFile"> <v-icon>mdi-close</v-icon></v-btn>
-                                                    </template>
-                                                    <span>Delete</span>
-                                                  </v-tooltip>
-                                                </div>
-                                             
-                                            </v-col>
-                                            <v-col class="pt-0 mt-0" v-if="isUploading && uploadPercentage != 100" cols="12">
-                                               <v-progress-linear rounded :value="uploadPercentage"></v-progress-linear>
-                                            </v-col>
-                                          </v-row>
-                                        </v-alert>
-                                    </v-hover>
-                                  </div>
-                                </v-container>
-                                 <v-container v-else ma-0 pa-0  class="dropZone-uploaded-info">
-                                  <div class="filePreview ">
-                                    <v-hover v-slot="{ hover }">
-                                      <v-alert
-                                      
-                                          style="cursor:pointer"
-                                            :class="hover ? 'grey lighten-2' :''"
-                                            outlined
-                                            :icon="SubmittedFilextension == 'pdf' ? 'mdi-file-pdf': SubmittedFilextension == 'docx'? 'mdi-file-word': 
-                                            SubmittedFilextension == 'jpg' ||  SubmittedFilextension == 'png' ||  SubmittedFilextension == 'bmp' ? 'mdi-folder-multiple-image' :''"
-                                          :color="SubmittedFilextension == 'pdf' ? 'red' : SubmittedFilextension == 'docx'? 'blue':
-                                           SubmittedFilextension == 'jpg' ||  SubmittedFilextension == 'png' ||  SubmittedFilextension == 'bmp' ? 'info': ''"
-                                        >
-                                          <v-row align="center" >
-                                            <v-col class="grow text-left">
-                                              <div :class="hover ? 'text-decoration-underline':''"> {{StatusDetails.Submitted_Answers.name}}</div>
-                                            </v-col>
-                                            <v-col class="shrink d-flex">
-                                              <div class="black--text mt-1 mr-2">{{StatusDetails.Submitted_Answers.fileSize}}</div>
-                                              <div>
-                                                 <v-tooltip  top>
-                                                    <template v-slot:activator="{ on, attrs }">
-                                                        <v-btn  v-bind="attrs" v-on="on" 
-                                                        rounded small icon text @click="DeleteUpload()"> <v-icon>mdi-close</v-icon></v-btn>
-                                                    </template>
-                                                    <span>Delete</span>
-                                                  </v-tooltip>
-                                                </div>
-                                            </v-col>
-                                          </v-row>
-                                        </v-alert>
-                                    </v-hover>
-                                  </div>
-                                </v-container>
-                            </v-container>
-                            
-                              <div>
-                                 <v-textarea
-                                    clearable
-                                    auto-grow
-                                    clear-icon="mdi-close-circle"
-                                    label="Description"
-                                    rows="1"
-                                  ></v-textarea>
-                              </div>
-
-                               <div class="mt-4 d-flex justify-space-between">
-                                    <v-menu offset-y>
-                                      <template v-slot:activator="{ on, attrs }">
-                                        <v-btn
-                                          rounded
-                                          color="primary"
-                                          dark
+                          </v-col>
+                          <v-col cols="12" v-else-if="file[0] || (StatusDetails.status == 'Submitted' || StatusDetails.status == 'Submitting')">
+                            <v-container v-if="StatusDetails.status != 'Submitting' && StatusDetails.status != 'Submitted' " ma-0 pa-0 class="mb-5">
+                              <v-row>
+                                <v-col v-for="(item, index) in file" :key="index" class="ma-0 pa-0" cols="12">
+                                  <v-hover v-slot="{ hover }">
+                                    <v-alert
+                                        class="mb-1 pa-3"
+                                        style="cursor:pointer"
+                                          :class="hover ? 'grey lighten-2' :''"
                                           outlined
-                                          v-bind="attrs"
-                                          v-on="on"
-                                        >
-                                        {{attrs.expanded}}
-                                          Attach <v-icon right>mdi-chevron-down</v-icon>
-                                        </v-btn>
-                                      </template>
-                                      <v-list>
-                                        <v-list-item>
-                                             <v-btn @click="UploadFile()" block text rounded>
-                                              <v-icon left>mdi-cloud-upload-outline</v-icon> Upload File
-                                             </v-btn>
-                                        </v-list-item>
-                                         <v-list-item>
-                                             <v-btn @click="AttachLink = !AttachLink"  block text rounded>
-                                                  <v-icon left>mdi-link-variant</v-icon>Attach Link
-                                             </v-btn>
-                                        </v-list-item>
-                                      </v-list>
-                                    </v-menu>
-                                    <v-btn @click="StatusDetails.status == 'Submitted' ? '' :SubmitClasswork()" rounded 
-                                    :color="StatusDetails.status == 'Submitted'? '': 'primary'">{{StatusDetails.status == 'Submitted'? 'Submitted' :'Submit Classwork'}}</v-btn>
-                                </div>
-                            
-                            <div class="uploadedFile-info">
-                                <div>fileName: {{ file.name }}</div>
-                                <div>fileZise(bytes): {{ file.size }}</div>
-                                <div>extension：{{ extension }}</div>
-                           
-                                
+                                          :icon="item.fileExte == 'pdf' ? 'mdi-file-pdf': item.fileExte  == 'docx'? 'mdi-file-word': 
+                                          item.fileExte  == 'jpg' ||  item.fileExte  == 'png' ||  item.fileExte  == 'bmp' ? 'mdi-folder-multiple-image' :''"
+                                        :color="item.fileExte  == 'pdf' ? 'red' : item.fileExte  == 'docx'? 'blue':
+                                          item.fileExte  == 'jpg' ||  item.fileExte  == 'png' ||  item.fileExte  == 'bmp' ? 'info': ''"
+                                      >
+                                        <v-row align="center" >
+                                          <v-col :class="uploadPercentage != 100 ? 'grow text-left mb-0 pb-0':'grow text-left'">
+                                            <div :class="hover ? 'text-decoration-underline':''"> {{item.fileName}}</div>
+                                          </v-col>
+                                          <v-col :class="uploadPercentage != 100 ? 'shrink d-flex mb-0 pb-0':'shrink d-flex'">
+                                            <div class="black--text mt-1 mr-2">{{item.fileSize}}</div>
+                                          
+                                            <div>
+                                                <v-tooltip v-if="!isUploading[index] || uploadPercentage == 100" top>
+                                                  <template v-slot:activator="{ on, attrs }">
+                                                      <v-btn v-bind="attrs" v-on="on" 
+                                                      rounded small icon text @click="removeFile(index)"> <v-icon>mdi-close</v-icon></v-btn>
+                                                  </template>
+                                                  <span>Delete</span>
+                                                </v-tooltip>
+                                              </div>
+                                            
+                                          </v-col>
+                                          <v-col class="pt-0 mt-0" v-if="isUploading[index] && uploadPercentage != 100" cols="12">
+                                              <v-progress-linear v-if="isUpIndex == index" rounded :value="uploadPercentage"></v-progress-linear>
+                                          </v-col>
+                                        </v-row>
+                                      </v-alert>
+                                  </v-hover>
+                                </v-col>
+
+                              </v-row>
+                            </v-container>
+
+                              <v-container v-else ma-0 pa-0 class="mb-5">
+                                <v-row>
+                                  <v-col v-for="(item, index) in StatusDetails.Submitted_Answers" :key="index" class="ma-0 pa-0" cols="12">
+                                    <v-hover  v-slot="{ hover }">
+                                    <v-alert
+                                        class="mb-1 pa-3"
+                                        style="cursor:pointer"
+                                          :class="hover ? 'grey lighten-2' :''"
+                                          outlined
+                                          :icon="item.fileExte == 'pdf' ? 'mdi-file-pdf': item.fileExte == 'docx'? 'mdi-file-word': 
+                                          item.fileExte == 'jpg' ||  item.fileExte == 'png' ||  item.fileExte == 'bmp' ? 'mdi-folder-multiple-image' :''"
+                                        :color="item.fileExte == 'pdf' ? 'red' : item.fileExte == 'docx'? 'blue':
+                                          item.fileExte == 'jpg' ||  item.fileExte == 'png' ||  item.fileExte == 'bmp' ? 'info': ''"
+                                      >
+                                        <v-row align="center" >
+                                          <v-col class="grow text-left">
+                                            <div :class="hover ? 'text-decoration-underline':''"> {{item.name}}</div>
+                                          </v-col>
+                                          <v-col class="shrink d-flex">
+                                            <div class="black--text mt-1 mr-1">{{item.fileSize}}</div>
+                                            <div>
+                                                <v-tooltip v-if="StatusDetails.status == 'Submitting' || isResubmit" top>
+                                                  <template v-slot:activator="{ on, attrs }">
+                                                      <v-btn  v-bind="attrs" v-on="on" 
+                                                      rounded small icon text @click="DeleteUpload(index)"> <v-icon>mdi-close</v-icon></v-btn>
+                                                  </template>
+                                                  <span>Delete</span>
+                                                </v-tooltip>
+                                              </div>
+                                          </v-col>
+                                        </v-row>
+                                      </v-alert>
+                                    </v-hover>
+                                  </v-col>
+                                </v-row>
+                            </v-container>
+                          </v-col>
+                          
+                         <!--  <div>
+                              <v-textarea
+                                clearable
+                                auto-grow
+                                clear-icon="mdi-close-circle"
+                                label="Description"
+                                rows="1"
+                                class="mb-0 pb-0"
+                              ></v-textarea>
+                          </div> -->
+
+                            <div :class="StatusDetails.status == 'Submitted' && !isResubmit ?  'mb-3 d-flex justify-end' : 'mb-3 d-flex justify-space-between' ">
+                                <v-menu v-if="isResubmit || (StatusDetails.status == 'Submitting' || StatusDetails.status == null)" offset-y>
+                                  <template v-slot:activator="{ on, attrs }">
+                                    <v-btn
+                                      rounded
+                                      color="primary"
+                                      dark
+                                      outlined
+                                      v-bind="attrs"
+                                      v-on="on"
+                                    >
+                                    {{attrs.expanded}}
+                                      Attach <v-icon right>mdi-chevron-down</v-icon>
+                                    </v-btn>
+                                  </template>
+                                  <v-list>
+                                    <v-list-item>
+                                          <v-btn @click="file[fileIndex-1] || isResubmit ? UploadMoreFile() : UploadFile()" block text rounded>
+                                          <v-icon left>mdi-cloud-upload-outline</v-icon> Upload File
+                                          </v-btn>
+                                    </v-list-item>
+                                      <v-list-item>
+                                          <v-btn @click="AttachLink = !AttachLink"  block text rounded>
+                                              <v-icon left>mdi-link-variant</v-icon>Attach Link
+                                          </v-btn>
+                                    </v-list-item>
+                                  </v-list>
+                                </v-menu>
+                                <v-btn
+                                @click="StatusDetails.status == 'Submitted' && !isResubmit ? '' :SubmitClasswork()" rounded 
+                                :color="StatusDetails.status == 'Submitted' && !isResubmit  ? '': 'primary'">
+                                <v-icon color="success"  v-if="StatusDetails.status == 'Submitted' && !isResubmit ">mdi-check</v-icon>
+                                {{StatusDetails.status == 'Submitted' && !isResubmit ? 'Submitted' :'Submit Classwork'}}</v-btn>
                             </div>
+                          
+                       <!--    <div class="uploadedFile-info">
+                              <div>fileName: {{ file.name }}</div>
+                              <div>fileZise(bytes): {{ file.size }}</div>
+                              <div>extension：{{ extension }}</div>
+                          </div> -->
                    </v-col>
                 </v-row> 
           </v-card>
@@ -275,26 +291,31 @@ export default {
     data(){
         return{
             AttachLink: false,
-            file: '',
+            file: [],
             fileSize:null,
             dragging: false,
             link: "test12",
             StatusDetails:[],
             uploadPercentage: 0,
-            isUploading: false,
-            tempId: null
+            isUploading: [],
+            tempId: '',
+            isResubmit: false,
+            isloading: true,
+            fileIndex:null,
+            tempFile: null,
+            isUpIndex: null,
         }
     },
      computed: {
         extension() {
-            return (this.file) ? this.file.name.split('.').pop() : '';
+            return (this.tempFile) ? this.tempFile.name.split('.').pop() : '';
         },
          Fileextension() {
              let attach = this.classworkDetails.attachment;
             return attach.split('.').pop();
         },
          SubmittedFilextension() {
-             let attach = this.StatusDetails.Submitted_Answers.name;
+             let attach = this.StatusDetails.Submitted_Answers[0].name;
             return attach.split('.').pop();
         }
     },
@@ -302,34 +323,40 @@ export default {
         UploadFile(){
           this.$refs.UploadAttachFile.click();
         },
+         UploadMoreFile(){
+           if(this.file.length <= 4){
+               this.$refs.AttAchMoreFile.click();
+           }
+           else{
+
+           }
+        
+        },
          format_date(value) {
             if (value) {
                 return moment(String(value)).format('dddd, h:mm a')
             }
         },
-        start(){
-       
-          if(this.totalQuestion != 0){
-            localStorage.removeItem('time_remaining');
-            this.$router.push({name: 'quizstart',params: {id: this.$route.params.id},query: {clwk: this.classworkDetails.id}})
-          }
-        },
           DownLoadFile(file){
             window.location = "/storage/"+file;
         },
         onChange(e) {
-        
             var files = e.target.files || e.dataTransfer.files;
-            if (!files.length) {
+           /*  if (!files.length) {
                 this.dragging = false;
                 return;
-            }
+            } */
             
-            this.createFile(files[0]);
+              this.createFile(files[0]);
             },
         createFile(file) {
-              this.isUploading = !this.isUploading;
-              this.file = file;
+        
+              let IndexFile = this.file.length;
+              this.isUploading[IndexFile] = true;
+              this.fileIndex = IndexFile;
+              //console.log(this.file.length)
+              this.tempFile = file;
+             
               let tempSize = file.size;
               if(tempSize > 1000000){
                   let kbsize = tempSize * 0.001;
@@ -342,17 +369,26 @@ export default {
                   let finalSize = parseInt(sizeFile);
                   this.fileSize =finalSize+'kb';
               }
-              this.dragging = false;
-              this.UpdateSubmission();
+              //this.dragging = false;
+              //
+              if(this.StatusDetails.length == 0){
+                this.file.push({ fileName: this.tempFile.name, fileSize: this.fileSize, fileExte: this.extension, file: this.tempFile});
+              }
+              else{
+                this.file.push({ fileName: this.tempFile.name, fileSize: this.fileSize, fileExte: this.extension, file: this.tempFile});
+                 this.StatusDetails.Submitted_Answers.push({ name: this.tempFile.name, fileSize: this.fileSize, fileExte: this.extension});
+              }
+               this.fileIndex = this.file.length;
+                this.isUpIndex = this.file.length-1
+                //console.log(this.fileIndex);
+                this.UpdateSubmission(this.file.length-1);
             },
-            removeFile() {
-            
-              
-               axios.put('/api/submission/file-remove/'+this.tempId).then(res=>{
+            removeFile(index) {
+               axios.put('/api/submission/file-remove/'+this.tempId,{Fileindex: index}).then(res=>{
                   this.uploadPercentage = 0;
                    this.file = ''; 
                    this.tempId = null;
-                   this.isUploading = false;
+                   this.isUploading[index] = false;
               })
 
             },
@@ -360,20 +396,27 @@ export default {
               let data = '<iframe class="ql-video" frameborder="0" allowfullscreen="true" src="'+this.link+'"></iframe><div><br></div>'
               console.log(data);
             },
-            async checkStatus(){
+            async checkStatus(type){
               axios.get('/api/submission/check-sbj/'+this.classworkDetails.id)
               .then(res=>{
                   this.StatusDetails = res.data;
                   this.tempId = res.data.Sub_id;
+                  if(type != 'submit'){
+                     this.isloading = !this.isloading;
+                  }
               })
           },
-          UpdateSubmission(){
+          UpdateSubmission(index){
+
+              let sub_id = this.tempId == null ? 'empty' : this.tempId;
               let fd = new FormData;
+              fd.append('Submission_id', sub_id);
               fd.append('id', this.classworkDetails.id);
               fd.append('type', this.classworkDetails.type);
-              fd.append('fileName', this.file.name);
-              fd.append('fileSize', this.fileSize);
-              fd.append('file', this.file);
+              fd.append('fileName', this.file[index].fileName);
+              fd.append('fileSize', this.file[index].fileSize);
+              fd.append('fileExte', this.extension);
+              fd.append('file', this.file[index].file);
                axios.post('/api/student/update-status', fd,{
                  onUploadProgress:(progressEvent)=>{
                    const total = progressEvent.total;
@@ -384,20 +427,23 @@ export default {
                  }
                })
               .then(res=>{
-                this.tempId = res.data;
+                this.tempId = this.tempId == null ? res.data : this.tempId ;
               })
           },
-          DeleteUpload(){
-              axios.put('/api/submission/file-remove/'+this.tempId).then(res=>{
-                 this.checkStatus();
+          DeleteUpload(index){
+              let type = 'submit';
+              axios.put('/api/submission/file-remove/'+this.tempId,{Fileindex: index}).then(res=>{
+                 this.checkStatus(type);
                   this.uploadPercentage = 0;
-                   this.isUploading = false;
+                   this.isUploading[index] = false;
               })
           },
           async SubmitClasswork(){
+            let type = 'submit';
             axios.put('/api/student/submit-classwork/'+this.tempId).then(res=>{
               if(res.status == 200){
-                this.checkStatus();
+                this.checkStatus(type);
+                this.isResubmit = false;
               }
             })
           }

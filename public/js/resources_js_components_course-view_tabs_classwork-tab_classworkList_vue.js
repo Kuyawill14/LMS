@@ -143,6 +143,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
 var previewClassworkModal = function previewClassworkModal() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_tabs_classwork-tab_dialogs_previewClassworkModal_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./dialogs/previewClassworkModal */ "./resources/js/components/course-view/tabs/classwork-tab/dialogs/previewClassworkModal.vue"));
 };
@@ -21872,7 +21876,7 @@ var render = function() {
         _vm._l(_vm.classworks, function(item, index) {
           return _c(
             "v-col",
-            { key: index, attrs: { cols: "12", lg: "6" } },
+            { key: index, attrs: { cols: "12", lg: "6", xl: "3", md: "6" } },
             [
               _c(
                 "v-card",
@@ -22024,18 +22028,42 @@ var render = function() {
                                 )
                               : _vm._e(),
                             _vm._v(" "),
-                            _vm.role == "Teacher"
-                              ? _c(
-                                  "small",
-                                  { staticClass: "card-subtitle text-50" },
-                                  [
-                                    _vm._v(
-                                      "Created: " +
-                                        _vm._s(_vm.format_date(item.created_at))
-                                    )
-                                  ]
-                                )
-                              : _vm._e()
+                            _c("div", [
+                              _vm.role == "Teacher"
+                                ? _c(
+                                    "small",
+                                    {
+                                      staticClass:
+                                        "card-subtitle text-50 mb-0 pb-0"
+                                    },
+                                    [
+                                      _vm._v(
+                                        "Created: " +
+                                          _vm._s(
+                                            _vm.format_date(item.created_at)
+                                          )
+                                      ),
+                                      _c("br")
+                                    ]
+                                  )
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _vm.role == "Teacher"
+                                ? _c(
+                                    "small",
+                                    {
+                                      staticClass:
+                                        "card-subtitle text-50 font-weight-medium"
+                                    },
+                                    [
+                                      _vm._v(
+                                        "Number of Student Submitted: " +
+                                          _vm._s(item.submittion_count)
+                                      )
+                                    ]
+                                  )
+                                : _vm._e()
+                            ])
                           ])
                         ],
                         1
@@ -22184,7 +22212,18 @@ var render = function() {
                                           _c(
                                             "v-btn",
                                             {
-                                              attrs: { rounded: "", text: "" }
+                                              attrs: { rounded: "", text: "" },
+                                              on: {
+                                                click: function($event) {
+                                                  return _vm.$router.push({
+                                                    name: "submission-list",
+                                                    params: {
+                                                      id: _vm.$route.params.id
+                                                    },
+                                                    query: { clwk: item.id }
+                                                  })
+                                                }
+                                              }
                                             },
                                             [
                                               _c(
@@ -22348,10 +22387,10 @@ var render = function() {
                                                 _vm._b(
                                                   {
                                                     staticClass:
-                                                      "mt-1 mr-5 pa-2 mx-1 black--text",
+                                                      "mt-1 mr-5 pa-2 mx-1 success--text",
                                                     attrs: {
-                                                      icon: "",
-                                                      "x-large": ""
+                                                      text: "",
+                                                      rounded: ""
                                                     },
                                                     on: {
                                                       click: function($event) {
@@ -22390,6 +22429,8 @@ var render = function() {
                                                 _vm._v(
                                                   "\n                                        " +
                                                     _vm._s(item.score) +
+                                                    "/" +
+                                                    _vm._s(item.points) +
                                                     "\n                                    "
                                                 )
                                               ]

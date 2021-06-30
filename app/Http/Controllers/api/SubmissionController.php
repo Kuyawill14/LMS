@@ -22,14 +22,16 @@ class SubmissionController extends Controller
     {
 
         $SubmissionList = tbl_Submission::where('tbl_submissions.classwork_id', $id)
-        ->select('tbl_submissions.id', 'tbl_submissions.status', 'tbl_submissions.points',
-        DB::raw('CONCAT(users.firstname, " ", users.lastName) as name'), 'tbl_submissions.Submitted_Answers')
+        ->select('tbl_submissions.id', 'tbl_submissions.status', 'tbl_submissions.points','tbl_submissions.updated_at','tbl_user_details.profile_pic',
+        DB::raw('CONCAT(users.firstname, " ", users.lastName) as name'), 'tbl_submissions.Submitted_Answers', 'tbl_submissions.graded')
         ->leftjoin('users','users.id','=','tbl_submissions.user_id')
+        ->leftjoin('tbl_user_details','tbl_user_details.user_id','=','users.id')
         ->get();
         
         if(count($SubmissionList) != 0){
-            $TempAnswer = unserialize($SubmissionList[0]->Submitted_Answers);
-            $SubmissionList[0]->Submitted_Answers = $TempAnswer; 
+            foreach($SubmissionList as $Sub){
+                $Sub->Submitted_Answers = unserialize($Sub->Submitted_Answers);
+            }
         }
   
       
@@ -42,14 +44,24 @@ class SubmissionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function RemoveUploadedFile($id)
+    public function RemoveUploadedFile(Request $request, $id)
     {
         $RemoveSubmissionFile = tbl_Submission::find($id);
         if($RemoveSubmissionFile){
             
             $Ans = unserialize($RemoveSubmissionFile->Submitted_Answers);
-            Storage::delete('public/'.$Ans['link']);
-            $RemoveSubmissionFile->delete();
+            if(count($Ans) == 1){
+                Storage::delete('public/'.$Ans[$request->Fileindex]['link']);
+                $RemoveSubmissionFile->delete();
+            }
+            else{
+                Storage::delete('public/'.$Ans[$request->Fileindex]['link']);
+                array_splice($Ans, $request->Fileindex, 1);
+                $RemoveSubmissionFile->Submitted_Answers = serialize($Ans);
+                $RemoveSubmissionFile->save();
+            }
+           
+           
         }
     }
 
@@ -73,7 +85,8 @@ class SubmissionController extends Controller
     public function checkSubjectiveSubmission($id)
     {
         $userId = auth('sanctum')->id();
-        $CheckStatus = User::where('users.id',  $userId )
+        //$userId = 2;
+        /* $CheckStatus = User::where('users.id',  $userId )
         ->select('users.id','tbl_classworks.course_id','tbl_classworks.id as classwork_id',
         'tbl_submissions.status','tbl_submissions.points as score','tbl_submissions.Submitted_Answers','tbl_submissions.id as Sub_id',
         'tbl_classworks.points as totalPoints')
@@ -81,20 +94,37 @@ class SubmissionController extends Controller
         ->leftJoin('tbl_classworks','tbl_classworks.course_id','=','tbl_userclasses.course_id')
         ->leftJoin('tbl_submissions','tbl_submissions.classwork_id','=','tbl_classworks.id')
         ->where('tbl_classworks.id',$id)
+        ->first(); */
+
+        $CheckStatus = tbl_Submission::where('tbl_submissions.classwork_id', $id)
+        ->select('tbl_submissions.status','tbl_submissions.points as score','tbl_submissions.Submitted_Answers','tbl_submissions.id as Sub_id','tbl_submissions.graded',
+        'tbl_classworks.points as totalPoints','tbl_classworks.id as classwork_id','tbl_classworks.course_id')
+        ->leftJoin('tbl_classworks', 'tbl_classworks.id','=','tbl_submissions.classwork_id')
+        ->where('tbl_submissions.user_id',  $userId)
         ->first();
-        $CheckStatus->Submitted_Answers = unserialize($CheckStatus->Submitted_Answers);
+        if($CheckStatus){
+            $CheckStatus->Submitted_Answers = unserialize($CheckStatus->Submitted_Answers);
+        }
         return $CheckStatus;
     }
 
     /**
      * Show the form for editing the specified resource.
-     *
+     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function updateSbjSubmissionScore(Request $request,$id)
     {
-        //
+        $UpdateScore = tbl_Submission::find($id);
+        if($UpdateScore){
+            $UpdateScore->graded = 1;
+            $UpdateScore->points = $request->score;
+            $UpdateScore->save();
+            return 'Score Updated!';
+        }
+        return 'Submission not found!';
+        
     }
 
     /**

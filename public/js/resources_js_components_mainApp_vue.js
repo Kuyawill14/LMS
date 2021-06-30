@@ -23412,7 +23412,9 @@ var render = function() {
           _c(
             "v-card",
             {
-              style: _vm.$vuetify.breakpoint.xs ? "height:65vh" : "height:80vh"
+              style: _vm.$vuetify.breakpoint.xs
+                ? "max-height:65vh"
+                : "max-height:80vh"
             },
             [
               _c(

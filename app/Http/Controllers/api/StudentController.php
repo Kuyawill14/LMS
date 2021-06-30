@@ -96,20 +96,39 @@ class StudentController extends Controller
             $StatusUpdate->save();
         }
         elseif($request->type == 'Subjective Type'){
-           
-            $StatusUpdate = new tbl_Submission;
-            $StatusUpdate->classwork_id = $request->id;
-            $StatusUpdate->user_id =  $userId;
-            $StatusUpdate->status = "Submitting";
+            
+           if($request->Submission_id == 'empty'){
+            
+                $StatusUpdate = new tbl_Submission;
+                $StatusUpdate->classwork_id = $request->id;
+                $StatusUpdate->user_id =  $userId;
+                $StatusUpdate->status = "Submitting";
+                $file = $request->file('file');
+                if($file != ""){
+                    $newFile = $file->store('public/upload/classworkSubmission/'.$userId);
+                    $tempAnswer[] = ["link"=> preg_replace('/\bpublic\/\b/', '', $newFile) , 
+                    "name"=> $request->fileName,"fileSize"=> $request->fileSize,"fileExte"=> $request->fileExte];
+                    $StatusUpdate->Submitted_Answers = serialize($tempAnswer);
+                }
+                $StatusUpdate->save();
+                return $StatusUpdate->id;
+           }
+           else{
+            
+            $StatusUpdate = tbl_Submission::find($request->Submission_id);
+            $TempOldAttach = $StatusUpdate->Submitted_Answers = unserialize($StatusUpdate->Submitted_Answers);
             $file = $request->file('file');
             if($file != ""){
                 $newFile = $file->store('public/upload/classworkSubmission/'.$userId);
-                $StatusUpdate->Submitted_Answers = ["link"=> preg_replace('/\bpublic\/\b/', '', $newFile) , 
-                "name"=> $request->fileName,"fileSize"=> $request->fileSize];
+                $tempAnswer = ["link"=> preg_replace('/\bpublic\/\b/', '', $newFile) , 
+                "name"=> $request->fileName,"fileSize"=> $request->fileSize,"fileExte"=> $request->fileExte];
+                array_push($TempOldAttach, $tempAnswer);
+                $StatusUpdate->Submitted_Answers = serialize($TempOldAttach);
+                $StatusUpdate->save();
             }
-            $StatusUpdate->Submitted_Answers = serialize($StatusUpdate->Submitted_Answers);
-            $StatusUpdate->save();
-            return $StatusUpdate->id;
+            return unserialize($StatusUpdate->Submitted_Answers);
+           }
+           
         }
     }
 

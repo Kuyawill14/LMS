@@ -12,13 +12,24 @@
     </v-row>
 </v-container>
 
-  <v-container v-if="!isloading"  pa-0 ma-0  class="pa-0 pa-0" fluid>
+ <v-row  justify="center" v-if="List.length == 0 && !isloading">
+    <v-col cols="12" sm="8" md="4" class="text-center">
+        <v-icon style="font-size:10rem">
+            mdi-notebook-check-outline
+        </v-icon>
+        <h1> Empty Submission </h1>
+        <p> No, student take your classwork yet!</p>
+        
+    </v-col>
+</v-row>
+
+  <v-container v-if="!isloading && List.length != 0 "  pa-0 ma-0  class="pa-0 pa-0" fluid>
         <v-row align="center" justify="center">
-            <v-col v-if="classworkDetails.type == 'Objective Type'" cols="12" lg="12" md="12">
+            <v-col v-if="classworkDetails.type == 'Objective Type'" cols="12" lg="8" xl="6" md="10">
                 <objectiveSubmission v-if="classworkDetails.type == 'Objective Type'" :ListData="List"></objectiveSubmission>    
             </v-col>
-            <v-col v-if="classworkDetails.type == 'Subjective Type'" cols="12" lg="12" md="12">
-                <subjectiveSubmission v-if="classworkDetails.type == 'Subjective Type'" :ListData="List"></subjectiveSubmission>    
+            <v-col v-if="classworkDetails.type == 'Subjective Type'" cols="12" lg="10" xl="6" md="10">
+                <subjectiveSubmission v-on:UpdateSubmission="GetList" v-if="classworkDetails.type == 'Subjective Type'" :classworkDetails="classworkDetails"  :ListData="List"></subjectiveSubmission>    
             </v-col>
         </v-row>
     </v-container>

@@ -30,6 +30,16 @@
                                 <v-container ma-0 pa-0 class="d-flex">
                                 <v-checkbox
                                 class="pa-0 ma-0"
+                                v-model="availability"
+                                label="Availability"
+                                ></v-checkbox>
+                                </v-container>
+                        </v-col>
+
+                        <v-col  ma-0 pa-0 class="text-left pa-0 ma-0" cols="12">
+                                <v-container ma-0 pa-0 class="d-flex">
+                                <v-checkbox
+                                class="pa-0 ma-0"
                                 v-model="EnableDue"
                                 label="Enable Due Date"
                                 ></v-checkbox>
@@ -140,6 +150,8 @@ export default {
             showAns: false,
             EnableDue: false,
             response_late:false,
+            availability: false,
+            availability_date: null,
             showAnsType:'After Classwork Done',
             GradingCriteria_id:'',
             GradingItems:[],

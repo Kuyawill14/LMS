@@ -136,6 +136,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['Details'],
@@ -162,6 +172,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       showAns: false,
       EnableDue: false,
       response_late: false,
+      availability: false,
+      availability_date: null,
       showAnsType: 'After Classwork Done',
       GradingCriteria_id: '',
       GradingItems: [],
@@ -21876,6 +21888,38 @@ var render = function() {
                               expression: "GradingCriteria_id"
                             }
                           })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-col",
+                        {
+                          staticClass: "text-left pa-0 ma-0",
+                          attrs: { "ma-0": "", "pa-0": "", cols: "12" }
+                        },
+                        [
+                          _c(
+                            "v-container",
+                            {
+                              staticClass: "d-flex",
+                              attrs: { "ma-0": "", "pa-0": "" }
+                            },
+                            [
+                              _c("v-checkbox", {
+                                staticClass: "pa-0 ma-0",
+                                attrs: { label: "Availability" },
+                                model: {
+                                  value: _vm.availability,
+                                  callback: function($$v) {
+                                    _vm.availability = $$v
+                                  },
+                                  expression: "availability"
+                                }
+                              })
+                            ],
+                            1
+                          )
                         ],
                         1
                       ),

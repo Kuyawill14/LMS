@@ -45,6 +45,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var objectiveSubmission = function objectiveSubmission() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_tabs_submissionType_objectiveSubmission_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./submissionType/objectiveSubmission */ "./resources/js/components/Classwork_View/tabs/submissionType/objectiveSubmission.vue"));
 };
@@ -227,7 +238,36 @@ var render = function() {
           )
         : _vm._e(),
       _vm._v(" "),
-      !_vm.isloading
+      _vm.List.length == 0 && !_vm.isloading
+        ? _c(
+            "v-row",
+            { attrs: { justify: "center" } },
+            [
+              _c(
+                "v-col",
+                {
+                  staticClass: "text-center",
+                  attrs: { cols: "12", sm: "8", md: "4" }
+                },
+                [
+                  _c("v-icon", { staticStyle: { "font-size": "10rem" } }, [
+                    _vm._v(
+                      "\r\n            mdi-notebook-check-outline\r\n        "
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("h1", [_vm._v(" Empty Submission ")]),
+                  _vm._v(" "),
+                  _c("p", [_vm._v(" No, student take your classwork yet!")])
+                ],
+                1
+              )
+            ],
+            1
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      !_vm.isloading && _vm.List.length != 0
         ? _c(
             "v-container",
             {
@@ -242,7 +282,7 @@ var render = function() {
                   _vm.classworkDetails.type == "Objective Type"
                     ? _c(
                         "v-col",
-                        { attrs: { cols: "12", lg: "12", md: "12" } },
+                        { attrs: { cols: "12", lg: "8", xl: "6", md: "10" } },
                         [
                           _vm.classworkDetails.type == "Objective Type"
                             ? _c("objectiveSubmission", {
@@ -257,11 +297,15 @@ var render = function() {
                   _vm.classworkDetails.type == "Subjective Type"
                     ? _c(
                         "v-col",
-                        { attrs: { cols: "12", lg: "12", md: "12" } },
+                        { attrs: { cols: "12", lg: "10", xl: "6", md: "10" } },
                         [
                           _vm.classworkDetails.type == "Subjective Type"
                             ? _c("subjectiveSubmission", {
-                                attrs: { ListData: _vm.List }
+                                attrs: {
+                                  classworkDetails: _vm.classworkDetails,
+                                  ListData: _vm.List
+                                },
+                                on: { UpdateSubmission: _vm.GetList }
                               })
                             : _vm._e()
                         ],

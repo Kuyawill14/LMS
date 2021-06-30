@@ -13,7 +13,7 @@
 </v-container>
   <v-container v-if="!isloading" pa-0 ma-0  class="pa-0 pa-0" fluid>
         <v-row align="center" justify="center">
-            <v-col cols="12" lg="12" md="12">
+            <v-col cols="12" lg="10" xl="6" md="10">
                 <v-card  class="elevation-5 pa-5" style="border-top:5px solid #EF6C00">
                      <v-form ref="UpdateClassworkForm" v-model="valid" lazy-validation>
                     <v-window>

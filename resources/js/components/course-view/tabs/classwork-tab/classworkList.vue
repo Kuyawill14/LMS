@@ -22,7 +22,7 @@
 
      
             <v-row class="pl-1 pr-1" ma-0 pa-0>
-                <v-col cols="12" lg="6" v-for="(item, index) in classworks" :key="index">
+                <v-col cols="12" lg="6"  xl="3" md="6" v-for="(item, index) in classworks" :key="index">
                         <v-card :style="role == 'Teacher' ? '' :CheckFormatDue(item.due_date) > DateToday ? '' : item.status == 'Submitted' ? '':'border:1px  solid #B71C1C'">
                             <v-container class="pl-3 pr-3 pt-5 pb-5 d-flex flex-row justify-space-between">
                                 <div class="d-flex flex-row">
@@ -33,12 +33,16 @@
                                         <small v-if="role == 'Student' && (item.status == null || item.status == 'Submitting' )" :class="CheckFormatDue(item.due_date) > DateToday ? 'card-subtitle text-50': item.status == 'Submitted' ? 'card-subtitle text-50':'card-subtitle text-50 red--text'">
                                             <v-icon :color="CheckFormatDue(item.due_date) > DateToday ? '': item.status == 'Submitted' ? '':'red darken-4'" small>mdi-clock</v-icon> {{CheckFormatDue(item.due_date) > CheckFormatDue(DateToday) ? '' : "Late"}}
                                             Due Date: {{format_date(item.due_date)}} </small>
+                                            
 
                                         <small v-if="role == 'Student' && item.status == 'Submitted' " class="card-subtitle text-50 success--text">
                                             <v-icon color="" small>mdi-clock</v-icon> 
                                             Submitted: {{format_date(item.Sub_date)}} </small>
-                                        
-                                        <small v-if="role == 'Teacher'"  class="card-subtitle text-50">Created: {{format_date(item.created_at)}}</small>
+                                        <div>
+                                              <small v-if="role == 'Teacher'"  class="card-subtitle text-50 mb-0 pb-0">Created: {{format_date(item.created_at)}}<br></small>
+                                             <small v-if="role == 'Teacher'"  class="card-subtitle text-50 font-weight-medium">Number of Student Submitted: {{item.submittion_count}}</small>
+                                        </div>
+                                      
                                     </div>
                                 </div>
                                 <v-menu v-if="role == 'Teacher'" bottom offset-y>
@@ -60,7 +64,7 @@
                                             <v-list-item-title><v-btn rounded @click="$router.push({name: 'publish-to',params: {id: $route.params.id},query: {clwk: item.id}})" text><v-icon class="mr-1">mdi-file-upload-outline</v-icon>Publish Classwork</v-btn></v-list-item-title>
                                         </v-list-item>
                                          <v-list-item ma-0 pa-0>
-                                            <v-list-item-title><v-btn rounded text><v-icon class="mr-1">mdi-file-eye-outline</v-icon>View Submission</v-btn></v-list-item-title>
+                                            <v-list-item-title><v-btn rounded @click="$router.push({name: 'submission-list',params: {id: $route.params.id},query: {clwk: item.id}})" text><v-icon class="mr-1">mdi-file-eye-outline</v-icon>View Submission</v-btn></v-list-item-title>
                                         </v-list-item>
                                 <!--         <v-list-item ma-0 pa-0>
                                             <v-list-item-title><v-btn rounded @click="$router.push({name: 'clwk',params: {id: $route.params.id},query: {clwk: item.id}})" text><v-icon class="mr-1">mdi-square-edit-outline</v-icon>Edit Classwork</v-btn></v-list-item-title>
@@ -98,9 +102,9 @@
                                         : $router.push({name: 'clwk',params: {id: $route.params.id},query: {clwk: item.classwork_id}})"
                                         v-bind="attrs"
                                         v-on="on"
-                                         class="mt-1 mr-5 pa-2 mx-1 black--text" icon x-large
+                                         class="mt-1 mr-5 pa-2 mx-1 success--text" text rounded
                                         v-if="((item.status != null) && (item.status == 'Taking' || item.status == 'Submitted')) && item.score != null">
-                                            {{item.score}}
+                                            {{item.score}}/{{item.points}}
                                         </v-btn>
                                        
                                     </template>

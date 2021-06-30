@@ -19,6 +19,7 @@ class CreateTblSubmissionsTable extends Migration
             $table->integer('user_id');
             $table->mediumText('Submitted_Answers')->nullable();
             $table->integer('points')->default(0);
+            $table->boolean("graded")->default(0);
             $table->string('status');
             $table->timestamps();
         });

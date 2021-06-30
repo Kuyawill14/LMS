@@ -78,6 +78,19 @@ Route::prefix('/course')->group(function () {
   
 });
 
+
+//course
+/* Route::group([
+    'prefix'=> 'course',
+    'middleware' =>['auth:sanctum'],
+],function () {
+    Route::get('/all', [SubjectCourseController::class, 'index']);
+    Route::post('/insert', [SubjectCourseController::class, 'store']);
+    Route::post('/update/{id}', [SubjectCourseController::class, 'update']);
+    Route::get('/ShowCourse/{id}', [SubjectCourseController::class, 'CourseDetails']);
+  
+}); */
+
 //Announcement
 Route::prefix('/announcement')->group(function () {
     Route::post('/insert', [AnnouncementController::class, 'store']);
@@ -209,12 +222,13 @@ Route::prefix('/submission')->group(function () {
     Route::get('/all/{id}', [SubmissionController::class, 'index']);
     Route::get('/check-sbj/{id}', [SubmissionController::class, 'checkSubjectiveSubmission']);
     Route::put('/file-remove/{id}', [SubmissionController::class, 'RemoveUploadedFile']);
+    Route::put('/update-score/{id}', [SubmissionController::class, 'updateSbjSubmissionScore']);
 });
 
 
 //User Profile 
 /* middleware('auth:sanctum')-> */
-Route::prefix('/profile')->group(function () {
+Route::middleware('auth:sanctum')->prefix('/profile')->group(function () {
     Route::get('/details', [UserProfileController::class, 'index']);
     Route::post('/profile_picture', [UserProfileController::class, 'updatePicture']);
     Route::post('/updateDetails', [UserProfileController::class, 'updateDetails']);
@@ -223,7 +237,10 @@ Route::prefix('/profile')->group(function () {
 
 
 
-
+/* Route::group([
+    'prefix'=> 'course',
+    'middleware' =>['auth:sanctum'],
+] */
 
 
 
@@ -234,9 +251,9 @@ Route::prefix('/profile')->group(function () {
 
 
 //Route::get('/GetDetails', [AuthController::class, 'GetDetails']);
-Route::post('/Userlogin', [AuthController::class, 'UserLogin']);
+Route::post('/login', [AuthController::class, 'UserLogin']);
 Route::post('/logout', [AuthController::class, 'logout']);
-Route::post('/registerUser', [AuthController::class, 'UserRegister']);
+Route::post('/register', [AuthController::class, 'UserRegister']);
 
 
     //pre na dc ka sa dicord?

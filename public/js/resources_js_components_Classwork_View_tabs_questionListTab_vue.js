@@ -4765,10 +4765,7 @@ var render = function() {
       _vm.Qlength == 0 && !_vm.isFetching
         ? _c(
             "v-row",
-            {
-              staticClass: "pt-10",
-              attrs: { align: "center", justify: "center" }
-            },
+            { attrs: { justify: "center" } },
             [
               _c(
                 "v-col",
@@ -4777,7 +4774,7 @@ var render = function() {
                   attrs: { cols: "12", sm: "8", md: "4" }
                 },
                 [
-                  _c("v-icon", { staticStyle: { "font-size": "14rem" } }, [
+                  _c("v-icon", { staticStyle: { "font-size": "10rem" } }, [
                     _vm._v("\r\n            mdi-book-open-variant\r\n        ")
                   ]),
                   _vm._v(" "),

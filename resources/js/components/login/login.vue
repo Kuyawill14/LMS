@@ -133,13 +133,16 @@ export default {
     
     validate() {
       if (this.$refs.loginForm.validate()) {
-        this.form.post('/api/Userlogin')
-        .then((res)=>{
-            if(res.status == 200){
-              this.$store.dispatch('fetchCurrentUser');
-              this.$router.push({path: "/"})
-            }
-        })
+        axios.get('/sanctum/csrf-cookie').then(response => {
+             this.form.post('/api/login')
+            .then((res)=>{
+               if(res.status == 200){
+                 this.$store.dispatch('fetchCurrentUser');
+                  this.$router.push({path: "/"})
+               }
+            })
+        });
+       
       }
     },
     reset() {

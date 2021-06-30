@@ -21,11 +21,14 @@ class AuthController extends Controller
         
         if(Auth::attempt($request->only('email', 'password'))){
             $user = auth('sanctum')->user();
-            //if($user['role'] == "Teacher")
-                return response()->json("Login Success",200);
+            //$authToken = $user->createToken('auth-token')->plainTextToken;
+            $request->session()->regenerate();
+            return response()->json("Login Success",200);
             
-         
-           
+           /*  return response()->json([
+                'access_token' =>$authToken,
+            ]); */
+            
         }
        /*  throw ValidatationException::withMessages([
             'email' => ['Credentials Invalid']
@@ -64,8 +67,16 @@ class AuthController extends Controller
         return $New;        
     }
 
-    public function logout() {
+    /**
+     * Log the user out of the application.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function logout(Request $request) {
         Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
     }
 }   
 

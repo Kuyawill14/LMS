@@ -21,7 +21,7 @@ const actions = {
         const res = await axios.post(`/api/classwork/insert`, details);
         let newClasswork = res.data;
         state.Classworks.push({...newClasswork })
-        return res.status;
+        return res;
     },
 };
 const mutations = {
