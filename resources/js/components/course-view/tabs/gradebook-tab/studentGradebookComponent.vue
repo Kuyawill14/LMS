@@ -19,7 +19,37 @@
                     @click="_getClassworkListbyTab(gradingCriteria.id)">
                     {{gradingCriteria.name}}
                 </v-tab>
+ <v-tab-item id="final_grades">
 
+                    <v-card-title>
+                       Final Grades
+                        <v-spacer></v-spacer>
+                        <v-text-field v-model="search" append-icon="mdi-magnify" label="Search" single-line
+                            hide-details>
+                        </v-text-field>
+                    </v-card-title>
+
+                    <v-simple-table>
+                        <template v-slot:default>
+                            <thead>
+                                <tr>
+                                    <th class="text-center" v-for="(gradingCriteria, index) in get_gradingCriteria" :key="index">
+                                        {{ gradingCriteria.name}} ({{gradingCriteria.percentage}}%)</th>
+                                <th class="text-center" >
+                                    Final Grades</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td  class="text-center" v-for="(final, index) in  finalGrades" :key="index"> {{final.grade_percentage}}% </td>
+                                     <td  class="text-center"> {{    totalFinalPercentage(finalGrades) }}% </td>
+                                </tr>
+
+                            </tbody>
+                        </template>
+                    </v-simple-table>
+
+                </v-tab-item>
                 <v-tab-item v-for="(gradingCriteria, index) in get_gradingCriteria" :key="index">
 
                     <v-card-title>
@@ -72,37 +102,7 @@
 
                 </v-tab-item>
 
-                <v-tab-item id="final_grades">
-
-                    <v-card-title>
-                       Final Grades
-                        <v-spacer></v-spacer>
-                        <v-text-field v-model="search" append-icon="mdi-magnify" label="Search" single-line
-                            hide-details>
-                        </v-text-field>
-                    </v-card-title>
-
-                    <v-simple-table>
-                        <template v-slot:default>
-                            <thead>
-                                <tr>
-                                    <th class="text-center" v-for="(gradingCriteria, index) in get_gradingCriteria" :key="index">
-                                        {{ gradingCriteria.name}} ({{gradingCriteria.percentage}}%)</th>
-                                <th class="text-center" >
-                                    Final Grades</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td  class="text-center" v-for="(final, index) in  finalGrades" :key="index"> {{final.grade_percentage}}% </td>
-                                     <td  class="text-center"> {{    totalFinalPercentage(finalGrades) }}% </td>
-                                </tr>
-
-                            </tbody>
-                        </template>
-                    </v-simple-table>
-
-                </v-tab-item>
+               
             </v-tabs>
         </v-card>
     </div>

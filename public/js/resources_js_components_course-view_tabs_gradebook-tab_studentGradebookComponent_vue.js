@@ -480,7 +480,9 @@ var render = function() {
         "v-row",
         [
           _c("v-col", { attrs: { cols: "6" } }, [
-            _c("h2", [_vm._v("\n                Student Grades\n            ")])
+            _c("h2", [
+              _vm._v("\n                   Student Grades\n               ")
+            ])
           ])
         ],
         1
@@ -494,7 +496,7 @@ var render = function() {
             { attrs: { color: "deep-purple accent-4", right: "" } },
             [
               _c("v-tab", { attrs: { href: "#final_grades" } }, [
-                _vm._v("\n                Final Grades\n            ")
+                _vm._v("\n                   Final Grades\n               ")
               ]),
               _vm._v(" "),
               _vm._l(_vm.get_gradingCriteria, function(gradingCriteria, index) {
@@ -510,227 +512,11 @@ var render = function() {
                   },
                   [
                     _vm._v(
-                      "\n                " +
+                      "\n                   " +
                         _vm._s(gradingCriteria.name) +
-                        "\n            "
+                        "\n               "
                     )
                   ]
-                )
-              }),
-              _vm._v(" "),
-              _vm._l(_vm.get_gradingCriteria, function(gradingCriteria, index) {
-                return _c(
-                  "v-tab-item",
-                  { key: index },
-                  [
-                    _c(
-                      "v-card-title",
-                      [
-                        _vm._v(
-                          "\n                    " +
-                            _vm._s(gradingCriteria.name) +
-                            " - " +
-                            _vm._s(gradingCriteria.percentage) +
-                            "%\n                    "
-                        ),
-                        _c("v-spacer"),
-                        _vm._v(" "),
-                        _c("v-text-field", {
-                          attrs: {
-                            "append-icon": "mdi-magnify",
-                            label: "Search",
-                            "single-line": "",
-                            "hide-details": ""
-                          },
-                          model: {
-                            value: _vm.search,
-                            callback: function($$v) {
-                              _vm.search = $$v
-                            },
-                            expression: "search"
-                          }
-                        })
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c("v-simple-table", {
-                      scopedSlots: _vm._u(
-                        [
-                          {
-                            key: "default",
-                            fn: function() {
-                              return [
-                                _c("thead", [
-                                  _c(
-                                    "tr",
-                                    _vm._l(_vm.headers, function(
-                                      header,
-                                      index
-                                    ) {
-                                      return _c(
-                                        "th",
-                                        {
-                                          key: index,
-                                          staticClass: "text-center"
-                                        },
-                                        [
-                                          _vm._v(
-                                            "\n                                    " +
-                                              _vm._s(header.text)
-                                          )
-                                        ]
-                                      )
-                                    }),
-                                    0
-                                  )
-                                ]),
-                                _vm._v(" "),
-                                _c("tbody", [
-                                  _c(
-                                    "tr",
-                                    [
-                                      _vm._l(
-                                        _vm.StudentClassworkGrades(
-                                          gradingCriteria.id
-                                        ),
-                                        function(classworkGrades, index) {
-                                          return _c(
-                                            "td",
-                                            {
-                                              key: index,
-                                              staticClass: "text-center"
-                                            },
-                                            [
-                                              _vm._v(
-                                                "\n                                    " +
-                                                  _vm._s(
-                                                    classworkGrades.points
-                                                  ) +
-                                                  "\n                                    "
-                                              ),
-                                              classworkGrades.points == null
-                                                ? _c(
-                                                    "v-tooltip",
-                                                    {
-                                                      attrs: { top: "" },
-                                                      scopedSlots: _vm._u(
-                                                        [
-                                                          {
-                                                            key: "activator",
-                                                            fn: function(ref) {
-                                                              var on = ref.on
-                                                              var attrs =
-                                                                ref.attrs
-                                                              return [
-                                                                _c(
-                                                                  "v-btn",
-                                                                  _vm._g(
-                                                                    _vm._b(
-                                                                      {
-                                                                        attrs: {
-                                                                          icon:
-                                                                            ""
-                                                                        }
-                                                                      },
-                                                                      "v-btn",
-                                                                      attrs,
-                                                                      false
-                                                                    ),
-                                                                    on
-                                                                  ),
-                                                                  [
-                                                                    _c(
-                                                                      "v-icon",
-                                                                      {
-                                                                        attrs: {
-                                                                          color:
-                                                                            "red"
-                                                                        }
-                                                                      },
-                                                                      [
-                                                                        _vm._v(
-                                                                          "\n                                                    mdi-close\n                                                "
-                                                                        )
-                                                                      ]
-                                                                    )
-                                                                  ],
-                                                                  1
-                                                                )
-                                                              ]
-                                                            }
-                                                          }
-                                                        ],
-                                                        null,
-                                                        true
-                                                      ),
-                                                      model: {
-                                                        value: _vm.shown,
-                                                        callback: function(
-                                                          $$v
-                                                        ) {
-                                                          _vm.shown = $$v
-                                                        },
-                                                        expression: "shown"
-                                                      }
-                                                    },
-                                                    [
-                                                      _vm._v(" "),
-                                                      _c("span", [
-                                                        _vm._v("No Submission")
-                                                      ])
-                                                    ]
-                                                  )
-                                                : _vm._e()
-                                            ],
-                                            1
-                                          )
-                                        }
-                                      ),
-                                      _vm._v(" "),
-                                      _c("td", { staticClass: "text-center" }, [
-                                        _vm._v(
-                                          "\n                                    " +
-                                            _vm._s(
-                                              _vm.totalPoints(
-                                                _vm.StudentClassworkGrades(
-                                                  gradingCriteria.id
-                                                )
-                                              )
-                                            ) +
-                                            "\n                                "
-                                        )
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("td", { staticClass: "text-center" }, [
-                                        _vm._v(
-                                          "\n                                    " +
-                                            _vm._s(
-                                              _vm.totalPercentage(
-                                                _vm.StudentClassworkGrades(
-                                                  gradingCriteria.id
-                                                ),
-                                                gradingCriteria.percentage
-                                              )
-                                            ) +
-                                            "%\n                                "
-                                        )
-                                      ])
-                                    ],
-                                    2
-                                  )
-                                ])
-                              ]
-                            },
-                            proxy: true
-                          }
-                        ],
-                        null,
-                        true
-                      )
-                    })
-                  ],
-                  1
                 )
               }),
               _vm._v(" "),
@@ -742,7 +528,7 @@ var render = function() {
                     "v-card-title",
                     [
                       _vm._v(
-                        "\n                   Final Grades\n                    "
+                        "\n                      Final Grades\n                       "
                       ),
                       _c("v-spacer"),
                       _vm._v(" "),
@@ -787,7 +573,7 @@ var render = function() {
                                       },
                                       [
                                         _vm._v(
-                                          "\n                                    " +
+                                          "\n                                       " +
                                             _vm._s(gradingCriteria.name) +
                                             " (" +
                                             _vm._s(gradingCriteria.percentage) +
@@ -799,7 +585,7 @@ var render = function() {
                                   _vm._v(" "),
                                   _c("th", { staticClass: "text-center" }, [
                                     _vm._v(
-                                      "\n                                Final Grades"
+                                      "\n                                   Final Grades"
                                     )
                                   ])
                                 ],
@@ -854,7 +640,223 @@ var render = function() {
                   })
                 ],
                 1
-              )
+              ),
+              _vm._v(" "),
+              _vm._l(_vm.get_gradingCriteria, function(gradingCriteria, index) {
+                return _c(
+                  "v-tab-item",
+                  { key: index },
+                  [
+                    _c(
+                      "v-card-title",
+                      [
+                        _vm._v(
+                          "\n                       " +
+                            _vm._s(gradingCriteria.name) +
+                            " - " +
+                            _vm._s(gradingCriteria.percentage) +
+                            "%\n                       "
+                        ),
+                        _c("v-spacer"),
+                        _vm._v(" "),
+                        _c("v-text-field", {
+                          attrs: {
+                            "append-icon": "mdi-magnify",
+                            label: "Search",
+                            "single-line": "",
+                            "hide-details": ""
+                          },
+                          model: {
+                            value: _vm.search,
+                            callback: function($$v) {
+                              _vm.search = $$v
+                            },
+                            expression: "search"
+                          }
+                        })
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c("v-simple-table", {
+                      scopedSlots: _vm._u(
+                        [
+                          {
+                            key: "default",
+                            fn: function() {
+                              return [
+                                _c("thead", [
+                                  _c(
+                                    "tr",
+                                    _vm._l(_vm.headers, function(
+                                      header,
+                                      index
+                                    ) {
+                                      return _c(
+                                        "th",
+                                        {
+                                          key: index,
+                                          staticClass: "text-center"
+                                        },
+                                        [
+                                          _vm._v(
+                                            "\n                                       " +
+                                              _vm._s(header.text)
+                                          )
+                                        ]
+                                      )
+                                    }),
+                                    0
+                                  )
+                                ]),
+                                _vm._v(" "),
+                                _c("tbody", [
+                                  _c(
+                                    "tr",
+                                    [
+                                      _vm._l(
+                                        _vm.StudentClassworkGrades(
+                                          gradingCriteria.id
+                                        ),
+                                        function(classworkGrades, index) {
+                                          return _c(
+                                            "td",
+                                            {
+                                              key: index,
+                                              staticClass: "text-center"
+                                            },
+                                            [
+                                              _vm._v(
+                                                "\n                                       " +
+                                                  _vm._s(
+                                                    classworkGrades.points
+                                                  ) +
+                                                  "\n                                       "
+                                              ),
+                                              classworkGrades.points == null
+                                                ? _c(
+                                                    "v-tooltip",
+                                                    {
+                                                      attrs: { top: "" },
+                                                      scopedSlots: _vm._u(
+                                                        [
+                                                          {
+                                                            key: "activator",
+                                                            fn: function(ref) {
+                                                              var on = ref.on
+                                                              var attrs =
+                                                                ref.attrs
+                                                              return [
+                                                                _c(
+                                                                  "v-btn",
+                                                                  _vm._g(
+                                                                    _vm._b(
+                                                                      {
+                                                                        attrs: {
+                                                                          icon:
+                                                                            ""
+                                                                        }
+                                                                      },
+                                                                      "v-btn",
+                                                                      attrs,
+                                                                      false
+                                                                    ),
+                                                                    on
+                                                                  ),
+                                                                  [
+                                                                    _c(
+                                                                      "v-icon",
+                                                                      {
+                                                                        attrs: {
+                                                                          color:
+                                                                            "red"
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _vm._v(
+                                                                          "\n                                                       mdi-close\n                                                   "
+                                                                        )
+                                                                      ]
+                                                                    )
+                                                                  ],
+                                                                  1
+                                                                )
+                                                              ]
+                                                            }
+                                                          }
+                                                        ],
+                                                        null,
+                                                        true
+                                                      ),
+                                                      model: {
+                                                        value: _vm.shown,
+                                                        callback: function(
+                                                          $$v
+                                                        ) {
+                                                          _vm.shown = $$v
+                                                        },
+                                                        expression: "shown"
+                                                      }
+                                                    },
+                                                    [
+                                                      _vm._v(" "),
+                                                      _c("span", [
+                                                        _vm._v("No Submission")
+                                                      ])
+                                                    ]
+                                                  )
+                                                : _vm._e()
+                                            ],
+                                            1
+                                          )
+                                        }
+                                      ),
+                                      _vm._v(" "),
+                                      _c("td", { staticClass: "text-center" }, [
+                                        _vm._v(
+                                          "\n                                       " +
+                                            _vm._s(
+                                              _vm.totalPoints(
+                                                _vm.StudentClassworkGrades(
+                                                  gradingCriteria.id
+                                                )
+                                              )
+                                            ) +
+                                            "\n                                   "
+                                        )
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("td", { staticClass: "text-center" }, [
+                                        _vm._v(
+                                          "\n                                       " +
+                                            _vm._s(
+                                              _vm.totalPercentage(
+                                                _vm.StudentClassworkGrades(
+                                                  gradingCriteria.id
+                                                ),
+                                                gradingCriteria.percentage
+                                              )
+                                            ) +
+                                            "%\n                                   "
+                                        )
+                                      ])
+                                    ],
+                                    2
+                                  )
+                                ])
+                              ]
+                            },
+                            proxy: true
+                          }
+                        ],
+                        null,
+                        true
+                      )
+                    })
+                  ],
+                  1
+                )
+              })
             ],
             2
           )
