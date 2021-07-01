@@ -210,6 +210,7 @@ Route::prefix('/grade-book')->group(function () {
     Route::get('/classworkGrades/{id}', [GradebookController::class, 'fetchClassworkGrades']);
     Route::get('/student-classworkGrades/{id}', [GradebookController::class, 'fetchStudentClassworkGrades']);
     Route::get('/student-finalgrade/{id}', [GradebookController::class, 'fetchStudentFinalGrades']);
+    Route::get('/all-student-finalgrade/{id}', [GradebookController::class, 'fetchAllStudentFinalGrades']);
 });
 
 

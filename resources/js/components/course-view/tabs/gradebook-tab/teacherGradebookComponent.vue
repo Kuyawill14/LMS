@@ -16,10 +16,58 @@
         </v-row>
         <v-card>
             <v-tabs color="deep-purple accent-4" right>
+                <v-tab href="#final_grades">
+                    Final Grades
+                </v-tab>
                 <v-tab v-for="(gradingCriteria, index) in get_gradingCriteria" :key="index"
                     @click="_getClassworkListbyTab(gradingCriteria.id)">
-                    {{gradingCriteria.name}}  
+                    {{gradingCriteria.name}}
                 </v-tab>
+                <v-tab-item id="final_grades">
+
+                    <v-card-title>
+                        Final Grades
+                        <v-spacer></v-spacer>
+                        <v-text-field v-model="search" append-icon="mdi-magnify" label="Search" single-line
+                            hide-details>
+                        </v-text-field>
+                    </v-card-title>
+
+                    <v-simple-table >
+                        <template v-slot:default>
+                            <thead>
+                                <tr>
+                                    <th class="text-center">
+                                        Name</th>
+                                    <th class="text-center" v-for="(gradingCriteria, index) in get_gradingCriteria"
+                                        :key="index">
+                                        {{ gradingCriteria.name}} ({{gradingCriteria.percentage}}%)</th>
+                                    <th class="text-center">
+                                        Final Grades</th>
+                                </tr>
+                            </thead>
+                            <tbody v-if="loading == false">
+                                <tr v-for="student in students" :key="student.id" >
+                                    <td class="text-left">{{student.lastName + ', ' + student.firstName }} </td>
+                                    <td class="text-center"
+                                        v-for="(student_final, index) in allStudentFinalGrades(student.id)[0].grades"
+                                        :key="index">
+                                        {{student_final}}
+                                    </td>
+                                    <td class="text-center">
+                                        {{sumPercentage(allStudentFinalGrades(student.id))}}
+
+                                    </td>
+
+                                </tr>
+
+                            </tbody>
+                        </template>
+                    </v-simple-table>
+
+                </v-tab-item>
+
+
                 <v-tab-item v-for="(gradingCriteria, index) in get_gradingCriteria" :key="index">
 
                     <v-card-title>
@@ -35,7 +83,8 @@
                                 <tr v-for="student in items" :key="student.id">
                                     <td>{{student.lastName + ', ' + student.firstName }} </td>
 
-                                    <td class="text-center" v-for="(classworkGrades, index) in AllStudentClassworkGrades(student.id,gradingCriteria.id)"
+                                    <td class="text-center"
+                                        v-for="(classworkGrades, index) in AllStudentClassworkGrades(student.id,gradingCriteria.id)"
                                         :key="index">
                                         {{classworkGrades.points}}
 
@@ -50,7 +99,7 @@
                                             <span>No Submission</span>
                                         </v-tooltip>
 
-                                        
+
                                     </td>
 
                                     <td class="text-center">
@@ -89,7 +138,7 @@
                 Deldialog: false,
                 dialog: false,
                 temp_id: '',
-                loading: false,
+                loading: true,
                 type: '',
                 search: "",
                 grading_criteria_form: {},
@@ -101,22 +150,31 @@
                 classList: [],
                 students: [],
                 classworkTotalPoints: 0,
+                final_grades: [],
+
             }
 
         },
         computed: {
-            ...mapGetters(["get_gradingCriteria", "allClass", "AllStudentClassworkGrades"])
+            ...mapGetters(["get_gradingCriteria", "allClass", "AllStudentClassworkGrades", "allStudentFinalGrades"])
         },
 
         methods: {
+            sumPercentage(arr) {
+                var total = 0;
+                for (var i = 0; i < arr.length; i++) {
+                    total += arr[i]['grade_percentage'];
+                }
+                return total;
+            },
             totalPercentHeader() {
                 this.headers.push({
                     text: 'Total Points' + ' (' + this.classworkTotalPoints + 'pts)',
-                     align: 'center',
+                    align: 'center',
                     value: 'total'
                 }, {
                     text: 'Total Percentage',
-                     align: 'center',
+                    align: 'center',
                     value: 'Percentage'
                 });
             },
@@ -130,7 +188,7 @@
                 }
                 return total;
             },
-            totalPercentage(arr,grading_percentage) {
+            totalPercentage(arr, grading_percentage) {
                 var total = 0;
                 for (var i = 0; i < arr.length; i++) {
                     total += arr[i]['points'];
@@ -172,7 +230,7 @@
                                 text: this.classworkList[i]['title'] + ' (' + this.classworkList[i][
                                     'points'
                                 ] + 'pts)',
-                                 align: 'center',
+                                align: 'center',
                                 value: this.classworkList[i]['title']
                             });
                             total += this.classworkList[i]['points'];
@@ -206,7 +264,7 @@
                                 text: this.classworkList[i]['title'] + ' (' + this.classworkList[i][
                                     'points'
                                 ] + 'pts)',
-                                 align: 'center',
+                                align: 'center',
                                 value: this.classworkList[i]['title']
                             });
                             total += this.classworkList[i]['points'];
@@ -251,9 +309,14 @@
                     this.selectedClass = this.classList[0].class_id;
                     this.getClassworkList();
                     this.getStudentList();
-
+            
+                    this.$store.dispatch('fetchAllStudentFinalGrades', this.$route.params.id);
+                            this.loading =false;
                     console.log('class Liost: ', this.classList);
                 });
+            },
+            getFinalGrades() {
+
             }
         },
 

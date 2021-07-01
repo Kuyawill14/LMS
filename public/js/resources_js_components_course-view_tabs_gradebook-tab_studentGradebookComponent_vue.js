@@ -131,6 +131,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -480,9 +482,7 @@ var render = function() {
         "v-row",
         [
           _c("v-col", { attrs: { cols: "6" } }, [
-            _c("h2", [
-              _vm._v("\n                   Student Grades\n               ")
-            ])
+            _c("h2", [_vm._v("\n                Student Grades\n            ")])
           ])
         ],
         1
@@ -496,7 +496,7 @@ var render = function() {
             { attrs: { color: "deep-purple accent-4", right: "" } },
             [
               _c("v-tab", { attrs: { href: "#final_grades" } }, [
-                _vm._v("\n                   Final Grades\n               ")
+                _vm._v("\n                Final Grades\n            ")
               ]),
               _vm._v(" "),
               _vm._l(_vm.get_gradingCriteria, function(gradingCriteria, index) {
@@ -512,9 +512,9 @@ var render = function() {
                   },
                   [
                     _vm._v(
-                      "\n                   " +
+                      "\n                " +
                         _vm._s(gradingCriteria.name) +
-                        "\n               "
+                        "\n            "
                     )
                   ]
                 )
@@ -528,7 +528,7 @@ var render = function() {
                     "v-card-title",
                     [
                       _vm._v(
-                        "\n                      Final Grades\n                       "
+                        "\n                    Final Grades\n                    "
                       ),
                       _c("v-spacer"),
                       _vm._v(" "),
@@ -573,7 +573,7 @@ var render = function() {
                                       },
                                       [
                                         _vm._v(
-                                          "\n                                       " +
+                                          "\n                                    " +
                                             _vm._s(gradingCriteria.name) +
                                             " (" +
                                             _vm._s(gradingCriteria.percentage) +
@@ -585,7 +585,7 @@ var render = function() {
                                   _vm._v(" "),
                                   _c("th", { staticClass: "text-center" }, [
                                     _vm._v(
-                                      "\n                                   Final Grades"
+                                      "\n                                    Final Grades"
                                     )
                                   ])
                                 ],
@@ -609,7 +609,7 @@ var render = function() {
                                       },
                                       [
                                         _vm._v(
-                                          " " +
+                                          "\n                                    " +
                                             _vm._s(final.grade_percentage) +
                                             "% "
                                         )
@@ -651,11 +651,11 @@ var render = function() {
                       "v-card-title",
                       [
                         _vm._v(
-                          "\n                       " +
+                          "\n                    " +
                             _vm._s(gradingCriteria.name) +
                             " - " +
                             _vm._s(gradingCriteria.percentage) +
-                            "%\n                       "
+                            "%\n                    "
                         ),
                         _c("v-spacer"),
                         _vm._v(" "),
@@ -700,7 +700,7 @@ var render = function() {
                                         },
                                         [
                                           _vm._v(
-                                            "\n                                       " +
+                                            "\n                                    " +
                                               _vm._s(header.text)
                                           )
                                         ]
@@ -727,11 +727,11 @@ var render = function() {
                                             },
                                             [
                                               _vm._v(
-                                                "\n                                       " +
+                                                "\n                                    " +
                                                   _vm._s(
                                                     classworkGrades.points
                                                   ) +
-                                                  "\n                                       "
+                                                  "\n                                    "
                                               ),
                                               classworkGrades.points == null
                                                 ? _c(
@@ -774,7 +774,7 @@ var render = function() {
                                                                       },
                                                                       [
                                                                         _vm._v(
-                                                                          "\n                                                       mdi-close\n                                                   "
+                                                                          "\n                                                    mdi-close\n                                                "
                                                                         )
                                                                       ]
                                                                     )
@@ -814,7 +814,7 @@ var render = function() {
                                       _vm._v(" "),
                                       _c("td", { staticClass: "text-center" }, [
                                         _vm._v(
-                                          "\n                                       " +
+                                          "\n                                    " +
                                             _vm._s(
                                               _vm.totalPoints(
                                                 _vm.StudentClassworkGrades(
@@ -822,13 +822,13 @@ var render = function() {
                                                 )
                                               )
                                             ) +
-                                            "\n                                   "
+                                            "\n                                "
                                         )
                                       ]),
                                       _vm._v(" "),
                                       _c("td", { staticClass: "text-center" }, [
                                         _vm._v(
-                                          "\n                                       " +
+                                          "\n                                    " +
                                             _vm._s(
                                               _vm.totalPercentage(
                                                 _vm.StudentClassworkGrades(
@@ -837,7 +837,7 @@ var render = function() {
                                                 gradingCriteria.percentage
                                               )
                                             ) +
-                                            "%\n                                   "
+                                            "%\n                                "
                                         )
                                       ])
                                     ],
