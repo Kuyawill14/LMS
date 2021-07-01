@@ -47,7 +47,7 @@
                     <v-container style="cursor:pointer" :class="hover ? 'grey lighten-3 rounded-lg' : ''" >
     
                         <v-container class="pb-0 mb-0 pt-0 mt-0 d-flex flex-sm-row">
-                            <v-avatar color="primary" size="48">
+                            <v-avatar  size="48">
                                 <v-img class="img-fluid rounded border"
                                     :src="item.profile_pic == null || item.profile_pic == '' ? 'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=' + (item.firstName+' '+item.lastName) : item.profile_pic">
                                 </v-img>

@@ -1,5 +1,5 @@
 <template>
-<v-app>
+<v-container ma-0 pa-0>
   <v-dialog v-model="AttachLink" persistent max-width="400">
             <attachlinkDiaglog 
             v-on:toggleCancelDialog="AttachLink = !AttachLink"
@@ -8,7 +8,7 @@
         </v-dialog>
 
 
-    <v-row>
+    <v-row >
         <v-col cols="12" md="4" lg="4" class="mb-0 pb-0">
           <v-card  elevation="5">
                 <v-row class="mb-0 pb-0">
@@ -53,6 +53,7 @@
                                 </v-col>
 
                                  <v-col  cols="12" class=" pb-10 pl-4 pr-4">
+                                   <div class="overline">Attachments</div>
                                    <v-row>
                                      <v-col cols="12" >
                                        <v-hover v-slot="{ hover }">
@@ -95,7 +96,7 @@
            
         </v-col>
 
-         <v-col class="mt-0 pt-0" cols="12" md="8" lg="8" >
+         <v-col :class="$vuetify.breakpoint.xs? 'mt-2' : 'pt-0'" cols="12" md="8" lg="8" >
              <v-card class="pl-5 pr-5 pb-5 pt-3"  elevation="5">
                <v-row >
                     <v-col v-if="!StatusDetails.graded" cols="12" class="pl-1 pr-1 pb-0 mb-0 d-flex justify-space-between">
@@ -276,7 +277,7 @@
           </v-card>
         </v-col>
     </v-row>
-</v-app>          
+</v-container>          
 </template>
 
 <script>

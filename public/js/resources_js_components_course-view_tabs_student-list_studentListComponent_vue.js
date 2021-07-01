@@ -395,12 +395,7 @@ var render = function() {
                                             [
                                               _c(
                                                 "v-avatar",
-                                                {
-                                                  attrs: {
-                                                    color: "primary",
-                                                    size: "48"
-                                                  }
-                                                },
+                                                { attrs: { size: "48" } },
                                                 [
                                                   _c("v-img", {
                                                     staticClass:

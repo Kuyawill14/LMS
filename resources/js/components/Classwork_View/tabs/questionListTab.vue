@@ -10,16 +10,16 @@
             v-if="dialog"></deleteDialog>
         </v-dialog>
 
-<v-container class="fill-height" v-if="isloading" style="height: 500px;">
-    <v-row  align-content="center" justify="center">
-        <v-col class="text-subtitle-1 text-center" cols="12">
-            Loading
-        </v-col>
-        <v-col cols="6">
-            <v-progress-linear color="primary" indeterminate rounded height="6"></v-progress-linear>
-        </v-col>
-    </v-row>
-</v-container>
+    <v-container class="fill-height" v-if="isloading" style="height: 500px;">
+        <v-row  align-content="center" justify="center">
+            <v-col class="text-subtitle-1 text-center" cols="12">
+                Loading
+            </v-col>
+            <v-col cols="6">
+                <v-progress-linear color="primary" indeterminate rounded height="6"></v-progress-linear>
+            </v-col>
+        </v-row>
+    </v-container>
 
 
   <v-row  justify="center" v-if="Qlength == 0 && !isFetching">
@@ -29,7 +29,7 @@
         </v-icon>
         <h1> Empty Question </h1>
         <p> Start adding question for this classwork.</p>
-        <v-btn color="primary" @click="$router.push({name: 'clwk',query: {clwk: $route.query.clwk} })"> Add Question </v-btn>
+        <v-btn color="primary" @click="$router.push({name: 'add-question',query: {clwk: $route.query.clwk} })"> Add Question </v-btn>
     </v-col>
 </v-row>
 
@@ -185,6 +185,7 @@ export default {
                 this.isFetching = false;
             });
         },
+       
         
     },
     beforeMount(){

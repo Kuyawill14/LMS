@@ -363,6 +363,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
@@ -614,7 +619,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\r\n/*  .ql-toolbar.ql-snow {\r\n        background: #f2f2f2;\r\n        border: none;\r\n } */\n.centered-input >>> input {\r\n    text-align: center\n}\n.ql-editor img{\r\n\r\n    max-height: 10rem !important;\n}\n.ql-container{\r\n    max-height: 50rem;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\r\n/*  .ql-toolbar.ql-snow {\r\n        background: #f2f2f2;\r\n        border: none;\r\n } */\n.centered-input >>> input {\r\n    text-align: center\n}\n.ql-editor img{\r\n\r\n    max-height: 10rem !important;\n}\n.ql-container{\r\n    max-height: 50rem;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -945,6 +950,15 @@ var render = function() {
                                                     },
                                                     [
                                                       _c(
+                                                        "div",
+                                                        {
+                                                          staticClass:
+                                                            "font-weight-medium"
+                                                        },
+                                                        [_vm._v("Question")]
+                                                      ),
+                                                      _vm._v(" "),
+                                                      _c(
                                                         "v-row",
                                                         {
                                                           staticClass:
@@ -952,23 +966,12 @@ var render = function() {
                                                         },
                                                         [
                                                           _c(
-                                                            "div",
-                                                            {
-                                                              staticClass:
-                                                                "font-weight-medium"
-                                                            },
-                                                            [_vm._v("Question")]
-                                                          ),
-                                                          _vm._v(" "),
-                                                          _c(
                                                             "v-col",
                                                             {
                                                               staticClass:
-                                                                "pa-0 ma-0 mb-2",
+                                                                "pa-0 ma-0 mt-2 mb-2",
                                                               attrs: {
-                                                                cols: "12",
-                                                                md: "12",
-                                                                lg: "12"
+                                                                cols: "12"
                                                               }
                                                             },
                                                             [
@@ -1063,7 +1066,7 @@ var render = function() {
                                                                     {
                                                                       key: i,
                                                                       staticClass:
-                                                                        "ma-0 pa-0 ml-2",
+                                                                        "ma-0 pa-0 ml-2 mt-1",
                                                                       attrs: {
                                                                         cols:
                                                                           "12",
@@ -1127,7 +1130,7 @@ var render = function() {
                                                                                         {
                                                                                           key: i,
                                                                                           staticClass:
-                                                                                            "pa-0 ma-0 mt-4",
+                                                                                            "pa-0 ma-0",
                                                                                           attrs: {
                                                                                             color:
                                                                                               "primary",
@@ -1380,7 +1383,7 @@ var render = function() {
                                                                 "v-col",
                                                                 {
                                                                   staticClass:
-                                                                    "ma-0 pa-0 pl-9 pr-7",
+                                                                    "ma-0 pa-0 pl-9 pr-7 mt-2",
                                                                   attrs: {
                                                                     "ma-0": "",
                                                                     "pa-0": "",
@@ -1453,7 +1456,7 @@ var render = function() {
                                                         "v-container",
                                                         {
                                                           staticClass:
-                                                            "ma-0 pa-0"
+                                                            "ma-0 pa-0 mt-2 pl-3 pr-4"
                                                         },
                                                         [
                                                           _c(
@@ -1468,7 +1471,7 @@ var render = function() {
                                                                     staticClass:
                                                                       "ma-0 pa-0",
                                                                     attrs: {
-                                                                      cols: "12"
+                                                                      cols: "11"
                                                                     }
                                                                   },
                                                                   [

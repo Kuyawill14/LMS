@@ -53,18 +53,21 @@
                                 </v-row>
 
                                 <v-container class="pa-0 ma-0" ma-0 pa-0> 
+                                    <div class="font-weight-medium">Question</div>
                                     <v-row class="pa-0 ma-0">
-                                        <div class="font-weight-medium">Question</div>
-                                        <v-col class="pa-0 ma-0 mb-2" cols="12" md="12" lg="12">
-                                           <!--  <v-textarea
+                                        
+                                        <v-col class="pa-0 ma-0 mt-2 mb-2" cols="12">
+                                            <!-- <v-container  class="d-flex flex-row ma-0 pa-0">
+                                            <v-textarea
                                             rows="1"
                                             v-model="quesForm.question"
-                                            filled
+                                            outlined
                                             :rules="rules"
                                             class="pa-0 ma-0"
                                             label="Question"
                                             auto-grow
                                             required
+                                   
                                             ></v-textarea> -->
                                                <v-card  style="width:100%" class="mb-3">
                                                 <editor class="outlined" required :rules="rules"
@@ -73,16 +76,18 @@
                                                      id="editor-container"  placeholder="Question" 
                                                     theme="snow" :options="options"></editor>
                                             </v-card>
+
+                                          <!--   <v-tooltip top>
+                                            <template v-slot:activator="{ on, attrs }">
+                                            <v-btn icon  v-bind="attrs"
+                                                v-on="on" 
+                                                text class="mt-2 pl-2 pr-2"> <v-icon>mdi-image</v-icon> </v-btn>
+                                            </template>
+                                            <span>Add Image</span>
+                                            </v-tooltip>
+                                            
+                                            </v-container> -->
                                         </v-col>
-                                       <!--  <v-col class="pa-0 ma-0 pl-md-3 pl-sm-0" cols="12" md="3" lg="3">
-                                            <v-select
-                                            v-model="quesForm.type"
-                                            class="pa-0 ma-0"
-                                            :items="['Multiple Choice', 'Identification', 'True or False', 'Matching type']"
-                                            filled
-                                            label="Type"
-                                            ></v-select>
-                                        </v-col> -->
                                     </v-row>
                                 </v-container>
 
@@ -90,7 +95,7 @@
                                     
                                     <v-row>
                                     <div class="font-weight-medium">Options</div>
-                                        <v-col class="ma-0 pa-0 ml-2" cols="12" lg="12" md="12" v-for="(item, i) in form" :key="i">
+                                        <v-col class="ma-0 pa-0 ml-2 mt-1" cols="12" lg="12" md="12" v-for="(item, i) in form" :key="i">
                                                 <v-row>
                                                     <v-col cols="12" lg="12" md="12" >
                                                         <v-container  class="d-flex flex-row ma-0 pa-0">
@@ -98,7 +103,7 @@
                                                             <v-radio
                                                             @click="tempAnswer = item.answer, test()"
                                                             color="primary"
-                                                            class="pa-0 ma-0 mt-4"
+                                                            class="pa-0 ma-0"
                                                             :disabled="item.answer.length == 0"
                                                             :key="i"
                                                             name="Answer" 
@@ -113,7 +118,7 @@
                                                             ref="Choice"
                                                             :rules="rules"
                                                             @keyup="checker = item.answer"
-                                                            filled
+                                                            outlined
                                                             rows="1"
                                                             v-model="item.answer"
                                                             class="pa-0 ma-0"
@@ -179,7 +184,7 @@
                                 <v-container  v-if="quesForm.type == 'Identification'">
                                     <v-row ma-0 pa-0>
                                         <div class="font-weight-medium">Answer</div>
-                                        <v-col  ma-0 pa-0 class="ma-0 pa-0 pl-9 pr-7" cols="12">
+                                        <v-col  ma-0 pa-0 class="ma-0 pa-0 pl-9 pr-7 mt-2" cols="12">
                                             <!-- <v-textarea
                                             :rules="rules"
                                             v-model="quesForm.answer"
@@ -200,9 +205,9 @@
                                     </v-row>
                                 </v-container>
 
-                                <v-container class="ma-0 pa-0"  v-if="quesForm.type == 'True or False'">
+                                <v-container class="ma-0 pa-0 mt-2 pl-3 pr-4"  v-if="quesForm.type == 'True or False'">
                                     <v-row >
-                                        <v-col v-for="(x, n) in inputCheck" :key="n" class="ma-0 pa-0" cols="12">
+                                        <v-col v-for="(x, n) in inputCheck" :key="n" class="ma-0 pa-0" cols="11">
                                             <v-container class="d-flex flex-row ma-0 pa-0">
                                                 <v-radio-group :rules="rules" v-model="quesForm.answer">
                                                     <v-radio

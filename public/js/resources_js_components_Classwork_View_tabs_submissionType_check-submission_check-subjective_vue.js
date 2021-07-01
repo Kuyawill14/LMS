@@ -115,6 +115,33 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['CheckData', 'classworkDetails'],
@@ -127,7 +154,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       Details: null,
       timeout: null,
       value: '',
-      score: ''
+      score: '',
+      isSavingScore: false
     };
   },
   methods: {
@@ -144,6 +172,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var self = this;
       this.timeout = setTimeout(function () {
         self.score = self.CheckData.points;
+        self.isSavingScore = !self.isSavingScore;
         self.UpdateScore();
       }, 1000);
     },
@@ -155,17 +184,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                if (_this.score <= 50) {
+                if (_this.score <= _this.classworkDetails.points) {
                   axios.put('/api/submission/update-score/' + _this.CheckData.id, {
                     score: _this.score
                   }).then(function (res) {
                     if (res.status == 200) {
                       _this.toastSuccess();
 
+                      _this.isSavingScore = !_this.isSavingScore;
+
                       _this.$emit('UpdateSubmission');
                     }
                   });
                 } else {
+                  _this.isSavingScore = !_this.isSavingScore;
+
                   _this.toastError();
                 }
 
@@ -198,6 +231,30 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 /***/ }),
 
+/***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/submissionType/check-submission/check-subjective.vue?vue&type=style&index=0&id=2cc7d58e&scoped=true&lang=css&":
+/*!***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/submissionType/check-submission/check-subjective.vue?vue&type=style&index=0&id=2cc7d58e&scoped=true&lang=css& ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+// Imports
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, "\n.doc[data-v-2cc7d58e] {\n    width: 100%;\n    height: 70vh;\n}\n", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
 /***/ "./resources/js/components/Classwork_View/tabs/submissionType/check-submission/check-subjective.vue":
 /*!**********************************************************************************************************!*\
   !*** ./resources/js/components/Classwork_View/tabs/submissionType/check-submission/check-subjective.vue ***!
@@ -209,23 +266,25 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _check_subjective_vue_vue_type_template_id_2cc7d58e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./check-subjective.vue?vue&type=template&id=2cc7d58e& */ "./resources/js/components/Classwork_View/tabs/submissionType/check-submission/check-subjective.vue?vue&type=template&id=2cc7d58e&");
+/* harmony import */ var _check_subjective_vue_vue_type_template_id_2cc7d58e_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./check-subjective.vue?vue&type=template&id=2cc7d58e&scoped=true& */ "./resources/js/components/Classwork_View/tabs/submissionType/check-submission/check-subjective.vue?vue&type=template&id=2cc7d58e&scoped=true&");
 /* harmony import */ var _check_subjective_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./check-subjective.vue?vue&type=script&lang=js& */ "./resources/js/components/Classwork_View/tabs/submissionType/check-submission/check-subjective.vue?vue&type=script&lang=js&");
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* harmony import */ var _check_subjective_vue_vue_type_style_index_0_id_2cc7d58e_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./check-subjective.vue?vue&type=style&index=0&id=2cc7d58e&scoped=true&lang=css& */ "./resources/js/components/Classwork_View/tabs/submissionType/check-submission/check-subjective.vue?vue&type=style&index=0&id=2cc7d58e&scoped=true&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
+;
 
 
 /* normalize component */
-;
-var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__.default)(
+
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__.default)(
   _check_subjective_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
-  _check_subjective_vue_vue_type_template_id_2cc7d58e___WEBPACK_IMPORTED_MODULE_0__.render,
-  _check_subjective_vue_vue_type_template_id_2cc7d58e___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  _check_subjective_vue_vue_type_template_id_2cc7d58e_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render,
+  _check_subjective_vue_vue_type_template_id_2cc7d58e_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
   false,
   null,
-  null,
+  "2cc7d58e",
   null
   
 )
@@ -253,27 +312,44 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/Classwork_View/tabs/submissionType/check-submission/check-subjective.vue?vue&type=template&id=2cc7d58e&":
-/*!*****************************************************************************************************************************************!*\
-  !*** ./resources/js/components/Classwork_View/tabs/submissionType/check-submission/check-subjective.vue?vue&type=template&id=2cc7d58e& ***!
-  \*****************************************************************************************************************************************/
+/***/ "./resources/js/components/Classwork_View/tabs/submissionType/check-submission/check-subjective.vue?vue&type=template&id=2cc7d58e&scoped=true&":
+/*!*****************************************************************************************************************************************************!*\
+  !*** ./resources/js/components/Classwork_View/tabs/submissionType/check-submission/check-subjective.vue?vue&type=template&id=2cc7d58e&scoped=true& ***!
+  \*****************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_check_subjective_vue_vue_type_template_id_2cc7d58e___WEBPACK_IMPORTED_MODULE_0__.render),
-/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_check_subjective_vue_vue_type_template_id_2cc7d58e___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_check_subjective_vue_vue_type_template_id_2cc7d58e_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_check_subjective_vue_vue_type_template_id_2cc7d58e_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_check_subjective_vue_vue_type_template_id_2cc7d58e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./check-subjective.vue?vue&type=template&id=2cc7d58e& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/submissionType/check-submission/check-subjective.vue?vue&type=template&id=2cc7d58e&");
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_check_subjective_vue_vue_type_template_id_2cc7d58e_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./check-subjective.vue?vue&type=template&id=2cc7d58e&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/submissionType/check-submission/check-subjective.vue?vue&type=template&id=2cc7d58e&scoped=true&");
 
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/submissionType/check-submission/check-subjective.vue?vue&type=template&id=2cc7d58e&":
-/*!********************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/submissionType/check-submission/check-subjective.vue?vue&type=template&id=2cc7d58e& ***!
-  \********************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./resources/js/components/Classwork_View/tabs/submissionType/check-submission/check-subjective.vue?vue&type=style&index=0&id=2cc7d58e&scoped=true&lang=css&":
+/*!*******************************************************************************************************************************************************************!*\
+  !*** ./resources/js/components/Classwork_View/tabs/submissionType/check-submission/check-subjective.vue?vue&type=style&index=0&id=2cc7d58e&scoped=true&lang=css& ***!
+  \*******************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_check_subjective_vue_vue_type_style_index_0_id_2cc7d58e_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../../node_modules/vue-style-loader/index.js!../../../../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./check-subjective.vue?vue&type=style&index=0&id=2cc7d58e&scoped=true&lang=css& */ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/submissionType/check-submission/check-subjective.vue?vue&type=style&index=0&id=2cc7d58e&scoped=true&lang=css&");
+/* harmony import */ var _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_check_subjective_vue_vue_type_style_index_0_id_2cc7d58e_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_check_subjective_vue_vue_type_style_index_0_id_2cc7d58e_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ var __WEBPACK_REEXPORT_OBJECT__ = {};
+/* harmony reexport (unknown) */ for(const __WEBPACK_IMPORT_KEY__ in _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_check_subjective_vue_vue_type_style_index_0_id_2cc7d58e_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== "default") __WEBPACK_REEXPORT_OBJECT__[__WEBPACK_IMPORT_KEY__] = () => _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_check_subjective_vue_vue_type_style_index_0_id_2cc7d58e_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__[__WEBPACK_IMPORT_KEY__]
+/* harmony reexport (unknown) */ __webpack_require__.d(__webpack_exports__, __WEBPACK_REEXPORT_OBJECT__);
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/submissionType/check-submission/check-subjective.vue?vue&type=template&id=2cc7d58e&scoped=true&":
+/*!********************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/submissionType/check-submission/check-subjective.vue?vue&type=template&id=2cc7d58e&scoped=true& ***!
+  \********************************************************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -311,358 +387,549 @@ var render = function() {
       ),
       _vm._v(" "),
       _c(
-        "v-container",
-        { staticClass: "pa-5" },
+        "v-card-text",
         [
           _c(
             "v-row",
+            { attrs: { "no-gutters": "" } },
             [
               _c(
                 "v-col",
-                { attrs: { cols: "12", md: "8", lg: "8", xl: "8" } },
+                {
+                  class: _vm.$vuetify.breakpoint.xs ? "pt-2" : "pt-5 pr-3",
+                  attrs: { cols: "12", md: "4", lg: "4" }
+                },
                 [
-                  _c("div", { staticClass: "d-flex justify-space-between" }, [
-                    _c(
-                      "div",
-                      { staticClass: "d-flex" },
-                      [
+                  _c(
+                    "v-container",
+                    { attrs: { fluid: "", "ma-0": "", "pa-0": "" } },
+                    [
+                      _c(
+                        "v-card",
+                        { staticClass: "pa-5 pb-8" },
+                        [
+                          _c(
+                            "v-row",
+                            { attrs: { "no-gutters": "" } },
+                            [
+                              _c("v-col", [
+                                _c(
+                                  "div",
+                                  {
+                                    staticClass: "d-flex justify-space-between"
+                                  },
+                                  [
+                                    _c(
+                                      "div",
+                                      { staticClass: "d-flex" },
+                                      [
+                                        _c(
+                                          "v-avatar",
+                                          {
+                                            attrs: {
+                                              color: "brown",
+                                              size: "40"
+                                            }
+                                          },
+                                          [
+                                            _c("v-img", {
+                                              attrs: {
+                                                alt: "Profile",
+                                                src:
+                                                  _vm.CheckData.profile_pic ==
+                                                    null ||
+                                                  _vm.CheckData.profile_pic ==
+                                                    ""
+                                                    ? "https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=" +
+                                                      _vm.CheckData.name
+                                                    : _vm.CheckData.profile_pic
+                                              }
+                                            })
+                                          ],
+                                          1
+                                        ),
+                                        _vm._v(" "),
+                                        _c("div", [
+                                          _c(
+                                            "h4",
+                                            {
+                                              staticClass:
+                                                "font-weight-medium ml-2 mt-1 mb-0 pb-0",
+                                              staticStyle: {
+                                                "line-height": "1.0"
+                                              }
+                                            },
+                                            [_vm._v(_vm._s(_vm.CheckData.name))]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "div",
+                                            { staticClass: "ml-2 caption" },
+                                            [
+                                              _vm._v(
+                                                "Submitted: " +
+                                                  _vm._s(
+                                                    _vm.format_date(
+                                                      _vm.CheckData.updated_at
+                                                    )
+                                                  )
+                                              )
+                                            ]
+                                          )
+                                        ])
+                                      ],
+                                      1
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "div",
+                                      [
+                                        _c("v-text-field", {
+                                          staticClass: "mt-2 float-right",
+                                          style: _vm.$vuetify.breakpoint.xs
+                                            ? "width:50%"
+                                            : "width:40%",
+                                          attrs: {
+                                            loading: _vm.isSavingScore,
+                                            dense: "",
+                                            outlined: "",
+                                            label: "Score"
+                                          },
+                                          on: {
+                                            keyup: function($event) {
+                                              return _vm.SaveScore()
+                                            }
+                                          },
+                                          model: {
+                                            value: _vm.CheckData.points,
+                                            callback: function($$v) {
+                                              _vm.$set(
+                                                _vm.CheckData,
+                                                "points",
+                                                $$v
+                                              )
+                                            },
+                                            expression: "CheckData.points"
+                                          }
+                                        })
+                                      ],
+                                      1
+                                    )
+                                  ]
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "v-col",
+                                { attrs: { cols: "12" } },
+                                [
+                                  _c(
+                                    "v-row",
+                                    [
+                                      _c("v-col", { attrs: { cols: "12" } }, [
+                                        _c("h2", [
+                                          _vm._v(
+                                            _vm._s(_vm.classworkDetails.title)
+                                          )
+                                        ]),
+                                        _vm._v(
+                                          "\n                                          ("
+                                        ),
+                                        _c(
+                                          "span",
+                                          { staticClass: "primary--text" },
+                                          [
+                                            _vm._v(
+                                              _vm._s(
+                                                _vm.classworkDetails.points
+                                              ) + " "
+                                            ),
+                                            _c("small", [_vm._v("points")])
+                                          ]
+                                        ),
+                                        _vm._v(
+                                          ")\n                                      "
+                                        )
+                                      ]),
+                                      _vm._v(" "),
+                                      _vm._l(
+                                        _vm.CheckData.Submitted_Answers,
+                                        function(item, index) {
+                                          return _c(
+                                            "v-col",
+                                            {
+                                              key: index,
+                                              staticClass: "ma-0 pa-0 ",
+                                              attrs: {
+                                                cols: "12",
+                                                md: "11",
+                                                lg: "11",
+                                                xl: "11"
+                                              }
+                                            },
+                                            [
+                                              _c(
+                                                "div",
+                                                { staticClass: "d-flex" },
+                                                [
+                                                  _c(
+                                                    "div",
+                                                    {
+                                                      staticClass:
+                                                        "body-1 pr-2 mt-2"
+                                                    },
+                                                    [
+                                                      _vm._v(
+                                                        "\n                                              " +
+                                                          _vm._s(index + 1) +
+                                                          ".\n                                          "
+                                                      )
+                                                    ]
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _c(
+                                                    "div",
+                                                    {
+                                                      staticStyle: {
+                                                        width: "100%"
+                                                      }
+                                                    },
+                                                    [
+                                                      _c("v-hover", {
+                                                        scopedSlots: _vm._u(
+                                                          [
+                                                            {
+                                                              key: "default",
+                                                              fn: function(
+                                                                ref
+                                                              ) {
+                                                                var hover =
+                                                                  ref.hover
+                                                                return [
+                                                                  _c(
+                                                                    "v-alert",
+                                                                    {
+                                                                      staticClass:
+                                                                        "mb-2 pa-3",
+                                                                      class: hover
+                                                                        ? "grey lighten-2"
+                                                                        : "",
+                                                                      staticStyle: {
+                                                                        cursor:
+                                                                          "pointer"
+                                                                      },
+                                                                      attrs: {
+                                                                        outlined:
+                                                                          "",
+                                                                        icon:
+                                                                          item.fileExte ==
+                                                                          "pdf"
+                                                                            ? "mdi-file-pdf"
+                                                                            : item.fileExte ==
+                                                                              "docx"
+                                                                            ? "mdi-file-word"
+                                                                            : item.fileExte ==
+                                                                                "jpg" ||
+                                                                              item.fileExte ==
+                                                                                "png" ||
+                                                                              item.fileExte ==
+                                                                                "bmp"
+                                                                            ? "mdi-folder-multiple-image"
+                                                                            : "",
+                                                                        color:
+                                                                          item.fileExte ==
+                                                                          "pdf"
+                                                                            ? "red"
+                                                                            : item.fileExte ==
+                                                                              "docx"
+                                                                            ? "blue"
+                                                                            : item.fileExte ==
+                                                                                "jpg" ||
+                                                                              item.fileExte ==
+                                                                                "png" ||
+                                                                              item.fileExte ==
+                                                                                "bmp"
+                                                                            ? "info"
+                                                                            : ""
+                                                                      }
+                                                                    },
+                                                                    [
+                                                                      _c(
+                                                                        "v-row",
+                                                                        {
+                                                                          attrs: {
+                                                                            align:
+                                                                              "center"
+                                                                          }
+                                                                        },
+                                                                        [
+                                                                          _c(
+                                                                            "v-col",
+                                                                            {
+                                                                              staticClass:
+                                                                                "grow text-left"
+                                                                            },
+                                                                            [
+                                                                              _c(
+                                                                                "div",
+                                                                                {
+                                                                                  class: hover
+                                                                                    ? "text-decoration-underline"
+                                                                                    : ""
+                                                                                },
+                                                                                [
+                                                                                  _vm._v(
+                                                                                    " " +
+                                                                                      _vm._s(
+                                                                                        item.name
+                                                                                      )
+                                                                                  )
+                                                                                ]
+                                                                              )
+                                                                            ]
+                                                                          ),
+                                                                          _vm._v(
+                                                                            " "
+                                                                          ),
+                                                                          _c(
+                                                                            "v-col",
+                                                                            {
+                                                                              staticClass:
+                                                                                "shrink d-flex"
+                                                                            },
+                                                                            [
+                                                                              _c(
+                                                                                "div",
+                                                                                {
+                                                                                  staticClass:
+                                                                                    "black--text mt-1 mr-1"
+                                                                                },
+                                                                                [
+                                                                                  _vm._v(
+                                                                                    _vm._s(
+                                                                                      item.fileSize
+                                                                                    )
+                                                                                  )
+                                                                                ]
+                                                                              ),
+                                                                              _vm._v(
+                                                                                " "
+                                                                              ),
+                                                                              _c(
+                                                                                "div",
+                                                                                {
+                                                                                  staticClass:
+                                                                                    "pt-1"
+                                                                                },
+                                                                                [
+                                                                                  _c(
+                                                                                    "v-tooltip",
+                                                                                    {
+                                                                                      attrs: {
+                                                                                        top:
+                                                                                          ""
+                                                                                      },
+                                                                                      scopedSlots: _vm._u(
+                                                                                        [
+                                                                                          {
+                                                                                            key:
+                                                                                              "activator",
+                                                                                            fn: function(
+                                                                                              ref
+                                                                                            ) {
+                                                                                              var on =
+                                                                                                ref.on
+                                                                                              var attrs =
+                                                                                                ref.attrs
+                                                                                              return [
+                                                                                                _c(
+                                                                                                  "v-btn",
+                                                                                                  _vm._g(
+                                                                                                    _vm._b(
+                                                                                                      {
+                                                                                                        attrs: {
+                                                                                                          rounded:
+                                                                                                            "",
+                                                                                                          small:
+                                                                                                            "",
+                                                                                                          icon:
+                                                                                                            "",
+                                                                                                          text:
+                                                                                                            ""
+                                                                                                        },
+                                                                                                        on: {
+                                                                                                          click: function(
+                                                                                                            $event
+                                                                                                          ) {
+                                                                                                            return _vm.DownloadFile(
+                                                                                                              item.link
+                                                                                                            )
+                                                                                                          }
+                                                                                                        }
+                                                                                                      },
+                                                                                                      "v-btn",
+                                                                                                      attrs,
+                                                                                                      false
+                                                                                                    ),
+                                                                                                    on
+                                                                                                  ),
+                                                                                                  [
+                                                                                                    _c(
+                                                                                                      "v-icon",
+                                                                                                      {
+                                                                                                        attrs: {
+                                                                                                          color:
+                                                                                                            "blue"
+                                                                                                        }
+                                                                                                      },
+                                                                                                      [
+                                                                                                        _vm._v(
+                                                                                                          "mdi-download-circle-outline"
+                                                                                                        )
+                                                                                                      ]
+                                                                                                    )
+                                                                                                  ],
+                                                                                                  1
+                                                                                                )
+                                                                                              ]
+                                                                                            }
+                                                                                          }
+                                                                                        ],
+                                                                                        null,
+                                                                                        true
+                                                                                      )
+                                                                                    },
+                                                                                    [
+                                                                                      _vm._v(
+                                                                                        " "
+                                                                                      ),
+                                                                                      _c(
+                                                                                        "span",
+                                                                                        [
+                                                                                          _vm._v(
+                                                                                            "Download"
+                                                                                          )
+                                                                                        ]
+                                                                                      )
+                                                                                    ]
+                                                                                  )
+                                                                                ],
+                                                                                1
+                                                                              )
+                                                                            ]
+                                                                          )
+                                                                        ],
+                                                                        1
+                                                                      )
+                                                                    ],
+                                                                    1
+                                                                  )
+                                                                ]
+                                                              }
+                                                            }
+                                                          ],
+                                                          null,
+                                                          true
+                                                        )
+                                                      })
+                                                    ],
+                                                    1
+                                                  )
+                                                ]
+                                              )
+                                            ]
+                                          )
+                                        }
+                                      )
+                                    ],
+                                    2
+                                  )
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-col",
+                {
+                  staticClass: "pt-5",
+                  attrs: { cols: "12", md: "8", lg: "8" }
+                },
+                [
+                  _c(
+                    "v-container",
+                    { attrs: { fluid: "", "ma-0": "", "pa-0": "" } },
+                    [
+                      _c("v-card", [
                         _c(
-                          "v-avatar",
-                          { attrs: { color: "brown", size: "60" } },
+                          "div",
+                          { staticClass: "pa-3" },
                           [
-                            _c("v-img", {
-                              attrs: {
-                                alt: "Profile",
-                                src:
-                                  _vm.CheckData.profile_pic == null ||
-                                  _vm.CheckData.profile_pic == ""
-                                    ? "https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=" +
-                                      _vm.CheckData.name
-                                    : _vm.CheckData.profile_pic
-                              }
-                            })
+                            _c("h3", { staticClass: "font-weight-bold" }, [
+                              _vm._v("Document Preview")
+                            ]),
+                            _vm._v(" "),
+                            _c("v-divider")
                           ],
                           1
                         ),
                         _vm._v(" "),
                         _c("div", [
                           _c(
-                            "h3",
+                            "iframe",
                             {
-                              staticClass:
-                                "font-weight-medium ml-2 mt-1 mb-0 pb-0",
-                              staticStyle: { "line-height": "1.0" }
+                              attrs: {
+                                src:
+                                  "https://view.officeapps.live.com/op/embed.aspx?src=http://127.0.0.1:8000/storage/" +
+                                  _vm.CheckData.Submitted_Answers[0].link,
+                                width: "100%",
+                                height: "570",
+                                frameborder: "0"
+                              }
                             },
-                            [_vm._v(_vm._s(_vm.CheckData.name))]
-                          ),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "ml-2 caption" }, [
-                            _vm._v(
-                              "Submitted: " +
-                                _vm._s(
-                                  _vm.format_date(_vm.CheckData.updated_at)
-                                )
-                            )
-                          ])
-                        ])
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "div",
-                      [
-                        _c("v-text-field", {
-                          staticClass: "mt-3 float-right",
-                          style: _vm.$vuetify.breakpoint.xs
-                            ? "width:40%"
-                            : "width:30%",
-                          attrs: { dense: "", outlined: "", label: "Score" },
-                          on: {
-                            keyup: function($event) {
-                              return _vm.SaveScore()
-                            }
-                          },
-                          model: {
-                            value: _vm.CheckData.points,
-                            callback: function($$v) {
-                              _vm.$set(_vm.CheckData, "points", $$v)
-                            },
-                            expression: "CheckData.points"
-                          }
-                        })
-                      ],
-                      1
-                    )
-                  ])
-                ]
-              ),
-              _vm._v(" "),
-              _c(
-                "v-col",
-                { attrs: { cols: "12" } },
-                [
-                  _c(
-                    "v-row",
-                    [
-                      _c("v-col", { attrs: { cols: "12" } }, [
-                        _c("h2", [_vm._v(_vm._s(_vm.classworkDetails.title))]),
-                        _vm._v("\n                      ("),
-                        _c("span", { staticClass: "primary--text" }, [
-                          _vm._v(_vm._s(_vm.classworkDetails.points) + " "),
-                          _c("small", [_vm._v("points")])
-                        ]),
-                        _vm._v(")\n                  ")
-                      ]),
-                      _vm._v(" "),
-                      _vm._l(_vm.CheckData.Submitted_Answers, function(
-                        item,
-                        index
-                      ) {
-                        return _c(
-                          "v-col",
-                          {
-                            key: index,
-                            staticClass: "ma-0 pa-0 ",
-                            attrs: { cols: "12", md: "8", lg: "8", xl: "8" }
-                          },
-                          [
-                            _c("div", { staticClass: "d-flex" }, [
-                              _c("div", { staticClass: "body-1 pr-2 mt-2" }, [
-                                _vm._v(
-                                  "\n                             " +
-                                    _vm._s(index + 1) +
-                                    ".\n                         "
-                                )
-                              ]),
-                              _vm._v(" "),
+                            [
+                              _vm._v(
+                                "\n                              This is an embedded "
+                              ),
                               _c(
-                                "div",
-                                { staticStyle: { width: "100%" } },
-                                [
-                                  _c("v-hover", {
-                                    scopedSlots: _vm._u(
-                                      [
-                                        {
-                                          key: "default",
-                                          fn: function(ref) {
-                                            var hover = ref.hover
-                                            return [
-                                              _c(
-                                                "v-alert",
-                                                {
-                                                  staticClass: "mb-2 pa-3",
-                                                  class: hover
-                                                    ? "grey lighten-2"
-                                                    : "",
-                                                  staticStyle: {
-                                                    cursor: "pointer"
-                                                  },
-                                                  attrs: {
-                                                    outlined: "",
-                                                    icon:
-                                                      item.fileExte == "pdf"
-                                                        ? "mdi-file-pdf"
-                                                        : item.fileExte ==
-                                                          "docx"
-                                                        ? "mdi-file-word"
-                                                        : item.fileExte ==
-                                                            "jpg" ||
-                                                          item.fileExte ==
-                                                            "png" ||
-                                                          item.fileExte == "bmp"
-                                                        ? "mdi-folder-multiple-image"
-                                                        : "",
-                                                    color:
-                                                      item.fileExte == "pdf"
-                                                        ? "red"
-                                                        : item.fileExte ==
-                                                          "docx"
-                                                        ? "blue"
-                                                        : item.fileExte ==
-                                                            "jpg" ||
-                                                          item.fileExte ==
-                                                            "png" ||
-                                                          item.fileExte == "bmp"
-                                                        ? "info"
-                                                        : ""
-                                                  }
-                                                },
-                                                [
-                                                  _c(
-                                                    "v-row",
-                                                    {
-                                                      attrs: { align: "center" }
-                                                    },
-                                                    [
-                                                      _c(
-                                                        "v-col",
-                                                        {
-                                                          staticClass:
-                                                            "grow text-left"
-                                                        },
-                                                        [
-                                                          _c(
-                                                            "div",
-                                                            {
-                                                              class: hover
-                                                                ? "text-decoration-underline"
-                                                                : ""
-                                                            },
-                                                            [
-                                                              _vm._v(
-                                                                " " +
-                                                                  _vm._s(
-                                                                    item.name
-                                                                  )
-                                                              )
-                                                            ]
-                                                          )
-                                                        ]
-                                                      ),
-                                                      _vm._v(" "),
-                                                      _c(
-                                                        "v-col",
-                                                        {
-                                                          staticClass:
-                                                            "shrink d-flex"
-                                                        },
-                                                        [
-                                                          _c(
-                                                            "div",
-                                                            {
-                                                              staticClass:
-                                                                "black--text mt-1 mr-1"
-                                                            },
-                                                            [
-                                                              _vm._v(
-                                                                _vm._s(
-                                                                  item.fileSize
-                                                                )
-                                                              )
-                                                            ]
-                                                          ),
-                                                          _vm._v(" "),
-                                                          _c(
-                                                            "div",
-                                                            {
-                                                              staticClass:
-                                                                "pt-1"
-                                                            },
-                                                            [
-                                                              _c(
-                                                                "v-tooltip",
-                                                                {
-                                                                  attrs: {
-                                                                    top: ""
-                                                                  },
-                                                                  scopedSlots: _vm._u(
-                                                                    [
-                                                                      {
-                                                                        key:
-                                                                          "activator",
-                                                                        fn: function(
-                                                                          ref
-                                                                        ) {
-                                                                          var on =
-                                                                            ref.on
-                                                                          var attrs =
-                                                                            ref.attrs
-                                                                          return [
-                                                                            _c(
-                                                                              "v-btn",
-                                                                              _vm._g(
-                                                                                _vm._b(
-                                                                                  {
-                                                                                    attrs: {
-                                                                                      rounded:
-                                                                                        "",
-                                                                                      small:
-                                                                                        "",
-                                                                                      icon:
-                                                                                        "",
-                                                                                      text:
-                                                                                        ""
-                                                                                    },
-                                                                                    on: {
-                                                                                      click: function(
-                                                                                        $event
-                                                                                      ) {
-                                                                                        return _vm.DownloadFile(
-                                                                                          item.link
-                                                                                        )
-                                                                                      }
-                                                                                    }
-                                                                                  },
-                                                                                  "v-btn",
-                                                                                  attrs,
-                                                                                  false
-                                                                                ),
-                                                                                on
-                                                                              ),
-                                                                              [
-                                                                                _c(
-                                                                                  "v-icon",
-                                                                                  {
-                                                                                    attrs: {
-                                                                                      color:
-                                                                                        "blue"
-                                                                                    }
-                                                                                  },
-                                                                                  [
-                                                                                    _vm._v(
-                                                                                      "mdi-download-circle-outline"
-                                                                                    )
-                                                                                  ]
-                                                                                )
-                                                                              ],
-                                                                              1
-                                                                            )
-                                                                          ]
-                                                                        }
-                                                                      }
-                                                                    ],
-                                                                    null,
-                                                                    true
-                                                                  )
-                                                                },
-                                                                [
-                                                                  _vm._v(" "),
-                                                                  _c("span", [
-                                                                    _vm._v(
-                                                                      "Download"
-                                                                    )
-                                                                  ])
-                                                                ]
-                                                              )
-                                                            ],
-                                                            1
-                                                          )
-                                                        ]
-                                                      )
-                                                    ],
-                                                    1
-                                                  )
-                                                ],
-                                                1
-                                              )
-                                            ]
-                                          }
-                                        }
-                                      ],
-                                      null,
-                                      true
-                                    )
-                                  })
-                                ],
-                                1
-                              )
-                            ])
-                          ]
-                        )
-                      })
+                                "a",
+                                {
+                                  attrs: {
+                                    target: "_blank",
+                                    href: "http://office.com"
+                                  }
+                                },
+                                [_vm._v("Microsoft Office")]
+                              ),
+                              _vm._v(" document, powered by "),
+                              _c(
+                                "a",
+                                {
+                                  attrs: {
+                                    target: "_blank",
+                                    href: "http://office.com/webapps"
+                                  }
+                                },
+                                [_vm._v("Office Online")]
+                              ),
+                              _vm._v(".")
+                            ]
+                          )
+                        ])
+                      ])
                     ],
-                    2
+                    1
                   )
                 ],
                 1
@@ -681,6 +948,27 @@ var staticRenderFns = []
 render._withStripped = true
 
 
+
+/***/ }),
+
+/***/ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/submissionType/check-submission/check-subjective.vue?vue&type=style&index=0&id=2cc7d58e&scoped=true&lang=css&":
+/*!****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-style-loader/index.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/submissionType/check-submission/check-subjective.vue?vue&type=style&index=0&id=2cc7d58e&scoped=true&lang=css& ***!
+  \****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(/*! !!../../../../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./check-subjective.vue?vue&type=style&index=0&id=2cc7d58e&scoped=true&lang=css& */ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/submissionType/check-submission/check-subjective.vue?vue&type=style&index=0&id=2cc7d58e&scoped=true&lang=css&");
+if(content.__esModule) content = content.default;
+if(typeof content === 'string') content = [[module.id, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var add = __webpack_require__(/*! !../../../../../../../node_modules/vue-style-loader/lib/addStylesClient.js */ "./node_modules/vue-style-loader/lib/addStylesClient.js").default
+var update = add("7cc1fb57", content, false, {});
+// Hot Module Replacement
+if(false) {}
 
 /***/ })
 

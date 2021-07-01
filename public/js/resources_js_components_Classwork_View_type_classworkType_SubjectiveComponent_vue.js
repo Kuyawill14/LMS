@@ -304,6 +304,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 var attachlinkDiaglog = function attachlinkDiaglog() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_type_classworkType_attachLinkDialog_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./attachLinkDialog */ "./resources/js/components/Classwork_View/type/classworkType/attachLinkDialog.vue"));
 };
@@ -666,7 +667,8 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "v-app",
+    "v-container",
+    { attrs: { "ma-0": "", "pa-0": "" } },
     [
       _c(
         "v-dialog",
@@ -874,6 +876,10 @@ var render = function() {
                                   attrs: { cols: "12" }
                                 },
                                 [
+                                  _c("div", { staticClass: "overline" }, [
+                                    _vm._v("Attachments")
+                                  ]),
+                                  _vm._v(" "),
                                   _c(
                                     "v-row",
                                     [
@@ -1089,7 +1095,7 @@ var render = function() {
           _c(
             "v-col",
             {
-              staticClass: "mt-0 pt-0",
+              class: _vm.$vuetify.breakpoint.xs ? "mt-2" : "pt-0",
               attrs: { cols: "12", md: "8", lg: "8" }
             },
             [

@@ -10,6 +10,15 @@
             v-if="dialog"></publishDialog>
         </v-dialog>
 
+        <v-dialog  v-model="UnpublishDiaglog" persistent max-width="450">
+            <unpublishConfirmDialog v-if="UnpublishDiaglog" :UnpublishDetails="UnpublishDetails"
+            v-on:toggleCancelDialog="UnpublishDiaglog = !UnpublishDiaglog"
+            v-on:UnpublishSuccess="UnpublishDiaglog = !UnpublishDiaglog,fetchClassnames()"
+            ></unpublishConfirmDialog>
+        </v-dialog>
+
+        
+
 <v-container class="fill-height" v-if="isloading" style="height: 500px;">
     <v-row  align-content="center" justify="center">
         <v-col class="text-subtitle-1 text-center" cols="12">
@@ -34,14 +43,14 @@
 
   <v-container v-if="!isloading" pa-0 ma-0  class="pa-0 pa-0" fluid>
         <v-row align="center" justify="center">
-            <v-col cols="12" lg="10" xl="6" md="10">
+            <v-col cols="12" lg="8" xl="8" md="8">
                 <v-card  class="elevation-5" style="border-top:5px solid #EF6C00">
                     <v-window>
                         <v-window-item >
                                 <v-row>
 
                                     <v-col  cols="12" md="12" class="pt-2 pl-3 pr-3"> 
-                                        <v-container v-for="(details, index) in classNames.allClass" :key="index">
+                                        <v-container v-for="(details, index) in classNames" :key="index">
                                             <v-list-item>
                                                 <v-list-item-avatar>
                                                     <v-icon>mdi-account-multiple</v-icon>
@@ -50,34 +59,48 @@
                                                         <v-list-item-title>{{details.class_name}} </v-list-item-title>
                                                     </v-list-item-content>
                                                      <div class="">
-                                                        <div v-for="(data, x) in classNames.check" :key="x">
-                                                                <v-btn
-                                                                :loading="isPublishing && Details.class_id == details.class_id"
-                                                                @click="OpenPublishDialog($route.query.clwk, details.class_id, details.class_name, data.status)" 
-                                                                v-if="data.uc_id == details.id && data.cl_id == $route.query.clwk"
-                                                                color="primary" :outlined="data.uc_id == details.id && data.status == false" rounded dark>
-                                                                {{$vuetify.breakpoint.xs ? '':data.uc_id == details.id && data.status == 0 ? 'Publish' :'Unpublish'}}
+                                             
+                                                            <v-btn
+                                                                :loading="isPublishing && details.class_id == details.class_id"
+                                                                @click="OpenPublishDialog($route.query.clwk, details.class_id, details.class_name, details.status)" 
+                                                                v-if="details.status == 0"
+                                                                color="primary" :outlined="details.status == 0" rounded dark>
+                                                                {{$vuetify.breakpoint.xs ? '': 'Publish'}}
                                                             <v-icon>
-                                                                mdi-publish
+                                                                mdi-share
                                                             </v-icon>
                                                         </v-btn>
-                                                        </div>
+                                                        <v-menu v-if="details.status == 1"  offset-y>
+                                                            <template v-slot:activator="{ on, attrs }">
+                                                                <v-btn
+                                                                v-if="details.status == 1"
+                                                                color="primary"
+                                                                dark
+                                                                v-bind="attrs"
+                                                                v-on="on"
+                                                                icon
+                                                                text
+                                                                >
+                                                                <v-icon>mdi-dots-vertical</v-icon>
+                                                                </v-btn>
+                                                            </template>
+                                                            <v-list class="pa-1">
+                                                                <v-list-item class="rounded" link 
+                                                                @click="OpenPublishDialog($route.query.clwk, details.class_id, details.class_name, details.status)" >
+                                                                    <v-list-item-title> 
+                                                                        <v-icon left>mdi-pencil</v-icon> Edit Publication
+                                                                    </v-list-item-title>
+                                                                     
+                                                                </v-list-item>
+                                                                <v-list-item class="rounded" link @click="OpenUnpublishDiaglog($route.query.clwk, details.class_id, details.class_name)">
+                                                                    <v-list-item-title > 
+                                                                            <v-icon left>mdi-share-off</v-icon> Unpublish
+                                                                        </v-list-item-title>
+                                                                 </v-list-item>
+                                                            </v-list>
+                                                            </v-menu>
+                                                  
                                                     </div>
-
-                                                   <!--   <div class="">
-                                                    <div v-for="(data, x) in classNames.check" :key="x">
-                                                        <v-checkbox ma-0 pa-0
-                                                          v-if="data.uc_id == details.id && data.cl_id == $route.query.clwk"
-                                                           v-model="data.status"
-                                                           hide-details
-                                                           class="ma-0 pa-0 float-right" 
-                                                     
-                                                            ></v-checkbox>
-                                                    </div>
-                                                </div> -->
-                                                    
-                                                 
-                                              
                                             </v-list-item>
                                               <v-divider></v-divider> 
                                        </v-container>
@@ -93,10 +116,12 @@
 </template>
 <script>
 const publishDialog = () => import('./dialogs/publishDialog')
+const unpublishConfirmDialog = () => import('./dialogs/unpublishConfirmDialog')
 
 export default {
     components:{
-        publishDialog
+        publishDialog,
+        unpublishConfirmDialog
     },
     data(){
         return{
@@ -104,7 +129,9 @@ export default {
             isloading: true,
             dialog: false,
             Details:{},
-            isPublishing:false
+            UnpublishDetails:{},
+            isPublishing:false,
+            UnpublishDiaglog:false
         }
     },
     methods:{
@@ -116,6 +143,12 @@ export default {
             this.Details.status = status;
             this.dialog = !this.dialog;
 
+        },
+        OpenUnpublishDiaglog(classwork_id, class_id,class_name){
+            this.UnpublishDetails.id = classwork_id;
+            this.UnpublishDetails.class_id = class_id;
+            this.UnpublishDetails.class_name = class_name;
+            this.UnpublishDiaglog = !this.UnpublishDiaglog;
         },
          toastSuccess(class_name) {
             

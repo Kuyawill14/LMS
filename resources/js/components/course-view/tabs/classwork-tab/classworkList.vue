@@ -97,14 +97,22 @@
                                         </v-icon>
                                         </v-btn>
 
+                                       
+
+
                                         <v-btn
                                         @click="item.type == 'Objective Type' ? $router.push({name:'result-page', params:{id: item.classwork_id}})
                                         : $router.push({name: 'clwk',params: {id: $route.params.id},query: {clwk: item.classwork_id}})"
                                         v-bind="attrs"
                                         v-on="on"
-                                         class="mt-1 mr-5 pa-2 mx-1 success--text" text rounded
+                                         class="mt-1 mr-5 pa-2 mx-1 success--text" :text="item.graded || item.type == 'Objective Type'"  :icon="!item.graded && item.type == 'Subjective Type'" rounded
                                         v-if="((item.status != null) && (item.status == 'Taking' || item.status == 'Submitted')) && item.score != null">
-                                            {{item.score}}/{{item.points}}
+
+                                           <span v-if="item.graded || item.type == 'Objective Type'">{{item.score}}/{{item.points}}</span>
+                                           <v-icon size="32" v-if="!item.graded && item.type == 'Subjective Type'">mdi-book-open-page-variant</v-icon>
+                                         
+                                            
+                                            
                                         </v-btn>
                                        
                                     </template>

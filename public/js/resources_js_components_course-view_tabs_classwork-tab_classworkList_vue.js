@@ -147,6 +147,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 var previewClassworkModal = function previewClassworkModal() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_tabs_classwork-tab_dialogs_previewClassworkModal_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./dialogs/previewClassworkModal */ "./resources/js/components/course-view/tabs/classwork-tab/dialogs/previewClassworkModal.vue"));
 };
@@ -22389,7 +22397,14 @@ var render = function() {
                                                     staticClass:
                                                       "mt-1 mr-5 pa-2 mx-1 success--text",
                                                     attrs: {
-                                                      text: "",
+                                                      text:
+                                                        item.graded ||
+                                                        item.type ==
+                                                          "Objective Type",
+                                                      icon:
+                                                        !item.graded &&
+                                                        item.type ==
+                                                          "Subjective Type",
                                                       rounded: ""
                                                     },
                                                     on: {
@@ -22426,14 +22441,31 @@ var render = function() {
                                                 on
                                               ),
                                               [
-                                                _vm._v(
-                                                  "\n                                        " +
-                                                    _vm._s(item.score) +
-                                                    "/" +
-                                                    _vm._s(item.points) +
-                                                    "\n                                    "
-                                                )
-                                              ]
+                                                item.graded ||
+                                                item.type == "Objective Type"
+                                                  ? _c("span", [
+                                                      _vm._v(
+                                                        _vm._s(item.score) +
+                                                          "/" +
+                                                          _vm._s(item.points)
+                                                      )
+                                                    ])
+                                                  : _vm._e(),
+                                                _vm._v(" "),
+                                                !item.graded &&
+                                                item.type == "Subjective Type"
+                                                  ? _c(
+                                                      "v-icon",
+                                                      { attrs: { size: "32" } },
+                                                      [
+                                                        _vm._v(
+                                                          "mdi-book-open-page-variant"
+                                                        )
+                                                      ]
+                                                    )
+                                                  : _vm._e()
+                                              ],
+                                              1
                                             )
                                           : _vm._e()
                                       ]

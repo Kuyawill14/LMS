@@ -47,19 +47,20 @@ class ClassworkController extends Controller
             $CheckSub = tbl_Submission::where("tbl_submissions.user_id",$userId)
             ->orderBy('classwork_id', 'DESC')
             ->get();
-            //return $CheckSub;
             foreach($CheckSub as $subM){
                 foreach($classworkAll as $classW){
                     if($subM->classwork_id === $classW->classwork_id){
                        
                         $classW->status = $subM->status;
                         $classW->score = $subM->points;
+                        $classW->graded = $subM->graded;
                         $classW->Sub_date = $subM->updated_at;
                     }
                     else{
                         if($classW->status == null){
                             $classW->status = null;
                             $classW->score = null;
+                            $classW->graded = $subM->graded;
                             $classW->Sub_date = null;
                         }
                        
@@ -144,6 +145,30 @@ class ClassworkController extends Controller
         return $shareClasswork;
   
     }
+
+    /**
+     * Display the specified resource.
+     *
+     *  @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function UnshareClasswork(Request $request)
+    {
+        //return $request;
+        $userId = auth('sanctum')->id();
+        $Check = tbl_classClassworks::where('class_id','=', $request->class_id)
+        ->where('classwork_id','=',$request->id)
+        ->first();
+
+        if($Check){
+            $Check->delete();
+            return 'Unpublish Success!';
+        }
+        return 'Classwork not found!';
+    }
+
+
+
 
     /**
      * Show the form for editing the specified resource.
