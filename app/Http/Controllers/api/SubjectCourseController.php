@@ -67,14 +67,26 @@ class SubjectCourseController extends Controller
     public function CourseDetails($id)
     {
         $userId = auth('sanctum')->id();
-        $ShowCourseDetails = tbl_subject_course::where('tbl_subject_courses.id', $id)
-        ->select('tbl_subject_courses.id', 'tbl_subject_courses.course_code', 'tbl_subject_courses.course_name', 'tbl_subject_courses.course_description'
-        , 'tbl_subject_courses.course_picture',DB::raw('CONCAT(users.firstname, " ", users.lastName) as name'))
-        ->leftjoin('tbl_userclasses', 'tbl_userclasses.course_id','=','tbl_subject_courses.id')
-        ->leftjoin('users', 'users.id','=','tbl_userclasses.user_id')
-        ->where('users.role', 'Teacher')
-        ->first();
-        return $ShowCourseDetails;
+        if(auth('sanctum')->user()->role == "Student"){
+            $ShowCourseDetails = tbl_subject_course::where('tbl_subject_courses.id', $id)
+            ->select('tbl_subject_courses.id', 'tbl_subject_courses.course_code', 'tbl_subject_courses.course_name', 'tbl_subject_courses.course_description'
+            , 'tbl_subject_courses.course_picture',DB::raw('CONCAT(users.firstname, " ", users.lastName) as name'))
+            ->leftjoin('tbl_userclasses', 'tbl_userclasses.course_id','=','tbl_subject_courses.id')
+            ->leftjoin('users', 'users.id','=','tbl_userclasses.user_id')
+            ->where('users.role', 'Teacher')
+            ->first();
+            return $ShowCourseDetails;
+        }
+        else{
+            $ShowCourseDetails = tbl_subject_course::where('tbl_subject_courses.id', $id)
+            ->select('tbl_subject_courses.id', 'tbl_subject_courses.course_code', 'tbl_subject_courses.course_name', 'tbl_subject_courses.course_description'
+            ,'tbl_subject_courses.course_picture')
+            ->first();
+            $ShowCourseDetails->name = auth('sanctum')->user()->firstName.' '.auth('sanctum')->user()->lastName;
+
+            return $ShowCourseDetails;
+        }
+       
     }
 
     /**
