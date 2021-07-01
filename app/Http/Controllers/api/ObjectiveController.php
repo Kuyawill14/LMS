@@ -68,9 +68,6 @@ class ObjectiveController extends Controller
                 ->get();
             }
 
-            
-
-           
 
             if($cl->type != 'Matching type'){
                 $tempData2;
@@ -104,11 +101,16 @@ class ObjectiveController extends Controller
     /**
      * Show the form for creating a new resource.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function AddOption(Request $request)
     {
-        //
+        $newChoice = new tbl_choice;
+        $newChoice->question_id = $request->question_id;
+        $newChoice->Choice = "<p>N/A</p>";
+        $newChoice->save();
+        return $newChoice->id;
     }
 
     /**
@@ -215,7 +217,39 @@ class ObjectiveController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        //return $request->options;
+        if($request->question['type'] == 'Multiple Choice'){
+            $UpdateQuestion = tbl_Questions::find($request->question['id']);
+            if($UpdateQuestion){
+                $UpdateQuestion->question = $request->question['question'];
+                $UpdateQuestion->answer = $request->question['answer'];
+                $UpdateQuestion->points = $request->question['points'];
+                $UpdateQuestion->save();
+
+                foreach($request->options as $options){
+                    //return $options;
+                    $UpdateChoices = tbl_choice::find($options['id']);
+                    $UpdateChoices->Choice = $options['Choice'];
+                    $UpdateChoices->save();
+                }
+                return 'Update Success!';
+            }
+            return 'Update Failed!';
+        }
+        elseif($request->question['type'] == 'Identification' || $request->question['type'] == 'True or False' ){
+            $UpdateQuestion = tbl_Questions::find($request->question['id']);
+            if($UpdateQuestion){
+                $UpdateQuestion->question = $request->question['question'];
+                $UpdateQuestion->answer = $request->question['answer'];
+                $UpdateQuestion->points = $request->question['points'];
+                $UpdateQuestion->save();
+                return 'Update Success!';
+            }
+            return 'Update Failed!';
+
+        }
+       
+
     }
 
     /**

@@ -179,17 +179,26 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       GradingItems: [],
       FieldRules: [function (v) {
         return !!v || 'Field is required';
-      }]
+      }],
+      isPublishing: false
     };
   },
   methods: {
     validate: function validate() {
+      var _this = this;
+
+      this.isPublishing = !this.isPublishing;
+
       if (this.$refs.publishForm.validate()) {
         this.shareClasswork();
+      } else {
+        setTimeout(function () {
+          _this.isPublishing = !_this.isPublishing;
+        }, 1000);
       }
     },
     shareClasswork: function shareClasswork() {
-      var _this = this;
+      var _this2 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
         var fd;
@@ -198,20 +207,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context.prev = _context.next) {
               case 0:
                 fd = new FormData();
-                fd.append("classwork_id", _this.ClassDetails.id);
-                fd.append("class_id", _this.ClassDetails.class_id);
-                fd.append("EnableDue", _this.EnableDue);
-                fd.append("due_date", _this.duedate);
-                fd.append("showAnswer", _this.showAns);
-                fd.append("showAnswerType", _this.showAnsType);
-                fd.append("showAnswerDate", _this.ShowAnswerDate);
-                fd.append("response_late", _this.response_late);
-                fd.append("grading_id", _this.GradingCriteria_id);
+                fd.append("classwork_id", _this2.ClassDetails.id);
+                fd.append("class_id", _this2.ClassDetails.class_id);
+                fd.append("EnableDue", _this2.EnableDue);
+                fd.append("due_date", _this2.duedate);
+                fd.append("showAnswer", _this2.showAns);
+                fd.append("showAnswerType", _this2.showAnsType);
+                fd.append("showAnswerDate", _this2.ShowAnswerDate);
+                fd.append("response_late", _this2.response_late);
+                fd.append("grading_id", _this2.GradingCriteria_id);
                 axios.post('/api/classwork/share', fd).then(function (res) {
                   if (res.dat != 'Unshare') {
-                    _this.$emit('successPublish', res.data);
+                    _this2.$emit('successPublish', res.data);
+
+                    _this2.isPublishing = !_this2.isPublishing;
                   } else {
-                    _this.$emit('UnPublish');
+                    _this2.$emit('UnPublish');
                   }
                 })["catch"](function (e) {
                   console.log(e);
@@ -226,7 +237,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     getPublishDetails: function getPublishDetails() {
-      var _this2 = this;
+      var _this3 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
         var newDate;
@@ -235,9 +246,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context2.prev = _context2.next) {
               case 0:
                 newDate = new Date();
-                _this2.duedate = moment__WEBPACK_IMPORTED_MODULE_1___default()(newDate).format("YYYY-MM-DDTHH:mm:ss");
-                _this2.ClassDetails = _this2.Details;
-                _this2.ShowAnswerDate = _this2.duedate;
+                _this3.duedate = moment__WEBPACK_IMPORTED_MODULE_1___default()(newDate).format("YYYY-MM-DDTHH:mm:ss");
+                _this3.ClassDetails = _this3.Details;
+                _this3.ShowAnswerDate = _this3.duedate;
 
               case 4:
               case "end":
@@ -248,15 +259,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     getGradingCriteria: function getGradingCriteria() {
-      var _this3 = this;
+      var _this4 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                axios.get('/api/grading-criteria/all/' + _this3.$route.params.id).then(function (res) {
-                  _this3.GradingItems = res.data;
+                axios.get('/api/grading-criteria/all/' + _this4.$route.params.id).then(function (res) {
+                  _this4.GradingItems = res.data;
                 });
 
               case 1:
@@ -22111,6 +22122,7 @@ var render = function() {
                   attrs: {
                     rounded: "",
                     color: "primary",
+                    loading: _vm.isPublishing,
                     text: "",
                     disabled: _vm.loading
                   },
@@ -22124,7 +22136,7 @@ var render = function() {
                   _vm._v(
                     "\n                 " +
                       _vm._s(
-                        !_vm.ClassDetails.status ? "Publish" : "Unpublish"
+                        !_vm.ClassDetails.status == 0 ? "Publish" : "Update"
                       ) +
                       "\n             "
                   )

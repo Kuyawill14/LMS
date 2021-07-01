@@ -113,8 +113,8 @@
             <v-card-actions class="pb-5">
                 <v-spacer></v-spacer>
                
-                <v-btn rounded  color="primary" text  @click="validate()" :disabled="loading">
-                    {{!ClassDetails.status ? 'Publish': 'Unpublish'}}
+                <v-btn rounded  color="primary" :loading="isPublishing" text  @click="validate()" :disabled="loading">
+                    {{!ClassDetails.status == 0 ? 'Publish': 'Update'}}
                 </v-btn>
                  <v-btn  rounded color="secondary" text @click="$emit('toggleDialog')" :disabled="loading">
                     Cancel
@@ -158,12 +158,19 @@ export default {
             FieldRules: [
                 v => !!v || 'Field is required',
             ],
+            isPublishing: false
         }
     },
     methods:{
          validate () {
+            this.isPublishing = !this.isPublishing;
             if(this.$refs.publishForm.validate()){
                 this.shareClasswork();
+            }
+            else{
+                setTimeout(() => {
+                   this.isPublishing = !this.isPublishing;
+                }, 1000);
             }
         },
         async shareClasswork() {
@@ -173,7 +180,7 @@ export default {
             fd.append("EnableDue", this.EnableDue);
             fd.append("due_date", this.duedate);
             fd.append("showAnswer", this.showAns);
-             fd.append("showAnswerType", this.showAnsType);
+            fd.append("showAnswerType", this.showAnsType);
             fd.append("showAnswerDate", this.ShowAnswerDate);
             fd.append("response_late", this.response_late);
             fd.append("grading_id", this.GradingCriteria_id);
@@ -181,6 +188,7 @@ export default {
                 .then(res => {
                     if(res.dat != 'Unshare'){
                         this.$emit('successPublish', res.data)
+                         this.isPublishing = !this.isPublishing;
                     }
                     else{
                         this.$emit('UnPublish')

@@ -119,10 +119,10 @@ Route::prefix('/classwork')->group(function () {
     Route::get('/student-classworks/{id}', [ClassworkController::class, 'getIndividualClassClassworks']);
     Route::post('/insert', [ClassworkController::class, 'store']);
     Route::post('/share', [ClassworkController::class, 'ShareClasswork']);
-
+    Route::post('/unshare', [ClassworkController::class, 'UnshareClasswork']);
     Route::put('/update/{id}', [ClassworkController::class, 'update']);
     Route::delete('/remove/{id}', [ClassworkController::class, 'destroy']);
-
+    
     
 });
 
@@ -187,10 +187,15 @@ Route::prefix('/question')->group(function () {
     Route::get('/all/{id}', [ObjectiveController::class, 'index']);
     Route::post('/insert', [ObjectiveController::class, 'store']);
     Route::post('/check/{id}', [ObjectiveController::class, 'check']);
-    
+    Route::post('/addOption', [ObjectiveController::class, 'AddOption']);
+
+    Route::put('/update/{id}', [ObjectiveController::class, 'update']);
+
     Route::delete('/{id}', [ObjectiveController::class, 'destroy']);
     Route::delete('/remove/{id}', [ObjectiveController::class, 'deleteQuestion']);
 });
+
+
 
 
 

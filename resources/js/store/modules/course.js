@@ -16,8 +16,7 @@ const actions = {
         const res = await axios.get(
             `/api/course/ShowCourse/${id}`
         ).then((res) => {
-            console.log(res.data[0]);
-            commit('setcourseInfo', res.data[0]);
+            commit('setcourseInfo', res.data);
         });
     }
 };

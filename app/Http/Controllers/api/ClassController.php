@@ -173,40 +173,40 @@ class ClassController extends Controller
     }
 
     public function fecthClassNames($id){
-        $userId = auth('sanctum')->id();
+        //$userId = auth('sanctum')->id();
+        $userId = 1;
         //getAllClass
-        $allClass = DB::table('tbl_userclasses')
+        $allClass = tbl_userclass::where('tbl_userclasses.course_id', $id)
         ->select('tbl_userclasses.id','tbl_classes.id as class_id','tbl_classes.class_name','tbl_classes.class_name')
         ->leftJoin('tbl_classes', 'tbl_userclasses.class_id', '=', 'tbl_classes.id')
         ->where('tbl_userclasses.user_id', $userId)
-        ->where('tbl_userclasses.course_id', $id)
         ->orderBy('tbl_classes.created_at', 'DESC')
         ->get();
 
+       
         //getAllClasswork
        $classwork = tbl_classwork::where('user_id', $userId)
         ->orderBy('created_at', 'DESC')
         ->get();
-        
-        $tempCheck = array();
-        $counter = 0;
+       
         foreach($allClass as $cl){
             foreach($classwork as $cw){
                 $Check = tbl_classClassworks::where('class_id','=', $cl->class_id)
                 ->where('classwork_id','=', $cw->id)
                 ->exists();
                 if($Check){
-                    $tempCheck[] = ['uc_id'=>$cl->id,'cl_id'=>$cw->id,'status'=>true];
+                    $cl->status = 1;
                 }
                 else{
-                    $tempCheck[] = ['uc_id'=>$cl->id,'cl_id'=>$cw->id,'status'=>false];
+                    if($cl->status == ''){
+                        $cl->status = 0;
+                    }
                 }
             }
-               
-
         }
-        //return $allClass[$allClass,  $classwork];
-        return ["allClass"=>$allClass, "check"=>$tempCheck];
+       
+      /*   return ["allClass"=>$allClass, "check"=>$tempCheck]; */
+        return $allClass;
         //return $tempCheck;
     }
 

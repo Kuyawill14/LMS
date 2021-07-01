@@ -40,8 +40,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 
-/*     import VueElementLoading from 'vue-element-loading' */
-
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['role', 'UserDetails'],
@@ -55,8 +53,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       routeName: '',
       showCard: true
     };
-  },
-  components: {// VueElementLoading
   },
   computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(["getcourseInfo"])), {}, {
     saveClassId: function saveClassId(id) {
@@ -278,7 +274,7 @@ var render = function() {
                   }),
                   _vm._v(" "),
                   _c("v-card-subtitle", { staticClass: "white--text" }, [
-                    _vm._v(" {teacher name}")
+                    _vm._v("Instructor: " + _vm._s(_vm.getcourseInfo.name))
                   ])
                 ],
                 1
