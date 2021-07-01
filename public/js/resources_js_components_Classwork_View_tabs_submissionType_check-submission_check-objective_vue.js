@@ -21916,13 +21916,12 @@ var render = function() {
                               }
                             }),
                             _vm._v(" "),
-                            _vm._v(
-                              "\n                      \n                      \n                       " +
-                                _vm._s(index + 1) +
-                                ". "
-                            ),
+                            _c("h3", { staticClass: "font-weight-bold" }, [
+                              _vm._v(_vm._s(index + 1) + ".")
+                            ]),
+                            _vm._v(" "),
                             _c("span", {
-                              staticClass: "post-content",
+                              staticClass: "post-content ml-1",
                               domProps: { innerHTML: _vm._s(item.question) }
                             }),
                             _vm._v(" "),
@@ -21948,7 +21947,8 @@ var render = function() {
                               "v-container",
                               {
                                 key: i,
-                                staticClass: "d-flex flex-row ma-0 pa-0 mb-1"
+                                staticClass:
+                                  "d-flex flex-row ma-0 pa-0 mb-1 ml-8"
                               },
                               [
                                 _c(
@@ -22065,7 +22065,7 @@ var render = function() {
                               "v-container",
                               {
                                 key: n,
-                                staticClass: "d-flex flex-row ma-0 pa-0"
+                                staticClass: "d-flex flex-row ma-0 pa-0 ml-8"
                               },
                               [
                                 _c(
