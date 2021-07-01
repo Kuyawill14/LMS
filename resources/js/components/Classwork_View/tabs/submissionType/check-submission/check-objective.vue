@@ -66,14 +66,14 @@
                                 <v-icon color="red">mdi-close-box</v-icon>
                             </v-btn> -->
                             
-                            
-                             {{index+1}}. <span v-html="item.question" class="post-content"></span>
+                            <h3 class="font-weight-bold">{{index+1}}.</h3>
+                              <span v-html="item.question" class="post-content ml-1"></span>
                              <small class="primary--text ml-1">({{item.points+' points'}})</small>
                              </div>
                     </v-container> 
                
                  <v-container v-if="item.type == 'Multiple Choice'">
-                     <v-container class="d-flex flex-row ma-0 pa-0 mb-1" v-for="(Ans, i) in getAll_questions.Answer[index]" :key="i">
+                     <v-container class="d-flex flex-row ma-0 pa-0 mb-1 ml-8" v-for="(Ans, i) in getAll_questions.Answer[index]" :key="i">
                         <v-radio-group :name="'option'+index"  class="ma-0 pa-0" v-model="SubmittedAnswer[index].Answer">
                             <v-radio
                             color="primary"
@@ -103,7 +103,7 @@
 
 
                   <v-container v-if="item.type == 'True or False'">
-                       <v-container class="d-flex flex-row ma-0 pa-0" v-for="(x, n) in inputCheck" :key="n">
+                       <v-container class="d-flex flex-row ma-0 pa-0 ml-8" v-for="(x, n) in inputCheck" :key="n">
                         <v-radio-group :name="'option'+index"   class="ma-0 pa-0"  v-model="SubmittedAnswer[index].Answer">
                             <v-radio
                             color="primary"
