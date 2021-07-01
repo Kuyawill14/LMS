@@ -90,8 +90,26 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+var checkobjective = function checkobjective() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_tabs_submissionType_check-submission_check-objective_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./check-submission/check-objective */ "./resources/js/components/Classwork_View/tabs/submissionType/check-submission/check-objective.vue"));
+};
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ["ListData"],
+  props: ["ListData", "classworkDetails"],
+  components: {
+    checkobjective: checkobjective
+  },
   data: function data() {
     return {
       isloading: true,
@@ -114,7 +132,9 @@ __webpack_require__.r(__webpack_exports__);
       }, {
         text: 'Actions',
         sortable: false
-      }]
+      }],
+      dialog: false,
+      ViewDetails: null
     };
   },
   methods: {},
@@ -214,6 +234,50 @@ var render = function() {
   return _c(
     "div",
     [
+      _vm.dialog
+        ? _c(
+            "v-row",
+            { attrs: { justify: "center" } },
+            [
+              _c(
+                "v-dialog",
+                {
+                  attrs: {
+                    fullscreen: "",
+                    "hide-overlay": "",
+                    transition: "dialog-bottom-transition"
+                  },
+                  model: {
+                    value: _vm.dialog,
+                    callback: function($$v) {
+                      _vm.dialog = $$v
+                    },
+                    expression: "dialog"
+                  }
+                },
+                [
+                  _c("checkobjective", {
+                    attrs: {
+                      classworkDetails: _vm.classworkDetails,
+                      ViewDetails: _vm.ViewDetails
+                    },
+                    on: {
+                      UpdateSubmission: function($event) {
+                        return _vm.$emit("UpdateSubmission")
+                      },
+                      closeDialog: function($event) {
+                        _vm.dialog = !_vm.dialog
+                      }
+                    }
+                  })
+                ],
+                1
+              )
+            ],
+            1
+          )
+        : _vm._e(),
+      _vm._v(" "),
       _c(
         "v-card",
         {
@@ -422,6 +486,14 @@ var render = function() {
                                                                     attrs: {
                                                                       text: "",
                                                                       icon: ""
+                                                                    },
+                                                                    on: {
+                                                                      click: function(
+                                                                        $event
+                                                                      ) {
+                                                                        ;(_vm.dialog = !_vm.dialog),
+                                                                          (_vm.ViewDetails = item)
+                                                                      }
                                                                     }
                                                                   },
                                                                   "v-btn",

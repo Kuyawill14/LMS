@@ -1,6 +1,16 @@
 <template>
 <div>
+
+<v-row justify="center" v-if="dialog">
+    <v-dialog v-model="dialog"
+    fullscreen
+    hide-overlay
     
+    transition="dialog-bottom-transition">
+    <checkobjective :classworkDetails="classworkDetails" :ViewDetails="ViewDetails"  v-on:UpdateSubmission="$emit('UpdateSubmission')" v-on:closeDialog="dialog = !dialog"></checkobjective>
+    </v-dialog>
+ </v-row> 
+
 <v-card   class="elevation-5" style="border-top:4px solid #EF6C00">
     <v-window>
         <v-window-item >
@@ -55,6 +65,7 @@
                                     <v-tooltip top>
                                         <template v-slot:activator="{ on, attrs }">
                                             <v-btn
+                                            @click="dialog = !dialog, ViewDetails = item"
                                             v-bind="attrs"
                                             v-on="on"
                                             text icon
@@ -78,8 +89,13 @@
 </div>
 </template>
 <script>
+
+const checkobjective = () => import('./check-submission/check-objective')
 export default {
-    props:["ListData"],
+    props:["ListData","classworkDetails"],
+    components:{
+        checkobjective
+    },
     data(){
         return{
             isloading:true,
@@ -97,6 +113,8 @@ export default {
                 { text: 'Actions',sortable: false},
                 
             ],
+            dialog: false,
+            ViewDetails: null,
             
         }
     },
