@@ -33,7 +33,7 @@
                         </v-text-field>
                     </v-card-title>
 
-                    <v-simple-table >
+                    <v-simple-table>
                         <template v-slot:default>
                             <thead>
                                 <tr>
@@ -47,12 +47,12 @@
                                 </tr>
                             </thead>
                             <tbody v-if="loading == false">
-                                <tr v-for="student in students" :key="student.id" >
+                                <tr v-for="student in students" :key="student.id">
                                     <td class="text-left">{{student.lastName + ', ' + student.firstName }} </td>
                                     <td class="text-center"
-                                        v-for="(student_final, index) in allStudentFinalGrades(student.id)[0].grades"
+                                        v-for="(student_final, index) in allStudentFinalGrades(student.id)"
                                         :key="index">
-                                        {{student_final}}
+                                        {{student_final.grade_percentage}}
                                     </td>
                                     <td class="text-center">
                                         {{sumPercentage(allStudentFinalGrades(student.id))}}
@@ -309,9 +309,11 @@
                     this.selectedClass = this.classList[0].class_id;
                     this.getClassworkList();
                     this.getStudentList();
-            
-                    this.$store.dispatch('fetchAllStudentFinalGrades', this.$route.params.id);
-                            this.loading =false;
+
+                    this.$store.dispatch('fetchAllStudentFinalGrades', this.$route.params.id).then(() => {
+                        this.loading = false;
+                    });
+
                     console.log('class Liost: ', this.classList);
                 });
             },

@@ -322,9 +322,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
         _this5.getStudentList();
 
-        _this5.$store.dispatch('fetchAllStudentFinalGrades', _this5.$route.params.id);
+        _this5.$store.dispatch('fetchAllStudentFinalGrades', _this5.$route.params.id).then(function () {
+          _this5.loading = false;
+        });
 
-        _this5.loading = false;
         console.log('class Liost: ', _this5.classList);
       });
     },
@@ -661,9 +662,7 @@ var render = function() {
                                         ]),
                                         _vm._v(" "),
                                         _vm._l(
-                                          _vm.allStudentFinalGrades(
-                                            student.id
-                                          )[0].grades,
+                                          _vm.allStudentFinalGrades(student.id),
                                           function(student_final, index) {
                                             return _c(
                                               "td",
@@ -674,7 +673,9 @@ var render = function() {
                                               [
                                                 _vm._v(
                                                   "\n                                    " +
-                                                    _vm._s(student_final) +
+                                                    _vm._s(
+                                                      student_final.grade_percentage
+                                                    ) +
                                                     "\n                                "
                                                 )
                                               ]
