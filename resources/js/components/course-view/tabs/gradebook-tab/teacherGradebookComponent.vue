@@ -37,7 +37,7 @@
                         <template v-slot:default>
                             <thead>
                                 <tr>
-                                    <th class="text-center">
+                                    <th class="text-left">
                                         Name</th>
                                     <th class="text-center" v-for="(gradingCriteria, index) in get_gradingCriteria"
                                         :key="index">
@@ -88,7 +88,7 @@
                                         :key="index">
                                         {{classworkGrades.points}}
 
-                                        <v-tooltip v-model="show" top v-if="classworkGrades.points == null">
+                                        <v-tooltip v-model="shown" top v-if="classworkGrades.points == null">
                                             <template v-slot:activator="{ on, attrs }">
                                                 <v-btn icon v-bind="attrs" v-on="on">
                                                     <v-icon color="grey lighten-1">
@@ -134,6 +134,7 @@
         },
         data: function () {
             return {
+                shown: false,
                 selectedClass: null,
                 Deldialog: false,
                 dialog: false,
@@ -310,12 +311,13 @@
                     this.getClassworkList();
                     this.getStudentList();
 
-                    this.$store.dispatch('fetchAllStudentFinalGrades', this.$route.params.id).then(() => {
-                        this.loading = false;
-                    });
 
                     console.log('class Liost: ', this.classList);
                 });
+                this.$store.dispatch('fetchAllStudentFinalGrades', this.$route.params.id).then(() => {
+                    this.loading = false;
+                });
+
             },
             getFinalGrades() {
 
