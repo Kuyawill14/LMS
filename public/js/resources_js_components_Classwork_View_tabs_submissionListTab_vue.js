@@ -306,7 +306,10 @@ var render = function() {
                         [
                           _vm.classworkDetails.type == "Objective Type"
                             ? _c("objectiveSubmission", {
-                                attrs: { ListData: _vm.List }
+                                attrs: {
+                                  classworkDetails: _vm.classworkDetails,
+                                  ListData: _vm.List
+                                }
                               })
                             : _vm._e()
                         ],

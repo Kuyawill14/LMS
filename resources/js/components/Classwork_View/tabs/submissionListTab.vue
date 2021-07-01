@@ -26,7 +26,7 @@
   <v-container v-if="!isloading && List.length != 0 "  pa-0 ma-0  class="pa-0 pa-0" fluid>
         <v-row align="center" justify="center">
             <v-col v-if="classworkDetails.type == 'Objective Type'" cols="12" lg="8" xl="6" md="10">
-                <objectiveSubmission v-if="classworkDetails.type == 'Objective Type'" :ListData="List"></objectiveSubmission>    
+                <objectiveSubmission v-if="classworkDetails.type == 'Objective Type'" :classworkDetails="classworkDetails"  :ListData="List"></objectiveSubmission>    
             </v-col>
             <v-col v-if="classworkDetails.type == 'Subjective Type'" cols="12" lg="10" xl="6" md="10">
                 <subjectiveSubmission v-on:UpdateSubmission="GetListAfterEmit" v-if="classworkDetails.type == 'Subjective Type'" :classworkDetails="classworkDetails"  :ListData="List"></subjectiveSubmission>    
