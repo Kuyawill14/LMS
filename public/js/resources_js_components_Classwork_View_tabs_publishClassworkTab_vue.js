@@ -256,7 +256,9 @@ var updatePublishDialog = function updatePublishDialog() {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                _this3.dialog = !_this3.dialog, _this3.isPublishing = !_this3.isPublishing;
+                _this3.dialog = !_this3.dialog;
+                _this3.isPublishing = !_this3.isPublishing;
+                _this3.isAdding = !_this3.isAdding;
                 axios.get('/api/class/allnames/' + _this3.$route.params.id + '/' + _this3.$route.query.clwk).then(function (res) {
                   _this3.classNames = res.data;
                   _this3.isloading = false;
@@ -266,7 +268,7 @@ var updatePublishDialog = function updatePublishDialog() {
                   console.log(e);
                 });
 
-              case 2:
+              case 4:
               case "end":
                 return _context2.stop();
             }
@@ -442,12 +444,10 @@ var render = function() {
                 attrs: { Details: _vm.Details },
                 on: {
                   toggleDialog: function($event) {
-                    ;(_vm.dialog = !_vm.dialog),
-                      (_vm.isPublishing = !_vm.isPublishing),
-                      (_vm.isUpdate = !_vm.isUpdate)
+                    ;(_vm.dialog = !_vm.dialog), (_vm.isUpdate = !_vm.isUpdate)
                   },
-                  UnPublish: function($event) {
-                    return _vm.closeDiaglog()
+                  successPublish: function($event) {
+                    ;(_vm.dialog = !_vm.dialog), (_vm.isUpdate = !_vm.isUpdate)
                   }
                 }
               })
