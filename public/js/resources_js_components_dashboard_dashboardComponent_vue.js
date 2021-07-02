@@ -2011,6 +2011,52 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -46189,19 +46235,105 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "v-row",
+    "div",
     [
+      _c("v-row", [_c("v-col", [_c("h2", [_vm._v("Dashboard")])])], 1),
+      _vm._v(" "),
       _c(
-        "v-col",
-        { attrs: { lg: "6" } },
+        "v-row",
         [
           _c(
-            "v-card",
+            "v-col",
+            { attrs: { lg: "3" } },
             [
-              _c("v-chart", {
-                staticClass: "chart",
-                attrs: { option: _vm.option, autoresize: "" }
-              })
+              _c("v-card", [
+                _c(
+                  "div",
+                  {
+                    staticClass: "text-center",
+                    staticStyle: { "font-size": "3rem", color: "#FF5400" }
+                  },
+                  [_vm._v("\n                  8 \n                ")]
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "text-center" }, [
+                  _vm._v(
+                    "\n                    Total Courses\n                "
+                  )
+                ])
+              ])
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-col",
+            { attrs: { lg: "3" } },
+            [
+              _c("v-card", [
+                _c(
+                  "div",
+                  {
+                    staticClass: "text-center",
+                    staticStyle: { "font-size": "3rem", color: "#FF5400" }
+                  },
+                  [_vm._v("\n                  8 \n                ")]
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "text-center" }, [
+                  _vm._v(
+                    "\n                    Total Classes\n                "
+                  )
+                ])
+              ])
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-col",
+            { attrs: { lg: "3" } },
+            [
+              _c("v-card", [
+                _c(
+                  "div",
+                  {
+                    staticClass: "text-center",
+                    staticStyle: { "font-size": "3rem", color: "#FF5400" }
+                  },
+                  [_vm._v("\n                  8 \n                ")]
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "text-center" }, [
+                  _vm._v(
+                    "\n                    Total Students\n                "
+                  )
+                ])
+              ])
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-col",
+            { attrs: { lg: "3" } },
+            [
+              _c("v-card", [
+                _c(
+                  "div",
+                  {
+                    staticClass: "text-center",
+                    staticStyle: { "font-size": "3rem", color: "#FF5400" }
+                  },
+                  [_vm._v("\n                  8 \n                ")]
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "text-center" }, [
+                  _vm._v(
+                    "\n                    Total Classes\n                "
+                  )
+                ])
+              ])
             ],
             1
           )
