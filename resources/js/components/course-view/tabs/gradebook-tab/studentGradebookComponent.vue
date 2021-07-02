@@ -11,7 +11,7 @@
 
         </v-row>
         <v-card>
-            <v-tabs color="deep-purple accent-4" right>
+            <v-tabs color="orange accent-4" right>
                 <v-tab href="#final_grades">
                     Final Grades
                 </v-tab>
