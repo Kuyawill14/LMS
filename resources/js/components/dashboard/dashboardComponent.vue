@@ -1,11 +1,57 @@
 <template>
-    <v-row>
-        <v-col lg="6">
-            <v-card>
-                <v-chart class="chart" :option="option" autoresize />
-            </v-card>
-        </v-col>
-    </v-row>
+    <div>
+        <v-row>
+            <v-col>
+                <h2>Dashboard</h2>
+            </v-col>
+        </v-row>
+        <v-row>
+            <v-col lg="3">
+                <v-card   >
+                    <div class="text-center"  style="font-size: 3rem;color:#FF5400 ">
+                      8 
+                    </div>
+                    <div class="text-center">
+                        Total Courses
+                    </div>
+                </v-card>
+            </v-col>
+
+             <v-col lg="3">
+                <v-card   >
+                    <div class="text-center" style="font-size: 3rem;color:#FF5400 ">
+                      8 
+                    </div>
+                    <div class="text-center">
+                        Total Classes
+                    </div>
+                </v-card>
+            </v-col>
+
+             <v-col lg="3">
+                <v-card   >
+                    <div class="text-center" style="font-size: 3rem;color:#FF5400 ">
+                      8 
+                    </div>
+                    <div class="text-center">
+                        Total Students
+                    </div>
+                </v-card>
+            </v-col>
+
+             <v-col lg="3">
+                <v-card   >
+                    <div class="text-center"  style="font-size: 3rem;color:#FF5400 ">
+                      8 
+                    </div>
+                    <div class="text-center">
+                        Total Classes
+                    </div>
+                </v-card>
+            </v-col>
+        </v-row>
+    </div>
+
 
 
 </template>
@@ -53,9 +99,11 @@
         data() {
             return {
                 option: {
-                      color: ["#FF5400","#FFs400","#FFd400"],
+                    color: ["#FF5400", "#FFs400", "#FFd400"],
                     xAxis: {
-                        data: ['Module 1', 'Module 2', 'Module 3', 'Module 4', 'Module 5', 'Module 6', 'Module 7', 'Module 8', 'Module 9']
+                        data: ['Module 1', 'Module 2', 'Module 3', 'Module 4', 'Module 5', 'Module 6', 'Module 7',
+                            'Module 8', 'Module 9'
+                        ]
                     },
                     yAxis: {
                         type: 'value'
@@ -70,58 +118,58 @@
                     },
                     legend: {
                         show: false,
-                    //     left: "center",
-                    //   top: "30px",
+                        //     left: "center",
+                        //   top: "30px",
                     },
                     series: [{
-                        name: "Module 1",
-                        type: "bar",
+                            name: "Module 1",
+                            type: "bar",
 
-                        data: [{
-                                value: 1,
-                                name: "Module 1"
-                            },
-                            {
-                                value: 2,
-                                name: "Module 2"
-                            },
-                            {
-                                value: 3,
-                                name: "Module 3"
-                            },
-                            {
-                                value: 4,
-                                name: "Module 4"
-                            },
-                            {
-                                value: 5,
-                                name: "Module 5"
-                            },
-                            {
-                                value: 6,
-                                name: "Module 6"
-                            },
-                            {
-                                value: 7,
-                                name: "Module 7"
-                            },
-                             {
-                                value: 8,
-                                name: "Module 8"
-                            },
-                             {
-                                value: 9,
-                                name: "Module 9"
-                            },
-                           
-                        ],
-                     
-                    },
-                    
-               
+                            data: [{
+                                    value: 1,
+                                    name: "Module 1"
+                                },
+                                {
+                                    value: 2,
+                                    name: "Module 2"
+                                },
+                                {
+                                    value: 3,
+                                    name: "Module 3"
+                                },
+                                {
+                                    value: 4,
+                                    name: "Module 4"
+                                },
+                                {
+                                    value: 5,
+                                    name: "Module 5"
+                                },
+                                {
+                                    value: 6,
+                                    name: "Module 6"
+                                },
+                                {
+                                    value: 7,
+                                    name: "Module 7"
+                                },
+                                {
+                                    value: 8,
+                                    name: "Module 8"
+                                },
+                                {
+                                    value: 9,
+                                    name: "Module 9"
+                                },
+
+                            ],
+
+                        },
+
+
                     ],
                 }
-             
+
             };
         }
     };
