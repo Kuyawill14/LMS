@@ -4,10 +4,16 @@
         <v-dialog v-model="dialog" persistent max-width="600">
             <publishDialog 
             :Details="Details"
-            v-on:toggleDialog="dialog = !dialog, isPublishing = !isPublishing"
+            v-on:toggleDialog="dialog = !dialog, isPublishing = !isPublishing, isAdding= !isAdding"
             v-on:successPublish="SuccessPublishNotify"
             v-on:UnPublish="closeDiaglog()"
-            v-if="dialog"></publishDialog>
+            v-if="isAdding"></publishDialog>
+
+             <updatePublishDialog 
+            :Details="Details"
+            v-on:toggleDialog="dialog = !dialog, isPublishing = !isPublishing, isUpdate = !isUpdate"
+            v-on:UnPublish="closeDiaglog()"
+            v-if="isUpdate"></updatePublishDialog>
         </v-dialog>
 
         <v-dialog  v-model="UnpublishDiaglog" persistent max-width="450">
@@ -16,6 +22,8 @@
             v-on:UnpublishSuccess="UnpublishDiaglog = !UnpublishDiaglog,fetchClassnames()"
             ></unpublishConfirmDialog>
         </v-dialog>
+    
+        
 
         
 
@@ -61,7 +69,7 @@
                                                      <div class="">
                                              
                                                             <v-btn
-                                                                :loading="isPublishing && details.class_id == details.class_id"
+                                                                :loading="isPublishing && isPublishing_id == details.class_id"
                                                                 @click="OpenPublishDialog($route.query.clwk, details.class_id, details.class_name, details.status)" 
                                                                 v-if="details.status == 0"
                                                                 color="primary" :outlined="details.status == 0" rounded dark>
@@ -86,7 +94,7 @@
                                                             </template>
                                                             <v-list class="pa-1">
                                                                 <v-list-item class="rounded" link 
-                                                                @click="OpenPublishDialog($route.query.clwk, details.class_id, details.class_name, details.status)" >
+                                                                @click="OpenEditPublish($route.query.clwk, details.class_id, details.class_name, details.Class_classwork_id)" >
                                                                     <v-list-item-title> 
                                                                         <v-icon left>mdi-pencil</v-icon> Edit Publication
                                                                     </v-list-item-title>
@@ -117,11 +125,13 @@
 <script>
 const publishDialog = () => import('./dialogs/publishDialog')
 const unpublishConfirmDialog = () => import('./dialogs/unpublishConfirmDialog')
+const updatePublishDialog = () => import('./dialogs/UpdatePublishDialog')
 
 export default {
     components:{
         publishDialog,
-        unpublishConfirmDialog
+        unpublishConfirmDialog,
+        updatePublishDialog
     },
     data(){
         return{
@@ -131,18 +141,31 @@ export default {
             Details:{},
             UnpublishDetails:{},
             isPublishing:false,
-            UnpublishDiaglog:false
+            isPublishing_id: null,
+            UnpublishDiaglog:false,
+            isAdding: false,
+            isUpdate: false,
         }
     },
     methods:{
-        OpenPublishDialog(item_id, class_id,class_name,status){
+        OpenPublishDialog(item_id, class_id,class_name){
             this.isPublishing = !this.isPublishing;
+            this.isPublishing_id = class_id;
             this.Details.id = item_id;
             this.Details.class_id = class_id;
             this.Details.class_name = class_name;
-            this.Details.status = status;
             this.dialog = !this.dialog;
+            this.isAdding = !this.isAdding;
 
+        },
+        OpenEditPublish(item_id, class_id,class_name,classwork_id){
+           
+            this.Details.id = item_id;
+            this.Details.class_id = class_id;
+            this.Details.class_name = class_name;
+            this.Details.classwork_id = classwork_id;
+             this.dialog = !this.dialog;
+            this.isUpdate = !this.isUpdate;
         },
         OpenUnpublishDiaglog(classwork_id, class_id,class_name){
             this.UnpublishDetails.id = classwork_id;
@@ -177,7 +200,7 @@ export default {
             this.fetchClassnames();
         },
         async fetchClassnames() {
-            axios.get('/api/class/allnames/' + this.$route.params.id).then(res => {
+            axios.get('/api/class/allnames/' + this.$route.params.id+'/'+ this.$route.query.clwk).then(res => {
                 this.classNames = res.data;
                 this.isloading = false;
             }).catch(e => {
@@ -186,7 +209,7 @@ export default {
         },
           async fetchClassFornotify(data) {
             this.dialog = !this.dialog,this.isPublishing = !this.isPublishing
-            axios.get('/api/class/allnames/' + this.$route.params.id).then(res => {
+            axios.get('/api/class/allnames/' + this.$route.params.id+'/'+ this.$route.query.clwk).then(res => {
                 this.classNames = res.data;
                 this.isloading = false;
                 this.NewNotification(data)
@@ -205,7 +228,7 @@ export default {
             })
         }
     },
-    beforeMount(){
+    mounted(){
         this.fetchClassnames();
       
     }

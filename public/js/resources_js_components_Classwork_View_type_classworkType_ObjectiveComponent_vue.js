@@ -357,7 +357,7 @@ var render = function() {
                                             "Due " +
                                               _vm._s(
                                                 _vm.format_date(
-                                                  _vm.classworkDetails.due_date
+                                                  _vm.classworkDetails.to_date
                                                 )
                                               )
                                           )

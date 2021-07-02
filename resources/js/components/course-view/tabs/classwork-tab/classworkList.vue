@@ -23,16 +23,25 @@
      
             <v-row class="pl-1 pr-1" ma-0 pa-0>
                 <v-col cols="12" lg="6"  xl="3" md="6" v-for="(item, index) in classworks" :key="index">
-                        <v-card :style="role == 'Teacher' ? '' :CheckFormatDue(item.due_date) > DateToday ? '' : item.status == 'Submitted' ? '':'border:1px  solid #B71C1C'">
+                        <v-card :style="role == 'Teacher' ? '' : 
+                        item.availability != 0 ?
+                        CheckFormatDue(item.to_date) > DateToday ? '' : item.status == 'Submitted' ? '':'border:1px  solid #B71C1C' : ''">
                             <v-container class="pl-3 pr-3 pt-5 pb-5 d-flex flex-row justify-space-between">
                                 <div class="d-flex flex-row">
-                                    <v-icon class="pl-2 pr-3" :color="role != 'Teacher' ? CheckFormatDue(item.due_date) > DateToday ? '':item.status == 'Submitted' ? 'success': 'red darken-4':''" large>{{item.status == 'Submitted' ? 'mdi-check':'mdi-book-open-variant'}}</v-icon>
+                                    <v-icon class="pl-2 pr-3" :color="role != 'Teacher' ?  
+                                    item.availability != 0 ? CheckFormatDue(item.to_date) > DateToday ? '':item.status == 'Submitted' ? 'success': 'red darken-4':'' : ''" large>
+                                        {{item.status == 'Submitted' ? 'mdi-check':'mdi-book-open-variant'}}</v-icon>
                                     <div>
                                         
                                         <div ma-0 pa-0 class="h1 ml-1"> <span class="font-weight-bold">{{item.title}}</span> <small class="primary--text" v-if="item.type == 'Subjective Type'">({{item.points}} points)</small></div> 
-                                        <small v-if="role == 'Student' && (item.status == null || item.status == 'Submitting' )" :class="CheckFormatDue(item.due_date) > DateToday ? 'card-subtitle text-50': item.status == 'Submitted' ? 'card-subtitle text-50':'card-subtitle text-50 red--text'">
-                                            <v-icon :color="CheckFormatDue(item.due_date) > DateToday ? '': item.status == 'Submitted' ? '':'red darken-4'" small>mdi-clock</v-icon> {{CheckFormatDue(item.due_date) > CheckFormatDue(DateToday) ? '' : "Late"}}
-                                            Due Date: {{format_date(item.due_date)}} </small>
+                                        <small v-if="role == 'Student' && (item.status == null || item.status == 'Submitting' )" :class="item.availability != 0 ? CheckFormatDue(item.to_date) > DateToday ? 'card-subtitle text-50': item.status == 'Submitted' ? 'card-subtitle text-50':'card-subtitle text-50 red--text':''">
+                                            <v-icon :color="item.availability != 0 ? CheckFormatDue(item.to_date) > DateToday ? '': item.status == 'Submitted' ? '':'red darken-4':''" small>mdi-clock</v-icon> 
+                                            
+                                            {{item.availability != 0 ? CheckFormatDue(item.to_date) > CheckFormatDue(DateToday) ? '' : "Late" :''}}
+                                          
+                                            {{item.availability != 0 ? ' Due Date:' : 'No Due Date'}}
+                                            {{format_date(item.to_date)}} 
+                                        </small>
                                             
 
                                         <small v-if="role == 'Student' && item.status == 'Submitted' " class="card-subtitle text-50 success--text">

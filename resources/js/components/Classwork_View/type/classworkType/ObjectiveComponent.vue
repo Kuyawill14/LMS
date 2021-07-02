@@ -24,7 +24,7 @@
                                 fab
                                 >
                                 <div class="text-md-h5"> <v-icon large color="primary">mdi-book-clock-outline</v-icon> {{classworkDetails.duration}} mins</div>
-                                <div class="caption ml-2">Due {{ format_date(classworkDetails.due_date)}}</div>  
+                                <div class="caption ml-2">Due {{ format_date(classworkDetails.to_date)}}</div>  
                                 </div>
                             </v-container>
                             </v-col>

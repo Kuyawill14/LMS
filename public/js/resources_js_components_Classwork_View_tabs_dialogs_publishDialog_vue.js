@@ -146,17 +146,91 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['Details'],
   data: function data() {
     return {
+      InputAvailability: ['Always Available', 'Set Date'],
+      InputShowAnswer: ['After Classwork Done', 'Set Date'],
       valid: false,
       ClassDetails: {},
       loading: false,
       duedate: null,
-      ShowAnswerDate: null,
-      datetime: new Date(),
+      ShowAnswerDateFrom: new Date(),
+      ShowAnswerDateTo: new Date(),
+      from_date: new Date(),
+      to_date: new Date(),
       datetimeString: '2019-01-01 12:00',
       formattedDatetime: '09/01/2019 12:00',
       textFieldProps: {
@@ -172,7 +246,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       showAns: false,
       EnableDue: false,
       response_late: false,
-      availability: false,
+      availability: null,
       availability_date: null,
       showAnsType: 'After Classwork Done',
       GradingCriteria_id: '',
@@ -180,7 +254,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       FieldRules: [function (v) {
         return !!v || 'Field is required';
       }],
-      isPublishing: false
+      isPublishing: false,
+      test: ''
     };
   },
   methods: {
@@ -206,14 +281,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
+                _this2.from_date = moment__WEBPACK_IMPORTED_MODULE_1___default()(_this2.from_date).format("YYYY-MM-DD HH:MM:SS");
+                _this2.to_date = moment__WEBPACK_IMPORTED_MODULE_1___default()(_this2.to_date).format("YYYY-MM-DD HH:MM:SS");
+                _this2.ShowAnswerDateFrom = moment__WEBPACK_IMPORTED_MODULE_1___default()(_this2.ShowAnswerDateFrom).format("YYYY-MM-DD HH:MM:SS");
+                _this2.ShowAnswerDateTo = moment__WEBPACK_IMPORTED_MODULE_1___default()(_this2.ShowAnswerDateTo).format("YYYY-MM-DD HH:MM:SS");
                 fd = new FormData();
                 fd.append("classwork_id", _this2.ClassDetails.id);
                 fd.append("class_id", _this2.ClassDetails.class_id);
-                fd.append("EnableDue", _this2.EnableDue);
-                fd.append("due_date", _this2.duedate);
+                fd.append("availability", _this2.availability);
+                fd.append("from_date", _this2.from_date);
+                fd.append("to_date", _this2.to_date);
                 fd.append("showAnswer", _this2.showAns);
                 fd.append("showAnswerType", _this2.showAnsType);
-                fd.append("showAnswerDate", _this2.ShowAnswerDate);
+                fd.append("showAnswerDateFrom", _this2.ShowAnswerDateFrom);
+                fd.append("showAnswerDateTo", _this2.ShowAnswerDateTo);
                 fd.append("response_late", _this2.response_late);
                 fd.append("grading_id", _this2.GradingCriteria_id);
                 axios.post('/api/classwork/share', fd).then(function (res) {
@@ -228,7 +309,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   console.log(e);
                 });
 
-              case 11:
+              case 17:
               case "end":
                 return _context.stop();
             }
@@ -248,9 +329,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 newDate = new Date();
                 _this3.duedate = moment__WEBPACK_IMPORTED_MODULE_1___default()(newDate).format("YYYY-MM-DDTHH:mm:ss");
                 _this3.ClassDetails = _this3.Details;
-                _this3.ShowAnswerDate = _this3.duedate;
+                /*  this.ShowAnswerDate =  this.duedate;
+                 this.from_date =  this.duedate;
+                 this.to_date =  this.duedate; */
 
-              case 4:
+              case 3:
               case "end":
                 return _context2.stop();
             }
@@ -284,6 +367,30 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     this.getPublishDetails();
   }
 });
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/dialogs/publishDialog.vue?vue&type=style&index=0&lang=css&":
+/*!********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/dialogs/publishDialog.vue?vue&type=style&index=0&lang=css& ***!
+  \********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+// Imports
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, "\nv-text-field[type=\"date\"]::-webkit-inner-spin-button,\n v-text-field[type=\"date\"]::-webkit-calendar-picker-indicator {\n     display: none !important;\n     -webkit-appearance: none !important;\n}\n \n", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
 
 /***/ }),
 
@@ -21734,15 +21841,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _publishDialog_vue_vue_type_template_id_147e1d7b___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./publishDialog.vue?vue&type=template&id=147e1d7b& */ "./resources/js/components/Classwork_View/tabs/dialogs/publishDialog.vue?vue&type=template&id=147e1d7b&");
 /* harmony import */ var _publishDialog_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./publishDialog.vue?vue&type=script&lang=js& */ "./resources/js/components/Classwork_View/tabs/dialogs/publishDialog.vue?vue&type=script&lang=js&");
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* harmony import */ var _publishDialog_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./publishDialog.vue?vue&type=style&index=0&lang=css& */ "./resources/js/components/Classwork_View/tabs/dialogs/publishDialog.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
+;
 
 
 /* normalize component */
-;
-var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__.default)(
+
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__.default)(
   _publishDialog_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
   _publishDialog_vue_vue_type_template_id_147e1d7b___WEBPACK_IMPORTED_MODULE_0__.render,
   _publishDialog_vue_vue_type_template_id_147e1d7b___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
@@ -21789,6 +21898,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_publishDialog_vue_vue_type_template_id_147e1d7b___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
 /* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_publishDialog_vue_vue_type_template_id_147e1d7b___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./publishDialog.vue?vue&type=template&id=147e1d7b& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/dialogs/publishDialog.vue?vue&type=template&id=147e1d7b&");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/Classwork_View/tabs/dialogs/publishDialog.vue?vue&type=style&index=0&lang=css&":
+/*!****************************************************************************************************************!*\
+  !*** ./resources/js/components/Classwork_View/tabs/dialogs/publishDialog.vue?vue&type=style&index=0&lang=css& ***!
+  \****************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_publishDialog_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../node_modules/vue-style-loader/index.js!../../../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./publishDialog.vue?vue&type=style&index=0&lang=css& */ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/dialogs/publishDialog.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_publishDialog_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_publishDialog_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ var __WEBPACK_REEXPORT_OBJECT__ = {};
+/* harmony reexport (unknown) */ for(const __WEBPACK_IMPORT_KEY__ in _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_publishDialog_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== "default") __WEBPACK_REEXPORT_OBJECT__[__WEBPACK_IMPORT_KEY__] = () => _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_publishDialog_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__[__WEBPACK_IMPORT_KEY__]
+/* harmony reexport (unknown) */ __webpack_require__.d(__webpack_exports__, __WEBPACK_REEXPORT_OBJECT__);
 
 
 /***/ }),
@@ -21910,29 +22036,10 @@ var render = function() {
                           attrs: { "ma-0": "", "pa-0": "", cols: "12" }
                         },
                         [
-                          _c(
-                            "v-container",
-                            {
-                              staticClass: "d-flex",
-                              attrs: { "ma-0": "", "pa-0": "" }
-                            },
-                            [
-                              _c("v-checkbox", {
-                                staticClass: "pa-0 ma-0",
-                                attrs: { label: "Availability" },
-                                model: {
-                                  value: _vm.availability,
-                                  callback: function($$v) {
-                                    _vm.availability = $$v
-                                  },
-                                  expression: "availability"
-                                }
-                              })
-                            ],
-                            1
-                          )
-                        ],
-                        1
+                          _c("div", { staticClass: "subtitle-1 mb-1" }, [
+                            _vm._v("Availability:")
+                          ])
+                        ]
                       ),
                       _vm._v(" "),
                       _c(
@@ -21943,55 +22050,103 @@ var render = function() {
                         },
                         [
                           _c(
-                            "v-container",
+                            "v-radio-group",
                             {
-                              staticClass: "d-flex",
-                              attrs: { "ma-0": "", "pa-0": "" }
+                              staticClass: "ml-3 mt-0 pt-0 mb-0 pb-0",
+                              model: {
+                                value: _vm.availability,
+                                callback: function($$v) {
+                                  _vm.availability = $$v
+                                },
+                                expression: "availability"
+                              }
                             },
-                            [
-                              _c("v-checkbox", {
-                                staticClass: "pa-0 ma-0",
-                                attrs: { label: "Enable Due Date" },
-                                model: {
-                                  value: _vm.EnableDue,
-                                  callback: function($$v) {
-                                    _vm.EnableDue = $$v
-                                  },
-                                  expression: "EnableDue"
+                            _vm._l(_vm.InputAvailability, function(n, index) {
+                              return _c("v-radio", {
+                                key: index,
+                                attrs: {
+                                  label: _vm.InputAvailability[index],
+                                  value: _vm.InputAvailability[index]
                                 }
                               })
-                            ],
+                            }),
                             1
                           )
                         ],
                         1
                       ),
                       _vm._v(" "),
-                      _vm.EnableDue
+                      _vm.availability == "Set Date"
                         ? _c(
                             "v-col",
-                            {
-                              staticClass: "pa-0 ma-0",
-                              attrs: { "ma-0": "", "pa-0": "", cols: "12" }
-                            },
+                            { staticClass: "pa-0 ma-0", attrs: { cols: "12" } },
                             [
-                              _c("v-text-field", {
-                                staticClass: "pa-0 ma-0",
-                                attrs: {
-                                  rules: _vm.FieldRules,
-                                  outlined: "",
-                                  label: "Due Date",
-                                  type: "datetime-local",
-                                  required: ""
-                                },
-                                model: {
-                                  value: _vm.duedate,
-                                  callback: function($$v) {
-                                    _vm.duedate = $$v
-                                  },
-                                  expression: "duedate"
-                                }
-                              })
+                              _c(
+                                "v-row",
+                                { staticClass: "mt-0 pt-0" },
+                                [
+                                  _c(
+                                    "v-col",
+                                    {
+                                      staticClass: "mt-0 pt-0",
+                                      attrs: { cols: "6" }
+                                    },
+                                    [
+                                      _c("v-datetime-picker", {
+                                        staticClass: "mt-0 pt-0",
+                                        attrs: {
+                                          label: "From",
+                                          "text-field-props":
+                                            _vm.textFieldProps,
+                                          "date-picker-props": _vm.dateProps,
+                                          "time-picker-props": _vm.timeProps,
+                                          "time-format": "HH:mm",
+                                          color: "primary"
+                                        },
+                                        model: {
+                                          value: _vm.from_date,
+                                          callback: function($$v) {
+                                            _vm.from_date = $$v
+                                          },
+                                          expression: "from_date"
+                                        }
+                                      })
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-col",
+                                    {
+                                      staticClass: "mt-0 pt-0",
+                                      attrs: { cols: "6" }
+                                    },
+                                    [
+                                      _c("v-datetime-picker", {
+                                        staticClass: "Datetimepicker",
+                                        attrs: {
+                                          label: "To",
+                                          "text-field-props":
+                                            _vm.textFieldProps,
+                                          "date-picker-props": _vm.dateProps,
+                                          "time-picker-props": _vm.timeProps,
+                                          "time-format": "HH:mm",
+                                          color: "primary"
+                                        },
+                                        model: {
+                                          value: _vm.to_date,
+                                          callback: function($$v) {
+                                            _vm.to_date = $$v
+                                          },
+                                          expression: "to_date"
+                                        }
+                                      })
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              )
                             ],
                             1
                           )
@@ -22027,21 +22182,29 @@ var render = function() {
                               attrs: { "ma-0": "", "pa-0": "", cols: "12" }
                             },
                             [
-                              _c("v-select", {
-                                staticClass: "pa-0 ma-0",
-                                staticStyle: { width: "100%" },
-                                attrs: {
-                                  items: ["After Classwork Done", "Set Date"],
-                                  outlined: ""
+                              _c(
+                                "v-radio-group",
+                                {
+                                  staticClass: "ml-3 mt-0 pt-0 mb-0 pb-0",
+                                  model: {
+                                    value: _vm.showAnsType,
+                                    callback: function($$v) {
+                                      _vm.showAnsType = $$v
+                                    },
+                                    expression: "showAnsType"
+                                  }
                                 },
-                                model: {
-                                  value: _vm.showAnsType,
-                                  callback: function($$v) {
-                                    _vm.showAnsType = $$v
-                                  },
-                                  expression: "showAnsType"
-                                }
-                              })
+                                _vm._l(_vm.InputShowAnswer, function(n, index) {
+                                  return _c("v-radio", {
+                                    key: index,
+                                    attrs: {
+                                      label: _vm.InputShowAnswer[index],
+                                      value: _vm.InputShowAnswer[index]
+                                    }
+                                  })
+                                }),
+                                1
+                              )
                             ],
                             1
                           )
@@ -22055,25 +22218,67 @@ var render = function() {
                               attrs: { "ma-0": "", "pa-0": "", cols: "12" }
                             },
                             [
-                              _vm.showAnsType == "Set Date"
-                                ? _c("v-text-field", {
-                                    staticClass: "pa-0 ma-0",
-                                    attrs: {
-                                      rules: _vm.FieldRules,
-                                      outlined: "",
-                                      label: "Date",
-                                      type: "datetime-local",
-                                      required: ""
-                                    },
-                                    model: {
-                                      value: _vm.ShowAnswerDate,
-                                      callback: function($$v) {
-                                        _vm.ShowAnswerDate = $$v
-                                      },
-                                      expression: "ShowAnswerDate"
-                                    }
-                                  })
-                                : _vm._e()
+                              _c(
+                                "v-row",
+                                [
+                                  _c(
+                                    "v-col",
+                                    { attrs: { cols: "6" } },
+                                    [
+                                      _c("v-datetime-picker", {
+                                        staticClass: "mt-0 pt-0",
+                                        attrs: {
+                                          label: "From",
+                                          rules: _vm.FieldRules,
+                                          "text-field-props":
+                                            _vm.textFieldProps,
+                                          "date-picker-props": _vm.dateProps,
+                                          "time-picker-props": _vm.timeProps,
+                                          "time-format": "HH:mm",
+                                          color: "primary"
+                                        },
+                                        model: {
+                                          value: _vm.ShowAnswerDateFrom,
+                                          callback: function($$v) {
+                                            _vm.ShowAnswerDateFrom = $$v
+                                          },
+                                          expression: "ShowAnswerDateFrom"
+                                        }
+                                      })
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-col",
+                                    { attrs: { cols: "6" } },
+                                    [
+                                      _c("v-datetime-picker", {
+                                        staticClass: "mt-0 pt-0",
+                                        attrs: {
+                                          label: "To",
+                                          rules: _vm.FieldRules,
+                                          "text-field-props":
+                                            _vm.textFieldProps,
+                                          "date-picker-props": _vm.dateProps,
+                                          "time-picker-props": _vm.timeProps,
+                                          "time-format": "HH:mm",
+                                          color: "primary"
+                                        },
+                                        model: {
+                                          value: _vm.ShowAnswerDateTo,
+                                          callback: function($$v) {
+                                            _vm.ShowAnswerDateTo = $$v
+                                          },
+                                          expression: "ShowAnswerDateTo"
+                                        }
+                                      })
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              )
                             ],
                             1
                           )
@@ -22132,15 +22337,7 @@ var render = function() {
                     }
                   }
                 },
-                [
-                  _vm._v(
-                    "\n                 " +
-                      _vm._s(
-                        !_vm.ClassDetails.status == 0 ? "Publish" : "Update"
-                      ) +
-                      "\n             "
-                  )
-                ]
+                [_vm._v("\n                 Publish\n             ")]
               ),
               _vm._v(" "),
               _c(
@@ -22174,6 +22371,27 @@ var staticRenderFns = []
 render._withStripped = true
 
 
+
+/***/ }),
+
+/***/ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/dialogs/publishDialog.vue?vue&type=style&index=0&lang=css&":
+/*!*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-style-loader/index.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/dialogs/publishDialog.vue?vue&type=style&index=0&lang=css& ***!
+  \*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(/*! !!../../../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./publishDialog.vue?vue&type=style&index=0&lang=css& */ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/dialogs/publishDialog.vue?vue&type=style&index=0&lang=css&");
+if(content.__esModule) content = content.default;
+if(typeof content === 'string') content = [[module.id, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var add = __webpack_require__(/*! !../../../../../../node_modules/vue-style-loader/lib/addStylesClient.js */ "./node_modules/vue-style-loader/lib/addStylesClient.js").default
+var update = add("65932014", content, false, {});
+// Hot Module Replacement
+if(false) {}
 
 /***/ })
 

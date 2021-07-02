@@ -135,6 +135,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 var publishDialog = function publishDialog() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_tabs_dialogs_publishDialog_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./dialogs/publishDialog */ "./resources/js/components/Classwork_View/tabs/dialogs/publishDialog.vue"));
 };
@@ -143,10 +151,15 @@ var unpublishConfirmDialog = function unpublishConfirmDialog() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_tabs_dialogs_unpublishConfirmDialog_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./dialogs/unpublishConfirmDialog */ "./resources/js/components/Classwork_View/tabs/dialogs/unpublishConfirmDialog.vue"));
 };
 
+var updatePublishDialog = function updatePublishDialog() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_tabs_dialogs_UpdatePublishDialog_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./dialogs/UpdatePublishDialog */ "./resources/js/components/Classwork_View/tabs/dialogs/UpdatePublishDialog.vue"));
+};
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
     publishDialog: publishDialog,
-    unpublishConfirmDialog: unpublishConfirmDialog
+    unpublishConfirmDialog: unpublishConfirmDialog,
+    updatePublishDialog: updatePublishDialog
   },
   data: function data() {
     return {
@@ -156,17 +169,29 @@ var unpublishConfirmDialog = function unpublishConfirmDialog() {
       Details: {},
       UnpublishDetails: {},
       isPublishing: false,
-      UnpublishDiaglog: false
+      isPublishing_id: null,
+      UnpublishDiaglog: false,
+      isAdding: false,
+      isUpdate: false
     };
   },
   methods: {
-    OpenPublishDialog: function OpenPublishDialog(item_id, class_id, class_name, status) {
+    OpenPublishDialog: function OpenPublishDialog(item_id, class_id, class_name) {
       this.isPublishing = !this.isPublishing;
+      this.isPublishing_id = class_id;
       this.Details.id = item_id;
       this.Details.class_id = class_id;
       this.Details.class_name = class_name;
-      this.Details.status = status;
       this.dialog = !this.dialog;
+      this.isAdding = !this.isAdding;
+    },
+    OpenEditPublish: function OpenEditPublish(item_id, class_id, class_name, classwork_id) {
+      this.Details.id = item_id;
+      this.Details.class_id = class_id;
+      this.Details.class_name = class_name;
+      this.Details.classwork_id = classwork_id;
+      this.dialog = !this.dialog;
+      this.isUpdate = !this.isUpdate;
     },
     OpenUnpublishDiaglog: function OpenUnpublishDiaglog(classwork_id, class_id, class_name) {
       this.UnpublishDetails.id = classwork_id;
@@ -208,7 +233,7 @@ var unpublishConfirmDialog = function unpublishConfirmDialog() {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                axios.get('/api/class/allnames/' + _this2.$route.params.id).then(function (res) {
+                axios.get('/api/class/allnames/' + _this2.$route.params.id + '/' + _this2.$route.query.clwk).then(function (res) {
                   _this2.classNames = res.data;
                   _this2.isloading = false;
                 })["catch"](function (e) {
@@ -232,7 +257,7 @@ var unpublishConfirmDialog = function unpublishConfirmDialog() {
             switch (_context2.prev = _context2.next) {
               case 0:
                 _this3.dialog = !_this3.dialog, _this3.isPublishing = !_this3.isPublishing;
-                axios.get('/api/class/allnames/' + _this3.$route.params.id).then(function (res) {
+                axios.get('/api/class/allnames/' + _this3.$route.params.id + '/' + _this3.$route.query.clwk).then(function (res) {
                   _this3.classNames = res.data;
                   _this3.isloading = false;
 
@@ -284,7 +309,7 @@ var unpublishConfirmDialog = function unpublishConfirmDialog() {
       }))();
     }
   },
-  beforeMount: function beforeMount() {
+  mounted: function mounted() {
     this.fetchClassnames();
   }
 });
@@ -395,15 +420,32 @@ var render = function() {
           }
         },
         [
-          _vm.dialog
+          _vm.isAdding
             ? _c("publishDialog", {
                 attrs: { Details: _vm.Details },
                 on: {
                   toggleDialog: function($event) {
                     ;(_vm.dialog = !_vm.dialog),
-                      (_vm.isPublishing = !_vm.isPublishing)
+                      (_vm.isPublishing = !_vm.isPublishing),
+                      (_vm.isAdding = !_vm.isAdding)
                   },
                   successPublish: _vm.SuccessPublishNotify,
+                  UnPublish: function($event) {
+                    return _vm.closeDiaglog()
+                  }
+                }
+              })
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.isUpdate
+            ? _c("updatePublishDialog", {
+                attrs: { Details: _vm.Details },
+                on: {
+                  toggleDialog: function($event) {
+                    ;(_vm.dialog = !_vm.dialog),
+                      (_vm.isPublishing = !_vm.isPublishing),
+                      (_vm.isUpdate = !_vm.isUpdate)
+                  },
                   UnPublish: function($event) {
                     return _vm.closeDiaglog()
                   }
@@ -572,7 +614,7 @@ var render = function() {
                                                               attrs: {
                                                                 loading:
                                                                   _vm.isPublishing &&
-                                                                  details.class_id ==
+                                                                  _vm.isPublishing_id ==
                                                                     details.class_id,
                                                                 color:
                                                                   "primary",
@@ -705,14 +747,14 @@ var render = function() {
                                                                         click: function(
                                                                           $event
                                                                         ) {
-                                                                          return _vm.OpenPublishDialog(
+                                                                          return _vm.OpenEditPublish(
                                                                             _vm
                                                                               .$route
                                                                               .query
                                                                               .clwk,
                                                                             details.class_id,
                                                                             details.class_name,
-                                                                            details.status
+                                                                            details.Class_classwork_id
                                                                           )
                                                                         }
                                                                       }
