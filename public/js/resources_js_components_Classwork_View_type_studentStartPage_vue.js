@@ -56,6 +56,11 @@ var responseLatePageWarning = function responseLatePageWarning() {
     subjectiveType: subjectiveType,
     responseLatePageWarning: responseLatePageWarning
   },
+  data: function data() {
+    return {
+      DateToday: null
+    };
+  },
   methods: {
     format_date: function format_date(value) {
       if (value) {
@@ -75,10 +80,19 @@ var responseLatePageWarning = function responseLatePageWarning() {
           }
         });
       }
+    },
+    CheckFormatDue: function CheckFormatDue(value) {
+      if (value) {
+        return moment__WEBPACK_IMPORTED_MODULE_0___default()(String(value)).format("YYYY-MM-DDTHH:mm:ss");
+      }
     }
   },
   beforeMount: function beforeMount() {
     window.history.forward(1);
+  },
+  mounted: function mounted() {
+    var newDate = new Date();
+    this.DateToday = moment__WEBPACK_IMPORTED_MODULE_0___default()(newDate).format("YYYY-MM-DDTHH:mm:ss");
   }
 });
 
@@ -180,7 +194,8 @@ var render = function() {
         "v-row",
         { attrs: { align: "center", justify: "center" } },
         [
-          _vm.classworkDetails.response_late == 0
+          _vm.classworkDetails.response_late == 0 &&
+          _vm.CheckFormatDue(_vm.classworkDetails.to_date) < _vm.DateToday
             ? _c(
                 "v-col",
                 { attrs: { cols: "12", sm: "12", md: "5" } },
@@ -189,7 +204,9 @@ var render = function() {
               )
             : _vm._e(),
           _vm._v(" "),
-          _vm.classworkDetails.response_late != 0 &&
+          (_vm.classworkDetails.response_late != 0 ||
+            _vm.CheckFormatDue(_vm.classworkDetails.to_date) > _vm.DateToday ||
+            _vm.classworkDetails.availability == 0) &&
           _vm.classworkDetails.type == "Objective Type"
             ? _c(
                 "v-col",
@@ -209,7 +226,7 @@ var render = function() {
               )
             : _vm._e(),
           _vm._v(" "),
-          _vm.classworkDetails.response_late != 0 &&
+          _vm.classworkDetails.response_late != 0 ||
           _vm.classworkDetails.type == "Subjective Type"
             ? _c(
                 "v-col",

@@ -155,6 +155,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var previewClassworkModal = function previewClassworkModal() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_tabs_classwork-tab_dialogs_previewClassworkModal_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./dialogs/previewClassworkModal */ "./resources/js/components/course-view/tabs/classwork-tab/dialogs/previewClassworkModal.vue"));
 };
@@ -21892,11 +21901,13 @@ var render = function() {
                   style:
                     _vm.role == "Teacher"
                       ? ""
-                      : _vm.CheckFormatDue(item.due_date) > _vm.DateToday
-                      ? ""
-                      : item.status == "Submitted"
-                      ? ""
-                      : "border:1px  solid #B71C1C"
+                      : item.availability != 0
+                      ? _vm.CheckFormatDue(item.to_date) > _vm.DateToday
+                        ? ""
+                        : item.status == "Submitted"
+                        ? ""
+                        : "border:1px  solid #B71C1C"
+                      : ""
                 },
                 [
                   _c(
@@ -21917,23 +21928,26 @@ var render = function() {
                               attrs: {
                                 color:
                                   _vm.role != "Teacher"
-                                    ? _vm.CheckFormatDue(item.due_date) >
-                                      _vm.DateToday
-                                      ? ""
-                                      : item.status == "Submitted"
-                                      ? "success"
-                                      : "red darken-4"
+                                    ? item.availability != 0
+                                      ? _vm.CheckFormatDue(item.to_date) >
+                                        _vm.DateToday
+                                        ? ""
+                                        : item.status == "Submitted"
+                                        ? "success"
+                                        : "red darken-4"
+                                      : ""
                                     : "",
                                 large: ""
                               }
                             },
                             [
                               _vm._v(
-                                _vm._s(
-                                  item.status == "Submitted"
-                                    ? "mdi-check"
-                                    : "mdi-book-open-variant"
-                                )
+                                "\n                                    " +
+                                  _vm._s(
+                                    item.status == "Submitted"
+                                      ? "mdi-check"
+                                      : "mdi-book-open-variant"
+                                  )
                               )
                             ]
                           ),
@@ -21972,12 +21986,14 @@ var render = function() {
                                   "small",
                                   {
                                     class:
-                                      _vm.CheckFormatDue(item.due_date) >
-                                      _vm.DateToday
-                                        ? "card-subtitle text-50"
-                                        : item.status == "Submitted"
-                                        ? "card-subtitle text-50"
-                                        : "card-subtitle text-50 red--text"
+                                      item.availability != 0
+                                        ? _vm.CheckFormatDue(item.to_date) >
+                                          _vm.DateToday
+                                          ? "card-subtitle text-50"
+                                          : item.status == "Submitted"
+                                          ? "card-subtitle text-50"
+                                          : "card-subtitle text-50 red--text"
+                                        : ""
                                   },
                                   [
                                     _c(
@@ -21985,28 +22001,39 @@ var render = function() {
                                       {
                                         attrs: {
                                           color:
-                                            _vm.CheckFormatDue(item.due_date) >
-                                            _vm.DateToday
-                                              ? ""
-                                              : item.status == "Submitted"
-                                              ? ""
-                                              : "red darken-4",
+                                            item.availability != 0
+                                              ? _vm.CheckFormatDue(
+                                                  item.to_date
+                                                ) > _vm.DateToday
+                                                ? ""
+                                                : item.status == "Submitted"
+                                                ? ""
+                                                : "red darken-4"
+                                              : "",
                                           small: ""
                                         }
                                       },
                                       [_vm._v("mdi-clock")]
                                     ),
                                     _vm._v(
-                                      " " +
+                                      " \n                                        \n                                        " +
                                         _vm._s(
-                                          _vm.CheckFormatDue(item.due_date) >
-                                            _vm.CheckFormatDue(_vm.DateToday)
-                                            ? ""
-                                            : "Late"
+                                          item.availability != 0
+                                            ? _vm.CheckFormatDue(item.to_date) >
+                                              _vm.CheckFormatDue(_vm.DateToday)
+                                              ? ""
+                                              : "Late"
+                                            : ""
                                         ) +
-                                        "\n                                        Due Date: " +
-                                        _vm._s(_vm.format_date(item.due_date)) +
-                                        " "
+                                        "\n                                      \n                                        " +
+                                        _vm._s(
+                                          item.availability != 0
+                                            ? " Due Date:"
+                                            : "No Due Date"
+                                        ) +
+                                        "\n                                        " +
+                                        _vm._s(_vm.format_date(item.to_date)) +
+                                        " \n                                    "
                                     )
                                   ],
                                   1

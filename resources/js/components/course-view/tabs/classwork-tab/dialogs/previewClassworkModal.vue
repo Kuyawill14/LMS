@@ -46,7 +46,7 @@
                         fab
                         >
                         <div class="text-md-h5 font-weight-medium"> <v-icon large color="primary">mdi-book-clock-outline</v-icon> {{Details.duration}} mins</div>
-                        <div class="caption ml-2 font-weight-medium">Due {{ format_date(Details.due_date)}}</div>  
+                        <div class="caption ml-2 font-weight-medium">Due {{ format_date(Details.to_date)}}</div>  
                         </div>
                     </v-container>
                     </v-col>
@@ -93,7 +93,7 @@
                             rounded
                             color="primary"
                             :dark="totalQuestion != 0"
-                            :disabled="totalQuestion == 0"
+                          
                              @click="$router.push({name: 'clwk',params: {id: $route.params.id},query: {clwk: Preview_id}})"
                         >
                             Take Quiz<v-icon right dark>mdi-book-arrow-right-outline</v-icon>

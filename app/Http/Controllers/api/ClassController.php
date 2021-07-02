@@ -146,8 +146,7 @@ class ClassController extends Controller
     {
         $ShowClassDetails = DB::table('tbl_classes')
         ->where('id', $id)
-        ->limit(1)
-        ->get();
+        ->first();
         return $ShowClassDetails;
     }
     public function fetchSelectedclass($course_id){
@@ -172,18 +171,24 @@ class ClassController extends Controller
         return $selectedClass;
     }
 
-    public function fecthClassNames($id){
-        //$userId = auth('sanctum')->id();
-        $userId = 1;
+
+     /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function fecthClassNames($id, $clwk){
+        $userId = auth('sanctum')->id();
+        //$userId = 1;
         //getAllClass
         $allClass = tbl_userclass::where('tbl_userclasses.course_id', $id)
         ->select('tbl_userclasses.id','tbl_classes.id as class_id','tbl_classes.class_name','tbl_classes.class_name')
         ->leftJoin('tbl_classes', 'tbl_userclasses.class_id', '=', 'tbl_classes.id')
         ->where('tbl_userclasses.user_id', $userId)
-        ->orderBy('tbl_classes.created_at', 'DESC')
+        ->orderBy('tbl_classes.created_at', 'ASC')
         ->get();
-
-       
         //getAllClasswork
        $classwork = tbl_classwork::where('user_id', $userId)
         ->orderBy('created_at', 'DESC')
@@ -191,23 +196,22 @@ class ClassController extends Controller
        
         foreach($allClass as $cl){
             foreach($classwork as $cw){
-                $Check = tbl_classClassworks::where('class_id','=', $cl->class_id)
-                ->where('classwork_id','=', $cw->id)
-                ->exists();
+                $Check = tbl_classClassworks::where('classwork_id', $clwk)
+                ->where('class_id','=', $cl->class_id)
+                ->first();
                 if($Check){
                     $cl->status = 1;
+                    $cl->Class_classwork_id = $Check->id;
                 }
                 else{
                     if($cl->status == ''){
                         $cl->status = 0;
+                        $cl->Class_classwork_id = '';
                     }
                 }
             }
         }
-       
-      /*   return ["allClass"=>$allClass, "check"=>$tempCheck]; */
         return $allClass;
-        //return $tempCheck;
     }
 
 

@@ -419,7 +419,7 @@ var render = function() {
                                             "Due " +
                                               _vm._s(
                                                 _vm.format_date(
-                                                  _vm.Details.due_date
+                                                  _vm.Details.to_date
                                                 )
                                               )
                                           )
@@ -635,8 +635,7 @@ var render = function() {
                                   attrs: {
                                     rounded: "",
                                     color: "primary",
-                                    dark: _vm.totalQuestion != 0,
-                                    disabled: _vm.totalQuestion == 0
+                                    dark: _vm.totalQuestion != 0
                                   },
                                   on: {
                                     click: function($event) {

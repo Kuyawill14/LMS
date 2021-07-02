@@ -27,43 +27,84 @@
                        </v-col>
 
                         <v-col  ma-0 pa-0 class="text-left pa-0 ma-0" cols="12">
-                                <v-container ma-0 pa-0 class="d-flex">
-                                <v-checkbox
-                                class="pa-0 ma-0"
-                                v-model="availability"
-                                label="Availability"
-                                ></v-checkbox>
-                                </v-container>
+                               <div class="subtitle-1 mb-1">Availability:</div>
                         </v-col>
 
                         <v-col  ma-0 pa-0 class="text-left pa-0 ma-0" cols="12">
+                               <!--  <v-container ma-0 pa-0 class="d-flex">
+                                <v-checkbox
+                                class="pa-0 ma-0"
+                                v-model="EnableDue"
+                                label="Always Available"
+                                ></v-checkbox>
+                                </v-container> -->
+
+                                <v-radio-group class="ml-3 mt-0 pt-0 mb-0 pb-0" v-model="availability">
+                                <v-radio
+                                    v-for="(n, index) in InputAvailability"
+                                    :key="index"
+                                    :label="InputAvailability[index]"
+                                    :value="InputAvailability[index]"
+                                ></v-radio>
+                                </v-radio-group>
+                        </v-col>
+                   
+                       <!--  <v-col  ma-0 pa-0 class="text-left pa-0 ma-0" cols="12">
                                 <v-container ma-0 pa-0 class="d-flex">
                                 <v-checkbox
                                 class="pa-0 ma-0"
                                 v-model="EnableDue"
-                                label="Enable Due Date"
+                                label="Set Date"
                                 ></v-checkbox>
                                 </v-container>
-                        </v-col>
+                        </v-col> -->
 
-                         <v-col v-if="EnableDue" ma-0 pa-0 class="pa-0 ma-0"  cols="12">
-                         <!--    <v-datetime-picker label="Due Date"
-                                class="outlined"
-                                v-model="datetime"
-                                :text-field-props="textFieldProps"
-                                :date-picker-props="dateProps"
-                                :time-picker-props="timeProps"
-                                time-format="HH:mm:ss"
-                                color="primary"
-                                > 
-                            </v-datetime-picker> -->
-                            <v-text-field
-                                :rules="FieldRules"
-                                class="pa-0 ma-0"
-                                v-model="duedate"
-                                outlined
-                                label="Due Date" type="datetime-local"  required>
-                                </v-text-field>
+                         <v-col v-if="availability == 'Set Date'"  class="pa-0 ma-0"  cols="12">
+                             <v-row class="mt-0 pt-0">
+                                 <v-col cols="6" class="mt-0 pt-0">
+                                      <v-datetime-picker label="From"
+                                        v-model="from_date"
+                                        class="mt-0 pt-0"
+                                        :text-field-props="textFieldProps"
+                                        :date-picker-props="dateProps"
+                                        :time-picker-props="timeProps"
+                                        time-format="HH:mm"
+                                        color="primary"
+                                        > 
+                                    </v-datetime-picker>
+                                   
+
+                                     <!-- <v-text-field
+                                    ref="FromDate"
+                                    :rules="FieldRules"
+                                    class="pa-0 ma-0"
+                                    v-model="from_date"
+                                    outlined
+                                    label="From" type="datetime-local" >
+                                    </v-text-field> -->
+                                 </v-col>
+                                 <v-col cols="6" class="mt-0 pt-0">
+                                     <v-datetime-picker label="To"
+                                        v-model="to_date"
+                                        class="Datetimepicker"
+                                        :text-field-props="textFieldProps"
+                                        :date-picker-props="dateProps"
+                                        :time-picker-props="timeProps"
+                                        time-format="HH:mm"
+                                        color="primary"
+                                        > 
+                                    </v-datetime-picker>
+                                   <!--  <v-text-field
+                                    :rules="FieldRules"
+                                    class="DateTime "
+                                    v-model="to_date"
+                                    outlined
+                          dense
+                                    label="To" type="datetime-local" >
+                                    </v-text-field> -->
+                                 </v-col>
+                             </v-row>
+                           
                             </v-col>
 
                             
@@ -73,27 +114,56 @@
                                     v-model="showAns"
                                     label="Show correct answer"
                                     ></v-checkbox>
-                            </v-col>
+                                </v-col>
 
                              <v-col v-if="showAns"  ma-0 pa-0 class="text-left pa-0 ma-0" cols="12">
-                                <v-select
-                                style="width:100%"
-                                v-model="showAnsType"
-                                class="pa-0 ma-0"
-                                :items="['After Classwork Done', 'Set Date']"
-                                outlined
-                                ></v-select> 
+                               
+
+                                <v-radio-group class="ml-3 mt-0 pt-0 mb-0 pb-0" v-model="showAnsType">
+                                <v-radio
+                                    v-for="(n, index) in InputShowAnswer"
+                                    :key="index"
+                                    :label="InputShowAnswer[index]"
+                                    :value="InputShowAnswer[index]"
+                                ></v-radio>
+                                </v-radio-group>
                             </v-col>
 
                             <v-col v-if="showAnsType == 'Set Date'"  ma-0 pa-0 class="text-left pa-0 ma-0" cols="12">
-                                 <v-text-field
-                                :rules="FieldRules"
-                                v-if="showAnsType == 'Set Date'"
-                                class="pa-0 ma-0"
-                                v-model="ShowAnswerDate"
-                                outlined
-                                label="Date" type="datetime-local"  required>
-                                </v-text-field>       
+                                <v-row>
+                                    <v-col cols="6">
+                                         <v-datetime-picker label="From"
+                                            :rules="FieldRules"
+                                            v-model="ShowAnswerDateFrom"
+                                            class="mt-0 pt-0"
+                                            :text-field-props="textFieldProps"
+                                            :date-picker-props="dateProps"
+                                            :time-picker-props="timeProps"
+                                            time-format="HH:mm"
+                                            color="primary"
+                                            > 
+                                        </v-datetime-picker>
+                                    </v-col>
+
+                                     <v-col cols="6">
+                                          <v-datetime-picker label="To"
+                                        :rules="FieldRules"
+                                        v-model="ShowAnswerDateTo"
+                                        class="mt-0 pt-0"
+                                        :text-field-props="textFieldProps"
+                                        :date-picker-props="dateProps"
+                                        :time-picker-props="timeProps"
+                                        time-format="HH:mm"
+                                        color="primary"
+                                        > 
+                                        </v-datetime-picker>
+                                    </v-col>
+                                </v-row>
+                               
+
+
+
+
                             </v-col>
                              <v-col  ma-0 pa-0 class="text-left pa-0 ma-0" cols="12">
                                 
@@ -114,7 +184,7 @@
                 <v-spacer></v-spacer>
                
                 <v-btn rounded  color="primary" :loading="isPublishing" text  @click="validate()" :disabled="loading">
-                    {{!ClassDetails.status == 0 ? 'Publish': 'Update'}}
+                    Publish
                 </v-btn>
                  <v-btn  rounded color="secondary" text @click="$emit('toggleDialog')" :disabled="loading">
                     Cancel
@@ -127,14 +197,19 @@
 import moment from 'moment';
 export default {
     props:['Details'],
+  
     data(){
         return{
+            InputAvailability:['Always Available', 'Set Date'],
+            InputShowAnswer:['After Classwork Done', 'Set Date'],
             valid: false,
             ClassDetails:{},
             loading:false,
             duedate:null,
-            ShowAnswerDate: null,
-            datetime: new Date(),
+            ShowAnswerDateFrom: new Date(),
+            ShowAnswerDateTo: new Date(),
+            from_date: new Date(),
+            to_date: new Date(),
             datetimeString: '2019-01-01 12:00',
             formattedDatetime: '09/01/2019 12:00',
             textFieldProps: {
@@ -150,7 +225,7 @@ export default {
             showAns: false,
             EnableDue: false,
             response_late:false,
-            availability: false,
+            availability: null,
             availability_date: null,
             showAnsType:'After Classwork Done',
             GradingCriteria_id:'',
@@ -158,10 +233,13 @@ export default {
             FieldRules: [
                 v => !!v || 'Field is required',
             ],
-            isPublishing: false
+            isPublishing: false,
+            test: '',
+            
         }
     },
     methods:{
+
          validate () {
             this.isPublishing = !this.isPublishing;
             if(this.$refs.publishForm.validate()){
@@ -174,14 +252,21 @@ export default {
             }
         },
         async shareClasswork() {
+
+            this.from_date = moment(this.from_date).format("YYYY-MM-DD HH:MM:SS");
+            this.to_date = moment(this.to_date).format("YYYY-MM-DD HH:MM:SS");
+            this.ShowAnswerDateFrom = moment(this.ShowAnswerDateFrom).format("YYYY-MM-DD HH:MM:SS");
+            this.ShowAnswerDateTo = moment(this.ShowAnswerDateTo).format("YYYY-MM-DD HH:MM:SS");
             const fd = new FormData();
             fd.append("classwork_id", this.ClassDetails.id);
             fd.append("class_id", this.ClassDetails.class_id);
-            fd.append("EnableDue", this.EnableDue);
-            fd.append("due_date", this.duedate);
+            fd.append("availability", this.availability);
+            fd.append("from_date", this.from_date);
+            fd.append("to_date", this.to_date);
             fd.append("showAnswer", this.showAns);
             fd.append("showAnswerType", this.showAnsType);
-            fd.append("showAnswerDate", this.ShowAnswerDate);
+            fd.append("showAnswerDateFrom", this.ShowAnswerDateFrom);
+             fd.append("showAnswerDateTo", this.ShowAnswerDateTo);
             fd.append("response_late", this.response_late);
             fd.append("grading_id", this.GradingCriteria_id);
             axios.post('/api/classwork/share', fd)
@@ -202,7 +287,9 @@ export default {
             let newDate = new Date();
             this.duedate = moment(newDate).format("YYYY-MM-DDTHH:mm:ss");
             this.ClassDetails = this.Details;
-            this.ShowAnswerDate =  this.duedate;
+           /*  this.ShowAnswerDate =  this.duedate;
+            this.from_date =  this.duedate;
+            this.to_date =  this.duedate; */
         },
         async getGradingCriteria(){
             axios.get('/api/grading-criteria/all/'+this.$route.params.id)
@@ -219,3 +306,11 @@ export default {
     }
 }
 </script>
+<style>
+   v-text-field[type="date"]::-webkit-inner-spin-button,
+    v-text-field[type="date"]::-webkit-calendar-picker-indicator {
+        display: none !important;
+        -webkit-appearance: none !important;
+    }
+    
+</style>

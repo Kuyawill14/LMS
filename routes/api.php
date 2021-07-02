@@ -64,7 +64,7 @@ Route::prefix('/class')->group(function () {
     Route::post('/update/{id}', [ClassController::class, 'update']);
     Route::get('/ShowClass/{id}', [ClassController::class, 'ClassDetails']);
     Route::get('/selectedClass/{id}', [ClassController::class, 'fetchSelectedclass']);
-    Route::get('/allnames/{id}', [ClassController::class, 'fecthClassNames']);
+    Route::get('/allnames/{id}/{clwk}', [ClassController::class, 'fecthClassNames']);
     Route::get('/subjectCourseClassList/all/{id}', [ClassController::class, 'subjectCourseClassList']);
 
     
@@ -122,7 +122,8 @@ Route::prefix('/classwork')->group(function () {
     Route::post('/unshare', [ClassworkController::class, 'UnshareClasswork']);
     Route::put('/update/{id}', [ClassworkController::class, 'update']);
     Route::delete('/remove/{id}', [ClassworkController::class, 'destroy']);
-    
+
+    Route::get('/publishClassworkDetails/{id}', [ClassworkController::class, 'PublishClassworkDetails']);
     
 });
 

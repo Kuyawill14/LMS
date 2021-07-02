@@ -131,12 +131,15 @@ class ClassworkController extends Controller
         $shareClasswork = new tbl_classClassworks;
         $shareClasswork->class_id = $request->get('class_id');
         $shareClasswork->classwork_id = $request->get('classwork_id');
-        $shareClasswork->enable_due =  $request->get('EnableDue') == 'true' ? 1 : 0;
+        $shareClasswork->availability =  $request->get('availability') == 'Set Date' ? 1 : 0;
       
-        $request->get('EnableDue') == 'true' ? $shareClasswork->due_date = $request->get('due_date') : '';
+        $request->get('availability') == 'Set Date' ? $shareClasswork->from_date = $request->get('from_date') : '';
+        $request->get('availability') == 'Set Date' ? $shareClasswork->to_date = $request->get('to_date') : '';
         $shareClasswork->showAnswer =  $request->get('showAnswer') == 'true' ? 1 : 0;
         if($request->get('showAnswer') == 'true'){
-            $request->get('showAnswerType') == 'Set Date' ? $shareClasswork->showDate = $request->get('showAnswerDate') : '';
+            $shareClasswork->showAnswerType = $request->get('showAnswerType') == 'Set Date' ? 1 : 0;
+            $shareClasswork->showDateFrom = $request->get('showAnswerType') == 'Set Date' ? $request->get('showAnswerDateFrom') : '';
+            $shareClasswork->showDateTo = $request->get('showAnswerType') == 'Set Date' ? $request->get('showAnswerDateTo') : '';
         }
         //$request->get('showAnswer') == 'true' ? $shareClasswork->showDate = $request->get('showAnswerDate') : '';
         $shareClasswork->response_late = $request->get('response_late') == 'true'  ? 1 : 0;
@@ -154,7 +157,6 @@ class ClassworkController extends Controller
      */
     public function UnshareClasswork(Request $request)
     {
-        //return $request;
         $userId = auth('sanctum')->id();
         $Check = tbl_classClassworks::where('class_id','=', $request->class_id)
         ->where('classwork_id','=',$request->id)
@@ -166,6 +168,24 @@ class ClassworkController extends Controller
         }
         return 'Classwork not found!';
     }
+
+    /**
+     * Display the specified resource.
+     *
+      * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function PublishClassworkDetails($id)
+    {
+        //$Check = tbl_classClassworks::where('id', $id)
+        $PublishDetails = tbl_classClassworks::find($id);
+        if($PublishDetails){
+            return  $PublishDetails;
+        }
+        
+        return 'Classwork not found!';
+    }
+
 
 
 
@@ -187,7 +207,8 @@ class ClassworkController extends Controller
         else{
             $classworkDetails = tbl_classwork::where('tbl_classworks.id','=', $id)
             ->select('tbl_classworks.*', 
-            'tbl_class_classworks.enable_due','tbl_class_classworks.due_date','tbl_class_classworks.showAnswer','tbl_class_classworks.showDate',
+            'tbl_class_classworks.availability','tbl_class_classworks.from_date','tbl_class_classworks.to_date','tbl_class_classworks.showAnswer',
+            'tbl_class_classworks.showAnswerType','tbl_class_classworks.showDateFrom','tbl_class_classworks.showDateTo',
             'tbl_class_classworks.response_late',
             'tbl_userclasses.user_id')
             ->leftJoin('tbl_class_classworks', 'tbl_class_classworks.classwork_id','=','tbl_classworks.id')
