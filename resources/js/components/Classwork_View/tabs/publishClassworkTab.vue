@@ -11,8 +11,8 @@
 
              <updatePublishDialog 
             :Details="Details"
-            v-on:toggleDialog="dialog = !dialog, isPublishing = !isPublishing, isUpdate = !isUpdate"
-            v-on:UnPublish="closeDiaglog()"
+            v-on:toggleDialog="dialog = !dialog, isUpdate = !isUpdate"
+            v-on:successPublish="dialog = !dialog, isUpdate = !isUpdate"
             v-if="isUpdate"></updatePublishDialog>
         </v-dialog>
 
@@ -208,7 +208,9 @@ export default {
             })
         },
           async fetchClassFornotify(data) {
-            this.dialog = !this.dialog,this.isPublishing = !this.isPublishing
+            this.dialog = !this.dialog;
+            this.isPublishing = !this.isPublishing;
+            this.isAdding = !this.isAdding;
             axios.get('/api/class/allnames/' + this.$route.params.id+'/'+ this.$route.query.clwk).then(res => {
                 this.classNames = res.data;
                 this.isloading = false;
@@ -218,7 +220,7 @@ export default {
             })
         },
         async SuccessPublishNotify(data){
-           
+
             this.fetchClassFornotify(data)
         },
         async NewNotification(data){

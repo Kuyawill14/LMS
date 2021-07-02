@@ -161,11 +161,46 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['Details'],
   data: function data() {
     return {
+      InputAvailability: ['Always Available', 'Set Date'],
+      InputShowAnswer: ['After Classwork Done', 'Set Date'],
       valid: false,
       ClassDetails: {},
       PublishDetails: [],
@@ -188,9 +223,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       showAns: false,
       EnableDue: false,
       response_late: false,
-      availability: false,
+      availability: null,
       availability_date: null,
-      showAnsType: 'After Classwork Done',
+      showAnsType: null,
       GradingCriteria_id: '',
       GradingItems: [],
       FieldRules: [function (v) {
@@ -207,7 +242,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.isPublishing = !this.isPublishing;
 
       if (this.$refs.publishForm.validate()) {
-        this.shareClasswork();
+        this.UpdateShareClassworkDetails();
       } else {
         setTimeout(function () {
           _this.isPublishing = !_this.isPublishing;
@@ -253,14 +288,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee);
       }))();
     },
-
-    /*  async getPublishDetails(){
-         let newDate = new Date();
-         this.duedate = moment(newDate).format("YYYY-MM-DDTHH:mm:ss");
-         this.ClassDetails = this.Details;
-         this.ShowAnswerDate =  this.duedate;
-     }, */
-    getGradingCriteria: function getGradingCriteria() {
+    UpdateShareClassworkDetails: function UpdateShareClassworkDetails() {
       var _this3 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
@@ -268,11 +296,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                axios.get('/api/grading-criteria/all/' + _this3.$route.params.id).then(function (res) {
-                  _this3.GradingItems = res.data;
+                _this3.PublishDetails.availability = _this3.availability;
+                _this3.PublishDetails.showAnswerType = _this3.showAnsType;
+                axios.put('/api/classwork/UpdatePublish/' + _this3.PublishDetails.id, _this3.PublishDetails).then(function (res) {
+                  if (res.status == 200) {
+                    _this3.$emit('successPublish');
+
+                    _this3.isPublishing = !_this3.isPublishing;
+                  }
                 });
 
-              case 1:
+              case 3:
               case "end":
                 return _context2.stop();
             }
@@ -280,7 +314,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee2);
       }))();
     },
-    getPublishDetails: function getPublishDetails() {
+    getGradingCriteria: function getGradingCriteria() {
       var _this4 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
@@ -288,10 +322,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                axios.get('/api/classwork/publishClassworkDetails/' + _this4.Details.classwork_id).then(function (res) {
-                  console.log(res.data);
-                  _this4.PublishDetails = res.data;
-                  _this4.isLoading = !_this4.isLoading;
+                axios.get('/api/grading-criteria/all/' + _this4.$route.params.id).then(function (res) {
+                  _this4.GradingItems = res.data;
                 });
 
               case 1:
@@ -302,13 +334,37 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee3);
       }))();
     },
+    getPublishDetails: function getPublishDetails() {
+      var _this5 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                axios.get('/api/classwork/publishClassworkDetails/' + _this5.Details.classwork_id).then(function (res) {
+                  console.log(res.data);
+                  _this5.PublishDetails = res.data;
+                  _this5.availability = _this5.PublishDetails.availability ? 'Set Date' : 'Always Available';
+                  _this5.showAnsType = _this5.PublishDetails.showAnswerType != null ? _this5.showAnsType = _this5.PublishDetails.showAnswerType ? 'Set Date' : 'After Classwork Done' : _this5.showAnsType = '';
+                  _this5.isLoading = !_this5.isLoading;
+                });
+
+              case 1:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4);
+      }))();
+    },
     format_date: function format_date(value) {
       if (value) {
         return moment__WEBPACK_IMPORTED_MODULE_1___default()(String(value)).format("YYYY-MM-DDTHH:mm:ss");
       }
     }
   },
-  created: function created() {
+  mounted: function mounted() {
     this.getGradingCriteria();
     this.getPublishDetails();
   }
@@ -21994,33 +22050,10 @@ var render = function() {
                               attrs: { "ma-0": "", "pa-0": "", cols: "12" }
                             },
                             [
-                              _c(
-                                "v-container",
-                                {
-                                  staticClass: "d-flex",
-                                  attrs: { "ma-0": "", "pa-0": "" }
-                                },
-                                [
-                                  _c("v-checkbox", {
-                                    staticClass: "pa-0 ma-0",
-                                    attrs: { label: "Availability" },
-                                    model: {
-                                      value: _vm.PublishDetails.availability,
-                                      callback: function($$v) {
-                                        _vm.$set(
-                                          _vm.PublishDetails,
-                                          "availability",
-                                          $$v
-                                        )
-                                      },
-                                      expression: "PublishDetails.availability"
-                                    }
-                                  })
-                                ],
-                                1
-                              )
-                            ],
-                            1
+                              _c("div", { staticClass: "subtitle-1 mb-1" }, [
+                                _vm._v("Availability:")
+                              ])
+                            ]
                           ),
                           _vm._v(" "),
                           _c(
@@ -22031,56 +22064,124 @@ var render = function() {
                             },
                             [
                               _c(
-                                "v-container",
+                                "v-radio-group",
                                 {
-                                  staticClass: "d-flex",
-                                  attrs: { "ma-0": "", "pa-0": "" }
+                                  staticClass: "ml-3 mt-0 pt-0 mb-0 pb-0",
+                                  model: {
+                                    value: _vm.availability,
+                                    callback: function($$v) {
+                                      _vm.availability = $$v
+                                    },
+                                    expression: "availability"
+                                  }
                                 },
-                                [
-                                  _c("v-checkbox", {
-                                    staticClass: "pa-0 ma-0",
-                                    attrs: { label: "Enable Due Date" },
-                                    model: {
-                                      value: _vm.PublishDetails.enable_due,
-                                      callback: function($$v) {
-                                        _vm.$set(
-                                          _vm.PublishDetails,
-                                          "enable_due",
-                                          $$v
-                                        )
-                                      },
-                                      expression: "PublishDetails.enable_due"
+                                _vm._l(_vm.InputAvailability, function(
+                                  n,
+                                  index
+                                ) {
+                                  return _c("v-radio", {
+                                    key: index,
+                                    attrs: {
+                                      label: _vm.InputAvailability[index],
+                                      value: _vm.InputAvailability[index]
                                     }
                                   })
-                                ],
+                                }),
                                 1
                               )
                             ],
                             1
                           ),
                           _vm._v(" "),
-                          _vm.PublishDetails.enable_due
+                          _vm.availability == "Set Date"
                             ? _c(
                                 "v-col",
                                 {
                                   staticClass: "pa-0 ma-0",
-                                  attrs: { "ma-0": "", "pa-0": "", cols: "12" }
+                                  attrs: { cols: "12" }
                                 },
                                 [
-                                  _c("v-text-field", {
-                                    ref: "due_date",
-                                    staticClass: "pa-0 ma-0",
-                                    attrs: {
-                                      rules: _vm.FieldRules,
-                                      value: _vm.format_date(
-                                        _vm.PublishDetails.due_date
+                                  _c(
+                                    "v-row",
+                                    { staticClass: "mt-0 pt-0" },
+                                    [
+                                      _c(
+                                        "v-col",
+                                        {
+                                          staticClass: "mt-0 pt-0",
+                                          attrs: { cols: "6" }
+                                        },
+                                        [
+                                          _c("v-datetime-picker", {
+                                            staticClass: "mt-0 pt-0",
+                                            attrs: {
+                                              label: "From",
+                                              "text-field-props":
+                                                _vm.textFieldProps,
+                                              "date-picker-props":
+                                                _vm.dateProps,
+                                              "time-picker-props":
+                                                _vm.timeProps,
+                                              "time-format": "HH:mm:ss",
+                                              color: "primary"
+                                            },
+                                            model: {
+                                              value:
+                                                _vm.PublishDetails.from_date,
+                                              callback: function($$v) {
+                                                _vm.$set(
+                                                  _vm.PublishDetails,
+                                                  "from_date",
+                                                  $$v
+                                                )
+                                              },
+                                              expression:
+                                                "PublishDetails.from_date"
+                                            }
+                                          })
+                                        ],
+                                        1
                                       ),
-                                      outlined: "",
-                                      label: "Due Date",
-                                      type: "datetime-local",
-                                      required: ""
-                                    }
-                                  })
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-col",
+                                        {
+                                          staticClass: "mt-0 pt-0",
+                                          attrs: { cols: "6" }
+                                        },
+                                        [
+                                          _c("v-datetime-picker", {
+                                            staticClass: "Datetimepicker",
+                                            attrs: {
+                                              label: "To",
+                                              "text-field-props":
+                                                _vm.textFieldProps,
+                                              "date-picker-props":
+                                                _vm.dateProps,
+                                              "time-picker-props":
+                                                _vm.timeProps,
+                                              "time-format": "HH:mm:ss",
+                                              color: "primary"
+                                            },
+                                            model: {
+                                              value: _vm.PublishDetails.to_date,
+                                              callback: function($$v) {
+                                                _vm.$set(
+                                                  _vm.PublishDetails,
+                                                  "to_date",
+                                                  $$v
+                                                )
+                                              },
+                                              expression:
+                                                "PublishDetails.to_date"
+                                            }
+                                          })
+                                        ],
+                                        1
+                                      )
+                                    ],
+                                    1
+                                  )
                                 ],
                                 1
                               )
@@ -22112,7 +22213,7 @@ var render = function() {
                             1
                           ),
                           _vm._v(" "),
-                          _vm.showAns
+                          _vm.PublishDetails.showAnswer
                             ? _c(
                                 "v-col",
                                 {
@@ -22120,24 +22221,32 @@ var render = function() {
                                   attrs: { "ma-0": "", "pa-0": "", cols: "12" }
                                 },
                                 [
-                                  _c("v-select", {
-                                    staticClass: "pa-0 ma-0",
-                                    staticStyle: { width: "100%" },
-                                    attrs: {
-                                      items: [
-                                        "After Classwork Done",
-                                        "Set Date"
-                                      ],
-                                      outlined: ""
+                                  _c(
+                                    "v-radio-group",
+                                    {
+                                      staticClass: "ml-3 mt-0 pt-0 mb-0 pb-0",
+                                      model: {
+                                        value: _vm.showAnsType,
+                                        callback: function($$v) {
+                                          _vm.showAnsType = $$v
+                                        },
+                                        expression: "showAnsType"
+                                      }
                                     },
-                                    model: {
-                                      value: _vm.showAnsType,
-                                      callback: function($$v) {
-                                        _vm.showAnsType = $$v
-                                      },
-                                      expression: "showAnsType"
-                                    }
-                                  })
+                                    _vm._l(_vm.InputShowAnswer, function(
+                                      n,
+                                      index
+                                    ) {
+                                      return _c("v-radio", {
+                                        key: index,
+                                        attrs: {
+                                          label: _vm.InputShowAnswer[index],
+                                          value: _vm.InputShowAnswer[index]
+                                        }
+                                      })
+                                    }),
+                                    1
+                                  )
                                 ],
                                 1
                               )
@@ -22151,25 +22260,83 @@ var render = function() {
                                   attrs: { "ma-0": "", "pa-0": "", cols: "12" }
                                 },
                                 [
-                                  _vm.showAnsType == "Set Date"
-                                    ? _c("v-text-field", {
-                                        staticClass: "pa-0 ma-0",
-                                        attrs: {
-                                          rules: _vm.FieldRules,
-                                          outlined: "",
-                                          label: "Date",
-                                          type: "datetime-local",
-                                          required: ""
-                                        },
-                                        model: {
-                                          value: _vm.ShowAnswerDate,
-                                          callback: function($$v) {
-                                            _vm.ShowAnswerDate = $$v
-                                          },
-                                          expression: "ShowAnswerDate"
-                                        }
-                                      })
-                                    : _vm._e()
+                                  _c(
+                                    "v-row",
+                                    [
+                                      _c(
+                                        "v-col",
+                                        { attrs: { cols: "6" } },
+                                        [
+                                          _c("v-datetime-picker", {
+                                            staticClass: "mt-0 pt-0",
+                                            attrs: {
+                                              label: "From",
+                                              rules: _vm.FieldRules,
+                                              "text-field-props":
+                                                _vm.textFieldProps,
+                                              "date-picker-props":
+                                                _vm.dateProps,
+                                              "time-picker-props":
+                                                _vm.timeProps,
+                                              "time-format": "HH:mm",
+                                              color: "primary"
+                                            },
+                                            model: {
+                                              value:
+                                                _vm.PublishDetails.showDateFrom,
+                                              callback: function($$v) {
+                                                _vm.$set(
+                                                  _vm.PublishDetails,
+                                                  "showDateFrom",
+                                                  $$v
+                                                )
+                                              },
+                                              expression:
+                                                "PublishDetails.showDateFrom"
+                                            }
+                                          })
+                                        ],
+                                        1
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-col",
+                                        { attrs: { cols: "6" } },
+                                        [
+                                          _c("v-datetime-picker", {
+                                            staticClass: "mt-0 pt-0",
+                                            attrs: {
+                                              label: "To",
+                                              rules: _vm.FieldRules,
+                                              "text-field-props":
+                                                _vm.textFieldProps,
+                                              "date-picker-props":
+                                                _vm.dateProps,
+                                              "time-picker-props":
+                                                _vm.timeProps,
+                                              "time-format": "HH:mm",
+                                              color: "primary"
+                                            },
+                                            model: {
+                                              value:
+                                                _vm.PublishDetails.showDateTo,
+                                              callback: function($$v) {
+                                                _vm.$set(
+                                                  _vm.PublishDetails,
+                                                  "showDateTo",
+                                                  $$v
+                                                )
+                                              },
+                                              expression:
+                                                "PublishDetails.showDateTo"
+                                            }
+                                          })
+                                        ],
+                                        1
+                                      )
+                                    ],
+                                    1
+                                  )
                                 ],
                                 1
                               )

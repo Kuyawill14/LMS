@@ -79,18 +79,6 @@ Route::prefix('/course')->group(function () {
 });
 
 
-//course
-/* Route::group([
-    'prefix'=> 'course',
-    'middleware' =>['auth:sanctum'],
-],function () {
-    Route::get('/all', [SubjectCourseController::class, 'index']);
-    Route::post('/insert', [SubjectCourseController::class, 'store']);
-    Route::post('/update/{id}', [SubjectCourseController::class, 'update']);
-    Route::get('/ShowCourse/{id}', [SubjectCourseController::class, 'CourseDetails']);
-  
-}); */
-
 //Announcement
 Route::prefix('/announcement')->group(function () {
     Route::post('/insert', [AnnouncementController::class, 'store']);
@@ -124,6 +112,7 @@ Route::prefix('/classwork')->group(function () {
     Route::delete('/remove/{id}', [ClassworkController::class, 'destroy']);
 
     Route::get('/publishClassworkDetails/{id}', [ClassworkController::class, 'PublishClassworkDetails']);
+    Route::put('/UpdatePublish/{id}', [ClassworkController::class, 'UpdatePublishClassworkDetails']);
     
 });
 
@@ -237,11 +226,13 @@ Route::prefix('/submission')->group(function () {
 
 //User Profile 
 /* middleware('auth:sanctum')-> */
-Route::middleware('auth:sanctum')->prefix('/profile')->group(function () {
+Route::prefix('/profile')->group(function () {
     Route::get('/details', [UserProfileController::class, 'index']);
     Route::post('/profile_picture', [UserProfileController::class, 'updatePicture']);
     Route::post('/updateDetails', [UserProfileController::class, 'updateDetails']);
     Route::get('/ClassesList', [UserProfileController::class, 'getCourseAndClassesList']);
+
+    Route::get('/mycalendar', [UserProfileController::class, 'FetchCalendarSched']);
 });
 
 

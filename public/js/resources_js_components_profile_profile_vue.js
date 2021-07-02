@@ -214,28 +214,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 var editProfile = function editProfile() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_profile_editprofile_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./editprofile */ "./resources/js/components/profile/editprofile.vue"));
 };
@@ -252,13 +230,18 @@ var aboutTab = function aboutTab() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_profile_aboutTab_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./aboutTab */ "./resources/js/components/profile/aboutTab.vue"));
 };
 
+var myCalendar = function myCalendar() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_profile_myCalendar_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./myCalendar */ "./resources/js/components/profile/myCalendar.vue"));
+};
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['role', 'UserDetails'],
   components: {
     editProfile: editProfile,
     changePassword: changePassword,
     coursesProgress: coursesProgress,
-    aboutTab: aboutTab
+    aboutTab: aboutTab,
+    myCalendar: myCalendar
   },
   data: function data() {
     return {
@@ -810,11 +793,11 @@ var render = function() {
                                     [
                                       _c("v-icon", { attrs: { left: "" } }, [
                                         _vm._v(
-                                          "\n                                mdi-book-open-variant\n                                "
+                                          "\n                                mdi-calendar\n                                "
                                         )
                                       ]),
                                       _vm._v(
-                                        "\n                                Classwork Results\n                            "
+                                        "\n                                My Calendar\n                            "
                                       )
                                     ],
                                     1
@@ -906,44 +889,9 @@ var render = function() {
                                   _c(
                                     "v-tab-item",
                                     [
-                                      _c(
-                                        "v-card",
-                                        { attrs: { flat: "" } },
-                                        [
-                                          _c("v-card-text", [
-                                            _c("p", [
-                                              _vm._v(
-                                                "\n                                Morbi nec metus. Suspendisse faucibus, nunc et pellentesque egestas, lacus ante convallis tellus, vitae iaculis lacus elit id tortor. Sed mollis, eros et ultrices tempus, mauris ipsum aliquam libero, non adipiscing dolor urna a orci. Curabitur ligula sapien, tincidunt non, euismod vitae, posuere imperdiet, leo. Nunc sed turpis.\n                                "
-                                              )
-                                            ]),
-                                            _vm._v(" "),
-                                            _c("p", [
-                                              _vm._v(
-                                                "\n                                Suspendisse feugiat. Suspendisse faucibus, nunc et pellentesque egestas, lacus ante convallis tellus, vitae iaculis lacus elit id tortor. Proin viverra, ligula sit amet ultrices semper, ligula arcu tristique sapien, a accumsan nisi mauris ac eros. In hac habitasse platea dictumst. Fusce ac felis sit amet ligula pharetra condimentum.\n                                "
-                                              )
-                                            ]),
-                                            _vm._v(" "),
-                                            _c("p", [
-                                              _vm._v(
-                                                "\n                                Sed consequat, leo eget bibendum sodales, augue velit cursus nunc, quis gravida magna mi a libero. Nam commodo suscipit quam. In consectetuer turpis ut velit. Sed cursus turpis vitae tortor. Aliquam eu nunc.\n                                "
-                                              )
-                                            ]),
-                                            _vm._v(" "),
-                                            _c("p", [
-                                              _vm._v(
-                                                "\n                                Etiam ut purus mattis mauris sodales aliquam. Ut varius tincidunt libero. Aenean viverra rhoncus pede. Duis leo. Fusce fermentum odio nec arcu.\n                                "
-                                              )
-                                            ]),
-                                            _vm._v(" "),
-                                            _c("p", { staticClass: "mb-0" }, [
-                                              _vm._v(
-                                                "\n                                Donec venenatis vulputate lorem. Aenean viverra rhoncus pede. In dui magna, posuere eget, vestibulum et, tempor auctor, justo. Fusce commodo aliquam arcu. Suspendisse enim turpis, dictum sed, iaculis a, condimentum nec, nisi.\n                                "
-                                              )
-                                            ])
-                                          ])
-                                        ],
-                                        1
-                                      )
+                                      _c("myCalendar", {
+                                        attrs: { UserDetails: _vm.UserDetails }
+                                      })
                                     ],
                                     1
                                   ),

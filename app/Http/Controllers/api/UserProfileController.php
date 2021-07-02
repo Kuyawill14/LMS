@@ -185,14 +185,6 @@ class UserProfileController extends Controller
       
       
         $userId = auth('sanctum')->id();
-
-       /*  //$finalID =  Crypt::decryptString($test);
-        $data = User::find($userId);
-        $testdata = Crypt::encryptString(json_encode($data));
-        return base64_decode($request->data); */
-
-        
-        
         $UpdateDetails = User::find($userId);
     
         //tbl_userDetails::where("tbl_user_details.user_id",$userId)->first();
@@ -212,6 +204,28 @@ class UserProfileController extends Controller
             }
             return "Details Successfully Updated";
         }
+    }
+
+     /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function FetchCalendarSched()
+    {
+
+        $userId = auth('sanctum')->id();
+        //$userId = 2;
+        $SubmitSubj = tbl_userclass::where('tbl_userclasses.user_id', $userId)
+        ->select('tbl_userclasses.class_id','tbl_userclasses.course_id'
+        ,'tbl_classworks.title','tbl_class_classworks.availability','tbl_class_classworks.from_date','tbl_class_classworks.to_date')
+        ->leftJoin('tbl_class_classworks','tbl_class_classworks.class_id','=','tbl_userclasses.class_id')
+        ->leftJoin('tbl_classworks','tbl_classworks.id','=','tbl_class_classworks.classwork_id')
+        ->get();
+        
+        return $SubmitSubj;
+
     }
 
     

@@ -47,6 +47,7 @@ class ClassworkController extends Controller
             $CheckSub = tbl_Submission::where("tbl_submissions.user_id",$userId)
             ->orderBy('classwork_id', 'DESC')
             ->get();
+
             foreach($CheckSub as $subM){
                 foreach($classworkAll as $classW){
                     if($subM->classwork_id === $classW->classwork_id){
@@ -182,6 +183,35 @@ class ClassworkController extends Controller
         if($PublishDetails){
             return  $PublishDetails;
         }
+        
+        return 'Classwork not found!';
+    }
+
+    /**
+     * Display the specified resource.
+     *  @param  \Illuminate\Http\Request  $request
+      * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function UpdatePublishClassworkDetails(Request $request,$id)
+    {
+        //return $request;
+        $UpdatePublishDetails = tbl_classClassworks::find($id);
+        if($UpdatePublishDetails){
+            $UpdatePublishDetails->availability = $request->availability == 'Set Date' ? 1: 0;
+            $UpdatePublishDetails->from_date = $request->availability == 'Set Date' ? $request->from_date : '';
+            $UpdatePublishDetails->to_date = $request->availability == 'Set Date' ? $request->to_date : '';
+            $UpdatePublishDetails->showAnswer =  $request->showAnswer == 'true' ? 1 : 0;
+            if($request->showAnswer == 'true'){
+                $UpdatePublishDetails->showAnswerType = $request->showAnswerType == 'Set Date' ? 1 : 0;
+                $UpdatePublishDetails->showDateFrom = $request->showAnswerType == 'Set Date' ? $request->showAnswerDateFrom : '';
+                $UpdatePublishDetails->showDateTo = $request->showAnswerType == 'Set Date' ? $request->showAnswerDateTo : '';
+            }
+            $UpdatePublishDetails->response_late = $request->response_late == 'true'  ? 1 : 0;
+            $UpdatePublishDetails->grading_criteria = $request->grading_criteria;
+            $UpdatePublishDetails->save();
+            //return $UpdatePublishDetails;
+        }   
         
         return 'Classwork not found!';
     }
