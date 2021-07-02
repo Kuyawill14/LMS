@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use App\Models\tbl_main_gradeCategory;
 use Illuminate\Support\Facades\DB;
 use App\Models\tbl_sub_modules;
-use App\Models\tbl_student_main_grades;
 class GradebookController extends Controller
 {
     /**
@@ -84,7 +83,6 @@ class GradebookController extends Controller
 
     }
     public function fetchStudentClassworkGrades($class_id) {
-       
         $userId = auth('sanctum')->id();
 
         $studentList = DB::table('users')
@@ -96,9 +94,8 @@ class GradebookController extends Controller
         ->leftJoin('tbl_userclasses' , 'tbl_userclasses.user_id' , '=' , 'users.id')
         ->leftJoin('tbl_class_classworks' , 'tbl_class_classworks.class_id' , '=' , 'tbl_userclasses.class_id')
         ->leftJoin('tbl_main_grade_categories' , 'tbl_main_grade_categories.id' , '=' , 'tbl_class_classworks.grading_criteria')
-        ->leftJoin('tbl_userclasses' , 'tbl_userclasses.class_id' , '=' , 'tbl_class_classworks.class_id')
         ->where('users.id', $userId )
-        ->where('tbl_userclasses.course_id', $class_id )
+        ->where('tbl_userclasses.class_id', $class_id )
         ->where('role', 'Student')
         ->get();
 
@@ -106,10 +103,9 @@ class GradebookController extends Controller
 
         $submissions = DB::table('tbl_submissions')
         ->select('tbl_submissions.classwork_id','status' ,'points', 'user_id')
-        ->leftJoin('tbl_class_classworks' , 'tbl_class_classworks.classwork_id' , '=' , 'tbl_submissions.classwork_id')  
-        ->leftJoin('tbl_userclasses' , 'tbl_userclasses.class_id' , '=' , 'tbl_class_classworks.class_id')
-        ->where('users.id', $userId )
-        ->where('tbl_userclasses.course_id', $class_id )
+        ->leftJoin('tbl_class_classworks' , 'tbl_class_classworks.classwork_id' , '=' , 'tbl_submissions.classwork_id')
+        ->where('tbl_submissions.user_id',$userId )
+        ->where('tbl_class_classworks.class_id', $class_id )
         ->get();
         $submissions = json_decode($submissions, true);
 
@@ -119,7 +115,6 @@ class GradebookController extends Controller
                 if($studentList[$i]['classwork_id'] == $submissions[$j]['classwork_id']  && $studentList[$i]['student_id'] == $submissions[$j]['user_id']){
                     $studentList[$i]['points'] =  $submissions[$j]['points'];
                 }
-
             }
 
         }
@@ -129,6 +124,7 @@ class GradebookController extends Controller
 
 
     }
+   
     public function fetchStudentFinalGrades($class_id) {
         $userId = auth('sanctum')->id();
 
@@ -178,7 +174,7 @@ class GradebookController extends Controller
     }
 
     public function fetchAllStudentFinalGrades($class_id) {
-        $tbl_student_main_grades = new tbl_student_main_grades;
+        // $tbl_student_main_grades = new tbl_student_main_grades;
         $userId = auth('sanctum')->id();
 
         $studentList = DB::table('users')

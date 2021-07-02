@@ -151,6 +151,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   data: function data() {
     return {
+      shown: false,
       selectedClass: null,
       Deldialog: false,
       dialog: false,
@@ -322,11 +323,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
         _this5.getStudentList();
 
-        _this5.$store.dispatch('fetchAllStudentFinalGrades', _this5.$route.params.id).then(function () {
-          _this5.loading = false;
-        });
-
         console.log('class Liost: ', _this5.classList);
+      });
+      this.$store.dispatch('fetchAllStudentFinalGrades', this.$route.params.id).then(function () {
+        _this5.loading = false;
       });
     },
     getFinalGrades: function getFinalGrades() {}
@@ -605,7 +605,7 @@ var render = function() {
                               _c(
                                 "tr",
                                 [
-                                  _c("th", { staticClass: "text-center" }, [
+                                  _c("th", { staticClass: "text-left" }, [
                                     _vm._v(
                                       "\n                                    Name"
                                     )
@@ -861,13 +861,14 @@ var render = function() {
                                                               true
                                                             ),
                                                             model: {
-                                                              value: _vm.show,
+                                                              value: _vm.shown,
                                                               callback: function(
                                                                 $$v
                                                               ) {
-                                                                _vm.show = $$v
+                                                                _vm.shown = $$v
                                                               },
-                                                              expression: "show"
+                                                              expression:
+                                                                "shown"
                                                             }
                                                           },
                                                           [
