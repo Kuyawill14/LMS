@@ -64,7 +64,7 @@
 
                                         <v-btn
                                         large
-                                         v-if="item.status != null && item.status == 'Taking' || item.status == 'Submitted' && item.score != null"
+                                         v-if="item.status != null || item.status == 'Taking' || item.status == 'Submitted' && item.score != null"
                                         @click="item.type == 'Objective Type' ? $router.push({name:'result-page', params:{id: item.classwork_id}}) : $router.push({name: 'clwk',params: {id: $route.params.id},query: {clwk: item.classwork_id}})"
                                         class="mt-1 mr-5 pa-2 mx-1 success--text" 
                                         text

@@ -271,6 +271,33 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -313,7 +340,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       },
       TimerCount: [],
       tempCounter: 0,
-      timeCount: null
+      timeCount: null,
+      classworkDetails: []
     };
   },
   computed: (0,vuex__WEBPACK_IMPORTED_MODULE_3__.mapGetters)(["getAll_questions"]),
@@ -359,13 +387,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.tempCounter = 0;
       this.CountTime();
 
-      if (this.PickAnswers.ans == undefined || this.PickAnswers.ans == '') {
+      if ((this.PickAnswers.ans == undefined || this.PickAnswers.ans == '') && this.FinalAnswers.length == 0) {
         this.FinalAnswers.push({
           Answer: '',
           Question_id: this.getAll_questions.Question[this.questionIndex].id,
           type: this.getAll_questions.Question[this.questionIndex].type,
           timeConsume: this.TimerCount[this.questionIndex]
-        }); //console.log(this.FinalAnswers);
+        });
+        console.log(this.FinalAnswers);
       } else {
         if (this.Questype == 'Multiple Choice' || this.Questype == 'True or False') {
           if (this.FinalAnswers.length != 0) {
@@ -557,14 +586,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         setTimeout(function () {
           _this3.isLoading = !_this3.isLoading;
           _this3.isSubmitting = !_this3.isSubmitting;
-        }, 2000);
-
-        _this3.$router.push({
-          name: 'result-page',
-          params: {
-            id: _this3.$route.query.clwk
-          }
-        });
+        }, 2000); //this.$router.push({name: 'result-page', params:{id: this.$route.query.clwk}})
 
         localStorage.removeItem('timer_time');
       });
@@ -642,6 +664,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.Alphabet = alphabet;
       axios.get('/api/classwork/showDetails/' + this.$route.query.clwk + '/' + this.$route.params.id).then(function (res) {
         _this7.duration = res.data.Details.duration;
+        _this7.classworkDetails = res.data.Details;
 
         _this7.fetchQuestions();
       });
@@ -748,7 +771,8 @@ __webpack_require__.r(__webpack_exports__);
       displayMinutes: 0,
       displaySeconds: 0,
       SecondProgress: 1000,
-      isLoaded: false
+      isLoaded: false,
+      endAt: new Date().getTime() + 5000
     };
   },
   computed: {
@@ -901,11 +925,10 @@ __webpack_require__.r(__webpack_exports__);
       this.EndDate = new Date().getTime() + due;
     },
     EndTimer: function EndTimer() {
-      if (localStorage.getItem('timer_time') == 0) {
-        clearInterval(this.NewTimer);
-        localStorage.removeItem('timer_time');
-        this.$emit('TimesUp');
-      }
+      console.log('test 123');
+      clearInterval(this.NewTimer);
+      localStorage.removeItem('timer_time');
+      this.$emit('TimesUp');
     }
   },
   mounted: function mounted() {
@@ -22754,21 +22777,91 @@ var render = function() {
         : _vm._e(),
       _vm._v(" "),
       _c(
-        "div",
+        "v-container",
+        { staticClass: "mt-5" },
         [
-          !_vm.isLoading
-            ? _c("quizTimer", {
-                attrs: { StopTimer: _vm.StopTimer, duration: _vm.duration },
-                on: {
-                  TimerStop: function($event) {
-                    ;(_vm.StopTimer = false), _vm.SubmitAnswer()
-                  },
-                  TimesUp: function($event) {
-                    return _vm.TimesUpSubmit()
-                  }
-                }
-              })
-            : _vm._e()
+          _c(
+            "v-card",
+            { staticClass: "pl-3 pr-3" },
+            [
+              !_vm.isLoading
+                ? _c(
+                    "v-row",
+                    [
+                      _c("v-col", [
+                        _c(
+                          "div",
+                          { staticClass: "mt-3 d-flex" },
+                          [
+                            _c(
+                              "v-btn",
+                              {
+                                staticClass: "mx-2",
+                                attrs: { fab: "", dark: "", color: "primary" }
+                              },
+                              [
+                                _c("v-icon", { attrs: { "x-large": "" } }, [
+                                  _vm._v(
+                                    "\r\n                        mdi-book-open-variant\r\n                        "
+                                  )
+                                ])
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              { staticClass: "font-weight-bold mt-4" },
+                              [_vm._v(_vm._s(_vm.classworkDetails.title))]
+                            )
+                          ],
+                          1
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "v-col",
+                        {
+                          staticClass: "d-flex justify-end",
+                          attrs: { cols: "6" }
+                        },
+                        [
+                          _c(
+                            "div",
+                            [
+                              _c("h4", { staticClass: "ml-4" }, [
+                                _vm._v("Time Remaining")
+                              ]),
+                              _vm._v(" "),
+                              !_vm.isLoading
+                                ? _c("quizTimer", {
+                                    attrs: {
+                                      StopTimer: _vm.StopTimer,
+                                      duration: _vm.duration
+                                    },
+                                    on: {
+                                      TimerStop: function($event) {
+                                        ;(_vm.StopTimer = false),
+                                          _vm.SubmitAnswer()
+                                      },
+                                      TimesUp: function($event) {
+                                        return _vm.TimesUpSubmit()
+                                      }
+                                    }
+                                  })
+                                : _vm._e()
+                            ],
+                            1
+                          )
+                        ]
+                      )
+                    ],
+                    1
+                  )
+                : _vm._e()
+            ],
+            1
+          )
         ],
         1
       ),
@@ -22779,15 +22872,16 @@ var render = function() {
             [
               _c(
                 "v-container",
-                { attrs: { fluid: "" } },
+                { staticClass: "mt-0 pt-0", attrs: { fluid: "" } },
                 [
                   _c(
                     "v-row",
-                    { attrs: { align: "center", justify: "center" } },
+                    { attrs: { justify: "center" } },
                     [
                       _c(
                         "v-col",
                         {
+                          staticClass: "mt-4 pt-0",
                           attrs: {
                             cols: "12",
                             sm: "12",
@@ -22808,7 +22902,10 @@ var render = function() {
                                     ? "d-none mr-0"
                                     : "mr-2",
                                   staticStyle: {
-                                    "border-top": "5px solid #EF6C00"
+                                    "border-top": "5px solid #EF6C00",
+                                    "max-height": "50vh",
+                                    overflow: "scroll",
+                                    "overflow-x": "hidden"
                                   }
                                 },
                                 [
@@ -22849,8 +22946,7 @@ var render = function() {
                                                           click: function(
                                                             $event
                                                           ) {
-                                                            ;(_vm.questionIndex = index),
-                                                              _vm.next()
+                                                            _vm.questionIndex = index
                                                           }
                                                         }
                                                       },
@@ -24101,100 +24197,71 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "v-container",
-    { staticClass: "mb-0 pb-0 mt-2" },
+    "div",
     [
-      _c(
-        "v-row",
-        { attrs: { "align-content": "center", justify: "center" } },
-        [
-          _c(
-            "v-col",
-            {
-              staticClass: "text-subtitle-1 text-center",
-              attrs: { cols: "12", md: "10", lg: "10", xl: "12" }
-            },
-            [
-              _c(
-                "v-card",
-                { class: !_vm.isLoaded ? "pt-5 pb-5" : "pt-5 pb-5" },
-                [
-                  _c("div", { staticClass: "ma-0 pa-0 title" }, [
-                    _vm._v("Time Remaining")
-                  ]),
-                  _vm._v(" "),
-                  _c("vue-countdown-timer", {
-                    attrs: {
-                      "start-time": _vm.Startdate,
-                      "end-time": _vm.EndDate,
-                      interval: 1000,
-                      "hour-txt": "hours",
-                      "minutes-txt": "minutes",
-                      "seconds-txt": "seconds"
-                    },
-                    on: {
-                      end_callback: function($event) {
-                        return _vm.EndTimer()
-                      }
-                    },
-                    scopedSlots: _vm._u([
-                      {
-                        key: "countdown",
-                        fn: function(scope) {
-                          return [
-                            _c(
-                              "v-container",
-                              { staticClass: "d-flex justify-center" },
-                              [
-                                _c("div", { attrs: { fab: "" } }, [
-                                  _c("div", { staticClass: "text-md-h5" }, [
-                                    _vm._v(" " + _vm._s(scope.props.hours))
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("div", { staticClass: "caption ml-2" }, [
-                                    _vm._v(_vm._s(scope.props.hourTxt))
-                                  ])
-                                ]),
-                                _vm._v(
-                                  "\n                         :\n                        "
-                                ),
-                                _c("div", { attrs: { fab: "" } }, [
-                                  _c("div", { staticClass: "text-md-h5" }, [
-                                    _vm._v(_vm._s(scope.props.minutes))
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("div", { staticClass: "caption ml-2" }, [
-                                    _vm._v(_vm._s(scope.props.minutesTxt))
-                                  ])
-                                ]),
-                                _vm._v(
-                                  "\n                        :\n                        "
-                                ),
-                                _c("div", { attrs: { fab: "" } }, [
-                                  _c("div", { staticClass: "text-md-h5" }, [
-                                    _vm._v(_vm._s(scope.props.seconds))
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("div", { staticClass: "caption ml-2" }, [
-                                    _vm._v(_vm._s(scope.props.secondsTxt) + " ")
-                                  ])
-                                ])
-                              ]
-                            )
-                          ]
-                        }
-                      }
+      _c("vue-countdown-timer", {
+        attrs: {
+          "start-time": _vm.Startdate,
+          "end-time": _vm.EndDate ? _vm.EndDate : _vm.endAt,
+          interval: 1000,
+          "hour-txt": "hours",
+          "minutes-txt": "minutes",
+          "seconds-txt": "seconds"
+        },
+        on: {
+          end_callback: function($event) {
+            return _vm.EndTimer()
+          }
+        },
+        scopedSlots: _vm._u([
+          {
+            key: "countdown",
+            fn: function(scope) {
+              return [
+                _c(
+                  "v-container",
+                  { staticClass: "d-flex justify-center mt-0 pt-0" },
+                  [
+                    _c("div", { staticClass: "text-center" }, [
+                      _c("div", { staticClass: "text-md-h6" }, [
+                        _vm._v(" " + _vm._s(scope.props.hours))
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "caption" }, [
+                        _vm._v(_vm._s(scope.props.hourTxt))
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("span", [_vm._v(":")]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "text-center" }, [
+                      _c("div", { staticClass: "text-md-h6" }, [
+                        _vm._v(_vm._s(scope.props.minutes))
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "caption" }, [
+                        _vm._v(_vm._s(scope.props.minutesTxt))
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("span", [_vm._v(":")]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "text-center" }, [
+                      _c("div", { staticClass: "text-md-h6" }, [
+                        _vm._v(_vm._s(scope.props.seconds))
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "caption" }, [
+                        _vm._v(_vm._s(scope.props.secondsTxt) + " ")
+                      ])
                     ])
-                  })
-                ],
-                1
-              )
-            ],
-            1
-          )
-        ],
-        1
-      )
+                  ]
+                )
+              ]
+            }
+          }
+        ])
+      })
     ],
     1
   )

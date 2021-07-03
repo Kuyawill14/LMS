@@ -20,24 +20,51 @@
     </v-row>
 </v-container>
 
-<div>
-    <quizTimer :StopTimer="StopTimer" v-on:TimerStop="StopTimer = false, SubmitAnswer()" v-on:TimesUp="TimesUpSubmit()" :duration="duration" v-if="!isLoading"></quizTimer>
-</div>
+<v-container class="mt-5">
+    <v-card class="pl-3 pr-3">
+
+    
+        <v-row v-if="!isLoading">
+          
+            <v-col>
+                <div class="mt-3 d-flex">
+                    <v-btn
+                        class="mx-2"
+                        fab
+                        dark
+                        color="primary"
+                        >
+                        <v-icon x-large>
+                        mdi-book-open-variant
+                        </v-icon>
+                    </v-btn>
+                    <div class="font-weight-bold mt-4">{{classworkDetails.title}}</div>
+               </div>
+            </v-col>
+              <v-col cols="6" class="d-flex justify-end">
+                <div>
+                    <h4 class="ml-4">Time Remaining</h4>
+                     <quizTimer  :StopTimer="StopTimer" v-on:TimerStop="StopTimer = false, SubmitAnswer()" v-on:TimesUp="TimesUpSubmit()" :duration="duration" v-if="!isLoading"></quizTimer>
+                </div>
+            </v-col>
+        </v-row>
+
+   </v-card>
+</v-container>
 
 
 <v-hover v-if="!isLoading">
-  <v-container  fluid>
-        <v-row align="center" justify="center">
-           
-            <v-col cols="12" sm="12" md="8" lg="8" xl="8">
+  <v-container class="mt-0 pt-0"  fluid>
+        <v-row  justify="center">
+            <v-col cols="12" sm="12" md="8" lg="8" class="mt-4 pt-0"  xl="8">
                 <v-container class="d-flex flex-row justify-center">
-                    <v-card style="border-top:5px solid #EF6C00" :class="$vuetify.breakpoint.xs? 'd-none mr-0':'mr-2'" >
+                    <v-card  style="border-top:5px solid #EF6C00;max-height:50vh;overflow: scroll;overflow-x: hidden;" :class="$vuetify.breakpoint.xs? 'd-none mr-0':'mr-2'" >
                       <v-window >
                           <v-window-item >
                                <v-container align="center" ma-0 pa-0 v-for="(item, index) in getAll_questions.Question" :key="index">
                                    <v-container class="pa-0 ma-0 pl-sm-4 pr-3 pt-2 pb-2 d-flex flex-row">
                                        <v-btn text rounded
-                                       @click="questionIndex = index,next()"
+                                       @click="questionIndex = index"
                                        >
                                         
                                         <v-icon :color="checker[index] != null || checker[index] != ''? 'primary': ''" left>{{checker[index] == null || checker[index] == ''? 'mdi-checkbox-blank-outline':'mdi-checkbox-marked'}}</v-icon>
@@ -293,7 +320,8 @@ export default {
             },
             TimerCount:[],
             tempCounter:0,
-            timeCount:null
+            timeCount:null,
+            classworkDetails:[]
         }
     },
     computed: 
@@ -334,14 +362,14 @@ export default {
             this.tempCounter = 0;
             this.CountTime();
     
-            if(this.PickAnswers.ans == undefined || this.PickAnswers.ans == ''){
+            if((this.PickAnswers.ans == undefined || this.PickAnswers.ans == '') && this.FinalAnswers.length == 0){
                  this.FinalAnswers.push({
                     Answer: '',
                     Question_id: this.getAll_questions.Question[this.questionIndex].id,
                     type:this.getAll_questions.Question[this.questionIndex].type,
                     timeConsume: this.TimerCount[this.questionIndex]
                 });
-                //console.log(this.FinalAnswers);
+                console.log(this.FinalAnswers);
             }
             else{
                 if (this.Questype == 'Multiple Choice' || this.Questype == 'True or False') {
@@ -533,7 +561,7 @@ export default {
                     this.isLoading = !this.isLoading;
                     this.isSubmitting = !this.isSubmitting;
                 }, 2000);
-                 this.$router.push({name: 'result-page', params:{id: this.$route.query.clwk}})
+                 //this.$router.push({name: 'result-page', params:{id: this.$route.query.clwk}})
                   localStorage.removeItem('timer_time');
             })
 
@@ -614,6 +642,7 @@ export default {
             axios.get('/api/classwork/showDetails/'+this.$route.query.clwk+'/'+this.$route.params.id)
             .then(res=>{
                 this.duration = res.data.Details.duration;
+                this.classworkDetails = res.data.Details;
                 this.fetchQuestions();
 
             })
