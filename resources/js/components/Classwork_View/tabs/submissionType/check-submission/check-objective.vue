@@ -154,7 +154,7 @@ import moment from 'moment';
         },
           fetchQuestions(){
             this.$store.dispatch('fetchQuestions', this.$route.query.clwk).then(res=>{
-                console.log(res);
+                //console.log(res);
                 this.Details = res[0];
                 for (let i = 0; i < this.Details.Question.length; i++) {
                     for (let j = 0; j < this.ViewDetails.Submitted_Answers.length; j++) {
@@ -182,6 +182,7 @@ import moment from 'moment';
       },
       mounted(){
           this.fetchQuestions();
+          //console.log(this.classworkDetails);
           //console.log(this.ViewDetails)
       }
   }

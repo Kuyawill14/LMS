@@ -170,7 +170,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       this.$store.dispatch('fetchQuestions', this.$route.query.clwk).then(function (res) {
-        console.log(res);
+        //console.log(res);
         _this.Details = res[0];
 
         for (var i = 0; i < _this.Details.Question.length; i++) {
@@ -193,7 +193,8 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   mounted: function mounted() {
-    this.fetchQuestions(); //console.log(this.ViewDetails)
+    this.fetchQuestions(); //console.log(this.classworkDetails);
+    //console.log(this.ViewDetails)
   }
 });
 
