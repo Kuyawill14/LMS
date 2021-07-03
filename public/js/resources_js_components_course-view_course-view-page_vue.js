@@ -36,9 +36,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -72,7 +69,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     hideCard: function hideCard() {
       this.routeName = this.$route.matched[2].name;
 
-      if (this.routeName == 'student-modules' || this.routeName == 'modules-preview') {
+      if (this.routeName == 'student-modules' || this.routeName == 'modules-preview' || this.routeName == 'courseSetup') {
         this.showCard = false;
       } else {
         this.showCard = true;
