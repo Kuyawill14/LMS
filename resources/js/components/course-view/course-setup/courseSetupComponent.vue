@@ -11,17 +11,12 @@
                         <v-divider></v-divider>
 
                         <v-stepper-step :complete="e1 > 2" step="2">
-                            Course Description
-                        </v-stepper-step>
-
-                        <v-divider></v-divider>
-
-                        <v-stepper-step :complete="e1 > 3" step="3">
                             Grading Criteria
                         </v-stepper-step>
+
                         <v-divider></v-divider>
 
-                        <v-stepper-step step="4">
+                        <v-stepper-step step="3">
                             Class
                         </v-stepper-step>
                     </v-stepper-header>
@@ -29,57 +24,19 @@
                     <v-stepper-items>
                         <v-stepper-content step="1">
 
-                            <v-container>
-                                <v-row class="mx-2">
-                                    <v-col cols="12" class="pa-0 ma-0">
-                                        <v-text-field v-model="getcourseInfo.course_code" filled color="primary"
-                                            label="Course Code">
-                                        </v-text-field>
-                                    </v-col>
-
-                                    <v-col cols="12" class="pa-0 ma-0">
-                                        <v-text-field v-model="getcourseInfo.course_name" filled color="primary"
-                                            label="Course Name">
-                                        </v-text-field>
-                                    </v-col>
-                                </v-row>
-                            </v-container>
-
-                            <v-divider></v-divider>
-                            <br>
-                            <v-btn color="primary" @click="e1 = 2; updateCourseDetails()">
-                                Continue
-                            </v-btn>
+                            <courseDetailsComponent v-on:changeStep="step" />
 
                         </v-stepper-content>
 
                         <v-stepper-content step="2">
-                            <v-card class="mb-12" >
-                                <editor placeholder="Announce something in your class!" class="border"
-                                    v-model="getcourseInfo.course_description" theme="snow"></editor>
 
-                            </v-card>
+                            <gradingCriteria v-on:changeStep="step" />
 
-                            <v-btn color="primary" @click="e1 = 3;updateCourseDetails();">
-                                Continue
-                            </v-btn>
-
-                            <v-btn text @click="e1--;">
-                                back
-                            </v-btn>
                         </v-stepper-content>
 
+
                         <v-stepper-content step="3">
-                            <v-card class="mb-12" color="grey lighten-1" height="200px"></v-card>
-
-                            <v-btn color="primary" @click="e1 = 1">
-                                Continue
-                            </v-btn>
-
-                         
-                            <v-btn text @click="e1--;">
-                                back
-                            </v-btn>
+                            <classComponent v-on:changeStep="step" />
                         </v-stepper-content>
                     </v-stepper-items>
                 </v-stepper>
@@ -92,12 +49,15 @@
 
 
 <script>
-  import {
+    import {
         mapGetters,
         mapActions
     } from "vuex";
+    import gradingCriteria from './grading-criteria'
+    import courseDetailsComponent from './courseDetailsComponent'
+    import classComponent from './classComponent'
     export default {
-        
+
         data() {
             return {
                 e1: 1,
@@ -112,16 +72,26 @@
                 }
             }
         },
-                computed: mapGetters(["getcourseInfo"]),
+        components: {
+            gradingCriteria,
+            courseDetailsComponent,
+            classComponent
+        },
+
         methods: {
-                     ...mapActions(['fetchScourse']),
-            updateCourseDetails(){
+            ...mapActions(['fetchScourse']),
+            updateCourseDetails() {
                 this.$store.dispatch('updateCourse', this.getcourseInfo);
+            },
+            step(step) {
+                this.e1 = step;
+                console.log(this.el);
+
             }
         },
-         created() {
+        created() {
             const course_id = this.$route.params.id;
-            this.classInfo = this.fetchScourse(course_id);
+            this.fetchScourse(course_id);
         },
     }
 

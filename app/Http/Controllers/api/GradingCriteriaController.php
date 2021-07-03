@@ -124,8 +124,7 @@ class GradingCriteriaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
-          //
+         $newGradingCriteria =  tbl_main_gradeCategory::find($id);
           $error_message = ['error'];
           $hasError = false;
           $criteriaCheck = false;
@@ -137,7 +136,8 @@ class GradingCriteriaController extends Controller
           ->get();
          
           
-  
+        //   $criteriaCheck = json_decode($criteriaCheck, true);
+
   
           $pencentageSum = DB::table('tbl_main_grade_categories')
           ->where('course_id', '=', $request->grading_criteria['course_id'])
@@ -146,23 +146,30 @@ class GradingCriteriaController extends Controller
         //   if($criteriaCheck[0]->percentage ==$getPercentage) {
         //     $getPercentage = 0;
         //   }
-          if(($pencentageSum + $getPercentage) > 100) {
-              $hasError = true;
-              array_push($error_message,'Total Percentage must not be greater than 100');
-          }
-        //   if($criteriaCheck == true) {
-        //       $hasError = true;
-        //       array_push($error_message,'Criteria name already exists');
-          
-        //   } 
+
+        if($getPercentage  != $criteriaCheck[0]->percentage ) {
+            if((($pencentageSum  - $criteriaCheck[0]->percentage) +  $getPercentage  ) > 100) {
+                $hasError = true;
+                array_push($error_message,'Total Percentage must not be greater than 100');
+                $newGradingCriteria->percentage = 0;
+                $newGradingCriteria->save();
+           }
+        }
+        if( $criteriaCheck[0]->name == $request->grading_criteria['percentage']) {
+            $hasError = true;
+                  array_push($error_message,'Criteria name already exists');
+         }
+
+      
+       
            if($hasError == false){
-              $newGradingCriteria =  tbl_main_gradeCategory::find($id);
+             
 
               $newGradingCriteria->name = $request->grading_criteria['name'];
               $newGradingCriteria->percentage = $request->grading_criteria['percentage'];
               $newGradingCriteria->course_id = $request->grading_criteria['course_id'];
               $newGradingCriteria->save();
-             
+            
               return $newGradingCriteria;
           }
         

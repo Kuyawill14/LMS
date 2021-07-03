@@ -132,7 +132,9 @@ const router = new Router({
                     path: "course/:id",
                     component: courseView,
                     name: "selectedCourse",
-                    children: [{
+                    children: [
+
+                        {
                             name: "coursePage",
                             path: "",
                             component: classes_tab,

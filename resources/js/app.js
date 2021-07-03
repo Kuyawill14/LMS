@@ -33,12 +33,32 @@ import VueCountdownTimer from 'vuejs-countdown-timer';
 Vue.use(VueCountdownTimer);
 
 
+
 //Vuex Store
 import store from "./store/store";
 import router from "./router";
 
 Vue.component('example-component', require('./components/app.vue').default);
-
+Vue.mixin({
+    methods: {
+        toastSuccess(message) {
+            return this.$toasted.success(message, {
+                theme: "toasted-primary",
+                position: "top-center",
+                icon: "done",
+                duration: 2000
+            });
+        },
+        toastError(message) {
+            return this.$toasted.error(message, {
+                theme: "toasted-primary",
+                position: "top-center",
+                icon: "warning",
+                duration: 2000
+            });
+        },
+    }
+})
 
 const app = new Vue({
     el: '#app',

@@ -7,9 +7,9 @@
             <v-row class="mx-2">
 
                 <v-col cols="12" class="pa-0 ma-0">
-                    <v-text-field required v-model="form.class_name" filled color="primary" label="Class Name">
+                    <v-text-field required :value="className" ref="_classname" filled color="primary" label="Class Name">
                     </v-text-field>
-               
+
                 </v-col>
 
 
@@ -50,6 +50,7 @@
             textarea: null,
             hasMessages: false,
             sending: false,
+            className: '',
             form: {
                 class_name: '',
                 class_id: null
@@ -78,6 +79,7 @@
                 this.isloading = true;
                 this.form.class_id = this.class_id;
                 this.form.course_id = this.$route.params.id;
+                this.form.class_name = this.$refs._classname.value;
                 this.$store.dispatch('updateClass', this.form);
                 this.fetchSubjectCourseClassList(this.$route.params.id);
                 this.toastSuccess()
@@ -92,10 +94,9 @@
             },
         },
         mounted() {
-            console.log(this.form);
-            this.form.class_name = this.getClassName;
-              console.log(this.form);
-          
+            this.className = this.class_name;
+
+
         }
     }
 

@@ -201,32 +201,44 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.form.course_id = selectedCourse.course_id;
     },
     createCourse: function createCourse() {
+      var _this = this;
+
       if (this.form.course_name != "" && this.form.course_code != "") {
         this.isloading = true;
-        this.$store.dispatch('createCourse', this.form);
-        this.fetchCourses();
-        this.dialog = false;
-        this.toastSuccess("Your class has been Added", 'done');
+        this.$store.dispatch('createCourse', this.form).then(function (res) {
+          _this.fetchCourses();
+
+          _this.dialog = false;
+
+          _this.toastSuccess("Your course has been Added", 'done');
+
+          _this.$router.push({
+            name: 'courseSetup',
+            params: {
+              id: res.id
+            }
+          });
+        });
       }
     },
     fetchCourses: function fetchCourses() {
-      var _this = this;
+      var _this2 = this;
 
       this.isGetting = true;
       this.$store.dispatch('fetchCourseList').then(function () {
-        _this.coursesLength = _this.allCourse.length;
-        _this.isGetting = false;
+        _this2.coursesLength = _this2.allCourse.length;
+        _this2.isGetting = false;
       });
     }
   }),
   computed: (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)(['allCourse']),
   created: function created() {
-    var _this2 = this;
+    var _this3 = this;
 
     this.isloading = true;
     this.fetchCourseList();
     setTimeout(function () {
-      return _this2.isloading = false;
+      return _this3.isloading = false;
     }, 1000);
   },
   mounted: function mounted() {

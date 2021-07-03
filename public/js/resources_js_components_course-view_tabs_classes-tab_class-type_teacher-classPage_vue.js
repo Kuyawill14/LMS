@@ -149,6 +149,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       textarea: null,
       hasMessages: false,
       sending: false,
+      className: '',
       form: {
         class_name: '',
         class_id: null
@@ -177,6 +178,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.isloading = true;
       this.form.class_id = this.class_id;
       this.form.course_id = this.$route.params.id;
+      this.form.class_name = this.$refs._classname.value;
       this.$store.dispatch('updateClass', this.form);
       this.fetchSubjectCourseClassList(this.$route.params.id);
       this.toastSuccess();
@@ -187,9 +189,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
   }),
   mounted: function mounted() {
-    console.log(this.form);
-    this.form.class_name = this.getClassName;
-    console.log(this.form);
+    this.className = this.class_name;
   }
 });
 
@@ -845,18 +845,13 @@ var render = function() {
                 { staticClass: "pa-0 ma-0", attrs: { cols: "12" } },
                 [
                   _c("v-text-field", {
+                    ref: "_classname",
                     attrs: {
                       required: "",
+                      value: _vm.className,
                       filled: "",
                       color: "primary",
                       label: "Class Name"
-                    },
-                    model: {
-                      value: _vm.form.class_name,
-                      callback: function($$v) {
-                        _vm.$set(_vm.form, "class_name", $$v)
-                      },
-                      expression: "form.class_name"
                     }
                   })
                 ],
