@@ -17,7 +17,7 @@
         <v-card-text>
                 
                 <v-row no-gutters>
-                    <v-col cols="12" md="4" lg="4" :class="$vuetify.breakpoint.xs ? 'pt-2' : 'pt-5 pr-3'">
+                    <v-col cols="12" md="4" lg="4" :class="$vuetify.breakpoint.xs ? 'pt-2' : 'pt-2 pr-3'">
                          <v-container fluid ma-0 pa-0>
                             <v-card class="pa-5 pb-8">
                                 <v-row  no-gutters>
@@ -95,7 +95,7 @@
                             </v-card>
                         </v-container>
                     </v-col>
-                     <v-col cols="12" md="8" lg="8" class="pt-5">
+                     <v-col cols="12" md="8" lg="8" class="pt-2">
                          <v-container fluid ma-0 pa-0>
                             <v-card>
                                 <div class="pa-3">
@@ -104,9 +104,12 @@
                                 </div>
                               
                                 <div>
-                                    <iframe :src="'https://view.officeapps.live.com/op/embed.aspx?src=http://127.0.0.1:8000/storage/'+CheckData.Submitted_Answers[0].link" width='100%' height='570' frameborder='0'>
-                                    This is an embedded <a target='_blank' href='http://office.com'>Microsoft Office</a> document, powered by <a target='_blank' href='http://office.com/webapps'>Office Online</a>.</iframe> 
-                                    <!-- <iframe src='https://view.officeapps.live.com/op/embed.aspx?src=http%3A%2F%2Fieee802%2Eorg%3A80%2Fsecmail%2FdocIZSEwEqHFr%2Edoc' width='100%' height='570' frameborder='0'>This is an embedded <a target='_blank' href='http://office.com'>Microsoft Office</a> document, powered by <a target='_blank' href='http://office.com/webapps'>Office Online</a>.</iframe> -->                  
+                                   <!--  <iframe :src="'https://view.officeapps.live.com/op/embed.aspx?src=http://127.0.0.1:8000/storage/'+CheckData.Submitted_Answers[0].link" width='100%' height='570' frameborder='0'>
+                                    This is an embedded <a target='_blank' href='http://office.com'>Microsoft Office</a> document, powered by <a target='_blank' href='http://office.com/webapps'>Office Online</a>.</iframe>  -->
+                                    <!-- <iframe src='https://view.officeapps.live.com/op/embed.aspx?src=http%3A%2F%2Fieee802%2Eorg%3A80%2Fsecmail%2FdocIZSEwEqHFr%2Edoc' width='100%' height='570' frameborder='0'>This is an embedded <a target='_blank' href='http://office.com'>Microsoft Office</a> document, powered by <a target='_blank' href='http://office.com/webapps'>Office Online</a>.</iframe> --> 
+                                    <vue-pdf-app :pdf="'/storage/'+this.CheckData.Submitted_Answers[0].link"  
+                                        style="height:80vh">
+                                    </vue-pdf-app>              
                                 </div>
                             </v-card>
                          </v-container>
@@ -120,9 +123,14 @@
 
 </template>
 <script>
+import VuePdfApp from "vue-pdf-app";
+import "vue-pdf-app/dist/icons/main.css";
 import moment from 'moment';
   export default {
     props:['CheckData','classworkDetails'],
+     components: {
+        VuePdfApp
+    },
     data () {
       return {
         dialog: false,
@@ -133,7 +141,10 @@ import moment from 'moment';
         timeout: null,
         value: '',
         score: '',
-        isSavingScore: false
+        isSavingScore: false,
+        idConfig: {
+            pageNumber: "vuePdfAppPageNumber",
+        },
       }
     },
     methods:{

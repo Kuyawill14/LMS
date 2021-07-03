@@ -79,8 +79,7 @@ var teacherStartPage = function teacherStartPage() {
       var _this = this;
 
       axios.get('/api/classwork/showDetails/' + this.$route.query.clwk + '/' + this.$route.params.id).then(function (res) {
-        _this.classworkDetails = res.data.Details[0];
-        console.log(_this.classworkDetails);
+        _this.classworkDetails = res.data.Details;
         _this.totalPoints = res.data.totalpoints;
         _this.totalQuestion = res.data.ItemsCount;
       });

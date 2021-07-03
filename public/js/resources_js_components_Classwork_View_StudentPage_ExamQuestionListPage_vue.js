@@ -640,8 +640,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.isStart = true;
       var alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
       this.Alphabet = alphabet;
-      axios.get('/api/classwork/showDetails/' + this.$route.query.clwk).then(function (res) {
-        _this7.duration = res.data.Details[0].duration;
+      axios.get('/api/classwork/showDetails/' + this.$route.query.clwk + '/' + this.$route.params.id).then(function (res) {
+        _this7.duration = res.data.Details.duration;
 
         _this7.fetchQuestions();
       });

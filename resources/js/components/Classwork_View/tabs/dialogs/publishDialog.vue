@@ -94,14 +94,14 @@
                                         color="primary"
                                         > 
                                     </v-datetime-picker>
-                                   <!--  <v-text-field
+                                    <v-text-field
                                     :rules="FieldRules"
                                     class="DateTime "
                                     v-model="to_date"
                                     outlined
                           dense
                                     label="To" type="datetime-local" >
-                                    </v-text-field> -->
+                                    </v-text-field>
                                  </v-col>
                              </v-row>
                            

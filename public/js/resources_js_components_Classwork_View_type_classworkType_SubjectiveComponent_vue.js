@@ -1265,7 +1265,7 @@ var render = function() {
                       _c("input", {
                         ref: "AttAchMoreFile",
                         staticClass: "d-none",
-                        attrs: { type: "file" },
+                        attrs: { accept: "application/pdf", type: "file" },
                         on: { change: _vm.onChange }
                       }),
                       _vm._v(" "),
@@ -1351,7 +1351,10 @@ var render = function() {
                                               _vm._v(" "),
                                               _c("input", {
                                                 ref: "UploadAttachFile",
-                                                attrs: { type: "file" },
+                                                attrs: {
+                                                  accept: "application/pdf",
+                                                  type: "file"
+                                                },
                                                 on: { change: _vm.onChange }
                                               })
                                             ],

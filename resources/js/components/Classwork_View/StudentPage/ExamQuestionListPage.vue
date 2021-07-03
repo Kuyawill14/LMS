@@ -611,9 +611,9 @@ export default {
                 "z"
             ];
             this.Alphabet = alphabet;
-            axios.get('/api/classwork/showDetails/'+ this.$route.query.clwk)
+            axios.get('/api/classwork/showDetails/'+this.$route.query.clwk+'/'+this.$route.params.id)
             .then(res=>{
-                this.duration = res.data.Details[0].duration;
+                this.duration = res.data.Details.duration;
                 this.fetchQuestions();
 
             })

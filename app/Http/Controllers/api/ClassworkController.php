@@ -240,7 +240,7 @@ class ClassworkController extends Controller
         $classworkDetails;
         if(auth('sanctum')->user()->role != 'Student'){
             $classworkDetails = tbl_classwork::where('tbl_classworks.id','=', $id)
-            ->get();
+            ->first();
         }
         else{
             $classworkDetails = tbl_classwork::where('tbl_classworks.id','=', $id)
@@ -252,7 +252,7 @@ class ClassworkController extends Controller
             ->leftJoin('tbl_class_classworks', 'tbl_class_classworks.classwork_id','=','tbl_classworks.id')
             ->leftJoin('tbl_userclasses', 'tbl_userclasses.user_id','=', 'tbl_classworks.user_id')
             ->where('tbl_class_classworks.class_id', $class_id->class_id)
-            ->get();
+            ->first();
         }
 
         $Items = tbl_Questions::where('classwork_id','=', $id)
