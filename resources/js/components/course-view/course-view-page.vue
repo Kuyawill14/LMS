@@ -12,9 +12,6 @@
         </v-card>
 
         <router-view :role="role" :UserDetails="UserDetails"></router-view>
-
-
-
     </div>
 </template>
 <script>
@@ -61,7 +58,7 @@
             hideCard() {
                 this.routeName = this.$route.matched[2].name;
 
-                if (this.routeName == 'student-modules' || this.routeName == 'modules-preview') {
+                if (this.routeName == 'student-modules' || this.routeName == 'modules-preview'|| this.routeName == 'courseSetup') {
                     this.showCard = false;
                 } else {
                       this.showCard = true;

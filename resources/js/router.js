@@ -30,6 +30,8 @@ let mycourse = () =>
 
 
 // course view tabs
+let course_setup = () =>
+    import ("./components/course-view/course-setup/courseSetupComponent");
 let about_tab = () =>
     import ("./components/course-view/tabs/about-tab/aboutComponent");
 let classwork_tab = () =>
@@ -150,7 +152,12 @@ const router = new Router({
                                         console.log(e);
                                     });
                             },
-
+                            //courseSetup
+                        },
+                        {
+                            path: "setup",
+                            component: course_setup,
+                            name: "courseSetup"
                         },
                         {
                             name: "announcement",
@@ -247,6 +254,7 @@ const router = new Router({
                     component: dashboard,
                     name: "dashboard"
                 },
+
             ],
 
         },
