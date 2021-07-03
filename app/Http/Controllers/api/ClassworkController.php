@@ -8,6 +8,7 @@ use App\Models\tbl_classwork;
 use App\Models\tbl_classClassworks;
 use App\Models\tbl_Questions;
 use App\Models\tbl_Submission;
+use App\Models\tbl_userclass;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 
@@ -226,9 +227,16 @@ class ClassworkController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id, $courseId)
     {
         $userId = auth('sanctum')->id();
+
+        $class_id = tbl_userclass::where('tbl_userclasses.user_id', $userId)
+        ->select('tbl_userclasses.class_id')
+        ->where('tbl_userclasses.course_id', $courseId)
+        ->first();
+    
+
         $classworkDetails;
         if(auth('sanctum')->user()->role != 'Student'){
             $classworkDetails = tbl_classwork::where('tbl_classworks.id','=', $id)
@@ -243,6 +251,7 @@ class ClassworkController extends Controller
             'tbl_userclasses.user_id')
             ->leftJoin('tbl_class_classworks', 'tbl_class_classworks.classwork_id','=','tbl_classworks.id')
             ->leftJoin('tbl_userclasses', 'tbl_userclasses.user_id','=', 'tbl_classworks.user_id')
+            ->where('tbl_class_classworks.class_id', $class_id->class_id)
             ->get();
         }
 

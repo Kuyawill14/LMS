@@ -890,7 +890,7 @@ var render = function() {
                                     "v-tab-item",
                                     [
                                       _c("myCalendar", {
-                                        attrs: { UserDetails: _vm.UserDetails }
+                                        attrs: { role: _vm.role }
                                       })
                                     ],
                                     1

@@ -143,7 +143,7 @@ export default {
     },
     methods:{
           getClassworkDetails(){
-            axios.get('/api/classwork/showDetails/'+ this.Preview_id)
+            axios.get('/api/classwork/showDetails/'+ this.Preview_id+'/'+this.$route.params.id)
             .then(res=>{
                 this.Details = res.data.Details[0];
                 this.isloading = !this.isloading;

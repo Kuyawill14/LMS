@@ -179,7 +179,7 @@
                                 <coursesProgress :UserDetails="UserDetails"></coursesProgress>
                             </v-tab-item>
                             <v-tab-item>
-                               <myCalendar :UserDetails="UserDetails"></myCalendar>
+                               <myCalendar :role="role"></myCalendar>
                             </v-tab-item>
                             <v-tab-item>
                                 <changePassword ></changePassword>

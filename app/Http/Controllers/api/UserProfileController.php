@@ -14,6 +14,7 @@ use App\Models\Tbl_class;
 use App\Models\tbl_userclass;
 use App\Models\tbl_student_sub_module_progress;
 use App\Models\tbl_sub_modules;
+use App\Models\tbl_Submission;
 use Illuminate\Support\Str;
 
 
@@ -219,13 +220,26 @@ class UserProfileController extends Controller
         //$userId = 2;
         $SubmitSubj = tbl_userclass::where('tbl_userclasses.user_id', $userId)
         ->select('tbl_userclasses.class_id','tbl_userclasses.course_id'
-        ,'tbl_classworks.title','tbl_class_classworks.availability','tbl_class_classworks.from_date','tbl_class_classworks.to_date')
+        ,'tbl_classworks.title','tbl_class_classworks.availability','tbl_class_classworks.from_date','tbl_class_classworks.to_date'
+        ,'tbl_class_classworks.classwork_id')
         ->leftJoin('tbl_class_classworks','tbl_class_classworks.class_id','=','tbl_userclasses.class_id')
         ->leftJoin('tbl_classworks','tbl_classworks.id','=','tbl_class_classworks.classwork_id')
         ->get();
-        
-        return $SubmitSubj;
+        foreach($SubmitSubj as $sj){
+            $StatusCheck = tbl_Submission::where('tbl_submissions.classwork_id', $sj->classwork_id)
+            ->where('tbl_submissions.user_id', $userId)
+            ->first();
 
+            if($StatusCheck){
+                $sj->status = 'Submitted';
+            }
+            else{
+                if($sj->status == ''){
+                    $sj->status = null;
+                }
+            }
+        }
+        return $SubmitSubj;
     }
 
     

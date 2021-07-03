@@ -159,7 +159,7 @@ __webpack_require__.r(__webpack_exports__);
     getClassworkDetails: function getClassworkDetails() {
       var _this = this;
 
-      axios.get('/api/classwork/showDetails/' + this.Preview_id).then(function (res) {
+      axios.get('/api/classwork/showDetails/' + this.Preview_id + '/' + this.$route.params.id).then(function (res) {
         _this.Details = res.data.Details[0];
         _this.isloading = !_this.isloading;
         _this.totalPoints = res.data.totalpoints;
