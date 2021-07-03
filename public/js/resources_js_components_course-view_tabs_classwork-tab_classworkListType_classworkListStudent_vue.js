@@ -491,8 +491,8 @@ var render = function() {
                                         )
                                       : _vm._e(),
                                     _vm._v(" "),
-                                    (item.status != null &&
-                                      item.status == "Taking") ||
+                                    item.status != null ||
+                                    item.status == "Taking" ||
                                     (item.status == "Submitted" &&
                                       item.score != null)
                                       ? _c(

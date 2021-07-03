@@ -55,7 +55,7 @@ export default {
         }
     },
     methods:{
-        getClassworkDetails(){
+       async getClassworkDetails(){
             axios.get('/api/classwork/showDetails/'+ this.$route.query.clwk+'/'+this.$route.params.id)
             .then(res=>{
                this.classworkDetails = res.data.Details;

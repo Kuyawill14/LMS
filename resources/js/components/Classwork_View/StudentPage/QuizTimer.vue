@@ -1,9 +1,9 @@
 <template>
-    <v-container class="mb-0 pb-0 mt-2">
-    <v-row  align-content="center" justify="center">
+    <div>
+    <!-- <v-row  align-content="center" justify="center">
         <v-col class="text-subtitle-1 text-center" cols="12" md="10" lg="10" xl="12">
             <v-card :class="!isLoaded ? 'pt-5 pb-5': 'pt-5 pb-5'">
-                <div class="ma-0 pa-0 title">Time Remaining</div>
+                <div class="ma-0 pa-0 title">Time Remaining</div> -->
                <!--  <v-container v-if="isLoaded" class="d-flex justify-center">
 
                     
@@ -23,38 +23,38 @@
                     </div>
                 </v-container> -->
                  <vue-countdown-timer
-          
+
                     @end_callback="EndTimer()"
                     :start-time="Startdate"
-                    :end-time="EndDate"
+                    :end-time="EndDate?EndDate:endAt"
                     :interval="1000"
                     :hour-txt="'hours'"
                     :minutes-txt="'minutes'"
                     :seconds-txt="'seconds'">
                     <template slot="countdown" slot-scope="scope">
-                    <v-container  class="d-flex justify-center">
-                        <div fab >
-                              <div class="text-md-h5"> {{scope.props.hours}}</div>
-                              <div class="caption ml-2">{{scope.props.hourTxt}}</div>  
+                    <v-container  class="d-flex justify-center mt-0 pt-0">
+                        <div class="text-center">
+                              <div class="text-md-h6"> {{scope.props.hours}}</div>
+                              <div class="caption">{{scope.props.hourTxt}}</div>  
                         </div>
-                         :
-                        <div fab class="">
-                            <div class="text-md-h5">{{scope.props.minutes}}</div>
-                            <div class="caption ml-2">{{scope.props.minutesTxt}}</div>  
+                        <span>:</span>
+                        <div class="text-center">
+                            <div class="text-md-h6">{{scope.props.minutes}}</div>
+                            <div class="caption">{{scope.props.minutesTxt}}</div>  
                         </div>
-                        :
-                        <div fab class="">
-                            <div class="text-md-h5">{{scope.props.seconds}}</div>
-                            <div class="caption ml-2">{{scope.props.secondsTxt}} </div>  
+                        <span>:</span>
+                        <div class="text-center">
+                            <div class="text-md-h6">{{scope.props.seconds}}</div>
+                            <div class="caption">{{scope.props.secondsTxt}} </div>  
                         </div>
                     </v-container>
                     </template>
                     </vue-countdown-timer>
-            </v-card>
+         <!--    </v-card>
         
         </v-col>
-    </v-row>
-</v-container>
+    </v-row> -->
+</div>
 </template>
 <script>
 import moment from 'moment';
@@ -69,7 +69,8 @@ export default {
         displayMinutes: 0,
         displaySeconds: 0,
         SecondProgress:1000,
-        isLoaded: false
+        isLoaded: false,
+        endAt:  (new Date).getTime()+5000
     }),
  
     computed: {
@@ -233,13 +234,14 @@ export default {
               
             },1000)
             this.EndDate = (new Date).getTime()+due;
+            
         },
         EndTimer(){
-            if(localStorage.getItem('timer_time') == 0){
+                console.log('test 123');
                 clearInterval(this.NewTimer);
                 localStorage.removeItem('timer_time');
                 this.$emit('TimesUp');
-            }
+            
             
         }
     },
