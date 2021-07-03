@@ -37,7 +37,7 @@
                                <v-container align="center" ma-0 pa-0 v-for="(item, index) in getAll_questions.Question" :key="index">
                                    <v-container class="pa-0 ma-0 pl-sm-4 pr-3 pt-2 pb-2 d-flex flex-row">
                                        <v-btn text rounded
-                                       @click="questionIndex = index"
+                                       @click="questionIndex = index,next()"
                                        >
                                         
                                         <v-icon :color="checker[index] != null || checker[index] != ''? 'primary': ''" left>{{checker[index] == null || checker[index] == ''? 'mdi-checkbox-blank-outline':'mdi-checkbox-marked'}}</v-icon>

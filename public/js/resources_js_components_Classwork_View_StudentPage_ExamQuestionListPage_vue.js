@@ -22849,7 +22849,8 @@ var render = function() {
                                                           click: function(
                                                             $event
                                                           ) {
-                                                            _vm.questionIndex = index
+                                                            ;(_vm.questionIndex = index),
+                                                              _vm.next()
                                                           }
                                                         }
                                                       },
