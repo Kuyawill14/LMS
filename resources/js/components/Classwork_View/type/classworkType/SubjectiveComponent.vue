@@ -124,7 +124,7 @@
                         </v-row>
                    </v-container>
                    </v-col>
-                     <input ref="AttAchMoreFile" type="file" class="d-none" @change="onChange">
+                     <input ref="AttAchMoreFile" accept="application/pdf" type="file" class="d-none" @change="onChange">
                    <v-col class="ma-0 pa-0" cols="12" v-if="!isloading">
                           <v-col class="ma-0 pa-0 mb-2" cols="12" v-if="!file[0] && StatusDetails.status == null">
                             <v-container ma-0 pa-0 >
@@ -135,7 +135,7 @@
                                       </div>
                                     <span class="dropZone-title">Your work is empty.</span>
                                 </v-container>
-                                 <input ref="UploadAttachFile" type="file" @change="onChange">
+                                 <input ref="UploadAttachFile" accept="application/pdf" type="file" @change="onChange">
                                 </div>
                             </v-container>
                           </v-col>

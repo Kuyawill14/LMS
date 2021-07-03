@@ -28,7 +28,7 @@
                      
                  </v-row>
                 <v-row v-if="!isloading">
-                      <v-col cols="12" v-if="Details.type != 'Subjective Type'">
+                      <v-col cols="12" >
                         <v-container ma-0 pa-0 class="d-flex flex-row justify-space-between">
                         <v-btn
                         
@@ -45,7 +45,7 @@
                         class="float-right mt-3"
                         fab
                         >
-                        <div class="text-md-h5 font-weight-medium"> <v-icon large color="primary">mdi-book-clock-outline</v-icon> {{Details.duration}} mins</div>
+                        <div class="text-md-h5 font-weight-medium"> <v-icon large color="primary">mdi-book-clock-outline</v-icon> <span v-if="Details.type != 'Subjective Type'">{{Details.duration}} mins</span></div>
                         <div class="caption ml-2 font-weight-medium">Due {{ format_date(Details.to_date)}}</div>  
                         </div>
                     </v-container>
@@ -145,7 +145,7 @@ export default {
           getClassworkDetails(){
             axios.get('/api/classwork/showDetails/'+ this.Preview_id+'/'+this.$route.params.id)
             .then(res=>{
-                this.Details = res.data.Details[0];
+                this.Details = res.data.Details;
                 this.isloading = !this.isloading;
                 this.totalPoints = res.data.totalpoints;
                 this.totalQuestion = res.data.ItemsCount;

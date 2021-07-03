@@ -160,7 +160,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       axios.get('/api/classwork/showDetails/' + this.Preview_id + '/' + this.$route.params.id).then(function (res) {
-        _this.Details = res.data.Details[0];
+        _this.Details = res.data.Details;
         _this.isloading = !_this.isloading;
         _this.totalPoints = res.data.totalpoints;
         _this.totalQuestion = res.data.ItemsCount;
@@ -338,39 +338,64 @@ var render = function() {
                 ? _c(
                     "v-row",
                     [
-                      _vm.Details.type != "Subjective Type"
-                        ? _c(
-                            "v-col",
-                            { attrs: { cols: "12" } },
+                      _c(
+                        "v-col",
+                        { attrs: { cols: "12" } },
+                        [
+                          _c(
+                            "v-container",
+                            {
+                              staticClass:
+                                "d-flex flex-row justify-space-between",
+                              attrs: { "ma-0": "", "pa-0": "" }
+                            },
                             [
                               _c(
-                                "v-container",
+                                "v-btn",
                                 {
-                                  staticClass:
-                                    "d-flex flex-row justify-space-between",
-                                  attrs: { "ma-0": "", "pa-0": "" }
+                                  staticClass: "mx-2 mt-2",
+                                  attrs: { fab: "", dark: "", color: "primary" }
+                                },
+                                [
+                                  _c("v-icon", { attrs: { "x-large": "" } }, [
+                                    _vm._v(
+                                      "\r\n                        mdi-book-open-variant\r\n                        "
+                                    )
+                                  ])
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                {
+                                  staticClass: "float-right mt-3",
+                                  attrs: { fab: "" }
                                 },
                                 [
                                   _c(
-                                    "v-btn",
+                                    "div",
                                     {
-                                      staticClass: "mx-2 mt-2",
-                                      attrs: {
-                                        fab: "",
-                                        dark: "",
-                                        color: "primary"
-                                      }
+                                      staticClass:
+                                        "text-md-h5 font-weight-medium"
                                     },
                                     [
                                       _c(
                                         "v-icon",
-                                        { attrs: { "x-large": "" } },
-                                        [
-                                          _vm._v(
-                                            "\r\n                        mdi-book-open-variant\r\n                        "
-                                          )
-                                        ]
-                                      )
+                                        {
+                                          attrs: { large: "", color: "primary" }
+                                        },
+                                        [_vm._v("mdi-book-clock-outline")]
+                                      ),
+                                      _vm._v(" "),
+                                      _vm.Details.type != "Subjective Type"
+                                        ? _c("span", [
+                                            _vm._v(
+                                              _vm._s(_vm.Details.duration) +
+                                                " mins"
+                                            )
+                                          ])
+                                        : _vm._e()
                                     ],
                                     1
                                   ),
@@ -378,62 +403,26 @@ var render = function() {
                                   _c(
                                     "div",
                                     {
-                                      staticClass: "float-right mt-3",
-                                      attrs: { fab: "" }
+                                      staticClass:
+                                        "caption ml-2 font-weight-medium"
                                     },
                                     [
-                                      _c(
-                                        "div",
-                                        {
-                                          staticClass:
-                                            "text-md-h5 font-weight-medium"
-                                        },
-                                        [
-                                          _c(
-                                            "v-icon",
-                                            {
-                                              attrs: {
-                                                large: "",
-                                                color: "primary"
-                                              }
-                                            },
-                                            [_vm._v("mdi-book-clock-outline")]
-                                          ),
-                                          _vm._v(
-                                            " " +
-                                              _vm._s(_vm.Details.duration) +
-                                              " mins"
+                                      _vm._v(
+                                        "Due " +
+                                          _vm._s(
+                                            _vm.format_date(_vm.Details.to_date)
                                           )
-                                        ],
-                                        1
-                                      ),
-                                      _vm._v(" "),
-                                      _c(
-                                        "div",
-                                        {
-                                          staticClass:
-                                            "caption ml-2 font-weight-medium"
-                                        },
-                                        [
-                                          _vm._v(
-                                            "Due " +
-                                              _vm._s(
-                                                _vm.format_date(
-                                                  _vm.Details.to_date
-                                                )
-                                              )
-                                          )
-                                        ]
                                       )
                                     ]
                                   )
-                                ],
-                                1
+                                ]
                               )
                             ],
                             1
                           )
-                        : _vm._e(),
+                        ],
+                        1
+                      ),
                       _vm._v(" "),
                       _c(
                         "v-col",

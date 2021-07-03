@@ -58,8 +58,7 @@ export default {
         getClassworkDetails(){
             axios.get('/api/classwork/showDetails/'+ this.$route.query.clwk+'/'+this.$route.params.id)
             .then(res=>{
-               this.classworkDetails = res.data.Details[0];
-               console.log(this.classworkDetails);
+               this.classworkDetails = res.data.Details;
                 this.totalPoints = res.data.totalpoints;
                 this.totalQuestion = res.data.ItemsCount;
             })

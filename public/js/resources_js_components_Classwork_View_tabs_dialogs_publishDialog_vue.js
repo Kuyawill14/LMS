@@ -22140,6 +22140,24 @@ var render = function() {
                                           },
                                           expression: "to_date"
                                         }
+                                      }),
+                                      _vm._v(" "),
+                                      _c("v-text-field", {
+                                        staticClass: "DateTime ",
+                                        attrs: {
+                                          rules: _vm.FieldRules,
+                                          outlined: "",
+                                          dense: "",
+                                          label: "To",
+                                          type: "datetime-local"
+                                        },
+                                        model: {
+                                          value: _vm.to_date,
+                                          callback: function($$v) {
+                                            _vm.to_date = $$v
+                                          },
+                                          expression: "to_date"
+                                        }
                                       })
                                     ],
                                     1
