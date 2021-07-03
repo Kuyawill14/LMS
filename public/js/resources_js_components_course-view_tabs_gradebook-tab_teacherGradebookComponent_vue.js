@@ -537,7 +537,7 @@ var render = function() {
         [
           _c(
             "v-tabs",
-            { attrs: { color: "deep-purple accent-4", right: "" } },
+            { attrs: { color: "orange accent-4", right: "" } },
             [
               _c("v-tab", { attrs: { href: "#final_grades" } }, [
                 _vm._v("\n                Final Grades\n            ")
