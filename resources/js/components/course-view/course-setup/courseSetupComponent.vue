@@ -1,65 +1,71 @@
 <template>
     <v-container>
         <v-row align="center" justify="center">
-            <v-col cols="12" lg="8">
+            <v-col cols="12" lg="10">
                 <v-stepper v-model="e1">
                     <v-stepper-header>
                         <v-stepper-step :complete="e1 > 1" step="1">
-                            Nameasd of step 1
+                            Course Details
                         </v-stepper-step>
 
                         <v-divider></v-divider>
 
                         <v-stepper-step :complete="e1 > 2" step="2">
-                            Name of step 2
+                            Course Description
                         </v-stepper-step>
 
                         <v-divider></v-divider>
 
-                        <v-stepper-step step="3">
-                            Name of step 3
+                        <v-stepper-step :complete="e1 > 3" step="3">
+                            Grading Criteria
+                        </v-stepper-step>
+                        <v-divider></v-divider>
+
+                        <v-stepper-step step="4">
+                            Class
                         </v-stepper-step>
                     </v-stepper-header>
 
                     <v-stepper-items>
                         <v-stepper-content step="1">
-                        
-                                <v-container>
-                                    <v-row class="mx-2">
-                                        <v-col cols="12" class="pa-0 ma-0">
-                                            <v-text-field v-model="form.course_code" filled color="primary"
-                                                label="Course Code">
-                                            </v-text-field>
-                                        </v-col>
 
-                                        <v-col cols="12" class="pa-0 ma-0">
-                                            <v-text-field v-model="form.course_name" filled color="primary"
-                                                label="Course Name">
-                                            </v-text-field>
-                                        </v-col>
-                                    </v-row>
-                                </v-container>
-                             
-                           <v-divider></v-divider>
-                           <br>
-                            <v-btn color="primary" @click="e1 = 2">
+                            <v-container>
+                                <v-row class="mx-2">
+                                    <v-col cols="12" class="pa-0 ma-0">
+                                        <v-text-field v-model="getcourseInfo.course_code" filled color="primary"
+                                            label="Course Code">
+                                        </v-text-field>
+                                    </v-col>
+
+                                    <v-col cols="12" class="pa-0 ma-0">
+                                        <v-text-field v-model="getcourseInfo.course_name" filled color="primary"
+                                            label="Course Name">
+                                        </v-text-field>
+                                    </v-col>
+                                </v-row>
+                            </v-container>
+
+                            <v-divider></v-divider>
+                            <br>
+                            <v-btn color="primary" @click="e1 = 2; updateCourseDetails()">
                                 Continue
                             </v-btn>
 
-                            <v-btn text>
-                                Cancel
-                            </v-btn>
                         </v-stepper-content>
 
                         <v-stepper-content step="2">
-                            <v-card class="mb-12" color="grey lighten-1" height="200px"></v-card>
+                            <v-card class="mb-12" >
+                                <editor placeholder="Announce something in your class!" class="border"
+                                    v-model="getcourseInfo.course_description" theme="snow"></editor>
 
-                            <v-btn color="primary" @click="e1 = 3">
+                            </v-card>
+
+                            <v-btn color="primary" @click="e1 = 3;updateCourseDetails();">
                                 Continue
                             </v-btn>
 
-                            <v-btn text>
-                                Cancel
+                            <v-btn text @click="e1--;">
+                                back
                             </v-btn>
                         </v-stepper-content>
 
@@ -70,8 +76,9 @@
                                 Continue
                             </v-btn>
 
-                            <v-btn text>
-                                Cancel
+                         
+                            <v-btn text @click="e1--;">
+                                back
                             </v-btn>
                         </v-stepper-content>
                     </v-stepper-items>
@@ -85,11 +92,17 @@
 
 
 <script>
+  import {
+        mapGetters,
+        mapActions
+    } from "vuex";
     export default {
+        
         data() {
             return {
                 e1: 1,
-                 form: {
+                classInfo: null,
+                form: {
                     id: '',
                     course_name: '',
                     course_id: '',
@@ -98,6 +111,17 @@
                     course_code: '',
                 }
             }
+        },
+                computed: mapGetters(["getcourseInfo"]),
+        methods: {
+                     ...mapActions(['fetchScourse']),
+            updateCourseDetails(){
+                this.$store.dispatch('updateCourse', this.getcourseInfo);
+            }
+        },
+         created() {
+            const course_id = this.$route.params.id;
+            this.classInfo = this.fetchScourse(course_id);
         },
     }
 

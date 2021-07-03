@@ -11,6 +11,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -97,10 +104,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
       e1: 1,
+      classInfo: null,
       form: {
         id: '',
         course_name: '',
@@ -110,6 +126,16 @@ __webpack_require__.r(__webpack_exports__);
         course_code: ''
       }
     };
+  },
+  computed: (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)(["getcourseInfo"]),
+  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)(['fetchScourse'])), {}, {
+    updateCourseDetails: function updateCourseDetails() {
+      this.$store.dispatch('updateCourse', this.getcourseInfo);
+    }
+  }),
+  created: function created() {
+    var course_id = this.$route.params.id;
+    this.classInfo = this.fetchScourse(course_id);
   }
 });
 
@@ -212,7 +238,7 @@ var render = function() {
         [
           _c(
             "v-col",
-            { attrs: { cols: "12", lg: "8" } },
+            { attrs: { cols: "12", lg: "10" } },
             [
               _c(
                 "v-stepper",
@@ -234,7 +260,7 @@ var render = function() {
                         { attrs: { complete: _vm.e1 > 1, step: "1" } },
                         [
                           _vm._v(
-                            "\n                        Nameasd of step 1\n                    "
+                            "\n                        Course Details\n                    "
                           )
                         ]
                       ),
@@ -246,16 +272,28 @@ var render = function() {
                         { attrs: { complete: _vm.e1 > 2, step: "2" } },
                         [
                           _vm._v(
-                            "\n                        Name of step 2\n                    "
+                            "\n                        Course Description\n                    "
                           )
                         ]
                       ),
                       _vm._v(" "),
                       _c("v-divider"),
                       _vm._v(" "),
-                      _c("v-stepper-step", { attrs: { step: "3" } }, [
+                      _c(
+                        "v-stepper-step",
+                        { attrs: { complete: _vm.e1 > 3, step: "3" } },
+                        [
+                          _vm._v(
+                            "\n                        Grading Criteria\n                    "
+                          )
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c("v-divider"),
+                      _vm._v(" "),
+                      _c("v-stepper-step", { attrs: { step: "4" } }, [
                         _vm._v(
-                          "\n                        Name of step 3\n                    "
+                          "\n                        Class\n                    "
                         )
                       ])
                     ],
@@ -290,15 +328,16 @@ var render = function() {
                                           label: "Course Code"
                                         },
                                         model: {
-                                          value: _vm.form.course_code,
+                                          value: _vm.getcourseInfo.course_code,
                                           callback: function($$v) {
                                             _vm.$set(
-                                              _vm.form,
+                                              _vm.getcourseInfo,
                                               "course_code",
                                               $$v
                                             )
                                           },
-                                          expression: "form.course_code"
+                                          expression:
+                                            "getcourseInfo.course_code"
                                         }
                                       })
                                     ],
@@ -319,15 +358,16 @@ var render = function() {
                                           label: "Course Name"
                                         },
                                         model: {
-                                          value: _vm.form.course_name,
+                                          value: _vm.getcourseInfo.course_name,
                                           callback: function($$v) {
                                             _vm.$set(
-                                              _vm.form,
+                                              _vm.getcourseInfo,
                                               "course_name",
                                               $$v
                                             )
                                           },
-                                          expression: "form.course_name"
+                                          expression:
+                                            "getcourseInfo.course_name"
                                         }
                                       })
                                     ],
@@ -351,6 +391,7 @@ var render = function() {
                               on: {
                                 click: function($event) {
                                   _vm.e1 = 2
+                                  _vm.updateCourseDetails()
                                 }
                               }
                             },
@@ -359,13 +400,7 @@ var render = function() {
                                 "\n                            Continue\n                        "
                               )
                             ]
-                          ),
-                          _vm._v(" "),
-                          _c("v-btn", { attrs: { text: "" } }, [
-                            _vm._v(
-                              "\n                            Cancel\n                        "
-                            )
-                          ])
+                          )
                         ],
                         1
                       ),
@@ -374,10 +409,32 @@ var render = function() {
                         "v-stepper-content",
                         { attrs: { step: "2" } },
                         [
-                          _c("v-card", {
-                            staticClass: "mb-12",
-                            attrs: { color: "grey lighten-1", height: "200px" }
-                          }),
+                          _c(
+                            "v-card",
+                            { staticClass: "mb-12" },
+                            [
+                              _c("editor", {
+                                staticClass: "border",
+                                attrs: {
+                                  placeholder:
+                                    "Announce something in your class!",
+                                  theme: "snow"
+                                },
+                                model: {
+                                  value: _vm.getcourseInfo.course_description,
+                                  callback: function($$v) {
+                                    _vm.$set(
+                                      _vm.getcourseInfo,
+                                      "course_description",
+                                      $$v
+                                    )
+                                  },
+                                  expression: "getcourseInfo.course_description"
+                                }
+                              })
+                            ],
+                            1
+                          ),
                           _vm._v(" "),
                           _c(
                             "v-btn",
@@ -386,6 +443,7 @@ var render = function() {
                               on: {
                                 click: function($event) {
                                   _vm.e1 = 3
+                                  _vm.updateCourseDetails()
                                 }
                               }
                             },
@@ -396,11 +454,22 @@ var render = function() {
                             ]
                           ),
                           _vm._v(" "),
-                          _c("v-btn", { attrs: { text: "" } }, [
-                            _vm._v(
-                              "\n                            Cancel\n                        "
-                            )
-                          ])
+                          _c(
+                            "v-btn",
+                            {
+                              attrs: { text: "" },
+                              on: {
+                                click: function($event) {
+                                  _vm.e1--
+                                }
+                              }
+                            },
+                            [
+                              _vm._v(
+                                "\n                            back\n                        "
+                              )
+                            ]
+                          )
                         ],
                         1
                       ),
@@ -431,11 +500,22 @@ var render = function() {
                             ]
                           ),
                           _vm._v(" "),
-                          _c("v-btn", { attrs: { text: "" } }, [
-                            _vm._v(
-                              "\n                            Cancel\n                        "
-                            )
-                          ])
+                          _c(
+                            "v-btn",
+                            {
+                              attrs: { text: "" },
+                              on: {
+                                click: function($event) {
+                                  _vm.e1--
+                                }
+                              }
+                            },
+                            [
+                              _vm._v(
+                                "\n                            back\n                        "
+                              )
+                            ]
+                          )
                         ],
                         1
                       )
