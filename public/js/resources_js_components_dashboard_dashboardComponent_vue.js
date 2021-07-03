@@ -2054,9 +2054,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
+var myCalendar = function myCalendar() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_dashboard_myCalendar_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./myCalendar */ "./resources/js/components/dashboard/myCalendar.vue"));
+};
+
 
 
 
@@ -2066,7 +2067,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "HelloWorld",
   components: {
-    VChart: vue_echarts__WEBPACK_IMPORTED_MODULE_0__.default
+    VChart: vue_echarts__WEBPACK_IMPORTED_MODULE_0__.default,
+    myCalendar: myCalendar
   },
   provide: {},
   data: function data() {
@@ -2079,10 +2081,10 @@ __webpack_require__.r(__webpack_exports__);
         yAxis: {
           type: 'value'
         },
-        title: {
-          text: "Traffic Sources",
-          left: "center"
-        },
+        // title: {
+        //     text: "Traffic Sources",
+        //     left: "center"
+        // },
         tooltip: {
           trigger: "item",
           formatter: "{b} <br/>Time spent: {c} "
@@ -46244,96 +46246,111 @@ var render = function() {
         [
           _c(
             "v-col",
-            { attrs: { lg: "3" } },
+            { staticClass: "pt-0", attrs: { lg: "8" } },
             [
-              _c("v-card", [
-                _c(
-                  "div",
-                  {
-                    staticClass: "text-center",
-                    staticStyle: { "font-size": "3rem", color: "#FF5400" }
-                  },
-                  [_vm._v("\n                  8 \n                ")]
-                ),
-                _vm._v(" "),
-                _c("div", { staticClass: "text-center" }, [
-                  _vm._v(
-                    "\n                    Total Courses\n                "
+              _c(
+                "v-row",
+                [
+                  _c(
+                    "v-col",
+                    { staticClass: "pt-0", attrs: { lg: "6" } },
+                    [
+                      _c("v-card", [
+                        _c(
+                          "div",
+                          {
+                            staticClass: "text-center",
+                            staticStyle: {
+                              "font-size": "3rem",
+                              color: "#FF5400"
+                            }
+                          },
+                          [
+                            _vm._v(
+                              "\n                            8\n                        "
+                            )
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "text-center" }, [
+                          _vm._v(
+                            "\n                            Total Courses\n                        "
+                          )
+                        ])
+                      ])
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-col",
+                    { staticClass: "pt-0", attrs: { lg: "6" } },
+                    [
+                      _c("v-card", [
+                        _c(
+                          "div",
+                          {
+                            staticClass: "text-center",
+                            staticStyle: {
+                              "font-size": "3rem",
+                              color: "#FF5400"
+                            }
+                          },
+                          [
+                            _vm._v(
+                              "\n                            8\n                        "
+                            )
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "text-center" }, [
+                          _vm._v(
+                            "\n                            Total Classes\n                        "
+                          )
+                        ])
+                      ])
+                    ],
+                    1
                   )
-                ])
-              ])
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-row",
+                [
+                  _c(
+                    "v-col",
+                    [
+                      _c(
+                        "v-card",
+                        [
+                          _c("v-chart", {
+                            staticClass: "chart",
+                            attrs: { option: _vm.option, autoresize: "" }
+                          })
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
             ],
             1
           ),
           _vm._v(" "),
           _c(
             "v-col",
-            { attrs: { lg: "3" } },
+            { attrs: { lg: "4" } },
             [
-              _c("v-card", [
-                _c(
-                  "div",
-                  {
-                    staticClass: "text-center",
-                    staticStyle: { "font-size": "3rem", color: "#FF5400" }
-                  },
-                  [_vm._v("\n                  8 \n                ")]
-                ),
-                _vm._v(" "),
-                _c("div", { staticClass: "text-center" }, [
-                  _vm._v(
-                    "\n                    Total Classes\n                "
-                  )
-                ])
-              ])
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "v-col",
-            { attrs: { lg: "3" } },
-            [
-              _c("v-card", [
-                _c(
-                  "div",
-                  {
-                    staticClass: "text-center",
-                    staticStyle: { "font-size": "3rem", color: "#FF5400" }
-                  },
-                  [_vm._v("\n                  8 \n                ")]
-                ),
-                _vm._v(" "),
-                _c("div", { staticClass: "text-center" }, [
-                  _vm._v(
-                    "\n                    Total Students\n                "
-                  )
-                ])
-              ])
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "v-col",
-            { attrs: { lg: "3" } },
-            [
-              _c("v-card", [
-                _c(
-                  "div",
-                  {
-                    staticClass: "text-center",
-                    staticStyle: { "font-size": "3rem", color: "#FF5400" }
-                  },
-                  [_vm._v("\n                  8 \n                ")]
-                ),
-                _vm._v(" "),
-                _c("div", { staticClass: "text-center" }, [
-                  _vm._v(
-                    "\n                    Total Classes\n                "
-                  )
-                ])
-              ])
+              _c(
+                "v-card",
+                [_c("myCalendar", { attrs: { UserDetails: _vm.UserDetails } })],
+                1
+              )
             ],
             1
           )

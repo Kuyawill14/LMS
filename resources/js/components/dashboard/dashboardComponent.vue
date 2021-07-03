@@ -6,50 +6,47 @@
             </v-col>
         </v-row>
         <v-row>
-            <v-col lg="3">
-                <v-card   >
-                    <div class="text-center"  style="font-size: 3rem;color:#FF5400 ">
-                      8 
-                    </div>
-                    <div class="text-center">
-                        Total Courses
-                    </div>
+            <v-col lg="8" class="pt-0">
+                <v-row>
+                    <v-col lg="6" class="pt-0">
+                        <v-card>
+                            <div class="text-center" style="font-size: 3rem;color:#FF5400 ">
+                                8
+                            </div>
+                            <div class="text-center">
+                                Total Courses
+                            </div>
+                        </v-card>
+                    </v-col>
+
+                    <v-col lg="6" class="pt-0">
+                        <v-card>
+                            <div class="text-center" style="font-size: 3rem;color:#FF5400 ">
+                                8
+                            </div>
+                            <div class="text-center">
+                                Total Classes
+                            </div>
+                        </v-card>
+                    </v-col>
+                </v-row>
+                <v-row>
+                    <v-col>
+                        <v-card>
+                            <v-chart class="chart" :option="option" autoresize />
+                        </v-card>
+                    </v-col>
+                </v-row>
+            </v-col>
+
+            <v-col lg="4">
+                <v-card>
+                    <myCalendar :UserDetails="UserDetails"></myCalendar>
                 </v-card>
             </v-col>
 
-             <v-col lg="3">
-                <v-card   >
-                    <div class="text-center" style="font-size: 3rem;color:#FF5400 ">
-                      8 
-                    </div>
-                    <div class="text-center">
-                        Total Classes
-                    </div>
-                </v-card>
-            </v-col>
-
-             <v-col lg="3">
-                <v-card   >
-                    <div class="text-center" style="font-size: 3rem;color:#FF5400 ">
-                      8 
-                    </div>
-                    <div class="text-center">
-                        Total Students
-                    </div>
-                </v-card>
-            </v-col>
-
-             <v-col lg="3">
-                <v-card   >
-                    <div class="text-center"  style="font-size: 3rem;color:#FF5400 ">
-                      8 
-                    </div>
-                    <div class="text-center">
-                        Total Classes
-                    </div>
-                </v-card>
-            </v-col>
         </v-row>
+
     </div>
 
 
@@ -57,6 +54,7 @@
 </template>
 
 <script>
+    const myCalendar = () => import('./myCalendar')
     import {
         use
     } from "echarts/core";
@@ -91,11 +89,13 @@
     export default {
         name: "HelloWorld",
         components: {
-            VChart
+            VChart,
+            myCalendar
         },
         provide: {
 
         },
+
         data() {
             return {
                 option: {
@@ -108,10 +108,10 @@
                     yAxis: {
                         type: 'value'
                     },
-                    title: {
-                        text: "Traffic Sources",
-                        left: "center"
-                    },
+                    // title: {
+                    //     text: "Traffic Sources",
+                    //     left: "center"
+                    // },
                     tooltip: {
                         trigger: "item",
                         formatter: "{b} <br/>Time spent: {c} "
@@ -171,7 +171,7 @@
                 }
 
             };
-        }
+        },
     };
 
 </script>
