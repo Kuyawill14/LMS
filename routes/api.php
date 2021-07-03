@@ -103,7 +103,7 @@ Route::prefix('/comment')->group(function () {
 Route::prefix('/classwork')->group(function () {
     Route::get('/all', [ClassworkController::class, 'index']);
     Route::get('/all/{id}', [ClassworkController::class, 'index']);
-    Route::get('/showDetails/{id}', [ClassworkController::class, 'show']);
+    Route::get('/showDetails/{id}/{courseId}', [ClassworkController::class, 'show']);
     Route::get('/student-classworks/{id}', [ClassworkController::class, 'getIndividualClassClassworks']);
     Route::post('/insert', [ClassworkController::class, 'store']);
     Route::post('/share', [ClassworkController::class, 'ShareClasswork']);
