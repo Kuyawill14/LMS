@@ -25,7 +25,6 @@
 
     
         <v-row v-if="!isLoading">
-          
             <v-col>
                 <div class="mt-3 d-flex">
                     <v-btn
@@ -561,7 +560,7 @@ export default {
                     this.isLoading = !this.isLoading;
                     this.isSubmitting = !this.isSubmitting;
                 }, 2000);
-                 //this.$router.push({name: 'result-page', params:{id: this.$route.query.clwk}})
+                 this.$router.push({name: 'result-page', params:{id: this.$route.query.clwk}})
                   localStorage.removeItem('timer_time');
             })
 
@@ -584,7 +583,19 @@ export default {
           
             this.$store.dispatch('fetchQuestions', this.$route.query.clwk).then(res=>{
                 this.Qlength = res[1];
+                //console.log(res[0].Question);
                 this.isLoading = false;
+
+
+                for (let index = 0; index < res[0].Question.length; index++) {
+                    this.FinalAnswers.push({
+                        Answer: '',
+                        Question_id: res[0].Question[index].id,
+                        type:res[0].Question[index].type,
+                        timeConsume: 0
+                    });
+                    
+                }
                 
             });
 

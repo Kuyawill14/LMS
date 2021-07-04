@@ -22,8 +22,8 @@ class NotificationController extends Controller
         ->leftJoin('tbl_classes', 'tbl_classes.id', '=', 'tbl_userclasses.class_id')
         ->get();
 
+        
         $clsssworkTitle = tbl_classwork::find($request->classwork_id);
-
         foreach($userInClass as $us_id){
             if($us_id->user_id != $userId){
                 $newNotification = new tbl_notification;
