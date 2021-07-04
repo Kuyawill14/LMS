@@ -1,8 +1,9 @@
 <template>
-    <v-navigation-drawer v-model="newDrawer" :clipped="$vuetify.breakpoint.lgAndUp" app>
+    <v-navigation-drawer v-model="newDrawer" :clipped="$vuetify.breakpoint.lgAndUp" v-if="navBarType != 'selectedCourse' ||  getcourseInfo.completed ==1" app>
+
         <mainNavbar :role="role" :drawer="newDrawer" v-if="navBarType != 'selectedCourse'"> </mainNavbar>
 
-        <courseNavbar :role="role" v-if="navBarType == 'selectedCourse'"> </courseNavbar>
+        <courseNavbar :role="role" v-if="navBarType == 'selectedCourse' "> </courseNavbar>
     </v-navigation-drawer>
 </template>
 
@@ -12,7 +13,10 @@
 
 
     import courseNavbar from './navigation/course-navbar'
-
+    import {
+        mapGetters,
+        mapActions
+    } from "vuex";
     export default ({
         props: ['role', 'drawer'],
         components: {
@@ -23,7 +27,8 @@
             return {
 
                 logo: "../../images/logo.png",
-                navBarType: ''
+                navBarType: '',
+                completedSetup: '',
             }
         },
         watch: {
@@ -34,6 +39,7 @@
             }
         },
         computed: {
+            ...mapGetters(["getcourseInfo"]),
             newDrawer: {
                 get() {
                     return this.drawer;
@@ -43,13 +49,16 @@
                 }
             }
         },
-        created() {
+        methods: {
+            ...mapActions(['fetchScourse']),
+        },
+        mounted() {
             this.navBarType = this.$route.matched[1].name;
-           
-        
 
 
-        }
+
+        },
+      
 
         // watch: {
         //     $route(to, from) {

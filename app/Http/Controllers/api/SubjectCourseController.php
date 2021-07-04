@@ -70,7 +70,7 @@ class SubjectCourseController extends Controller
         if(auth('sanctum')->user()->role == "Student"){
             $ShowCourseDetails = tbl_subject_course::where('tbl_subject_courses.id', $id)
             ->select('tbl_subject_courses.id', 'tbl_subject_courses.course_code', 'tbl_subject_courses.course_name', 'tbl_subject_courses.course_description'
-            , 'tbl_subject_courses.course_picture',DB::raw('CONCAT(users.firstname, " ", users.lastName) as name'))
+            , 'tbl_subject_courses.course_picture',DB::raw('CONCAT(users.firstname, " ", users.lastName) as name'),'completed')
             ->leftjoin('tbl_userclasses', 'tbl_userclasses.course_id','=','tbl_subject_courses.id')
             ->leftjoin('users', 'users.id','=','tbl_userclasses.user_id')
             ->where('users.role', 'Teacher')
@@ -80,7 +80,7 @@ class SubjectCourseController extends Controller
         else{
             $ShowCourseDetails = tbl_subject_course::where('tbl_subject_courses.id', $id)
             ->select('tbl_subject_courses.id', 'tbl_subject_courses.course_code', 'tbl_subject_courses.course_name', 'tbl_subject_courses.course_description'
-            ,'tbl_subject_courses.course_picture')
+            ,'tbl_subject_courses.course_picture','completed')
             ->first();
             $ShowCourseDetails->name = auth('sanctum')->user()->firstName.' '.auth('sanctum')->user()->lastName;
 
@@ -175,6 +175,18 @@ class SubjectCourseController extends Controller
         }
 
         return $request->courseItem;
+    }
+    public function courseCompleted($id) {
+        $userId = auth('sanctum')->id();
+        $existingCourse = tbl_subject_course::find($id);
+
+        if($existingCourse) {
+            $existingCourse->completed = 1;
+            $existingCourse->save();
+            return $existingCourse;
+        }
+
+        return 1;
     }
 
     /**

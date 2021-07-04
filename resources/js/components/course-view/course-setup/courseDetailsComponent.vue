@@ -24,11 +24,12 @@
             </v-card>
         </v-col>
 
-
+        <br> <br>
+        <v-divider></v-divider>
         <br>
         <v-row>
             <v-col>
-                <v-btn color="primary" @click="updateCourseDetails()">
+                <v-btn class="float-right" color="primary" @click="updateCourseDetails()">
                     Next
                 </v-btn>
             </v-col>
@@ -54,16 +55,22 @@
 
         computed: mapGetters(["getcourseInfo"]),
         methods: {
-              ...mapActions(['fetchScourse']),
+            ...mapActions(['fetchScourse']),
             updateCourseDetails() {
-                this.$store.dispatch('updateCourse', this.getcourseInfo);
-                this.$emit('changeStep', this.el)
+                if (this.getcourseInfo.course_description.trim() == '' || this.getcourseInfo.course_name == '' || this
+                    .course_code == '') {
+                    this.toastError('Please complete all the field to proceed to the next step');
+                } else {
+                    this.$store.dispatch('updateCourse', this.getcourseInfo);
+                    this.$emit('changeStep', this.el)
+                }
+
             }
         },
         created() {
             const course_id = this.$route.params.id;
             this.courseDetails = this.fetchScourse(course_id);
-    
+
         }
     }
 
