@@ -215,6 +215,7 @@
 
 
 <script>
+
     export default {
         props: ['role']
     }

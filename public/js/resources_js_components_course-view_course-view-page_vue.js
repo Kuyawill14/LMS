@@ -104,7 +104,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     setInterval(function () {
       return _this.isloading = false;
     }, 1000);
-    console.log(this.$route.params.id);
   }
 });
 

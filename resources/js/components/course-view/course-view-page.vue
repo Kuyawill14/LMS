@@ -96,7 +96,6 @@
             this.$store.dispatch('fetchScourse', this.course_id);
             setInterval(() => this.isloading = false, 1000);
 
-            console.log(this.$route.params.id);
         },
 
 

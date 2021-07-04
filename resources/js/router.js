@@ -159,7 +159,24 @@ const router = new Router({
                         {
                             path: "setup",
                             component: course_setup,
-                            name: "courseSetup"
+                            name: "courseSetup",
+                            beforeEnter: (to, form, next) => {
+                                axios.get("/api/role")
+                                    .then((res) => {
+                                        console.log(res.data);
+                                        if (res.data == 'Teacher') {
+                                            next();
+                                        } else if (res.data == 'Student') {
+                                            next({
+                                                path: "course/" + to.params.id + "/announcement"
+                                            });
+                                        }
+                                    })
+                                    .catch((e) => {
+                                        console.log(e);
+                                    });
+                            },
+                            //courseSetup
                         },
                         {
                             name: "announcement",

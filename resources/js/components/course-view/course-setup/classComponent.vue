@@ -1,5 +1,5 @@
 <template>
-    <div class="pt-4">
+    <v-container>
         <v-row align="center" justify="center" class="pt-10" v-if="classLength == 0">
             <v-col cols="12" sm="8" md="4" class="text-center">
                 <v-icon style="font-size:14rem">
@@ -7,7 +7,9 @@
                 </v-icon>
                 <h1> Empty Class </h1>
                 <p> Creating Class, you'll be able to share class code to your students and let them join. </p>
-                <v-btn color="primary" @click="openAddmodal()"> CREATE CLASS </v-btn>
+                <v-btn color="primary" @click="openAddmodal()" >   <v-icon left>
+                            mdi-plus
+                        </v-icon> Add CLASS </v-btn>
             </v-col>
         </v-row>
 
@@ -40,8 +42,12 @@
                 </v-col>
 
                 <v-col class="text-right">
-                    <v-btn color="rounded primary" @click="openAddmodal()">
+                    <v-btn color="primary"  class="ma-2" outlined @click="openAddmodal()">
+                        <v-icon left>
+                            mdi-plus
+                        </v-icon>
                         Add Class
+                        
                     </v-btn>
                 </v-col>
             </v-row>
@@ -50,14 +56,14 @@
 
             <v-card v-for="(item, index) in allClass" :key="index" class="mt-3">
                 <v-list-item>
-                        <v-list-item-avatar>
-                            <v-icon>mdi-account-multiple</v-icon>
-                        </v-list-item-avatar>
-                        <v-list-item-content>
-                            <v-list-item-title>{{item.class_name}} </v-list-item-title>
-                            <v-list-item-subtitle>Class code: {{item.class_code}} </v-list-item-subtitle>
-                            <v-list-item-subtitle>Students: {{item.student_count}}</v-list-item-subtitle>
-                        </v-list-item-content>
+                    <v-list-item-avatar>
+                        <v-icon>mdi-account-multiple</v-icon>
+                    </v-list-item-avatar>
+                    <v-list-item-content>
+                        <v-list-item-title>{{item.class_name}} </v-list-item-title>
+                        <v-list-item-subtitle>Class code: {{item.class_code}} </v-list-item-subtitle>
+                        <v-list-item-subtitle>Students: {{item.student_count}}</v-list-item-subtitle>
+                    </v-list-item-content>
                     <v-list-item-action>
                         <v-menu transition="slide-y-transition" bottom>
                             <template v-slot:activator="{ on, attrs }">
@@ -83,8 +89,24 @@
             </v-card>
         </div>
 
+        <br> <br>
+        <v-divider></v-divider>
+        <br>
+        <v-row v-if="allClass.length != 0">
+            <v-col>
 
-    </div>
+                <v-btn class="float-right" color="primary" @click="completed()">
+                    Complete
+                </v-btn>
+
+                <v-btn class="float-left" text @click="back()">
+                    back
+                </v-btn>
+            </v-col>
+
+        </v-row>
+
+    </v-container>
 </template>
 
 
@@ -105,7 +127,7 @@
 
         },
         data: () => ({
-
+            
             isGetting: false,
             showModal: false,
             isloading: true,
@@ -123,11 +145,27 @@
 
 
         methods: {
+            back() {
+                this.$emit('changeStep', 2)
+            },
             ...mapActions(['fetchSubjectCourseClassList']),
             closeModal() {
                 this.showModal = false
             },
+            completed() {
+                if (this.allClass.length == 0) {
+                    this.toastError('Please add atleast one class to complete the course setup');
 
+                } else {
+                    axios.post('/api/course/completed/' + this.$route.params.id)
+                    .then(res => {
+                        this.toastSuccess('Course setup completed!');
+                       this.$router.push({name: "coursePage"})
+                       this.$store.dispatch('fetchScourse', this.$route.params.id);
+                    })
+                }
+
+            },
             openAddmodal() {
                 this.form.class_name = "";
                 this.modalType = "add";
@@ -155,7 +193,7 @@
 
                     })
             },
-           
+
 
 
 

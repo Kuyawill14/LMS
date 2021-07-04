@@ -584,6 +584,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _navigation_main_navbar__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./navigation/main-navbar */ "./resources/js/components/layout/navigation/main-navbar.vue");
 /* harmony import */ var _navigation_course_navbar__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./navigation/course-navbar */ "./resources/js/components/layout/navigation/course-navbar.vue");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -593,6 +600,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -604,7 +613,8 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       logo: "../../images/logo.png",
-      navBarType: ''
+      navBarType: '',
+      completedSetup: ''
     };
   },
   watch: {
@@ -613,7 +623,7 @@ __webpack_require__.r(__webpack_exports__);
       this.navBarType = this.$route.matched[1].name;
     }
   },
-  computed: {
+  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(["getcourseInfo"])), {}, {
     newDrawer: {
       get: function get() {
         return this.drawer;
@@ -622,8 +632,9 @@ __webpack_require__.r(__webpack_exports__);
         return newName;
       }
     }
-  },
-  created: function created() {
+  }),
+  methods: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapActions)(['fetchScourse'])),
+  mounted: function mounted() {
     this.navBarType = this.$route.matched[1].name;
   } // watch: {
   //     $route(to, from) {
@@ -23660,29 +23671,33 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "v-navigation-drawer",
-    {
-      attrs: { clipped: _vm.$vuetify.breakpoint.lgAndUp, app: "" },
-      model: {
-        value: _vm.newDrawer,
-        callback: function($$v) {
-          _vm.newDrawer = $$v
+  return _vm.navBarType != "selectedCourse" || _vm.getcourseInfo.completed == 1
+    ? _c(
+        "v-navigation-drawer",
+        {
+          attrs: { clipped: _vm.$vuetify.breakpoint.lgAndUp, app: "" },
+          model: {
+            value: _vm.newDrawer,
+            callback: function($$v) {
+              _vm.newDrawer = $$v
+            },
+            expression: "newDrawer"
+          }
         },
-        expression: "newDrawer"
-      }
-    },
-    [
-      _vm.navBarType != "selectedCourse"
-        ? _c("mainNavbar", { attrs: { role: _vm.role, drawer: _vm.newDrawer } })
-        : _vm._e(),
-      _vm._v(" "),
-      _vm.navBarType == "selectedCourse"
-        ? _c("courseNavbar", { attrs: { role: _vm.role } })
-        : _vm._e()
-    ],
-    1
-  )
+        [
+          _vm.navBarType != "selectedCourse"
+            ? _c("mainNavbar", {
+                attrs: { role: _vm.role, drawer: _vm.newDrawer }
+              })
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.navBarType == "selectedCourse"
+            ? _c("courseNavbar", { attrs: { role: _vm.role } })
+            : _vm._e()
+        ],
+        1
+      )
+    : _vm._e()
 }
 var staticRenderFns = []
 render._withStripped = true

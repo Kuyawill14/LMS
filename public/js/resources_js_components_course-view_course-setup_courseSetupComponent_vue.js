@@ -110,6 +110,28 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var VueElementLoading = function VueElementLoading() {
   return Promise.resolve(/*! import() */).then(__webpack_require__.t.bind(__webpack_require__, /*! vue-element-loading */ "./node_modules/vue-element-loading/lib/vue-element-loading.min.js", 23));
 };
@@ -140,9 +162,30 @@ var VueElementLoading = function VueElementLoading() {
       }
     };
   },
-  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapActions)(['fetchSubjectCourseClassList'])), {}, {
+  methods: _objectSpread(_objectSpread({
+    back: function back() {
+      this.$emit('changeStep', 2);
+    }
+  }, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapActions)(['fetchSubjectCourseClassList'])), {}, {
     closeModal: function closeModal() {
       this.showModal = false;
+    },
+    completed: function completed() {
+      var _this = this;
+
+      if (this.allClass.length == 0) {
+        this.toastError('Please add atleast one class to complete the course setup');
+      } else {
+        axios.post('/api/course/completed/' + this.$route.params.id).then(function (res) {
+          _this.toastSuccess('Course setup completed!');
+
+          _this.$router.push({
+            name: "coursePage"
+          });
+
+          _this.$store.dispatch('fetchScourse', _this.$route.params.id);
+        });
+      }
     },
     openAddmodal: function openAddmodal() {
       this.form.class_name = "";
@@ -158,13 +201,13 @@ var VueElementLoading = function VueElementLoading() {
       console.log(this.modalType);
     },
     getTeacherClasses: function getTeacherClasses() {
-      var _this = this;
+      var _this2 = this;
 
       this.isGetting = true;
       this.fetchSubjectCourseClassList(this.$route.params.id).then(function () {
         setTimeout(function () {
-          _this.isGetting = false;
-          _this.classLength = _this.allClass.length;
+          _this2.isGetting = false;
+          _this2.classLength = _this2.allClass.length;
         }, 1000);
       });
     }
@@ -435,6 +478,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
@@ -446,8 +490,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   computed: (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)(["getcourseInfo"]),
   methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)(['fetchScourse'])), {}, {
     updateCourseDetails: function updateCourseDetails() {
-      this.$store.dispatch('updateCourse', this.getcourseInfo);
-      this.$emit('changeStep', this.el);
+      if (this.getcourseInfo.course_description.trim() == '' || this.getcourseInfo.course_name == '' || this.course_code == '') {
+        this.toastError('Please complete all the field to proceed to the next step');
+      } else {
+        this.$store.dispatch('updateCourse', this.getcourseInfo);
+        this.$emit('changeStep', this.el);
+      }
     }
   }),
   created: function created() {
@@ -687,6 +735,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -703,7 +761,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       type: '',
       search: "",
       grading_criteria_form: {},
-      new_grading_criteria_form: {},
+      new_grading_criteria_form: {
+        name: '',
+        percentage: ''
+      },
       grading_criteria: {},
       course_id: '',
       delId: '',
@@ -715,9 +776,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     back: function back() {
       this.$emit('changeStep', this.e1 - 2);
     },
-    updateCourseDetails: function updateCourseDetails() {
-      this.$store.dispatch('updateCourse', this.courseDetails);
-      this.$emit('changeStep', this.e1);
+    next: function next() {
+      if (this.get_gradingCriteria.length == 0) {
+        this.toastError('Please add atleast one grading criteria to proceed to next step');
+      } else {
+        this.$emit('changeStep', this.e1);
+      }
     },
     openDelete: function openDelete(id) {
       this.delId = id;
@@ -752,6 +816,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         setTimeout(function () {
           _this.loading = false;
         }, 1000);
+      } else {
+        this.toastError('Please fill up all the field to add criteria');
       }
     },
     updateGradeCriteria: function updateGradeCriteria(name, percentage, id) {
@@ -1501,8 +1567,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "div",
-    { staticClass: "pt-4" },
+    "v-container",
     [
       _vm.classLength == 0
         ? _c(
@@ -1543,7 +1608,15 @@ var render = function() {
                         }
                       }
                     },
-                    [_vm._v(" CREATE CLASS ")]
+                    [
+                      _c("v-icon", { attrs: { left: "" } }, [
+                        _vm._v(
+                          "\n                        mdi-plus\n                    "
+                        )
+                      ]),
+                      _vm._v(" Add CLASS ")
+                    ],
+                    1
                   )
                 ],
                 1
@@ -1659,7 +1732,8 @@ var render = function() {
                       _c(
                         "v-btn",
                         {
-                          attrs: { color: "rounded primary" },
+                          staticClass: "ma-2",
+                          attrs: { color: "primary", outlined: "" },
                           on: {
                             click: function($event) {
                               return _vm.openAddmodal()
@@ -1667,10 +1741,16 @@ var render = function() {
                           }
                         },
                         [
+                          _c("v-icon", { attrs: { left: "" } }, [
+                            _vm._v(
+                              "\n                        mdi-plus\n                    "
+                            )
+                          ]),
                           _vm._v(
-                            "\n                    Add Class\n                "
+                            "\n                    Add Class\n                    \n                "
                           )
-                        ]
+                        ],
+                        1
                       )
                     ],
                     1
@@ -1819,6 +1899,56 @@ var render = function() {
               })
             ],
             2
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _c("br"),
+      _vm._v(" "),
+      _c("br"),
+      _vm._v(" "),
+      _c("v-divider"),
+      _vm._v(" "),
+      _c("br"),
+      _vm._v(" "),
+      _vm.allClass.length != 0
+        ? _c(
+            "v-row",
+            [
+              _c(
+                "v-col",
+                [
+                  _c(
+                    "v-btn",
+                    {
+                      staticClass: "float-right",
+                      attrs: { color: "primary" },
+                      on: {
+                        click: function($event) {
+                          return _vm.completed()
+                        }
+                      }
+                    },
+                    [_vm._v("\n                Complete\n            ")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      staticClass: "float-left",
+                      attrs: { text: "" },
+                      on: {
+                        click: function($event) {
+                          return _vm.back()
+                        }
+                      }
+                    },
+                    [_vm._v("\n                back\n            ")]
+                  )
+                ],
+                1
+              )
+            ],
+            1
           )
         : _vm._e()
     ],
@@ -2119,6 +2249,12 @@ var render = function() {
       _vm._v(" "),
       _c("br"),
       _vm._v(" "),
+      _c("br"),
+      _vm._v(" "),
+      _c("v-divider"),
+      _vm._v(" "),
+      _c("br"),
+      _vm._v(" "),
       _c(
         "v-row",
         [
@@ -2128,6 +2264,7 @@ var render = function() {
               _c(
                 "v-btn",
                 {
+                  staticClass: "float-right",
                   attrs: { color: "primary" },
                   on: {
                     click: function($event) {
@@ -2376,7 +2513,7 @@ var render = function() {
                     "v-btn",
                     {
                       staticClass: "float-right",
-                      attrs: { color: "primary" },
+                      attrs: { color: "primary", outlined: "" },
                       on: {
                         click: function($event) {
                           return _vm.addGradeCriteria()
@@ -2384,10 +2521,16 @@ var render = function() {
                       }
                     },
                     [
+                      _c("v-icon", { attrs: { left: "" } }, [
+                        _vm._v(
+                          "\n                        mdi-plus\n                    "
+                        )
+                      ]),
                       _vm._v(
-                        "\n                    Add Criteria\n                "
+                        "\n                    Add Criteria\n\n                "
                       )
-                    ]
+                    ],
+                    1
                   )
                 ],
                 1
@@ -2566,6 +2709,10 @@ var render = function() {
         1
       ),
       _vm._v(" "),
+      _c("v-divider"),
+      _vm._v(" "),
+      _c("br"),
+      _vm._v(" "),
       _c(
         "v-row",
         [
@@ -2575,10 +2722,11 @@ var render = function() {
               _c(
                 "v-btn",
                 {
+                  staticClass: "float-right",
                   attrs: { color: "primary" },
                   on: {
                     click: function($event) {
-                      return _vm.updateCourseDetails()
+                      return _vm.next()
                     }
                   }
                 },
@@ -2588,6 +2736,7 @@ var render = function() {
               _c(
                 "v-btn",
                 {
+                  staticClass: "float-left",
                   attrs: { text: "" },
                   on: {
                     click: function($event) {

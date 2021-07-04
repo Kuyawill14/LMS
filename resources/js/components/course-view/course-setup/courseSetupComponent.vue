@@ -81,6 +81,7 @@
         methods: {
             ...mapActions(['fetchScourse']),
             updateCourseDetails() {
+                
                 this.$store.dispatch('updateCourse', this.getcourseInfo);
             },
             step(step) {

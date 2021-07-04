@@ -75,7 +75,7 @@ Route::prefix('/course')->group(function () {
     Route::post('/insert', [SubjectCourseController::class, 'store']);
     Route::post('/update/{id}', [SubjectCourseController::class, 'update']);
     Route::get('/ShowCourse/{id}', [SubjectCourseController::class, 'CourseDetails']);
-  
+    Route::post('/completed/{id}', [SubjectCourseController::class, 'courseCompleted']);
 });
 
 

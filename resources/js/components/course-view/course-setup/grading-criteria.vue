@@ -16,8 +16,12 @@
             </v-row>
             <v-row class="ma-0 pa-0">
                 <v-col class="float-right mx-2 pt-0">
-                    <v-btn class="float-right" color="primary" @click="addGradeCriteria()">
+                    <v-btn class="float-right" color="primary" outlined @click="addGradeCriteria()">
+                        <v-icon left>
+                            mdi-plus
+                        </v-icon>
                         Add Criteria
+
                     </v-btn>
                 </v-col>
             </v-row>
@@ -71,18 +75,24 @@
                 </v-card-actions>
             </v-card>
         </v-dialog>
+
+
+
+        <v-divider></v-divider>
+        <br>
         <v-row>
             <v-col>
-                <v-btn color="primary" @click="updateCourseDetails()">
+                <v-btn class="float-right" color="primary" @click="next()">
                     Next
                 </v-btn>
 
-                <v-btn text @click="back()">
+                <v-btn class="float-left" text @click="back()">
                     back
                 </v-btn>
             </v-col>
 
         </v-row>
+
     </div>
 
 
@@ -116,7 +126,10 @@
                 type: '',
                 search: "",
                 grading_criteria_form: {},
-                new_grading_criteria_form: {},
+                new_grading_criteria_form: {
+                    name: '',
+                    percentage: ''
+                },
                 grading_criteria: {},
                 course_id: '',
                 delId: '',
@@ -130,11 +143,17 @@
 
         methods: {
             back() {
- this.$emit('changeStep', this.e1-2)
+                this.$emit('changeStep', this.e1 - 2)
             },
-            updateCourseDetails() {
-                this.$store.dispatch('updateCourse', this.courseDetails);
-                this.$emit('changeStep', this.e1)
+            next() {
+                if (this.get_gradingCriteria.length == 0) {
+                    this.toastError('Please add atleast one grading criteria to proceed to next step');
+
+                } else {
+                    this.$emit('changeStep', this.e1)
+                }
+
+
             },
             openDelete(id) {
                 this.delId = id;
@@ -176,6 +195,8 @@
 
 
 
+                } else {
+                      this.toastError('Please fill up all the field to add criteria');
                 }
 
             },

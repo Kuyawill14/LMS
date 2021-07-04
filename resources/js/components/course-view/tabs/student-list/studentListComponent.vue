@@ -120,6 +120,8 @@
                     }, 5000);
          
                     this.isloading = false;
+                    this.classNames= this.classNames|| [];
+
                     this.classNames.push({ class_id: this.$route.params.id, class_name: 'All Class', id: this.$route.params.id});
                 })
             },

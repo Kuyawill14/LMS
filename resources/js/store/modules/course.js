@@ -17,7 +17,9 @@ const actions = {
             `/api/course/ShowCourse/${id}`
         ).then((res) => {
             commit('setcourseInfo', res.data);
+
         });
+
     }
 };
 const mutations = {
