@@ -134,6 +134,7 @@ __webpack_require__.r(__webpack_exports__);
           _this3.isClassNameLoaded = false;
         }, 5000);
         _this3.isloading = false;
+        _this3.classNames = _this3.classNames || [];
 
         _this3.classNames.push({
           class_id: _this3.$route.params.id,
