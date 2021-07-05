@@ -152,20 +152,8 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     validate: function validate() {
-      var _this2 = this;
-
       if (this.$refs.loginForm.validate()) {
-        axios.get('/sanctum/csrf-cookie').then(function (response) {
-          _this2.form.post('/api/login').then(function (res) {
-            if (res.status == 200) {
-              _this2.$store.dispatch('fetchCurrentUser');
-
-              _this2.$router.push({
-                path: "/"
-              });
-            }
-          });
-        });
+        this.$store.dispatch('login', this.form);
       }
     },
     reset: function reset() {

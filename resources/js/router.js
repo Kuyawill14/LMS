@@ -365,6 +365,22 @@ const router = new Router({
     ]
 })
 
+
+/* Vue.mixin({
+    beforeRouteLeave (to, from, next){
+        if(to.name == 'quizstart'){
+            const answer = window.confirm('Do you really want to leave? you have unsaved changes!')
+            if (answer) {
+              next()
+            } else {
+              next(false)
+            }
+        }
+        else{
+            next()
+        }
+    }
+}) */
 router.beforeEach((to, from, next) => {
 
     if (to.name) {
@@ -376,6 +392,8 @@ router.afterEach(() => {
     //app.$Progress.finish();
     NProgress.done()
 })
+
+
 
 /* export default new Router({
     mode: "history",

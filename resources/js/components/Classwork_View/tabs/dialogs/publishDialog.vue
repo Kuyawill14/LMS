@@ -273,6 +273,7 @@ export default {
                 .then(res => {
                     if(res.dat != 'Unshare'){
                         this.$emit('successPublish', res.data)
+                         this.toastSuccess("Classwork Successfully publish");
                          this.isPublishing = !this.isPublishing;
                     }
                     else{

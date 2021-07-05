@@ -302,7 +302,7 @@ var render = function() {
                                                   return _vm.$router.push({
                                                     name: "classwork",
                                                     params: {
-                                                      id: _vm.details.class_id
+                                                      id: _vm.details.course_id
                                                     }
                                                   })
                                                 }

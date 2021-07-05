@@ -179,7 +179,9 @@ export default {
             axios.put('/api/question/update/'+this.QuetionsList.id, {question: this.QuetionsList})
             .then(res=>{
                 if(res.status == 200){
-                    this.preview = !this.preview
+                    this.preview = !this.preview;
+                     this.isEditing = !this.isEditing;
+                     this.toastSuccess("Question Successfully updated");
                 }
             })
         }
