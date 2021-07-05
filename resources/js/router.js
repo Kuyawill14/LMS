@@ -136,8 +136,7 @@ const router = new Router({
                     path: "course/:id",
                     component: courseView,
                     name: "selectedCourse",
-                    children: [
-                        {
+                    children: [{
                             name: "coursePage",
                             path: "",
                             component: classes_tab,
@@ -350,37 +349,36 @@ const router = new Router({
     }
 }) */
 router.beforeEach((to, from, next) => {
-    if(to.name == 'coursePage'){
+    if (to.name == 'coursePage') {
         let completed;
-        axios.get('/api/course/ShowCourse/'+to.params.id)
-        .then(res=>{
-            completed = res.data.completed;
-        })
+        axios.get('/api/course/ShowCourse/' + to.params.id)
+            .then(res => {
+                completed = res.data.completed;
+            })
         let course = store.getters.getCourse(to.params.id);
         axios.get("/api/role")
-        .then((res) => {
-            if (res.data == 'Teacher') {
-                if (completed == 1) {
-                    next();
-                } else {
-                    console.log('test');
-                    return next({
-                        name: "courseSetup",
-                        params: { id: to.params.id }
-                    })
+            .then((res) => {
+                if (res.data == 'Teacher') {
+                    if (completed == 1) {
+                        next();
+                    } else {
+                        console.log('test');
+                        return next({
+                            name: "courseSetup",
+                            params: { id: to.params.id }
+                        })
+                    }
+                } else if (res.data == 'Student') {
+                    next({
+                        path: "course/" + to.params.id + "/announcement"
+                    });
                 }
-            } else if (res.data == 'Student') {
-                next({
-                    path: "course/" + to.params.id + "/announcement"
-                });
-            }
-        })
-        .catch((e) => {
-            console.log(e);
-        });
-    
-    }
-    else{
+            })
+            .catch((e) => {
+                console.log(e);
+            });
+
+    } else {
         if (to.name) {
             NProgress.start()
         }

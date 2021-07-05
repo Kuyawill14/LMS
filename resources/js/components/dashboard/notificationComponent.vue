@@ -1,18 +1,5 @@
 <template>
-    <div class="text-center">
-        <v-menu v-model="menu" :close-on-content-click="false" :nudge-width="250" offset-y :max-width="400">
-            <template v-slot:activator="{ on, attrs }">
-                <v-btn icon v-bind="attrs" v-on="on">
-                    <v-badge :content="get_notification_count" :value="get_notification_count" color="red darken-2"
-                        overlap>
-                        <v-icon>
-                            mdi-bell
-                        </v-icon>
-                    </v-badge>
-                </v-btn>
-            </template>
-
-            <v-card :style="$vuetify.breakpoint.xs ? 'max-height:65vh':'max-height:80vh'">
+     <v-card :style="$vuetify.breakpoint.xs ? 'max-height:65vh':'max-height:80vh'">
                 <v-list>
                     <v-list-item>
                         <v-list-item-content>
@@ -60,9 +47,8 @@
                 </v-list>
 
             </v-card>
-        </v-menu>
-    </div>
 </template>
+
 
 <script>
     import moment from 'moment'
@@ -118,3 +104,4 @@
     }
 
 </script>
+

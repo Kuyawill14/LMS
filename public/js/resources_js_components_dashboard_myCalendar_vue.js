@@ -164,6 +164,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['role'],
@@ -307,6 +311,30 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }
   }
 });
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/dashboard/myCalendar.vue?vue&type=style&index=0&lang=css&":
+/*!***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/dashboard/myCalendar.vue?vue&type=style&index=0&lang=css& ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+// Imports
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\r\n/* .v-calendar-weekly {\r\ndisplay: table;\r\ntable-layout: fixed;\r\n} */\r\n/* .v-calendar-weekly__week {\r\nheight: auto;\r\ndisplay: table-row;\r\n}\r\n.v-calendar-weekly__day {\r\ndisplay: table-cell;\r\nwidth: calc(100% / 7)\r\n} */\r\n\r\n\r\n", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
 
 /***/ }),
 
@@ -21757,15 +21785,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _myCalendar_vue_vue_type_template_id_6abf54a0___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./myCalendar.vue?vue&type=template&id=6abf54a0& */ "./resources/js/components/dashboard/myCalendar.vue?vue&type=template&id=6abf54a0&");
 /* harmony import */ var _myCalendar_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./myCalendar.vue?vue&type=script&lang=js& */ "./resources/js/components/dashboard/myCalendar.vue?vue&type=script&lang=js&");
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* harmony import */ var _myCalendar_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./myCalendar.vue?vue&type=style&index=0&lang=css& */ "./resources/js/components/dashboard/myCalendar.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
+;
 
 
 /* normalize component */
-;
-var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__.default)(
+
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__.default)(
   _myCalendar_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
   _myCalendar_vue_vue_type_template_id_6abf54a0___WEBPACK_IMPORTED_MODULE_0__.render,
   _myCalendar_vue_vue_type_template_id_6abf54a0___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
@@ -21816,6 +21846,23 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/dashboard/myCalendar.vue?vue&type=style&index=0&lang=css&":
+/*!*******************************************************************************************!*\
+  !*** ./resources/js/components/dashboard/myCalendar.vue?vue&type=style&index=0&lang=css& ***!
+  \*******************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_myCalendar_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-style-loader/index.js!../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./myCalendar.vue?vue&type=style&index=0&lang=css& */ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/dashboard/myCalendar.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_myCalendar_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_myCalendar_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ var __WEBPACK_REEXPORT_OBJECT__ = {};
+/* harmony reexport (unknown) */ for(const __WEBPACK_IMPORT_KEY__ in _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_myCalendar_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== "default") __WEBPACK_REEXPORT_OBJECT__[__WEBPACK_IMPORT_KEY__] = () => _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_myCalendar_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__[__WEBPACK_IMPORT_KEY__]
+/* harmony reexport (unknown) */ __webpack_require__.d(__webpack_exports__, __WEBPACK_REEXPORT_OBJECT__);
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/dashboard/myCalendar.vue?vue&type=template&id=6abf54a0&":
 /*!********************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/dashboard/myCalendar.vue?vue&type=template&id=6abf54a0& ***!
@@ -21828,407 +21875,31 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "render": () => (/* binding */ render),
 /* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
 /* harmony export */ });
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "v-row",
-    { staticClass: "fill-height" },
-    [
-      _vm.isloading
-        ? _c(
-            "v-col",
-            { attrs: { cols: "12" } },
-            [
-              _vm.isloading
-                ? _c(
-                    "v-container",
-                    {
-                      staticClass: "fill-height",
-                      staticStyle: { height: "30vh" }
-                    },
-                    [
-                      _c(
-                        "v-row",
-                        {
-                          attrs: {
-                            "align-content": "center",
-                            justify: "center"
-                          }
-                        },
-                        [
-                          _c(
-                            "v-col",
-                            {
-                              staticClass: "text-subtitle-1 text-center",
-                              attrs: { cols: "12" }
-                            },
-                            [
-                              _vm._v(
-                                "\n                  Loading\n              "
-                              )
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-col",
-                            { attrs: { cols: "6" } },
-                            [
-                              _c("v-progress-linear", {
-                                attrs: {
-                                  color: "primary",
-                                  indeterminate: "",
-                                  rounded: "",
-                                  height: "6"
-                                }
-                              })
-                            ],
-                            1
-                          )
-                        ],
-                        1
-                      )
-                    ],
-                    1
-                  )
-                : _vm._e()
-            ],
-            1
-          )
-        : _vm._e(),
-      _vm._v(" "),
-      !_vm.isloading
-        ? _c(
-            "v-col",
-            [
-              _c(
-                "v-sheet",
-                { attrs: { height: "64" } },
-                [
-                  _c(
-                    "v-toolbar",
-                    { attrs: { flat: "" } },
-                    [
-                      _c(
-                        "v-btn",
-                        {
-                          staticClass: "mr-4",
-                          attrs: { outlined: "", color: "grey darken-2" },
-                          on: { click: _vm.setToday }
-                        },
-                        [_vm._v("\n          Today\n        ")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "v-btn",
-                        {
-                          attrs: {
-                            fab: "",
-                            text: "",
-                            small: "",
-                            color: "grey darken-2"
-                          },
-                          on: { click: _vm.prev }
-                        },
-                        [
-                          _c("v-icon", { attrs: { small: "" } }, [
-                            _vm._v("\n            mdi-chevron-left\n          ")
-                          ])
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "v-btn",
-                        {
-                          attrs: {
-                            fab: "",
-                            text: "",
-                            small: "",
-                            color: "grey darken-2"
-                          },
-                          on: { click: _vm.next }
-                        },
-                        [
-                          _c("v-icon", { attrs: { small: "" } }, [
-                            _vm._v(
-                              "\n            mdi-chevron-right\n          "
-                            )
-                          ])
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _vm.$refs.calendar
-                        ? _c("v-toolbar-title", [
-                            _vm._v(
-                              "\n          " +
-                                _vm._s(_vm.$refs.calendar.title) +
-                                "\n        "
-                            )
-                          ])
-                        : _vm._e(),
-                      _vm._v(" "),
-                      _c("v-spacer"),
-                      _vm._v(" "),
-                      _c(
-                        "v-menu",
-                        {
-                          attrs: { bottom: "", right: "" },
-                          scopedSlots: _vm._u(
-                            [
-                              {
-                                key: "activator",
-                                fn: function(ref) {
-                                  var on = ref.on
-                                  var attrs = ref.attrs
-                                  return [
-                                    _c(
-                                      "v-btn",
-                                      _vm._g(
-                                        _vm._b(
-                                          {
-                                            attrs: {
-                                              outlined: "",
-                                              color: "grey darken-2"
-                                            }
-                                          },
-                                          "v-btn",
-                                          attrs,
-                                          false
-                                        ),
-                                        on
-                                      ),
-                                      [
-                                        _c("span", [
-                                          _vm._v(
-                                            _vm._s(_vm.typeToLabel[_vm.type])
-                                          )
-                                        ]),
-                                        _vm._v(" "),
-                                        _c("v-icon", { attrs: { right: "" } }, [
-                                          _vm._v(
-                                            "\n                mdi-menu-down\n              "
-                                          )
-                                        ])
-                                      ],
-                                      1
-                                    )
-                                  ]
-                                }
-                              }
-                            ],
-                            null,
-                            false,
-                            440174701
-                          )
-                        },
-                        [
-                          _vm._v(" "),
-                          _c(
-                            "v-list",
-                            [
-                              _c(
-                                "v-list-item",
-                                {
-                                  on: {
-                                    click: function($event) {
-                                      _vm.type = "day"
-                                    }
-                                  }
-                                },
-                                [_c("v-list-item-title", [_vm._v("Day")])],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "v-list-item",
-                                {
-                                  on: {
-                                    click: function($event) {
-                                      _vm.type = "week"
-                                    }
-                                  }
-                                },
-                                [_c("v-list-item-title", [_vm._v("Week")])],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "v-list-item",
-                                {
-                                  on: {
-                                    click: function($event) {
-                                      _vm.type = "month"
-                                    }
-                                  }
-                                },
-                                [_c("v-list-item-title", [_vm._v("Month")])],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "v-list-item",
-                                {
-                                  on: {
-                                    click: function($event) {
-                                      _vm.type = "4day"
-                                    }
-                                  }
-                                },
-                                [_c("v-list-item-title", [_vm._v("4 days")])],
-                                1
-                              )
-                            ],
-                            1
-                          )
-                        ],
-                        1
-                      )
-                    ],
-                    1
-                  )
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "v-sheet",
-                { attrs: { height: "500" } },
-                [
-                  _c("v-calendar", {
-                    ref: "calendar",
-                    attrs: {
-                      color: "primary",
-                      events: _vm.events,
-                      "event-color": _vm.getEventColor,
-                      type: _vm.type
-                    },
-                    on: {
-                      "click:event": _vm.showEvent,
-                      "click:more": _vm.viewDay,
-                      "click:date": _vm.viewDay
-                    },
-                    model: {
-                      value: _vm.focus,
-                      callback: function($$v) {
-                        _vm.focus = $$v
-                      },
-                      expression: "focus"
-                    }
-                  }),
-                  _vm._v(" "),
-                  _c(
-                    "v-menu",
-                    {
-                      attrs: {
-                        "close-on-content-click": false,
-                        activator: _vm.selectedElement,
-                        "offset-x": ""
-                      },
-                      model: {
-                        value: _vm.selectedOpen,
-                        callback: function($$v) {
-                          _vm.selectedOpen = $$v
-                        },
-                        expression: "selectedOpen"
-                      }
-                    },
-                    [
-                      _c(
-                        "v-card",
-                        {
-                          attrs: {
-                            color: "grey lighten-4",
-                            "min-width": "350px",
-                            flat: ""
-                          }
-                        },
-                        [
-                          _c(
-                            "v-toolbar",
-                            {
-                              attrs: {
-                                color: _vm.selectedEvent.color,
-                                dark: ""
-                              }
-                            },
-                            [
-                              _c(
-                                "v-btn",
-                                { attrs: { icon: "" } },
-                                [_c("v-icon", [_vm._v("mdi-pencil")])],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c("v-toolbar-title", {
-                                domProps: {
-                                  innerHTML: _vm._s(_vm.selectedEvent.name)
-                                }
-                              }),
-                              _vm._v(" "),
-                              _c("v-spacer"),
-                              _vm._v(" "),
-                              _c(
-                                "v-btn",
-                                { attrs: { icon: "" } },
-                                [_c("v-icon", [_vm._v("mdi-dots-vertical")])],
-                                1
-                              )
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c("v-card-text", [
-                            _c("span", {
-                              domProps: {
-                                innerHTML: _vm._s(_vm.selectedEvent.details)
-                              }
-                            }),
-                            _vm._v(" "),
-                            _c("div", [_vm._v("Sample")])
-                          ]),
-                          _vm._v(" "),
-                          _c(
-                            "v-card-actions",
-                            [
-                              _c(
-                                "v-btn",
-                                {
-                                  attrs: { text: "", color: "secondary" },
-                                  on: {
-                                    click: function($event) {
-                                      _vm.selectedOpen = false
-                                    }
-                                  }
-                                },
-                                [_vm._v("\n              Close\n            ")]
-                              )
-                            ],
-                            1
-                          )
-                        ],
-                        1
-                      )
-                    ],
-                    1
-                  )
-                ],
-                1
-              )
-            ],
-            1
-          )
-        : _vm._e()
-    ],
-    1
-  )
-}
+var render = function () {}
 var staticRenderFns = []
-render._withStripped = true
 
 
+
+/***/ }),
+
+/***/ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/dashboard/myCalendar.vue?vue&type=style&index=0&lang=css&":
+/*!****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-style-loader/index.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/dashboard/myCalendar.vue?vue&type=style&index=0&lang=css& ***!
+  \****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(/*! !!../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./myCalendar.vue?vue&type=style&index=0&lang=css& */ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/dashboard/myCalendar.vue?vue&type=style&index=0&lang=css&");
+if(content.__esModule) content = content.default;
+if(typeof content === 'string') content = [[module.id, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var add = __webpack_require__(/*! !../../../../node_modules/vue-style-loader/lib/addStylesClient.js */ "./node_modules/vue-style-loader/lib/addStylesClient.js").default
+var update = add("32535ce4", content, false, {});
+// Hot Module Replacement
+if(false) {}
 
 /***/ })
 

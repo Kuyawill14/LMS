@@ -87,7 +87,11 @@
           </v-menu>
         </v-toolbar>
       </v-sheet>
+<<<<<<< HEAD
       <v-sheet height="500">
+=======
+      <v-sheet height="280">
+>>>>>>> 8236d278cdafea28b128bac1d5bb3b2a2c4de0f3
         <v-calendar
           ref="calendar"
           v-model="focus"
@@ -259,3 +263,20 @@ import moment from 'moment';
     },
   }
 </script>
+
+<style>
+/* .v-calendar-weekly {
+display: table;
+table-layout: fixed;
+} */
+/* .v-calendar-weekly__week {
+height: auto;
+display: table-row;
+}
+.v-calendar-weekly__day {
+display: table-cell;
+width: calc(100% / 7)
+} */
+
+
+</style>

@@ -2055,8 +2055,29 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var myCalendar = function myCalendar() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_dashboard_myCalendar_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./myCalendar */ "./resources/js/components/dashboard/myCalendar.vue"));
+};
+
+var myNotification = function myNotification() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_dashboard_notificationComponent_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./notificationComponent */ "./resources/js/components/dashboard/notificationComponent.vue"));
 };
 
 
@@ -2070,7 +2091,8 @@ var myCalendar = function myCalendar() {
   name: "HelloWorld",
   components: {
     VChart: vue_echarts__WEBPACK_IMPORTED_MODULE_0__.default,
-    myCalendar: myCalendar
+    myCalendar: myCalendar,
+    myNotification: myNotification
   },
   provide: {},
   data: function data() {
@@ -46269,14 +46291,14 @@ var render = function() {
                           },
                           [
                             _vm._v(
-                              "\n                            8\n                        "
+                              "\n                                8\n                            "
                             )
                           ]
                         ),
                         _vm._v(" "),
                         _c("div", { staticClass: "text-center" }, [
                           _vm._v(
-                            "\n                            Total Courses\n                        "
+                            "\n                                Total Courses\n                            "
                           )
                         ])
                       ])
@@ -46300,14 +46322,14 @@ var render = function() {
                           },
                           [
                             _vm._v(
-                              "\n                            8\n                        "
+                              "\n                                8\n                            "
                             )
                           ]
                         ),
                         _vm._v(" "),
                         _c("div", { staticClass: "text-center" }, [
                           _vm._v(
-                            "\n                            Total Classes\n                        "
+                            "\n                                Total Classes\n                            "
                           )
                         ])
                       ])
@@ -46348,7 +46370,25 @@ var render = function() {
             "v-col",
             { attrs: { lg: "4" } },
             [
-              _c("v-card", [_c("myCalendar", { attrs: { role: _vm.role } })], 1)
+              _vm._v("\n<<<<<<< HEAD\n  \n                "),
+              _c(
+                "v-card",
+                [_c("myCalendar", { attrs: { role: _vm.role } })],
+                1
+              ),
+              _vm._v("\n=======\n                "),
+              _c(
+                "v-row",
+                [
+                  _c("v-col", [_c("v-card", [_c("myCalendar")], 1)], 1),
+                  _vm._v(" "),
+                  _c("v-col", [_c("v-card", [_c("myNotification")], 1)], 1)
+                ],
+                1
+              ),
+              _vm._v(
+                "\n>>>>>>> 8236d278cdafea28b128bac1d5bb3b2a2c4de0f3\n            "
+              )
             ],
             1
           )
