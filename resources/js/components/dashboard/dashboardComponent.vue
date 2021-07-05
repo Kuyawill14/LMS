@@ -11,7 +11,7 @@
                     <v-col lg="6" class="pt-0">
                         <v-card>
                             <div class="text-center" style="font-size: 3rem;color:#FF5400 ">
-                                8
+                                {{allCourse.length}}
                             </div>
                             <div class="text-center">
                                 Total Courses
@@ -22,7 +22,7 @@
                     <v-col lg="6" class="pt-0">
                         <v-card>
                             <div class="text-center" style="font-size: 3rem;color:#FF5400 ">
-                                8
+                                    {{class_count}}
                             </div>
                             <div class="text-center">
                                 Total Classes
@@ -39,15 +39,17 @@
                 </v-row>
             </v-col>
 
-            <v-col lg="4">
+            <v-col lg="4" class="pt-0">
                 <v-row>
                     <v-col>
                         <v-card>
                             <myCalendar></myCalendar>
                         </v-card>
                     </v-col>
+                </v-row>
 
 
+                <v-row>
                     <v-col>
                         <v-card>
                             <myNotification> </myNotification>
@@ -65,8 +67,12 @@
 </template>
 
 <script>
+    import {
+        mapGetters,
+        mapActions
+    } from "vuex";
     const myCalendar = () => import('./myCalendar')
-      const myNotification = () => import('./notificationComponent')
+    const myNotification = () => import('./notificationComponent')
     import {
         use
     } from "echarts/core";
@@ -88,6 +94,7 @@
     import VChart, {
         THEME_KEY
     } from "vue-echarts";
+import axios from 'axios';
 
     use([
         CanvasRenderer,
@@ -111,6 +118,7 @@
 
         data() {
             return {
+                class_count: 0,
                 option: {
                     color: ["#FF5400", "#FFs400", "#FFd400"],
                     xAxis: {
@@ -184,6 +192,23 @@
                 }
 
             };
+        },
+        methods: {
+            ...mapActions(['fetchCourseList']),
+            classCount() {
+                
+                axios.get('/api/class/count')
+                .then(res => {
+                    console.log('12312  ', res);
+                    this.class_count = res.data;
+                })
+       
+            }
+        },
+        computed: mapGetters(['allCourse']),
+        mounted() {
+            this.fetchCourseList();
+            this. classCount();
         },
     };
 

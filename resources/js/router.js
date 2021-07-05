@@ -129,6 +129,11 @@ const router = new Router({
             },
             children: [{
                     path: "",
+                    component: dashboard,
+                    name: "dashboard"
+                },
+                {
+                    path: "courses",
                     component: mycourse,
                     name: "courses"
                 },
@@ -235,11 +240,7 @@ const router = new Router({
                     component: profile,
                     name: "profile_page"
                 },
-                {
-                    path: "/dashboard",
-                    component: dashboard,
-                    name: "dashboard"
-                },
+
 
             ],
 
