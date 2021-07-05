@@ -619,7 +619,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   watch: {
     $route: function $route(to, from) {
-      console.log(this.$route.matched);
+      //console.log(this.$route.matched);
       this.navBarType = this.$route.matched[1].name;
     }
   },

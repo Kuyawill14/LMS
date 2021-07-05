@@ -4,6 +4,8 @@ import NProgress from 'nprogress';
 //import '../node_modules/nprogress/nprogress.css'
 import '../../node_modules/nprogress/nprogress.css'
 import store from './store/store'
+import { toNumber } from "lodash";
+import axios from "axios";
 
 Vue.use(Router);
 
@@ -134,52 +136,11 @@ const router = new Router({
                     path: "course/:id",
                     component: courseView,
                     name: "selectedCourse",
-                    beforeEnter: (to, form, next) => {
-
-                        let course = store.getters.getCourse(to.params.id);
-
-                        if (course) {
-                            console.log(course)
-                            if (course.completed == 1) {
-                                next();
-                                return
-                            } else {
-                                next({
-                                    name: "courseSetup",
-                                    params: { id: to.params.id }
-                                })
-                                return
-                            }
-
-                        }
-
-                    },
                     children: [
-
                         {
                             name: "coursePage",
                             path: "",
                             component: classes_tab,
-                            beforeEnter: (to, form, next) => {
-
-                                let course = store.getters.getcourseInfo;
-
-                                axios.get("/api/role")
-                                    .then((res) => {
-                                        console.log(res.data);
-                                        if (res.data == 'Teacher') {
-                                            next();
-                                        } else if (res.data == 'Student') {
-                                            next({
-                                                path: "course/" + to.params.id + "/announcement"
-                                            });
-                                        }
-                                    })
-                                    .catch((e) => {
-                                        console.log(e);
-                                    });
-
-                            },
                         },
                         {
                             path: "setup",
@@ -266,8 +227,6 @@ const router = new Router({
                             path: "my-grades",
                             component: studentGradeBook_tab
                         },
-
-
 
                     ],
                 },
@@ -391,11 +350,42 @@ const router = new Router({
     }
 }) */
 router.beforeEach((to, from, next) => {
-
-    if (to.name) {
-        NProgress.start()
+    if(to.name == 'coursePage'){
+        let completed;
+        axios.get('/api/course/ShowCourse/'+to.params.id)
+        .then(res=>{
+            completed = res.data.completed;
+        })
+        let course = store.getters.getCourse(to.params.id);
+        axios.get("/api/role")
+        .then((res) => {
+            if (res.data == 'Teacher') {
+                if (completed == 1) {
+                    next();
+                } else {
+                    console.log('test');
+                    return next({
+                        name: "courseSetup",
+                        params: { id: to.params.id }
+                    })
+                }
+            } else if (res.data == 'Student') {
+                next({
+                    path: "course/" + to.params.id + "/announcement"
+                });
+            }
+        })
+        .catch((e) => {
+            console.log(e);
+        });
+    
     }
-    next()
+    else{
+        if (to.name) {
+            NProgress.start()
+        }
+        next()
+    }
 })
 router.afterEach(() => {
     //app.$Progress.finish();
