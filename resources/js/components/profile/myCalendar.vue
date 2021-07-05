@@ -187,10 +187,16 @@ import moment from 'moment';
                   if(this.role == 'Student' && this.CalendarSched[index].status == 'Submitted'){
                     name = this.CalendarSched[index].title+'(submitted)';
                     color = "success";
+                    console.log(this.CalendarSched[index].status);
                   }
                   else if(this.role == 'Student' &&  this.CalendarSched[index].status != 'Submitted' && this.CheckFormatDue(this.CalendarSched[index].to_date) < this.DateToday){
                     name = this.CalendarSched[index].title+'(missing)';
                     color = "error";
+                  }
+                  else if(this.role == 'Student' &&  this.CalendarSched[index].status == 'Submitting' || this.CalendarSched[index].status == 'Taking'){
+                     name = this.CalendarSched[index].title+(this.CalendarSched[index].status);
+                     color = "info";
+                     console.log(this.CalendarSched[index].status);
                   }
                   else{
                     name =  this.CalendarSched[index].title;

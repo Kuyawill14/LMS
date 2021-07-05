@@ -18,7 +18,7 @@
                     <v-col lg="6" class="pt-0">
                         <v-card>
                             <div class="text-center" style="font-size: 3rem;color:#FF5400 ">
-                                  1
+                                {{unfinishCount}}
                             </div>
                             <div class="text-center">
                               Unfinished Classworks
@@ -39,7 +39,7 @@
                 <v-row>
                     <v-col>
                         <v-card>
-                            <myCalendar></myCalendar>
+                            <myCalendar :role="role" v-on:RecieveTotalClasswork="TotalClasswork"></myCalendar>
                         </v-card>
                     </v-col>
                 </v-row>
@@ -102,6 +102,7 @@ import axios from 'axios';
     ]);
 
     export default {
+        props:['role'],
         name: "HelloWorld",
         components: {
             VChart,
@@ -115,6 +116,7 @@ import axios from 'axios';
         data() {
             return {
                 class_count: 0,
+                unfinishCount: 0,
                 option: {
                     color: ["#FF5400", "#FFs400", "#FFd400"],
                     xAxis: {
@@ -190,20 +192,21 @@ import axios from 'axios';
             };
         },
         methods: {
-            ...mapActions(['fetchCourseList']),
             classCount() {
                 
                 axios.get('/api/class/count')
                 .then(res => {
-                    console.log('12312  ', res);
                     this.class_count = res.data;
                 })
        
+            },
+            TotalClasswork(data){
+                console.log(data);
+                this.unfinishCount = data;
             }
         },
-        computed: mapGetters(['allCourse']),
         mounted() {
-            this.fetchCourseList();
+            //this.fetchCourseList();
             this. classCount();
         },
     };

@@ -231,7 +231,14 @@ class UserProfileController extends Controller
             ->first();
 
             if($StatusCheck){
-                $sj->status = 'Submitted';
+                if($StatusCheck->status == "Submitted"){
+                    $sj->status = $StatusCheck->status;
+                }
+                elseif($StatusCheck->status == "Submitting"){
+                    $sj->status = $StatusCheck->status;
+                }elseif($StatusCheck->status == "Taking"){
+                    $sj->status = $StatusCheck->status;
+                }
             }
             else{
                 if($sj->status == ''){

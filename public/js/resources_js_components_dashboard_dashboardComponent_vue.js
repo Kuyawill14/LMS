@@ -2025,51 +2025,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 var studentDashboard = function studentDashboard() {
@@ -46291,131 +46246,21 @@ var render = function() {
     "div",
     [
       _c("v-row", [_c("v-col", [_c("h2", [_vm._v("Dashboard")])])], 1),
-      _vm._v("\n<<<<<<< HEAD\n        "),
-      _c(
-        "v-row",
-        [
-          _c(
-            "v-col",
-            { staticClass: "pt-0", attrs: { lg: "8" } },
-            [
-              _c(
-                "v-row",
-                [
-                  _c(
-                    "v-col",
-                    { staticClass: "pt-0", attrs: { lg: "6" } },
-                    [
-                      _c("v-card", [
-                        _c(
-                          "div",
-                          {
-                            staticClass: "text-center",
-                            staticStyle: {
-                              "font-size": "3rem",
-                              color: "#FF5400"
-                            }
-                          },
-                          [
-                            _vm._v(
-                              "\n                                8\n                            "
-                            )
-                          ]
-                        ),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "text-center" }, [
-                          _vm._v(
-                            "\n                                Total Courses\n                            "
-                          )
-                        ])
-                      ])
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-col",
-                    { staticClass: "pt-0", attrs: { lg: "6" } },
-                    [
-                      _c("v-card", [
-                        _c(
-                          "div",
-                          {
-                            staticClass: "text-center",
-                            staticStyle: {
-                              "font-size": "3rem",
-                              color: "#FF5400"
-                            }
-                          },
-                          [
-                            _vm._v(
-                              "\n                                8\n                            "
-                            )
-                          ]
-                        ),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "text-center" }, [
-                          _vm._v(
-                            "\n                                Total Classes\n                            "
-                          )
-                        ])
-                      ])
-                    ],
-                    1
-                  )
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "v-row",
-                [
-                  _c(
-                    "v-col",
-                    [
-                      _c(
-                        "v-card",
-                        [
-                          _c("v-chart", {
-                            staticClass: "chart",
-                            attrs: { option: _vm.option, autoresize: "" }
-                          })
-                        ],
-                        1
-                      )
-                    ],
-                    1
-                  )
-                ],
-                1
-              )
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "v-col",
-            { attrs: { lg: "4" } },
-            [
-              _c("v-card", [_c("myCalendar", { attrs: { role: _vm.role } })], 1)
-            ],
-            1
-          )
-        ],
-        1
-      ),
-      _vm._v("\n\n=======\n        "),
+      _vm._v(" "),
       _c(
         "div",
         { staticClass: "mt-4" },
         [
-          _vm.role == "Student" ? _c("studentDashboard") : _vm._e(),
+          _vm.role == "Student"
+            ? _c("studentDashboard", { attrs: { role: _vm.role } })
+            : _vm._e(),
           _vm._v(" "),
-          _vm.role == "Teacher" ? _c("teacherDashboard") : _vm._e()
+          _vm.role == "Teacher"
+            ? _c("teacherDashboard", { attrs: { role: _vm.role } })
+            : _vm._e()
         ],
         1
-      ),
-      _vm._v("\n>>>>>>> 154cffaaa974de4c7641e3032fca4398f6932586\n    ")
+      )
     ],
     1
   )
