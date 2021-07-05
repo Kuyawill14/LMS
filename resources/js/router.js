@@ -133,7 +133,7 @@ const router = new Router({
                     name: "dashboard"
                 },
                 {
-                    path: "courses",
+                    path: "/courses",
                     component: mycourse,
                     name: "courses"
                 },
