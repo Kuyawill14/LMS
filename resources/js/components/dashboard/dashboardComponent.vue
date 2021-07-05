@@ -40,9 +40,20 @@
             </v-col>
 
             <v-col lg="4">
-                <v-card>
-                    <myCalendar :UserDetails="UserDetails"></myCalendar>
-                </v-card>
+                <v-row>
+                    <v-col>
+                        <v-card>
+                            <myCalendar></myCalendar>
+                        </v-card>
+                    </v-col>
+
+
+                    <v-col>
+                        <v-card>
+                            <myNotification> </myNotification>
+                        </v-card>
+                    </v-col>
+                </v-row>
             </v-col>
 
         </v-row>
@@ -55,6 +66,7 @@
 
 <script>
     const myCalendar = () => import('./myCalendar')
+      const myNotification = () => import('./notificationComponent')
     import {
         use
     } from "echarts/core";
@@ -90,7 +102,8 @@
         name: "HelloWorld",
         components: {
             VChart,
-            myCalendar
+            myCalendar,
+            myNotification
         },
         provide: {
 

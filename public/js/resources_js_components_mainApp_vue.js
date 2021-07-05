@@ -495,20 +495,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -619,7 +605,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   watch: {
     $route: function $route(to, from) {
-      console.log(this.$route.matched);
+      console.log(this.$route.matched[1].path);
       this.navBarType = this.$route.matched[1].name;
     }
   },
@@ -23480,7 +23466,9 @@ var render = function() {
                         },
                         [
                           _c("v-icon", [
-                            _vm._v("\n          mdi-bell\n          ")
+                            _vm._v(
+                              "\n                        mdi-bell\n                    "
+                            )
                           ])
                         ],
                         1
@@ -23538,7 +23526,7 @@ var render = function() {
                             },
                             [
                               _vm._v(
-                                "\n                  See all\n                "
+                                "\n                            See all\n                        "
                               )
                             ]
                           )

@@ -154,9 +154,7 @@ const router = new Router({
                         }
 
                     },
-                    children: [
-
-                        {
+                    children: [{
                             name: "coursePage",
                             path: "",
                             component: classes_tab,
