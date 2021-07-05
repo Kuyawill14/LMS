@@ -2054,6 +2054,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 var myCalendar = function myCalendar() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_dashboard_myCalendar_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./myCalendar */ "./resources/js/components/dashboard/myCalendar.vue"));
 };
@@ -2065,6 +2066,7 @@ var myCalendar = function myCalendar() {
 
 (0,echarts_core__WEBPACK_IMPORTED_MODULE_1__.use)([echarts_renderers__WEBPACK_IMPORTED_MODULE_2__.install, echarts_charts__WEBPACK_IMPORTED_MODULE_3__.install, echarts_components__WEBPACK_IMPORTED_MODULE_4__.install, echarts_components__WEBPACK_IMPORTED_MODULE_5__.install, echarts_components__WEBPACK_IMPORTED_MODULE_6__.install, echarts_components__WEBPACK_IMPORTED_MODULE_7__.install]);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  props: ['role'],
   name: "HelloWorld",
   components: {
     VChart: vue_echarts__WEBPACK_IMPORTED_MODULE_0__.default,
@@ -46346,11 +46348,7 @@ var render = function() {
             "v-col",
             { attrs: { lg: "4" } },
             [
-              _c(
-                "v-card",
-                [_c("myCalendar", { attrs: { UserDetails: _vm.UserDetails } })],
-                1
-              )
+              _c("v-card", [_c("myCalendar", { attrs: { role: _vm.role } })], 1)
             ],
             1
           )

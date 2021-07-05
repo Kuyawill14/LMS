@@ -206,36 +206,35 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   var events = [];
                   var nowDate = new Date();
 
-                  var data = moment__WEBPACK_IMPORTED_MODULE_1___default()(_this.CalendarSched[0].from_date)._d;
+                  if (res.data.length != 0) {
+                    var data = moment__WEBPACK_IMPORTED_MODULE_1___default()(_this.CalendarSched[0].from_date)._d;
 
-                  console.log(data);
+                    for (var index = 0; index < _this.CalendarSched.length; index++) {
+                      var test = moment__WEBPACK_IMPORTED_MODULE_1___default()(_this.CalendarSched[index].from_date);
+                      var color = void 0;
+                      var name = void 0;
 
-                  for (var index = 0; index < _this.CalendarSched.length; index++) {
-                    var test = moment__WEBPACK_IMPORTED_MODULE_1___default()(_this.CalendarSched[index].from_date);
-                    var color = void 0;
-                    var name = void 0;
+                      if (_this.role == 'Student' && _this.CalendarSched[index].status == 'Submitted') {
+                        name = _this.CalendarSched[index].title + '(submitted)';
+                        color = "success";
+                      } else if (_this.role == 'Student' && _this.CalendarSched[index].status != 'Submitted' && _this.CheckFormatDue(_this.CalendarSched[index].to_date) < _this.DateToday) {
+                        name = _this.CalendarSched[index].title + '(missing)';
+                        color = "error";
+                      } else {
+                        name = _this.CalendarSched[index].title;
+                        color = _this.colors[_this.rnd(0, _this.colors.length - 1)];
+                      }
 
-                    if (_this.role == 'Student' && _this.CalendarSched[index].status == 'Submitted') {
-                      name = _this.CalendarSched[index].title + '(submitted)';
-                      color = "success";
-                    } else if (_this.role == 'Student' && _this.CalendarSched[index].status != 'Submitted' && _this.CheckFormatDue(_this.CalendarSched[index].to_date) < _this.DateToday) {
-                      name = _this.CalendarSched[index].title + '(missing)';
-                      color = "error";
-                    } else {
-                      name = _this.CalendarSched[index].title;
-                      color = _this.colors[_this.rnd(0, _this.colors.length - 1)];
+                      events.push({
+                        name: name,
+                        start: moment__WEBPACK_IMPORTED_MODULE_1___default()(_this.CalendarSched[index].from_date)._d,
+                        end: moment__WEBPACK_IMPORTED_MODULE_1___default()(_this.CalendarSched[index].to_date)._d,
+                        color: color
+                      });
                     }
-
-                    events.push({
-                      name: name,
-                      start: moment__WEBPACK_IMPORTED_MODULE_1___default()(_this.CalendarSched[index].from_date)._d,
-                      end: moment__WEBPACK_IMPORTED_MODULE_1___default()(_this.CalendarSched[index].to_date)._d,
-                      color: color
-                    });
                   }
 
-                  _this.events = events;
-                  console.log(events); //this.isloading = !this.isloading;
+                  _this.events = events; //this.isloading = !this.isloading;
 
                   setTimeout(function () {
                     _this.isloading = !_this.isloading;

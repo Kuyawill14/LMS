@@ -172,41 +172,42 @@ import moment from 'moment';
     async getGeneralClassworks() {
         axios.get('/api/profile/mycalendar')
         .then(res=>{
+          
             this.CalendarSched = res.data;
             const events = [];
             const nowDate = new Date();
                
-            const data = moment(this.CalendarSched[0].from_date)._d
-             console.log(data);
-                
-            for (let index = 0; index < this.CalendarSched.length; index++) {
-                let test = moment(this.CalendarSched[index].from_date);
-                let color;
-                let name;
-                if(this.role == 'Student' && this.CalendarSched[index].status == 'Submitted'){
-                  name = this.CalendarSched[index].title+'(submitted)';
-                  color = "success";
-                }
-                else if(this.role == 'Student' && this.CalendarSched[index].status != 'Submitted' && this.CheckFormatDue(this.CalendarSched[index].to_date) < this.DateToday){
-                  name = this.CalendarSched[index].title+'(missing)';
-                  color = "error";
-                }
-                else{
-                   name =  this.CalendarSched[index].title;
-                   color = this.colors[this.rnd(0, this.colors.length - 1)];
-                }
-
-                events.push({
-                    name: name,
-                    start: moment(this.CalendarSched[index].from_date)._d,
-                    end: moment(this.CalendarSched[index].to_date)._d,
-                    color: color,
-                  })
-                
-                
+            if(res.data.length != 0){
+                const data = moment(this.CalendarSched[0].from_date)._d
+                for (let index = 0; index < this.CalendarSched.length; index++) {
+      
+                  let test = moment(this.CalendarSched[index].from_date);
+                  let color;
+                  let name;
+                  if(this.role == 'Student' && this.CalendarSched[index].status == 'Submitted'){
+                    name = this.CalendarSched[index].title+'(submitted)';
+                    color = "success";
+                  }
+                  else if(this.role == 'Student' &&  this.CalendarSched[index].status != 'Submitted' && this.CheckFormatDue(this.CalendarSched[index].to_date) < this.DateToday){
+                    name = this.CalendarSched[index].title+'(missing)';
+                    color = "error";
+                  }
+                  else{
+                    name =  this.CalendarSched[index].title;
+                    color = this.colors[this.rnd(0, this.colors.length - 1)];
+                  }
+                  events.push({
+                      name: name,
+                      start: moment(this.CalendarSched[index].from_date)._d,
+                      end: moment(this.CalendarSched[index].to_date)._d,
+                      color: color,
+                    })
+              }
             }
+                  
+           
             this.events = events;
-            console.log(events);
+
             //this.isloading = !this.isloading;
             setTimeout(() => {
                 this.isloading = !this.isloading;

@@ -40,8 +40,9 @@
             </v-col>
 
             <v-col lg="4">
+  
                 <v-card>
-                    <myCalendar :UserDetails="UserDetails"></myCalendar>
+                    <myCalendar :role="role"></myCalendar>
                 </v-card>
             </v-col>
 
@@ -87,6 +88,7 @@
     ]);
 
     export default {
+        props:['role'],
         name: "HelloWorld",
         components: {
             VChart,
