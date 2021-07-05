@@ -1991,14 +1991,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var echarts_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! echarts/core */ "./node_modules/echarts/lib/extension.js");
-/* harmony import */ var echarts_renderers__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! echarts/renderers */ "./node_modules/echarts/lib/renderer/installCanvasRenderer.js");
-/* harmony import */ var echarts_charts__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! echarts/charts */ "./node_modules/echarts/lib/chart/bar/install.js");
-/* harmony import */ var echarts_components__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! echarts/components */ "./node_modules/echarts/lib/component/title/install.js");
-/* harmony import */ var echarts_components__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! echarts/components */ "./node_modules/echarts/lib/component/tooltip/install.js");
-/* harmony import */ var echarts_components__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! echarts/components */ "./node_modules/echarts/lib/component/legend/install.js");
-/* harmony import */ var echarts_components__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! echarts/components */ "./node_modules/echarts/lib/component/grid/install.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var echarts_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! echarts/core */ "./node_modules/echarts/lib/extension.js");
+/* harmony import */ var echarts_renderers__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! echarts/renderers */ "./node_modules/echarts/lib/renderer/installCanvasRenderer.js");
+/* harmony import */ var echarts_charts__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! echarts/charts */ "./node_modules/echarts/lib/chart/bar/install.js");
+/* harmony import */ var echarts_components__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! echarts/components */ "./node_modules/echarts/lib/component/title/install.js");
+/* harmony import */ var echarts_components__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! echarts/components */ "./node_modules/echarts/lib/component/tooltip/install.js");
+/* harmony import */ var echarts_components__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! echarts/components */ "./node_modules/echarts/lib/component/legend/install.js");
+/* harmony import */ var echarts_components__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! echarts/components */ "./node_modules/echarts/lib/component/grid/install.js");
 /* harmony import */ var vue_echarts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-echarts */ "./node_modules/vue-echarts/dist/index.esm.min.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -2054,6 +2063,23 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+
+
+var studentDashboard = function studentDashboard() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_dashboard_student-dashboardComponent_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./student-dashboardComponent */ "./resources/js/components/dashboard/student-dashboardComponent.vue"));
+};
+
+var teacherDashboard = function teacherDashboard() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_dashboard_teacher-dashboardComponent_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./teacher-dashboardComponent */ "./resources/js/components/dashboard/teacher-dashboardComponent.vue"));
+};
+
 var myCalendar = function myCalendar() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_dashboard_myCalendar_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./myCalendar */ "./resources/js/components/dashboard/myCalendar.vue"));
 };
@@ -2067,18 +2093,22 @@ var myNotification = function myNotification() {
 
 
 
-(0,echarts_core__WEBPACK_IMPORTED_MODULE_1__.use)([echarts_renderers__WEBPACK_IMPORTED_MODULE_2__.install, echarts_charts__WEBPACK_IMPORTED_MODULE_3__.install, echarts_components__WEBPACK_IMPORTED_MODULE_4__.install, echarts_components__WEBPACK_IMPORTED_MODULE_5__.install, echarts_components__WEBPACK_IMPORTED_MODULE_6__.install, echarts_components__WEBPACK_IMPORTED_MODULE_7__.install]);
+
+(0,echarts_core__WEBPACK_IMPORTED_MODULE_2__.use)([echarts_renderers__WEBPACK_IMPORTED_MODULE_3__.install, echarts_charts__WEBPACK_IMPORTED_MODULE_4__.install, echarts_components__WEBPACK_IMPORTED_MODULE_5__.install, echarts_components__WEBPACK_IMPORTED_MODULE_6__.install, echarts_components__WEBPACK_IMPORTED_MODULE_7__.install, echarts_components__WEBPACK_IMPORTED_MODULE_8__.install]);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['role'],
   name: "HelloWorld",
   components: {
     VChart: vue_echarts__WEBPACK_IMPORTED_MODULE_0__.default,
     myCalendar: myCalendar,
-    myNotification: myNotification
+    myNotification: myNotification,
+    teacherDashboard: teacherDashboard,
+    studentDashboard: studentDashboard
   },
   provide: {},
   data: function data() {
     return {
+      class_count: 0,
       option: {
         color: ["#FF5400", "#FFs400", "#FFd400"],
         xAxis: {
@@ -2134,6 +2164,21 @@ var myNotification = function myNotification() {
         }]
       }
     };
+  },
+  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_9__.mapActions)(['fetchCourseList'])), {}, {
+    classCount: function classCount() {
+      var _this = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_1___default().get('/api/class/count').then(function (res) {
+        console.log('12312  ', res);
+        _this.class_count = res.data;
+      });
+    }
+  }),
+  computed: (0,vuex__WEBPACK_IMPORTED_MODULE_9__.mapGetters)(['allCourse']),
+  mounted: function mounted() {
+    this.fetchCourseList();
+    this.classCount();
   }
 });
 
@@ -46246,7 +46291,7 @@ var render = function() {
     "div",
     [
       _c("v-row", [_c("v-col", [_c("h2", [_vm._v("Dashboard")])])], 1),
-      _vm._v(" "),
+      _vm._v("\n<<<<<<< HEAD\n        "),
       _c(
         "v-row",
         [
@@ -46273,14 +46318,14 @@ var render = function() {
                           },
                           [
                             _vm._v(
-                              "\n                            8\n                        "
+                              "\n                                8\n                            "
                             )
                           ]
                         ),
                         _vm._v(" "),
                         _c("div", { staticClass: "text-center" }, [
                           _vm._v(
-                            "\n                            Total Courses\n                        "
+                            "\n                                Total Courses\n                            "
                           )
                         ])
                       ])
@@ -46304,14 +46349,14 @@ var render = function() {
                           },
                           [
                             _vm._v(
-                              "\n                            8\n                        "
+                              "\n                                8\n                            "
                             )
                           ]
                         ),
                         _vm._v(" "),
                         _c("div", { staticClass: "text-center" }, [
                           _vm._v(
-                            "\n                            Total Classes\n                        "
+                            "\n                                Total Classes\n                            "
                           )
                         ])
                       ])
@@ -46358,7 +46403,19 @@ var render = function() {
           )
         ],
         1
-      )
+      ),
+      _vm._v("\n\n=======\n        "),
+      _c(
+        "div",
+        { staticClass: "mt-4" },
+        [
+          _vm.role == "Student" ? _c("studentDashboard") : _vm._e(),
+          _vm._v(" "),
+          _vm.role == "Teacher" ? _c("teacherDashboard") : _vm._e()
+        ],
+        1
+      ),
+      _vm._v("\n>>>>>>> 154cffaaa974de4c7641e3032fca4398f6932586\n    ")
     ],
     1
   )

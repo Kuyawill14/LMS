@@ -214,6 +214,18 @@ class ClassController extends Controller
         return $allClass;
     }
 
+    public function classCount() {
+        $userId = auth('sanctum')->id();
+           //getAllClass
+           $classCount = tbl_userclass::
+           select('tbl_userclasses.id','tbl_classes.id as class_id','tbl_classes.class_name','tbl_classes.class_name')
+           ->leftJoin('tbl_classes', 'tbl_userclasses.class_id', '=', 'tbl_classes.id')
+           ->where('tbl_userclasses.user_id', $userId)
+           ->orderBy('tbl_classes.created_at', 'ASC')
+           ->count();
+
+           return $classCount;
+    }
 
 
     

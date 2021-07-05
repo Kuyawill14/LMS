@@ -66,6 +66,7 @@ Route::prefix('/class')->group(function () {
     Route::get('/selectedClass/{id}', [ClassController::class, 'fetchSelectedclass']);
     Route::get('/allnames/{id}/{clwk}', [ClassController::class, 'fecthClassNames']);
     Route::get('/subjectCourseClassList/all/{id}', [ClassController::class, 'subjectCourseClassList']);
+    Route::get('/count', [ClassController::class, 'classCount']);
 
     
 });

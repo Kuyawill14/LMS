@@ -5,6 +5,7 @@
                 <h2>Dashboard</h2>
             </v-col>
         </v-row>
+<<<<<<< HEAD
         <v-row>
             <v-col lg="8" class="pt-0">
                 <v-row>
@@ -47,6 +48,12 @@
 
         </v-row>
 
+=======
+        <div class="mt-4">
+            <studentDashboard v-if="role == 'Student'" />
+            <teacherDashboard v-if="role == 'Teacher'" />
+        </div>
+>>>>>>> 154cffaaa974de4c7641e3032fca4398f6932586
     </div>
 
 
@@ -54,8 +61,14 @@
 </template>
 
 <script>
+    import {
+        mapGetters,
+        mapActions
+    } from "vuex";
+    const studentDashboard = () => import('./student-dashboardComponent');
+    const teacherDashboard = () => import('./teacher-dashboardComponent');
     const myCalendar = () => import('./myCalendar')
-      const myNotification = () => import('./notificationComponent')
+    const myNotification = () => import('./notificationComponent')
     import {
         use
     } from "echarts/core";
@@ -77,6 +90,7 @@
     import VChart, {
         THEME_KEY
     } from "vue-echarts";
+    import axios from 'axios';
 
     use([
         CanvasRenderer,
@@ -88,12 +102,15 @@
     ]);
 
     export default {
-        props:['role'],
+        props: ['role'],
         name: "HelloWorld",
         components: {
             VChart,
             myCalendar,
-            myNotification
+            myNotification,
+            teacherDashboard,
+            studentDashboard
+
         },
         provide: {
 
@@ -101,6 +118,7 @@
 
         data() {
             return {
+                class_count: 0,
                 option: {
                     color: ["#FF5400", "#FFs400", "#FFd400"],
                     xAxis: {
@@ -174,6 +192,23 @@
                 }
 
             };
+        },
+        methods: {
+            ...mapActions(['fetchCourseList']),
+            classCount() {
+
+                axios.get('/api/class/count')
+                    .then(res => {
+                        console.log('12312  ', res);
+                        this.class_count = res.data;
+                    })
+
+            }
+        },
+        computed: mapGetters(['allCourse']),
+        mounted() {
+            this.fetchCourseList();
+            this.classCount();
         },
     };
 

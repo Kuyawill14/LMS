@@ -54,12 +54,12 @@ const actions = {
             .post(`/api/student/join/${classItem.class_code}`)
             .then(response => {
                 if (response.status == 200) {
-                    alert(response.data)
+                    //  alert(response.data)
 
                 } else if (response.status == 202) {
-                    alert(response.data)
+                    //  alert(response.data)
                 } else {
-                    alert(response.data)
+                    // alert(response.data)
                 }
             });
     },
