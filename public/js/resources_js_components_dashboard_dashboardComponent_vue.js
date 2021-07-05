@@ -2025,58 +2025,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
+
+var studentDashboard = function studentDashboard() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_dashboard_student-dashboardComponent_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./student-dashboardComponent */ "./resources/js/components/dashboard/student-dashboardComponent.vue"));
+};
+
+var teacherDashboard = function teacherDashboard() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_dashboard_teacher-dashboardComponent_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./teacher-dashboardComponent */ "./resources/js/components/dashboard/teacher-dashboardComponent.vue"));
+};
 
 var myCalendar = function myCalendar() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_dashboard_myCalendar_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./myCalendar */ "./resources/js/components/dashboard/myCalendar.vue"));
@@ -2094,11 +2051,14 @@ var myNotification = function myNotification() {
 
 (0,echarts_core__WEBPACK_IMPORTED_MODULE_2__.use)([echarts_renderers__WEBPACK_IMPORTED_MODULE_3__.install, echarts_charts__WEBPACK_IMPORTED_MODULE_4__.install, echarts_components__WEBPACK_IMPORTED_MODULE_5__.install, echarts_components__WEBPACK_IMPORTED_MODULE_6__.install, echarts_components__WEBPACK_IMPORTED_MODULE_7__.install, echarts_components__WEBPACK_IMPORTED_MODULE_8__.install]);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  props: ['role'],
   name: "HelloWorld",
   components: {
     VChart: vue_echarts__WEBPACK_IMPORTED_MODULE_0__.default,
     myCalendar: myCalendar,
-    myNotification: myNotification
+    myNotification: myNotification,
+    teacherDashboard: teacherDashboard,
+    studentDashboard: studentDashboard
   },
   provide: {},
   data: function data() {
@@ -46288,128 +46248,12 @@ var render = function() {
       _c("v-row", [_c("v-col", [_c("h2", [_vm._v("Dashboard")])])], 1),
       _vm._v(" "),
       _c(
-        "v-row",
+        "div",
+        { staticClass: "mt-4" },
         [
-          _c(
-            "v-col",
-            { staticClass: "pt-0", attrs: { lg: "8" } },
-            [
-              _c(
-                "v-row",
-                [
-                  _c(
-                    "v-col",
-                    { staticClass: "pt-0", attrs: { lg: "6" } },
-                    [
-                      _c("v-card", [
-                        _c(
-                          "div",
-                          {
-                            staticClass: "text-center",
-                            staticStyle: {
-                              "font-size": "3rem",
-                              color: "#FF5400"
-                            }
-                          },
-                          [
-                            _vm._v(
-                              "\n                            " +
-                                _vm._s(_vm.allCourse.length) +
-                                "\n                        "
-                            )
-                          ]
-                        ),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "text-center" }, [
-                          _vm._v(
-                            "\n                            Total Courses\n                        "
-                          )
-                        ])
-                      ])
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-col",
-                    { staticClass: "pt-0", attrs: { lg: "6" } },
-                    [
-                      _c("v-card", [
-                        _c(
-                          "div",
-                          {
-                            staticClass: "text-center",
-                            staticStyle: {
-                              "font-size": "3rem",
-                              color: "#FF5400"
-                            }
-                          },
-                          [
-                            _vm._v(
-                              "\n                                " +
-                                _vm._s(_vm.class_count) +
-                                "\n                        "
-                            )
-                          ]
-                        ),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "text-center" }, [
-                          _vm._v(
-                            "\n                            Total Classes\n                        "
-                          )
-                        ])
-                      ])
-                    ],
-                    1
-                  )
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "v-row",
-                [
-                  _c(
-                    "v-col",
-                    [
-                      _c(
-                        "v-card",
-                        [
-                          _c("v-chart", {
-                            staticClass: "chart",
-                            attrs: { option: _vm.option, autoresize: "" }
-                          })
-                        ],
-                        1
-                      )
-                    ],
-                    1
-                  )
-                ],
-                1
-              )
-            ],
-            1
-          ),
+          _vm.role == "Student" ? _c("studentDashboard") : _vm._e(),
           _vm._v(" "),
-          _c(
-            "v-col",
-            { staticClass: "pt-0", attrs: { lg: "4" } },
-            [
-              _c(
-                "v-row",
-                [_c("v-col", [_c("v-card", [_c("myCalendar")], 1)], 1)],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "v-row",
-                [_c("v-col", [_c("v-card", [_c("myNotification")], 1)], 1)],
-                1
-              )
-            ],
-            1
-          )
+          _vm.role == "Teacher" ? _c("teacherDashboard") : _vm._e()
         ],
         1
       )

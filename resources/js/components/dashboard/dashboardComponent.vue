@@ -5,61 +5,10 @@
                 <h2>Dashboard</h2>
             </v-col>
         </v-row>
-        <v-row>
-            <v-col lg="8" class="pt-0">
-                <v-row>
-                    <v-col lg="6" class="pt-0">
-                        <v-card>
-                            <div class="text-center" style="font-size: 3rem;color:#FF5400 ">
-                                {{allCourse.length}}
-                            </div>
-                            <div class="text-center">
-                                Total Courses
-                            </div>
-                        </v-card>
-                    </v-col>
-
-                    <v-col lg="6" class="pt-0">
-                        <v-card>
-                            <div class="text-center" style="font-size: 3rem;color:#FF5400 ">
-                                    {{class_count}}
-                            </div>
-                            <div class="text-center">
-                                Total Classes
-                            </div>
-                        </v-card>
-                    </v-col>
-                </v-row>
-                <v-row>
-                    <v-col>
-                        <v-card>
-                            <v-chart class="chart" :option="option" autoresize />
-                        </v-card>
-                    </v-col>
-                </v-row>
-            </v-col>
-
-            <v-col lg="4" class="pt-0">
-                <v-row>
-                    <v-col>
-                        <v-card>
-                            <myCalendar></myCalendar>
-                        </v-card>
-                    </v-col>
-                </v-row>
-
-
-                <v-row>
-                    <v-col>
-                        <v-card>
-                            <myNotification> </myNotification>
-                        </v-card>
-                    </v-col>
-                </v-row>
-            </v-col>
-
-        </v-row>
-
+        <div class="mt-4">
+            <studentDashboard v-if="role == 'Student'" />
+            <teacherDashboard v-if="role == 'Teacher'" />
+        </div>
     </div>
 
 
@@ -71,6 +20,8 @@
         mapGetters,
         mapActions
     } from "vuex";
+    const studentDashboard = () => import('./student-dashboardComponent');
+    const teacherDashboard = () => import('./teacher-dashboardComponent');
     const myCalendar = () => import('./myCalendar')
     const myNotification = () => import('./notificationComponent')
     import {
@@ -94,7 +45,7 @@
     import VChart, {
         THEME_KEY
     } from "vue-echarts";
-import axios from 'axios';
+    import axios from 'axios';
 
     use([
         CanvasRenderer,
@@ -106,11 +57,15 @@ import axios from 'axios';
     ]);
 
     export default {
+        props: ['role'],
         name: "HelloWorld",
         components: {
             VChart,
             myCalendar,
-            myNotification
+            myNotification,
+            teacherDashboard,
+            studentDashboard
+
         },
         provide: {
 
@@ -196,19 +151,19 @@ import axios from 'axios';
         methods: {
             ...mapActions(['fetchCourseList']),
             classCount() {
-                
+
                 axios.get('/api/class/count')
-                .then(res => {
-                    console.log('12312  ', res);
-                    this.class_count = res.data;
-                })
-       
+                    .then(res => {
+                        console.log('12312  ', res);
+                        this.class_count = res.data;
+                    })
+
             }
         },
         computed: mapGetters(['allCourse']),
         mounted() {
             this.fetchCourseList();
-            this. classCount();
+            this.classCount();
         },
     };
 
