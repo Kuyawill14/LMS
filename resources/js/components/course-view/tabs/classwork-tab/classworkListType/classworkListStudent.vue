@@ -28,7 +28,7 @@
 
                                     <div>  
                                         <div ma-0 pa-0 class="h1 ml-1"> <span class="font-weight-bold">{{item.title}}</span> <small class="primary--text" v-if="item.type == 'Subjective Type'">({{item.points}} points)</small></div> 
-                                        <small v-if="item.status == null || item.status == 'Submitting'" :class="item.availability != 0 ? CheckFormatDue(item.to_date) > DateToday ? 'card-subtitle text-50': item.status == 'Submitted' ? 'card-subtitle text-50':'card-subtitle text-50 red--text':'card-subtitle text-50'">
+                                        <small v-if="item.status == null || item.status == 'Submitting'|| item.status == 'Taking'" :class="item.availability != 0 ? CheckFormatDue(item.to_date) > DateToday ? 'card-subtitle text-50': item.status == 'Submitted' ? 'card-subtitle text-50':'card-subtitle text-50 red--text':'card-subtitle text-50'">
                                             <v-icon :color="item.availability != 0 ? CheckFormatDue(item.to_date) > DateToday ? '': item.status == 'Submitted' ? '':'red darken-4':''" small>mdi-clock</v-icon> 
                                             
                                             {{item.availability != 0 ? CheckFormatDue(item.to_date) > DateToday ? '' : "Late" :''}}
@@ -47,7 +47,7 @@
                                 <v-tooltip top>
                                     <template v-slot:activator="{ on, attrs }">
                                         <v-btn
-                                            v-if="item.status == null || (item.status == 'Submitting'|| item.status == 'Taking')"
+                                            v-if="item.status == 'Submitting' || item.status == null"
                                             @click="Previewdialog = !Previewdialog, Preview_id = item.classwork_id"
                                             class="mt-1 mr-5 pa-2 mx-1" 
                                             icon
@@ -64,7 +64,7 @@
 
                                         <v-btn
                                         large
-                                         v-if="item.status != null || item.status == 'Taking' || item.status == 'Submitted' && item.score != null"
+                                         v-if="item.status == 'Submitted' && item.score != null"
                                         @click="item.type == 'Objective Type' ? $router.push({name:'result-page', params:{id: item.classwork_id}}) : $router.push({name: 'clwk',params: {id: $route.params.id},query: {clwk: item.classwork_id}})"
                                         class="mt-1 mr-5 pa-2 mx-1 success--text" 
                                         text
@@ -79,6 +79,24 @@
                                     </template>
                                 
                                     <span>{{item.status == null ? 'View Classwork' : 'View Submission'}}</span>
+                                </v-tooltip>
+
+                                 <v-tooltip top>
+                                    <template v-slot:activator="{ on, attrs }">
+                                        <v-btn
+                                            v-if="item.status == 'Taking' && item.status != null"
+                                            @click="continueClasswork(item.classwork_id)"
+                                            class="mt-1 mr-5 pa-2 blue--text" 
+                                            text
+                                            v-bind="attrs"
+                                            v-on="on"
+                                            rounded
+                                            >
+                                            Continue
+                                        </v-btn>
+                                    </template>
+                                
+                                    <span>Continue Classwork</span>
                                 </v-tooltip>
                                 
                              </v-container>
@@ -113,6 +131,11 @@
                 if (value) {
                     return moment(String(value)).format("YYYY-MM-DDTHH:mm:ss")
                 }
+            },
+            continueClasswork(classwork_id){
+
+                this.$router.push({name: 'quizstart',params: {id: this.$route.params.id},query: {clwk: classwork_id}})
+         
             },
         },
         mounted(){

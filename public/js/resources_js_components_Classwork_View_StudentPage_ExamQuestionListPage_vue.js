@@ -297,7 +297,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
 
 
 
@@ -586,7 +585,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         setTimeout(function () {
           _this3.isLoading = !_this3.isLoading;
           _this3.isSubmitting = !_this3.isSubmitting;
-        }, 2000); //this.$router.push({name: 'result-page', params:{id: this.$route.query.clwk}})
+        }, 2000);
+
+        _this3.$router.push({
+          name: 'result-page',
+          params: {
+            id: _this3.$route.query.clwk
+          }
+        });
 
         localStorage.removeItem('timer_time');
       });
@@ -620,8 +626,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _this5 = this;
 
       this.$store.dispatch('fetchQuestions', this.$route.query.clwk).then(function (res) {
-        _this5.Qlength = res[1];
+        _this5.Qlength = res[1]; //console.log(res[0].Question);
+
         _this5.isLoading = false;
+
+        for (var index = 0; index < res[0].Question.length; index++) {
+          _this5.FinalAnswers.push({
+            Answer: '',
+            Question_id: res[0].Question[index].id,
+            type: res[0].Question[index].type,
+            timeConsume: 0
+          });
+        }
       });
     },
     preventNav: function preventNav(event) {

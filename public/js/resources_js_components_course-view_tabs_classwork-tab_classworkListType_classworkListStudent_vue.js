@@ -103,6 +103,24 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var previewClassworkModal = function previewClassworkModal() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_tabs_classwork-tab_dialogs_previewClassworkModal_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../dialogs/previewClassworkModal */ "./resources/js/components/course-view/tabs/classwork-tab/dialogs/previewClassworkModal.vue"));
 };
@@ -130,6 +148,17 @@ var previewClassworkModal = function previewClassworkModal() {
       if (value) {
         return moment__WEBPACK_IMPORTED_MODULE_0___default()(String(value)).format("YYYY-MM-DDTHH:mm:ss");
       }
+    },
+    continueClasswork: function continueClasswork(classwork_id) {
+      this.$router.push({
+        name: 'quizstart',
+        params: {
+          id: this.$route.params.id
+        },
+        query: {
+          clwk: classwork_id
+        }
+      });
     }
   },
   mounted: function mounted() {
@@ -353,7 +382,9 @@ var render = function() {
                               ]
                             ),
                             _vm._v(" "),
-                            item.status == null || item.status == "Submitting"
+                            item.status == null ||
+                            item.status == "Submitting" ||
+                            item.status == "Taking"
                               ? _c(
                                   "small",
                                   {
@@ -451,9 +482,8 @@ var render = function() {
                                   var on = ref.on
                                   var attrs = ref.attrs
                                   return [
-                                    item.status == null ||
                                     item.status == "Submitting" ||
-                                      item.status == "Taking"
+                                    item.status == null
                                       ? _c(
                                           "v-btn",
                                           _vm._g(
@@ -491,10 +521,8 @@ var render = function() {
                                         )
                                       : _vm._e(),
                                     _vm._v(" "),
-                                    item.status != null ||
-                                    item.status == "Taking" ||
-                                    (item.status == "Submitted" &&
-                                      item.score != null)
+                                    item.status == "Submitted" &&
+                                    item.score != null
                                       ? _c(
                                           "v-btn",
                                           _vm._g(
@@ -590,6 +618,66 @@ var render = function() {
                               )
                             )
                           ])
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-tooltip",
+                        {
+                          attrs: { top: "" },
+                          scopedSlots: _vm._u(
+                            [
+                              {
+                                key: "activator",
+                                fn: function(ref) {
+                                  var on = ref.on
+                                  var attrs = ref.attrs
+                                  return [
+                                    item.status == "Taking" &&
+                                    item.status != null
+                                      ? _c(
+                                          "v-btn",
+                                          _vm._g(
+                                            _vm._b(
+                                              {
+                                                staticClass:
+                                                  "mt-1 mr-5 pa-2 blue--text",
+                                                attrs: {
+                                                  text: "",
+                                                  rounded: ""
+                                                },
+                                                on: {
+                                                  click: function($event) {
+                                                    return _vm.continueClasswork(
+                                                      item.classwork_id
+                                                    )
+                                                  }
+                                                }
+                                              },
+                                              "v-btn",
+                                              attrs,
+                                              false
+                                            ),
+                                            on
+                                          ),
+                                          [
+                                            _vm._v(
+                                              "\n                                        Continue\n                                    "
+                                            )
+                                          ]
+                                        )
+                                      : _vm._e()
+                                  ]
+                                }
+                              }
+                            ],
+                            null,
+                            true
+                          )
+                        },
+                        [
+                          _vm._v(" "),
+                          _c("span", [_vm._v("Continue Classwork")])
                         ]
                       )
                     ],
