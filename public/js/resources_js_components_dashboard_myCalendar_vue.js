@@ -164,12 +164,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  props: ['role'],
   data: function data() {
     return {
       CalendarSched: [],
@@ -185,12 +182,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       selectedElement: null,
       selectedOpen: false,
       events: [],
-      colors: ['blue', 'indigo', 'deep-purple', 'cyan', 'green', 'orange', 'grey darken-1'],
-      isloading: true
+      colors: ['blue', 'indigo', 'deep-purple', 'amber darken-4', 'orange', 'yellow darken-3', 'amber', 'blue-grey'],
+      isloading: true,
+      DateToday: null
     };
   },
   mounted: function mounted() {
     this.getGeneralClassworks();
+    var newDate = new Date();
+    this.DateToday = moment__WEBPACK_IMPORTED_MODULE_1___default()(newDate).format("YYYY-MM-DDTHH:mm:ss");
   },
   methods: {
     getGeneralClassworks: function getGeneralClassworks() {
@@ -206,25 +206,40 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   var events = [];
                   var nowDate = new Date();
 
-                  var data = moment__WEBPACK_IMPORTED_MODULE_1___default()(_this.CalendarSched[0].from_date)._d;
+                  if (res.data.length != 0) {
+                    var data = moment__WEBPACK_IMPORTED_MODULE_1___default()(_this.CalendarSched[0].from_date)._d;
 
-                  console.log(data);
+                    for (var index = 0; index < _this.CalendarSched.length; index++) {
+                      var test = moment__WEBPACK_IMPORTED_MODULE_1___default()(_this.CalendarSched[index].from_date);
+                      var color = void 0;
+                      var name = void 0;
 
-                  for (var index = 0; index < _this.CalendarSched.length; index++) {
-                    var test = moment__WEBPACK_IMPORTED_MODULE_1___default()(_this.CalendarSched[index].from_date);
-                    events.push({
-                      name: _this.CalendarSched[index].title,
-                      start: moment__WEBPACK_IMPORTED_MODULE_1___default()(_this.CalendarSched[index].from_date)._d,
-                      end: moment__WEBPACK_IMPORTED_MODULE_1___default()(_this.CalendarSched[index].to_date)._d,
-                      color: _this.colors[_this.rnd(index, _this.colors.length - 1)]
-                    });
+                      if (_this.role == 'Student' && _this.CalendarSched[index].status == 'Submitted') {
+                        name = _this.CalendarSched[index].title + '(submitted)';
+                        color = "success";
+                      } else if (_this.role == 'Student' && _this.CalendarSched[index].status != 'Submitted' && _this.CheckFormatDue(_this.CalendarSched[index].to_date) < _this.DateToday) {
+                        name = _this.CalendarSched[index].title + '(missing)';
+                        color = "error";
+                      } else {
+                        name = _this.CalendarSched[index].title;
+                        color = _this.colors[_this.rnd(0, _this.colors.length - 1)];
+                      }
+
+                      events.push({
+                        name: name,
+                        start: moment__WEBPACK_IMPORTED_MODULE_1___default()(_this.CalendarSched[index].from_date)._d,
+                        end: moment__WEBPACK_IMPORTED_MODULE_1___default()(_this.CalendarSched[index].to_date)._d,
+                        color: color
+                      });
+                    }
                   }
 
-                  _this.events = events; //this.isloading = !this.isloading;
-
-                  setTimeout(function () {
-                    _this.isloading = !_this.isloading;
-                  }, 1000); //this.$refs.calendar.checkChange()
+                  _this.events = events;
+                  _this.isloading = !_this.isloading;
+                  /*       setTimeout(() => {
+                            this.isloading = !this.isloading;
+                    }, 1000); */
+                  //this.$refs.calendar.checkChange()
                 });
 
               case 1:
@@ -260,6 +275,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
       var open = function open() {
         _this2.selectedEvent = event;
+        console.log(event);
         _this2.selectedElement = nativeEvent.target;
         requestAnimationFrame(function () {
           return requestAnimationFrame(function () {
@@ -281,33 +297,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
       nativeEvent.stopPropagation();
     },
-    updateRange: function updateRange(_ref3) {
-      /*  const events = []
-         const min = new Date(`${start.date}T00:00:00`)
-       const max = new Date(`${end.date}T23:59:59`)
-       const days = (max.getTime() - min.getTime()) / 86400000
-       const eventCount = this.rnd(days, days + 1)
-         for (let i = 0; i < eventCount; i++) {
-         const allDay = this.rnd(0, 3) === 0
-         const firstTimestamp = this.rnd(min.getTime(), max.getTime())
-           const first = new Date(firstTimestamp - (firstTimestamp % 900000))
-         const secondTimestamp = this.rnd(2, allDay ? 288 : 8) * 900000
-         const second = new Date(first.getTime() + secondTimestamp)
-       console.log(second);
-         events.push({
-           name: this.names[this.rnd(0, this.names.length - 1)],
-           start: first,
-           end: second,
-           color: this.colors[this.rnd(0, this.colors.length - 1)],
-         })
-       }
-         this.events = events */
-
-      var start = _ref3.start,
-          end = _ref3.end;
-    },
     rnd: function rnd(a, b) {
       return Math.floor((b - a + 1) * Math.random()) + a;
+    },
+    CheckFormatDue: function CheckFormatDue(value) {
+      if (value) {
+        return moment__WEBPACK_IMPORTED_MODULE_1___default()(String(value)).format("YYYY-MM-DDTHH:mm:ss");
+      }
     }
   }
 });
@@ -331,7 +327,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\r\n/* .v-calendar-weekly {\r\ndisplay: table;\r\ntable-layout: fixed;\r\n} */\r\n/* .v-calendar-weekly__week {\r\nheight: auto;\r\ndisplay: table-row;\r\n}\r\n.v-calendar-weekly__day {\r\ndisplay: table-cell;\r\nwidth: calc(100% / 7)\r\n} */\r\n\r\n\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\r\n/* .v-calendar-weekly {\r\ndisplay: table;\r\ntable-layout: fixed;\r\n} */\r\n/* .v-calendar-weekly__week {\r\nheight: auto;\r\ndisplay: table-row;\r\n}\r\n.v-calendar-weekly__day {\r\ndisplay: table-cell;\r\nwidth: calc(100% / 7)\r\n} */\r\n\r\n\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -22155,8 +22151,7 @@ var render = function() {
                     on: {
                       "click:event": _vm.showEvent,
                       "click:more": _vm.viewDay,
-                      "click:date": _vm.viewDay,
-                      change: _vm.updateRange
+                      "click:date": _vm.viewDay
                     },
                     model: {
                       value: _vm.focus,
@@ -22221,13 +22216,6 @@ var render = function() {
                               _c(
                                 "v-btn",
                                 { attrs: { icon: "" } },
-                                [_c("v-icon", [_vm._v("mdi-heart")])],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "v-btn",
-                                { attrs: { icon: "" } },
                                 [_c("v-icon", [_vm._v("mdi-dots-vertical")])],
                                 1
                               )
@@ -22240,7 +22228,9 @@ var render = function() {
                               domProps: {
                                 innerHTML: _vm._s(_vm.selectedEvent.details)
                               }
-                            })
+                            }),
+                            _vm._v(" "),
+                            _c("div", [_vm._v("Sample")])
                           ]),
                           _vm._v(" "),
                           _c(
@@ -22256,7 +22246,7 @@ var render = function() {
                                     }
                                   }
                                 },
-                                [_vm._v("\n              Cancel\n            ")]
+                                [_vm._v("\n              Close\n            ")]
                               )
                             ],
                             1

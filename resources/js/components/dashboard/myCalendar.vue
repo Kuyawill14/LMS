@@ -98,7 +98,6 @@
           @click:event="showEvent"
           @click:more="viewDay"
           @click:date="viewDay"
-          @change="updateRange"
         ></v-calendar>
         <v-menu
           v-model="selectedOpen"
@@ -106,11 +105,7 @@
           :activator="selectedElement"
           offset-x
         >
-          <v-card
-            color="grey lighten-4"
-            min-width="350px"
-            flat
-          >
+          <v-card color="grey lighten-4" min-width="350px" flat>
             <v-toolbar
               :color="selectedEvent.color"
               dark
@@ -120,15 +115,16 @@
               </v-btn>
               <v-toolbar-title v-html="selectedEvent.name"></v-toolbar-title>
               <v-spacer></v-spacer>
-              <v-btn icon>
+            <!--   <v-btn icon>
                 <v-icon>mdi-heart</v-icon>
-              </v-btn>
+              </v-btn> -->
               <v-btn icon>
                 <v-icon>mdi-dots-vertical</v-icon>
               </v-btn>
             </v-toolbar>
             <v-card-text>
               <span v-html="selectedEvent.details"></span>
+              <div>Sample</div>
             </v-card-text>
             <v-card-actions>
               <v-btn
@@ -136,7 +132,7 @@
                 color="secondary"
                 @click="selectedOpen = false"
               >
-                Cancel
+                Close
               </v-btn>
             </v-card-actions>
           </v-card>
@@ -148,6 +144,7 @@
 <script>
 import moment from 'moment';
   export default {
+    props:['role'],
     data: () => ({
     CalendarSched:[],
       focus: '',
@@ -162,38 +159,59 @@ import moment from 'moment';
       selectedElement: null,
       selectedOpen: false,
       events: [],
-      colors: ['blue', 'indigo', 'deep-purple', 'cyan', 'green', 'orange', 'grey darken-1'],
+      colors: ['blue', 'indigo', 'deep-purple', 'amber darken-4', 'orange', 'yellow darken-3', 'amber','blue-grey'],
       isloading: true,
+      DateToday: null
     }),
     mounted () {
       this.getGeneralClassworks();
+      const newDate = new Date();
+      this.DateToday = moment(newDate).format("YYYY-MM-DDTHH:mm:ss");
     },
     methods: {
     async getGeneralClassworks() {
         axios.get('/api/profile/mycalendar')
         .then(res=>{
+          
             this.CalendarSched = res.data;
             const events = [];
             const nowDate = new Date();
                
-            const data = moment(this.CalendarSched[0].from_date)._d
-             console.log(data);
-                
-            for (let index = 0; index < this.CalendarSched.length; index++) {
-                let test = moment(this.CalendarSched[index].from_date);
-                 events.push({
-                    name: this.CalendarSched[index].title,
-                    start: moment(this.CalendarSched[index].from_date)._d,
-                    end: moment(this.CalendarSched[index].to_date)._d,
-                    color: this.colors[this.rnd(index, this.colors.length - 1)],
-                })
-                
+            if(res.data.length != 0){
+                const data = moment(this.CalendarSched[0].from_date)._d
+                for (let index = 0; index < this.CalendarSched.length; index++) {
+      
+                  let test = moment(this.CalendarSched[index].from_date);
+                  let color;
+                  let name;
+                  if(this.role == 'Student' && this.CalendarSched[index].status == 'Submitted'){
+                    name = this.CalendarSched[index].title+'(submitted)';
+                    color = "success";
+                  }
+                  else if(this.role == 'Student' &&  this.CalendarSched[index].status != 'Submitted' && this.CheckFormatDue(this.CalendarSched[index].to_date) < this.DateToday){
+                    name = this.CalendarSched[index].title+'(missing)';
+                    color = "error";
+                  }
+                  else{
+                    name =  this.CalendarSched[index].title;
+                    color = this.colors[this.rnd(0, this.colors.length - 1)];
+                  }
+                  events.push({
+                      name: name,
+                      start: moment(this.CalendarSched[index].from_date)._d,
+                      end: moment(this.CalendarSched[index].to_date)._d,
+                      color: color,
+                    })
+              }
             }
-            this.events = events
-            //this.isloading = !this.isloading;
-            setTimeout(() => {
+                  
+           
+            this.events = events;
+
+            this.isloading = !this.isloading;
+      /*       setTimeout(() => {
                 this.isloading = !this.isloading;
-        }, 1000);
+        }, 1000); */
             //this.$refs.calendar.checkChange()
         })
     },
@@ -216,6 +234,7 @@ import moment from 'moment';
       showEvent ({ nativeEvent, event }) {
         const open = () => {
           this.selectedEvent = event
+          console.log(event);
           this.selectedElement = nativeEvent.target
           requestAnimationFrame(() => requestAnimationFrame(() => this.selectedOpen = true))
         }
@@ -226,38 +245,17 @@ import moment from 'moment';
         } else {
           open()
         }
-
         nativeEvent.stopPropagation()
-      },
-      updateRange ({ start, end }) {
-       /*  const events = []
-
-        const min = new Date(`${start.date}T00:00:00`)
-        const max = new Date(`${end.date}T23:59:59`)
-        const days = (max.getTime() - min.getTime()) / 86400000
-        const eventCount = this.rnd(days, days + 1)
-
-        for (let i = 0; i < eventCount; i++) {
-          const allDay = this.rnd(0, 3) === 0
-          const firstTimestamp = this.rnd(min.getTime(), max.getTime())
-
-          const first = new Date(firstTimestamp - (firstTimestamp % 900000))
-          const secondTimestamp = this.rnd(2, allDay ? 288 : 8) * 900000
-          const second = new Date(first.getTime() + secondTimestamp)
-        console.log(second);
-          events.push({
-            name: this.names[this.rnd(0, this.names.length - 1)],
-            start: first,
-            end: second,
-            color: this.colors[this.rnd(0, this.colors.length - 1)],
-          })
-        }
-
-        this.events = events */
       },
       rnd (a, b) {
         return Math.floor((b - a + 1) * Math.random()) + a
       },
+      CheckFormatDue(value){
+          if (value) {
+              return moment(String(value)).format("YYYY-MM-DDTHH:mm:ss")
+          }
+      },
+
     },
   }
 </script>
