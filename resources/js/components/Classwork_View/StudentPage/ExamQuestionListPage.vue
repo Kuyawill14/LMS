@@ -9,6 +9,13 @@
      v-if="dialog"></confirmDialog>
 </v-dialog>
 
+<v-dialog v-model="warningDialog" persistent max-width="480">
+    <dialogWarning
+    v-on:toggleCloaseDialog="warningDialog = !warningDialog"
+    
+     v-if="warningDialog"></dialogWarning>
+</v-dialog>
+
 <v-container class="fill-height" v-if="isLoading" style="height: 600px;">
     <v-row  align-content="center" justify="center">
         <v-col class="text-subtitle-1 text-center" cols="12">
@@ -275,12 +282,14 @@
 </template>
 <script>
 import confirmDialog from './confirmDialog'
+import dialogWarning from './warningDialog'
 import quizTimer from './QuizTimer'
  import {mapGetters, mapActions } from "vuex";
 export default {
     components:{
         quizTimer,
-        confirmDialog
+        confirmDialog,
+        dialogWarning
     },
     data(){
         return{
@@ -288,6 +297,7 @@ export default {
             valid: false,
             checker:[],
             dialog:false,
+            warningDialog: false,
             inputCheck:['True','False'],
             isSubmitting:false,
             Qlength:'',
@@ -553,6 +563,7 @@ export default {
             this.isLoading = !this.isLoading;
             this.isSubmitting = !this.isSubmitting;
             this.dialog = !this.dialog;
+            this.isStart = !this.isStart;
             this.next();
             axios.post('/api/question/check/'+this.$route.query.clwk, {item: this.FinalAnswers, AnsLength:this.questionIndex, timerCount: this.TimerCount})
             .then(()=>{
@@ -562,13 +573,12 @@ export default {
                 }, 2000);
                  this.$router.push({name: 'result-page', params:{id: this.$route.query.clwk}})
                   localStorage.removeItem('timer_time');
-            })
-
-              
+            })              
         },
         TimesUpSubmit(){
             this.isLoading = !this.isLoading;
             this.isSubmitting = !this.isSubmitting;
+            this.isStart = !this.isStart;
              axios.post('/api/question/check/'+this.$route.query.clwk, {item: this.FinalAnswers, AnsLength:this.questionIndex,timerCount: this.TimerCount})
             .then(()=>{
                  setTimeout(() => {
@@ -614,8 +624,8 @@ export default {
                     this.StartQuiz();
                 }
                 else{
-                     //this.isLoading = false;
-                    //this.$router.push({name: 'result-page', params:{id: this.$route.query.clwk}})
+                     this.isLoading = false;
+                    this.$router.push({name: 'result-page', params:{id: this.$route.query.clwk}})
                 }
             })
         },
@@ -658,19 +668,44 @@ export default {
 
             })
             this.CountTime();
+        },
+        triggerWarning(){
+            //console.log("test 123");
+            this.warningDialog = true;
         }
 
     },
-/*     beforeMount() {
+    beforeMount() {
         window.addEventListener("beforeunload", this.preventNav);
-        this.$once("hook:beforeDestroy", () => {
+         //window.addEventListener("onfocus",this.testing123());
+        //window.addEventListener("unload", this.testing123());
+        //window.addEventListener("visibilitychange", this.triggerWarning());
+        /* this.$once("hook:beforeDestroy", () => {
         window.removeEventListener("beforeunload", this.preventNav);
+        }); */
+      /*   let self = this;
+      window.onfocus = function() {
+          //alert("Opps!")
+          self.triggerWarning();
+          //self.toastSuccess("Success");
+        }; */
+
+        let self = this;
+        $(window).blur(function(){
+            self.triggerWarning()
         });
 
        
-    }, */
+    },
+  /*   ready:function(){
+    window.onbeforeunload = this.leaving;
+    window.onblur = this.leaving;
+    window.onmouseout = this.leaving;
+
+}, */
     mounted(){
       this.CheckStatus();
+        
         
 
     }

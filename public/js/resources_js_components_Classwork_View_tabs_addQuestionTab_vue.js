@@ -421,14 +421,6 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
-    toastSuccess: function toastSuccess() {
-      return this.$toasted.success("Question Successfully added", {
-        theme: "toasted-primary",
-        position: "top-center",
-        icon: "done",
-        duration: 3000
-      });
-    },
     onFileChange: function onFileChange(element) {
       var _this = this;
 
@@ -510,37 +502,20 @@ __webpack_require__.r(__webpack_exports__);
           this.finalData.questions = this.quesForm;
           this.finalData.answers = this.form;
           this.$store.dispatch('addQuestions', this.finalData).then(function (success) {
-            _this2.toastSuccess(); //this.$store.dispatch('fetchQuestions', this.$route.query.clwk);
+            _this2.toastSuccess("Question Successfully added"); //this.$store.dispatch('fetchQuestions', this.$route.query.clwk);
 
 
             _this2.CallReset();
           });
         } else if (this.quesForm.question == "") {
-          return this.$toasted.error("Question is required!", {
-            theme: "toasted-primary",
-            position: "top-center",
-            icon: "error",
-            duration: 3000
-          });
+          this.toastError('Question is required!');
         } else if (this.quesForm.answer != '' && this.quesForm.points == 0) {
-          /*  Swal.fire({
-               icon: 'info',
-               title: 'Oops...',
-               text: 'You must atleast allocate one points to this question',
-           }) */
+          this.toastError('You must atleast allocate one points to this question!');
         } else if (this.quesForm.answer == '') {
-          /*  Swal.fire({
-               icon: 'info',
-               title: 'Oops...',
-               text: 'You must atleast pick one answer',
-           }) */
+          this.toastError('You must atleast write/pick one answer');
         } else {
-            /*   Swal.fire({
-                 icon: 'info',
-                 title: 'Oops...',
-                 text: 'You must atleast enter two choices',
-             }) */
-          }
+          this.toastError('You must atleast enter two choices');
+        }
       } else if (this.quesForm.type == 'Identification' || this.quesForm.type == 'True or False') {
         if (this.quesForm.answer != '' && this.quesForm.points != 0 || '') {
           this.finalData.ansLength = this.form.length;
@@ -548,17 +523,13 @@ __webpack_require__.r(__webpack_exports__);
           this.finalData.questions = this.quesForm;
           this.finalData.answers = this.form;
           this.$store.dispatch('addQuestions', this.finalData).then(function (success) {
-            _this2.toastSuccess(); //this.$store.dispatch('fetchQuestions', this.$route.query.clwk);
+            _this2.toastSuccess("Question Successfully added"); //this.$store.dispatch('fetchQuestions', this.$route.query.clwk);
 
 
             _this2.CallReset();
           });
         } else {
-          /*  Swal.fire({
-              icon: 'info',
-              title: 'Oops...',
-              text: 'You must atleast write/pick one answer',
-          }) */
+          this.toastError('You must atleast write/pick one answer');
         }
       } else if (this.quesForm.type == 'Matching type') {
         this.quesForm.answer = 'Matching Type';
@@ -567,7 +538,7 @@ __webpack_require__.r(__webpack_exports__);
         this.finalData.questions = this.quesForm;
         this.finalData.answers = this.MatchQuestion;
         this.$store.dispatch('addQuestions', this.finalData).then(function (success) {
-          _this2.toastSuccess(); //this.$store.dispatch('fetchQuestions', this.$route.query.clwk);
+          _this2.toastSuccess("Question Successfully added"); //this.$store.dispatch('fetchQuestions', this.$route.query.clwk);
 
 
           _this2.CallReset();
@@ -619,7 +590,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\r\n/*  .ql-toolbar.ql-snow {\r\n        background: #f2f2f2;\r\n        border: none;\r\n } */\n.centered-input >>> input {\r\n    text-align: center\n}\n.ql-editor img{\r\n\r\n    max-height: 10rem !important;\n}\n.ql-container{\r\n    max-height: 50rem;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\r\n/*  .ql-toolbar.ql-snow {\r\n        background: #f2f2f2;\r\n        border: none;\r\n } */\n.centered-input >>> input {\r\n    text-align: center\n}\n.ql-editor img{\r\n\r\n    max-height: 10rem !important;\n}\n.ql-container{\r\n    max-height: 50rem;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

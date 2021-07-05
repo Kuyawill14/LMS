@@ -605,7 +605,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   watch: {
     $route: function $route(to, from) {
-      console.log(this.$route.matched[1].path);
+      //console.log(this.$route.matched);
       this.navBarType = this.$route.matched[1].name;
     }
   },
@@ -23352,11 +23352,11 @@ var render = function() {
       [
         _c(
           "v-list-item",
-          { attrs: { link: "", to: { name: "dashboard" } } },
+          { attrs: { link: "", to: { name: "dashboard" }, exact: "" } },
           [
             _c(
               "v-list-item-action",
-              [_c("v-icon", [_vm._v("mdi-dashboard")])],
+              [_c("v-icon", [_vm._v("mdi-view-dashboard")])],
               1
             ),
             _vm._v(" "),
@@ -23377,7 +23377,7 @@ var render = function() {
         _vm._v(" "),
         _c(
           "v-list-item",
-          { attrs: { link: "", to: { name: "courses" } } },
+          { attrs: { link: "", to: { name: "courses" }, exact: "" } },
           [
             _c(
               "v-list-item-action",

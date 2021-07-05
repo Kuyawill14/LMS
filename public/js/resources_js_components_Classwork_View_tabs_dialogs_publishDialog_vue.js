@@ -301,6 +301,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   if (res.dat != 'Unshare') {
                     _this2.$emit('successPublish', res.data);
 
+                    _this2.toastSuccess("Classwork Successfully publish");
+
                     _this2.isPublishing = !_this2.isPublishing;
                   } else {
                     _this2.$emit('UnPublish');

@@ -130,19 +130,9 @@ export default {
     }
   },
   methods: {
-    
     validate() {
       if (this.$refs.loginForm.validate()) {
-        axios.get('/sanctum/csrf-cookie').then(response => {
-             this.form.post('/api/login')
-            .then((res)=>{
-               if(res.status == 200){
-                 this.$store.dispatch('fetchCurrentUser');
-                  this.$router.push({path: "/"})
-               }
-            })
-        });
-       
+         this.$store.dispatch('login', this.form);
       }
     },
     reset() {

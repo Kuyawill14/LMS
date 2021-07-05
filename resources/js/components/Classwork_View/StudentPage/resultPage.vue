@@ -22,7 +22,7 @@
                         <v-row>
                             
                             <v-col cols="12" md="12" class="pl-7 pr-9 pt-5">
-                                <v-btn @click="$router.push({name:'classwork', params:{id: details.class_id}})" icon rounded>
+                                <v-btn @click="$router.push({name:'classwork', params:{id: details.course_id}})" icon rounded>
                                     <v-icon>mdi-arrow-left</v-icon>
                                 </v-btn>
                                 <v-row style="height:8vh"></v-row>

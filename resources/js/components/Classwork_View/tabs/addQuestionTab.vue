@@ -418,14 +418,6 @@ export default {
         }
     },
     methods:{
-        toastSuccess() {
-            return this.$toasted.success("Question Successfully added", {
-                theme: "toasted-primary",
-                position: "top-center",
-                icon: "done",
-                duration: 3000
-            });
-        },
         onFileChange(element){
         if (this.selectedImage[this.inputIndex] != '' || null) {
                 
@@ -501,39 +493,22 @@ export default {
                    
                     this.$store.dispatch('addQuestions', this.finalData )
                      .then( (success)  => {
-                        this.toastSuccess();
+                        this.toastSuccess("Question Successfully added");
                         //this.$store.dispatch('fetchQuestions', this.$route.query.clwk);
                         this.CallReset();
                     })
                 }
                 else if(this.quesForm.question == ""){
-                     return this.$toasted.error("Question is required!", {
-                        theme: "toasted-primary",
-                        position: "top-center",
-                        icon: "error",
-                        duration: 3000
-                    });
+                    this.toastError('Question is required!');
                 }
                 else if(this.quesForm.answer != '' && this.quesForm.points == 0){
-                   /*  Swal.fire({
-                        icon: 'info',
-                        title: 'Oops...',
-                        text: 'You must atleast allocate one points to this question',
-                    }) */
+                    this.toastError('You must atleast allocate one points to this question!');
                 }
                 else if(this.quesForm.answer == ''){
-                   /*  Swal.fire({
-                        icon: 'info',
-                        title: 'Oops...',
-                        text: 'You must atleast pick one answer',
-                    }) */
+                    this.toastError('You must atleast write/pick one answer');
                 }
                 else{
-                   /*   Swal.fire({
-                        icon: 'info',
-                        title: 'Oops...',
-                        text: 'You must atleast enter two choices',
-                    }) */
+                    this.toastError('You must atleast enter two choices');
                 }
             }
             else if(this.quesForm.type == 'Identification' || this.quesForm.type == 'True or False'){
@@ -544,17 +519,13 @@ export default {
                     this.finalData.answers = this.form;
                     this.$store.dispatch('addQuestions', this.finalData)
                     .then( (success)  => {
-                       this.toastSuccess();
+                       this.toastSuccess("Question Successfully added");
                         //this.$store.dispatch('fetchQuestions', this.$route.query.clwk);
                         this.CallReset();
                     })
                 }
                 else{
-                    /*  Swal.fire({
-                        icon: 'info',
-                        title: 'Oops...',
-                        text: 'You must atleast write/pick one answer',
-                    }) */
+                    this.toastError('You must atleast write/pick one answer');
                 }
             }
             else if(this.quesForm.type == 'Matching type'){
@@ -565,7 +536,7 @@ export default {
                  this.finalData.answers = this.MatchQuestion;
                  this.$store.dispatch('addQuestions', this.finalData)
                   .then( (success)  => {
-                    this.toastSuccess();
+                    this.toastSuccess("Question Successfully added");
                     //this.$store.dispatch('fetchQuestions', this.$route.query.clwk);
                     this.CallReset();
                 })

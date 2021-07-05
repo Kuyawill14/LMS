@@ -33,7 +33,7 @@
         },
         watch: {
             $route(to, from) {
-                console.log(this.$route.matched[1].path);
+                //console.log(this.$route.matched);
                 this.navBarType = this.$route.matched[1].name;
 
             }
