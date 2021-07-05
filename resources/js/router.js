@@ -3,6 +3,8 @@ import Router from "vue-router";
 import NProgress from 'nprogress';
 //import '../node_modules/nprogress/nprogress.css'
 import '../../node_modules/nprogress/nprogress.css'
+import store from './store/store'
+
 Vue.use(Router);
 
 
@@ -132,6 +134,26 @@ const router = new Router({
                     path: "course/:id",
                     component: courseView,
                     name: "selectedCourse",
+                    beforeEnter: (to, form, next) => {
+
+                        let course = store.getters.getCourse(to.params.id);
+
+                        if (course) {
+                            console.log(course)
+                            if (course.completed == 1) {
+                                next();
+                                return
+                            } else {
+                                next({
+                                    name: "courseSetup",
+                                    params: { id: to.params.id }
+                                })
+                                return
+                            }
+
+                        }
+
+                    },
                     children: [
 
                         {
@@ -139,6 +161,9 @@ const router = new Router({
                             path: "",
                             component: classes_tab,
                             beforeEnter: (to, form, next) => {
+
+                                let course = store.getters.getcourseInfo;
+
                                 axios.get("/api/role")
                                     .then((res) => {
                                         console.log(res.data);
@@ -153,30 +178,14 @@ const router = new Router({
                                     .catch((e) => {
                                         console.log(e);
                                     });
+
                             },
-                            //courseSetup
                         },
                         {
                             path: "setup",
                             component: course_setup,
                             name: "courseSetup",
-                            beforeEnter: (to, form, next) => {
-                                axios.get("/api/role")
-                                    .then((res) => {
-                                        console.log(res.data);
-                                        if (res.data == 'Teacher') {
-                                            next();
-                                        } else if (res.data == 'Student') {
-                                            next({
-                                                path: "course/" + to.params.id + "/announcement"
-                                            });
-                                        }
-                                    })
-                                    .catch((e) => {
-                                        console.log(e);
-                                    });
-                            },
-                            //courseSetup
+
                         },
                         {
                             name: "announcement",
