@@ -105,7 +105,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     start: function start() {
       if (this.totalQuestion != 0 && this.status == null) {
         this.UpdateStatus(this.classworkDetails.id);
-        localStorage.removeItem('timer_time');
+        localStorage.removeItem(btoa('timer_time'));
+        localStorage.removeItem(btoa('CurrentAnswers'));
         this.$router.push({
           name: 'quizstart',
           params: {

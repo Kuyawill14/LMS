@@ -72,10 +72,8 @@
                                        <v-btn text rounded
                                        @click="questionIndex = index"
                                        >
-                                        
-                                        <v-icon :color="checker[index] != null || checker[index] != ''? 'primary': ''" left>{{checker[index] == null || checker[index] == ''? 'mdi-checkbox-blank-outline':'mdi-checkbox-marked'}}</v-icon>
+                                        <v-icon :color="FinalAnswers[index].Answer == '' ? '' : 'primary'" left>{{FinalAnswers[index].Answer == '' ? 'mdi-checkbox-blank-outline':'mdi-checkbox-marked'}}</v-icon>
                                          {{index+1}}
-                                            
                                        </v-btn>
                                    </v-container>
                                    
@@ -117,15 +115,11 @@
                                                           <v-col cols="12" md="12">
                                                             <v-container >
                                                                 <v-container class="d-flex flex-row ma-0 pa-0 mb-1" v-for="(Ans, i) in getAll_questions.Answer[index]" :key="i">
-                                                                <v-radio-group :name="'option'+index"  class="ma-0 pa-0" v-model="AnswerRadio[index]">
+                                                                <v-radio-group :name="'option'+index"  class="ma-0 pa-0" v-model="FinalAnswers[index].Answer">
                                                                     <v-radio
-                                                                 
-                                                                    @click="PickAnswers.ans = AnswerRadio[index],
-                                                                    PickAnswers_id.quesId = item.id, 
-                                                                    Questype = item.type, checker[index] = AnswerRadio[index]"
                                                                     color="primary"
                                                                     :key="index"
-                                                                    @mouseup="reset(index,index)"
+                                                                    @click="SelectAnswer()"
                                                                     :value="Ans.Choice"
                                                                     ></v-radio>
                                                                     </v-radio-group>
@@ -134,9 +128,8 @@
                                                                         <span v-html="Ans.Choice" class="post-content"></span>
                                                                     </div>
                                                                     </v-container>
-
                                                                     <v-container class="mb-0 pb-0 d-flex flex-row-reverse">
-                                                                        <v-btn @click="reset(index,index)" text rounded small>Reset selection</v-btn>
+                                                                        <v-btn @click="reset(index)" text rounded small>Reset selection</v-btn>
                                                                     </v-container>
                                                                 </v-container>
                                                             </v-col>
@@ -148,12 +141,14 @@
                                                             <v-col  ma-0 pa-0 class="ma-0 pa-0 mt-5" cols="12">
                                                                 <v-card style="width:100%" class="mb-3">
                                                                     <editor 
-                                                                    @change="PickAnswers_id.quesId = item.id, 
-                                                                    Questype = item.type, checker[index] = IdentificationAns[index], PickAnswers.ans = IdentificationAns[index]" 
-                                                                        v-model="IdentificationAns[index]" 
+                                                                    @change="SelectAnswer()"
+                                                                        v-model="FinalAnswers[index].Answer" 
                                                                         id="editor-container" placeholder="Answer" 
                                                                         theme="snow" :options="options"></editor>
                                                                 </v-card>
+                                                                  <v-container class="mb-0 pb-0 d-flex flex-row-reverse">
+                                                                    <v-btn @click="reset(index)" text rounded small>Clear Answer</v-btn>
+                                                                </v-container>
                                                             </v-col>
                                                         </v-row>
                                                     </v-container>
@@ -161,14 +156,12 @@
                                                     <v-container v-if="item.type == 'True or False'">
                                                         <v-container ma-0 pa-0>
                                                             <v-container class="d-flex flex-row ma-0 pa-0" v-for="(x, n) in inputCheck" :key="n">
-                                                            <v-radio-group :name="'option'+index"   class="ma-0 pa-0"  v-model="AnswerRadio[index]">
+                                                            <v-radio-group :name="'option'+index"   class="ma-0 pa-0"  v-model="FinalAnswers[index].Answer">
                                                                 <v-radio
-                                                            
-                                                                @click="PickAnswers.ans = AnswerRadio[index], PickAnswers_id.quesId = item.id, 
-                                                                Questype = item.type,checker[index] = AnswerRadio[index]"
+                        
                                                                 color="primary"
+                                                                @click="SelectAnswer()"
                                                                 :key="index"
-                                                                
                                                                 :value="inputCheck[n]"
                                                                 ></v-radio>
                                                                 </v-radio-group>
@@ -176,6 +169,9 @@
                                                                 <div class="Subtitle 1">
                                                                     {{inputCheck[n]}}
                                                                 </div>
+                                                                </v-container>
+                                                                 <v-container class="mb-0 pb-0 d-flex flex-row-reverse">
+                                                                    <v-btn @click="reset(index)" text rounded small>Reset selection</v-btn>
                                                                 </v-container>
                                                         </v-container>
                                                     </v-container>
@@ -330,7 +326,8 @@ export default {
             TimerCount:[],
             tempCounter:0,
             timeCount:null,
-            classworkDetails:[]
+            classworkDetails:[],
+            confirmLeave: false
         }
     },
     computed: 
@@ -346,12 +343,10 @@ export default {
             this.isRemoving = true;
             this.dialog = true;;
         },
-        reset (value,index) {
-        if (this.AnswerRadio[index] === value) {
-            this.$nextTick(() => {
-            this.AnswerRadio[index] = null
-            })
-        }
+        reset (index) {
+            this.FinalAnswers[index].Answer = '';
+            let name = btoa('CurrentAnswers');
+            localStorage.setItem(name, JSON.stringify(this.FinalAnswers));
         },
         removePropt(num, id){
             this.DeleteDetails.number = num;
@@ -360,109 +355,31 @@ export default {
             this.isRemoving_id = id;
             this.dialog = true;;
         },
-        next: function() {
-            if(this.TimerCount[this.questionIndex] != null || ''){
-                this.TimerCount[this.questionIndex] = this.TimerCount[this.questionIndex]+this.tempCounter;
+        SelectAnswer(){
+            let name = btoa('CurrentAnswers');
+            localStorage.setItem(name, JSON.stringify(this.FinalAnswers));
+            if(this.FinalAnswers[this.questionIndex].timeConsume != null || ''){
+                this.FinalAnswers[this.questionIndex].timeConsume += this.tempCounter
             }
             else{
-                this.TimerCount[this.questionIndex] = this.tempCounter;
+                this.FinalAnswers[this.questionIndex].timeConsume = this.tempCounter
             }
             clearInterval(this.timeCount);
             this.tempCounter = 0;
             this.CountTime();
-    
-            if((this.PickAnswers.ans == undefined || this.PickAnswers.ans == '') && this.FinalAnswers.length == 0){
-                 this.FinalAnswers.push({
-                    Answer: '',
-                    Question_id: this.getAll_questions.Question[this.questionIndex].id,
-                    type:this.getAll_questions.Question[this.questionIndex].type,
-                    timeConsume: this.TimerCount[this.questionIndex]
-                });
-                console.log(this.FinalAnswers);
+        },
+        next: function() {
+           /*  let name = btoa('CurrentAnswers');
+             localStorage.setItem(name, JSON.stringify(this.FinalAnswers));
+            if(this.FinalAnswers[this.questionIndex].timeConsume != null || ''){
+                this.FinalAnswers[this.questionIndex].timeConsume += this.tempCounter
             }
             else{
-                if (this.Questype == 'Multiple Choice' || this.Questype == 'True or False') {
-                
-                    if (this.FinalAnswers.length != 0) {
-                        let check = false;
-                        let index = 0;
-                        for (let i = 0; i < this.FinalAnswers.length; i++) {
-                            if (
-                                this.FinalAnswers[i].Question_id == this.PickAnswers_id.quesId
-                            ) {
-                                check = true;
-                                index = i;
-                            }
-                        }
-                        if (check == true) {
-                            this.FinalAnswers[index] = {
-                                Answer: this.PickAnswers.ans,
-                                Question_id: this.PickAnswers_id.quesId,
-                                type:this.Questype,
-                                timeConsume: this.TimerCount[this.questionIndex]
-                            };
-                            console.log(this.FinalAnswers);
-                        } else {
-                            this.FinalAnswers.push({
-                                Answer: this.PickAnswers.ans,
-                                Question_id: this.PickAnswers_id.quesId,
-                                type:this.Questype,
-                                timeConsume: this.TimerCount[this.questionIndex]
-                            });
-                            console.log(this.FinalAnswers);
-                        }
-                    } else {
-                        this.FinalAnswers.push({
-                            Answer: this.PickAnswers.ans,
-                            Question_id: this.PickAnswers_id.quesId,
-                            type:this.Questype,
-                            timeConsume: this.TimerCount[this.questionIndex]
-                        });
-                        console.log(this.FinalAnswers);
-                    }
-                }
-
-                if (this.Questype == 'Identification') {
-                    if (this.FinalAnswers.length != 0) {
-                        let check = false;
-                        let index = 0;
-                        for (let i = 0; i < this.FinalAnswers.length; i++) {
-                            if (
-                                this.FinalAnswers[i].Question_id ==
-                                this.PickAnswers_id.quesId
-                            ) {
-                                check = true;
-                                index = i;
-                            }
-                        }
-                        if (check == true) {
-                            this.FinalAnswers[index] = {
-                                Answer: this.IdentificationAns[this.questionIndex],
-                                Question_id: this.PickAnswers_id.quesId,
-                                type:this.Questype,
-                                timeConsume: this.TimerCount[this.questionIndex]
-                            };
-                            console.log(this.FinalAnswers);
-                        } else {
-                            this.FinalAnswers.push({
-                                Answer: this.IdentificationAns[this.questionIndex],
-                                Question_id: this.PickAnswers_id.quesId,
-                                type:this.Questype,
-                                timeConsume: this.TimerCount[this.questionIndex]
-                            });
-                            console.log(this.FinalAnswers);
-                        }
-                    } else {
-                        this.FinalAnswers.push({
-                            Answer: this.IdentificationAns[this.questionIndex],
-                            Question_id: this.PickAnswers_id.quesId,
-                            type:this.Questype,
-                            timeConsume: this.TimerCount[this.questionIndex]
-                        });
-                        console.log(this.FinalAnswers);
-                    }
-                }
-
+                this.FinalAnswers[this.questionIndex].timeConsume = this.tempCounter
+            }
+            clearInterval(this.timeCount);
+            this.tempCounter = 0;
+            this.CountTime(); */
                 if (this.Questype == 'Matching type') {
                   
                     if (this.FinalAnswers.length != 0) {
@@ -535,8 +452,6 @@ export default {
                     }
                 }
 
-               
-              }
                this.Questype = "";
                 this.PickAnswers.ans = "";
                 this.PickAnswers_id.quesId = "";
@@ -564,47 +479,66 @@ export default {
             this.isSubmitting = !this.isSubmitting;
             this.dialog = !this.dialog;
             this.isStart = !this.isStart;
-            this.next();
+            this.warningDialog = false;
             axios.post('/api/question/check/'+this.$route.query.clwk, {item: this.FinalAnswers, AnsLength:this.questionIndex, timerCount: this.TimerCount})
             .then(()=>{
                  setTimeout(() => {
                     this.isLoading = !this.isLoading;
                     this.isSubmitting = !this.isSubmitting;
                 }, 2000);
+                 localStorage.removeItem(btoa('timer_time'));
+                 localStorage.removeItem(btoa('CurrentAnswers'));
                  this.$router.push({name: 'result-page', params:{id: this.$route.query.clwk}})
-                  localStorage.removeItem('timer_time');
+                  
             })              
         },
         TimesUpSubmit(){
             this.isLoading = !this.isLoading;
             this.isSubmitting = !this.isSubmitting;
             this.isStart = !this.isStart;
+            this.warningDialog = false;
              axios.post('/api/question/check/'+this.$route.query.clwk, {item: this.FinalAnswers, AnsLength:this.questionIndex,timerCount: this.TimerCount})
             .then(()=>{
                  setTimeout(() => {
                     this.isLoading = !this.isLoading;
                     this.isSubmitting = !this.isSubmitting;
                 }, 2000);
+                localStorage.removeItem(btoa('timer_time'));
+                 localStorage.removeItem(btoa('CurrentAnswers'));
                  this.$router.push({name: 'result-page', params:{id: this.$route.query.clwk}})
-                  localStorage.removeItem('timer_time');
+                 
+                  
             })
         },
         fetchQuestions(){
-          
             this.$store.dispatch('fetchQuestions', this.$route.query.clwk).then(res=>{
                 this.Qlength = res[1];
-                //console.log(res[0].Question);
                 this.isLoading = false;
-
-
-                for (let index = 0; index < res[0].Question.length; index++) {
-                    this.FinalAnswers.push({
-                        Answer: '',
-                        Question_id: res[0].Question[index].id,
-                        type:res[0].Question[index].type,
-                        timeConsume: 0
-                    });
-                    
+                let name = btoa('CurrentAnswers');
+                let AnswersList = JSON.parse(localStorage.getItem(name));
+                if(AnswersList == null){
+                    for (let index = 0; index < res[0].Question.length; index++) {
+                        this.FinalAnswers.push({
+                            Answer: '',
+                            Question_id: res[0].Question[index].id,
+                            type:res[0].Question[index].type,
+                            timeConsume: null
+                        });
+                    }
+                    localStorage.setItem(name, JSON.stringify(this.FinalAnswers));
+                }else{
+                     for (let x = 0; x < res[0].Question.length; x++) {
+                         for (let j = 0; j < AnswersList.length; j++) {
+                             if(res[0].Question[x].id == AnswersList[j].Question_id){
+                                  this.FinalAnswers.push({
+                                    Answer: AnswersList[j].Answer,
+                                    Question_id: AnswersList[j].Question_id,
+                                    type: AnswersList[j].type,
+                                    timeConsume: AnswersList[j].timeConsume
+                                });
+                             }
+                         }
+                    }
                 }
                 
             });
@@ -619,9 +553,9 @@ export default {
         async CheckStatus(){
             axios.get('/api/student/checking/'+this.$route.query.clwk)
             .then(res=>{
-                console.log(res.data.status)
                 if(res.data.status == 'Taking' || res.data.status == ''){
                     this.StartQuiz();
+                    this.preventNav = !this.preventNav;
                 }
                 else{
                      this.isLoading = false;
@@ -672,44 +606,20 @@ export default {
         triggerWarning(){
             //console.log("test 123");
             this.warningDialog = true;
-        }
-
+        },
     },
     beforeMount() {
         window.addEventListener("beforeunload", this.preventNav);
-         //window.addEventListener("onfocus",this.testing123());
-        //window.addEventListener("unload", this.testing123());
-        //window.addEventListener("visibilitychange", this.triggerWarning());
-        /* this.$once("hook:beforeDestroy", () => {
-        window.removeEventListener("beforeunload", this.preventNav);
-        }); */
-      /*   let self = this;
-      window.onfocus = function() {
-          //alert("Opps!")
-          self.triggerWarning();
-          //self.toastSuccess("Success");
-        }; */
-
         let self = this;
         $(window).blur(function(){
-            self.triggerWarning()
+            //self.triggerWarning()
         });
-
-       
     },
-  /*   ready:function(){
-    window.onbeforeunload = this.leaving;
-    window.onblur = this.leaving;
-    window.onmouseout = this.leaving;
-
-}, */
     mounted(){
-      this.CheckStatus();
-        
-        
+        this.CheckStatus();
 
-    }
-  
+    },
+   
 }
 </script>
 

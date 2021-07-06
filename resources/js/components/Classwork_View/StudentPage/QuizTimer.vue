@@ -204,31 +204,34 @@ export default {
         },
         startTimer(){
             let due;
-            let timer_time = localStorage.getItem('timer_time');
+            let name = btoa('timer_time');
+            let timer_time = localStorage.getItem(name);
             if(timer_time == null){
                 due = (this.duration*60) * 1000;
-                localStorage.setItem('timer_time', due)
+                localStorage.setItem(name, due)
             }
             else{
-                due = (parseInt(timer_time));
-         
-               
+                let data = timer_time.split("|");
+                let r_time = data[1];
+                due = (parseInt(r_time));
             }
             let final = '';
             this.NewTimer = setInterval(()=>{
                 if(this.StopTimer != true){
                       if(final == ''){
-                    final = due - 1000;
-                    localStorage.setItem('timer_time', final)
+                        final = due - 1000;
+                        let finalData = name+'|'+final+'|'+name;
+                        localStorage.setItem(name, finalData);
                     }
                     else{
                         final = final - 1000;
-                        localStorage.setItem('timer_time', final)
+                        let finalData = name+'|'+final+'|'+name;
+                        localStorage.setItem(name, finalData);
                     }
                 }
                 else{
                     clearInterval(this.NewTimer);
-                    localStorage.removeItem('timer_time');
+                    localStorage.removeItem(name);
                      this.$emit('TimerStop');
                 }
               
@@ -239,7 +242,7 @@ export default {
         EndTimer(){
                 console.log('test 123');
                 clearInterval(this.NewTimer);
-                localStorage.removeItem('timer_time');
+                localStorage.removeItem(name);
                 this.$emit('TimesUp');
             
             

@@ -229,7 +229,7 @@ class UserProfileController extends Controller
             $StatusCheck = tbl_Submission::where('tbl_submissions.classwork_id', $sj->classwork_id)
             ->where('tbl_submissions.user_id', $userId)
             ->first();
-
+            
             if($StatusCheck){
                 if($StatusCheck->status == "Submitted"){
                     $sj->status = $StatusCheck->status;

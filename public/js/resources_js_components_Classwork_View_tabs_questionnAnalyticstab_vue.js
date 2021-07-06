@@ -121,6 +121,27 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -609,20 +630,157 @@ var render = function() {
                                                                 "td",
                                                                 [
                                                                   _c(
-                                                                    "v-btn",
+                                                                    "v-tooltip",
                                                                     {
                                                                       attrs: {
-                                                                        text:
-                                                                          "",
-                                                                        icon:
-                                                                          "",
-                                                                        "x-small":
-                                                                          ""
-                                                                      }
+                                                                        top: ""
+                                                                      },
+                                                                      scopedSlots: _vm._u(
+                                                                        [
+                                                                          {
+                                                                            key:
+                                                                              "activator",
+                                                                            fn: function(
+                                                                              ref
+                                                                            ) {
+                                                                              var on =
+                                                                                ref.on
+                                                                              var attrs =
+                                                                                ref.attrs
+                                                                              return [
+                                                                                _c(
+                                                                                  "v-btn",
+                                                                                  _vm._g(
+                                                                                    _vm._b(
+                                                                                      {
+                                                                                        attrs: {
+                                                                                          text:
+                                                                                            "",
+                                                                                          icon:
+                                                                                            ""
+                                                                                        }
+                                                                                      },
+                                                                                      "v-btn",
+                                                                                      attrs,
+                                                                                      false
+                                                                                    ),
+                                                                                    on
+                                                                                  ),
+                                                                                  [
+                                                                                    _c(
+                                                                                      "v-icon",
+                                                                                      {
+                                                                                        attrs: {
+                                                                                          color:
+                                                                                            "primary"
+                                                                                        }
+                                                                                      },
+                                                                                      [
+                                                                                        _vm._v(
+                                                                                          "mdi-pencil-box-multiple-outline"
+                                                                                        )
+                                                                                      ]
+                                                                                    )
+                                                                                  ],
+                                                                                  1
+                                                                                )
+                                                                              ]
+                                                                            }
+                                                                          }
+                                                                        ],
+                                                                        null,
+                                                                        true
+                                                                      )
                                                                     },
                                                                     [
                                                                       _vm._v(
-                                                                        "\r\n                                                            Edit\r\n                                                        "
+                                                                        " "
+                                                                      ),
+                                                                      _c(
+                                                                        "span",
+                                                                        [
+                                                                          _vm._v(
+                                                                            "Edit"
+                                                                          )
+                                                                        ]
+                                                                      )
+                                                                    ]
+                                                                  ),
+                                                                  _vm._v(" "),
+                                                                  _c(
+                                                                    "v-tooltip",
+                                                                    {
+                                                                      attrs: {
+                                                                        top: ""
+                                                                      },
+                                                                      scopedSlots: _vm._u(
+                                                                        [
+                                                                          {
+                                                                            key:
+                                                                              "activator",
+                                                                            fn: function(
+                                                                              ref
+                                                                            ) {
+                                                                              var on =
+                                                                                ref.on
+                                                                              var attrs =
+                                                                                ref.attrs
+                                                                              return [
+                                                                                _c(
+                                                                                  "v-btn",
+                                                                                  _vm._g(
+                                                                                    _vm._b(
+                                                                                      {
+                                                                                        attrs: {
+                                                                                          text:
+                                                                                            "",
+                                                                                          icon:
+                                                                                            ""
+                                                                                        }
+                                                                                      },
+                                                                                      "v-btn",
+                                                                                      attrs,
+                                                                                      false
+                                                                                    ),
+                                                                                    on
+                                                                                  ),
+                                                                                  [
+                                                                                    _c(
+                                                                                      "v-icon",
+                                                                                      {
+                                                                                        attrs: {
+                                                                                          color:
+                                                                                            "primary"
+                                                                                        }
+                                                                                      },
+                                                                                      [
+                                                                                        _vm._v(
+                                                                                          "mdi-delete"
+                                                                                        )
+                                                                                      ]
+                                                                                    )
+                                                                                  ],
+                                                                                  1
+                                                                                )
+                                                                              ]
+                                                                            }
+                                                                          }
+                                                                        ],
+                                                                        null,
+                                                                        true
+                                                                      )
+                                                                    },
+                                                                    [
+                                                                      _vm._v(
+                                                                        " "
+                                                                      ),
+                                                                      _c(
+                                                                        "span",
+                                                                        [
+                                                                          _vm._v(
+                                                                            "Delete"
+                                                                          )
+                                                                        ]
                                                                       )
                                                                     ]
                                                                   )
@@ -640,7 +798,7 @@ var render = function() {
                                               ],
                                               null,
                                               false,
-                                              2705651619
+                                              662273298
                                             ),
                                             model: {
                                               value: _vm.selectedTasks,

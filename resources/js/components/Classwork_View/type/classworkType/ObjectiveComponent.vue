@@ -86,7 +86,8 @@ export default {
           
           if(this.totalQuestion != 0 && this.status == null){
               this.UpdateStatus( this.classworkDetails.id);
-            localStorage.removeItem('timer_time');
+            localStorage.removeItem(btoa('timer_time'));
+            localStorage.removeItem(btoa('CurrentAnswers'));
             this.$router.push({name: 'quizstart',params: {id: this.$route.params.id},query: {clwk: this.classworkDetails.id}})
           }
         },

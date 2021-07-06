@@ -28,6 +28,7 @@ class ObjectiveController extends Controller
         
         $temQuest;
         if(auth('sanctum')->user()->role == 'Student'){
+            
             $Questions = tbl_Questions::where('tbl_questions.classwork_id', $id)
             ->Select('tbl_questions.id', 'tbl_questions.question', 'tbl_questions.type','tbl_questions.points')
             ->orderBy('created_at','DESC')

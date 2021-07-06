@@ -137,7 +137,15 @@ var checkobjective = function checkobjective() {
       ViewDetails: null
     };
   },
-  methods: {},
+  methods: {
+    ViewSubmision: function ViewSubmision(data) {
+      /* if(data.status == 'Submitted'){
+         
+      } */
+      this.dialog = !this.dialog;
+      this.ViewDetails = data;
+    }
+  },
   mounted: function mounted() {}
 });
 
@@ -491,8 +499,9 @@ var render = function() {
                                                                       click: function(
                                                                         $event
                                                                       ) {
-                                                                        ;(_vm.dialog = !_vm.dialog),
-                                                                          (_vm.ViewDetails = item)
+                                                                        return _vm.ViewSubmision(
+                                                                          item
+                                                                        )
                                                                       }
                                                                     }
                                                                   },

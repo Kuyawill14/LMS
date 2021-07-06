@@ -301,10 +301,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
 
 
 
@@ -351,7 +347,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       TimerCount: [],
       tempCounter: 0,
       timeCount: null,
-      classworkDetails: []
+      classworkDetails: [],
+      confirmLeave: false
     };
   },
   computed: (0,vuex__WEBPACK_IMPORTED_MODULE_4__.mapGetters)(["getAll_questions"]),
@@ -369,14 +366,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.dialog = true;
       ;
     },
-    reset: function reset(value, index) {
-      var _this2 = this;
-
-      if (this.AnswerRadio[index] === value) {
-        this.$nextTick(function () {
-          _this2.AnswerRadio[index] = null;
-        });
-      }
+    reset: function reset(index) {
+      this.FinalAnswers[index].Answer = '';
+      var name = btoa('CurrentAnswers');
+      localStorage.setItem(name, JSON.stringify(this.FinalAnswers));
     },
     removePropt: function removePropt(num, id) {
       this.DeleteDetails.number = num;
@@ -386,170 +379,76 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.dialog = true;
       ;
     },
-    next: function next() {
-      if (this.TimerCount[this.questionIndex] != null || '') {
-        this.TimerCount[this.questionIndex] = this.TimerCount[this.questionIndex] + this.tempCounter;
+    SelectAnswer: function SelectAnswer() {
+      var name = btoa('CurrentAnswers');
+      localStorage.setItem(name, JSON.stringify(this.FinalAnswers));
+
+      if (this.FinalAnswers[this.questionIndex].timeConsume != null || '') {
+        this.FinalAnswers[this.questionIndex].timeConsume += this.tempCounter;
       } else {
-        this.TimerCount[this.questionIndex] = this.tempCounter;
+        this.FinalAnswers[this.questionIndex].timeConsume = this.tempCounter;
       }
 
       clearInterval(this.timeCount);
       this.tempCounter = 0;
       this.CountTime();
+    },
+    next: function next() {
+      /*  let name = btoa('CurrentAnswers');
+        localStorage.setItem(name, JSON.stringify(this.FinalAnswers));
+       if(this.FinalAnswers[this.questionIndex].timeConsume != null || ''){
+           this.FinalAnswers[this.questionIndex].timeConsume += this.tempCounter
+       }
+       else{
+           this.FinalAnswers[this.questionIndex].timeConsume = this.tempCounter
+       }
+       clearInterval(this.timeCount);
+       this.tempCounter = 0;
+       this.CountTime(); */
+      if (this.Questype == 'Matching type') {
+        if (this.FinalAnswers.length != 0) {
+          var check = false;
+          var index = 0;
 
-      if ((this.PickAnswers.ans == undefined || this.PickAnswers.ans == '') && this.FinalAnswers.length == 0) {
-        this.FinalAnswers.push({
-          Answer: '',
-          Question_id: this.getAll_questions.Question[this.questionIndex].id,
-          type: this.getAll_questions.Question[this.questionIndex].type,
-          timeConsume: this.TimerCount[this.questionIndex]
-        });
-        console.log(this.FinalAnswers);
-      } else {
-        if (this.Questype == 'Multiple Choice' || this.Questype == 'True or False') {
-          if (this.FinalAnswers.length != 0) {
-            var check = false;
-            var index = 0;
+          for (var i = 0; i < this.FinalAnswers.length; i++) {
+            if (this.FinalAnswers[i].Question_id == this.PickAnswers_id.quesId) {
+              check = true;
+              index = i;
+            }
+          }
 
-            for (var i = 0; i < this.FinalAnswers.length; i++) {
-              if (this.FinalAnswers[i].Question_id == this.PickAnswers_id.quesId) {
-                check = true;
-                index = i;
+          if (check == true) {
+            var Ans = new Array();
+
+            for (var _i = 0; _i < this.getAll_questions.Answer[this.questionIndex].SubAnswer.length; _i++) {
+              for (var x = 0; x < this.getAll_questions.Answer[this.questionIndex].SubAnswer.length; x++) {
+                if (this.Alphabet[x].toUpperCase() == this.SubAnswers[_i].toUpperCase()) {
+                  Ans[_i] = this.getAll_questions.Answer[this.questionIndex].SubAnswer[x].Choice;
+                }
               }
             }
 
-            if (check == true) {
-              this.FinalAnswers[index] = {
-                Answer: this.PickAnswers.ans,
-                Question_id: this.PickAnswers_id.quesId,
-                type: this.Questype,
-                timeConsume: this.TimerCount[this.questionIndex]
-              };
-              console.log(this.FinalAnswers);
-            } else {
-              this.FinalAnswers.push({
-                Answer: this.PickAnswers.ans,
-                Question_id: this.PickAnswers_id.quesId,
-                type: this.Questype,
-                timeConsume: this.TimerCount[this.questionIndex]
-              });
-              console.log(this.FinalAnswers);
-            }
-          } else {
-            this.FinalAnswers.push({
-              Answer: this.PickAnswers.ans,
+            this.FinalAnswers[index] = {
+              Answer: this.SubAnswers,
               Question_id: this.PickAnswers_id.quesId,
+              SubQuestion_id: this.quesNumber,
               type: this.Questype,
               timeConsume: this.TimerCount[this.questionIndex]
-            });
+            };
             console.log(this.FinalAnswers);
-          }
-        }
-
-        if (this.Questype == 'Identification') {
-          if (this.FinalAnswers.length != 0) {
-            var _check = false;
-            var _index = 0;
-
-            for (var _i = 0; _i < this.FinalAnswers.length; _i++) {
-              if (this.FinalAnswers[_i].Question_id == this.PickAnswers_id.quesId) {
-                _check = true;
-                _index = _i;
-              }
-            }
-
-            if (_check == true) {
-              this.FinalAnswers[_index] = {
-                Answer: this.IdentificationAns[this.questionIndex],
-                Question_id: this.PickAnswers_id.quesId,
-                type: this.Questype,
-                timeConsume: this.TimerCount[this.questionIndex]
-              };
-              console.log(this.FinalAnswers);
-            } else {
-              this.FinalAnswers.push({
-                Answer: this.IdentificationAns[this.questionIndex],
-                Question_id: this.PickAnswers_id.quesId,
-                type: this.Questype,
-                timeConsume: this.TimerCount[this.questionIndex]
-              });
-              console.log(this.FinalAnswers);
-            }
           } else {
-            this.FinalAnswers.push({
-              Answer: this.IdentificationAns[this.questionIndex],
-              Question_id: this.PickAnswers_id.quesId,
-              type: this.Questype,
-              timeConsume: this.TimerCount[this.questionIndex]
-            });
-            console.log(this.FinalAnswers);
-          }
-        }
+            var _Ans = new Array();
 
-        if (this.Questype == 'Matching type') {
-          if (this.FinalAnswers.length != 0) {
-            var _check2 = false;
-            var _index2 = 0;
-
-            for (var _i2 = 0; _i2 < this.FinalAnswers.length; _i2++) {
-              if (this.FinalAnswers[_i2].Question_id == this.PickAnswers_id.quesId) {
-                _check2 = true;
-                _index2 = _i2;
-              }
-            }
-
-            if (_check2 == true) {
-              var Ans = new Array();
-
-              for (var _i3 = 0; _i3 < this.getAll_questions.Answer[this.questionIndex].SubAnswer.length; _i3++) {
-                for (var x = 0; x < this.getAll_questions.Answer[this.questionIndex].SubAnswer.length; x++) {
-                  if (this.Alphabet[x].toUpperCase() == this.SubAnswers[_i3].toUpperCase()) {
-                    Ans[_i3] = this.getAll_questions.Answer[this.questionIndex].SubAnswer[x].Choice;
-                  }
-                }
-              }
-
-              this.FinalAnswers[_index2] = {
-                Answer: this.SubAnswers,
-                Question_id: this.PickAnswers_id.quesId,
-                SubQuestion_id: this.quesNumber,
-                type: this.Questype,
-                timeConsume: this.TimerCount[this.questionIndex]
-              };
-              console.log(this.FinalAnswers);
-            } else {
-              var _Ans = new Array();
-
-              for (var _i4 = 0; _i4 < this.getAll_questions.Answer[this.questionIndex].SubAnswer.length; _i4++) {
-                for (var _x = 0; _x < this.getAll_questions.Answer[this.questionIndex].SubAnswer.length; _x++) {
-                  if (this.Alphabet[_x].toUpperCase() == this.SubAnswers[_i4].toUpperCase()) {
-                    _Ans[_i4] = this.getAll_questions.Answer[this.questionIndex].SubAnswer[_x].Choice;
-                  }
-                }
-              }
-
-              this.FinalAnswers.push({
-                Answer: _Ans,
-                Question_id: this.PickAnswers_id.quesId,
-                SubQuestion_id: this.quesNumber,
-                type: this.Questype,
-                timeConsume: this.TimerCount[this.questionIndex]
-              });
-              console.log(this.FinalAnswers);
-            }
-          } else {
-            var _Ans2 = new Array();
-
-            for (var _i5 = 0; _i5 < this.getAll_questions.Answer[this.questionIndex].SubAnswer.length; _i5++) {
-              for (var _x2 = 0; _x2 < this.getAll_questions.Answer[this.questionIndex].SubAnswer.length; _x2++) {
-                if (this.Alphabet[_x2].toUpperCase() == this.SubAnswers[_i5].toUpperCase()) {
-                  _Ans2[_i5] = this.getAll_questions.Answer[this.questionIndex].SubAnswer[_x2].Choice;
+            for (var _i2 = 0; _i2 < this.getAll_questions.Answer[this.questionIndex].SubAnswer.length; _i2++) {
+              for (var _x = 0; _x < this.getAll_questions.Answer[this.questionIndex].SubAnswer.length; _x++) {
+                if (this.Alphabet[_x].toUpperCase() == this.SubAnswers[_i2].toUpperCase()) {
+                  _Ans[_i2] = this.getAll_questions.Answer[this.questionIndex].SubAnswer[_x].Choice;
                 }
               }
             }
 
             this.FinalAnswers.push({
-              Answer: _Ans2,
+              Answer: _Ans,
               Question_id: this.PickAnswers_id.quesId,
               SubQuestion_id: this.quesNumber,
               type: this.Questype,
@@ -557,6 +456,25 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             });
             console.log(this.FinalAnswers);
           }
+        } else {
+          var _Ans2 = new Array();
+
+          for (var _i3 = 0; _i3 < this.getAll_questions.Answer[this.questionIndex].SubAnswer.length; _i3++) {
+            for (var _x2 = 0; _x2 < this.getAll_questions.Answer[this.questionIndex].SubAnswer.length; _x2++) {
+              if (this.Alphabet[_x2].toUpperCase() == this.SubAnswers[_i3].toUpperCase()) {
+                _Ans2[_i3] = this.getAll_questions.Answer[this.questionIndex].SubAnswer[_x2].Choice;
+              }
+            }
+          }
+
+          this.FinalAnswers.push({
+            Answer: _Ans2,
+            Question_id: this.PickAnswers_id.quesId,
+            SubQuestion_id: this.quesNumber,
+            type: this.Questype,
+            timeConsume: this.TimerCount[this.questionIndex]
+          });
+          console.log(this.FinalAnswers);
         }
       }
 
@@ -582,13 +500,40 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.questionIndex--;
     },
     SubmitAnswer: function SubmitAnswer() {
-      var _this3 = this;
+      var _this2 = this;
 
       this.isLoading = !this.isLoading;
       this.isSubmitting = !this.isSubmitting;
       this.dialog = !this.dialog;
       this.isStart = !this.isStart;
-      this.next();
+      this.warningDialog = false;
+      axios.post('/api/question/check/' + this.$route.query.clwk, {
+        item: this.FinalAnswers,
+        AnsLength: this.questionIndex,
+        timerCount: this.TimerCount
+      }).then(function () {
+        setTimeout(function () {
+          _this2.isLoading = !_this2.isLoading;
+          _this2.isSubmitting = !_this2.isSubmitting;
+        }, 2000);
+        localStorage.removeItem(btoa('timer_time'));
+        localStorage.removeItem(btoa('CurrentAnswers'));
+
+        _this2.$router.push({
+          name: 'result-page',
+          params: {
+            id: _this2.$route.query.clwk
+          }
+        });
+      });
+    },
+    TimesUpSubmit: function TimesUpSubmit() {
+      var _this3 = this;
+
+      this.isLoading = !this.isLoading;
+      this.isSubmitting = !this.isSubmitting;
+      this.isStart = !this.isStart;
+      this.warningDialog = false;
       axios.post('/api/question/check/' + this.$route.query.clwk, {
         item: this.FinalAnswers,
         AnsLength: this.questionIndex,
@@ -598,6 +543,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           _this3.isLoading = !_this3.isLoading;
           _this3.isSubmitting = !_this3.isSubmitting;
         }, 2000);
+        localStorage.removeItem(btoa('timer_time'));
+        localStorage.removeItem(btoa('CurrentAnswers'));
 
         _this3.$router.push({
           name: 'result-page',
@@ -605,51 +552,41 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             id: _this3.$route.query.clwk
           }
         });
-
-        localStorage.removeItem('timer_time');
-      });
-    },
-    TimesUpSubmit: function TimesUpSubmit() {
-      var _this4 = this;
-
-      this.isLoading = !this.isLoading;
-      this.isSubmitting = !this.isSubmitting;
-      this.isStart = !this.isStart;
-      axios.post('/api/question/check/' + this.$route.query.clwk, {
-        item: this.FinalAnswers,
-        AnsLength: this.questionIndex,
-        timerCount: this.TimerCount
-      }).then(function () {
-        setTimeout(function () {
-          _this4.isLoading = !_this4.isLoading;
-          _this4.isSubmitting = !_this4.isSubmitting;
-        }, 2000);
-
-        _this4.$router.push({
-          name: 'result-page',
-          params: {
-            id: _this4.$route.query.clwk
-          }
-        });
-
-        localStorage.removeItem('timer_time');
       });
     },
     fetchQuestions: function fetchQuestions() {
-      var _this5 = this;
+      var _this4 = this;
 
       this.$store.dispatch('fetchQuestions', this.$route.query.clwk).then(function (res) {
-        _this5.Qlength = res[1]; //console.log(res[0].Question);
+        _this4.Qlength = res[1];
+        _this4.isLoading = false;
+        var name = btoa('CurrentAnswers');
+        var AnswersList = JSON.parse(localStorage.getItem(name));
 
-        _this5.isLoading = false;
+        if (AnswersList == null) {
+          for (var index = 0; index < res[0].Question.length; index++) {
+            _this4.FinalAnswers.push({
+              Answer: '',
+              Question_id: res[0].Question[index].id,
+              type: res[0].Question[index].type,
+              timeConsume: null
+            });
+          }
 
-        for (var index = 0; index < res[0].Question.length; index++) {
-          _this5.FinalAnswers.push({
-            Answer: '',
-            Question_id: res[0].Question[index].id,
-            type: res[0].Question[index].type,
-            timeConsume: 0
-          });
+          localStorage.setItem(name, JSON.stringify(_this4.FinalAnswers));
+        } else {
+          for (var x = 0; x < res[0].Question.length; x++) {
+            for (var j = 0; j < AnswersList.length; j++) {
+              if (res[0].Question[x].id == AnswersList[j].Question_id) {
+                _this4.FinalAnswers.push({
+                  Answer: AnswersList[j].Answer,
+                  Question_id: AnswersList[j].Question_id,
+                  type: AnswersList[j].type,
+                  timeConsume: AnswersList[j].timeConsume
+                });
+              }
+            }
+          }
         }
       });
     },
@@ -660,25 +597,25 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       event.returnValue = "";
     },
     CheckStatus: function CheckStatus() {
-      var _this6 = this;
+      var _this5 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                axios.get('/api/student/checking/' + _this6.$route.query.clwk).then(function (res) {
-                  console.log(res.data.status);
-
+                axios.get('/api/student/checking/' + _this5.$route.query.clwk).then(function (res) {
                   if (res.data.status == 'Taking' || res.data.status == '') {
-                    _this6.StartQuiz();
-                  } else {
-                    _this6.isLoading = false;
+                    _this5.StartQuiz();
 
-                    _this6.$router.push({
+                    _this5.preventNav = !_this5.preventNav;
+                  } else {
+                    _this5.isLoading = false;
+
+                    _this5.$router.push({
                       name: 'result-page',
                       params: {
-                        id: _this6.$route.query.clwk
+                        id: _this5.$route.query.clwk
                       }
                     });
                   }
@@ -693,16 +630,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     StartQuiz: function StartQuiz() {
-      var _this7 = this;
+      var _this6 = this;
 
       this.isStart = true;
       var alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
       this.Alphabet = alphabet;
       axios.get('/api/classwork/showDetails/' + this.$route.query.clwk + '/' + this.$route.params.id).then(function (res) {
-        _this7.duration = res.data.Details.duration;
-        _this7.classworkDetails = res.data.Details;
+        _this6.duration = res.data.Details.duration;
+        _this6.classworkDetails = res.data.Details;
 
-        _this7.fetchQuestions();
+        _this6.fetchQuestions();
       });
       this.CountTime();
     },
@@ -712,32 +649,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }
   },
   beforeMount: function beforeMount() {
-    window.addEventListener("beforeunload", this.preventNav); //window.addEventListener("onfocus",this.testing123());
-    //window.addEventListener("unload", this.testing123());
-    //window.addEventListener("visibilitychange", this.triggerWarning());
-
-    /* this.$once("hook:beforeDestroy", () => {
-    window.removeEventListener("beforeunload", this.preventNav);
-    }); */
-
-    /*   let self = this;
-    window.onfocus = function() {
-        //alert("Opps!")
-        self.triggerWarning();
-        //self.toastSuccess("Success");
-      }; */
-
+    window.addEventListener("beforeunload", this.preventNav);
     var self = this;
-    $(window).blur(function () {
-      self.triggerWarning();
+    $(window).blur(function () {//self.triggerWarning()
     });
   },
-
-  /*   ready:function(){
-    window.onbeforeunload = this.leaving;
-    window.onblur = this.leaving;
-    window.onmouseout = this.leaving;
-  }, */
   mounted: function mounted() {
     this.CheckStatus();
   }
@@ -954,13 +870,16 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       var due;
-      var timer_time = localStorage.getItem('timer_time');
+      var name = btoa('timer_time');
+      var timer_time = localStorage.getItem(name);
 
       if (timer_time == null) {
         due = this.duration * 60 * 1000;
-        localStorage.setItem('timer_time', due);
+        localStorage.setItem(name, due);
       } else {
-        due = parseInt(timer_time);
+        var data = timer_time.split("|");
+        var r_time = data[1];
+        due = parseInt(r_time);
       }
 
       var _final = '';
@@ -968,14 +887,18 @@ __webpack_require__.r(__webpack_exports__);
         if (_this2.StopTimer != true) {
           if (_final == '') {
             _final = due - 1000;
-            localStorage.setItem('timer_time', _final);
+            var finalData = name + '|' + _final + '|' + name;
+            localStorage.setItem(name, finalData);
           } else {
             _final = _final - 1000;
-            localStorage.setItem('timer_time', _final);
+
+            var _finalData = name + '|' + _final + '|' + name;
+
+            localStorage.setItem(name, _finalData);
           }
         } else {
           clearInterval(_this2.NewTimer);
-          localStorage.removeItem('timer_time');
+          localStorage.removeItem(name);
 
           _this2.$emit('TimerStop');
         }
@@ -985,7 +908,7 @@ __webpack_require__.r(__webpack_exports__);
     EndTimer: function EndTimer() {
       console.log('test 123');
       clearInterval(this.NewTimer);
-      localStorage.removeItem('timer_time');
+      localStorage.removeItem(name);
       this.$emit('TimesUp');
     }
   },
@@ -23161,26 +23084,22 @@ var render = function() {
                                                           {
                                                             attrs: {
                                                               color:
-                                                                _vm.checker[
+                                                                _vm
+                                                                  .FinalAnswers[
                                                                   index
-                                                                ] != null ||
-                                                                _vm.checker[
-                                                                  index
-                                                                ] != ""
-                                                                  ? "primary"
-                                                                  : "",
+                                                                ].Answer == ""
+                                                                  ? ""
+                                                                  : "primary",
                                                               left: ""
                                                             }
                                                           },
                                                           [
                                                             _vm._v(
                                                               _vm._s(
-                                                                _vm.checker[
+                                                                _vm
+                                                                  .FinalAnswers[
                                                                   index
-                                                                ] == null ||
-                                                                  _vm.checker[
-                                                                    index
-                                                                  ] == ""
+                                                                ].Answer == ""
                                                                   ? "mdi-checkbox-blank-outline"
                                                                   : "mdi-checkbox-marked"
                                                               )
@@ -23190,7 +23109,7 @@ var render = function() {
                                                         _vm._v(
                                                           "\r\n                                         " +
                                                             _vm._s(index + 1) +
-                                                            "\r\n                                            \r\n                                       "
+                                                            "\r\n                                       "
                                                         )
                                                       ],
                                                       1
@@ -23469,20 +23388,24 @@ var render = function() {
                                                                                                   model: {
                                                                                                     value:
                                                                                                       _vm
-                                                                                                        .AnswerRadio[
+                                                                                                        .FinalAnswers[
                                                                                                         index
-                                                                                                      ],
+                                                                                                      ]
+                                                                                                        .Answer,
                                                                                                     callback: function(
                                                                                                       $$v
                                                                                                     ) {
                                                                                                       _vm.$set(
-                                                                                                        _vm.AnswerRadio,
-                                                                                                        index,
+                                                                                                        _vm
+                                                                                                          .FinalAnswers[
+                                                                                                          index
+                                                                                                        ],
+                                                                                                        "Answer",
                                                                                                         $$v
                                                                                                       )
                                                                                                     },
                                                                                                     expression:
-                                                                                                      "AnswerRadio[index]"
+                                                                                                      "FinalAnswers[index].Answer"
                                                                                                   }
                                                                                                 },
                                                                                                 [
@@ -23500,28 +23423,7 @@ var render = function() {
                                                                                                         click: function(
                                                                                                           $event
                                                                                                         ) {
-                                                                                                          ;(_vm.PickAnswers.ans =
-                                                                                                            _vm.AnswerRadio[
-                                                                                                              index
-                                                                                                            ]),
-                                                                                                            (_vm.PickAnswers_id.quesId =
-                                                                                                              item.id),
-                                                                                                            (_vm.Questype =
-                                                                                                              item.type),
-                                                                                                            (_vm.checker[
-                                                                                                              index
-                                                                                                            ] =
-                                                                                                              _vm.AnswerRadio[
-                                                                                                                index
-                                                                                                              ])
-                                                                                                        },
-                                                                                                        mouseup: function(
-                                                                                                          $event
-                                                                                                        ) {
-                                                                                                          return _vm.reset(
-                                                                                                            index,
-                                                                                                            index
-                                                                                                          )
+                                                                                                          return _vm.SelectAnswer()
                                                                                                         }
                                                                                                       }
                                                                                                     }
@@ -23588,7 +23490,6 @@ var render = function() {
                                                                                                   $event
                                                                                                 ) {
                                                                                                   return _vm.reset(
-                                                                                                    index,
                                                                                                     index
                                                                                                   )
                                                                                                 }
@@ -23676,41 +23577,72 @@ var render = function() {
                                                                                             change: function(
                                                                                               $event
                                                                                             ) {
-                                                                                              ;(_vm.PickAnswers_id.quesId =
-                                                                                                item.id),
-                                                                                                (_vm.Questype =
-                                                                                                  item.type),
-                                                                                                (_vm.checker[
-                                                                                                  index
-                                                                                                ] =
-                                                                                                  _vm.IdentificationAns[
-                                                                                                    index
-                                                                                                  ]),
-                                                                                                (_vm.PickAnswers.ans =
-                                                                                                  _vm.IdentificationAns[
-                                                                                                    index
-                                                                                                  ])
+                                                                                              return _vm.SelectAnswer()
                                                                                             }
                                                                                           },
                                                                                           model: {
                                                                                             value:
                                                                                               _vm
-                                                                                                .IdentificationAns[
+                                                                                                .FinalAnswers[
                                                                                                 index
-                                                                                              ],
+                                                                                              ]
+                                                                                                .Answer,
                                                                                             callback: function(
                                                                                               $$v
                                                                                             ) {
                                                                                               _vm.$set(
-                                                                                                _vm.IdentificationAns,
-                                                                                                index,
+                                                                                                _vm
+                                                                                                  .FinalAnswers[
+                                                                                                  index
+                                                                                                ],
+                                                                                                "Answer",
                                                                                                 $$v
                                                                                               )
                                                                                             },
                                                                                             expression:
-                                                                                              "IdentificationAns[index]"
+                                                                                              "FinalAnswers[index].Answer"
                                                                                           }
                                                                                         }
+                                                                                      )
+                                                                                    ],
+                                                                                    1
+                                                                                  ),
+                                                                                  _vm._v(
+                                                                                    " "
+                                                                                  ),
+                                                                                  _c(
+                                                                                    "v-container",
+                                                                                    {
+                                                                                      staticClass:
+                                                                                        "mb-0 pb-0 d-flex flex-row-reverse"
+                                                                                    },
+                                                                                    [
+                                                                                      _c(
+                                                                                        "v-btn",
+                                                                                        {
+                                                                                          attrs: {
+                                                                                            text:
+                                                                                              "",
+                                                                                            rounded:
+                                                                                              "",
+                                                                                            small:
+                                                                                              ""
+                                                                                          },
+                                                                                          on: {
+                                                                                            click: function(
+                                                                                              $event
+                                                                                            ) {
+                                                                                              return _vm.reset(
+                                                                                                index
+                                                                                              )
+                                                                                            }
+                                                                                          }
+                                                                                        },
+                                                                                        [
+                                                                                          _vm._v(
+                                                                                            "Clear Answer"
+                                                                                          )
+                                                                                        ]
                                                                                       )
                                                                                     ],
                                                                                     1
@@ -23741,116 +23673,149 @@ var render = function() {
                                                                                   ""
                                                                               }
                                                                             },
-                                                                            _vm._l(
-                                                                              _vm.inputCheck,
-                                                                              function(
-                                                                                x,
-                                                                                n
-                                                                              ) {
-                                                                                return _c(
-                                                                                  "v-container",
-                                                                                  {
-                                                                                    key: n,
-                                                                                    staticClass:
-                                                                                      "d-flex flex-row ma-0 pa-0"
-                                                                                  },
-                                                                                  [
-                                                                                    _c(
-                                                                                      "v-radio-group",
-                                                                                      {
-                                                                                        staticClass:
-                                                                                          "ma-0 pa-0",
-                                                                                        attrs: {
-                                                                                          name:
-                                                                                            "option" +
-                                                                                            index
-                                                                                        },
-                                                                                        model: {
-                                                                                          value:
-                                                                                            _vm
-                                                                                              .AnswerRadio[
+                                                                            [
+                                                                              _vm._l(
+                                                                                _vm.inputCheck,
+                                                                                function(
+                                                                                  x,
+                                                                                  n
+                                                                                ) {
+                                                                                  return _c(
+                                                                                    "v-container",
+                                                                                    {
+                                                                                      key: n,
+                                                                                      staticClass:
+                                                                                        "d-flex flex-row ma-0 pa-0"
+                                                                                    },
+                                                                                    [
+                                                                                      _c(
+                                                                                        "v-radio-group",
+                                                                                        {
+                                                                                          staticClass:
+                                                                                            "ma-0 pa-0",
+                                                                                          attrs: {
+                                                                                            name:
+                                                                                              "option" +
                                                                                               index
-                                                                                            ],
-                                                                                          callback: function(
-                                                                                            $$v
-                                                                                          ) {
-                                                                                            _vm.$set(
-                                                                                              _vm.AnswerRadio,
-                                                                                              index,
-                                                                                              $$v
-                                                                                            )
                                                                                           },
-                                                                                          expression:
-                                                                                            "AnswerRadio[index]"
-                                                                                        }
-                                                                                      },
-                                                                                      [
-                                                                                        _c(
-                                                                                          "v-radio",
-                                                                                          {
-                                                                                            key: index,
-                                                                                            attrs: {
-                                                                                              color:
-                                                                                                "primary",
-                                                                                              value:
+                                                                                          model: {
+                                                                                            value:
+                                                                                              _vm
+                                                                                                .FinalAnswers[
+                                                                                                index
+                                                                                              ]
+                                                                                                .Answer,
+                                                                                            callback: function(
+                                                                                              $$v
+                                                                                            ) {
+                                                                                              _vm.$set(
+                                                                                                _vm
+                                                                                                  .FinalAnswers[
+                                                                                                  index
+                                                                                                ],
+                                                                                                "Answer",
+                                                                                                $$v
+                                                                                              )
+                                                                                            },
+                                                                                            expression:
+                                                                                              "FinalAnswers[index].Answer"
+                                                                                          }
+                                                                                        },
+                                                                                        [
+                                                                                          _c(
+                                                                                            "v-radio",
+                                                                                            {
+                                                                                              key: index,
+                                                                                              attrs: {
+                                                                                                color:
+                                                                                                  "primary",
+                                                                                                value:
+                                                                                                  _vm
+                                                                                                    .inputCheck[
+                                                                                                    n
+                                                                                                  ]
+                                                                                              },
+                                                                                              on: {
+                                                                                                click: function(
+                                                                                                  $event
+                                                                                                ) {
+                                                                                                  return _vm.SelectAnswer()
+                                                                                                }
+                                                                                              }
+                                                                                            }
+                                                                                          )
+                                                                                        ],
+                                                                                        1
+                                                                                      ),
+                                                                                      _vm._v(
+                                                                                        " "
+                                                                                      ),
+                                                                                      _c(
+                                                                                        "div",
+                                                                                        {
+                                                                                          staticClass:
+                                                                                            "Subtitle 1"
+                                                                                        },
+                                                                                        [
+                                                                                          _vm._v(
+                                                                                            "\r\n                                                                    " +
+                                                                                              _vm._s(
                                                                                                 _vm
                                                                                                   .inputCheck[
                                                                                                   n
                                                                                                 ]
-                                                                                            },
-                                                                                            on: {
-                                                                                              click: function(
-                                                                                                $event
-                                                                                              ) {
-                                                                                                ;(_vm.PickAnswers.ans =
-                                                                                                  _vm.AnswerRadio[
-                                                                                                    index
-                                                                                                  ]),
-                                                                                                  (_vm.PickAnswers_id.quesId =
-                                                                                                    item.id),
-                                                                                                  (_vm.Questype =
-                                                                                                    item.type),
-                                                                                                  (_vm.checker[
-                                                                                                    index
-                                                                                                  ] =
-                                                                                                    _vm.AnswerRadio[
-                                                                                                      index
-                                                                                                    ])
-                                                                                              }
-                                                                                            }
-                                                                                          }
-                                                                                        )
-                                                                                      ],
-                                                                                      1
-                                                                                    ),
-                                                                                    _vm._v(
-                                                                                      " "
-                                                                                    ),
-                                                                                    _c(
-                                                                                      "div",
-                                                                                      {
-                                                                                        staticClass:
-                                                                                          "Subtitle 1"
+                                                                                              ) +
+                                                                                              "\r\n                                                                "
+                                                                                          )
+                                                                                        ]
+                                                                                      )
+                                                                                    ],
+                                                                                    1
+                                                                                  )
+                                                                                }
+                                                                              ),
+                                                                              _vm._v(
+                                                                                " "
+                                                                              ),
+                                                                              _c(
+                                                                                "v-container",
+                                                                                {
+                                                                                  staticClass:
+                                                                                    "mb-0 pb-0 d-flex flex-row-reverse"
+                                                                                },
+                                                                                [
+                                                                                  _c(
+                                                                                    "v-btn",
+                                                                                    {
+                                                                                      attrs: {
+                                                                                        text:
+                                                                                          "",
+                                                                                        rounded:
+                                                                                          "",
+                                                                                        small:
+                                                                                          ""
                                                                                       },
-                                                                                      [
-                                                                                        _vm._v(
-                                                                                          "\r\n                                                                    " +
-                                                                                            _vm._s(
-                                                                                              _vm
-                                                                                                .inputCheck[
-                                                                                                n
-                                                                                              ]
-                                                                                            ) +
-                                                                                            "\r\n                                                                "
-                                                                                        )
-                                                                                      ]
-                                                                                    )
-                                                                                  ],
-                                                                                  1
-                                                                                )
-                                                                              }
-                                                                            ),
-                                                                            1
+                                                                                      on: {
+                                                                                        click: function(
+                                                                                          $event
+                                                                                        ) {
+                                                                                          return _vm.reset(
+                                                                                            index
+                                                                                          )
+                                                                                        }
+                                                                                      }
+                                                                                    },
+                                                                                    [
+                                                                                      _vm._v(
+                                                                                        "Reset selection"
+                                                                                      )
+                                                                                    ]
+                                                                                  )
+                                                                                ],
+                                                                                1
+                                                                              )
+                                                                            ],
+                                                                            2
                                                                           )
                                                                         ],
                                                                         1
