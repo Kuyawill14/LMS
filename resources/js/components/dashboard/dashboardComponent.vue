@@ -6,8 +6,8 @@
             </v-col>
         </v-row>
         <div class="mt-4">
-            <studentDashboard v-if="role == 'Student'" />
-            <teacherDashboard v-if="role == 'Teacher'" />
+            <studentDashboard v-if="role == 'Student'" :role="role"/>
+            <teacherDashboard v-if="role == 'Teacher'"  :role="role"/>
         </div>
     </div>
 

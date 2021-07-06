@@ -260,10 +260,10 @@ class StudentController extends Controller
         //Get all student join to this class with the
         
         //notification
-        $userInClass = DB::table('tbl_userclasses')
+      /*   $userInClass = DB::table('tbl_userclasses')
         ->where('class_id', $JoinClass->class_id)
         ->get();
-
+ */
 
         $userInClass = DB::table('tbl_userclasses')
         ->select('tbl_userclasses.id','tbl_userclasses.user_id', 'tbl_classes.class_name', 'users.role','tbl_subject_courses.course_name')
@@ -274,14 +274,14 @@ class StudentController extends Controller
         ->where('tbl_userclasses.class_id', $JoinClass->class_id)
         ->get();
 
-        $newNotification = new tbl_notification;
+       /*  $newNotification = new tbl_notification;
         $newNotification->userid_from = $userId;
         $newNotification->userid_to = $userInClass[0]->user_id;
         $newNotification->class_id = $JoinClass->class_id;
         $newNotification->message = "Join to your ".$userInClass[0]->course_name." - " .$userInClass[0]->class_name ." class";
         $newNotification->notification_type = 1;
         $newNotification->status = 0;
-        $newNotification->save();
+        $newNotification->save(); */
 
 
         /* broadcast(new NewNotification($newNotification))->toOthers(); */

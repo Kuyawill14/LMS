@@ -161,7 +161,8 @@ import moment from 'moment';
       events: [],
       colors: ['blue', 'indigo', 'deep-purple', 'amber darken-4', 'orange', 'yellow darken-3', 'amber','blue-grey'],
       isloading: true,
-      DateToday: null
+      DateToday: null,
+      unfinishCount: 0
     }),
     mounted () {
       this.getGeneralClassworks();
@@ -191,10 +192,13 @@ import moment from 'moment';
                   else if(this.role == 'Student' &&  this.CalendarSched[index].status != 'Submitted' && this.CheckFormatDue(this.CalendarSched[index].to_date) < this.DateToday){
                     name = this.CalendarSched[index].title+'(missing)';
                     color = "error";
+                    this.unfinishCount++;
+          
                   }
                   else{
                     name =  this.CalendarSched[index].title;
                     color = this.colors[this.rnd(0, this.colors.length - 1)];
+                    this.unfinishCount++;
                   }
                   events.push({
                       name: name,
@@ -202,6 +206,7 @@ import moment from 'moment';
                       end: moment(this.CalendarSched[index].to_date)._d,
                       color: color,
                     })
+                this.$emit('RecieveTotalClasswork', this.unfinishCount)
               }
             }
                   

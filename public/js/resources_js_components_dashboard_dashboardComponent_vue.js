@@ -46251,9 +46251,13 @@ var render = function() {
         "div",
         { staticClass: "mt-4" },
         [
-          _vm.role == "Student" ? _c("studentDashboard") : _vm._e(),
+          _vm.role == "Student"
+            ? _c("studentDashboard", { attrs: { role: _vm.role } })
+            : _vm._e(),
           _vm._v(" "),
-          _vm.role == "Teacher" ? _c("teacherDashboard") : _vm._e()
+          _vm.role == "Teacher"
+            ? _c("teacherDashboard", { attrs: { role: _vm.role } })
+            : _vm._e()
         ],
         1
       )
