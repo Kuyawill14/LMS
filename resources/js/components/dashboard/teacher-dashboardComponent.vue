@@ -7,7 +7,7 @@
                     <v-col lg="6" class="pt-0">
                         <v-card>
                             <div class="text-center" style="font-size: 3rem;color:#FF5400 ">
-                                8
+                               {{allCourse.length}}
                             </div>
                             <div class="text-center">
                                 Total Courses
@@ -18,7 +18,7 @@
                     <v-col lg="6" class="pt-0">
                         <v-card>
                             <div class="text-center" style="font-size: 3rem;color:#FF5400 ">
-                                8
+                               {{class_count}}
                             </div>
                             <div class="text-center">
                                 Total Classes
@@ -51,6 +51,10 @@
 
 <script>
     const myCalendar = () => import('./myCalendar')
+      import {
+        mapGetters,
+        mapActions
+    } from "vuex";
     import {
         use
     } from "echarts/core";
@@ -94,6 +98,7 @@
 
         data() {
             return {
+                class_count: 0,
                 option: {
                     color: ["#FF5400", "#FFs400", "#FFd400"],
                     xAxis: {
@@ -168,6 +173,22 @@
                 }
 
             };
+        },
+          computed: mapGetters(['allCourse']),
+        methods: {
+               ...mapActions(['fetchCourseList']),
+              classCount() {
+                
+                axios.get('/api/class/count')
+                .then(res => {
+                    this.class_count = res.data;
+                })
+       
+            },
+        },
+        mounted() {
+               this.fetchCourseList();
+               this.classCount();
         },
     };
 
