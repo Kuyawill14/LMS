@@ -651,7 +651,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   beforeMount: function beforeMount() {
     window.addEventListener("beforeunload", this.preventNav);
     var self = this;
-    $(window).blur(function () {//self.triggerWarning()
+    $(window).blur(function () {
+      self.triggerWarning();
     });
   },
   mounted: function mounted() {
