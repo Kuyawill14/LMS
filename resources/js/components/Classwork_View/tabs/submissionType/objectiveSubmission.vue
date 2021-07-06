@@ -65,7 +65,7 @@
                                     <v-tooltip top>
                                         <template v-slot:activator="{ on, attrs }">
                                             <v-btn
-                                            @click="dialog = !dialog, ViewDetails = item"
+                                            @click="ViewSubmision(item)"
                                             v-bind="attrs"
                                             v-on="on"
                                             text icon
@@ -119,6 +119,14 @@ export default {
         }
     },
     methods:{
+        ViewSubmision(data){
+            /* if(data.status == 'Submitted'){
+               
+            } */
+             this.dialog = !this.dialog;
+                this.ViewDetails = data;
+            
+        }
        
     },
     mounted(){

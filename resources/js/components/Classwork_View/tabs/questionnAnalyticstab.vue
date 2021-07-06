@@ -81,10 +81,31 @@
                                                     <td class="text-center">{{item.correct_count == null ? 0 : item.correct_count}}</td>
                                                     <td class="text-center">{{item.wrong_count == null ? 0 : item.wrong_count}}</td>
                                                     <td class="text-center">{{item.average_time != null? item.average_time/(item.correct_count+item.wrong_count):''}}{{item.average_time == null ? '' : 's' }}</td>
-                                                    <td>
-                                                        <v-btn text icon x-small>
-                                                            Edit
-                                                        </v-btn>
+                                                    <td>  
+                                                        <v-tooltip top>
+                                                            <template v-slot:activator="{ on, attrs }">
+                                                                <v-btn
+                                                                v-bind="attrs"
+                                                                v-on="on"
+                                                                text icon
+                                                                >
+                                                                    <v-icon color="primary">mdi-pencil-box-multiple-outline</v-icon>
+                                                                </v-btn>
+                                                            </template>
+                                                            <span>Edit</span>
+                                                        </v-tooltip>
+                                                        <v-tooltip top>
+                                                            <template v-slot:activator="{ on, attrs }">
+                                                                <v-btn
+                                                                v-bind="attrs"
+                                                                v-on="on"
+                                                                text icon
+                                                                >
+                                                                    <v-icon color="primary">mdi-delete</v-icon>
+                                                                </v-btn>
+                                                            </template>
+                                                            <span>Delete</span>
+                                                        </v-tooltip>
                                                     </td>
                                                 </tr>
                                             </tbody>
