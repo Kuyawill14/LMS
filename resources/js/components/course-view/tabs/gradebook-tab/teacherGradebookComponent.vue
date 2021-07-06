@@ -52,7 +52,7 @@
                                     <td class="text-center"
                                         v-for="(student_final, index) in allStudentFinalGrades(student.id)"
                                         :key="index">
-                                        {{student_final.grade_percentage}}
+                                        {{student_final.grade_percentage.toFixed(2)}}
                                     </td>
                                     <td class="text-center">
                                         {{sumPercentage(allStudentFinalGrades(student.id))}}
@@ -166,7 +166,7 @@
                 for (var i = 0; i < arr.length; i++) {
                     total += arr[i]['grade_percentage'];
                 }
-                return total;
+                return total.toFixed(2);
             },
             totalPercentHeader() {
                 this.headers.push({

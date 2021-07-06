@@ -180,7 +180,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         total += arr[i]['grade_percentage'];
       }
 
-      return total;
+      return total.toFixed(2);
     },
     totalPercentHeader: function totalPercentHeader() {
       this.headers.push({
@@ -674,7 +674,9 @@ var render = function() {
                                                 _vm._v(
                                                   "\n                                    " +
                                                     _vm._s(
-                                                      student_final.grade_percentage
+                                                      student_final.grade_percentage.toFixed(
+                                                        2
+                                                      )
                                                     ) +
                                                     "\n                                "
                                                 )
