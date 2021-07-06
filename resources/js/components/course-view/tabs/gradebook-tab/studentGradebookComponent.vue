@@ -43,7 +43,7 @@
                             <tbody>
                                 <tr>
                                     <td class="text-center" v-for="(final, index) in  finalGrades" :key="index">
-                                        {{final.grade_percentage}}% </td>
+                                        {{final.grade_percentage.toFixed(2)}}% </td>
                                     <td class="text-center"> {{    totalFinalPercentage(finalGrades) }}% </td>
                                 </tr>
 
@@ -166,7 +166,7 @@
                 for (var i = 0; i < arr.length; i++) {
                     total += arr[i]['grade_percentage'];
                 }
-                return total;
+                return total.toFixed(2);
 
             },
             totalPoints(arr) {

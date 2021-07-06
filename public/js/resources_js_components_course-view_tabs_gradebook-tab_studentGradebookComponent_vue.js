@@ -181,7 +181,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         total += arr[i]['grade_percentage'];
       }
 
-      return total;
+      return total.toFixed(2);
     },
     totalPoints: function totalPoints(arr) {
       var total = 0;
@@ -610,7 +610,9 @@ var render = function() {
                                       [
                                         _vm._v(
                                           "\n                                    " +
-                                            _vm._s(final.grade_percentage) +
+                                            _vm._s(
+                                              final.grade_percentage.toFixed(2)
+                                            ) +
                                             "% "
                                         )
                                       ]
