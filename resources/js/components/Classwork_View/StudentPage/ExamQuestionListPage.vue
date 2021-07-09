@@ -612,7 +612,7 @@ export default {
         window.addEventListener("beforeunload", this.preventNav);
         let self = this;
         $(window).blur(function(){
-            //self.triggerWarning()
+            self.triggerWarning()
         });
     },
     mounted(){
