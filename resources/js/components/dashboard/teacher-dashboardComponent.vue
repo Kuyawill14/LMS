@@ -54,7 +54,7 @@
       import {
         mapGetters,
         mapActions
-    } from "vuex";
+    } from "vuex"; 
     import {
         use
     } from "echarts/core";

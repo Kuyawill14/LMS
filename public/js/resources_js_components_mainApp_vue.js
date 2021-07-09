@@ -23352,7 +23352,7 @@ var render = function() {
       [
         _c(
           "v-list-item",
-          { attrs: { link: "", to: { name: "dashboard" } } },
+          { attrs: { link: "", to: { name: "dashboard" }, exact: "" } },
           [
             _c(
               "v-list-item-action",
@@ -23377,7 +23377,7 @@ var render = function() {
         _vm._v(" "),
         _c(
           "v-list-item",
-          { attrs: { link: "", to: { name: "courses" } } },
+          { attrs: { link: "", to: { name: "courses" }, exact: "" } },
           [
             _c(
               "v-list-item-action",
