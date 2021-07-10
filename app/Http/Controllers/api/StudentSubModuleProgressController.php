@@ -84,8 +84,32 @@ class StudentSubModuleProgressController extends Controller
 
     public function studentMainProgress($id) {
         // $userId = auth('sanctum')->id();
-        $allSubModulesProgress = DB::table('tbl_student_sub_module_progress')
+
+        $studentList = DB::table('users')
+        ->select('users.id as student_id',
+        'course_id',
+        'class_id'
+        )
+        ->leftJoin('tbl_userclasses' , 'tbl_userclasses.user_id' , '=' , 'users.id')
+        ->where('tbl_userclasses.class_id', $id )
+        ->where('role', 'Student')
+        ->get();
+
+        $studentList = json_decode($studentList, true);
+
+
+
+        $main_modules = DB::table('tbl_main_modules') 
+        ->select('tbl_main_modules.id as main_module_id' ,'tbl_main_modules.module_name',
+        DB::raw('count(tbl_sub_modules.id) AS sub_module_length'))
+        ->leftJoin('tbl_sub_modules' , 'tbl_sub_modules.main_module_id' , '=' , 'tbl_main_modules.id')
+        ->groupBy('tbl_main_modules.id')
         
+        ->where('tbl_main_modules.course_id', $studentList[0]['course_id'] )
+        ->get();
+        $main_modules = json_decode($main_modules, true);
+
+        $allSubModulesProgress = DB::table('tbl_student_sub_module_progress')
         ->select(
         'tbl_student_sub_module_progress.id', 
         'tbl_student_sub_module_progress.student_id', 
@@ -95,29 +119,42 @@ class StudentSubModuleProgressController extends Controller
         'users.firstName',
         'users.middleName',
         'users.lastName',
-        'tbl_sub_modules.sub_module_name',
-        'tbl_sub_modules.sub_module_name',
         DB::raw('SUM(tbl_student_sub_module_progress.time_spent) AS total_time_spent'),
-        DB::raw('SUM(tbl_sub_modules.required_time) AS total_required_time'),
         DB::raw('SUM(case when tbl_student_sub_module_progress.completed = 1 then 1 else 0 end ) AS completed'))
         ->leftJoin('users', 'users.id', '=', 'tbl_student_sub_module_progress.student_id')
         ->leftJoin('tbl_main_modules', 'tbl_main_modules.id', '=', 'tbl_student_sub_module_progress.main_module_id')
         ->leftJoin('tbl_sub_modules', 'tbl_sub_modules.id', '=', 'tbl_student_sub_module_progress.sub_module_id')
-        ->where('tbl_student_sub_module_progress.course_id', $id )
+        ->where('tbl_student_sub_module_progress.course_id',$studentList[0]['course_id'] )
         // ->where('tbl_student_sub_module_progress.student_id',1 )
-        ->groupBy( 'tbl_student_sub_module_progress.student_id')
+        ->groupBy('tbl_student_sub_module_progress.id','tbl_sub_modules.id')
         ->orderBy('users.lastName', 'ASC')
-
         ->get();
-
-        // $allSubModules = DB::table('tbl_sub_modules')
-        // ->select('tbl_sub_modules.*','tbl_main_modules.module_name')
-        // ->leftJoin('tbl_main_modules', 'tbl_main_modules.id', '=', 'tbl_sub_modules.main_module_id')
-        // ->where('tbl_main_modules.course_id', $id )
-        // ->get();
+        $allSubModulesProgress = json_decode($allSubModulesProgress, true);
 
 
-        return $allSubModulesProgress;
+        for($x=0; $x < count($studentList); $x++) {
+
+            for($i=0; $i < count($main_modules); $i++) {
+                $main_modules[$i]['completed'] = 0 ;
+       
+                for($j=0; $j < count($allSubModulesProgress); $j++) {
+                    if($main_modules[$i]['main_module_id'] == $allSubModulesProgress[$j]['main_module_id'] && $allSubModulesProgress[$j]['student_id'] == $studentList[$x]['student_id']) {
+                        $main_modules[$i]['completed'] += $allSubModulesProgress[$j]['completed'];
+                        // $main_modules[$i]['sub_module_length'] +=  $allSubModulesProgress[$j]['sub_module_length'];
+                    }
+                }
+             
+                // for($z=0; $z < count($classworks); $z++)
+                // if(  $classworks[$z]['grading_criteria'] == $gradingCategory[$i]['grade_category_id']) {
+                //     $gradingCategory[$i]['grade_percentage'] = ($gradingCategory[$i]['points'] / $classworks[$z]['total_points']) * $gradingCategory[$i]['percentage'];
+                //     $gradingCategory[$i]['total_points'] =  $classworks[$z]['total_points'];
+                // }
+            
+            
+            }
+            $studentList[$x]['progress'] =  $main_modules;
+        }
+        return $studentList;
     }
 
     public function studentSubProgress($id) {
@@ -184,47 +221,6 @@ class StudentSubModuleProgressController extends Controller
             }
           
           }
-
-
-
-
-
-
-
-
-
-
-
-        /*   $allSubModulesProgress = DB::table('tbl_sub_modules')
-        
-          ->select(
-          'tbl_student_sub_module_progress.id', 
-          'tbl_student_sub_module_progress.student_id', 
-          'tbl_student_sub_module_progress.sub_module_id', 
-          'tbl_student_sub_module_progress.main_module_id', 
-          'tbl_main_modules.module_name',
-          'users.firstName',
-          'users.middleName',
-          'users.lastName',
-          'tbl_sub_modules.sub_module_name',
-          'tbl_sub_modules.sub_module_name',
-          'tbl_student_sub_module_progress.time_spent',
-          'tbl_sub_modules.required_time',
-          )
-          ->leftJoin('tbl_student_sub_module_progress', 'tbl_student_sub_module_progress.sub_module_id', '=', 'tbl_sub_modules.id')
-          ->leftJoin('users', 'users.id', '=', 'tbl_student_sub_module_progress.student_id')
-          ->leftJoin('tbl_main_modules', 'tbl_main_modules.id', '=', 'tbl_student_sub_module_progress.main_module_id')
-         
-  
-          ->get(); */
-  
-          // $allSubModules = DB::table('tbl_sub_modules')
-          // ->select('tbl_sub_modules.*','tbl_main_modules.module_name')
-          // ->leftJoin('tbl_main_modules', 'tbl_main_modules.id', '=', 'tbl_sub_modules.main_module_id')
-          // ->where('tbl_main_modules.course_id', $id )
-          // ->get();
-  
-  
 
 
         return   $allSubModulesProgress;

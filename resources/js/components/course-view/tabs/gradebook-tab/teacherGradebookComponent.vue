@@ -19,7 +19,7 @@
                 <v-tab href="#final_grades">
                     Final Grades
                 </v-tab>
-                <v-tab v-for="(gradingCriteria, index) in get_gradingCriteria" :key="index"
+                <v-tab v-for="(gradingCriteria, index) in get_gradingCriteria" :key="index" :disabled="activeTab == gradingCriteria.id"
                     @click="_getClassworkListbyTab(gradingCriteria.id)">
                     {{gradingCriteria.name}}
                 </v-tab>
@@ -86,8 +86,8 @@
                                     <td class="text-center"
                                         v-for="(classworkGrades, index) in AllStudentClassworkGrades(student.id,gradingCriteria.id)"
                                         :key="index">
-                                        {{classworkGrades.points}}
-
+                                        {{classworkGrades.points}} <span class="text-caption" color="grey"> / {{classworkGrades.hp_points}} </span>
+                 
                                         <v-tooltip v-model="shown" top v-if="classworkGrades.points == null">
                                             <template v-slot:activator="{ on, attrs }">
                                                 <v-btn icon v-bind="attrs" v-on="on">
@@ -134,6 +134,7 @@
         },
         data: function () {
             return {
+                activeTab: null,
                 shown: false,
                 selectedClass: null,
                 Deldialog: false,
@@ -212,6 +213,7 @@
                 this.$store.dispatch('fetchGradingCriteria', this.$route.params.id);
             },
             getClassworkList() {
+                   this.loading = true;
                 var total = 0;
                 this.getStudentList();
                 this.headers = [];
@@ -243,10 +245,18 @@
                     this.classworkTotalPoints = total;
                     this.totalPercentHeader();
                 })
+              
 
                 this.$store.dispatch('fetchAllStudentClassworkGrades', this.selectedClass);
+                   this.$store.dispatch('fetchAllStudentFinalGrades', this.selectedClass).then(() => {
+                    this.loading = false;
+                });
+             
             },
-            _getClassworkListbyTab(grading_criteria_id) {
+            _getClassworkListbyTab(grading_criteria_id, index) {
+               
+                this.activeTab = grading_criteria_id;
+               
                 var total = 0;
                 this.headers = [];
                 this.headers.push({
@@ -276,6 +286,7 @@
                     this.totalPercentHeader();
 
                 })
+            
             },
             getStudentClassworksGrades(grading_criteria_id) {
                 axios.get('/api/grade-book/classworkGrades/' + this.selectedClass).then(res => {
@@ -342,6 +353,9 @@
 <style>
     .v-input__slot {
         margin-bottom: 0 !important;
+    }
+    .v-tab--disabled{
+        color: #000 !important;
     }
 
 </style>

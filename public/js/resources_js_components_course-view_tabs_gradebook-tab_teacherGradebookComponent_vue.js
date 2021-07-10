@@ -151,6 +151,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   data: function data() {
     return {
+      activeTab: null,
       shown: false,
       selectedClass: null,
       Deldialog: false,
@@ -230,6 +231,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     getClassworkList: function getClassworkList() {
       var _this2 = this;
 
+      this.loading = true;
       var total = 0;
       this.getStudentList();
       this.headers = [];
@@ -260,10 +262,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         _this2.totalPercentHeader();
       });
       this.$store.dispatch('fetchAllStudentClassworkGrades', this.selectedClass);
+      this.$store.dispatch('fetchAllStudentFinalGrades', this.selectedClass).then(function () {
+        _this2.loading = false;
+      });
     },
-    _getClassworkListbyTab: function _getClassworkListbyTab(grading_criteria_id) {
+    _getClassworkListbyTab: function _getClassworkListbyTab(grading_criteria_id, index) {
       var _this3 = this;
 
+      this.activeTab = grading_criteria_id;
       var total = 0;
       this.headers = [];
       this.headers.push({
@@ -358,7 +364,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.v-input__slot {\n    margin-bottom: 0 !important;\n}\n\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.v-input__slot {\n    margin-bottom: 0 !important;\n}\n.v-tab--disabled{\n    color: #000 !important;\n}\n\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -548,6 +554,7 @@ var render = function() {
                   "v-tab",
                   {
                     key: index,
+                    attrs: { disabled: _vm.activeTab == gradingCriteria.id },
                     on: {
                       click: function($event) {
                         return _vm._getClassworkListbyTab(gradingCriteria.id)
@@ -800,8 +807,26 @@ var render = function() {
                                                         _vm._s(
                                                           classworkGrades.points
                                                         ) +
-                                                        "\n\n                                    "
+                                                        " "
                                                     ),
+                                                    _c(
+                                                      "span",
+                                                      {
+                                                        staticClass:
+                                                          "text-caption",
+                                                        attrs: { color: "grey" }
+                                                      },
+                                                      [
+                                                        _vm._v(
+                                                          " / " +
+                                                            _vm._s(
+                                                              classworkGrades.hp_points
+                                                            ) +
+                                                            " "
+                                                        )
+                                                      ]
+                                                    ),
+                                                    _vm._v(" "),
                                                     classworkGrades.points ==
                                                     null
                                                       ? _c(

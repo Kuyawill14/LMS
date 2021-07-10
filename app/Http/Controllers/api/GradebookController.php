@@ -49,11 +49,14 @@ class GradebookController extends Controller
         ->select('users.id as student_id',
         'tbl_class_classworks.classwork_id',
         'tbl_userclasses.class_id',
-        'grading_criteria as grading_criteria_id'
+        'grading_criteria as grading_criteria_id',
+        'tbl_classworks.points as hp_points'
         )
         ->leftJoin('tbl_userclasses' , 'tbl_userclasses.user_id' , '=' , 'users.id')
         ->leftJoin('tbl_class_classworks' , 'tbl_class_classworks.class_id' , '=' , 'tbl_userclasses.class_id')
         ->leftJoin('tbl_main_grade_categories' , 'tbl_main_grade_categories.id' , '=' , 'tbl_class_classworks.grading_criteria')
+        ->leftJoin('tbl_classworks' , 'tbl_classworks.id' , '=' , 'tbl_class_classworks.classwork_id')
+
         ->where('tbl_userclasses.class_id', $class_id )
         ->where('role', 'Student')
         ->get();
@@ -199,6 +202,7 @@ class GradebookController extends Controller
 
         $gradingCategory = DB::table('tbl_main_grade_categories')
         ->select('name','id as grade_category_id','percentage')
+        ->where('course_id', $studentList[0]['course_id'])
         ->get();
         $gradingCategory = json_decode($gradingCategory, true);
 
