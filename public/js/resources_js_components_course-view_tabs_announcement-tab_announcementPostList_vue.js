@@ -353,7 +353,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -410,7 +409,6 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       axios.get('/api/comment/allcomment/' + this.$route.params.id).then(function (res) {
-        console.log(res.data.length);
         _this2.CommentList = res.data;
       });
     }

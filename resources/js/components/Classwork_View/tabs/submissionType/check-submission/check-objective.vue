@@ -27,25 +27,34 @@
            <v-container v-if="!isLoading" class="mt-5">
                <v-row>
                    <v-col class="12" md="9" lg="9">
-                       <div class="d-flex justify-space-between">
-                        <div class="d-flex">
-                            <v-avatar color="brown" size="40">
-                                <v-img alt="Profile"
-                                    :src="ViewDetails.profile_pic == null || ViewDetails.profile_pic == '' ? 'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=' + ViewDetails.name : ViewDetails.profile_pic">
-                                </v-img>
-                            </v-avatar>
-                            <div>
-                                <h4 style="line-height:1.0" class="font-weight-medium ml-2 mt-1 mb-0 pb-0">{{ViewDetails.name}}</h4>
-                               <div class="ml-2 caption">Submitted: {{format_date(ViewDetails.updated_at)}}</div>
-                            </div>
-                        </div>
-                        <div>
-                          <!--   @keyup="SaveScore()" :loading="isSavingScore"  -->
-                            <v-text-field  :style="$vuetify.breakpoint.xs ? 'width:50%' :'width:40%'" 
-                            class="mt-1 float-right" v-model="ViewDetails.points" 
-                            dense outlined label="Score"></v-text-field>
-                        </div>
-                    </div>
+                       <v-row>
+                           <v-col cols="8" md="9" lg="9">
+                               <div class="d-flex">
+                                        <v-avatar color="brown" size="40">
+                                            <v-img alt="Profile"
+                                                :src="ViewDetails.profile_pic == null || ViewDetails.profile_pic == '' ? 'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=' + ViewDetails.name : ViewDetails.profile_pic">
+                                            </v-img>
+                                        </v-avatar>
+                                        <div>
+                                            <h4 style="line-height:1.0" class="font-weight-medium ml-2 mt-1 mb-0 pb-0">{{ViewDetails.name}}</h4>
+                                        <div class="ml-2 caption">Submitted: {{format_date(ViewDetails.updated_at)}}</div>
+                                    </div>
+                                </div>
+                           </v-col>
+                           <v-col cols="3" md="2" lg="2">
+                               <div class="d-flex">
+                                <!--   @keyup="SaveScore()" :loading="isSavingScore"  -->
+                                    <v-text-field  :style="$vuetify.breakpoint.xs ? 'width:20%' :'width:10%'" 
+                                    class="mt-1 float-right" v-model="ViewDetails.points" 
+                                    dense outlined label="Score"></v-text-field>
+                                    <div class="display-1 font-weight-thin mt-1 ml-1">/ </div>
+                                    <div style="font-size:25px" class="  ml-1 mt-1">
+                                        {{classworkDetails.points}}
+                                    </div>
+                                </div>
+                           </v-col>
+                       </v-row>
+                      
                    </v-col>
                </v-row>
 
@@ -53,7 +62,7 @@
                     <v-container ma-0 pa-0 class="ma-0 pa-0">
                         <div :style="$vuetify.breakpoint.xs ? 'line-height:1.1': ''" class="subtitle-1 d-flex"> 
                             <v-checkbox
-                          
+                            @click="UpdateScore(item.id, Check[index], item.points, index,item.answer)"
                             class="mt-0 pt-0"
                             color="success"
                             v-model="Check[index]"
@@ -68,7 +77,7 @@
                             
                             <h3 class="font-weight-bold">{{index+1}}.</h3>
                               <span v-html="item.question" class="post-content ml-1"></span>
-                             <small class="primary--text ml-1">({{item.points+' points'}})</small>
+                                <small class="primary--text ml-1">({{item.points+' points'}})</small>
                              </div>
                     </v-container> 
                
@@ -78,27 +87,23 @@
                             <v-radio
                             color="primary"
                             :key="index"
-                            :value="Ans.Choice"
-                            ></v-radio>
+                            :value="Ans.Choice">
+                            </v-radio>
                             </v-radio-group>
                             <div style="line-height:1.4" class="Subtitle-1 ma-0 pa-0 d-flex">
                                 <span v-html="Ans.Choice" class="post-content"></span>
                                 <span class="caption primary--text ml-1 mt-1" v-if="item.answer == Ans.Choice">(correct answer)</span>
                             </div>
-                           <!--   <div class="Subtitle-1 ">
-                                    <span v-html="Ans.Choice" class="post-content"></span>
-                                    <span class="caption primary--text ml-1 mt-1" v-if="getQuestion.answer == Ans.Choice">(correct answer)</span>
-                                </div> -->
                         </v-container>
                  </v-container>
 
                   <v-container v-if="item.type == 'Identification'">
                       <v-container ma-0 pa-0 class="ml-7">
-                            <div class="subtitle-2 font-weight-bold">Answer</div>
-                            <div class="subtitle-1 d-flex item ml-4">
-                                <span v-html="SubmittedAnswer[index].Answer" class="post-content"></span>
-                            </div>
-                        </v-container>
+                        <div class="subtitle-2 font-weight-bold">Answer</div>
+                        <div class="subtitle-1 d-flex item ml-4">
+                            <span v-html="SubmittedAnswer[index].Answer" class="post-content"></span>
+                        </div>
+                    </v-container>
                  </v-container>
 
 
@@ -108,23 +113,16 @@
                             <v-radio
                             color="primary"
                             :key="index"
-                            
-                            :value="inputCheck[n]"
-                            ></v-radio>
-                            </v-radio-group>
-
-                            <div class="Subtitle 1">
-                                {{inputCheck[n]}}
-                            </div>
+                            :value="inputCheck[n]">
+                            </v-radio>
+                        </v-radio-group>
+                        <div class="Subtitle 1">
+                            {{inputCheck[n]}}
+                        </div>
                     </v-container>
                  </v-container>
-
-                  
                 </v-container>
            </v-container>
-        
-        
-            
       </v-card>
   
 
@@ -142,7 +140,8 @@ import moment from 'moment';
             Check: [],
             isLoading: true,
             inputCheck:['True','False'],
-            SubmittedAnswer:[]
+            SubmittedAnswer:[],
+            UpdateDetails:{}
           }
       },
       computed:mapGetters(["getAll_questions"]),
@@ -172,13 +171,30 @@ import moment from 'moment';
                     }
                     
                 }
-                console.log(this.ViewDetails.Submitted_Answers);
-              
+                //console.log(this.ViewDetails.Submitted_Answers);
                 this.isLoading = false;
-                
             });
 
         },
+        async UpdateScore(id, data, points,index,answer){
+            this.UpdateDetails.check = data;
+            this.UpdateDetails.points = points;
+            this.UpdateDetails.question_id = id;
+            this.UpdateDetails.answer = answer;
+            axios.put('/api/teacher/update-score/'+this.ViewDetails.id, this.UpdateDetails)
+            .then(res=>{
+                if(res.status == 200){
+                    if(data == true){
+                        this.SubmittedAnswer[index] = answer;
+                        this.ViewDetails.points = this.ViewDetails.points + points;
+                    }else{
+                        this.SubmittedAnswer[index] = "";
+                        this.ViewDetails.points = this.ViewDetails.points - points;
+                    }
+                }
+            })
+        }
+     
       },
       mounted(){
           this.fetchQuestions();

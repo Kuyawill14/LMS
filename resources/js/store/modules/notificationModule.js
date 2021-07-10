@@ -22,9 +22,8 @@ const actions = {
         const res = await axios.get(
             `/api/notification/all`)
             .then(response=>{
-                
                 for (let i = 0; i < response.data.length; i++) {
-                    if(response.data[i].status == 0){
+                    if(response.data[i].status == null || response.data[i].status == 0){
                         count += 1;
                     }
                 }

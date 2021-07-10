@@ -42,17 +42,17 @@
         methods:{
             ...mapActions(['fetchClassPost']),
              connect(){
-                //let vm = this;
+                let vm = this;
                  this.fetchClassPost(this.$route.params.id)
                  .then(res=>{
                      if(res == 200){
                          this.isLoading = false;
                      }
                  })
-                /*  window.Echo.private("post."+ this.$route.params.id)
+                 window.Echo.private("post."+ this.$route.params.id)
                  .listen('NewPost', e =>{
                      vm.fetchClassPost(this.$route.params.id);
-                 }) */
+                 })
             },
           
         },

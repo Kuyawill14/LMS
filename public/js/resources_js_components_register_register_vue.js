@@ -604,64 +604,6 @@ var render = function() {
                                               )
                                             ],
                                             1
-                                          ),
-                                          _vm._v(" "),
-                                          _c(
-                                            "v-container",
-                                            {
-                                              staticClass: "mt-2",
-                                              attrs: { "ma-0": "", "pa-0": "" }
-                                            },
-                                            [
-                                              _c("h3", [
-                                                _vm._v(
-                                                  "Sign Up with Social media"
-                                                )
-                                              ]),
-                                              _vm._v(" "),
-                                              _c(
-                                                "v-btn",
-                                                {
-                                                  staticClass:
-                                                    "mb-3 mt-1 mr-5 white--text",
-                                                  attrs: { color: "blue" }
-                                                },
-                                                [
-                                                  _c(
-                                                    "v-icon",
-                                                    { staticClass: "mr-3" },
-                                                    [_vm._v("mdi-facebook")]
-                                                  ),
-                                                  _vm._v(
-                                                    "\n                                                Facebook\n                                            "
-                                                  )
-                                                ],
-                                                1
-                                              ),
-                                              _vm._v(" "),
-                                              _c(
-                                                "v-btn",
-                                                {
-                                                  staticClass:
-                                                    "mb-3 mt-1 white--text",
-                                                  attrs: {
-                                                    color: "red darken-1"
-                                                  }
-                                                },
-                                                [
-                                                  _c(
-                                                    "v-icon",
-                                                    { staticClass: "mr-3" },
-                                                    [_vm._v("mdi-google-plus")]
-                                                  ),
-                                                  _vm._v(
-                                                    "\n                                                Google Plus\n                                            "
-                                                  )
-                                                ],
-                                                1
-                                              )
-                                            ],
-                                            1
                                           )
                                         ],
                                         1

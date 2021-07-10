@@ -36,9 +36,7 @@ const actions = {
         // commit('ADD_CLASSPOST', newCLassPost);
         console.log(state.class_post);
         state.class_post.push({...newCLassPost });
-
-
-        //return newCLassPost;
+        return res;
     },
 };
 const mutations = {

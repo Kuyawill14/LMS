@@ -328,7 +328,6 @@ class ClassController extends Controller
             $existingClass->save();
             return $existingClass;
         }
-
         return "item not found";
     }
 

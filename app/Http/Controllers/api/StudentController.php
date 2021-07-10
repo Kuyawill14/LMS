@@ -89,11 +89,19 @@ class StudentController extends Controller
     {
         $userId = auth('sanctum')->id();
         if($request->type == 'Objective Type'){
+            $Check = tbl_Submission::where('classwork_id', $request->id)
+            ->where('user_id',  $userId)->first();
+            if($Check){
+                $Check->status = "Taking";
+                $Check->save();
+                return;
+            }
             $StatusUpdate = new tbl_Submission;
             $StatusUpdate->classwork_id = $request->id;
             $StatusUpdate->user_id =  $userId;
             $StatusUpdate->status = "Taking";
             $StatusUpdate->save();
+            return;
         }
         elseif($request->type == 'Subjective Type'){
             
@@ -148,8 +156,10 @@ class StudentController extends Controller
             $SubmitSubj->save();
         }
         return $SubmitSubj;
-
     }
+
+
+    
 
 
    
@@ -266,13 +276,13 @@ class StudentController extends Controller
  */
 
         $userInClass = DB::table('tbl_userclasses')
-        ->select('tbl_userclasses.id','tbl_userclasses.user_id', 'tbl_classes.class_name', 'users.role','tbl_subject_courses.course_name')
+        ->select('tbl_userclasses.id','tbl_userclasses.user_id', 'tbl_classes.class_name', 'users.role','tbl_subject_courses.course_name','tbl_subject_courses.id as course_id')
         ->leftJoin('tbl_classes', 'tbl_classes.id', '=', 'tbl_userclasses.class_id')
         ->leftJoin('tbl_subject_courses', 'tbl_userclasses.course_id', '=', 'tbl_subject_courses.id')
         ->leftJoin('users', 'users.id', '=', 'tbl_userclasses.user_id')
         ->where('users.role', 'Teacher')
         ->where('tbl_userclasses.class_id', $JoinClass->class_id)
-        ->get();
+        ->first();
 
        /*  $newNotification = new tbl_notification;
         $newNotification->userid_from = $userId;
@@ -283,8 +293,14 @@ class StudentController extends Controller
         $newNotification->status = 0;
         $newNotification->save(); */
 
-
-        /* broadcast(new NewNotification($newNotification))->toOthers(); */
+        $newNotification = new tbl_notification;
+        $newNotification->course_id = $userInClass->course_id;
+        $newNotification->class_id = $JoinClass->class_id;
+        $newNotification->from_id =  $userId;
+        $newNotification->message = "Join to your ".$userInClass->course_name." - " .$userInClass->class_name ." class";
+        $newNotification->notification_type = 2;
+        $newNotification->save();
+        broadcast(new NewNotification($newNotification))->toOthers();
         return response()->json("Join class success",200); 
     }
 

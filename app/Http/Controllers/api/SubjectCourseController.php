@@ -24,12 +24,28 @@ class SubjectCourseController extends Controller
     {
         $totalProgress = 0;
         $userId = auth('sanctum')->id();
-        $allCourseSubject = DB::table('tbl_teacher_courses')
-        ->select('tbl_teacher_courses.id as useClass_id','tbl_subject_courses.*','tbl_subject_courses.id as course_id')
+        //$userId = 1;
+        $allCourseSubject = tbl_teacher_course::where('tbl_teacher_courses.user_id', $userId)
+        ->select('tbl_teacher_courses.id as useClass_id','tbl_subject_courses.id','tbl_subject_courses.course_code',
+        'tbl_subject_courses.course_name','tbl_subject_courses.course_description','tbl_subject_courses.id as course_id',
+        'tbl_subject_courses.course_picture','tbl_subject_courses.completed','tbl_subject_courses.created_at')
+        ->selectRaw('count(tbl_userclasses.course_id ) as student_count')
         ->leftJoin('tbl_subject_courses', 'tbl_teacher_courses.course_id', '=', 'tbl_subject_courses.id')
-        ->where('user_id',$userId)
+        ->leftJoin('tbl_userclasses', 'tbl_userclasses.course_id','=','tbl_subject_courses.id')
+        ->leftJoin('users', 'users.id','=','tbl_userclasses.user_id' )
+        ->groupBy('tbl_teacher_courses.id','tbl_subject_courses.id','tbl_subject_courses.course_code',
+        'tbl_subject_courses.course_name','tbl_subject_courses.course_description','tbl_subject_courses.id',
+        'tbl_subject_courses.course_picture','tbl_subject_courses.completed','tbl_subject_courses.created_at')
         ->orderBy('created_at', 'ASC')
         ->get();
+
+        foreach($allCourseSubject as $item){
+            $countClass = tbl_userclass::where('tbl_userclasses.user_id', $userId )
+            ->where('tbl_userclasses.course_id', $item->id)
+            ->count();
+            $item->class_count = $countClass;
+            $item->student_count = $item->student_count-1;
+        }
 
         // if(auth('sanctum')->user()->role == "Student") {
         //     foreach($allClass as $key => $value) {

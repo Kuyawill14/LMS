@@ -21,7 +21,7 @@ class ClassworkController extends Controller
      */
     public function index($id)
     {
-        //$userId = 1;
+        //$userId = 2;
         $userId = auth('sanctum')->id();
         if(auth('sanctum')->user()->role != 'Student'){
             $classwork = tbl_classwork::where('course_id',  $id)
@@ -51,12 +51,18 @@ class ClassworkController extends Controller
 
             foreach($CheckSub as $subM){
                 foreach($classworkAll as $classW){
-                    if($subM->classwork_id === $classW->classwork_id){
-                       
+                    if($subM->classwork_id == $classW->classwork_id){
+                      if($subM->status == ''){
+                        $classW->status = null;
+                        $classW->Sub_date = null;
+                      }
+                      else{
                         $classW->status = $subM->status;
                         $classW->score = $subM->points;
                         $classW->graded = $subM->graded;
                         $classW->Sub_date = $subM->updated_at;
+                      }
+                       
                     }
                     else{
                         if($classW->status == null){

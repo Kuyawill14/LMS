@@ -20,6 +20,8 @@ use App\Http\Controllers\api\GradebookController;
 use App\Http\Controllers\api\AnalyticsController;
 use App\Http\Controllers\api\SubmissionController;
 use App\Http\Controllers\api\UserProfileController;
+use App\Http\Controllers\api\TeacherController;
+
 
 
 
@@ -129,6 +131,12 @@ Route::prefix('/student')->group(function () {
     Route::delete('/{id}', [StudentController::class, 'Unenroll']);
     Route::put('/submit-classwork/{id}', [StudentController::class, 'SubmitClassworkSubj']);
     
+});
+
+//Teacher
+Route::prefix('/teacher')->group(function () {
+    Route::put('/update-score/{id}', [TeacherController::class, 'updateScoreObj']);
+    Route::put('/reset-obj/{id}', [TeacherController::class, 'resetStudentObjSubmission']);
 });
 
 

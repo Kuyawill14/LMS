@@ -43,7 +43,6 @@
             :commentCount="post.comment_count"
             :LikesCount="post.likes_count"
             :PostId="post.post_id" :UserDetails="UserDetails" ></commentList>
-            
         </v-card>
     </div>
 
@@ -75,7 +74,6 @@
             },
         },
         methods: {
-            
             test() {
                 $('.img-fluid').click(function () {
                     console.log($('.img-fluid').attr('src'))
@@ -90,7 +88,6 @@
                 this.data.content = this.comment[i];
                 this.data.course_id = this.$route.params.id;
                 this.data.post_id = post_id;
-                
                 axios.post('/api/comment/insert',this.data)
                 .then(res=>{
                     res.data;
@@ -105,12 +102,9 @@
             getComments(){
                 axios.get('/api/comment/allcomment/'+this.$route.params.id)
                 .then((res)=>{
-                    console.log(res.data.length);
                     this.CommentList = res.data;
                 })
             }
-
-
         },
         created() {
             $(".post-content p").replaceWith(function () {

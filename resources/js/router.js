@@ -135,7 +135,9 @@ const router = new Router({
                 {
                     path: "/courses",
                     component: mycourse,
-                    name: "courses"
+                    name: "courses",
+                    
+                   
                 },
                 {
                     path: "course/:id",
@@ -363,7 +365,6 @@ router.beforeEach((to, from, next) => {
                     if (completed == 1) {
                         next();
                     } else {
-                        console.log('test');
                         return next({
                             name: "courseSetup",
                             params: { id: to.params.id }
@@ -371,7 +372,7 @@ router.beforeEach((to, from, next) => {
                     }
                 } else if (res.data == 'Student') {
                     next({
-                        path: "course/" + to.params.id + "/announcement"
+                        name:'announcement', params:{id: to.params.id }
                     });
                 }
             })

@@ -535,20 +535,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       if (value) {
         return moment__WEBPACK_IMPORTED_MODULE_0___default()(String(value)).format("MMMM DD, h:mm a");
       }
-    },
-    alert: function (_alert) {
-      function alert(_x) {
-        return _alert.apply(this, arguments);
-      }
-
-      alert.toString = function () {
-        return _alert.toString();
-      };
-
-      return alert;
-    }(function (message) {
-      alert(message);
-    })
+    }
   }),
   mounted: function mounted() {
     this.connect();
@@ -23542,7 +23529,19 @@ var render = function() {
                   _vm._l(_vm.get_notification, function(item, index) {
                     return _c(
                       "v-list-item",
-                      { key: index },
+                      {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value:
+                              item.hide_notif == 0 || item.hide_notif == null,
+                            expression:
+                              "item.hide_notif == 0 || item.hide_notif == null"
+                          }
+                        ],
+                        key: index
+                      },
                       [
                         _c(
                           "v-list-item-avatar",
@@ -23585,7 +23584,7 @@ var render = function() {
                         _c(
                           "v-list-item-action",
                           [
-                            item.status == 0
+                            item.status == null || item.status == 0
                               ? _c(
                                   "v-btn",
                                   {

@@ -1,19 +1,17 @@
 <template>
   <v-app>
-      <v-container class="fill-height" fluid>
-        <v-row align="center" justify="center">
-          <v-col cols="12" sm="8" md="8">  
-            <v-card  class="elevation-12">
-              <v-window>
-                <v-window-item :value="1">
-                 
+      <v-container  fluid>
+        <v-row  align="center" justify="center">
+          <v-col class="ma-0 pa-0" cols="12" sm="12" md="12">  
+            <v-card  >
+              
                      <v-row >
-                        <v-col  cols="12" md="4" class="primary">
+                        <v-col :style="$vuetify.breakpoint.xs ? 'height:30vh':'height:102vh'"  cols="12" md="5" class="primary ma-0 pa-0">
                           <v-row style="height:10vh"></v-row>
                         </v-col>
-                        <v-col cols="12" md="8">
+                        <v-col class="ma-0 pa-0" cols="12" md="7">
                           <v-row style="height:10vh"></v-row>
-                        <v-card-text class="pt-12">
+                        <v-card-text >
                             <h1
                             class=" display-1 primary--text "
                             >Login to your <span>Account</span></h1>
@@ -88,8 +86,7 @@
                         </v-container> 
                         </v-col> 
                     </v-row>
-                </v-window-item>
-              </v-window>
+        
             </v-card>
           </v-col>
         </v-row>

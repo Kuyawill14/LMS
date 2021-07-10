@@ -77,7 +77,7 @@
                                 </v-card-subtitle>
                             </v-img>
                             <v-card-subtitle>
-                                <router-link :to="{name: 'coursePage', params: {id: item.course_id}}" style="text-decoration: none">
+                                <router-link :to="{name: 'coursePage', params: {id: item.course_id}, query:{class: item.class_id}}" style="text-decoration: none">
                                     <p style="font-size: 16px;">{{item.course_code }} 
                                     <br> {{ item.course_name}}
                                     </p>
@@ -125,7 +125,7 @@
                 })
             };
         },
-
+        computed: mapGetters(["allClass"]),
         methods: {
             ...mapActions(["fetchClassList"]),
             openJoinmodal() {
@@ -138,19 +138,12 @@
                 this.$store.dispatch("joinClass", this.form).then(() => {
                     this.fetchClasses();
                     form.class_code = '';
-
                 });
-
-
-
-
             },
             Unenroll(id) {
                 this.isloading = true;
                 this.$store.dispatch("Unenroll", id);
                 this.fetchClasses();
-
-
                 setTimeout(() => (this.isloading = false), 1000);
             },
             fetchClasses() {
@@ -161,10 +154,8 @@
                 });
             },
         },
-        computed: mapGetters(["allClass"]),
         mounted() {
             this.fetchClasses();
-
         }
     };
 

@@ -11,11 +11,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
-//
-//
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 //
 //
 //
@@ -156,14 +162,15 @@ __webpack_require__.r(__webpack_exports__);
       Check: [],
       isLoading: true,
       inputCheck: ['True', 'False'],
-      SubmittedAnswer: []
+      SubmittedAnswer: [],
+      UpdateDetails: {}
     };
   },
-  computed: (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(["getAll_questions"]),
+  computed: (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(["getAll_questions"]),
   methods: {
     format_date: function format_date(value) {
       if (value) {
-        return moment__WEBPACK_IMPORTED_MODULE_0___default()(String(value)).format('MM/d/YYYY, hh:mm A');
+        return moment__WEBPACK_IMPORTED_MODULE_1___default()(String(value)).format('MM/d/YYYY, hh:mm A');
       }
     },
     fetchQuestions: function fetchQuestions() {
@@ -185,11 +192,43 @@ __webpack_require__.r(__webpack_exports__);
               }
             }
           }
-        }
+        } //console.log(this.ViewDetails.Submitted_Answers);
 
-        console.log(_this.ViewDetails.Submitted_Answers);
+
         _this.isLoading = false;
       });
+    },
+    UpdateScore: function UpdateScore(id, data, points, index, answer) {
+      var _this2 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _this2.UpdateDetails.check = data;
+                _this2.UpdateDetails.points = points;
+                _this2.UpdateDetails.question_id = id;
+                _this2.UpdateDetails.answer = answer;
+                axios.put('/api/teacher/update-score/' + _this2.ViewDetails.id, _this2.UpdateDetails).then(function (res) {
+                  if (res.status == 200) {
+                    if (data == true) {
+                      _this2.SubmittedAnswer[index] = answer;
+                      _this2.ViewDetails.points = _this2.ViewDetails.points + points;
+                    } else {
+                      _this2.SubmittedAnswer[index] = "";
+                      _this2.ViewDetails.points = _this2.ViewDetails.points - points;
+                    }
+                  }
+                });
+
+              case 5:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
     }
   },
   mounted: function mounted() {
@@ -21800,85 +21839,124 @@ var render = function() {
                     { staticClass: "12", attrs: { md: "9", lg: "9" } },
                     [
                       _c(
-                        "div",
-                        { staticClass: "d-flex justify-space-between" },
+                        "v-row",
                         [
                           _c(
-                            "div",
-                            { staticClass: "d-flex" },
+                            "v-col",
+                            { attrs: { cols: "8", md: "9", lg: "9" } },
                             [
                               _c(
-                                "v-avatar",
-                                { attrs: { color: "brown", size: "40" } },
+                                "div",
+                                { staticClass: "d-flex" },
                                 [
-                                  _c("v-img", {
-                                    attrs: {
-                                      alt: "Profile",
-                                      src:
-                                        _vm.ViewDetails.profile_pic == null ||
-                                        _vm.ViewDetails.profile_pic == ""
-                                          ? "https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=" +
-                                            _vm.ViewDetails.name
-                                          : _vm.ViewDetails.profile_pic
-                                    }
-                                  })
+                                  _c(
+                                    "v-avatar",
+                                    { attrs: { color: "brown", size: "40" } },
+                                    [
+                                      _c("v-img", {
+                                        attrs: {
+                                          alt: "Profile",
+                                          src:
+                                            _vm.ViewDetails.profile_pic ==
+                                              null ||
+                                            _vm.ViewDetails.profile_pic == ""
+                                              ? "https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=" +
+                                                _vm.ViewDetails.name
+                                              : _vm.ViewDetails.profile_pic
+                                        }
+                                      })
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c("div", [
+                                    _c(
+                                      "h4",
+                                      {
+                                        staticClass:
+                                          "font-weight-medium ml-2 mt-1 mb-0 pb-0",
+                                        staticStyle: { "line-height": "1.0" }
+                                      },
+                                      [_vm._v(_vm._s(_vm.ViewDetails.name))]
+                                    ),
+                                    _vm._v(" "),
+                                    _c("div", { staticClass: "ml-2 caption" }, [
+                                      _vm._v(
+                                        "Submitted: " +
+                                          _vm._s(
+                                            _vm.format_date(
+                                              _vm.ViewDetails.updated_at
+                                            )
+                                          )
+                                      )
+                                    ])
+                                  ])
                                 ],
                                 1
-                              ),
-                              _vm._v(" "),
-                              _c("div", [
-                                _c(
-                                  "h4",
-                                  {
-                                    staticClass:
-                                      "font-weight-medium ml-2 mt-1 mb-0 pb-0",
-                                    staticStyle: { "line-height": "1.0" }
-                                  },
-                                  [_vm._v(_vm._s(_vm.ViewDetails.name))]
-                                ),
-                                _vm._v(" "),
-                                _c("div", { staticClass: "ml-2 caption" }, [
-                                  _vm._v(
-                                    "Submitted: " +
-                                      _vm._s(
-                                        _vm.format_date(
-                                          _vm.ViewDetails.updated_at
-                                        )
-                                      )
-                                  )
-                                ])
-                              ])
-                            ],
-                            1
+                              )
+                            ]
                           ),
                           _vm._v(" "),
                           _c(
-                            "div",
+                            "v-col",
+                            { attrs: { cols: "3", md: "2", lg: "2" } },
                             [
-                              _c("v-text-field", {
-                                staticClass: "mt-1 float-right",
-                                style: _vm.$vuetify.breakpoint.xs
-                                  ? "width:50%"
-                                  : "width:40%",
-                                attrs: {
-                                  dense: "",
-                                  outlined: "",
-                                  label: "Score"
-                                },
-                                model: {
-                                  value: _vm.ViewDetails.points,
-                                  callback: function($$v) {
-                                    _vm.$set(_vm.ViewDetails, "points", $$v)
-                                  },
-                                  expression: "ViewDetails.points"
-                                }
-                              })
-                            ],
-                            1
+                              _c(
+                                "div",
+                                { staticClass: "d-flex" },
+                                [
+                                  _c("v-text-field", {
+                                    staticClass: "mt-1 float-right",
+                                    style: _vm.$vuetify.breakpoint.xs
+                                      ? "width:20%"
+                                      : "width:10%",
+                                    attrs: {
+                                      dense: "",
+                                      outlined: "",
+                                      label: "Score"
+                                    },
+                                    model: {
+                                      value: _vm.ViewDetails.points,
+                                      callback: function($$v) {
+                                        _vm.$set(_vm.ViewDetails, "points", $$v)
+                                      },
+                                      expression: "ViewDetails.points"
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c(
+                                    "div",
+                                    {
+                                      staticClass:
+                                        "display-1 font-weight-thin mt-1 ml-1"
+                                    },
+                                    [_vm._v("/ ")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "div",
+                                    {
+                                      staticClass: "  ml-1 mt-1",
+                                      staticStyle: { "font-size": "25px" }
+                                    },
+                                    [
+                                      _vm._v(
+                                        "\n                                  " +
+                                          _vm._s(_vm.classworkDetails.points) +
+                                          "\n                              "
+                                      )
+                                    ]
+                                  )
+                                ],
+                                1
+                              )
+                            ]
                           )
-                        ]
+                        ],
+                        1
                       )
-                    ]
+                    ],
+                    1
                   )
                 ],
                 1
@@ -21908,6 +21986,17 @@ var render = function() {
                             _c("v-checkbox", {
                               staticClass: "mt-0 pt-0",
                               attrs: { color: "success" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.UpdateScore(
+                                    item.id,
+                                    _vm.Check[index],
+                                    item.points,
+                                    index,
+                                    item.answer
+                                  )
+                                }
+                              },
                               model: {
                                 value: _vm.Check[index],
                                 callback: function($$v) {
@@ -22101,9 +22190,9 @@ var render = function() {
                                 _vm._v(" "),
                                 _c("div", { staticClass: "Subtitle 1" }, [
                                   _vm._v(
-                                    "\n                          " +
+                                    "\n                      " +
                                       _vm._s(_vm.inputCheck[n]) +
-                                      "\n                      "
+                                      "\n                  "
                                   )
                                 ])
                               ],

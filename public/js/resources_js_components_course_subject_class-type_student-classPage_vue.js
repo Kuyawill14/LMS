@@ -139,6 +139,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       })
     };
   },
+  computed: (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)(["allClass"]),
   methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)(["fetchClassList"])), {}, {
     openJoinmodal: function openJoinmodal() {
       this.dialog = !this.dialogl;
@@ -174,7 +175,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
     }
   }),
-  computed: (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)(["allClass"]),
   mounted: function mounted() {
     this.fetchClasses();
   }
@@ -620,7 +620,8 @@ var render = function() {
                                       attrs: {
                                         to: {
                                           name: "coursePage",
-                                          params: { id: item.course_id }
+                                          params: { id: item.course_id },
+                                          query: { class: item.class_id }
                                         }
                                       }
                                     },

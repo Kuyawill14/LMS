@@ -174,6 +174,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
     };
   },
+  computed: (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)(['allCourse']),
   methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)(['fetchCourseList'])), {}, {
     toastSuccess: function toastSuccess(message, icon) {
       return this.$toasted.success(message, {
@@ -231,16 +232,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
     }
   }),
-  computed: (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)(['allCourse']),
-  created: function created() {
-    var _this3 = this;
-
-    this.isloading = true;
-    this.fetchCourseList();
-    setTimeout(function () {
-      return _this3.isloading = false;
-    }, 1000);
-  },
   mounted: function mounted() {
     this.fetchCourses();
   }
@@ -823,11 +814,15 @@ var render = function() {
                                   _vm._v(" "),
                                   _c("hr"),
                                   _vm._v(
-                                    "\n                              {# of students} "
+                                    "\n                              " +
+                                      _vm._s(item.student_count + " students") +
+                                      " "
                                   ),
                                   _c("br"),
                                   _vm._v(
-                                    "\n                            {# of class}\n                        "
+                                    "\n                            " +
+                                      _vm._s(item.class_count + " class") +
+                                      "\n                        "
                                   )
                                 ],
                                 1

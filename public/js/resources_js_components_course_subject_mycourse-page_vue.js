@@ -11,7 +11,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 //
 //
 //
@@ -19,13 +18,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-
-
 var teacherCoursePage = function teacherCoursePage() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_course_subject_class-type_teacher-coursePage_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./class-type/teacher-coursePage */ "./resources/js/components/course_subject/class-type/teacher-coursePage.vue"));
 };
@@ -39,24 +31,6 @@ var studentClassPage = function studentClassPage() {
   components: {
     teacherCoursePage: teacherCoursePage,
     studentClassPage: studentClassPage
-  },
-  date: function date() {
-    return {
-      coursesLength: 0
-    };
-  },
-  computed: (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)(['allCourse']),
-  methods: {
-    fetchCourses: function fetchCourses() {
-      var _this = this;
-
-      this.$store.dispatch('fetchCourseList').then(function () {
-        _this.coursesLength = _this.allCourse.length;
-      });
-    }
-  },
-  mounted: function mounted() {
-    this.fetchCourses();
   }
 });
 

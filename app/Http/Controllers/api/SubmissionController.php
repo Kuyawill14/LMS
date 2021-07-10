@@ -9,6 +9,8 @@ use App\Models\tbl_Submission;
 use App\Models\tbl_userclass;
 use Illuminate\Support\Facades\Storage;
 use App\Models\User;
+use App\Models\tbl_classwork;
+use App\Models\tbl_classClassworks;
 
 class SubmissionController extends Controller
 {
@@ -20,8 +22,54 @@ class SubmissionController extends Controller
      */
     public function index($id)
     {
+        $SubmissionList = tbl_classClassworks::where('tbl_class_classworks.classwork_id', $id)
+        ->select('tbl_class_classworks.classwork_id', 'tbl_class_classworks.class_id', 'tbl_userclasses.user_id','tbl_user_details.profile_pic',
+        DB::raw('CONCAT(users.firstname, " ", users.lastName) as name'))
+        ->leftJoin('tbl_userclasses', 'tbl_userclasses.class_id','=','tbl_class_classworks.class_id')
+        ->leftJoin('users', 'users.id','=','tbl_userclasses.user_id')
+        ->leftjoin('tbl_user_details','tbl_user_details.user_id','=','users.id')
+        ->where('users.role','Student')
+        ->get();
 
-        $SubmissionList = tbl_Submission::where('tbl_submissions.classwork_id', $id)
+        if(count($SubmissionList) != 0){
+            foreach($SubmissionList as $Sub){
+                $Submission = tbl_Submission::where('classwork_id',$Sub->classwork_id)
+                ->where('user_id', $Sub->user_id)->first();
+                if(!$Submission){
+                    $Sub->id = null;
+                    $Sub->status = null;
+                    $Sub->points = null;
+                    $Sub->graded = null;
+                    $Sub->updated_at = null;
+                    $Sub->Submitted_Answers = null;
+                    
+                }
+                else{
+                    $Sub->id = $Submission->id;
+                    $Sub->status = $Submission->status;
+                    $Sub->points = $Submission->points;
+                    $Sub->graded = $Submission->graded;
+                    $Sub->updated_at = $Submission->updated_at;
+                    $Sub->Submitted_Answers = unserialize($Submission->Submitted_Answers);
+                }
+               
+            }
+        } 
+
+        /* $SubmissionList = tbl_classClassworks::where('tbl_class_classworks.classwork_id', $id)
+        ->select('tbl_class_classworks.classwork_id', 'tbl_class_classworks.class_id', 'tbl_userclasses.user_id','tbl_user_details.profile_pic',
+        DB::raw('CONCAT(users.firstname, " ", users.lastName) as name'),'tbl_submissions.id',
+        'tbl_submissions.status', 'tbl_submissions.points','tbl_submissions.updated_at','tbl_submissions.Submitted_Answers', 'tbl_submissions.graded')
+        ->leftJoin('tbl_userclasses', 'tbl_userclasses.class_id','=','tbl_class_classworks.class_id')
+        ->leftJoin('users', 'users.id','=','tbl_userclasses.user_id')
+        ->leftjoin('tbl_user_details','tbl_user_details.user_id','=','users.id')
+        ->leftJoin('tbl_submissions', 'tbl_submissions.classwork_id','=','tbl_class_classworks.classwork_id')
+        ->where('users.role','Student')
+        ->get();
+ */
+
+
+       /*  $SubmissionList = tbl_Submission::where('tbl_submissions.classwork_id', $id)
         ->select('tbl_submissions.id', 'tbl_submissions.status', 'tbl_submissions.points','tbl_submissions.updated_at','tbl_user_details.profile_pic',
         DB::raw('CONCAT(users.firstname, " ", users.lastName) as name'), 'tbl_submissions.Submitted_Answers', 'tbl_submissions.graded')
         ->leftjoin('users','users.id','=','tbl_submissions.user_id')
@@ -32,7 +80,7 @@ class SubmissionController extends Controller
             foreach($SubmissionList as $Sub){
                 $Sub->Submitted_Answers = unserialize($Sub->Submitted_Answers);
             }
-        }
+        } */
   
       
         return $SubmissionList;

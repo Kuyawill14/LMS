@@ -108,8 +108,8 @@
                                     </p>
                                 </router-link>
                                  <hr>
-                                  {# of students} <br>
-                                {# of class}
+                                  {{item.student_count+' students'}} <br>
+                                {{item.class_count+' class'}}
                             </v-card-subtitle>
 
 
@@ -159,7 +159,7 @@
                 }
             }
         },
-
+        computed: mapGetters(['allCourse']),
         methods: {
             ...mapActions(['fetchCourseList']),
                toastSuccess(message,icon) {
@@ -199,25 +199,16 @@
 
                 }
             },
-              fetchCourses() {
-                  this.isGetting = true;
+            fetchCourses() {
+                this.isGetting = true;
                 this.$store.dispatch('fetchCourseList').then(() => {
                     this.coursesLength = this.allCourse.length;
-                       this.isGetting = false;
+                    this.isGetting = false;
                 });
             },
-
-        },
-        computed: mapGetters(['allCourse']),
-        created() {
-            this.isloading = true;
-            this.fetchCourseList();
-            setTimeout(() => this.isloading = false, 1000);
-
-
         },
         mounted() {
-          this. fetchCourses();
+          this.fetchCourses();
         },
     }
 

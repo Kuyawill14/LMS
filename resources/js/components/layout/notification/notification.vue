@@ -31,7 +31,7 @@
                     </v-list-item>
 
                     <v-divider></v-divider>
-                    <v-list-item v-for="(item, index) in get_notification" :key="index">
+                    <v-list-item v-show="item.hide_notif == 0 || item.hide_notif == null" v-for="(item, index) in get_notification" :key="index">
 
                         <v-list-item-avatar>
                             <v-img alt="Proflie"
@@ -47,7 +47,7 @@
                         </v-list-item-content>
 
                         <v-list-item-action>
-                            <v-btn icon v-if="item.status == 0" @click="UnreadNotification(item.n_id)">
+                            <v-btn icon v-if="item.status == null || item.status == 0" @click="UnreadNotification(item.n_id)">
                                 <v-icon>mdi-check</v-icon>
                             </v-btn>
                             <v-btn icon v-if="item.status == 1" @click="DeleteNotification(item.n_id)">
@@ -101,16 +101,11 @@
 
                 })
             },
-
             format_date(value) {
                 if (value) {
                     return moment(String(value)).format("MMMM DD, h:mm a")
                 }
             },
-            alert(message) {
-                alert(message);
-            }
-
         },
         mounted() {
             this.connect();

@@ -95,8 +95,6 @@ class ObjectiveController extends Controller
             }     
         }
         return ["Question"=>$temQuest , "Answer"=>$FinalAnswer];
-
-
     }
 
     /**
@@ -279,22 +277,21 @@ class ObjectiveController extends Controller
     {
         $DelQuestion = tbl_Questions::find($id);
         if($DelQuestion){
-
+            $DelAnswer = tbl_choice::where('question_id', $id)->delete();
+            if($DelQuestion->type != 4){
                 $DelAnswer = tbl_choice::where('question_id', $id)
                 ->delete();
-                if($DelQuestion->type != 4){
-                    $DelAnswer = tbl_choice::where('question_id', $id)
-                    ->delete();
-                }
-                else{
-                    $DelAnswer = tbl_choice::where('question_id', $id)->delete();
-                    $DelAnswerSubQuestion = tbl_SubQuestion::where('mainQuestion_id', $id)->delete();
-                }
-           
-           
-          $DelQuestion->delete();
-          return "Success";
-            
+            }
+            else{
+                $DelAnswer = tbl_choice::where('question_id', $id)->delete();
+                $DelAnswerSubQuestion = tbl_SubQuestion::where('mainQuestion_id', $id)->delete();
+            }
+            $UpdatePoints = tbl_classwork::find($DelQuestion->classwork_id);
+            $UpdatePoints->points =  $UpdatePoints->points - $DelQuestion->points;
+            $UpdatePoints->save();
+            $DelQuestion->delete();
+            return "Success";
+
         }
         return "Question not found";
     }

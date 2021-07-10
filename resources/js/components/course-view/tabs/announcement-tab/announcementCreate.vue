@@ -2,7 +2,7 @@
 <div>
 
     
-
+    <vue-element-loading :active="isloading" spinner="bar-fade-scale" />
      <editor style="outline:none;"  placeholder="Announce something in your class!" 
       v-model="announcement.content" @change="isEditing = true, fetchClassnames" theme="snow" :options="options"></editor>
     <v-expand-transition>
@@ -34,17 +34,42 @@
             <v-col cols="6" md="4" lg="4" class="text-right">
                 <v-container ma-0 pa-0 :class="UserDetails.role != 'Student' ? 'ma-0 pa-0 d-flex flex-row' :'ma-0 pa-0'">
                 <v-select
+          
                 v-if="UserDetails.role != 'Student'"
                 class="mr-2"
+                @change="testing()"
                  :items="classNames"
                 :loading="isLoadingClassNames"
                 :disabled="isLoadingClassNames"
                 item-text="class_name"
                 item-value="class_id"
                 label="All Class"
+                v-model="class_id"
                 dense
                 solo
                 ></v-select>
+
+                <!--  <v-select
+                    v-if="UserDetails.role != 'Student'"
+    
+                     class="mr-2"
+                    :items="classNames"
+                    :loading="isLoadingClassNames"
+                    :disabled="isLoadingClassNames"
+                    item-text="class_name"
+                    v-model="class_id"
+                    item-value="class_id"
+                    dense
+                    solo
+                     label="All Class"
+                    >
+                    <template slot="selection" slot-scope="data">
+                        {{ data.item.class_name }}
+                    </template>
+                    <template slot="item" slot-scope="data">
+                        {{ data.item.class_name }}
+                    </template>
+                </v-select> -->
                 <v-btn depressed type="submit" name="create_post" color="primary"
                     @click="createPost">Post</v-btn>
 
@@ -57,8 +82,12 @@
 </div>
 </template>
 <script>
+ import VueElementLoading from 'vue-element-loading'
 export default {
     props:['UserDetails'],
+    components:{
+         VueElementLoading
+    },
     data() {
         return {
             isLoadingClassNames: true,
@@ -67,8 +96,10 @@ export default {
             selectedFile: null,
             isSelecting: false,
             isEditing: false,
+            isloading: false,
             value: '',
             content: '',
+            class_id: '',
             announcement: {
                 content: "",
                 file: "",
@@ -104,11 +135,18 @@ export default {
              createPost() {
                 if (this.announcement.content != '') {
                     this.isloading = true;
-                    setTimeout(() => this.isloading = false, 1500);
                     this.announcement.file = "sample"
-                    this.announcement.class_id = this.$route.params.id;
+                    this.announcement.course_id = this.$route.params.id;
+                    this.announcement.class_id = this.class_id;
                     this.announcement.content = this.announcement.content.replaceAll('p>', 'div>');
-                    this.$store.dispatch('createClassPost', this.announcement);
+                    this.$store.dispatch('createClassPost', this.announcement)
+                    .then(res=>{
+                        if(res.status == 200){
+                            this.isloading = false;
+                        }else{
+                             this.isloading = false;
+                        }
+                    })
                     this.announcement.content = '';
                     this.$emit("SetShowComment");
                 } 
@@ -129,24 +167,23 @@ export default {
             },
              fetchClassnames() {
                 if(this.UserDetails.role == 'Teacher'){
-                    axios.get('/api/class/allnames/' + this.$route.params.id).then(res => {
-                
-                        this.classNames = res.data.allClass;
+                    axios.get('/api/class/allnames/' + this.$route.params.id+'/'+0).then(res => {
+                        this.classNames = res.data;
                         this.isLoadingClassNames = false
                         this.isLoaded = true;
                         this.classNames.push({ class_id: this.$route.params.id, class_name: 'All Class', id: this.$route.params.id});
                     })
                 }
             },
-
-
-
+            testing(){
+                console.log(this.class_id);
+            }
         },
         mounted(){
             setTimeout(() => {
                 this.fetchClassnames();
             }, 3000);
-
+            this.class_id = this.$route.params.id;
         }
 }
 </script>

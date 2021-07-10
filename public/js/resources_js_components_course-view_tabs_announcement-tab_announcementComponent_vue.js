@@ -67,16 +67,15 @@ var announcementPostList = function announcementPostList() {
     connect: function connect() {
       var _this = this;
 
-      //let vm = this;
+      var vm = this;
       this.fetchClassPost(this.$route.params.id).then(function (res) {
         if (res == 200) {
           _this.isLoading = false;
         }
       });
-      /*  window.Echo.private("post."+ this.$route.params.id)
-       .listen('NewPost', e =>{
-           vm.fetchClassPost(this.$route.params.id);
-       }) */
+      window.Echo["private"]("post." + this.$route.params.id).listen('NewPost', function (e) {
+        vm.fetchClassPost(_this.$route.params.id);
+      });
     }
   }),
   mounted: function mounted() {

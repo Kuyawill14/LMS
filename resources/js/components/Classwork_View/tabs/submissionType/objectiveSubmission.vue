@@ -2,12 +2,19 @@
 <div>
 
 <v-row justify="center" v-if="dialog">
-    <v-dialog v-model="dialog"
+    <v-dialog v-model="Viewdialog"
     fullscreen
     hide-overlay
-    
     transition="dialog-bottom-transition">
-    <checkobjective :classworkDetails="classworkDetails" :ViewDetails="ViewDetails"  v-on:UpdateSubmission="$emit('UpdateSubmission')" v-on:closeDialog="dialog = !dialog"></checkobjective>
+    <checkobjective :classworkDetails="classworkDetails" :ViewDetails="ViewDetails"  v-on:UpdateSubmission="$emit('UpdateSubmission')" v-on:closeDialog="dialog = !dialog, Viewdialog = !Viewdialog "></checkobjective>
+    </v-dialog>
+
+    <v-dialog v-model="ResetDialog" persistent max-width="400">
+        <resetConfirmation
+        v-on:toggleCancelDialog="dialog = !dialog, ResetDialog = !ResetDialog"
+        v-on:toggleconfirm="ResetSubmission()"
+        :Name="resetName"
+        v-if="ResetDialog"></resetConfirmation>
     </v-dialog>
  </v-row> 
 
@@ -28,25 +35,25 @@
                         ></v-text-field>
                         </v-card-title>
 
-                        <v-data-table 
+                        <v-data-table
+                        v-if="Reload" 
                         v-model="selectedTasks" 
                         :headers="headers"
                         :items-per-page="10"
                         :search="search"
-                        :items="ListData" item-key="id" show-select>
+                        :items="Details" item-key="id" show-select>
 
                         
                         <template v-slot:body="{ items }">
                         <tbody>
-                            <tr v-for="item in items" :key="item.id">
+                            <tr v-for="(item, index) in items" :key="item.id">
                                 <td>
                                     <v-checkbox v-model="selectedTasks" :value="item" style="margin:0px;padding:0px"
                                         hide-details />
                                 </td>
-                                <td>{{ item.id }}</td>
                                 <td>{{item.name}}</td>
-                                <td class="text-center"> <v-chip :color="item.status == 'Submitted' ? 'success': 'info'" dark>{{item.status}}</v-chip> </td>
-                                <td><span class="font-weight-bold">{{item.points}}</span><small>points</small></td>
+                                <td class="text-center"> <v-chip v-if="item.status != null && item.status != ''" :color="item.status == 'Submitted' ? 'success':  'info'" dark>{{item.status}}</v-chip> </td>
+                                <td><span class="font-weight-bold">{{item.points== null ? 'N/A' : item.points}}</span><span v-if="item.points != null ">{{' / '+classworkDetails.points }}</span></td>
                                 <td >
                                 
                                         <v-tooltip top>
@@ -75,6 +82,20 @@
                                         </template>
                                         <span>View Submission</span>
                                     </v-tooltip>
+
+                                     <v-tooltip v-if="item.status == 'Submitted' || item.status == 'Taking'" top>
+                                        <template v-slot:activator="{ on, attrs }">
+                                            <v-btn
+                                            @click="resetIndex = index, resetName = item.name, resetId = item.id, dialog = !dialog, ResetDialog = !ResetDialog"
+                                            v-bind="attrs"
+                                            v-on="on"
+                                            text icon
+                                            >
+                                        <v-icon color="primary">mdi-restart</v-icon>
+                                            </v-btn>
+                                        </template>
+                                        <span>Reset Submission</span>
+                                    </v-tooltip>
                                         
                                 </td>
                             </tr>
@@ -89,12 +110,13 @@
 </div>
 </template>
 <script>
-
+const resetConfirmation = () => import('../dialogs/resetConfirmation')
 const checkobjective = () => import('./check-submission/check-objective')
 export default {
     props:["ListData","classworkDetails"],
     components:{
-        checkobjective
+        checkobjective,
+        resetConfirmation
     },
     data(){
         return{
@@ -102,11 +124,7 @@ export default {
              selectedTasks: [],
              search: '',
              headers: [
-                {
-                    text: 'id',
-                    align: 'start',
-                    value: 'id',
-                },
+
                 { text: 'Name', value: 'name' },
                 { text: 'Status', value: 'status',align: 'center',},
                 { text: 'Points', value: 'points' },
@@ -114,23 +132,46 @@ export default {
                 
             ],
             dialog: false,
+            Viewdialog:false,
+            ResetDialog: false,
             ViewDetails: null,
+            resetId: null,
+            resetName: null,
+            resetIndex:null,
+            Details:[],
+            Reload: true
             
         }
     },
     methods:{
         ViewSubmision(data){
-            /* if(data.status == 'Submitted'){
-               
-            } */
-             this.dialog = !this.dialog;
+            if(data.status == 'Submitted'){
+                this.dialog = !this.dialog;
+                this.Viewdialog = !this.Viewdialog;
                 this.ViewDetails = data;
-            
+            }
+        },
+        async ResetSubmission(){
+            //console.log(this.ListData[this.resetIndex].points)
+            axios.put('/api/teacher/reset-obj/'+this.resetId)
+            .then(res=>{
+                if(res.status == 200){
+                 
+                    this.dialog = !this.dialog;
+                    this.ResetDialog = !this.ResetDialog;
+                    this.Details[this.resetIndex].status == '';
+                    this.Details[this.resetIndex].points == 0;
+                    console.log(this.Details[this.resetIndex].status);
+                    
+                }
+               
+
+            })
         }
        
     },
-    mounted(){
-        
+    created(){
+        this.Details = this.ListData;
     }
 }
 </script>

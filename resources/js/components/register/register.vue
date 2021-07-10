@@ -67,7 +67,7 @@
                                                 Sign Up
                                             </v-btn>
 
-                                            <v-container ma-0 pa-0 class="mt-2">
+                                          <!--   <v-container ma-0 pa-0 class="mt-2">
                                                 <h3>Sign Up with Social media</h3>
                                                 <v-btn color="blue" class="mb-3 mt-1 mr-5 white--text">
                                                     <v-icon class="mr-3">mdi-facebook</v-icon>
@@ -78,7 +78,7 @@
                                                     <v-icon class="mr-3">mdi-google-plus</v-icon>
                                                     Google Plus
                                                 </v-btn>
-                                            </v-container>
+                                            </v-container> -->
 
                                         </v-container>
                                     </v-col>

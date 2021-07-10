@@ -36,10 +36,42 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+var selectBackgroundDialog = function selectBackgroundDialog() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_SelectBackgroundDialog_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./SelectBackgroundDialog */ "./resources/js/components/course-view/SelectBackgroundDialog.vue"));
+};
+
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['role', 'UserDetails'],
+  components: {
+    selectBackgroundDialog: selectBackgroundDialog
+  },
   data: function data() {
     return {
       courseInfo: [],
@@ -48,7 +80,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       fullPage: true,
       class_id: '',
       routeName: '',
-      showCard: true
+      showCard: true,
+      dialog: false
     };
   },
   computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(["getcourseInfo"])), {}, {
@@ -91,6 +124,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
 
       this.disconnect();
+    },
+    UpdateImage: function UpdateImage(data) {
+      this.getcourseInfo.course_picture = data;
+      this.dialog = !this.dialog;
     }
   }),
   mounted: function mounted() {
@@ -243,6 +280,33 @@ var render = function() {
   return _c(
     "div",
     [
+      _c(
+        "v-dialog",
+        {
+          attrs: { persistent: "", "max-width": "800" },
+          model: {
+            value: _vm.dialog,
+            callback: function($$v) {
+              _vm.dialog = $$v
+            },
+            expression: "dialog"
+          }
+        },
+        [
+          _vm.dialog
+            ? _c("selectBackgroundDialog", {
+                on: {
+                  SaveSelected: _vm.UpdateImage,
+                  CloseDialog: function($event) {
+                    _vm.dialog = !_vm.dialog
+                  }
+                }
+              })
+            : _vm._e()
+        ],
+        1
+      ),
+      _vm._v(" "),
       _vm.showCard
         ? _c(
             "v-card",
@@ -258,6 +322,107 @@ var render = function() {
                   }
                 },
                 [
+                  _vm.role == "Teacher"
+                    ? _c(
+                        "v-app-bar",
+                        { attrs: { flat: "", color: "rgba(0, 0, 0, 0)" } },
+                        [
+                          _c("v-spacer"),
+                          _vm._v(" "),
+                          _c(
+                            "v-menu",
+                            {
+                              attrs: {
+                                transition: "slide-y-transition",
+                                bottom: ""
+                              },
+                              scopedSlots: _vm._u(
+                                [
+                                  {
+                                    key: "activator",
+                                    fn: function(ref) {
+                                      var on = ref.on
+                                      var attrs = ref.attrs
+                                      return [
+                                        _c(
+                                          "v-btn",
+                                          _vm._g(
+                                            _vm._b(
+                                              {
+                                                staticClass: "float-right",
+                                                attrs: {
+                                                  icon: "",
+                                                  color: "white"
+                                                }
+                                              },
+                                              "v-btn",
+                                              attrs,
+                                              false
+                                            ),
+                                            on
+                                          ),
+                                          [
+                                            _c("v-icon", [
+                                              _vm._v(
+                                                "\n                                mdi-dots-vertical\n                            "
+                                              )
+                                            ])
+                                          ],
+                                          1
+                                        )
+                                      ]
+                                    }
+                                  }
+                                ],
+                                null,
+                                false,
+                                1379687
+                              )
+                            },
+                            [
+                              _vm._v(" "),
+                              _c(
+                                "v-list",
+                                [
+                                  _c(
+                                    "v-list-item",
+                                    {
+                                      attrs: { link: "" },
+                                      on: {
+                                        click: function($event) {
+                                          _vm.dialog = !_vm.dialog
+                                        }
+                                      }
+                                    },
+                                    [
+                                      _c("v-list-item-title", [
+                                        _vm._v("Select Background")
+                                      ])
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-list-item",
+                                    { attrs: { link: "" } },
+                                    [
+                                      _c("v-list-item-title", [
+                                        _vm._v("Upload Photo")
+                                      ])
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
                   _c("v-card-title", {
                     staticClass: "text-h5",
                     domProps: {
