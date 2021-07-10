@@ -172,7 +172,8 @@ var updatePublishDialog = function updatePublishDialog() {
       isPublishing_id: null,
       UnpublishDiaglog: false,
       isAdding: false,
-      isUpdate: false
+      isUpdate: false,
+      notifyDetails: {}
     };
   },
   methods: {
@@ -295,14 +296,20 @@ var updatePublishDialog = function updatePublishDialog() {
       }))();
     },
     NewNotification: function NewNotification(data) {
+      var _this5 = this;
+
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
-                axios.post('/api/notification/new', data).then(function (res) {});
+                console.log(data);
+                _this5.notifyDetails.classwork_id = data.classwork_id;
+                _this5.notifyDetails.class_id = data.class_id;
+                _this5.notifyDetails.course_id = _this5.$route.params.id;
+                axios.post('/api/notification/new', _this5.notifyDetails).then(function (res) {});
 
-              case 1:
+              case 5:
               case "end":
                 return _context4.stop();
             }

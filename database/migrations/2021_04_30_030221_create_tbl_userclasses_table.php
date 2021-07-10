@@ -19,6 +19,7 @@ class CreateTblUserclassesTable extends Migration
             $table->integer("user_id");
             $table->integer("course_id");
             $table->integer("progress")->default(0);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

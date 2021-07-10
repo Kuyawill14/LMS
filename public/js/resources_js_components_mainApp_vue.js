@@ -94,6 +94,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['UserDetails'],
@@ -22855,6 +22859,29 @@ var render = function() {
                               _vm._v("mdi-account")
                             ]),
                             _vm._v(" My Profile\n                        ")
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c("v-divider", { staticClass: "my-3" }),
+                        _vm._v(" "),
+                        _c(
+                          "v-btn",
+                          {
+                            attrs: { depressed: "", rounded: "", text: "" },
+                            on: {
+                              click: function($event) {
+                                return _vm.$router.push({
+                                  name: "archive-course"
+                                })
+                              }
+                            }
+                          },
+                          [
+                            _c("v-icon", { attrs: { left: "" } }, [
+                              _vm._v("mdi-package-down")
+                            ]),
+                            _vm._v(" Archive\n                        ")
                           ],
                           1
                         ),

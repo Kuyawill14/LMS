@@ -39,6 +39,10 @@
                                 <v-icon left>mdi-account</v-icon> My Profile
                             </v-btn>
                             <v-divider class="my-3"></v-divider>
+                            <v-btn depressed @click="$router.push({name:'archive-course'})" rounded text>
+                                <v-icon left>mdi-package-down</v-icon> Archive
+                            </v-btn>
+                            <v-divider class="my-3"></v-divider>
                             <v-btn @click="logout" depressed rounded text>
                                 <v-icon left>mdi-power</v-icon> Logout
                             </v-btn>

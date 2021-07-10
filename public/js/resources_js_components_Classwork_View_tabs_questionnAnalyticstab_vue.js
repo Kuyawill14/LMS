@@ -611,9 +611,13 @@ var render = function() {
                                                                     _vm._s(
                                                                       item.average_time !=
                                                                         null
-                                                                        ? item.average_time /
+                                                                        ? (
+                                                                            item.average_time /
                                                                             (item.correct_count +
                                                                               item.wrong_count)
+                                                                          ).toFixed(
+                                                                            2
+                                                                          )
                                                                         : ""
                                                                     ) +
                                                                       _vm._s(
@@ -798,7 +802,7 @@ var render = function() {
                                               ],
                                               null,
                                               false,
-                                              662273298
+                                              3595896163
                                             ),
                                             model: {
                                               value: _vm.selectedTasks,

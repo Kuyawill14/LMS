@@ -23,7 +23,7 @@ class ClassController extends Controller
         $i = [];
         $totalProgress = 0;
         $userId = auth('sanctum')->id();
-        $allClass = DB::table('tbl_userclasses')
+        $allClass = tbl_userclass::where('user_id',$userId)
         ->select('tbl_userclasses.id as useClass_id',
         'tbl_classes.class_name',
         'tbl_classes.class_code',
@@ -37,11 +37,10 @@ class ClassController extends Controller
         )
         ->leftJoin('tbl_classes', 'tbl_userclasses.class_id', '=', 'tbl_classes.id')
         ->leftJoin('tbl_subject_courses', 'tbl_userclasses.course_id', '=', 'tbl_subject_courses.id')
-        ->where('user_id',$userId)
         ->get();
-
+        
         if(auth('sanctum')->user()->role == "Student") {
-            $allClass = DB::table('tbl_userclasses')
+            $allClass = tbl_userclass::whereNull('tbl_userclasses.deleted_at')
             ->select('tbl_userclasses.id as useClass_id',
             'tbl_classes.class_name',
             'tbl_classes.class_code',

@@ -1,5 +1,7 @@
 <template>
     <div>
+ 
+        
         <v-card class="mb-10" v-for="(post) in PostList" :key="post.id">
            <!--Post Poser -->
             <v-row  class="pl-5 pr-5 pt-2 mb-3 " >

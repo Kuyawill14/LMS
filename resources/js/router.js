@@ -27,9 +27,11 @@ let dashboard = () =>
 //     import ("./components/class/myclass-page");
 let mycourse = () =>
     import ("./components/course_subject/mycourse-page");
+
+let archiveComponent = () =>
+    import ("./components/Archive-Courses/ArchiveComponent");
 // let classwork_main = () =>
 //     import ("./components/classwork_main/classwork_main");
-
 
 
 
@@ -242,7 +244,14 @@ const router = new Router({
                     component: profile,
                     name: "profile_page"
                 },
+                {
+                    path: "/archive-courses",
+                    component: archiveComponent,
+                    name: "archive-course"
+                },
 
+
+                
 
             ],
 

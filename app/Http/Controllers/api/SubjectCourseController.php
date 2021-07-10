@@ -25,7 +25,8 @@ class SubjectCourseController extends Controller
         $totalProgress = 0;
         $userId = auth('sanctum')->id();
         //$userId = 1;
-        $allCourseSubject = tbl_teacher_course::where('tbl_teacher_courses.user_id', $userId)
+        $allCourseSubject = tbl_teacher_course::whereNull('tbl_teacher_courses.deleted_at')
+        ->where('tbl_teacher_courses.user_id', $userId)
         ->select('tbl_teacher_courses.id as useClass_id','tbl_subject_courses.id','tbl_subject_courses.course_code',
         'tbl_subject_courses.course_name','tbl_subject_courses.course_description','tbl_subject_courses.id as course_id',
         'tbl_subject_courses.course_picture','tbl_subject_courses.completed','tbl_subject_courses.created_at')
@@ -140,7 +141,6 @@ class SubjectCourseController extends Controller
  
       
         $teacherSubjectCourse  = new tbl_teacher_course;
-
         $teacherSubjectCourse->course_id = $Newcourse->id;
         $teacherSubjectCourse->user_id = $userId;
         $teacherSubjectCourse->save();
@@ -165,9 +165,17 @@ class SubjectCourseController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function ArchiveCourse($id)
     {
-        //
+        //return $id;
+        $CheckCourse = tbl_teacher_course::where('course_id', $id)->first();
+        if($CheckCourse){
+            $CheckClass = tbl_userclass::where('course_id', $id)
+            ->delete();
+            $CheckCourse->delete();
+            return "Course Archive";
+        }
+        return "Course not found!";
     }
 
     /**

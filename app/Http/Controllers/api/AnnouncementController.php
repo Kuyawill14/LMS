@@ -34,6 +34,7 @@ class AnnouncementController extends Controller
     public function allClassPost($id)
     {
         $userId = auth('sanctum')->id();
+        //$userId = 3;
         if(auth('sanctum')->user()->role != 'Student')
         {
             $allClassPost = tbl_classpost::where('tbl_classposts.course_id', $id)
@@ -57,6 +58,7 @@ class AnnouncementController extends Controller
             if($Class_id ){
                 $allClassPost = tbl_classpost::where('tbl_classposts.class_id', $Class_id->class_id)
                 ->orWhere('tbl_classposts.class_id', $id)
+
                 ->select('tbl_classposts.id as post_id', 'tbl_class_announcements.id as announcement_id','tbl_class_announcements.*','tbl_user_details.profile_pic', DB::raw('CONCAT(users.firstname, " ", users.lastName) as name'))
                 ->selectRaw('count(tbl_comments.id ) as comment_count')
                 ->selectRaw('count(tbl_likes.id ) as likes_count')

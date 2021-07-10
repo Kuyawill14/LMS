@@ -14,12 +14,13 @@ class CreateTblSubjectCoursesTable extends Migration
     public function up()
     {
         Schema::create('tbl_subject_courses', function (Blueprint $table) {
-            $table->id();
+            $table->id()->startingValue(1);
             $table->string('course_code');
             $table->string('course_name');
             $table->longtext('course_description')->nullable() ;
             $table->mediumText('course_picture');
             $table->tinyInteger('completed')->default(0);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

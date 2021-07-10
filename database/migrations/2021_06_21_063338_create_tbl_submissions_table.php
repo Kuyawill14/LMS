@@ -21,6 +21,7 @@ class CreateTblSubmissionsTable extends Migration
             $table->integer('points')->default(0);
             $table->boolean("graded")->default(0);
             $table->string('status');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
