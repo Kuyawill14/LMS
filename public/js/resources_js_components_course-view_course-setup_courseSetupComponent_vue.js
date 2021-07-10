@@ -1590,7 +1590,7 @@ var render = function() {
                     )
                   ]),
                   _vm._v(" "),
-                  _c("h1", [_vm._v(" Empty Class ")]),
+                  _c("h1", [_vm._v(" Create Class ")]),
                   _vm._v(" "),
                   _c("p", [
                     _vm._v(
@@ -1910,47 +1910,48 @@ var render = function() {
       _vm._v(" "),
       _c("br"),
       _vm._v(" "),
-      _vm.allClass.length != 0
-        ? _c(
-            "v-row",
+      _c(
+        "v-row",
+        [
+          _c(
+            "v-col",
             [
               _c(
-                "v-col",
-                [
-                  _c(
-                    "v-btn",
-                    {
-                      staticClass: "float-right",
-                      attrs: { color: "primary" },
-                      on: {
-                        click: function($event) {
-                          return _vm.completed()
-                        }
-                      }
-                    },
-                    [_vm._v("\n                Complete\n            ")]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-btn",
-                    {
-                      staticClass: "float-left",
-                      attrs: { text: "" },
-                      on: {
-                        click: function($event) {
-                          return _vm.back()
-                        }
-                      }
-                    },
-                    [_vm._v("\n                back\n            ")]
-                  )
-                ],
-                1
+                "v-btn",
+                {
+                  staticClass: "float-right",
+                  attrs: {
+                    color: "primary",
+                    disabled: _vm.allClass.length == 0
+                  },
+                  on: {
+                    click: function($event) {
+                      return _vm.completed()
+                    }
+                  }
+                },
+                [_vm._v("\n                Complete\n            ")]
+              ),
+              _vm._v(" "),
+              _c(
+                "v-btn",
+                {
+                  staticClass: "float-left",
+                  attrs: { text: "" },
+                  on: {
+                    click: function($event) {
+                      return _vm.back()
+                    }
+                  }
+                },
+                [_vm._v("\n                back\n            ")]
               )
             ],
             1
           )
-        : _vm._e()
+        ],
+        1
+      )
     ],
     1
   )
@@ -2723,7 +2724,10 @@ var render = function() {
                 "v-btn",
                 {
                   staticClass: "float-right",
-                  attrs: { color: "primary" },
+                  attrs: {
+                    color: "primary",
+                    disabled: _vm.get_gradingCriteria.length == 0
+                  },
                   on: {
                     click: function($event) {
                       return _vm.next()

@@ -5,7 +5,7 @@
                 <v-icon style="font-size:14rem">
                     mdi-google-classroom
                 </v-icon>
-                <h1> Empty Class </h1>
+                <h1> Create Class </h1>
                 <p> Creating Class, you'll be able to share class code to your students and let them join. </p>
                 <v-btn color="primary" @click="openAddmodal()" >   <v-icon left>
                             mdi-plus
@@ -92,10 +92,10 @@
         <br> <br>
         <v-divider></v-divider>
         <br>
-        <v-row v-if="allClass.length != 0">
+        <v-row >
             <v-col>
 
-                <v-btn class="float-right" color="primary" @click="completed()">
+                <v-btn class="float-right" color="primary" @click="completed()" :disabled="allClass.length == 0">
                     Complete
                 </v-btn>
 

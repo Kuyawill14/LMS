@@ -82,7 +82,7 @@
         <br>
         <v-row>
             <v-col>
-                <v-btn class="float-right" color="primary" @click="next()">
+                <v-btn class="float-right" color="primary" @click="next()" :disabled="get_gradingCriteria.length == 0">
                     Next
                 </v-btn>
 
