@@ -1,6 +1,14 @@
 <template>
     <div>
 
+        <v-dialog v-model="Archivedialog" persistent max-width="400">
+            <confirmArchiveCourse
+            v-on:toggleCancelDialog="Archivedialog = !Archivedialog"
+            v-on:toggleconfirm="archiveCourse()"
+            :ArchiveDetails="ArchiveDetails"
+            v-if="Archivedialog"></confirmArchiveCourse>
+        </v-dialog>
+
         <v-row align="center" justify="center" class="pt-10" v-if="coursesLength == 0">
             <v-col cols="12" sm="8" md="4" class="text-center">
                 <v-icon style="font-size:14rem">
@@ -89,7 +97,7 @@
                                             <v-list-item-title>Edit</v-list-item-title>
 
                                         </v-list-item>
-                                        <v-list-item link>
+                                        <v-list-item link @click="archiveConfirm(item.course_name,item.id)">
                                             <v-list-item-title>Archive</v-list-item-title>
 
                                         </v-list-item>
@@ -131,7 +139,7 @@
 
 
 <script>
-    // const VueElementLoading = () => import("vue-element-loading")
+    const confirmArchiveCourse = () => import("./dialog/confirmArchiveCourse")
     import {
         mapGetters,
         mapActions
@@ -139,6 +147,7 @@
     export default {
         components: {
             //    VueElementLoading,
+            confirmArchiveCourse
         },
         data() {
             return {
@@ -156,7 +165,9 @@
                     class_description: '',
                     course_picture: '',
                     course_code: '',
-                }
+                },
+                Archivedialog: false,
+                ArchiveDetails:{}
             }
         },
         computed: mapGetters(['allCourse']),
@@ -169,6 +180,18 @@
                     icon: "done",
                     duration: 5000
                 });
+            },
+            archiveConfirm(name,id){
+                this.ArchiveDetails.course_id = id;
+                this.ArchiveDetails.name = name;
+                this.Archivedialog = !this.Archivedialog
+            },
+            archiveCourse(){
+                axios.delete('/api/course/archiveCourse/'+this.ArchiveDetails.course_id)
+                .then(res=>{
+                    this.fetchCourses();
+                    this.Archivedialog = !this.Archivedialog;
+                })
             },
             openAddmodal() {
                 this.dialog = !this.dialog;

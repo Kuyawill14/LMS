@@ -14,10 +14,11 @@ class CreateTblClassesTable extends Migration
     public function up()
     {
         Schema::create('tbl_classes', function (Blueprint $table) {
-            $table->id();
+            $table->id()->startingValue(2);
             $table->string('class_name');
             $table->string('class_code');
             $table->integer('course_id');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

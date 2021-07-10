@@ -21,6 +21,8 @@ use App\Http\Controllers\api\AnalyticsController;
 use App\Http\Controllers\api\SubmissionController;
 use App\Http\Controllers\api\UserProfileController;
 use App\Http\Controllers\api\TeacherController;
+use App\Http\Controllers\api\ArchiveController;
+
 
 
 
@@ -79,6 +81,8 @@ Route::prefix('/course')->group(function () {
     Route::post('/update/{id}', [SubjectCourseController::class, 'update']);
     Route::get('/ShowCourse/{id}', [SubjectCourseController::class, 'CourseDetails']);
     Route::post('/completed/{id}', [SubjectCourseController::class, 'courseCompleted']);
+    Route::delete('/archiveCourse/{id}', [SubjectCourseController::class, 'ArchiveCourse']);
+    
 });
 
 
@@ -125,11 +129,11 @@ Route::prefix('/student')->group(function () {
     Route::get('/all_by_class/{id}', [StudentController::class, 'getStudentListbyClass']);
     Route::get('/check-status/{id}', [StudentController::class, 'checkSubmissionStatus']);
     Route::get('/checking/{id}', [StudentController::class, 'CheckStatus']);
-    
     Route::post('/join/{id}', [StudentController::class, 'JoinClass']);
     Route::post('/update-status', [StudentController::class, 'UpdateStatus']);
     Route::delete('/{id}', [StudentController::class, 'Unenroll']);
     Route::put('/submit-classwork/{id}', [StudentController::class, 'SubmitClassworkSubj']);
+    Route::delete('/removeFromClass/{class_id}/{user_id}', [StudentController::class, 'removeFromClass']);
     
 });
 
@@ -242,6 +246,12 @@ Route::prefix('/profile')->group(function () {
     Route::get('/ClassesList', [UserProfileController::class, 'getCourseAndClassesList']);
 
     Route::get('/mycalendar', [UserProfileController::class, 'FetchCalendarSched']);
+});
+
+Route::prefix('/archive')->group(function () {
+    Route::get('/courses', [ArchiveController::class, 'index']);
+    Route::put('/restore/{id}', [ArchiveController::class, 'restoreArchive']);
+    
 });
 
 

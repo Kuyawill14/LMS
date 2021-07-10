@@ -1,5 +1,14 @@
 <template>
-    <v-app>
+    <div>
+        <v-row justify="center" v-if="dialog">
+        <v-dialog v-model="dialog" persistent max-width="400">
+            <removeConfirmDialog
+            v-on:toggleCancelDialog="dialog = !dialog"
+            v-on:toggleconfirm="removeStudent()"
+            :RemoveDetails="RemoveDetails"
+            v-if="dialog"></removeConfirmDialog>
+        </v-dialog>
+    </v-row> 
             <v-container fluid>
             <v-container v-if="isGetting" style="height: 400px;">
                 <v-row class="fill-height" align-content="center" justify="center">
@@ -24,6 +33,7 @@
                         </v-col>
                         <v-col class="mb-0 pb-0" cols="5"  md="2" lg="2">
                              <v-select
+                             v-model="Class_id"
                              :items="classNames"
                              :loading="isloading"
                              :disabled="isloading"
@@ -42,7 +52,9 @@
             </v-row>
 
              <v-row>
-                <v-col class="pl-0 ml-0 pb-0 mb-0 pt-0 mt-0" cols="12" v-for="(item, index) in getAllStudents" v-bind:key="index">
+                <v-col class="pl-0 ml-0 pb-0 mb-0 pt-0 mt-0" cols="12"
+                v-show="item.class_id == Class_id || Class_id == $route.params.id"
+                 v-for="item in students" v-bind:key="item.user_id">
                     <v-hover  v-slot="{ hover }">
                     <v-container style="cursor:pointer" :class="hover ? 'grey lighten-3 rounded-lg' : ''" >
     
@@ -56,7 +68,31 @@
                                 <h3 class="text-left font-weight-light">{{item.firstName}} {{item.lastName}}</h3>
                                 <div>{{item.email}}</div>
                             </v-container>
+
+
+                             <v-app-bar  flat color="rgba(0, 0, 0, 0)">
+                    <v-spacer></v-spacer>
+                    <v-menu transition="slide-y-transition" bottom>
+                        <template v-slot:activator="{ on, attrs }">
+                            <v-btn icon v-bind="attrs" v-on="on" class="float-right" color="black">
+                                <v-icon>
+                                    mdi-dots-vertical
+                                </v-icon>
+                            </v-btn>
+                        </template>
+                        <v-list>
+                            <v-list-item link @click="RemoveConfirm(item.firstName, item.lastName, item.class_name,item.class_id, item.user_id)" >
+                                <v-list-item-title>Remove student</v-list-item-title>
+                            </v-list-item>
+                            <v-list-item link>
+                                <v-list-item-title>View Student</v-list-item-title>
+                            </v-list-item>
+                        </v-list>
+                    </v-menu>
+                </v-app-bar>
                         </v-container>
+
+                   
                     </v-container>
                     </v-hover>
                 </v-col>
@@ -66,22 +102,24 @@
         </v-container>
 
         </v-container>
-    </v-app>
+    </div>
 </template>
 <script>
+const removeConfirmDialog = () => import('./dialog/removeConfirmDialog')
     export default {
+        components:{
+            removeConfirmDialog
+        },
         data: function () {
             return {
+                dialog: false,
                 isloading:true,
                 isGetting: true,
                 search: "",
                 isClassNameLoaded:false,
                 classNames:[],
-                 defaultSelected: {
-                    class_id: "",
-                    class_name: "All Class",
-                    id: ""
-                    },
+                Class_id: this.$route.params.id,
+                RemoveDetails: {}
             }
 
         },
@@ -99,29 +137,36 @@
             }
         },
         methods:{
+            RemoveConfirm(fname, lname, class_name,class_id,user_id){
+                this.RemoveDetails.name = fname+' '+lname;
+                this.RemoveDetails.class_name = class_name;
+                this.RemoveDetails.class_id = class_id;
+                this.RemoveDetails.user_id = user_id;
+                this.dialog = !this.dialog;
+            },
+            async removeStudent(){
+                axios.delete('/api/student/removeFromClass/'+this.RemoveDetails.class_id+'/'+this.RemoveDetails.user_id)
+                .then(res=>{
+                    this.getStudentList();
+                     this.dialog = !this.dialog;
+                })
+            },
             getStudentList(){
                 axios.get('/api/student/all/'+this.$route.params.id)
                 .then((res)=>{
                     this.students = res.data
-                     setTimeout(() => {
+                     //setTimeout(() => {
                         this.isGetting = false;
-                    }, 1000);
+                    //}, 1000);
 
                 }).catch((error)=>{
                     console.log(error)
                 })
             },
               fetchClassnames() {
-                axios.get('/api/class/allnames/' + this.$route.params.id).then(res => {
-                    this.classNames = res.data.allClass;
-                    this.isClassNameLoaded = true
-                     setTimeout(() => {
-                        this.isClassNameLoaded = false;
-                    }, 5000);
-         
+                axios.get('/api/class/allnames/' + this.$route.params.id+'/'+0).then(res => {
+                    this.classNames = res.data;
                     this.isloading = false;
-                    this.classNames= this.classNames|| [];
-
                     this.classNames.push({ class_id: this.$route.params.id, class_name: 'All Class', id: this.$route.params.id});
                 })
             },
@@ -132,7 +177,7 @@
             setTimeout(() => {
                 this.isloading = false;
                 this.fetchClassnames();
-         }, 5000);
+         }, 3000);
         }
     }
 

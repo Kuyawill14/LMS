@@ -80,7 +80,7 @@
                                                   
                                                     <td class="text-center">{{item.correct_count == null ? 0 : item.correct_count}}</td>
                                                     <td class="text-center">{{item.wrong_count == null ? 0 : item.wrong_count}}</td>
-                                                    <td class="text-center">{{item.average_time != null? item.average_time/(item.correct_count+item.wrong_count):''}}{{item.average_time == null ? '' : 's' }}</td>
+                                                    <td class="text-center">{{item.average_time != null? (item.average_time/(item.correct_count+item.wrong_count)).toFixed(2):''}}{{item.average_time == null ? '' : 's' }}</td>
                                                     <td>  
                                                         <v-tooltip top>
                                                             <template v-slot:activator="{ on, attrs }">

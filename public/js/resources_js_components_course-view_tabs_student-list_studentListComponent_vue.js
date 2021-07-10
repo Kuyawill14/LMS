@@ -11,6 +11,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 //
 //
 //
@@ -81,19 +89,60 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+var removeConfirmDialog = function removeConfirmDialog() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_tabs_student-list_dialog_removeConfirmDialog_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./dialog/removeConfirmDialog */ "./resources/js/components/course-view/tabs/student-list/dialog/removeConfirmDialog.vue"));
+};
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  components: {
+    removeConfirmDialog: removeConfirmDialog
+  },
   data: function data() {
     return {
+      dialog: false,
       isloading: true,
       isGetting: true,
       search: "",
       isClassNameLoaded: false,
       classNames: [],
-      defaultSelected: {
-        class_id: "",
-        class_name: "All Class",
-        id: ""
-      }
+      Class_id: this.$route.params.id,
+      RemoveDetails: {}
     };
   },
   computed: {
@@ -112,47 +161,70 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
-    getStudentList: function getStudentList() {
+    RemoveConfirm: function RemoveConfirm(fname, lname, class_name, class_id, user_id) {
+      this.RemoveDetails.name = fname + ' ' + lname;
+      this.RemoveDetails.class_name = class_name;
+      this.RemoveDetails.class_id = class_id;
+      this.RemoveDetails.user_id = user_id;
+      this.dialog = !this.dialog;
+    },
+    removeStudent: function removeStudent() {
       var _this2 = this;
 
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                axios["delete"]('/api/student/removeFromClass/' + _this2.RemoveDetails.class_id + '/' + _this2.RemoveDetails.user_id).then(function (res) {
+                  _this2.getStudentList();
+
+                  _this2.dialog = !_this2.dialog;
+                });
+
+              case 1:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
+    },
+    getStudentList: function getStudentList() {
+      var _this3 = this;
+
       axios.get('/api/student/all/' + this.$route.params.id).then(function (res) {
-        _this2.students = res.data;
-        setTimeout(function () {
-          _this2.isGetting = false;
-        }, 1000);
+        _this3.students = res.data; //setTimeout(() => {
+
+        _this3.isGetting = false; //}, 1000);
       })["catch"](function (error) {
         console.log(error);
       });
     },
     fetchClassnames: function fetchClassnames() {
-      var _this3 = this;
+      var _this4 = this;
 
-      axios.get('/api/class/allnames/' + this.$route.params.id).then(function (res) {
-        _this3.classNames = res.data.allClass;
-        _this3.isClassNameLoaded = true;
-        setTimeout(function () {
-          _this3.isClassNameLoaded = false;
-        }, 5000);
-        _this3.isloading = false;
-        _this3.classNames = _this3.classNames || [];
+      axios.get('/api/class/allnames/' + this.$route.params.id + '/' + 0).then(function (res) {
+        _this4.classNames = res.data;
+        _this4.isloading = false;
 
-        _this3.classNames.push({
-          class_id: _this3.$route.params.id,
+        _this4.classNames.push({
+          class_id: _this4.$route.params.id,
           class_name: 'All Class',
-          id: _this3.$route.params.id
+          id: _this4.$route.params.id
         });
       });
     }
   },
   mounted: function mounted() {
-    var _this4 = this;
+    var _this5 = this;
 
     this.getStudentList();
     setTimeout(function () {
-      _this4.isloading = false;
+      _this5.isloading = false;
 
-      _this4.fetchClassnames();
-    }, 5000);
+      _this5.fetchClassnames();
+    }, 3000);
   }
 });
 
@@ -247,8 +319,47 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "v-app",
+    "div",
     [
+      _vm.dialog
+        ? _c(
+            "v-row",
+            { attrs: { justify: "center" } },
+            [
+              _c(
+                "v-dialog",
+                {
+                  attrs: { persistent: "", "max-width": "400" },
+                  model: {
+                    value: _vm.dialog,
+                    callback: function($$v) {
+                      _vm.dialog = $$v
+                    },
+                    expression: "dialog"
+                  }
+                },
+                [
+                  _vm.dialog
+                    ? _c("removeConfirmDialog", {
+                        attrs: { RemoveDetails: _vm.RemoveDetails },
+                        on: {
+                          toggleCancelDialog: function($event) {
+                            _vm.dialog = !_vm.dialog
+                          },
+                          toggleconfirm: function($event) {
+                            return _vm.removeStudent()
+                          }
+                        }
+                      })
+                    : _vm._e()
+                ],
+                1
+              )
+            ],
+            1
+          )
+        : _vm._e(),
+      _vm._v(" "),
       _c(
         "v-container",
         { attrs: { fluid: "" } },
@@ -344,6 +455,13 @@ var render = function() {
                                       label: "All Class",
                                       dense: "",
                                       solo: ""
+                                    },
+                                    model: {
+                                      value: _vm.Class_id,
+                                      callback: function($$v) {
+                                        _vm.Class_id = $$v
+                                      },
+                                      expression: "Class_id"
                                     }
                                   })
                                 ],
@@ -361,11 +479,22 @@ var render = function() {
                   _vm._v(" "),
                   _c(
                     "v-row",
-                    _vm._l(_vm.getAllStudents, function(item, index) {
+                    _vm._l(_vm.students, function(item) {
                       return _c(
                         "v-col",
                         {
-                          key: index,
+                          directives: [
+                            {
+                              name: "show",
+                              rawName: "v-show",
+                              value:
+                                item.class_id == _vm.Class_id ||
+                                _vm.Class_id == _vm.$route.params.id,
+                              expression:
+                                "item.class_id == Class_id || Class_id == $route.params.id"
+                            }
+                          ],
+                          key: item.user_id,
                           staticClass: "pl-0 ml-0 pb-0 mb-0 pt-0 mt-0",
                           attrs: { cols: "12" }
                         },
@@ -447,6 +576,141 @@ var render = function() {
                                                     _vm._v(_vm._s(item.email))
                                                   ])
                                                 ]
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "v-app-bar",
+                                                {
+                                                  attrs: {
+                                                    flat: "",
+                                                    color: "rgba(0, 0, 0, 0)"
+                                                  }
+                                                },
+                                                [
+                                                  _c("v-spacer"),
+                                                  _vm._v(" "),
+                                                  _c(
+                                                    "v-menu",
+                                                    {
+                                                      attrs: {
+                                                        transition:
+                                                          "slide-y-transition",
+                                                        bottom: ""
+                                                      },
+                                                      scopedSlots: _vm._u(
+                                                        [
+                                                          {
+                                                            key: "activator",
+                                                            fn: function(ref) {
+                                                              var on = ref.on
+                                                              var attrs =
+                                                                ref.attrs
+                                                              return [
+                                                                _c(
+                                                                  "v-btn",
+                                                                  _vm._g(
+                                                                    _vm._b(
+                                                                      {
+                                                                        staticClass:
+                                                                          "float-right",
+                                                                        attrs: {
+                                                                          icon:
+                                                                            "",
+                                                                          color:
+                                                                            "black"
+                                                                        }
+                                                                      },
+                                                                      "v-btn",
+                                                                      attrs,
+                                                                      false
+                                                                    ),
+                                                                    on
+                                                                  ),
+                                                                  [
+                                                                    _c(
+                                                                      "v-icon",
+                                                                      [
+                                                                        _vm._v(
+                                                                          "\n                                mdi-dots-vertical\n                            "
+                                                                        )
+                                                                      ]
+                                                                    )
+                                                                  ],
+                                                                  1
+                                                                )
+                                                              ]
+                                                            }
+                                                          }
+                                                        ],
+                                                        null,
+                                                        true
+                                                      )
+                                                    },
+                                                    [
+                                                      _vm._v(" "),
+                                                      _c(
+                                                        "v-list",
+                                                        [
+                                                          _c(
+                                                            "v-list-item",
+                                                            {
+                                                              attrs: {
+                                                                link: ""
+                                                              },
+                                                              on: {
+                                                                click: function(
+                                                                  $event
+                                                                ) {
+                                                                  return _vm.RemoveConfirm(
+                                                                    item.firstName,
+                                                                    item.lastName,
+                                                                    item.class_name,
+                                                                    item.class_id,
+                                                                    item.user_id
+                                                                  )
+                                                                }
+                                                              }
+                                                            },
+                                                            [
+                                                              _c(
+                                                                "v-list-item-title",
+                                                                [
+                                                                  _vm._v(
+                                                                    "Remove student"
+                                                                  )
+                                                                ]
+                                                              )
+                                                            ],
+                                                            1
+                                                          ),
+                                                          _vm._v(" "),
+                                                          _c(
+                                                            "v-list-item",
+                                                            {
+                                                              attrs: {
+                                                                link: ""
+                                                              }
+                                                            },
+                                                            [
+                                                              _c(
+                                                                "v-list-item-title",
+                                                                [
+                                                                  _vm._v(
+                                                                    "View Student"
+                                                                  )
+                                                                ]
+                                                              )
+                                                            ],
+                                                            1
+                                                          )
+                                                        ],
+                                                        1
+                                                      )
+                                                    ],
+                                                    1
+                                                  )
+                                                ],
+                                                1
                                               )
                                             ],
                                             1

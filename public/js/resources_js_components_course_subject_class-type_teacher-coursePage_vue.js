@@ -150,10 +150,23 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-// const VueElementLoading = () => import("vue-element-loading")
+//
+//
+//
+//
+//
+//
+//
+//
+var confirmArchiveCourse = function confirmArchiveCourse() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_course_subject_class-type_dialog_confirmArchiveCourse_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./dialog/confirmArchiveCourse */ "./resources/js/components/course_subject/class-type/dialog/confirmArchiveCourse.vue"));
+};
+
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  components: {//    VueElementLoading,
+  components: {
+    //    VueElementLoading,
+    confirmArchiveCourse: confirmArchiveCourse
   },
   data: function data() {
     return {
@@ -171,7 +184,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         class_description: '',
         course_picture: '',
         course_code: ''
-      }
+      },
+      Archivedialog: false,
+      ArchiveDetails: {}
     };
   },
   computed: (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)(['allCourse']),
@@ -182,6 +197,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         position: "top-center",
         icon: "done",
         duration: 5000
+      });
+    },
+    archiveConfirm: function archiveConfirm(name, id) {
+      this.ArchiveDetails.course_id = id;
+      this.ArchiveDetails.name = name;
+      this.Archivedialog = !this.Archivedialog;
+    },
+    archiveCourse: function archiveCourse() {
+      var _this = this;
+
+      axios["delete"]('/api/course/archiveCourse/' + this.ArchiveDetails.course_id).then(function (res) {
+        _this.fetchCourses();
+
+        _this.Archivedialog = !_this.Archivedialog;
       });
     },
     openAddmodal: function openAddmodal() {
@@ -202,18 +231,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.form.course_id = selectedCourse.course_id;
     },
     createCourse: function createCourse() {
-      var _this = this;
+      var _this2 = this;
 
       if (this.form.course_name != "" && this.form.course_code != "") {
         this.isloading = true;
         this.$store.dispatch('createCourse', this.form).then(function (res) {
-          _this.fetchCourses();
+          _this2.fetchCourses();
 
-          _this.dialog = false;
+          _this2.dialog = false;
 
-          _this.toastSuccess("Your course has been Added", 'done');
+          _this2.toastSuccess("Your course has been Added", 'done');
 
-          _this.$router.push({
+          _this2.$router.push({
             name: 'courseSetup',
             params: {
               id: res.id
@@ -223,12 +252,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
     },
     fetchCourses: function fetchCourses() {
-      var _this2 = this;
+      var _this3 = this;
 
       this.isGetting = true;
       this.$store.dispatch('fetchCourseList').then(function () {
-        _this2.coursesLength = _this2.allCourse.length;
-        _this2.isGetting = false;
+        _this3.coursesLength = _this3.allCourse.length;
+        _this3.isGetting = false;
       });
     }
   }),
@@ -373,6 +402,36 @@ var render = function() {
   return _c(
     "div",
     [
+      _c(
+        "v-dialog",
+        {
+          attrs: { persistent: "", "max-width": "400" },
+          model: {
+            value: _vm.Archivedialog,
+            callback: function($$v) {
+              _vm.Archivedialog = $$v
+            },
+            expression: "Archivedialog"
+          }
+        },
+        [
+          _vm.Archivedialog
+            ? _c("confirmArchiveCourse", {
+                attrs: { ArchiveDetails: _vm.ArchiveDetails },
+                on: {
+                  toggleCancelDialog: function($event) {
+                    _vm.Archivedialog = !_vm.Archivedialog
+                  },
+                  toggleconfirm: function($event) {
+                    return _vm.archiveCourse()
+                  }
+                }
+              })
+            : _vm._e()
+        ],
+        1
+      ),
+      _vm._v(" "),
       _vm.coursesLength == 0
         ? _c(
             "v-row",
@@ -745,7 +804,17 @@ var render = function() {
                                           _vm._v(" "),
                                           _c(
                                             "v-list-item",
-                                            { attrs: { link: "" } },
+                                            {
+                                              attrs: { link: "" },
+                                              on: {
+                                                click: function($event) {
+                                                  return _vm.archiveConfirm(
+                                                    item.course_name,
+                                                    item.id
+                                                  )
+                                                }
+                                              }
+                                            },
                                             [
                                               _c("v-list-item-title", [
                                                 _vm._v("Archive")

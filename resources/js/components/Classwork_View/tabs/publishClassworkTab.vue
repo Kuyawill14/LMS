@@ -145,6 +145,7 @@ export default {
             UnpublishDiaglog:false,
             isAdding: false,
             isUpdate: false,
+            notifyDetails:{}
         }
     },
     methods:{
@@ -224,9 +225,13 @@ export default {
             this.fetchClassFornotify(data)
         },
         async NewNotification(data){
-            axios.post('/api/notification/new', data)
+            console.log(data);
+            this.notifyDetails.classwork_id = data.classwork_id;
+            this.notifyDetails.class_id = data.class_id;
+            this.notifyDetails.course_id = this.$route.params.id;
+            axios.post('/api/notification/new', this.notifyDetails)
             .then(res=>{
-                
+               
             })
         }
     },

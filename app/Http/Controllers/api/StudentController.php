@@ -33,11 +33,14 @@ class StudentController extends Controller
     public function getStudentList($id)
     {
         $userId = auth('sanctum')->id();
+        
         if(auth('sanctum')->user()->role == 'Teacher') {
-        $StudentList = DB::table('tbl_userclasses')
-        ->select('tbl_userclasses.id as uc_id','users.id','users.firstName','users.email','users.lastName','users.role','tbl_user_details.profile_pic' )
+        $StudentList = tbl_userclass::whereNull('tbl_userclasses.deleted_at')
+        ->select('tbl_userclasses.class_id as class_id','tbl_classes.class_name'
+        ,'users.id as user_id','users.firstName','users.email','users.lastName','users.role','tbl_user_details.profile_pic' )
+        ->leftJoin('tbl_classes', 'tbl_classes.id', '=', 'tbl_userclasses.class_id', )
         ->leftJoin('users', 'tbl_userclasses.user_id', '=', 'users.id', )
-        ->leftJoin('tbl_user_details', 'tbl_user_details.user_id', '=', 'users.id', )
+        ->leftJoin('tbl_user_details', 'tbl_user_details.user_id', '=', 'users.id',)
         ->where('tbl_userclasses.course_id', $id)
         ->where('users.role', 'Student')
         ->orderBy('users.lastName', 'ASC')
@@ -234,32 +237,37 @@ class StudentController extends Controller
     public function JoinClass($id)
     {
         $userId = auth('sanctum')->id();
-        $ClassCheckExist = DB::table('tbl_classes')
-        ->where('class_code', $id)
-        ->get();
-        
+        $Class = Tbl_class::where('class_code', $id)->first();
+
+        //return $Class;
         //$ClassCheckExist = Tbl_class::where('class_code', $id)->exists();
 
-        if(count($ClassCheckExist) == 0){
+        if(!$Class){
             return response()->json("Class doest exist",203);
         }
         else{
-
-            $Class = DB::table('tbl_classes')->where('class_code', $id)->get();
-            $Check = tbl_userclass::where('course_id','=', $Class[0]->course_id)
+            $Check = tbl_userclass::withTrashed()
+            ->where('course_id','=', $Class->course_id)
             ->where('user_id','=',$userId)
-            ->exists();
-
-            if($Check == true){
-                return response()->json("You already join to this class",202);
+            ->first();
+           
+            if($Check){
+                if($Check->deleted_at == null){
+                    return response()->json("You already join to this class",202);
+                }
+                else{
+                    $Check->restore();
+                    return response()->json("Class Restored",200); 
+                }
+                
             }
             
         }
            
         $JoinClass = new tbl_userclass;
-        $JoinClass->class_id = $Class[0]->id;
+        $JoinClass->class_id = $Class->id;
         $JoinClass->user_id = $userId;
-        $JoinClass->course_id = $Class[0]->course_id;
+        $JoinClass->course_id = $Class->course_id;
         $JoinClass->save();
 
 
@@ -321,6 +329,26 @@ class StudentController extends Controller
     }
 
     /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function removeFromClass($class_id, $user_id)
+    {
+        //return $class_id;
+        $userClass = tbl_userclass::where('class_id', $class_id)
+        ->where('user_id', $user_id)->first();
+
+        if($userClass){
+            $userClass->delete();
+            return "Deleted";
+
+        }
+        return "Student Not found";
+    }
+
+    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -342,4 +370,7 @@ class StudentController extends Controller
     {
         //
     }
+
+
+    
 }
