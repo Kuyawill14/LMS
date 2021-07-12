@@ -296,7 +296,7 @@
                 });
             },
             getfinalGrades() {
-                axios.get('/api/grade-book/student-finalgrade/' + this.$route.params.id).then(res => {
+                axios.get('/api/grade-book/student-finalgrade/' + this.selectedClass + '/' + this.$route.params.id).then(res => {
                     this.finalGrades = res.data;
 
                 })

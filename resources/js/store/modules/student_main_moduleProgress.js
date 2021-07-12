@@ -7,8 +7,14 @@ const state = {
 };
 const getters = {
 
-    getStudentMainModuleProgress: (state) => state.main_module_progress,
 
+    getStudentMainModuleProgress: state => (student_id) => {
+
+        var progress = state.main_module_progress.filter(main_module_progress => main_module_progress.student_id == student_id);
+        return progress[0].progress;
+
+
+    },
     SubModuleProgress: state => (id, student_id) => {
         return state.sub_module_progress.filter(sub_module_progress => sub_module_progress.main_module_id == id && sub_module_progress.student_id == student_id);
     },
@@ -21,9 +27,10 @@ const actions = {
         const res = await axios.get(
             `/api/student_sub_module/student_main_progress/${id}`
         );
-        //console.log(res.data);
+        console.log(res.data);
+
         commit('FETCH_STUDENT_MAIN_PROGRESS', res.data);
-        return;
+
     },
     async studentSubProgress({ commit }, id) {
 
@@ -32,7 +39,7 @@ const actions = {
         );
         //console.log(res.data);
         commit('FETCH_STUDENT_SUB_PROGRESS', res.data);
-        return;
+
     },
 
 

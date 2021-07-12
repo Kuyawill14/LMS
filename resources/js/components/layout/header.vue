@@ -1,9 +1,12 @@
 <template>
     <v-app-bar :clipped-left="$vuetify.breakpoint.lgAndUp" app color="primary" dark>
         <v-app-bar-nav-icon @click.stop="$emit('toggleSidebar')"></v-app-bar-nav-icon>
-        <v-toolbar-title style="width: 300px" class="ml-0 pl-4 ">
-            <span class="hidden-sm-and-down pointer" @click="goHome()">CCSICT-LMS</span>
+        <router-link to="/">
+         <v-toolbar-title style="width: 300px;color: #fff" class="ml-0 pl-4 " >
+            <span class="hidden-sm-and-down pointer" >CCSICT-LMS</span>
         </v-toolbar-title>
+        </router-link>
+       
         <v-text-field flat solo-inverted hide-details prepend-inner-icon="mdi-magnify" label="Search"
             class="hidden-sm-and-down"></v-text-field>
         <v-spacer></v-spacer>
@@ -100,7 +103,7 @@
         methods: {
             goHome() {
                 this.$router.push({
-                    path: "/"
+                    path: ""
                 })
             },
             logout() {

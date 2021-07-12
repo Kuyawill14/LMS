@@ -98,6 +98,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['UserDetails'],
@@ -114,7 +117,7 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     goHome: function goHome() {
       this.$router.push({
-        path: "/"
+        path: ""
       });
     },
     logout: function logout() {
@@ -640,6 +643,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _layout_header__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./layout/header */ "./resources/js/components/layout/header.vue");
 /* harmony import */ var _layout_sidebar__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./layout/sidebar */ "./resources/js/components/layout/sidebar.vue");
+//
 //
 //
 //
@@ -22707,22 +22711,23 @@ var render = function() {
       }),
       _vm._v(" "),
       _c(
-        "v-toolbar-title",
-        { staticClass: "ml-0 pl-4 ", staticStyle: { width: "300px" } },
+        "router-link",
+        { attrs: { to: "/" } },
         [
           _c(
-            "span",
+            "v-toolbar-title",
             {
-              staticClass: "hidden-sm-and-down pointer",
-              on: {
-                click: function($event) {
-                  return _vm.goHome()
-                }
-              }
+              staticClass: "ml-0 pl-4 ",
+              staticStyle: { width: "300px", color: "#fff" }
             },
-            [_vm._v("CCSICT-LMS")]
+            [
+              _c("span", { staticClass: "hidden-sm-and-down pointer" }, [
+                _vm._v("CCSICT-LMS")
+              ])
+            ]
           )
-        ]
+        ],
+        1
       ),
       _vm._v(" "),
       _c("v-text-field", {

@@ -36,9 +36,9 @@
                                             </div>
                                             <div>
                                             
-                                                <v-text-field :loading="isSavingScore"  :style="$vuetify.breakpoint.xs ? 'width:50%' :'width:40%'" 
+                                                <v-text-field :loading="isSavingScore"  :style="$vuetify.breakpoint.xs ? 'width:100%' :'width:90%'" 
                                                 @keyup="SaveScore()" class="mt-2 float-right" v-model="CheckData.points" 
-                                                dense outlined label="Score"></v-text-field>
+                                                dense outlined label="Score" type="number" :suffix="'/' +classworkDetails.points" :max="classworkDetails.points" :maxlength="classworkDetails.points.toString().length" min="0"></v-text-field>
                                             </div>
                                         </div>
                                     </v-col>
@@ -46,7 +46,7 @@
                                         <v-row>
                                             <v-col cols="12">
                                                 <h2>{{classworkDetails.title}}</h2>
-                                                (<span class="primary--text">{{classworkDetails.points}} <small>points</small> </span>)
+                                                <!-- (<span class="primary--text">{{classworkDetails.points}} <small>points</small> </span>) -->
                                             </v-col>
                                             <v-col v-for="(item, index) in CheckData.Submitted_Answers" :key="index" class="ma-0 pa-0 " cols="12" md="11" lg="11" xl="11">
                                             <div class="d-flex">
@@ -207,5 +207,17 @@ import moment from 'moment';
     .doc {
     width: 100%;
     height: 70vh;
+}
+</style>
+<style>
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+input[type=number] {
+    -moz-appearance:textfield; /* Firefox */
 }
 </style>

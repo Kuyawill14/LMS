@@ -11,17 +11,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var vue_element_loading__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-element-loading */ "./node_modules/vue-element-loading/lib/vue-element-loading.min.js");
-/* harmony import */ var vue_element_loading__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue_element_loading__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
-
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
+/* harmony import */ var vue_element_loading__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-element-loading */ "./node_modules/vue-element-loading/lib/vue-element-loading.min.js");
+/* harmony import */ var vue_element_loading__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue_element_loading__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -184,19 +176,30 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['role'],
   components: {
-    VueElementLoading: (vue_element_loading__WEBPACK_IMPORTED_MODULE_1___default())
+    VueElementLoading: (vue_element_loading__WEBPACK_IMPORTED_MODULE_0___default())
   },
   data: function data() {
     return {
       Deldialog: false,
       dialog: false,
       temp_id: '',
-      loading: false,
+      loading: true,
       type: '',
       search: "",
       grading_criteria_form: {},
@@ -205,10 +208,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       delId: '',
       studentSubModuleProgress: [],
       totalTimeSpent: 0,
-      students: []
+      students: [],
+      classList: [],
+      selectedClass: []
     };
   },
-  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(["getmain_module", "getSub_module", "getAll_sub_module", "getStudentMainModuleProgress", "SubModuleProgress"])),
+  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(["getmain_module", "getSub_module", "getAll_sub_module", "getStudentMainModuleProgress", "SubModuleProgress", 'allClass'])),
   methods: {
     convertTime: function convertTime(time) {
       return new Date(parseInt(time) * 1000).toISOString().substr(11, 8);
@@ -217,15 +222,40 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var color = time_spent >= required_time ? "green" : "red";
       return color;
     },
+    getTotalCompleted: function getTotalCompleted(arr) {
+      var total_complete = 0,
+          length = 0,
+          result = 0;
+
+      for (var i = 0; i < arr.length; i++) {
+        total_complete += arr[i].completed;
+        length += arr[i].sub_module_length;
+      }
+
+      return total_complete + '/' + length;
+    },
+    getTotalPercent: function getTotalPercent(arr) {
+      var total_complete = 0,
+          length = 0,
+          result = 0;
+
+      for (var i = 0; i < arr.length; i++) {
+        total_complete += arr[i].completed;
+        length += arr[i].sub_module_length;
+      }
+
+      result = total_complete / length * 100;
+      return result.toFixed(2);
+    },
     _mainTotalRequiredTimeSeconds: function _mainTotalRequiredTimeSeconds() {
       var total = 0;
       var allsubmodules = this.getAll_sub_module;
 
       for (var i = 0; i < allsubmodules.length; i++) {
         total += parseFloat(allsubmodules[i].required_time);
-      }
+      } //   console.log('time', allsubmodules)
 
-      console.log('time', allsubmodules);
+
       return total;
     },
     _mainTotalRequiredTime: function _mainTotalRequiredTime() {
@@ -234,28 +264,26 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       for (var i = 0; i < allsubmodules.length; i++) {
         total += parseFloat(allsubmodules[i].required_time);
-      }
+      } // console.log('time', allsubmodules)
 
-      console.log('time', allsubmodules);
+
       return this.convertTime(total);
     },
     _totalRequiredTime: function _totalRequiredTime(mainModule_id) {
       var total = 0;
-      var subModules_arr = this.getSub_module(mainModule_id);
-      console.log(subModules_arr);
+      var subModules_arr = this.getSub_module(mainModule_id); //   console.log(subModules_arr);
 
       for (var i = 0; i < subModules_arr.length; i++) {
         total += parseFloat(subModules_arr[i].required_time);
-      }
+      } //  console.log('time', subModules_arr)
 
-      console.log('time', subModules_arr);
+
       return this.convertTime(total);
     },
     _totalTimeSpent: function _totalTimeSpent(data) {
       var total = 0;
       data.forEach(function (val) {
-        total += parseFloat(val.time_spent);
-        console.log(total);
+        total += parseFloat(val.time_spent); //    console.log(total);
       });
       return total;
     },
@@ -270,44 +298,39 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
       this.$store.dispatch('fetchMainModule', this.$route.params.id);
       this.$store.dispatch('fetchSubModule', this.$route.params.id);
-      this.$store.dispatch('studentMainProgress', this.$route.params.id);
       this.$store.dispatch('studentSubProgress', this.$route.params.id);
     },
     getStudentList: function getStudentList() {
       var _this2 = this;
 
-      axios.get('/api/student/all/' + this.$route.params.id).then(function (res) {
+      this.loading = true;
+      axios.get('/api/student/all_by_class/' + this.selectedClass).then(function (res) {
         _this2.students = res.data;
-        setTimeout(function () {
-          _this2.isGetting = false;
-        }, 1000);
       })["catch"](function (error) {
         console.log(error);
+      });
+      this.$store.dispatch('studentMainProgress', this.selectedClass).then(function () {
+        _this2.loading = false;
+      });
+    },
+    getClassList: function getClassList() {
+      var _this3 = this;
+
+      this.$store.dispatch('fetchSubjectCourseClassList', this.$route.params.id).then(function () {
+        _this3.classList = _this3.allClass;
+        _this3.selectedClass = _this3.classList[0].class_id;
+
+        _this3.getStudentList();
+
+        _this3.loading = false;
       });
     }
   },
   mounted: function mounted() {
-    var _this3 = this;
-
-    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
-      var i;
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
-        while (1) {
-          switch (_context.prev = _context.next) {
-            case 0:
-              _this3.fetchStudentModuleProgress();
-
-              _this3.getStudentList();
-
-              for (i = 0; i < _this3.students.length; i++) {}
-
-            case 3:
-            case "end":
-              return _context.stop();
-          }
-        }
-      }, _callee);
-    }))();
+    this.loading = true;
+    this.fetchStudentModuleProgress();
+    this.getClassList();
+    this.loading = false;
   }
 });
 
@@ -465,13 +488,52 @@ var render = function() {
     "div",
     { staticClass: "pt-4" },
     [
-      _c("h2", [
-        _vm._v(
-          "\n      " +
-            _vm._s(_vm.role == "Teacher" ? "Student Progress" : "My Progress") +
-            "\n    "
-        )
-      ]),
+      _c(
+        "v-row",
+        [
+          _c("v-col", { attrs: { cols: "6" } }, [
+            _c("h2", [
+              _vm._v(
+                "\n                " +
+                  _vm._s(
+                    _vm.role == "Teacher" ? "Student Progress" : "My Progress"
+                  ) +
+                  "\n            "
+              )
+            ])
+          ]),
+          _vm._v(" "),
+          _c(
+            "v-col",
+            { attrs: { cols: "6" } },
+            [
+              _c("v-select", {
+                staticClass: "float-right",
+                attrs: {
+                  items: _vm.classList,
+                  "item-text": "class_name",
+                  "item-value": "class_id",
+                  label: "Select Class"
+                },
+                on: {
+                  change: function($event) {
+                    return _vm.getStudentList()
+                  }
+                },
+                model: {
+                  value: _vm.selectedClass,
+                  callback: function($$v) {
+                    _vm.selectedClass = $$v
+                  },
+                  expression: "selectedClass"
+                }
+              })
+            ],
+            1
+          )
+        ],
+        1
+      ),
       _vm._v(" "),
       _c(
         "v-row",
@@ -518,179 +580,188 @@ var render = function() {
                                       fn: function() {
                                         return [
                                           _c("thead", [
-                                            _c("tr", [
-                                              _vm.role == "Teacher"
-                                                ? _c(
-                                                    "th",
-                                                    {
-                                                      staticClass: "text-center"
-                                                    },
-                                                    [
-                                                      _vm._v(
-                                                        "\n                                            Student Name\n                                        "
-                                                      )
-                                                    ]
-                                                  )
-                                                : _vm._e(),
-                                              _vm._v(" "),
-                                              _c(
-                                                "th",
-                                                { staticClass: "text-center" },
-                                                [
-                                                  _vm._v(
-                                                    "\n                                            Total Time Spent "
-                                                  ),
-                                                  _c("br"),
-                                                  _vm._v(
-                                                    "\n                                            " +
-                                                      _vm._s(
-                                                        _vm._mainTotalRequiredTime()
-                                                      ) +
-                                                      "\n                                        "
-                                                  )
-                                                ]
-                                              ),
-                                              _vm._v(" "),
-                                              _c(
-                                                "th",
-                                                { staticClass: "text-center" },
-                                                [
-                                                  _vm._v(
-                                                    "\n                                            Completed\n                                        "
-                                                  )
-                                                ]
-                                              ),
-                                              _vm._v(" "),
-                                              _c(
-                                                "th",
-                                                { staticClass: "text-center" },
-                                                [
-                                                  _vm._v(
-                                                    "\n                                            Percentage\n                                        "
-                                                  )
-                                                ]
-                                              )
-                                            ])
-                                          ]),
-                                          _vm._v(" "),
-                                          _c(
-                                            "tbody",
-                                            _vm._l(
-                                              _vm.getStudentMainModuleProgress,
-                                              function(main, i) {
-                                                return _c(
-                                                  "tr",
-                                                  {
-                                                    key:
-                                                      "get_gradingCriteria" + i
-                                                  },
-                                                  [
-                                                    _vm.role == "Teacher"
-                                                      ? _c(
-                                                          "td",
-                                                          {
-                                                            staticClass:
-                                                              "text-center"
-                                                          },
-                                                          [
-                                                            _vm._v(
-                                                              _vm._s(
-                                                                main.firstName
-                                                              ) +
-                                                                " " +
-                                                                _vm._s(
-                                                                  main.lastName
-                                                                )
-                                                            )
-                                                          ]
-                                                        )
-                                                      : _vm._e(),
-                                                    _vm._v(" "),
-                                                    _c(
-                                                      "td",
-                                                      {
-                                                        staticClass:
-                                                          "text-center"
-                                                      },
-                                                      [
-                                                        _c(
-                                                          "v-chip",
-                                                          {
-                                                            attrs: {
-                                                              color: _vm.checkTimeSpent(
-                                                                main.total_time_spent,
-                                                                _vm._mainTotalRequiredTimeSeconds
-                                                              ),
-                                                              "text-color":
-                                                                "white"
-                                                            }
-                                                          },
-                                                          [
-                                                            _vm._v(
-                                                              "\n                                                " +
-                                                                _vm._s(
-                                                                  _vm.convertTime(
-                                                                    main.total_time_spent
-                                                                  )
-                                                                ) +
-                                                                "\n                                            "
-                                                            )
-                                                          ]
-                                                        )
-                                                      ],
-                                                      1
-                                                    ),
-                                                    _vm._v(" "),
-                                                    _c(
-                                                      "td",
+                                            _c(
+                                              "tr",
+                                              [
+                                                _vm.role == "Teacher"
+                                                  ? _c(
+                                                      "th",
                                                       {
                                                         staticClass:
                                                           "text-center"
                                                       },
                                                       [
                                                         _vm._v(
-                                                          "\n                                            " +
-                                                            _vm._s(
-                                                              main.completed
-                                                            ) +
-                                                            " / " +
-                                                            _vm._s(
-                                                              _vm
-                                                                .getAll_sub_module
-                                                                .length
-                                                            ) +
-                                                            "\n                                        "
-                                                        )
-                                                      ]
-                                                    ),
-                                                    _vm._v(" "),
-                                                    _c(
-                                                      "td",
-                                                      {
-                                                        staticClass:
-                                                          "text-center"
-                                                      },
-                                                      [
-                                                        _vm._v(
-                                                          "\n                                            " +
-                                                            _vm._s(
-                                                              parseInt(
-                                                                main.completed /
-                                                                  _vm
-                                                                    .getAll_sub_module
-                                                                    .length
-                                                              ) * 100
-                                                            ) +
-                                                            "% "
+                                                          "\n                                            Student Name\n                                        "
                                                         )
                                                       ]
                                                     )
+                                                  : _vm._e(),
+                                                _vm._v(" "),
+                                                _vm._l(
+                                                  _vm.getmain_module,
+                                                  function(main_module, index) {
+                                                    return _c(
+                                                      "th",
+                                                      {
+                                                        key: index,
+                                                        staticClass:
+                                                          "text-center"
+                                                      },
+                                                      [
+                                                        _vm._v(
+                                                          "\n                                            " +
+                                                            _vm._s(
+                                                              main_module.module_name
+                                                            ) +
+                                                            " "
+                                                        ),
+                                                        _c("br"),
+                                                        _vm._v(
+                                                          "\n                                            Completed\n                                        "
+                                                        )
+                                                      ]
+                                                    )
+                                                  }
+                                                ),
+                                                _vm._v(" "),
+                                                _c(
+                                                  "th",
+                                                  {
+                                                    staticClass: "text-center"
+                                                  },
+                                                  [
+                                                    _vm._v(
+                                                      "\n                                            Total Completed\n                                        "
+                                                    )
+                                                  ]
+                                                ),
+                                                _vm._v(" "),
+                                                _c(
+                                                  "th",
+                                                  {
+                                                    staticClass: "text-center"
+                                                  },
+                                                  [
+                                                    _vm._v(
+                                                      "\n                                            Percentage\n                                        "
+                                                    )
                                                   ]
                                                 )
-                                              }
-                                            ),
-                                            0
-                                          )
+                                              ],
+                                              2
+                                            )
+                                          ]),
+                                          _vm._v(" "),
+                                          _vm.loading == false
+                                            ? _c(
+                                                "tbody",
+                                                _vm._l(_vm.students, function(
+                                                  student,
+                                                  i
+                                                ) {
+                                                  return _c(
+                                                    "tr",
+                                                    { key: "" + i },
+                                                    [
+                                                      _vm.role == "Teacher"
+                                                        ? _c(
+                                                            "td",
+                                                            {
+                                                              staticClass:
+                                                                "text-center"
+                                                            },
+                                                            [
+                                                              _vm._v(
+                                                                _vm._s(
+                                                                  student.firstName
+                                                                ) +
+                                                                  "\n                                            " +
+                                                                  _vm._s(
+                                                                    student.lastName
+                                                                  ) +
+                                                                  "\n\n                                        "
+                                                              )
+                                                            ]
+                                                          )
+                                                        : _vm._e(),
+                                                      _vm._v(" "),
+                                                      _vm._l(
+                                                        _vm.getStudentMainModuleProgress(
+                                                          student.id
+                                                        ),
+                                                        function(main, i) {
+                                                          return _c(
+                                                            "td",
+                                                            {
+                                                              key: "" + i,
+                                                              staticClass:
+                                                                "text-center"
+                                                            },
+                                                            [
+                                                              _vm._v(
+                                                                "\n                                            " +
+                                                                  _vm._s(
+                                                                    main.completed
+                                                                  ) +
+                                                                  " / " +
+                                                                  _vm._s(
+                                                                    main.sub_module_length
+                                                                  ) +
+                                                                  "\n                                        "
+                                                              )
+                                                            ]
+                                                          )
+                                                        }
+                                                      ),
+                                                      _vm._v(" "),
+                                                      _c(
+                                                        "td",
+                                                        {
+                                                          staticClass:
+                                                            "text-center"
+                                                        },
+                                                        [
+                                                          _vm._v(
+                                                            "\n                                            " +
+                                                              _vm._s(
+                                                                _vm.getTotalCompleted(
+                                                                  _vm.getStudentMainModuleProgress(
+                                                                    student.id
+                                                                  )
+                                                                )
+                                                              )
+                                                          )
+                                                        ]
+                                                      ),
+                                                      _vm._v(" "),
+                                                      _c(
+                                                        "td",
+                                                        {
+                                                          staticClass:
+                                                            "text-center"
+                                                        },
+                                                        [
+                                                          _vm._v(
+                                                            "\n                                            " +
+                                                              _vm._s(
+                                                                _vm.getTotalPercent(
+                                                                  _vm.getStudentMainModuleProgress(
+                                                                    student.id
+                                                                  )
+                                                                )
+                                                              ) +
+                                                              "%"
+                                                          )
+                                                        ]
+                                                      )
+                                                    ],
+                                                    2
+                                                  )
+                                                }),
+                                                0
+                                              )
+                                            : _vm._e()
                                         ]
                                       },
                                       proxy: true
@@ -698,7 +769,7 @@ var render = function() {
                                   ],
                                   null,
                                   false,
-                                  658145067
+                                  562199424
                                 )
                               })
                             ],
@@ -891,7 +962,7 @@ var render = function() {
                                                   },
                                                   [
                                                     _vm._v(
-                                                      "\n\n                                            " +
+                                                      "\n                                            " +
                                                         _vm._s(
                                                           _vm.convertTime(
                                                             _vm._totalTimeSpent(
