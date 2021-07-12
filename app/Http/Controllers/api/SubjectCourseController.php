@@ -27,6 +27,7 @@ class SubjectCourseController extends Controller
         //$userId = 1;
         $allCourseSubject = tbl_teacher_course::whereNull('tbl_teacher_courses.deleted_at')
         ->where('tbl_teacher_courses.user_id', $userId)
+       
         ->select('tbl_teacher_courses.id as useClass_id','tbl_subject_courses.id','tbl_subject_courses.course_code',
         'tbl_subject_courses.course_name','tbl_subject_courses.course_description','tbl_subject_courses.id as course_id',
         'tbl_subject_courses.course_picture','tbl_subject_courses.completed','tbl_subject_courses.created_at')
@@ -38,47 +39,21 @@ class SubjectCourseController extends Controller
         'tbl_subject_courses.course_name','tbl_subject_courses.course_description','tbl_subject_courses.id',
         'tbl_subject_courses.course_picture','tbl_subject_courses.completed','tbl_subject_courses.created_at')
         ->orderBy('created_at', 'ASC')
+       
         ->get();
 
+
         foreach($allCourseSubject as $item){
-            $countClass = tbl_userclass::where('tbl_userclasses.user_id', $userId )
-            ->where('tbl_userclasses.course_id', $item->id)
+            $countClass = tbl_userclass::where('tbl_userclasses.course_id', $item->id)
+            ->where('tbl_userclasses.user_id', $userId )
             ->count();
             $item->class_count = $countClass;
-            $item->student_count = $item->student_count-1;
-        }
 
-        // if(auth('sanctum')->user()->role == "Student") {
-        //     foreach($allClass as $key => $value) {
-        //         $allClassSubModules = DB::table('tbl_sub_modules')
-        //         ->select('tbl_sub_modules.id')
-        //         ->leftJoin('tbl_main_modules', 'tbl_sub_modules.main_module_id', '=', 'tbl_main_modules.id')
-        //         ->where('tbl_main_modules.class_id', $value ->class_id )
-        //         ->count();
-        
-        
-        //         $allStudentSubmoduleProgress = DB::table('tbl_student_sub_module_progress')
-        //         ->select('tbl_student_sub_module_progress.sub_module_id')
-        //         ->leftJoin('tbl_sub_modules', 'tbl_student_sub_module_progress.sub_module_id', '=', 'tbl_sub_modules.id')
-        //         ->where('tbl_student_sub_module_progress.class_id', $value ->class_id )
-        //         ->count();
-                
-        //         if($allStudentSubmoduleProgress != 0 ) {
-        //             $totalProgress =  ( $allStudentSubmoduleProgress / $allClassSubModules) * 100;
-        //         }
-               
-    
-        //         DB::table('tbl_userclasses')
-        //         ->where('user_id', $userId)
-        //         ->where('class_id', $value ->class_id)
-        //         ->update(['progress' =>  $totalProgress]);
-    
-    
-        
-        //     }
-        // }
-        
-    
+            $StudentCount = tbl_userclass::where('tbl_userclasses.course_id', $item->id)
+            ->where('tbl_userclasses.user_id','!=' ,$userId )
+            ->count();
+            $item->student_count =  $StudentCount;
+        }
         return $allCourseSubject;
     }
     public function CourseDetails($id)

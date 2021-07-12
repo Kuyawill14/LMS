@@ -419,7 +419,7 @@ var render = function() {
               _c(
                 "v-row",
                 [
-                  _c("v-col", [_c("h2", [_vm._v("Archive")])]),
+                  _c("v-col", [_c("h2", [_vm._v("Archive Courses")])]),
                   _vm._v(" "),
                   _c(
                     "v-col",

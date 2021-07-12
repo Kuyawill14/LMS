@@ -33,7 +33,7 @@ class ArchiveController extends Controller
             ->selectRaw('count(tbl_userclasses.course_id ) as student_count')
             ->leftJoin('tbl_subject_courses', 'tbl_teacher_courses.course_id', '=', 'tbl_subject_courses.id')
             ->leftJoin('tbl_userclasses', 'tbl_userclasses.course_id','=','tbl_subject_courses.id')
-            ->leftJoin('users', 'users.id','=','tbl_userclasses.user_id' )
+            ->leftJoin('users', 'users.id','=','tbl_userclasses.user_id')
             ->groupBy('tbl_teacher_courses.id','tbl_subject_courses.id','tbl_subject_courses.course_code',
             'tbl_subject_courses.course_name','tbl_subject_courses.course_description','tbl_subject_courses.id',
             'tbl_subject_courses.course_picture','tbl_subject_courses.completed','tbl_subject_courses.created_at')
@@ -41,7 +41,8 @@ class ArchiveController extends Controller
             ->get();
 
             foreach($allArchiveCourse as $item){
-                $countClass = tbl_userclass::where('tbl_userclasses.user_id', $userId )
+                $countClass = tbl_userclass::onlyTrashed()
+                ->where('tbl_userclasses.user_id', $userId )
                 ->where('tbl_userclasses.course_id', $item->id)
                 ->count();
                 $item->class_count = $countClass;
