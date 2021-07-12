@@ -329,7 +329,7 @@
         },
 
         mounted() {
-
+    this.loading = true;
             this.fetchStudentModuleProgress();
             this.getClassList();
             this.loading = false;

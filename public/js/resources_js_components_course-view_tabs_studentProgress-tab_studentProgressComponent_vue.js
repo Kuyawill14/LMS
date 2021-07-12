@@ -327,6 +327,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
   },
   mounted: function mounted() {
+    this.loading = true;
     this.fetchStudentModuleProgress();
     this.getClassList();
     this.loading = false;

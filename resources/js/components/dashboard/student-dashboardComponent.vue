@@ -1,6 +1,6 @@
 <template>
     <div>
-   
+
         <v-row>
             <v-col lg="8" class="pt-0">
                 <v-row>
@@ -10,7 +10,7 @@
                                 {{class_count}}
                             </div>
                             <div class="text-center">
-                                Total Classes
+                                Course Enrolled
                             </div>
                         </v-card>
                     </v-col>
@@ -21,23 +21,33 @@
                                 {{unfinishCount}}
                             </div>
                             <div class="text-center">
-                              Unfinished Classworks
+                                Unfinished Classworks
                             </div>
                         </v-card>
                     </v-col>
                 </v-row>
+
                 <v-row>
                     <v-col>
-                        <v-card>
-                            <v-chart class="chart" :option="option" autoresize />
-                        </v-card>
+                        <studentGradeChart> </studentGradeChart>
+                    </v-col>
+                    <v-col>
+                       
                     </v-col>
                 </v-row>
+
+
+                 <v-row class="mt-0">
+            <v-col>
+                <studentClasses />
+            </v-col>
+        </v-row>
+
             </v-col>
 
-            <v-col lg="4" class="pt-0">
+            <v-col lg="4">
                 <v-row>
-                    <v-col>
+                    <v-col class="pt-0">
                         <v-card>
                             <myCalendar :role="role" v-on:RecieveTotalClasswork="TotalClasswork"></myCalendar>
                         </v-card>
@@ -52,14 +62,15 @@
                         </v-card>
                     </v-col>
                 </v-row>
+                
+
             </v-col>
 
+
+
         </v-row>
-
+       
     </div>
-
-
-
 </template>
 
 <script>
@@ -69,45 +80,21 @@
     } from "vuex";
     const myCalendar = () => import('./myCalendar')
     const myNotification = () => import('./notificationComponent')
-    import {
-        use
-    } from "echarts/core";
-    import {
-        CanvasRenderer
-    } from "echarts/renderers";
-    import {
-        BarChart
-    } from "echarts/charts";
+    const studentClasses = () => import('./student-classes')
+    const studentGradeChart = () => import('./student-grades-radarChart')
 
+    import axios from 'axios';
 
-    import {
-        TitleComponent,
-        TooltipComponent,
-        LegendComponent,
-        GridComponent
-
-    } from "echarts/components";
-    import VChart, {
-        THEME_KEY
-    } from "vue-echarts";
-import axios from 'axios';
-
-    use([
-        CanvasRenderer,
-        BarChart,
-        TitleComponent,
-        TooltipComponent,
-        LegendComponent,
-        GridComponent
-    ]);
 
     export default {
-        props:['role'],
+        props: ['role'],
         name: "HelloWorld",
         components: {
-            VChart,
+
             myCalendar,
-            myNotification
+            myNotification,
+            studentClasses,
+            studentGradeChart
         },
         provide: {
 
@@ -117,97 +104,27 @@ import axios from 'axios';
             return {
                 class_count: 0,
                 unfinishCount: 0,
-                option: {
-                    color: ["#FF5400", "#FFs400", "#FFd400"],
-                    xAxis: {
-                        data: ['Module 1', 'Module 2', 'Module 3', 'Module 4', 'Module 5', 'Module 6', 'Module 7',
-                            'Module 8', 'Module 9'
-                        ]
-                    },
-                    yAxis: {
-                        type: 'value'
-                    },
-                    // title: {
-                    //     text: "Traffic Sources",
-                    //     left: "center"
-                    // },
-                    tooltip: {
-                        trigger: "item",
-                        formatter: "{b} <br/>Time spent: {c} "
-                    },
-                    legend: {
-                        show: false,
-                        //     left: "center",
-                        //   top: "30px",
-                    },
-                    series: [{
-                            name: "Module 1",
-                            type: "bar",
 
-                            data: [{
-                                    value: 1,
-                                    name: "Module 1"
-                                },
-                                {
-                                    value: 2,
-                                    name: "Module 2"
-                                },
-                                {
-                                    value: 3,
-                                    name: "Module 3"
-                                },
-                                {
-                                    value: 4,
-                                    name: "Module 4"
-                                },
-                                {
-                                    value: 5,
-                                    name: "Module 5"
-                                },
-                                {
-                                    value: 6,
-                                    name: "Module 6"
-                                },
-                                {
-                                    value: 7,
-                                    name: "Module 7"
-                                },
-                                {
-                                    value: 8,
-                                    name: "Module 8"
-                                },
-                                {
-                                    value: 9,
-                                    name: "Module 9"
-                                },
-
-                            ],
-
-                        },
-
-
-                    ],
-                }
 
             };
         },
         methods: {
             classCount() {
-                
+
                 axios.get('/api/class/count')
-                .then(res => {
-                    this.class_count = res.data;
-                })
-       
+                    .then(res => {
+                        this.class_count = res.data;
+                    })
+
             },
-            TotalClasswork(data){
+            TotalClasswork(data) {
                 console.log(data);
                 this.unfinishCount = data;
             }
         },
         mounted() {
             //this.fetchCourseList();
-            this. classCount();
+            this.classCount();
         },
     };
 

@@ -128,7 +128,7 @@ class GradebookController extends Controller
 
     }
    
-    public function fetchStudentFinalGrades($class_id) {
+    public function fetchStudentFinalGrades($class_id, $course_id) {
         $userId = auth('sanctum')->id();
 
         $classworks = DB::table('tbl_classworks')
@@ -142,6 +142,7 @@ class GradebookController extends Controller
 
         $gradingCategory = DB::table('tbl_main_grade_categories')
         ->select('id as grade_category_id','percentage')
+        ->where('course_id', $course_id)
         ->get();
         $gradingCategory = json_decode($gradingCategory, true);
 

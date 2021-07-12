@@ -310,7 +310,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     getfinalGrades: function getfinalGrades() {
       var _this6 = this;
 
-      axios.get('/api/grade-book/student-finalgrade/' + this.$route.params.id).then(function (res) {
+      axios.get('/api/grade-book/student-finalgrade/' + this.selectedClass + '/' + this.$route.params.id).then(function (res) {
         _this6.finalGrades = res.data;
       });
     }
