@@ -61,7 +61,7 @@
 
                          <v-col v-if="availability == 'Set Date'"  class="pa-0 ma-0"  cols="12">
                              <v-row class="mt-0 pt-0">
-                                 <v-col cols="6" class="mt-0 pt-0">
+                                 <v-col cols="6" class="mt-0 pt-0 mb-0 pb-0">
                                       <v-datetime-picker label="From"
                                         v-model="from_date"
                                         class="mt-0 pt-0"
@@ -83,7 +83,7 @@
                                     label="From" type="datetime-local" >
                                     </v-text-field> -->
                                  </v-col>
-                                 <v-col cols="6" class="mt-0 pt-0">
+                                 <v-col cols="6" class="mt-0 pt-0 mb-0 pb-0">
                                      <v-datetime-picker label="To"
                                         v-model="to_date"
                                         class="Datetimepicker"
@@ -103,6 +103,14 @@
                                     label="To" type="datetime-local" >
                                     </v-text-field> -->
                                  </v-col>
+
+                                   <v-col cols="12" class="mt-0 pt-0">
+                                    <v-checkbox
+                                    class="pa-0 ma-0"
+                                    v-model="response_late"
+                                    label="Accept late response"
+                                    ></v-checkbox>    
+                                </v-col>
                              </v-row>
                            
                             </v-col>
@@ -133,7 +141,6 @@
                                 <v-row>
                                     <v-col cols="6">
                                          <v-datetime-picker label="From"
-                                            :rules="FieldRules"
                                             v-model="ShowAnswerDateFrom"
                                             class="mt-0 pt-0"
                                             :text-field-props="textFieldProps"
@@ -146,8 +153,7 @@
                                     </v-col>
 
                                      <v-col cols="6">
-                                          <v-datetime-picker label="To"
-                                        :rules="FieldRules"
+                                        <v-datetime-picker label="To"
                                         v-model="ShowAnswerDateTo"
                                         class="mt-0 pt-0"
                                         :text-field-props="textFieldProps"
@@ -160,21 +166,8 @@
                                     </v-col>
                                 </v-row>
                                
-
-
-
-
                             </v-col>
-                             <v-col  ma-0 pa-0 class="text-left pa-0 ma-0" cols="12">
-                                
                             
-                                <v-checkbox
-                                class="pa-0 ma-0"
-                                v-model="response_late"
-                                label="Accept late response"
-                                ></v-checkbox>    
-                          
-                        </v-col>
 
                            
                     </v-row>
@@ -207,7 +200,7 @@ export default {
             loading:false,
             duedate:null,
             ShowAnswerDateFrom: new Date(),
-            ShowAnswerDateTo: new Date(),
+            ShowAnswerDateTo:new Date(),
             from_date: new Date(),
             to_date: new Date(),
             datetimeString: '2019-01-01 12:00',
@@ -252,23 +245,27 @@ export default {
             }
         },
         async shareClasswork() {
-
-            this.from_date = moment(this.from_date).format("YYYY-MM-DD HH:MM:SS");
+            let from_date = moment(this.from_date).format("YYYY-MM-DD HH:MM:SS");
+            let to_date = moment(this.to_date).format("YYYY-MM-DD HH:MM:SS");
+            let ShowAnswerDateFrom = moment(this.ShowAnswerDateFrom).format("YYYY-MM-DD HH:MM:SS");
+            let ShowAnswerDateTo = moment(this.ShowAnswerDateTo).format("YYYY-MM-DD HH:MM:SS");
+            /* this.from_date = moment(this.from_date).format("YYYY-MM-DD HH:MM:SS");
             this.to_date = moment(this.to_date).format("YYYY-MM-DD HH:MM:SS");
             this.ShowAnswerDateFrom = moment(this.ShowAnswerDateFrom).format("YYYY-MM-DD HH:MM:SS");
-            this.ShowAnswerDateTo = moment(this.ShowAnswerDateTo).format("YYYY-MM-DD HH:MM:SS");
+            this.ShowAnswerDateTo = moment(this.ShowAnswerDateTo).format("YYYY-MM-DD HH:MM:SS"); */
             const fd = new FormData();
             fd.append("classwork_id", this.ClassDetails.id);
             fd.append("class_id", this.ClassDetails.class_id);
             fd.append("availability", this.availability);
-            fd.append("from_date", this.from_date);
-            fd.append("to_date", this.to_date);
+            fd.append("from_date", from_date);
+            fd.append("to_date", to_date);
             fd.append("showAnswer", this.showAns);
             fd.append("showAnswerType", this.showAnsType);
-            fd.append("showAnswerDateFrom", this.ShowAnswerDateFrom);
-             fd.append("showAnswerDateTo", this.ShowAnswerDateTo);
+            fd.append("showAnswerDateFrom", ShowAnswerDateFrom);
+             fd.append("showAnswerDateTo", ShowAnswerDateTo);
             fd.append("response_late", this.response_late);
             fd.append("grading_id", this.GradingCriteria_id);
+            console.log(from_date)
             axios.post('/api/classwork/share', fd)
                 .then(res => {
                     if(res.dat != 'Unshare'){
@@ -301,9 +298,9 @@ export default {
         },
         
     },
-    created(){
+    mounted(){
         this.getGradingCriteria();
-       this.getPublishDetails();
+        this.getPublishDetails();
     }
 }
 </script>

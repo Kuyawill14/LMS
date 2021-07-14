@@ -209,13 +209,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['Details'],
@@ -276,27 +269,33 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _this2 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
-        var fd;
+        var from_date, to_date, ShowAnswerDateFrom, ShowAnswerDateTo, fd;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _this2.from_date = moment__WEBPACK_IMPORTED_MODULE_1___default()(_this2.from_date).format("YYYY-MM-DD HH:MM:SS");
-                _this2.to_date = moment__WEBPACK_IMPORTED_MODULE_1___default()(_this2.to_date).format("YYYY-MM-DD HH:MM:SS");
-                _this2.ShowAnswerDateFrom = moment__WEBPACK_IMPORTED_MODULE_1___default()(_this2.ShowAnswerDateFrom).format("YYYY-MM-DD HH:MM:SS");
-                _this2.ShowAnswerDateTo = moment__WEBPACK_IMPORTED_MODULE_1___default()(_this2.ShowAnswerDateTo).format("YYYY-MM-DD HH:MM:SS");
+                from_date = moment__WEBPACK_IMPORTED_MODULE_1___default()(_this2.from_date).format("YYYY-MM-DD HH:MM:SS");
+                to_date = moment__WEBPACK_IMPORTED_MODULE_1___default()(_this2.to_date).format("YYYY-MM-DD HH:MM:SS");
+                ShowAnswerDateFrom = moment__WEBPACK_IMPORTED_MODULE_1___default()(_this2.ShowAnswerDateFrom).format("YYYY-MM-DD HH:MM:SS");
+                ShowAnswerDateTo = moment__WEBPACK_IMPORTED_MODULE_1___default()(_this2.ShowAnswerDateTo).format("YYYY-MM-DD HH:MM:SS");
+                /* this.from_date = moment(this.from_date).format("YYYY-MM-DD HH:MM:SS");
+                this.to_date = moment(this.to_date).format("YYYY-MM-DD HH:MM:SS");
+                this.ShowAnswerDateFrom = moment(this.ShowAnswerDateFrom).format("YYYY-MM-DD HH:MM:SS");
+                this.ShowAnswerDateTo = moment(this.ShowAnswerDateTo).format("YYYY-MM-DD HH:MM:SS"); */
+
                 fd = new FormData();
                 fd.append("classwork_id", _this2.ClassDetails.id);
                 fd.append("class_id", _this2.ClassDetails.class_id);
                 fd.append("availability", _this2.availability);
-                fd.append("from_date", _this2.from_date);
-                fd.append("to_date", _this2.to_date);
+                fd.append("from_date", from_date);
+                fd.append("to_date", to_date);
                 fd.append("showAnswer", _this2.showAns);
                 fd.append("showAnswerType", _this2.showAnsType);
-                fd.append("showAnswerDateFrom", _this2.ShowAnswerDateFrom);
-                fd.append("showAnswerDateTo", _this2.ShowAnswerDateTo);
+                fd.append("showAnswerDateFrom", ShowAnswerDateFrom);
+                fd.append("showAnswerDateTo", ShowAnswerDateTo);
                 fd.append("response_late", _this2.response_late);
                 fd.append("grading_id", _this2.GradingCriteria_id);
+                console.log(from_date);
                 axios.post('/api/classwork/share', fd).then(function (res) {
                   if (res.dat != 'Unshare') {
                     _this2.$emit('successPublish', res.data);
@@ -311,7 +310,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   console.log(e);
                 });
 
-              case 17:
+              case 18:
               case "end":
                 return _context.stop();
             }
@@ -364,7 +363,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     }
   },
-  created: function created() {
+  mounted: function mounted() {
     this.getGradingCriteria();
     this.getPublishDetails();
   }
@@ -22090,7 +22089,7 @@ var render = function() {
                                   _c(
                                     "v-col",
                                     {
-                                      staticClass: "mt-0 pt-0",
+                                      staticClass: "mt-0 pt-0 mb-0 pb-0",
                                       attrs: { cols: "6" }
                                     },
                                     [
@@ -22120,7 +22119,7 @@ var render = function() {
                                   _c(
                                     "v-col",
                                     {
-                                      staticClass: "mt-0 pt-0",
+                                      staticClass: "mt-0 pt-0 mb-0 pb-0",
                                       attrs: { cols: "6" }
                                     },
                                     [
@@ -22141,6 +22140,30 @@ var render = function() {
                                             _vm.to_date = $$v
                                           },
                                           expression: "to_date"
+                                        }
+                                      })
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-col",
+                                    {
+                                      staticClass: "mt-0 pt-0",
+                                      attrs: { cols: "12" }
+                                    },
+                                    [
+                                      _c("v-checkbox", {
+                                        staticClass: "pa-0 ma-0",
+                                        attrs: {
+                                          label: "Accept late response"
+                                        },
+                                        model: {
+                                          value: _vm.response_late,
+                                          callback: function($$v) {
+                                            _vm.response_late = $$v
+                                          },
+                                          expression: "response_late"
                                         }
                                       })
                                     ],
@@ -22231,7 +22254,6 @@ var render = function() {
                                         staticClass: "mt-0 pt-0",
                                         attrs: {
                                           label: "From",
-                                          rules: _vm.FieldRules,
                                           "text-field-props":
                                             _vm.textFieldProps,
                                           "date-picker-props": _vm.dateProps,
@@ -22259,7 +22281,6 @@ var render = function() {
                                         staticClass: "mt-0 pt-0",
                                         attrs: {
                                           label: "To",
-                                          rules: _vm.FieldRules,
                                           "text-field-props":
                                             _vm.textFieldProps,
                                           "date-picker-props": _vm.dateProps,
@@ -22284,29 +22305,7 @@ var render = function() {
                             ],
                             1
                           )
-                        : _vm._e(),
-                      _vm._v(" "),
-                      _c(
-                        "v-col",
-                        {
-                          staticClass: "text-left pa-0 ma-0",
-                          attrs: { "ma-0": "", "pa-0": "", cols: "12" }
-                        },
-                        [
-                          _c("v-checkbox", {
-                            staticClass: "pa-0 ma-0",
-                            attrs: { label: "Accept late response" },
-                            model: {
-                              value: _vm.response_late,
-                              callback: function($$v) {
-                                _vm.response_late = $$v
-                              },
-                              expression: "response_late"
-                            }
-                          })
-                        ],
-                        1
-                      )
+                        : _vm._e()
                     ],
                     1
                   )

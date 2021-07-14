@@ -259,7 +259,18 @@ const router = new Router({
         {
             path: "/classwork/:id",
             component: classworkView,
-
+            beforeEnter: (to, form, next) => {
+                axios
+                    .get("/api/authenticated")
+                    .then(() => {
+                        next();
+                    })
+                    .catch(() => {
+                        return next({
+                            path: "/login"
+                        });
+                    });
+            },
             props: true,
             children: [{
                     name: "clwk",
