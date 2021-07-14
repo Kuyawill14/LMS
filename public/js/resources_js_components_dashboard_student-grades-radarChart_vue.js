@@ -11,14 +11,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var echarts_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! echarts/core */ "./node_modules/echarts/lib/extension.js");
-/* harmony import */ var echarts_renderers__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! echarts/renderers */ "./node_modules/echarts/lib/renderer/installCanvasRenderer.js");
-/* harmony import */ var echarts_charts__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! echarts/charts */ "./node_modules/echarts/lib/chart/radar/install.js");
-/* harmony import */ var echarts_components__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! echarts/components */ "./node_modules/echarts/lib/component/title/install.js");
-/* harmony import */ var echarts_components__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! echarts/components */ "./node_modules/echarts/lib/component/tooltip/install.js");
-/* harmony import */ var echarts_components__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! echarts/components */ "./node_modules/echarts/lib/component/legend/install.js");
-/* harmony import */ var echarts_components__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! echarts/components */ "./node_modules/echarts/lib/component/grid/install.js");
-/* harmony import */ var vue_echarts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-echarts */ "./node_modules/vue-echarts/dist/index.esm.min.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var echarts_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! echarts/core */ "./node_modules/echarts/lib/extension.js");
+/* harmony import */ var echarts_renderers__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! echarts/renderers */ "./node_modules/echarts/lib/renderer/installCanvasRenderer.js");
+/* harmony import */ var echarts_charts__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! echarts/charts */ "./node_modules/echarts/lib/chart/radar/install.js");
+/* harmony import */ var echarts_components__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! echarts/components */ "./node_modules/echarts/lib/component/title/install.js");
+/* harmony import */ var echarts_components__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! echarts/components */ "./node_modules/echarts/lib/component/tooltip/install.js");
+/* harmony import */ var echarts_components__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! echarts/components */ "./node_modules/echarts/lib/component/legend/install.js");
+/* harmony import */ var echarts_components__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! echarts/components */ "./node_modules/echarts/lib/component/grid/install.js");
+/* harmony import */ var vue_echarts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-echarts */ "./node_modules/vue-echarts/dist/index.esm.min.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 //
 //
 //
@@ -44,13 +52,14 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-(0,echarts_core__WEBPACK_IMPORTED_MODULE_1__.use)([echarts_renderers__WEBPACK_IMPORTED_MODULE_2__.install, echarts_charts__WEBPACK_IMPORTED_MODULE_3__.install, echarts_components__WEBPACK_IMPORTED_MODULE_4__.install, echarts_components__WEBPACK_IMPORTED_MODULE_5__.install, echarts_components__WEBPACK_IMPORTED_MODULE_6__.install, echarts_components__WEBPACK_IMPORTED_MODULE_7__.install]);
+(0,echarts_core__WEBPACK_IMPORTED_MODULE_2__.use)([echarts_renderers__WEBPACK_IMPORTED_MODULE_3__.install, echarts_charts__WEBPACK_IMPORTED_MODULE_4__.install, echarts_components__WEBPACK_IMPORTED_MODULE_5__.install, echarts_components__WEBPACK_IMPORTED_MODULE_6__.install, echarts_components__WEBPACK_IMPORTED_MODULE_7__.install, echarts_components__WEBPACK_IMPORTED_MODULE_8__.install]);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
-    VChart: vue_echarts__WEBPACK_IMPORTED_MODULE_0__.default
+    VChart: vue_echarts__WEBPACK_IMPORTED_MODULE_1__.default
   },
   data: function data() {
     return {
+      isLoaded: false,
       option: {
         responsive: true,
         maintainAspectRatio: false,
@@ -68,37 +77,53 @@ __webpack_require__.r(__webpack_exports__);
           data: []
         },
         radar: {
-          // shape: 'circle',
-          indicator: [{
-            name: 'IT 311',
-            max: 100
-          }, {
-            name: 'IT 123',
-            max: 100
-          }, {
-            name: 'GEC 2',
-            max: 100
-          }, {
-            name: 'PE 3',
-            max: 100
-          }, {
-            name: 'GEC 6',
-            max: 100
-          }, {
-            name: 'IT 312',
-            max: 100
-          }]
+          shape: 'circle',
+          indicator: []
         },
         series: [{
           name: '',
           type: 'radar',
           data: [{
-            value: [98, 94, 89, 85, 82, 75],
+            value: [],
             name: 'My Grades'
           }]
         }]
       }
     };
+  },
+  methods: {
+    GetClassAndGrades: function GetClassAndGrades() {
+      var _this = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                axios.get('/api/student-course/gradeAll').then(function (res) {
+                  for (var i = 0; i < res.data.length; i++) {
+                    _this.option.radar.indicator.push({
+                      name: res.data[i].course_code,
+                      max: 100
+                    });
+
+                    _this.option.series[0].data[0].value[i] = res.data[i].final_grade == null ? 0 + '%' : res.data[i].final_grade + '%';
+                  }
+
+                  _this.isLoaded = true;
+                });
+
+              case 1:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
+    }
+  },
+  mounted: function mounted() {
+    this.GetClassAndGrades();
   }
 });
 
@@ -2105,11 +2130,13 @@ var render = function() {
               _c(
                 "v-card",
                 [
-                  _c("v-chart", {
-                    staticClass: "chart",
-                    staticStyle: { height: "300px" },
-                    attrs: { option: _vm.option, autoresize: "" }
-                  })
+                  _vm.isLoaded
+                    ? _c("v-chart", {
+                        staticClass: "chart",
+                        staticStyle: { height: "300px" },
+                        attrs: { option: _vm.option, autoresize: "" }
+                      })
+                    : _vm._e()
                 ],
                 1
               )

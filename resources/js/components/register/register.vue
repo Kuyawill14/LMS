@@ -3,17 +3,17 @@
 
         <v-container class="fill-height" fluid>
             <v-row align="center" justify="center">
-                <v-col cols="12" sm="8" md="8">
+                <v-col class="ma-0 pa-0" cols="12" sm="12" md="12">
                     <v-card class="elevation-12">
                         <v-window>
                             <v-window-item>
-                                <v-row class="fill-height">
-                                    <v-col cols="12" md="4" class="primary">
+                                <v-row :class="$vuetify.breakpoint.xs ? 'fill-height' : ''" align="center" justify="center">
+                                    <v-col :style="$vuetify.breakpoint.xs ? 'height:2vh':'height:102vh'" cols="12" md="5" class="primary ma-0 pa-0">
 
                                     </v-col>
 
-                                    <v-col cols="12" md="8">
-                                        <v-card-text class="pt-10">
+                                    <v-col class="ma-0 pa-0" cols="12" md="7">
+                                        <v-card-text >
                                             <h1 class=" display-1 primary--text ">Sign Up <span>Now</span></h1>
                                             <p class="mt-2">Login Your Account <router-link :to="{name: 'login'}">Click
                                                     here</router-link>

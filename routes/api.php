@@ -22,7 +22,7 @@ use App\Http\Controllers\api\SubmissionController;
 use App\Http\Controllers\api\UserProfileController;
 use App\Http\Controllers\api\TeacherController;
 use App\Http\Controllers\api\ArchiveController;
-
+use App\Http\Controllers\api\StudentCourseFinalGrades;
 
 
 
@@ -248,11 +248,22 @@ Route::prefix('/profile')->group(function () {
     Route::get('/mycalendar', [UserProfileController::class, 'FetchCalendarSched']);
 });
 
+
+//User Archive 
 Route::prefix('/archive')->group(function () {
     Route::get('/courses', [ArchiveController::class, 'index']);
     Route::put('/restore/{id}', [ArchiveController::class, 'restoreArchive']);
     
 });
+
+
+//UserCourseFinal Grades
+Route::prefix('/student-course')->group(function () {
+    Route::get('/gradeAll', [StudentCourseFinalGrades::class, 'index']);
+   
+    
+});
+
 
 
 

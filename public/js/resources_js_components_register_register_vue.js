@@ -277,7 +277,10 @@ var render = function() {
             [
               _c(
                 "v-col",
-                { attrs: { cols: "12", sm: "8", md: "8" } },
+                {
+                  staticClass: "ma-0 pa-0",
+                  attrs: { cols: "12", sm: "12", md: "12" }
+                },
                 [
                   _c(
                     "v-card",
@@ -291,20 +294,30 @@ var render = function() {
                             [
                               _c(
                                 "v-row",
-                                { staticClass: "fill-height" },
+                                {
+                                  class: _vm.$vuetify.breakpoint.xs
+                                    ? "fill-height"
+                                    : "",
+                                  attrs: { align: "center", justify: "center" }
+                                },
                                 [
                                   _c("v-col", {
-                                    staticClass: "primary",
-                                    attrs: { cols: "12", md: "4" }
+                                    staticClass: "primary ma-0 pa-0",
+                                    style: _vm.$vuetify.breakpoint.xs
+                                      ? "height:2vh"
+                                      : "height:102vh",
+                                    attrs: { cols: "12", md: "5" }
                                   }),
                                   _vm._v(" "),
                                   _c(
                                     "v-col",
-                                    { attrs: { cols: "12", md: "8" } },
+                                    {
+                                      staticClass: "ma-0 pa-0",
+                                      attrs: { cols: "12", md: "7" }
+                                    },
                                     [
                                       _c(
                                         "v-card-text",
-                                        { staticClass: "pt-10" },
                                         [
                                           _c(
                                             "h1",

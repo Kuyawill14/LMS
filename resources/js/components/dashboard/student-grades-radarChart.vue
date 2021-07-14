@@ -9,7 +9,7 @@
         <v-row class="mt-0">
             <v-col>
                 <v-card>
-                    <v-chart class="chart" :option="option" autoresize style="height:300px" />
+                    <v-chart v-if="isLoaded" class="chart" :option="option" autoresize style="height:300px" />
                 </v-card>
             </v-col>
 
@@ -56,6 +56,7 @@
         },
         data() {
             return {
+                isLoaded: false,
                 option: {
                     responsive: true,
                     maintainAspectRatio: false,
@@ -74,38 +75,18 @@
                         data: []
                     },
                     radar: {
-                        // shape: 'circle',
-                        indicator: [{
-                                name: 'IT 311',
-                                max: 100
-                            },
-                            {
-                                name: 'IT 123',
-                                max: 100
-                            },
-                            {
-                                name: 'GEC 2',
-                                max: 100
-                            },
-                            {
-                                name: 'PE 3',
-                                max: 100
-                            },
-                            {
-                                name: 'GEC 6',
-                                max: 100
-                            },
-                            {
-                                name: 'IT 312',
-                                max: 100
-                            },
+                        shape: 'circle',
+                        indicator: [
+                          
+                         
+                           
                         ]
                     },
                     series: [{
                         name: '',
                         type: 'radar',
                         data: [{
-                                value: [98, 94, 89, 85, 82, 75],
+                                value: [],
                                 name: 'My Grades'
 
                             },
@@ -115,6 +96,23 @@
                     }]
                 }
             }
+        },
+         methods:{
+            async GetClassAndGrades(){
+                axios.get('/api/student-course/gradeAll')
+                .then(res=>{
+                    for (let i = 0; i < res.data.length; i++) {
+                        this.option.radar.indicator.push({name: res.data[i].course_code , max: 100});
+                        this.option.series[0].data[0].value[i] = res.data[i].final_grade == null ? 0+'%' : res.data[i].final_grade+'%';
+                        
+                    }
+                    this.isLoaded = true;
+                })
+
+            }
+        },
+        mounted(){
+            this.GetClassAndGrades();
         }
     }
 
