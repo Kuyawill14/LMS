@@ -304,6 +304,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
         _this5.getStudentList();
 
+        _this5.getfinalGrades();
+
         console.log('class Liost: ', _this5.classList);
       });
     },
@@ -315,11 +317,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
     }
   },
-  created: function created() {
+  mounted: function mounted() {
     this.loading = true;
     this.getAllGradeCriteria();
     this.getClassList();
-    this.getfinalGrades();
     this.loading = false;
   }
 });
