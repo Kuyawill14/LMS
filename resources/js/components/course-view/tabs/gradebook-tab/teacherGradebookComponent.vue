@@ -86,7 +86,8 @@
                                     <td class="text-center"
                                         v-for="(classworkGrades, index) in AllStudentClassworkGrades(student.id,gradingCriteria.id)"
                                         :key="index">
-                                        {{classworkGrades.points}} <span class="text-caption" color="grey"> / {{classworkGrades.hp_points}} </span>
+
+                                        {{classworkGrades.points}} <span class="text-caption" color="grey"  v-if="classworkGrades.points != null"> / {{classworkGrades.hp_points}} </span>
                  
                                         <v-tooltip v-model="shown" top v-if="classworkGrades.points == null">
                                             <template v-slot:activator="{ on, attrs }">

@@ -291,7 +291,7 @@
                     this.selectedClass = this.classList[0].class_id;
                     this.getClassworkList();
                     this.getStudentList();
-
+    this.getfinalGrades();
                     console.log('class Liost: ', this.classList);
                 });
             },
@@ -303,12 +303,12 @@
             }
         },
 
-        created() {
+        mounted() {
             this.loading = true;
             this.getAllGradeCriteria();
 
             this.getClassList();
-            this.getfinalGrades();
+        
             this.loading = false;
         }
 

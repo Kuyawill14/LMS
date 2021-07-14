@@ -143,6 +143,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -803,29 +804,34 @@ var render = function() {
                                                   },
                                                   [
                                                     _vm._v(
-                                                      "\n                                    " +
+                                                      "\n\n                                    " +
                                                         _vm._s(
                                                           classworkGrades.points
                                                         ) +
                                                         " "
                                                     ),
-                                                    _c(
-                                                      "span",
-                                                      {
-                                                        staticClass:
-                                                          "text-caption",
-                                                        attrs: { color: "grey" }
-                                                      },
-                                                      [
-                                                        _vm._v(
-                                                          " / " +
-                                                            _vm._s(
-                                                              classworkGrades.hp_points
-                                                            ) +
-                                                            " "
+                                                    classworkGrades.points !=
+                                                    null
+                                                      ? _c(
+                                                          "span",
+                                                          {
+                                                            staticClass:
+                                                              "text-caption",
+                                                            attrs: {
+                                                              color: "grey"
+                                                            }
+                                                          },
+                                                          [
+                                                            _vm._v(
+                                                              " / " +
+                                                                _vm._s(
+                                                                  classworkGrades.hp_points
+                                                                ) +
+                                                                " "
+                                                            )
+                                                          ]
                                                         )
-                                                      ]
-                                                    ),
+                                                      : _vm._e(),
                                                     _vm._v(" "),
                                                     classworkGrades.points ==
                                                     null
