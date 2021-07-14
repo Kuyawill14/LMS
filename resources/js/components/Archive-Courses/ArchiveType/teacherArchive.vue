@@ -41,7 +41,7 @@
 
             <v-row>
                 <v-col>
-                    <h2>Archive</h2>
+                    <h2>Archive Courses</h2>
                 </v-col>
                 <v-col class="text-right">
                     <v-btn bottom color="primary" dark fab fixed right @click="openAddmodal()">
