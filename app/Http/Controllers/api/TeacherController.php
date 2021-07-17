@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\tbl_Submission;
+use App\Models\User;
+use App\Models\tbl_notification;
 use Illuminate\Support\Facades\Hash;
 
 class TeacherController extends Controller
@@ -36,10 +38,43 @@ class TeacherController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function InviteStudent(Request $request)
+    {   
+        $userId = auth('sanctum')->id();
+        $UserFullName = auth('sanctum')->user()->firstName.' '.auth('sanctum')->user()->lastName;
+        //return $request;
+        $FindUser = User::where('users.email', $request->email)
+        ->first();
+
+        if($FindUser){
+            //return  $FindUser;
+            $newNotification = new tbl_notification;
+            $newNotification->user_id_to = $FindUser->id;
+            $newNotification->from_id =  $userId;
+            $newNotification->message = "Invited you join ".$request->class_name." class using the class code "."'".$request->class_code."'";
+            $newNotification->notification_attachments = $request->class_code;
+            $newNotification->notification_type = 3;
+            $newNotification->save();
+            broadcast(new NewNotification($newNotification))->toOthers();
+            return;
+        }
+
+    }
+
+
+     /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function InviteInstructor(Request $request)
     {
         //
     }
+
+
+    
 
     /**
      * Display the specified resource.
@@ -109,8 +144,6 @@ class TeacherController extends Controller
        
     }
 
-
-    
 
     /**
      * Remove the specified resource from storage.

@@ -150,9 +150,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.isloading = true;
       this.dialog = false;
       this.$store.dispatch("joinClass", this.form).then(function () {
-        _this.fetchClasses();
+        if (res.status == 200) {
+          _this.toastSuccess(res.data);
 
-        form.class_code = '';
+          _this.fetchClasses();
+
+          form.class_code = '';
+        } else if (res.status == 202) {
+          _this.toastError(res.data);
+        } else {
+          _this.toastError('Something went wrong while joining the class!');
+        }
       });
     },
     Unenroll: function Unenroll(id) {

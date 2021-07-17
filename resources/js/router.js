@@ -29,7 +29,7 @@ let mycourse = () =>
     import ("./components/course_subject/mycourse-page");
 
 let archiveComponent = () =>
-    import ("./components/Archive-Courses/ArchiveComponent");
+    import ("./components/archivesList/ArchiveComponent");
 // let classwork_main = () =>
 //     import ("./components/classwork_main/classwork_main");
 
@@ -72,7 +72,7 @@ let studentProgress_tab = () =>
 
 
 let studentListComponent = () =>
-    import ("./components/course-view/tabs/student-list/studentListComponent");
+    import ("./components/course-view/tabs/people-list/peopleListComponent");
 
 
 //Quiz Page
@@ -202,7 +202,7 @@ const router = new Router({
                         },
                         {
                             name: "Student-list",
-                            path: "Student-list",
+                            path: "people",
                             component: studentListComponent
                         },
                         {
@@ -245,7 +245,7 @@ const router = new Router({
                     name: "profile_page"
                 },
                 {
-                    path: "/archive-courses",
+                    path: "/archives",
                     component: archiveComponent,
                     name: "archive-course"
                 },

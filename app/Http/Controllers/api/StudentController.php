@@ -11,6 +11,7 @@ use App\Models\Tbl_class;
 use App\Models\tbl_notification;
 use App\Models\tbl_Submission;
 use App\Events\NewNotification;
+use App\Models\tbl_teacher_course;
 
 
 class StudentController extends Controller
@@ -45,18 +46,51 @@ class StudentController extends Controller
         ->where('users.role', 'Student')
         ->orderBy('users.lastName', 'ASC')
         ->get();
-        } else if (auth('sanctum')->user()->role == 'Student') { 
-            $StudentList = DB::table('tbl_userclasses')
-            ->select('tbl_userclasses.id as uc_id','users.id','users.firstName','users.email','users.lastName','users.role','tbl_user_details.profile_pic' )
+
+
+        $InstructorList = tbl_teacher_course::where('tbl_teacher_courses.course_id', $id)
+        ->select('tbl_teacher_courses.course_id','users.id as user_id','users.firstName','users.email','users.lastName','tbl_user_details.profile_pic' )
+        ->leftJoin('users', 'tbl_teacher_courses.user_id', '=', 'users.id', )
+        ->leftJoin('tbl_user_details', 'tbl_user_details.user_id', '=', 'users.id',)
+        ->where('users.role', 'Teacher')
+        ->orderBy('users.lastName', 'ASC')
+        ->get();
+
+
+      
+
+
+        } 
+        else if (auth('sanctum')->user()->role == 'Student') { 
+            $StudentList = tbl_userclass::where('tbl_userclasses.course_id', $id)
+            ->select('tbl_userclasses.id as uc_id','tbl_userclasses.class_id as class_id','users.id',
+            'users.firstName','users.lastName','tbl_user_details.profile_pic' )
             ->leftJoin('users', 'tbl_userclasses.user_id', '=', 'users.id', )
             ->leftJoin('tbl_user_details', 'tbl_user_details.user_id', '=', 'users.id', )
-            ->where('tbl_userclasses.course_id', $id)
             ->where('users.role', 'Student')
-            ->where('users.id', $userId)
             ->orderBy('users.lastName', 'ASC')
             ->get();
+
+            $Class = tbl_userclass::where('tbl_userclasses.course_id', $id)
+            ->select('tbl_userclasses.class_id')
+            ->where('tbl_userclasses.user_id', $userId)
+            ->first();
+
+           
+            $InstructorList = tbl_userclass::where('tbl_userclasses.course_id', $id)
+            ->select('tbl_userclasses.id as uc_id','users.id','users.firstName','users.lastName',
+            'tbl_user_details.profile_pic' )
+            ->leftJoin('users', 'tbl_userclasses.user_id', '=', 'users.id', )
+            ->leftJoin('tbl_user_details', 'tbl_user_details.user_id', '=', 'users.id', )
+            ->where('users.role', 'Teacher')
+            ->where('tbl_userclasses.class_id', $Class->class_id)
+            ->orderBy('users.lastName', 'ASC')
+            ->get();
+
         }
-            return $StudentList;
+            //return $StudentList;
+
+            return ["StudentList"=>$StudentList , "InstructorList"=>$InstructorList];
         
     }
 
@@ -308,7 +342,7 @@ class StudentController extends Controller
         $newNotification->message = "Join to your ".$userInClass->course_name." - " .$userInClass->class_name ." class";
         $newNotification->notification_type = 2;
         $newNotification->save();
-        broadcast(new NewNotification($newNotification))->toOthers();
+        //broadcast(new NewNotification($newNotification))->toOthers();
         return response()->json("Join class success",200); 
     }
 

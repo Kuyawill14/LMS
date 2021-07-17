@@ -136,8 +136,17 @@
                 this.isloading = true;
                 this.dialog = false;
                 this.$store.dispatch("joinClass", this.form).then(() => {
-                    this.fetchClasses();
-                    form.class_code = '';
+                      if(res.status == 200){
+                         this.toastSuccess(res.data);
+                         this.fetchClasses();
+                         form.class_code = '';
+                    }
+                    else if(res.status == 202){
+                        this.toastError(res.data);
+                    }
+                    else{
+                        this.toastError('Something went wrong while joining the class!');
+                    }
                 });
             },
             Unenroll(id) {

@@ -183,7 +183,7 @@ class ClassController extends Controller
         //$userId = 1;
         //getAllClass
         $allClass = tbl_userclass::where('tbl_userclasses.course_id', $id)
-        ->select('tbl_userclasses.id','tbl_classes.id as class_id','tbl_classes.class_name','tbl_classes.class_name')
+        ->select('tbl_userclasses.id','tbl_classes.id as class_id','tbl_classes.class_name','tbl_classes.class_code')
         ->leftJoin('tbl_classes', 'tbl_userclasses.class_id', '=', 'tbl_classes.id')
         ->where('tbl_userclasses.user_id', $userId)
         ->orderBy('tbl_classes.created_at', 'ASC')

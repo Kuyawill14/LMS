@@ -40,7 +40,7 @@ class ArchiveController extends Controller
             ->orderBy('created_at', 'ASC')
             ->get();
 
-            foreach($allArchiveCourse as $item){
+           /*  foreach($allArchiveCourse as $item){
                 $countClass = tbl_userclass::onlyTrashed()
                 ->where('tbl_userclasses.user_id', $userId )
                 ->where('tbl_userclasses.course_id', $item->id)
@@ -48,7 +48,24 @@ class ArchiveController extends Controller
                 $item->class_count = $countClass;
                 $item->student_count = $item->student_count-1;
             }
-            return $allArchiveCourse;
+            return $allArchiveCourse; */
+
+
+            foreach($allArchiveCourse as $item){
+                $countClass = tbl_userclass::onlyTrashed()
+                ->where('tbl_userclasses.course_id', $item->id)
+                ->where('tbl_userclasses.user_id', $userId )
+                ->count();
+                $item->class_count = $countClass;
+
+                $StudentCount = tbl_userclass::onlyTrashed()
+                ->where('tbl_userclasses.course_id', $item->id)
+                ->where('tbl_userclasses.user_id','!=' ,$userId )
+                ->count();
+
+                $item->student_count =  $StudentCount;
+            }
+        return $allArchiveCourse;
         }
     }
 
