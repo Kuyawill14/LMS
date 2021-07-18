@@ -78,6 +78,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+var teacherCourse = function teacherCourse() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_dashboard_teacher-classes_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./teacher-classes */ "./resources/js/components/dashboard/teacher-classes.vue"));
+};
+
 var myCalendar = function myCalendar() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_dashboard_myCalendar_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./myCalendar */ "./resources/js/components/dashboard/myCalendar.vue"));
 };
@@ -389,24 +393,7 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "v-row",
-                [
-                  _c(
-                    "v-col",
-                    [
-                      _c(
-                        "v-card",
-                        [
-                          _c("v-chart", {
-                            staticClass: "chart",
-                            attrs: { option: _vm.option, autoresize: "" }
-                          })
-                        ],
-                        1
-                      )
-                    ],
-                    1
-                  )
-                ],
+                [_c("v-col", [_c("v-card", [_c("teacherCourse")], 1)], 1)],
                 1
               )
             ],
