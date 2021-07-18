@@ -39,7 +39,6 @@ class SubjectCourseController extends Controller
         'tbl_subject_courses.course_name','tbl_subject_courses.course_description','tbl_subject_courses.id',
         'tbl_subject_courses.course_picture','tbl_subject_courses.completed','tbl_subject_courses.created_at')
         ->orderBy('created_at', 'ASC')
-       
         ->get();
 
 
@@ -52,6 +51,7 @@ class SubjectCourseController extends Controller
             $StudentCount = tbl_userclass::where('tbl_userclasses.course_id', $item->id)
             ->where('tbl_userclasses.user_id','!=' ,$userId )
             ->count();
+
             $item->student_count =  $StudentCount;
         }
         return $allCourseSubject;

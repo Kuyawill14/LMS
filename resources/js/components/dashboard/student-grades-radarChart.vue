@@ -104,11 +104,9 @@
                     for (let i = 0; i < res.data.length; i++) {
                         this.option.radar.indicator.push({name: res.data[i].course_code , max: 100});
                         this.option.series[0].data[0].value[i] = res.data[i].final_grade == null ? 0+'%' : res.data[i].final_grade+'%';
-                        
                     }
                     this.isLoaded = true;
                 })
-
             }
         },
         mounted(){

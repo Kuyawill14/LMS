@@ -19,6 +19,7 @@ class CreateUserNotificationsTable extends Migration
             $table->integer('user_id');
             $table->boolean('status')->default(0);
             $table->boolean('hide_notif')->default(0);
+            $table->boolean("notification_accepted")->default(0);
             $table->timestamps();
         });
     }

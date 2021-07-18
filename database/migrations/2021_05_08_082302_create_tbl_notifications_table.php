@@ -15,10 +15,12 @@ class CreateTblNotificationsTable extends Migration
     {
         Schema::create('tbl_notifications', function (Blueprint $table) {
             $table->id();
-            $table->integer('course_id');
-            $table->integer('class_id');
+            $table->integer('course_id')->nullable();
+            $table->integer('class_id')->nullable();
             $table->integer('from_id');
+            $table->integer('user_id_to')->nullable();
             $table->string('message');
+            $table->string('notification_attachments')->nullable();
             $table->integer('notification_type');
             $table->timestamps();
         });

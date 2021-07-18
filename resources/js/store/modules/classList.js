@@ -50,18 +50,8 @@ const actions = {
     },
 
     async joinClass({ commit }, classItem) {
-        let res = await axios
-            .post(`/api/student/join/${classItem.class_code}`)
-            .then(response => {
-                if (response.status == 200) {
-                    //  alert(response.data)
-
-                } else if (response.status == 202) {
-                    //  alert(response.data)
-                } else {
-                    // alert(response.data)
-                }
-            });
+        let res = await axios.post(`/api/student/join/${classItem.class_code}`);
+        return res;
     },
     async Unenroll({ commit }, id) {
         let res = await axios

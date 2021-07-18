@@ -2,10 +2,10 @@
     <v-app id="inspire">
 
 
-        <topHeader :UserDetails="UserDetails" v-on:toggleSidebar="toggle"></topHeader>
+        <!-- <topHeader :UserDetails="UserDetails" v-on:toggleSidebar="toggle"></topHeader> -->
 
-
-        <sidebar :role='role' :drawer="drawer"></sidebar>
+        
+        <sidebar :UserDetails="UserDetails" :role='role' :drawer="drawer"></sidebar>
 
         <v-main>
 
@@ -35,11 +35,12 @@
 <script>
     import topHeader from "./layout/header";
     import sidebar from "./layout/sidebar";
+  
     export default {
 
         data: () => ({
             UserDetails: [],
-            drawer: true,
+            drawer: null,
             menuVisible: false,
             role: ''
         }),
@@ -47,20 +48,18 @@
             topHeader,
             sidebar,
         },
-        methods: {
-            toggle() {
-                this.drawer = !this.drawer;
-                console.log(this.drawer);
-                  setInterval(() => {
-                if ($('.v-overlay__scrim').length > 0 && this.drawer ==true) {
-                    $('.v-overlay__scrim').click(function () {
-                         this.drawer =false;
-                       console.log(this.drawer)
-                    })
-                }
-            }, 100)
+        computed:{
+         
+            getDrawer(){
+                return this.drawer ;
+        
             }
+          
         },
+        methods: {
+           
+        },
+
         mounted() {
             axios.get('/api/profile/details').then((res) => {
                 this.role = res.data[0].role;
@@ -68,6 +67,8 @@
             }).catch((error) => {
                 console.log(error)
             });
+           
+             
         },
     }
 

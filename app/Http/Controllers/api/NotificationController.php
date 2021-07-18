@@ -48,11 +48,12 @@ class NotificationController extends Controller
             ->where('tbl_notifications.from_id','!=', $userId)
             ->get();
         }else{
+
             $allNotification = tbl_userclass::whereNull('tbl_userclasses.deleted_at')
             ->where('tbl_userclasses.user_id', $userId)
             ->select('tbl_userclasses.class_id as cl_id',DB::raw('CONCAT(users.firstname, " ", users.lastName) as name'),
             'tbl_user_details.profile_pic','tbl_notifications.id as n_id','tbl_notifications.notification_type','tbl_notifications.message',
-            'tbl_notifications.created_at')
+            'tbl_notifications.notification_attachments','tbl_notifications.created_at')
             ->leftJoin('tbl_notifications', function($join){
                 $join->on('tbl_notifications.class_id', '=', 'tbl_userclasses.class_id')
                 ->orOn('tbl_notifications.class_id', '=', 'tbl_userclasses.course_id');
@@ -63,20 +64,36 @@ class NotificationController extends Controller
             ->where('tbl_notifications.from_id','!=', $userId)
             ->where('tbl_notifications.notification_type', 1)
             ->get();
+
+            $allNotification = json_decode($allNotification);
+            $SelfNotification = tbl_notification::where('tbl_notifications.user_id_to', $userId)
+            ->select(DB::raw('CONCAT(users.firstname, " ", users.lastName) as name'),
+            'tbl_user_details.profile_pic','tbl_notifications.id as n_id','tbl_notifications.notification_type','tbl_notifications.message',
+            'tbl_notifications.notification_attachments','tbl_notifications.created_at')
+            ->leftJoin('users', 'users.id', '=', 'tbl_notifications.from_id')
+            ->leftJoin('tbl_user_details', 'tbl_user_details.user_id','=','users.id')
+            ->orderBy('tbl_notifications.created_at', 'DESC')
+            ->get();
+
+            foreach($SelfNotification as $item){
+                array_push($allNotification, $item);
+            }   
         }
-      
         foreach($allNotification as $item){
             $checkNotifStatus = UserNotification::where('user_notifications.notification_id', $item->n_id)
             ->where('user_notifications.user_id', $userId)->first();
-
+            $item->status = '';
             if($checkNotifStatus){
                 $item->status = $checkNotifStatus->status;
                 $item->hide_notif = $checkNotifStatus->hide_notif;
+                $item->notification_accepted = $checkNotifStatus->notification_accepted;
             }
             else{
                 if($item->status == ''){
                     $item->status = null;
                     $item->hide_notif = null;
+                    $item->notification_accepted = 0;
+                    
                 }
             }
 
@@ -95,15 +112,37 @@ class NotificationController extends Controller
 
     }
 
-    public function UnreadNotification($id){
+     /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function UnreadNotification(Request $request, $id){
+        /* accepted */
         $userId = auth('sanctum')->id();
         $Unread = UserNotification::where('user_notifications.notification_id', $id)
         ->where('user_notifications.user_id',$userId)->first();
        
-        if($Unread){
-            $Unread->status = 1;
-            $Unread->save();
-            return "Notification read";
+        if($request->accepted){
+            $Unread = UserNotification::where('user_notifications.notification_id', $id)
+            ->where('user_notifications.user_id',$userId)->first();
+            if($Unread){
+                $Unread->notification_accepted =  1;
+                $Unread->save();
+                return "Invite accepted";
+            }
+            else{
+                $NewUnread = new UserNotification;
+                $NewUnread->notification_id = $id;
+                $NewUnread->user_id = $userId;
+                $NewUnread->status = 1;
+                $NewUnread->notification_accepted =  1;
+                $NewUnread->save();
+                return "Invite accepted";
+            }
+            
         }
         else{
             $NewUnread = new UserNotification;
@@ -113,6 +152,7 @@ class NotificationController extends Controller
             $NewUnread->save();
             return "Notification read";
         }
+       
         return "Notification not found";
     }
 

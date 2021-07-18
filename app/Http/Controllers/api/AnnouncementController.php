@@ -141,8 +141,8 @@ class AnnouncementController extends Controller
         $newNotification->save();
           
 
-          //broadcast(new NewNotification($newNotification))->toOthers();
-          broadcast(new NewPost($NewPost))->toOthers();
+          broadcast(new NewNotification($newNotification))->toOthers();
+          //broadcast(new NewPost($NewPost))->toOthers();
 
 
           return response()->json([

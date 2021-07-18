@@ -18,19 +18,117 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-var teacherArchive = function teacherArchive() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_Archive-Courses_ArchiveType_teacherArchive_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./ArchiveType/teacherArchive */ "./resources/js/components/Archive-Courses/ArchiveType/teacherArchive.vue"));
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+var archiveCourses = function archiveCourses() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_Archive-Courses_courses-archive_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./courses-archive */ "./resources/js/components/Archive-Courses/courses-archive.vue"));
 };
+/*   const changePassword = () => import('./changePassword')
+  const coursesProgress = () => import('./coursesProgress')
+  const aboutTab = () => import('./aboutTab')
+  const myCalendar = () => import('./myCalendar') */
 
-var studentArchive = function studentArchive() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_Archive-Courses_ArchiveType_studentArchive_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./ArchiveType/studentArchive */ "./resources/js/components/Archive-Courses/ArchiveType/studentArchive.vue"));
-};
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['role'],
+  props: ['role', 'UserDetails'],
   components: {
-    teacherArchive: teacherArchive,
-    studentArchive: studentArchive
+    archiveCourses: archiveCourses
+  },
+  data: function data() {
+    return {
+      tab: null,
+      imageFile: '',
+      Details: null,
+      loading: false,
+      isloading: true,
+      message: null,
+      type: null
+    };
+  },
+  methods: {},
+  mounted: function mounted() {
+    this.isloading = !this.isloading;
   }
 });
 
@@ -125,11 +223,213 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "div",
+    "v-container",
+    { attrs: { fluid: "" } },
     [
-      _vm.role == "Teacher" ? _c("teacherArchive") : _vm._e(),
+      _vm.isloading
+        ? _c(
+            "v-container",
+            { staticStyle: { height: "400px" } },
+            [
+              _c(
+                "v-row",
+                {
+                  staticClass: "fill-height",
+                  attrs: { "align-content": "center", justify: "center" }
+                },
+                [
+                  _c("v-icon", { staticStyle: { "font-size": "10rem" } }, [
+                    _vm._v("\n                mdi-account\n            ")
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "v-col",
+                    {
+                      staticClass: "text-subtitle-1 text-center",
+                      attrs: { cols: "12" }
+                    },
+                    [_c("h3", [_vm._v(" Loading Profile ")])]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-col",
+                    { attrs: { cols: "6" } },
+                    [
+                      _c("v-progress-linear", {
+                        attrs: {
+                          color: "primary",
+                          indeterminate: "",
+                          rounded: "",
+                          height: "6"
+                        }
+                      })
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        : _vm._e(),
       _vm._v(" "),
-      _vm.role == "Student" ? _c("studentArchive") : _vm._e()
+      !_vm.isloading ? _c("h2", [_vm._v("Archives")]) : _vm._e(),
+      _vm._v(" "),
+      !_vm.isloading
+        ? _c(
+            "v-row",
+            { staticClass: "mt-2" },
+            [
+              _c(
+                "v-col",
+                { attrs: { cols: "12", md: "3", lg: "3", xl: "2" } },
+                [
+                  _c(
+                    "v-card",
+                    {
+                      staticClass: "pt-5",
+                      attrs: { elevation: "1", outlined: "" }
+                    },
+                    [
+                      _c(
+                        "v-row",
+                        [
+                          _c(
+                            "v-col",
+                            { staticClass: "pl-3", attrs: { cols: "12" } },
+                            [
+                              _c(
+                                "v-tabs",
+                                {
+                                  staticClass: "mt-2",
+                                  attrs: { vertical: "" },
+                                  model: {
+                                    value: _vm.tab,
+                                    callback: function($$v) {
+                                      _vm.tab = $$v
+                                    },
+                                    expression: "tab"
+                                  }
+                                },
+                                [
+                                  _c(
+                                    "v-tab",
+                                    { staticClass: "d-flex justify-start" },
+                                    [
+                                      _c("v-icon", { attrs: { left: "" } }, [
+                                        _vm._v(
+                                          "\n                                mdi-alert-circle-outline\n                                "
+                                        )
+                                      ]),
+                                      _vm._v(
+                                        "\n                                Courses\n                            "
+                                      )
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-tab",
+                                    { staticClass: "d-flex justify-start" },
+                                    [
+                                      _c("v-icon", { attrs: { left: "" } }, [
+                                        _vm._v(
+                                          "\n                                mdi-account\n                                "
+                                        )
+                                      ]),
+                                      _vm._v(
+                                        "\n                                Classwork\n                            "
+                                      )
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-tab",
+                                    { staticClass: "d-flex justify-start" },
+                                    [
+                                      _c("v-icon", { attrs: { left: "" } }, [
+                                        _vm._v(
+                                          "\n                                mdi-google-classroom\n                                "
+                                        )
+                                      ]),
+                                      _vm._v(
+                                        "\n                                Classes\n                            "
+                                      )
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-col",
+                { attrs: { cols: "12", md: "9", lg: "9", xl: "10" } },
+                [
+                  _c(
+                    "v-card",
+                    {
+                      staticClass: "pt-3 pb-3 pl-5 pr-5",
+                      attrs: { elevation: "1", outlinedS: "" }
+                    },
+                    [
+                      _c(
+                        "v-row",
+                        [
+                          _c(
+                            "v-col",
+                            { attrs: { cols: "12" } },
+                            [
+                              _c(
+                                "v-tabs-items",
+                                { attrs: { value: _vm.tab } },
+                                [
+                                  _c(
+                                    "v-tab-item",
+                                    [
+                                      _c("archiveCourses", {
+                                        attrs: { role: _vm.role }
+                                      })
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c("v-tab-item"),
+                                  _vm._v(" "),
+                                  _c("v-tab-item")
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        : _vm._e()
     ],
     1
   )
