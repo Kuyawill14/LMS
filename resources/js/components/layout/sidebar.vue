@@ -5,7 +5,7 @@
         <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
         <router-link to="/">
          <v-toolbar-title style="width: 300px;color: #fff" class="ml-0 pl-4 " >
-            <span class="hidden-sm-and-down pointer" >CCSICT-LMS</span>
+            <span class="4pointer" >CCSICT-LMS</span>
         </v-toolbar-title>
         </router-link>
        
@@ -68,9 +68,9 @@
     <!--  ######### end sidebar ################ -->
     
  <!--  ######### notifSiaebar ################ -->
-    <v-navigation-drawer style="z-index:100" width="550" absolute right temporary v-model="Notifdrawer"  app>
+  <!--   <v-navigation-drawer style="z-index:100" width="550" absolute right temporary v-model="Notifdrawer"  app>
         <seeAllNotification></seeAllNotification>
-    </v-navigation-drawer>
+    </v-navigation-drawer> -->
 </div>
 </template>
 

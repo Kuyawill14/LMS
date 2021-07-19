@@ -73,34 +73,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['UserDetails'],
@@ -24214,7 +24186,7 @@ var render = function() {
                   staticStyle: { width: "300px", color: "#fff" }
                 },
                 [
-                  _c("span", { staticClass: "hidden-sm-and-down pointer" }, [
+                  _c("span", { staticClass: "4pointer" }, [
                     _vm._v("CCSICT-LMS")
                   ])
                 ]
@@ -24467,30 +24439,7 @@ var render = function() {
             ],
             1
           )
-        : _vm._e(),
-      _vm._v(" "),
-      _c(
-        "v-navigation-drawer",
-        {
-          staticStyle: { "z-index": "100" },
-          attrs: {
-            width: "550",
-            absolute: "",
-            right: "",
-            temporary: "",
-            app: ""
-          },
-          model: {
-            value: _vm.Notifdrawer,
-            callback: function($$v) {
-              _vm.Notifdrawer = $$v
-            },
-            expression: "Notifdrawer"
-          }
-        },
-        [_c("seeAllNotification")],
-        1
-      )
+        : _vm._e()
     ],
     1
   )
