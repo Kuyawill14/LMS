@@ -62,8 +62,9 @@
 
    <!--  ######### sidebar ################ -->
     <v-navigation-drawer v-model="drawer" :clipped="$vuetify.breakpoint.lgAndUp" v-if="navBarType != 'selectedCourse' ||  getcourseInfo.completed == 1 " app>
-        <mainNavbar :role="role" :drawer="drawer"  v-if="navBarType != 'selectedCourse'"> </mainNavbar>
-        <courseNavbar :role="role" v-if="navBarType == 'selectedCourse' "> </courseNavbar>
+        <mainNavbar :role="role" :drawer="drawer"  v-if="navBarType != 'selectedCourse' && (role == 'Student' || role == 'Teacher')" > </mainNavbar>
+        <courseNavbar :role="role" v-if="navBarType == 'selectedCourse'&& (role == 'Student' || role == 'Teacher') "> </courseNavbar>
+         <adminNavbar :role="role" v-if="role == 'Admin'"> </adminNavbar>
     </v-navigation-drawer>
     <!--  ######### end sidebar ################ -->
     
@@ -78,6 +79,7 @@
 <script>
     import mainNavbar from './navigation/main-navbar';
     import courseNavbar from './navigation/course-navbar';
+     import adminNavbar from './navigation/admin/admin-navbar';
     import notifications from './notification/notification';
     import seeAllNotification from './notification/SeeAllNotification';
 
@@ -90,6 +92,7 @@
         components: {
             mainNavbar,
             courseNavbar,
+            adminNavbar,
             notifications,
             seeAllNotification,
         },

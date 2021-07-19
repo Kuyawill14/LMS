@@ -99,7 +99,7 @@ var myNotification = function myNotification() {
 };
 
 var studentClasses = function studentClasses() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_dashboard_student-classes_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./student-classes */ "./resources/js/components/dashboard/student-classes.vue"));
+  return Promise.resolve().then(function webpackMissingModule() { var e = new Error("Cannot find module './student-classes'"); e.code = 'MODULE_NOT_FOUND'; throw e; });
 };
 
 var studentGradeChart = function studentGradeChart() {
