@@ -106,6 +106,24 @@
                    
                     </v-list-item>
 
+                    <v-list-item v-if="get_notification_count != 0">
+                        <v-list-item-content>
+                            <v-row align-content="center" justify="center">
+                                <v-col cols="12" class="text-center">
+                                     <v-btn v-if="ShowLoadMore"  @click="ShowMore" outlined color="primary">Load More  <v-icon right>mdi-chevron-down</v-icon> </v-btn>
+                                     <v-btn v-if="!ShowLoadMore"  @click="ShowLess" outlined color="primary">Show Less  <v-icon right>mdi-chevron-down</v-icon> </v-btn>
+                                    <!--  <pagination
+                                        class="hidden"
+                                        :data="notificationList"
+                                        @pagination-change-page="getResults"
+                                        ></pagination> -->
+                                </v-col>
+                               
+                            </v-row>
+                            
+                        </v-list-item-content>
+                    </v-list-item>
+
                 </v-list>
 
             </v-card>
@@ -123,6 +141,9 @@
     } from "vuex";
     export default {
         data: () => ({
+            notificationList:{},
+            notifLength: [],
+
             fav: true,
             menu: false,
             message: false,
@@ -131,28 +152,44 @@
                 class_code: ""
             }),
             isAccepted: false,
+            /* page: 0,
+            loadMore: false, */
         }),
-        computed: mapGetters(["get_notification", "get_notification_count"]),
+        computed: mapGetters(["get_notification", "get_notification_count","ShowPage","ShowLoadMore"]),
         methods: {
             ...mapActions(['fetchNotification']),
+            ...mapActions(['fetchNotificationCount']),
+             ...mapActions(['ShowMore']),
+            
             ...mapActions(['UnreadMessage']),
             connect() {
                 let newVm = this;
-                this.fetchNotification();
+                this.fetchNotificationall();
+                this.fetchNotificationCount();
                 window.Echo.private("notification")
                     .listen('NewNotification', e => {
-                        newVm.fetchNotification();
+                        newVm.fetchNotificationall();
+                        newVm.fetchNotificationCount();
                     })
             },
             UnreadNotification(id) {
                 axios.post('/api/notification/'+id, {accepted: this.isAccepted}).then((res) => {
-                    this.fetchNotification();
+                    this.get_notification.forEach(item => {
+                        if(item.n_id == id){
+                            item.status = 1;
+                        }
+                    });
+                    this.fetchNotificationCount();
                 })
             },
             DeleteNotification(id) {
                 axios.delete('/api/notification/' + id).then((res) => {
-                    this.fetchNotification();
-
+                     this.get_notification.forEach(item => {
+                        if(item.n_id == id){
+                            item.hide_notif = 1;
+                        }
+                    });
+                    this.fetchNotificationCount();
                 })
             },
             acceptJoin(class_code, id){
@@ -178,6 +215,68 @@
                     return moment(String(value)).format("MMMM DD, h:mm a")
                 }
             },
+            fetchNotificationall(){
+                this.$store.dispatch("fetchNotification");
+
+                /*  axios.get('/api/notification/all')
+                    .then(res => {
+                        this.notificationList = res.data;
+                        this.notifLength = res.data.data;
+                       
+                        if(res.data.current_page != res.data.last_page){
+                            this.loadMore = true;
+                            this.page = res.data.current_page + 1;
+                        }
+                        else{
+                            this.loadMore = false;
+                        }
+                    })
+                    .catch(e=>{
+
+                    }) */
+
+
+
+                   
+ 
+                //this.page = this.page + 1;
+            },
+
+            ShowMore() {
+                  this.$store.dispatch("ShowMore", this.ShowPage);
+               /*  axios.get('/api/notification/all?page='+this.page).then(res => {
+                    res.data.data.forEach(item => {
+                        this.notificationList.data.push(item);
+                    });
+                    if(res.data.current_page != res.data.last_page){
+                        this.loadMore = true;
+                        this.page = res.data.current_page + 1;
+                    }
+                    else{
+                        this.loadMore = false;
+                    }
+                }); */
+            },
+            ShowLess(){
+                this.page -=1;
+                  axios.get('/api/notification/all?page='+this.page).then(res => {
+                    this.notificationList = res.data;
+
+
+        
+                    if(res.data.current_page != res.data.last_page){
+                        this.loadMore = true;
+                        this.page = res.data.current_page + 1;
+                    }
+                    else{
+                        this.loadMore = false;
+                    }
+                });
+                
+
+            }
+           
+            
         },
         mounted() {
             this.connect();

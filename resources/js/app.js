@@ -38,6 +38,9 @@ Vue.use(VueCountdownTimer);
 import store from "./store/store";
 import router from "./router";
 
+
+Vue.component('pagination', require('laravel-vue-pagination'));
+
 Vue.component('example-component', require('./components/app.vue').default);
 Vue.mixin({
     methods: {

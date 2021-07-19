@@ -562,11 +562,31 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
+      notificationList: {},
+      notifLength: [],
       fav: true,
       menu: false,
       message: false,
@@ -575,15 +595,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         class_code: ""
       }),
       isAccepted: false
+      /* page: 0,
+      loadMore: false, */
+
     };
   },
-  computed: (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(["get_notification", "get_notification_count"]),
-  methods: _objectSpread(_objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapActions)(['fetchNotification'])), (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapActions)(['UnreadMessage'])), {}, {
+  computed: (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(["get_notification", "get_notification_count", "ShowPage", "ShowLoadMore"]),
+  methods: _objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapActions)(['fetchNotification'])), (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapActions)(['fetchNotificationCount'])), (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapActions)(['ShowMore'])), (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapActions)(['UnreadMessage'])), {}, {
     connect: function connect() {
       var newVm = this;
-      this.fetchNotification();
+      this.fetchNotificationall();
+      this.fetchNotificationCount();
       window.Echo["private"]("notification").listen('NewNotification', function (e) {
-        newVm.fetchNotification();
+        newVm.fetchNotificationall();
+        newVm.fetchNotificationCount();
       });
     },
     UnreadNotification: function UnreadNotification(id) {
@@ -592,14 +617,26 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       axios.post('/api/notification/' + id, {
         accepted: this.isAccepted
       }).then(function (res) {
-        _this.fetchNotification();
+        _this.get_notification.forEach(function (item) {
+          if (item.n_id == id) {
+            item.status = 1;
+          }
+        });
+
+        _this.fetchNotificationCount();
       });
     },
     DeleteNotification: function DeleteNotification(id) {
       var _this2 = this;
 
       axios["delete"]('/api/notification/' + id).then(function (res) {
-        _this2.fetchNotification();
+        _this2.get_notification.forEach(function (item) {
+          if (item.n_id == id) {
+            item.hide_notif = 1;
+          }
+        });
+
+        _this2.fetchNotificationCount();
       });
     },
     acceptJoin: function acceptJoin(class_code, id) {
@@ -624,6 +661,55 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       if (value) {
         return moment__WEBPACK_IMPORTED_MODULE_0___default()(String(value)).format("MMMM DD, h:mm a");
       }
+    },
+    fetchNotificationall: function fetchNotificationall() {
+      this.$store.dispatch("fetchNotification");
+      /*  axios.get('/api/notification/all')
+          .then(res => {
+              this.notificationList = res.data;
+              this.notifLength = res.data.data;
+             
+              if(res.data.current_page != res.data.last_page){
+                  this.loadMore = true;
+                  this.page = res.data.current_page + 1;
+              }
+              else{
+                  this.loadMore = false;
+              }
+          })
+          .catch(e=>{
+           }) */
+      //this.page = this.page + 1;
+    },
+    ShowMore: function ShowMore() {
+      this.$store.dispatch("ShowMore", this.ShowPage);
+      /*  axios.get('/api/notification/all?page='+this.page).then(res => {
+           res.data.data.forEach(item => {
+               this.notificationList.data.push(item);
+           });
+           if(res.data.current_page != res.data.last_page){
+               this.loadMore = true;
+               this.page = res.data.current_page + 1;
+           }
+           else{
+               this.loadMore = false;
+           }
+       }); */
+    },
+    ShowLess: function ShowLess() {
+      var _this4 = this;
+
+      this.page -= 1;
+      axios.get('/api/notification/all?page=' + this.page).then(function (res) {
+        _this4.notificationList = res.data;
+
+        if (res.data.current_page != res.data.last_page) {
+          _this4.loadMore = true;
+          _this4.page = res.data.current_page + 1;
+        } else {
+          _this4.loadMore = false;
+        }
+      });
     }
   }),
   mounted: function mounted() {
@@ -24115,7 +24201,87 @@ var render = function() {
                       ],
                       1
                     )
-                  })
+                  }),
+                  _vm._v(" "),
+                  _vm.get_notification_count != 0
+                    ? _c(
+                        "v-list-item",
+                        [
+                          _c(
+                            "v-list-item-content",
+                            [
+                              _c(
+                                "v-row",
+                                {
+                                  attrs: {
+                                    "align-content": "center",
+                                    justify: "center"
+                                  }
+                                },
+                                [
+                                  _c(
+                                    "v-col",
+                                    {
+                                      staticClass: "text-center",
+                                      attrs: { cols: "12" }
+                                    },
+                                    [
+                                      _vm.ShowLoadMore
+                                        ? _c(
+                                            "v-btn",
+                                            {
+                                              attrs: {
+                                                outlined: "",
+                                                color: "primary"
+                                              },
+                                              on: { click: _vm.ShowMore }
+                                            },
+                                            [
+                                              _vm._v("Load More  "),
+                                              _c(
+                                                "v-icon",
+                                                { attrs: { right: "" } },
+                                                [_vm._v("mdi-chevron-down")]
+                                              )
+                                            ],
+                                            1
+                                          )
+                                        : _vm._e(),
+                                      _vm._v(" "),
+                                      !_vm.ShowLoadMore
+                                        ? _c(
+                                            "v-btn",
+                                            {
+                                              attrs: {
+                                                outlined: "",
+                                                color: "primary"
+                                              },
+                                              on: { click: _vm.ShowLess }
+                                            },
+                                            [
+                                              _vm._v("Show Less  "),
+                                              _c(
+                                                "v-icon",
+                                                { attrs: { right: "" } },
+                                                [_vm._v("mdi-chevron-down")]
+                                              )
+                                            ],
+                                            1
+                                          )
+                                        : _vm._e()
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    : _vm._e()
                 ],
                 2
               )
