@@ -110,6 +110,11 @@ let documentPreview = () =>
     import ("./components/course-view/tabs/classwork-tab/documentPreview");
 
 
+//admin
+
+let manageUsers = () =>
+    import ("./components/admin/manage-users/manage-usersComponent");
+
 
 const router = new Router({
     mode: "history",
@@ -135,11 +140,18 @@ const router = new Router({
                     name: "dashboard"
                 },
                 {
+                    path: "/manage-users",
+                    component: manageUsers,
+                    name: "manageUsers",
+
+
+                },
+                {
                     path: "/courses",
                     component: mycourse,
                     name: "courses",
-                    
-                   
+
+
                 },
                 {
                     path: "course/:id",
@@ -251,7 +263,7 @@ const router = new Router({
                 },
 
 
-                
+
 
             ],
 
@@ -305,6 +317,7 @@ const router = new Router({
 
             ]
         },
+
         {
             path: "/quiz/:id",
             component: QuizPage,
@@ -392,7 +405,8 @@ router.beforeEach((to, from, next) => {
                     }
                 } else if (res.data == 'Student') {
                     next({
-                        name:'announcement', params:{id: to.params.id }
+                        name: 'announcement',
+                        params: { id: to.params.id }
                     });
                 }
             })
