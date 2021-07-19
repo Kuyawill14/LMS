@@ -29,7 +29,7 @@
                 <v-row>
                     <v-col>
                         <v-card>
-                            <v-chart class="chart" :option="option" autoresize />
+                            <teacherCourse />
                         </v-card>
                     </v-col>
                 </v-row>
@@ -51,6 +51,8 @@
 </template>
 
 <script>
+
+ const teacherCourse = () => import('./teacher-classes')
     const myCalendar = () => import('./myCalendar')
       import {
         mapGetters,
