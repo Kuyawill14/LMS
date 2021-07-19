@@ -9,6 +9,8 @@ use App\Models\tbl_Submission;
 use App\Models\User;
 use App\Models\tbl_notification;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\SendInviteMail;
 
 class TeacherController extends Controller
 {
@@ -55,7 +57,11 @@ class TeacherController extends Controller
             $newNotification->notification_attachments = $request->class_code;
             $newNotification->notification_type = 3;
             $newNotification->save();
-            broadcast(new NewNotification($newNotification))->toOthers();
+
+            return;
+        }
+        else{
+            Mail::to($request->email)->send(new SendInviteMail($userId));
             return;
         }
 
