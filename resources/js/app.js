@@ -38,7 +38,14 @@ Vue.use(VueCountdownTimer);
 import store from "./store/store";
 import router from "./router";
 
+<<<<<<< HEAD
 Vue.component('main-component', require('./components/app.vue').default);
+=======
+
+Vue.component('pagination', require('laravel-vue-pagination'));
+
+Vue.component('example-component', require('./components/app.vue').default);
+>>>>>>> d81bef312c763e9a554191675582c5932df6472e
 Vue.mixin({
     methods: {
         toastSuccess(message) {

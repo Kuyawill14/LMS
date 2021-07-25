@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\tbl_Submission;
 use App\Models\User;
 use App\Models\tbl_notification;
+use App\Models\UserNotification;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SendInviteMail;
@@ -58,6 +59,10 @@ class TeacherController extends Controller
             $newNotification->notification_type = 3;
             $newNotification->save();
 
+            $NewUnread = new UserNotification;
+            $NewUnread->notification_id =  $newNotification->id;
+            $NewUnread->user_id = $FindUser->id;
+            $NewUnread->save();
             return;
         }
         else{

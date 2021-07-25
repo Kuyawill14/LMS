@@ -56,13 +56,19 @@ class StudentController extends Controller
         ->orderBy('users.lastName', 'ASC')
         ->get();
 
-
-      
-
+        
 
         } 
         else if (auth('sanctum')->user()->role == 'Student') { 
-            $StudentList = tbl_userclass::where('tbl_userclasses.course_id', $id)
+            
+
+            $Class = tbl_userclass::where('tbl_userclasses.course_id', $id)
+            ->select('tbl_userclasses.class_id')
+            ->where('tbl_userclasses.user_id', $userId)
+            ->first();
+
+
+            $StudentList = tbl_userclass::where('tbl_userclasses.class_id', $Class->class_id)
             ->select('tbl_userclasses.id as uc_id','tbl_userclasses.class_id as class_id','users.id',
             'users.firstName','users.lastName','tbl_user_details.profile_pic' )
             ->leftJoin('users', 'tbl_userclasses.user_id', '=', 'users.id', )
@@ -70,11 +76,6 @@ class StudentController extends Controller
             ->where('users.role', 'Student')
             ->orderBy('users.lastName', 'ASC')
             ->get();
-
-            $Class = tbl_userclass::where('tbl_userclasses.course_id', $id)
-            ->select('tbl_userclasses.class_id')
-            ->where('tbl_userclasses.user_id', $userId)
-            ->first();
 
            
             $InstructorList = tbl_userclass::where('tbl_userclasses.course_id', $id)
@@ -87,10 +88,11 @@ class StudentController extends Controller
             ->orderBy('users.lastName', 'ASC')
             ->get();
 
-        }
-            //return $StudentList;
+            
 
-            return ["StudentList"=>$StudentList , "InstructorList"=>$InstructorList];
+        }
+
+        return ["StudentList"=>$StudentList , "InstructorList"=>$InstructorList];
         
     }
 

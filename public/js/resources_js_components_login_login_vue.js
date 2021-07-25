@@ -125,6 +125,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -167,7 +169,17 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     validate: function validate() {
       if (this.$refs.loginForm.validate()) {
-        this.$store.dispatch('login', this.form);
+        this.login();
+        /* this.$store.dispatch('login', this.form)
+        .then(res=>{
+          console.log(res);
+           if(res == 200){
+               this.toastSuccess("Login success");
+           }
+           else if(res == 203){
+                this.toastError('Login failed!');
+           }
+        }) */
       }
     },
     reset: function reset() {
@@ -175,6 +187,24 @@ __webpack_require__.r(__webpack_exports__);
     },
     resetValidation: function resetValidation() {
       this.$refs.form.resetValidation();
+    },
+    login: function login() {
+      var _this2 = this;
+
+      axios.get('/sanctum/csrf-cookie').then(function (response) {
+        _this2.form.post('/api/login').then(function (res) {
+          if (res.status == 200) {
+            //this.$store.dispatch('fetchCurrentUser');
+            _this2.toastSuccess(res.data);
+
+            _this2.$router.push({
+              path: "/"
+            });
+          } else {
+            _this2.toastError(res.data);
+          }
+        });
+      });
     }
   }
 });
@@ -505,6 +535,14 @@ var render = function() {
                                                       },
                                                       expression: "form.email"
                                                     }
+                                                  }),
+                                                  _vm._v(" "),
+                                                  _c("HasError", {
+                                                    staticClass: "error--text",
+                                                    attrs: {
+                                                      form: _vm.form,
+                                                      field: "email"
+                                                    }
                                                   })
                                                 ],
                                                 1
@@ -556,6 +594,14 @@ var render = function() {
                                                       },
                                                       expression:
                                                         "form.password"
+                                                    }
+                                                  }),
+                                                  _vm._v(" "),
+                                                  _c("HasError", {
+                                                    staticClass: "error--text",
+                                                    attrs: {
+                                                      form: _vm.form,
+                                                      field: "password"
                                                     }
                                                   })
                                                 ],

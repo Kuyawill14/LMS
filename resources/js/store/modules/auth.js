@@ -10,15 +10,29 @@ const getters = {
 const actions = {
 
     async login({}, form) {
+        let status;
         axios.get('/sanctum/csrf-cookie').then(response => {
             form.post('/api/login')
                 .then((res) => {
-                    if (res.status == 200) {
+                    if(res.status == 200) {
                         //this.$store.dispatch('fetchCurrentUser');
+                        //return res;
+               
                         router.push({ path: "/" })
                     }
+                    else{
+                       
+                        status =  203;
+                    
+                    }
+                    
                 })
+
+                //return response;
+           
         });
+        return status;
+        
     },
 
 

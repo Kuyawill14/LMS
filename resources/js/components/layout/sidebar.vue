@@ -1,7 +1,7 @@
 <template>
 <div>
     <!--  ######### header ################ -->
-       <v-app-bar :clipped-left="$vuetify.breakpoint.lgAndUp" app color="primary" dark>
+       <v-app-bar style="z-index:99" :clipped-left="$vuetify.breakpoint.lgAndUp" app color="primary" dark>
         <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
         <router-link to="/">
          <v-toolbar-title style="width: 300px;color: #fff" class="ml-0 pl-4 " >
@@ -17,7 +17,7 @@
         <notifications v-on:toggleSeeNotif="Notifdrawer = !Notifdrawer"></notifications>
 
         <div class="text-center">
-            <v-menu bottom min-width="200px" rounded offset-y>
+            <v-menu bottom min-width="200px"  rounded offset-y>
                 <template v-slot:activator="{ on }">
                     <v-btn icon x-large v-on="on">
                         <v-avatar color="brown" size="40">
@@ -77,12 +77,16 @@
 
 
 <script>
-    import mainNavbar from './navigation/main-navbar';
+    /* import mainNavbar from './navigation/main-navbar';
     import courseNavbar from './navigation/course-navbar';
      import adminNavbar from './navigation/admin/admin-navbar';
     import notifications from './notification/notification';
-    import seeAllNotification from './notification/SeeAllNotification';
-
+    import seeAllNotification from './notification/SeeAllNotification'; */
+    const mainNavbar = () => import("./navigation/main-navbar")
+    const courseNavbar = () => import("./navigation/course-navbar")
+    const adminNavbar = () => import("./navigation/admin/admin-navbar")
+    const notifications = () => import("./notification/notification")
+    const seeAllNotification = () => import("./notification/SeeAllNotification")
     import {
         mapGetters,
         mapActions

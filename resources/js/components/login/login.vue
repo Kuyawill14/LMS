@@ -42,6 +42,7 @@
                                         color="primary"
                                         required
                                       />
+                                      <HasError class="error--text" :form="form" field="email" />
                                   </v-col>
                                   <v-col class="ma-0 pa-0 mt-2" cols="12" md="8">
                                     <v-text-field 
@@ -56,6 +57,7 @@
                                       color="primary"
                                       counter @click:append="show = !show">
                                       </v-text-field>
+                                      <HasError class="error--text" :form="form" field="password" />
                                   </v-col>
                                   <v-col class="ma-0 pa-0 mt-2" cols="12" md="8">
                                     <v-row class="">
@@ -146,7 +148,17 @@ export default {
   methods: {
     validate() {
       if (this.$refs.loginForm.validate()) {
-         this.$store.dispatch('login', this.form);
+        this.login();
+         /* this.$store.dispatch('login', this.form)
+         .then(res=>{
+           console.log(res);
+            if(res == 200){
+                this.toastSuccess("Login success");
+            }
+            else if(res == 203){
+                 this.toastError('Login failed!');
+            }
+         }) */
       }
     },
     reset() {
@@ -154,6 +166,21 @@ export default {
     },
     resetValidation() {
       this.$refs.form.resetValidation();
+    },
+    login(){
+      axios.get('/sanctum/csrf-cookie').then(response => {
+            this.form.post('/api/login')
+                .then((res) => {
+                    if(res.status == 200) {
+                        //this.$store.dispatch('fetchCurrentUser');
+                         this.toastSuccess(res.data);
+                        this.$router.push({ path: "/" })
+                    }
+                    else{
+                       this.toastError(res.data);
+                    }
+                })
+        });
     }
   },
 

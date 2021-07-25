@@ -30,6 +30,9 @@ let mycourse = () =>
 
 let archiveComponent = () =>
     import ("./components/archivesList/ArchiveComponent");
+
+let SeeAllNotification = () =>
+    import ("./components/layout/notification/SeeAllNotification");
 // let classwork_main = () =>
 //     import ("./components/classwork_main/classwork_main");
 
@@ -262,7 +265,13 @@ const router = new Router({
                     name: "archive-course"
                 },
 
+                {
+                    path: "/notifications",
+                    component: SeeAllNotification,
+                    name: "notifications"
+                },
 
+                
 
 
             ],
@@ -414,7 +423,19 @@ router.beforeEach((to, from, next) => {
                 console.log(e);
             });
 
-    } else {
+    } 
+    else if(to.name == 'login'){
+        axios.get("/api/authenticated")
+        .then(() => {
+            next({
+                path: "/"
+            });
+        })
+        .catch(() => {
+            next();
+        });
+    }
+    else {
         if (to.name) {
             NProgress.start()
         }

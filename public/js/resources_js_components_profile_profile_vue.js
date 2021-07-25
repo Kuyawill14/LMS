@@ -204,16 +204,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 var editProfile = function editProfile() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_profile_editprofile_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./editprofile */ "./resources/js/components/profile/editprofile.vue"));
 };
@@ -226,10 +216,6 @@ var coursesProgress = function coursesProgress() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_profile_coursesProgress_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./coursesProgress */ "./resources/js/components/profile/coursesProgress.vue"));
 };
 
-var aboutTab = function aboutTab() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_profile_aboutTab_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./aboutTab */ "./resources/js/components/profile/aboutTab.vue"));
-};
-
 var myCalendar = function myCalendar() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_profile_myCalendar_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./myCalendar */ "./resources/js/components/profile/myCalendar.vue"));
 };
@@ -240,7 +226,6 @@ var myCalendar = function myCalendar() {
     editProfile: editProfile,
     changePassword: changePassword,
     coursesProgress: coursesProgress,
-    aboutTab: aboutTab,
     myCalendar: myCalendar
   },
   data: function data() {
@@ -745,22 +730,6 @@ var render = function() {
                                     [
                                       _c("v-icon", { attrs: { left: "" } }, [
                                         _vm._v(
-                                          "\n                                mdi-alert-circle-outline\n                                "
-                                        )
-                                      ]),
-                                      _vm._v(
-                                        "\n                                About\n                            "
-                                      )
-                                    ],
-                                    1
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "v-tab",
-                                    { staticClass: "d-flex justify-start" },
-                                    [
-                                      _c("v-icon", { attrs: { left: "" } }, [
-                                        _vm._v(
                                           "\n                                mdi-account\n                                "
                                         )
                                       ]),
@@ -856,16 +825,6 @@ var render = function() {
                                 "v-tabs-items",
                                 { attrs: { value: _vm.tab } },
                                 [
-                                  _c(
-                                    "v-tab-item",
-                                    [
-                                      _c("aboutTab", {
-                                        attrs: { UserDetails: _vm.UserDetails }
-                                      })
-                                    ],
-                                    1
-                                  ),
-                                  _vm._v(" "),
                                   _c(
                                     "v-tab-item",
                                     [

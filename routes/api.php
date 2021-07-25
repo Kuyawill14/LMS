@@ -151,10 +151,14 @@ Route::prefix('/teacher')->group(function () {
 //notification
 Route::prefix('/notification')->group(function () {
     Route::get('/all', [NotificationController::class, 'getNotification']);
+    Route::get('/notifCount', [NotificationController::class, 'getNotificationCount']);
     Route::post('/new', [NotificationController::class, 'NewNotification']);
-    Route::post('/{id}', [NotificationController::class, 'UnreadNotification']);
-    Route::delete('/{id}', [NotificationController::class, 'DeleteNotification']);
+    Route::put('/markread/{id}', [NotificationController::class, 'UnreadNotification']);
+    Route::put('/hide/{id}', [NotificationController::class, 'DeleteNotification']);
     Route::post('/new', [NotificationController::class, 'NewNotification']);
+    
+    Route::get('/all/{type}', [NotificationController::class, 'getNotificationListWithFilter']);
+    Route::post('/mark-all', [NotificationController::class, 'MarkAllAsRead']);
     
    
 });
