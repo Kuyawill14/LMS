@@ -33,11 +33,14 @@
 </style>
 
 <script>
+
     import topHeader from "./layout/header";
     import sidebar from "./layout/sidebar";
-  
+    import {
+        mapGetters,
+        mapActions
+    } from "vuex";
     export default {
-
         data: () => ({
             UserDetails: [],
             drawer: null,
@@ -48,21 +51,15 @@
             topHeader,
             sidebar,
         },
-        computed:{
-         
-            getDrawer(){
-                return this.drawer ;
-        
-            }
-          
-        },
+        computed: mapGetters(["get_userRole"]),
         methods: {
-           
+            ...mapActions(['SetUserRole']),
         },
 
         mounted() {
             axios.get('/api/profile/details').then((res) => {
                 this.role = res.data[0].role;
+                this.$store.dispatch("SetUserRole", this.role)
                 this.UserDetails = res.data[0];
             }).catch((error) => {
                 console.log(error)

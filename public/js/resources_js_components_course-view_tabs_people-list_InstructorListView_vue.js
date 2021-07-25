@@ -71,7 +71,7 @@ var instructorList = function instructorList() {
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['role', 'UserDetails'],
+  props: ['role', 'UserDetails', 'getcourseInfo'],
   components: {
     studentList: studentList,
     instructorList: instructorList
@@ -320,7 +320,10 @@ var render = function() {
                                 "v-tab-item",
                                 [
                                   _c("studentList", {
-                                    attrs: { role: _vm.role }
+                                    attrs: {
+                                      getcourseInfo: _vm.getcourseInfo,
+                                      role: _vm.role
+                                    }
                                   })
                                 ],
                                 1
@@ -330,7 +333,10 @@ var render = function() {
                                 "v-tab-item",
                                 [
                                   _c("instructorList", {
-                                    attrs: { UserDetails: _vm.UserDetails }
+                                    attrs: {
+                                      getcourseInfo: _vm.getcourseInfo,
+                                      UserDetails: _vm.UserDetails
+                                    }
                                   })
                                 ],
                                 1

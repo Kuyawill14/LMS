@@ -82,6 +82,7 @@ Route::prefix('/course')->group(function () {
     Route::get('/ShowCourse/{id}', [SubjectCourseController::class, 'CourseDetails']);
     Route::post('/completed/{id}', [SubjectCourseController::class, 'courseCompleted']);
     Route::delete('/archiveCourse/{id}', [SubjectCourseController::class, 'ArchiveCourse']);
+    Route::get('/status/{id}', [SubjectCourseController::class, 'CheckCourseStatus']);
     
 });
 

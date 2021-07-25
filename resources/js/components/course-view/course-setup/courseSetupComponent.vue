@@ -24,19 +24,19 @@
                     <v-stepper-items>
                         <v-stepper-content step="1">
 
-                            <courseDetailsComponent v-on:changeStep="step" />
+                            <courseDetailsComponent v-if="e1 == 1" v-on:changeStep="step" />
 
                         </v-stepper-content>
 
                         <v-stepper-content step="2">
 
-                            <gradingCriteria v-on:changeStep="step" />
+                            <gradingCriteria v-if="e1 == 2" v-on:changeStep="step" />
 
                         </v-stepper-content>
 
 
                         <v-stepper-content step="3">
-                            <classComponent v-on:changeStep="step" />
+                            <classComponent v-if="e1 == 3" v-on:changeStep="step" />
                         </v-stepper-content>
                     </v-stepper-items>
                 </v-stepper>
@@ -53,9 +53,9 @@
         mapGetters,
         mapActions
     } from "vuex";
-    import gradingCriteria from './grading-criteria'
-    import courseDetailsComponent from './courseDetailsComponent'
-    import classComponent from './classComponent'
+    const gradingCriteria = () => import('./grading-criteria')
+    const courseDetailsComponent = () => import('./courseDetailsComponent')
+    const classComponent = () => import('./classComponent')
     export default {
 
         data() {
@@ -87,13 +87,12 @@
             step(step) {
                 this.e1 = step;
                 console.log(this.el);
-
             }
         },
-        created() {
+        /* created() {
             const course_id = this.$route.params.id;
             this.fetchScourse(course_id);
-        },
+        }, */
     }
 
 </script>

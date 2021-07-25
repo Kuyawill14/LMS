@@ -39,6 +39,12 @@ import store from "./store/store";
 import router from "./router";
 
 Vue.component('main-component', require('./components/app.vue').default);
+<<<<<<< HEAD
+=======
+/* Vue.component('invite-component', require('./components/classInvites').default); */
+
+
+>>>>>>> f8b897b95e7511efa3c5be610dacfd115d2f349f
 Vue.mixin({
     methods: {
         toastSuccess(message) {

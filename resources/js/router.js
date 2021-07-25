@@ -396,9 +396,9 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
     if (to.name == 'coursePage') {
         let completed;
-        axios.get('/api/course/ShowCourse/' + to.params.id)
+        axios.get('/api/course/status/' + to.params.id)
             .then(res => {
-                completed = res.data.completed;
+                completed = res.data;
             })
         let course = store.getters.getCourse(to.params.id);
         axios.get("/api/role")

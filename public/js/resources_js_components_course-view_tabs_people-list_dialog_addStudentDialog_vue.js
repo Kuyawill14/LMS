@@ -84,6 +84,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  props: ['course_name'],
   data: function data() {
     return {
       isAdding: false,
@@ -132,6 +133,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 _this2.isAdding = true;
                 _this2.InviteDetails.class_id = _this2.cl_id;
+                _this2.InviteDetails.course_name = _this2.course_name;
                 _this2.InviteDetails.email = _this2.email;
 
                 for (i = 0; i < _this2.classList.length; i++) {
@@ -155,7 +157,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   _this2.isAdding = false;
                 });
 
-              case 5:
+              case 6:
               case "end":
                 return _context2.stop();
             }

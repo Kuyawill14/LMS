@@ -81,6 +81,7 @@
 <script>
 //const removeConfirmDialog = () => import('../dialog/removeConfirmDialog')
     export default {
+        props:['getcourseInfo'],
         components:{
             //removeConfirmDialog
         },
@@ -93,7 +94,8 @@
                 isClassNameLoaded:false,
                 classNames:[],
                 Class_id: this.$route.params.id,
-                RemoveDetails: {}
+                RemoveDetails: {},
+                cours_name: null,
             }
 
         },

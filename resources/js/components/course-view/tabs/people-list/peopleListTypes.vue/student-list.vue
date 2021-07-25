@@ -14,6 +14,7 @@
                 v-on:toggleCancelDialog="AddStudent = !AddStudent"
                 v-on:toggleconfirm="AddStudent = !AddStudent"
                 :classList="classList"
+                :course_name="course_name"
                 v-if="AddStudent"></addStudentDialog>
             </v-dialog>
         </div> 
@@ -37,7 +38,7 @@
                 <v-col cols="12" >
                     <v-row>
                         <v-col class="mb-0 pb-0" cols="7"  md="10" lg="10">
-                            <v-btn rounded @click="OpenaddStudentDialog()"  color="primary"> <v-icon left>mdi-plus</v-icon>Student</v-btn>
+                            <v-btn rounded @click="OpenaddStudentDialog(), course_name = getcourseInfo.course_name"  color="primary"> <v-icon left>mdi-plus</v-icon>Student</v-btn>
                         </v-col>
                         <v-col class="mb-0 pb-0" cols="5"  md="2" lg="2">
                              <v-select
@@ -107,6 +108,7 @@
 const removeConfirmDialog = () => import('../dialog/removeConfirmDialog')
 const addStudentDialog = () => import('../dialog/addStudentDialog')
     export default {
+         props:['getcourseInfo'],
         components:{
             removeConfirmDialog,
             addStudentDialog
@@ -124,6 +126,7 @@ const addStudentDialog = () => import('../dialog/addStudentDialog')
                 RemoveDetails: {},
                 students: null,
                 classList: [],
+                course_name: null,
             }
 
         },
