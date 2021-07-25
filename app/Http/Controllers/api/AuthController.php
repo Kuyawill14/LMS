@@ -30,10 +30,6 @@ class AuthController extends Controller
             ]); */
             
         }
-       /*  throw ValidatationException::withMessages([
-            'email' => ['Credentials Invalid']
-        ]); */
-
         return response()->json("Login Failed",203);
     }
 

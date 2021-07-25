@@ -123,12 +123,6 @@
                             <v-tabs v-model="tab" vertical class="mt-2">
                                  <v-tab class="d-flex justify-start">
                                     <v-icon left>
-                                    mdi-alert-circle-outline
-                                    </v-icon>
-                                    About
-                                </v-tab>
-                                 <v-tab class="d-flex justify-start">
-                                    <v-icon left>
                                     mdi-account
                                     </v-icon>
                                     Profile
@@ -168,10 +162,6 @@
                <v-row>
                    <v-col cols="12">
                        <v-tabs-items :value="tab">
-                     
-                             <v-tab-item>
-                                <aboutTab :UserDetails="UserDetails"></aboutTab>
-                            </v-tab-item>
                             <v-tab-item>
                                 <editProfile :UserDetails="UserDetails"></editProfile>
                             </v-tab-item>
@@ -197,7 +187,6 @@
     const editProfile = () => import('./editprofile')
     const changePassword = () => import('./changePassword')
     const coursesProgress = () => import('./coursesProgress')
-    const aboutTab = () => import('./aboutTab')
     const myCalendar = () => import('./myCalendar')
     
     export default {
@@ -206,7 +195,6 @@
             editProfile,
             changePassword,
             coursesProgress,
-            aboutTab,
             myCalendar
         },
         data () {

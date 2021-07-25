@@ -51,12 +51,14 @@
 
 <script>
     import moment from 'moment';
-    import commentList from './actions/commentList'
+    const announcementList = () => import('./PostListType/AnnouncementList');
+    const commentList = () => import('./actions/commentList');
     export default {
         
         props:['PostList','UserDetails'],
         components:{
-            commentList
+            commentList,
+            announcementList
         },
          data: () => ({
             password: 'Password',

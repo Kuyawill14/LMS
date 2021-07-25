@@ -1,85 +1,73 @@
 <template>
-    <div class="container pt-4">
+    <div class="container">
         <!-- Modal -->
-        <v-dialog v-model="Previewdialog"  persistent max-width="600">
+        <div v-if="Previewdialog">
+               <v-dialog v-model="Previewdialog"  width="650px">
             <previewClassworkModal v-if="Previewdialog" v-on:toggleCloseDialog="Previewdialog = !Previewdialog" :Preview_id="Preview_id"></previewClassworkModal>
          </v-dialog>
-
-         <v-row class="pl-5 pr-5">
+        </div>
+    
+        <v-row class="pl-5 pr-5">
             <v-divider></v-divider>
         </v-row>
 
-     
-            <v-row class="pl-1 pr-1" ma-0 pa-0>
-                <v-col cols="12" lg="6"  xl="3" md="6" v-for="(item, index) in classworks" :key="index">
-                        <v-card :style="item.availability != 0 ?
-                        CheckFormatDue(item.to_date) > DateToday ? '' : item.status == 'Submitted' ? '':'border:1px  solid #B71C1C' : ''">
-                            <v-container class="pl-3 pr-3 pt-5 pb-5 d-flex flex-row justify-space-between">
+        <v-row class="mt-5" justify="center" align-content="center">
+            <v-col cols="12" class="mt-1 ml-0  mr-0" v-for="(data, i) in classworks.ClassworkTitle" :key="i">
+            <v-row v-if="classworks.ClassworksList[i].length != 0" class="pl-1 pr-1" ma-0 pa-0>
+                <v-col cols="12"  class="ma-0 pa-0 "><h2 class="font-weight-regular">{{data.title}} <small class="font-weight-medium">({{data.percent}}%)</small> </h2></v-col>
+                <v-col cols="12" md="6" lg="6" xl="6" class="pb-0 mb-0" v-for="(item, index) in classworks.ClassworksList[i]" :key="index">
+                    <v-tooltip top>
+                    <template v-slot:activator="{ on, attrs }">
+                    <v-hover v-slot="{ hover }">
+                        <v-card v-bind="attrs" v-on="on"  @click="OpenClaswork(item.type,item.status,item.score,item.classwork_id)" 
+                            link :elevation="hover ? 2 :0" >
+                            <v-container class="pl-2 pr-5 pt-5 pb-5 d-flex flex-row justify-space-between">
                                 <div class="d-flex flex-row">
-                                    <v-icon 
-                                    class="pl-2 pr-3 " 
-                                    :color="item.availability == 0 ? '' : 
+                                    <v-avatar size="40"
+                                    :color="item.availability == 0 ?  item.status == 'Submitted' ?  'success' : 'blue'  : 
                                      CheckFormatDue(item.to_date) > DateToday ? 
                                     item.status == 'Submitted' ? 'success' :''
-                                    : item.status == 'Submitted' ? 'success': 'red darken-4'" large>
+                                    : item.status == 'Submitted' ? 'success': 'red darken-4'" >
+                                         <v-icon 
+                                    class="pl-2 pr-2" color="white" >
                                         {{item.status == 'Submitted' ? 'mdi-check':'mdi-book-open-variant'}}
                                     </v-icon>
+                                    </v-avatar>
+                                    <div class="pl-2">  
+                                          <v-tooltip top>
+                                            <template v-slot:activator="{ on, attrs }">
+                                            <div v-bind="attrs" v-on="on"  ma-0 pa-0 
+                                             
+                                              :style="$vuetify.breakpoint.xs ? 'width:180px;overflow: hidden;white-space: nowrap;text-overflow;text-overflow: ellipsis;' 
+                                        : 'width: 220px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;'"
+                                             class="h1 ml-1"> 
+                                                <span class="font-weight-bold">{{item.title}} <small class="primary--text font-weight-regular" v-if="item.type == 'Subjective Type'">({{item.points}} points)</small></span> 
+                                            </div> 
+                                          </template>
+                                             <span>{{item.title}}</span>
+                                        </v-tooltip>
 
-
-                                    <div>  
-                                        <div ma-0 pa-0 class="h1 ml-1"> <span class="font-weight-bold">{{item.title}}</span> <small class="primary--text" v-if="item.type == 'Subjective Type'">({{item.points}} points)</small></div> 
-                                        <small v-if="item.status == null || item.status == 'Submitting'|| item.status == 'Taking'" :class="item.availability != 0 ? CheckFormatDue(item.to_date) > DateToday ? 'card-subtitle text-50': item.status == 'Submitted' ? 'card-subtitle text-50':'card-subtitle text-50 red--text':'card-subtitle text-50'">
+                                        <small
+                                        v-if="item.status == null || item.status == 'Submitting'|| item.status == 'Taking'" :class="item.availability != 0 ? CheckFormatDue(item.to_date) > DateToday ? 'card-subtitle text-50': item.status == 'Submitted' ? 'card-subtitle text-50':'card-subtitle text-50 red--text':'card-subtitle text-50'">
                                             <v-icon :color="item.availability != 0 ? CheckFormatDue(item.to_date) > DateToday ? '': item.status == 'Submitted' ? '':'red darken-4':''" small>mdi-clock</v-icon> 
-                                            
                                             {{item.availability != 0 ? CheckFormatDue(item.to_date) > DateToday ? '' : "Late" :''}}
-                                          
                                             {{item.availability != 0 ? ' Due Date:' : 'No Due Date'}}
                                             {{format_date(item.to_date)}} 
                                         </small>
                                             
-                                        <small v-if="item.status == 'Submitted'" class="card-subtitle text-50 success--text">
+                                        <small
+                                        :style="$vuetify.breakpoint.xs ? 'width:150px;display: inline-block;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;' 
+                                        : ''" v-if="item.status == 'Submitted'" class="card-subtitle text-50 success--text">
                                             <v-icon color="" small>mdi-clock</v-icon> 
                                             Submitted: {{format_date(item.Sub_date)}} 
                                         </small>
+
                                     </div>
                                 </div>
-                            
-                                <v-tooltip top>
-                                    <template v-slot:activator="{ on, attrs }">
-                                        <v-btn
-                                            v-if="item.status == 'Submitting' || item.status == null"
-                                            @click="Previewdialog = !Previewdialog, Preview_id = item.classwork_id"
-                                            class="mt-1 mr-5 pa-2 mx-1" 
-                                            icon
-                                            v-bind="attrs"
-                                            v-on="on"
-                                            fab
-                                            >
-                                            <v-icon
-                                            size="30"
-                                            >
-                                            mdi-book-open-page-variant
-                                            </v-icon>
-                                        </v-btn>
 
-                                        <v-btn
-                                        large
-                                         v-if="item.status == 'Submitted' && item.score != null"
-                                        @click="item.type == 'Objective Type' ? $router.push({name:'result-page', params:{id: item.classwork_id}}) : $router.push({name: 'clwk',params: {id: $route.params.id},query: {clwk: item.classwork_id}})"
-                                        class="mt-1 mr-5 pa-2 mx-1 success--text" 
-                                        text
-                                        :icon="!item.graded && item.type == 'Subjective Type'" 
-                                        rounded
-                                         v-bind="attrs"
-                                        v-on="on"
-                                        >
-                                           <span v-if="item.graded || item.type == 'Objective Type'">{{item.score}}/{{item.points}}</span>
-                                           <v-icon size="32" v-if="!item.graded && item.type == 'Subjective Type'">mdi-book-open-page-variant</v-icon>
-                                        </v-btn>
-                                    </template>
-                                
-                                    <span>{{item.status == null ? 'View Classwork' : 'View Submission'}}</span>
-                                </v-tooltip>
+                                <v-chip color="green" class="mt-1 " outlined v-if="item.status == 'Submitted' && item.score != null">
+                                    <span class="success--text" >{{item.score}}/{{item.points}}</span>
+                                </v-chip>
 
                                  <v-tooltip top>
                                     <template v-slot:activator="{ on, attrs }">
@@ -90,19 +78,30 @@
                                             text
                                             v-bind="attrs"
                                             v-on="on"
-                                            rounded
-                                            >
+                                            rounded>
                                             Continue
                                         </v-btn>
                                     </template>
-                                
                                     <span>Continue Classwork</span>
                                 </v-tooltip>
                                 
+                                
                              </v-container>
                         </v-card >
+                      
+                    </v-hover>
+                     </template>
+                <span>{{item.status == null ? 'View Classwork' : 'View Submission'}}</span>
+                </v-tooltip>
+                 <v-divider></v-divider>
+                </v-col>
+               <v-col cols="12" class="text-right mb-0 pb-0"> 
+                   <v-btn text color="blue" class="text-center">View more <v-icon center>mdi-chevron-down</v-icon> </v-btn> 
                 </v-col>
             </v-row>
+            </v-col>
+             
+        </v-row>
     </div>
 </template>
 
@@ -137,6 +136,22 @@
                 this.$router.push({name: 'quizstart',params: {id: this.$route.params.id},query: {clwk: classwork_id}})
          
             },
+            OpenClaswork(type, status, score,classwork_id){
+                
+                if(status == 'Submitted' && score != null){
+                    if(type == 'Objective Type'){
+                     this.$router.push({name:'result-page', params:{id: classwork_id}})
+                    }
+                    else{
+                        this.$router.push({name: 'clwk',params: {id: this.$route.params.id},query: {clwk: classwork_id}})
+                    }
+                }
+                else if(status == 'Submitting' || status == null){
+                    this.Previewdialog = !this.Previewdialog;
+                    this.Preview_id = classwork_id
+                }
+
+            }
         },
         mounted(){
             let newDate = new Date();

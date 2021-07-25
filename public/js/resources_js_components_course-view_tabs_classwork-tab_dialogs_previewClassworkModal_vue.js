@@ -135,9 +135,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['Preview_id'],
@@ -271,97 +268,123 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "div",
+    "v-card",
+    { attrs: { outlined: "" } },
     [
       _c(
-        "v-card",
-        { staticStyle: { "border-top": "3px solid #EF6C00" } },
+        "v-card-title",
+        { staticClass: "ma-0 pa-0 float-right mr-3" },
         [
           _c(
-            "v-card-title",
-            { staticClass: "ma-0 pa-0 float-right mr-3 mt-2" },
-            [
-              _c(
-                "v-btn",
-                {
-                  attrs: { icon: "" },
-                  on: {
-                    click: function($event) {
-                      return _vm.$emit("toggleCloseDialog")
-                    }
-                  }
-                },
-                [_c("v-icon", [_vm._v("mdi-window-close")])],
-                1
-              )
-            ],
+            "v-btn",
+            {
+              attrs: { icon: "" },
+              on: {
+                click: function($event) {
+                  return _vm.$emit("toggleCloseDialog")
+                }
+              }
+            },
+            [_c("v-icon", [_vm._v("mdi-window-close")])],
             1
-          ),
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-card-text",
+        { staticClass: "mt-12 ml-0 pl-0 pl-2" },
+        [
+          _c("v-row", { staticStyle: { height: "2vh" } }),
           _vm._v(" "),
-          _c(
-            "v-card-text",
-            { staticClass: "mt-12 ml-0 pl-0 pl-2" },
-            [
-              _c("v-row", { staticStyle: { height: "2vh" } }),
-              _vm._v(" "),
-              _vm.isloading
-                ? _c(
-                    "v-row",
-                    {
-                      staticClass: "fill-height",
-                      staticStyle: { height: "30vh" },
-                      attrs: { "align-content": "center", justify: "center" }
-                    },
+          _vm.isloading
+            ? _c(
+                "v-row",
+                {
+                  staticClass: "fill-height",
+                  staticStyle: { height: "30vh" },
+                  attrs: { "align-content": "center", justify: "center" }
+                },
+                [
+                  _c(
+                    "v-col",
+                    { attrs: { cols: "6" } },
                     [
-                      _c(
-                        "v-col",
-                        { attrs: { cols: "6" } },
-                        [
-                          _c("v-progress-linear", {
-                            attrs: {
-                              w: "",
-                              color: "primary",
-                              indeterminate: "",
-                              rounded: "",
-                              height: "4"
-                            }
-                          })
-                        ],
-                        1
-                      )
+                      _c("v-progress-linear", {
+                        attrs: {
+                          w: "",
+                          color: "primary",
+                          indeterminate: "",
+                          rounded: "",
+                          height: "4"
+                        }
+                      })
                     ],
                     1
                   )
-                : _vm._e(),
-              _vm._v(" "),
-              !_vm.isloading
-                ? _c(
-                    "v-row",
+                ],
+                1
+              )
+            : _vm._e(),
+          _vm._v(" "),
+          !_vm.isloading
+            ? _c(
+                "v-row",
+                [
+                  _c(
+                    "v-col",
+                    { attrs: { cols: "12" } },
                     [
                       _c(
-                        "v-col",
-                        { attrs: { cols: "12" } },
+                        "v-container",
+                        {
+                          staticClass: "d-flex flex-row justify-space-between",
+                          attrs: { "ma-0": "", "pa-0": "" }
+                        },
                         [
                           _c(
-                            "v-container",
+                            "v-btn",
                             {
-                              staticClass:
-                                "d-flex flex-row justify-space-between",
-                              attrs: { "ma-0": "", "pa-0": "" }
+                              staticClass: "mx-2 mt-2",
+                              attrs: { fab: "", dark: "", color: "primary" }
+                            },
+                            [
+                              _c("v-icon", { attrs: { "x-large": "" } }, [
+                                _vm._v(
+                                  "\n                    mdi-book-open-variant\n                    "
+                                )
+                              ])
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            {
+                              staticClass: "float-right mt-3",
+                              attrs: { fab: "" }
                             },
                             [
                               _c(
-                                "v-btn",
+                                "div",
                                 {
-                                  staticClass: "mx-2 mt-2",
-                                  attrs: { fab: "", dark: "", color: "primary" }
+                                  staticClass: "text-md-h5 font-weight-medium"
                                 },
                                 [
-                                  _c("v-icon", { attrs: { "x-large": "" } }, [
-                                    _vm._v(
-                                      "\r\n                        mdi-book-open-variant\r\n                        "
-                                    )
-                                  ])
+                                  _c(
+                                    "v-icon",
+                                    { attrs: { large: "", color: "primary" } },
+                                    [_vm._v("mdi-book-clock-outline")]
+                                  ),
+                                  _vm._v(" "),
+                                  _vm.Details.type != "Subjective Type"
+                                    ? _c("span", [
+                                        _vm._v(
+                                          _vm._s(_vm.Details.duration) + " mins"
+                                        )
+                                      ])
+                                    : _vm._e()
                                 ],
                                 1
                               ),
@@ -369,331 +392,268 @@ var render = function() {
                               _c(
                                 "div",
                                 {
-                                  staticClass: "float-right mt-3",
-                                  attrs: { fab: "" }
+                                  staticClass: "caption ml-2 font-weight-medium"
                                 },
                                 [
-                                  _c(
-                                    "div",
-                                    {
-                                      staticClass:
-                                        "text-md-h5 font-weight-medium"
-                                    },
-                                    [
-                                      _c(
-                                        "v-icon",
-                                        {
-                                          attrs: { large: "", color: "primary" }
-                                        },
-                                        [_vm._v("mdi-book-clock-outline")]
-                                      ),
-                                      _vm._v(" "),
-                                      _vm.Details.type != "Subjective Type"
-                                        ? _c("span", [
-                                            _vm._v(
-                                              _vm._s(_vm.Details.duration) +
-                                                " mins"
-                                            )
-                                          ])
-                                        : _vm._e()
-                                    ],
-                                    1
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "div",
-                                    {
-                                      staticClass:
-                                        "caption ml-2 font-weight-medium"
-                                    },
-                                    [
-                                      _vm._v(
-                                        "Due " +
-                                          _vm._s(
-                                            _vm.format_date(_vm.Details.to_date)
-                                          )
+                                  _vm._v(
+                                    "Due " +
+                                      _vm._s(
+                                        _vm.format_date(_vm.Details.to_date)
                                       )
-                                    ]
                                   )
                                 ]
                               )
-                            ],
-                            1
+                            ]
                           )
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "v-col",
-                        { staticClass: "pl-7 pr-5", attrs: { cols: "12" } },
-                        [
-                          _c(
-                            "div",
-                            {
-                              staticClass:
-                                "text-sm-body-2 text-md-h5 text-xl-h3 font-weight-medium"
-                            },
-                            [_vm._v(_vm._s(_vm.Details.title))]
-                          ),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "pt-2 d-flex flex-row " }, [
-                            _vm.Details.type == "Objective Type"
-                              ? _c(
-                                  "div",
-                                  {
-                                    staticClass: "captions font-weight-medium"
-                                  },
-                                  [
-                                    _c("v-icon", [_vm._v("mdi-circle-medium")]),
-                                    _vm._v(
-                                      _vm._s(_vm.totalQuestion) + " Question"
-                                    )
-                                  ],
-                                  1
-                                )
-                              : _vm._e(),
-                            _vm._v(" "),
-                            _c(
-                              "div",
-                              { staticClass: "captions font-weight-medium" },
-                              [
-                                _c("v-icon", [_vm._v("mdi-circle-medium")]),
-                                _vm._v(
-                                  _vm._s(
-                                    _vm.Details.type == "Objective Type"
-                                      ? _vm.totalPoints
-                                      : _vm.Details.points
-                                  ) + " Points"
-                                )
-                              ],
-                              1
-                            )
-                          ]),
-                          _vm._v(" "),
-                          _c("v-divider")
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "v-col",
-                        { staticClass: "pl-8 pr-5 ", attrs: { cols: "12" } },
-                        [
-                          _c(
-                            "div",
-                            {
-                              staticClass: "text-sm-body-2 font-weight-regular"
-                            },
-                            [_vm._v(" " + _vm._s(_vm.Details.instruction))]
-                          )
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _vm.Details.type == "Subjective Type"
-                        ? _c(
-                            "v-col",
-                            {
-                              staticClass: "pl-5 pr-5 pb-2",
-                              attrs: { cols: "12" }
-                            },
-                            [
-                              _c("v-hover", {
-                                scopedSlots: _vm._u(
-                                  [
-                                    {
-                                      key: "default",
-                                      fn: function(ref) {
-                                        var hover = ref.hover
-                                        return [
-                                          _c(
-                                            "v-alert",
-                                            {
-                                              class: hover
-                                                ? "grey lighten-2"
-                                                : "",
-                                              staticStyle: {
-                                                cursor: "pointer"
-                                              },
-                                              attrs: {
-                                                outlined: "",
-                                                icon:
-                                                  _vm.Fileextension == "pdf"
-                                                    ? "mdi-file-pdf"
-                                                    : _vm.Fileextension ==
-                                                      "docx"
-                                                    ? "mdi-file-word"
-                                                    : "",
-                                                color:
-                                                  _vm.Fileextension == "pdf"
-                                                    ? "red"
-                                                    : _vm.Fileextension ==
-                                                      "docx"
-                                                    ? "blue"
-                                                    : ""
-                                              },
-                                              on: {
-                                                click: function($event) {
-                                                  return _vm.DownLoadFile(
-                                                    _vm.Details.attachment
-                                                  )
-                                                }
-                                              }
-                                            },
-                                            [
-                                              _c(
-                                                "v-row",
-                                                { attrs: { align: "center" } },
-                                                [
-                                                  _c(
-                                                    "v-col",
-                                                    { staticClass: "grow" },
-                                                    [
-                                                      _c(
-                                                        "div",
-                                                        {
-                                                          class: hover
-                                                            ? "text-decoration-underline"
-                                                            : ""
-                                                        },
-                                                        [
-                                                          _vm._v(
-                                                            " " +
-                                                              _vm._s(
-                                                                _vm.Details
-                                                                  .attachment_name
-                                                              )
-                                                          )
-                                                        ]
-                                                      )
-                                                    ]
-                                                  ),
-                                                  _vm._v(" "),
-                                                  _c(
-                                                    "v-col",
-                                                    { staticClass: "shrink" },
-                                                    [
-                                                      _c(
-                                                        "div",
-                                                        {
-                                                          staticClass:
-                                                            "black--text font-weight-medium"
-                                                        },
-                                                        [
-                                                          _vm._v(
-                                                            _vm._s(
-                                                              _vm.Details
-                                                                .attachment_size
-                                                            )
-                                                          )
-                                                        ]
-                                                      )
-                                                    ]
-                                                  )
-                                                ],
-                                                1
-                                              )
-                                            ],
-                                            1
-                                          )
-                                        ]
-                                      }
-                                    }
-                                  ],
-                                  null,
-                                  false,
-                                  3831247556
-                                )
-                              })
-                            ],
-                            1
-                          )
-                        : _vm._e(),
-                      _vm._v(" "),
-                      _c(
-                        "v-col",
-                        {
-                          staticClass: "pl-10 pr-5 pb-5 text-right",
-                          attrs: { cols: "12" }
-                        },
-                        [
-                          _vm.Details.type == "Objective Type"
-                            ? _c(
-                                "v-btn",
-                                {
-                                  attrs: {
-                                    rounded: "",
-                                    color: "primary",
-                                    dark: _vm.totalQuestion != 0
-                                  },
-                                  on: {
-                                    click: function($event) {
-                                      return _vm.$router.push({
-                                        name: "clwk",
-                                        params: { id: _vm.$route.params.id },
-                                        query: { clwk: _vm.Preview_id }
-                                      })
-                                    }
-                                  }
-                                },
-                                [
-                                  _vm._v(
-                                    "\r\n                            Take Quiz"
-                                  ),
-                                  _c(
-                                    "v-icon",
-                                    { attrs: { right: "", dark: "" } },
-                                    [_vm._v("mdi-book-arrow-right-outline")]
-                                  )
-                                ],
-                                1
-                              )
-                            : _vm._e(),
-                          _vm._v(" "),
-                          _vm.Details.type == "Subjective Type"
-                            ? _c(
-                                "v-btn",
-                                {
-                                  attrs: {
-                                    rounded: "",
-                                    color: "primary",
-                                    dark: ""
-                                  },
-                                  on: {
-                                    click: function($event) {
-                                      return _vm.$router.push({
-                                        name: "clwk",
-                                        params: { id: _vm.$route.params.id },
-                                        query: { clwk: _vm.Preview_id }
-                                      })
-                                    }
-                                  }
-                                },
-                                [
-                                  _vm._v(
-                                    "\r\n                            Submit Work"
-                                  ),
-                                  _c(
-                                    "v-icon",
-                                    { attrs: { right: "", dark: "" } },
-                                    [_vm._v("mdi-book-arrow-right-outline")]
-                                  )
-                                ],
-                                1
-                              )
-                            : _vm._e()
                         ],
                         1
                       )
                     ],
                     1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-col",
+                    { staticClass: "pl-7 pr-5", attrs: { cols: "12" } },
+                    [
+                      _c(
+                        "div",
+                        { staticClass: "text-sm-body-2 font-weight-bold" },
+                        [_vm._v(_vm._s(_vm.Details.title))]
+                      ),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "pt-2 d-flex flex-row " }, [
+                        _vm.Details.type == "Objective Type"
+                          ? _c(
+                              "div",
+                              { staticClass: "captions font-weight-medium" },
+                              [
+                                _c("v-icon", [_vm._v("mdi-circle-medium")]),
+                                _vm._v(_vm._s(_vm.totalQuestion) + " Question")
+                              ],
+                              1
+                            )
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "captions font-weight-medium" },
+                          [
+                            _c("v-icon", [_vm._v("mdi-circle-medium")]),
+                            _vm._v(
+                              _vm._s(
+                                _vm.Details.type == "Objective Type"
+                                  ? _vm.totalPoints
+                                  : _vm.Details.points
+                              ) + " Points"
+                            )
+                          ],
+                          1
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("v-divider")
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-col",
+                    { staticClass: "pl-8 pr-5 ", attrs: { cols: "12" } },
+                    [
+                      _c("div", { staticClass: "text-sm-body-2 " }, [
+                        _vm._v(" " + _vm._s(_vm.Details.instruction))
+                      ])
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _vm.Details.type == "Subjective Type"
+                    ? _c(
+                        "v-col",
+                        {
+                          staticClass: "pl-5 pr-5 pb-2",
+                          attrs: { cols: "12" }
+                        },
+                        [
+                          _c("v-hover", {
+                            scopedSlots: _vm._u(
+                              [
+                                {
+                                  key: "default",
+                                  fn: function(ref) {
+                                    var hover = ref.hover
+                                    return [
+                                      _c(
+                                        "v-alert",
+                                        {
+                                          class: hover ? "grey lighten-2" : "",
+                                          staticStyle: { cursor: "pointer" },
+                                          attrs: {
+                                            outlined: "",
+                                            icon:
+                                              _vm.Fileextension == "pdf"
+                                                ? "mdi-file-pdf"
+                                                : _vm.Fileextension == "docx"
+                                                ? "mdi-file-word"
+                                                : "",
+                                            color:
+                                              _vm.Fileextension == "pdf"
+                                                ? "red"
+                                                : _vm.Fileextension == "docx"
+                                                ? "blue"
+                                                : ""
+                                          },
+                                          on: {
+                                            click: function($event) {
+                                              return _vm.DownLoadFile(
+                                                _vm.Details.attachment
+                                              )
+                                            }
+                                          }
+                                        },
+                                        [
+                                          _c(
+                                            "v-row",
+                                            { attrs: { align: "center" } },
+                                            [
+                                              _c(
+                                                "v-col",
+                                                { staticClass: "grow" },
+                                                [
+                                                  _c(
+                                                    "div",
+                                                    {
+                                                      class: hover
+                                                        ? "text-decoration-underline"
+                                                        : ""
+                                                    },
+                                                    [
+                                                      _vm._v(
+                                                        " " +
+                                                          _vm._s(
+                                                            _vm.Details
+                                                              .attachment_name
+                                                          )
+                                                      )
+                                                    ]
+                                                  )
+                                                ]
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "v-col",
+                                                { staticClass: "shrink" },
+                                                [
+                                                  _c(
+                                                    "div",
+                                                    {
+                                                      staticClass:
+                                                        "black--text font-weight-medium"
+                                                    },
+                                                    [
+                                                      _vm._v(
+                                                        _vm._s(
+                                                          _vm.Details
+                                                            .attachment_size
+                                                        )
+                                                      )
+                                                    ]
+                                                  )
+                                                ]
+                                              )
+                                            ],
+                                            1
+                                          )
+                                        ],
+                                        1
+                                      )
+                                    ]
+                                  }
+                                }
+                              ],
+                              null,
+                              false,
+                              3831247556
+                            )
+                          })
+                        ],
+                        1
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c(
+                    "v-col",
+                    {
+                      staticClass: "pl-10 pr-5 pb-5 text-right",
+                      attrs: { cols: "12" }
+                    },
+                    [
+                      _vm.Details.type == "Objective Type"
+                        ? _c(
+                            "v-btn",
+                            {
+                              attrs: {
+                                rounded: "",
+                                color: "primary",
+                                dark: _vm.totalQuestion != 0
+                              },
+                              on: {
+                                click: function($event) {
+                                  return _vm.$router.push({
+                                    name: "clwk",
+                                    params: { id: _vm.$route.params.id },
+                                    query: { clwk: _vm.Preview_id }
+                                  })
+                                }
+                              }
+                            },
+                            [
+                              _vm._v("\n                        Take Quiz"),
+                              _c("v-icon", { attrs: { right: "", dark: "" } }, [
+                                _vm._v("mdi-book-arrow-right-outline")
+                              ])
+                            ],
+                            1
+                          )
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _vm.Details.type == "Subjective Type"
+                        ? _c(
+                            "v-btn",
+                            {
+                              attrs: {
+                                rounded: "",
+                                color: "primary",
+                                dark: ""
+                              },
+                              on: {
+                                click: function($event) {
+                                  return _vm.$router.push({
+                                    name: "clwk",
+                                    params: { id: _vm.$route.params.id },
+                                    query: { clwk: _vm.Preview_id }
+                                  })
+                                }
+                              }
+                            },
+                            [
+                              _vm._v("\n                        Submit Work"),
+                              _c("v-icon", { attrs: { right: "", dark: "" } }, [
+                                _vm._v("mdi-book-arrow-right-outline")
+                              ])
+                            ],
+                            1
+                          )
+                        : _vm._e()
+                    ],
+                    1
                   )
-                : _vm._e(),
-              _vm._v(" "),
-              _c("v-row", { staticStyle: { height: "2vh" } })
-            ],
-            1
-          )
+                ],
+                1
+              )
+            : _vm._e(),
+          _vm._v(" "),
+          _c("v-row", { staticStyle: { height: "2vh" } })
         ],
         1
       )

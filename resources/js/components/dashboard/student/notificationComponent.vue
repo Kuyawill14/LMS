@@ -7,9 +7,9 @@
                         </v-list-item-content>
                         <v-list-item-action>
 
-                            <v-btn @click="$emit('toggleSeeNotif')" class="white--text caption" color="blue" text depressed rounded>
+                            <!-- <v-btn @click="$router.push({name: 'notifications'})" class="white--text caption" color="blue" text depressed rounded>
                                 See all
-                            </v-btn>
+                            </v-btn> -->
 
                         </v-list-item-action>
                     </v-list-item>
@@ -38,6 +38,7 @@
                         <v-list-item-avatar >
                             <v-icon color="blue" v-if="item.notification_type == 3 || item.notification_type == 2" large>mdi-account-plus</v-icon>
                             <v-icon color="red" v-if="item.notification_type == 1" large>mdi-bullhorn-outline</v-icon>
+                             <v-icon color="green" v-if="item.notification_type == 4" large> mdi-book-open-variant</v-icon>
                         </v-list-item-avatar>
                       
                 
@@ -45,7 +46,7 @@
                             
                             <v-list-item-title  class="font-weight-medium">
                                 <v-badge :content="item.status == 1 ? '' :'new'" :value="item.status == 1 ? '' :'new'" 
-                                :color="item.notification_type == 1  ? 'red' : item.notification_type == 3 || item.notification_type == 2 ? 'blue' : ''" >
+                                :color="item.notification_type == 1  ? 'red' : item.notification_type == 3 || item.notification_type == 2 ? 'blue' : item.notification_type == 3 ? 'green' : ''" >
                                 {{item.name}}   
                                 </v-badge>
                                 </v-list-item-title>
@@ -54,10 +55,6 @@
                                 {{item.message}}
                                  <a class="blue--text" @click.prevent="acceptJoin(item.notification_attachments,item.n_id)" href="" v-if="item.notification_type == 3 && item.notification_accepted == 0" link>
                                 Accept invite</a>
-                               <!--  <v-btn v-if="item.notification_type == 3 && item.notification_accepted == 0"
-                                 
-                                @click="acceptJoin(item.notification_attachments)" rounded small text>Accept invite</v-btn> -->
-                               
                             </div>
                             <small>{{format_date(item.created_at)}}</small>
                                  
@@ -97,7 +94,7 @@
                                 <v-col cols="12" class="text-center">
                                     <!--  <v-btn v-if="ShowLoadMore"  @click="ShowMore" outlined color="primary">Load More  <v-icon right>mdi-chevron-down</v-icon> </v-btn>
                                      <v-btn v-if="!ShowLoadMore"  @click="ShowLess" outlined color="primary">Show Less  <v-icon right>mdi-chevron-down</v-icon> </v-btn> -->
-                                <v-btn  text rounded color="primary">See all<v-icon right>mdi-chevron-down</v-icon> </v-btn>
+                                <v-btn @click="$router.push({name: 'notifications'})"  text rounded color="primary">See all<v-icon right>mdi-chevron-down</v-icon> </v-btn>
                                 </v-col>
                                
                             </v-row>
@@ -156,7 +153,7 @@
                 }
             },
             fetchNotificationAll(){
-                 axios.get('/api/notification/all')
+                 axios.get('/api/notification/all/all')
                     .then(res => {
                         this.notificationList = res.data.data;
                     })

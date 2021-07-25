@@ -9,6 +9,7 @@ use App\Models\tbl_classClassworks;
 use App\Models\tbl_Questions;
 use App\Models\tbl_Submission;
 use App\Models\tbl_userclass;
+use App\Models\tbl_main_gradeCategory;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 
@@ -21,7 +22,9 @@ class ClassworkController extends Controller
      */
     public function index($id)
     {
-        //$userId = 2;
+        //$userId = 1;
+
+        
         $userId = auth('sanctum')->id();
         if(auth('sanctum')->user()->role != 'Student'){
             $classwork = tbl_classwork::where('course_id',  $id)
@@ -33,9 +36,31 @@ class ClassworkController extends Controller
             ->groupBy('tbl_classworks.id','tbl_classworks.course_id','tbl_classworks.module_id','tbl_classworks.type',
             'tbl_classworks.title','tbl_classworks.duration','tbl_classworks.points','tbl_classworks.created_at')
             ->get();
-            return $classwork;
+
+            $ClassworksListObjective = array();
+            $ClassworksListSubjective = array();
+            $classworkList = array();
+            foreach($classwork as $item){
+                if($item->type == 'Objective Type'){
+                    $ClassworksListObjective[] = $item;
+                }
+                else{
+                    $ClassworksListSubjective[] = $item;
+                }
+            }
+           
+            $classworkList = [ 0 =>$ClassworksListObjective, 1 => $ClassworksListSubjective];
+          
+            return $classworkList;
+            //return ["ClassworksListObjective"=>$ClassworksListObjective, "ClassworksListSubjective"=>$ClassworksListSubjective];
         }
         else{
+            $GradingCategory = tbl_main_gradeCategory::where('tbl_main_grade_categories.course_id', $id)
+        ->get();
+        $ClassworksList = array();
+        $ClassworkTitle = array();
+        foreach($GradingCategory as $item){
+
             $classworkAll = tbl_classClassworks::where('tbl_userclasses.course_id','=', $id)
             ->select('tbl_class_classworks.*', 'tbl_classworks.type', 'tbl_classworks.title', 'tbl_classworks.points'
             ,'tbl_classworks.instruction')
@@ -43,39 +68,56 @@ class ClassworkController extends Controller
             ->leftJoin('tbl_userclasses', 'tbl_class_classworks.class_id', '=', 'tbl_userclasses.class_id')
             ->where('tbl_userclasses.user_id','=', $userId)
             ->orderBy('created_at', 'DESC')
+            ->where('tbl_class_classworks.grading_criteria', $item->id)
             ->get();
-
             $CheckSub = tbl_Submission::where("tbl_submissions.user_id",$userId)
             ->orderBy('classwork_id', 'DESC')
             ->get();
-
-            foreach($CheckSub as $subM){
+   
+            if(count($CheckSub) == 0){
                 foreach($classworkAll as $classW){
-                    if($subM->classwork_id == $classW->classwork_id){
-                      if($subM->status == ''){
-                        $classW->status = null;
-                        $classW->Sub_date = null;
-                      }
-                      else{
-                        $classW->status = $subM->status;
-                        $classW->score = $subM->points;
-                        $classW->graded = $subM->graded;
-                        $classW->Sub_date = $subM->updated_at;
-                      }
-                       
-                    }
-                    else{
-                        if($classW->status == null){
-                            $classW->status = null;
-                            $classW->score = null;
-                            $classW->graded = $subM->graded;
-                            $classW->Sub_date = null;
+                    $classW->status = null;
+                    $classW->score = null;
+                    $classW->graded = 0;
+                    $classW->Sub_date = null;
+            
+                }
+                
+            }
+            else{
+                foreach($CheckSub as $subM){
+                    foreach($classworkAll as $classW){
+                        if($subM->classwork_id == $classW->classwork_id){
+                            if($subM->status == ''){
+                                $classW->status = null;
+                                $classW->Sub_date = null;
+                            }
+                            else{
+                                $classW->status = $subM->status;
+                                $classW->score = $subM->points;
+                                $classW->graded = $subM->graded;
+                                $classW->Sub_date = $subM->updated_at;
+                            }
+                        }
+                        else{
+                            if($classW->status == null){
+                                $classW->status = null;
+                                $classW->score = null;
+                                $classW->graded = $subM->graded;
+                                $classW->Sub_date = null;
+                            }
                         }
                        
                     }
                 }
+
             }
-            return  $classworkAll;
+            $ClassworkTitle[] = ['title'=>$item->name, 'percent'=>$item->percentage];
+            $ClassworksList[] = $classworkAll;
+        }
+        //return $ClassworksList;
+        return ["ClassworkTitle"=>$ClassworkTitle, "ClassworksList"=>$ClassworksList];
+            
         }
         
     }

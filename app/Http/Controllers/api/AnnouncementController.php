@@ -71,7 +71,8 @@ class AnnouncementController extends Controller
                 ->orderBy('created_at', 'DESC')
                 ->groupBy('tbl_classposts.id','tbl_class_announcements.id','tbl_class_announcements.content','tbl_class_announcements.file','tbl_class_announcements.created_at','tbl_class_announcements.updated_at','tbl_user_details.profile_pic','users.firstName','users.lastName')
                 ->get();
-                return $allClassPost;
+                return $allClassPost->toArray();
+                //return $allClassPost;
             }
         }
     }

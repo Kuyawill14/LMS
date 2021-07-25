@@ -1,13 +1,10 @@
 <template>
-<div>
+
 
  
     
-    <v-card style="border-top:3px solid #EF6C00">
-
-        
- 
-            <v-card-title class="ma-0 pa-0 float-right mr-3 mt-2">
+    <v-card outlined >
+            <v-card-title class="ma-0 pa-0 float-right mr-3">
                 <v-btn @click="$emit('toggleCloseDialog')" icon>
                     <v-icon>mdi-window-close</v-icon>
                 </v-btn>
@@ -52,7 +49,7 @@
                     </v-col>
 
                       <v-col cols="12" class="pl-7 pr-5">
-                            <div class="text-sm-body-2 text-md-h5 text-xl-h3 font-weight-medium">{{Details.title}}</div>
+                            <div class="text-sm-body-2 font-weight-bold">{{Details.title}}</div>
                             
                                 <div class="pt-2 d-flex flex-row ">
                                     <div v-if="Details.type == 'Objective Type'" class="captions font-weight-medium"><v-icon>mdi-circle-medium</v-icon>{{totalQuestion}} Question</div>
@@ -62,7 +59,7 @@
                         </v-col>
 
                         <v-col cols="12" class="pl-8 pr-5 ">
-                            <div class="text-sm-body-2 font-weight-regular"> {{Details.instruction}}</div>
+                            <div class="text-sm-body-2 "> {{Details.instruction}}</div>
                         </v-col>
 
                         <v-col v-if="Details.type == 'Subjective Type'" cols="12" class="pl-5 pr-5 pb-2">
@@ -120,7 +117,7 @@
     
     </v-card>
   
-</div> 
+
 </template>
 
 <script>

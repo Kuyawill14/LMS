@@ -14,4 +14,11 @@ class tbl_classpost extends Model
 
         return $this->hasMany('App\Models\tbl_comment');
     }
+
+     /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    
 }
