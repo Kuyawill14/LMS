@@ -168,7 +168,7 @@
                     <v-spacer></v-spacer>
                     <v-btn text color="primary" @click="dialog = false;$refs.RegisterForm.reset()">Cancel</v-btn>
                     <v-btn text @click="validate()" :loading="IsAddUpdating">
-                        Add</v-btn>
+                        {{type == 'add' ? 'Add' : 'Save'}}</v-btn>
                 </v-card-actions>
             </v-card>
         </v-dialog>
@@ -276,8 +276,19 @@ import axios from 'axios';
                      self.show = false;
                 }, 3000);  */
             },
+            clearForm() {
+    this.form.user_id = '';
+                this.form.firstName = '';
+                this.form.middleName ='';
+                this.form.lastName = '';
+                this.form.phone = '';
+                this.form.email = '';
+
+            },
 
             openAdd() {
+                     this.clearForm();
+          this.$refs.RegisterForm.resetValidation();
                 this.type = 'add'
                 // this.grading_criteria_form.name = '';
                 // this.grading_criteria_form.percentage = '';
@@ -342,7 +353,7 @@ import axios from 'axios';
                                 this.$refs.RegisterForm.reset()
                                 this.valid = true;
                                  this.dialog = false;
-                                 
+                                  this.IsAddUpdating = false;
                                 
                             })
                       

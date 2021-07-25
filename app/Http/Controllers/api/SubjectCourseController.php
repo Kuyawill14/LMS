@@ -72,7 +72,7 @@ class SubjectCourseController extends Controller
         else{
             $ShowCourseDetails = tbl_subject_course::where('tbl_subject_courses.id', $id)
             ->select('tbl_subject_courses.id', 'tbl_subject_courses.course_code', 'tbl_subject_courses.course_name', 'tbl_subject_courses.course_description'
-            ,'tbl_subject_courses.course_picture','completed')
+            ,'tbl_subject_courses.course_picture','tbl_subject_courses.v_classroom_link','completed')
             ->first();
             $ShowCourseDetails->name = auth('sanctum')->user()->firstName.' '.auth('sanctum')->user()->lastName;
 
@@ -169,6 +169,7 @@ class SubjectCourseController extends Controller
             $existingCourse->course_name = $request->courseItem['course_name'];
             $existingCourse->course_code = $request->courseItem['course_code'];
             $existingCourse->course_description = $request->courseItem['course_description'];
+            $existingCourse->v_classroom_link = $request->courseItem['v_classroom_link'];
             $existingCourse->save();
             return $existingCourse;
         }

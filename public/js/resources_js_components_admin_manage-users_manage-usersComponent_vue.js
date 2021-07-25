@@ -292,7 +292,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
            self.show = false;
       }, 3000);  */
     },
+    clearForm: function clearForm() {
+      this.form.user_id = '';
+      this.form.firstName = '';
+      this.form.middleName = '';
+      this.form.lastName = '';
+      this.form.phone = '';
+      this.form.email = '';
+    },
     openAdd: function openAdd() {
+      this.clearForm();
+      this.$refs.RegisterForm.resetValidation();
       this.type = 'add'; // this.grading_criteria_form.name = '';
       // this.grading_criteria_form.percentage = '';
 
@@ -361,6 +371,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
             _this3.valid = true;
             _this3.dialog = false;
+            _this3.IsAddUpdating = false;
           });
         }
 
@@ -1051,7 +1062,12 @@ var render = function() {
                         }
                       }
                     },
-                    [_vm._v("\n                    Add")]
+                    [
+                      _vm._v(
+                        "\n                    " +
+                          _vm._s(_vm.type == "add" ? "Add" : "Save")
+                      )
+                    ]
                   )
                 ],
                 1

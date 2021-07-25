@@ -1,15 +1,39 @@
 <template>
     <div class="pt-5">
         <v-card elevation="2" class="pa-3">
-            <v-text-field v-model="getcourseInfo.course_code" label="Course Code"></v-text-field>
+            <!-- <v-text-field v-model="getcourseInfo.course_code" label="Course Code"></v-text-field>
 
             <v-text-field v-model="getcourseInfo.course_name" label="Course Name"></v-text-field>
 
 
             <label> Course Description </label><br>
             <editor placeholder="Announce something in your class!" class="border"
-                v-model="getcourseInfo.course_description" theme="snow"></editor>
+                v-model="getcourseInfo.course_description" theme="snow"></editor> -->
+   <v-col cols="12" class="pa-0">
+            <v-text-field v-model="getcourseInfo.course_code" outlined color="primary" label="Course Code">
+            </v-text-field>
+        </v-col>
 
+        <v-col cols="12" class="pa-0 ">
+            <v-text-field v-model="getcourseInfo.course_name" outlined color="primary" label="Course Name">
+            </v-text-field>
+        </v-col>
+
+        <v-col cols="12" class="pa-0 ">
+            <v-text-field v-model="getcourseInfo.v_classroom_link" outlined color="primary" label="Google Meet Link">
+            </v-text-field>
+        </v-col>
+
+
+        <v-col cols="12" class="pa-0 ma-0">
+            <v-card>
+                <v-card-title class="pl-3 py-3" style="font-size: 1rem;color:grey">Course Description
+                </v-card-title>
+                <v-divider></v-divider>
+
+                <editor v-model="getcourseInfo.course_description" theme="snow"></editor>
+            </v-card>
+        </v-col>
             <div class="text-right pt-6">
                 <v-btn tile color="primary" large @click="updateClass">
                     <v-icon left>

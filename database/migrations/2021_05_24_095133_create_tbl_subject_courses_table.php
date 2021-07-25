@@ -17,6 +17,7 @@ class CreateTblSubjectCoursesTable extends Migration
             $table->id()->startingValue(1);
             $table->string('course_code');
             $table->string('course_name');
+            $table->string('v_classroom_link')->length(1024);;
             $table->longtext('course_description')->nullable() ;
             $table->mediumText('course_picture');
             $table->tinyInteger('completed')->default(0);

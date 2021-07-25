@@ -22388,99 +22388,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-<<<<<<< HEAD
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "v-list",
-    { attrs: { dense: "" } },
-    [
-      [
-        _c(
-          "v-list-item",
-          { attrs: { link: "", to: { name: "dashboard" }, exact: "" } },
-          [
-            _c(
-              "v-list-item-action",
-              [_c("v-icon", [_vm._v("mdi-view-dashboard")])],
-              1
-            ),
-            _vm._v(" "),
-            _c(
-              "v-list-item-content",
-              [
-                _c("v-list-item-title", [
-                  _vm._v("\n                    Dashboard\n                ")
-                ])
-              ],
-              1
-            )
-          ],
-          1
-        ),
-        _vm._v(" "),
-        _c(
-          "v-list-item",
-          { attrs: { link: "", to: { name: "manageUsers" }, exact: "" } },
-          [
-            _c(
-              "v-list-item-action",
-              [_c("v-icon", [_vm._v("mdi-contacts")])],
-              1
-            ),
-            _vm._v(" "),
-            _c(
-              "v-list-item-content",
-              [
-                _c("v-list-item-title", [
-                  _vm._v("\n                    Manage Users\n                ")
-                ])
-              ],
-              1
-            )
-          ],
-          1
-        ),
-        _vm._v(" "),
-        _c(
-          "v-list-item",
-          { attrs: { link: "", to: { name: "monitorTeacher" }, exact: "" } },
-          [
-            _c(
-              "v-list-item-action",
-              [_c("v-icon", [_vm._v("mdi-chart-box-outline")])],
-              1
-            ),
-            _vm._v(" "),
-            _c(
-              "v-list-item-content",
-              [
-                _c("v-list-item-title", [
-                  _vm._v(
-                    "\n                    Monitor Teachers\n                "
-                  )
-                ])
-              ],
-              1
-            )
-          ],
-          1
-        )
-      ]
-    ],
-    2
-  )
-}
-var staticRenderFns = []
-render._withStripped = true
-=======
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_notification_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./notification.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/layout/notification/notification.vue?vue&type=script&lang=js&");
  /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_notification_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
 
 /***/ }),
->>>>>>> d81bef312c763e9a554191675582c5932df6472e
 
 /***/ "./resources/js/components/layout/sidebar.vue?vue&type=script&lang=js&":
 /*!*****************************************************************************!*\

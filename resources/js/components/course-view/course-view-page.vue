@@ -31,7 +31,11 @@
            
                 <v-card-title class="text-h5" v-text="getcourseInfo.course_code + ' - ' + getcourseInfo.course_name">
                 </v-card-title>
-                <v-card-subtitle class="white--text">Instructor: {{getcourseInfo.name}}</v-card-subtitle>
+                <v-card-subtitle class="white--text">Instructor: {{getcourseInfo.name}}
+
+                    <br>
+                    Google Meet: <a link :href="getcourseInfo.v_classroom_link" >{{getcourseInfo.v_classroom_link}}</a>
+                </v-card-subtitle>
             </v-img>
 
         </v-card>

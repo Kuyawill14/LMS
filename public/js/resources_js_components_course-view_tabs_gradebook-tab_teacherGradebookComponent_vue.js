@@ -283,34 +283,37 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     _getClassworkListbyTab: function _getClassworkListbyTab(grading_criteria_id, index) {
       var _this3 = this;
 
-      this.activeTab = grading_criteria_id;
-      var total = 0;
-      this.headers = [];
-      this.headers.push({
-        text: 'Name',
-        value: 'name'
-      });
-      axios.get('/api/grade-book/classworks/' + this.selectedClass).then(function (res) {
-        _this3.classworkList = res.data;
-        console.log(res.data);
+      if (this.activeTab != grading_criteria_id) {
+        this.activeTab = grading_criteria_id;
+        this.$store.dispatch("fetchNotification", this.notificationType);
+        var total = 0;
+        this.headers = [];
+        this.headers.push({
+          text: 'Name',
+          value: 'name'
+        });
+        axios.get('/api/grade-book/classworks/' + this.selectedClass).then(function (res) {
+          _this3.classworkList = res.data;
+          console.log(res.data);
 
-        for (var i = 0; i < _this3.classworkList.length; i++) {
-          // this.headers[i+1] = {text: this.classworkList[i]['title'], value: this.classworkList[i]['title']};
-          if (_this3.classworkList[i]['grading_criteria_id'] == grading_criteria_id) {
-            _this3.headers.push({
-              text: _this3.classworkList[i]['title'] + ' (' + _this3.classworkList[i]['points'] + 'pts)',
-              align: 'center',
-              value: _this3.classworkList[i]['title']
-            });
+          for (var i = 0; i < _this3.classworkList.length; i++) {
+            // this.headers[i+1] = {text: this.classworkList[i]['title'], value: this.classworkList[i]['title']};
+            if (_this3.classworkList[i]['grading_criteria_id'] == grading_criteria_id) {
+              _this3.headers.push({
+                text: _this3.classworkList[i]['title'] + ' (' + _this3.classworkList[i]['points'] + 'pts)',
+                align: 'center',
+                value: _this3.classworkList[i]['title']
+              });
 
-            total += _this3.classworkList[i]['points'];
+              total += _this3.classworkList[i]['points'];
+            }
           }
-        }
 
-        _this3.classworkTotalPoints = total;
+          _this3.classworkTotalPoints = total;
 
-        _this3.totalPercentHeader();
-      });
+          _this3.totalPercentHeader();
+        });
+      }
     },
     getStudentClassworksGrades: function getStudentClassworksGrades(grading_criteria_id) {
       var _this4 = this;
@@ -568,7 +571,6 @@ var render = function() {
                   "v-tab",
                   {
                     key: index,
-                    attrs: { disabled: _vm.activeTab == gradingCriteria.id },
                     on: {
                       click: function($event) {
                         return _vm._getClassworkListbyTab(gradingCriteria.id)

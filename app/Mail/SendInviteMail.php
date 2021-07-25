@@ -29,6 +29,6 @@ class SendInviteMail extends Mailable
      */
     public function build()
     {
-        return $this->view('view');
+        return $this->view('view') ;
     }
 }

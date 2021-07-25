@@ -20,7 +20,7 @@
                     Final Grades
                 </v-tab>
                 <v-tab v-for="(gradingCriteria, index) in get_gradingCriteria" :key="index"
-                    :disabled="activeTab == gradingCriteria.id" @click="_getClassworkListbyTab(gradingCriteria.id)">
+                     @click="_getClassworkListbyTab(gradingCriteria.id)">
                     {{gradingCriteria.name}}
                 </v-tab>
                 <v-tab-item id="final_grades">
@@ -269,37 +269,39 @@
             },
             _getClassworkListbyTab(grading_criteria_id, index) {
 
-                this.activeTab = grading_criteria_id;
+                 if(this.activeTab != grading_criteria_id){
+                    this.activeTab = grading_criteria_id;
+                    this.$store.dispatch("fetchNotification", this.notificationType )
+                    var total = 0;
+                    this.headers = [];
+                    this.headers.push({
+                        text: 'Name',
+                        value: 'name'
+                    });
 
-                var total = 0;
-                this.headers = [];
-                this.headers.push({
-                    text: 'Name',
-                    value: 'name'
-                });
+                    axios.get('/api/grade-book/classworks/' + this.selectedClass).then(res => {
+                        this.classworkList = res.data;
+                        console.log(res.data);
 
-                axios.get('/api/grade-book/classworks/' + this.selectedClass).then(res => {
-                    this.classworkList = res.data;
-                    console.log(res.data);
+                        for (var i = 0; i < this.classworkList.length; i++) {
+                            // this.headers[i+1] = {text: this.classworkList[i]['title'], value: this.classworkList[i]['title']};
+                            if (this.classworkList[i]['grading_criteria_id'] == grading_criteria_id) {
+                                this.headers.push({
+                                    text: this.classworkList[i]['title'] + ' (' + this.classworkList[i][
+                                        'points'
+                                    ] + 'pts)',
+                                    align: 'center',
+                                    value: this.classworkList[i]['title']
+                                });
+                                total += this.classworkList[i]['points'];
+                            }
 
-                    for (var i = 0; i < this.classworkList.length; i++) {
-                        // this.headers[i+1] = {text: this.classworkList[i]['title'], value: this.classworkList[i]['title']};
-                        if (this.classworkList[i]['grading_criteria_id'] == grading_criteria_id) {
-                            this.headers.push({
-                                text: this.classworkList[i]['title'] + ' (' + this.classworkList[i][
-                                    'points'
-                                ] + 'pts)',
-                                align: 'center',
-                                value: this.classworkList[i]['title']
-                            });
-                            total += this.classworkList[i]['points'];
                         }
+                        this.classworkTotalPoints = total;
+                        this.totalPercentHeader();
 
-                    }
-                    this.classworkTotalPoints = total;
-                    this.totalPercentHeader();
-
-                })
+                    })
+                }
 
             },
             getStudentClassworksGrades(grading_criteria_id) {

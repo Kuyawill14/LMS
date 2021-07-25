@@ -479,11 +479,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
       el: 2,
+      isUpdating: false,
       courseDetails: []
     };
   },
@@ -493,7 +499,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       if (this.getcourseInfo.course_description.trim() == '' || this.getcourseInfo.course_name == '' || this.course_code == '') {
         this.toastError('Please complete all the field to proceed to the next step');
       } else {
+        this.isUpdating = true;
         this.$store.dispatch('updateCourse', this.getcourseInfo);
+        this.isUpdating = false;
         this.$emit('changeStep', this.el);
       }
     }
@@ -2215,6 +2223,28 @@ var render = function() {
       _vm._v(" "),
       _c(
         "v-col",
+        { staticClass: "pa-0 ", attrs: { cols: "12" } },
+        [
+          _c("v-text-field", {
+            attrs: {
+              outlined: "",
+              color: "primary",
+              label: "Google Meet Link"
+            },
+            model: {
+              value: _vm.getcourseInfo.v_classroom_link,
+              callback: function($$v) {
+                _vm.$set(_vm.getcourseInfo, "v_classroom_link", $$v)
+              },
+              expression: "getcourseInfo.v_classroom_link"
+            }
+          })
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-col",
         { staticClass: "pa-0 ma-0", attrs: { cols: "12" } },
         [
           _c(
@@ -2266,7 +2296,7 @@ var render = function() {
                 "v-btn",
                 {
                   staticClass: "float-right",
-                  attrs: { color: "primary" },
+                  attrs: { color: "primary", loading: _vm.isUpdating },
                   on: {
                     click: function($event) {
                       return _vm.updateCourseDetails()

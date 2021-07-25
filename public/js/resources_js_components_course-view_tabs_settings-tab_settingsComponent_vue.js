@@ -44,6 +44,30 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {},
@@ -225,45 +249,98 @@ var render = function() {
         "v-card",
         { staticClass: "pa-3", attrs: { elevation: "2" } },
         [
-          _c("v-text-field", {
-            attrs: { label: "Course Code" },
-            model: {
-              value: _vm.getcourseInfo.course_code,
-              callback: function($$v) {
-                _vm.$set(_vm.getcourseInfo, "course_code", $$v)
-              },
-              expression: "getcourseInfo.course_code"
-            }
-          }),
+          _c(
+            "v-col",
+            { staticClass: "pa-0", attrs: { cols: "12" } },
+            [
+              _c("v-text-field", {
+                attrs: { outlined: "", color: "primary", label: "Course Code" },
+                model: {
+                  value: _vm.getcourseInfo.course_code,
+                  callback: function($$v) {
+                    _vm.$set(_vm.getcourseInfo, "course_code", $$v)
+                  },
+                  expression: "getcourseInfo.course_code"
+                }
+              })
+            ],
+            1
+          ),
           _vm._v(" "),
-          _c("v-text-field", {
-            attrs: { label: "Course Name" },
-            model: {
-              value: _vm.getcourseInfo.course_name,
-              callback: function($$v) {
-                _vm.$set(_vm.getcourseInfo, "course_name", $$v)
-              },
-              expression: "getcourseInfo.course_name"
-            }
-          }),
+          _c(
+            "v-col",
+            { staticClass: "pa-0 ", attrs: { cols: "12" } },
+            [
+              _c("v-text-field", {
+                attrs: { outlined: "", color: "primary", label: "Course Name" },
+                model: {
+                  value: _vm.getcourseInfo.course_name,
+                  callback: function($$v) {
+                    _vm.$set(_vm.getcourseInfo, "course_name", $$v)
+                  },
+                  expression: "getcourseInfo.course_name"
+                }
+              })
+            ],
+            1
+          ),
           _vm._v(" "),
-          _c("label", [_vm._v(" Course Description ")]),
-          _c("br"),
+          _c(
+            "v-col",
+            { staticClass: "pa-0 ", attrs: { cols: "12" } },
+            [
+              _c("v-text-field", {
+                attrs: {
+                  outlined: "",
+                  color: "primary",
+                  label: "Google Meet Link"
+                },
+                model: {
+                  value: _vm.getcourseInfo.v_classroom_link,
+                  callback: function($$v) {
+                    _vm.$set(_vm.getcourseInfo, "v_classroom_link", $$v)
+                  },
+                  expression: "getcourseInfo.v_classroom_link"
+                }
+              })
+            ],
+            1
+          ),
           _vm._v(" "),
-          _c("editor", {
-            staticClass: "border",
-            attrs: {
-              placeholder: "Announce something in your class!",
-              theme: "snow"
-            },
-            model: {
-              value: _vm.getcourseInfo.course_description,
-              callback: function($$v) {
-                _vm.$set(_vm.getcourseInfo, "course_description", $$v)
-              },
-              expression: "getcourseInfo.course_description"
-            }
-          }),
+          _c(
+            "v-col",
+            { staticClass: "pa-0 ma-0", attrs: { cols: "12" } },
+            [
+              _c(
+                "v-card",
+                [
+                  _c(
+                    "v-card-title",
+                    {
+                      staticClass: "pl-3 py-3",
+                      staticStyle: { "font-size": "1rem", color: "grey" }
+                    },
+                    [_vm._v("Course Description\n             ")]
+                  ),
+                  _vm._v(" "),
+                  _c("v-divider"),
+                  _vm._v(" "),
+                  _c("editor", {
+                    attrs: { theme: "snow" },
+                    model: {
+                      value: _vm.getcourseInfo.course_description,
+                      callback: function($$v) {
+                        _vm.$set(_vm.getcourseInfo, "course_description", $$v)
+                      },
+                      expression: "getcourseInfo.course_description"
+                    }
+                  })
+                ],
+                1
+              )
+            ],
+            1
+          ),
           _vm._v(" "),
           _c(
             "div",
@@ -277,9 +354,11 @@ var render = function() {
                 },
                 [
                   _c("v-icon", { attrs: { left: "" } }, [
-                    _vm._v("\n                    mdi-pencil\n                ")
+                    _vm._v(
+                      "\n                     mdi-pencil\n                 "
+                    )
                   ]),
-                  _vm._v("\n                Save Changes\n            ")
+                  _vm._v("\n                 Save Changes\n             ")
                 ],
                 1
               )

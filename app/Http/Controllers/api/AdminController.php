@@ -115,7 +115,7 @@ class AdminController extends Controller
         if($userTeacher) {
             $userTeacher->password =  Hash::make($pass_pattern);
             $userTeacher->save();
-            return "User's password successfully reset!" . $pass_pattern;
+            return "User's password successfully reset!";
         }
 
     }

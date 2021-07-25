@@ -11,6 +11,11 @@
             </v-text-field>
         </v-col>
 
+        <v-col cols="12" class="pa-0 ">
+            <v-text-field v-model="getcourseInfo.v_classroom_link" outlined color="primary" label="Google Meet Link">
+            </v-text-field>
+        </v-col>
+
 
         <v-col cols="12" class="pa-0 ma-0">
             <v-card>
@@ -19,17 +24,17 @@
                 <v-divider></v-divider>
 
                 <editor v-model="getcourseInfo.course_description" theme="snow"></editor>
-
-
             </v-card>
         </v-col>
+
+
 
         <br> <br>
         <v-divider></v-divider>
         <br>
         <v-row>
             <v-col>
-                <v-btn class="float-right" color="primary" @click="updateCourseDetails()">
+                <v-btn class="float-right" color="primary" @click="updateCourseDetails()" :loading="isUpdating">
                     Next
                 </v-btn>
             </v-col>
@@ -49,6 +54,7 @@
         data() {
             return {
                 el: 2,
+                isUpdating: false,
                 courseDetails: []
             }
         },
@@ -61,8 +67,11 @@
                     .course_code == '') {
                     this.toastError('Please complete all the field to proceed to the next step');
                 } else {
+                    this.isUpdating = true;
                     this.$store.dispatch('updateCourse', this.getcourseInfo);
-                    this.$emit('changeStep', this.el)
+
+                    this.isUpdating = false;
+                    this.$emit('changeStep', this.el);
                 }
 
             }
