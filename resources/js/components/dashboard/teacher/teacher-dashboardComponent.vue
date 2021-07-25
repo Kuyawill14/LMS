@@ -29,7 +29,7 @@
                 <v-row>
                     <v-col>
                         <v-card>
-                            <teacherCourse />
+                            <!-- <teacherCourse /> -->
                         </v-card>
                     </v-col>
                 </v-row>

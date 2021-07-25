@@ -13,7 +13,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var vue_element_loading__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-element-loading */ "./node_modules/vue-element-loading/lib/vue-element-loading.min.js");
 /* harmony import */ var vue_element_loading__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue_element_loading__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -146,6 +148,86 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -157,93 +239,152 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       Deldialog: false,
       dialog: false,
       temp_id: '',
-      loading: false,
+      IsDeleting: false,
+      IsAddUpdating: false,
+      IsResetting: false,
       type: '',
       search: "",
-      grading_criteria_form: {},
-      grading_criteria: {},
-      course_id: '',
-      delId: ''
+      valid: true,
+      role: ['Teacher', 'Student'],
+      form: new Form({
+        firstName: "",
+        middleName: "",
+        lastName: "",
+        email: "",
+        phone: "",
+        password: "",
+        password_confirmation: "",
+        role: ""
+      }),
+      nameRules: [function (v) {
+        return !!v || 'Field is required';
+      }, function (v) {
+        return v && v.length <= 20 || 'Name must be less than 20 characters';
+      }],
+      loginEmailRules: [function (v) {
+        return !!v || "Field is required";
+      }, function (v) {
+        return /.+@.+\..+/.test(v) || "Email must be valid";
+      }],
+      RoleRules: [function (v) {
+        return !!v || "Field is required";
+      }],
+      show: false,
+      show1: false,
+      rules: {
+        required: function required(value) {
+          return !!value || "Field is required.";
+        },
+        min: function min(v) {
+          return v && v.length >= 6 || "min 6 characters";
+        }
+      }
     };
   },
-  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(["get_gradingCriteria"])),
+  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(["getTeachers", "filterTeacher"])),
   methods: {
-    getAllGradeCriteria: function getAllGradeCriteria() {
-      this.$store.dispatch('fetchGradingCriteria', this.$route.params.id);
+    SetPassword: function SetPassword(lastname) {
+      var tmpLastname = lastname.replace(/\s+/g, '-').toLowerCase();
+      this.form.password = 'LMS-' + tmpLastname;
+      this.show = true;
+      /* var self = this;
+        this.timeout = setTimeout(function () {
+           self.show = false;
+      }, 3000);  */
     },
     openAdd: function openAdd() {
-      this.type = 'add';
-      this.grading_criteria_form.name = '';
-      this.grading_criteria_form.percentage = '';
+      this.type = 'add'; // this.grading_criteria_form.name = '';
+      // this.grading_criteria_form.percentage = '';
+
       this.dialog = true;
     },
-    openEdit: function openEdit(name, percentage, id) {
+    openEdit: function openEdit(user_id) {
       this.type = 'edit';
       this.dialog = true;
-      this.grading_criteria_form.name = name;
-      this.grading_criteria_form.percentage = percentage;
-      this.grading_criteria_form.id = id;
-      this.grading_criteria_form.course_id = this.$route.params.id;
-      ;
+      var currentTeacher = this.filterTeacher(user_id);
+      console.log(currentTeacher);
+      this.form.user_id = currentTeacher.user_id;
+      this.form.firstName = currentTeacher.firstName;
+      this.form.middleName = currentTeacher.middleName;
+      this.form.lastName = currentTeacher.lastName;
+      this.form.phone = currentTeacher.cp_no;
+      this.form.email = currentTeacher.email;
     },
     openDelete: function openDelete(id) {
       this.delId = id;
       this.Deldialog = true;
     },
-    addGradeCriteria: function addGradeCriteria() {
+    updatePass: function updatePass(id) {
       var _this = this;
 
-      if (this.grading_criteria_form.name.trim() != '' || this.grading_criteria_form.percentage.trim() != '') {
-        this.loading = true; //  console.log(this.grading_criteria_form);
+      this.IsResetting = true;
+      axios__WEBPACK_IMPORTED_MODULE_1___default().post('/api/teachers/reset-password/' + id).then(function (res) {
+        _this.toastSuccess(res.data);
 
-        var errors = '';
-        this.grading_criteria_form.course_id = this.$route.params.id;
-        this.$store.dispatch('addGradingCriteria', this.grading_criteria_form).then(function (data) {
-          _this.dialog = false;
-        });
-      } else {}
+        _this.IsResetting = false;
+      });
     },
-    updateGradeCriteria: function updateGradeCriteria() {
+    deleteUser: function deleteUser() {
       var _this2 = this;
 
-      var errors = '';
-      console.log(this.grading_criteria_form);
-      this.$store.dispatch('updateGradingCriteria', this.grading_criteria_form).then(function (data) {
-        if (data[0] == 'error') {
-          for (var i = 1; i < data.length; i++) {
-            errors = data[i] + "<br>" + errors;
-            console.log(data[i]);
-          }
+      this.IsDeleting = true;
+      axios__WEBPACK_IMPORTED_MODULE_1___default().delete('/api/teachers/remove/' + this.delId).then(function (res) {
+        if (res.status == 200) {
+          _this2.toastSuccess('User Successfully removed!');
 
-          _this2.loading = false;
+          _this2.IsDeleting = false;
         } else {
-          _this2.loading = false;
-          _this2.dialog = false;
+          _this2.toastError('Something went wrong!');
+
+          _this2.IsDeleting = false;
         }
-      }); //} 
+
+        _this2.Deldialog = false;
+
+        _this2.$store.dispatch('fetchAllTeachers');
+      });
     },
-    removeGradeCriteria: function removeGradeCriteria() {
+    updateTeacherDetails: function updateTeacherDetails() {
+      this.$store.dispatch('updateTeacher', this.form);
+    },
+    validate: function validate() {
       var _this3 = this;
 
-      this.loading = true;
-      this.$store.dispatch('removeGradingCriteria', this.delId).then(function (message) {
-        _this3.Deldialog = false;
-        _this3.loading = false;
-      });
-    },
-    _totalPercent: function _totalPercent(percentage_data) {
-      var total = 0;
-      percentage_data.forEach(function (val) {
-        total += parseFloat(val.percentage);
-        console.log(total);
-      });
-      return total;
+      this.IsAddUpdating = true;
+
+      if (this.$refs.RegisterForm.validate()) {
+        if (this.type == 'add') {
+          this.form.role = 'Teacher';
+          this.form.password_confirmation = this.form.password;
+          this.form.post('/api/register').then(function (res) {
+            _this3.$refs.RegisterForm.reset();
+
+            _this3.valid = true;
+            _this3.dialog = false;
+          });
+        }
+
+        if (this.type == 'edit') {
+          this.form.post('/api/teachers/update/' + this.form.user_id).then(function () {
+            console.log("Success");
+
+            _this3.$refs.RegisterForm.reset();
+
+            _this3.valid = true;
+            _this3.dialog = false;
+            _this3.IsAddUpdating = false;
+          });
+          this.toastSuccess('User Successfully Updated!');
+        }
+
+        this.$store.dispatch('fetchAllTeachers');
+      } else {
+        this.IsAddUpdating = false;
+      }
     }
   },
   mounted: function mounted() {
-    this.loading = true;
-    this.getAllGradeCriteria();
-    this.loading = false;
+    this.$store.dispatch('fetchAllTeachers');
   }
 });
 
@@ -443,19 +584,43 @@ var render = function() {
                           return [
                             _c("thead", [
                               _c("tr", [
-                                _c("th", { staticClass: "text-center" }, [
+                                _c("th", [
                                   _vm._v(
-                                    "\n                                   ID\n                                "
+                                    "\n                                    ID\n                                "
                                   )
                                 ]),
                                 _vm._v(" "),
-                                _c("th", { staticClass: "text-center" }, [
+                                _c("th", [
                                   _vm._v(
-                                    "\n                                   First Name\n                                "
+                                    "\n                                    Last Name\n                                "
                                   )
                                 ]),
                                 _vm._v(" "),
-                                _c("th", { staticClass: "text-center" }, [
+                                _c("th", [
+                                  _vm._v(
+                                    "\n                                    First Name\n                                "
+                                  )
+                                ]),
+                                _vm._v(" "),
+                                _c("th", [
+                                  _vm._v(
+                                    "\n                                    Middle Name\n                                "
+                                  )
+                                ]),
+                                _vm._v(" "),
+                                _c("th", [
+                                  _vm._v(
+                                    "\n                                    Email\n                                "
+                                  )
+                                ]),
+                                _vm._v(" "),
+                                _c("th", [
+                                  _vm._v(
+                                    "\n                                    Password Reset\n                                "
+                                  )
+                                ]),
+                                _vm._v(" "),
+                                _c("th", [
                                   _vm._v(
                                     "\n                                    Action\n                                "
                                   )
@@ -466,112 +631,120 @@ var render = function() {
                             _c(
                               "tbody",
                               [
-                                _vm._l(_vm.get_gradingCriteria, function(
-                                  gradeCriteria,
-                                  i
-                                ) {
-                                  return _c(
-                                    "tr",
-                                    { key: "get_gradingCriteria" + i },
-                                    [
-                                      _c("td", { staticClass: "text-center" }, [
-                                        _vm._v(_vm._s(gradeCriteria.name))
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("td", { staticClass: "text-center" }, [
-                                        _vm._v(
-                                          _vm._s(gradeCriteria.percentage) + "%"
-                                        )
-                                      ]),
-                                      _vm._v(" "),
-                                      _c(
-                                        "td",
-                                        { staticClass: "text-center" },
-                                        [
-                                          _c(
-                                            "v-btn",
-                                            {
-                                              attrs: {
-                                                icon: "",
-                                                color: "success"
-                                              },
-                                              on: {
-                                                click: function($event) {
-                                                  return _vm.openEdit(
-                                                    gradeCriteria.name,
-                                                    gradeCriteria.percentage,
-                                                    gradeCriteria.id
-                                                  )
-                                                }
-                                              }
-                                            },
-                                            [
-                                              _c("v-icon", [
-                                                _vm._v(
-                                                  "\n                                            mdi-pencil\n                                        "
-                                                )
-                                              ])
-                                            ],
-                                            1
-                                          ),
-                                          _vm._v(" "),
-                                          _c(
-                                            "v-btn",
-                                            {
-                                              attrs: { icon: "", color: "red" },
-                                              on: {
-                                                click: function($event) {
-                                                  return _vm.openDelete(
-                                                    gradeCriteria.id
-                                                  )
-                                                }
-                                              }
-                                            },
-                                            [
-                                              _c("v-icon", [
-                                                _vm._v(
-                                                  "\n                                            mdi-delete\n                                        "
-                                                )
-                                              ])
-                                            ],
-                                            1
-                                          )
-                                        ],
-                                        1
+                                _vm._l(_vm.getTeachers, function(item, index) {
+                                  return _c("tr", { key: index }, [
+                                    _c("td", [
+                                      _vm._v(" " + _vm._s(item.user_id) + " ")
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                      _vm._v(" " + _vm._s(item.lastName) + " ")
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                      _vm._v(" " + _vm._s(item.firstName) + " ")
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                      _vm._v(
+                                        " " + _vm._s(item.middleName) + " "
                                       )
-                                    ]
-                                  )
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                      _vm._v(" " + _vm._s(item.email) + " ")
+                                    ]),
+                                    _vm._v(" "),
+                                    _c(
+                                      "td",
+                                      [
+                                        _c(
+                                          "v-btn",
+                                          {
+                                            attrs: {
+                                              color: "primary",
+                                              loading: _vm.IsResetting
+                                            },
+                                            on: {
+                                              click: function($event) {
+                                                return _vm.updatePass(
+                                                  item.user_id
+                                                )
+                                              }
+                                            }
+                                          },
+                                          [
+                                            _vm._v(
+                                              "\n                                        Reset Password\n                                    "
+                                            )
+                                          ]
+                                        )
+                                      ],
+                                      1
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "td",
+                                      [
+                                        _c(
+                                          "v-btn",
+                                          {
+                                            attrs: {
+                                              icon: "",
+                                              color: "success"
+                                            },
+                                            on: {
+                                              click: function($event) {
+                                                return _vm.openEdit(
+                                                  item.user_id
+                                                )
+                                              }
+                                            }
+                                          },
+                                          [
+                                            _c("v-icon", [
+                                              _vm._v(
+                                                "\n                                            mdi-pencil\n                                        "
+                                              )
+                                            ])
+                                          ],
+                                          1
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "v-btn",
+                                          {
+                                            attrs: { icon: "", color: "red" },
+                                            on: {
+                                              click: function($event) {
+                                                return _vm.openDelete(
+                                                  item.user_id
+                                                )
+                                              }
+                                            }
+                                          },
+                                          [
+                                            _c("v-icon", [
+                                              _vm._v(
+                                                "\n                                            mdi-delete\n                                        "
+                                              )
+                                            ])
+                                          ],
+                                          1
+                                        )
+                                      ],
+                                      1
+                                    )
+                                  ])
                                 }),
                                 _vm._v(" "),
-                                _vm.get_gradingCriteria.length != 0
-                                  ? _c("tr", [
-                                      _c("td", { staticClass: "text-center" }, [
-                                        _c("strong", [_vm._v("Total")])
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("td", { staticClass: "text-center" }, [
-                                        _c("strong", [
-                                          _vm._v(
-                                            _vm._s(
-                                              _vm._totalPercent(
-                                                _vm.get_gradingCriteria
-                                              )
-                                            ) + "%"
-                                          )
-                                        ])
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("td")
-                                    ])
-                                  : _vm._e(),
-                                _vm._v(" "),
-                                _vm.get_gradingCriteria.length == 0
+                                _vm.getTeachers.length == 0
                                   ? _c("tr", [
                                       _c(
                                         "td",
                                         {
                                           staticClass: "text-center",
-                                          attrs: { colspan: "3" }
+                                          attrs: { colspan: "42" }
                                         },
                                         [_vm._v(" No data available")]
                                       )
@@ -599,7 +772,7 @@ var render = function() {
       _c(
         "v-dialog",
         {
-          attrs: { width: "400px" },
+          attrs: { width: "500" },
           model: {
             value: _vm.dialog,
             callback: function($$v) {
@@ -613,60 +786,232 @@ var render = function() {
             "v-card",
             [
               _c("v-card-title", {}, [
-                _vm._v("\n                Grading Criteria\n            ")
+                _vm._v("\n                Add Teacher\n            ")
               ]),
+              _vm._v(" "),
+              _c("v-divider"),
               _vm._v(" "),
               _c(
                 "v-container",
                 [
                   _c(
-                    "v-row",
-                    { staticClass: "mx-2" },
+                    "v-form",
+                    {
+                      ref: "RegisterForm",
+                      staticClass: "text-center ",
+                      attrs: { "lazy-validation": "" },
+                      model: {
+                        value: _vm.valid,
+                        callback: function($$v) {
+                          _vm.valid = $$v
+                        },
+                        expression: "valid"
+                      }
+                    },
                     [
                       _c(
-                        "v-col",
-                        { staticClass: "pa-0 ma-0", attrs: { cols: "12" } },
+                        "v-row",
+                        { staticClass: "pa-5" },
                         [
-                          _c("v-text-field", {
-                            attrs: {
-                              filled: "",
-                              color: "primary",
-                              label: "Criteria Name"
+                          _c(
+                            "v-col",
+                            {
+                              staticClass: "ma-0 pa-0 mb-1",
+                              attrs: { cols: "12", md: "12" }
                             },
-                            model: {
-                              value: _vm.grading_criteria_form.name,
-                              callback: function($$v) {
-                                _vm.$set(_vm.grading_criteria_form, "name", $$v)
-                              },
-                              expression: "grading_criteria_form.name"
-                            }
-                          })
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "v-col",
-                        { staticClass: "pa-0 ma-0", attrs: { cols: "12" } },
-                        [
-                          _c("v-text-field", {
-                            attrs: {
-                              filled: "",
-                              color: "primary",
-                              label: "Percentage (%)"
+                            [
+                              _c("v-text-field", {
+                                attrs: {
+                                  rules: _vm.nameRules,
+                                  label: "First Name",
+                                  name: "firstName",
+                                  type: "text",
+                                  color: "primary",
+                                  outlined: ""
+                                },
+                                model: {
+                                  value: _vm.form.firstName,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.form, "firstName", $$v)
+                                  },
+                                  expression: "form.firstName"
+                                }
+                              })
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-col",
+                            {
+                              staticClass: "ma-0 pa-0 mb-1",
+                              attrs: { cols: "12", md: "12" }
                             },
-                            model: {
-                              value: _vm.grading_criteria_form.percentage,
-                              callback: function($$v) {
-                                _vm.$set(
-                                  _vm.grading_criteria_form,
-                                  "percentage",
-                                  $$v
-                                )
-                              },
-                              expression: "grading_criteria_form.percentage"
-                            }
-                          })
+                            [
+                              _c("HasError", {
+                                staticClass: "error--text",
+                                attrs: { form: _vm.form, field: "middleName" }
+                              }),
+                              _vm._v(" "),
+                              _c("v-text-field", {
+                                attrs: {
+                                  label: "Middle Name",
+                                  rules: _vm.nameRules,
+                                  name: "middleName",
+                                  type: "text",
+                                  color: "primary",
+                                  outlined: ""
+                                },
+                                model: {
+                                  value: _vm.form.middleName,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.form, "middleName", $$v)
+                                  },
+                                  expression: "form.middleName"
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c("HasError", {
+                                staticClass: "error--text",
+                                attrs: { form: _vm.form, field: "middleName" }
+                              })
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-col",
+                            {
+                              staticClass: "ma-0 pa-0 mb-1",
+                              attrs: { cols: "12", md: "12" }
+                            },
+                            [
+                              _c("HasError", {
+                                staticClass: "error--text",
+                                attrs: { form: _vm.form, field: "lastName" }
+                              }),
+                              _vm._v(" "),
+                              _c("v-text-field", {
+                                attrs: {
+                                  label: "Last Name",
+                                  rules: _vm.nameRules,
+                                  name: "lastname",
+                                  type: "text",
+                                  color: "primary",
+                                  outlined: ""
+                                },
+                                on: {
+                                  keyup: function($event) {
+                                    return _vm.SetPassword(_vm.form.lastName)
+                                  }
+                                },
+                                model: {
+                                  value: _vm.form.lastName,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.form, "lastName", $$v)
+                                  },
+                                  expression: "form.lastName"
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c("HasError", {
+                                staticClass: "error--text",
+                                attrs: { form: _vm.form, field: "lastName" }
+                              })
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-col",
+                            {
+                              staticClass: "ma-0 pa-0 mb-1",
+                              attrs: { cols: "12", md: "12" }
+                            },
+                            [
+                              _c("HasError", {
+                                staticClass: "error--text",
+                                attrs: { form: _vm.form, field: "email" }
+                              }),
+                              _vm._v(" "),
+                              _c("v-text-field", {
+                                attrs: {
+                                  label: "Email",
+                                  name: "Email",
+                                  rules: _vm.loginEmailRules,
+                                  type: "email",
+                                  color: "primary",
+                                  outlined: ""
+                                },
+                                model: {
+                                  value: _vm.form.email,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.form, "email", $$v)
+                                  },
+                                  expression: "form.email"
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c("HasError", {
+                                staticClass: "error--text",
+                                attrs: { form: _vm.form, field: "email" }
+                              })
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _vm.type == "add"
+                            ? _c(
+                                "v-col",
+                                {
+                                  staticClass: "ma-0 pa-0 mb-1",
+                                  attrs: { cols: "12", md: "12" }
+                                },
+                                [
+                                  _c("HasError", {
+                                    staticClass: "error--text",
+                                    attrs: { form: _vm.form, field: "password" }
+                                  }),
+                                  _vm._v(" "),
+                                  _c("v-text-field", {
+                                    attrs: {
+                                      "append-icon": _vm.show
+                                        ? "mdi-eye"
+                                        : "mdi-eye-off",
+                                      id: "password",
+                                      label: "Password",
+                                      name: "password",
+                                      type: _vm.show ? "text" : "password",
+                                      color: "primary",
+                                      rules: [
+                                        _vm.rules.required,
+                                        _vm.rules.min
+                                      ],
+                                      counter: "",
+                                      outlined: ""
+                                    },
+                                    on: {
+                                      "click:append": function($event) {
+                                        _vm.show = !_vm.show
+                                      }
+                                    },
+                                    model: {
+                                      value: _vm.form.password,
+                                      callback: function($$v) {
+                                        _vm.$set(_vm.form, "password", $$v)
+                                      },
+                                      expression: "form.password"
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c("HasError", {
+                                    staticClass: "error--text",
+                                    attrs: { form: _vm.form, field: "password" }
+                                  })
+                                ],
+                                1
+                              )
+                            : _vm._e()
                         ],
                         1
                       )
@@ -689,6 +1034,7 @@ var render = function() {
                       on: {
                         click: function($event) {
                           _vm.dialog = false
+                          _vm.$refs.RegisterForm.reset()
                         }
                       }
                     },
@@ -698,21 +1044,14 @@ var render = function() {
                   _c(
                     "v-btn",
                     {
-                      attrs: { text: "" },
+                      attrs: { text: "", loading: _vm.IsAddUpdating },
                       on: {
                         click: function($event) {
-                          _vm.type == "add"
-                            ? _vm.addGradeCriteria()
-                            : _vm.updateGradeCriteria()
+                          return _vm.validate()
                         }
                       }
                     },
-                    [
-                      _vm._v(
-                        "\n                    " +
-                          _vm._s(_vm.type == "add" ? "Add" : "Save")
-                      )
-                    ]
+                    [_vm._v("\n                    Add")]
                   )
                 ],
                 1
@@ -746,8 +1085,6 @@ var render = function() {
                 )
               ]),
               _vm._v(" "),
-              _c("v-card-text", [_vm._v("{some message} ")]),
-              _vm._v(" "),
               _c(
                 "v-card-actions",
                 [
@@ -760,6 +1097,7 @@ var render = function() {
                       on: {
                         click: function($event) {
                           _vm.Deldialog = false
+                          _vm.$refs.RegisterForm.reset()
                         }
                       }
                     },
@@ -769,10 +1107,14 @@ var render = function() {
                   _c(
                     "v-btn",
                     {
-                      attrs: { color: "primary", text: "" },
+                      attrs: {
+                        loading: _vm.IsDeleting,
+                        color: "primary",
+                        text: ""
+                      },
                       on: {
                         click: function($event) {
-                          return _vm.removeGradeCriteria()
+                          return _vm.deleteUser()
                         }
                       }
                     },

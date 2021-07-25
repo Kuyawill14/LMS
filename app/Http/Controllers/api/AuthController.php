@@ -62,6 +62,7 @@ class AuthController extends Controller
 
         $details = new tbl_userDetails;
         $details->user_id = $New->id;
+        $details->cp_no =  $request->phone;
         $details->save();
         
         return $New;        

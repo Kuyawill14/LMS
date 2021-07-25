@@ -71,6 +71,16 @@
 
                                             <td class="text-center">
                                                 {{getTotalPercent(getStudentMainModuleProgress(student.id))}}%</td>
+
+
+
+
+
+                                        </tr>
+                                        <tr v-if="students.length == 0">
+                                            <td class="text-center" colspan="100">
+                                                No data available, please add or invite students.
+                                            </td>
                                         </tr>
 
 
@@ -213,7 +223,7 @@
 
                 return color;
             },
-             getTotalCompleted(arr) {
+            getTotalCompleted(arr) {
                 var total_complete = 0,
                     length = 0,
                     result = 0;
@@ -223,7 +233,7 @@
 
                     length += arr[i].sub_module_length;
                 }
-             
+
                 return total_complete + '/' + length;
             },
             getTotalPercent(arr) {
@@ -329,7 +339,7 @@
         },
 
         mounted() {
-    this.loading = true;
+            this.loading = true;
             this.fetchStudentModuleProgress();
             this.getClassList();
             this.loading = false;

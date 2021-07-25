@@ -23279,6 +23279,31 @@ var render = function() {
             )
           ],
           1
+        ),
+        _vm._v(" "),
+        _c(
+          "v-list-item",
+          { attrs: { link: "", to: { name: "monitorTeacher" }, exact: "" } },
+          [
+            _c(
+              "v-list-item-action",
+              [_c("v-icon", [_vm._v("mdi-chart-box-outline")])],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "v-list-item-content",
+              [
+                _c("v-list-item-title", [
+                  _vm._v(
+                    "\n                    Monitor Teachers\n                "
+                  )
+                ])
+              ],
+              1
+            )
+          ],
+          1
         )
       ]
     ],

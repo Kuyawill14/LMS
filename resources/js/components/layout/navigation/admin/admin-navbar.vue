@@ -24,6 +24,17 @@
                 </v-list-item-content>
             </v-list-item>
 
+            <v-list-item link :to="{name: 'monitorTeacher'}" exact>
+                <v-list-item-action>
+                    <v-icon>mdi-chart-box-outline</v-icon>
+                </v-list-item-action>
+                <v-list-item-content>
+                    <v-list-item-title>
+                        Monitor Teachers
+                    </v-list-item-title>
+                </v-list-item-content>
+            </v-list-item>
+
         </template>
     </v-list>
 </template>

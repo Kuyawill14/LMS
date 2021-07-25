@@ -6,7 +6,7 @@
             <v-col lg="6" class="pt-0">
                 <v-card>
                     <div class="text-center" style="font-size: 3rem;color:#FF5400 ">
-                        0
+                       {{getTeachers.length}}
                     </div>
                     <div class="text-center">
                         Total Teachers
@@ -62,12 +62,17 @@
 
             };
         },
-        methods: {
-
+         computed: {
+            ...mapGetters(["getTeachers"])
         },
-        mounted() {
+            mounted() {
 
-        },
+            this.$store.dispatch('fetchAllTeachers');
+
+
+
+        }
+
     };
 
 </script>

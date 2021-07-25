@@ -1,10 +1,14 @@
 <template>
   <div>
+   
       <router-view></router-view>
   </div>
 </template>
 <script>
+
+
 export default {
+
  /*  beforeMount(){
     window.addEventListener('contextmenu', function (e) { 
       // do something here... 

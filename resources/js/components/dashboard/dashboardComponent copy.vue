@@ -44,7 +44,6 @@
     ]);
 
     export default {
-        name: "HelloWorld",
         components: {
             VChart,
             myCalendar

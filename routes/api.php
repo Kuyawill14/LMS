@@ -23,7 +23,7 @@ use App\Http\Controllers\api\UserProfileController;
 use App\Http\Controllers\api\TeacherController;
 use App\Http\Controllers\api\ArchiveController;
 use App\Http\Controllers\api\StudentCourseFinalGrades;
-
+use App\Http\Controllers\api\AdminController;
 
 
 
@@ -266,6 +266,16 @@ Route::prefix('/student-course')->group(function () {
    
     
 });
+
+//Get all teachers
+Route::prefix('/teachers')->group(function () {
+    Route::get('/all', [AdminController::class, 'getAllTeacher']);
+    Route::post('/update/{id}', [AdminController::class, 'update']);
+    Route::post('/reset-password/{id}', [AdminController::class, 'resetTeacherPassword']);
+    Route::delete('/remove/{id}', [AdminController::class, 'removeUser']);
+    
+});
+
 
 
 

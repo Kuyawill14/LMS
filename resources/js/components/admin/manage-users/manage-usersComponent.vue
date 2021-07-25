@@ -15,47 +15,63 @@
                         <template v-slot:default>
                             <thead>
                                 <tr>
-                                    <th class="text-center">
-                                       ID
+                                    <th>
+                                        ID
                                     </th>
-                                    <th class="text-center">
-                                       First Name
+                                    <th>
+                                        Last Name
                                     </th>
-                                    <th class="text-center">
+                                    <th>
+                                        First Name
+                                    </th>
+                                    <th>
+                                        Middle Name
+                                    </th>
+                                    <th>
+                                        Email
+                                    </th>
+                                    <th>
+                                        Password Reset
+                                    </th>
+                                    <th>
                                         Action
                                     </th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="(gradeCriteria, i) in get_gradingCriteria" :key="'get_gradingCriteria'+i">
-                                    <td class="text-center">{{gradeCriteria.name}}</td>
-                                    <td class="text-center">{{gradeCriteria.percentage}}%</td>
-                                    <td class="text-center">
-                                        <v-btn icon color="success"
-                                            @click="openEdit(gradeCriteria.name,gradeCriteria.percentage,gradeCriteria.id)">
+                                <tr v-for="(item, index) in getTeachers" :key="index">
+                                    <td> {{item.user_id}} </td>
+                                    <td> {{item.lastName }} </td>
+                                    <td> {{item.firstName}} </td>
+                                    <td> {{item.middleName}} </td>
+                                    <td> {{item.email}} </td>
+                                   
+
+                                    <td>
+                                        <v-btn color="primary" :loading="IsResetting" @click="updatePass(item.user_id)">
+                                            Reset Password
+                                        </v-btn>
+                                    </td>
+                                    <td>
+                                        
+                                        <v-btn icon color="success" @click="openEdit(item.user_id)">
                                             <v-icon>
                                                 mdi-pencil
                                             </v-icon>
 
                                         </v-btn>
-                                        <v-btn icon color="red"  @click="openDelete(gradeCriteria.id)">
+                                        <v-btn icon color="red" @click="openDelete(item.user_id)">
                                             <v-icon>
                                                 mdi-delete
                                             </v-icon>
 
                                         </v-btn>
                                     </td>
-                                </tr>
-                                <tr v-if="get_gradingCriteria.length != 0">
-                                    <td class="text-center"><strong>Total</strong></td>
-                                    <td class="text-center"><strong>{{_totalPercent(get_gradingCriteria)}}%</strong>
-                                    </td>
-                                    <td> </td>
-                                </tr>
-                                <tr v-if="get_gradingCriteria.length == 0">
-                                    <td class="text-center" colspan="3"> No data available</td>
-                                </tr>
 
+                                </tr>
+                                <tr v-if="getTeachers.length == 0">
+                                    <td colspan="42" class="text-center"> No data available</td>
+                                </tr>
 
 
                             </tbody>
@@ -65,31 +81,94 @@
             </v-col>
         </v-row>
 
-        <v-dialog v-model="dialog" width="400px">
+        <v-dialog v-model="dialog" width="500">
             <v-card>
                 <v-card-title class="">
-                    Grading Criteria
+                    Add Teacher
                 </v-card-title>
+                <v-divider></v-divider>
                 <v-container>
-                    <v-row class="mx-2">
 
-                        <v-col cols="12" class="pa-0 ma-0">
-                            <v-text-field v-model="grading_criteria_form.name" filled color="primary"
-                                label="Criteria Name"></v-text-field>
-                        </v-col>
-                        <v-col cols="12" class="pa-0 ma-0">
-                            <v-text-field v-model="grading_criteria_form.percentage" filled color="primary"
-                                label="Percentage (%)"></v-text-field>
-                        </v-col>
+                    <v-form class="text-center " ref="RegisterForm" v-model="valid" lazy-validation>
 
-                    </v-row>
+
+                        <v-row class="pa-5">
+                            <v-col class="ma-0 pa-0 mb-1" cols="12" md="12">
+                                <v-text-field :rules="nameRules" label="First Name" name="firstName"
+                                    v-model="form.firstName" type="text" color="primary" outlined />
+                            </v-col>
+
+                            <v-col class="ma-0 pa-0 mb-1" cols="12" md="12">
+                                <HasError class="error--text" :form="form" field="middleName" />
+                                <v-text-field label="Middle Name" :rules="nameRules" name="middleName"
+                                    v-model="form.middleName" type="text" color="primary" outlined />
+                                    <HasError class="error--text" :form="form" field="middleName" />
+                            </v-col>
+
+                            <v-col class="ma-0 pa-0 mb-1" cols="12" md="12">
+                                <HasError class="error--text" :form="form" field="lastName" />
+                                <v-text-field label="Last Name" :rules="nameRules" name="lastname"
+                                    v-model="form.lastName" type="text" color="primary" outlined
+                                    @keyup="SetPassword(form.lastName)" />
+                                     <HasError class="error--text" :form="form" field="lastName" />
+                            </v-col>
+                            <!-- <v-col class="ma-0 pa-0 mb-1" cols="12" md="12">
+                                <HasError class="error--text" :form="form" field="phone" />
+                                <v-text-field label="Phone number" name="phone" :rules="RoleRules" v-model="form.phone"
+                                    type="phone" color="primary" outlined />
+                            </v-col> -->
+
+
+                            <v-col class="ma-0 pa-0 mb-1" cols="12" md="12">
+                                <HasError class="error--text" :form="form" field="email" />
+                                <v-text-field label="Email" name="Email" :rules="loginEmailRules" v-model="form.email"
+                                    type="email" color="primary" outlined />
+                                    <HasError class="error--text" :form="form" field="email" />
+                            </v-col>
+                            <v-col class="ma-0 pa-0 mb-1" cols="12" md="12" v-if="type== 'add'">
+                                <HasError class="error--text" :form="form" field="password" />
+                                <v-text-field :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'" id="password"
+                                    label="Password" name="password" v-model="form.password"
+                                    :type="show ? 'text' : 'password'" color="primary"
+                                    :rules="[rules.required, rules.min]" counter @click:append="show = !show"
+                                    outlined />
+                                     <HasError class="error--text" :form="form" field="password" />
+                            </v-col>
+
+
+
+
+                        </v-row>
+
+
+                        <!-- <v-col> -->
+                        <!-- <v-row class="pa-5"> -->
+                        <!-- <v-col class="ma-0 pa-0 mb-1" cols="12" md="12" v-if="type== 'add'">
+                                        <HasError class="error--text" :form="form" field="password" />
+                                        <v-text-field :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'" id="password"
+                                            label="Password" name="password" v-model="form.password"
+                                            :type="show ? 'text' : 'password'" color="primary"
+                                            :rules="[rules.required, rules.min]" counter @click:append="show = !show"
+                                            outlined />
+                                    </v-col> -->
+
+
+
+                        <!-- <v-col class="ma-0 pa-0 mb-1" cols="12" md="12">
+                                        <v-select :items="role" v-model="form.role" :rules="RoleRules" outlined
+                                            label="Role"></v-select>
+                                    </v-col> -->
+                        <!-- </v-row> -->
+                        <!-- </v-col> -->
+
+                    </v-form>
                 </v-container>
                 <v-card-actions>
 
                     <v-spacer></v-spacer>
-                    <v-btn text color="primary" @click="dialog = false">Cancel</v-btn>
-                    <v-btn text @click="type  == 'add' ? addGradeCriteria() : updateGradeCriteria()">
-                        {{type  == 'add' ? 'Add' : 'Save'}}</v-btn>
+                    <v-btn text color="primary" @click="dialog = false;$refs.RegisterForm.reset()">Cancel</v-btn>
+                    <v-btn text @click="validate()" :loading="IsAddUpdating">
+                        Add</v-btn>
                 </v-card-actions>
             </v-card>
         </v-dialog>
@@ -97,18 +176,18 @@
 
 
         <v-dialog v-model="Deldialog" persistent max-width="290">
-           
+
             <v-card>
                 <v-card-title class="headline">
                     Are you sure you want to delete this?
                 </v-card-title>
-                <v-card-text>{some message} </v-card-text>
+                <!-- <v-card-text>{some message} </v-card-text> -->
                 <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn  text  @click="Deldialog = false" >
+                    <v-btn text @click="Deldialog = false;$refs.RegisterForm.reset()">
                         No
                     </v-btn>
-                    <v-btn color="primary" text  @click="removeGradeCriteria()">
+                    <v-btn :loading="IsDeleting" color="primary" text @click="deleteUser()">
                         Yes
                     </v-btn>
                 </v-card-actions>
@@ -131,6 +210,7 @@
         mapGetters,
         mapActions
     } from "vuex";
+import axios from 'axios';
     export default {
         components: {
             VueElementLoading
@@ -140,106 +220,165 @@
                 Deldialog: false,
                 dialog: false,
                 temp_id: '',
-                loading: false,
+                IsDeleting: false,
+                IsAddUpdating: false,
+                   IsResetting: false,
                 type: '',
                 search: "",
-                grading_criteria_form: {},
-                grading_criteria: {},
-                course_id: '',
-                delId: '',
+                valid: true,
+                role: ['Teacher', 'Student'],
+                form: new Form({
+                    firstName: "",
+                    middleName: "",
+                    lastName: "",
+                    email: "",
+                    phone: "",
+                    password: "",
+                    password_confirmation: "",
+                    role: ""
+                }),
+
+                nameRules: [
+                    v => !!v || 'Field is required',
+                    v => (v && v.length <= 20) || 'Name must be less than 20 characters',
+                ],
+                loginEmailRules: [
+                    v => !!v || "Field is required",
+                    v => /.+@.+\..+/.test(v) || "Email must be valid"
+                ],
+
+                RoleRules: [
+                    v => !!v || "Field is required",
+                ],
+                show: false,
+                show1: false,
+                rules: {
+                    required: value => !!value || "Field is required.",
+                    min: v => (v && v.length >= 6) || "min 6 characters"
+                }
+
+
+
             }
 
         },
         computed: {
-            ...mapGetters(["get_gradingCriteria"])
+            ...mapGetters(["getTeachers", "filterTeacher"])
         },
 
         methods: {
-            getAllGradeCriteria() {
-                this.$store.dispatch('fetchGradingCriteria', this.$route.params.id);
+            SetPassword(lastname) {
+                var tmpLastname = lastname.replace(/\s+/g, '-').toLowerCase();
+                this.form.password = 'LMS-' + tmpLastname;
+                this.show = true;
+                /* var self = this;
+                  this.timeout = setTimeout(function () {
+                     self.show = false;
+                }, 3000);  */
             },
+
             openAdd() {
                 this.type = 'add'
-                this.grading_criteria_form.name = '';
-                this.grading_criteria_form.percentage = '';
+                // this.grading_criteria_form.name = '';
+                // this.grading_criteria_form.percentage = '';
                 this.dialog = true;
             },
-            openEdit(name, percentage, id) {
+            openEdit(user_id) {
                 this.type = 'edit'
                 this.dialog = true;
-                this.grading_criteria_form.name = name;
-                this.grading_criteria_form.percentage = percentage;
-                this.grading_criteria_form.id = id;
-                this.grading_criteria_form.course_id = this.$route.params.id;;
+                var currentTeacher = this.filterTeacher(user_id);
+                console.log(currentTeacher);
+                this.form.user_id = currentTeacher.user_id;
+                this.form.firstName = currentTeacher.firstName;
+                this.form.middleName = currentTeacher.middleName;
+                this.form.lastName = currentTeacher.lastName;
+                this.form.phone = currentTeacher.cp_no;
+                this.form.email = currentTeacher.email;
+
+
             },
-             openDelete(id) {
-              this.delId = id;
+            openDelete(id) {
+                this.delId = id;
                 this.Deldialog = true;
             },
-            addGradeCriteria() {
-
-                if (this.grading_criteria_form.name.trim() != '' || this.grading_criteria_form.percentage.trim() !=
-                    '') {
-                    this.loading = true;
-                    //  console.log(this.grading_criteria_form);
-                    var errors = '';
-                    this.grading_criteria_form.course_id = this.$route.params.id;
-                    this.$store.dispatch('addGradingCriteria', this.grading_criteria_form).then((data) => {
-                        this.dialog = false;
-
-                    });
-                } else {
-
-                }
-
+            updatePass(id) {
+                this.IsResetting = true;
+                axios.post('/api/teachers/reset-password/'+id ) 
+                .then(res => {
+                    this.toastSuccess(res.data);
+                    this.IsResetting = false;
+                })
             },
-            updateGradeCriteria() {
-                var errors = '';
-                console.log(this.grading_criteria_form);
-                this.$store.dispatch('updateGradingCriteria', this.grading_criteria_form).then((data) => {
-                    if (data[0] == 'error') {
-                        for (var i = 1; i < data.length; i++) {
-                            errors = data[i] + "<br>" + errors;
-                            console.log(data[i]);
-                        }
-                        this.loading = false;
-
-
+            deleteUser() {
+                this.IsDeleting = true;
+                axios.delete('/api/teachers/remove/' + this.delId)
+                .then((res) => {
+                    if(res.status==200) {
+                           this.toastSuccess('User Successfully removed!')
+                            this.IsDeleting = false;
                     } else {
-                        this.loading = false;
-                        this.dialog = false;
+                        this.toastError('Something went wrong!')
+                        this.IsDeleting = false;
+                    }
+                    this.Deldialog = false;
+                    this.$store.dispatch('fetchAllTeachers');
+                })
+            },
+            updateTeacherDetails() {
+                this.$store.dispatch('updateTeacher', this.form);
+            },
+            validate() {
+             this.IsAddUpdating = true;
+                if (this.$refs.RegisterForm.validate()) {
+                    if (this.type == 'add') {
+                        this.form.role = 'Teacher';
+                        this.form.password_confirmation = this.form.password
+
+
+                        this.form.post('/api/register')
+                            .then((res) => {
+                               
+                             
+                                this.$refs.RegisterForm.reset()
+                                this.valid = true;
+                                 this.dialog = false;
+                                 
+                                
+                            })
+                      
                     }
 
-                });
-                //} 
 
+                    if (this.type == 'edit') {
+                        this.form.post('/api/teachers/update/' + this.form.user_id)
+                            .then(() => {
+                                console.log("Success");
+                                this.$refs.RegisterForm.reset()
+                                this.valid = true;
+                                 this.dialog = false;
+                                  this.IsAddUpdating = false;
+                            })
+                        this.toastSuccess('User Successfully Updated!')
+                    }
+                      this.$store.dispatch('fetchAllTeachers');
+                   
+                   
+                  
+
+                }
+                else{
+                   this.IsAddUpdating = false;
+
+                }
             },
-
-
-            removeGradeCriteria() {
-                this.loading = true;
-                this.$store.dispatch('removeGradingCriteria', this.delId).then((message) => {
-                    this.Deldialog = false;
-                    this.loading = false;
-                });
-            },
-            _totalPercent(percentage_data) {
-                var total = 0;
-
-                percentage_data.forEach(function (val) {
-
-                    total += parseFloat(val.percentage);
-                    console.log(total);
-
-                })
-                return total;
-            }
         },
 
         mounted() {
-            this.loading = true;
-            this.getAllGradeCriteria();
-            this.loading = false;
+
+            this.$store.dispatch('fetchAllTeachers');
+
+
+
         }
 
 

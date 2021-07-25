@@ -38,7 +38,7 @@ Vue.use(VueCountdownTimer);
 import store from "./store/store";
 import router from "./router";
 
-Vue.component('example-component', require('./components/app.vue').default);
+Vue.component('main-component', require('./components/app.vue').default);
 Vue.mixin({
     methods: {
         toastSuccess(message) {

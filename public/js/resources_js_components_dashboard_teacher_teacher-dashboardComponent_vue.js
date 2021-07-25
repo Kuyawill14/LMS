@@ -46343,11 +46343,7 @@ var render = function() {
                 1
               ),
               _vm._v(" "),
-              _c(
-                "v-row",
-                [_c("v-col", [_c("v-card", [_c("teacherCourse")], 1)], 1)],
-                1
-              )
+              _c("v-row", [_c("v-col", [_c("v-card")], 1)], 1)
             ],
             1
           ),

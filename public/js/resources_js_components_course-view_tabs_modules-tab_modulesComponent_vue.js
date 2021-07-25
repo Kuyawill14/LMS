@@ -54,7 +54,7 @@ __webpack_require__.r(__webpack_exports__);
   props: ['propModule', 'type'],
   data: function data() {
     return {
-      loading: false,
+      isSubmitting: false,
       dialog: false,
       moduleForm: new Form({
         module_name: '',
@@ -91,34 +91,46 @@ __webpack_require__.r(__webpack_exports__);
     createModule: function createModule() {
       var _this = this;
 
-      this.loading = true;
+      this.isSubmitting = true;
       this.moduleForm.course_id = this.$route.params.id;
-      this.$store.dispatch('createMainModule', this.moduleForm).then(function (res) {
-        console.log(res);
-        _this.loading = false;
 
-        _this.$emit('closeModal');
+      if (this.moduleForm.module_name.trim().length > 0 && this.moduleForm.description.trim().length > 0) {
+        this.$store.dispatch('createMainModule', this.moduleForm).then(function (res) {
+          // console.log(res);
+          _this.isSubmitting = false;
 
-        _this.$emit('createdModule');
+          _this.$emit('closeModal');
 
-        _this.toastSuccess("Module Successfully Created");
+          _this.$emit('createdModule');
 
-        _this.$store.dispatch('fetchSubModule', _this.$route.params.id);
-      });
+          _this.toastSuccess("Module Successfully Created");
+
+          _this.$store.dispatch('fetchSubModule', _this.$route.params.id);
+        });
+      } else {
+        this.toastError('Please Fill up all the fields!.');
+        this.isSubmitting = false;
+      }
     },
     updateModule: function updateModule() {
       var _this2 = this;
 
-      this.loading = true;
+      this.isSubmitting = true;
       this.moduleForm.course_id = this.$route.params.id;
-      this.$store.dispatch('updateMainModule', this.moduleForm).then(function (res) {
-        console.log(res);
-        _this2.loading = false;
 
-        _this2.$emit('closeModal');
+      if (this.moduleForm.module_name.trim().length > 0 && this.moduleForm.description.trim().length > 0) {
+        this.$store.dispatch('updateMainModule', this.moduleForm).then(function (res) {
+          // console.log(res);
+          _this2.isSubmitting = false;
 
-        _this2.toastSuccess("Module Successfully updated");
-      });
+          _this2.$emit('closeModal');
+
+          _this2.toastSuccess("Module Successfully updated");
+        });
+      } else {
+        this.toastError('Please Fill up all the fields!.');
+        this.isSubmitting = false;
+      }
     }
   },
   mounted: function mounted() {
@@ -603,11 +615,7 @@ var render = function() {
               _c(
                 "v-btn",
                 {
-                  attrs: {
-                    color: "blue darken-1",
-                    text: "",
-                    disabled: _vm.loading
-                  },
+                  attrs: { color: "blue darken-1", text: "" },
                   on: {
                     click: function($event) {
                       return _vm.$emit("closeModal")
@@ -623,7 +631,7 @@ var render = function() {
                   attrs: {
                     color: "blue darken-1",
                     text: "",
-                    disabled: _vm.loading
+                    loading: _vm.isSubmitting
                   },
                   on: {
                     click: function($event) {

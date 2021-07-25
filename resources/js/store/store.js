@@ -19,7 +19,7 @@ import studentMainmoduleProgress from './modules/student_main_moduleProgress'
 import classwork from './modules/classwork'
 import studentClassworkGrades from './modules/student_classwork_grades'
 import stduentFinalGrades from './modules/student_final_grades'
-
+import allTeachers from './modules/allTeachers'
 
 export default new Vuex.Store({
     modules: {
@@ -39,7 +39,8 @@ export default new Vuex.Store({
         classwork,
         studentMainmoduleProgress,
         studentClassworkGrades,
-        stduentFinalGrades
+        stduentFinalGrades,
+        allTeachers
 
 
     },

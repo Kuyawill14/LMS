@@ -11,22 +11,22 @@
                             <v-text-field label="Module Name*" v-model="moduleForm.module_name" required>
                             </v-text-field>
                         </v-col>
-                          <v-col cols="12 pb-0">
+                        <v-col cols="12 pb-0">
                             <editor style="outline:none;" placeholder="Description" v-model="moduleForm.description"
                                 theme="snow" :options="options"></editor>
-                           
+
                         </v-col>
-                        
+
                     </v-row>
                 </v-container>
             </v-card-text>
             <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color="blue darken-1" text @click="$emit('closeModal');" :disabled="loading">
+                <v-btn color="blue darken-1" text @click="$emit('closeModal');">
                     Close
                 </v-btn>
                 <v-btn color="blue darken-1" text @click="type == 'edit' ? updateModule() : createModule()"
-                    :disabled="loading">
+                    :loading="isSubmitting">
                     Save
                 </v-btn>
             </v-card-actions>
@@ -46,7 +46,7 @@
 
         data() {
             return {
-                loading: false,
+                isSubmitting: false,
                 dialog: false,
                 moduleForm: new Form({
                     module_name: '',
@@ -89,41 +89,51 @@
             },
             createModule() {
 
-                this.loading = true;
+                this.isSubmitting = true;
                 this.moduleForm.course_id = this.$route.params.id;
-                this.$store.dispatch('createMainModule', this.moduleForm)
-                    .then((res) => {
-                        console.log(res);
+                if (this.moduleForm.module_name.trim().length > 0 && this.moduleForm.description.trim().length > 0) {
+                    this.$store.dispatch('createMainModule', this.moduleForm)
+                        .then((res) => {
+                            // console.log(res);
 
 
-                        this.loading = false;
-                        this.$emit('closeModal');
-this.$emit('createdModule');
-                        this.toastSuccess("Module Successfully Created");
-                        this.$store.dispatch('fetchSubModule', this.$route.params.id);
+                            this.isSubmitting = false;
+                            this.$emit('closeModal');
+                            this.$emit('createdModule');
+                            this.toastSuccess("Module Successfully Created");
+                            this.$store.dispatch('fetchSubModule', this.$route.params.id);
 
 
 
-                    })
+                        })
+                } else {
+                    this.toastError('Please Fill up all the fields!.')
+                    this.isSubmitting = false;
+                }
             },
             updateModule() {
 
-                this.loading = true;
+                this.isSubmitting = true;
                 this.moduleForm.course_id = this.$route.params.id;
-                this.$store.dispatch('updateMainModule', this.moduleForm)
-                    .then((res) => {
-                        console.log(res);
+                if (this.moduleForm.module_name.trim().length > 0 && this.moduleForm.description.trim().length > 0) {
+                    this.$store.dispatch('updateMainModule', this.moduleForm)
+                        .then((res) => {
+                            // console.log(res);
 
 
-                        this.loading = false;
-                        this.$emit('closeModal');
+                            this.isSubmitting = false;
+                            this.$emit('closeModal');
 
-                        this.toastSuccess("Module Successfully updated");
-
-
+                            this.toastSuccess("Module Successfully updated");
 
 
-                    })
+
+
+                        })
+                } else {
+                    this.toastError('Please Fill up all the fields!.')
+                    this.isSubmitting = false;
+                }
             },
 
         },
