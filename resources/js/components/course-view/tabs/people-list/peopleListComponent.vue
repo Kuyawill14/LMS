@@ -2,7 +2,7 @@
     <div>
         <v-row>
             <v-col v-if="role == 'Teacher'" cols="12">
-                <instructorView v-if="role == 'Teacher'" :role="role" :UserDetails="UserDetails"></instructorView>
+                <instructorView :getcourseInfo="getcourseInfo" v-if="role == 'Teacher'" :role="role" :UserDetails="UserDetails"></instructorView>
             </v-col>
 
              <v-col v-if="role == 'Student'" cols="12">
@@ -15,7 +15,7 @@
 const instructorView = () => import('./InstructorListView')
  const studentView = () => import('./studentListView')
 export default {
-    props:['role','UserDetails'],
+    props:['role','UserDetails','getcourseInfo'],
     components:{
         instructorView,
         studentView

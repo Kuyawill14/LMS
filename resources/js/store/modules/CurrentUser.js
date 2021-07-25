@@ -1,10 +1,12 @@
 import axios from 'axios'
 
 const state = {
-    CurrentUser: []
+    CurrentUser: [],
+    UserRole: null,
 };
 const getters = {
     get_CurrentUser: (state) => state.CurrentUser,
+    get_userRole: (state) => state.UserRole,
 };
 
 const actions = {
@@ -15,6 +17,9 @@ const actions = {
         commit('FETCH_USER', res.data);
         return res.data;
     },
+    SetUserRole({ }, role){
+        state.UserRole = role;
+    }
 };
 const mutations = {
     FETCH_USER: (state, CurrentUser) => (state.CurrentUser = CurrentUser),

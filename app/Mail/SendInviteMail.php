@@ -11,15 +11,19 @@ class SendInviteMail extends Mailable
 {
     use Queueable, SerializesModels;
     
-    public $id;
+    public $class_code;
+    public $name;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($id)
+    public function __construct($class_code,$name, $course_name, $class_name)
     {
-        $this->id = $id;
+        $this->class_code = $class_code;
+        $this->name = $name;
+        $this->course_name = $course_name;
+        $this->class_name = $class_name;
     }
 
     /**
@@ -29,6 +33,13 @@ class SendInviteMail extends Mailable
      */
     public function build()
     {
-        return $this->view('view');
+
+        return $this->view('ClassInvite')
+                    ->with([
+                        'class_code' => $this->class_name,
+                        'name' => $this->name,
+                        'course_name' => $this->course_name,
+                        'class_name' => $this->class_name,
+                    ]);
     }
 }

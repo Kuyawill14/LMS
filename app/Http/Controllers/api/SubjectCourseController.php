@@ -81,14 +81,16 @@ class SubjectCourseController extends Controller
        
     }
 
-    /**
-     * Show the form for creating a new resource.
+     /**
+     * Display the specified resource.
      *
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function CheckCourseStatus($id)
     {
-        //
+        $status = tbl_subject_course::find($id);
+        return $status->completed;
     }
 
     /**

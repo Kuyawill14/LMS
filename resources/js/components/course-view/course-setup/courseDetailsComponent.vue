@@ -67,11 +67,10 @@
 
             }
         },
-        created() {
-            const course_id = this.$route.params.id;
-            this.courseDetails = this.fetchScourse(course_id);
+       /*  mounted() {
+            this.courseDetails = this.fetchScourse(this.$route.params.id);
 
-        }
+        } */
     }
 
 </script>

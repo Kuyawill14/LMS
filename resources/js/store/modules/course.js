@@ -3,23 +3,25 @@ import axios from 'axios'
 const state = {
     courseInfo: [
 
-    ]
+    ],
+    completed: null
 };
 const getters = {
     getcourseInfo: (state) => state.courseInfo,
+    getStatus: (state) => state.completed,
 
 };
 
 const actions = {
-    async fetchScourse({ commit }, id) {
 
+    async fetchScourse({ commit }, id) {
+        let check;
         const res = await axios.get(
             `/api/course/ShowCourse/${id}`
         ).then((res) => {
+            state.completed = res.data.completed;
             commit('setcourseInfo', res.data);
-
         });
-
     }
 };
 const mutations = {

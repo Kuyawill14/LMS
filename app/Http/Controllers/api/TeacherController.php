@@ -66,7 +66,8 @@ class TeacherController extends Controller
             return;
         }
         else{
-            Mail::to($request->email)->send(new SendInviteMail($userId));
+           
+            Mail::to($request->email)->send(new SendInviteMail($request->class_code, $UserFullName, $request->course_name, $request->class_name));
             return;
         }
 

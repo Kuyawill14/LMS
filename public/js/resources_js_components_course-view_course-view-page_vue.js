@@ -446,7 +446,11 @@ var render = function() {
         : _vm._e(),
       _vm._v(" "),
       _c("router-view", {
-        attrs: { role: _vm.role, UserDetails: _vm.UserDetails }
+        attrs: {
+          role: _vm.role,
+          getcourseInfo: _vm.getcourseInfo,
+          UserDetails: _vm.UserDetails
+        }
       })
     ],
     1

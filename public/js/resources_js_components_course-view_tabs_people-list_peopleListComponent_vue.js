@@ -33,7 +33,7 @@ var studentView = function studentView() {
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['role', 'UserDetails'],
+  props: ['role', 'UserDetails', 'getcourseInfo'],
   components: {
     instructorView: instructorView,
     studentView: studentView
@@ -143,7 +143,11 @@ var render = function() {
                 [
                   _vm.role == "Teacher"
                     ? _c("instructorView", {
-                        attrs: { role: _vm.role, UserDetails: _vm.UserDetails }
+                        attrs: {
+                          getcourseInfo: _vm.getcourseInfo,
+                          role: _vm.role,
+                          UserDetails: _vm.UserDetails
+                        }
                       })
                     : _vm._e()
                 ],

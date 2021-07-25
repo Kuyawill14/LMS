@@ -36,7 +36,7 @@
 
         </v-card>
 
-        <router-view :role="role" :UserDetails="UserDetails"></router-view>
+        <router-view :role="role" :getcourseInfo="getcourseInfo" :UserDetails="UserDetails"></router-view>
     </div>
 </template>
 <script>
@@ -115,10 +115,7 @@
             }
 
         },
-
-
-
-
+    
         mounted() {
             this.hideCard();
             this.isloading = true;

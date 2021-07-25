@@ -64,7 +64,7 @@
 </template>
 <script>
 export default {
-
+    props:['course_name'],
     data(){
         return{
             isAdding: false,
@@ -89,6 +89,7 @@ export default {
         async InviteStudent(){
             this.isAdding = true;
             this.InviteDetails.class_id = this.cl_id;
+            this.InviteDetails.course_name = this.course_name;
             this.InviteDetails.email = this.email;
             for (let i = 0; i < this.classList.length; i++) {
                 if(this.cl_id == this.classList[i].class_id){

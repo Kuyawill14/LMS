@@ -35,10 +35,10 @@
                    <v-col cols="12">
                        <v-tabs-items :value="tab">
                              <v-tab-item>
-                                <studentList :role="role"></studentList>
+                                <studentList :getcourseInfo="getcourseInfo" :role="role"></studentList>
                             </v-tab-item>
                             <v-tab-item>
-                                <instructorList :UserDetails="UserDetails"></instructorList>
+                                <instructorList :getcourseInfo="getcourseInfo"  :UserDetails="UserDetails"></instructorList>
                             </v-tab-item>
                        </v-tabs-items>
                    </v-col>
@@ -53,7 +53,7 @@
     const studentList = () => import('./peopleListTypes.vue/student-list')
      const instructorList = () => import('./peopleListTypes.vue/instructor-list')
     export default {
-        props:['role','UserDetails'],
+        props:['role','UserDetails','getcourseInfo'],
         components:{
           studentList,
           instructorList

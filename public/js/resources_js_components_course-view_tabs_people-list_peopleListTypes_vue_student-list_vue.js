@@ -124,6 +124,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 var removeConfirmDialog = function removeConfirmDialog() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_tabs_people-list_dialog_removeConfirmDialog_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../dialog/removeConfirmDialog */ "./resources/js/components/course-view/tabs/people-list/dialog/removeConfirmDialog.vue"));
 };
@@ -133,6 +134,7 @@ var addStudentDialog = function addStudentDialog() {
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  props: ['getcourseInfo'],
   components: {
     removeConfirmDialog: removeConfirmDialog,
     addStudentDialog: addStudentDialog
@@ -149,7 +151,8 @@ var addStudentDialog = function addStudentDialog() {
       Class_id: this.$route.params.id,
       RemoveDetails: {},
       students: null,
-      classList: []
+      classList: [],
+      course_name: null
     };
   },
   computed: {
@@ -399,7 +402,10 @@ var render = function() {
             [
               _vm.AddStudent
                 ? _c("addStudentDialog", {
-                    attrs: { classList: _vm.classList },
+                    attrs: {
+                      classList: _vm.classList,
+                      course_name: _vm.course_name
+                    },
                     on: {
                       toggleCancelDialog: function($event) {
                         _vm.AddStudent = !_vm.AddStudent
@@ -499,7 +505,9 @@ var render = function() {
                                       attrs: { rounded: "", color: "primary" },
                                       on: {
                                         click: function($event) {
-                                          return _vm.OpenaddStudentDialog()
+                                          _vm.OpenaddStudentDialog(),
+                                            (_vm.course_name =
+                                              _vm.getcourseInfo.course_name)
                                         }
                                       }
                                     },
