@@ -157,6 +157,24 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -188,6 +206,22 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(["get_gradingCriteria", "allClass", "AllStudentClassworkGrades", "allStudentFinalGrades"])),
   methods: {
+    transmutedGrade: function transmutedGrade(total_score, percentage) {
+      if (this.classworkTotalPoints) {
+        return ((total_score / this.classworkTotalPoints * 100 / 2 + 50) * percentage / 100).toFixed(2);
+      } else {
+        return 0;
+      }
+    },
+    sumTransmutedGrade: function sumTransmutedGrade(arr) {
+      var total = 0;
+
+      for (var i = 0; i < arr.length; i++) {
+        total += arr[i]['transmuted_grade_percentage'];
+      }
+
+      return total.toFixed(2);
+    },
     sumPercentage: function sumPercentage(arr) {
       var total = 0;
 
@@ -203,9 +237,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         align: 'center',
         value: 'total'
       }, {
-        text: 'Total Percentage',
+        text: 'I. Percentage',
         align: 'center',
-        value: 'Percentage'
+        value: 'Initial Percentage'
+      }, {
+        text: 'T. Percentage',
+        align: 'center',
+        value: 'Transmuted Percentage'
       });
     },
     classworkTotalPoins: function classworkTotalPoins() {},
@@ -245,10 +283,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     getClassworkList: function getClassworkList() {
       var _this2 = this;
 
+      this.headers = [];
       this.loading = true;
       var total = 0;
       this.getStudentList();
-      this.headers = [];
       this.headers.push({
         text: 'Name',
         value: 'name'
@@ -280,14 +318,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         _this2.loading = false;
       });
     },
+    _getFInalGradestTab: function _getFInalGradestTab() {
+      this.activeTab = 'finalgrades';
+    },
     _getClassworkListbyTab: function _getClassworkListbyTab(grading_criteria_id, index) {
       var _this3 = this;
 
       if (this.activeTab != grading_criteria_id) {
+        this.headers = [];
         this.activeTab = grading_criteria_id;
         this.$store.dispatch("fetchNotification", this.notificationType);
         var total = 0;
-        this.headers = [];
         this.headers.push({
           text: 'Name',
           value: 'name'
@@ -562,9 +603,18 @@ var render = function() {
             "v-tabs",
             { attrs: { color: "orange accent-4", right: "" } },
             [
-              _c("v-tab", { attrs: { href: "#final_grades" } }, [
-                _vm._v("\n                Final Grades\n            ")
-              ]),
+              _c(
+                "v-tab",
+                {
+                  attrs: { href: "#final_grades", active: "" },
+                  on: {
+                    click: function($event) {
+                      return _vm._getFInalGradestTab()
+                    }
+                  }
+                },
+                [_vm._v("\n                Final Grades\n            ")]
+              ),
               _vm._v(" "),
               _vm._l(_vm.get_gradingCriteria, function(gradingCriteria, index) {
                 return _c(
@@ -704,11 +754,11 @@ var render = function() {
                                                   _vm._v(
                                                     "\n                                    " +
                                                       _vm._s(
-                                                        student_final.grade_percentage.toFixed(
+                                                        student_final.transmuted_grade_percentage.toFixed(
                                                           2
                                                         )
                                                       ) +
-                                                      "\n                                "
+                                                      "\n                                    "
                                                   )
                                                 ]
                                               )
@@ -722,7 +772,7 @@ var render = function() {
                                               _vm._v(
                                                 "\n                                    " +
                                                   _vm._s(
-                                                    _vm.sumPercentage(
+                                                    _vm.sumTransmutedGrade(
                                                       _vm.allStudentFinalGrades(
                                                         student.id
                                                       )
@@ -808,6 +858,42 @@ var render = function() {
                           attrs: { headers: _vm.headers, items: _vm.students },
                           scopedSlots: _vm._u(
                             [
+                              _vm._l(_vm.headers, function(h) {
+                                return {
+                                  key: "header." + h.value,
+                                  fn: function(ref) {
+                                    return [
+                                      _c(
+                                        "v-tooltip",
+                                        {
+                                          attrs: { bottom: "" },
+                                          scopedSlots: _vm._u(
+                                            [
+                                              {
+                                                key: "activator",
+                                                fn: function(ref) {
+                                                  var on = ref.on
+                                                  return [
+                                                    _c("span", _vm._g({}, on), [
+                                                      _vm._v(_vm._s(h.text))
+                                                    ])
+                                                  ]
+                                                }
+                                              }
+                                            ],
+                                            null,
+                                            true
+                                          )
+                                        },
+                                        [
+                                          _vm._v(" "),
+                                          _c("span", [_vm._v(_vm._s(h.value))])
+                                        ]
+                                      )
+                                    ]
+                                  }
+                                }
+                              }),
                               {
                                 key: "body",
                                 fn: function(ref) {
@@ -997,6 +1083,28 @@ var render = function() {
                                                           _vm.AllStudentClassworkGrades(
                                                             student.id,
                                                             gradingCriteria.id
+                                                          ),
+                                                          gradingCriteria.percentage
+                                                        )
+                                                      ) +
+                                                      "%\n                                "
+                                                  )
+                                                ]
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "td",
+                                                { staticClass: "text-center" },
+                                                [
+                                                  _vm._v(
+                                                    "\n                                    " +
+                                                      _vm._s(
+                                                        _vm.transmutedGrade(
+                                                          _vm.totalPoints(
+                                                            _vm.AllStudentClassworkGrades(
+                                                              student.id,
+                                                              gradingCriteria.id
+                                                            )
                                                           ),
                                                           gradingCriteria.percentage
                                                         )

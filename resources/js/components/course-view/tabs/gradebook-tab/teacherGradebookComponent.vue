@@ -16,11 +16,11 @@
         </v-row>
         <v-card>
             <v-tabs color="orange accent-4" right>
-                <v-tab href="#final_grades">
+                <v-tab href="#final_grades" @click="_getFInalGradestTab()" active>
                     Final Grades
                 </v-tab>
                 <v-tab v-for="(gradingCriteria, index) in get_gradingCriteria" :key="index"
-                     @click="_getClassworkListbyTab(gradingCriteria.id)">
+                    @click="_getClassworkListbyTab(gradingCriteria.id)">
                     {{gradingCriteria.name}}
                 </v-tab>
                 <v-tab-item id="final_grades">
@@ -44,6 +44,8 @@
                                         {{ gradingCriteria.name}} ({{gradingCriteria.percentage}}%)</th>
                                     <th class="text-center">
                                         Final Grades</th>
+                                    <!-- <th class="text-center">
+                                        Transmuted <br> Grades</th> -->
                                 </tr>
                             </thead>
                             <tbody v-if="loading == false">
@@ -52,10 +54,15 @@
                                     <td class="text-center"
                                         v-for="(student_final, index) in allStudentFinalGrades(student.id)"
                                         :key="index">
-                                        {{student_final.grade_percentage.toFixed(2)}}
+                                        {{student_final.transmuted_grade_percentage.toFixed(2)}}
+                                        <!-- {{student_final.grade_percentage.toFixed(2)}} -->
                                     </td>
-                                    <td class="text-center">
+                                    <!-- <td class="text-center">
                                         {{sumPercentage(allStudentFinalGrades(student.id))}}
+
+                                    </td> -->
+                                    <td class="text-center">
+                                        {{sumTransmutedGrade(allStudentFinalGrades(student.id))}}
 
                                     </td>
 
@@ -82,6 +89,14 @@
                         </v-text-field>
                     </v-card-title>
                     <v-data-table :headers="headers" :items="students" v-if="headers.length != 0">
+                        <template v-for="h in headers" v-slot:[`header.${h.value}`]="{  }">
+                            <v-tooltip bottom>
+                                <template v-slot:activator="{ on }">
+                                    <span v-on="on">{{h.text}}</span>
+                                </template>
+                                <span>{{h.value}}</span>
+                            </v-tooltip>
+                        </template>
                         <template v-slot:body="{ items }">
                             <tbody>
                                 <tr v-for="student in items" :key="student.id">
@@ -116,6 +131,9 @@
                                         {{totalPercentage(AllStudentClassworkGrades(student.id,gradingCriteria.id),gradingCriteria.percentage)}}%
                                     </td>
 
+                                    <td class="text-center">
+                                        {{transmutedGrade(totalPoints(AllStudentClassworkGrades(student.id,gradingCriteria.id)),gradingCriteria.percentage)}}%
+                                    </td>
 
 
                                 </tr>
@@ -176,6 +194,22 @@
         },
 
         methods: {
+            transmutedGrade(total_score, percentage) {
+                if (this.classworkTotalPoints) {
+                    return (((((total_score / this.classworkTotalPoints) * 100) / 2) + 50) * percentage / 100).toFixed(
+                        2);
+                } else {
+                    return 0;
+                }
+
+            },
+            sumTransmutedGrade(arr) {
+                var total = 0;
+                for (var i = 0; i < arr.length; i++) {
+                    total += arr[i]['transmuted_grade_percentage'];
+                }
+                return total.toFixed(2);
+            },
             sumPercentage(arr) {
                 var total = 0;
                 for (var i = 0; i < arr.length; i++) {
@@ -187,11 +221,19 @@
                 this.headers.push({
                     text: 'Total Points' + ' (' + this.classworkTotalPoints + 'pts)',
                     align: 'center',
-                    value: 'total'
+                    value: 'total',
+
                 }, {
-                    text: 'Total Percentage',
+                    text: 'I. Percentage',
                     align: 'center',
-                    value: 'Percentage'
+                    value: 'Initial Percentage',
+
+
+                }, {
+                    text: 'T. Percentage',
+                    align: 'center',
+                    value: 'Transmuted Percentage',
+
                 });
             },
             classworkTotalPoins() {
@@ -227,10 +269,11 @@
                 this.$store.dispatch('fetchGradingCriteria', this.$route.params.id);
             },
             getClassworkList() {
+                this.headers = [];
                 this.loading = true;
                 var total = 0;
                 this.getStudentList();
-                this.headers = [];
+
                 this.headers.push({
                     text: 'Name',
                     value: 'name'
@@ -267,13 +310,18 @@
                 });
 
             },
+            _getFInalGradestTab() {
+                this.activeTab ='finalgrades';
+            },
             _getClassworkListbyTab(grading_criteria_id, index) {
-
-                 if(this.activeTab != grading_criteria_id){
+         
+                
+                if (this.activeTab != grading_criteria_id) {
+                           this.headers = [];
                     this.activeTab = grading_criteria_id;
-                    this.$store.dispatch("fetchNotification", this.notificationType )
+                    this.$store.dispatch("fetchNotification", this.notificationType)
                     var total = 0;
-                    this.headers = [];
+
                     this.headers.push({
                         text: 'Name',
                         value: 'name'

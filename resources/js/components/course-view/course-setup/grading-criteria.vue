@@ -14,6 +14,7 @@
 
 
             </v-row>
+
             <v-row class="ma-0 pa-0">
                 <v-col class="float-right mx-2 pt-0">
                     <v-btn class="float-right" color="primary" outlined @click="addGradeCriteria()">
@@ -52,7 +53,18 @@
 
 
                 </v-row>
+
+                <br>
+                <v-row class="mx-2">
+                    <v-col class="text-right">
+                        <p>Total: <strong>{{_totalPercent(get_gradingCriteria)}} % </strong></p>
+                    </v-col>
+
+
+
+                </v-row>
             </div>
+
         </v-container>
 
 
@@ -63,7 +75,7 @@
                 <v-card-title class="headline">
                     Are you sure you want to delete this?
                 </v-card-title>
-                <v-card-text>{some message} </v-card-text>
+                <!-- <v-card-text>{some message} </v-card-text> -->
                 <v-card-actions>
                     <v-spacer></v-spacer>
                     <v-btn text @click="Deldialog = false">
@@ -82,7 +94,7 @@
         <br>
         <v-row>
             <v-col>
-                <v-btn class="float-right" color="primary" @click="next()" :disabled="get_gradingCriteria.length == 0">
+                <v-btn class="float-right" color="primary" @click="next()" :disabled="get_gradingCriteria.length == 0 || _totalPercent(get_gradingCriteria)  != 100">
                     Next
                 </v-btn>
 
@@ -142,15 +154,31 @@
         },
 
         methods: {
+             _totalPercent(percentage_data) {
+                var total = 0;
+
+                percentage_data.forEach(function (val) {
+
+                    total += parseFloat(val.percentage);
+                    console.log(total);
+
+                })
+                return total;
+            },
             back() {
                 this.$emit('changeStep', this.e1 - 2)
             },
             next() {
                 if (this.get_gradingCriteria.length == 0) {
                     this.toastError('Please add atleast one grading criteria to proceed to next step');
-
+                    
                 } else {
-                    this.$emit('changeStep', this.e1)
+                    if(this._totalPercent(this.get_gradingCriteria) < 100) {
+                            this.toastError('Total percentage is not equal to 100%');
+                    } else {
+ this.$emit('changeStep', this.e1)
+                    }
+                   
                 }
 
 
@@ -196,7 +224,7 @@
 
 
                 } else {
-                      this.toastError('Please fill up all the field to add criteria');
+                    this.toastError('Please fill up all the field to add criteria');
                 }
 
             },
