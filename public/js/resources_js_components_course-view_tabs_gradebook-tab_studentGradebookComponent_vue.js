@@ -133,6 +133,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -163,6 +166,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(["get_gradingCriteria", "allClass", "StudentClassworkGrades"])),
   methods: {
+    transmutedGrade: function transmutedGrade(total_score, percentage) {
+      if (this.classworkTotalPoints) {
+        return ((total_score / this.classworkTotalPoints * 100 / 2 + 50) * percentage / 100).toFixed(2);
+      } else {
+        return 0;
+      }
+    },
     totalPercentHeader: function totalPercentHeader() {
       this.headers.push({
         text: 'Total Points' + ' (' + this.classworkTotalPoints + 'pts)',
@@ -178,7 +188,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var total = 0;
 
       for (var i = 0; i < arr.length; i++) {
-        total += arr[i]['grade_percentage'];
+        total += arr[i]['transmuted_grade_percentage'];
       }
 
       return total.toFixed(2);
@@ -833,9 +843,11 @@ var render = function() {
                                         _vm._v(
                                           "\n                                    " +
                                             _vm._s(
-                                              _vm.totalPercentage(
-                                                _vm.StudentClassworkGrades(
-                                                  gradingCriteria.id
+                                              _vm.transmutedGrade(
+                                                _vm.totalPoints(
+                                                  _vm.StudentClassworkGrades(
+                                                    gradingCriteria.id
+                                                  )
                                                 ),
                                                 gradingCriteria.percentage
                                               )

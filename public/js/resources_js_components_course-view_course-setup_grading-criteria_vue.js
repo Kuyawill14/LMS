@@ -127,6 +127,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -154,7 +166,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     };
   },
   computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(["get_gradingCriteria"])),
-  methods: {
+  methods: _defineProperty({
+    _totalPercent: function _totalPercent(percentage_data) {
+      var total = 0;
+      percentage_data.forEach(function (val) {
+        total += parseFloat(val.percentage);
+        console.log(total);
+      });
+      return total;
+    },
     back: function back() {
       this.$emit('changeStep', this.e1 - 2);
     },
@@ -162,7 +182,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       if (this.get_gradingCriteria.length == 0) {
         this.toastError('Please add atleast one grading criteria to proceed to next step');
       } else {
-        this.$emit('changeStep', this.e1);
+        if (this._totalPercent(this.get_gradingCriteria) < 100) {
+          this.toastError('Total percentage is not equal to 100%');
+        } else {
+          this.$emit('changeStep', this.e1);
+        }
       }
     },
     openDelete: function openDelete(id) {
@@ -248,16 +272,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
         _this3.toastSuccess("Criteria successfully deleted ");
       });
-    },
-    _totalPercent: function _totalPercent(percentage_data) {
-      var total = 0;
-      percentage_data.forEach(function (val) {
-        total += parseFloat(val.percentage);
-        console.log(total);
-      });
-      return total;
     }
-  },
+  }, "_totalPercent", function _totalPercent(percentage_data) {
+    var total = 0;
+    percentage_data.forEach(function (val) {
+      total += parseFloat(val.percentage);
+      console.log(total);
+    });
+    return total;
+  }),
   mounted: function mounted() {
     //  this.loading = true;
     this.getAllGradeCriteria(); // setTimeout(() => {
@@ -658,7 +681,28 @@ var render = function() {
                   ],
                   1
                 )
-              })
+              }),
+              _vm._v(" "),
+              _c("br"),
+              _vm._v(" "),
+              _c(
+                "v-row",
+                { staticClass: "mx-2" },
+                [
+                  _c("v-col", { staticClass: "text-right" }, [
+                    _c("p", [
+                      _vm._v("Total: "),
+                      _c("strong", [
+                        _vm._v(
+                          _vm._s(_vm._totalPercent(_vm.get_gradingCriteria)) +
+                            " % "
+                        )
+                      ])
+                    ])
+                  ])
+                ],
+                1
+              )
             ],
             2
           )
@@ -687,8 +731,6 @@ var render = function() {
                   "\n                Are you sure you want to delete this?\n            "
                 )
               ]),
-              _vm._v(" "),
-              _c("v-card-text", [_vm._v("{some message} ")]),
               _vm._v(" "),
               _c(
                 "v-card-actions",
@@ -746,7 +788,9 @@ var render = function() {
                   staticClass: "float-right",
                   attrs: {
                     color: "primary",
-                    disabled: _vm.get_gradingCriteria.length == 0
+                    disabled:
+                      _vm.get_gradingCriteria.length == 0 ||
+                      _vm._totalPercent(_vm.get_gradingCriteria) != 100
                   },
                   on: {
                     click: function($event) {

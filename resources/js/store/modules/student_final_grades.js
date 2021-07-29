@@ -7,7 +7,8 @@ const getters = {
 
     allStudentFinalGrades: state => (student_id) => {
         var grades = state.final_grades.filter(final_grades => final_grades.student_id == student_id);
-        return grades[0].grades;
+
+        return grades.length > 0 ? grades[0].grades : [];
 
 
     },

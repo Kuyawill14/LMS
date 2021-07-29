@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\tbl_main_gradeCategory;
 use Illuminate\Support\Facades\DB;
 use App\Models\tbl_sub_modules;
+use App\Models\tbl_userclass;
+
 class GradebookController extends Controller
 {
     /**
@@ -157,19 +159,23 @@ class GradebookController extends Controller
         for($i=0; $i < count($gradingCategory); $i++) {
             $gradingCategory[$i]['points'] = 0 ;
             $gradingCategory[$i]['grade_percentage'] = 0 ;
+            $gradingCategory[$i]['transmuted_grade_percentage'] = 0 ;
             for($j=0; $j < count($submissions); $j++) {
                 if($gradingCategory[$i]['grade_category_id'] == $submissions[$j]['grading_criteria_id']) {
                     $gradingCategory[$i]['points'] += $submissions[$j]['points'];
                 }
                
             }
-            for($x=0; $x < count($classworks); $x++)
-            if(  $classworks[$x]['grading_criteria'] == $gradingCategory[$i]['grade_category_id']) {
-                $gradingCategory[$i]['grade_percentage'] = ($gradingCategory[$i]['points'] / $classworks[$x]['total_points']) * $gradingCategory[$i]['percentage'];
-                $gradingCategory[$i]['total_points'] =  $classworks[$x]['total_points'];
+           
+            for($z=0; $z < count($classworks); $z++)
+            if(  $classworks[$z]['grading_criteria'] == $gradingCategory[$i]['grade_category_id']) {
+                $gradingCategory[$i]['grade_percentage'] = ($gradingCategory[$i]['points'] / $classworks[$z]['total_points']) * $gradingCategory[$i]['percentage'];
+                $gradingCategory[$i]['transmuted_grade_percentage'] = (((($gradingCategory[$i]['points'] /  $classworks[$z]['total_points'])*100) /2) +50 ) * ($gradingCategory[$i]['percentage'] / 100) ;
+                $gradingCategory[$i]['total_points'] =  $classworks[$z]['total_points'];
             }
-          
-        }
+        
+        
+            }
 
 
         return $gradingCategory;
@@ -180,6 +186,15 @@ class GradebookController extends Controller
     public function fetchAllStudentFinalGrades($class_id) {
         // $tbl_student_main_grades = new tbl_student_main_grades;
         $userId = auth('sanctum')->id();
+        $course_id = -1;
+        $tmpcourse_id =  tbl_userclass::where('class_id', $class_id) -> where('user_id', $userId)
+        ->select('course_id')
+        ->first();
+      
+      
+        if($course_id) {
+            $course_id =  $tmpcourse_id->course_id;
+        }
 
         $studentList = DB::table('users')
         ->select('users.id as student_id',
@@ -192,6 +207,8 @@ class GradebookController extends Controller
         ->get();
 
         $studentList = json_decode($studentList, true);
+
+        
         $classworks = DB::table('tbl_classworks')
         ->select('grading_criteria')
         ->selectRaw('sum(tbl_classworks.points) as total_points ')
@@ -203,10 +220,10 @@ class GradebookController extends Controller
 
         $gradingCategory = DB::table('tbl_main_grade_categories')
         ->select('name','id as grade_category_id','percentage')
-        ->where('course_id', $studentList[0]['course_id'])
+        ->where('course_id', $course_id)
         ->get();
         $gradingCategory = json_decode($gradingCategory, true);
-
+ 
         $submissions = DB::table('tbl_submissions')
         ->select('tbl_submissions.classwork_id','status' ,'points', 'user_id', 'tbl_class_classworks.grading_criteria as grading_criteria_id')
         ->leftJoin('tbl_class_classworks' , 'tbl_class_classworks.classwork_id' , '=' , 'tbl_submissions.classwork_id')
@@ -218,6 +235,7 @@ class GradebookController extends Controller
             for($i=0; $i < count($gradingCategory); $i++) {
                 $gradingCategory[$i]['points'] = 0 ;
                 $gradingCategory[$i]['grade_percentage'] = 0 ;
+                $gradingCategory[$i]['transmuted_grade_percentage'] = 0 ;
                 for($j=0; $j < count($submissions); $j++) {
                     if($gradingCategory[$i]['grade_category_id'] == $submissions[$j]['grading_criteria_id'] && $submissions[$j]['user_id'] == $studentList[$x]['student_id']) {
                         $gradingCategory[$i]['points'] += $submissions[$j]['points'];
@@ -227,6 +245,7 @@ class GradebookController extends Controller
                 for($z=0; $z < count($classworks); $z++)
                 if(  $classworks[$z]['grading_criteria'] == $gradingCategory[$i]['grade_category_id']) {
                     $gradingCategory[$i]['grade_percentage'] = ($gradingCategory[$i]['points'] / $classworks[$z]['total_points']) * $gradingCategory[$i]['percentage'];
+                    $gradingCategory[$i]['transmuted_grade_percentage'] = (((($gradingCategory[$i]['points'] /  $classworks[$z]['total_points'])*100) /2) +50 ) * ($gradingCategory[$i]['percentage'] / 100) ;
                     $gradingCategory[$i]['total_points'] =  $classworks[$z]['total_points'];
                 }
             
@@ -240,6 +259,56 @@ class GradebookController extends Controller
 
 
     }
+
+    // public function fetchAllStudentFinalGrades($class_id) {
+    //     // $tbl_student_main_grades = new tbl_student_main_grades;
+    //     // $userId = auth('sanctum')->id();
+
+    //     $studentList = DB::table('users')
+    //     ->select('users.id as student_id',
+    //     'course_id',
+    //     'class_id'
+    //     )
+    //     ->leftJoin('tbl_userclasses' , 'tbl_userclasses.user_id' , '=' , 'users.id')
+    //     ->where('tbl_userclasses.class_id', $class_id )
+    //     ->where('role', 'Student')
+    //     ->get();
+
+    //     $studentList = json_decode($studentList, true);
+      
+    //     $gradingCategory = DB::table('tbl_main_grade_categories')
+    //     ->select('name','id as grade_category_id','percentage')
+    //     ->where('course_id', $studentList[0]['course_id'])
+    //     ->get();
+    //     $gradingCategory = json_decode($gradingCategory, true);
+
+    //     $student_main_grades = DB::table('tbl_student_main_grades')
+    //     ->select('grade_category_id','grade','student_id')
+    //     ->where('course_id', $studentList[0]['course_id'] )
+    //     ->get();
+    //     $student_main_grades = json_decode($student_main_grades, true);
+
+        
+    //     for($x=0; $x < count($studentList); $x++) {
+    //         for($i=0; $i < count($gradingCategory); $i++) {
+    //             $gradingCategory[$i]['grade'] = 0 ;
+    //             for($j=0; $j < count($student_main_grades); $j++) {
+    //                 if($gradingCategory[$i]['grade_category_id'] == $student_main_grades[$j]['grade_category_id'] && $student_main_grades[$j]['student_id'] == $studentList[$x]['student_id']) {
+    //                    $gradingCategory[$i]['grade'] = $student_main_grades[$j]['grade'];
+    //                 }
+    //             }
+             
+              
+            
+    //         }
+    //         $studentList[$x]['grades'] =  $gradingCategory;
+    //     }
+
+
+    //     return $studentList;
+
+
+    // }
     /**
      * Show the form for creating a new resource.
      *
