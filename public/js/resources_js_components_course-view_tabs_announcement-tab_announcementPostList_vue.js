@@ -64,6 +64,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 
 var announcementList = function announcementList() {
@@ -359,10 +362,19 @@ var render = function() {
                 "v-row",
                 [
                   _c("v-col", { attrs: { cols: "12" } }, [
-                    _c("span", {
-                      staticClass: "post-content",
-                      domProps: { innerHTML: _vm._s(post.content) }
-                    })
+                    _c(
+                      "div",
+                      {
+                        staticClass: "pa-5 grey lighten-5 ",
+                        attrs: { outlined: "" }
+                      },
+                      [
+                        _c("span", {
+                          staticClass: "post-content",
+                          domProps: { innerHTML: _vm._s(post.content) }
+                        })
+                      ]
+                    )
                   ])
                 ],
                 1

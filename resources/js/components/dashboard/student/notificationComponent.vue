@@ -153,10 +153,14 @@
                 }
             },
             fetchNotificationAll(){
-                 axios.get('/api/notification/all/all')
+               
+                 axios.get('/api/notification/all')
                     .then(res => {
                         this.notificationList = res.data.data;
+
                     })
+
+                     console.log(this.notificationList);
                 
             }
             

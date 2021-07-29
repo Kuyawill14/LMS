@@ -1,6 +1,6 @@
 <template>
 
-   <v-card  style="border-top:3px solid #EF6C00">
+   <v-card  >
 
        <v-container class="fill-height" v-if="isLoading" style="height: 400px;">
         <v-row  align-content="center" justify="center">

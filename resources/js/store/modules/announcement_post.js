@@ -21,7 +21,7 @@ const actions = {
             `/api/announcement/allpost/${id}`
         );
         //console.log(res.data);
-        commit('FETCH_CLASSPOST', res.data);
+        commit('FETCH_CLASSPOST', res.data.data);
         return res.status;
 
 

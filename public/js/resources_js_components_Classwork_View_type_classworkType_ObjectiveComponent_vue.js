@@ -148,10 +148,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context2.prev = _context2.next) {
               case 0:
                 _this2.updateDetails.id = id;
+                _this2.updateDetails.class_classwork_id = _this2.classworkDetails.class_classwork_id;
                 _this2.updateDetails.type = _this2.classworkDetails.type;
                 axios.post('/api/student/update-status', _this2.updateDetails).then(function (res) {});
 
-              case 3:
+              case 4:
               case "end":
                 return _context2.stop();
             }

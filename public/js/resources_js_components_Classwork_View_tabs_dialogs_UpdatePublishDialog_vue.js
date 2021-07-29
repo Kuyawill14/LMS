@@ -21896,7 +21896,6 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "v-card",
-    { staticStyle: { "border-top": "3px solid #EF6C00" } },
     [
       _vm.isLoading
         ? _c(

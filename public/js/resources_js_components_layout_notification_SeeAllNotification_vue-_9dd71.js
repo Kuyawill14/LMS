@@ -474,7 +474,7 @@ var render = function() {
                               _vm.$vuetify.breakpoint.xs ||
                               _vm.$vuetify.breakpoint.sm,
                             vertical:
-                              !_vm.$vuetify.breakpoint.xs &&
+                              !_vm.$vuetify.breakpoint.xs ||
                               !_vm.$vuetify.breakpoint.sm
                           }
                         },
@@ -483,7 +483,7 @@ var render = function() {
                             "v-tab",
                             {
                               class:
-                                !_vm.$vuetify.breakpoint.xs &&
+                                !_vm.$vuetify.breakpoint.xs ||
                                 !_vm.$vuetify.breakpoint.sm
                                   ? "d-flex justify-start"
                                   : "",
@@ -501,7 +501,7 @@ var render = function() {
                                 {
                                   attrs: {
                                     left:
-                                      !_vm.$vuetify.breakpoint.xs &&
+                                      !_vm.$vuetify.breakpoint.xs ||
                                       !_vm.$vuetify.breakpoint.sm
                                   }
                                 },
@@ -514,7 +514,7 @@ var render = function() {
                               _vm._v(
                                 "\r\n                " +
                                   _vm._s(
-                                    !_vm.$vuetify.breakpoint.xs &&
+                                    !_vm.$vuetify.breakpoint.xs ||
                                       !_vm.$vuetify.breakpoint.sm
                                       ? "All"
                                       : ""
@@ -529,7 +529,7 @@ var render = function() {
                             "v-tab",
                             {
                               class:
-                                !_vm.$vuetify.breakpoint.xs &&
+                                !_vm.$vuetify.breakpoint.xs ||
                                 !_vm.$vuetify.breakpoint.sm
                                   ? "d-flex justify-start"
                                   : "",
@@ -547,7 +547,7 @@ var render = function() {
                                 {
                                   attrs: {
                                     left:
-                                      !_vm.$vuetify.breakpoint.xs &&
+                                      !_vm.$vuetify.breakpoint.xs ||
                                       !_vm.$vuetify.breakpoint.sm
                                   }
                                 },
@@ -560,7 +560,7 @@ var render = function() {
                               _vm._v(
                                 "\r\n              \r\n              " +
                                   _vm._s(
-                                    !_vm.$vuetify.breakpoint.xs &&
+                                    !_vm.$vuetify.breakpoint.xs ||
                                       !_vm.$vuetify.breakpoint.sm
                                       ? "Announcement"
                                       : ""
@@ -575,7 +575,7 @@ var render = function() {
                             "v-tab",
                             {
                               class:
-                                !_vm.$vuetify.breakpoint.xs &&
+                                !_vm.$vuetify.breakpoint.xs ||
                                 !_vm.$vuetify.breakpoint.sm
                                   ? "d-flex justify-start"
                                   : "",
@@ -593,7 +593,7 @@ var render = function() {
                                 {
                                   attrs: {
                                     left:
-                                      !_vm.$vuetify.breakpoint.xs &&
+                                      !_vm.$vuetify.breakpoint.xs ||
                                       !_vm.$vuetify.breakpoint.sm
                                   }
                                 },
@@ -606,7 +606,7 @@ var render = function() {
                               _vm._v(
                                 "\r\n              \r\n              " +
                                   _vm._s(
-                                    !_vm.$vuetify.breakpoint.xs &&
+                                    !_vm.$vuetify.breakpoint.xs ||
                                       !_vm.$vuetify.breakpoint.sm
                                       ? "Classwork"
                                       : ""
@@ -621,7 +621,7 @@ var render = function() {
                             "v-tab",
                             {
                               class:
-                                !_vm.$vuetify.breakpoint.xs &&
+                                !_vm.$vuetify.breakpoint.xs ||
                                 !_vm.$vuetify.breakpoint.sm
                                   ? "d-flex justify-start"
                                   : "",
@@ -639,7 +639,7 @@ var render = function() {
                                 {
                                   attrs: {
                                     left:
-                                      !_vm.$vuetify.breakpoint.xs &&
+                                      !_vm.$vuetify.breakpoint.xs ||
                                       !_vm.$vuetify.breakpoint.sm
                                   }
                                 },
@@ -652,7 +652,7 @@ var render = function() {
                               _vm._v(
                                 "\r\n              \r\n              " +
                                   _vm._s(
-                                    !_vm.$vuetify.breakpoint.xs &&
+                                    !_vm.$vuetify.breakpoint.xs ||
                                       !_vm.$vuetify.breakpoint.sm
                                       ? "Class Invites"
                                       : ""
@@ -667,14 +667,14 @@ var render = function() {
                             "v-tab",
                             {
                               class:
-                                !_vm.$vuetify.breakpoint.xs &&
+                                !_vm.$vuetify.breakpoint.xs ||
                                 !_vm.$vuetify.breakpoint.sm
                                   ? "d-flex justify-start"
                                   : "",
                               on: {
                                 click: function($event) {
-                                  ;(_vm.notificationType = 3),
-                                    (_vm.notifTypeName = "Class Invites"),
+                                  ;(_vm.notificationType = "Hidden"),
+                                    (_vm.notifTypeName = "Hidden"),
                                     _vm.getNotificationList()
                                 }
                               }
@@ -685,7 +685,7 @@ var render = function() {
                                 {
                                   attrs: {
                                     left:
-                                      !_vm.$vuetify.breakpoint.xs &&
+                                      !_vm.$vuetify.breakpoint.xs ||
                                       !_vm.$vuetify.breakpoint.sm
                                   }
                                 },
@@ -698,7 +698,7 @@ var render = function() {
                               _vm._v(
                                 "\r\n              " +
                                   _vm._s(
-                                    !_vm.$vuetify.breakpoint.xs &&
+                                    !_vm.$vuetify.breakpoint.xs ||
                                       !_vm.$vuetify.breakpoint.sm
                                       ? "Hidden"
                                       : ""
@@ -1086,6 +1086,7 @@ var render = function() {
                                         _vm._v(" "),
                                         _c(
                                           "v-list-item-action",
+                                          { staticStyle: { "z-index": "1" } },
                                           [
                                             item.status == null ||
                                             item.status == 0
@@ -1115,6 +1116,8 @@ var render = function() {
                                                                               "50"
                                                                           },
                                                                           attrs: {
+                                                                            text:
+                                                                              "",
                                                                             icon:
                                                                               ""
                                                                           },
@@ -1189,6 +1192,8 @@ var render = function() {
                                                                               "50"
                                                                           },
                                                                           attrs: {
+                                                                            text:
+                                                                              "",
                                                                             icon:
                                                                               ""
                                                                           },
@@ -1233,7 +1238,7 @@ var render = function() {
                                                     _vm._v(" "),
                                                     _c("span", [
                                                       _vm._v(
-                                                        "Remove notification"
+                                                        "Hide notification"
                                                       )
                                                     ])
                                                   ]

@@ -1,6 +1,6 @@
 <template>
-  <v-app>
-      <v-container fluid>
+  <div>
+  
            <v-row>
                 <v-col  cols="12" md="12" class="pl-5 pt-2">
                     <v-btn rounded text="" class=""
@@ -10,7 +10,7 @@
                     </v-btn>
                 </v-col>
            </v-row>
-      </v-container>
+
       <v-container class="fill-height" v-if="isloading" style="height: 500px;">
             <v-row  align-content="center" justify="center">
                 <v-col class="text-subtitle-1 text-center" cols="12">
@@ -33,7 +33,7 @@
       :totalQuestion="totalQuestion"
       ></studentStartPage>
  
-  </v-app>
+  </div>
 </template>
 
 <script>

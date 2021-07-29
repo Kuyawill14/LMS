@@ -164,6 +164,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['role'],
@@ -210,6 +218,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     var data = moment__WEBPACK_IMPORTED_MODULE_1___default()(_this.CalendarSched[0].from_date)._d;
 
                     for (var index = 0; index < _this.CalendarSched.length; index++) {
+                      var allDay = _this.rnd(0, 3) === 0;
                       var test = moment__WEBPACK_IMPORTED_MODULE_1___default()(_this.CalendarSched[index].from_date);
                       var color = void 0;
                       var name = void 0;
@@ -218,9 +227,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                         name = _this.CalendarSched[index].title + '(submitted)';
                         color = "success";
                         console.log(_this.CalendarSched[index].status);
-                      } else if (_this.role == 'Student' && _this.CalendarSched[index].status != 'Submitted' && _this.CheckFormatDue(_this.CalendarSched[index].to_date) < _this.DateToday) {
+                      } else if (_this.role == 'Student' && _this.CalendarSched[index].status != 'Submitted' && _this.CalendarSched[index].availability == 1 && _this.CheckFormatDue(_this.CalendarSched[index].to_date) < _this.DateToday) {
                         name = _this.CalendarSched[index].title + '(missing)';
                         color = "error";
+                      } else if (_this.role == 'Student' && _this.CalendarSched[index].status != 'Submitted' && _this.CalendarSched[index].availability == 0 && _this.CheckFormatDue(_this.CalendarSched[index].to_date) < _this.DateToday) {
+                        name = _this.CalendarSched[index].title;
+                        color = _this.colors[_this.rnd(0, _this.colors.length - 1)];
                       } else if (_this.role == 'Student' && _this.CalendarSched[index].status == 'Submitting' || _this.CalendarSched[index].status == 'Taking') {
                         name = _this.CalendarSched[index].title + _this.CalendarSched[index].status;
                         color = "info";
@@ -234,16 +246,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                         name: name,
                         start: moment__WEBPACK_IMPORTED_MODULE_1___default()(_this.CalendarSched[index].from_date)._d,
                         end: moment__WEBPACK_IMPORTED_MODULE_1___default()(_this.CalendarSched[index].to_date)._d,
-                        color: color
+                        color: color,
+                        timed: !allDay
                       });
                     }
                   }
 
-                  _this.events = events; //this.isloading = !this.isloading;
-
-                  setTimeout(function () {
-                    _this.isloading = !_this.isloading;
-                  }, 1000); //this.$refs.calendar.checkChange()
+                  _this.events = events;
+                  _this.isloading = !_this.isloading;
+                  /*  setTimeout(() => {
+                       this.isloading = !this.isloading;
+                  }, 1000); */
+                  //this.$refs.calendar.checkChange()
                 });
 
               case 1:
@@ -22200,7 +22214,11 @@ var render = function() {
                               _c(
                                 "v-btn",
                                 {
-                                  attrs: { text: "", color: "secondary" },
+                                  attrs: {
+                                    text: "",
+                                    rounded: "",
+                                    color: "secondary"
+                                  },
                                   on: {
                                     click: function($event) {
                                       _vm.selectedOpen = false
@@ -22208,6 +22226,22 @@ var render = function() {
                                   }
                                 },
                                 [_vm._v("\n              Close\n            ")]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-btn",
+                                {
+                                  attrs: {
+                                    rounded: "",
+                                    color: _vm.selectedEvent.color
+                                  },
+                                  on: {
+                                    click: function($event) {
+                                      _vm.selectedOpen = false
+                                    }
+                                  }
+                                },
+                                [_vm._v("\n              Open\n            ")]
                               )
                             ],
                             1

@@ -353,7 +353,7 @@ var render = function() {
                                           _vm._g(
                                             _vm._b(
                                               {
-                                                staticClass: "float-right",
+                                                staticClass: "float-right mt-4",
                                                 attrs: {
                                                   icon: "",
                                                   color: "white"
@@ -380,7 +380,7 @@ var render = function() {
                                 ],
                                 null,
                                 false,
-                                1379687
+                                2351045127
                               )
                             },
                             [

@@ -1,5 +1,8 @@
 <template>
-<v-app>
+<div class="pa-2">
+
+
+
 <v-container class="fill-height" v-if="isloading" style="height: 500px;">
     <v-row  align-content="center" justify="center">
         <v-col class="text-subtitle-1 text-center" cols="12">
@@ -13,10 +16,11 @@
 
 <v-container v-if="!isloading" pa-0 ma-0 class="pa-0 ma-0" fluid>
         <v-row align="center" justify="center">
-          <v-col cols="12" lg="12" md="12">
-            <v-card  class="elevation-5" style="border-top:5px solid #EF6C00">
+          <v-col cols="12" md="8" lg="9" xl="9">
+            <v-card  class="pa-3" elevation="1" >
               <v-window>
                 <v-window-item >
+                    <vue-element-loading :active="isAdding" spinner="bar-fade-scale" />
                     <v-form ref="form" v-model="valid" lazy-validation>
                         <v-row>
                            <!--  <v-col cols="12" md="12" class="primary">
@@ -69,13 +73,18 @@
                                             required
                                    
                                             ></v-textarea> -->
-                                               <v-card  style="width:100%" class="mb-3">
+                                            <div class="mb-3">
+
+                                               <v-card  style="width:100%" >
                                                 <editor class="outlined" required :rules="rules"
                                          
                                                     v-model="quesForm.question"
                                                      id="editor-container"  placeholder="Question" 
                                                     theme="snow" :options="options"></editor>
                                             </v-card>
+                                            <small v-if="!valid && quesForm.question == ''" class="error--text">*This field is required</small>
+                                            </div>
+                                            
 
                                           <!--   <v-tooltip top>
                                             <template v-slot:activator="{ on, attrs }">
@@ -135,27 +144,7 @@
                                                                 id="editor-container"  :placeholder="'Option '+(i+1)" 
                                                                  theme="snow" :options="options"></editor>
                                                             </v-card>
-                                                            <!--  Image Input -->
-                                                           <!--  <v-file-input
-                                                                :rules="Imagerules"
-                                                                v-show="selectedImage[i] != null"
-                                                                :id="'uploader'+i"
-                                                                v-model="selectedImage[i]"
-                                                                prepend-icon=""
-                                                                accept="image/png, image/jpeg, image/bmp"
-                                                                @change="onFileChange"
-                                                                filled
-                                                                :label="'Option'+(i+1)"
-                                                            ></v-file-input>
-                                                                    
-                                                         
-                                                             <v-btn class="mt-2 pl-2 pr-2" icon 
-                                                             @click="onButtonClick(i), inputIndex = i">
-                                                                <v-icon>
-                                                                    mdi-camera
-                                                                </v-icon>
-                                                            </v-btn> -->
-
+                                                    
                                                             <v-btn
                                                             @click="item.answer == quesForm.answer ? (remove(i), quesForm.answer = '') : (remove(i),quesForm.answer = tempAnswer) "
                                                             icon class="mt-2 pl-2 pr-2">
@@ -334,6 +323,7 @@
                                 </v-container>
                                 <v-container class="mb-5">
                                         <v-btn
+                                        :loading="isAdding"
                                         rounded
                                         class="mt-2"
                                         color="primary"
@@ -353,14 +343,19 @@
           </v-col>
         </v-row>
       </v-container>
-</v-app>
+</div>
 </template>
 <script>
+import VueElementLoading from 'vue-element-loading'
 import {mapGetters, mapActions} from "vuex";
 export default {
+    components:{
+        VueElementLoading
+    },
     data(){
         return{
             isloading: true,
+            isAdding: false,
             inputIndex:'',
             checker:'',
             testDetails:'',
@@ -482,6 +477,7 @@ export default {
             this.MatchQuestion.splice(index, 1);
         },
         AddQuestion(){
+            this.isAdding = true;
             if (this.quesForm.type == 'Multiple Choice') {
                 if(this.form.length >= 2 && this.quesForm.answer != '' && this.quesForm.points != 0){
                     
@@ -510,6 +506,8 @@ export default {
                 else{
                     this.toastError('You must atleast enter two choices');
                 }
+                 setTimeout(() => (this.isAdding = false), 1000);
+                //this.isAdding = false;
             }
             else if(this.quesForm.type == 'Identification' || this.quesForm.type == 'True or False'){
                 if(this.quesForm.answer != '' && this.quesForm.points != 0 || ''){
@@ -527,6 +525,8 @@ export default {
                 else{
                     this.toastError('You must atleast write/pick one answer');
                 }
+                setTimeout(() => (this.isAdding = false), 1000);
+               //this.isAdding = false;
             }
             else if(this.quesForm.type == 'Matching type'){
                  this.quesForm.answer = 'Matching Type';
@@ -540,6 +540,8 @@ export default {
                     //this.$store.dispatch('fetchQuestions', this.$route.query.clwk);
                     this.CallReset();
                 })
+                 setTimeout(() => (this.isAdding = false), 1000);
+                //this.isAdding = false;
             }
 
         },
@@ -588,7 +590,7 @@ export default {
 }
  .ql-editor img{
 
-    max-height: 10rem !important;
+    max-height: 15rem !important;
 }
 .ql-container{
     max-height: 50rem;

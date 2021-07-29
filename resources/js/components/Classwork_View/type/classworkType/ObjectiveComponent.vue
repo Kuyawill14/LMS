@@ -101,6 +101,7 @@ export default {
         async UpdateStatus(id){
           
             this.updateDetails.id = id;
+            this.updateDetails.class_classwork_id = this.classworkDetails.class_classwork_id;
             this.updateDetails.type = this.classworkDetails.type;
             axios.post('/api/student/update-status',this.updateDetails)
             .then(res=>{

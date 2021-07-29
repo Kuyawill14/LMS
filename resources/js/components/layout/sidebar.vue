@@ -1,7 +1,7 @@
 <template>
 <div>
     <!--  ######### header ################ -->
-       <v-app-bar style="z-index:99" :clipped-left="$vuetify.breakpoint.lgAndUp" app color="primary" dark>
+       <v-app-bar  :clipped-left="$vuetify.breakpoint.lgAndUp" app color="primary" dark>
         <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
         <router-link to="/">
          <v-toolbar-title style="width: 300px;color: #fff" class="ml-0 pl-4 " >
@@ -59,9 +59,9 @@
     </v-app-bar>
      <!--  ######### end header ################ -->
 
-
+    <!-- :expand-on-hover="$vuetify.breakpoint.lgAndUp" -->
    <!--  ######### sidebar ################ -->
-    <v-navigation-drawer v-model="drawer" :clipped="$vuetify.breakpoint.lgAndUp" v-if="navBarType != 'selectedCourse' ||  getcourseInfo.completed == 1 " app>
+    <v-navigation-drawer  :expand-on-hover="$vuetify.breakpoint.lgAndUp"  v-model="drawer" :clipped="$vuetify.breakpoint.lgAndUp" v-if="navBarType != 'selectedCourse' ||  getcourseInfo.completed == 1 " app>
         <mainNavbar :role="role" :drawer="drawer"  v-if="navBarType != 'selectedCourse' && (role == 'Student' || role == 'Teacher')" > </mainNavbar>
         <courseNavbar :role="role" v-if="navBarType == 'selectedCourse'&& (role == 'Student' || role == 'Teacher') "> </courseNavbar>
          <adminNavbar :role="role" v-if="role == 'Admin'"> </adminNavbar>

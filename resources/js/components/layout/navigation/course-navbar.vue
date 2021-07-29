@@ -1,7 +1,18 @@
 <template>
-    <v-list dense v-if="role!= undefined">
+<div>
+     <v-list-item link :to="{name: 'courses'}" exact>
+        <v-list-item-action>
+                <v-icon>mdi-arrow-left</v-icon>
+            </v-list-item-action>
+            <v-list-item-content>
+                <v-list-item-title >
+                    Back to My Course
+                </v-list-item-title>
+            </v-list-item-content>
+        </v-list-item>
+    <v-divider></v-divider>
+    <v-list nav dense v-if="role!= undefined">
         <template>
-
             <v-list-item link :to="{name: 'coursePage'}" v-if="role == 'Teacher'" exact>
                 <v-list-item-action>
                     <v-icon>mdi-google-classroom</v-icon>
@@ -211,6 +222,7 @@
             <span class="md-list-item-text">Settings</span>
         </md-list-item>
     </md-list> -->
+</div>
 </template>
 
 

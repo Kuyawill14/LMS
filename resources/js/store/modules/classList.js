@@ -50,8 +50,12 @@ const actions = {
     },
 
     async joinClass({ commit }, classItem) {
-        let res = await axios.post(`/api/student/join/${classItem.class_code}`);
-        return res;
+        let data;
+        let res = await axios.post(`/api/student/join/${classItem.class_code}`)
+        .then(res=>{
+            data =  res;
+        })
+        return data;
     },
     async Unenroll({ commit }, id) {
         let res = await axios

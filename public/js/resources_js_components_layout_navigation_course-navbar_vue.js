@@ -227,6 +227,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['role']
 });
@@ -321,393 +333,448 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm.role != undefined
-    ? _c(
-        "v-list",
-        { attrs: { dense: "" } },
+  return _c(
+    "div",
+    [
+      _c(
+        "v-list-item",
+        { attrs: { link: "", to: { name: "courses" }, exact: "" } },
         [
-          [
-            _vm.role == "Teacher"
-              ? _c(
-                  "v-list-item",
-                  {
-                    attrs: { link: "", to: { name: "coursePage" }, exact: "" }
-                  },
-                  [
-                    _c(
-                      "v-list-item-action",
-                      [_c("v-icon", [_vm._v("mdi-google-classroom")])],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "v-list-item-content",
-                      [
-                        _c("v-list-item-title", [
-                          _vm._v(
-                            "\n                    Classes\n                "
-                          )
-                        ])
-                      ],
-                      1
-                    )
-                  ],
-                  1
+          _c(
+            "v-list-item-action",
+            [_c("v-icon", [_vm._v("mdi-arrow-left")])],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-list-item-content",
+            [
+              _c("v-list-item-title", [
+                _vm._v(
+                  "\r\n                    Back to My Course\r\n                "
                 )
-              : _vm._e(),
-            _vm._v(" "),
-            _c(
-              "v-list-item",
-              { attrs: { link: "", to: { name: "announcement" }, exact: "" } },
-              [
-                _c(
-                  "v-list-item-action",
-                  [_c("v-icon", [_vm._v("mdi-message-alert")])],
-                  1
-                ),
-                _vm._v(" "),
-                _c(
-                  "v-list-item-content",
-                  [
-                    _c("v-list-item-title", [
-                      _vm._v(
-                        "\n                    Announcement\n                "
-                      )
-                    ])
-                  ],
-                  1
-                )
-              ],
-              1
-            ),
-            _vm._v(" "),
-            _c(
-              "v-list-item",
-              { attrs: { link: "", to: { name: "classwork" }, exact: "" } },
-              [
-                _c(
-                  "v-list-item-action",
-                  [_c("v-icon", [_vm._v("mdi-book-open-variant")])],
-                  1
-                ),
-                _vm._v(" "),
-                _c(
-                  "v-list-item-content",
-                  [
-                    _c("v-list-item-title", [
-                      _vm._v(
-                        "\n                    Classwork\n                "
-                      )
-                    ])
-                  ],
-                  1
-                )
-              ],
-              1
-            ),
-            _vm._v(" "),
-            _vm.role == "Teacher"
-              ? _c(
-                  "v-list-item",
-                  { attrs: { link: "", to: { name: "modules" }, exact: "" } },
-                  [
-                    _c(
-                      "v-list-item-action",
-                      [_c("v-icon", [_vm._v("mdi-book-variant-multiple")])],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "v-list-item-content",
-                      [
-                        _c("v-list-item-title", [
-                          _vm._v(
-                            "\n                    Modules\n                "
-                          )
-                        ])
-                      ],
-                      1
-                    )
-                  ],
-                  1
-                )
-              : _vm._e(),
-            _vm._v(" "),
-            _vm.role == "Teacher"
-              ? _c(
-                  "v-list-item",
-                  {
-                    attrs: {
-                      link: "",
-                      to: { name: "studentProgress" },
-                      exact: ""
-                    }
-                  },
-                  [
-                    _c(
-                      "v-list-item-action",
-                      [_c("v-icon", [_vm._v("mdi-chart-box-outline")])],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "v-list-item-content",
-                      [
-                        _c("v-list-item-title", [
-                          _vm._v(
-                            "\n                    Student's Progress\n                "
-                          )
-                        ])
-                      ],
-                      1
-                    )
-                  ],
-                  1
-                )
-              : _vm._e(),
-            _vm._v(" "),
-            _vm.role == "Student"
-              ? _c(
-                  "v-list-item",
-                  {
-                    attrs: {
-                      link: "",
-                      to: { name: "student-modules" },
-                      exact: ""
-                    }
-                  },
-                  [
-                    _c(
-                      "v-list-item-action",
-                      [_c("v-icon", [_vm._v("mdi-book-variant-multiple")])],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "v-list-item-content",
-                      [
-                        _c("v-list-item-title", [
-                          _vm._v(
-                            "\n                    Modules\n                "
-                          )
-                        ])
-                      ],
-                      1
-                    )
-                  ],
-                  1
-                )
-              : _vm._e(),
-            _vm._v(" "),
-            _vm.role == "Student"
-              ? _c(
-                  "v-list-item",
-                  {
-                    attrs: {
-                      link: "",
-                      to: { name: "studentProgress" },
-                      exact: ""
-                    }
-                  },
-                  [
-                    _c(
-                      "v-list-item-action",
-                      [_c("v-icon", [_vm._v("mdi-chart-box-outline")])],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "v-list-item-content",
-                      [
-                        _c("v-list-item-title", [
-                          _vm._v(
-                            "\n                    My Progress\n                "
-                          )
-                        ])
-                      ],
-                      1
-                    )
-                  ],
-                  1
-                )
-              : _vm._e(),
-            _vm._v(" "),
-            _vm.role == "Student"
-              ? _c(
-                  "v-list-item",
-                  {
-                    attrs: {
-                      link: "",
-                      to: { name: "studentGradebook" },
-                      exact: ""
-                    }
-                  },
-                  [
-                    _c(
-                      "v-list-item-action",
-                      [_c("v-icon", [_vm._v("mdi-book-open")])],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "v-list-item-content",
-                      [
-                        _c("v-list-item-title", [
-                          _vm._v(
-                            "\n                    My Grades\n                "
-                          )
-                        ])
-                      ],
-                      1
-                    )
-                  ],
-                  1
-                )
-              : _vm._e(),
-            _vm._v(" "),
-            _c(
-              "v-list-item",
-              { attrs: { link: "", to: { name: "Student-list" }, exact: "" } },
-              [
-                _c(
-                  "v-list-item-action",
-                  [_c("v-icon", [_vm._v("mdi-account-group")])],
-                  1
-                ),
-                _vm._v(" "),
-                _c(
-                  "v-list-item-content",
-                  [
-                    _c("v-list-item-title", [
-                      _vm._v("\n                    People\n                ")
-                    ])
-                  ],
-                  1
-                )
-              ],
-              1
-            ),
-            _vm._v(" "),
-            _vm.role == "Teacher"
-              ? _c(
-                  "v-list-item",
-                  { attrs: { link: "", to: { name: "gradebook" }, exact: "" } },
-                  [
-                    _c(
-                      "v-list-item-action",
-                      [_c("v-icon", [_vm._v("mdi-book-open")])],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "v-list-item-content",
-                      [
-                        _c("v-list-item-title", [
-                          _vm._v(
-                            "\n                    Grade Book\n                "
-                          )
-                        ])
-                      ],
-                      1
-                    )
-                  ],
-                  1
-                )
-              : _vm._e(),
-            _vm._v(" "),
-            _vm.role == "Teacher"
-              ? _c(
-                  "v-list-item",
-                  {
-                    attrs: {
-                      link: "",
-                      to: { name: "gradingCriteria" },
-                      exact: ""
-                    }
-                  },
-                  [
-                    _c(
-                      "v-list-item-action",
-                      [
-                        _c("v-icon", [
-                          _vm._v(
-                            "mdi-chart-timeline-variant-shimmer\n                "
-                          )
-                        ])
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "v-list-item-content",
-                      [
-                        _c("v-list-item-title", [
-                          _vm._v(
-                            "\n                    Grading Criteria\n                "
-                          )
-                        ])
-                      ],
-                      1
-                    )
-                  ],
-                  1
-                )
-              : _vm._e(),
-            _vm._v(" "),
-            _c(
-              "v-list-item",
-              { attrs: { link: "", to: { name: "about" }, exact: "" } },
-              [
-                _c(
-                  "v-list-item-action",
-                  [_c("v-icon", [_vm._v("mdi-information")])],
-                  1
-                ),
-                _vm._v(" "),
-                _c(
-                  "v-list-item-content",
-                  [
-                    _c("v-list-item-title", [
-                      _vm._v("\n                    About\n                ")
-                    ])
-                  ],
-                  1
-                )
-              ],
-              1
-            ),
-            _vm._v(" "),
-            _vm.role == "Teacher"
-              ? _c(
-                  "v-list-item",
-                  { attrs: { link: "", to: { name: "settings" }, exact: "" } },
-                  [
-                    _c(
-                      "v-list-item-action",
-                      [_c("v-icon", [_vm._v("mdi-tune-vertical-variant")])],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "v-list-item-content",
-                      [
-                        _c("v-list-item-title", [
-                          _vm._v(
-                            "\n                    Settings\n                "
-                          )
-                        ])
-                      ],
-                      1
-                    )
-                  ],
-                  1
-                )
-              : _vm._e()
-          ]
+              ])
+            ],
+            1
+          )
         ],
-        2
-      )
-    : _vm._e()
+        1
+      ),
+      _vm._v(" "),
+      _c("v-divider"),
+      _vm._v(" "),
+      _vm.role != undefined
+        ? _c(
+            "v-list",
+            { attrs: { nav: "", dense: "" } },
+            [
+              [
+                _vm.role == "Teacher"
+                  ? _c(
+                      "v-list-item",
+                      {
+                        attrs: {
+                          link: "",
+                          to: { name: "coursePage" },
+                          exact: ""
+                        }
+                      },
+                      [
+                        _c(
+                          "v-list-item-action",
+                          [_c("v-icon", [_vm._v("mdi-google-classroom")])],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "v-list-item-content",
+                          [
+                            _c("v-list-item-title", [
+                              _vm._v(
+                                "\r\n                        Classes\r\n                    "
+                              )
+                            ])
+                          ],
+                          1
+                        )
+                      ],
+                      1
+                    )
+                  : _vm._e(),
+                _vm._v(" "),
+                _c(
+                  "v-list-item",
+                  {
+                    attrs: { link: "", to: { name: "announcement" }, exact: "" }
+                  },
+                  [
+                    _c(
+                      "v-list-item-action",
+                      [_c("v-icon", [_vm._v("mdi-message-alert")])],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "v-list-item-content",
+                      [
+                        _c("v-list-item-title", [
+                          _vm._v(
+                            "\r\n                        Announcement\r\n                    "
+                          )
+                        ])
+                      ],
+                      1
+                    )
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c(
+                  "v-list-item",
+                  { attrs: { link: "", to: { name: "classwork" }, exact: "" } },
+                  [
+                    _c(
+                      "v-list-item-action",
+                      [_c("v-icon", [_vm._v("mdi-book-open-variant")])],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "v-list-item-content",
+                      [
+                        _c("v-list-item-title", [
+                          _vm._v(
+                            "\r\n                        Classwork\r\n                    "
+                          )
+                        ])
+                      ],
+                      1
+                    )
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _vm.role == "Teacher"
+                  ? _c(
+                      "v-list-item",
+                      {
+                        attrs: { link: "", to: { name: "modules" }, exact: "" }
+                      },
+                      [
+                        _c(
+                          "v-list-item-action",
+                          [_c("v-icon", [_vm._v("mdi-book-variant-multiple")])],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "v-list-item-content",
+                          [
+                            _c("v-list-item-title", [
+                              _vm._v(
+                                "\r\n                        Modules\r\n                    "
+                              )
+                            ])
+                          ],
+                          1
+                        )
+                      ],
+                      1
+                    )
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.role == "Teacher"
+                  ? _c(
+                      "v-list-item",
+                      {
+                        attrs: {
+                          link: "",
+                          to: { name: "studentProgress" },
+                          exact: ""
+                        }
+                      },
+                      [
+                        _c(
+                          "v-list-item-action",
+                          [_c("v-icon", [_vm._v("mdi-chart-box-outline")])],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "v-list-item-content",
+                          [
+                            _c("v-list-item-title", [
+                              _vm._v(
+                                "\r\n                        Student's Progress\r\n                    "
+                              )
+                            ])
+                          ],
+                          1
+                        )
+                      ],
+                      1
+                    )
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.role == "Student"
+                  ? _c(
+                      "v-list-item",
+                      {
+                        attrs: {
+                          link: "",
+                          to: { name: "student-modules" },
+                          exact: ""
+                        }
+                      },
+                      [
+                        _c(
+                          "v-list-item-action",
+                          [_c("v-icon", [_vm._v("mdi-book-variant-multiple")])],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "v-list-item-content",
+                          [
+                            _c("v-list-item-title", [
+                              _vm._v(
+                                "\r\n                        Modules\r\n                    "
+                              )
+                            ])
+                          ],
+                          1
+                        )
+                      ],
+                      1
+                    )
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.role == "Student"
+                  ? _c(
+                      "v-list-item",
+                      {
+                        attrs: {
+                          link: "",
+                          to: { name: "studentProgress" },
+                          exact: ""
+                        }
+                      },
+                      [
+                        _c(
+                          "v-list-item-action",
+                          [_c("v-icon", [_vm._v("mdi-chart-box-outline")])],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "v-list-item-content",
+                          [
+                            _c("v-list-item-title", [
+                              _vm._v(
+                                "\r\n                        My Progress\r\n                    "
+                              )
+                            ])
+                          ],
+                          1
+                        )
+                      ],
+                      1
+                    )
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.role == "Student"
+                  ? _c(
+                      "v-list-item",
+                      {
+                        attrs: {
+                          link: "",
+                          to: { name: "studentGradebook" },
+                          exact: ""
+                        }
+                      },
+                      [
+                        _c(
+                          "v-list-item-action",
+                          [_c("v-icon", [_vm._v("mdi-book-open")])],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "v-list-item-content",
+                          [
+                            _c("v-list-item-title", [
+                              _vm._v(
+                                "\r\n                        My Grades\r\n                    "
+                              )
+                            ])
+                          ],
+                          1
+                        )
+                      ],
+                      1
+                    )
+                  : _vm._e(),
+                _vm._v(" "),
+                _c(
+                  "v-list-item",
+                  {
+                    attrs: { link: "", to: { name: "Student-list" }, exact: "" }
+                  },
+                  [
+                    _c(
+                      "v-list-item-action",
+                      [_c("v-icon", [_vm._v("mdi-account-group")])],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "v-list-item-content",
+                      [
+                        _c("v-list-item-title", [
+                          _vm._v(
+                            "\r\n                        People\r\n                    "
+                          )
+                        ])
+                      ],
+                      1
+                    )
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _vm.role == "Teacher"
+                  ? _c(
+                      "v-list-item",
+                      {
+                        attrs: {
+                          link: "",
+                          to: { name: "gradebook" },
+                          exact: ""
+                        }
+                      },
+                      [
+                        _c(
+                          "v-list-item-action",
+                          [_c("v-icon", [_vm._v("mdi-book-open")])],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "v-list-item-content",
+                          [
+                            _c("v-list-item-title", [
+                              _vm._v(
+                                "\r\n                        Grade Book\r\n                    "
+                              )
+                            ])
+                          ],
+                          1
+                        )
+                      ],
+                      1
+                    )
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.role == "Teacher"
+                  ? _c(
+                      "v-list-item",
+                      {
+                        attrs: {
+                          link: "",
+                          to: { name: "gradingCriteria" },
+                          exact: ""
+                        }
+                      },
+                      [
+                        _c(
+                          "v-list-item-action",
+                          [
+                            _c("v-icon", [
+                              _vm._v(
+                                "mdi-chart-timeline-variant-shimmer\r\n                    "
+                              )
+                            ])
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "v-list-item-content",
+                          [
+                            _c("v-list-item-title", [
+                              _vm._v(
+                                "\r\n                        Grading Criteria\r\n                    "
+                              )
+                            ])
+                          ],
+                          1
+                        )
+                      ],
+                      1
+                    )
+                  : _vm._e(),
+                _vm._v(" "),
+                _c(
+                  "v-list-item",
+                  { attrs: { link: "", to: { name: "about" }, exact: "" } },
+                  [
+                    _c(
+                      "v-list-item-action",
+                      [_c("v-icon", [_vm._v("mdi-information")])],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "v-list-item-content",
+                      [
+                        _c("v-list-item-title", [
+                          _vm._v(
+                            "\r\n                        About\r\n                    "
+                          )
+                        ])
+                      ],
+                      1
+                    )
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _vm.role == "Teacher"
+                  ? _c(
+                      "v-list-item",
+                      {
+                        attrs: { link: "", to: { name: "settings" }, exact: "" }
+                      },
+                      [
+                        _c(
+                          "v-list-item-action",
+                          [_c("v-icon", [_vm._v("mdi-tune-vertical-variant")])],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "v-list-item-content",
+                          [
+                            _c("v-list-item-title", [
+                              _vm._v(
+                                "\r\n                        Settings\r\n                    "
+                              )
+                            ])
+                          ],
+                          1
+                        )
+                      ],
+                      1
+                    )
+                  : _vm._e()
+              ]
+            ],
+            2
+          )
+        : _vm._e()
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true

@@ -16,6 +16,7 @@ class CreateTblSubmissionsTable extends Migration
         Schema::create('tbl_submissions', function (Blueprint $table) {
             $table->id();
             $table->integer('classwork_id');
+            $table->integer('class_classwork_id');
             $table->integer('user_id');
             $table->mediumText('Submitted_Answers')->nullable();
             $table->integer('points')->default(0);

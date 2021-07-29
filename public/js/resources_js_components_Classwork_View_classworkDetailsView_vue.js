@@ -21648,37 +21648,30 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "v-app",
+    "div",
     [
       _c(
-        "v-container",
-        { attrs: { fluid: "" } },
+        "v-row",
         [
           _c(
-            "v-row",
+            "v-col",
+            { staticClass: "pl-5 pt-2", attrs: { cols: "12", md: "12" } },
             [
               _c(
-                "v-col",
-                { staticClass: "pl-5 pt-2", attrs: { cols: "12", md: "12" } },
+                "v-btn",
+                {
+                  attrs: { rounded: "", text: "" },
+                  on: {
+                    click: function($event) {
+                      return _vm.$router.push({ name: "classwork" })
+                    }
+                  }
+                },
                 [
-                  _c(
-                    "v-btn",
-                    {
-                      attrs: { rounded: "", text: "" },
-                      on: {
-                        click: function($event) {
-                          return _vm.$router.push({ name: "classwork" })
-                        }
-                      }
-                    },
-                    [
-                      _c("v-icon", { attrs: { left: "", dark: "" } }, [
-                        _vm._v("mdi-arrow-left-thick")
-                      ]),
-                      _vm._v("\n                      Back\n                  ")
-                    ],
-                    1
-                  )
+                  _c("v-icon", { attrs: { left: "", dark: "" } }, [
+                    _vm._v("mdi-arrow-left-thick")
+                  ]),
+                  _vm._v("\n                      Back\n                  ")
                 ],
                 1
               )

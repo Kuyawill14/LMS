@@ -52,6 +52,48 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['classworkDetails'],
   data: function data() {
@@ -191,134 +233,172 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "v-app",
+    "v-container",
+    { attrs: { fluid: "", "ma-0": "", "pa-0": "" } },
     [
-      _vm.classworkDetails.type == "Objective Type"
-        ? _c(
-            "v-tabs",
-            {
-              attrs: {
-                rounded: "",
-                "next-icon": "mdi-arrow-right-bold-box-outline",
-                "prev-icon": "mdi-arrow-left-bold-box-outline",
-                "show-arrows": "",
-                centered: "",
-                "icons-and-text": ""
-              },
-              model: {
-                value: _vm.activeTab,
-                callback: function($$v) {
-                  _vm.activeTab = $$v
-                },
-                expression: "activeTab"
-              }
-            },
+      _c(
+        "v-row",
+        { attrs: { "no-gutters": "" } },
+        [
+          _c(
+            "v-col",
+            { staticClass: "ma-0 pa-0 mt-0 pt-0", attrs: { cols: "12" } },
             [
-              _c("v-tabs-slider", { attrs: { color: "primary" } }),
-              _vm._v(" "),
-              _vm._l(_vm.ObjectIveTabs, function(item, index) {
-                return _c(
-                  "v-tab",
-                  {
-                    key: index,
-                    attrs: {
-                      to: {
-                        name: item.name,
-                        query: { clwk: _vm.$route.query.clwk }
+              _vm.classworkDetails.type == "Objective Type"
+                ? _c(
+                    "v-tabs",
+                    {
+                      attrs: {
+                        rounded: "",
+                        "next-icon": "mdi-arrow-right-bold-box-outline",
+                        "prev-icon": "mdi-arrow-left-bold-box-outline",
+                        "show-arrows": "",
+                        centered:
+                          _vm.$vuetify.breakpoint.xs ||
+                          _vm.$vuetify.breakpoint.sm,
+                        "icons-and-text":
+                          _vm.$vuetify.breakpoint.xs ||
+                          _vm.$vuetify.breakpoint.sm
+                      },
+                      model: {
+                        value: _vm.activeTab,
+                        callback: function($$v) {
+                          _vm.activeTab = $$v
+                        },
+                        expression: "activeTab"
                       }
-                    }
-                  },
-                  [
-                    _vm._v(
-                      "\n                    " +
-                        _vm._s(_vm.$vuetify.breakpoint.xs ? "" : item.text) +
-                        "\n                        "
-                    ),
-                    _c("v-icon", { attrs: { left: "" } }, [
-                      _vm._v(
-                        "\n                        " +
-                          _vm._s(item.icon) +
-                          "\n                        "
+                    },
+                    [
+                      _c("v-tabs-slider", { attrs: { color: "primary" } }),
+                      _vm._v(" "),
+                      _vm._l(_vm.ObjectIveTabs, function(item, index) {
+                        return _c(
+                          "v-tab",
+                          {
+                            key: index,
+                            staticClass: "d-flex justify-start",
+                            attrs: {
+                              to: {
+                                name: item.name,
+                                query: { clwk: _vm.$route.query.clwk }
+                              }
+                            }
+                          },
+                          [
+                            _vm._v(
+                              "\n                 " +
+                                _vm._s(
+                                  _vm.$vuetify.breakpoint.xs ||
+                                    _vm.$vuetify.breakpoint.sm
+                                    ? ""
+                                    : item.text
+                                ) +
+                                "\n                     "
+                            ),
+                            _c("v-icon", { attrs: { right: "" } }, [
+                              _vm._v(
+                                "\n                     " +
+                                  _vm._s(item.icon) +
+                                  "\n                     "
+                              )
+                            ])
+                          ],
+                          1
+                        )
+                      })
+                    ],
+                    2
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.classworkDetails.type == "Subjective Type"
+                ? _c(
+                    "v-tabs",
+                    {
+                      attrs: {
+                        rounded: "",
+                        "next-icon": "mdi-arrow-right-bold-box-outline",
+                        "prev-icon": "mdi-arrow-left-bold-box-outline",
+                        "show-arrows": "",
+                        centered:
+                          _vm.$vuetify.breakpoint.xs ||
+                          _vm.$vuetify.breakpoint.sm,
+                        "icons-and-text":
+                          _vm.$vuetify.breakpoint.xs ||
+                          _vm.$vuetify.breakpoint.sm
+                      },
+                      model: {
+                        value: _vm.activeTab,
+                        callback: function($$v) {
+                          _vm.activeTab = $$v
+                        },
+                        expression: "activeTab"
+                      }
+                    },
+                    _vm._l(_vm.SubjectiveTabs, function(item, index) {
+                      return _c(
+                        "v-tab",
+                        {
+                          key: index,
+                          staticClass: "d-flex justify-start",
+                          attrs: {
+                            to: {
+                              name: item.name,
+                              query: { clwk: _vm.$route.query.clwk }
+                            }
+                          }
+                        },
+                        [
+                          _vm._v(
+                            "\n                 " +
+                              _vm._s(
+                                _vm.$vuetify.breakpoint.xs ||
+                                  _vm.$vuetify.breakpoint.sm
+                                  ? ""
+                                  : item.text
+                              ) +
+                              "\n                     "
+                          ),
+                          _c("v-icon", { attrs: { right: "" } }, [
+                            _vm._v(
+                              "\n                     " +
+                                _vm._s(item.icon) +
+                                "\n                     "
+                            )
+                          ])
+                        ],
+                        1
                       )
-                    ])
+                    }),
+                    1
+                  )
+                : _vm._e()
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-col",
+            { staticClass: "ma-0", attrs: { cols: "12" } },
+            [
+              _c("v-tabs-items", { attrs: { value: _vm.activeTab } }, [
+                _c(
+                  "div",
+                  { staticClass: "mt-3" },
+                  [
+                    _c("router-view", {
+                      attrs: { classworkDetails: _vm.classworkDetails }
+                    })
                   ],
                   1
                 )
-              })
+              ])
             ],
-            2
+            1
           )
-        : _vm._e(),
-      _vm._v(" "),
-      _vm.classworkDetails.type == "Subjective Type"
-        ? _c(
-            "v-tabs",
-            {
-              attrs: {
-                rounded: "",
-                "next-icon": "mdi-arrow-right-bold-box-outline",
-                "prev-icon": "mdi-arrow-left-bold-box-outline",
-                "show-arrows": "",
-                centered: "",
-                "icons-and-text": ""
-              },
-              model: {
-                value: _vm.activeTab,
-                callback: function($$v) {
-                  _vm.activeTab = $$v
-                },
-                expression: "activeTab"
-              }
-            },
-            [
-              _c("v-tabs-slider", { attrs: { color: "primary" } }),
-              _vm._v(" "),
-              _vm._l(_vm.SubjectiveTabs, function(item, index) {
-                return _c(
-                  "v-tab",
-                  {
-                    key: index,
-                    attrs: {
-                      to: {
-                        name: item.name,
-                        query: { clwk: _vm.$route.query.clwk }
-                      }
-                    }
-                  },
-                  [
-                    _vm._v(
-                      "\n                    " +
-                        _vm._s(_vm.$vuetify.breakpoint.xs ? "" : item.text) +
-                        "\n                        "
-                    ),
-                    _c("v-icon", { attrs: { left: "" } }, [
-                      _vm._v(
-                        "\n                        " +
-                          _vm._s(item.icon) +
-                          "\n                        "
-                      )
-                    ])
-                  ],
-                  1
-                )
-              })
-            ],
-            2
-          )
-        : _vm._e(),
-      _vm._v(" "),
-      _c("v-tabs-items", { attrs: { value: _vm.activeTab } }, [
-        _c(
-          "div",
-          { staticClass: "container" },
-          [
-            _c("router-view", {
-              attrs: { classworkDetails: _vm.classworkDetails }
-            })
-          ],
-          1
-        )
-      ])
+        ],
+        1
+      )
     ],
     1
   )

@@ -27,35 +27,39 @@
     </v-row>
 </v-container>
 
-<v-container class="mt-5">
-    <v-card class="pl-3 pr-3">
+<v-container class="mt-5" v-if="!isLoading" >
+      <v-row justify="center">
+          <v-col cols="12" md="9" lg="9">
+               <v-card class="pl-3 pr-3">
+               <v-row v-if="!isLoading">
+                <v-col cols="6">
+                    <div class="mt-3 d-flex">
+                        <v-btn
+                            class="mx-2"
+                            fab
+                            dark
+                            color="primary"
+                            >
+                            <v-icon x-large>
+                            mdi-book-open-variant
+                            </v-icon>
+                        </v-btn>
+                        <div class="font-weight-bold mt-4">{{classworkDetails.title}}</div>
+                        </div>
+                </v-col>
+                <v-col cols="6" class="d-flex justify-end">
+                    <div>
+                        <h4 class="ml-4">Time Remaining</h4>
+                        <quizTimer  :StopTimer="StopTimer" v-on:TimerStop="StopTimer = false, SubmitAnswer()" v-on:TimesUp="TimesUpSubmit()" :duration="duration" v-if="!isLoading"></quizTimer>
+                    </div>
+                </v-col>
+            </v-row>
+            </v-card>
+          </v-col>
+      </v-row>
+       
+        
 
-    
-        <v-row v-if="!isLoading">
-            <v-col>
-                <div class="mt-3 d-flex">
-                    <v-btn
-                        class="mx-2"
-                        fab
-                        dark
-                        color="primary"
-                        >
-                        <v-icon x-large>
-                        mdi-book-open-variant
-                        </v-icon>
-                    </v-btn>
-                    <div class="font-weight-bold mt-4">{{classworkDetails.title}}</div>
-               </div>
-            </v-col>
-              <v-col cols="6" class="d-flex justify-end">
-                <div>
-                    <h4 class="ml-4">Time Remaining</h4>
-                     <quizTimer  :StopTimer="StopTimer" v-on:TimerStop="StopTimer = false, SubmitAnswer()" v-on:TimesUp="TimesUpSubmit()" :duration="duration" v-if="!isLoading"></quizTimer>
-                </div>
-            </v-col>
-        </v-row>
-
-   </v-card>
 </v-container>
 
 
@@ -82,15 +86,33 @@
                       </v-window>
                     </v-card>
 
-                      <v-card style="border-top:5px solid #EF6C00;width:100%">
+                      <v-card style="width:100%">
                         <v-window>
                             <v-window-item >
                                 <v-row>
                                     <v-row>
-                                        <v-col cols="12" md="12" lg="12" class="primary">
-                                            
+                                        <v-col cols="12" md="12" lg="12"  class="text-right pt-12 pr-12 mb-0 pb-0" >
+                                             
+                                                <v-btn rounded color="primary" class="mr-2" outlined="" @click="prev" 
+                                                :disabled="questionIndex <= 0">
+                                                    <v-icon>mdi-arrow-left</v-icon>
+                                                    {{$vuetify.breakpoint.xs ? '' : 'previous'}}
+                                                    </v-btn>
+
+                                                    <v-btn v-if="questionIndex != Qlength-1" 
+                                                    
+                                                     rounded color="primary" @click="next">
+                                                    {{$vuetify.breakpoint.xs ? '' : 'Next'}}
+                                                    <v-icon>mdi-arrow-right</v-icon>
+                                                    </v-btn>
+
+                                                    <v-btn  v-if="questionIndex == Qlength-1"  rounded color="success" @click="SubmitPromp">
+                                                    Submit
+                                                    <v-icon>mdi-lock</v-icon>
+                                                    </v-btn>
+                                          
                                         </v-col>
-                                        <v-col  cols="12" md="12" lg="12" class="pa-10">
+                                        <v-col  cols="12" md="12" lg="12" class="pa-9">
                                         <v-container ma-0 pa-0 v-for="(item, index) in getAll_questions.Question" :key="index">
                                             <div v-show="index === questionIndex">
                                                     <v-row ma-0 pa-0>
@@ -114,11 +136,11 @@
                                                       <v-row>
                                                           <v-col cols="12" md="12">
                                                             <v-container >
-                                                                <v-container class="d-flex flex-row ma-0 pa-0 mb-1" v-for="(Ans, i) in getAll_questions.Answer[index]" :key="i">
+                                                                <v-container class="d-flex flex-row ma-0 pa-0 mb-1" v-for="(Ans,i) in getAll_questions.Answer[index]" :key="i">
                                                                 <v-radio-group :name="'option'+index"  class="ma-0 pa-0" v-model="FinalAnswers[index].Answer">
                                                                     <v-radio
                                                                     color="primary"
-                                                                    :key="index"
+                                                                    :key="Ans.id"
                                                                     @click="SelectAnswer()"
                                                                     :value="Ans.Choice"
                                                                     ></v-radio>
@@ -177,21 +199,19 @@
                                                     </v-container>
                                                 
 
-                                                
-
                                                     <v-container class="mb-4" v-if="item.type == 'Matching type'">
                                                         <v-row >
                                                                 <v-col ma-0 pa-0 class="ma-0 pa-0" cols="12" lg="12" md="12" >
                                                                     <v-container class="pl-5 pr-5">
                                                                         <v-container>
                                                                             <v-row>
-                                                                                <v-col class="font-weight-bold" cols="2" md="1" lg="1">
+                                                                                <v-col class="font-weight-bold" cols="1" md="1" lg="1">
                                                                                    
                                                                                 </v-col>
-                                                                                <v-col class="font-weight-bold" cols="6">
+                                                                                <v-col class="font-weight-bold" cols="5" md="6" lg="6">
                                                                                     Column A
                                                                                 </v-col>
-                                                                                <v-col class="font-weight-bold" cols="4">
+                                                                                <v-col class="font-weight-bold" cols="5">
                                                                                     Column B
                                                                                 </v-col>
                                                                             </v-row>
@@ -209,13 +229,13 @@
                                                                                         
                                                                                     ></v-text-field>
                                                                                 </v-col>
-                                                                                <v-col class="mb-1 pb-0 pt-0 mt-0" cols="5" md="7" lg="7">
+                                                                                <v-col class="mb-1 pb-0 pt-0 mt-0" cols="5" md="6" lg="6">
                                                                                     <div class="d-flex mt-7">
                                                                                         <span class="font-weight-medium mr-1">{{(i+1+'. ')}}</span>
                                                                                         <span :style="$vuetify.breakpoint.xs ? 'line-height:1.1':'line-height:1.5'" v-html="List.sub_question" class="subquestion-content"></span>
                                                                                     </div>
                                                                                 </v-col>
-                                                                                <v-col class="mb-1 pb-0 pt-0 mt-0"  cols="5" md="4" lg="4">
+                                                                                <v-col class="mb-1 pb-0 pt-0 mt-0"  cols="5" md="5" lg="5">
                                                                                     <div class="d-flex mt-7"> 
                                                                                         <span class="font-weight-medium mr-1">{{(Alphabet[i]+'. ')}}</span>
                                                                                        
@@ -231,36 +251,8 @@
                                                     </v-container>
 
                                             </div>
-                                            </v-container>
-                                            <v-container>
-                                                <v-btn rounded color="primary" outlined="" @click="prev" 
-                                                :disabled="questionIndex <= 0">
-                                                    <v-icon>mdi-arrow-left</v-icon>
-                                                    {{$vuetify.breakpoint.xs ? '' : 'previous'}}
-                                                    
-                                                    </v-btn>
-
-                                                    <v-btn v-if="questionIndex != Qlength-1"   rounded color="primary" @click="next">
-                                                    {{$vuetify.breakpoint.xs ? '' : 'Next'}}
-                                                    <v-icon>mdi-arrow-right</v-icon>
-                                                    </v-btn>
-
-
-                                                    <v-btn v-if="questionIndex == Qlength-1"  rounded color="success" @click="SubmitPromp">
-                                                    Submit
-                                                    <v-icon>mdi-lock</v-icon>
-                                                    </v-btn>
-
-
-
-                                                <!--  <div v-if="questionIndex > 0" class="col-7 mt-2 text-right">
-                                                    <button type="button" class="btn btn-secondry" v-if="questionIndex > 0"  @click="prev"><i class="fa fa-arrow-left" aria-hidden="true"></i> previous</button>  
-                                                </div>
-                                                <div class="col-1 mt-2 ml-2">
-                                                    <button v-if="questionIndex == Qlength-1" class="btn btn-finish" @click="SubmitAnswer">Finish <i class="fa fa-lock" aria-hidden="true"></i></button>
-                                                    <button v-else class="btn btn-primary" @click="next">Next <i class="fa fa-arrow-right" aria-hidden="true"></i></button>
-                                                </div> -->
-                                            </v-container>
+                                        </v-container>
+                                           
                                         </v-col>
                                     </v-row>
                                 </v-row>

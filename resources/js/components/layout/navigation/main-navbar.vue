@@ -1,6 +1,6 @@
 <template>
 
-    <v-list dense>
+    <v-list nav dense>
         <template>
             
                  <v-list-item link :to="{name: 'dashboard'}" exact>

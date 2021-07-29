@@ -271,13 +271,62 @@ const router = new Router({
                     name: "notifications"
                 },
 
+                {
+                    path: "/classwork/:id",
+                    component: classworkView,
+                    beforeEnter: (to, form, next) => {
+                        axios
+                            .get("/api/authenticated")
+                            .then(() => {
+                                next();
+                            })
+                            .catch(() => {
+                                return next({
+                                    path: "/login"
+                                });
+                            });
+                    },
+                    props: true,
+                    children: [{
+                            name: "clwk",
+                            path: "classwork-details",
+                            component: classworkDetailsTab
+                        },
+                        {
+                            name: "add-question",
+                            path: "add-question",
+                            component: addQuestionTab
+                        },
+                        {
+                            name: "question-list",
+                            path: "question-list",
+                            component: questionList
+                        },
+                        {
+                            name: "submission-list",
+                            path: "submission-list",
+                            component: submissionListTab
+                        },
+                        {
+                            name: "question-analytics",
+                            path: "question-analytics",
+                            component: questionnAnalyticstab
+                        },
+                        {
+                            name: "publish-to",
+                            path: "publish-to",
+                            component: publishClassworkTab
+                        },
+        
+                    ]
+                },
                 
 
 
             ],
 
         },
-        {
+        /* {
             path: "/classwork/:id",
             component: classworkView,
             beforeEnter: (to, form, next) => {
@@ -325,7 +374,7 @@ const router = new Router({
                 },
 
             ]
-        },
+        }, */
 
         {
             path: "/quiz/:id",

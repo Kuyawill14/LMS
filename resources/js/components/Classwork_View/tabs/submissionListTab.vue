@@ -1,6 +1,6 @@
 
 <template>
-<v-app>
+<div>
 <v-container class="fill-height" v-if="isloading" style="height: 400px;">
     <v-row  align-content="center" justify="center">
         <v-col class="text-subtitle-1 text-center" cols="12">
@@ -25,15 +25,20 @@
 
   <v-container v-if="!isloading && List.length != 0 "  pa-0 ma-0  class="pa-0 pa-0" fluid>
         <v-row align="center" justify="center">
-            <v-col v-if="classworkDetails.type == 'Objective Type'" cols="12" lg="8" xl="6" md="10">
-                <objectiveSubmission  v-if="classworkDetails.type == 'Objective Type'" :classworkDetails="classworkDetails"  :ListData="List"></objectiveSubmission>    
+            <v-col v-if="classworkDetails.type == 'Objective Type'" cols="12">
+                <objectiveSubmission :ClassList="ClassList" :Submitted="Submitted" :Graded="Graded"  v-if="classworkDetails.type == 'Objective Type'" :classworkDetails="classworkDetails"  :ListData="List"></objectiveSubmission>    
             </v-col>
-            <v-col v-if="classworkDetails.type == 'Subjective Type'" cols="12" lg="10" xl="6" md="10">
-                <subjectiveSubmission v-on:UpdateSubmission="GetListAfterEmit" v-if="classworkDetails.type == 'Subjective Type'" :classworkDetails="classworkDetails"  :ListData="List"></subjectiveSubmission>    
+            <v-col v-if="classworkDetails.type == 'Subjective Type'" cols="12"  >
+                <subjectiveSubmission :ClassList="ClassList" :Submitted="Submitted" :Graded="Graded" v-on:UpdateSubmission="GetListAfterEmit" v-if="classworkDetails.type == 'Subjective Type'" :classworkDetails="classworkDetails"  :ListData="List"></subjectiveSubmission>    
             </v-col>
         </v-row>
     </v-container>
-</v-app>
+
+    <!-- <v-container  >
+
+        <subjectiveSubmission :ClassList="ClassList" :Submitted="Submitted" :Graded="Graded" v-on:UpdateSubmission="GetListAfterEmit" v-if="classworkDetails.type == 'Subjective Type'" :classworkDetails="classworkDetails"  :ListData="List"></subjectiveSubmission>    
+    </v-container> -->
+</div>
 </template>
 <script>
 const objectiveSubmission = () => import('./submissionType/objectiveSubmission')
@@ -48,7 +53,10 @@ export default {
     data(){
         return{
             List:[],
-            isloading: true
+            isloading: true,
+            Graded: 0,
+            Submitted: 0,
+            ClassList: [],
         }
     },
     methods:{
@@ -57,19 +65,48 @@ export default {
             axios.get('/api/submission/all/'+this.$route.query.clwk)
             .then(res=>{
                 this.List = res.data;
+                 res.data.forEach(item => {
+                    if(item.status == 'Submitted'){
+                        this.Submitted +=1;
+                    }
+                    if(item.graded == 1){
+                        this.Graded +=1;
+                    }
+                   
+                });
                 this.isloading = !this.isloading;
             })
+            
         },
           async GetListAfterEmit(){
+              //this.Submitted +=1;
+               this.Graded +=1;
+           /*  this.Graded = 0;
+            this.Submitted = 0;
             axios.get('/api/submission/all/'+this.$route.query.clwk)
             .then(res=>{
                 this.List = res.data;
+                res.data.forEach(item => {
+                    if(item.status == 'Submitted'){
+                        this.Submitted +=1;
+                    }
+                    if(item.graded == 1){
+                        this.Graded +=1;
+                    }
+                });
+            }) */
+        },
+         async FetchCLassNames(){
+            await axios.get('/api/class/allnames/'+this.$route.params.id+'/'+0)
+            .then(res=>{
+                this.ClassList = res.data;
+                this.ClassList.push({ class_id: this.$route.params.id, class_name: 'All Class', id: this.$route.params.id});
             })
         }
     },
     mounted(){
-        
         this.GetList();
+        this.FetchCLassNames();
     }
     
 }

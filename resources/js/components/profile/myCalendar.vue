@@ -129,10 +129,18 @@
             <v-card-actions>
               <v-btn
                 text
+                rounded
                 color="secondary"
                 @click="selectedOpen = false"
               >
                 Close
+              </v-btn>
+              <v-btn
+                rounded
+                :color="selectedEvent.color"
+                @click="selectedOpen = false"
+              >
+                Open
               </v-btn>
             </v-card-actions>
           </v-card>
@@ -180,7 +188,7 @@ import moment from 'moment';
             if(res.data.length != 0){
                 const data = moment(this.CalendarSched[0].from_date)._d
                 for (let index = 0; index < this.CalendarSched.length; index++) {
-      
+                  const allDay = this.rnd(0, 3) === 0;
                   let test = moment(this.CalendarSched[index].from_date);
                   let color;
                   let name;
@@ -189,9 +197,13 @@ import moment from 'moment';
                     color = "success";
                     console.log(this.CalendarSched[index].status);
                   }
-                  else if(this.role == 'Student' &&  this.CalendarSched[index].status != 'Submitted' && this.CheckFormatDue(this.CalendarSched[index].to_date) < this.DateToday){
+                  else if((this.role == 'Student' &&  this.CalendarSched[index].status != 'Submitted'  &&  this.CalendarSched[index].availability == 1) && this.CheckFormatDue(this.CalendarSched[index].to_date) < this.DateToday){
                     name = this.CalendarSched[index].title+'(missing)';
                     color = "error";
+                  }
+                  else if((this.role == 'Student' &&  this.CalendarSched[index].status != 'Submitted'  &&  this.CalendarSched[index].availability == 0) && this.CheckFormatDue(this.CalendarSched[index].to_date) < this.DateToday){
+                    name = this.CalendarSched[index].title;
+                    color = this.colors[this.rnd(0, this.colors.length - 1)];
                   }
                   else if(this.role == 'Student' &&  this.CalendarSched[index].status == 'Submitting' || this.CalendarSched[index].status == 'Taking'){
                      name = this.CalendarSched[index].title+(this.CalendarSched[index].status);
@@ -207,6 +219,7 @@ import moment from 'moment';
                       start: moment(this.CalendarSched[index].from_date)._d,
                       end: moment(this.CalendarSched[index].to_date)._d,
                       color: color,
+                      timed: !allDay,
                     })
               }
             }
@@ -214,10 +227,10 @@ import moment from 'moment';
            
             this.events = events;
 
-            //this.isloading = !this.isloading;
-            setTimeout(() => {
+            this.isloading = !this.isloading;
+           /*  setTimeout(() => {
                 this.isloading = !this.isloading;
-        }, 1000);
+        }, 1000); */
             //this.$refs.calendar.checkChange()
         })
     },

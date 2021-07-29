@@ -175,9 +175,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     fetchNotificationAll: function fetchNotificationAll() {
       var _this3 = this;
 
-      axios.get('/api/notification/all/all').then(function (res) {
+      axios.get('/api/notification/all').then(function (res) {
         _this3.notificationList = res.data.data;
       });
+      console.log(this.notificationList);
     }
   }),
   mounted: function mounted() {

@@ -25,7 +25,10 @@
             <v-container class="pl-4 pr-4 pb-6">
                 <v-row>
                     <v-col cols="12">
-                        <span v-html="post.content" class="post-content"></span>
+                        <div class="pa-5 grey lighten-5 " outlined>
+                            <span v-html="post.content" class="post-content"></span>
+                        </div>
+                        
                     </v-col>
                 </v-row>
             

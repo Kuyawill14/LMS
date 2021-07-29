@@ -139,11 +139,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['classworkDetails'],
   data: function data() {
@@ -301,7 +296,8 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "v-app",
+    "div",
+    { staticClass: "pa-1" },
     [
       _vm.isloading
         ? _c(
@@ -358,14 +354,11 @@ var render = function() {
                 [
                   _c(
                     "v-col",
-                    { attrs: { cols: "12", lg: "10", xl: "6", md: "10" } },
+                    { attrs: { cols: "12", md: "8", lg: "9", xl: "9" } },
                     [
                       _c(
                         "v-card",
-                        {
-                          staticClass: "elevation-5 pa-5",
-                          staticStyle: { "border-top": "5px solid #EF6C00" }
-                        },
+                        { staticClass: "pa-5", attrs: { elevation: "1" } },
                         [
                           _c(
                             "v-form",
@@ -382,313 +375,260 @@ var render = function() {
                             },
                             [
                               _c(
-                                "v-window",
+                                "v-row",
                                 [
                                   _c(
-                                    "v-window-item",
+                                    "v-col",
+                                    {
+                                      staticClass: "mt-2",
+                                      attrs: { cols: "12" }
+                                    },
                                     [
-                                      _c(
-                                        "v-row",
+                                      _c("v-select", {
+                                        attrs: {
+                                          outlined: "",
+                                          rules: _vm.FieldRules,
+                                          items: [
+                                            "Objective Type",
+                                            "Subjective Type"
+                                          ],
+                                          label: "Type"
+                                        },
+                                        model: {
+                                          value: _vm.Details.type,
+                                          callback: function($$v) {
+                                            _vm.$set(_vm.Details, "type", $$v)
+                                          },
+                                          expression: "Details.type"
+                                        }
+                                      })
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-col",
+                                    {
+                                      staticClass: "mb-0 pb-0 pt-0 mt-0",
+                                      attrs: { cols: "12" }
+                                    },
+                                    [
+                                      _c("v-text-field", {
+                                        attrs: {
+                                          outlined: "",
+                                          rules: _vm.FieldRules,
+                                          label: "Title",
+                                          type: "text",
+                                          required: ""
+                                        },
+                                        model: {
+                                          value: _vm.Details.title,
+                                          callback: function($$v) {
+                                            _vm.$set(_vm.Details, "title", $$v)
+                                          },
+                                          expression: "Details.title"
+                                        }
+                                      })
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-col",
+                                    {
+                                      staticClass: "mb-0 pb-0 pt-0 mt-0",
+                                      attrs: { cols: "12" }
+                                    },
+                                    [
+                                      _c("v-textarea", {
+                                        attrs: {
+                                          rules: _vm.FieldRules,
+                                          outlined: "",
+                                          label: "Instruction",
+                                          "auto-grow": ""
+                                        },
+                                        model: {
+                                          value: _vm.Details.instruction,
+                                          callback: function($$v) {
+                                            _vm.$set(
+                                              _vm.Details,
+                                              "instruction",
+                                              $$v
+                                            )
+                                          },
+                                          expression: "Details.instruction"
+                                        }
+                                      })
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _vm.Details.type == "Objective Type"
+                                    ? _c(
+                                        "v-col",
+                                        {
+                                          staticClass: "mb-0 pb-0 pt-0 mt-0",
+                                          attrs: { cols: "12" }
+                                        },
                                         [
-                                          _c(
-                                            "v-col",
-                                            {
-                                              staticClass: "mt-2",
-                                              attrs: { cols: "12" }
-                                            },
-                                            [
-                                              _c("v-select", {
+                                          _vm.Details.type == "Objective Type"
+                                            ? _c("v-text-field", {
+                                                staticClass:
+                                                  "mb-0 pb-0 pt-0 mt-0",
                                                 attrs: {
-                                                  outlined: "",
                                                   rules: _vm.FieldRules,
-                                                  items: [
-                                                    "Objective Type",
-                                                    "Subjective Type"
-                                                  ],
-                                                  label: "Type"
+                                                  "append-icon": "mdi-timer",
+                                                  outlined: "",
+                                                  hint: "mins",
+                                                  label: "Time Limit",
+                                                  type: "number"
                                                 },
                                                 model: {
-                                                  value: _vm.Details.type,
+                                                  value: _vm.Details.duration,
                                                   callback: function($$v) {
                                                     _vm.$set(
                                                       _vm.Details,
-                                                      "type",
+                                                      "duration",
                                                       $$v
                                                     )
                                                   },
-                                                  expression: "Details.type"
+                                                  expression: "Details.duration"
                                                 }
                                               })
-                                            ],
-                                            1
-                                          ),
-                                          _vm._v(" "),
-                                          _c(
-                                            "v-col",
-                                            {
-                                              staticClass:
-                                                "mb-0 pb-0 pt-0 mt-0",
-                                              attrs: { cols: "12" }
-                                            },
-                                            [
-                                              _c("v-text-field", {
+                                            : _vm._e()
+                                        ],
+                                        1
+                                      )
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  _vm.Details.type == "Subjective Type"
+                                    ? _c(
+                                        "v-col",
+                                        {
+                                          staticClass: "mb-0 pb-0 pt-0 mt-0",
+                                          attrs: { cols: "12" }
+                                        },
+                                        [
+                                          _vm.Details.type == "Subjective Type"
+                                            ? _c("v-text-field", {
+                                                staticClass:
+                                                  "mb-0 pb-0 pt-0 mt-0",
                                                 attrs: {
-                                                  outlined: "",
+                                                  "prepend-inner-icon":
+                                                    "mdi-paperclip",
                                                   rules: _vm.FieldRules,
-                                                  label: "Title",
-                                                  type: "text",
-                                                  required: ""
-                                                },
-                                                model: {
-                                                  value: _vm.Details.title,
-                                                  callback: function($$v) {
-                                                    _vm.$set(
-                                                      _vm.Details,
-                                                      "title",
-                                                      $$v
-                                                    )
-                                                  },
-                                                  expression: "Details.title"
-                                                }
-                                              })
-                                            ],
-                                            1
-                                          ),
-                                          _vm._v(" "),
-                                          _c(
-                                            "v-col",
-                                            {
-                                              staticClass:
-                                                "mb-0 pb-0 pt-0 mt-0",
-                                              attrs: { cols: "12" }
-                                            },
-                                            [
-                                              _c("v-textarea", {
-                                                attrs: {
-                                                  rules: _vm.FieldRules,
+                                                  label: "File input",
+                                                  "show-size": "",
                                                   outlined: "",
-                                                  label: "Instruction",
-                                                  "auto-grow": ""
+                                                  multiple: "",
+                                                  chips: ""
                                                 },
+                                                on: { click: _vm.TestUpload },
                                                 model: {
                                                   value:
-                                                    _vm.Details.instruction,
+                                                    _vm.Details.attachment_name,
                                                   callback: function($$v) {
                                                     _vm.$set(
                                                       _vm.Details,
-                                                      "instruction",
+                                                      "attachment_name",
                                                       $$v
                                                     )
                                                   },
                                                   expression:
-                                                    "Details.instruction"
+                                                    "Details.attachment_name"
                                                 }
                                               })
-                                            ],
-                                            1
-                                          ),
-                                          _vm._v(" "),
-                                          _vm.Details.type == "Objective Type"
-                                            ? _c(
-                                                "v-col",
-                                                {
-                                                  staticClass:
-                                                    "mb-0 pb-0 pt-0 mt-0",
-                                                  attrs: { cols: "12" }
-                                                },
-                                                [
-                                                  _vm.Details.type ==
-                                                  "Objective Type"
-                                                    ? _c("v-text-field", {
-                                                        staticClass:
-                                                          "mb-0 pb-0 pt-0 mt-0",
-                                                        attrs: {
-                                                          rules: _vm.FieldRules,
-                                                          "append-icon":
-                                                            "mdi-timer",
-                                                          outlined: "",
-                                                          hint: "mins",
-                                                          label: "Time Limit",
-                                                          type: "number"
-                                                        },
-                                                        model: {
-                                                          value:
-                                                            _vm.Details
-                                                              .duration,
-                                                          callback: function(
-                                                            $$v
-                                                          ) {
-                                                            _vm.$set(
-                                                              _vm.Details,
-                                                              "duration",
-                                                              $$v
-                                                            )
-                                                          },
-                                                          expression:
-                                                            "Details.duration"
-                                                        }
-                                                      })
-                                                    : _vm._e()
-                                                ],
-                                                1
-                                              )
-                                            : _vm._e(),
-                                          _vm._v(" "),
+                                            : _vm._e()
+                                        ],
+                                        1
+                                      )
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  _vm.Details.type == "Subjective Type"
+                                    ? _c(
+                                        "v-col",
+                                        {
+                                          staticClass:
+                                            "mb-0 pb-0 pt-0 mt-0 d-none",
+                                          attrs: { cols: "12" }
+                                        },
+                                        [
+                                          _c("input", {
+                                            ref: "fileInput",
+                                            staticClass: "d-none",
+                                            attrs: { type: "file" },
+                                            on: { change: _vm.onFileChange }
+                                          })
+                                        ]
+                                      )
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  _vm.Details.type == "Subjective Type"
+                                    ? _c(
+                                        "v-col",
+                                        {
+                                          staticClass: "mb-0 pb-0 pt-0 mt-0",
+                                          attrs: { cols: "12" }
+                                        },
+                                        [
                                           _vm.Details.type == "Subjective Type"
-                                            ? _c(
-                                                "v-col",
-                                                {
-                                                  staticClass:
-                                                    "mb-0 pb-0 pt-0 mt-0",
-                                                  attrs: { cols: "12" }
+                                            ? _c("v-text-field", {
+                                                attrs: {
+                                                  rules: _vm.FieldRules,
+                                                  outlined: "",
+                                                  min: "0",
+                                                  label: "Points",
+                                                  type: "number"
                                                 },
-                                                [
-                                                  _vm.Details.type ==
-                                                  "Subjective Type"
-                                                    ? _c("v-text-field", {
-                                                        staticClass:
-                                                          "mb-0 pb-0 pt-0 mt-0",
-                                                        attrs: {
-                                                          "prepend-inner-icon":
-                                                            "mdi-paperclip",
-                                                          rules: _vm.FieldRules,
-                                                          label: "File input",
-                                                          "show-size": "",
-                                                          outlined: "",
-                                                          multiple: "",
-                                                          chips: ""
-                                                        },
-                                                        on: {
-                                                          click: _vm.TestUpload
-                                                        },
-                                                        model: {
-                                                          value:
-                                                            _vm.Details
-                                                              .attachment_name,
-                                                          callback: function(
-                                                            $$v
-                                                          ) {
-                                                            _vm.$set(
-                                                              _vm.Details,
-                                                              "attachment_name",
-                                                              $$v
-                                                            )
-                                                          },
-                                                          expression:
-                                                            "Details.attachment_name"
-                                                        }
-                                                      })
-                                                    : _vm._e()
-                                                ],
-                                                1
-                                              )
-                                            : _vm._e(),
-                                          _vm._v(" "),
-                                          _vm.Details.type == "Subjective Type"
-                                            ? _c(
-                                                "v-col",
-                                                {
-                                                  staticClass:
-                                                    "mb-0 pb-0 pt-0 mt-0 d-none",
-                                                  attrs: { cols: "12" }
-                                                },
-                                                [
-                                                  _c("input", {
-                                                    ref: "fileInput",
-                                                    staticClass: "d-none",
-                                                    attrs: { type: "file" },
-                                                    on: {
-                                                      change: _vm.onFileChange
-                                                    }
-                                                  })
-                                                ]
-                                              )
-                                            : _vm._e(),
-                                          _vm._v(" "),
-                                          _vm.Details.type == "Subjective Type"
-                                            ? _c(
-                                                "v-col",
-                                                {
-                                                  staticClass:
-                                                    "mb-0 pb-0 pt-0 mt-0",
-                                                  attrs: { cols: "12" }
-                                                },
-                                                [
-                                                  _vm.Details.type ==
-                                                  "Subjective Type"
-                                                    ? _c("v-text-field", {
-                                                        attrs: {
-                                                          rules: _vm.FieldRules,
-                                                          outlined: "",
-                                                          min: "0",
-                                                          label: "Points",
-                                                          type: "number"
-                                                        },
-                                                        model: {
-                                                          value:
-                                                            _vm.Details.points,
-                                                          callback: function(
-                                                            $$v
-                                                          ) {
-                                                            _vm.$set(
-                                                              _vm.Details,
-                                                              "points",
-                                                              $$v
-                                                            )
-                                                          },
-                                                          expression:
-                                                            "Details.points"
-                                                        }
-                                                      })
-                                                    : _vm._e()
-                                                ],
-                                                1
-                                              )
-                                            : _vm._e(),
-                                          _vm._v(" "),
-                                          _c(
-                                            "v-col",
-                                            { attrs: { cols: "12 text-left" } },
-                                            [
-                                              _c(
-                                                "v-btn",
-                                                {
-                                                  staticClass:
-                                                    "ma-2 white--text",
-                                                  attrs: {
-                                                    rounded: "",
-                                                    loading: _vm.isUpdating,
-                                                    color: "primary"
+                                                model: {
+                                                  value: _vm.Details.points,
+                                                  callback: function($$v) {
+                                                    _vm.$set(
+                                                      _vm.Details,
+                                                      "points",
+                                                      $$v
+                                                    )
                                                   },
-                                                  on: {
-                                                    click: function($event) {
-                                                      return _vm.UpdateClasswork()
-                                                    }
-                                                  }
-                                                },
-                                                [
-                                                  _vm._v(
-                                                    "\r\n                                                Update\r\n                                                "
-                                                  ),
-                                                  _c(
-                                                    "v-icon",
-                                                    {
-                                                      attrs: {
-                                                        right: "",
-                                                        dark: ""
-                                                      }
-                                                    },
-                                                    [
-                                                      _vm._v(
-                                                        "\r\n                                                    mdi-update\r\n                                                "
-                                                      )
-                                                    ]
-                                                  )
-                                                ],
-                                                1
+                                                  expression: "Details.points"
+                                                }
+                                              })
+                                            : _vm._e()
+                                        ],
+                                        1
+                                      )
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-col",
+                                    { attrs: { cols: "12 text-left" } },
+                                    [
+                                      _c(
+                                        "v-btn",
+                                        {
+                                          staticClass: "ma-2 white--text",
+                                          attrs: {
+                                            rounded: "",
+                                            loading: _vm.isUpdating,
+                                            color: "primary"
+                                          },
+                                          on: {
+                                            click: function($event) {
+                                              return _vm.UpdateClasswork()
+                                            }
+                                          }
+                                        },
+                                        [
+                                          _vm._v(
+                                            "\r\n                                            Update\r\n                                            "
+                                          ),
+                                          _c(
+                                            "v-icon",
+                                            { attrs: { right: "", dark: "" } },
+                                            [
+                                              _vm._v(
+                                                "\r\n                                                mdi-update\r\n                                            "
                                               )
-                                            ],
-                                            1
+                                            ]
                                           )
                                         ],
                                         1

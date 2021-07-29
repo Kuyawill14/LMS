@@ -23475,7 +23475,6 @@ var render = function() {
       _c(
         "v-app-bar",
         {
-          staticStyle: { "z-index": "99" },
           attrs: {
             "clipped-left": _vm.$vuetify.breakpoint.lgAndUp,
             app: "",
@@ -23735,7 +23734,11 @@ var render = function() {
         ? _c(
             "v-navigation-drawer",
             {
-              attrs: { clipped: _vm.$vuetify.breakpoint.lgAndUp, app: "" },
+              attrs: {
+                "expand-on-hover": _vm.$vuetify.breakpoint.lgAndUp,
+                clipped: _vm.$vuetify.breakpoint.lgAndUp,
+                app: ""
+              },
               model: {
                 value: _vm.drawer,
                 callback: function($$v) {

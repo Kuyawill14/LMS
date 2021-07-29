@@ -97,6 +97,143 @@ class ObjectiveController extends Controller
         }
         return ["Question"=>$temQuest , "Answer"=>$FinalAnswer];
     }
+     /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function fetchQuestionAnswerForViewSubmision($id, $class_clwk_Id){
+
+        $temQuest;
+        $FinalAnswer = array();
+        $checkShowAnswer = tbl_classClassworks::find($class_clwk_Id);
+        if($checkShowAnswer->showAnswer == true && $checkShowAnswer->showAnswerType == 0){
+            $Questions = tbl_Questions::where('tbl_questions.classwork_id', $id)
+            ->Select('tbl_questions.id', 'tbl_questions.question', 'tbl_questions.type',
+            'tbl_questions.answer','tbl_questions.points')
+            ->orderBy('created_at','DESC')
+            ->get();
+            $temQuest = $Questions;
+
+            $tempQuestion = new Collection();
+            $tempAnswer = new Collection();
+    
+            foreach($temQuest as $cl){
+               
+                $tempData1;
+                $tempSubQuestion;
+                if(auth('sanctum')->user()->role == 'Student'){
+                    $tempData1 = tbl_choice::where('tbl_choices.question_id',$cl->id)
+                    ->select('tbl_choices.id','tbl_choices.question_id','tbl_choices.Choice')
+                    ->get();
+    
+                    $tempSubQuestion = tbl_SubQuestion::where('tbl_sub_questions.mainQuestion_id',$cl->id)
+                    ->select('tbl_sub_questions.id','tbl_sub_questions.sub_question')
+                    ->get();
+                }
+                else{
+                    $tempData1 = tbl_choice::where('tbl_choices.question_id',$cl->id)
+                    ->select('tbl_choices.id','tbl_choices.question_id','tbl_choices.Choice')
+                    ->get();
+    
+                    $tempSubQuestion = tbl_SubQuestion::where('tbl_sub_questions.mainQuestion_id',$cl->id)
+                    ->select('tbl_sub_questions.id','tbl_sub_questions.answer_id','tbl_sub_questions.sub_question')
+                    ->get();
+                }
+    
+    
+                if($cl->type != 'Matching type'){
+                    $tempData2;
+                    if(auth('sanctum')->user()->role == 'Student'){
+                        $tempData2  = $tempData1;
+                    }
+                    else{
+                        $tempData2 = $tempData1;
+                    }
+                    $FinalAnswer[] =  $tempData2;
+                }
+                else{
+                    $tmp = array();
+                    if(auth('sanctum')->user()->role == 'Student'){
+                        $tempAns =  $tempData1;
+                        $temQues = $tempSubQuestion;
+                    }
+                    else{
+                        $tempAns =  $tempData1;
+                        $temQues = $tempSubQuestion;  
+                    } 
+                    $tmp =  ["SubQuestion"=>$temQues , "SubAnswer"=>$tempAns];
+                    $FinalAnswer[] = $tmp;    
+                }     
+            }
+            
+        }
+        else{
+            $Questions = tbl_Questions::where('tbl_questions.classwork_id', $id)
+            ->Select('tbl_questions.id', 'tbl_questions.question', 'tbl_questions.type','tbl_questions.points')
+            ->orderBy('created_at','DESC')
+            ->get();
+            $temQuest = $Questions;
+
+            $tempQuestion = new Collection();
+            $tempAnswer = new Collection();
+    
+            foreach($temQuest as $cl){
+               
+                $tempData1;
+                $tempSubQuestion;
+                if(auth('sanctum')->user()->role == 'Student'){
+                    $tempData1 = tbl_choice::where('tbl_choices.question_id',$cl->id)
+                    ->select('tbl_choices.id','tbl_choices.question_id','tbl_choices.Choice')
+                    ->get();
+    
+                    $tempSubQuestion = tbl_SubQuestion::where('tbl_sub_questions.mainQuestion_id',$cl->id)
+                    ->select('tbl_sub_questions.id','tbl_sub_questions.sub_question')
+                    ->get();
+                }
+                else{
+                    $tempData1 = tbl_choice::where('tbl_choices.question_id',$cl->id)
+                    ->select('tbl_choices.id','tbl_choices.question_id','tbl_choices.Choice')
+                    ->get();
+    
+                    $tempSubQuestion = tbl_SubQuestion::where('tbl_sub_questions.mainQuestion_id',$cl->id)
+                    ->select('tbl_sub_questions.id','tbl_sub_questions.answer_id','tbl_sub_questions.sub_question')
+                    ->get();
+                }
+    
+    
+                if($cl->type != 'Matching type'){
+                    $tempData2;
+                    if(auth('sanctum')->user()->role == 'Student'){
+                        $tempData2  = $tempData1;
+                    }
+                    else{
+                        $tempData2 = $tempData1;
+                    }
+                    $FinalAnswer[] =  $tempData2;
+                }
+                else{
+                    $tmp = array();
+                    if(auth('sanctum')->user()->role == 'Student'){
+                        $tempAns =  $tempData1;
+                        $temQues = $tempSubQuestion;
+                    }
+                    else{
+                        $tempAns =  $tempData1;
+                        $temQues = $tempSubQuestion;  
+                    } 
+                    $tmp =  ["SubQuestion"=>$temQues , "SubAnswer"=>$tempAns];
+                    $FinalAnswer[] = $tmp;    
+                }     
+            }
+        }
+        
+       
+        return ["Question"=>$temQuest , "Answer"=>$FinalAnswer];
+    }
+    
 
     /**
      * Show the form for creating a new resource.

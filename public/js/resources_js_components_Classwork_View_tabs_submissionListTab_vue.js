@@ -56,6 +56,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
 var objectiveSubmission = function objectiveSubmission() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_tabs_submissionType_objectiveSubmission_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./submissionType/objectiveSubmission */ "./resources/js/components/Classwork_View/tabs/submissionType/objectiveSubmission.vue"));
 };
@@ -73,7 +78,10 @@ var subjectiveSubmission = function subjectiveSubmission() {
   data: function data() {
     return {
       List: [],
-      isloading: true
+      isloading: true,
+      Graded: 0,
+      Submitted: 0,
+      ClassList: []
     };
   },
   methods: {
@@ -87,6 +95,15 @@ var subjectiveSubmission = function subjectiveSubmission() {
               case 0:
                 axios.get('/api/submission/all/' + _this.$route.query.clwk).then(function (res) {
                   _this.List = res.data;
+                  res.data.forEach(function (item) {
+                    if (item.status == 'Submitted') {
+                      _this.Submitted += 1;
+                    }
+
+                    if (item.graded == 1) {
+                      _this.Graded += 1;
+                    }
+                  });
                   _this.isloading = !_this.isloading;
                 });
 
@@ -106,9 +123,22 @@ var subjectiveSubmission = function subjectiveSubmission() {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                axios.get('/api/submission/all/' + _this2.$route.query.clwk).then(function (res) {
-                  _this2.List = res.data;
-                });
+                //this.Submitted +=1;
+                _this2.Graded += 1;
+                /*  this.Graded = 0;
+                 this.Submitted = 0;
+                 axios.get('/api/submission/all/'+this.$route.query.clwk)
+                 .then(res=>{
+                     this.List = res.data;
+                     res.data.forEach(item => {
+                         if(item.status == 'Submitted'){
+                             this.Submitted +=1;
+                         }
+                         if(item.graded == 1){
+                             this.Graded +=1;
+                         }
+                     });
+                 }) */
 
               case 1:
               case "end":
@@ -117,10 +147,38 @@ var subjectiveSubmission = function subjectiveSubmission() {
           }
         }, _callee2);
       }))();
+    },
+    FetchCLassNames: function FetchCLassNames() {
+      var _this3 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _context3.next = 2;
+                return axios.get('/api/class/allnames/' + _this3.$route.params.id + '/' + 0).then(function (res) {
+                  _this3.ClassList = res.data;
+
+                  _this3.ClassList.push({
+                    class_id: _this3.$route.params.id,
+                    class_name: 'All Class',
+                    id: _this3.$route.params.id
+                  });
+                });
+
+              case 2:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3);
+      }))();
     }
   },
   mounted: function mounted() {
     this.GetList();
+    this.FetchCLassNames();
   }
 });
 
@@ -215,7 +273,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "v-app",
+    "div",
     [
       _vm.isloading
         ? _c(
@@ -302,11 +360,14 @@ var render = function() {
                   _vm.classworkDetails.type == "Objective Type"
                     ? _c(
                         "v-col",
-                        { attrs: { cols: "12", lg: "8", xl: "6", md: "10" } },
+                        { attrs: { cols: "12" } },
                         [
                           _vm.classworkDetails.type == "Objective Type"
                             ? _c("objectiveSubmission", {
                                 attrs: {
+                                  ClassList: _vm.ClassList,
+                                  Submitted: _vm.Submitted,
+                                  Graded: _vm.Graded,
                                   classworkDetails: _vm.classworkDetails,
                                   ListData: _vm.List
                                 }
@@ -320,11 +381,14 @@ var render = function() {
                   _vm.classworkDetails.type == "Subjective Type"
                     ? _c(
                         "v-col",
-                        { attrs: { cols: "12", lg: "10", xl: "6", md: "10" } },
+                        { attrs: { cols: "12" } },
                         [
                           _vm.classworkDetails.type == "Subjective Type"
                             ? _c("subjectiveSubmission", {
                                 attrs: {
+                                  ClassList: _vm.ClassList,
+                                  Submitted: _vm.Submitted,
+                                  Graded: _vm.Graded,
                                   classworkDetails: _vm.classworkDetails,
                                   ListData: _vm.List
                                 },

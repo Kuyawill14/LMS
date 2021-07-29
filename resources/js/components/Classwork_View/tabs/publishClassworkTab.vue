@@ -1,6 +1,6 @@
 
 <template>
-<v-app>
+<div class="pa-2">
         <v-dialog v-model="dialog" persistent max-width="600">
             <publishDialog 
             :Details="Details"
@@ -51,76 +51,72 @@
 
   <v-container v-if="!isloading" pa-0 ma-0  class="pa-0 pa-0" fluid>
         <v-row align="center" justify="center">
-            <v-col cols="12" lg="8" xl="8" md="8">
-                <v-card  class="elevation-5" style="border-top:5px solid #EF6C00">
-                    <v-window>
-                        <v-window-item >
-                                <v-row>
+            <v-col cols="12" lg="9" xl="9" md="8">
+                <v-card elevation="1" class="pa-5" >
+                    <v-row>
 
-                                    <v-col  cols="12" md="12" class="pt-2 pl-3 pr-3"> 
-                                        <v-container v-for="(details, index) in classNames" :key="index">
-                                            <v-list-item>
-                                                <v-list-item-avatar>
-                                                    <v-icon>mdi-account-multiple</v-icon>
-                                                    </v-list-item-avatar>
-                                                    <v-list-item-content>
-                                                        <v-list-item-title>{{details.class_name}} </v-list-item-title>
-                                                    </v-list-item-content>
-                                                     <div class="">
-                                             
-                                                            <v-btn
-                                                                :loading="isPublishing && isPublishing_id == details.class_id"
-                                                                @click="OpenPublishDialog($route.query.clwk, details.class_id, details.class_name, details.status)" 
-                                                                v-if="details.status == 0"
-                                                                color="primary" :outlined="details.status == 0" rounded dark>
-                                                                {{$vuetify.breakpoint.xs ? '': 'Publish'}}
-                                                            <v-icon>
-                                                                mdi-share
-                                                            </v-icon>
-                                                        </v-btn>
-                                                        <v-menu v-if="details.status == 1"  offset-y>
-                                                            <template v-slot:activator="{ on, attrs }">
-                                                                <v-btn
-                                                                v-if="details.status == 1"
-                                                                color="primary"
-                                                                dark
-                                                                v-bind="attrs"
-                                                                v-on="on"
-                                                                icon
-                                                                text
-                                                                >
-                                                                <v-icon>mdi-dots-vertical</v-icon>
-                                                                </v-btn>
-                                                            </template>
-                                                            <v-list class="pa-1">
-                                                                <v-list-item class="rounded" link 
-                                                                @click="OpenEditPublish($route.query.clwk, details.class_id, details.class_name, details.Class_classwork_id)" >
-                                                                    <v-list-item-title> 
-                                                                        <v-icon left>mdi-pencil</v-icon> Edit Publication
-                                                                    </v-list-item-title>
-                                                                     
-                                                                </v-list-item>
-                                                                <v-list-item class="rounded" link @click="OpenUnpublishDiaglog($route.query.clwk, details.class_id, details.class_name)">
-                                                                    <v-list-item-title > 
-                                                                            <v-icon left>mdi-share-off</v-icon> Unpublish
-                                                                        </v-list-item-title>
-                                                                 </v-list-item>
-                                                            </v-list>
-                                                            </v-menu>
-                                                  
-                                                    </div>
-                                            </v-list-item>
-                                              <v-divider></v-divider> 
-                                       </v-container>
-                                    </v-col>
-                                </v-row>
-                        </v-window-item>
-                    </v-window>
+                        <v-col  cols="12" md="12" class="pt-2 pl-3 pr-3"> 
+                            <v-container v-for="(details, index) in classNames" :key="index">
+                                <v-list-item>
+                                    <v-list-item-avatar>
+                                        <v-icon>mdi-account-multiple</v-icon>
+                                        </v-list-item-avatar>
+                                        <v-list-item-content>
+                                            <v-list-item-title>{{details.class_name}} </v-list-item-title>
+                                        </v-list-item-content>
+                                            <div class="">
+                                    
+                                                <v-btn
+                                                    :loading="isPublishing && isPublishing_id == details.class_id"
+                                                    @click="OpenPublishDialog($route.query.clwk, details.class_id, details.class_name, details.status)" 
+                                                    v-if="details.status == 0"
+                                                    color="primary" :outlined="details.status == 0" rounded dark>
+                                                    {{$vuetify.breakpoint.xs ? '': 'Publish'}}
+                                                <v-icon>
+                                                    mdi-share
+                                                </v-icon>
+                                            </v-btn>
+                                            <v-menu v-if="details.status == 1"  offset-y>
+                                                <template v-slot:activator="{ on, attrs }">
+                                                    <v-btn
+                                                    v-if="details.status == 1"
+                                                    color="primary"
+                                                    dark
+                                                    v-bind="attrs"
+                                                    v-on="on"
+                                                    icon
+                                                    text
+                                                    >
+                                                    <v-icon>mdi-dots-vertical</v-icon>
+                                                    </v-btn>
+                                                </template>
+                                                <v-list class="pa-1">
+                                                    <v-list-item class="rounded" link 
+                                                    @click="OpenEditPublish($route.query.clwk, details.class_id, details.class_name, details.Class_classwork_id)" >
+                                                        <v-list-item-title> 
+                                                            <v-icon left>mdi-pencil</v-icon> Edit Publication
+                                                        </v-list-item-title>
+                                                            
+                                                    </v-list-item>
+                                                    <v-list-item class="rounded" link @click="OpenUnpublishDiaglog($route.query.clwk, details.class_id, details.class_name)">
+                                                        <v-list-item-title > 
+                                                                <v-icon left>mdi-share-off</v-icon> Unpublish
+                                                            </v-list-item-title>
+                                                        </v-list-item>
+                                                </v-list>
+                                                </v-menu>
+                                        
+                                        </div>
+                                </v-list-item>
+                                    <v-divider></v-divider> 
+                            </v-container>
+                        </v-col>
+                    </v-row>
                 </v-card>
             </v-col>
         </v-row>
     </v-container>
-</v-app>
+</div>
 </template>
 <script>
 const publishDialog = () => import('./dialogs/publishDialog')

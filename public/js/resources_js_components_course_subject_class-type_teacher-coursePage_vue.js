@@ -158,12 +158,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
 var confirmArchiveCourse = function confirmArchiveCourse() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_course_subject_class-type_dialog_confirmArchiveCourse_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./dialog/confirmArchiveCourse */ "./resources/js/components/course_subject/class-type/dialog/confirmArchiveCourse.vue"));
 };
@@ -852,79 +846,40 @@ var render = function() {
                               _c(
                                 "v-card-subtitle",
                                 [
-                                  item.completed == 1
-                                    ? _c(
-                                        "router-link",
+                                  _c(
+                                    "router-link",
+                                    {
+                                      staticStyle: {
+                                        "text-decoration": "none"
+                                      },
+                                      attrs: {
+                                        to: {
+                                          name: "coursePage",
+                                          params: { id: item.id }
+                                        }
+                                      }
+                                    },
+                                    [
+                                      _c(
+                                        "p",
                                         {
-                                          staticStyle: {
-                                            "text-decoration": "none"
-                                          },
-                                          attrs: {
-                                            to: {
-                                              name: "coursePage",
-                                              params: { id: item.id }
-                                            }
-                                          }
+                                          staticStyle: { "font-size": "16px" }
                                         },
                                         [
-                                          _c(
-                                            "p",
-                                            {
-                                              staticStyle: {
-                                                "font-size": "16px"
-                                              }
-                                            },
-                                            [
-                                              _vm._v(
-                                                _vm._s(item.course_code) +
-                                                  " \n                                "
-                                              ),
-                                              _c("br"),
-                                              _vm._v(
-                                                " " +
-                                                  _vm._s(item.course_name) +
-                                                  "\n                                "
-                                              )
-                                            ]
+                                          _vm._v(
+                                            _vm._s(item.course_code) +
+                                              " \n                                "
+                                          ),
+                                          _c("br"),
+                                          _vm._v(
+                                            " " +
+                                              _vm._s(item.course_name) +
+                                              "\n                                "
                                           )
                                         ]
                                       )
-                                    : _c(
-                                        "router-link",
-                                        {
-                                          staticStyle: {
-                                            "text-decoration": "none"
-                                          },
-                                          attrs: {
-                                            to: {
-                                              name: "courseSetup",
-                                              params: { id: item.id }
-                                            }
-                                          }
-                                        },
-                                        [
-                                          _c(
-                                            "p",
-                                            {
-                                              staticStyle: {
-                                                "font-size": "16px"
-                                              }
-                                            },
-                                            [
-                                              _vm._v(
-                                                _vm._s(item.course_code) +
-                                                  " \n                                "
-                                              ),
-                                              _c("br"),
-                                              _vm._v(
-                                                " " +
-                                                  _vm._s(item.course_name) +
-                                                  "\n                                "
-                                              )
-                                            ]
-                                          )
-                                        ]
-                                      ),
+                                    ]
+                                  ),
                                   _vm._v(" "),
                                   _c("hr"),
                                   _vm._v(

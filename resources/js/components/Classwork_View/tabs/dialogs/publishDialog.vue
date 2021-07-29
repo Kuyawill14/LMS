@@ -1,5 +1,5 @@
 <template>
-   <v-card style="border-top:3px solid #EF6C00">
+   <v-card >
         <v-form ref="publishForm" v-model="valid" lazy-validation>
             <v-card-title>
                 <span class="headline">Publish to <span class="primary--text">"{{ClassDetails.class_name}}"</span></span>

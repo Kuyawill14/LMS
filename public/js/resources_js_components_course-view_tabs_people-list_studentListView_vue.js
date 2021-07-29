@@ -101,7 +101,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //const removeConfirmDialog = () => import('../dialog/removeConfirmDialog')
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['getcourseInfo'],
   components: {//removeConfirmDialog
   },
   data: function data() {
@@ -113,8 +112,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       isClassNameLoaded: false,
       classNames: [],
       Class_id: this.$route.params.id,
-      RemoveDetails: {},
-      cours_name: null
+      RemoveDetails: {}
     };
   },
   computed: {
@@ -330,7 +328,7 @@ var render = function() {
                           staticClass: "text-subtitle-1 text-center",
                           attrs: { cols: "12" }
                         },
-                        [_c("h2", [_vm._v(" Getting Student List ")])]
+                        [_c("h2", [_vm._v(" Getting people List ")])]
                       ),
                       _vm._v(" "),
                       _c(

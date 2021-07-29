@@ -1,5 +1,37 @@
 <template>
-    <div class="container">
+<div>
+     <v-row align="center" justify="center" class="pt-10" v-if="ClassworkLength == 0">
+            <v-col cols="12" sm="8" md="4" class="text-center">
+                <v-icon style="font-size:14rem">
+                    mdi-book-open-variant
+                </v-icon>
+                <h1> Empty Classwork </h1>
+                <p>No, Assign Classwork Yet!</p>
+               
+               
+            </v-col>
+        </v-row>
+
+
+    <div v-if="ClassworkLength != 0" class="container">
+        
+        <v-row >
+            <v-col class="text-left mb-0 pb-0">
+                 <h2 class="mt-1">Classworks</h2>
+            </v-col>
+            <v-col cols="6" md="3" xl="3" lg="3" class="text-right mb-0 pb-0">
+                  <v-select
+                     :items="FilterItems"
+                     item-text="title"
+                    dense
+                    v-model="SelectedFilter"
+                    outlined
+                    class="ma-0 pa-0"
+                    ></v-select>
+            </v-col>
+        </v-row>
+
+    
         <!-- Modal -->
         <div v-if="Previewdialog">
                <v-dialog v-model="Previewdialog"  width="650px">
@@ -7,19 +39,17 @@
          </v-dialog>
         </div>
     
-        <v-row class="pl-5 pr-5">
+        <v-row class="pl-5 pr-5 mt-0 pt-0">
             <v-divider></v-divider>
         </v-row>
 
         <v-row class="mt-5" justify="center" align-content="center">
             <v-col cols="12" class="mt-1 ml-0  mr-0" v-for="(data, i) in classworks.ClassworkTitle" :key="i">
-            <v-row v-if="classworks.ClassworksList[i].length != 0" class="pl-1 pr-1" ma-0 pa-0>
+            <v-row v-if="classworks.ClassworksList[i].length != 0 && (SelectedFilter == 'All' || SelectedFilter == data.title)" class="pl-1 pr-1" ma-0 pa-0>
                 <v-col cols="12"  class="ma-0 pa-0 "><h2 class="font-weight-regular">{{data.title}} <small class="font-weight-medium">({{data.percent}}%)</small> </h2></v-col>
-                <v-col cols="12" md="6" lg="6" xl="6" class="pb-0 mb-0" v-for="(item, index) in classworks.ClassworksList[i]" :key="index">
-                    <v-tooltip top>
-                    <template v-slot:activator="{ on, attrs }">
+                <v-col cols="12" md="4" class="pb-0 mb-0" v-for="(item, index) in classworks.ClassworksList[i]" :key="index">
                     <v-hover v-slot="{ hover }">
-                        <v-card v-bind="attrs" v-on="on"  @click="OpenClaswork(item.type,item.status,item.score,item.classwork_id)" 
+                        <v-card  @click="OpenClaswork(item.type,item.status,item.score,item.classwork_id)" 
                             link :elevation="hover ? 2 :0" >
                             <v-container class="pl-2 pr-5 pt-5 pb-5 d-flex flex-row justify-space-between">
                                 <div class="d-flex flex-row">
@@ -34,12 +64,11 @@
                                     </v-icon>
                                     </v-avatar>
                                     <div class="pl-2">  
-                                          <v-tooltip top>
+                                        <v-tooltip top>
                                             <template v-slot:activator="{ on, attrs }">
                                             <div v-bind="attrs" v-on="on"  ma-0 pa-0 
-                                             
-                                              :style="$vuetify.breakpoint.xs ? 'width:180px;overflow: hidden;white-space: nowrap;text-overflow;text-overflow: ellipsis;' 
-                                        : 'width: 220px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;'"
+                                             :style="$vuetify.breakpoint.xs ? 'width:180px;overflow: hidden;white-space: nowrap;text-overflow;text-overflow: ellipsis;' 
+                                            : 'width: 220px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;'"
                                              class="h1 ml-1"> 
                                                 <span class="font-weight-bold">{{item.title}} <small class="primary--text font-weight-regular" v-if="item.type == 'Subjective Type'">({{item.points}} points)</small></span> 
                                             </div> 
@@ -48,20 +77,19 @@
                                         </v-tooltip>
 
                                         <small
-                                        v-if="item.status == null || item.status == 'Submitting'|| item.status == 'Taking'" :class="item.availability != 0 ? CheckFormatDue(item.to_date) > DateToday ? 'card-subtitle text-50': item.status == 'Submitted' ? 'card-subtitle text-50':'card-subtitle text-50 red--text':'card-subtitle text-50'">
+                                            v-if="item.status == null || item.status == 'Submitting'|| item.status == 'Taking'" :class="item.availability != 0 ? CheckFormatDue(item.to_date) > DateToday ? 'card-subtitle text-50': item.status == 'Submitted' ? 'card-subtitle text-50':'card-subtitle text-50 red--text':'card-subtitle text-50'">
                                             <v-icon :color="item.availability != 0 ? CheckFormatDue(item.to_date) > DateToday ? '': item.status == 'Submitted' ? '':'red darken-4':''" small>mdi-clock</v-icon> 
                                             {{item.availability != 0 ? CheckFormatDue(item.to_date) > DateToday ? '' : "Late" :''}}
                                             {{item.availability != 0 ? ' Due Date:' : 'No Due Date'}}
-                                            {{format_date(item.to_date)}} 
+                                            {{item.availability != 0 ? format_date(item.to_date) : ''}} 
                                         </small>
                                             
                                         <small
-                                        :style="$vuetify.breakpoint.xs ? 'width:150px;display: inline-block;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;' 
-                                        : ''" v-if="item.status == 'Submitted'" class="card-subtitle text-50 success--text">
+                                            :style="$vuetify.breakpoint.xs ? 'width:150px;display: inline-block;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;' 
+                                            : ''" v-if="item.status == 'Submitted'" class="card-subtitle text-50 success--text">
                                             <v-icon color="" small>mdi-clock</v-icon> 
                                             Submitted: {{format_date(item.Sub_date)}} 
                                         </small>
-
                                     </div>
                                 </div>
 
@@ -84,15 +112,9 @@
                                     </template>
                                     <span>Continue Classwork</span>
                                 </v-tooltip>
-                                
-                                
                              </v-container>
-                        </v-card >
-                      
+                        </v-card>
                     </v-hover>
-                     </template>
-                <span>{{item.status == null ? 'View Classwork' : 'View Submission'}}</span>
-                </v-tooltip>
                  <v-divider></v-divider>
                 </v-col>
                <v-col cols="12" class="text-right mb-0 pb-0"> 
@@ -103,6 +125,8 @@
              
         </v-row>
     </div>
+
+</div>
 </template>
 
 <script>
@@ -117,7 +141,10 @@
             return {
                 Previewdialog:false,
                 Preview_id:null,
-                DateToday:''
+                DateToday:'',
+                SelectedFilter: "All",
+                FilterItems:[],
+                ClassworkLength: null,
             }
         },
         methods: {
@@ -151,11 +178,31 @@
                     this.Preview_id = classwork_id
                 }
 
+            },
+            setFilterItems(){
+                for (let i = 0; i < this.classworks.ClassworkTitle.length+1; i++) {
+                   
+                    if(i == 0){
+                        this.FilterItems.push({title : 'All'});
+                    }
+                    else{
+                        this.FilterItems.push({title : this.classworks.ClassworkTitle[i-1].title});
+                    }
+                }
+
+            },
+             CheckClassworkCount(){
+                this.classworks.ClassworksList.forEach(element => {
+                    this.ClassworkLength += element.length;
+                });
             }
         },
         mounted(){
+            this.CheckClassworkCount();
+            this.setFilterItems();
             let newDate = new Date();
             this.DateToday = moment(newDate).format("YYYY-MM-DDTHH:mm:ss");
+            
 
         }
        

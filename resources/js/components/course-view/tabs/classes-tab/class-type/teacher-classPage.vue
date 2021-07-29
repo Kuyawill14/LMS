@@ -30,6 +30,9 @@
                 v-on:createclass="classLength++" />
             <editClassForm v-on:closeModal="closeModal()" :class_name="form.class_name" :class_id="form.class_id"
                 v-if="modalType == 'edit'" />
+
+            <archiveClass v-on:toggleconfirm="SuccessArchive()"
+            v-on:toggleCancelDialog="closeModal()" :ArchiveDetails="ArchiveDetails" v-if="modalType == 'archive'"></archiveClass>
         </v-dialog>
         <div v-if="!isGetting && classLength > 0">
 
@@ -64,7 +67,7 @@
                                 <v-icon color="secondary " v-bind="attrs" v-on="on">mdi-dots-vertical</v-icon>
                             </template>
                             <v-list>
-                                <v-list-item link>
+                                <v-list-item link @click="archiveClass(item, index)">
                                     <v-list-item-title>Archive</v-list-item-title>
 
                                 </v-list-item>
@@ -90,9 +93,9 @@
 
 <script>
     const VueElementLoading = () => import("vue-element-loading")
-    import createClassForm from './createClass';
-
-    import editClassForm from './editClass'
+    const createClassForm = () => import("./createClass")
+    const editClassForm = () => import("./editClass")
+    const archiveClass = () => import("./archiveClass")
     import {
         mapGetters,
         mapActions
@@ -101,7 +104,8 @@
         components: {
             VueElementLoading,
             createClassForm,
-            editClassForm
+            editClassForm,
+            archiveClass
 
         },
         data: () => ({
@@ -116,7 +120,9 @@
                 id: '',
                 class_name: '',
                 course_id: null,
-            }
+            },
+            ArchiveDetails:null,
+            removeIndex: null,
         }),
 
 
@@ -130,33 +136,35 @@
                 this.form.class_name = "";
                 this.modalType = "add";
                 this.showModal = true;
-
-                console.log(this.modalType);
             },
             openEditmodal(class_name, class_id) {
                 this.showModal = true;
                 this.modalType = "edit";
                 this.form.class_id = class_id;
                 this.form.class_name = class_name;
-                console.log(this.modalType);
-
             },
             getTeacherClasses() {
                 this.isGetting = true;
                 this.fetchSubjectCourseClassList(this.$route.params.id)
                     .then(() => {
-                        setTimeout(() => {
+                        //setTimeout(() => {
                             this.isGetting = false;
                             this.classLength = this.allClass.length;
-                        }, 1000);
+                        //}, 1000);
 
 
                     })
             },
-           
-
-
-
+            archiveClass(data,index){
+                this.removeIndex = index;
+                this.ArchiveDetails = data;
+                this.showModal = true;
+                this.modalType = "archive";
+            },
+            SuccessArchive(){
+                this.showModal = false;
+                this.allClass.splice(this.removeIndex, 1);
+            }
         },
         computed: mapGetters(['allClass']),
         mounted() {

@@ -1,6 +1,16 @@
 <template>
 <v-app>
     <v-container class="fill-height"  fluid>
+    
+    <v-dialog v-model="Viewdialog"
+        fullscreen
+        hide-overlay
+        transition="dialog-bottom-transition">
+        <submittedView  :details="details"  v-on:UpdateSubmission="$emit('UpdateSubmission')" v-on:closeDialog="Viewdialog = !Viewdialog "></submittedView>
+    </v-dialog>
+
+
+
     <v-row   class="fill-height" align-content="center"
             justify="center" v-if="isloading" style="height:30vh">
                 <v-col cols="6">
@@ -28,17 +38,21 @@
                                 <v-row style="height:8vh"></v-row>
                                 <v-row>
                                 <v-container ma-0 pa-0 class="d-flex flex-row justify-space-between mb-3">
-                                    <v-btn
-                                    class="mx-2"
-                                    fab
-                                    dark
-                                    color="primary"
-                                    >
-                                    <v-icon x-large>
-                                    mdi-book-open-variant
-                                    </v-icon>
-                                    </v-btn>
-                               
+                                    <div class="d-flex">
+                                           <v-btn
+                                            class="mx-1"
+                                            fab
+                                            dark
+                                            color="primary"
+                                                >
+                                            <v-icon large>
+                                            mdi-book-open-variant
+                                            </v-icon>
+                                            </v-btn>
+                                            <div class="mt-3 ml-1">
+                                                <h3>{{details.title}}</h3>
+                                            </div>
+                                     </div>
                                 </v-container>
                                     <v-col cols="12" class="ml-3">
                                         <div class="display-2 primary--text">
@@ -60,7 +74,7 @@
 
                                      <v-col cols="12" class="text-right mt-4">
                                       
-                                            <v-btn rounded color="primary" outlined>
+                                            <v-btn @click="Viewdialog = !Viewdialog" rounded color="primary" outlined>
                                                 View Submission
                                             </v-btn>
                                       
@@ -78,12 +92,19 @@
 </v-app>
 </template>
 <script>
+const submittedView = () => import('./viewSubmittedPage');
 export default {
+    components:{
+        submittedView
+    },
     data(){
         return{
             details:[],
             isloading: true,
-            testUnser: []
+            testUnser: [],
+            Viewdialog: false,
+            ViewDetails: null
+
         }
     },
     methods:{

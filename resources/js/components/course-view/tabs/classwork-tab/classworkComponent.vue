@@ -1,13 +1,13 @@
 <template>
     <div>
-        <v-dialog v-model="dialog" persistent max-width="600">
+       <!--  <v-dialog v-model="dialog" persistent max-width="600">
             <newClassworkModal
             v-on:CloseDialog="dialog =!dialog"
             v-on:realodClassworks="getGeneralClassworks(), dialog = !dialog" 
             v-if="dialog && role == 'Teacher'">
             </newClassworkModal>
          </v-dialog>
-
+       
          <v-row align="center" justify="center" class="pt-10" v-if="!isGetting && ClassworkLength == 0">
             <v-col cols="12" sm="8" md="4" class="text-center">
                 <v-icon style="font-size:14rem">
@@ -24,16 +24,16 @@
         <v-btn  v-if="(!isGetting && role == 'Teacher') && ClassworkLength != 0" bottom color="primary" dark fab fixed right @click="dialog = !dialog">
             <v-icon>mdi-plus</v-icon>
         </v-btn>
-        <v-container v-if="(!isGetting && ClassworkLength != 0)">
-            <v-row>
-                <v-col>
-                    <h2>{{ role == 'Teacher' ? 'Manage Classworks' : 'Classworks'}}</h2>
-                </v-col>
-            </v-row>
-        </v-container>
+        -->
 
-
-        <classworkList v-on:ToggleRefresh="getGeneralClassworks()" v-if="!isGetting && ClassworkLength != 0" :classworks="get_Classworks" :role="role"></classworkList>
+        <div>
+            <classworkList v-on:ToggleRefresh="getGeneralClassworks()" 
+            v-if="!isGetting && ClassworkLength != 0" 
+            v-on:reloadClassworks="getGeneralClassworks()"
+            :classworks="get_Classworks" :role="role"></classworkList>
+        </div>
+      
+        
         <v-container v-if="isGetting" style="height: 400px;">
             <v-row class="fill-height" align-content="center" justify="center">
                  <v-icon style="font-size:14rem">
@@ -48,6 +48,7 @@
             </v-row>
         </v-container>
 
+    
 
     </div>
 
@@ -70,7 +71,7 @@
                 classworks: [],
                 isGetting: false,
                 dialog: false,
-                ClassworkLength:null,
+                ClassworkLength: null,
             }
         },
         computed: mapGetters(['get_Classworks']),
@@ -81,9 +82,13 @@
                 this.$store.dispatch('fetchClassworks', this.$route.params.id)
                 .then(res => {
                     if (res == 200) {
-                        this.ClassworkLength = this.get_Classworks.length;
+                        
+                       
+                      
+                      
                         this.isGetting = false;
                     }
+                   
                 })
             },
         },

@@ -1,102 +1,75 @@
 <template>
     <div>
 
-        <v-row align="center" justify="center" class="pt-10" >
+        <v-row v-if="!isGetting && classLength == 0" align="center" justify="center" class="pt-10" >
             <v-col cols="12" sm="8" md="4" class="text-center">
                 <v-icon style="font-size:8rem">
-                    mdi-book-variant-multiple
+                    mdi-google-classroom
                 </v-icon>
                 <h2> Empty Archive Classes </h2>
             </v-col>
         </v-row>
 
 
-    <!--     <v-container v-if="isGetting" style="height: 400px;">
+        <v-container v-if="isGetting" style="height: 400px;">
             <v-row class="fill-height" align-content="center" justify="center">
                 <v-icon style="font-size:14rem">
                     mdi-google-contacts
                 </v-icon>
                 <v-col class="text-subtitle-1 text-center" cols="12">
-                    <h2> Loading your Courses </h2>
+                    <h2> Loading archive classes </h2>
                 </v-col>
                 <v-col cols="6">
                     <v-progress-linear color="primary" indeterminate rounded height="6"></v-progress-linear>
                 </v-col>
             </v-row>
-        </v-container> -->
+        </v-container>
 
-
-
-  
-
+         <div v-if="!isGetting && classLength > 0" >
+            <teacherClassArchive v-on:RestoreConfirm="restoreClass"  :ArchiveClasses="ArchiveClasses" v-if="role == 'Teacher'" />
+            <studentClassArchive :ArchiveClasses="ArchiveClasses" v-if="role == 'Student'" />
+        </div>
     </div>
 </template>
 <script>
-    //const confirmArchiveCourse = () => import("./dialog/confirmArchiveCourse")
-    import {
-        mapGetters,
-        mapActions
-    } from "vuex";
+    import { mapGetters, mapActions} from "vuex";
+    const teacherClassArchive = () => import("./archiveClassType/teacherClassArchive");
+    const studentClassArchive = () => import("./archiveClassType/studentClassArchive");
+    
     export default {
+        props: ['role'],
         components: {
-            //    VueElementLoading,
-            //confirmArchiveCourse
+            teacherClassArchive,
+            studentClassArchive
         },
         data() {
             return {
-                coursesLength: null,
+                classLength: null,
                 isGetting: false,
-                dialog: false,
-                isloading: true,
-                modalType: '',
-                isPageLoading: false,
-                class_code: null,
-                form: {
-                    id: '',
-                    course_name: '',
-                    course_id: '',
-                    class_description: '',
-                    course_picture: '',
-                    course_code: '',
-                },
-                Archivedialog: false,
-                ArchiveDetails:{},
-                ArchiveCourses:[]
+                ArchiveClasses:[]
             }
         },
         methods: {
-               toastSuccess(message,icon) {
-                return this.$toasted.success(message, {
-                    theme: "toasted-primary",
-                    position: "top-center",
-                    icon: "done",
-                    duration: 5000
-                });
-            },
-            archiveConfirm(name,id){
-                this.ArchiveDetails.course_id = id;
-                this.ArchiveDetails.name = name;
-                this.Archivedialog = !this.Archivedialog
-            },
-             async restoreArchive(id){
-                axios.put('/api/archive/restore/'+id)
+             async restoreClass(data){
+                await axios.put('/api/archive/restore-class/'+data.id)
                 .then(res=>{
-                    this.fetchCourses();
-                    ///this.Archivedialog = !this.Archivedialog;
+                    this.ArchiveClasses.splice(data.index, 1);
                 })
             },
-            fetchCourses() {
+            async fetchClass() {
                 this.isGetting = true;
-                axios.get('/api/archive/courses')
+                await axios.get('/api/archive/classes')
                 .then(res=>{
-                    this.ArchiveCourses = res.data;
-                    this.coursesLength = res.data.length;
+                    this.ArchiveClasses = res.data;
+                    this.classLength = res.data.length;
                     this.isGetting = false;
                 })
                 
             },
         },
-
+        mounted(){
+            this.fetchClass();
+        }
     }
 
 </script>

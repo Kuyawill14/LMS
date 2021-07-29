@@ -29,7 +29,7 @@ class ClassworkController extends Controller
         if(auth('sanctum')->user()->role != 'Student'){
             $classwork = tbl_classwork::where('course_id',  $id)
             ->select('tbl_classworks.id', 'tbl_classworks.course_id','tbl_classworks.module_id','tbl_classworks.type',
-            'tbl_classworks.title','tbl_classworks.duration','tbl_classworks.points','tbl_classworks.created_at')
+            'tbl_classworks.title','tbl_classworks.instruction','tbl_classworks.duration','tbl_classworks.points','tbl_classworks.created_at')
             ->selectRaw('count(tbl_submissions.classwork_id ) as submittion_count')
             ->leftJoin('tbl_submissions', 'tbl_submissions.classwork_id', '=','tbl_classworks.id')
             ->orderBy('created_at', 'DESC')
@@ -50,9 +50,7 @@ class ClassworkController extends Controller
             }
            
             $classworkList = [ 0 =>$ClassworksListObjective, 1 => $ClassworksListSubjective];
-          
             return $classworkList;
-            //return ["ClassworksListObjective"=>$ClassworksListObjective, "ClassworksListSubjective"=>$ClassworksListSubjective];
         }
         else{
             $GradingCategory = tbl_main_gradeCategory::where('tbl_main_grade_categories.course_id', $id)
@@ -164,8 +162,7 @@ class ClassworkController extends Controller
      */
     public function ShareClasswork(Request $request)
     {
-        //return $request;
-       
+
         $userId = auth('sanctum')->id();
         $Check = tbl_classClassworks::where('class_id','=', $request->get('class_id'))
         ->where('classwork_id','=',$request->get('classwork_id'))
@@ -182,9 +179,8 @@ class ClassworkController extends Controller
         $shareClasswork->class_id = $request->get('class_id');
         $shareClasswork->classwork_id = $request->get('classwork_id');
         $shareClasswork->availability =  $request->get('availability') == 'Set Date' ? 1 : 0;
-      
-        $request->get('availability') == 'Set Date' ? $shareClasswork->from_date = $request->get('from_date') : '';
-        $request->get('availability') == 'Set Date' ? $shareClasswork->to_date = $request->get('to_date') : '';
+        $shareClasswork->from_date = $request->get('from_date');
+        $shareClasswork->to_date = $request->get('to_date');
         $shareClasswork->showAnswer =  $request->get('showAnswer') == 'true' ? 1 : 0;
         if($request->get('showAnswer') == 'true'){
             $shareClasswork->showAnswerType = $request->get('showAnswerType') == 'Set Date' ? 1 : 0;
@@ -256,10 +252,11 @@ class ClassworkController extends Controller
                 $UpdatePublishDetails->showDateFrom = $request->showAnswerType == 'Set Date' ? $request->showAnswerDateFrom : '';
                 $UpdatePublishDetails->showDateTo = $request->showAnswerType == 'Set Date' ? $request->showAnswerDateTo : '';
             }
-            $UpdatePublishDetails->response_late = $request->response_late == 'true'  ? 1 : 0;
+            $UpdatePublishDetails->response_late = $request->response_late == true ? 1 : 0;
             $UpdatePublishDetails->grading_criteria = $request->grading_criteria;
             $UpdatePublishDetails->save();
             //return $UpdatePublishDetails;
+            return 'Publish details Updated!';
         }   
         
         return 'Classwork not found!';
@@ -292,7 +289,7 @@ class ClassworkController extends Controller
         }
         else{
             $classworkDetails = tbl_classwork::where('tbl_classworks.id','=', $id)
-            ->select('tbl_classworks.*', 
+            ->select('tbl_classworks.*', 'tbl_class_classworks.id as class_classwork_id',
             'tbl_class_classworks.availability','tbl_class_classworks.from_date','tbl_class_classworks.to_date','tbl_class_classworks.showAnswer',
             'tbl_class_classworks.showAnswerType','tbl_class_classworks.showDateFrom','tbl_class_classworks.showDateTo',
             'tbl_class_classworks.response_late',

@@ -11,8 +11,42 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_1__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -116,7 +150,7 @@ var checksubjective = function checksubjective() {
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ["ListData", "classworkDetails"],
+  props: ["ListData", "classworkDetails", "Submitted", "Graded", "ClassList"],
   components: {
     checksubjective: checksubjective
   },
@@ -126,7 +160,7 @@ var checksubjective = function checksubjective() {
       selectedTasks: [],
       CheckData: null,
       search: '',
-      Class: 'All',
+      Class: this.$route.params.id,
       dialog: false,
       headers: [{
         text: 'id',
@@ -149,14 +183,65 @@ var checksubjective = function checksubjective() {
       }, {
         text: 'Actions',
         sortable: false
-      }]
+      }],
+      isSavingScore: false,
+      score: null
     };
   },
   methods: {
     format_date: function format_date(value) {
       if (value) {
-        return moment__WEBPACK_IMPORTED_MODULE_0___default()(String(value)).format('MM/d/YYYY, hh:mm A');
+        return moment__WEBPACK_IMPORTED_MODULE_1___default()(String(value)).format('MM/d/YYYY, hh:mm A');
       }
+    },
+    SaveScore: function SaveScore(id, points) {
+      clearTimeout(this.timeout);
+      var self = this;
+      this.timeout = setTimeout(function () {
+        self.score = points;
+        self.isSavingScore = !self.isSavingScore;
+        self.UpdateScore(id);
+      }, 1000);
+    },
+    UpdateScore: function UpdateScore(id) {
+      var _this = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                if (_this.score <= _this.classworkDetails.points) {
+                  axios.put('/api/submission/update-score/' + id, {
+                    score: _this.score
+                  }).then(function (res) {
+                    if (res.status == 200) {
+                      _this.toastSuccess("Score Updated");
+
+                      _this.isSavingScore = !_this.isSavingScore;
+
+                      _this.$emit('UpdateSubmission');
+
+                      _this.ListData.forEach(function (data) {
+                        if (data.id == id) {
+                          data.graded = 1;
+                        }
+                      });
+                    }
+                  });
+                } else {
+                  _this.isSavingScore = !_this.isSavingScore;
+
+                  _this.toastError('Score is higher than the set points!');
+                }
+
+              case 1:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
     }
   },
   mounted: function mounted() {}
@@ -21688,6 +21773,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
+    { staticClass: "pl-5 pr-5 pb-5 pt-2" },
     [
       _vm.dialog
         ? _c(
@@ -21734,328 +21820,361 @@ var render = function() {
         : _vm._e(),
       _vm._v(" "),
       _c(
-        "v-card",
-        {
-          staticClass: "elevation-5",
-          staticStyle: { "border-top": "4px solid #EF6C00" }
-        },
+        "v-row",
+        { staticClass: "pa-3" },
         [
           _c(
-            "v-window",
+            "v-col",
+            {
+              class:
+                _vm.$vuetify.breakpoint.xs || _vm.$vuetify.breakpoint.sm
+                  ? "pl-5 d-none"
+                  : "pl-5",
+              attrs: { cols: "12", md: "12", lg: "4", xl: "4" }
+            },
             [
               _c(
-                "v-window-item",
+                "v-row",
                 [
                   _c(
-                    "v-row",
-                    { attrs: { "ma-0": "", "pa-0": "" } },
+                    "v-col",
+                    { staticClass: "mb-0 pb-0", attrs: { cols: "12" } },
+                    [_c("h3", [_vm._v("Students")])]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-col",
+                    { staticClass: "mb-0 pb-0", attrs: { cols: "12" } },
+                    [
+                      _c("v-select", {
+                        staticClass: "mb-0 pb-0",
+                        attrs: {
+                          outlined: "",
+                          dense: "",
+                          label: "Class",
+                          items: _vm.ClassList,
+                          "item-text": "class_name",
+                          "item-value": "class_id"
+                        },
+                        model: {
+                          value: _vm.Class,
+                          callback: function($$v) {
+                            _vm.Class = $$v
+                          },
+                          expression: "Class"
+                        }
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _vm._l(_vm.ListData, function(item, i) {
+                    return _c(
+                      "v-col",
+                      {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value:
+                              _vm.Class == _vm.$route.params.id ||
+                              _vm.Class == item.class_id,
+                            expression:
+                              "Class == $route.params.id || Class == item.class_id"
+                          }
+                        ],
+                        key: i,
+                        attrs: { cols: "12" }
+                      },
+                      [
+                        _c(
+                          "v-row",
+                          [
+                            _c(
+                              "v-col",
+                              { staticClass: "pa-5", attrs: { cols: "8" } },
+                              [
+                                _c(
+                                  "div",
+                                  { staticClass: " d-flex justify-start" },
+                                  [
+                                    _c(
+                                      "v-avatar",
+                                      { attrs: { color: "brown", size: "40" } },
+                                      [
+                                        _c("v-img", {
+                                          attrs: {
+                                            alt: "Profile",
+                                            src:
+                                              item.profile_pic == null ||
+                                              item.profile_pic == ""
+                                                ? "https://ui-avatars.com/api/?background=random&color=fff&name=" +
+                                                  item.name
+                                                : item.profile_pic
+                                          }
+                                        })
+                                      ],
+                                      1
+                                    ),
+                                    _vm._v(" "),
+                                    _c("div", { staticClass: "mt-2 ml-2" }, [
+                                      _c(
+                                        "div",
+                                        { staticClass: "font-weight-medium" },
+                                        [
+                                          _vm._v(
+                                            "\r\n                                " +
+                                              _vm._s(item.name) +
+                                              "\r\n                                "
+                                          ),
+                                          _c("br")
+                                        ]
+                                      )
+                                    ])
+                                  ],
+                                  1
+                                )
+                              ]
+                            ),
+                            _vm._v(" "),
+                            item.status == "Submitted"
+                              ? _c(
+                                  "v-col",
+                                  {
+                                    staticClass: "text-left d-flex",
+                                    attrs: { cols: "4" }
+                                  },
+                                  [
+                                    _c("v-text-field", {
+                                      style: _vm.$vuetify.breakpoint.xs
+                                        ? "width:100%"
+                                        : "width:90%",
+                                      attrs: {
+                                        "append-icon":
+                                          item.graded &&
+                                          item.status == "Submitted"
+                                            ? "mdi-check"
+                                            : "",
+                                        loading: _vm.isSavingScore,
+                                        dense: "",
+                                        outlined: "",
+                                        label: "Score",
+                                        type: "number",
+                                        suffix:
+                                          "/" + _vm.classworkDetails.points,
+                                        max: _vm.classworkDetails.points,
+                                        maxlength: _vm.classworkDetails.points.toString()
+                                          .length,
+                                        min: "0"
+                                      },
+                                      on: {
+                                        keyup: function($event) {
+                                          return _vm.SaveScore(
+                                            item.id,
+                                            item.points
+                                          )
+                                        }
+                                      },
+                                      model: {
+                                        value: item.points,
+                                        callback: function($$v) {
+                                          _vm.$set(item, "points", $$v)
+                                        },
+                                        expression: "item.points"
+                                      }
+                                    })
+                                  ],
+                                  1
+                                )
+                              : _vm._e()
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c("v-divider")
+                      ],
+                      1
+                    )
+                  })
+                ],
+                2
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-col",
+            {
+              staticClass: "pa-3 pl-6",
+              attrs: { cols: "12", md: "12", lg: "8", xl: "8" }
+            },
+            [
+              _c(
+                "v-row",
+                [
+                  _c(
+                    "v-col",
+                    { staticClass: "mb-0 pb-0", attrs: { cols: "12" } },
+                    [_c("h3", [_vm._v(_vm._s(_vm.classworkDetails.title))])]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-col",
+                    { attrs: { cols: "12" } },
                     [
                       _c(
-                        "v-col",
-                        {
-                          staticClass: "pt-8 pl-5 pr-5 mb-0 pb-0",
-                          attrs: { cols: "12" }
-                        },
+                        "v-row",
                         [
                           _c(
-                            "v-row",
+                            "v-col",
+                            { attrs: { cols: "2", sm: "2", md: "1" } },
                             [
-                              _c(
-                                "v-col",
-                                { attrs: { cols: "6" } },
-                                [
-                                  _c("v-text-field", {
-                                    staticClass: "ma-0 pa-0",
-                                    attrs: {
-                                      label: "Search",
-                                      "prepend-inner-icon": "mdi-magnify",
-                                      outlined: ""
-                                    }
-                                  })
-                                ],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "v-col",
-                                { attrs: { cols: "6" } },
-                                [
-                                  _c("v-select", {
-                                    attrs: {
-                                      outlined: "",
-                                      label: "Class",
-                                      items: ["All", "Class 1", "Class 2"]
-                                    },
-                                    model: {
-                                      value: _vm.Class,
-                                      callback: function($$v) {
-                                        _vm.Class = $$v
-                                      },
-                                      expression: "Class"
-                                    }
-                                  })
-                                ],
-                                1
-                              )
-                            ],
-                            1
+                              _c("div", { staticClass: "d-flex flex-column" }, [
+                                _c("h1", [_vm._v(_vm._s(_vm.Submitted))]),
+                                _vm._v(" "),
+                                _c("small", [_vm._v("Submitted")])
+                              ])
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-col",
+                            { attrs: { cols: "2", sm: "2", md: "1" } },
+                            [
+                              _c("div", { staticClass: "d-flex flex-column" }, [
+                                _c("h1", [_vm._v(_vm._s(_vm.Graded))]),
+                                _vm._v(" "),
+                                _c("small", [_vm._v("Graded")])
+                              ])
+                            ]
                           )
                         ],
                         1
-                      ),
-                      _vm._v(" "),
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-col",
+                    { attrs: { cols: "12" } },
+                    [
                       _c(
-                        "v-col",
-                        {
-                          staticClass: "mt-0 pt-0",
-                          attrs: { cols: "12", md: "12" }
-                        },
-                        [
-                          _c(
-                            "v-container",
+                        "v-row",
+                        _vm._l(_vm.ListData, function(item, i) {
+                          return _c(
+                            "v-col",
                             {
-                              staticClass:
-                                "pb-2 pl-2 pr-2 pt-0 mt-0 transparent"
+                              directives: [
+                                {
+                                  name: "show",
+                                  rawName: "v-show",
+                                  value: item.Submitted_Answers != null,
+                                  expression: "item.Submitted_Answers != null"
+                                }
+                              ],
+                              key: i,
+                              staticClass: "text-center",
+                              attrs: { link: "", cols: "6", md: "3", lg: "3" }
                             },
                             [
                               _c(
-                                "v-expansion-panels",
-                                _vm._l(_vm.ListData, function(item, i) {
-                                  return _c(
-                                    "v-expansion-panel",
-                                    { key: i },
-                                    [
-                                      _c("v-expansion-panel-header", [
-                                        _c(
-                                          "div",
-                                          {
-                                            staticClass: " d-flex justify-start"
-                                          },
-                                          [
+                                "v-card",
+                                {
+                                  staticClass: "mx-auto",
+                                  staticStyle: { cursor: "pointer" },
+                                  attrs: { "max-width": "344", outlined: "" }
+                                },
+                                [
+                                  item.status == "Submitted"
+                                    ? _c(
+                                        "v-list-item",
+                                        {
+                                          attrs: { link: "" },
+                                          on: {
+                                            click: function($event) {
+                                              ;(_vm.CheckData = item),
+                                                (_vm.dialog = !_vm.dialog)
+                                            }
+                                          }
+                                        },
+                                        [
+                                          _c("v-list-item-content", [
                                             _c(
-                                              "v-avatar",
+                                              "div",
                                               {
-                                                attrs: {
-                                                  color: "brown",
-                                                  size: "40"
-                                                }
+                                                staticClass:
+                                                  "d-flex flex-column align-self-center"
                                               },
                                               [
-                                                _c("v-img", {
-                                                  attrs: {
-                                                    alt: "Profile",
-                                                    src:
-                                                      item.profile_pic ==
-                                                        null ||
-                                                      item.profile_pic == ""
-                                                        ? "https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=" +
-                                                          item.name
-                                                        : item.profile_pic
-                                                  }
-                                                })
-                                              ],
-                                              1
-                                            ),
-                                            _vm._v(" "),
-                                            _c(
-                                              "div",
-                                              { staticClass: "mt-2 ml-2" },
-                                              [
                                                 _c(
                                                   "div",
                                                   {
-                                                    staticClass:
-                                                      "font-weight-medium"
+                                                    staticClass: "mb-2",
+                                                    staticStyle: {
+                                                      "max-height": "30px",
+                                                      overflow: "hidden"
+                                                    }
                                                   },
-                                                  [
-                                                    _vm._v(
-                                                      "\r\n                                        " +
-                                                        _vm._s(item.name) +
-                                                        "\r\n                                        "
-                                                    ),
-                                                    _c("br")
-                                                  ]
+                                                  [_vm._v(_vm._s(item.name))]
+                                                ),
+                                                _vm._v(" "),
+                                                _c("v-divider"),
+                                                _vm._v(" "),
+                                                _c(
+                                                  "v-icon",
+                                                  {
+                                                    attrs: {
+                                                      color: "red",
+                                                      "x-large": ""
+                                                    }
+                                                  },
+                                                  [_vm._v("mdi-file-pdf")]
                                                 ),
                                                 _vm._v(" "),
                                                 _c(
-                                                  "div",
-                                                  { staticClass: "caption " },
+                                                  "small",
+                                                  {
+                                                    staticStyle: {
+                                                      "max-height": "15px",
+                                                      "max-width": "15rem",
+                                                      overflow: "hidden",
+                                                      "white-space": "nowrap",
+                                                      "text-overflow":
+                                                        "ellipsis",
+                                                      "text-align": "center"
+                                                    }
+                                                  },
                                                   [
-                                                    item.graded
-                                                      ? _c(
-                                                          "v-icon",
-                                                          {
-                                                            attrs: {
-                                                              color: "success"
-                                                            }
-                                                          },
-                                                          [_vm._v("mdi-check")]
-                                                        )
-                                                      : _vm._e(),
                                                     _vm._v(
-                                                      "\r\n                                            " +
+                                                      " " +
                                                         _vm._s(
-                                                          item.graded
-                                                            ? "Graded"
-                                                            : "Not Graded"
+                                                          item.Submitted_Answers !=
+                                                            null
+                                                            ? item
+                                                                .Submitted_Answers[0]
+                                                                .name
+                                                            : ""
                                                         )
-                                                    ),
-                                                    item.graded
-                                                      ? _c("span", [
-                                                          _vm._v(
-                                                            "(" +
-                                                              _vm._s(
-                                                                item.points +
-                                                                  "/" +
-                                                                  _vm
-                                                                    .classworkDetails
-                                                                    .points
-                                                              ) +
-                                                              ")"
-                                                          )
-                                                        ])
-                                                      : _vm._e()
-                                                  ],
-                                                  1
-                                                )
-                                              ]
-                                            )
-                                          ],
-                                          1
-                                        )
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("v-expansion-panel-content", [
-                                        _c(
-                                          "div",
-                                          {
-                                            staticClass:
-                                              "d-flex justify-space-between"
-                                          },
-                                          [
-                                            _c(
-                                              "div",
-                                              { staticClass: "flex-sm-column" },
-                                              [
-                                                _c(
-                                                  "div",
-                                                  {
-                                                    staticClass:
-                                                      "font-weight-bold h1 mt-0 pt-0"
-                                                  },
-                                                  [
-                                                    _vm._v(
-                                                      _vm._s(
-                                                        item.status ==
-                                                          "Submitted"
-                                                          ? "Submitted!"
-                                                          : "Submitting..."
-                                                      )
                                                     )
                                                   ]
-                                                ),
-                                                _vm._v(" "),
-                                                item.status == "Submitted"
-                                                  ? _c("div", [
-                                                      _vm._v(
-                                                        "Date: " +
-                                                          _vm._s(
-                                                            _vm.format_date(
-                                                              item.updated_at
-                                                            )
-                                                          )
-                                                      )
-                                                    ])
-                                                  : _vm._e(),
-                                                _vm._v(" "),
-                                                _c(
-                                                  "div",
-                                                  { staticClass: "d-flex" },
-                                                  [
-                                                    item.graded &&
-                                                    item.status == "Submitted"
-                                                      ? _c(
-                                                          "v-icon",
-                                                          {
-                                                            attrs: {
-                                                              left: "",
-                                                              color: "success"
-                                                            }
-                                                          },
-                                                          [_vm._v("mdi-check")]
-                                                        )
-                                                      : _vm._e(),
-                                                    _vm._v(" "),
-                                                    item.status == "Submitted"
-                                                      ? _c(
-                                                          "div",
-                                                          {
-                                                            class: item.graded
-                                                              ? "success--text"
-                                                              : "red--text"
-                                                          },
-                                                          [
-                                                            _vm._v(
-                                                              "  " +
-                                                                _vm._s(
-                                                                  item.graded
-                                                                    ? item.points +
-                                                                        " points"
-                                                                    : "Not yet graded!"
-                                                                )
-                                                            )
-                                                          ]
-                                                        )
-                                                      : _vm._e()
-                                                  ],
-                                                  1
                                                 )
-                                              ]
-                                            ),
-                                            _vm._v(" "),
-                                            _c(
-                                              "div",
-                                              [
-                                                item.status == "Submitted"
-                                                  ? _c(
-                                                      "v-btn",
-                                                      {
-                                                        attrs: {
-                                                          color: "primary",
-                                                          rounded: ""
-                                                        },
-                                                        on: {
-                                                          click: function(
-                                                            $event
-                                                          ) {
-                                                            ;(_vm.CheckData = item),
-                                                              (_vm.dialog = !_vm.dialog)
-                                                          }
-                                                        }
-                                                      },
-                                                      [
-                                                        _vm._v(
-                                                          "View Submission"
-                                                        )
-                                                      ]
-                                                    )
-                                                  : _vm._e()
                                               ],
                                               1
                                             )
-                                          ]
-                                        )
-                                      ])
-                                    ],
-                                    1
-                                  )
-                                }),
+                                          ])
+                                        ],
+                                        1
+                                      )
+                                    : _vm._e()
+                                ],
                                 1
                               )
                             ],
                             1
                           )
-                        ],
+                        }),
                         1
                       )
                     ],

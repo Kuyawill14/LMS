@@ -1,5 +1,5 @@
 <template>
-<div>
+<div class="pa-2">
 
 <v-row justify="center" v-if="dialog">
     <v-dialog v-model="Viewdialog"
@@ -18,102 +18,118 @@
     </v-dialog>
  </v-row> 
 
-<v-card   class="elevation-5" style="border-top:4px solid #EF6C00">
-    <v-window>
-        <v-window-item >
+
+<v-row class="pa-3">
+    
+    <v-col cols="12" :class="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm ? 'pl-5 d-none' : 'pl-5'" md="12" lg="4" xl="4" >
+        
+        <v-row>
+            <v-col cols="12" class="mb-0 pb-0">
+                <h3>Students</h3>
+            </v-col>
+            <v-col cols="12" class="mb-0 pb-0">
+                <v-select
+                outlined
+                dense
+                label="Class"
+                v-model="Class"
+                class="mb-0 pb-0"
+                :items="ClassList"
+                item-text="class_name"
+                item-value="class_id"
+                >
+                
+                </v-select>
+            </v-col>
+            <v-col v-show="Class == $route.params.id || Class == item.class_id" cols="12" v-for="(item,i) in ListData" :key="i">
+                  
                 <v-row>
-                <v-col  cols="12" md="12" class="pt-3">
-                        <v-card-title>
-                        
-                        <v-text-field
-                            v-model="search"
-                            append-icon="mdi-magnify"
-                            label="Search"
-                            single-line
-                            outlined
-                            hide-details
-                        ></v-text-field>
-                        </v-card-title>
+                    <v-col cols="8" class="pa-5">
+                         <div class=" d-flex justify-start">
+                            <v-avatar color="brown" size="40">
+                                <v-img alt="Profile"
+                                    :src="item.profile_pic == null || item.profile_pic == '' ? 'https://ui-avatars.com/api/?background=random&color=fff&name=' + item.name : item.profile_pic">
+                                </v-img>
+                            </v-avatar>
+                            <div class="mt-2 ml-2">
+                            <div class="font-weight-medium">
+                                {{item.name}}
+                                <br>
 
-                        <v-data-table
-                        v-if="Reload" 
-                        v-model="selectedTasks" 
-                        :headers="headers"
-                        :items-per-page="10"
-                        :search="search"
-                        :items="Details" item-key="id" show-select>
+                            </div>
+                               
+                            </div>
+                        </div>
+                    </v-col>
+                    <v-col v-if="item.status == 'Submitted'" cols="4" class="text-left d-flex">
+                        <v-text-field 
+                     
+                        :append-icon="item.graded && item.status == 'Submitted' ? 'mdi-check' : ''"
+                         :loading="isSavingScore" :style="$vuetify.breakpoint.xs ? 'width:100%' :'width:90%'" 
+                                 @keyup="SaveScore(item.id, item.points)"  v-model="item.points" 
+                                dense outlined label="Score" type="number" :suffix="'/' +classworkDetails.points" :max="classworkDetails.points" :maxlength="classworkDetails.points.toString().length" min="0">
+                        </v-text-field>
+                       
+                    </v-col>
+                </v-row>
+                 <v-divider ></v-divider>
+            </v-col>
+        </v-row>
+    </v-col>
+    <v-col cols="12" md="12" lg="8" xl="8" class="pa-3 pl-6">
+        <v-row>
+            <v-col cols="12" class="mb-0 pb-0" >
+                <h3>{{classworkDetails.title}}</h3>
+            </v-col>
+            <v-col cols="12">
+                <v-row>
+                    <v-col cols="2" sm="2"  md="1">
+                         <div class="d-flex flex-column">
+                            <h1>{{Submitted}}</h1>
+                            <small>Submitted</small>
+                        </div>
+                    </v-col>
+                </v-row>
+            </v-col>
 
-                        
-                        <template v-slot:body="{ items }">
-                        <tbody>
-                            <tr v-for="(item, index) in items" :key="item.id">
-                                <td>
-                                    <v-checkbox v-model="selectedTasks" :value="item" style="margin:0px;padding:0px"
-                                        hide-details />
-                                </td>
-                                <td>{{item.name}}</td>
-                                <td class="text-center"> <v-chip v-if="item.status != null && item.status != ''" :color="item.status == 'Submitted' ? 'success':  'info'" dark>{{item.status}}</v-chip> </td>
-                                <td><span class="font-weight-bold">{{item.points== null ? 'N/A' : item.points}}</span><span v-if="item.points != null ">{{' / '+classworkDetails.points }}</span></td>
-                                <td >
-                                
-                                        <v-tooltip top>
-                                        <template v-slot:activator="{ on, attrs }">
-                                            <v-btn
-                                            v-bind="attrs"
-                                            v-on="on"
-                                            text icon
-                                            >
-                                                <v-icon color="primary">mdi-pencil-box-multiple-outline</v-icon>
-                                            </v-btn>
-                                        </template>
-                                        <span>Edit</span>
-                                    </v-tooltip>
-
-                                    <v-tooltip top>
-                                        <template v-slot:activator="{ on, attrs }">
-                                            <v-btn
-                                            @click="ViewSubmision(item)"
-                                            v-bind="attrs"
-                                            v-on="on"
-                                            text icon
-                                            >
-                                        <v-icon color="primary">mdi-file-eye-outline</v-icon>
-                                            </v-btn>
-                                        </template>
-                                        <span>View Submission</span>
-                                    </v-tooltip>
-
-                                     <v-tooltip v-if="item.status == 'Submitted' || item.status == 'Taking'" top>
-                                        <template v-slot:activator="{ on, attrs }">
-                                            <v-btn
-                                            @click="resetIndex = index, resetName = item.name, resetId = item.id, dialog = !dialog, ResetDialog = !ResetDialog"
-                                            v-bind="attrs"
-                                            v-on="on"
-                                            text icon
-                                            >
-                                        <v-icon color="primary">mdi-restart</v-icon>
-                                            </v-btn>
-                                        </template>
-                                        <span>Reset Submission</span>
-                                    </v-tooltip>
-                                        
-                                </td>
-                            </tr>
-                        </tbody>
-                        </template>
-                    </v-data-table>
-                </v-col>
-            </v-row>
-     </v-window-item>
-    </v-window>
-</v-card>
+            <v-col cols="12">
+                <v-row>
+                    <v-col link class="text-center" cols="6" md="3" lg="3" v-for="(item,i) in ListData" :key="i">
+                          <v-card style="cursor:pointer" 
+                        class="mx-auto"
+                        max-width="344"
+                        outlined>
+                        <v-list-item link @click="ViewSubmision(item)" >
+                                <v-list-item-content>
+                                     <div class=" d-flex justify-start">
+                                        <v-avatar color="brown" size="40">
+                                            <v-img alt="Profile"
+                                                :src="item.profile_pic == null || item.profile_pic == '' ? 'https://ui-avatars.com/api/?background=random&color=fff&name=' + item.name : item.profile_pic">
+                                            </v-img>
+                                        </v-avatar>
+                                        <div class=" d-flex flex-column">
+                                            <div class="font-weight-medium mt-2 ml-2">
+                                                {{item.name}}
+                                            </div>
+                                             <small v-if="item.status == 'Submitted'">Graded<v-icon left  color="success">mdi-check</v-icon></small>
+                                        </div>
+                                    </div>
+                                </v-list-item-content>
+                        </v-list-item>
+                      </v-card>
+                    </v-col>
+                </v-row>
+            </v-col>
+        </v-row>
+    </v-col>
+</v-row>
 </div>
 </template>
 <script>
 const resetConfirmation = () => import('../dialogs/resetConfirmation')
 const checkobjective = () => import('./check-submission/check-objective')
 export default {
-    props:["ListData","classworkDetails"],
+    props:["ListData","classworkDetails","Submitted", "Graded","ClassList"],
     components:{
         checkobjective,
         resetConfirmation
@@ -139,7 +155,8 @@ export default {
             resetName: null,
             resetIndex:null,
             Details:[],
-            Reload: true
+            Reload: true,
+            Class: this.$route.params.id,
             
         }
     },

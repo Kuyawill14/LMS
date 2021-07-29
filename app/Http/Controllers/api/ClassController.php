@@ -57,20 +57,6 @@ class ClassController extends Controller
             ->where('user_id',$userId)
             ->get();
             foreach($allClass as $key => $value) {
-                // $allClassSubModules = DB::table('tbl_sub_modules')
-                // ->select('tbl_sub_modules.id')
-                // ->leftJoin('tbl_main_modules', 'tbl_sub_modules.main_module_id', '=', 'tbl_main_modules.id')
-                // ->where('tbl_main_modules.course_id', $value ->course_id )
-                // ->count();
-        
-        
-                // $allStudentSubmoduleProgress = DB::table('tbl_student_sub_module_progress')
-                // ->select('tbl_student_sub_module_progress.sub_module_id')
-                // ->leftJoin('tbl_sub_modules', 'tbl_student_sub_module_progress.sub_module_id', '=', 'tbl_sub_modules.id')
-                // ->where('tbl_student_sub_module_progress.course_id', $value ->course_id )
-                // ->count();
-                
-
                 $allSubModulesProgress = DB::table('tbl_student_sub_module_progress')
                 ->select('tbl_student_sub_module_progress.*')
                 ->leftJoin('tbl_sub_modules', 'tbl_sub_modules.id', '=', 'tbl_student_sub_module_progress.sub_module_id')
@@ -139,6 +125,14 @@ class ClassController extends Controller
         }
 
         return $allClass;
+    }
+
+    public function ArchiveClass($id){
+        $Findclass = tbl_userclass::where('class_id', $id)->delete();
+        if($Findclass){
+            return 'Class put in archive!';
+        }
+        return 'Class not found!';
     }
 
     public function ClassDetails($id)
@@ -215,16 +209,17 @@ class ClassController extends Controller
 
     public function classCount() {
         $userId = auth('sanctum')->id();
-           //getAllClass
-           $classCount = tbl_userclass::
-           select('tbl_userclasses.id','tbl_classes.id as class_id','tbl_classes.class_name','tbl_classes.class_name')
-           ->leftJoin('tbl_classes', 'tbl_userclasses.class_id', '=', 'tbl_classes.id')
-           ->where('tbl_userclasses.user_id', $userId)
-           ->orderBy('tbl_classes.created_at', 'ASC')
-           ->count();
+        $classCount = tbl_userclass::
+        select('tbl_userclasses.id','tbl_classes.id as class_id','tbl_classes.class_name','tbl_classes.class_name')
+        ->leftJoin('tbl_classes', 'tbl_userclasses.class_id', '=', 'tbl_classes.id')
+        ->where('tbl_userclasses.user_id', $userId)
+        ->orderBy('tbl_classes.created_at', 'ASC')
+        ->count();
 
-           return $classCount;
+        return $classCount;
     }
+
+   
 
 
     
@@ -257,7 +252,7 @@ class ClassController extends Controller
 
     public function store(Request $request)
     {
-        //
+  
         $isExist = '';
         $gen_class_code ='';
         $code_length = 6;
@@ -275,7 +270,6 @@ class ClassController extends Controller
 
 
         //users class
- 
         $UserClass  = new tbl_userclass;
         $userId = auth('sanctum')->id();
         $UserClass->class_id = $NewClass->id;
@@ -318,9 +312,7 @@ class ClassController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
         $existingClass = Tbl_class::find($id);
-
         if($existingClass) {
             $existingClass->class_name = $request->class['class_name'];
         

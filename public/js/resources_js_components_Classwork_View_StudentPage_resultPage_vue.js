@@ -98,12 +98,35 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+var submittedView = function submittedView() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_StudentPage_viewSubmittedPage_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./viewSubmittedPage */ "./resources/js/components/Classwork_View/StudentPage/viewSubmittedPage.vue"));
+};
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  components: {
+    submittedView: submittedView
+  },
   data: function data() {
     return {
       details: [],
       isloading: true,
-      testUnser: []
+      testUnser: [],
+      Viewdialog: false,
+      ViewDetails: null
     };
   },
   methods: {
@@ -231,6 +254,38 @@ var render = function() {
         "v-container",
         { staticClass: "fill-height", attrs: { fluid: "" } },
         [
+          _c(
+            "v-dialog",
+            {
+              attrs: {
+                fullscreen: "",
+                "hide-overlay": "",
+                transition: "dialog-bottom-transition"
+              },
+              model: {
+                value: _vm.Viewdialog,
+                callback: function($$v) {
+                  _vm.Viewdialog = $$v
+                },
+                expression: "Viewdialog"
+              }
+            },
+            [
+              _c("submittedView", {
+                attrs: { details: _vm.details },
+                on: {
+                  UpdateSubmission: function($event) {
+                    return _vm.$emit("UpdateSubmission")
+                  },
+                  closeDialog: function($event) {
+                    _vm.Viewdialog = !_vm.Viewdialog
+                  }
+                }
+              })
+            ],
+            1
+          ),
+          _vm._v(" "),
           _vm.isloading
             ? _c(
                 "v-row",
@@ -335,34 +390,58 @@ var render = function() {
                                                 },
                                                 [
                                                   _c(
-                                                    "v-btn",
-                                                    {
-                                                      staticClass: "mx-2",
-                                                      attrs: {
-                                                        fab: "",
-                                                        dark: "",
-                                                        color: "primary"
-                                                      }
-                                                    },
+                                                    "div",
+                                                    { staticClass: "d-flex" },
                                                     [
                                                       _c(
-                                                        "v-icon",
+                                                        "v-btn",
                                                         {
+                                                          staticClass: "mx-1",
                                                           attrs: {
-                                                            "x-large": ""
+                                                            fab: "",
+                                                            dark: "",
+                                                            color: "primary"
                                                           }
                                                         },
                                                         [
-                                                          _vm._v(
-                                                            "\r\n                                    mdi-book-open-variant\r\n                                    "
+                                                          _c(
+                                                            "v-icon",
+                                                            {
+                                                              attrs: {
+                                                                large: ""
+                                                              }
+                                                            },
+                                                            [
+                                                              _vm._v(
+                                                                "\r\n                                            mdi-book-open-variant\r\n                                            "
+                                                              )
+                                                            ]
                                                           )
+                                                        ],
+                                                        1
+                                                      ),
+                                                      _vm._v(" "),
+                                                      _c(
+                                                        "div",
+                                                        {
+                                                          staticClass:
+                                                            "mt-3 ml-1"
+                                                        },
+                                                        [
+                                                          _c("h3", [
+                                                            _vm._v(
+                                                              _vm._s(
+                                                                _vm.details
+                                                                  .title
+                                                              )
+                                                            )
+                                                          ])
                                                         ]
                                                       )
                                                     ],
                                                     1
                                                   )
-                                                ],
-                                                1
+                                                ]
                                               ),
                                               _vm._v(" "),
                                               _c(
@@ -470,6 +549,13 @@ var render = function() {
                                                         rounded: "",
                                                         color: "primary",
                                                         outlined: ""
+                                                      },
+                                                      on: {
+                                                        click: function(
+                                                          $event
+                                                        ) {
+                                                          _vm.Viewdialog = !_vm.Viewdialog
+                                                        }
                                                       }
                                                     },
                                                     [

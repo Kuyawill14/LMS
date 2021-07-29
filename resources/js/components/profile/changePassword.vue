@@ -23,9 +23,11 @@
                 </v-col>
                   <v-col cols="12" md="5">
                        <v-text-field
+                            :append-icon="showCurrent ?'mdi-eye':'mdi-eye-off'" 
                             dense
-                          outlined
-                          type="password"
+                            outlined
+                            :type="showCurrent ? 'text' : 'password'" 
+                            @click:append="showCurrent = !showCurrent">
                         ></v-text-field>
                 </v-col>
             </v-row>
@@ -38,9 +40,11 @@
                 </v-col>
                   <v-col cols="12" md="5">
                        <v-text-field
-                       dense
-                          outlined
-                           type="password"
+                        :append-icon="showNew ?'mdi-eye':'mdi-eye-off'" 
+                        dense
+                        outlined
+                        :type="showNew ? 'text' : 'password'" 
+                        @click:append="showNew = !showNew">
                         ></v-text-field>
                 </v-col>
             </v-row>
@@ -53,9 +57,11 @@
                 </v-col>
                   <v-col cols="12" md="5">
                        <v-text-field
-                       dense
-                          outlined
-                          type="password"
+                        :append-icon="ShowNewRetype ?'mdi-eye':'mdi-eye-off'" 
+                        dense
+                        outlined
+                        :type="ShowNewRetype ? 'text' : 'password'" 
+                        @click:append="ShowNewRetype = !ShowNewRetype">
                         ></v-text-field>
                 </v-col>
             </v-row>
@@ -76,3 +82,14 @@
      
     </v-row>
 </template>
+<script>
+export default {
+    data(){
+        return{
+            showCurrent: false,
+            showNew: false,
+            ShowNewRetype: false
+        }
+    }
+}
+</script>

@@ -36,64 +36,69 @@ class NotificationController extends Controller
         $userId = auth('sanctum')->id();
         //$userId = 2;
         //$role = 'Teacher';
+        $CheckIfJoinToClassesExist = tbl_userclass::where('tbl_userclasses.user_id', $userId)->exists();
         if(auth('sanctum')->user()->role != 'Student'){
-            $allNotification = tbl_teacher_course::where('tbl_teacher_courses.user_id', $userId)
-            ->select('tbl_teacher_courses.course_id as cl_id',DB::raw('CONCAT(users.firstname, " ", users.lastName) as name'),
-            'tbl_user_details.profile_pic','tbl_notifications.id as n_id','tbl_notifications.notification_type','tbl_notifications.message',
-            'user_notifications.status', 'user_notifications.hide_notif', 'user_notifications.notification_accepted',
-            'tbl_notifications.created_at')
-            ->leftJoin('tbl_notifications', function($join){
-                $join->on('tbl_notifications.course_id', '=', 'tbl_teacher_courses.course_id')
-                ->orOn('tbl_notifications.user_id_to', '=', 'tbl_teacher_courses.user_id');
-            })
-            ->leftJoin('users', 'users.id', '=', 'tbl_notifications.from_id')
-            ->leftJoin('tbl_user_details', 'tbl_user_details.user_id','=','users.id')
-            ->leftJoin('user_notifications', 'user_notifications.notification_id','=','tbl_notifications.id')
-            ->orderBy('tbl_notifications.created_at', 'DESC')
-            ->where('tbl_notifications.from_id','!=', $userId)
-            ->paginate(5);
-            return $allNotification;
+            if($CheckIfJoinToClassesExist){
+                $allNotification = tbl_teacher_course::where('tbl_teacher_courses.user_id', $userId)
+                ->select('tbl_teacher_courses.course_id as cl_id',DB::raw('CONCAT(users.firstname, " ", users.lastName) as name'),
+                'tbl_user_details.profile_pic','tbl_notifications.id as n_id','tbl_notifications.notification_type','tbl_notifications.message',
+                'tbl_notifications.created_at')
+                ->leftJoin('tbl_notifications', function($join){
+                    $join->on('tbl_notifications.course_id', '=', 'tbl_teacher_courses.course_id')
+                    ->orOn('tbl_notifications.user_id_to', '=', 'tbl_teacher_courses.user_id');
+                })
+                ->leftJoin('users', 'users.id', '=', 'tbl_notifications.from_id')
+                ->leftJoin('tbl_user_details', 'tbl_user_details.user_id','=','users.id')
+                ->orderBy('tbl_notifications.created_at', 'DESC')
+                ->where('tbl_notifications.from_id','!=', $userId)
+                ->paginate(5);
+            }
+            else{
+                $allNotification = tbl_notification::where('tbl_notifications.user_id_to', $userId)
+                ->select(DB::raw('CONCAT(users.firstname, " ", users.lastName) as name'),
+                'tbl_user_details.profile_pic','tbl_notifications.id as n_id','tbl_notifications.notification_type','tbl_notifications.message',
+                'tbl_notifications.notification_attachments','tbl_notifications.created_at')
+                ->leftJoin('users', 'users.id', '=', 'tbl_notifications.from_id')
+                ->leftJoin('tbl_user_details', 'tbl_user_details.user_id','=','users.id')
+                ->leftJoin('user_notifications', 'user_notifications.notification_id','=','tbl_notifications.id')
+                ->orderBy('tbl_notifications.created_at', 'DESC')
+                ->paginate(5);
+            }
             
         }else{
-
-            $allNotification = tbl_userclass::whereNull('tbl_userclasses.deleted_at')
-            ->where('tbl_userclasses.user_id', $userId)
-            ->select('tbl_userclasses.class_id as cl_id',DB::raw('CONCAT(users.firstname, " ", users.lastName) as name'),
-            'tbl_user_details.profile_pic','tbl_notifications.id as n_id','tbl_notifications.notification_type','tbl_notifications.message',
-            'user_notifications.status', 'user_notifications.hide_notif', 'user_notifications.notification_accepted',
-            'tbl_notifications.notification_attachments','tbl_notifications.created_at')
-            ->leftJoin('tbl_notifications', function($join){
-                $join->on('tbl_notifications.class_id', '=', 'tbl_userclasses.class_id')
-                ->orOn('tbl_notifications.class_id', '=', 'tbl_userclasses.course_id')
-                ->orOn('tbl_notifications.user_id_to', '=', 'tbl_userclasses.user_id');
-            })
-            ->leftJoin('users', 'users.id', '=', 'tbl_notifications.from_id')
-            ->leftJoin('tbl_user_details', 'tbl_user_details.user_id','=','users.id')
-            ->leftJoin('user_notifications', 'user_notifications.notification_id','=','tbl_notifications.id')
-            ->orderBy('tbl_notifications.created_at', 'DESC')
-            ->where('tbl_notifications.from_id','!=', $userId)
-            ->where('tbl_notifications.notification_type', 1)
-            ->Orwhere('tbl_notifications.notification_type', 3)
-            ->Orwhere('tbl_notifications.notification_type', 4)
-            ->paginate(5);
-            
-            return $allNotification;
-      
            
-          /*   $allNotification = json_decode($allNotification);
-            $SelfNotification = tbl_notification::where('tbl_notifications.user_id_to', $userId)
-            ->select(DB::raw('CONCAT(users.firstname, " ", users.lastName) as name'),
-            'tbl_user_details.profile_pic','tbl_notifications.id as n_id','tbl_notifications.notification_type','tbl_notifications.message',
-            'tbl_notifications.notification_attachments','tbl_notifications.created_at')
-            ->leftJoin('users', 'users.id', '=', 'tbl_notifications.from_id')
-            ->leftJoin('tbl_user_details', 'tbl_user_details.user_id','=','users.id')
-            ->orderBy('tbl_notifications.created_at', 'DESC')
-            ->get();
-
-            foreach($SelfNotification as $item){
-                array_push($allNotification, $item);
-            }    */
+            if($CheckIfJoinToClassesExist){
+                $allNotification = tbl_userclass::whereNull('tbl_userclasses.deleted_at')
+                ->where('tbl_userclasses.user_id', $userId)
+                ->select('tbl_userclasses.class_id as cl_id',DB::raw('CONCAT(users.firstname, " ", users.lastName) as name'),
+                'tbl_user_details.profile_pic','tbl_notifications.id as n_id','tbl_notifications.notification_type','tbl_notifications.message',
+                'tbl_notifications.notification_attachments','tbl_notifications.created_at')
+                ->leftJoin('tbl_notifications', function($join){
+                    $join->on('tbl_notifications.class_id', '=', 'tbl_userclasses.class_id')
+                    ->orOn('tbl_notifications.class_id', '=', 'tbl_userclasses.course_id')
+                    ->orOn('tbl_notifications.user_id_to', '=', 'tbl_userclasses.user_id');
+                })
+                ->leftJoin('users', 'users.id', '=', 'tbl_notifications.from_id')
+                ->leftJoin('tbl_user_details', 'tbl_user_details.user_id','=','users.id')
+                ->orderBy('tbl_notifications.created_at', 'DESC')
+                ->where('tbl_notifications.from_id','!=', $userId)
+                ->whereIn('tbl_notifications.notification_type', [1, 3, 4])
+                ->paginate(5);
+            }
+            else{
+                $allNotification = tbl_notification::where('tbl_notifications.user_id_to', $userId)
+                ->select(DB::raw('CONCAT(users.firstname, " ", users.lastName) as name'),
+                'tbl_user_details.profile_pic','tbl_notifications.id as n_id','tbl_notifications.notification_type','tbl_notifications.message',
+                'tbl_notifications.notification_attachments','tbl_notifications.created_at')
+                ->leftJoin('users', 'users.id', '=', 'tbl_notifications.from_id')
+                ->leftJoin('tbl_user_details', 'tbl_user_details.user_id','=','users.id')
+                ->leftJoin('user_notifications', 'user_notifications.notification_id','=','tbl_notifications.id')
+                ->orderBy('tbl_notifications.created_at', 'DESC')
+                ->paginate(5);
+            }
+               
         }
+
         foreach($allNotification as $item){
             $checkNotifStatus = UserNotification::where('user_notifications.notification_id', $item->n_id)
             ->where('user_notifications.user_id', $userId)->first();
@@ -113,8 +118,8 @@ class NotificationController extends Controller
             }
 
         }
-
         return $allNotification;
+    
     }
 
      /**
@@ -240,19 +245,7 @@ class NotificationController extends Controller
             ->orderBy('tbl_notifications.created_at', 'DESC')
             ->where('tbl_notifications.from_id','!=', $userId)
             ->get();
-            
-          
-
-           /*  $allNotification = json_decode($allNotification);
-            $SelfNotification = tbl_notification::where('tbl_notifications.user_id_to', $userId)
-            ->select(DB::raw('CONCAT(users.firstname, " ", users.lastName) as name'),
-            'tbl_user_details.profile_pic','tbl_notifications.id as n_id','tbl_notifications.notification_type','tbl_notifications.message',
-            'tbl_notifications.notification_attachments','tbl_notifications.created_at')
-            ->leftJoin('users', 'users.id', '=', 'tbl_notifications.from_id')
-            ->leftJoin('tbl_user_details', 'tbl_user_details.user_id','=','users.id')
-            ->orderBy('tbl_notifications.created_at', 'DESC')
-            ->get(); */
-
+        
             
         }else{
             $CheckIfJoinToClassesExist = tbl_userclass::where('tbl_userclasses.user_id', $userId)

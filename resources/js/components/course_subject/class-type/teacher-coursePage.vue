@@ -110,13 +110,7 @@
                             </v-img>
 
                             <v-card-subtitle>
-                               <router-link v-if="item.completed == 1" :to="{name: 'coursePage', params: {id: item.id}}" style="text-decoration: none">
-                                    <p style="font-size: 16px;">{{item.course_code }} 
-                                    <br> {{ item.course_name}}
-                                    </p>
-                                </router-link>
-
-                                 <router-link v-else :to="{name: 'courseSetup', params: {id: item.id}}" style="text-decoration: none">
+                               <router-link :to="{name: 'coursePage', params: {id: item.id}}" style="text-decoration: none">
                                     <p style="font-size: 16px;">{{item.course_code }} 
                                     <br> {{ item.course_name}}
                                     </p>

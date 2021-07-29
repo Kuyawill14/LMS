@@ -4,7 +4,7 @@
         <v-row align="center" justify="center" class="pt-10" >
             <v-col cols="12" sm="8" md="4" class="text-center">
                 <v-icon style="font-size:8rem">
-                    mdi-book-variant-multiple
+                    mdi-book-open-variant
                 </v-icon>
                 <h2> Empty Archive Classworks </h2>
             </v-col>

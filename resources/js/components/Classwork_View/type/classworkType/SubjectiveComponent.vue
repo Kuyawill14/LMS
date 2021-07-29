@@ -9,10 +9,246 @@
 
 
     <v-row >
-        <v-col cols="12" md="4" lg="4" class="mb-0 pb-0">
-          <v-card  elevation="5">
+         <v-col  cols="12" md="4" lg="4" class="mb-0 pb-0">
+             <v-card class="pa-7"  elevation="5">
+               <v-row >
+                    <v-col v-if="!StatusDetails.graded" cols="12" class="pl-1 pr-1 pb-0 mb-0 d-flex justify-space-between">
+                        <div class="font-weight-medium text-sm-body-2 text-md-h6 text-xl-h5">Your Work</div>
+                        <v-btn v-if="StatusDetails.status == 'Submitted'" @click="isResubmit = !isResubmit" rounded text class="blue--text">{{isResubmit ? 'Cancel': 'Resubmit'}}</v-btn>
+                   </v-col>
+
+                   <v-col v-if="StatusDetails.graded" cols="12" class="pl-1 pr-1 pb-0 mb-0 d-flex justify-space-between">
+                        <div class="font-weight-medium text-sm-body-2 text-md-h6 text-xl-h5">SUBMIT ANSWER</div>
+                        <v-btn  rounded text class="success--text"><v-icon left>mdi-check</v-icon> Graded: {{StatusDetails.score}}/{{StatusDetails.totalPoints}}</v-btn>
+                   </v-col>
+                   <v-col cols="12" class="pl-1 pr-1">
+                       <v-divider></v-divider>
+                   </v-col>
+
+                 
+
+                   <v-col cols="12" v-if="isloading">
+                      <v-container class="fill-height" v-if="isloading">
+                        <v-row  align-content="center" justify="center">
+                            <v-col class="text-subtitle-1 text-center" cols="12">
+                                Loading
+                            </v-col>
+                            <v-col cols="6">
+                                <v-progress-linear color="primary" indeterminate rounded height="3"></v-progress-linear>
+                            </v-col>
+                        </v-row>
+                   </v-container>
+                   </v-col>
+                     <input ref="AttAchMoreFile" accept="application/pdf" type="file" class="d-none" @change="onChange">
+                       <input ref="UploadAttachFile" accept="application/pdf" class="d-none" type="file" @change="onChange">
+                   <v-col class="ma-0 pa-0" cols="12" v-if="!isloading">
+                          <!-- <v-col class="ma-0 pa-0 mb-4 mt-7 pl-4 pr-4" cols="12" v-if="!file[0] && StatusDetails.status == null">
+                      
+                            <v-menu max-width="250" v-if="isResubmit || (StatusDetails.status == 'Submitting' || StatusDetails.status == null)" transition="scale-transition" offset-y>
+                                <template v-slot:activator="{ on, attrs }">
+                                  <v-btn
+                                    style="width:100%"
+                                    class="pl-12 pr-12 pb-3 pt-3"
+                                    color="primary"
+                                    dark
+                                    outlined
+                                    v-bind="attrs"
+                                    v-on="on"
+                                  >
+                                  {{attrs.expanded}}
+                                    Attach <v-icon right>mdi-plus</v-icon>
+                                  </v-btn>
+                                </template>
+                                <v-list>
+                                  <v-list-item link  @click="file[fileIndex-1] || isResubmit ? UploadMoreFile() : UploadFile()">
+                                    
+                                        <v-icon left>mdi-cloud-upload-outline</v-icon> Upload File
+                                      
+                                  </v-list-item>
+                                    <v-list-item link @click="AttachLink = !AttachLink" >
+                                          <v-icon left>mdi-link-variant</v-icon>Attach Link
+                                  </v-list-item>
+                                </v-list>
+                              </v-menu>
+                          </v-col> -->
+                          <v-col cols="12" class="mb-0 pb-0" v-if="file[0] != '' || file[0] != null">
+                          
+                              <v-row class="mb-5" v-if="StatusDetails.status != 'Submitting' && StatusDetails.status != 'Submitted' ">
+                                <v-col v-for="(item, index) in file" :key="index" class="ma-0 pa-0 " cols="12">
+                                  <v-hover v-slot="{ hover }">
+                                    <v-alert
+                                        class="mb-1 pa-3"
+                                        style="cursor:pointer"
+                                          :class="hover ? 'grey lighten-2' :''"
+                                          outlined
+                                          :icon="item.fileExte == 'pdf' ? 'mdi-file-pdf': item.fileExte  == 'docx'? 'mdi-file-word': 
+                                          item.fileExte  == 'jpg' ||  item.fileExte  == 'png' ||  item.fileExte  == 'bmp' ? 'mdi-folder-multiple-image' :''"
+                                        :color="item.fileExte  == 'pdf' ? 'red' : item.fileExte  == 'docx'? 'blue':
+                                          item.fileExte  == 'jpg' ||  item.fileExte  == 'png' ||  item.fileExte  == 'bmp' ? 'info': ''"
+                                      >
+                                        <v-row align="center" >
+                                          <v-col :class="uploadPercentage != 100 ? 'grow text-left mb-0 pb-0':'grow text-left'">
+                                            <div :class="hover ? 'text-decoration-underline':''"> {{item.fileName}}</div>
+                                          </v-col>
+                                          <v-col :class="uploadPercentage != 100 ? 'shrink d-flex mb-0 pb-0':'shrink d-flex'">
+                                            <div class="black--text mt-1 mr-2">{{item.fileSize}}</div>
+                                          
+                                            <div>
+                                                <v-tooltip v-if="!isUploading[index] || uploadPercentage == 100" top>
+                                                  <template v-slot:activator="{ on, attrs }">
+                                                      <v-btn v-bind="attrs" v-on="on" 
+                                                      rounded small icon text @click="removeFile(index)"> <v-icon>mdi-close</v-icon></v-btn>
+                                                  </template>
+                                                  <span>Delete</span>
+                                                </v-tooltip>
+                                              </div>
+                                            
+                                          </v-col>
+                                          <v-col class="pt-0 mt-0" v-if="isUploading[index] && uploadPercentage != 100" cols="12">
+                                              <v-progress-linear v-if="isUpIndex == index" rounded :value="uploadPercentage"></v-progress-linear>
+                                          </v-col>
+                                        </v-row>
+                                      </v-alert>
+                                  </v-hover>
+                                </v-col>
+
+                              </v-row>
+                           
+
+                          
+                                <v-row v-else ma-0 pa-0 class="mb-2">
+                                  <v-col v-for="(item, index) in StatusDetails.Submitted_Answers" :key="index" class="ma-0 pa-0" cols="12">
+                                    <v-hover  v-slot="{ hover }">
+                                    <v-alert
+                                        class="mb-1 pa-3"
+                                        style="cursor:pointer"
+                                          :class="hover ? 'grey lighten-2' :''"
+                                          outlined
+                                          :icon="item.fileExte == 'pdf' ? 'mdi-file-pdf': item.fileExte == 'docx'? 'mdi-file-word': 
+                                          item.fileExte == 'jpg' ||  item.fileExte == 'png' ||  item.fileExte == 'bmp' ? 'mdi-folder-multiple-image' :''"
+                                        :color="item.fileExte == 'pdf' ? 'red' : item.fileExte == 'docx'? 'blue':
+                                          item.fileExte == 'jpg' ||  item.fileExte == 'png' ||  item.fileExte == 'bmp' ? 'info': ''"
+                                      >
+                                        <v-row align="center" >
+                                          <v-col class="grow text-left">
+                                            <div :class="hover ? 'text-decoration-underline':''"> {{item.name}}</div>
+                                          </v-col>
+                                          <v-col class="shrink d-flex">
+                                            <div class="black--text mt-1 mr-1">{{item.fileSize}}</div>
+                                            <div>
+                                                <v-tooltip v-if="StatusDetails.status == 'Submitting' || isResubmit" top>
+                                                  <template v-slot:activator="{ on, attrs }">
+                                                      <v-btn  v-bind="attrs" v-on="on" 
+                                                      rounded small icon text @click="DeleteUpload(index)"> <v-icon>mdi-close</v-icon></v-btn>
+                                                  </template>
+                                                  <span>Delete</span>
+                                                </v-tooltip>
+                                              </div>
+                                          </v-col>
+                                        </v-row>
+                                      </v-alert>
+                                    </v-hover>
+                                  </v-col>
+                                </v-row>
+                     
+                          </v-col>
+
+                           <v-col class="ma-0 pa-0 mb-4 " cols="12" >
+                      
+                            <v-menu max-width="250" v-if="isResubmit || (StatusDetails.status == 'Submitting' || StatusDetails.status == null)" transition="scale-transition" offset-y>
+                                <template v-slot:activator="{ on, attrs }">
+                                  <v-btn
+                                    style="width:100%"
+                                    class="pl-12 pr-12 pb-3 pt-3"
+                                    color="primary"
+                                    dark
+                                    outlined
+                                    v-bind="attrs"
+                                    v-on="on"
+                                  >
+                                  {{attrs.expanded}}
+                                    Attach <v-icon right>mdi-plus</v-icon>
+                                  </v-btn>
+                                </template>
+                                <v-list>
+                                  <v-list-item link  @click="file[fileIndex-1] || isResubmit ? UploadMoreFile() : UploadFile()">
+                                    
+                                        <v-icon left>mdi-cloud-upload-outline</v-icon> Upload File
+                                      
+                                  </v-list-item>
+                                    <v-list-item link @click="AttachLink = !AttachLink" >
+                                          <v-icon left>mdi-link-variant</v-icon>Attach Link
+                                  </v-list-item>
+                                </v-list>
+                              </v-menu>
+                          </v-col>
+
+                           <v-col class="ma-0 pa-0 mb-4 " cols="12" >
+                              <v-btn
+                              style="width:100%"
+                               class="pl-12 pr-12 pb-3 pt-3"
+                                @click="StatusDetails.status == 'Submitted' && !isResubmit ? '' :SubmitClasswork()"  
+                                :color="StatusDetails.status == 'Submitted' && !isResubmit  ? 'success': 'primary'">
+                                <v-icon left v-if="StatusDetails.status == 'Submitted' && !isResubmit ">mdi-check</v-icon>
+                                {{StatusDetails.status == 'Submitted' && !isResubmit ? 'Submitted' :'Submit Classwork'}}</v-btn>
+                           
+                          </v-col>
+                          
+                         <!--  <div>
+                              <v-textarea
+                                clearable
+                                auto-grow
+                                clear-icon="mdi-close-circle"
+                                label="Description"
+                                rows="1"
+                                class="mb-0 pb-0"
+                              ></v-textarea>
+                          </div> -->
+
+                        <!--     <div :class="StatusDetails.status == 'Submitted' && !isResubmit ?  'mb-3 d-flex justify-end' : 'mb-3 d-flex justify-space-between' ">
+                                <v-menu v-if="isResubmit || (StatusDetails.status == 'Submitting' || StatusDetails.status == null)" offset-y>
+                                  <template v-slot:activator="{ on, attrs }">
+                                    <v-btn
+                                      rounded
+                                      color="primary"
+                                      dark
+                                      outlined
+                                      v-bind="attrs"
+                                      v-on="on"
+                                    >
+                                    {{attrs.expanded}}
+                                      Attach <v-icon right>mdi-chevron-down</v-icon>
+                                    </v-btn>
+                                  </template>
+                                  <v-list>
+                                    <v-list-item>
+                                          <v-btn @click="file[fileIndex-1] || isResubmit ? UploadMoreFile() : UploadFile()" block text rounded>
+                                          <v-icon left>mdi-cloud-upload-outline</v-icon> Upload File
+                                          </v-btn>
+                                    </v-list-item>
+                                      <v-list-item>
+                                          <v-btn @click="AttachLink = !AttachLink"  block text rounded>
+                                              <v-icon left>mdi-link-variant</v-icon>Attach Link
+                                          </v-btn>
+                                    </v-list-item>
+                                  </v-list>
+                                </v-menu>
+                               
+                            </div> -->
+                          
+                       <!--    <div class="uploadedFile-info">
+                              <div>fileName: {{ file.name }}</div>
+                              <div>fileZise(bytes): {{ file.size }}</div>
+                              <div>extension：{{ extension }}</div>
+                          </div> -->
+                   </v-col>
+                </v-row> 
+          </v-card>
+        </v-col>
+         <v-col :class="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm ? 'mt-2' : 'pt-0'" cols="12" md="5" lg="8" >
+          <v-card  elevation="5" class="pa-5">
                 <v-row class="mb-0 pb-0">
-                    <v-col cols="12" md="12" class="pt-5 ma-0">
+                    <v-col cols="12" md="12" class="ma-0">
                         
                             <v-row >
                                 <v-col cols="12" class="pr-7">
@@ -94,187 +330,6 @@
           </v-card>
                
            
-        </v-col>
-
-         <v-col :class="$vuetify.breakpoint.xs? 'mt-2' : 'pt-0'" cols="12" md="8" lg="8" >
-             <v-card class="pl-5 pr-5 pb-5 pt-3"  elevation="5">
-               <v-row >
-                    <v-col v-if="!StatusDetails.graded" cols="12" class="pl-1 pr-1 pb-0 mb-0 d-flex justify-space-between">
-                        <div class="font-weight-medium text-sm-body-2 text-md-h6 text-xl-h5">SUBMIT ANSWER</div>
-                        <v-btn v-if="StatusDetails.status == 'Submitted'" @click="isResubmit = !isResubmit" rounded text class="blue--text">{{isResubmit ? 'Cancel': 'Resubmit'}}</v-btn>
-                   </v-col>
-
-                   <v-col v-if="StatusDetails.graded" cols="12" class="pl-1 pr-1 pb-0 mb-0 d-flex justify-space-between">
-                        <div class="font-weight-medium text-sm-body-2 text-md-h6 text-xl-h5">SUBMIT ANSWER</div>
-                        <v-btn  rounded text class="success--text"><v-icon left>mdi-check</v-icon> Graded: {{StatusDetails.score}}/{{StatusDetails.totalPoints}}</v-btn>
-                   </v-col>
-                   <v-col cols="12" class="pl-1 pr-1">
-                       <v-divider></v-divider>
-                   </v-col>
-
-                   <v-col cols="12" v-if="isloading">
-                      <v-container class="fill-height" v-if="isloading">
-                        <v-row  align-content="center" justify="center">
-                            <v-col class="text-subtitle-1 text-center" cols="12">
-                                Loading
-                            </v-col>
-                            <v-col cols="6">
-                                <v-progress-linear color="primary" indeterminate rounded height="3"></v-progress-linear>
-                            </v-col>
-                        </v-row>
-                   </v-container>
-                   </v-col>
-                     <input ref="AttAchMoreFile" accept="application/pdf" type="file" class="d-none" @change="onChange">
-                   <v-col class="ma-0 pa-0" cols="12" v-if="!isloading">
-                          <v-col class="ma-0 pa-0 mb-2" cols="12" v-if="!file[0] && StatusDetails.status == null">
-                            <v-container ma-0 pa-0 >
-                                <div :class="['dropZone', dragging ? 'dropZone-over' : '']" @dragenter="dragging = true" @dragleave="dragging = false">
-                                <v-container class="dropZone-info" @drag="onChange">
-                                      <div > 
-                                      <v-icon class="dropZone-title" style="font-size:4rem">mdi-cloud-upload-outline</v-icon>
-                                      </div>
-                                    <span class="dropZone-title">Your work is empty.</span>
-                                </v-container>
-                                 <input ref="UploadAttachFile" accept="application/pdf" type="file" @change="onChange">
-                                </div>
-                            </v-container>
-                          </v-col>
-                          <v-col cols="12" v-else-if="file[0] || (StatusDetails.status == 'Submitted' || StatusDetails.status == 'Submitting')">
-                            <v-container v-if="StatusDetails.status != 'Submitting' && StatusDetails.status != 'Submitted' " ma-0 pa-0 class="mb-5">
-                              <v-row>
-                                <v-col v-for="(item, index) in file" :key="index" class="ma-0 pa-0" cols="12">
-                                  <v-hover v-slot="{ hover }">
-                                    <v-alert
-                                        class="mb-1 pa-3"
-                                        style="cursor:pointer"
-                                          :class="hover ? 'grey lighten-2' :''"
-                                          outlined
-                                          :icon="item.fileExte == 'pdf' ? 'mdi-file-pdf': item.fileExte  == 'docx'? 'mdi-file-word': 
-                                          item.fileExte  == 'jpg' ||  item.fileExte  == 'png' ||  item.fileExte  == 'bmp' ? 'mdi-folder-multiple-image' :''"
-                                        :color="item.fileExte  == 'pdf' ? 'red' : item.fileExte  == 'docx'? 'blue':
-                                          item.fileExte  == 'jpg' ||  item.fileExte  == 'png' ||  item.fileExte  == 'bmp' ? 'info': ''"
-                                      >
-                                        <v-row align="center" >
-                                          <v-col :class="uploadPercentage != 100 ? 'grow text-left mb-0 pb-0':'grow text-left'">
-                                            <div :class="hover ? 'text-decoration-underline':''"> {{item.fileName}}</div>
-                                          </v-col>
-                                          <v-col :class="uploadPercentage != 100 ? 'shrink d-flex mb-0 pb-0':'shrink d-flex'">
-                                            <div class="black--text mt-1 mr-2">{{item.fileSize}}</div>
-                                          
-                                            <div>
-                                                <v-tooltip v-if="!isUploading[index] || uploadPercentage == 100" top>
-                                                  <template v-slot:activator="{ on, attrs }">
-                                                      <v-btn v-bind="attrs" v-on="on" 
-                                                      rounded small icon text @click="removeFile(index)"> <v-icon>mdi-close</v-icon></v-btn>
-                                                  </template>
-                                                  <span>Delete</span>
-                                                </v-tooltip>
-                                              </div>
-                                            
-                                          </v-col>
-                                          <v-col class="pt-0 mt-0" v-if="isUploading[index] && uploadPercentage != 100" cols="12">
-                                              <v-progress-linear v-if="isUpIndex == index" rounded :value="uploadPercentage"></v-progress-linear>
-                                          </v-col>
-                                        </v-row>
-                                      </v-alert>
-                                  </v-hover>
-                                </v-col>
-
-                              </v-row>
-                            </v-container>
-
-                              <v-container v-else ma-0 pa-0 class="mb-5">
-                                <v-row>
-                                  <v-col v-for="(item, index) in StatusDetails.Submitted_Answers" :key="index" class="ma-0 pa-0" cols="12">
-                                    <v-hover  v-slot="{ hover }">
-                                    <v-alert
-                                        class="mb-1 pa-3"
-                                        style="cursor:pointer"
-                                          :class="hover ? 'grey lighten-2' :''"
-                                          outlined
-                                          :icon="item.fileExte == 'pdf' ? 'mdi-file-pdf': item.fileExte == 'docx'? 'mdi-file-word': 
-                                          item.fileExte == 'jpg' ||  item.fileExte == 'png' ||  item.fileExte == 'bmp' ? 'mdi-folder-multiple-image' :''"
-                                        :color="item.fileExte == 'pdf' ? 'red' : item.fileExte == 'docx'? 'blue':
-                                          item.fileExte == 'jpg' ||  item.fileExte == 'png' ||  item.fileExte == 'bmp' ? 'info': ''"
-                                      >
-                                        <v-row align="center" >
-                                          <v-col class="grow text-left">
-                                            <div :class="hover ? 'text-decoration-underline':''"> {{item.name}}</div>
-                                          </v-col>
-                                          <v-col class="shrink d-flex">
-                                            <div class="black--text mt-1 mr-1">{{item.fileSize}}</div>
-                                            <div>
-                                                <v-tooltip v-if="StatusDetails.status == 'Submitting' || isResubmit" top>
-                                                  <template v-slot:activator="{ on, attrs }">
-                                                      <v-btn  v-bind="attrs" v-on="on" 
-                                                      rounded small icon text @click="DeleteUpload(index)"> <v-icon>mdi-close</v-icon></v-btn>
-                                                  </template>
-                                                  <span>Delete</span>
-                                                </v-tooltip>
-                                              </div>
-                                          </v-col>
-                                        </v-row>
-                                      </v-alert>
-                                    </v-hover>
-                                  </v-col>
-                                </v-row>
-                            </v-container>
-                          </v-col>
-                          
-                         <!--  <div>
-                              <v-textarea
-                                clearable
-                                auto-grow
-                                clear-icon="mdi-close-circle"
-                                label="Description"
-                                rows="1"
-                                class="mb-0 pb-0"
-                              ></v-textarea>
-                          </div> -->
-
-                            <div :class="StatusDetails.status == 'Submitted' && !isResubmit ?  'mb-3 d-flex justify-end' : 'mb-3 d-flex justify-space-between' ">
-                                <v-menu v-if="isResubmit || (StatusDetails.status == 'Submitting' || StatusDetails.status == null)" offset-y>
-                                  <template v-slot:activator="{ on, attrs }">
-                                    <v-btn
-                                      rounded
-                                      color="primary"
-                                      dark
-                                      outlined
-                                      v-bind="attrs"
-                                      v-on="on"
-                                    >
-                                    {{attrs.expanded}}
-                                      Attach <v-icon right>mdi-chevron-down</v-icon>
-                                    </v-btn>
-                                  </template>
-                                  <v-list>
-                                    <v-list-item>
-                                          <v-btn @click="file[fileIndex-1] || isResubmit ? UploadMoreFile() : UploadFile()" block text rounded>
-                                          <v-icon left>mdi-cloud-upload-outline</v-icon> Upload File
-                                          </v-btn>
-                                    </v-list-item>
-                                      <v-list-item>
-                                          <v-btn @click="AttachLink = !AttachLink"  block text rounded>
-                                              <v-icon left>mdi-link-variant</v-icon>Attach Link
-                                          </v-btn>
-                                    </v-list-item>
-                                  </v-list>
-                                </v-menu>
-                                <v-btn
-                                @click="StatusDetails.status == 'Submitted' && !isResubmit ? '' :SubmitClasswork()" rounded 
-                                :color="StatusDetails.status == 'Submitted' && !isResubmit  ? '': 'primary'">
-                                <v-icon color="success"  v-if="StatusDetails.status == 'Submitted' && !isResubmit ">mdi-check</v-icon>
-                                {{StatusDetails.status == 'Submitted' && !isResubmit ? 'Submitted' :'Submit Classwork'}}</v-btn>
-                            </div>
-                          
-                       <!--    <div class="uploadedFile-info">
-                              <div>fileName: {{ file.name }}</div>
-                              <div>fileZise(bytes): {{ file.size }}</div>
-                              <div>extension：{{ extension }}</div>
-                          </div> -->
-                   </v-col>
-                </v-row> 
-          </v-card>
         </v-col>
     </v-row>
 </v-container>          
@@ -413,6 +468,7 @@ export default {
               let fd = new FormData;
               fd.append('Submission_id', sub_id);
               fd.append('id', this.classworkDetails.id);
+              fd.append('class_classwork_id', this.classworkDetails.class_classwork_id);
               fd.append('type', this.classworkDetails.type);
               fd.append('fileName', this.file[index].fileName);
               fd.append('fileSize', this.file[index].fileSize);

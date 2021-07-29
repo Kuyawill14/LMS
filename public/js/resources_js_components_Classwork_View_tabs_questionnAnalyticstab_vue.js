@@ -138,10 +138,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -297,7 +293,8 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "v-app",
+    "div",
+    { staticClass: "pa-2" },
     [
       _vm.isloading
         ? _c(
@@ -354,470 +351,418 @@ var render = function() {
                 [
                   _c(
                     "v-col",
-                    { attrs: { cols: "12", lg: "10", xl: "6", md: "10" } },
+                    { attrs: { cols: "12", md: "8", lg: "9", xl: "9" } },
                     [
                       _c(
                         "v-card",
-                        {
-                          staticClass: "elevation-5",
-                          staticStyle: { "border-top": "4px solid #EF6C00" }
-                        },
+                        { staticClass: "pa-2", attrs: { elevation: "1" } },
                         [
                           _c(
-                            "v-window",
+                            "v-row",
                             [
                               _c(
-                                "v-window-item",
+                                "v-col",
+                                {
+                                  staticClass: "pt-3",
+                                  attrs: { cols: "12", md: "12" }
+                                },
                                 [
                                   _c(
-                                    "v-row",
+                                    "v-card-title",
                                     [
-                                      _c(
-                                        "v-col",
-                                        {
-                                          staticClass: "pt-3",
-                                          attrs: { cols: "12", md: "12" }
+                                      _c("v-text-field", {
+                                        attrs: {
+                                          "append-icon": "mdi-magnify",
+                                          label: "Search",
+                                          "single-line": "",
+                                          outlined: "",
+                                          "hide-details": ""
                                         },
-                                        [
-                                          _c(
-                                            "v-card-title",
-                                            [
-                                              _c("v-text-field", {
-                                                attrs: {
-                                                  "append-icon": "mdi-magnify",
-                                                  label: "Search",
-                                                  "single-line": "",
-                                                  outlined: "",
-                                                  "hide-details": ""
-                                                },
-                                                model: {
-                                                  value: _vm.search,
-                                                  callback: function($$v) {
-                                                    _vm.search = $$v
-                                                  },
-                                                  expression: "search"
-                                                }
-                                              })
-                                            ],
-                                            1
-                                          ),
-                                          _vm._v(" "),
-                                          _c("v-data-table", {
-                                            attrs: {
-                                              headers: _vm.headers,
-                                              "hide-default-header": "",
-                                              items: _vm.List,
-                                              search: _vm.search,
-                                              "item-key": "id",
-                                              "show-select": ""
-                                            },
-                                            scopedSlots: _vm._u(
-                                              [
-                                                {
-                                                  key: "header",
-                                                  fn: function(ref) {
-                                                    var headers =
-                                                      ref.props.headers
-                                                    return [
-                                                      _c("thead", [
-                                                        _c(
-                                                          "tr",
-                                                          _vm._l(
-                                                            headers,
-                                                            function(header) {
-                                                              return _c(
-                                                                "th",
-                                                                {
-                                                                  key:
-                                                                    header.value,
-                                                                  staticClass:
-                                                                    "text-uppercase"
-                                                                },
-                                                                [
-                                                                  _c("v-icon", [
-                                                                    _vm._v(
-                                                                      _vm._s(
-                                                                        header.icon
-                                                                      )
-                                                                    )
-                                                                  ]),
-                                                                  _vm._v(
-                                                                    " \r\n                                                         " +
-                                                                      _vm._s(
-                                                                        _vm
-                                                                          .$vuetify
-                                                                          .breakpoint
-                                                                          .xs
-                                                                          ? ""
-                                                                          : header.text
-                                                                      ) +
-                                                                      "\r\n                                                    "
-                                                                  )
-                                                                ],
-                                                                1
-                                                              )
-                                                            }
-                                                          ),
-                                                          0
-                                                        )
-                                                      ])
-                                                    ]
-                                                  }
-                                                },
-                                                {
-                                                  key: "body",
-                                                  fn: function(ref) {
-                                                    var items = ref.items
-                                                    return [
-                                                      _c(
-                                                        "tbody",
-                                                        _vm._l(items, function(
-                                                          item
-                                                        ) {
-                                                          return _c(
-                                                            "tr",
-                                                            { key: item.id },
-                                                            [
-                                                              _c(
-                                                                "td",
-                                                                [
-                                                                  _c(
-                                                                    "v-checkbox",
-                                                                    {
-                                                                      staticStyle: {
-                                                                        margin:
-                                                                          "0px",
-                                                                        padding:
-                                                                          "0px"
-                                                                      },
-                                                                      attrs: {
-                                                                        value: item,
-                                                                        "hide-details":
-                                                                          ""
-                                                                      },
-                                                                      model: {
-                                                                        value:
-                                                                          _vm.selectedTasks,
-                                                                        callback: function(
-                                                                          $$v
-                                                                        ) {
-                                                                          _vm.selectedTasks = $$v
-                                                                        },
-                                                                        expression:
-                                                                          "selectedTasks"
-                                                                      }
-                                                                    }
-                                                                  )
-                                                                ],
-                                                                1
-                                                              ),
-                                                              _vm._v(" "),
-                                                              _c(
-                                                                "td",
-                                                                {
-                                                                  staticClass:
-                                                                    "text-center"
-                                                                },
-                                                                [
-                                                                  _vm._v(
-                                                                    _vm._s(
-                                                                      item.id
-                                                                    )
-                                                                  )
-                                                                ]
-                                                              ),
-                                                              _vm._v(" "),
-                                                              _c(
-                                                                "td",
-                                                                {
-                                                                  staticClass:
-                                                                    "text-left "
-                                                                },
-                                                                [
-                                                                  _c(
-                                                                    "div",
-                                                                    {
-                                                                      staticClass:
-                                                                        "caption",
-                                                                      style: _vm
-                                                                        .$vuetify
-                                                                        .breakpoint
-                                                                        .xs
-                                                                        ? "line-height:1.1"
-                                                                        : "line-height:1.5"
-                                                                    },
-                                                                    [
-                                                                      _c(
-                                                                        "span",
-                                                                        {
-                                                                          staticClass:
-                                                                            "post-content",
-                                                                          domProps: {
-                                                                            innerHTML: _vm._s(
-                                                                              item.question
-                                                                            )
-                                                                          }
-                                                                        }
-                                                                      )
-                                                                    ]
-                                                                  )
-                                                                ]
-                                                              ),
-                                                              _vm._v(" "),
-                                                              _c(
-                                                                "td",
-                                                                {
-                                                                  staticClass:
-                                                                    "text-center"
-                                                                },
-                                                                [
-                                                                  _vm._v(
-                                                                    _vm._s(
-                                                                      item.correct_count ==
-                                                                        null
-                                                                        ? 0
-                                                                        : item.correct_count
-                                                                    )
-                                                                  )
-                                                                ]
-                                                              ),
-                                                              _vm._v(" "),
-                                                              _c(
-                                                                "td",
-                                                                {
-                                                                  staticClass:
-                                                                    "text-center"
-                                                                },
-                                                                [
-                                                                  _vm._v(
-                                                                    _vm._s(
-                                                                      item.wrong_count ==
-                                                                        null
-                                                                        ? 0
-                                                                        : item.wrong_count
-                                                                    )
-                                                                  )
-                                                                ]
-                                                              ),
-                                                              _vm._v(" "),
-                                                              _c(
-                                                                "td",
-                                                                {
-                                                                  staticClass:
-                                                                    "text-center"
-                                                                },
-                                                                [
-                                                                  _vm._v(
-                                                                    _vm._s(
-                                                                      item.average_time !=
-                                                                        null
-                                                                        ? (
-                                                                            item.average_time /
-                                                                            (item.correct_count +
-                                                                              item.wrong_count)
-                                                                          ).toFixed(
-                                                                            2
-                                                                          )
-                                                                        : ""
-                                                                    ) +
-                                                                      _vm._s(
-                                                                        item.average_time ==
-                                                                          null
-                                                                          ? ""
-                                                                          : "s"
-                                                                      )
-                                                                  )
-                                                                ]
-                                                              ),
-                                                              _vm._v(" "),
-                                                              _c(
-                                                                "td",
-                                                                [
-                                                                  _c(
-                                                                    "v-tooltip",
-                                                                    {
-                                                                      attrs: {
-                                                                        top: ""
-                                                                      },
-                                                                      scopedSlots: _vm._u(
-                                                                        [
-                                                                          {
-                                                                            key:
-                                                                              "activator",
-                                                                            fn: function(
-                                                                              ref
-                                                                            ) {
-                                                                              var on =
-                                                                                ref.on
-                                                                              var attrs =
-                                                                                ref.attrs
-                                                                              return [
-                                                                                _c(
-                                                                                  "v-btn",
-                                                                                  _vm._g(
-                                                                                    _vm._b(
-                                                                                      {
-                                                                                        attrs: {
-                                                                                          text:
-                                                                                            "",
-                                                                                          icon:
-                                                                                            ""
-                                                                                        }
-                                                                                      },
-                                                                                      "v-btn",
-                                                                                      attrs,
-                                                                                      false
-                                                                                    ),
-                                                                                    on
-                                                                                  ),
-                                                                                  [
-                                                                                    _c(
-                                                                                      "v-icon",
-                                                                                      {
-                                                                                        attrs: {
-                                                                                          color:
-                                                                                            "primary"
-                                                                                        }
-                                                                                      },
-                                                                                      [
-                                                                                        _vm._v(
-                                                                                          "mdi-pencil-box-multiple-outline"
-                                                                                        )
-                                                                                      ]
-                                                                                    )
-                                                                                  ],
-                                                                                  1
-                                                                                )
-                                                                              ]
-                                                                            }
-                                                                          }
-                                                                        ],
-                                                                        null,
-                                                                        true
-                                                                      )
-                                                                    },
-                                                                    [
-                                                                      _vm._v(
-                                                                        " "
-                                                                      ),
-                                                                      _c(
-                                                                        "span",
-                                                                        [
-                                                                          _vm._v(
-                                                                            "Edit"
-                                                                          )
-                                                                        ]
-                                                                      )
-                                                                    ]
-                                                                  ),
-                                                                  _vm._v(" "),
-                                                                  _c(
-                                                                    "v-tooltip",
-                                                                    {
-                                                                      attrs: {
-                                                                        top: ""
-                                                                      },
-                                                                      scopedSlots: _vm._u(
-                                                                        [
-                                                                          {
-                                                                            key:
-                                                                              "activator",
-                                                                            fn: function(
-                                                                              ref
-                                                                            ) {
-                                                                              var on =
-                                                                                ref.on
-                                                                              var attrs =
-                                                                                ref.attrs
-                                                                              return [
-                                                                                _c(
-                                                                                  "v-btn",
-                                                                                  _vm._g(
-                                                                                    _vm._b(
-                                                                                      {
-                                                                                        attrs: {
-                                                                                          text:
-                                                                                            "",
-                                                                                          icon:
-                                                                                            ""
-                                                                                        }
-                                                                                      },
-                                                                                      "v-btn",
-                                                                                      attrs,
-                                                                                      false
-                                                                                    ),
-                                                                                    on
-                                                                                  ),
-                                                                                  [
-                                                                                    _c(
-                                                                                      "v-icon",
-                                                                                      {
-                                                                                        attrs: {
-                                                                                          color:
-                                                                                            "primary"
-                                                                                        }
-                                                                                      },
-                                                                                      [
-                                                                                        _vm._v(
-                                                                                          "mdi-delete"
-                                                                                        )
-                                                                                      ]
-                                                                                    )
-                                                                                  ],
-                                                                                  1
-                                                                                )
-                                                                              ]
-                                                                            }
-                                                                          }
-                                                                        ],
-                                                                        null,
-                                                                        true
-                                                                      )
-                                                                    },
-                                                                    [
-                                                                      _vm._v(
-                                                                        " "
-                                                                      ),
-                                                                      _c(
-                                                                        "span",
-                                                                        [
-                                                                          _vm._v(
-                                                                            "Delete"
-                                                                          )
-                                                                        ]
-                                                                      )
-                                                                    ]
-                                                                  )
-                                                                ],
-                                                                1
-                                                              )
-                                                            ]
-                                                          )
-                                                        }),
-                                                        0
-                                                      )
-                                                    ]
-                                                  }
-                                                }
-                                              ],
-                                              null,
-                                              false,
-                                              3595896163
-                                            ),
-                                            model: {
-                                              value: _vm.selectedTasks,
-                                              callback: function($$v) {
-                                                _vm.selectedTasks = $$v
-                                              },
-                                              expression: "selectedTasks"
-                                            }
-                                          })
-                                        ],
-                                        1
-                                      )
+                                        model: {
+                                          value: _vm.search,
+                                          callback: function($$v) {
+                                            _vm.search = $$v
+                                          },
+                                          expression: "search"
+                                        }
+                                      })
                                     ],
                                     1
-                                  )
+                                  ),
+                                  _vm._v(" "),
+                                  _c("v-data-table", {
+                                    attrs: {
+                                      headers: _vm.headers,
+                                      "hide-default-header": "",
+                                      items: _vm.List,
+                                      search: _vm.search,
+                                      "item-key": "id",
+                                      "show-select": ""
+                                    },
+                                    scopedSlots: _vm._u(
+                                      [
+                                        {
+                                          key: "header",
+                                          fn: function(ref) {
+                                            var headers = ref.props.headers
+                                            return [
+                                              _c("thead", [
+                                                _c(
+                                                  "tr",
+                                                  _vm._l(headers, function(
+                                                    header
+                                                  ) {
+                                                    return _c(
+                                                      "th",
+                                                      {
+                                                        key: header.value,
+                                                        staticClass:
+                                                          "text-uppercase"
+                                                      },
+                                                      [
+                                                        _c("v-icon", [
+                                                          _vm._v(
+                                                            _vm._s(header.icon)
+                                                          )
+                                                        ]),
+                                                        _vm._v(
+                                                          " \r\n                                                    " +
+                                                            _vm._s(
+                                                              _vm.$vuetify
+                                                                .breakpoint.xs
+                                                                ? ""
+                                                                : header.text
+                                                            ) +
+                                                            "\r\n                                            "
+                                                        )
+                                                      ],
+                                                      1
+                                                    )
+                                                  }),
+                                                  0
+                                                )
+                                              ])
+                                            ]
+                                          }
+                                        },
+                                        {
+                                          key: "body",
+                                          fn: function(ref) {
+                                            var items = ref.items
+                                            return [
+                                              _c(
+                                                "tbody",
+                                                _vm._l(items, function(item) {
+                                                  return _c(
+                                                    "tr",
+                                                    { key: item.id },
+                                                    [
+                                                      _c(
+                                                        "td",
+                                                        [
+                                                          _c("v-checkbox", {
+                                                            staticStyle: {
+                                                              margin: "0px",
+                                                              padding: "0px"
+                                                            },
+                                                            attrs: {
+                                                              value: item,
+                                                              "hide-details": ""
+                                                            },
+                                                            model: {
+                                                              value:
+                                                                _vm.selectedTasks,
+                                                              callback: function(
+                                                                $$v
+                                                              ) {
+                                                                _vm.selectedTasks = $$v
+                                                              },
+                                                              expression:
+                                                                "selectedTasks"
+                                                            }
+                                                          })
+                                                        ],
+                                                        1
+                                                      ),
+                                                      _vm._v(" "),
+                                                      _c(
+                                                        "td",
+                                                        {
+                                                          staticClass:
+                                                            "text-center"
+                                                        },
+                                                        [
+                                                          _vm._v(
+                                                            _vm._s(item.id)
+                                                          )
+                                                        ]
+                                                      ),
+                                                      _vm._v(" "),
+                                                      _c(
+                                                        "td",
+                                                        {
+                                                          staticClass:
+                                                            "text-left "
+                                                        },
+                                                        [
+                                                          _c(
+                                                            "div",
+                                                            {
+                                                              staticClass:
+                                                                "caption",
+                                                              style: _vm
+                                                                .$vuetify
+                                                                .breakpoint.xs
+                                                                ? "line-height:1.1"
+                                                                : "line-height:1.5"
+                                                            },
+                                                            [
+                                                              _c("span", {
+                                                                staticClass:
+                                                                  "post-content",
+                                                                domProps: {
+                                                                  innerHTML: _vm._s(
+                                                                    item.question
+                                                                  )
+                                                                }
+                                                              })
+                                                            ]
+                                                          )
+                                                        ]
+                                                      ),
+                                                      _vm._v(" "),
+                                                      _c(
+                                                        "td",
+                                                        {
+                                                          staticClass:
+                                                            "text-center"
+                                                        },
+                                                        [
+                                                          _vm._v(
+                                                            _vm._s(
+                                                              item.correct_count ==
+                                                                null
+                                                                ? 0
+                                                                : item.correct_count
+                                                            )
+                                                          )
+                                                        ]
+                                                      ),
+                                                      _vm._v(" "),
+                                                      _c(
+                                                        "td",
+                                                        {
+                                                          staticClass:
+                                                            "text-center"
+                                                        },
+                                                        [
+                                                          _vm._v(
+                                                            _vm._s(
+                                                              item.wrong_count ==
+                                                                null
+                                                                ? 0
+                                                                : item.wrong_count
+                                                            )
+                                                          )
+                                                        ]
+                                                      ),
+                                                      _vm._v(" "),
+                                                      _c(
+                                                        "td",
+                                                        {
+                                                          staticClass:
+                                                            "text-center"
+                                                        },
+                                                        [
+                                                          _vm._v(
+                                                            _vm._s(
+                                                              item.average_time !=
+                                                                null
+                                                                ? (
+                                                                    item.average_time /
+                                                                    (item.correct_count +
+                                                                      item.wrong_count)
+                                                                  ).toFixed(2)
+                                                                : ""
+                                                            ) +
+                                                              _vm._s(
+                                                                item.average_time ==
+                                                                  null
+                                                                  ? ""
+                                                                  : "s"
+                                                              )
+                                                          )
+                                                        ]
+                                                      ),
+                                                      _vm._v(" "),
+                                                      _c(
+                                                        "td",
+                                                        [
+                                                          _c(
+                                                            "v-tooltip",
+                                                            {
+                                                              attrs: {
+                                                                top: ""
+                                                              },
+                                                              scopedSlots: _vm._u(
+                                                                [
+                                                                  {
+                                                                    key:
+                                                                      "activator",
+                                                                    fn: function(
+                                                                      ref
+                                                                    ) {
+                                                                      var on =
+                                                                        ref.on
+                                                                      var attrs =
+                                                                        ref.attrs
+                                                                      return [
+                                                                        _c(
+                                                                          "v-btn",
+                                                                          _vm._g(
+                                                                            _vm._b(
+                                                                              {
+                                                                                attrs: {
+                                                                                  text:
+                                                                                    "",
+                                                                                  icon:
+                                                                                    ""
+                                                                                }
+                                                                              },
+                                                                              "v-btn",
+                                                                              attrs,
+                                                                              false
+                                                                            ),
+                                                                            on
+                                                                          ),
+                                                                          [
+                                                                            _c(
+                                                                              "v-icon",
+                                                                              {
+                                                                                attrs: {
+                                                                                  color:
+                                                                                    "primary"
+                                                                                }
+                                                                              },
+                                                                              [
+                                                                                _vm._v(
+                                                                                  "mdi-pencil-box-multiple-outline"
+                                                                                )
+                                                                              ]
+                                                                            )
+                                                                          ],
+                                                                          1
+                                                                        )
+                                                                      ]
+                                                                    }
+                                                                  }
+                                                                ],
+                                                                null,
+                                                                true
+                                                              )
+                                                            },
+                                                            [
+                                                              _vm._v(" "),
+                                                              _c("span", [
+                                                                _vm._v("Edit")
+                                                              ])
+                                                            ]
+                                                          ),
+                                                          _vm._v(" "),
+                                                          _c(
+                                                            "v-tooltip",
+                                                            {
+                                                              attrs: {
+                                                                top: ""
+                                                              },
+                                                              scopedSlots: _vm._u(
+                                                                [
+                                                                  {
+                                                                    key:
+                                                                      "activator",
+                                                                    fn: function(
+                                                                      ref
+                                                                    ) {
+                                                                      var on =
+                                                                        ref.on
+                                                                      var attrs =
+                                                                        ref.attrs
+                                                                      return [
+                                                                        _c(
+                                                                          "v-btn",
+                                                                          _vm._g(
+                                                                            _vm._b(
+                                                                              {
+                                                                                attrs: {
+                                                                                  text:
+                                                                                    "",
+                                                                                  icon:
+                                                                                    ""
+                                                                                }
+                                                                              },
+                                                                              "v-btn",
+                                                                              attrs,
+                                                                              false
+                                                                            ),
+                                                                            on
+                                                                          ),
+                                                                          [
+                                                                            _c(
+                                                                              "v-icon",
+                                                                              {
+                                                                                attrs: {
+                                                                                  color:
+                                                                                    "primary"
+                                                                                }
+                                                                              },
+                                                                              [
+                                                                                _vm._v(
+                                                                                  "mdi-delete"
+                                                                                )
+                                                                              ]
+                                                                            )
+                                                                          ],
+                                                                          1
+                                                                        )
+                                                                      ]
+                                                                    }
+                                                                  }
+                                                                ],
+                                                                null,
+                                                                true
+                                                              )
+                                                            },
+                                                            [
+                                                              _vm._v(" "),
+                                                              _c("span", [
+                                                                _vm._v("Delete")
+                                                              ])
+                                                            ]
+                                                          )
+                                                        ],
+                                                        1
+                                                      )
+                                                    ]
+                                                  )
+                                                }),
+                                                0
+                                              )
+                                            ]
+                                          }
+                                        }
+                                      ],
+                                      null,
+                                      false,
+                                      1040008643
+                                    ),
+                                    model: {
+                                      value: _vm.selectedTasks,
+                                      callback: function($$v) {
+                                        _vm.selectedTasks = $$v
+                                      },
+                                      expression: "selectedTasks"
+                                    }
+                                  })
                                 ],
                                 1
                               )

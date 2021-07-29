@@ -204,6 +204,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 var editProfile = function editProfile() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_profile_editprofile_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./editprofile */ "./resources/js/components/profile/editprofile.vue"));
 };
@@ -811,7 +812,7 @@ var render = function() {
                     "v-card",
                     {
                       staticClass: "pt-3 pb-3 pl-5 pr-5",
-                      attrs: { elevation: "1", outlinedS: "" }
+                      attrs: { elevation: "1", outlined: "" }
                     },
                     [
                       _c(

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-row align="center" justify="center" class="pt-10" v-if="coursesLength == 0">
+        <v-row align="center" justify="center" class="pt-10" v-if="coursesLength == 0 && !isGetting">
             <v-col cols="12" sm="8" md="4" class="text-center">
                 <v-icon style="font-size:14rem">
                     mdi-book-variant-multiple
@@ -133,13 +133,14 @@
             },
             joinClass() {
 
-                this.isloading = true;
+                //this.isloading = true;
                 this.dialog = false;
-                this.$store.dispatch("joinClass", this.form).then(() => {
+                this.$store.dispatch("joinClass", this.form).then((res) => {
+                    
                       if(res.status == 200){
                          this.toastSuccess(res.data);
                          this.fetchClasses();
-                         form.class_code = '';
+                         this.form.class_code = '';
                     }
                     else if(res.status == 202){
                         this.toastError(res.data);

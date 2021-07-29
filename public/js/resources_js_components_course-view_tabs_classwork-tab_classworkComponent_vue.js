@@ -72,12 +72,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 var classworkList = function classworkList() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_tabs_classwork-tab_classworkList_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./classworkList */ "./resources/js/components/course-view/tabs/classwork-tab/classworkList.vue"));
 };
 
 var newClassworkModal = function newClassworkModal() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_tabs_classwork-tab_newClassworkModal_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./newClassworkModal */ "./resources/js/components/course-view/tabs/classwork-tab/newClassworkModal.vue"));
+  return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_tabs_classwork-tab_newClassworkModal_vue-_69320").then(__webpack_require__.bind(__webpack_require__, /*! ./newClassworkModal */ "./resources/js/components/course-view/tabs/classwork-tab/newClassworkModal.vue"));
 };
 
 
@@ -103,7 +104,6 @@ var newClassworkModal = function newClassworkModal() {
       this.isGetting = true;
       this.$store.dispatch('fetchClassworks', this.$route.params.id).then(function (res) {
         if (res == 200) {
-          _this.ClassworkLength = _this.get_Classworks.length;
           _this.isGetting = false;
         }
       });
@@ -208,26 +208,17 @@ var render = function() {
     "div",
     [
       _c(
-        "v-dialog",
-        {
-          attrs: { persistent: "", "max-width": "600" },
-          model: {
-            value: _vm.dialog,
-            callback: function($$v) {
-              _vm.dialog = $$v
-            },
-            expression: "dialog"
-          }
-        },
+        "div",
         [
-          _vm.dialog && _vm.role == "Teacher"
-            ? _c("newClassworkModal", {
+          !_vm.isGetting && _vm.ClassworkLength != 0
+            ? _c("classworkList", {
+                attrs: { classworks: _vm.get_Classworks, role: _vm.role },
                 on: {
-                  CloseDialog: function($event) {
-                    _vm.dialog = !_vm.dialog
+                  ToggleRefresh: function($event) {
+                    return _vm.getGeneralClassworks()
                   },
-                  realodClassworks: function($event) {
-                    _vm.getGeneralClassworks(), (_vm.dialog = !_vm.dialog)
+                  reloadClassworks: function($event) {
+                    return _vm.getGeneralClassworks()
                   }
                 }
               })
@@ -235,125 +226,6 @@ var render = function() {
         ],
         1
       ),
-      _vm._v(" "),
-      !_vm.isGetting && _vm.ClassworkLength == 0
-        ? _c(
-            "v-row",
-            {
-              staticClass: "pt-10",
-              attrs: { align: "center", justify: "center" }
-            },
-            [
-              _c(
-                "v-col",
-                {
-                  staticClass: "text-center",
-                  attrs: { cols: "12", sm: "8", md: "4" }
-                },
-                [
-                  _c("v-icon", { staticStyle: { "font-size": "14rem" } }, [
-                    _vm._v(
-                      "\n                mdi-book-open-variant\n            "
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("h1", [_vm._v(" Empty Classwork ")]),
-                  _vm._v(" "),
-                  _c("p", [
-                    _vm._v(
-                      " " +
-                        _vm._s(
-                          _vm.role == "Teacher"
-                            ? "'Creating Classwork, you'll be able to publish classwork to your class."
-                            : "No, Assign Classwork Yet!"
-                        ) +
-                        " "
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _vm.role == "Teacher"
-                    ? _c(
-                        "v-btn",
-                        {
-                          attrs: { color: "primary" },
-                          on: {
-                            click: function($event) {
-                              _vm.role == "Teacher"
-                                ? (_vm.dialog = !_vm.dialog)
-                                : ""
-                            }
-                          }
-                        },
-                        [_vm._v(" CREATE CLASSWORK ")]
-                      )
-                    : _vm._e()
-                ],
-                1
-              )
-            ],
-            1
-          )
-        : _vm._e(),
-      _vm._v(" "),
-      !_vm.isGetting && _vm.role == "Teacher" && _vm.ClassworkLength != 0
-        ? _c(
-            "v-btn",
-            {
-              attrs: {
-                bottom: "",
-                color: "primary",
-                dark: "",
-                fab: "",
-                fixed: "",
-                right: ""
-              },
-              on: {
-                click: function($event) {
-                  _vm.dialog = !_vm.dialog
-                }
-              }
-            },
-            [_c("v-icon", [_vm._v("mdi-plus")])],
-            1
-          )
-        : _vm._e(),
-      _vm._v(" "),
-      !_vm.isGetting && _vm.ClassworkLength != 0
-        ? _c(
-            "v-container",
-            [
-              _c(
-                "v-row",
-                [
-                  _c("v-col", [
-                    _c("h2", [
-                      _vm._v(
-                        _vm._s(
-                          _vm.role == "Teacher"
-                            ? "Manage Classworks"
-                            : "Classworks"
-                        )
-                      )
-                    ])
-                  ])
-                ],
-                1
-              )
-            ],
-            1
-          )
-        : _vm._e(),
-      _vm._v(" "),
-      !_vm.isGetting && _vm.ClassworkLength != 0
-        ? _c("classworkList", {
-            attrs: { classworks: _vm.get_Classworks, role: _vm.role },
-            on: {
-              ToggleRefresh: function($event) {
-                return _vm.getGeneralClassworks()
-              }
-            }
-          })
-        : _vm._e(),
       _vm._v(" "),
       _vm.isGetting
         ? _c(

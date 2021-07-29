@@ -71,7 +71,8 @@ Route::prefix('/class')->group(function () {
     Route::get('/allnames/{id}/{clwk}', [ClassController::class, 'fecthClassNames']);
     Route::get('/subjectCourseClassList/all/{id}', [ClassController::class, 'subjectCourseClassList']);
     Route::get('/count', [ClassController::class, 'classCount']);
-
+    Route::put('/archive-class/{id}', [ClassController::class, 'ArchiveClass']);
+    
     
 });
 //course
@@ -196,6 +197,7 @@ Route::prefix('/student_sub_module')->group(function () {
 //Objective Questions
 Route::prefix('/question')->group(function () {
     Route::get('/all/{id}', [ObjectiveController::class, 'index']);
+    Route::get('/question-answer/{id}/{class_clwk_Id}', [ObjectiveController::class, 'fetchQuestionAnswerForViewSubmision']);
     Route::post('/insert', [ObjectiveController::class, 'store']);
     Route::post('/check/{id}', [ObjectiveController::class, 'check']);
     Route::post('/addOption', [ObjectiveController::class, 'AddOption']);
@@ -261,6 +263,9 @@ Route::prefix('/profile')->group(function () {
 Route::prefix('/archive')->group(function () {
     Route::get('/courses', [ArchiveController::class, 'index']);
     Route::put('/restore/{id}', [ArchiveController::class, 'restoreArchive']);
+    Route::get('/classes', [ArchiveController::class, 'showArchiveClasses']);
+    Route::put('/restore-class/{id}', [ArchiveController::class, 'restoreClass']);
+    
     
 });
 

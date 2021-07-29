@@ -3,7 +3,7 @@
 <div>
     <v-hover v-slot="{ hover }">
     <v-expand-transition>
-    <v-card :style="preview || previewAll ? 'border-top:5px solid #EF6C00':''" :elevation="preview && hover ? 20 : 5" class="pl-3 pr-3 pt-8">
+    <v-card style="cursor:pointer" :color="preview && hover ? 'grey lighten-5' : ''" outlined  class="pl-3 pr-3 pt-4">
         <v-dialog v-model="dialog" persistent max-width="370">
                 <deleteDialog 
                 :DeleteDetails="DeleteDetails"
@@ -20,12 +20,13 @@
                 </optionRemoveDialog>
             </v-dialog>
             <v-row >
-                <v-col v-if="!preview && !CheckPreview" cols="12" md="12" class="pl-4 pr-4 pt-2">
+                <v-col v-if="!preview && !CheckPreview" cols="12" md="12" class="pa-5">
                     <v-container class="mb-1">
                             <v-container ma-0 pa-0 class="mb-3 d-flex flex-row justify-space-between">
                                 <v-container ma-0 pa-0 class="pa-0 ma-0 d-flex justify-end">
                                     <v-btn
                                     class="mr-2"
+                                    color="error"
                                         rounded
                                         :disabled="isRemoving"
                                         :loading="isRemoving"
@@ -34,13 +35,22 @@
                                         <v-icon>mdi-delete-outline</v-icon>
                                     </v-btn>
                                     <v-btn
+                                     class="mr-2"
                                         rounded
                                         color="primary"
                                         @click="updateQuestion()">
                                         
                                         {{$vuetify.breakpoint.xs ? '' : 'Update'}}
-                                        <v-icon>mdi-square-edit-outline</v-icon>
+                                        <v-icon>mdi-check</v-icon>
                                     </v-btn>
+                                      <v-btn
+                                            rounded
+                                       
+                                            text
+                                            @click="preview = !preview, isEditing = !isEditing">
+                                            {{$vuetify.breakpoint.xs || $vuetify.breakpoint.sm ? '' : 'Cancel'}}
+                                            <v-icon>mdi-close</v-icon>
+                                        </v-btn>
                                 </v-container>
                             </v-container>
 

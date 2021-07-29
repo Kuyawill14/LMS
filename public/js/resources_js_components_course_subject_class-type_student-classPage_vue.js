@@ -147,15 +147,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     joinClass: function joinClass() {
       var _this = this;
 
-      this.isloading = true;
+      //this.isloading = true;
       this.dialog = false;
-      this.$store.dispatch("joinClass", this.form).then(function () {
+      this.$store.dispatch("joinClass", this.form).then(function (res) {
         if (res.status == 200) {
           _this.toastSuccess(res.data);
 
           _this.fetchClasses();
 
-          form.class_code = '';
+          _this.form.class_code = '';
         } else if (res.status == 202) {
           _this.toastError(res.data);
         } else {
@@ -324,7 +324,7 @@ var render = function() {
   return _c(
     "div",
     [
-      _vm.coursesLength == 0
+      _vm.coursesLength == 0 && !_vm.isGetting
         ? _c(
             "v-row",
             {

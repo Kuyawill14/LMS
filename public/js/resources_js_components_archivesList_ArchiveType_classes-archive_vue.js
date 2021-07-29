@@ -52,49 +52,31 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//const confirmArchiveCourse = () => import("./dialog/confirmArchiveCourse")
+
+
+var teacherClassArchive = function teacherClassArchive() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_archivesList_ArchiveType_archiveClassType_teacherClassArchive_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./archiveClassType/teacherClassArchive */ "./resources/js/components/archivesList/ArchiveType/archiveClassType/teacherClassArchive.vue"));
+};
+
+var studentClassArchive = function studentClassArchive() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_archivesList_ArchiveType_archiveClassType_studentClassArchive_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./archiveClassType/studentClassArchive */ "./resources/js/components/archivesList/ArchiveType/archiveClassType/studentClassArchive.vue"));
+};
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  components: {//    VueElementLoading,
-    //confirmArchiveCourse
+  props: ['role'],
+  components: {
+    teacherClassArchive: teacherClassArchive,
+    studentClassArchive: studentClassArchive
   },
   data: function data() {
     return {
-      coursesLength: null,
+      classLength: null,
       isGetting: false,
-      dialog: false,
-      isloading: true,
-      modalType: '',
-      isPageLoading: false,
-      class_code: null,
-      form: {
-        id: '',
-        course_name: '',
-        course_id: '',
-        class_description: '',
-        course_picture: '',
-        course_code: ''
-      },
-      Archivedialog: false,
-      ArchiveDetails: {},
-      ArchiveCourses: []
+      ArchiveClasses: []
     };
   },
   methods: {
-    toastSuccess: function toastSuccess(message, icon) {
-      return this.$toasted.success(message, {
-        theme: "toasted-primary",
-        position: "top-center",
-        icon: "done",
-        duration: 5000
-      });
-    },
-    archiveConfirm: function archiveConfirm(name, id) {
-      this.ArchiveDetails.course_id = id;
-      this.ArchiveDetails.name = name;
-      this.Archivedialog = !this.Archivedialog;
-    },
-    restoreArchive: function restoreArchive(id) {
+    restoreClass: function restoreClass(data) {
       var _this = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
@@ -102,12 +84,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                axios.put('/api/archive/restore/' + id).then(function (res) {
-                  _this.fetchCourses(); ///this.Archivedialog = !this.Archivedialog;
-
+                _context.next = 2;
+                return axios.put('/api/archive/restore-class/' + data.id).then(function (res) {
+                  _this.ArchiveClasses.splice(data.index, 1);
                 });
 
-              case 1:
+              case 2:
               case "end":
                 return _context.stop();
             }
@@ -115,16 +97,33 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee);
       }))();
     },
-    fetchCourses: function fetchCourses() {
+    fetchClass: function fetchClass() {
       var _this2 = this;
 
-      this.isGetting = true;
-      axios.get('/api/archive/courses').then(function (res) {
-        _this2.ArchiveCourses = res.data;
-        _this2.coursesLength = res.data.length;
-        _this2.isGetting = false;
-      });
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _this2.isGetting = true;
+                _context2.next = 3;
+                return axios.get('/api/archive/classes').then(function (res) {
+                  _this2.ArchiveClasses = res.data;
+                  _this2.classLength = res.data.length;
+                  _this2.isGetting = false;
+                });
+
+              case 3:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }))();
     }
+  },
+  mounted: function mounted() {
+    this.fetchClass();
   }
 });
 
@@ -221,30 +220,106 @@ var render = function() {
   return _c(
     "div",
     [
-      _c(
-        "v-row",
-        { staticClass: "pt-10", attrs: { align: "center", justify: "center" } },
-        [
-          _c(
-            "v-col",
+      !_vm.isGetting && _vm.classLength == 0
+        ? _c(
+            "v-row",
             {
-              staticClass: "text-center",
-              attrs: { cols: "12", sm: "8", md: "4" }
+              staticClass: "pt-10",
+              attrs: { align: "center", justify: "center" }
             },
             [
-              _c("v-icon", { staticStyle: { "font-size": "8rem" } }, [
-                _vm._v(
-                  "\n                mdi-book-variant-multiple\n            "
-                )
-              ]),
-              _vm._v(" "),
-              _c("h2", [_vm._v(" Empty Archive Classes ")])
+              _c(
+                "v-col",
+                {
+                  staticClass: "text-center",
+                  attrs: { cols: "12", sm: "8", md: "4" }
+                },
+                [
+                  _c("v-icon", { staticStyle: { "font-size": "8rem" } }, [
+                    _vm._v(
+                      "\n                mdi-google-classroom\n            "
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("h2", [_vm._v(" Empty Archive Classes ")])
+                ],
+                1
+              )
             ],
             1
           )
-        ],
-        1
-      )
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.isGetting
+        ? _c(
+            "v-container",
+            { staticStyle: { height: "400px" } },
+            [
+              _c(
+                "v-row",
+                {
+                  staticClass: "fill-height",
+                  attrs: { "align-content": "center", justify: "center" }
+                },
+                [
+                  _c("v-icon", { staticStyle: { "font-size": "14rem" } }, [
+                    _vm._v(
+                      "\n                mdi-google-contacts\n            "
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "v-col",
+                    {
+                      staticClass: "text-subtitle-1 text-center",
+                      attrs: { cols: "12" }
+                    },
+                    [_c("h2", [_vm._v(" Loading archive classes ")])]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-col",
+                    { attrs: { cols: "6" } },
+                    [
+                      _c("v-progress-linear", {
+                        attrs: {
+                          color: "primary",
+                          indeterminate: "",
+                          rounded: "",
+                          height: "6"
+                        }
+                      })
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      !_vm.isGetting && _vm.classLength > 0
+        ? _c(
+            "div",
+            [
+              _vm.role == "Teacher"
+                ? _c("teacherClassArchive", {
+                    attrs: { ArchiveClasses: _vm.ArchiveClasses },
+                    on: { RestoreConfirm: _vm.restoreClass }
+                  })
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.role == "Student"
+                ? _c("studentClassArchive", {
+                    attrs: { ArchiveClasses: _vm.ArchiveClasses }
+                  })
+                : _vm._e()
+            ],
+            1
+          )
+        : _vm._e()
     ],
     1
   )

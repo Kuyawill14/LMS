@@ -12,6 +12,7 @@ use App\Models\tbl_notification;
 use App\Models\tbl_Submission;
 use App\Events\NewNotification;
 use App\Models\tbl_teacher_course;
+use App\Models\tbl_classClassworks;
 
 
 class StudentController extends Controller
@@ -69,8 +70,7 @@ class StudentController extends Controller
 
 
             $StudentList = tbl_userclass::where('tbl_userclasses.class_id', $Class->class_id)
-            ->select('tbl_userclasses.id as uc_id','tbl_userclasses.class_id as class_id','users.id',
-            'users.firstName','users.lastName','tbl_user_details.profile_pic' )
+            ->select('users.firstName','users.lastName','tbl_user_details.profile_pic' )
             ->leftJoin('users', 'tbl_userclasses.user_id', '=', 'users.id', )
             ->leftJoin('tbl_user_details', 'tbl_user_details.user_id', '=', 'users.id', )
             ->where('users.role', 'Student')
@@ -79,8 +79,7 @@ class StudentController extends Controller
 
            
             $InstructorList = tbl_userclass::where('tbl_userclasses.course_id', $id)
-            ->select('tbl_userclasses.id as uc_id','users.id','users.firstName','users.lastName',
-            'tbl_user_details.profile_pic' )
+            ->select('users.firstName','users.lastName', 'tbl_user_details.profile_pic' )
             ->leftJoin('users', 'tbl_userclasses.user_id', '=', 'users.id', )
             ->leftJoin('tbl_user_details', 'tbl_user_details.user_id', '=', 'users.id', )
             ->where('users.role', 'Teacher')
@@ -137,6 +136,8 @@ class StudentController extends Controller
             }
             $StatusUpdate = new tbl_Submission;
             $StatusUpdate->classwork_id = $request->id;
+            $StatusUpdate->class_classwork_id = $request->class_classwork_id;
+            
             $StatusUpdate->user_id =  $userId;
             $StatusUpdate->status = "Taking";
             $StatusUpdate->save();
@@ -148,6 +149,7 @@ class StudentController extends Controller
             
                 $StatusUpdate = new tbl_Submission;
                 $StatusUpdate->classwork_id = $request->id;
+                $StatusUpdate->class_classwork_id = $request->class_classwork_id;
                 $StatusUpdate->user_id =  $userId;
                 $StatusUpdate->status = "Submitting";
                 $file = $request->file('file');
@@ -212,10 +214,21 @@ class StudentController extends Controller
     {
 
         $userId = auth('sanctum')->id();
+        $UserFullName = auth('sanctum')->user()->firstName.' '.auth('sanctum')->user()->lastName;
+       /* $userId = 2;
+        $UserFullName = 'Wilson Magaoay'; */
+
+       
+
+
         $CheckStatus = tbl_Submission::where('tbl_submissions.classwork_id', $id)
-        ->select('tbl_submissions.status','tbl_submissions.points as score','tbl_submissions.Submitted_Answers',
-        'tbl_classworks.points as totalPoints','tbl_classworks.id as cl_id','tbl_classworks.course_id')
+        ->select('tbl_submissions.status','tbl_submissions.points as score','tbl_class_classworks.id as class_classwork_id'
+        ,'tbl_class_classworks.showAnswer','tbl_class_classworks.showAnswerType','tbl_class_classworks.showDateFrom','tbl_class_classworks.showDateTo','tbl_class_classworks.response_late',
+
+        'tbl_classworks.title','tbl_classworks.points as totalPoints','tbl_classworks.id as cl_id','tbl_classworks.course_id'
+        ,'tbl_submissions.Submitted_Answers','tbl_submissions.updated_at')
         ->leftJoin('tbl_classworks', 'tbl_classworks.id','=','tbl_submissions.classwork_id')
+        ->leftJoin('tbl_class_classworks', 'tbl_class_classworks.id','=','tbl_submissions.class_classwork_id')
         ->where('tbl_submissions.user_id',  $userId)
         ->first();
         if($CheckStatus){
@@ -223,7 +236,7 @@ class StudentController extends Controller
             ->select('class_id')
             ->where('user_id', $userId)
             ->first();
-
+            $CheckStatus->name =  $UserFullName;
             $CheckStatus->class_id =  $ClassId->class_id;
             $CheckStatus->id = $userId;
             if($CheckStatus){

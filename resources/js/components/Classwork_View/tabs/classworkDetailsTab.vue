@@ -1,6 +1,6 @@
 
 <template>
-<v-app>
+<div class="pa-1">
 <v-container class="fill-height" v-if="isloading" style="height: 500px;">
     <v-row  align-content="center" justify="center">
         <v-col class="text-subtitle-1 text-center" cols="12">
@@ -13,115 +13,110 @@
 </v-container>
   <v-container v-if="!isloading" pa-0 ma-0  class="pa-0 pa-0" fluid>
         <v-row align="center" justify="center">
-            <v-col cols="12" lg="10" xl="6" md="10">
-                <v-card  class="elevation-5 pa-5" style="border-top:5px solid #EF6C00">
+            <v-col cols="12"  md="8" lg="9" xl="9">
+                <v-card elevation="1" class="pa-5" >
                      <v-form ref="UpdateClassworkForm" v-model="valid" lazy-validation>
-                    <v-window>
-                        <v-window-item >
-                            
-                                <v-row>
-                                    
-                                    <v-col cols="12" class="mt-2"> 
-                                        <v-select
+                            <v-row>
+                                
+                                <v-col cols="12" class="mt-2"> 
+                                    <v-select
+                                    outlined
+                                    :rules="FieldRules"
+                                    v-model="Details.type"
+                                    :items="['Objective Type', 'Subjective Type']"
+                                    label="Type"
+                                    ></v-select>
+                                    </v-col>
+                                    <v-col class="mb-0 pb-0 pt-0 mt-0" cols="12">
+                                        <v-text-field
                                         outlined
                                         :rules="FieldRules"
-                                        v-model="Details.type"
-                                        :items="['Objective Type', 'Subjective Type']"
-                                        label="Type"
-                                        ></v-select>
-                                        </v-col>
-                                        <v-col class="mb-0 pb-0 pt-0 mt-0" cols="12">
-                                            <v-text-field
-                                            outlined
+                                        v-model="Details.title"
+                                        label="Title" type="text"  required>
+                                        </v-text-field>
+                                    </v-col>
+                                    <v-col class="mb-0 pb-0 pt-0 mt-0" cols="12">
+                                        <v-textarea
                                             :rules="FieldRules"
-                                            v-model="Details.title"
-                                            label="Title" type="text"  required>
-                                            </v-text-field>
-                                        </v-col>
-                                        <v-col class="mb-0 pb-0 pt-0 mt-0" cols="12">
-                                            <v-textarea
-                                                :rules="FieldRules"
-                                                outlined
-                                                v-model="Details.instruction"
-                                                label="Instruction"
-                                                auto-grow
-                                                >
-                                            </v-textarea>
-                                        </v-col >
-                                        <v-col v-if="Details.type == 'Objective Type'" class="mb-0 pb-0 pt-0 mt-0"  cols="12">
-                                    
-                                            <v-text-field
-                                            v-if="Details.type == 'Objective Type'"
+                                            outlined
+                                            v-model="Details.instruction"
+                                            label="Instruction"
+                                            auto-grow
+                                            >
+                                        </v-textarea>
+                                    </v-col >
+                                    <v-col v-if="Details.type == 'Objective Type'" class="mb-0 pb-0 pt-0 mt-0"  cols="12">
+                                
+                                        <v-text-field
+                                        v-if="Details.type == 'Objective Type'"
+                                        :rules="FieldRules"
+                                        class="mb-0 pb-0 pt-0 mt-0"
+                                        append-icon="mdi-timer"
+                                        outlined
+                                        v-model="Details.duration"
+                                        hint="mins" label="Time Limit" 
+                                        type="number">
+                                        </v-text-field>
+                                    </v-col>
+                                        <v-col v-if="Details.type == 'Subjective Type'" cols="12" class="mb-0 pb-0 pt-0 mt-0">
+                                        <v-text-field
+                                            @click="TestUpload"
+                                            prepend-inner-icon="mdi-paperclip"
+                                            v-if="Details.type == 'Subjective Type'"
                                             :rules="FieldRules"
                                             class="mb-0 pb-0 pt-0 mt-0"
-                                            append-icon="mdi-timer"
+                                            label="File input"
+                                            show-size
                                             outlined
-                                            v-model="Details.duration"
-                                            hint="mins" label="Time Limit" 
-                                            type="number">
-                                            </v-text-field>
-                                        </v-col>
-                                         <v-col v-if="Details.type == 'Subjective Type'" cols="12" class="mb-0 pb-0 pt-0 mt-0">
-                                            <v-text-field
-                                                @click="TestUpload"
-                                                prepend-inner-icon="mdi-paperclip"
-                                                v-if="Details.type == 'Subjective Type'"
-                                                :rules="FieldRules"
-                                                class="mb-0 pb-0 pt-0 mt-0"
-                                                label="File input"
-                                                show-size
-                                                outlined
-                                                multiple
-                                                chips
-                                                v-model="Details.attachment_name">
+                                            multiple
+                                            chips
+                                            v-model="Details.attachment_name">
+                                    </v-text-field>
+                                    </v-col>
+                                    <v-col v-if="Details.type == 'Subjective Type'" class="mb-0 pb-0 pt-0 mt-0 d-none"  cols="12">
+                                        <input
+                                        ref="fileInput"
+                                        class="d-none"
+                                        type="file"
+                                        @change="onFileChange"
+                                        >
+                                    </v-col>
+                                    <v-col v-if="Details.type == 'Subjective Type'" class="mb-0 pb-0 pt-0 mt-0"  cols="12">
+                                        <v-text-field
+                                        :rules="FieldRules"
+                                        v-if="Details.type == 'Subjective Type'"
+                                        outlined
+                                        min="0"
+                                        v-model="Details.points"
+                                        label="Points" 
+                                        type="number">
                                         </v-text-field>
-                                        </v-col>
-                                        <v-col v-if="Details.type == 'Subjective Type'" class="mb-0 pb-0 pt-0 mt-0 d-none"  cols="12">
-                                            <input
-                                            ref="fileInput"
-                                            class="d-none"
-                                            type="file"
-                                            @change="onFileChange"
+                                    </v-col>
+
+                                        <v-col  cols="12 text-left">
+                                
+                                            <v-btn
+                                            rounded
+                                            :loading="isUpdating"
+                                            color="primary"
+                                            class="ma-2 white--text"
+                                            @click="UpdateClasswork()"
                                             >
-                                        </v-col>
-                                        <v-col v-if="Details.type == 'Subjective Type'" class="mb-0 pb-0 pt-0 mt-0"  cols="12">
-                                            <v-text-field
-                                            :rules="FieldRules"
-                                            v-if="Details.type == 'Subjective Type'"
-                                            outlined
-                                            min="0"
-                                            v-model="Details.points"
-                                            label="Points" 
-                                            type="number">
-                                            </v-text-field>
-                                        </v-col>
+                                            Update
+                                            <v-icon right dark>
+                                                mdi-update
+                                            </v-icon>
+                                        </v-btn>
+                                    </v-col>
 
-                                         <v-col  cols="12 text-left">
                                     
-                                              <v-btn
-                                                rounded
-                                                :loading="isUpdating"
-                                                color="primary"
-                                                class="ma-2 white--text"
-                                                @click="UpdateClasswork()"
-                                                >
-                                                Update
-                                                <v-icon right dark>
-                                                    mdi-update
-                                                </v-icon>
-                                            </v-btn>
-                                        </v-col>
-
-                                        
-                                </v-row>
-                        </v-window-item>
-                    </v-window>
+                            </v-row>
                      </v-form>
                 </v-card>
             </v-col>
         </v-row>
     </v-container>
-</v-app>
+</div>
 </template>
 <script>
 export default {

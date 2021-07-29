@@ -1,6 +1,50 @@
 <template>
-    <div class="container pt-4">
+<div>
+    <v-dialog v-model="dialog" persistent max-width="600">
+            <newClassworkModal
+            v-on:CloseDialog="dialog =!dialog"
+            v-on:realodClassworks="$emit('reloadClassworks'), dialog = !dialog" 
+            v-if="dialog">
+            </newClassworkModal>
+         </v-dialog>
+       
+         <v-row align="center" justify="center" class="pt-10" v-if="ClassworkLength == 0">
+            <v-col cols="12" sm="8" md="4" class="text-center">
+                <v-icon style="font-size:14rem">
+                    mdi-book-open-variant
+                </v-icon>
+                <h1> Empty Classwork </h1>
+                <!-- <p> {{role == 'Teacher' ? "'Creating Classwork, you'll be able to publish classwork to your class.": 'No, Assign Classwork Yet!'}} </p> -->
+                <p>Creating Classwork, you'll be able to publish classwork to your class.</p>
+                <v-btn  color="primary" @click="dialog = !dialog"> CREATE CLASSWORK </v-btn>
+            </v-col>
+        </v-row>
+
+
+
+        <v-btn  v-if="ClassworkLength != 0" bottom color="primary" dark fab fixed right @click="dialog = !dialog">
+            <v-icon>mdi-plus</v-icon>
+        </v-btn>
+
+
+    <div v-if="ClassworkLength != 0" class="container pt-4">
         <!-- Modal -->
+
+        <v-row >
+            <v-col cols="12" md="9" lg="9" class="text-left mb-0 pb-0">
+                 <h2 class="mt-1">Manage Classworks</h2>
+            </v-col>
+            <v-col cols="12" md="3" lg="3" class="text-right mb-0 pb-0">
+                  <v-select
+                     :items="FilterItems"
+               
+                    dense
+                    v-model="SelectedFilter"
+                    outlined
+                    class="ma-0 pa-0"
+                    ></v-select>
+            </v-col>
+        </v-row>
 
         <v-dialog v-model="Removedialog" persistent max-width="400">
             <deleteDialog 
@@ -9,102 +53,144 @@
             v-on:ToggleRefresh="$emit('ToggleRefresh'), Removedialog = !Removedialog"
             v-if="Removedialog"></deleteDialog>
         </v-dialog>
-         <v-row class="pl-5 pr-5">
+         <v-row >
             <v-divider></v-divider>
         </v-row>
 
             <v-row>
-                <v-col cols="12" class="mt-1 ml-0  mr-0" v-for="(item, i) in classworks" :key="i">
-                <v-col cols="12" class="ma-0 pa-0 mb-1"><h2 class="font-weight-regular">{{ClassworkType[i]}}</h2></v-col>
-                <v-row v-if="classworks[i].length != 0" class="pl-1 pr-1" ma-0 pa-0>
-                    <v-col cols="12" lg="6"  xl="3" md="6" v-for="(item, index) in classworks[i]" :key="index">
-                      <!--   <v-tooltip top>
-                    <template v-slot:activator="{ on, attrs }"> -->
-                    <v-hover v-slot="{ hover }">
-                            <v-card elevation="2" :color="hover ? 'grey lighten-4':''" >
-                                <v-container class="pl-3 pr-3 pt-5 pb-5 d-flex flex-row justify-space-between">
-                                    <div class="d-flex flex-row">
-                                        <v-icon  class="pl-2 pr-3" large>mdi-book-open-variant</v-icon>
-                                        
-                                        <div>
-                                            
-                                            <div ma-0 pa-0 class="h1 ml-1"> <span 
-                                            style="width: 250px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;"
-                                             class="font-weight-bold">
-                                             {{item.title}}
-                                              <small class="primary--text font-weight-regular" v-if="item.type == 'Subjective Type'">({{item.points}} points)</small>
-                                             </span></div> 
+                <v-col v-show=" SelectedFilter == 'All' || SelectedFilter == ClassworkType[i]" cols="12" class="ml-0  mr-0" v-for="(item, i) in classworks" :key="i">
+                 <v-col v-if="classworks[i].length != 0 || SelectedFilter == ClassworkType[i]" cols="12" class="ma-0 pa-0 mb-2"><h3 class="font-weight-regular">{{ClassworkType[i]}}</h3></v-col>
+                <v-row v-if="classworks[i].length != 0" class="pl-1 pr-1 mt-1" ma-0 pa-0>
+                   
+
+                  <!--   <v-col cols="12">
+
+                    </v-col> -->
+
+
+
+
+                    <v-col class="ma-0 pa-0 pb-2 pl-2 pr-2" cols="12"  md="4" v-for="(item, index) in classworks[i]" :key="index">
+                     
+                        <v-expansion-panels focusable>
+                            <v-expansion-panel  class="ma-0 pa-0">
+                            <!--  <v-hover v-slot="{ hover }"> -->
+                                <v-expansion-panel-header  class="ma-0 pa-0 pl-1 pr-1" disable-icon-rotate hide-actions>
+                    
+                                        <v-container class="d-flex flex-row justify-space-between">
+                                        <div class="d-flex flex-row">
+                                                <v-avatar size="45"
+                                                color="blue" class="mr-2">
+                                                    <v-icon  color="white" >
+                                                    mdi-book-open-variant
+                                                </v-icon>
+                                            </v-avatar>
+                                            <div>
+                                                
+                                            <div ma-0 pa-0 class="h1 ml-1 mt-2"> 
+                                                <span 
+                                                style="width: 250px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;"
+                                                    class="font-weight-bold">
+                                                    {{item.title}}
+                                                    <small class="primary--text font-weight-regular" v-if="item.type == 'Subjective Type'">({{item.points}} points)</small>
+                                                    </span>
+                                            </div> 
                                             <div>
                                                 <small class="card-subtitle text-50 mb-0 pb-0">Created: {{format_date(item.created_at)}}<br></small>
-                                                <small class="card-subtitle text-50 font-weight-medium">Number of Student Submitted: {{item.submittion_count}}</small>
                                             </div>
-                                        
+                                            
+                                            </div>
                                         </div>
-                                    </div>
-                                 
-                                 
-                                    <v-menu  bottom offset-y>
-                                         
-                                        <template v-slot:activator="{ on, attrs }">
-                                            <v-btn
-                                            icon
-                                            v-bind="attrs"
-                                            v-on="on"
-                                            >
-                                            <v-icon >mdi-dots-vertical</v-icon>
-                                        </v-btn>
-                                        </template>
-                                    
-                                        <v-list pa-0 ma-0>
-                                            <v-list-item ma-0 pa-0>
-                                                <v-list-item-title><v-btn rounded text @click="$router.push({name: 'clwk',params: {id: $route.params.id},query: {clwk: item.id}})"
-                                                ><v-icon class="mr-1">mdi-notebook-edit-outline</v-icon>Review Classwork</v-btn></v-list-item-title>
-                                            </v-list-item>
-                                            <v-list-item ma-0 pa-0>
-                                                <v-list-item-title><v-btn rounded @click="$router.push({name: 'publish-to',params: {id: $route.params.id},query: {clwk: item.id}})" text><v-icon class="mr-1">mdi-file-upload-outline</v-icon>Publish Classwork</v-btn></v-list-item-title>
-                                            </v-list-item>
-                                            <v-list-item ma-0 pa-0>
-                                                <v-list-item-title><v-btn rounded @click="$router.push({name: 'submission-list',params: {id: $route.params.id},query: {clwk: item.id}})" text><v-icon class="mr-1">mdi-file-eye-outline</v-icon>View Submission</v-btn></v-list-item-title>
-                                            </v-list-item>
-                                            <v-list-item ma-0 pa-0>
-                                                <v-list-item-title><v-btn @click="RemoveCLasswork(item)" rounded text><v-icon class="mr-1">mdi-archive</v-icon>Archive Classwork</v-btn></v-list-item-title>
-                                            </v-list-item>
-                                            <v-list-item ma-0 pa-0>
-                                                <v-list-item-title><v-btn @click="RemoveCLasswork(item)" rounded text><v-icon class="mr-1">mdi-delete-outline</v-icon>Remove Classwork</v-btn></v-list-item-title>
-                                            </v-list-item>
-                                        </v-list>
                                         
-                                    </v-menu>
+                                        
+                                        <v-menu  bottom offset-y>
+                                            <template v-slot:activator="{ on, attrs }">
+                                                <v-btn
+                                                icon
+                                                v-bind="attrs"
+                                                v-on="on"
+                                        
+                                                >
+                                                <v-icon >mdi-dots-vertical</v-icon>
+                                            </v-btn>
+                                        
+                                            </template>
+                                        
+                                            <v-list pa-0 ma-0>
+                                                <v-list-item ma-0 pa-0>
+                                                    <v-list-item-title><v-btn rounded text @click="$router.push({name: 'clwk',params: {id: $route.params.id},query: {clwk: item.id}})"
+                                                    ><v-icon class="mr-1">mdi-notebook-edit-outline</v-icon>Review Classwork</v-btn></v-list-item-title>
+                                                </v-list-item>
+                                                <v-list-item ma-0 pa-0>
+                                                    <v-list-item-title><v-btn rounded @click="$router.push({name: 'publish-to',params: {id: $route.params.id},query: {clwk: item.id}})" text><v-icon class="mr-1">mdi-file-upload-outline</v-icon>Publish Classwork</v-btn></v-list-item-title>
+                                                </v-list-item>
+                                                <v-list-item ma-0 pa-0>
+                                                    <v-list-item-title><v-btn rounded @click="$router.push({name: 'submission-list',params: {id: $route.params.id},query: {clwk: item.id}})" text><v-icon class="mr-1">mdi-file-eye-outline</v-icon>View Submission</v-btn></v-list-item-title>
+                                                </v-list-item>
+                                                <v-list-item ma-0 pa-0>
+                                                    <v-list-item-title><v-btn @click="RemoveCLasswork(item)" rounded text><v-icon class="mr-1">mdi-archive</v-icon>Archive Classwork</v-btn></v-list-item-title>
+                                                </v-list-item>
+                                                <v-list-item ma-0 pa-0>
+                                                    <v-list-item-title><v-btn @click="RemoveCLasswork(item)" rounded text><v-icon class="mr-1">mdi-delete-outline</v-icon>Remove Classwork</v-btn></v-list-item-title>
+                                                </v-list-item>
+                                            </v-list>
+                                        </v-menu>
+                                    </v-container>
+                                </v-expansion-panel-header>
+                            <!--  </v-hover> -->
+                            <v-expansion-panel-content class="ma-0 pa-0 mt-3">
+                                <v-row>
+                                    <v-col cols="8">
+                                        <div class="mb-5"> {{item.instruction}}</div>
+                                    </v-col>
+                                       <v-col cols="4">
+                                           <div class="flex-column">
+                                               <h1 class="mb-0 pb-0">{{item.submittion_count}}</h1>
+                                               <small class="mt-0 pt-0">Submitted</small>
+                                           </div>
+                                    </v-col>
+                                </v-row>
+                                
+                                <v-btn class="ma-0" @click="$router.push({name: 'clwk',params: {id: $route.params.id},query: {clwk: item.id}})"
+                                rounded color="primary" small text>View Classwork</v-btn>
+                            </v-expansion-panel-content>
+                     
 
-                                    
-                                  
-                                </v-container>
-                            </v-card >
-                       </v-hover>
-               <!--       </template>
-                <span>{{item.status == null ? 'View Classwork' : 'View Submission'}}</span>
-                </v-tooltip> -->
-                    </v-col>
+                            
+                            </v-expansion-panel>
+                        </v-expansion-panels>
+              
+                </v-col>
                 </v-row>
                </v-col>
             </v-row>
     </div>
+</div>
 </template>
 
 <script>
     const deleteDialog = () => import('../dialogs/deleteDiaglog');
+    const newClassworkModal = () => import('../newClassworkModal')
     import moment from 'moment';
     export default {
         props: ['classworks'],
         components: {
-            deleteDialog
+            deleteDialog,
+            newClassworkModal
         },
         data() {
             return {
                 Removedialog: false,
+                dialog: false,
                 DeleteDetails:[],
                 DateToday:'',
-                ClassworkType: ['Objective Type', 'Subjective Type']
+                ClassworkType: ['Objective Type', 'Subjective Type'],
+                focus: false,
+                focusId: null,
+                clicked: false,
+                ClassworkLength: null,
+                FilterItems:['All', 'Objective Type','Subjective Type'],
+                SelectedFilter: 'All',
             }
         },
         methods: {
@@ -121,9 +207,15 @@
             async RemoveCLasswork(details){
                 this.DeleteDetails = details;
                 this.Removedialog = !this.Removedialog;
+            },
+            CheckClassworkCount(){
+                this.classworks.forEach(element => {
+                    this.ClassworkLength += element.length;
+                });
             }
         },
         mounted(){
+            this.CheckClassworkCount();
             let newDate = new Date();
             this.DateToday = moment(newDate).format("YYYY-MM-DDTHH:mm:ss");
 

@@ -8,7 +8,7 @@
                         mdi-account-group
                     </v-icon>
                     <v-col class="text-subtitle-1 text-center" cols="12">
-                        <h2> Getting Student List </h2>
+                        <h2> Getting people List </h2>
                     </v-col>
                     <v-col cols="6">
                         <v-progress-linear color="primary" indeterminate rounded height="6"></v-progress-linear>
@@ -81,7 +81,7 @@
 <script>
 //const removeConfirmDialog = () => import('../dialog/removeConfirmDialog')
     export default {
-        props:['getcourseInfo'],
+      
         components:{
             //removeConfirmDialog
         },
@@ -95,7 +95,6 @@
                 classNames:[],
                 Class_id: this.$route.params.id,
                 RemoveDetails: {},
-                cours_name: null,
             }
 
         },

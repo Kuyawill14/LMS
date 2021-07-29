@@ -233,9 +233,7 @@ var render = function() {
             },
             [
               _c("v-icon", { staticStyle: { "font-size": "8rem" } }, [
-                _vm._v(
-                  "\n                mdi-book-variant-multiple\n            "
-                )
+                _vm._v("\n                mdi-book-open-variant\n            ")
               ]),
               _vm._v(" "),
               _c("h2", [_vm._v(" Empty Archive Classworks ")])

@@ -158,9 +158,10 @@
             <v-col cols="12" md="9" lg="9" xl="10">
                   <v-card
                   class="pt-3 pb-3 pl-5 pr-5"
-                elevation="1" outlinedS>
+                elevation="1" outlined>
                <v-row>
                    <v-col cols="12">
+                       
                        <v-tabs-items :value="tab">
                             <v-tab-item>
                                 <editProfile :UserDetails="UserDetails"></editProfile>

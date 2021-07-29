@@ -8,11 +8,11 @@
             
             <v-img :src="'../../images/' + getcourseInfo.course_picture " class="white--text align-end"
                 gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)" height="150px">
-                <v-app-bar v-if="role == 'Teacher'" flat color="rgba(0, 0, 0, 0)">
+                <v-app-bar  v-if="role == 'Teacher'" flat color="rgba(0, 0, 0, 0)">
                     <v-spacer></v-spacer>
                     <v-menu transition="slide-y-transition" bottom>
                         <template v-slot:activator="{ on, attrs }">
-                            <v-btn icon v-bind="attrs" v-on="on" class="float-right" color="white">
+                            <v-btn  icon v-bind="attrs" v-on="on" class="float-right mt-4" color="white">
                                 <v-icon>
                                     mdi-dots-vertical
                                 </v-icon>

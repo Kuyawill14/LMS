@@ -2,20 +2,33 @@
     <v-container  fluid>
         <v-row align="center" justify="center">
 
-          <v-col v-if="classworkDetails.response_late == 0 && (CheckFormatDue(classworkDetails.to_date) < DateToday)" cols="12" sm="12" md="5">
-               <responseLatePageWarning></responseLatePageWarning>
-          </v-col>
-
-          <v-col v-if="(classworkDetails.response_late != 0 || CheckFormatDue(classworkDetails.to_date) > DateToday || classworkDetails.availability == 0) && classworkDetails.type == 'Objective Type'" cols="12" sm="12" md="7">
-                <objectiveType v-if="classworkDetails.type == 'Objective Type'" :classworkDetails="classworkDetails"
+          <v-col v-if="classworkDetails.availability == 0" cols="12" sm="12" md="10">
+              <objectiveType v-if="classworkDetails.type == 'Objective Type'" :classworkDetails="classworkDetails"
                 :totalPoints="totalPoints" :totalQuestion="totalQuestion"
                 ></objectiveType>  
-          </v-col>
 
-          <v-col v-if="classworkDetails.response_late != 0 || classworkDetails.type == 'Subjective Type'" cols="12" md="10"  >
-                  <subjectiveType v-if="classworkDetails.type == 'Subjective Type'" :classworkDetails="classworkDetails"
+
+                 <subjectiveType v-if="classworkDetails.type == 'Subjective Type'" :classworkDetails="classworkDetails"
                   :totalPoints="totalPoints" :totalQuestion="totalQuestion"
                   ></subjectiveType>  
+          </v-col>
+          
+          <v-col v-else cols="12" sm="12" md="10">
+            <div v-if="classworkDetails.response_late == 0 && CheckFormatDue(classworkDetails.to_date) < DateToday">
+                <responseLatePageWarning ></responseLatePageWarning>
+            </div>
+
+            <div v-else>
+                 <objectiveType v-if="classworkDetails.type == 'Objective Type'" :classworkDetails="classworkDetails"
+                :totalPoints="totalPoints" :totalQuestion="totalQuestion"
+                ></objectiveType>  
+
+
+                 <subjectiveType v-if="classworkDetails.type == 'Subjective Type'" :classworkDetails="classworkDetails"
+                  :totalPoints="totalPoints" :totalQuestion="totalQuestion"
+                  ></subjectiveType> 
+            </div>
+              
           </v-col>
         </v-row>
       </v-container>

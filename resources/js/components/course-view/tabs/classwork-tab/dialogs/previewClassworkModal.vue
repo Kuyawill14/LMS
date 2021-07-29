@@ -43,7 +43,7 @@
                         fab
                         >
                         <div class="text-md-h5 font-weight-medium"> <v-icon large color="primary">mdi-book-clock-outline</v-icon> <span v-if="Details.type != 'Subjective Type'">{{Details.duration}} mins</span></div>
-                        <div class="caption ml-2 font-weight-medium">Due {{ format_date(Details.to_date)}}</div>  
+                        <div class="caption ml-2 font-weight-medium"> {{ Details.availability != 0 ? 'Due '+ format_date(Details.to_date): 'No due date'}}</div>  
                         </div>
                     </v-container>
                     </v-col>

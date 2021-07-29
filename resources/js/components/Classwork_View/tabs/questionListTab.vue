@@ -1,6 +1,6 @@
-
 <template>
-<v-app>
+<div class="pa-2">
+   
     <v-dialog v-model="dialog" persistent max-width="370">
             <deleteDialog 
             :DeleteDetails="DeleteDetails"
@@ -35,82 +35,72 @@
 
   <v-container v-if="!isloading && Qlength != 0" pa-0 ma-0  class="pa-0 pa-0" fluid>
         <v-row align="center" justify="center">
-            <v-col cols="12" lg="12" md="12">
-                <v-card  class="elevation-5" style="border-top:5px solid #EF6C00">
-                    <v-window>
-                        <v-window-item >
-                                <v-row>
-                                   <!--  <v-col cols="12" md="12" class="primary">
-                                        <v-container class="d-flex flex-row justify-space-between">
-                                            <div class="mt-1 text-sm-h3 text-md-h5 text-xl-h3 white--text">
-                                            Question List  ({{Qlength}})</div>
-                                            <v-btn icon  @click="Show = !Show" >
-                                                <v-icon color="white">mdi-{{Show ? 'eye':'eye-off'}}</v-icon>
-                                            </v-btn>
-                                        </v-container>
-                                    </v-col> -->
+            <v-col cols="12" md="8" lg="9" xl="9">
+                <v-card  class="pa-3" elevation="1">
+             
+                    <v-row>
+                        <!--  <v-col cols="12" md="12" class="primary">
+                            <v-container class="d-flex flex-row justify-space-between">
+                                <div class="mt-1 text-sm-h3 text-md-h5 text-xl-h3 white--text">
+                                Question List  ({{Qlength}})</div>
+                                <v-btn icon  @click="Show = !Show" >
+                                    <v-icon color="white">mdi-{{Show ? 'eye':'eye-off'}}</v-icon>
+                                </v-btn>
+                            </v-container>
+                        </v-col> -->
 
-                                    <v-col v-if="Show && Qlength != 0" class="pl-8 pr-7 pt-10 pb-4 mb-0" cols="12" md="12">
-                                        <v-row>
-                                            <v-col cols="6" md="9" lg=9 class="text-left pb-0 mb-0">
-                                                <v-btn
-                                                class="ml-2 mt-2"
-                                                rounded
-                                                outlined
-                                                color="primary"
-                                                @click="previewAll = !previewAll">
-                                                Preview All
-                                                <v-icon>mdi-{{previewAll ? 'eye-off' : 'eye'}}</v-icon>
-                                            </v-btn>
-                                            </v-col>
-                                            <v-col cols="6" md="3" lg="3" class="text-right pb-0 mb-0">
-                                            <v-row class="ml-3 mt-1 ">
-                                                 <v-col class="ma-0 pa-0" cols="10">
-                                                     <v-select
-                                                     v-model="ListType"
-                                                    :items="['All','Multiple Choice', 'Identification', 'True or False', 'Matching type']"
-                                                    class=""
-                                                    label="Type"
-                                                    dense
-                                                    solo
-                                                    ></v-select>
-                                                 </v-col>
-                                             </v-row>
-                                            </v-col>
-                                        </v-row>
-                                     
-                                        
-                                    </v-col>
-                                  
-                                    <v-col v-if="Show && Qlength != 0" cols="12" md="12" class="pl-5 pr-5 pt-1">
-                                        <v-container class="mb-1 pt-0 mt-0" v-for="(item, index) in getAll_questions.Question" :key="item.id">
-                                                <div v-if="(item.type == 'Multiple Choice' && ListType == 'All' || ListType == 'Multiple Choice')" class="mb-2">
-                                                     <multipleChoiceList :previewAll="previewAll" v-on:reloadList="fetchQuestionsList()" v-if="item.type == 'Multiple Choice'" :number="index+1" :Question="item" :Choices="getAll_questions.Answer[index]"></multipleChoiceList>
-                                                </div>
-                                                 <div v-if="(item.type == 'Identification' && ListType == 'All' || ListType == 'Identification')" class="mb-2">
-                                                     <indentificationList :previewAll="previewAll" v-on:reloadList="fetchQuestionsList()" v-if="item.type == 'Identification'" :number="index+1" :Question="item"></indentificationList>
-                                                </div>
-                                                 <div v-if="(item.type == 'True or False' && ListType == 'All' || ListType == 'True or False')" class="mb-2">
-                                                     <trueOrfalseList :previewAll="previewAll" v-on:reloadList="fetchQuestionsList()" v-if="item.type == 'True or False'" :number="index+1" :Question="item"></trueOrfalseList>
-                                                </div>
-                                                 <div v-if="(item.type == 'Matching type' && ListType == 'All' || ListType == 'Matching type')" class="mb-2">
-                                                     <matchingType v-on:reloadList="fetchQuestionsList()" v-if="item.type == 'Matching type'" 
-                                                     :number="index+1" 
-                                                     :Question="item" 
-                                                     :SubQuestion="getAll_questions.Answer[index].SubQuestion"
-                                                     :Answers="getAll_questions.Answer[index].SubAnswer"
-                                                     ></matchingType>
-                                                </div>
-                                        </v-container>
-                                    </v-col>
-                                </v-row>
-                        </v-window-item>
-                    </v-window>
+                        <v-col v-if="Show && Qlength != 0" class="pl-8 pr-8 pt-10 pb-4 mb-0" cols="12" md="12">
+                            <v-row>
+                                <v-col cols="6" md="8" lg="8" class="text-left pb-0 mb-0">
+                                        <v-text-field
+                                        outlined
+                                        prepend-icon-inner="mdi-magnify"
+                                        label="Search"
+                                    ></v-text-field>
+                                    
+                                </v-col>
+                                <v-col cols="6" md="4" lg="4" class="text-right pb-0 mb-0">
+                                    <v-select
+                                            v-model="ListType"
+                                        :items="['All','Multiple Choice', 'Identification', 'True or False', 'Matching type']"
+                                        class=""
+                                        label="Type"
+                                        outlined
+                                        ></v-select>
+                                </v-col>
+                            </v-row>
+                            
+                            
+                        </v-col>
+                        
+                        <v-col v-if="Show && Qlength != 0" cols="12" md="12"  class="pl-5 pr-5 pt-1">
+                            <v-container v-show="ListType == 'All' || ListType == item.type" class="mb-1 pt-0 mt-0" v-for="(item, index) in getAll_questions.Question" :key="item.id">
+                                    <div v-if="item.type == 'Multiple Choice'" class="mb-2">
+                                            <multipleChoiceList :previewAll="previewAll" v-on:reloadList="fetchQuestionsList()" v-if="item.type == 'Multiple Choice'" :number="index+1" :Question="item" :Choices="getAll_questions.Answer[index]"></multipleChoiceList>
+                                    </div>
+                                        <div v-if="item.type == 'Identification'" class="mb-2">
+                                            <indentificationList :previewAll="previewAll" v-on:reloadList="fetchQuestionsList()" v-if="item.type == 'Identification'" :number="index+1" :Question="item"></indentificationList>
+                                    </div>
+                                        <div v-if="item.type == 'True or False'" class="mb-2">
+                                            <trueOrfalseList :previewAll="previewAll" v-on:reloadList="fetchQuestionsList()" v-if="item.type == 'True or False'" :number="index+1" :Question="item"></trueOrfalseList>
+                                    </div>
+                                        <div v-if="item.type == 'Matching type'" class="mb-2">
+                                            <matchingType v-on:reloadList="fetchQuestionsList()" v-if="item.type == 'Matching type'" 
+                                            :number="index+1" 
+                                            :Question="item" 
+                                            :SubQuestion="getAll_questions.Answer[index].SubQuestion"
+                                            :Answers="getAll_questions.Answer[index].SubAnswer"
+                                            ></matchingType>
+                                    </div>
+                            </v-container>
+                        </v-col>
+                    </v-row>
+               
                 </v-card>
             </v-col>
         </v-row>
     </v-container>
-</v-app>
+</div>
 </template>
 <script>
 import indentificationList from './List-types/IndentificationList'

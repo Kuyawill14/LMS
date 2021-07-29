@@ -396,9 +396,14 @@ var render = function() {
                                 },
                                 [
                                   _vm._v(
-                                    "Due " +
+                                    " " +
                                       _vm._s(
-                                        _vm.format_date(_vm.Details.to_date)
+                                        _vm.Details.availability != 0
+                                          ? "Due " +
+                                              _vm.format_date(
+                                                _vm.Details.to_date
+                                              )
+                                          : "No due date"
                                       )
                                   )
                                 ]
