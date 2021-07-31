@@ -28,11 +28,12 @@ class UserProfileController extends Controller
     public function index()
     {
         $userId = auth('sanctum')->id();
-        $userDetails = tbl_userDetails::where('user_id',$userId)
+        
+        $userDetails = User::where('users.id' ,$userId)
         ->select('users.role','users.firstName','users.middleName','users.lastName','users.email',
         'tbl_user_details.*')
-        ->leftJoin('users', 'users.id', '=', 'tbl_user_details.user_id')
-        ->get();
+        ->leftJoin('tbl_user_details', 'tbl_user_details.user_id', '=', 'users.id')
+        ->first();
         
         return $userDetails;
     }

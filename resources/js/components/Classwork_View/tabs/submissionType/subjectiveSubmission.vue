@@ -1,5 +1,5 @@
 <template>
-<div class="pl-5 pr-5 pb-5 pt-2">
+<div class="pa-2">
 
 <v-row justify="center" v-if="dialog">
     <v-dialog v-model="dialog"
@@ -14,10 +14,8 @@
 <!-- <v-card elevation="2" class="pa-3"> -->
 
 
-<v-row class="pa-3">
-    
+<v-row class="pa-1">
     <v-col cols="12" :class="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm ? 'pl-5 d-none' : 'pl-5'" md="12" lg="4" xl="4" >
-        
         <v-row>
             <v-col cols="12" class="mb-0 pb-0">
                 <h3>Students</h3>
@@ -33,13 +31,12 @@
                 item-text="class_name"
                 item-value="class_id"
                 >
-                
                 </v-select>
             </v-col>
             <v-col v-show="Class == $route.params.id || Class == item.class_id" cols="12" v-for="(item,i) in ListData" :key="i">
                   
                 <v-row>
-                    <v-col cols="8" class="pa-5">
+                    <v-col cols="9" class="pa-5">
                          <div class=" d-flex justify-start">
                             <v-avatar color="brown" size="40">
                                 <v-img alt="Profile"
@@ -56,13 +53,14 @@
                             </div>
                         </div>
                     </v-col>
-                    <v-col v-if="item.status == 'Submitted'" cols="4" class="text-left d-flex">
-                        <v-text-field 
-                     
-                        :append-icon="item.graded && item.status == 'Submitted' ? 'mdi-check' : ''"
-                         :loading="isSavingScore" :style="$vuetify.breakpoint.xs ? 'width:100%' :'width:90%'" 
+                    <v-col v-if="item.status == 'Submitted'" cols="3" class="text-left">
+                       
+
+                         <v-text-field 
+                         class="mb-0 pb-0"
+                         :loading="isSavingScore" :style="$vuetify.breakpoint.xs ? 'width:100%' :'width:80%'" 
                                  @keyup="SaveScore(item.id, item.points)"  v-model="item.points" 
-                                dense outlined label="Score" type="number" :suffix="'/' +classworkDetails.points" :max="classworkDetails.points" :maxlength="classworkDetails.points.toString().length" min="0">
+                                dense outlined  type="number" :suffix="'/' +classworkDetails.points" :max="classworkDetails.points" :maxlength="classworkDetails.points.toString().length" min="0">
                         </v-text-field>
                        
                     </v-col>
@@ -98,7 +96,7 @@
                     <v-col v-show="item.Submitted_Answers != null" link class="text-center" cols="6" md="3" lg="3" v-for="(item,i) in ListData" :key="i">
                           <v-card style="cursor:pointer" 
                         class="mx-auto"
-                        max-width="344"
+                      
                         outlined>
                         <v-list-item link @click="CheckData = item ,dialog = !dialog" v-if="item.status == 'Submitted'">
                                 <v-list-item-content>
@@ -106,7 +104,7 @@
                                         <div class="mb-2" style="max-height:30px;overflow:hidden">{{item.name}}</div>
                                         <v-divider></v-divider>
                                         <v-icon color="red" x-large>mdi-file-pdf</v-icon>
-                                        <small style="max-height:15px;max-width:15rem;overflow:hidden;white-space: nowrap;text-overflow: ellipsis;text-align:center"> {{ item.Submitted_Answers != null ? item.Submitted_Answers[0].name : ''}}</small>
+                                        <small style="max-height:15px;overflow:hidden;"> {{ item.Submitted_Answers != null ? item.Submitted_Answers[0].name : ''}}</small>
                                     </div>
                                 </v-list-item-content>
                         </v-list-item>

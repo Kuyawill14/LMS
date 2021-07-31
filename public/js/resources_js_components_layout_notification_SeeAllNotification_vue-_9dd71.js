@@ -232,6 +232,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -469,13 +474,15 @@ var render = function() {
                         {
                           attrs: {
                             "active-class": "",
-                            d: "",
-                            centered:
-                              _vm.$vuetify.breakpoint.xs ||
-                              _vm.$vuetify.breakpoint.sm,
+                            "next-icon": "mdi-arrow-right-bold-box-outline",
+                            "prev-icon": "mdi-arrow-left-bold-box-outline",
+                            "show-arrows": "",
                             vertical:
-                              !_vm.$vuetify.breakpoint.xs ||
-                              !_vm.$vuetify.breakpoint.sm
+                              !_vm.$vuetify.breakpoint.xs &&
+                              !_vm.$vuetify.breakpoint.sm,
+                            centered:
+                              _vm.$vuetify.breakpoint.xs &&
+                              _vm.$vuetify.breakpoint.sm
                           }
                         },
                         [
@@ -483,7 +490,7 @@ var render = function() {
                             "v-tab",
                             {
                               class:
-                                !_vm.$vuetify.breakpoint.xs ||
+                                !_vm.$vuetify.breakpoint.xs &&
                                 !_vm.$vuetify.breakpoint.sm
                                   ? "d-flex justify-start"
                                   : "",
@@ -501,7 +508,7 @@ var render = function() {
                                 {
                                   attrs: {
                                     left:
-                                      !_vm.$vuetify.breakpoint.xs ||
+                                      !_vm.$vuetify.breakpoint.xs &&
                                       !_vm.$vuetify.breakpoint.sm
                                   }
                                 },
@@ -514,7 +521,7 @@ var render = function() {
                               _vm._v(
                                 "\r\n                " +
                                   _vm._s(
-                                    !_vm.$vuetify.breakpoint.xs ||
+                                    !_vm.$vuetify.breakpoint.xs &&
                                       !_vm.$vuetify.breakpoint.sm
                                       ? "All"
                                       : ""
@@ -529,7 +536,7 @@ var render = function() {
                             "v-tab",
                             {
                               class:
-                                !_vm.$vuetify.breakpoint.xs ||
+                                !_vm.$vuetify.breakpoint.xs &&
                                 !_vm.$vuetify.breakpoint.sm
                                   ? "d-flex justify-start"
                                   : "",
@@ -547,7 +554,7 @@ var render = function() {
                                 {
                                   attrs: {
                                     left:
-                                      !_vm.$vuetify.breakpoint.xs ||
+                                      !_vm.$vuetify.breakpoint.xs &&
                                       !_vm.$vuetify.breakpoint.sm
                                   }
                                 },
@@ -560,7 +567,7 @@ var render = function() {
                               _vm._v(
                                 "\r\n              \r\n              " +
                                   _vm._s(
-                                    !_vm.$vuetify.breakpoint.xs ||
+                                    !_vm.$vuetify.breakpoint.xs &&
                                       !_vm.$vuetify.breakpoint.sm
                                       ? "Announcement"
                                       : ""
@@ -575,7 +582,7 @@ var render = function() {
                             "v-tab",
                             {
                               class:
-                                !_vm.$vuetify.breakpoint.xs ||
+                                !_vm.$vuetify.breakpoint.xs &&
                                 !_vm.$vuetify.breakpoint.sm
                                   ? "d-flex justify-start"
                                   : "",
@@ -593,7 +600,7 @@ var render = function() {
                                 {
                                   attrs: {
                                     left:
-                                      !_vm.$vuetify.breakpoint.xs ||
+                                      !_vm.$vuetify.breakpoint.xs &&
                                       !_vm.$vuetify.breakpoint.sm
                                   }
                                 },
@@ -606,7 +613,7 @@ var render = function() {
                               _vm._v(
                                 "\r\n              \r\n              " +
                                   _vm._s(
-                                    !_vm.$vuetify.breakpoint.xs ||
+                                    !_vm.$vuetify.breakpoint.xs &&
                                       !_vm.$vuetify.breakpoint.sm
                                       ? "Classwork"
                                       : ""
@@ -621,7 +628,7 @@ var render = function() {
                             "v-tab",
                             {
                               class:
-                                !_vm.$vuetify.breakpoint.xs ||
+                                !_vm.$vuetify.breakpoint.xs &&
                                 !_vm.$vuetify.breakpoint.sm
                                   ? "d-flex justify-start"
                                   : "",
@@ -639,7 +646,7 @@ var render = function() {
                                 {
                                   attrs: {
                                     left:
-                                      !_vm.$vuetify.breakpoint.xs ||
+                                      !_vm.$vuetify.breakpoint.xs &&
                                       !_vm.$vuetify.breakpoint.sm
                                   }
                                 },
@@ -652,7 +659,7 @@ var render = function() {
                               _vm._v(
                                 "\r\n              \r\n              " +
                                   _vm._s(
-                                    !_vm.$vuetify.breakpoint.xs ||
+                                    !_vm.$vuetify.breakpoint.xs &&
                                       !_vm.$vuetify.breakpoint.sm
                                       ? "Class Invites"
                                       : ""
@@ -667,7 +674,7 @@ var render = function() {
                             "v-tab",
                             {
                               class:
-                                !_vm.$vuetify.breakpoint.xs ||
+                                !_vm.$vuetify.breakpoint.xs &&
                                 !_vm.$vuetify.breakpoint.sm
                                   ? "d-flex justify-start"
                                   : "",
@@ -691,14 +698,14 @@ var render = function() {
                                 },
                                 [
                                   _vm._v(
-                                    "\r\n                mdi-account-plus\r\n              "
+                                    "\r\n                mdi-eye-off\r\n              "
                                   )
                                 ]
                               ),
                               _vm._v(
                                 "\r\n              " +
                                   _vm._s(
-                                    !_vm.$vuetify.breakpoint.xs ||
+                                    !_vm.$vuetify.breakpoint.xs &&
                                       !_vm.$vuetify.breakpoint.sm
                                       ? "Hidden"
                                       : ""

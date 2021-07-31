@@ -143,7 +143,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 var previewClassworkModal = function previewClassworkModal() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_tabs_classwork-tab_dialogs_previewClassworkModal_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../dialogs/previewClassworkModal */ "./resources/js/components/course-view/tabs/classwork-tab/dialogs/previewClassworkModal.vue"));
 };
@@ -167,7 +166,7 @@ var previewClassworkModal = function previewClassworkModal() {
   methods: {
     format_date: function format_date(value) {
       if (value) {
-        return moment__WEBPACK_IMPORTED_MODULE_0___default()(String(value)).format('MMMM Do YYYY, hh:mm A');
+        return moment__WEBPACK_IMPORTED_MODULE_0___default()(String(value)).format('MMMM DD YYYY, hh:mm A');
       }
     },
     CheckFormatDue: function CheckFormatDue(value) {
@@ -572,7 +571,7 @@ var render = function() {
                                                                       ? item.status ==
                                                                         "Submitted"
                                                                         ? "success"
-                                                                        : ""
+                                                                        : "blue"
                                                                       : item.status ==
                                                                         "Submitted"
                                                                       ? "success"

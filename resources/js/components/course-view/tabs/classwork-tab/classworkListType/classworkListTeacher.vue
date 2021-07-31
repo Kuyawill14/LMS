@@ -62,43 +62,32 @@
                  <v-col v-if="classworks[i].length != 0 || SelectedFilter == ClassworkType[i]" cols="12" class="ma-0 pa-0 mb-2"><h3 class="font-weight-regular">{{ClassworkType[i]}}</h3></v-col>
                 <v-row v-if="classworks[i].length != 0" class="pl-1 pr-1 mt-1" ma-0 pa-0>
                    
-
-                  <!--   <v-col cols="12">
-
-                    </v-col> -->
-
-
-
-
-                    <v-col class="ma-0 pa-0 pb-2 pl-2 pr-2" cols="12"  md="4" v-for="(item, index) in classworks[i]" :key="index">
-                     
+                    <v-col class="ma-0 pa-0 pb-2 pl-2 pr-2 mb-1" cols="12"  md="4" v-for="(item, index) in classworks[i]" :key="index">
                         <v-expansion-panels focusable>
                             <v-expansion-panel  class="ma-0 pa-0">
                             <!--  <v-hover v-slot="{ hover }"> -->
-                                <v-expansion-panel-header  class="ma-0 pa-0 pl-1 pr-1" disable-icon-rotate hide-actions>
-                    
-                                        <v-container class="d-flex flex-row justify-space-between">
+                                <v-expansion-panel-header  class="pa-5" disable-icon-rotate hide-actions>
+                                        <div class="d-flex flex-row justify-space-between">
                                         <div class="d-flex flex-row">
-                                                <v-avatar size="45"
+                                            <v-avatar size="45"
                                                 color="blue" class="mr-2">
                                                     <v-icon  color="white" >
                                                     mdi-book-open-variant
                                                 </v-icon>
                                             </v-avatar>
                                             <div>
-                                                
-                                            <div ma-0 pa-0 class="h1 ml-1 mt-2"> 
-                                                <span 
-                                                style="width: 250px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;"
-                                                    class="font-weight-bold">
-                                                    {{item.title}}
-                                                    <small class="primary--text font-weight-regular" v-if="item.type == 'Subjective Type'">({{item.points}} points)</small>
+                                                <div ma-0 pa-0 class="h1 ml-1 mt-2"> 
+                                                    <span 
+                                                        style="width: 250px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;"
+                                                        class="font-weight-bold">
+                                                        {{item.title}}
+                                                        <small class="primary--text font-weight-regular" v-if="item.type == 'Subjective Type'">({{item.points}} points)</small>
                                                     </span>
-                                            </div> 
-                                            <div>
-                                                <small class="card-subtitle text-50 mb-0 pb-0">Created: {{format_date(item.created_at)}}<br></small>
-                                            </div>
-                                            
+                                                </div> 
+                                                <div>
+                                                    <small class="card-subtitle text-50 mb-0 pb-0">Created: {{format_date(item.created_at)}}<br></small>
+                                                </div>
+                                                
                                             </div>
                                         </div>
                                         
@@ -135,7 +124,7 @@
                                                 </v-list-item>
                                             </v-list>
                                         </v-menu>
-                                    </v-container>
+                                    </div>
                                 </v-expansion-panel-header>
                             <!--  </v-hover> -->
                             <v-expansion-panel-content class="ma-0 pa-0 mt-3">

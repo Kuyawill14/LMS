@@ -71,93 +71,75 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "v-app",
+    "div",
+    { staticClass: " mt-5 d-flex align-center" },
     [
       _c(
-        "v-card",
-        { staticClass: "elevation-12" },
+        "v-row",
+        { attrs: { justify: "center", align: "center" } },
         [
           _c(
-            "v-window",
+            "v-col",
+            { staticClass: "pl-7 pr-9 pt-5", attrs: { cols: "12", md: "12" } },
             [
               _c(
-                "v-window-item",
+                "v-card",
+                {
+                  staticClass: "pa-3",
+                  attrs: { elevation: "1", outlined: "" }
+                },
                 [
+                  _c("v-row", { staticStyle: { height: "4vh" } }),
+                  _vm._v(" "),
                   _c(
                     "v-row",
                     [
                       _c(
                         "v-col",
-                        {
-                          staticClass: "pl-7 pr-9 pt-5",
-                          attrs: { cols: "12", md: "12" }
-                        },
+                        { attrs: { cols: "12" } },
                         [
-                          _c("v-row", { staticStyle: { height: "4vh" } }),
-                          _vm._v(" "),
                           _c(
-                            "v-row",
+                            "v-container",
+                            {
+                              staticClass:
+                                "d-flex flex-row justify-space-between",
+                              attrs: { "ma-0": "", "pa-0": "" }
+                            },
                             [
                               _c(
-                                "v-col",
-                                { attrs: { cols: "12" } },
+                                "v-btn",
+                                {
+                                  staticClass: "mx-2",
+                                  attrs: { fab: "", dark: "", color: "red" }
+                                },
                                 [
-                                  _c(
-                                    "v-container",
-                                    {
-                                      staticClass:
-                                        "d-flex flex-row justify-space-between",
-                                      attrs: { "ma-0": "", "pa-0": "" }
-                                    },
-                                    [
-                                      _c(
-                                        "v-btn",
-                                        {
-                                          staticClass: "mx-2",
-                                          attrs: {
-                                            fab: "",
-                                            dark: "",
-                                            color: "red"
-                                          }
-                                        },
-                                        [
-                                          _c(
-                                            "v-icon",
-                                            { attrs: { "x-large": "" } },
-                                            [
-                                              _vm._v(
-                                                "\r\n                                mdi-lock\r\n                                "
-                                              )
-                                            ]
-                                          )
-                                        ],
-                                        1
-                                      )
-                                    ],
-                                    1
-                                  )
+                                  _c("v-icon", { attrs: { "x-large": "" } }, [
+                                    _vm._v(
+                                      "\r\n                            mdi-lock\r\n                            "
+                                    )
+                                  ])
                                 ],
                                 1
-                              ),
-                              _vm._v(" "),
-                              _c("v-col", { attrs: { cols: "12" } }, [
-                                _c("div", { staticClass: "h1" }, [
-                                  _vm._v(
-                                    "\r\n                                    Classwork is Lock!\r\n                                "
-                                  )
-                                ])
-                              ])
+                              )
                             ],
                             1
-                          ),
-                          _vm._v(" "),
-                          _c("v-row", { staticStyle: { height: "4vh" } })
+                          )
                         ],
                         1
-                      )
+                      ),
+                      _vm._v(" "),
+                      _c("v-col", { attrs: { cols: "12" } }, [
+                        _c("div", { staticClass: "h1" }, [
+                          _vm._v(
+                            "\r\n                                Classwork is Lock!\r\n                            "
+                          )
+                        ])
+                      ])
                     ],
                     1
-                  )
+                  ),
+                  _vm._v(" "),
+                  _c("v-row", { staticStyle: { height: "4vh" } })
                 ],
                 1
               )

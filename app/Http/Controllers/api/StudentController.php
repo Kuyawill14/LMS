@@ -215,12 +215,6 @@ class StudentController extends Controller
 
         $userId = auth('sanctum')->id();
         $UserFullName = auth('sanctum')->user()->firstName.' '.auth('sanctum')->user()->lastName;
-       /* $userId = 2;
-        $UserFullName = 'Wilson Magaoay'; */
-
-       
-
-
         $CheckStatus = tbl_Submission::where('tbl_submissions.classwork_id', $id)
         ->select('tbl_submissions.status','tbl_submissions.points as score','tbl_class_classworks.id as class_classwork_id'
         ,'tbl_class_classworks.showAnswer','tbl_class_classworks.showAnswerType','tbl_class_classworks.showDateFrom','tbl_class_classworks.showDateTo','tbl_class_classworks.response_late',
@@ -287,10 +281,7 @@ class StudentController extends Controller
     {
         $userId = auth('sanctum')->id();
         $Class = Tbl_class::where('class_code', $id)->first();
-
-        //return $Class;
-        //$ClassCheckExist = Tbl_class::where('class_code', $id)->exists();
-
+        
         if(!$Class){
             return response()->json("Class doest exist",203);
         }
@@ -302,11 +293,11 @@ class StudentController extends Controller
            
             if($Check){
                 if($Check->deleted_at == null){
-                    return response()->json("You already join to this class",202);
+                    return response()->json(['course_id'=>$Check->course_id, 'message'=>"You already join to this class"],202);
                 }
                 else{
                     $Check->restore();
-                    return response()->json("Class Restored",200); 
+                    return response()->json(['course_id'=>$Check->course_id, 'message'=>"Class Restored"],200);
                 }
                 
             }
@@ -358,7 +349,7 @@ class StudentController extends Controller
         $newNotification->notification_type = 2;
         $newNotification->save();
         //broadcast(new NewNotification($newNotification))->toOthers();
-        return response()->json("Join class success",200); 
+        return response()->json(['course_id'=>$userInClass->course_id, 'message'=>"Join class success"],200);
     }
 
     /**

@@ -34,7 +34,7 @@
                 </v-col>
             </v-row>
             </v-container>
-            <small>For registered student, type email account above to send invite through there notification.</small>
+            <small>For unregistered users, type email account above to send invite link through their email.</small>
         </v-card-text>
         <v-card-actions class="pb-3">
             <v-spacer></v-spacer>

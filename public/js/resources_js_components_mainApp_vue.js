@@ -380,15 +380,23 @@ var seeAllNotification = function seeAllNotification() {
         if (res.status == 200) {
           _this4.isAccepted = true;
 
-          _this4.toastSuccess(res.data);
+          _this4.toastSuccess(res.data.message);
 
           _this4.markAsread(id);
+
+          _this4.$router.push({
+            path: '/course/' + res.data.course_id + '/announcement'
+          });
         } else if (res.status == 202) {
           _this4.isAccepted = true;
 
-          _this4.toastError(res.data);
+          _this4.toastError(res.data.message);
 
           _this4.markAsread(id);
+
+          _this4.$router.push({
+            path: '/course/' + res.data.course_id + '/announcement'
+          });
         } else {
           _this4.toastError('Something went wrong while joining the class!');
         }
@@ -587,6 +595,9 @@ var seeAllNotification = function seeAllNotification() {
       var _this = this;
 
       axios.post('/api/logout').then(function () {
+        localStorage.removeItem(btoa('course-status'));
+        localStorage.removeItem(btoa('user_role'));
+
         _this.$router.push({
           path: "/login"
         });
@@ -682,19 +693,22 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     sidebar: _layout_sidebar__WEBPACK_IMPORTED_MODULE_1__.default
   },
   computed: (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(["get_userRole"]),
-  methods: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapActions)(['SetUserRole'])),
-  mounted: function mounted() {
-    var _this = this;
+  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapActions)(['setUserRole'])), {}, {
+    getUserDetails: function getUserDetails() {
+      var _this = this;
 
-    axios.get('/api/profile/details').then(function (res) {
-      _this.role = res.data[0].role;
+      axios.get('/api/profile/details').then(function (res) {
+        _this.role = res.data.role;
+        localStorage.setItem(btoa('user_role'), btoa(res.data.role));
 
-      _this.$store.dispatch("SetUserRole", _this.role);
+        _this.$store.dispatch('setUserRole', res.data.role);
 
-      _this.UserDetails = res.data[0];
-    })["catch"](function (error) {
-      console.log(error);
-    });
+        _this.UserDetails = res.data;
+      })["catch"](function (error) {});
+    }
+  }),
+  created: function created() {
+    this.getUserDetails();
   }
 });
 
@@ -765,7 +779,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n    /* width */\n[data-v-79f6cf96]::-webkit-scrollbar {\n  width: 5px;\n}\n\n/* Track */\n[data-v-79f6cf96]::-webkit-scrollbar-track {\n  background: #f1f1f1;\n}\n \n/* Handle */\n[data-v-79f6cf96]::-webkit-scrollbar-thumb {\n  background: #888; \n   border-radius: 3px\n}\n\n/* Handle on hover */\n[data-v-79f6cf96]::-webkit-scrollbar-thumb:hover {\n  background: #555;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n    /* width */\n[data-v-79f6cf96]::-webkit-scrollbar {\n  width: 5px;\n}\n\n/* Track */\n[data-v-79f6cf96]::-webkit-scrollbar-track {\n  background: #f1f1f1;\n}\n \n/* Handle */\n[data-v-79f6cf96]::-webkit-scrollbar-thumb {\n  background: #888; \n   border-radius: 3px\n}\n\n/* Handle on hover */\n[data-v-79f6cf96]::-webkit-scrollbar-thumb:hover {\n  background: #555;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

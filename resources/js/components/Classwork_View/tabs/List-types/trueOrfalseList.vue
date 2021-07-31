@@ -13,6 +13,7 @@
             </v-dialog>
             <v-row>
                 <v-col v-if="!preview && !previewAll" cols="12" md="12" class="pa-5">
+                    <vue-element-loading :active="isUpdating" spinner="bar-fade-scale" />
                     <v-container class="mb-1">
                             <v-container ma-0 pa-0 class="mb-3 d-flex flex-row">
                                     <v-container ma-0 pa-0 class="pa-0 ma-0 d-flex justify-end">
@@ -164,16 +165,19 @@
 </template>
 <script>
 const deleteDialog = () => import('../dialogs/deleteDialog')
+import VueElementLoading from 'vue-element-loading'
  import {mapGetters, mapActions } from "vuex";
 export default {
     props:['Question','number','previewAll'],
     components:{
         deleteDialog,
+        VueElementLoading
     },
     data(){
         return{
             inputCheck:['True','False'],
             QuetionsList:{},
+            isUpdating: null,
             preview:true,
             dialog:false,
             isRemoving:false,
@@ -201,14 +205,10 @@ export default {
         },
 
          async updateQuestion(){
-            axios.put('/api/question/update/'+this.QuetionsList.id, {question: this.QuetionsList})
-            .then(res=>{
-                if(res.status == 200){
-                    this.preview = !this.preview;
-                     this.isEditing = !this.isEditing;
-                     this.toastSuccess("Question Successfully updated");
-                }
-            })
+            this.$emit('updateQuestion', this.QuetionsList)
+            this.isUpdating = true;
+            this.isEditing = !this.isEditing;
+            setTimeout(() => (this.isUpdating = false, this.preview = !this.preview), 1000);
         }
     },
     created(){

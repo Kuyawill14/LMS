@@ -1,7 +1,7 @@
 <template>
   <div>
   
-           <v-row>
+         <!--   <v-row>
                 <v-col  cols="12" md="12" class="pl-5 pt-2">
                     <v-btn rounded text="" class=""
                     @click="$router.push({name: 'classwork'})" >
@@ -9,7 +9,7 @@
                         Back
                     </v-btn>
                 </v-col>
-           </v-row>
+           </v-row> -->
 
       <v-container class="fill-height" v-if="isloading" style="height: 500px;">
             <v-row  align-content="center" justify="center">
@@ -22,16 +22,33 @@
             </v-row>
         </v-container>
 
-      <teacherStartPage v-if="!isloading && CurrentUser.role == 'Teacher'" 
-      :classworkDetails="classworkDetails"
-      ></teacherStartPage>
+        <v-row v-if="!isloading">
+            <v-col v-if="CurrentUser.role == 'Teacher'" cols="12" class="ma-0 pa-0 pa-2">
+                   <!--  <v-row >
+                        <v-col cols="12" >
+                              <v-btn rounded text="" class=""
+                            @click="$router.push({name: 'classwork'})" >
+                                <v-icon left dark>mdi-arrow-left-thick</v-icon>
+                                Back to classworks
+                            </v-btn>
+                        </v-col>
+                    </v-row> -->
+                 <teacherStartPage v-if="CurrentUser.role == 'Teacher'" 
+                :classworkDetails="classworkDetails"
+                ></teacherStartPage>
+            </v-col>
+            <v-col v-if="CurrentUser.role == 'Student'" cols="12" class="ma-0 pa-0 ">
+                 <studentStartPage v-if="CurrentUser.role == 'Student'" 
+                :classworkDetails="classworkDetails"
+                :totalPoints="totalPoints"
+                :totalQuestion="totalQuestion"
+                ></studentStartPage>
+            </v-col>
+        </v-row>
+     
 
       <!-- Student Start Page -->
-      <studentStartPage v-if="!isloading && CurrentUser.role == 'Student'" 
-      :classworkDetails="classworkDetails"
-      :totalPoints="totalPoints"
-      :totalQuestion="totalQuestion"
-      ></studentStartPage>
+     
  
   </div>
 </template>

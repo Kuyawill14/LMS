@@ -148,7 +148,7 @@
             back() {
                 this.$emit('changeStep', 2)
             },
-            ...mapActions(['fetchSubjectCourseClassList']),
+            ...mapActions(['fetchSubjectCourseClassList', 'setCourseStatus']),
             closeModal() {
                 this.showModal = false
             },
@@ -159,7 +159,8 @@
                 } else {
                     axios.post('/api/course/completed/' + this.$route.params.id)
                     .then(res => {
-                        this.toastSuccess('Course setup completed!');
+                       this.toastSuccess('Course setup completed!');
+                       this.$store.dispatch('setCourseStatus', this.$route.params.id);
                        this.$router.push({name: "coursePage"})
                        this.$store.dispatch('fetchScourse', this.$route.params.id);
                     })

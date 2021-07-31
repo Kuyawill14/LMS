@@ -53,17 +53,20 @@
         },
         computed: mapGetters(["get_userRole"]),
         methods: {
-            ...mapActions(['SetUserRole']),
+            ...mapActions(['setUserRole']),
+            getUserDetails(){
+                axios.get('/api/profile/details').then((res) => {
+                    this.role = res.data.role;
+                    localStorage.setItem(btoa('user_role'), btoa(res.data.role));
+                    this.$store.dispatch('setUserRole', res.data.role)
+                this.UserDetails = res.data;
+                }).catch((error) => {
+                
+                });
+            }
         },
-
-        mounted() {
-            axios.get('/api/profile/details').then((res) => {
-                this.role = res.data[0].role;
-                this.$store.dispatch("SetUserRole", this.role)
-                this.UserDetails = res.data[0];
-            }).catch((error) => {
-                console.log(error)
-            });
+        created() {
+            this.getUserDetails();
            
              
         },

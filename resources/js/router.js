@@ -443,35 +443,69 @@ const router = new Router({
     }
 }) */
 router.beforeEach((to, from, next) => {
+ 
     if (to.name == 'coursePage') {
-        let completed;
-        axios.get('/api/course/status/' + to.params.id)
-            .then(res => {
-                completed = res.data;
-            })
-        let course = store.getters.getCourse(to.params.id);
-        axios.get("/api/role")
-            .then((res) => {
-                if (res.data == 'Teacher') {
-                    if (completed == 1) {
-                        next();
-                    } else {
-                        return next({
-                            name: "courseSetup",
-                            params: { id: to.params.id }
-                        })
+        let Exist = false
+        let Completed = false;
+  
+        let CourseStatus = store.state.CurrentUser.UserRole == 'Teacher' ? store.state.CourseList.courseStatus : store.state.CLassList.courseStatus; 
+       
+        if(CourseStatus != null){
+            
+            CourseStatus.forEach(item => {
+                if(to.params.id == atob(item.id)){
+                    Exist = true;
+                    if(atob(item.status) == 1){
+                        Completed = true;
                     }
-                } else if (res.data == 'Student') {
+                }
+            });
+
+            if (store.state.CurrentUser.UserRole == 'Teacher') {
+                if(Exist == true && Completed == true){
+                    next();
+                }
+                else if(Exist == true && Completed == false){
+                    return next({
+                        name: "courseSetup",
+                        params: { id: to.params.id }
+                    })
+                }
+                else{
+                    return next({
+                        name: "courses",
+                    })
+                }
+            }
+            else if(store.state.CurrentUser.UserRole == 'Student') {
+                if(Exist == true && Completed == true){
+   
                     next({
                         name: 'announcement',
                         params: { id: to.params.id }
                     });
                 }
+                else if(Exist == true && Completed == false){
+               
+                    return next({
+                        name: "courses",
+                    })
+                }
+                else if(Exist == false && Completed == false){
+              
+                    return next({
+                        name: "courses",
+                    })
+                }
+            }
+        }
+        else{
+            return next({
+                name: "courses",
             })
-            .catch((e) => {
-                console.log(e);
-            });
-
+        }
+    
+      
     } 
     else if(to.name == 'login'){
         axios.get("/api/authenticated")
@@ -480,7 +514,8 @@ router.beforeEach((to, from, next) => {
                 path: "/"
             });
         })
-        .catch(() => {
+        .catch((e) => {
+            console.log(e);
             next();
         });
     }

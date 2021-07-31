@@ -1,7 +1,8 @@
 import axios from "axios";
 
 const state = {
-    classList: []
+    classList: [],
+    courseStatus: JSON.parse(localStorage.getItem(btoa('course-status')))
 };
 const getters = {
     allClass: state => state.classList,
@@ -13,7 +14,15 @@ const getters = {
 const actions = {
     async fetchClassList({ commit }) {
         const response = await axios.get("/api/class/all");
-
+        localStorage.removeItem(btoa('course-status'));
+        state.courseStatus = [];
+        response.data.forEach(item => {
+            state.courseStatus.push({
+                id: btoa(item.course_id),
+                status: btoa(item.status)
+            })
+        });
+        localStorage.setItem(btoa('course-status'), JSON.stringify(state.courseStatus));
         commit("setClassList", response.data);
     },
     async fetchSubjectCourseClassList({ commit }, course_id) {
