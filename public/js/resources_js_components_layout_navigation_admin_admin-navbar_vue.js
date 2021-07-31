@@ -123,7 +123,7 @@ var render = function() {
         _vm._v(" "),
         _c(
           "v-list-item",
-          { attrs: { link: "", to: { name: "monitorTeacher" }, exact: "" } },
+          { attrs: { link: "", to: { name: "monitorTeachers" }, exact: "" } },
           [
             _c(
               "v-list-item-action",

@@ -45,7 +45,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn-secondry" data-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-primary" @click="SaveClasswork()"  >Save</button>
+                        <button type="submit" class="btn btn-primary" @click="SaveClasswork()" :loading="isSaving" >Save</button>
             
                     </div>
                 </div>
@@ -60,11 +60,13 @@ import Form from 'vform'
 export default {
     data(){
         return{
+            isSaving: false,
              form:new Form({})
         }
     },
     methods:{
          SaveClasswork(){
+             this.isSaving = true;
             this.form.class_id = this.$route.params.id;
             axios.post('/api/classwork/insert', this.form)
             .then(res=>{
@@ -79,10 +81,11 @@ export default {
                             timer: 1500
                     })
                 }
+              
             }).catch(e=>{
                 console.log(e);
             })
-           
+                  this.isSaving = false;
         },
     }
 }

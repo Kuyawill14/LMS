@@ -33,10 +33,6 @@ class SendInviteMail extends Mailable
      */
     public function build()
     {
-<<<<<<< HEAD
-        return $this->view('view') ;
-=======
-
         return $this->view('ClassInvite')
                     ->with([
                         'class_code' => $this->class_name,
@@ -44,6 +40,5 @@ class SendInviteMail extends Mailable
                         'course_name' => $this->course_name,
                         'class_name' => $this->class_name,
                     ]);
->>>>>>> f8b897b95e7511efa3c5be610dacfd115d2f349f
     }
 }
