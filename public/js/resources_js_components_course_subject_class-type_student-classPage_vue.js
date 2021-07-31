@@ -151,13 +151,21 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.dialog = false;
       this.$store.dispatch("joinClass", this.form).then(function (res) {
         if (res.status == 200) {
-          _this.toastSuccess(res.data);
+          _this.toastSuccess(res.data.message);
+
+          _this.$router.push({
+            path: '/course/' + res.data.course_id + '/announcement'
+          });
 
           _this.fetchClasses();
 
           _this.form.class_code = '';
         } else if (res.status == 202) {
-          _this.toastError(res.data);
+          _this.toastError(res.data.message);
+
+          _this.$router.push({
+            path: '/course/' + res.data.course_id + '/announcement'
+          });
         } else {
           _this.toastError('Something went wrong while joining the class!');
         }

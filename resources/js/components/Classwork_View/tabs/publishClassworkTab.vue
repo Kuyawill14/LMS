@@ -1,6 +1,6 @@
 
 <template>
-<div class="pa-2">
+<div class="pa-1">
         <v-dialog v-model="dialog" persistent max-width="600">
             <publishDialog 
             :Details="Details"
@@ -52,7 +52,7 @@
   <v-container v-if="!isloading" pa-0 ma-0  class="pa-0 pa-0" fluid>
         <v-row align="center" justify="center">
             <v-col cols="12" lg="9" xl="9" md="8">
-                <v-card elevation="1" class="pa-5" >
+                <v-card elevation="1" outlined class="pa-5" >
                     <v-row>
 
                         <v-col  cols="12" md="12" class="pt-2 pl-3 pr-3"> 

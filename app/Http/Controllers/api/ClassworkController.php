@@ -246,8 +246,8 @@ class ClassworkController extends Controller
             $UpdatePublishDetails->availability = $request->availability == 'Set Date' ? 1: 0;
             $UpdatePublishDetails->from_date = $request->availability == 'Set Date' ? $request->from_date : '';
             $UpdatePublishDetails->to_date = $request->availability == 'Set Date' ? $request->to_date : '';
-            $UpdatePublishDetails->showAnswer =  $request->showAnswer == 'true' ? 1 : 0;
-            if($request->showAnswer == 'true'){
+            $UpdatePublishDetails->showAnswer =  $request->showAnswer == true ? 1 : 0;
+            if($request->showAnswer == true){
                 $UpdatePublishDetails->showAnswerType = $request->showAnswerType == 'Set Date' ? 1 : 0;
                 $UpdatePublishDetails->showDateFrom = $request->showAnswerType == 'Set Date' ? $request->showAnswerDateFrom : '';
                 $UpdatePublishDetails->showDateTo = $request->showAnswerType == 'Set Date' ? $request->showAnswerDateTo : '';
@@ -319,17 +319,76 @@ class ClassworkController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        $UpdateClasswork = tbl_classwork::find($id);
+        $userId = auth('sanctum')->id();
+      
+        $UpdateClasswork = tbl_classwork::find($request->id);
         if($UpdateClasswork){
-            $UpdateClasswork->type =  $request->type;
+            if($UpdateClasswork->type == 'Subjective Type'){
+                if($UpdateClasswork->type == $request->type){
+                    if($UpdateClasswork->attachment_name == $request->attachment_name){
+                        $UpdateClasswork->title =  $request->title;
+                        $UpdateClasswork->instruction =  $request->instruction;
+                        $UpdateClasswork->points =  $request->points;
+                    }
+                    else{
+                        Storage::delete('public/'.$UpdateClasswork->attachment);
+                        $UpdateClasswork->attachment_name = $request->attachment_name;
+                        $UpdateClasswork->attachment_size =  $request->attachment_size;
+                        $UpdateClasswork->points =  $request->points;
+                        $file = $request->file('file');
+                        if($file != ""){
+                            $newFile = $file->store('public/upload/classworkAttachments/'.$userId);
+                            $UpdateClasswork->attachment = preg_replace('/\bpublic\/\b/', '', $newFile);
+                        }
+                    }
+                    $UpdateClasswork->save();
+                }
+                else{
+                    
+                    Storage::delete('public/'.$UpdateClasswork->attachment);
+                    $UpdateClasswork->type =  $request->type;
+                    $UpdateClasswork->title =  $request->title;
+                    $UpdateClasswork->instruction =  $request->instruction;
+                    $UpdateClasswork->duration =  $request->duration;
+                    $UpdateClasswork->attachment_name = null;
+                    $UpdateClasswork->attachment_size =  null;
+                    $UpdateClasswork->attachment = null;
+                    $UpdateClasswork->points =  0;
+                    $UpdateClasswork->save();
+                }
+            }
+            elseif($UpdateClasswork->type == 'Objective Type'){
+                if($UpdateClasswork->type == $request->type){
+                    $UpdateClasswork->title =  $request->title;
+                    $UpdateClasswork->instruction =  $request->instruction;
+                    $UpdateClasswork->duration =  $request->duration;
+                }
+                else{
+                    $UpdateClasswork->type =  $request->type;
+                    $UpdateClasswork->title =  $request->title;
+                    $UpdateClasswork->instruction =  $request->instruction;
+                    $UpdateClasswork->attachment_name = $request->attachment_name;
+                    $UpdateClasswork->attachment_size =  $request->attachment_size;
+                    $UpdateClasswork->points =  $request->points;
+                    $file = $request->file('file');
+                    if($file != ""){
+                        $newFile = $file->store('public/upload/classworkAttachments/'.$userId);
+                        $UpdateClasswork->attachment = preg_replace('/\bpublic\/\b/', '', $newFile);
+                    }
+                }
+                $UpdateClasswork->save();
+            }
+            return "Classwork Updated!";
+
+           /*  $UpdateClasswork->type =  $request->type;
             $UpdateClasswork->title =  $request->title;
             $UpdateClasswork->instruction =  $request->instruction;
             $UpdateClasswork->type == "Subjective Type" ? $UpdateClasswork->points =  $request->points : '';
             $UpdateClasswork->duration =  $request->duration;
             $UpdateClasswork->save();
-            return $UpdateClasswork;
+            return $UpdateClasswork; */
         }
         return "Classwork not found";
     }

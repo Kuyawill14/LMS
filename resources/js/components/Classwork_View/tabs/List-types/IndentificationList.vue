@@ -14,6 +14,7 @@
             </v-dialog>
             <v-row>
                 <v-col v-if="!preview" cols="12" md="12" class="pa-5">
+                    <vue-element-loading :active="isUpdating" spinner="bar-fade-scale" />
                     <v-container class="mb-1">
                             <v-container ma-0 pa-0 class="mb-3 d-flex flex-row ">
                                     <v-container ma-0 pa-0 class="pa-0 ma-0 d-flex justify-end">
@@ -47,7 +48,7 @@
                                         </v-btn>
                                     </v-container>
                                 </v-container>
-                            <h2>Question #{{number}}</h2>
+                            <h3>Question #{{number}}</h3>
                             <v-row class="pa-0 ma-0">
                             <!--   <v-col class="pa-0 ma-0" cols="3"  md="1" lg="1">
                                     <v-text-field :readonly="!isEditing" filled type="number" v-model="QuetionsList.points" class="pa-0 ma-0"  label="Points"></v-text-field>
@@ -124,7 +125,7 @@
 
                 <v-col @dblclick="previewAll ? preview = false: preview = !preview"  v-if="preview || previewAll" cols="12" md="12" class="pl-4 pr-4 pt-2">
                     <v-container class="d-flex flex-row justify-space-between">
-                            <h2>Question #{{number}}</h2>
+                              <h3 class="mb-0 pb-0">Question #{{number}}</h3>
                                 <v-btn
                                 rounded
                                 @click="preview = !preview, isEditing = !isEditing">
@@ -150,15 +151,18 @@
 </template>
 <script>
 const deleteDialog = () => import('../dialogs/deleteDialog')
- import {mapGetters, mapActions } from "vuex";
+import VueElementLoading from 'vue-element-loading'
+import {mapGetters, mapActions } from "vuex";
 export default {
     props:['Question','number','previewAll'],
     components:{
         deleteDialog,
+        VueElementLoading,
     },
     data(){
         return{
             QuetionsList:{},
+            isUpdating: null,
             preview:true,
             dialog:false,
             isRemoving:false,
@@ -187,14 +191,11 @@ export default {
             this.dialog = true;;
         },
         async updateQuestion(){
-            axios.put('/api/question/update/'+this.QuetionsList.id, {question: this.QuetionsList})
-            .then(res=>{
-                if(res.status == 200){
-                    this.preview = !this.preview;
-                     this.isEditing = !this.isEditing;
-                     this.toastSuccess("Question Successfully updated");
-                }
-            })
+            this.$emit('updateQuestion', this.QuetionsList)
+            this.isUpdating = true;
+            this.isEditing = !this.isEditing;
+            setTimeout(() => (this.isUpdating = false, this.preview = !this.preview), 1000);
+         
         }
         
     },

@@ -1,5 +1,5 @@
 <template>
-<div class="pa-2">
+<div class="pa-1">
    
     <v-dialog v-model="dialog" persistent max-width="370">
             <deleteDialog 
@@ -33,10 +33,10 @@
     </v-col>
 </v-row>
 
-  <v-container v-if="!isloading && Qlength != 0" pa-0 ma-0  class="pa-0 pa-0" fluid>
+  <v-container v-if="!isloading && Qlength != 0" pa-0 ma-0  fluid>
         <v-row align="center" justify="center">
             <v-col cols="12" md="8" lg="9" xl="9">
-                <v-card  class="pa-3" elevation="1">
+                <v-card  class="pa-3" elevation="1" outlined>
              
                     <v-row>
                         <!--  <v-col cols="12" md="12" class="primary">
@@ -76,13 +76,13 @@
                         <v-col v-if="Show && Qlength != 0" cols="12" md="12"  class="pl-5 pr-5 pt-1">
                             <v-container v-show="ListType == 'All' || ListType == item.type" class="mb-1 pt-0 mt-0" v-for="(item, index) in getAll_questions.Question" :key="item.id">
                                     <div v-if="item.type == 'Multiple Choice'" class="mb-2">
-                                            <multipleChoiceList :previewAll="previewAll" v-on:reloadList="fetchQuestionsList()" v-if="item.type == 'Multiple Choice'" :number="index+1" :Question="item" :Choices="getAll_questions.Answer[index]"></multipleChoiceList>
+                                            <multipleChoiceList v-on:updateQuestion="updateQuestion" :previewAll="previewAll" v-on:reloadList="fetchQuestionsList()" v-if="item.type == 'Multiple Choice'" :number="index+1" :Question="item" :Choices="getAll_questions.Answer[index]"></multipleChoiceList>
                                     </div>
                                         <div v-if="item.type == 'Identification'" class="mb-2">
-                                            <indentificationList :previewAll="previewAll" v-on:reloadList="fetchQuestionsList()" v-if="item.type == 'Identification'" :number="index+1" :Question="item"></indentificationList>
+                                            <indentificationList v-on:updateQuestion="updateQuestion" :previewAll="previewAll" v-on:reloadList="fetchQuestionsList()" v-if="item.type == 'Identification'" :number="index+1" :Question="item"></indentificationList>
                                     </div>
                                         <div v-if="item.type == 'True or False'" class="mb-2">
-                                            <trueOrfalseList :previewAll="previewAll" v-on:reloadList="fetchQuestionsList()" v-if="item.type == 'True or False'" :number="index+1" :Question="item"></trueOrfalseList>
+                                            <trueOrfalseList v-on:updateQuestion="updateQuestion" :previewAll="previewAll" v-on:reloadList="fetchQuestionsList()" v-if="item.type == 'True or False'" :number="index+1" :Question="item"></trueOrfalseList>
                                     </div>
                                         <div v-if="item.type == 'Matching type'" class="mb-2">
                                             <matchingType v-on:reloadList="fetchQuestionsList()" v-if="item.type == 'Matching type'" 
@@ -175,6 +175,15 @@ export default {
                 this.isFetching = false;
             });
         },
+
+         async updateQuestion(data){
+            await axios.put('/api/question/update/'+data.id, {question: data})
+            .then(res=>{
+                if(res.status == 200){
+                     this.toastSuccess("Question Successfully updated");
+                }
+            })
+        }
        
         
     },

@@ -135,6 +135,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['Preview_id'],
@@ -480,6 +481,12 @@ var render = function() {
                           attrs: { cols: "12" }
                         },
                         [
+                          _c(
+                            "div",
+                            { staticClass: "text-caption font-weight-medium" },
+                            [_vm._v("Attachments")]
+                          ),
+                          _vm._v(" "),
                           _c("v-hover", {
                             scopedSlots: _vm._u(
                               [

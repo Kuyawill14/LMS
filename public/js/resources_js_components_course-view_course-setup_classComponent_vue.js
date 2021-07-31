@@ -166,7 +166,7 @@ var VueElementLoading = function VueElementLoading() {
     back: function back() {
       this.$emit('changeStep', 2);
     }
-  }, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapActions)(['fetchSubjectCourseClassList'])), {}, {
+  }, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapActions)(['fetchSubjectCourseClassList', 'setCourseStatus'])), {}, {
     closeModal: function closeModal() {
       this.showModal = false;
     },
@@ -178,6 +178,8 @@ var VueElementLoading = function VueElementLoading() {
       } else {
         axios.post('/api/course/completed/' + this.$route.params.id).then(function (res) {
           _this.toastSuccess('Course setup completed!');
+
+          _this.$store.dispatch('setCourseStatus', _this.$route.params.id);
 
           _this.$router.push({
             name: "coursePage"

@@ -138,12 +138,14 @@
                 this.$store.dispatch("joinClass", this.form).then((res) => {
                     
                       if(res.status == 200){
-                         this.toastSuccess(res.data);
+                         this.toastSuccess(res.data.message);
+                         this.$router.push({path: '/course/'+res.data.course_id+'/announcement'})
                          this.fetchClasses();
                          this.form.class_code = '';
                     }
                     else if(res.status == 202){
-                        this.toastError(res.data);
+                        this.toastError(res.data.message);
+                        this.$router.push({path: '/course/'+res.data.course_id+'/announcement'})
                     }
                     else{
                         this.toastError('Something went wrong while joining the class!');

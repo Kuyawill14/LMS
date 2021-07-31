@@ -1,6 +1,6 @@
 
 <template>
-<div>
+<div class="pa-1">
 <v-container class="fill-height" v-if="isloading" style="height: 400px;">
     <v-row  align-content="center" justify="center">
         <v-col class="text-subtitle-1 text-center" cols="12">
@@ -23,16 +23,16 @@
     </v-col>
 </v-row>
 
-  <v-container v-if="!isloading && List.length != 0 "  pa-0 ma-0  class="pa-0 pa-0" fluid>
+  <div v-if="!isloading && List.length != 0 ">
         <v-row align="center" justify="center">
-            <v-col v-if="classworkDetails.type == 'Objective Type'" cols="12">
+            <v-col v-if="classworkDetails.type == 'Objective Type'" cols="12" class="ma-0 pa-0">
                 <objectiveSubmission :ClassList="ClassList" :Submitted="Submitted" :Graded="Graded"  v-if="classworkDetails.type == 'Objective Type'" :classworkDetails="classworkDetails"  :ListData="List"></objectiveSubmission>    
             </v-col>
-            <v-col v-if="classworkDetails.type == 'Subjective Type'" cols="12"  >
+            <v-col v-if="classworkDetails.type == 'Subjective Type'" cols="12"  class="ma-0 pa-0" >
                 <subjectiveSubmission :ClassList="ClassList" :Submitted="Submitted" :Graded="Graded" v-on:UpdateSubmission="GetListAfterEmit" v-if="classworkDetails.type == 'Subjective Type'" :classworkDetails="classworkDetails"  :ListData="List"></subjectiveSubmission>    
             </v-col>
         </v-row>
-    </v-container>
+    </div>
 
     <!-- <v-container  >
 

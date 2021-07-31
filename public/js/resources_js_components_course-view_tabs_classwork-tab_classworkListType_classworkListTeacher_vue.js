@@ -180,17 +180,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 var deleteDialog = function deleteDialog() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_tabs_classwork-tab_dialogs_deleteDiaglog_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../dialogs/deleteDiaglog */ "./resources/js/components/course-view/tabs/classwork-tab/dialogs/deleteDiaglog.vue"));
 };
@@ -593,7 +582,7 @@ var render = function() {
                                 "v-col",
                                 {
                                   key: index,
-                                  staticClass: "ma-0 pa-0 pb-2 pl-2 pr-2",
+                                  staticClass: "ma-0 pa-0 pb-2 pl-2 pr-2 mb-1",
                                   attrs: { cols: "12", md: "4" }
                                 },
                                 [
@@ -608,8 +597,7 @@ var render = function() {
                                           _c(
                                             "v-expansion-panel-header",
                                             {
-                                              staticClass:
-                                                "ma-0 pa-0 pl-1 pr-1",
+                                              staticClass: "pa-5",
                                               attrs: {
                                                 "disable-icon-rotate": "",
                                                 "hide-actions": ""
@@ -617,7 +605,7 @@ var render = function() {
                                             },
                                             [
                                               _c(
-                                                "v-container",
+                                                "div",
                                                 {
                                                   staticClass:
                                                     "d-flex flex-row justify-space-between"
@@ -687,11 +675,11 @@ var render = function() {
                                                               },
                                                               [
                                                                 _vm._v(
-                                                                  "\r\n                                                    " +
+                                                                  "\r\n                                                        " +
                                                                     _vm._s(
                                                                       item.title
                                                                     ) +
-                                                                    "\r\n                                                    "
+                                                                    "\r\n                                                        "
                                                                 ),
                                                                 item.type ==
                                                                 "Subjective Type"
@@ -1135,8 +1123,7 @@ var render = function() {
                                                 ],
                                                 1
                                               )
-                                            ],
-                                            1
+                                            ]
                                           ),
                                           _vm._v(" "),
                                           _c(

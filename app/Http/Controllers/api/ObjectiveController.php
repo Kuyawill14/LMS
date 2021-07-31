@@ -360,11 +360,15 @@ class ObjectiveController extends Controller
             if($UpdateQuestion){
                 $UpdateQuestion->question = $request->question['question'];
                 $UpdateQuestion->answer = $request->question['answer'];
-                $UpdateQuestion->points = $request->question['points'];
-                $UpdateQuestion->save();
 
+                $classworkTotalPoints = tbl_classwork::find($UpdateQuestion->classwork_id);
+                $classworkTotalPoints->points = (($classworkTotalPoints->points - $UpdateQuestion->points)+$request->question['points']);
+                $classworkTotalPoints->save();
+
+                $UpdateQuestion->points = $request->question['points'];
+                $UpdateQuestion->question = 
+                $UpdateQuestion->save();
                 foreach($request->options as $options){
-                    //return $options;
                     $UpdateChoices = tbl_choice::find($options['id']);
                     $UpdateChoices->Choice = $options['Choice'];
                     $UpdateChoices->save();
@@ -378,6 +382,11 @@ class ObjectiveController extends Controller
             if($UpdateQuestion){
                 $UpdateQuestion->question = $request->question['question'];
                 $UpdateQuestion->answer = $request->question['answer'];
+
+                $classworkTotalPoints = tbl_classwork::find($UpdateQuestion->classwork_id);
+                $classworkTotalPoints->points = (($classworkTotalPoints->points - $UpdateQuestion->points) + $request->question['points']);
+                $classworkTotalPoints->save();
+
                 $UpdateQuestion->points = $request->question['points'];
                 $UpdateQuestion->save();
                 return 'Update Success!';

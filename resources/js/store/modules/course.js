@@ -19,7 +19,7 @@ const actions = {
         const res = await axios.get(
             `/api/course/ShowCourse/${id}`
         ).then((res) => {
-            state.completed = res.data.completed;
+      
             commit('setcourseInfo', res.data);
         });
     }

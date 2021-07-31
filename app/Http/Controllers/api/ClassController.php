@@ -45,6 +45,7 @@ class ClassController extends Controller
             'tbl_classes.class_name',
             'tbl_classes.class_code',
             'tbl_subject_courses.course_picture',
+            'tbl_subject_courses.completed as status',
             'tbl_subject_courses.course_name',
             'tbl_subject_courses.course_code',
             'tbl_subject_courses.course_picture',

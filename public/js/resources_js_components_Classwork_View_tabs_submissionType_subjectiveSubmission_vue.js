@@ -141,8 +141,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
 
 
 var checksubjective = function checksubjective() {
@@ -21773,7 +21771,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "pl-5 pr-5 pb-5 pt-2" },
+    { staticClass: "pa-2" },
     [
       _vm.dialog
         ? _c(
@@ -21821,7 +21819,7 @@ var render = function() {
       _vm._v(" "),
       _c(
         "v-row",
-        { staticClass: "pa-3" },
+        { staticClass: "pa-1" },
         [
           _c(
             "v-col",
@@ -21892,7 +21890,7 @@ var render = function() {
                           [
                             _c(
                               "v-col",
-                              { staticClass: "pa-5", attrs: { cols: "8" } },
+                              { staticClass: "pa-5", attrs: { cols: "9" } },
                               [
                                 _c(
                                   "div",
@@ -21941,24 +21939,19 @@ var render = function() {
                               ? _c(
                                   "v-col",
                                   {
-                                    staticClass: "text-left d-flex",
-                                    attrs: { cols: "4" }
+                                    staticClass: "text-left",
+                                    attrs: { cols: "3" }
                                   },
                                   [
                                     _c("v-text-field", {
+                                      staticClass: "mb-0 pb-0",
                                       style: _vm.$vuetify.breakpoint.xs
                                         ? "width:100%"
-                                        : "width:90%",
+                                        : "width:80%",
                                       attrs: {
-                                        "append-icon":
-                                          item.graded &&
-                                          item.status == "Submitted"
-                                            ? "mdi-check"
-                                            : "",
                                         loading: _vm.isSavingScore,
                                         dense: "",
                                         outlined: "",
-                                        label: "Score",
                                         type: "number",
                                         suffix:
                                           "/" + _vm.classworkDetails.points,
@@ -22084,7 +22077,7 @@ var render = function() {
                                 {
                                   staticClass: "mx-auto",
                                   staticStyle: { cursor: "pointer" },
-                                  attrs: { "max-width": "344", outlined: "" }
+                                  attrs: { outlined: "" }
                                 },
                                 [
                                   item.status == "Submitted"
@@ -22138,12 +22131,7 @@ var render = function() {
                                                   {
                                                     staticStyle: {
                                                       "max-height": "15px",
-                                                      "max-width": "15rem",
-                                                      overflow: "hidden",
-                                                      "white-space": "nowrap",
-                                                      "text-overflow":
-                                                        "ellipsis",
-                                                      "text-align": "center"
+                                                      overflow: "hidden"
                                                     }
                                                   },
                                                   [

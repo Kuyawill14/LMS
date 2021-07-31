@@ -59,6 +59,23 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var studentStartPage = function studentStartPage() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_type_studentStartPage_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./type/studentStartPage */ "./resources/js/components/Classwork_View/type/studentStartPage.vue"));
 };
@@ -21650,38 +21667,6 @@ var render = function() {
   return _c(
     "div",
     [
-      _c(
-        "v-row",
-        [
-          _c(
-            "v-col",
-            { staticClass: "pl-5 pt-2", attrs: { cols: "12", md: "12" } },
-            [
-              _c(
-                "v-btn",
-                {
-                  attrs: { rounded: "", text: "" },
-                  on: {
-                    click: function($event) {
-                      return _vm.$router.push({ name: "classwork" })
-                    }
-                  }
-                },
-                [
-                  _c("v-icon", { attrs: { left: "", dark: "" } }, [
-                    _vm._v("mdi-arrow-left-thick")
-                  ]),
-                  _vm._v("\n                      Back\n                  ")
-                ],
-                1
-              )
-            ],
-            1
-          )
-        ],
-        1
-      ),
-      _vm._v(" "),
       _vm.isloading
         ? _c(
             "v-container",
@@ -21723,20 +21708,46 @@ var render = function() {
           )
         : _vm._e(),
       _vm._v(" "),
-      !_vm.isloading && _vm.CurrentUser.role == "Teacher"
-        ? _c("teacherStartPage", {
-            attrs: { classworkDetails: _vm.classworkDetails }
-          })
-        : _vm._e(),
-      _vm._v(" "),
-      !_vm.isloading && _vm.CurrentUser.role == "Student"
-        ? _c("studentStartPage", {
-            attrs: {
-              classworkDetails: _vm.classworkDetails,
-              totalPoints: _vm.totalPoints,
-              totalQuestion: _vm.totalQuestion
-            }
-          })
+      !_vm.isloading
+        ? _c(
+            "v-row",
+            [
+              _vm.CurrentUser.role == "Teacher"
+                ? _c(
+                    "v-col",
+                    { staticClass: "ma-0 pa-0 pa-2", attrs: { cols: "12" } },
+                    [
+                      _vm.CurrentUser.role == "Teacher"
+                        ? _c("teacherStartPage", {
+                            attrs: { classworkDetails: _vm.classworkDetails }
+                          })
+                        : _vm._e()
+                    ],
+                    1
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.CurrentUser.role == "Student"
+                ? _c(
+                    "v-col",
+                    { staticClass: "ma-0 pa-0 ", attrs: { cols: "12" } },
+                    [
+                      _vm.CurrentUser.role == "Student"
+                        ? _c("studentStartPage", {
+                            attrs: {
+                              classworkDetails: _vm.classworkDetails,
+                              totalPoints: _vm.totalPoints,
+                              totalQuestion: _vm.totalQuestion
+                            }
+                          })
+                        : _vm._e()
+                    ],
+                    1
+                  )
+                : _vm._e()
+            ],
+            1
+          )
         : _vm._e()
     ],
     1

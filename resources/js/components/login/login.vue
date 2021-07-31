@@ -173,7 +173,9 @@ export default {
                 .then((res) => {
                     if(res.status == 200) {
                         //this.$store.dispatch('fetchCurrentUser');
-                         this.toastSuccess(res.data);
+                        this.toastSuccess(res.data);
+                        localStorage.removeItem(btoa('course-status'));
+                        localStorage.removeItem(btoa('user_role'));
                         this.$router.push({ path: "/" })
                     }
                     else{

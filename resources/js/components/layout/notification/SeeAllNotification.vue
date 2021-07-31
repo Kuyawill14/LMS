@@ -15,48 +15,53 @@
         </v-col>
 
         <v-col cols="12" md="2">
-          <v-tabs active-class d
-          :centered="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm"
-          :vertical="!$vuetify.breakpoint.xs || !$vuetify.breakpoint.sm">
+          <v-tabs active-class 
+          next-icon="mdi-arrow-right-bold-box-outline"
+          prev-icon="mdi-arrow-left-bold-box-outline"
+          show-arrows 
+          
+           :vertical="!$vuetify.breakpoint.xs && !$vuetify.breakpoint.sm"
+          :centered="$vuetify.breakpoint.xs && $vuetify.breakpoint.sm"
+         >
               <v-tab @click="notificationType = 'all', notifTypeName = 'All', getNotificationList()" 
-              :class="!$vuetify.breakpoint.xs || !$vuetify.breakpoint.sm ? 'd-flex justify-start' : ''">
-                <v-icon :left="!$vuetify.breakpoint.xs || !$vuetify.breakpoint.sm">
+              :class="!$vuetify.breakpoint.xs && !$vuetify.breakpoint.sm ? 'd-flex justify-start' : ''">
+                <v-icon :left="!$vuetify.breakpoint.xs && !$vuetify.breakpoint.sm">
                  mdi-bell
                 </v-icon>
-                {{!$vuetify.breakpoint.xs || !$vuetify.breakpoint.sm ? 'All' : ''}}
+                {{!$vuetify.breakpoint.xs && !$vuetify.breakpoint.sm ? 'All' : ''}}
                 
             </v-tab>
             <v-tab @click="notificationType = 1,notifTypeName = 'Announcement', getNotificationList()" 
-            :class="!$vuetify.breakpoint.xs || !$vuetify.breakpoint.sm ? 'd-flex justify-start' : ''">
-              <v-icon :left="!$vuetify.breakpoint.xs || !$vuetify.breakpoint.sm">
+            :class="!$vuetify.breakpoint.xs && !$vuetify.breakpoint.sm ? 'd-flex justify-start' : ''">
+              <v-icon :left="!$vuetify.breakpoint.xs && !$vuetify.breakpoint.sm">
                 mdi-bullhorn-outline
               </v-icon>
               
-              {{!$vuetify.breakpoint.xs || !$vuetify.breakpoint.sm ? 'Announcement' : ''}}
+              {{!$vuetify.breakpoint.xs && !$vuetify.breakpoint.sm ? 'Announcement' : ''}}
             </v-tab>
             <v-tab @click="notificationType = 4,notifTypeName = 'Classwork', getNotificationList()" 
-            :class="!$vuetify.breakpoint.xs || !$vuetify.breakpoint.sm ? 'd-flex justify-start' : ''">
-             <v-icon :left="!$vuetify.breakpoint.xs || !$vuetify.breakpoint.sm">
+            :class="!$vuetify.breakpoint.xs && !$vuetify.breakpoint.sm ? 'd-flex justify-start' : ''">
+             <v-icon :left="!$vuetify.breakpoint.xs && !$vuetify.breakpoint.sm">
                 mdi-book-open-variant
               </v-icon>
               
-              {{!$vuetify.breakpoint.xs || !$vuetify.breakpoint.sm ? 'Classwork' : ''}}
+              {{!$vuetify.breakpoint.xs && !$vuetify.breakpoint.sm ? 'Classwork' : ''}}
             </v-tab>
             <v-tab @click="notificationType = 3,notifTypeName = 'Class Invites', getNotificationList()" 
-            :class="!$vuetify.breakpoint.xs || !$vuetify.breakpoint.sm ? 'd-flex justify-start' : ''">
-              <v-icon :left="!$vuetify.breakpoint.xs || !$vuetify.breakpoint.sm">
+            :class="!$vuetify.breakpoint.xs && !$vuetify.breakpoint.sm ? 'd-flex justify-start' : ''">
+              <v-icon :left="!$vuetify.breakpoint.xs && !$vuetify.breakpoint.sm">
                 mdi-account-plus
               </v-icon>
               
-              {{!$vuetify.breakpoint.xs || !$vuetify.breakpoint.sm ? 'Class Invites' : ''}}
+              {{!$vuetify.breakpoint.xs  && !$vuetify.breakpoint.sm ? 'Class Invites' : ''}}
             </v-tab>
 
             <v-tab @click="notificationType = 'Hidden',notifTypeName = 'Hidden', getNotificationList()" 
-            :class="!$vuetify.breakpoint.xs || !$vuetify.breakpoint.sm ? 'd-flex justify-start' : ''">
+            :class="!$vuetify.breakpoint.xs  && !$vuetify.breakpoint.sm ? 'd-flex justify-start' : ''">
               <v-icon :left="!$vuetify.breakpoint.xs || !$vuetify.breakpoint.sm">
-                mdi-account-plus
+                mdi-eye-off
               </v-icon>
-              {{!$vuetify.breakpoint.xs || !$vuetify.breakpoint.sm ? 'Hidden' : ''}}
+              {{!$vuetify.breakpoint.xs  && !$vuetify.breakpoint.sm ? 'Hidden' : ''}}
             </v-tab>
 
           

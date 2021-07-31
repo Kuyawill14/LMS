@@ -117,7 +117,7 @@ Route::prefix('/classwork')->group(function () {
     Route::post('/insert', [ClassworkController::class, 'store']);
     Route::post('/share', [ClassworkController::class, 'ShareClasswork']);
     Route::post('/unshare', [ClassworkController::class, 'UnshareClasswork']);
-    Route::put('/update/{id}', [ClassworkController::class, 'update']);
+    Route::post('/update', [ClassworkController::class, 'update']);
     Route::delete('/remove/{id}', [ClassworkController::class, 'destroy']);
 
     Route::get('/publishClassworkDetails/{id}', [ClassworkController::class, 'PublishClassworkDetails']);

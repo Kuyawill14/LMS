@@ -197,6 +197,9 @@ __webpack_require__.r(__webpack_exports__);
             //this.$store.dispatch('fetchCurrentUser');
             _this2.toastSuccess(res.data);
 
+            localStorage.removeItem(btoa('course-status'));
+            localStorage.removeItem(btoa('user_role'));
+
             _this2.$router.push({
               path: "/"
             });

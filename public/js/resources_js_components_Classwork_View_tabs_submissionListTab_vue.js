@@ -274,6 +274,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
+    { staticClass: "pa-1" },
     [
       _vm.isloading
         ? _c(
@@ -347,11 +348,7 @@ var render = function() {
       _vm._v(" "),
       !_vm.isloading && _vm.List.length != 0
         ? _c(
-            "v-container",
-            {
-              staticClass: "pa-0 pa-0",
-              attrs: { "pa-0": "", "ma-0": "", fluid: "" }
-            },
+            "div",
             [
               _c(
                 "v-row",
@@ -360,7 +357,7 @@ var render = function() {
                   _vm.classworkDetails.type == "Objective Type"
                     ? _c(
                         "v-col",
-                        { attrs: { cols: "12" } },
+                        { staticClass: "ma-0 pa-0", attrs: { cols: "12" } },
                         [
                           _vm.classworkDetails.type == "Objective Type"
                             ? _c("objectiveSubmission", {
@@ -381,7 +378,7 @@ var render = function() {
                   _vm.classworkDetails.type == "Subjective Type"
                     ? _c(
                         "v-col",
-                        { attrs: { cols: "12" } },
+                        { staticClass: "ma-0 pa-0", attrs: { cols: "12" } },
                         [
                           _vm.classworkDetails.type == "Subjective Type"
                             ? _c("subjectiveSubmission", {

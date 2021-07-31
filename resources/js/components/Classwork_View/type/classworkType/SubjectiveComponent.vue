@@ -1,5 +1,5 @@
 <template>
-<v-container ma-0 pa-0>
+<div class="pt-5">
   <v-dialog v-model="AttachLink" persistent max-width="400">
             <attachlinkDiaglog 
             v-on:toggleCancelDialog="AttachLink = !AttachLink"
@@ -8,25 +8,42 @@
         </v-dialog>
 
 
-    <v-row >
-         <v-col  cols="12" md="4" lg="4" class="mb-0 pb-0">
-             <v-card class="pa-7"  elevation="5">
-               <v-row >
-                    <v-col v-if="!StatusDetails.graded" cols="12" class="pl-1 pr-1 pb-0 mb-0 d-flex justify-space-between">
-                        <div class="font-weight-medium text-sm-body-2 text-md-h6 text-xl-h5">Your Work</div>
-                        <v-btn v-if="StatusDetails.status == 'Submitted'" @click="isResubmit = !isResubmit" rounded text class="blue--text">{{isResubmit ? 'Cancel': 'Resubmit'}}</v-btn>
+    <v-row justify="center" no-gutters class="pa-2">
+         <v-col  cols="12" md="5" lg="4" class="mb-0 pb-0">
+             <v-card class="pa-7" outlined  elevation="1">
+               <v-row  >
+                 <v-col cols="12" class="ma-0 pa-0">
+                   <v-tooltip top>
+                    <template v-slot:activator="{ on, attrs }">
+                          <v-btn rounded
+                            v-bind="attrs"
+                            v-on="on"
+                            icon 
+                            text 
+                            class=""
+                            @click="$router.push({name: 'classwork'})" >
+                          <v-icon dark>mdi-arrow-left-thick</v-icon>
+                        </v-btn>
+                    </template>
+                    <span>Back to classworks</span>
+                   </v-tooltip>
+                    </v-col>
+                    <v-col  cols="12" class="pt-0 mt-0 pl-1 pr-1 pb-0 mb-0 d-flex justify-space-between">
+                        <div class="font-weight-medium text-body-2 mt-3">Your Work</div>
+                        <v-btn v-if="StatusDetails.status == 'Submitted' && !StatusDetails.graded" @click="isResubmit = !isResubmit" rounded text class="blue--text">{{isResubmit ? 'Cancel': 'Resubmit'}}</v-btn>
+                        <v-chip v-if="StatusDetails.graded"
+                          class="ma-2" color="green" outlined>
+                         Graded: {{StatusDetails.score}} /{{StatusDetails.totalPoints}}
+                        </v-chip>
                    </v-col>
 
-                   <v-col v-if="StatusDetails.graded" cols="12" class="pl-1 pr-1 pb-0 mb-0 d-flex justify-space-between">
-                        <div class="font-weight-medium text-sm-body-2 text-md-h6 text-xl-h5">SUBMIT ANSWER</div>
+                   <!-- <v-col v-if="StatusDetails.graded" cols="12" class="pl-1 pr-1 pb-0 mb-0 d-flex justify-space-between">
+                        <div class="font-weight-medium text-body-2 mt-3">Your Work</div>
                         <v-btn  rounded text class="success--text"><v-icon left>mdi-check</v-icon> Graded: {{StatusDetails.score}}/{{StatusDetails.totalPoints}}</v-btn>
-                   </v-col>
+                   </v-col> -->
                    <v-col cols="12" class="pl-1 pr-1">
                        <v-divider></v-divider>
                    </v-col>
-
-                 
-
                    <v-col cols="12" v-if="isloading">
                       <v-container class="fill-height" v-if="isloading">
                         <v-row  align-content="center" justify="center">
@@ -42,37 +59,7 @@
                      <input ref="AttAchMoreFile" accept="application/pdf" type="file" class="d-none" @change="onChange">
                        <input ref="UploadAttachFile" accept="application/pdf" class="d-none" type="file" @change="onChange">
                    <v-col class="ma-0 pa-0" cols="12" v-if="!isloading">
-                          <!-- <v-col class="ma-0 pa-0 mb-4 mt-7 pl-4 pr-4" cols="12" v-if="!file[0] && StatusDetails.status == null">
-                      
-                            <v-menu max-width="250" v-if="isResubmit || (StatusDetails.status == 'Submitting' || StatusDetails.status == null)" transition="scale-transition" offset-y>
-                                <template v-slot:activator="{ on, attrs }">
-                                  <v-btn
-                                    style="width:100%"
-                                    class="pl-12 pr-12 pb-3 pt-3"
-                                    color="primary"
-                                    dark
-                                    outlined
-                                    v-bind="attrs"
-                                    v-on="on"
-                                  >
-                                  {{attrs.expanded}}
-                                    Attach <v-icon right>mdi-plus</v-icon>
-                                  </v-btn>
-                                </template>
-                                <v-list>
-                                  <v-list-item link  @click="file[fileIndex-1] || isResubmit ? UploadMoreFile() : UploadFile()">
-                                    
-                                        <v-icon left>mdi-cloud-upload-outline</v-icon> Upload File
-                                      
-                                  </v-list-item>
-                                    <v-list-item link @click="AttachLink = !AttachLink" >
-                                          <v-icon left>mdi-link-variant</v-icon>Attach Link
-                                  </v-list-item>
-                                </v-list>
-                              </v-menu>
-                          </v-col> -->
                           <v-col cols="12" class="mb-0 pb-0" v-if="file[0] != '' || file[0] != null">
-                          
                               <v-row class="mb-5" v-if="StatusDetails.status != 'Submitting' && StatusDetails.status != 'Submitted' ">
                                 <v-col v-for="(item, index) in file" :key="index" class="ma-0 pa-0 " cols="12">
                                   <v-hover v-slot="{ hover }">
@@ -183,8 +170,9 @@
                               </v-menu>
                           </v-col>
 
-                           <v-col class="ma-0 pa-0 mb-4 " cols="12" >
+                           <v-col class="ma-0 pa-0 mb-1 " cols="12" >
                               <v-btn
+                              flat
                               style="width:100%"
                                class="pl-12 pr-12 pb-3 pt-3"
                                 @click="StatusDetails.status == 'Submitted' && !isResubmit ? '' :SubmitClasswork()"  
@@ -244,15 +232,17 @@
                    </v-col>
                 </v-row> 
           </v-card>
+          <v-card class="mt-2 pa-3" elevation="1" outlined>
+            Comment
+          </v-card>
         </v-col>
-         <v-col :class="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm ? 'mt-2' : 'pt-0'" cols="12" md="5" lg="8" >
-          <v-card  elevation="5" class="pa-5">
+         <v-col :class="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm ? 'mt-2 pl-0 pt-2' : 'pt-0 pl-5'" cols="12" md="7" lg="8" >
+          <v-card  elevation="1" outlined class="pa-5">
                 <v-row class="mb-0 pb-0">
                     <v-col cols="12" md="12" class="ma-0">
-                        
                             <v-row >
                                 <v-col cols="12" class="pr-7">
-                                    <v-container ma-0 pa-0 class="d-flex flex-row justify-space-between">
+                                    <div class="d-flex flex-row justify-space-between">
                                     <v-btn
                                     class="mt-3 ml-5"
                                     fab
@@ -271,7 +261,7 @@
                                     <div class="text-md-h5"> <v-icon large color="primary">mdi-book-clock-outline</v-icon></div>
                                     <div class="caption ml-2">Due {{ format_date(classworkDetails.due_date)}}</div>  
                                     </div>
-                                </v-container>
+                                </div>
                                 </v-col>
 
                             <v-col cols="12" class="pl-7 pr-5">
@@ -332,7 +322,7 @@
            
         </v-col>
     </v-row>
-</v-container>          
+</div>          
 </template>
 
 <script>

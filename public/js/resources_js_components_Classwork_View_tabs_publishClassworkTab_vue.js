@@ -411,7 +411,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "pa-2" },
+    { staticClass: "pa-1" },
     [
       _c(
         "v-dialog",
@@ -550,7 +550,10 @@ var render = function() {
                     [
                       _c(
                         "v-card",
-                        { staticClass: "pa-5", attrs: { elevation: "1" } },
+                        {
+                          staticClass: "pa-5",
+                          attrs: { elevation: "1", outlined: "" }
+                        },
                         [
                           _c(
                             "v-row",

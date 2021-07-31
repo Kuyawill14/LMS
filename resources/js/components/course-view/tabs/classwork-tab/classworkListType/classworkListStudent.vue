@@ -55,8 +55,7 @@
                                 <div class="d-flex flex-row">
                                     <v-avatar size="40"
                                     :color="item.availability == 0 ?  item.status == 'Submitted' ?  'success' : 'blue'  : 
-                                     CheckFormatDue(item.to_date) > DateToday ? 
-                                    item.status == 'Submitted' ? 'success' :''
+                                     CheckFormatDue(item.to_date) > DateToday ? item.status == 'Submitted' ? 'success' :'blue'
                                     : item.status == 'Submitted' ? 'success': 'red darken-4'" >
                                          <v-icon 
                                     class="pl-2 pr-2" color="white" >
@@ -150,7 +149,7 @@
         methods: {
             format_date(value) {
                 if (value) {
-                    return moment(String(value)).format('MMMM Do YYYY, hh:mm A')
+                    return moment(String(value)).format('MMMM DD YYYY, hh:mm A')
                 }
             },
             CheckFormatDue(value){

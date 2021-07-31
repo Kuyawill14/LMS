@@ -63,6 +63,7 @@
                         </v-col>
 
                         <v-col v-if="Details.type == 'Subjective Type'" cols="12" class="pl-5 pr-5 pb-2">
+                            <div class="text-caption font-weight-medium">Attachments</div>
                             <v-hover v-slot="{ hover }">
                                 <v-alert
                                 @click="DownLoadFile(Details.attachment)"

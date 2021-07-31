@@ -350,16 +350,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 var attachlinkDiaglog = function attachlinkDiaglog() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_type_classworkType_attachLinkDialog_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./attachLinkDialog */ "./resources/js/components/Classwork_View/type/classworkType/attachLinkDialog.vue"));
 };
@@ -723,8 +713,8 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "v-container",
-    { attrs: { "ma-0": "", "pa-0": "" } },
+    "div",
+    { staticClass: "pt-5" },
     [
       _c(
         "v-dialog",
@@ -758,106 +748,147 @@ var render = function() {
       _vm._v(" "),
       _c(
         "v-row",
+        { staticClass: "pa-2", attrs: { justify: "center", "no-gutters": "" } },
         [
           _c(
             "v-col",
             {
               staticClass: "mb-0 pb-0",
-              attrs: { cols: "12", md: "4", lg: "4" }
+              attrs: { cols: "12", md: "5", lg: "4" }
             },
             [
               _c(
                 "v-card",
-                { staticClass: "pa-7", attrs: { elevation: "5" } },
+                {
+                  staticClass: "pa-7",
+                  attrs: { outlined: "", elevation: "1" }
+                },
                 [
                   _c(
                     "v-row",
                     [
-                      !_vm.StatusDetails.graded
-                        ? _c(
-                            "v-col",
+                      _c(
+                        "v-col",
+                        { staticClass: "ma-0 pa-0", attrs: { cols: "12" } },
+                        [
+                          _c(
+                            "v-tooltip",
                             {
-                              staticClass:
-                                "pl-1 pr-1 pb-0 mb-0 d-flex justify-space-between",
-                              attrs: { cols: "12" }
-                            },
-                            [
-                              _c(
-                                "div",
+                              attrs: { top: "" },
+                              scopedSlots: _vm._u([
                                 {
-                                  staticClass:
-                                    "font-weight-medium text-sm-body-2 text-md-h6 text-xl-h5"
-                                },
-                                [_vm._v("Your Work")]
-                              ),
-                              _vm._v(" "),
-                              _vm.StatusDetails.status == "Submitted"
-                                ? _c(
-                                    "v-btn",
-                                    {
-                                      staticClass: "blue--text",
-                                      attrs: { rounded: "", text: "" },
-                                      on: {
-                                        click: function($event) {
-                                          _vm.isResubmit = !_vm.isResubmit
-                                        }
-                                      }
-                                    },
-                                    [
-                                      _vm._v(
-                                        _vm._s(
-                                          _vm.isResubmit ? "Cancel" : "Resubmit"
-                                        )
+                                  key: "activator",
+                                  fn: function(ref) {
+                                    var on = ref.on
+                                    var attrs = ref.attrs
+                                    return [
+                                      _c(
+                                        "v-btn",
+                                        _vm._g(
+                                          _vm._b(
+                                            {
+                                              attrs: {
+                                                rounded: "",
+                                                icon: "",
+                                                text: ""
+                                              },
+                                              on: {
+                                                click: function($event) {
+                                                  return _vm.$router.push({
+                                                    name: "classwork"
+                                                  })
+                                                }
+                                              }
+                                            },
+                                            "v-btn",
+                                            attrs,
+                                            false
+                                          ),
+                                          on
+                                        ),
+                                        [
+                                          _c(
+                                            "v-icon",
+                                            { attrs: { dark: "" } },
+                                            [_vm._v("mdi-arrow-left-thick")]
+                                          )
+                                        ],
+                                        1
                                       )
                                     ]
-                                  )
-                                : _vm._e()
-                            ],
-                            1
-                          )
-                        : _vm._e(),
-                      _vm._v(" "),
-                      _vm.StatusDetails.graded
-                        ? _c(
-                            "v-col",
-                            {
-                              staticClass:
-                                "pl-1 pr-1 pb-0 mb-0 d-flex justify-space-between",
-                              attrs: { cols: "12" }
+                                  }
+                                }
+                              ])
                             },
                             [
-                              _c(
-                                "div",
-                                {
-                                  staticClass:
-                                    "font-weight-medium text-sm-body-2 text-md-h6 text-xl-h5"
-                                },
-                                [_vm._v("SUBMIT ANSWER")]
-                              ),
                               _vm._v(" "),
-                              _c(
+                              _c("span", [_vm._v("Back to classworks")])
+                            ]
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-col",
+                        {
+                          staticClass:
+                            "pt-0 mt-0 pl-1 pr-1 pb-0 mb-0 d-flex justify-space-between",
+                          attrs: { cols: "12" }
+                        },
+                        [
+                          _c(
+                            "div",
+                            {
+                              staticClass: "font-weight-medium text-body-2 mt-3"
+                            },
+                            [_vm._v("Your Work")]
+                          ),
+                          _vm._v(" "),
+                          _vm.StatusDetails.status == "Submitted" &&
+                          !_vm.StatusDetails.graded
+                            ? _c(
                                 "v-btn",
                                 {
-                                  staticClass: "success--text",
-                                  attrs: { rounded: "", text: "" }
+                                  staticClass: "blue--text",
+                                  attrs: { rounded: "", text: "" },
+                                  on: {
+                                    click: function($event) {
+                                      _vm.isResubmit = !_vm.isResubmit
+                                    }
+                                  }
                                 },
                                 [
-                                  _c("v-icon", { attrs: { left: "" } }, [
-                                    _vm._v("mdi-check")
-                                  ]),
                                   _vm._v(
-                                    " Graded: " +
-                                      _vm._s(_vm.StatusDetails.score) +
-                                      "/" +
-                                      _vm._s(_vm.StatusDetails.totalPoints)
+                                    _vm._s(
+                                      _vm.isResubmit ? "Cancel" : "Resubmit"
+                                    )
                                   )
-                                ],
-                                1
+                                ]
                               )
-                            ],
-                            1
-                          )
-                        : _vm._e(),
+                            : _vm._e(),
+                          _vm._v(" "),
+                          _vm.StatusDetails.graded
+                            ? _c(
+                                "v-chip",
+                                {
+                                  staticClass: "ma-2",
+                                  attrs: { color: "green", outlined: "" }
+                                },
+                                [
+                                  _vm._v(
+                                    "\r\n                         Graded: " +
+                                      _vm._s(_vm.StatusDetails.score) +
+                                      " /" +
+                                      _vm._s(_vm.StatusDetails.totalPoints) +
+                                      "\r\n                        "
+                                  )
+                                ]
+                              )
+                            : _vm._e()
+                        ],
+                        1
+                      ),
                       _vm._v(" "),
                       _c(
                         "v-col",
@@ -1661,7 +1692,7 @@ var render = function() {
                               _c(
                                 "v-col",
                                 {
-                                  staticClass: "ma-0 pa-0 mb-4 ",
+                                  staticClass: "ma-0 pa-0 mb-1 ",
                                   attrs: { cols: "12" }
                                 },
                                 [
@@ -1671,6 +1702,7 @@ var render = function() {
                                       staticClass: "pl-12 pr-12 pb-3 pt-3",
                                       staticStyle: { width: "100%" },
                                       attrs: {
+                                        flat: "",
                                         color:
                                           _vm.StatusDetails.status ==
                                             "Submitted" && !_vm.isResubmit
@@ -1719,6 +1751,15 @@ var render = function() {
                   )
                 ],
                 1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-card",
+                {
+                  staticClass: "mt-2 pa-3",
+                  attrs: { elevation: "1", outlined: "" }
+                },
+                [_vm._v("\r\n            Comment\r\n          ")]
               )
             ],
             1
@@ -1729,14 +1770,17 @@ var render = function() {
             {
               class:
                 _vm.$vuetify.breakpoint.xs || _vm.$vuetify.breakpoint.sm
-                  ? "mt-2"
-                  : "pt-0",
-              attrs: { cols: "12", md: "5", lg: "8" }
+                  ? "mt-2 pl-0 pt-2"
+                  : "pt-0 pl-5",
+              attrs: { cols: "12", md: "7", lg: "8" }
             },
             [
               _c(
                 "v-card",
-                { staticClass: "pa-5", attrs: { elevation: "5" } },
+                {
+                  staticClass: "pa-5",
+                  attrs: { elevation: "1", outlined: "" }
+                },
                 [
                   _c(
                     "v-row",
@@ -1757,11 +1801,10 @@ var render = function() {
                                 { staticClass: "pr-7", attrs: { cols: "12" } },
                                 [
                                   _c(
-                                    "v-container",
+                                    "div",
                                     {
                                       staticClass:
-                                        "d-flex flex-row justify-space-between",
-                                      attrs: { "ma-0": "", "pa-0": "" }
+                                        "d-flex flex-row justify-space-between"
                                     },
                                     [
                                       _c(
@@ -1834,8 +1877,7 @@ var render = function() {
                                     ],
                                     1
                                   )
-                                ],
-                                1
+                                ]
                               ),
                               _vm._v(" "),
                               _c(

@@ -359,7 +359,7 @@ var render = function() {
               _vm._v(" "),
               _c("small", [
                 _vm._v(
-                  "For registered student, type email account above to send invite through there notification."
+                  "For unregistered users, type email account above to send invite link through their email."
                 )
               ])
             ],

@@ -267,12 +267,10 @@ export default {
         },
         
     },
-    created(){
+    mounted(){
         this.QuetionsList = this.Question;
         this.AnswerList =  this.Answers;
         this.SubQuestionList = this.SubQuestion
-    },
-    mounted(){
          const alphabet = [
             "A",
             "B",
