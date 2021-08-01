@@ -33,7 +33,9 @@ class SendInviteMail extends Mailable
      */
     public function build()
     {
+
         return $this->view('ClassInvite')
+        ->subject('You are invited to join ' . $this->course_name . ' ' .$this->class_name )
                     ->with([
                         'class_code' => $this->class_name,
                         'name' => $this->name,

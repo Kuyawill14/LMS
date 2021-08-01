@@ -1,113 +1,279 @@
 <template>
-    <div>
-
-        <v-container fluid>
-            <v-container v-if="isGetting" style="height: 400px;">
-                <v-row class="fill-height" align-content="center" justify="center">
-                    <v-icon style="font-size:14rem">
-                        mdi-account-group
-                    </v-icon>
-                    <v-col class="text-subtitle-1 text-center" cols="12">
-                        <h2> Getting people List </h2>
-                    </v-col>
-                    <v-col cols="6">
-                        <v-progress-linear color="primary" indeterminate rounded height="6"></v-progress-linear>
-                    </v-col>
-                </v-row>
-            </v-container>
-
-            <v-container fluid v-if="!isGetting" class="mt-0">
+    <div class="pt-4">
+        <h2>
+            Manage users
+        </h2>
+        <v-btn bottom color="primary" dark fab fixed right @click="openAdd()">
+            <v-icon>mdi-plus</v-icon>
+        </v-btn>
+        <v-row class="pt-2">
 
 
-                <v-row>
-                    <!-- Intructor -->
-                    <v-col cols="12" class="mb-0 pb-0 mt-2 pt-0">
-                        <div>
-                            <h3 class="font-weight-regular">Intructor</h3>
-                        </div>
-                    </v-col>
-                    <v-col class="pl-0 ml-0 pb-0 mb-0 pt-0 mt-0" cols="12" v-for="item in instructor"
-                        v-bind:key="item.user_id">
-                        <v-container style="cursor:pointer">
-                            <v-container class="pb-0 mb-0 pt-0 mt-0 d-flex flex-sm-row">
-                                <v-avatar size="40">
-                                    <v-img
-                                        :src="item.profile_pic == null || item.profile_pic == '' ? 'https://ui-avatars.com/api/?background=random&color=white&name=' + (item.firstName+' '+item.lastName) : item.profile_pic">
-                                    </v-img>
-                                </v-avatar>
-                                <v-container class="pb-0 mb-0 pt-0 mt-0 d-flex flex-column ml-5 pb-5" ma-0 pa-0>
-                                    <div class="text-left  mt-1">{{item.firstName}} {{item.lastName}}</div>
-                                </v-container>
-                            </v-container>
+            <v-col>
+                <v-card elevation="2">
+                    <v-simple-table>
+                        <template v-slot:default>
+                            <thead>
+                                <tr>
+                                    <th>
+                                        ID
+                                    </th>
+                                    <th>
+                                       Name
+                                    </th>
+                                    <th>
+                                       Total Courses
+                                    </th>
+                                     <th>
+                                       Total Classes
+                                    </th>
+                                      <th>
+                                       Total Modules Created
+                                    </th>
 
-                        </v-container>
+                                        <th>
+                                      Action
+                                    </th>
+                               
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(item, index) in getTeachers" :key="index">
+                                    <td> {{item.user_id}} </td>
+                                    <td> {{item.lastName + ', ' + item.firstName + ' ' + item.middleName }} </td>
+                              <td> {# of total courses} </td>
+                                 <td> {# of total classes} </td>
+                               <td> {# of total modules created} </td>
+                            
+                                   <td> <v-btn icon color="success" >
+                                       
+                                            <v-icon>
+                                                mdi-eye
+                                            </v-icon>
 
-                    </v-col>
-                    <v-col cols="12" class="mt-0 mb-0">
-                        <v-divider></v-divider>
-                    </v-col>
+                                        </v-btn> </td>
+
+                                </tr>
+                                <tr v-if="getTeachers.length == 0">
+                                    <td colspan="42" class="text-center"> No data available</td>
+                                </tr>
 
 
+                            </tbody>
+                        </template>
+                    </v-simple-table>
+                </v-card>
+            </v-col>
+        </v-row>
 
 
-                </v-row>
-            </v-container>
-        </v-container>
     </div>
-</template>
-<script>
-    //const removeConfirmDialog = () => import('../dialog/removeConfirmDialog')
-    export default {
 
+
+
+</template>
+<style scoped>
+
+</style>
+
+<script>
+    import VueElementLoading from 'vue-element-loading'
+
+    import {
+        mapGetters,
+        mapActions
+    } from "vuex";
+import axios from 'axios';
+    export default {
         components: {
-            //removeConfirmDialog
+            VueElementLoading
         },
         data: function () {
             return {
+                Deldialog: false,
                 dialog: false,
-                isloading: true,
-                isGetting: true,
+                temp_id: '',
+                IsDeleting: false,
+                IsAddUpdating: false,
+                   IsResetting: false,
+                type: '',
                 search: "",
-                isClassNameLoaded: false,
-                classNames: [],
-                Class_id: this.$route.params.id,
-                RemoveDetails: {},
+                valid: true,
+                role: ['Teacher', 'Student'],
+                form: new Form({
+                    firstName: "",
+                    middleName: "",
+                    lastName: "",
+                    email: "",
+                    phone: "",
+                    password: "",
+                    password_confirmation: "",
+                    role: ""
+                }),
+
+                nameRules: [
+                    v => !!v || 'Field is required',
+                    v => (v && v.length <= 20) || 'Name must be less than 20 characters',
+                ],
+                loginEmailRules: [
+                    v => !!v || "Field is required",
+                    v => /.+@.+\..+/.test(v) || "Email must be valid"
+                ],
+
+                RoleRules: [
+                    v => !!v || "Field is required",
+                ],
+                show: false,
+                show1: false,
+                rules: {
+                    required: value => !!value || "Field is required.",
+                    min: v => (v && v.length >= 6) || "min 6 characters"
+                }
+
+
+
             }
 
         },
         computed: {
-            getAllStudents() {
-                if (this.search) {
-                    return this.students.filter((item) => {
-                        return this.search.toLowerCase().split(' ').every(v => item.firstName.toLowerCase()
-                            .includes(v) || item.lastName.toLowerCase()
-                            .includes(v))
-                    })
-                } else {
-                    return this.students;
-                }
-            }
+            ...mapGetters(["getTeachers", "filterTeacher"])
         },
+
         methods: {
+            SetPassword(lastname) {
+                var tmpLastname = lastname.replace(/\s+/g, '-').toLowerCase();
+                this.form.password = 'LMS-' + tmpLastname;
+                this.show = true;
+                /* var self = this;
+                  this.timeout = setTimeout(function () {
+                     self.show = false;
+                }, 3000);  */
+            },
+            clearForm() {
+    this.form.user_id = '';
+                this.form.firstName = '';
+                this.form.middleName ='';
+                this.form.lastName = '';
+                this.form.phone = '';
+                this.form.email = '';
 
-            async getAllTeachers() {
-                axios.get('/api/teachers/all/progress')
-                    .then((res) => {
-                        this.instructor = res.data;
-                        this.isGetting = false;
-
-
-                    }).catch((error) => {
-                        console.log(error)
-                    })
             },
 
+            openAdd() {
+                     this.clearForm();
+          this.$refs.RegisterForm.resetValidation();
+                this.type = 'add'
+                // this.grading_criteria_form.name = '';
+                // this.grading_criteria_form.percentage = '';
+                this.dialog = true;
+            },
+            openEdit(user_id) {
+                this.type = 'edit'
+                this.dialog = true;
+                var currentTeacher = this.filterTeacher(user_id);
+                console.log(currentTeacher);
+                this.form.user_id = currentTeacher.user_id;
+                this.form.firstName = currentTeacher.firstName;
+                this.form.middleName = currentTeacher.middleName;
+                this.form.lastName = currentTeacher.lastName;
+                this.form.phone = currentTeacher.cp_no;
+                this.form.email = currentTeacher.email;
+
+
+            },
+            openDelete(id) {
+                this.delId = id;
+                this.Deldialog = true;
+            },
+            updatePass(id) {
+                this.IsResetting = true;
+                axios.post('/api/teachers/reset-password/'+id ) 
+                .then(res => {
+                    this.toastSuccess(res.data);
+                    this.IsResetting = false;
+                })
+            },
+            deleteUser() {
+                this.IsDeleting = true;
+                axios.delete('/api/teachers/remove/' + this.delId)
+                .then((res) => {
+                    if(res.status==200) {
+                           this.toastSuccess('User Successfully removed!')
+                            this.IsDeleting = false;
+                    } else {
+                        this.toastError('Something went wrong!')
+                        this.IsDeleting = false;
+                    }
+                    this.Deldialog = false;
+                    this.$store.dispatch('fetchAllTeachers');
+                })
+            },
+            updateTeacherDetails() {
+                this.$store.dispatch('updateTeacher', this.form);
+            },
+            validate() {
+             this.IsAddUpdating = true;
+                if (this.$refs.RegisterForm.validate()) {
+                    if (this.type == 'add') {
+                        this.form.role = 'Teacher';
+                        this.form.password_confirmation = this.form.password
+
+
+                        this.form.post('/api/register')
+                            .then((res) => {
+                               
+                             
+                                this.$refs.RegisterForm.reset()
+                                this.valid = true;
+                                 this.dialog = false;
+                                  this.IsAddUpdating = false;
+                                
+                            })
+                      
+                    }
+
+
+                    if (this.type == 'edit') {
+                        this.form.post('/api/teachers/update/' + this.form.user_id)
+                            .then(() => {
+                                console.log("Success");
+                                this.$refs.RegisterForm.reset()
+                                this.valid = true;
+                                 this.dialog = false;
+                                  this.IsAddUpdating = false;
+                            })
+                        this.toastSuccess('User Successfully Updated!')
+                    }
+                      this.$store.dispatch('fetchAllTeachers');
+                   
+                   
+                  
+
+                }
+                else{
+                   this.IsAddUpdating = false;
+
+                }
+            },
         },
 
         mounted() {
-            this.getAllTeachers();
-            this.isloading = false;
+
+            this.$store.dispatch('fetchAllTeachers');
+
+
+
         }
+
+
+
     }
 
 </script>
+
+<style>
+    .v-input__slot {
+        margin-bottom: 0 !important;
+    }
+
+</style>
