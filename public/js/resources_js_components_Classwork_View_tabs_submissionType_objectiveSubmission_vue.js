@@ -161,6 +161,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 var resetConfirmation = function resetConfirmation() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_tabs_dialogs_resetConfirmation_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../dialogs/resetConfirmation */ "./resources/js/components/Classwork_View/tabs/dialogs/resetConfirmation.vue"));
 };
@@ -688,7 +689,9 @@ var render = function() {
                           )
                         ],
                         1
-                      )
+                      ),
+                      _vm._v(" "),
+                      _c("v-divider")
                     ],
                     1
                   ),
@@ -696,7 +699,7 @@ var render = function() {
                   _c(
                     "v-col",
                     {
-                      staticClass: "pt-0 mt-0 pb-0 mb-0",
+                      staticClass: "pt-0 mt-0 pb-0 mb-0 pt-1",
                       attrs: { cols: "12", md: "12", lg: "3", xl: "3" }
                     },
                     [
@@ -705,7 +708,7 @@ var render = function() {
                         attrs: {
                           outlined: "",
                           dense: "",
-                          label: "Class",
+                          label: "Status",
                           items: _vm.StatusType
                         },
                         model: {

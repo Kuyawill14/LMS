@@ -39,8 +39,6 @@
                 class="mr-2"
                 @change="testing()"
                  :items="classNames"
-                :loading="isLoadingClassNames"
-                :disabled="isLoadingClassNames"
                 item-text="class_name"
                 item-value="class_id"
                 label="All Class"
@@ -84,7 +82,7 @@
 <script>
  import VueElementLoading from 'vue-element-loading'
 export default {
-    props:['UserDetails'],
+    props:['UserDetails','classNames'],
     components:{
          VueElementLoading
     },
@@ -92,14 +90,14 @@ export default {
         return {
             isLoadingClassNames: true,
             isLoaded:false,
-            classNames:[],
+            //classNames:[],
             selectedFile: null,
             isSelecting: false,
             isEditing: false,
             isloading: false,
             value: '',
             content: '',
-            class_id: '',
+            class_id: this.$route.params.id,
             announcement: {
                 content: "",
                 file: "",
@@ -179,12 +177,6 @@ export default {
                 console.log(this.class_id);
             }
         },
-        mounted(){
-            setTimeout(() => {
-                this.fetchClassnames();
-            }, 3000);
-            this.class_id = this.$route.params.id;
-        }
 }
 </script>
 

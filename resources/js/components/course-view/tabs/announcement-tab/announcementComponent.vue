@@ -1,19 +1,19 @@
 <template>
-    <v-container>
+    <div>
         <v-row class="mt-3 mb-5" >
             <v-col md="12" lg="8" class="ma-auto">
                 <v-card>
-                    <announcementCreate :UserDetails='UserDetails' v-on:ReloadData="connect"> </announcementCreate>
+                    <announcementCreate :classNames="classNames" :UserDetails='UserDetails' v-on:ReloadData="connect"> </announcementCreate>
                 </v-card>
             </v-col>
         </v-row>
 
             <v-row class="mt-3">
             <v-col md="12" lg="8" class="ma-auto">
-                <announcementPostList :UserDetails="UserDetails" :PostList="getclass_post"> </announcementPostList>
+                <announcementPostList :classNames="classNames" :UserDetails="UserDetails" :PostList="getclass_post"> </announcementPostList>
             </v-col>
         </v-row>
-    </v-container>
+    </div>
 </template>
 <script>
     const announcementCreate = () => import('./announcementCreate')
@@ -36,7 +36,8 @@
             return {
                 content: '',
                 isLoading: false,
-                loadingImg: '../../images/loading.gif'
+                loadingImg: '../../images/loading.gif',
+                classNames: [],
             }
         },
         methods:{
@@ -54,10 +55,22 @@
                      vm.fetchClassPost(this.$route.params.id);
                  })
             },
+            SetClassname(data){
+                this.ClassName = data;
+            },
+            fetchClassnames() {
+                if(this.UserDetails.role == 'Teacher'){
+                    axios.get('/api/class/allnames/' + this.$route.params.id+'/'+0).then(res => {
+                        this.classNames = res.data;
+                        this.classNames.push({ class_id: this.$route.params.id, class_name: 'All Class', id: this.$route.params.id});
+                    })
+                }
+            },
           
         },
         mounted() {
             this.connect();
+            this.fetchClassnames();
            
         }
     }

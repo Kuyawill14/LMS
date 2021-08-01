@@ -38,6 +38,11 @@ let SeeAllNotification = () =>
 
 
 
+//class Not found
+let ClassNotFound = () =>
+    import ("./components/course_subject/class-type/ClassNotFound");
+
+
 // course view tabs
 let course_setup = () =>
     import ("./components/course-view/course-setup/courseSetupComponent");
@@ -185,7 +190,8 @@ const router = new Router({
                         }
                         else{
                             return next({
-                                name: "courses",
+                                name: "course-not-found",
+                                params:{id: to.params.id}
                             })
                         }
                     },
@@ -352,7 +358,11 @@ const router = new Router({
                     ]
                 },
 
-
+                {
+                    path: "/course-not-found/:id",
+                    component: ClassNotFound,
+                    name: "course-not-found"
+                },
 
             ],
 
@@ -474,9 +484,11 @@ const router = new Router({
     }
 }) */
 router.beforeEach((to, from, next) => {
-    console.log(to);
-    store.dispatch('setUserRole')
-    let UserRole = atob(store.state.CurrentUser.UserRole);
+
+    store.dispatch('fetchCurrentUser')
+    console.log(store.state.CurrentUser.CurrentUser)
+    console.log(store.state.CurrentUser.UserRole)
+    let UserRole = store.state.CurrentUser.UserRole;
     if (to.name == 'coursePage') {
         let Exist = false
         let Completed = false;

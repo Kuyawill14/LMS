@@ -50,7 +50,7 @@
                 <v-col cols="12" md="4" class="pb-0 mb-0" v-for="(item, index) in classworks.ClassworksList[i]" :key="index">
                     <v-hover v-slot="{ hover }">
                         <v-card  @click="OpenClaswork(item.type,item.status,item.score,item.classwork_id)" 
-                            link :elevation="hover ? 2 :0" >
+                            link :elevation="hover ? 1 :0" outlined >
                             <v-container class="pl-2 pr-5 pt-5 pb-5 d-flex flex-row justify-space-between">
                                 <div class="d-flex flex-row">
                                     <v-avatar size="40"

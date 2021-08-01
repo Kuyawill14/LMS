@@ -67,6 +67,22 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 var announcementList = function announcementList() {
@@ -78,7 +94,7 @@ var commentList = function commentList() {
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['PostList', 'UserDetails'],
+  props: ['PostList', 'UserDetails', 'classNames'],
   components: {
     commentList: commentList,
     announcementList: announcementList
@@ -92,7 +108,8 @@ var commentList = function commentList() {
       iconIndex: 0,
       data: {},
       CommentList: [],
-      showLess: true
+      showLess: true,
+      class_id: this.$route.params.id
     };
   },
   computed: {
@@ -140,8 +157,6 @@ var commentList = function commentList() {
     $(".post-content p").replaceWith(function () {
       return "<span>" + this.innerHTML + "</span>";
     });
-  },
-  mounted: function mounted() {
     this.test();
     this.getComments();
   }
@@ -282,130 +297,189 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    _vm._l(_vm.PostList, function(post) {
-      return _c(
-        "v-card",
-        { key: post.id, staticClass: "mb-10" },
-        [
-          _c(
+    [
+      _vm.PostList.length != 0 && _vm.UserDetails.role != "Student"
+        ? _c(
             "v-row",
-            { staticClass: "pl-5 pr-5 pt-2 mb-3 " },
             [
-              _c("v-col", { attrs: { cols: "8" } }, [
+              _c(
+                "v-col",
+                {
+                  staticClass: "mb-0 pb-0 mt-0 pt-0 text-right",
+                  attrs: { cols: "12" }
+                },
+                [
+                  _c(
+                    "div",
+                    { staticClass: "d-inline-flex " },
+                    [
+                      _c("v-select", {
+                        attrs: {
+                          items: _vm.classNames,
+                          "item-text": "class_name",
+                          "item-value": "class_id",
+                          label: "Class",
+                          solo: ""
+                        },
+                        model: {
+                          value: _vm.class_id,
+                          callback: function($$v) {
+                            _vm.class_id = $$v
+                          },
+                          expression: "class_id"
+                        }
+                      })
+                    ],
+                    1
+                  )
+                ]
+              )
+            ],
+            1
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _vm._l(_vm.PostList, function(post) {
+        return _c(
+          "v-card",
+          {
+            directives: [
+              {
+                name: "show",
+                rawName: "v-show",
+                value:
+                  post.class_id == _vm.class_id ||
+                  _vm.class_id == _vm.$ - _vm.route.params.id,
+                expression:
+                  "post.class_id == class_id || class_id == $-route.params.id"
+              }
+            ],
+            key: post.id,
+            staticClass: "mb-10"
+          },
+          [
+            _c(
+              "v-row",
+              { staticClass: "pl-5 pr-5 pt-2 mb-3 " },
+              [
+                _c("v-col", { attrs: { cols: "8" } }, [
+                  _c(
+                    "div",
+                    { staticClass: "d-flex flex-row user-info" },
+                    [
+                      _c(
+                        "v-avatar",
+                        {
+                          attrs: {
+                            size:
+                              !_vm.$vuetify.breakpoint.xs &&
+                              !_vm.$vuetify.breakpoint.sm
+                                ? 45
+                                : 40
+                          }
+                        },
+                        [
+                          _c("v-img", {
+                            staticClass: "rounded-circle",
+                            attrs: {
+                              src:
+                                post.profile_pic == null ||
+                                post.profile_pic == ""
+                                  ? "https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=" +
+                                    post.name
+                                  : post.profile_pic
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        {
+                          staticClass:
+                            "d-flex flex-column justify-content-start ml-2 mt-1"
+                        },
+                        [
+                          _c(
+                            "span",
+                            { staticClass: "d-block font-weight-bold name" },
+                            [_vm._v(_vm._s(post.name))]
+                          ),
+                          _vm._v(" "),
+                          _c("span", { staticClass: "date text-black-50" }, [
+                            _vm._v(_vm._s(_vm.format_date(post.created_at)))
+                          ])
+                        ]
+                      )
+                    ],
+                    1
+                  )
+                ]),
+                _vm._v(" "),
                 _c(
-                  "div",
-                  { staticClass: "d-flex flex-row user-info" },
+                  "v-col",
+                  { staticClass: "text-right", attrs: { cols: "4" } },
                   [
                     _c(
-                      "v-avatar",
-                      { attrs: { size: "45" } },
-                      [
-                        _c("v-img", {
-                          staticClass: "rounded-circle",
-                          attrs: {
-                            src:
-                              post.profile_pic == null || post.profile_pic == ""
-                                ? "https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=" +
-                                  post.name
-                                : post.profile_pic
-                          }
-                        })
-                      ],
+                      "v-btn",
+                      { attrs: { icon: "" } },
+                      [_c("v-icon", [_vm._v("mdi-dots-vertical")])],
                       1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "div",
-                      {
-                        staticClass:
-                          "d-flex flex-column justify-content-start ml-2 mt-1"
-                      },
-                      [
-                        _c(
-                          "span",
-                          { staticClass: "d-block font-weight-bold name" },
-                          [_vm._v(_vm._s(post.name))]
-                        ),
-                        _vm._v(" "),
-                        _c("span", { staticClass: "date text-black-50" }, [
-                          _vm._v(_vm._s(_vm.format_date(post.created_at)))
-                        ])
-                      ]
                     )
                   ],
                   1
                 )
-              ]),
-              _vm._v(" "),
-              _c(
-                "v-col",
-                { staticClass: "text-right", attrs: { cols: "4" } },
-                [
-                  _c(
-                    "v-btn",
-                    { attrs: { icon: "" } },
-                    [_c("v-icon", [_vm._v("mdi-dots-vertical")])],
-                    1
-                  )
-                ],
-                1
-              )
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "v-container",
-            { staticClass: "pl-4 pr-4 pb-6" },
-            [
-              _c(
-                "v-row",
-                [
-                  _c("v-col", { attrs: { cols: "12" } }, [
-                    _c(
-                      "div",
-                      {
-                        staticClass: "pa-5 grey lighten-5 ",
-                        attrs: { outlined: "" }
-                      },
-                      [
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "v-container",
+              { staticClass: "pl-4 pr-4 pb-6" },
+              [
+                _c(
+                  "v-row",
+                  [
+                    _c("v-col", { attrs: { cols: "12" } }, [
+                      _c("div", { staticClass: "pa-5 " }, [
                         _c("span", {
                           staticClass: "post-content",
                           domProps: { innerHTML: _vm._s(post.content) }
                         })
-                      ]
-                    )
-                  ])
-                ],
-                1
-              )
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c("v-row", { staticClass: "pl-5 pr-5" }, [_c("v-divider")], 1),
-          _vm._v(" "),
-          _c("commentList", {
-            attrs: {
-              commentCount: post.comment_count,
-              LikesCount: post.likes_count,
-              PostId: post.post_id,
-              UserDetails: _vm.UserDetails
-            },
-            on: {
-              AddCount: function($event) {
-                post.comment_count++
+                      ])
+                    ])
+                  ],
+                  1
+                )
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c("v-row", { staticClass: "pl-5 pr-5" }, [_c("v-divider")], 1),
+            _vm._v(" "),
+            _c("commentList", {
+              attrs: {
+                commentCount: post.comment_count,
+                LikesCount: post.likes_count,
+                PostId: post.post_id,
+                UserDetails: _vm.UserDetails
               },
-              MinusCount: function($event) {
-                post.comment_count--
+              on: {
+                AddCount: function($event) {
+                  post.comment_count++
+                },
+                MinusCount: function($event) {
+                  post.comment_count--
+                }
               }
-            }
-          })
-        ],
-        1
-      )
-    }),
-    1
+            })
+          ],
+          1
+        )
+      })
+    ],
+    2
   )
 }
 var staticRenderFns = []

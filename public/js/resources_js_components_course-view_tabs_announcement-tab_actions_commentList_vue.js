@@ -440,7 +440,7 @@ var render = function() {
       _vm._v(" "),
       _vm.showComment
         ? _c(
-            "v-container",
+            "div",
             { staticClass: "mt-2" },
             [
               _c(
@@ -685,15 +685,24 @@ var render = function() {
       _vm._v(" "),
       _c(
         "v-row",
-        { staticClass: "pt-1 pr-7" },
+        { staticClass: "pt-1 pr-7", attrs: { nu: "" } },
         [
           _c(
             "v-col",
-            { attrs: { cols: "2", sm: "2", lg: "1", md: "1" } },
+            {
+              staticClass: "pr-0 mr-0",
+              attrs: { cols: "2", sm: "2", lg: "1", md: "1" }
+            },
             [
               _c(
                 "v-avatar",
-                { staticClass: "ml-5", attrs: { size: "36" } },
+                {
+                  class:
+                    !_vm.$vuetify.breakpoint.xs && !_vm.$vuetify.breakpoint.sm
+                      ? "ml-7"
+                      : "ml-6",
+                  attrs: { size: "36" }
+                },
                 [
                   _c("v-img", {
                     attrs: {
@@ -717,12 +726,12 @@ var render = function() {
           _c(
             "v-col",
             {
-              staticClass: "pr-5",
+              staticClass: "pl-0 ml-0",
               attrs: { cols: "10", sm: "10", lg: "11", md: "11" }
             },
             [
               _c("v-text-field", {
-                staticClass: "text-caption",
+                staticClass: "text-caption pl-0",
                 attrs: {
                   "append-outer-icon": "mdi-send",
                   "prepend-avatar": "mdi-emoticon-dead",

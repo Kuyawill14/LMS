@@ -154,15 +154,16 @@
                                                     </v-col>
                                                 </v-row>
                                         </v-col>
-                                        <v-col ma-0 pa-0 class="pa-0 ma-0 text-right" cols="12" md="10" lg="10">
+                                        <v-col  class="pa-0 ma-0 text-right" cols="12" md="12" lg="12">
                                             <v-btn
                                             :disabled="checker.length == 0 && form.length >= 1"
                                             rounded
-                                            class="mt-2"
+                                            class="mt-2 mb-0 pb-0"
                                             color="primary"
                                             @click="add(), checker = ''"
                                             >
-                                            <v-icon dark large>mdi-plus</v-icon>
+                                            <v-icon dark left large>mdi-plus</v-icon>
+                                            Add Choice
                                             </v-btn>
                                         </v-col>
                                           
@@ -224,7 +225,7 @@
                                     </v-row>
                                 </v-container>
 
-                                 <v-container  v-if="quesForm.type == 'Matching type'">
+                                 <v-container mb-0 pb-0 v-if="quesForm.type == 'Matching type'">
                                     <v-row ma-0 pa-0>
                                         
                                         <v-col  v-for="(item, i) in MatchQuestion" :key="i" ma-0 pa-0 class="ma-0 pa-0" cols="12">
@@ -315,11 +316,11 @@
                                         class="float-right"
                                         label="Case Sensitive">
                                     </v-switch>
-                                    <v-switch
+                                  <!--   <v-switch
                                     v-model="quesForm.Required"
                                     class="float-right mr-2"
                                     label="Required">
-                                    </v-switch>
+                                    </v-switch> -->
                                 </v-container>
                                 <v-container class="mb-5">
                                         <v-btn

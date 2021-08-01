@@ -698,7 +698,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     topHeader: _layout_header__WEBPACK_IMPORTED_MODULE_0__.default,
     sidebar: _layout_sidebar__WEBPACK_IMPORTED_MODULE_1__.default
   },
-  computed: (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(["get_userRole"]),
+  computed: (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(["get_UserRole", "get_CurrentUser"]),
   methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapActions)(['setUserRole'])), {}, {
     getUserDetails: function getUserDetails() {
       var _this = this;
@@ -711,8 +711,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       })["catch"](function (error) {});
     }
   }),
-  created: function created() {
-    this.getUserDetails();
+  created: function created() {//this.getUserDetails();
   }
 });
 
@@ -23818,8 +23817,8 @@ var render = function() {
     [
       _c("sidebar", {
         attrs: {
-          UserDetails: _vm.UserDetails,
-          role: _vm.role,
+          UserDetails: _vm.get_CurrentUser,
+          role: _vm.get_UserRole,
           drawer: _vm.drawer
         }
       }),
@@ -23832,7 +23831,10 @@ var render = function() {
             { attrs: { fluid: "" } },
             [
               _c("router-view", {
-                attrs: { UserDetails: _vm.UserDetails, role: _vm.role }
+                attrs: {
+                  UserDetails: _vm.get_CurrentUser,
+                  role: _vm.get_UserRole
+                }
               })
             ],
             1

@@ -5,14 +5,14 @@
         <!-- <topHeader :UserDetails="UserDetails" v-on:toggleSidebar="toggle"></topHeader> -->
 
         
-        <sidebar :UserDetails="UserDetails" :role='role' :drawer="drawer"></sidebar>
+        <sidebar :UserDetails="get_CurrentUser" :role='get_UserRole' :drawer="drawer"></sidebar>
 
         <v-main>
 
             <v-container fluid>
-                <router-view :UserDetails='UserDetails' :role='role'></router-view>
+                <router-view :UserDetails='get_CurrentUser' :role='get_UserRole'></router-view>
             </v-container>
-            
+    
         </v-main>
 
     </v-app>
@@ -51,7 +51,7 @@
             topHeader,
             sidebar,
         },
-        computed: mapGetters(["get_userRole"]),
+        computed: mapGetters(["get_UserRole", "get_CurrentUser"]),
         methods: {
             ...mapActions(['setUserRole']),
             getUserDetails(){
@@ -67,7 +67,7 @@
             }
         },
         created() {
-            this.getUserDetails();
+            //this.getUserDetails();
            
              
         },
