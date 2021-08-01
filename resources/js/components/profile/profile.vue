@@ -1,5 +1,5 @@
 <template>
-    <v-container fluid>
+    <div>
 
         <v-container v-if="isloading" style="height: 400px;">
             <v-row class="fill-height" align-content="center" justify="center">
@@ -39,7 +39,7 @@
         </v-row> -->
 
         <h2 v-if="!isloading">USER PROFILE</h2>
-        <v-row v-if="!isloading" class="mt-2">
+        <v-row v-if="!isloading" class="">
             <v-col cols="12" md="3" lg="3" xl="2" >
               <v-card
                 elevation="1"
@@ -181,7 +181,7 @@
             </v-card>
             </v-col>
         </v-row>
-    </v-container>
+    </div>
 </template>
 
 <script>

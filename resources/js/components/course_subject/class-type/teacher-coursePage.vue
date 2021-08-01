@@ -218,8 +218,6 @@
                   this.toastSuccess("Your course has been Added", 'done')
                   this.$router.push({name: 'courseSetup' , params: {id: res.id }})
                     });
-                
-
                 }
             },
             fetchCourses() {

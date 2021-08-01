@@ -169,6 +169,26 @@ const router = new Router({
                     path: "course/:id",
                     component: courseView,
                     name: "selectedCourse",
+                    beforeEnter: (to, from, next)=>{
+                        let UserRole = atob(store.state.CurrentUser.UserRole);
+                        let Exist = false
+                        let Completed = false;
+                        let CourseStatus = UserRole == 'Teacher' ? store.state.CourseList.courseStatus : store.state.CLassList.courseStatus; 
+                        CourseStatus.forEach(item => {
+                            if (to.params.id == atob(item.id)) {
+                                Exist = true;
+                            }
+                        });
+                        
+                        if(Exist){
+                            next();
+                        }
+                        else{
+                            return next({
+                                name: "courses",
+                            })
+                        }
+                    },
                     children: [{
                             name: "coursePage",
                             path: "",
@@ -178,12 +198,14 @@ const router = new Router({
                             path: "setup",
                             component: course_setup,
                             name: "courseSetup",
+                           
 
                         },
                         {
                             name: "announcement",
                             path: "announcement",
-                            component: announcement_tab
+                            component: announcement_tab,
+                           
                         },
                         {
                             name: "classwork",
@@ -446,35 +468,22 @@ const router = new Router({
               next(false)
             }
         }
-        else{
+        else{n';lokj        1`
             next()
         }
     }
 }) */
 router.beforeEach((to, from, next) => {
-<<<<<<< HEAD
     console.log(to);
     store.dispatch('setUserRole')
     let UserRole = atob(store.state.CurrentUser.UserRole);
     if (to.name == 'coursePage') {
         let Exist = false
         let Completed = false;
-  
         let CourseStatus = UserRole == 'Teacher' ? store.state.CourseList.courseStatus : store.state.CLassList.courseStatus; 
        
         if(CourseStatus != null){
             
-=======
-
-    if (to.name == 'coursePage') {
-        let Exist = false
-        let Completed = false;
-
-        let CourseStatus = store.state.CurrentUser.UserRole == 'Teacher' ? store.state.CourseList.courseStatus : store.state.CLassList.courseStatus;
-
-        if (CourseStatus != null) {
-
->>>>>>> c167dd5c1c02503f105e235b8f15f6ecfa81d0a8
             CourseStatus.forEach(item => {
                 if (to.params.id == atob(item.id)) {
                     Exist = true;
@@ -484,38 +493,23 @@ router.beforeEach((to, from, next) => {
                 }
             });
 
-<<<<<<< HEAD
             if (UserRole == 'Teacher') {
                 if(Exist == true && Completed == true){
-=======
-            if (store.state.CurrentUser.UserRole == 'Teacher') {
-                if (Exist == true && Completed == true) {
->>>>>>> c167dd5c1c02503f105e235b8f15f6ecfa81d0a8
                     next();
                 } else if (Exist == true && Completed == false) {
                     return next({
                         name: "courseSetup",
                         params: { id: to.params.id }
                     })
-<<<<<<< HEAD
                 }
                 else if(Exist == false && Completed == false){
-=======
-                } else {
->>>>>>> c167dd5c1c02503f105e235b8f15f6ecfa81d0a8
                     return next({
                         name: "courses",
                     })
                 }
-<<<<<<< HEAD
             }
             else if(UserRole == 'Student') {
                 if(Exist == true && Completed == true){
-=======
-            } else if (store.state.CurrentUser.UserRole == 'Student') {
-                if (Exist == true && Completed == true) {
-
->>>>>>> c167dd5c1c02503f105e235b8f15f6ecfa81d0a8
                     next({
                         name: 'announcement',
                         params: { id: to.params.id }
