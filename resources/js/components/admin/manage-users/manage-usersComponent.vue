@@ -84,7 +84,7 @@
         <v-dialog v-model="dialog" width="500">
             <v-card>
                 <v-card-title class="">
-                    Add Teacher
+                    {{modalName()}}
                 </v-card-title>
                 <v-divider></v-divider>
                 <v-container>
@@ -267,6 +267,13 @@ import axios from 'axios';
         },
 
         methods: {
+            modalName() {
+                if(this.type=='add') {
+                    return 'Add Teacher';
+                } else {
+                    return 'Edit Teacher';
+                }
+            },
             SetPassword(lastname) {
                 var tmpLastname = lastname.replace(/\s+/g, '-').toLowerCase();
                 this.form.password = 'LMS-' + tmpLastname;

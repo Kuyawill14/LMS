@@ -283,6 +283,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(["getTeachers", "filterTeacher"])),
   methods: {
+    modalName: function modalName() {
+      if (this.type == 'add') {
+        return 'Add Teacher';
+      } else {
+        return 'Edit Teacher';
+      }
+    },
     SetPassword: function SetPassword(lastname) {
       var tmpLastname = lastname.replace(/\s+/g, '-').toLowerCase();
       this.form.password = 'LMS-' + tmpLastname;
@@ -797,7 +804,11 @@ var render = function() {
             "v-card",
             [
               _c("v-card-title", {}, [
-                _vm._v("\n                Add Teacher\n            ")
+                _vm._v(
+                  "\n                " +
+                    _vm._s(_vm.modalName()) +
+                    "\n            "
+                )
               ]),
               _vm._v(" "),
               _c("v-divider"),
