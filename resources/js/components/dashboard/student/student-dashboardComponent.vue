@@ -27,14 +27,14 @@
                     </v-col>
                 </v-row>
 
-                <v-row>
-                    <v-col>
+               <!--  <v-row>
+                    <v-col cols="12">
                         <studentGradeChart> </studentGradeChart>
                     </v-col>
                     <v-col>
                        
                     </v-col>
-                </v-row>
+                </v-row> -->
 
 
                  <v-row class="mt-0">
@@ -78,8 +78,8 @@
         mapGetters,
         mapActions
     } from "vuex";
-    const myCalendar = () => import('./myCalendar')
-    const myNotification = () => import('./notificationComponent')
+    const myCalendar = () => import('../myCalendar')
+    const myNotification = () => import('../notificationComponent')
     const studentClasses = () => import('./student-classes')
     const studentGradeChart = () => import('./student-grades-radarChart')
 

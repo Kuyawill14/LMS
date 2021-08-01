@@ -132,11 +132,8 @@
                 this.dialog = !this.dialogl;
             },
             joinClass() {
-
-                //this.isloading = true;
                 this.dialog = false;
                 this.$store.dispatch("joinClass", this.form).then((res) => {
-                    
                       if(res.status == 200){
                          this.toastSuccess(res.data.message);
                          this.$router.push({path: '/course/'+res.data.course_id+'/announcement'})

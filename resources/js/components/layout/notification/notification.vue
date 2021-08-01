@@ -250,13 +250,13 @@
                         this.isAccepted = true;
                          this.toastSuccess(res.data.message);
                          this.markAsread(id);
-                         this.$router.push({path: '/course/'+res.data.course_id+'/announcement'})
+                         this.$router.push({name: 'coursePage', params: {id: res.data.course_id}})
                     }
                     else if(res.status == 202){
                         this.isAccepted = true;
                         this.toastError(res.data.message);
                         this.markAsread(id);
-                        this.$router.push({path: '/course/'+res.data.course_id+'/announcement'})
+                         this.$router.push({name: 'coursePage', params: {id: res.data.course_id}})
                     }
                     else{
                         this.toastError('Something went wrong while joining the class!');

@@ -2,14 +2,13 @@ import axios from 'axios'
 
 const state = {
     CurrentUser: [],
-    UserRole: null,
+    UserRole: localStorage.getItem(btoa('user_role')),
 
 };
 const getters = {
     get_CurrentUser: (state) => state.CurrentUser,
   
 };
-
 const actions = {
     async fetchCurrentUser({ commit }, id) {
         const res = await axios.get(
@@ -18,13 +17,14 @@ const actions = {
         commit('FETCH_USER', res.data);
         return res.data;
     },
-    async setUserRole({ commit }, role) {
-        state.UserRole = role;
+    setUserRole({ commit }) {
+        state.UserRole = localStorage.getItem(btoa('user_role'))
     }
 
 };
 const mutations = {
     FETCH_USER: (state, CurrentUser) => (state.CurrentUser = CurrentUser),
+
 };
 
 export default {

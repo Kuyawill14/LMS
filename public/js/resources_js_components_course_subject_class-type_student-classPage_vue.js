@@ -147,7 +147,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     joinClass: function joinClass() {
       var _this = this;
 
-      //this.isloading = true;
       this.dialog = false;
       this.$store.dispatch("joinClass", this.form).then(function (res) {
         if (res.status == 200) {

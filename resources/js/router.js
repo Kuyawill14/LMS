@@ -443,12 +443,14 @@ const router = new Router({
     }
 }) */
 router.beforeEach((to, from, next) => {
- 
+    console.log(to);
+    store.dispatch('setUserRole')
+    let UserRole = atob(store.state.CurrentUser.UserRole);
     if (to.name == 'coursePage') {
         let Exist = false
         let Completed = false;
   
-        let CourseStatus = store.state.CurrentUser.UserRole == 'Teacher' ? store.state.CourseList.courseStatus : store.state.CLassList.courseStatus; 
+        let CourseStatus = UserRole == 'Teacher' ? store.state.CourseList.courseStatus : store.state.CLassList.courseStatus; 
        
         if(CourseStatus != null){
             
@@ -461,7 +463,7 @@ router.beforeEach((to, from, next) => {
                 }
             });
 
-            if (store.state.CurrentUser.UserRole == 'Teacher') {
+            if (UserRole == 'Teacher') {
                 if(Exist == true && Completed == true){
                     next();
                 }
@@ -471,15 +473,14 @@ router.beforeEach((to, from, next) => {
                         params: { id: to.params.id }
                     })
                 }
-                else{
+                else if(Exist == false && Completed == false){
                     return next({
                         name: "courses",
                     })
                 }
             }
-            else if(store.state.CurrentUser.UserRole == 'Student') {
+            else if(UserRole == 'Student') {
                 if(Exist == true && Completed == true){
-   
                     next({
                         name: 'announcement',
                         params: { id: to.params.id }

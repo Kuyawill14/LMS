@@ -57,9 +57,10 @@
             getUserDetails(){
                 axios.get('/api/profile/details').then((res) => {
                     this.role = res.data.role;
+              
                     localStorage.setItem(btoa('user_role'), btoa(res.data.role));
-                    this.$store.dispatch('setUserRole', res.data.role)
-                this.UserDetails = res.data;
+                    //this.$store.dispatch('setUserRole', res.data.role)
+                    this.UserDetails = res.data;
                 }).catch((error) => {
                 
                 });

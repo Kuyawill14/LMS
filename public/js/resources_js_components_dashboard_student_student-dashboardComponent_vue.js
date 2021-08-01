@@ -91,11 +91,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var myCalendar = function myCalendar() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_dashboard_student_myCalendar_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./myCalendar */ "./resources/js/components/dashboard/student/myCalendar.vue"));
+  return __webpack_require__.e(/*! import() */ "resources_js_components_dashboard_myCalendar_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../myCalendar */ "./resources/js/components/dashboard/myCalendar.vue"));
 };
 
 var myNotification = function myNotification() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_dashboard_student_notificationComponent_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./notificationComponent */ "./resources/js/components/dashboard/student/notificationComponent.vue"));
+  return __webpack_require__.e(/*! import() */ "resources_js_components_dashboard_notificationComponent_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../notificationComponent */ "./resources/js/components/dashboard/notificationComponent.vue"));
 };
 
 var studentClasses = function studentClasses() {
@@ -353,16 +353,6 @@ var render = function() {
                     ],
                     1
                   )
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "v-row",
-                [
-                  _c("v-col", [_c("studentGradeChart")], 1),
-                  _vm._v(" "),
-                  _c("v-col")
                 ],
                 1
               ),

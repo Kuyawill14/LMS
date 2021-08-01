@@ -2,7 +2,7 @@
     <div>
       
         <v-row>
-            <v-col lg="8" class="pt-0">
+            <v-col lg="12" class="pt-0">
                 <v-row>
                     <v-col lg="6" class="pt-0">
                         <v-card>
@@ -26,16 +26,13 @@
                         </v-card>
                     </v-col>
                 </v-row>
-                <v-row>
-                    <v-col>
-                        <v-card>
-                            <!-- <teacherCourse /> -->
-                        </v-card>
-                    </v-col>
-                </v-row>
+                
+            </v-col>
+             <v-col cols="12" md="12" lg="8">
+               <progressChart></progressChart>
             </v-col>
 
-            <v-col lg="4">
+            <v-col cols="12" md="12" lg="4">
                 <v-card>
                     <myCalendar :role="role"></myCalendar>
                 </v-card>
@@ -51,9 +48,11 @@
 </template>
 
 <script>
+const myNotification = () => import('../notificationComponent')
+const teacherCourse = () => import('./teacher-classes')
+const myCalendar = () => import('../myCalendar')
+const progressChart = () => import('./ProgressChart')
 
- const teacherCourse = () => import('./teacher-classes')
-    const myCalendar = () => import('./myCalendar')
       import {
         mapGetters,
         mapActions
@@ -94,7 +93,8 @@
         props:['role'],
         components: {
             VChart,
-            myCalendar
+            myCalendar,
+            progressChart
         },
         provide: {
 
@@ -113,10 +113,6 @@
                     yAxis: {
                         type: 'value'
                     },
-                    // title: {
-                    //     text: "Traffic Sources",
-                    //     left: "center"
-                    // },
                     tooltip: {
                         trigger: "item",
                         formatter: "{b} <br/>Time spent: {c} "
@@ -200,7 +196,7 @@
 
 <style scoped>
     .chart {
-        height: 400px;
+        height: 355px;
     }
 
 </style>

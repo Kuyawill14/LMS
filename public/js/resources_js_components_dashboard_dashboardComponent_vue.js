@@ -69,7 +69,6 @@ var adminDashboard = function adminDashboard() {
       var _this = this;
 
       axios.get('/api/class/count').then(function (res) {
-        console.log('12312  ', res);
         _this.class_count = res.data;
       });
     }

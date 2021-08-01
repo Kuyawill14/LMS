@@ -2055,15 +2055,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
+var myNotification = function myNotification() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_dashboard_notificationComponent_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../notificationComponent */ "./resources/js/components/dashboard/notificationComponent.vue"));
+};
+
 var teacherCourse = function teacherCourse() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_dashboard_teacher_teacher-classes_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./teacher-classes */ "./resources/js/components/dashboard/teacher/teacher-classes.vue"));
 };
 
 var myCalendar = function myCalendar() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_dashboard_teacher_myCalendar_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./myCalendar */ "./resources/js/components/dashboard/teacher/myCalendar.vue"));
+  return __webpack_require__.e(/*! import() */ "resources_js_components_dashboard_myCalendar_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../myCalendar */ "./resources/js/components/dashboard/myCalendar.vue"));
+};
+
+var progressChart = function progressChart() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_dashboard_teacher_ProgressChart_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./ProgressChart */ "./resources/js/components/dashboard/teacher/ProgressChart.vue"));
 };
 
 
@@ -2078,7 +2083,8 @@ var myCalendar = function myCalendar() {
   props: ['role'],
   components: {
     VChart: vue_echarts__WEBPACK_IMPORTED_MODULE_0__.default,
-    myCalendar: myCalendar
+    myCalendar: myCalendar,
+    progressChart: progressChart
   },
   provide: {},
   data: function data() {
@@ -2092,10 +2098,6 @@ var myCalendar = function myCalendar() {
         yAxis: {
           type: 'value'
         },
-        // title: {
-        //     text: "Traffic Sources",
-        //     left: "center"
-        // },
         tooltip: {
           trigger: "item",
           formatter: "{b} <br/>Time spent: {c} "
@@ -2175,7 +2177,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.chart[data-v-f61123f2] {\n    height: 400px;\n}\n\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.chart[data-v-f61123f2] {\n    height: 355px;\n}\n\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -46269,7 +46271,7 @@ var render = function() {
         [
           _c(
             "v-col",
-            { staticClass: "pt-0", attrs: { lg: "8" } },
+            { staticClass: "pt-0", attrs: { lg: "12" } },
             [
               _c(
                 "v-row",
@@ -46341,16 +46343,21 @@ var render = function() {
                   )
                 ],
                 1
-              ),
-              _vm._v(" "),
-              _c("v-row", [_c("v-col", [_c("v-card")], 1)], 1)
+              )
             ],
             1
           ),
           _vm._v(" "),
           _c(
             "v-col",
-            { attrs: { lg: "4" } },
+            { attrs: { cols: "12", md: "12", lg: "8" } },
+            [_c("progressChart")],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-col",
+            { attrs: { cols: "12", md: "12", lg: "4" } },
             [
               _c("v-card", [_c("myCalendar", { attrs: { role: _vm.role } })], 1)
             ],

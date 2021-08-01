@@ -52,7 +52,6 @@
 
                 axios.get('/api/class/count')
                     .then(res => {
-                        console.log('12312  ', res);
                         this.class_count = res.data;
                     })
 

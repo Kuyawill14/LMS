@@ -130,9 +130,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -181,6 +178,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       axios.get('/api/notification/all').then(function (res) {
         _this3.notificationList = res.data.data;
       });
+      console.log(this.notificationList);
     }
   }),
   mounted: function mounted() {
@@ -21731,34 +21729,7 @@ var render = function() {
                 1
               ),
               _vm._v(" "),
-              _c(
-                "v-list-item-action",
-                [
-                  _c(
-                    "v-btn",
-                    {
-                      staticClass: "white--text caption",
-                      attrs: {
-                        color: "blue",
-                        text: "",
-                        depressed: "",
-                        rounded: ""
-                      },
-                      on: {
-                        click: function($event) {
-                          return _vm.$emit("toggleSeeNotif")
-                        }
-                      }
-                    },
-                    [
-                      _vm._v(
-                        "\n                           See all\n                       "
-                      )
-                    ]
-                  )
-                ],
-                1
-              )
+              _c("v-list-item-action")
             ],
             1
           ),
@@ -21840,6 +21811,12 @@ var render = function() {
                       ? _c("v-icon", { attrs: { color: "red", large: "" } }, [
                           _vm._v("mdi-bullhorn-outline")
                         ])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    item.notification_type == 4
+                      ? _c("v-icon", { attrs: { color: "green", large: "" } }, [
+                          _vm._v(" mdi-book-open-variant")
+                        ])
                       : _vm._e()
                   ],
                   1
@@ -21864,6 +21841,8 @@ var render = function() {
                                   : item.notification_type == 3 ||
                                     item.notification_type == 2
                                   ? "blue"
+                                  : item.notification_type == 3
+                                  ? "green"
                                   : ""
                             }
                           },
@@ -22075,6 +22054,13 @@ var render = function() {
                                     text: "",
                                     rounded: "",
                                     color: "primary"
+                                  },
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.$router.push({
+                                        name: "notifications"
+                                      })
+                                    }
                                   }
                                 },
                                 [

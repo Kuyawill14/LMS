@@ -385,7 +385,10 @@ var seeAllNotification = function seeAllNotification() {
           _this4.markAsread(id);
 
           _this4.$router.push({
-            path: '/course/' + res.data.course_id + '/announcement'
+            name: 'coursePage',
+            params: {
+              id: res.data.course_id
+            }
           });
         } else if (res.status == 202) {
           _this4.isAccepted = true;
@@ -395,7 +398,10 @@ var seeAllNotification = function seeAllNotification() {
           _this4.markAsread(id);
 
           _this4.$router.push({
-            path: '/course/' + res.data.course_id + '/announcement'
+            name: 'coursePage',
+            params: {
+              id: res.data.course_id
+            }
           });
         } else {
           _this4.toastError('Something went wrong while joining the class!');
@@ -699,9 +705,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       axios.get('/api/profile/details').then(function (res) {
         _this.role = res.data.role;
-        localStorage.setItem(btoa('user_role'), btoa(res.data.role));
-
-        _this.$store.dispatch('setUserRole', res.data.role);
+        localStorage.setItem(btoa('user_role'), btoa(res.data.role)); //this.$store.dispatch('setUserRole', res.data.role)
 
         _this.UserDetails = res.data;
       })["catch"](function (error) {});
