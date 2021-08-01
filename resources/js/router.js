@@ -117,6 +117,8 @@ let documentPreview = () =>
 
 let manageUsers = () =>
     import ("./components/admin/manage-users/manage-usersComponent");
+let monitorTeachers = () =>
+    import ("./components/admin/monitor-teachers/monitorTeachersComponent");
 
 
 const router = new Router({
@@ -146,6 +148,13 @@ const router = new Router({
                     path: "/manage-users",
                     component: manageUsers,
                     name: "manageUsers",
+
+
+                },
+                {
+                    path: "/monitor-teachers",
+                    component: monitorTeachers,
+                    name: "monitorTeachers",
 
 
                 },
@@ -317,10 +326,10 @@ const router = new Router({
                             path: "publish-to",
                             component: publishClassworkTab
                         },
-        
+
                     ]
                 },
-                
+
 
 
             ],
@@ -443,6 +452,7 @@ const router = new Router({
     }
 }) */
 router.beforeEach((to, from, next) => {
+<<<<<<< HEAD
     console.log(to);
     store.dispatch('setUserRole')
     let UserRole = atob(store.state.CurrentUser.UserRole);
@@ -454,73 +464,93 @@ router.beforeEach((to, from, next) => {
        
         if(CourseStatus != null){
             
+=======
+
+    if (to.name == 'coursePage') {
+        let Exist = false
+        let Completed = false;
+
+        let CourseStatus = store.state.CurrentUser.UserRole == 'Teacher' ? store.state.CourseList.courseStatus : store.state.CLassList.courseStatus;
+
+        if (CourseStatus != null) {
+
+>>>>>>> c167dd5c1c02503f105e235b8f15f6ecfa81d0a8
             CourseStatus.forEach(item => {
-                if(to.params.id == atob(item.id)){
+                if (to.params.id == atob(item.id)) {
                     Exist = true;
-                    if(atob(item.status) == 1){
+                    if (atob(item.status) == 1) {
                         Completed = true;
                     }
                 }
             });
 
+<<<<<<< HEAD
             if (UserRole == 'Teacher') {
                 if(Exist == true && Completed == true){
+=======
+            if (store.state.CurrentUser.UserRole == 'Teacher') {
+                if (Exist == true && Completed == true) {
+>>>>>>> c167dd5c1c02503f105e235b8f15f6ecfa81d0a8
                     next();
-                }
-                else if(Exist == true && Completed == false){
+                } else if (Exist == true && Completed == false) {
                     return next({
                         name: "courseSetup",
                         params: { id: to.params.id }
                     })
+<<<<<<< HEAD
                 }
                 else if(Exist == false && Completed == false){
+=======
+                } else {
+>>>>>>> c167dd5c1c02503f105e235b8f15f6ecfa81d0a8
                     return next({
                         name: "courses",
                     })
                 }
+<<<<<<< HEAD
             }
             else if(UserRole == 'Student') {
                 if(Exist == true && Completed == true){
+=======
+            } else if (store.state.CurrentUser.UserRole == 'Student') {
+                if (Exist == true && Completed == true) {
+
+>>>>>>> c167dd5c1c02503f105e235b8f15f6ecfa81d0a8
                     next({
                         name: 'announcement',
                         params: { id: to.params.id }
                     });
-                }
-                else if(Exist == true && Completed == false){
-               
+                } else if (Exist == true && Completed == false) {
+
                     return next({
                         name: "courses",
                     })
-                }
-                else if(Exist == false && Completed == false){
-              
+                } else if (Exist == false && Completed == false) {
+
                     return next({
                         name: "courses",
                     })
                 }
             }
-        }
-        else{
+        } else {
             return next({
                 name: "courses",
             })
         }
-    
-      
-    } 
-    else if(to.name == 'login'){
+
+
+    } else if (to.name == 'login') {
         axios.get("/api/authenticated")
-        .then(() => {
-            next({
-                path: "/"
+            .then(() => {
+                next({
+                    path: "/"
+                });
+            })
+            .catch((e) => {
+                console.log(e);
+                next();
             });
-        })
-        .catch((e) => {
-            console.log(e);
-            next();
-        });
-    }
-    else {
+    } else {
         if (to.name) {
             NProgress.start()
         }

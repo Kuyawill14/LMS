@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\tbl_userDetails;
 use Illuminate\Support\Facades\Hash;
+use App\Mail\SendNewPassword;
+use Illuminate\Support\Facades\Mail;
 class AdminController extends Controller
 {
     /**
@@ -27,6 +29,21 @@ class AdminController extends Controller
 
         return $teachers;
     }
+
+
+    public function getAllTeacherProgress() {
+        $teachers = tbl_userDetails::where('role','Teacher')
+        ->select('users.role','users.firstName','users.middleName','users.lastName','users.email',
+        'tbl_user_details.*')
+        ->leftJoin('users', 'users.id', '=', 'tbl_user_details.user_id')
+        ->get();
+
+        return $teachers;
+    }
+
+
+
+
     public function removeUser($id) {
         $user_details = tbl_userDetails::where('user_id',$id)->first();
         $user = User::where('id',$id)->first();
@@ -109,12 +126,28 @@ class AdminController extends Controller
             return "Details Successfully Updated";
         }
     }
+
+    public function generatePassword() {
+        $append= 'isu';
+        $alphabet = "aeiouxyzBCDFGHIJKL1023456789#$%&@@";
+        $pass = array(); //remember to declare $pass as an array
+        $alphaLength = strlen($alphabet) - 1; //put the length -1 in cache
+        for ($i = 0; $i < 5; $i++) {
+            $n = rand(0, $alphaLength);
+            $pass[] = $alphabet[$n];
+        }
+        return $append . '-'. implode($pass); //turn the array into a string
+    }
+
     public function resetTeacherPassword($id) {
         $userTeacher = User::find($id);
-        $pass_pattern = 'ccsictlms-' . strtolower($userTeacher->lastName);
+
         if($userTeacher) {
-            $userTeacher->password =  Hash::make($pass_pattern);
+            $newpassword = $this->generatePassword();
+            $userTeacher->password =  Hash::make($newpassword);
             $userTeacher->save();
+            Mail::to($userTeacher->email)->send(new SendNewPassword($newpassword));
+ 
             return "User's password successfully reset!";
         }
 

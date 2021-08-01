@@ -36,10 +36,10 @@
             </v-card-text>
             <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color="blue darken-1" text @click="$emit('CloseLecture')" :disabled="sending">
+                <v-btn color="blue darken-1" text @click="$emit('CloseLecture')" >
                     Close
                 </v-btn>
-                <v-btn color="blue darken-1" text @click="addLecture()" :disabled="sending">
+                <v-btn color="blue darken-1" text @click="addLecture()" :loading="sending">
                     Save
                 </v-btn>
             </v-card-actions>

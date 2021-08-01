@@ -255,7 +255,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
 
       result = total_complete / length * 100;
-      return result.toFixed(2);
+
+      if (isNaN(result)) {
+        result = 0;
+      }
+
+      console.log('NAN bf', result);
+      return parseFloat(result.toFixed(2));
     },
     _mainTotalRequiredTimeSeconds: function _mainTotalRequiredTimeSeconds() {
       var total = 0;

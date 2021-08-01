@@ -78,6 +78,7 @@
                                       class="mb-5"
                                       :disabled="!valid" 
                                       @click="validate"
+                                      :loading="isLoggin"
                                       >
                                         <v-icon class="mr-3">mdi-login</v-icon>
                                       Login
@@ -115,10 +116,14 @@
 </template>
 
 <script>
-
+import VueElementLoading from 'vue-element-loading'
 export default {
+  components: {
+    VueElementLoading,
+  },
   data(){
     return{
+      isLoggin: false,
       dialog: true,
       valid: true,
       form: new Form({
@@ -168,21 +173,26 @@ export default {
       this.$refs.form.resetValidation();
     },
     login(){
+      this.isLoggin = true;
       axios.get('/sanctum/csrf-cookie').then(response => {
             this.form.post('/api/login')
                 .then((res) => {
                     if(res.status == 200) {
                         //this.$store.dispatch('fetchCurrentUser');
-                        this.toastSuccess(res.data);
+                        // this.toastSuccess(res.data);
                         localStorage.removeItem(btoa('course-status'));
                         localStorage.removeItem(btoa('user_role'));
                         this.$router.push({ path: "/" })
+                          
                     }
                     else{
+                           this.isLoggin = false;
                        this.toastError(res.data);
                     }
                 })
+           
         });
+              
     }
   },
 

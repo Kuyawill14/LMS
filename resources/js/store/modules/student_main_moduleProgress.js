@@ -11,7 +11,9 @@ const getters = {
     getStudentMainModuleProgress: state => (student_id) => {
 
         var progress = state.main_module_progress.filter(main_module_progress => main_module_progress.student_id == student_id);
-        return progress[0].progress;
+        return progress.length > 0 ? progress[0].progress : [];
+
+        // return progress[0].progress;
 
 
     },

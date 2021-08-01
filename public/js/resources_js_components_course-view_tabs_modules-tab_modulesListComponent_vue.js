@@ -343,6 +343,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
+      isSaving: false,
       form: new vform__WEBPACK_IMPORTED_MODULE_0__.default({})
     };
   },
@@ -350,6 +351,7 @@ __webpack_require__.r(__webpack_exports__);
     SaveClasswork: function SaveClasswork() {
       var _this = this;
 
+      this.isSaving = true;
       this.form.class_id = this.$route.params.id;
       axios.post('/api/classwork/insert', this.form).then(function (res) {
         if (res.status == 201) {
@@ -367,6 +369,7 @@ __webpack_require__.r(__webpack_exports__);
       })["catch"](function (e) {
         console.log(e);
       });
+      this.isSaving = false;
     }
   }
 });
@@ -5090,11 +5093,7 @@ var render = function() {
             _c(
               "v-btn",
               {
-                attrs: {
-                  color: "blue darken-1",
-                  text: "",
-                  disabled: _vm.sending
-                },
+                attrs: { color: "blue darken-1", text: "" },
                 on: {
                   click: function($event) {
                     return _vm.$emit("CloseLecture")
@@ -5110,7 +5109,7 @@ var render = function() {
                 attrs: {
                   color: "blue darken-1",
                   text: "",
-                  disabled: _vm.sending
+                  loading: _vm.sending
                 },
                 on: {
                   click: function($event) {
@@ -5277,11 +5276,7 @@ var render = function() {
             _c(
               "v-btn",
               {
-                attrs: {
-                  color: "blue darken-1",
-                  text: "",
-                  disabled: _vm.sending
-                },
+                attrs: { color: "blue darken-1", text: "" },
                 on: {
                   click: function($event) {
                     return _vm.$emit("CloseLecture")
@@ -5297,7 +5292,7 @@ var render = function() {
                 attrs: {
                   color: "blue darken-1",
                   text: "",
-                  disabled: _vm.sending
+                  loading: _vm.sending
                 },
                 on: {
                   click: function($event) {
@@ -5540,7 +5535,7 @@ var render = function() {
                     "button",
                     {
                       staticClass: "btn btn-primary",
-                      attrs: { type: "submit" },
+                      attrs: { type: "submit", loading: _vm.isSaving },
                       on: {
                         click: function($event) {
                           return _vm.SaveClasswork()
@@ -5642,11 +5637,7 @@ var render = function() {
               _c(
                 "v-btn",
                 {
-                  attrs: {
-                    color: "blue darken-1",
-                    text: "",
-                    disabled: _vm.loading
-                  },
+                  attrs: { color: "blue darken-1", text: "" },
                   on: {
                     click: function($event) {
                       return _vm.$emit("closeModal")
@@ -5662,7 +5653,7 @@ var render = function() {
                   attrs: {
                     color: "blue darken-1",
                     text: "",
-                    disabled: _vm.loading
+                    loading: _vm.loading
                   },
                   on: {
                     click: function($event) {

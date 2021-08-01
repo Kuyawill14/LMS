@@ -16,10 +16,10 @@
             </v-card-text>
             <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color="blue darken-1" text @click="$emit('closeModal');" :disabled="loading">
+                <v-btn color="blue darken-1" text @click="$emit('closeModal');" >
                     Cancel
                 </v-btn>
-                <v-btn color="blue darken-1" text @click="deleteModule()" :disabled="loading">
+                <v-btn color="blue darken-1" text @click="deleteModule()" :loading="loading">
                     Delete
                 </v-btn>
             </v-card-actions>

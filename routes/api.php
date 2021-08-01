@@ -280,6 +280,7 @@ Route::prefix('/student-course')->group(function () {
 //Get all teachers
 Route::prefix('/teachers')->group(function () {
     Route::get('/all', [AdminController::class, 'getAllTeacher']);
+    Route::get('/all/progress', [AdminController::class, 'getAllTeacherProgress']);
     Route::post('/update/{id}', [AdminController::class, 'update']);
     Route::post('/reset-password/{id}', [AdminController::class, 'resetTeacherPassword']);
     Route::delete('/remove/{id}', [AdminController::class, 'removeUser']);
