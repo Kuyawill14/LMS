@@ -23,7 +23,7 @@
         </v-container>
 
         <v-row v-if="!isloading">
-            <v-col v-if="CurrentUser.role == 'Teacher'" cols="12" class="ma-0 pa-0 pa-2">
+            <v-col v-if="role == 'Teacher'" cols="12" class="ma-0 pa-0 pa-2">
                    <!--  <v-row >
                         <v-col cols="12" >
                               <v-btn rounded text="" class=""
@@ -33,12 +33,12 @@
                             </v-btn>
                         </v-col>
                     </v-row> -->
-                 <teacherStartPage v-if="CurrentUser.role == 'Teacher'" 
+                 <teacherStartPage v-if="role == 'Teacher'" 
                 :classworkDetails="classworkDetails"
                 ></teacherStartPage>
             </v-col>
-            <v-col v-if="CurrentUser.role == 'Student'" cols="12" class="ma-0 pa-0 ">
-                 <studentStartPage v-if="CurrentUser.role == 'Student'" 
+            <v-col v-if="role == 'Student'" cols="12" class="ma-0 pa-0 ">
+                 <studentStartPage v-if="role == 'Student'" 
                 :classworkDetails="classworkDetails"
                 :totalPoints="totalPoints"
                 :totalQuestion="totalQuestion"
@@ -58,13 +58,14 @@ const studentStartPage = () => import('./type/studentStartPage')
 const teacherStartPage = () => import('./type/teacherStartPage')
 import moment from 'moment';
 export default {
+    props:['role','UserDetails'],
   components:{
     studentStartPage,
     teacherStartPage
   },
     data(){
         return{
-            isloading:false,
+            isloading:true,
             classworkDetails:[],
             totalPoints:null,
             totalQuestion:null,
@@ -78,6 +79,10 @@ export default {
                this.classworkDetails = res.data.Details;
                 this.totalPoints = res.data.totalpoints;
                 this.totalQuestion = res.data.ItemsCount;
+                this.isloading = !this.isloading;
+            })
+            .catch(e=>{
+                this.isloading = !this.isloading;
             })
         },
          format_date(value) {
@@ -87,13 +92,14 @@ export default {
         },
     },
     mounted(){
-        this.isloading = !this.isloading;
         this.getClassworkDetails();
-        this.$store.dispatch('fetchCurrentUser')
-        .then(res=>{
-          this.isloading = !this.isloading;
-          this.CurrentUser = res;
-        })
+    },
+    beforeDestroy(){
+        this.classworkDetails.destroy();
+        this.totalPoints.destroy();
+        this.totalQuestion.destroy();
     }
+    
+    
 }
 </script>

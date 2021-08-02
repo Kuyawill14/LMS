@@ -27,244 +27,237 @@
     </v-row>
 </v-container>
 
-<v-container class="mt-5" v-if="!isLoading" >
-      <v-row justify="center">
-          <v-col cols="12" md="9" lg="9">
-               <v-card class="pl-3 pr-3">
+<div :class="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm ? 'pa-2 mt-1' : 'pa-2 mt-10'" v-if="!isLoading" >
+      <v-row justify="center" >
+          <v-col cols="12" md="10" xl="7" lg="8">
+               <v-card elevation="2" outlined class="pa-2">
                <v-row v-if="!isLoading">
-                <v-col cols="6">
+                <v-col cols="8" style="overflow:hidden;white-space: nowrap;text-overflow: ellipsis;">
                     <div class="mt-3 d-flex">
-                        <v-btn
-                            class="mx-2"
-                            fab
-                            dark
-                            color="primary"
-                            >
-                            <v-icon x-large>
+                        <v-avatar :size="!$vuetify.breakpoint.xs && !$vuetify.breakpoint.sm ? '50' : '40'" class="mr-2" color="primary">
+                             <v-icon dark :large="!$vuetify.breakpoint.xs && !$vuetify.breakpoint.sm ">
                             mdi-book-open-variant
                             </v-icon>
-                        </v-btn>
-                        <div class="font-weight-bold mt-4">{{classworkDetails.title}}</div>
+                        </v-avatar>
+                        
+                        <div 
+                        
+                        :class="!$vuetify.breakpoint.xs && !$vuetify.breakpoint.sm ? 'font-weight-bold mt-4': 'mt-2'">{{classworkDetails.title}}</div>
                         </div>
                 </v-col>
-                <v-col cols="6" class="d-flex justify-end">
+                <v-col cols="4" class="d-flex justify-end">
                     <div>
-                        <h4 class="ml-4">Time Remaining</h4>
-                        <quizTimer  :StopTimer="StopTimer" v-on:TimerStop="StopTimer = false, SubmitAnswer()" v-on:TimesUp="TimesUpSubmit()" :duration="duration" v-if="!isLoading"></quizTimer>
+                        <h4 class="ml-10">Time Remaining</h4>
+                        <div class="d-flex">
+                             <div class="text-center">
+                                <v-menu offset-y>
+                                <template v-slot:activator="{ on, attrs }">
+                                    <v-btn icon
+                                     v-bind="attrs"
+                                    v-on="on"><v-icon>mdi-chevron-down</v-icon> </v-btn>
+                                </template>
+                                <v-list>
+                                    <v-list-item v-for="(item, index) in getAll_questions.Question" :key="index">
+                                    <v-list-item-title>  <v-btn text rounded
+                                       @click="questionIndex = index"
+                                       >
+                                        <v-icon :color="FinalAnswers[index].Answer == '' ? '' : 'primary'" left>{{FinalAnswers[index].Answer == '' ? 'mdi-checkbox-blank-outline':'mdi-checkbox-marked'}}</v-icon>
+                                         {{index+1}}
+                                       </v-btn></v-list-item-title>
+                                    </v-list-item>
+                                </v-list>
+                                </v-menu>
+                            </div>
+                             <quizTimer  :StopTimer="StopTimer" v-on:TimerStop="StopTimer = false, SubmitAnswer()" v-on:TimesUp="TimesUpSubmit()" :duration="duration" v-if="!isLoading"></quizTimer>
+                        </div>
+                       
                     </div>
                 </v-col>
             </v-row>
             </v-card>
           </v-col>
       </v-row>
-       
-        
+</div>
 
-</v-container>
-
-
-<v-hover v-if="!isLoading">
-  <v-container class="mt-0 pt-0"  fluid>
+  <div v-if="!isLoading" class="mt-2 ma-2"  >
         <v-row  justify="center">
-            <v-col cols="12" sm="12" md="8" lg="8" class="mt-4 pt-0"  xl="8">
-                <v-container class="d-flex flex-row justify-center">
-                    <v-card  style="border-top:5px solid #EF6C00;max-height:50vh;overflow: scroll;overflow-x: hidden;" :class="$vuetify.breakpoint.xs? 'd-none mr-0':'mr-2'" >
-                      <v-window >
-                          <v-window-item >
-                               <v-container align="center" ma-0 pa-0 v-for="(item, index) in getAll_questions.Question" :key="index">
-                                   <v-container class="pa-0 ma-0 pl-sm-4 pr-3 pt-2 pb-2 d-flex flex-row">
-                                       <v-btn text rounded
-                                       @click="questionIndex = index"
-                                       >
-                                        <v-icon :color="FinalAnswers[index].Answer == '' ? '' : 'primary'" left>{{FinalAnswers[index].Answer == '' ? 'mdi-checkbox-blank-outline':'mdi-checkbox-marked'}}</v-icon>
-                                         {{index+1}}
-                                       </v-btn>
-                                   </v-container>
-                                   
-                               </v-container>
-                          </v-window-item>
-                      </v-window>
-                    </v-card>
+            <v-col cols="12" sm="12" md="10" lg="8" xl="7">
+                <v-card class="pa-5" elevation="2" outlined >
+                    <v-row>
+                        <v-row>
+                            <v-col cols="12" md="12" lg="12"  class="text-right pa-5" >
+                                    <div class="mb-4">
 
-                      <v-card style="width:100%">
-                        <v-window>
-                            <v-window-item >
-                                <v-row>
-                                    <v-row>
-                                        <v-col cols="12" md="12" lg="12"  class="text-right pt-12 pr-12 mb-0 pb-0" >
-                                             
-                                                <v-btn rounded color="primary" class="mr-2" outlined="" @click="prev" 
-                                                :disabled="questionIndex <= 0">
-                                                    <v-icon>mdi-arrow-left</v-icon>
-                                                    {{$vuetify.breakpoint.xs ? '' : 'previous'}}
-                                                    </v-btn>
+                                  
+                                    <v-btn rounded color="primary" class="mr-2" outlined="" @click="prev" 
+                                    :disabled="questionIndex <= 0">
+                                        <v-icon>mdi-arrow-left</v-icon>
+                                        {{$vuetify.breakpoint.xs || $vuetify.breakpoint.sm  ? '' : 'previous'}}
+                                        </v-btn>
 
-                                                    <v-btn v-if="questionIndex != Qlength-1" 
-                                                    
-                                                     rounded color="primary" @click="next">
-                                                    {{$vuetify.breakpoint.xs ? '' : 'Next'}}
-                                                    <v-icon>mdi-arrow-right</v-icon>
-                                                    </v-btn>
+                                        <v-btn v-if="questionIndex != Qlength-1" 
+                                        
+                                            rounded color="primary" @click="next">
+                                        {{$vuetify.breakpoint.xs || $vuetify.breakpoint.sm  ? '' : 'Next'}}
+                                        <v-icon>mdi-arrow-right</v-icon>
+                                        </v-btn>
 
-                                                    <v-btn  v-if="questionIndex == Qlength-1"  rounded color="success" @click="SubmitPromp">
-                                                    Submit
-                                                    <v-icon>mdi-lock</v-icon>
-                                                    </v-btn>
-                                          
-                                        </v-col>
-                                        <v-col  cols="12" md="12" lg="12" class="pa-9">
-                                        <v-container ma-0 pa-0 v-for="(item, index) in getAll_questions.Question" :key="index">
-                                            <div v-show="index === questionIndex">
-                                                    <v-row ma-0 pa-0>
-                                                        <v-col class="mb-0 pb-0" cols="12">
-                                                            <v-container class="pa-0 ma-0 d-flex flex-row justify-space-between">
-                                                                <h3 >Question #{{index+1}}</h3>
-                                                                <p class="mr-5">{{item.points}} Points</p>
-                                                            </v-container>
-                                                        </v-col>
-                                                
-                                            
-                                                        <v-col class=" mt-0 pt-1" cols="12" md="11" lg="11">
-                                                            <v-container ma-0 pa-0 class="ma-0 pa-0">
-                                                                <div :style="$vuetify.breakpoint.xs ? 'line-height:1.1': ''" class="subtitle-1"><span v-html="item.question" class="post-content"></span><!-- {{item.question}} --></div>
-                                                            </v-container> 
-                                                        </v-col>
-                                            
-                                                    </v-row>
-                                                    
-                                                    <v-container v-if="item.type == 'Multiple Choice'">
-                                                      <v-row>
-                                                          <v-col cols="12" md="12">
-                                                            <v-container >
-                                                                <v-container class="d-flex flex-row ma-0 pa-0 mb-1" v-for="(Ans,i) in getAll_questions.Answer[index]" :key="i">
-                                                                <v-radio-group :name="'option'+index"  class="ma-0 pa-0" v-model="FinalAnswers[index].Answer">
-                                                                    <v-radio
-                                                                    color="primary"
-                                                                    :key="Ans.id"
-                                                                    @click="SelectAnswer()"
-                                                                    :value="Ans.Choice"
-                                                                    ></v-radio>
-                                                                    </v-radio-group>
-                                                                    <div style="line-height:1.4" class="Subtitle-1 ma-0 pa-0">
-                                                                      <!--   {{Ans.Choice}} -->
-                                                                        <span v-html="Ans.Choice" class="post-content"></span>
-                                                                    </div>
-                                                                    </v-container>
-                                                                    <v-container class="mb-0 pb-0 d-flex flex-row-reverse">
-                                                                        <v-btn @click="reset(index)" text rounded small>Reset selection</v-btn>
-                                                                    </v-container>
-                                                                </v-container>
-                                                            </v-col>
-                                                        </v-row>
-                                                    </v-container>
-
-                                                    <v-container v-if="item.type == 'Identification'">
-                                                        <v-row ma-0 pa-0>
-                                                            <v-col  ma-0 pa-0 class="ma-0 pa-0 mt-5" cols="12">
-                                                                <v-card style="width:100%" class="mb-3">
-                                                                    <editor 
-                                                                    @change="SelectAnswer()"
-                                                                        v-model="FinalAnswers[index].Answer" 
-                                                                        id="editor-container" placeholder="Answer" 
-                                                                        theme="snow" :options="options"></editor>
-                                                                </v-card>
-                                                                  <v-container class="mb-0 pb-0 d-flex flex-row-reverse">
-                                                                    <v-btn @click="reset(index)" text rounded small>Clear Answer</v-btn>
-                                                                </v-container>
-                                                            </v-col>
-                                                        </v-row>
-                                                    </v-container>
-
-                                                    <v-container v-if="item.type == 'True or False'">
-                                                        <v-container ma-0 pa-0>
-                                                            <v-container class="d-flex flex-row ma-0 pa-0" v-for="(x, n) in inputCheck" :key="n">
-                                                            <v-radio-group :name="'option'+index"   class="ma-0 pa-0"  v-model="FinalAnswers[index].Answer">
-                                                                <v-radio
-                        
-                                                                color="primary"
-                                                                @click="SelectAnswer()"
-                                                                :key="index"
-                                                                :value="inputCheck[n]"
-                                                                ></v-radio>
-                                                                </v-radio-group>
-
-                                                                <div class="Subtitle 1">
-                                                                    {{inputCheck[n]}}
-                                                                </div>
-                                                                </v-container>
-                                                                 <v-container class="mb-0 pb-0 d-flex flex-row-reverse">
-                                                                    <v-btn @click="reset(index)" text rounded small>Reset selection</v-btn>
-                                                                </v-container>
+                                        <v-btn  v-if="questionIndex == Qlength-1"  rounded color="success" @click="SubmitPromp">
+                                        Submit
+                                        <v-icon>mdi-lock</v-icon>
+                                        </v-btn>
+                                      </div>
+                                <v-divider></v-divider>
+                            </v-col>
+                            <v-col  cols="12" md="12" lg="12" class="pa-9">
+                            <v-container ma-0 pa-0 v-for="(item, index) in getAll_questions.Question" :key="index">
+                                <div v-show="index === questionIndex">
+                                        <v-row ma-0 pa-0>
+                                            <v-col class="mb-0 pb-0" cols="12">
+                                                <v-container class="pa-0 ma-0 d-flex flex-row justify-space-between">
+                                                    <h3 >Question #{{index+1}}</h3>
+                                                    <p class="mr-5">{{item.points}} Points</p>
+                                                </v-container>
+                                            </v-col>
+                                    
+                                
+                                            <v-col class=" mt-0 pt-1" cols="12" md="11" lg="11">
+                                                <v-container ma-0 pa-0 class="ma-0 pa-0">
+                                                    <div :style="$vuetify.breakpoint.xs ? 'line-height:1.1': ''" class="subtitle-1"><span v-html="item.question" class="post-content"></span><!-- {{item.question}} --></div>
+                                                </v-container> 
+                                            </v-col>
+                                
+                                        </v-row>
+                                        
+                                        <v-container v-if="item.type == 'Multiple Choice'">
+                                            <v-row>
+                                                <v-col cols="12" md="12">
+                                                <v-container >
+                                                    <v-container class="d-flex flex-row ma-0 pa-0 mb-1" v-for="(Ans,i) in getAll_questions.Answer[index]" :key="i">
+                                                    <v-radio-group :name="'option'+index"  class="ma-0 pa-0" v-model="FinalAnswers[index].Answer">
+                                                        <v-radio
+                                                        color="primary"
+                                                        :key="Ans.id"
+                                                        @click="SelectAnswer()"
+                                                        :value="Ans.Choice"
+                                                        ></v-radio>
+                                                        </v-radio-group>
+                                                        <div style="line-height:1.4" class="Subtitle-1 ma-0 pa-0">
+                                                            <!--   {{Ans.Choice}} -->
+                                                            <span v-html="Ans.Choice" class="post-content"></span>
+                                                        </div>
+                                                        </v-container>
+                                                        <v-container class="mb-0 pb-0 d-flex flex-row-reverse">
+                                                            <v-btn @click="reset(index)" text rounded small>Reset selection</v-btn>
                                                         </v-container>
                                                     </v-container>
-                                                
-
-                                                    <v-container class="mb-4" v-if="item.type == 'Matching type'">
-                                                        <v-row >
-                                                                <v-col ma-0 pa-0 class="ma-0 pa-0" cols="12" lg="12" md="12" >
-                                                                    <v-container class="pl-5 pr-5">
-                                                                        <v-container>
-                                                                            <v-row>
-                                                                                <v-col class="font-weight-bold" cols="1" md="1" lg="1">
-                                                                                   
-                                                                                </v-col>
-                                                                                <v-col class="font-weight-bold" cols="5" md="6" lg="6">
-                                                                                    Column A
-                                                                                </v-col>
-                                                                                <v-col class="font-weight-bold" cols="5">
-                                                                                    Column B
-                                                                                </v-col>
-                                                                            </v-row>
-                                                                        </v-container>
-                                                                        <v-divider></v-divider>
-                                                                        <v-container class="mb-0 pb-0" v-for="(List, i) in getAll_questions.Answer[index].SubQuestion" :key="List.id">
-                                                                            
-                                                                            <v-row>
-                                                                                <v-col class="mb-1 pb-0 pt-0 mt-0" cols="2" md="1" lg="1">
-                                                                                    <v-text-field 
-                                                                                    @onkeyup="SubAnswers[i] = SubAnswers[i].toUpperCase()"
-                                                                                    v-model="SubAnswers[i]"
-                                                                                      @change="(quesNumber[i] = List.id),(PickAnswers_id.quesId =item.id),(Questype = item.type),PickAnswers.ans = 'Matching Type'"
-                                                                                    class="centered-input"
-                                                                                        
-                                                                                    ></v-text-field>
-                                                                                </v-col>
-                                                                                <v-col class="mb-1 pb-0 pt-0 mt-0" cols="5" md="6" lg="6">
-                                                                                    <div class="d-flex mt-7">
-                                                                                        <span class="font-weight-medium mr-1">{{(i+1+'. ')}}</span>
-                                                                                        <span :style="$vuetify.breakpoint.xs ? 'line-height:1.1':'line-height:1.5'" v-html="List.sub_question" class="subquestion-content"></span>
-                                                                                    </div>
-                                                                                </v-col>
-                                                                                <v-col class="mb-1 pb-0 pt-0 mt-0"  cols="5" md="5" lg="5">
-                                                                                    <div class="d-flex mt-7"> 
-                                                                                        <span class="font-weight-medium mr-1">{{(Alphabet[i]+'. ')}}</span>
-                                                                                       
-                                                                                        <span :style="$vuetify.breakpoint.xs ? 'line-height:1.1':'line-height:1.5'" v-html="getAll_questions.Answer[index].SubAnswer[i].Choice" class="subchoices-content"></span>
-                                                                                    </div>
-                                                                                </v-col>
-                                                                            </v-row>
-                                                                        </v-container>
-                                                                    </v-container>
-                                                                  
-                                                                </v-col>
-                                                            </v-row>
-                                                    </v-container>
-
-                                            </div>
+                                                </v-col>
+                                            </v-row>
                                         </v-container>
-                                           
-                                        </v-col>
-                                    </v-row>
-                                </v-row>
-                            </v-window-item>
-                        </v-window>
-                     </v-card>
-                </v-container>
-              
+
+                                        <v-container v-if="item.type == 'Identification'">
+                                            <v-row ma-0 pa-0>
+                                                <v-col  ma-0 pa-0 class="ma-0 pa-0 mt-5" cols="12">
+                                                    <v-card style="width:100%" class="mb-3">
+                                                        <editor 
+                                                        @change="SelectAnswer()"
+                                                            v-model="FinalAnswers[index].Answer" 
+                                                            id="editor-container" placeholder="Answer" 
+                                                            theme="snow" :options="options"></editor>
+                                                    </v-card>
+                                                        <v-container class="mb-0 pb-0 d-flex flex-row-reverse">
+                                                        <v-btn @click="reset(index)" text rounded small>Clear Answer</v-btn>
+                                                    </v-container>
+                                                </v-col>
+                                            </v-row>
+                                        </v-container>
+
+                                        <v-container v-if="item.type == 'True or False'">
+                                            <v-container ma-0 pa-0>
+                                                <v-container class="d-flex flex-row ma-0 pa-0" v-for="(x, n) in inputCheck" :key="n">
+                                                <v-radio-group :name="'option'+index"   class="ma-0 pa-0"  v-model="FinalAnswers[index].Answer">
+                                                    <v-radio
+            
+                                                    color="primary"
+                                                    @click="SelectAnswer()"
+                                                    :key="index"
+                                                    :value="inputCheck[n]"
+                                                    ></v-radio>
+                                                    </v-radio-group>
+
+                                                    <div class="Subtitle 1">
+                                                        {{inputCheck[n]}}
+                                                    </div>
+                                                    </v-container>
+                                                        <v-container class="mb-0 pb-0 d-flex flex-row-reverse">
+                                                        <v-btn @click="reset(index)" text rounded small>Reset selection</v-btn>
+                                                    </v-container>
+                                            </v-container>
+                                        </v-container>
+                                    
+
+                                        <v-container class="mb-4" v-if="item.type == 'Matching type'">
+                                            <v-row >
+                                                    <v-col ma-0 pa-0 class="ma-0 pa-0" cols="12" lg="12" md="12" >
+                                                        <v-container class="pl-5 pr-5">
+                                                            <v-container>
+                                                                <v-row>
+                                                                    <v-col class="font-weight-bold" cols="1" md="1" lg="1">
+                                                                        
+                                                                    </v-col>
+                                                                    <v-col class="font-weight-bold" cols="5" md="6" lg="6">
+                                                                        Column A
+                                                                    </v-col>
+                                                                    <v-col class="font-weight-bold" cols="5">
+                                                                        Column B
+                                                                    </v-col>
+                                                                </v-row>
+                                                            </v-container>
+                                                            <v-divider></v-divider>
+                                                            <v-container class="mb-0 pb-0" v-for="(List, i) in getAll_questions.Answer[index].SubQuestion" :key="List.id">
+                                                                
+                                                                <v-row>
+                                                                    <v-col class="mb-1 pb-0 pt-0 mt-0" cols="2" md="1" lg="1">
+                                                                        <v-text-field 
+                                                                        @onkeyup="SubAnswers[i] = SubAnswers[i].toUpperCase()"
+                                                                        v-model="SubAnswers[i]"
+                                                                            @change="(quesNumber[i] = List.id),(PickAnswers_id.quesId =item.id),(Questype = item.type),PickAnswers.ans = 'Matching Type'"
+                                                                        class="centered-input"
+                                                                            
+                                                                        ></v-text-field>
+                                                                    </v-col>
+                                                                    <v-col class="mb-1 pb-0 pt-0 mt-0" cols="5" md="6" lg="6">
+                                                                        <div class="d-flex mt-7">
+                                                                            <span class="font-weight-medium mr-1">{{(i+1+'. ')}}</span>
+                                                                            <span :style="$vuetify.breakpoint.xs ? 'line-height:1.1':'line-height:1.5'" v-html="List.sub_question" class="subquestion-content"></span>
+                                                                        </div>
+                                                                    </v-col>
+                                                                    <v-col class="mb-1 pb-0 pt-0 mt-0"  cols="5" md="5" lg="5">
+                                                                        <div class="d-flex mt-7"> 
+                                                                            <span class="font-weight-medium mr-1">{{(Alphabet[i]+'. ')}}</span>
+                                                                            
+                                                                            <span :style="$vuetify.breakpoint.xs ? 'line-height:1.1':'line-height:1.5'" v-html="getAll_questions.Answer[index].SubAnswer[i].Choice" class="subchoices-content"></span>
+                                                                        </div>
+                                                                    </v-col>
+                                                                </v-row>
+                                                            </v-container>
+                                                        </v-container>
+                                                        
+                                                    </v-col>
+                                                </v-row>
+                                        </v-container>
+
+                                </div>
+                            </v-container>
+                                
+                            </v-col>
+                        </v-row>
+                    </v-row>
+                </v-card>
             </v-col>
         </v-row>
-    </v-container>
-</v-hover>
+    </div>
+
 </v-app>
 
 </template>
@@ -601,11 +594,11 @@ export default {
         },
     },
     beforeMount() {
-        window.addEventListener("beforeunload", this.preventNav);
+       /*  window.addEventListener("beforeunload", this.preventNav);
         let self = this;
         $(window).blur(function(){
             self.triggerWarning()
-        });
+        }); */
     },
     mounted(){
         this.CheckStatus();

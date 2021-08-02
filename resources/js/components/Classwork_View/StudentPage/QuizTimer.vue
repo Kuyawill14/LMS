@@ -32,7 +32,7 @@
                     :minutes-txt="'minutes'"
                     :seconds-txt="'seconds'">
                     <template slot="countdown" slot-scope="scope">
-                    <v-container  class="d-flex justify-center mt-0 pt-0">
+                    <div  class="d-flex justify-center mt-0 pt-0">
                         <div class="text-center">
                               <div class="text-md-h6"> {{scope.props.hours}}</div>
                               <div class="caption">{{scope.props.hourTxt}}</div>  
@@ -47,7 +47,7 @@
                             <div class="text-md-h6">{{scope.props.seconds}}</div>
                             <div class="caption">{{scope.props.secondsTxt}} </div>  
                         </div>
-                    </v-container>
+                    </div>
                     </template>
                     </vue-countdown-timer>
          <!--    </v-card>
