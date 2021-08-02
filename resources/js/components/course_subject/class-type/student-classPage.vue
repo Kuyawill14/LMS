@@ -129,7 +129,7 @@
         methods: {
             ...mapActions(["fetchClassList"]),
             openJoinmodal() {
-                this.dialog = !this.dialogl;
+                this.dialog = !this.dialog;
             },
             joinClass() {
                 this.dialog = false;
@@ -167,7 +167,6 @@
             this.fetchClasses();
         }
     };
-
 </script>
 
 <style scoped>

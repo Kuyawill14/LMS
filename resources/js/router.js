@@ -175,16 +175,30 @@ const router = new Router({
                     component: courseView,
                     name: "selectedCourse",
                     beforeEnter: (to, from, next)=>{
+                        if(to.name == 'courseSetup'){
+                            store.state.CourseList.courseStatus.forEach(item => {
+                                if (to.params.id == atob(item.id)) {
+                                    next()
+                                }
+                            });
+                            
+                            
+                        }
+                        else{
+
+                       
+                        
                         let UserRole = atob(store.state.CurrentUser.UserRole);
                         let Exist = false
                         let Completed = false;
+                       
                         let CourseStatus = UserRole == 'Teacher' ? store.state.CourseList.courseStatus : store.state.CLassList.courseStatus; 
                         CourseStatus.forEach(item => {
                             if (to.params.id == atob(item.id)) {
                                 Exist = true;
                             }
                         });
-                        
+                     
                         if(Exist){
                             next();
                         }
@@ -194,6 +208,7 @@ const router = new Router({
                                 params:{id: to.params.id}
                             })
                         }
+                    }
                     },
                     children: [{
                             name: "coursePage",
