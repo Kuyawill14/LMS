@@ -591,7 +591,7 @@ var seeAllNotification = function seeAllNotification() {
     }
   },
   computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)(["getcourseInfo"])),
-  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)(['fetchScourse'])), {}, {
+  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)(['fetchScourse', 'clear_current_user'])), {}, {
     goHome: function goHome() {
       this.$router.push({
         path: ""
@@ -602,7 +602,8 @@ var seeAllNotification = function seeAllNotification() {
 
       axios.post('/api/logout').then(function () {
         localStorage.removeItem(btoa('course-status'));
-        localStorage.removeItem(btoa('user_role'));
+
+        _this.clear_current_user();
 
         _this.$router.push({
           path: "/login"

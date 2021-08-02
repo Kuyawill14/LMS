@@ -119,7 +119,7 @@
             ...mapGetters(["getcourseInfo"]),
         },
         methods: {
-            ...mapActions(['fetchScourse']),
+            ...mapActions(['fetchScourse','clear_current_user']),
              goHome() {
                 this.$router.push({
                     path: ""
@@ -129,7 +129,7 @@
                 axios.post('/api/logout')
                     .then(() => {
                         localStorage.removeItem(btoa('course-status'));
-                        localStorage.removeItem(btoa('user_role'));
+                        this.clear_current_user()
                         this.$router.push({
                             path: "/login"
                         })

@@ -20,8 +20,8 @@ const actions = {
             commit('SET_USER_ROLE', res.data.role);
         }
     },
-    setUserRole({ commit }) {
-        state.UserRole = localStorage.getItem(btoa('user_role'))
+    clear_current_user({ commit }) {
+        state.CurrentUser.length = 0;
     }
 
 };
