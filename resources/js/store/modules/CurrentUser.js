@@ -21,7 +21,8 @@ const actions = {
         }
     },
     clear_current_user({ commit }) {
-        state.CurrentUser.length = 0;
+        state.CurrentUser = [];
+        state.UserRole = null;
     }
 
 };

@@ -484,10 +484,7 @@ const router = new Router({
     }
 }) */
 router.beforeEach((to, from, next) => {
-
     store.dispatch('fetchCurrentUser')
-    console.log(store.state.CurrentUser.CurrentUser)
-    console.log(store.state.CurrentUser.UserRole)
     let UserRole = store.state.CurrentUser.UserRole;
     if (to.name == 'coursePage') {
         let Exist = false
