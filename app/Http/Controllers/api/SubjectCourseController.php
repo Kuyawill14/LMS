@@ -62,7 +62,7 @@ class SubjectCourseController extends Controller
         if(auth('sanctum')->user()->role == "Student"){
             $ShowCourseDetails = tbl_subject_course::where('tbl_subject_courses.id', $id)
             ->select('tbl_subject_courses.id', 'tbl_subject_courses.course_code', 'tbl_subject_courses.course_name', 'tbl_subject_courses.course_description'
-            , 'tbl_subject_courses.course_picture',DB::raw('CONCAT(users.firstname, " ", users.lastName) as name'),'completed')
+            , 'tbl_subject_courses.course_picture',DB::raw('CONCAT(users.firstname, " ", users.lastName) as name'),'completed','tbl_subject_courses.v_classroom_link')
             ->leftjoin('tbl_userclasses', 'tbl_userclasses.course_id','=','tbl_subject_courses.id')
             ->leftjoin('users', 'users.id','=','tbl_userclasses.user_id')
             ->where('users.role', 'Teacher')
