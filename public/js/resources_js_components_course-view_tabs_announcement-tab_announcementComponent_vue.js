@@ -60,7 +60,8 @@ var announcementPostList = function announcementPostList() {
     return {
       content: '',
       isLoading: false,
-      loadingImg: '../../images/loading.gif'
+      loadingImg: '../../images/loading.gif',
+      classNames: []
     };
   },
   methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapActions)(['fetchClassPost'])), {}, {
@@ -76,10 +77,29 @@ var announcementPostList = function announcementPostList() {
       window.Echo["private"]("post." + this.$route.params.id).listen('NewPost', function (e) {
         vm.fetchClassPost(_this.$route.params.id);
       });
+    },
+    SetClassname: function SetClassname(data) {
+      this.ClassName = data;
+    },
+    fetchClassnames: function fetchClassnames() {
+      var _this2 = this;
+
+      if (this.UserDetails.role == 'Teacher') {
+        axios.get('/api/class/allnames/' + this.$route.params.id + '/' + 0).then(function (res) {
+          _this2.classNames = res.data;
+
+          _this2.classNames.push({
+            class_id: _this2.$route.params.id,
+            class_name: 'All Class',
+            id: _this2.$route.params.id
+          });
+        });
+      }
     }
   }),
   mounted: function mounted() {
     this.connect();
+    this.fetchClassnames();
   }
 });
 
@@ -21651,7 +21671,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "v-container",
+    "div",
     [
       _c(
         "v-row",
@@ -21665,7 +21685,10 @@ var render = function() {
                 "v-card",
                 [
                   _c("announcementCreate", {
-                    attrs: { UserDetails: _vm.UserDetails },
+                    attrs: {
+                      classNames: _vm.classNames,
+                      UserDetails: _vm.UserDetails
+                    },
                     on: { ReloadData: _vm.connect }
                   })
                 ],
@@ -21688,6 +21711,7 @@ var render = function() {
             [
               _c("announcementPostList", {
                 attrs: {
+                  classNames: _vm.classNames,
                   UserDetails: _vm.UserDetails,
                   PostList: _vm.getclass_post
                 }

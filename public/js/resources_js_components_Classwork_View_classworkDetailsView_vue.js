@@ -86,13 +86,14 @@ var teacherStartPage = function teacherStartPage() {
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  props: ['role', 'UserDetails'],
   components: {
     studentStartPage: studentStartPage,
     teacherStartPage: teacherStartPage
   },
   data: function data() {
     return {
-      isloading: false,
+      isloading: true,
       classworkDetails: [],
       totalPoints: null,
       totalQuestion: null,
@@ -112,6 +113,9 @@ var teacherStartPage = function teacherStartPage() {
                   _this.classworkDetails = res.data.Details;
                   _this.totalPoints = res.data.totalpoints;
                   _this.totalQuestion = res.data.ItemsCount;
+                  _this.isloading = !_this.isloading;
+                })["catch"](function (e) {
+                  _this.isloading = !_this.isloading;
                 });
 
               case 1:
@@ -129,14 +133,12 @@ var teacherStartPage = function teacherStartPage() {
     }
   },
   mounted: function mounted() {
-    var _this2 = this;
-
-    this.isloading = !this.isloading;
     this.getClassworkDetails();
-    this.$store.dispatch('fetchCurrentUser').then(function (res) {
-      _this2.isloading = !_this2.isloading;
-      _this2.CurrentUser = res;
-    });
+  },
+  beforeDestroy: function beforeDestroy() {
+    this.classworkDetails.destroy();
+    this.totalPoints.destroy();
+    this.totalQuestion.destroy();
   }
 });
 
@@ -21712,12 +21714,12 @@ var render = function() {
         ? _c(
             "v-row",
             [
-              _vm.CurrentUser.role == "Teacher"
+              _vm.role == "Teacher"
                 ? _c(
                     "v-col",
                     { staticClass: "ma-0 pa-0 pa-2", attrs: { cols: "12" } },
                     [
-                      _vm.CurrentUser.role == "Teacher"
+                      _vm.role == "Teacher"
                         ? _c("teacherStartPage", {
                             attrs: { classworkDetails: _vm.classworkDetails }
                           })
@@ -21727,12 +21729,12 @@ var render = function() {
                   )
                 : _vm._e(),
               _vm._v(" "),
-              _vm.CurrentUser.role == "Student"
+              _vm.role == "Student"
                 ? _c(
                     "v-col",
                     { staticClass: "ma-0 pa-0 ", attrs: { cols: "12" } },
                     [
-                      _vm.CurrentUser.role == "Student"
+                      _vm.role == "Student"
                         ? _c("studentStartPage", {
                             attrs: {
                               classworkDetails: _vm.classworkDetails,

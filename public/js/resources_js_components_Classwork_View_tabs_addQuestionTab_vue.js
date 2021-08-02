@@ -360,6 +360,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -600,7 +601,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n /* .ql-toolbar.ql-snow {\n        background: #f2f2f2;\n        border: none;\n }\n .ql-bold,.ql-italic,.ql-underline, .ql-strike\n    ,.ql-picker-label,.ql-align,.ql-list,.ql-link\n    ,.ql-image,.ql-video\n    {\n        outline: none !important;\n        border:none !important;\n    }  */\n.centered-input >>> input {\n    text-align: center\n}\n.ql-editor img{\n\n    max-height: 15rem !important;\n}\n.ql-container{\n    max-height: 50rem;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n /* .ql-toolbar.ql-snow {\n        background: #f2f2f2;\n        border: none;\n }\n .ql-bold,.ql-italic,.ql-underline, .ql-strike\n    ,.ql-picker-label,.ql-align,.ql-list,.ql-link\n    ,.ql-image,.ql-video\n    {\n        outline: none !important;\n        border:none !important;\n    }  */\n.centered-input >>> input {\n    text-align: center\n}\n.ql-editor img{\n\n    max-height: 15rem !important;\n}\n.ql-container{\n    max-height: 50rem;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -1317,11 +1318,9 @@ var render = function() {
                                                                   staticClass:
                                                                     "pa-0 ma-0 text-right",
                                                                   attrs: {
-                                                                    "ma-0": "",
-                                                                    "pa-0": "",
                                                                     cols: "12",
-                                                                    md: "10",
-                                                                    lg: "10"
+                                                                    md: "12",
+                                                                    lg: "12"
                                                                   }
                                                                 },
                                                                 [
@@ -1329,7 +1328,7 @@ var render = function() {
                                                                     "v-btn",
                                                                     {
                                                                       staticClass:
-                                                                        "mt-2",
+                                                                        "mt-2 mb-0 pb-0",
                                                                       attrs: {
                                                                         disabled:
                                                                           _vm
@@ -1362,6 +1361,8 @@ var render = function() {
                                                                           attrs: {
                                                                             dark:
                                                                               "",
+                                                                            left:
+                                                                              "",
                                                                             large:
                                                                               ""
                                                                           }
@@ -1371,6 +1372,9 @@ var render = function() {
                                                                             "mdi-plus"
                                                                           )
                                                                         ]
+                                                                      ),
+                                                                      _vm._v(
+                                                                        "\r\n                                            Add Choice\r\n                                            "
                                                                       )
                                                                     ],
                                                                     1
@@ -1608,6 +1612,12 @@ var render = function() {
                                                   "Matching type"
                                                     ? _c(
                                                         "v-container",
+                                                        {
+                                                          attrs: {
+                                                            "mb-0": "",
+                                                            "pb-0": ""
+                                                          }
+                                                        },
                                                         [
                                                           _c(
                                                             "v-row",
@@ -1951,31 +1961,7 @@ var render = function() {
                                                                 "quesForm.Sensitive"
                                                             }
                                                           })
-                                                        : _vm._e(),
-                                                      _vm._v(" "),
-                                                      _c("v-switch", {
-                                                        staticClass:
-                                                          "float-right mr-2",
-                                                        attrs: {
-                                                          label: "Required"
-                                                        },
-                                                        model: {
-                                                          value:
-                                                            _vm.quesForm
-                                                              .Required,
-                                                          callback: function(
-                                                            $$v
-                                                          ) {
-                                                            _vm.$set(
-                                                              _vm.quesForm,
-                                                              "Required",
-                                                              $$v
-                                                            )
-                                                          },
-                                                          expression:
-                                                            "quesForm.Required"
-                                                        }
-                                                      })
+                                                        : _vm._e()
                                                     ],
                                                     1
                                                   ),

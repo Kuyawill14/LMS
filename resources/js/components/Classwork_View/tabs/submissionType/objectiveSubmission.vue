@@ -87,12 +87,13 @@
                         </div>
                     </v-col>
                 </v-row>
+                <v-divider></v-divider>
             </v-col>
-            <v-col cols="12" md="12" lg="3" xl="3" class="pt-0 mt-0 pb-0 mb-0">
+            <v-col cols="12" md="12" lg="3" xl="3" class="pt-0 mt-0 pb-0 mb-0 pt-1">
                  <v-select
                     outlined
                     dense
-                    label="Class"
+                    label="Status"
                     v-model="selectedStatus"
                     class="mb-0 pb-0"
                     :items="StatusType"

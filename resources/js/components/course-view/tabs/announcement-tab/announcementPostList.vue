@@ -1,11 +1,27 @@
 <template>
     <div>
-        <v-card class="mb-10" v-for="(post) in PostList" :key="post.id">
+        <v-row v-if="PostList.length != 0 && UserDetails.role != 'Student'">
+            <v-col cols="12" class="mb-0 pb-0 mt-0 pt-0 text-right">
+                 <div class="d-inline-flex ">
+                    <v-select
+                        :items="classNames"
+                        item-text="class_name"
+                        item-value="class_id"
+                        label="Class"
+                        v-model="class_id"
+                        solo
+                        ></v-select> 
+                </div>
+            </v-col>
+        </v-row>
+       
+     
+        <v-card v-show="post.class_id == class_id || class_id == $-route.params.id" class="mb-10" v-for="(post) in PostList" :key="post.id">
            <!--Post Poser -->
-            <v-row  class="pl-5 pr-5 pt-2 mb-3 " >
+            <v-row class="pl-5 pr-5 pt-2 mb-3 " >
                 <v-col cols="8">
                     <div class="d-flex flex-row user-info">
-                        <v-avatar size="45">
+                        <v-avatar :size="!$vuetify.breakpoint.xs  && !$vuetify.breakpoint.sm ? 45 : 40">
                             <v-img class="rounded-circle"  
                             :src="post.profile_pic == null || post.profile_pic == ''? 'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=' + post.name : post.profile_pic"></v-img> 
                         </v-avatar>
@@ -25,7 +41,7 @@
             <v-container class="pl-4 pr-4 pb-6">
                 <v-row>
                     <v-col cols="12">
-                        <div class="pa-5 grey lighten-5 " outlined>
+                        <div class="pa-5 " >
                             <span v-html="post.content" class="post-content"></span>
                         </div>
                         
@@ -58,21 +74,24 @@
     const commentList = () => import('./actions/commentList');
     export default {
         
-        props:['PostList','UserDetails'],
+        props:['PostList','UserDetails','classNames'],
         components:{
             commentList,
             announcementList
         },
-         data: () => ({
-            password: 'Password',
+        data(){
+            return{
+                 password: 'Password',
             show: false,
             comment: [],
             marker: true,
             iconIndex: 0,
             data:{},
             CommentList:[],
-            showLess:true
-        }),
+            showLess:true,
+            class_id: this.$route.params.id,
+            }
+        },
         computed: {
             icon () {
                 return this.icons[this.iconIndex]
@@ -115,12 +134,13 @@
             $(".post-content p").replaceWith(function () {
                 return "<span>" + this.innerHTML + "</span>";
             });
+             this.test();
+            this.getComments();
+
+           
               
         },
-        mounted() {
-            this.test();
-            this.getComments();
-        }
+        
     }
 
 </script>

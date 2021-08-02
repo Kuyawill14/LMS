@@ -116,7 +116,11 @@
 </template>
 
 <script>
-import VueElementLoading from 'vue-element-loading'
+import VueElementLoading from 'vue-element-loading';
+  import {
+        mapGetters,
+        mapActions
+    } from "vuex";
 export default {
   components: {
     VueElementLoading,
@@ -151,6 +155,7 @@ export default {
     }
   },
   methods: {
+     ...mapActions(['clear_current_user']),
     validate() {
       if (this.$refs.loginForm.validate()) {
         this.login();
@@ -177,11 +182,11 @@ export default {
       axios.get('/sanctum/csrf-cookie').then(response => {
             this.form.post('/api/login')
                 .then((res) => {
+                   this.clear_current_user();
                     if(res.status == 200) {
-                        //this.$store.dispatch('fetchCurrentUser');
-                        // this.toastSuccess(res.data);
+                        this.toastSuccess(res.data);
                         localStorage.removeItem(btoa('course-status'));
-                        localStorage.removeItem(btoa('user_role'));
+                        this.clear_current_user();
                         this.$router.push({ path: "/" })
                           
                     }

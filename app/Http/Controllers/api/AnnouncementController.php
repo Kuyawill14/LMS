@@ -38,7 +38,7 @@ class AnnouncementController extends Controller
         if(auth('sanctum')->user()->role != 'Student')
         {
             $allClassPost = tbl_classpost::where('tbl_classposts.course_id', $id)
-            ->select('tbl_classposts.id as post_id', 'tbl_class_announcements.id as announcement_id','tbl_class_announcements.*','tbl_user_details.profile_pic', DB::raw('CONCAT(users.firstname, " ", users.lastName) as name'))
+            ->select('tbl_classposts.id as post_id', 'tbl_class_announcements.id as announcement_id','tbl_class_announcements.*','tbl_user_details.profile_pic', DB::raw('CONCAT(users.firstname, " ", users.lastName) as name'),'tbl_userclasses.class_id')
             ->selectRaw('count(tbl_comments.id ) as comment_count')
             ->selectRaw('count(tbl_likes.id ) as likes_count')
             ->leftJoin('tbl_classworks', 'tbl_classposts.classwork_id', '=', 'tbl_classworks.id')
@@ -47,8 +47,9 @@ class AnnouncementController extends Controller
             ->leftJoin('tbl_likes', 'tbl_classposts.id', '=', 'tbl_likes.post_id')
             ->leftJoin('users', 'tbl_classposts.user_id', '=', 'users.id')
             ->leftJoin('tbl_user_details', 'users.id', '=', 'tbl_user_details.user_id')
+            ->leftJoin('tbl_userclasses', 'users.id', '=', 'tbl_userclasses.user_id')
             ->orderBy('created_at', 'DESC')
-            ->groupBy('tbl_classposts.id','tbl_class_announcements.id','tbl_class_announcements.content','tbl_class_announcements.file','tbl_class_announcements.created_at','tbl_class_announcements.updated_at','tbl_user_details.profile_pic','users.firstName','users.lastName')
+            ->groupBy('tbl_classposts.id','tbl_class_announcements.id','tbl_class_announcements.content','tbl_class_announcements.file','tbl_class_announcements.created_at','tbl_class_announcements.updated_at','tbl_user_details.profile_pic','users.firstName','users.lastName','tbl_userclasses.class_id')
             ->paginate(10);
             return $allClassPost;
         }

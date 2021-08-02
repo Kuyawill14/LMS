@@ -94,11 +94,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['UserDetails'],
+  props: ['UserDetails', 'classNames'],
   components: {
     VueElementLoading: (vue_element_loading__WEBPACK_IMPORTED_MODULE_0___default())
   },
@@ -106,14 +104,14 @@ __webpack_require__.r(__webpack_exports__);
     return {
       isLoadingClassNames: true,
       isLoaded: false,
-      classNames: [],
+      //classNames:[],
       selectedFile: null,
       isSelecting: false,
       isEditing: false,
       isloading: false,
       value: '',
       content: '',
-      class_id: '',
+      class_id: this.$route.params.id,
       announcement: {
         content: "",
         file: "",
@@ -202,14 +200,6 @@ __webpack_require__.r(__webpack_exports__);
     testing: function testing() {
       console.log(this.class_id);
     }
-  },
-  mounted: function mounted() {
-    var _this4 = this;
-
-    setTimeout(function () {
-      _this4.fetchClassnames();
-    }, 3000);
-    this.class_id = this.$route.params.id;
   }
 });
 
@@ -478,8 +468,6 @@ var render = function() {
                                 staticClass: "mr-2",
                                 attrs: {
                                   items: _vm.classNames,
-                                  loading: _vm.isLoadingClassNames,
-                                  disabled: _vm.isLoadingClassNames,
                                   "item-text": "class_name",
                                   "item-value": "class_id",
                                   label: "All Class",
