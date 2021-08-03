@@ -172,7 +172,7 @@
         },
         computed: mapGetters(['allCourse']),
         methods: {
-            ...mapActions(['fetchCourseList','ReSetCourseStatus']),
+            ...mapActions(['fetchCourseList']),
                toastSuccess(message,icon) {
                 return this.$toasted.success(message, {
                     theme: "toasted-primary",
@@ -216,13 +216,8 @@
                         this.dialog = false;
                         let id = res.id;
                         this.toastSuccess("Your course has been Added", 'done');
-                        this.$store.dispatch('ReSetCourseStatus', id).then(res=>{
-                            console.log(res);
-                            if(res == true){
-                                this.$router.push({path : '/course/'+id+'/setup'})
-                                //this.$router.push({name: 'courseSetup' , params: {id: id }})
-                            }
-                        })
+                        this.$router.push({name: 'courseSetup' , params: {id: id }})
+                       
                     });
                 }
             },

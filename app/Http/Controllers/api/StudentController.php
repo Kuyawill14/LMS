@@ -293,11 +293,17 @@ class StudentController extends Controller
            
             if($Check){
                 if($Check->deleted_at == null){
-                    return response()->json(['course_id'=>$Check->course_id, 'message'=>"You already join to this class"],202);
+                    return response()->json([
+                    'course_id'=>$Check->course_id, 
+                    'status'=>1, 
+                    'message'=>"You already join to this class"],202);
                 }
                 else{
                     $Check->restore();
-                    return response()->json(['course_id'=>$Check->course_id, 'message'=>"Class Restored"],200);
+                    return response()->json([
+                    'course_id'=>$Check->course_id, 
+                    'status'=>1, 
+                    'message'=>"Class Restored"],200);
                 }
                 
             }
@@ -312,19 +318,9 @@ class StudentController extends Controller
 
 
 
-        //Create notif for join students to class
-       
-
-        //Get all student join to this class with the
-        
-        //notification
-      /*   $userInClass = DB::table('tbl_userclasses')
-        ->where('class_id', $JoinClass->class_id)
-        ->get();
- */
 
         $userInClass = DB::table('tbl_userclasses')
-        ->select('tbl_userclasses.id','tbl_userclasses.user_id', 'tbl_classes.class_name', 'users.role','tbl_subject_courses.course_name','tbl_subject_courses.id as course_id')
+        ->select('tbl_userclasses.id','tbl_userclasses.user_id', 'tbl_classes.class_name', 'users.role','tbl_subject_courses.course_name','tbl_subject_courses.id as course_id','tbl_subject_courses.completed as status')
         ->leftJoin('tbl_classes', 'tbl_classes.id', '=', 'tbl_userclasses.class_id')
         ->leftJoin('tbl_subject_courses', 'tbl_userclasses.course_id', '=', 'tbl_subject_courses.id')
         ->leftJoin('users', 'users.id', '=', 'tbl_userclasses.user_id')
@@ -349,7 +345,10 @@ class StudentController extends Controller
         $newNotification->notification_type = 2;
         $newNotification->save();
         //broadcast(new NewNotification($newNotification))->toOthers();
-        return response()->json(['course_id'=>$userInClass->course_id, 'message'=>"Join class success"],200);
+        return response()->json([
+            'course_id'=>$userInClass->course_id, 
+            'status'=>$userInClass->status, 
+            'message'=>"Join class success"],200);
     }
 
     /**

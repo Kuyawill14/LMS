@@ -175,23 +175,9 @@ const router = new Router({
                     component: courseView,
                     name: "selectedCourse",
                     beforeEnter: (to, from, next)=>{
-                        if(to.name == 'courseSetup'){
-                            store.state.CourseList.courseStatus.forEach(item => {
-                                if (to.params.id == atob(item.id)) {
-                                    next()
-                                }
-                            });
-                            
-                            
-                        }
-                        else{
-
-                       
                         
-                        let UserRole = atob(store.state.CurrentUser.UserRole);
-                        let Exist = false
-                        let Completed = false;
-                       
+                        let UserRole = store.state.CurrentUser.UserRole;
+                        let Exist = false       
                         let CourseStatus = UserRole == 'Teacher' ? store.state.CourseList.courseStatus : store.state.CLassList.courseStatus; 
                         CourseStatus.forEach(item => {
                             if (to.params.id == atob(item.id)) {
@@ -208,7 +194,7 @@ const router = new Router({
                                 params:{id: to.params.id}
                             })
                         }
-                    }
+                 
                     },
                     children: [{
                             name: "coursePage",
@@ -238,20 +224,13 @@ const router = new Router({
                             path: "modules",
                             component: modules_tab,
                             beforeEnter: (to, form, next) => {
-                                axios.get("/api/role")
-                                    .then((res) => {
-                                        console.log(res.data);
-                                        if (res.data == 'Teacher') {
-                                            next();
-                                        } else if (res.data == 'Student') {
-                                            next({
-                                                path: "my-modules"
-                                            });
-                                        }
-                                    })
-                                    .catch((e) => {
-                                        console.log(e);
+                                if (store.state.CurrentUser.UserRole == 'Teacher') {
+                                    next();
+                                } else if (store.state.CurrentUser.UserRole == 'Student') {
+                                    next({
+                                        path: "my-modules"
                                     });
+                                }
                             },
 
                         },
@@ -499,81 +478,91 @@ const router = new Router({
     }
 }) */
 router.beforeEach((to, from, next) => {
-    store.dispatch('fetchCurrentUser')
-    let UserRole = store.state.CurrentUser.UserRole;
-    if (to.name == 'coursePage') {
-        let Exist = false
-        let Completed = false;
-        let CourseStatus = UserRole == 'Teacher' ? store.state.CourseList.courseStatus : store.state.CLassList.courseStatus; 
-       
-        if(CourseStatus != null){
-            
-            CourseStatus.forEach(item => {
-                if (to.params.id == atob(item.id)) {
-                    Exist = true;
-                    if (atob(item.status) == 1) {
-                        Completed = true;
+    store.dispatch('fetchCurrentUser').then(res=>{
+        if (to.name == 'coursePage') {
+            store.dispatch('fetchCurrentUser')
+            let UserRole = store.state.CurrentUser.UserRole;
+            let Exist = false
+            let Completed = false;
+            let CourseStatus = UserRole == 'Teacher' ? store.state.CourseList.courseStatus : store.state.CLassList.courseStatus; 
+            if(CourseStatus != null){
+                
+                CourseStatus.forEach(item => {
+                    if (to.params.id == atob(item.id)) {
+                        Exist = true;
+                        if (atob(item.status) == 1) {
+                            Completed = true;
+                        }
+                    }
+                });
+    
+                if (UserRole == 'Teacher') {
+                    if(Exist == true && Completed == true){
+                        next();
+                    } else if (Exist == true && Completed == false) {
+                        return next({
+                            name: "courseSetup",
+                            params: { id: to.params.id }
+                        })
+                    }
+                    else if(Exist == false && Completed == false){
+                        return next({
+                            name: "courses",
+                        })
                     }
                 }
-            });
-
-            if (UserRole == 'Teacher') {
-                if(Exist == true && Completed == true){
-                    next();
-                } else if (Exist == true && Completed == false) {
-                    return next({
-                        name: "courseSetup",
-                        params: { id: to.params.id }
-                    })
+                else if(UserRole == 'Student') {
+                    if(Exist == true && Completed == true){
+                        next({
+                            name: 'announcement',
+                            params: { id: to.params.id }
+                        });
+                    } else if (Exist == true && Completed == false) {
+    
+                        return next({
+                            name: "courses",
+                        })
+                    } else if (Exist == false && Completed == false) {
+    
+                        return next({
+                            name: "courses",
+                        })
+                    }
                 }
-                else if(Exist == false && Completed == false){
-                    return next({
-                        name: "courses",
-                    })
-                }
+            } else {
+                return next({
+                    name: "courses",
+                })
             }
-            else if(UserRole == 'Student') {
-                if(Exist == true && Completed == true){
+    
+    
+        } else if (to.name == 'login') {
+            axios.get("/api/authenticated")
+                .then(() => {
                     next({
-                        name: 'announcement',
-                        params: { id: to.params.id }
+                        path: "/"
                     });
-                } else if (Exist == true && Completed == false) {
-
-                    return next({
-                        name: "courses",
-                    })
-                } else if (Exist == false && Completed == false) {
-
-                    return next({
-                        name: "courses",
-                    })
-                }
-            }
-        } else {
-            return next({
-                name: "courses",
-            })
-        }
-
-
-    } else if (to.name == 'login') {
-        axios.get("/api/authenticated")
-            .then(() => {
-                next({
-                    path: "/"
+                })
+                .catch((e) => {
+                    console.log(e);
+                    next();
                 });
-            })
-            .catch((e) => {
-                console.log(e);
-                next();
-            });
-    } else {
-        if (to.name) {
-            NProgress.start()
+        } else {
+            if (to.name) {
+                NProgress.start()
+            }
+            next()
         }
-        next()
-    }
+    })
+    .catch(e=>{
+        next({
+            path: "/"
+        });
+    })
+  
+    
+    
+    
 })
 router.afterEach(() => {
     //app.$Progress.finish();

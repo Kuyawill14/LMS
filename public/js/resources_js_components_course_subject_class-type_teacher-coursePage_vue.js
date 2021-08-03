@@ -190,7 +190,7 @@ var confirmArchiveCourse = function confirmArchiveCourse() {
     };
   },
   computed: (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)(['allCourse']),
-  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)(['fetchCourseList', 'ReSetCourseStatus'])), {}, {
+  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)(['fetchCourseList'])), {}, {
     toastSuccess: function toastSuccess(message, icon) {
       return this.$toasted.success(message, {
         theme: "toasted-primary",
@@ -241,14 +241,10 @@ var confirmArchiveCourse = function confirmArchiveCourse() {
 
           _this2.toastSuccess("Your course has been Added", 'done');
 
-          _this2.$store.dispatch('ReSetCourseStatus', id).then(function (res) {
-            console.log(res);
-
-            if (res == true) {
-              _this2.$router.push({
-                path: '/course/' + id + '/setup'
-              }); //this.$router.push({name: 'courseSetup' , params: {id: id }})
-
+          _this2.$router.push({
+            name: 'courseSetup',
+            params: {
+              id: id
             }
           });
         });

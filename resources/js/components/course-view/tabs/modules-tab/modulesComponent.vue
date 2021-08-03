@@ -116,10 +116,10 @@
                 ).then((res) => {
                     this.studentSubModuleProgress = res.data;
                     this.$store.dispatch('fetchMainModule', this.$route.params.id).then(() => {
-                        setTimeout(() => {
-                            this.isGetting = false;
-                            this.moduleLength = this.getmain_module.length;
-                        }, 1000);
+                      
+                        this.isGetting = false;
+                        this.moduleLength = this.getmain_module.length;
+                        
                     });
                     this.$store.dispatch('fetchSubModule', this.$route.params.id);
 
@@ -135,14 +135,9 @@
                 ).then((res) => {
 
                     this.$store.dispatch('fetchMainModule', this.$route.params.id).then(() => {
-
-
                         this.moduleLength = this.getmain_module.length;
 
                     });
-
-
-
                 }).catch((error) => {
                     console.log(error)
                 })
@@ -150,15 +145,7 @@
         },
         mounted() {
             this.fetchAllModule();
-            console.log(this.isGetting);
-            console.log(this.moduleLength);
-
-
-
-
-
-
-
+       
         },
 
     }
