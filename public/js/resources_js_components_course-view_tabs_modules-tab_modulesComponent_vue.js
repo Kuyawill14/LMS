@@ -283,10 +283,8 @@ var modulesListComponent = function modulesListComponent() {
         _this.studentSubModuleProgress = res.data;
 
         _this.$store.dispatch('fetchMainModule', _this.$route.params.id).then(function () {
-          setTimeout(function () {
-            _this.isGetting = false;
-            _this.moduleLength = _this.getmain_module.length;
-          }, 1000);
+          _this.isGetting = false;
+          _this.moduleLength = _this.getmain_module.length;
         });
 
         _this.$store.dispatch('fetchSubModule', _this.$route.params.id);
@@ -308,8 +306,6 @@ var modulesListComponent = function modulesListComponent() {
   },
   mounted: function mounted() {
     this.fetchAllModule();
-    console.log(this.isGetting);
-    console.log(this.moduleLength);
   }
 });
 

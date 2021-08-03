@@ -47,9 +47,7 @@
             };
         },
         methods: {
-            ...mapActions(['fetchCourseList']),
             classCount() {
-
                 axios.get('/api/class/count')
                     .then(res => {
                         this.class_count = res.data;
@@ -59,7 +57,6 @@
         },
         computed: mapGetters(['allCourse']),
         mounted() {
-            this.fetchCourseList();
             this.classCount();
         },
     };

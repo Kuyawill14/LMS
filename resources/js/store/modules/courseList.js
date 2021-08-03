@@ -14,7 +14,6 @@ const getters = {
 const actions = {
     async fetchCourseList({ commit }) {
         const response = await axios.get("/api/course/all");
-        localStorage.removeItem(btoa('course-status'));
         state.courseStatus = [];
         response.data.forEach(item => {
             state.courseStatus.push({
@@ -28,10 +27,14 @@ const actions = {
     async createCourse({ commit }, courseItem) {
         delete courseItem.id;
         let res = await axios.post(`/api/course/insert`, { courseItem: courseItem });
-
         let newCourse = res.data;
+        console.log(newCourse);
+        state.courseStatus.push({
+            id: btoa(newCourse.id),
+            status: btoa(0)
+        })
+        localStorage.setItem(btoa('course-status'), JSON.stringify(state.courseStatus));
         commit("ADD_COURSE", newCourse);
-
         return newCourse;
     },
 
@@ -58,8 +61,7 @@ const actions = {
                 localStorage.setItem(btoa('course-status'), JSON.stringify(state.courseStatus));
             }
         });
-    }
-
+    },
 
 };
 const mutations = {

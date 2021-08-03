@@ -142,7 +142,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   computed: (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)(["allClass"]),
   methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)(["fetchClassList"])), {}, {
     openJoinmodal: function openJoinmodal() {
-      this.dialog = !this.dialogl;
+      this.dialog = !this.dialog;
     },
     joinClass: function joinClass() {
       var _this = this;

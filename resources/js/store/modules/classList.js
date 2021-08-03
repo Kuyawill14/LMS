@@ -14,7 +14,6 @@ const getters = {
 const actions = {
     async fetchClassList({ commit }) {
         const response = await axios.get("/api/class/all");
-        localStorage.removeItem(btoa('course-status'));
         state.courseStatus = [];
         response.data.forEach(item => {
             state.courseStatus.push({
@@ -64,7 +63,15 @@ const actions = {
         .then(res=>{
             data =  res;
         })
+      
+        state.courseStatus.push({
+            id: btoa(data.data.course_id),
+            status: btoa(data.data.status)
+        })
+
+        localStorage.setItem(btoa('course-status'), JSON.stringify(state.courseStatus));
         return data;
+       
     },
     async Unenroll({ commit }, id) {
         let res = await axios

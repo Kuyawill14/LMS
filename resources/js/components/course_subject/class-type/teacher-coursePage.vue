@@ -213,10 +213,11 @@
                 if (this.form.course_name != "" && this.form.course_code != "") {
                     this.isloading = true;
                     this.$store.dispatch('createCourse', this.form).then((res) => {
-                             this. fetchCourses();
-                     this.dialog = false;
-                  this.toastSuccess("Your course has been Added", 'done')
-                  this.$router.push({name: 'courseSetup' , params: {id: res.id }})
+                        this.dialog = false;
+                        let id = res.id;
+                        this.toastSuccess("Your course has been Added", 'done');
+                        this.$router.push({name: 'courseSetup' , params: {id: id }})
+                       
                     });
                 }
             },

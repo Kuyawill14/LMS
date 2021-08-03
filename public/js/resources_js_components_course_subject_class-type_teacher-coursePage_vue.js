@@ -236,16 +236,15 @@ var confirmArchiveCourse = function confirmArchiveCourse() {
       if (this.form.course_name != "" && this.form.course_code != "") {
         this.isloading = true;
         this.$store.dispatch('createCourse', this.form).then(function (res) {
-          _this2.fetchCourses();
-
           _this2.dialog = false;
+          var id = res.id;
 
           _this2.toastSuccess("Your course has been Added", 'done');
 
           _this2.$router.push({
             name: 'courseSetup',
             params: {
-              id: res.id
+              id: id
             }
           });
         });
