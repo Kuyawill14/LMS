@@ -59,12 +59,14 @@ class MainModuleController extends Controller
     public function store(Request $request)
     {
    
- 
+        $userId = auth('sanctum')->id();
+
          $mainModule  = new tbl_main_modules;
          $mainModule->module_name = $request->moduleForm['module_name'];
          $mainModule->description = $request->moduleForm['description'];
          $mainModule->course_id = $request->moduleForm['course_id'];
          $mainModule->position = $request->moduleForm['course_id'] + 1;
+         $mainModule->created_by = $userId;
          $mainModule->save();
          return $mainModule;
 

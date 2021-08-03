@@ -21,6 +21,7 @@ class MonitorTeacherController extends Controller
         ->select('users.role','users.firstName','users.middleName','users.lastName','users.email',
         'tbl_user_details.*')
         ->leftJoin('users', 'users.id', '=', 'tbl_user_details.user_id')
+        ->leftjoin('tbl_teacher_courses', 'tbl_teacher_courses.id' , '=', 'users.id')
         ->get();
 
         return $teachers;
