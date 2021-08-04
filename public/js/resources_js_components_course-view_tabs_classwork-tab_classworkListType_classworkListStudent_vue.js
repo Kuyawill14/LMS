@@ -524,8 +524,7 @@ var render = function() {
                                                   {
                                                     attrs: {
                                                       link: "",
-                                                      elevation: hover ? 1 : 0,
-                                                      outlined: ""
+                                                      elevation: hover ? 1 : 0
                                                     },
                                                     on: {
                                                       click: function($event) {

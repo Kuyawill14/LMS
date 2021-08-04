@@ -2,7 +2,6 @@ import axios from "axios";
 
 const state = {
     classList: [],
-    courseStatus: JSON.parse(localStorage.getItem(btoa('course-status')))
 };
 const getters = {
     allClass: state => state.classList,
@@ -14,14 +13,6 @@ const getters = {
 const actions = {
     async fetchClassList({ commit }) {
         const response = await axios.get("/api/class/all");
-        state.courseStatus = [];
-        response.data.forEach(item => {
-            state.courseStatus.push({
-                id: btoa(item.course_id),
-                status: btoa(item.status)
-            })
-        });
-        localStorage.setItem(btoa('course-status'), JSON.stringify(state.courseStatus));
         commit("setClassList", response.data);
     },
     async fetchSubjectCourseClassList({ commit }, course_id) {
@@ -57,19 +48,16 @@ const actions = {
         return response;
     },
 
-    async joinClass({ commit }, classItem) {
+    async joinClass({ commit, rootState}, classItem) {
         let data;
         let res = await axios.post(`/api/student/join/${classItem.class_code}`)
         .then(res=>{
             data =  res;
         })
-      
-        state.courseStatus.push({
-            id: btoa(data.data.course_id),
-            status: btoa(data.data.status)
+        rootState.CurrentUser.MyCourses.push({
+            id: data.data.course_id,
+            status: data.data.status
         })
-
-        localStorage.setItem(btoa('course-status'), JSON.stringify(state.courseStatus));
         return data;
        
     },
@@ -86,8 +74,6 @@ const actions = {
                 return newCLass;
 
             });
-
-
     }
 
 

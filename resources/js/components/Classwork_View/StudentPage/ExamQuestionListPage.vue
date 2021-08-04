@@ -9,7 +9,7 @@
      v-if="dialog"></confirmDialog>
 </v-dialog>
 
-<v-dialog v-model="warningDialog" persistent max-width="480">
+<v-dialog v-model="warningDialog" persistent max-width="500">
     <dialogWarning
     v-on:toggleCloaseDialog="warningDialog = !warningDialog"
     
@@ -91,7 +91,7 @@
                                   
                                     <v-btn rounded color="primary" class="mr-2" outlined="" @click="prev" 
                                     :disabled="questionIndex <= 0">
-                                        <v-icon>mdi-arrow-left</v-icon>
+                                        <v-icon left>mdi-arrow-left</v-icon>
                                         {{$vuetify.breakpoint.xs || $vuetify.breakpoint.sm  ? '' : 'previous'}}
                                         </v-btn>
 
@@ -99,12 +99,12 @@
                                         
                                             rounded color="primary" @click="next">
                                         {{$vuetify.breakpoint.xs || $vuetify.breakpoint.sm  ? '' : 'Next'}}
-                                        <v-icon>mdi-arrow-right</v-icon>
+                                        <v-icon right>mdi-arrow-right</v-icon>
                                         </v-btn>
 
                                         <v-btn  v-if="questionIndex == Qlength-1"  rounded color="success" @click="SubmitPromp">
                                         Submit
-                                        <v-icon>mdi-lock</v-icon>
+                                        <v-icon right>mdi-lock</v-icon>
                                         </v-btn>
                                       </div>
                                 <v-divider></v-divider>
@@ -312,7 +312,8 @@ export default {
             tempCounter:0,
             timeCount:null,
             classworkDetails:[],
-            confirmLeave: false
+            confirmLeave: false,
+            leaveStrike: 0,
         }
     },
     computed: 
@@ -531,7 +532,7 @@ export default {
         },
          preventNav(event) {
             if (!this.isStart) return;
-            event.preventDefault();
+            //event.preventDefault();
             // Chrome requires returnValue to be set.
             event.returnValue = "";
         },
@@ -590,15 +591,19 @@ export default {
         },
         triggerWarning(){
             //console.log("test 123");
+            this.leaveStrike += 1;
+            if(this.leaveStrike == 3){
+                this.SubmitAnswer();
+            }
             this.warningDialog = true;
         },
     },
     beforeMount() {
-       /*  window.addEventListener("beforeunload", this.preventNav);
+        window.addEventListener("beforeunload", this.preventNav);
         let self = this;
         $(window).blur(function(){
             self.triggerWarning()
-        }); */
+        });
     },
     mounted(){
         this.CheckStatus();

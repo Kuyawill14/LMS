@@ -175,12 +175,10 @@ const router = new Router({
                     component: courseView,
                     name: "selectedCourse",
                     beforeEnter: (to, from, next)=>{
-                        
-                        let UserRole = store.state.CurrentUser.UserRole;
-                        let Exist = false       
-                        let CourseStatus = UserRole == 'Teacher' ? store.state.CourseList.courseStatus : store.state.CLassList.courseStatus; 
+                        let Exist = false;
+                        let CourseStatus = store.state.CurrentUser.MyCourses;    
                         CourseStatus.forEach(item => {
-                            if (to.params.id == atob(item.id)) {
+                            if (to.params.id == item.id) {
                                 Exist = true;
                             }
                         });
@@ -304,6 +302,7 @@ const router = new Router({
 
                 {
                     path: "/classwork/:id",
+                    name: "classwork-preview",
                     component: classworkView,
                     beforeEnter: (to, form, next) => {
                         axios
@@ -478,19 +477,20 @@ const router = new Router({
     }
 }) */
 router.beforeEach((to, from, next) => {
+    if(to.name != 'login'){
+        store.dispatch('fetchMyCoursesStatus');
+    }
     store.dispatch('fetchCurrentUser').then(res=>{
         if (to.name == 'coursePage') {
-            store.dispatch('fetchCurrentUser')
             let UserRole = store.state.CurrentUser.UserRole;
             let Exist = false
             let Completed = false;
-            let CourseStatus = UserRole == 'Teacher' ? store.state.CourseList.courseStatus : store.state.CLassList.courseStatus; 
+            let CourseStatus = store.state.CurrentUser.MyCourses;
             if(CourseStatus != null){
-                
                 CourseStatus.forEach(item => {
-                    if (to.params.id == atob(item.id)) {
+                    if (to.params.id == item.id) {
                         Exist = true;
-                        if (atob(item.status) == 1) {
+                        if (item.status == 1) {
                             Completed = true;
                         }
                     }
@@ -506,8 +506,12 @@ router.beforeEach((to, from, next) => {
                         })
                     }
                     else if(Exist == false && Completed == false){
-                        return next({
+                        /* return next({
                             name: "courses",
+                        }) */
+                        return next({
+                            name: "course-not-found",
+                            params:{id: to.params.id}
                         })
                     }
                 }

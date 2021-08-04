@@ -61,11 +61,13 @@
 
     <!-- :expand-on-hover="$vuetify.breakpoint.lgAndUp" -->
    <!--  ######### sidebar ################ -->
-    <v-navigation-drawer  :expand-on-hover="$vuetify.breakpoint.lgAndUp"  v-model="drawer" :clipped="$vuetify.breakpoint.lgAndUp" v-if="navBarType != 'selectedCourse' ||  getcourseInfo.completed == 1 " app>
-        <mainNavbar :role="role" :drawer="drawer"  v-if="navBarType != 'selectedCourse' && (role == 'Student' || role == 'Teacher')" > </mainNavbar>
-        <courseNavbar :role="role" v-if="navBarType == 'selectedCourse'&& (role == 'Student' || role == 'Teacher') "> </courseNavbar>
-         <adminNavbar :role="role" v-if="role == 'Admin'"> </adminNavbar>
-    </v-navigation-drawer>
+   <div v-if="navBarType != 'classwork-preview' ">
+        <v-navigation-drawer  :expand-on-hover="$vuetify.breakpoint.lgAndUp"  v-model="drawer" :clipped="$vuetify.breakpoint.lgAndUp" v-if="navBarType != 'selectedCourse' ||  getcourseInfo.completed == 1 " app>
+            <mainNavbar :role="role" :drawer="drawer"  v-if="navBarType != 'selectedCourse'  && (role == 'Student' || role == 'Teacher')" > </mainNavbar>
+            <courseNavbar :role="role" v-if="navBarType == 'selectedCourse'&& (role == 'Student' || role == 'Teacher') "> </courseNavbar>
+            <adminNavbar :role="role" v-if="role == 'Admin'"> </adminNavbar>
+        </v-navigation-drawer>
+    </div>
     <!--  ######### end sidebar ################ -->
     
  <!--  ######### notifSiaebar ################ -->
@@ -113,6 +115,7 @@
         watch: {
             $route(to, from) {
                 this.navBarType = this.$route.matched[1].name;
+               
             }
         },
         computed: {

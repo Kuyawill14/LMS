@@ -3,6 +3,7 @@ import axios from 'axios'
 const state = {
     CurrentUser: [],
     UserRole: null,
+    MyCourses: [],
 
 };
 const getters = {
@@ -26,8 +27,21 @@ const actions = {
     clear_current_user({ commit }) {
         state.CurrentUser = [];
         state.UserRole = null;
+        state.MyCourses = [];
+    },
+    async fetchMyCoursesStatus({ commit }){
+        if(state.MyCourses.length == 0){
+            const res = await axios.get(`/api/course/status`);
+            state.MyCourses = res.data;
+        }
+    },
+    setCourseStatus({ commit }, id){
+        state.MyCourses.forEach(item => {
+            if(item.id == id){
+                item.status = 1;
+            }
+        });
     }
-
 };
 const mutations = {
     FETCH_USER: (state, CurrentUser) => (state.CurrentUser = CurrentUser),

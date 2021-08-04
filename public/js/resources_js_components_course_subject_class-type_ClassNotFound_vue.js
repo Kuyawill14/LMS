@@ -96,6 +96,12 @@ var render = function() {
                       _c("v-col", { attrs: { cols: "12" } }, [
                         _c("h2", { staticClass: "font-weight-regular" }, [
                           _vm._v("Course Not Found")
+                        ]),
+                        _vm._v(" "),
+                        _c("div", [
+                          _vm._v(
+                            "Look for it on Courses, or double-check your course link."
+                          )
                         ])
                       ]),
                       _vm._v(" "),
@@ -103,11 +109,22 @@ var render = function() {
                         "v-col",
                         { staticClass: "text-right", attrs: { cols: "12" } },
                         [
-                          _c("v-btn", { attrs: { color: "primary" } }, [
-                            _vm._v(
-                              "\n                               Back to Courses\n                           "
-                            )
-                          ])
+                          _c(
+                            "v-btn",
+                            {
+                              attrs: { color: "primary" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.$router.push({ name: "courses" })
+                                }
+                              }
+                            },
+                            [
+                              _vm._v(
+                                "\n                               Back to Courses\n                           "
+                              )
+                            ]
+                          )
                         ],
                         1
                       )

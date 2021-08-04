@@ -540,6 +540,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
 
 /* import mainNavbar from './navigation/main-navbar';
 import courseNavbar from './navigation/course-navbar';
@@ -23748,38 +23750,47 @@ var render = function() {
         1
       ),
       _vm._v(" "),
-      _vm.navBarType != "selectedCourse" || _vm.getcourseInfo.completed == 1
+      _vm.navBarType != "classwork-preview"
         ? _c(
-            "v-navigation-drawer",
-            {
-              attrs: {
-                "expand-on-hover": _vm.$vuetify.breakpoint.lgAndUp,
-                clipped: _vm.$vuetify.breakpoint.lgAndUp,
-                app: ""
-              },
-              model: {
-                value: _vm.drawer,
-                callback: function($$v) {
-                  _vm.drawer = $$v
-                },
-                expression: "drawer"
-              }
-            },
+            "div",
             [
-              _vm.navBarType != "selectedCourse" &&
-              (_vm.role == "Student" || _vm.role == "Teacher")
-                ? _c("mainNavbar", {
-                    attrs: { role: _vm.role, drawer: _vm.drawer }
-                  })
-                : _vm._e(),
-              _vm._v(" "),
-              _vm.navBarType == "selectedCourse" &&
-              (_vm.role == "Student" || _vm.role == "Teacher")
-                ? _c("courseNavbar", { attrs: { role: _vm.role } })
-                : _vm._e(),
-              _vm._v(" "),
-              _vm.role == "Admin"
-                ? _c("adminNavbar", { attrs: { role: _vm.role } })
+              _vm.navBarType != "selectedCourse" ||
+              _vm.getcourseInfo.completed == 1
+                ? _c(
+                    "v-navigation-drawer",
+                    {
+                      attrs: {
+                        "expand-on-hover": _vm.$vuetify.breakpoint.lgAndUp,
+                        clipped: _vm.$vuetify.breakpoint.lgAndUp,
+                        app: ""
+                      },
+                      model: {
+                        value: _vm.drawer,
+                        callback: function($$v) {
+                          _vm.drawer = $$v
+                        },
+                        expression: "drawer"
+                      }
+                    },
+                    [
+                      _vm.navBarType != "selectedCourse" &&
+                      (_vm.role == "Student" || _vm.role == "Teacher")
+                        ? _c("mainNavbar", {
+                            attrs: { role: _vm.role, drawer: _vm.drawer }
+                          })
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _vm.navBarType == "selectedCourse" &&
+                      (_vm.role == "Student" || _vm.role == "Teacher")
+                        ? _c("courseNavbar", { attrs: { role: _vm.role } })
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _vm.role == "Admin"
+                        ? _c("adminNavbar", { attrs: { role: _vm.role } })
+                        : _vm._e()
+                    ],
+                    1
+                  )
                 : _vm._e()
             ],
             1

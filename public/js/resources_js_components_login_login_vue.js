@@ -215,6 +215,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           if (res.status == 200) {
             _this2.toastSuccess(res.data);
 
+            localStorage.removeItem(btoa('course-status'));
+
             _this2.clear_current_user();
 
             _this2.$router.push({
