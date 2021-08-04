@@ -810,9 +810,7 @@ var render = function() {
                 { staticClass: "pt-3" },
                 [
                   _c("v-col", [
-                    _c("h2", { staticClass: "pb-0" }, [
-                      _vm._v("Manage Modules")
-                    ])
+                    _c("h2", { staticClass: "pb-0" }, [_vm._v(" Materials")])
                   ]),
                   _vm._v(" "),
                   _c(

@@ -45,7 +45,7 @@
                                     <td> {{item.firstName}} </td>
                                     <td> {{item.middleName}} </td>
                                     <td> {{item.email}} </td>
-                                   
+
 
                                     <td>
                                         <v-btn color="primary" :loading="IsResetting" @click="updatePass(item.user_id)">
@@ -53,7 +53,7 @@
                                         </v-btn>
                                     </td>
                                     <td>
-                                        
+
                                         <v-btn icon color="success" @click="openEdit(item.user_id)">
                                             <v-icon>
                                                 mdi-pencil
@@ -84,7 +84,7 @@
         <v-dialog v-model="dialog" width="500">
             <v-card>
                 <v-card-title class="">
-                    {{modalName()}}
+                    Add Teacher
                 </v-card-title>
                 <v-divider></v-divider>
                 <v-container>
@@ -102,7 +102,7 @@
                                 <HasError class="error--text" :form="form" field="middleName" />
                                 <v-text-field label="Middle Name" :rules="nameRules" name="middleName"
                                     v-model="form.middleName" type="text" color="primary" outlined />
-                                    <HasError class="error--text" :form="form" field="middleName" />
+                                <HasError class="error--text" :form="form" field="middleName" />
                             </v-col>
 
                             <v-col class="ma-0 pa-0 mb-1" cols="12" md="12">
@@ -110,7 +110,7 @@
                                 <v-text-field label="Last Name" :rules="nameRules" name="lastname"
                                     v-model="form.lastName" type="text" color="primary" outlined
                                     @keyup="SetPassword(form.lastName)" />
-                                     <HasError class="error--text" :form="form" field="lastName" />
+                                <HasError class="error--text" :form="form" field="lastName" />
                             </v-col>
                             <!-- <v-col class="ma-0 pa-0 mb-1" cols="12" md="12">
                                 <HasError class="error--text" :form="form" field="phone" />
@@ -123,7 +123,7 @@
                                 <HasError class="error--text" :form="form" field="email" />
                                 <v-text-field label="Email" name="Email" :rules="loginEmailRules" v-model="form.email"
                                     type="email" color="primary" outlined />
-                                    <HasError class="error--text" :form="form" field="email" />
+                                <HasError class="error--text" :form="form" field="email" />
                             </v-col>
                             <v-col class="ma-0 pa-0 mb-1" cols="12" md="12" v-if="type== 'add'">
                                 <HasError class="error--text" :form="form" field="password" />
@@ -132,7 +132,7 @@
                                     :type="show ? 'text' : 'password'" color="primary"
                                     :rules="[rules.required, rules.min]" counter @click:append="show = !show"
                                     outlined />
-                                     <HasError class="error--text" :form="form" field="password" />
+                                <HasError class="error--text" :form="form" field="password" />
                             </v-col>
 
 
@@ -168,7 +168,7 @@
                     <v-spacer></v-spacer>
                     <v-btn text color="primary" @click="dialog = false;$refs.RegisterForm.reset()">Cancel</v-btn>
                     <v-btn text @click="validate()" :loading="IsAddUpdating">
-                        {{type == 'add' ? 'Add' : 'Save'}}</v-btn>
+                        Add</v-btn>
                 </v-card-actions>
             </v-card>
         </v-dialog>
@@ -210,7 +210,7 @@
         mapGetters,
         mapActions
     } from "vuex";
-import axios from 'axios';
+    import axios from 'axios';
     export default {
         components: {
             VueElementLoading
@@ -222,7 +222,7 @@ import axios from 'axios';
                 temp_id: '',
                 IsDeleting: false,
                 IsAddUpdating: false,
-                   IsResetting: false,
+                IsResetting: false,
                 type: '',
                 search: "",
                 valid: true,
@@ -267,13 +267,6 @@ import axios from 'axios';
         },
 
         methods: {
-            modalName() {
-                if(this.type=='add') {
-                    return 'Add Teacher';
-                } else {
-                    return 'Edit Teacher';
-                }
-            },
             SetPassword(lastname) {
                 var tmpLastname = lastname.replace(/\s+/g, '-').toLowerCase();
                 this.form.password = 'LMS-' + tmpLastname;
@@ -283,19 +276,8 @@ import axios from 'axios';
                      self.show = false;
                 }, 3000);  */
             },
-            clearForm() {
-    this.form.user_id = '';
-                this.form.firstName = '';
-                this.form.middleName ='';
-                this.form.lastName = '';
-                this.form.phone = '';
-                this.form.email = '';
-
-            },
 
             openAdd() {
-                     this.clearForm();
-          this.$refs.RegisterForm.resetValidation();
                 this.type = 'add'
                 // this.grading_criteria_form.name = '';
                 // this.grading_criteria_form.percentage = '';
@@ -321,32 +303,32 @@ import axios from 'axios';
             },
             updatePass(id) {
                 this.IsResetting = true;
-                axios.post('/api/teachers/reset-password/'+id ) 
-                .then(res => {
-                    this.toastSuccess(res.data);
-                    this.IsResetting = false;
-                })
+                axios.post('/api/teachers/reset-password/' + id)
+                    .then(res => {
+                        this.toastSuccess(res.data);
+                        this.IsResetting = false;
+                    })
             },
             deleteUser() {
                 this.IsDeleting = true;
                 axios.delete('/api/teachers/remove/' + this.delId)
-                .then((res) => {
-                    if(res.status==200) {
-                           this.toastSuccess('User Successfully removed!')
+                    .then((res) => {
+                        if (res.status == 200) {
+                            this.toastSuccess('User Successfully removed!')
                             this.IsDeleting = false;
-                    } else {
-                        this.toastError('Something went wrong!')
-                        this.IsDeleting = false;
-                    }
-                    this.Deldialog = false;
-                    this.$store.dispatch('fetchAllTeachers');
-                })
+                        } else {
+                            this.toastError('Something went wrong!')
+                            this.IsDeleting = false;
+                        }
+                        this.Deldialog = false;
+                        this.$store.dispatch('fetchAllTeachers');
+                    })
             },
             updateTeacherDetails() {
                 this.$store.dispatch('updateTeacher', this.form);
             },
             validate() {
-             this.IsAddUpdating = true;
+                this.IsAddUpdating = true;
                 if (this.$refs.RegisterForm.validate()) {
                     if (this.type == 'add') {
                         this.form.role = 'Teacher';
@@ -355,15 +337,15 @@ import axios from 'axios';
 
                         this.form.post('/api/register')
                             .then((res) => {
-                               
-                             
+
+
                                 this.$refs.RegisterForm.reset()
                                 this.valid = true;
-                                 this.dialog = false;
-                                  this.IsAddUpdating = false;
-                                
+                                this.dialog = false;
+
+
                             })
-                      
+
                     }
 
 
@@ -373,21 +355,22 @@ import axios from 'axios';
                                 console.log("Success");
                                 this.$refs.RegisterForm.reset()
                                 this.valid = true;
-                                 this.dialog = false;
-                                  this.IsAddUpdating = false;
+                                this.dialog = false;
+                                this.IsAddUpdating = false;
                             })
                         this.toastSuccess('User Successfully Updated!')
                     }
-                      this.$store.dispatch('fetchAllTeachers');
-                   
-                   
-                  
+                    this.$store.dispatch('fetchAllTeachers');
+
+
+
+
+                } else {
+                    this.IsAddUpdating = false;
 
                 }
-                else{
-                   this.IsAddUpdating = false;
-
-                }
+                    this.valid = false;
+                      this.IsAddUpdating = false;
             },
         },
 

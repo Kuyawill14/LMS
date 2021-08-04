@@ -283,13 +283,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(["getTeachers", "filterTeacher"])),
   methods: {
-    modalName: function modalName() {
-      if (this.type == 'add') {
-        return 'Add Teacher';
-      } else {
-        return 'Edit Teacher';
-      }
-    },
     SetPassword: function SetPassword(lastname) {
       var tmpLastname = lastname.replace(/\s+/g, '-').toLowerCase();
       this.form.password = 'LMS-' + tmpLastname;
@@ -299,17 +292,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
            self.show = false;
       }, 3000);  */
     },
-    clearForm: function clearForm() {
-      this.form.user_id = '';
-      this.form.firstName = '';
-      this.form.middleName = '';
-      this.form.lastName = '';
-      this.form.phone = '';
-      this.form.email = '';
-    },
     openAdd: function openAdd() {
-      this.clearForm();
-      this.$refs.RegisterForm.resetValidation();
       this.type = 'add'; // this.grading_criteria_form.name = '';
       // this.grading_criteria_form.percentage = '';
 
@@ -378,7 +361,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
             _this3.valid = true;
             _this3.dialog = false;
-            _this3.IsAddUpdating = false;
           });
         }
 
@@ -399,6 +381,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       } else {
         this.IsAddUpdating = false;
       }
+
+      this.valid = false;
+      this.IsAddUpdating = false;
     }
   },
   mounted: function mounted() {
@@ -804,11 +789,7 @@ var render = function() {
             "v-card",
             [
               _c("v-card-title", {}, [
-                _vm._v(
-                  "\n                " +
-                    _vm._s(_vm.modalName()) +
-                    "\n            "
-                )
+                _vm._v("\n                Add Teacher\n            ")
               ]),
               _vm._v(" "),
               _c("v-divider"),
@@ -1073,12 +1054,7 @@ var render = function() {
                         }
                       }
                     },
-                    [
-                      _vm._v(
-                        "\n                    " +
-                          _vm._s(_vm.type == "add" ? "Add" : "Save")
-                      )
-                    ]
+                    [_vm._v("\n                    Add")]
                   )
                 ],
                 1

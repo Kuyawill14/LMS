@@ -16,6 +16,7 @@ class CreateTblMainModules extends Migration
         Schema::create('tbl_main_modules', function (Blueprint $table) {
             $table->id();
             $table->integer('course_id');
+            $table->integer('created_by');
             $table->string('module_name');
             $table->string('description');
             $table->integer('position');

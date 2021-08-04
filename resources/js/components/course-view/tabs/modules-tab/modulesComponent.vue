@@ -38,7 +38,7 @@
         <div v-if="moduleLength > 0">
             <v-row class="pt-3">
                 <v-col>
-                    <h2 class="pb-0">Manage Modules</h2>
+                    <h2 class="pb-0"> Materials</h2>
                 </v-col>
                   <v-col class="text-right">
                      <v-btn bottom color="secondary" @click="preview()">
