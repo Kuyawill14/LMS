@@ -4,7 +4,9 @@ namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
+use App\Models\User;
+use App\Models\tbl_userDetails;
+use Illuminate\Support\Facades\DB;
 class MonitorTeacherController extends Controller
 {
     /**
@@ -28,12 +30,29 @@ class MonitorTeacherController extends Controller
     }
 
 
-    public function getAllTeacherProgress() {
-        $teachers = tbl_userDetails::where('role','Teacher')
-        ->select('users.role','users.firstName','users.middleName','users.lastName','users.email',
-        'tbl_user_details.*')
-        ->leftJoin('users', 'users.id', '=', 'tbl_user_details.user_id')
+    public function getAllTeacherSummarryData() {
+
+        $course_count = '(SELECT COUNT(*) FROM tbl_teacher_courses WHERE user_id = users.id) AS course_count';
+        $class_count = '(SELECT COUNT(*) FROM tbl_userclasses WHERE user_id = users.id) AS class_count';
+        $classwork_count = '(SELECT COUNT(*) FROM tbl_classworks WHERE user_id = users.id) AS classwork_count';
+        $sub_module_count = '(SELECT COUNT(*) FROM tbl_main_modules 
+        LEFT JOIN tbl_sub_modules ON  tbl_main_modules.id = tbl_sub_modules.main_module_id WHERE tbl_main_modules.created_by = users.id) AS sub_modules_count';
+     
+     
+        $teachers = DB::table('users')
+        ->select('users.id as user_id','users.role','users.firstName','users.middleName','users.lastName','users.email')
+        ->selectRaw( $course_count)
+        ->selectRaw( $class_count)
+        ->selectRaw( $classwork_count)
+        ->selectRaw( $sub_module_count)
+        ->where('role','Teacher')
         ->get();
+
+    //     $teachers = DB::table('users')
+    //     ->select('users.role','users.firstName','users.middleName','users.lastName','users.email',
+    //    $course_count, $class_count,  $classwork_count, $sub_module_count)
+    //    ->where('role','Teacher')
+    //     ->get();
 
         return $teachers;
     }

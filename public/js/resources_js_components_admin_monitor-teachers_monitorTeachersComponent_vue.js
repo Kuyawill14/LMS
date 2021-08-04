@@ -100,6 +100,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 
@@ -154,7 +159,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
     };
   },
-  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(["getTeachers", "filterTeacher"])),
+  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(["getTeachersSumarry"])),
   methods: {
     SetPassword: function SetPassword(lastname) {
       var tmpLastname = lastname.replace(/\s+/g, '-').toLowerCase();
@@ -261,14 +266,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           this.toastSuccess('User Successfully Updated!');
         }
 
-        this.$store.dispatch('fetchAllTeachers');
+        this.$store.dispatch('teacherSummarryData');
       } else {
         this.IsAddUpdating = false;
       }
     }
   },
   mounted: function mounted() {
-    this.$store.dispatch('fetchAllTeachers');
+    this.$store.dispatch('teacherSummarryData');
   }
 });
 
@@ -476,31 +481,37 @@ var render = function() {
                                 _vm._v(" "),
                                 _c("th", [
                                   _vm._v(
-                                    "\n                                   Name\n                                "
+                                    "\n                                    Name\n                                "
                                   )
                                 ]),
                                 _vm._v(" "),
-                                _c("th", [
+                                _c("th", { staticClass: "text-center" }, [
                                   _vm._v(
-                                    "\n                                   Total Courses\n                                "
+                                    "\n                                    Total Courses\n                                "
                                   )
                                 ]),
                                 _vm._v(" "),
-                                _c("th", [
+                                _c("th", { staticClass: "text-center" }, [
                                   _vm._v(
-                                    "\n                                   Total Classes\n                                "
+                                    "\n                                    Total Classes\n                                "
                                   )
                                 ]),
                                 _vm._v(" "),
-                                _c("th", [
+                                _c("th", { staticClass: "text-center" }, [
                                   _vm._v(
-                                    "\n                                   Total Modules Created\n                                "
+                                    "\n                                    Total Modules Created\n                                "
                                   )
                                 ]),
                                 _vm._v(" "),
-                                _c("th", [
+                                _c("th", { staticClass: "text-center" }, [
                                   _vm._v(
-                                    "\n                                  Action\n                                "
+                                    "\n                                    Total Lesson Created\n                                "
+                                  )
+                                ]),
+                                _vm._v(" "),
+                                _c("th", { staticClass: "text-center" }, [
+                                  _vm._v(
+                                    "\n                                    Action\n                                "
                                   )
                                 ])
                               ])
@@ -509,7 +520,10 @@ var render = function() {
                             _c(
                               "tbody",
                               [
-                                _vm._l(_vm.getTeachers, function(item, index) {
+                                _vm._l(_vm.getTeachersSumarry, function(
+                                  item,
+                                  index
+                                ) {
                                   return _c("tr", { key: index }, [
                                     _c("td", [
                                       _vm._v(" " + _vm._s(item.user_id) + " ")
@@ -529,20 +543,33 @@ var render = function() {
                                       )
                                     ]),
                                     _vm._v(" "),
-                                    _c("td", [
-                                      _vm._v(" {# of total courses} ")
+                                    _c("td", { staticClass: "text-center" }, [
+                                      _vm._v(" " + _vm._s(item.course_count))
                                     ]),
                                     _vm._v(" "),
-                                    _c("td", [
-                                      _vm._v(" {# of total classes} ")
+                                    _c("td", { staticClass: "text-center" }, [
+                                      _vm._v(
+                                        " " + _vm._s(item.class_count) + " "
+                                      )
                                     ]),
                                     _vm._v(" "),
-                                    _c("td", [
-                                      _vm._v(" {# of total modules created} ")
+                                    _c("td", { staticClass: "text-center" }, [
+                                      _vm._v(
+                                        " " + _vm._s(item.classwork_count) + " "
+                                      )
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("td", { staticClass: "text-center" }, [
+                                      _vm._v(
+                                        " " +
+                                          _vm._s(item.sub_modules_count) +
+                                          " "
+                                      )
                                     ]),
                                     _vm._v(" "),
                                     _c(
                                       "td",
+                                      { staticClass: "text-center" },
                                       [
                                         _c(
                                           "v-btn",
@@ -567,7 +594,7 @@ var render = function() {
                                   ])
                                 }),
                                 _vm._v(" "),
-                                _vm.getTeachers.length == 0
+                                _vm.getTeachersSumarry.length == 0
                                   ? _c("tr", [
                                       _c(
                                         "td",
