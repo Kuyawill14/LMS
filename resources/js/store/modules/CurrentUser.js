@@ -16,12 +16,14 @@ const actions = {
         if(state.CurrentUser.length == 0){
             const res = await axios.get(
                 `/api/profile/details`
-            );  
-     
+            );
+            
             state.CurrentUser = res.data;
             state.UserRole = res.data.role
+            return res.status;
           /*   commit('FETCH_USER', res.data);
             commit('SET_USER_ROLE', res.data.role); */
+     
         }
     },
     clear_current_user({ commit }) {

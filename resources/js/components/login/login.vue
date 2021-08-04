@@ -185,13 +185,12 @@ export default {
                    this.clear_current_user();
                     if(res.status == 200) {
                         this.toastSuccess(res.data);
-                        localStorage.removeItem(btoa('course-status'));
                         this.clear_current_user();
                         this.$router.push({ path: "/" })
                           
                     }
                     else{
-                           this.isLoggin = false;
+                       this.isLoggin = false;
                        this.toastError(res.data);
                     }
                 })

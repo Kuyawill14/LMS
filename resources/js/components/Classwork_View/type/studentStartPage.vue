@@ -74,7 +74,6 @@ export default {
             }
         },
         start(){
-       
           if(this.totalQuestion != 0){
             localStorage.removeItem('time_remaining');
             this.$router.push({name: 'quizstart',params: {id: this.$route.params.id},query: {clwk: this.classworkDetails.id}})

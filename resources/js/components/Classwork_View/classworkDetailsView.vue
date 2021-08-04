@@ -100,6 +100,5 @@ export default {
         this.totalQuestion.destroy();
     }
     
-    
 }
 </script>

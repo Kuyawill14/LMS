@@ -131,7 +131,6 @@
             logout() {
                 axios.post('/api/logout')
                     .then(() => {
-                        localStorage.removeItem(btoa('course-status'));
                         this.clear_current_user();
                         this.$router.push({
                             path: "/login"

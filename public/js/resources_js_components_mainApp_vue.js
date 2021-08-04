@@ -603,8 +603,6 @@ var seeAllNotification = function seeAllNotification() {
       var _this = this;
 
       axios.post('/api/logout').then(function () {
-        localStorage.removeItem(btoa('course-status'));
-
         _this.clear_current_user();
 
         _this.$router.push({
