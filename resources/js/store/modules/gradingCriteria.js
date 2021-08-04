@@ -14,7 +14,6 @@ const actions = {
         const res = await axios.get(
             `/api/grading-criteria/all/${id}`
         ).then((res) => {
-            console.log(res.data);
             commit('SET_CRITERIA', res.data);
         });
     },

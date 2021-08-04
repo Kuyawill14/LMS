@@ -8,7 +8,7 @@
                   </v-icon>
               </v-col>
                <v-col cols="12" class="text-center mt-0 pt-0">
-                 <div class="info--text display-1">Opps, This is warning!</div>
+                 <div class="info--text display-1">Opps!</div>
               </v-col>
           </v-row>
         </div>

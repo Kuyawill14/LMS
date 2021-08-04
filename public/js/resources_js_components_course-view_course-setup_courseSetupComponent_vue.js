@@ -108,7 +108,6 @@ var classComponent = function classComponent() {
     },
     step: function step(_step) {
       this.e1 = _step;
-      console.log(this.el);
     }
   })
   /* created() {

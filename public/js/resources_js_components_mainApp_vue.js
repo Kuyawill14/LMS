@@ -23505,7 +23505,10 @@ var render = function() {
             on: {
               click: function($event) {
                 $event.stopPropagation()
-                _vm.drawer = !_vm.drawer
+                _vm.navBarType != "classwork-preview" ||
+                _vm.getcourseInfo.completed == 1
+                  ? (_vm.drawer = !_vm.drawer)
+                  : ""
               }
             }
           }),

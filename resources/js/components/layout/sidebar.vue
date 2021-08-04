@@ -2,7 +2,7 @@
 <div>
     <!--  ######### header ################ -->
        <v-app-bar  :clipped-left="$vuetify.breakpoint.lgAndUp" app color="primary" dark>
-        <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+        <v-app-bar-nav-icon @click.stop="navBarType != 'classwork-preview' || getcourseInfo.completed == 1 ? drawer = !drawer : ''"></v-app-bar-nav-icon>
         <router-link to="/">
          <v-toolbar-title style="width: 300px;color: #fff" class="ml-0 pl-4 " >
             <span class="4pointer" >CCSICT-LMS</span>

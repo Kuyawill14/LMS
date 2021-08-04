@@ -160,7 +160,7 @@
                 percentage_data.forEach(function (val) {
 
                     total += parseFloat(val.percentage);
-                    console.log(total);
+          
 
                 })
                 return total;
@@ -197,7 +197,6 @@
                     .trim() !=
                     '') {
                     this.loading = true;
-                    //  console.log(this.grading_criteria_form);
                     var errors = '';
                     this.new_grading_criteria_form.course_id = this.$route.params.id;
                     this.$store.dispatch('addGradingCriteria', this.new_grading_criteria_form).then((data) => {
@@ -205,7 +204,6 @@
                         if (data[0] == 'error') {
                             for (var i = 1; i < data.length; i++) {
                                 errors = data[i] + "<br>" + errors;
-                                console.log(data[i]);
                             }
                             this.toastError(errors);
 
@@ -235,12 +233,11 @@
                 this.grading_criteria_form.id = id;
                 this.grading_criteria_form.course_id = this.$route.params.id;;
                 var errors = '';
-                console.log(this.grading_criteria_form);
                 this.$store.dispatch('updateGradingCriteria', this.grading_criteria_form).then((data) => {
                     if (data[0] == 'error') {
                         for (var i = 1; i < data.length; i++) {
                             errors = data[i] + "<br>" + errors;
-                            console.log(data[i]);
+
                         }
                         this.toastError(errors);
 
@@ -285,8 +282,6 @@
                 percentage_data.forEach(function (val) {
 
                     total += parseFloat(val.percentage);
-                    console.log(total);
-
                 })
                 return total;
             }

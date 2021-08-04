@@ -393,8 +393,7 @@ class NotificationController extends Controller
                     'tbl_notifications.notification_attachments','tbl_notifications.created_at')
                     ->leftJoin('tbl_notifications', function($join){
                         $join->on('tbl_notifications.class_id', '=', 'tbl_userclasses.class_id')
-                        ->orOn('tbl_notifications.class_id', '=', 'tbl_userclasses.course_id')
-                        ->orOn('tbl_notifications.user_id_to', '=', 'tbl_userclasses.user_id');
+                        ->orOn('tbl_notifications.class_id', '=', 'tbl_userclasses.course_id');
                     })
                     ->leftJoin('users', 'users.id', '=', 'tbl_notifications.from_id')
                     ->leftJoin('tbl_user_details', 'tbl_user_details.user_id','=','users.id')

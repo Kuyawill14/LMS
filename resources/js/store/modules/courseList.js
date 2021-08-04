@@ -43,18 +43,8 @@ const actions = {
 
         return response;
     },
-    setCourseStatus({ commit }, id){
-        state.courseStatus.forEach(item => {
-            if(atob(item.id) == id){
-                item.status = btoa(1);
-                localStorage.setItem(btoa('course-status'), JSON.stringify(state.courseStatus));
-            }
-        });
-    },
-    loadCourseStatus({ commit }, id){
-
-    }
-
+  
+   
 };
 const mutations = {
     setcourseList: (state, courseList) => (state.courseList = courseList),

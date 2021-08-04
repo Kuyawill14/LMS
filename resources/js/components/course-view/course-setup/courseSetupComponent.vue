@@ -86,7 +86,6 @@
             },
             step(step) {
                 this.e1 = step;
-                console.log(this.el);
             }
         },
         /* created() {

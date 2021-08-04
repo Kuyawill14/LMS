@@ -160,7 +160,9 @@
                                                 <v-col  ma-0 pa-0 class="ma-0 pa-0 mt-5" cols="12">
                                                     <v-card style="width:100%" class="mb-3">
                                                         <editor 
-                                                        @change="SelectAnswer()"
+                                                            @focus="SetWarning()"
+                                                             @blur="SetWarning()"
+                                                            @change="SelectAnswer()"
                                                             v-model="FinalAnswers[index].Answer" 
                                                             id="editor-container" placeholder="Answer" 
                                                             theme="snow" :options="options"></editor>
@@ -314,6 +316,7 @@ export default {
             classworkDetails:[],
             confirmLeave: false,
             leaveStrike: 0,
+            preventWarning: false
         }
     },
     computed: 
@@ -353,6 +356,11 @@ export default {
             clearInterval(this.timeCount);
             this.tempCounter = 0;
             this.CountTime();
+
+            
+        },
+        SetWarning(){
+            this.preventWarning = !this.preventWarning;
         },
         next: function() {
            /*  let name = btoa('CurrentAnswers');
@@ -592,10 +600,13 @@ export default {
         triggerWarning(){
             //console.log("test 123");
             this.leaveStrike += 1;
-            if(this.leaveStrike == 3){
+          /*   if(this.leaveStrike == 3){
                 this.SubmitAnswer();
+            } */
+            if(!this.preventWarning){
+                this.warningDialog = true;
             }
-            this.warningDialog = true;
+            
         },
     },
     beforeMount() {

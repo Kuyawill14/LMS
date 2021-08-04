@@ -286,6 +286,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
 
 
 
@@ -334,7 +336,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       timeCount: null,
       classworkDetails: [],
       confirmLeave: false,
-      leaveStrike: 0
+      leaveStrike: 0,
+      preventWarning: false
     };
   },
   computed: (0,vuex__WEBPACK_IMPORTED_MODULE_4__.mapGetters)(["getAll_questions"]),
@@ -378,6 +381,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       clearInterval(this.timeCount);
       this.tempCounter = 0;
       this.CountTime();
+    },
+    SetWarning: function SetWarning() {
+      this.preventWarning = !this.preventWarning;
     },
     next: function next() {
       /*  let name = btoa('CurrentAnswers');
@@ -632,12 +638,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     triggerWarning: function triggerWarning() {
       //console.log("test 123");
       this.leaveStrike += 1;
+      /*   if(this.leaveStrike == 3){
+            this.SubmitAnswer();
+        } */
 
-      if (this.leaveStrike == 3) {
-        this.SubmitAnswer();
+      if (!this.preventWarning) {
+        this.warningDialog = true;
       }
-
-      this.warningDialog = true;
     }
   },
   beforeMount: function beforeMount() {
@@ -23708,6 +23715,16 @@ var render = function() {
                                                                             _vm.options
                                                                         },
                                                                         on: {
+                                                                          focus: function(
+                                                                            $event
+                                                                          ) {
+                                                                            return _vm.SetWarning()
+                                                                          },
+                                                                          blur: function(
+                                                                            $event
+                                                                          ) {
+                                                                            return _vm.SetWarning()
+                                                                          },
                                                                           change: function(
                                                                             $event
                                                                           ) {
@@ -24561,7 +24578,7 @@ var render = function() {
                 { staticClass: "text-center mt-0 pt-0", attrs: { cols: "12" } },
                 [
                   _c("div", { staticClass: "info--text display-1" }, [
-                    _vm._v("Opps, This is warning!")
+                    _vm._v("Opps!")
                   ])
                 ]
               )
