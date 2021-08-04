@@ -1,4 +1,8 @@
 <template>
+
+    <v-container class="fill-height" fluid>
+
+
 <div class="pt-5">
 
 
@@ -40,7 +44,7 @@
                     </v-col>
 
                 <v-col cols="12" class="pl-7 pr-5">
-                    <div class="text-sm-body-2 text-md-h5 text-xl-h4">{{classworkDetails.title}}</div>
+                    <div class="text-sm-body-2 text-md-h5 text-lg-h6 text-xl-h6">{{classworkDetails.title}}</div>
                     
                         <div class="pt-2 d-flex flex-row ">
                             <div class="captions"><v-icon>mdi-circle-medium</v-icon>{{totalQuestion}} Question</div>
@@ -72,6 +76,7 @@
     </v-row>
 
 </div>
+    </v-container>
 
 </template>
 

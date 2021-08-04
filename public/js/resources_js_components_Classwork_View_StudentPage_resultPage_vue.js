@@ -112,6 +112,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var submittedView = function submittedView() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_StudentPage_viewSubmittedPage_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./viewSubmittedPage */ "./resources/js/components/Classwork_View/StudentPage/viewSubmittedPage.vue"));
 };
@@ -328,8 +337,8 @@ var render = function() {
                       _c(
                         "v-card",
                         {
-                          staticClass: "elevation-2 pa-3",
-                          staticStyle: { "border-top": "3px solid #EF6C00" }
+                          staticClass: "pa-3",
+                          attrs: { elevation: "1", outlined: "" }
                         },
                         [
                           _c(
@@ -344,31 +353,80 @@ var render = function() {
                                       _c(
                                         "v-col",
                                         {
-                                          staticClass: "pl-7 pr-9 pt-5",
+                                          staticClass: "pl-5 pr-9 pt-5",
                                           attrs: { cols: "12", md: "12" }
                                         },
                                         [
                                           _c(
-                                            "v-btn",
+                                            "v-tooltip",
                                             {
-                                              attrs: { icon: "", rounded: "" },
-                                              on: {
-                                                click: function($event) {
-                                                  return _vm.$router.push({
-                                                    name: "classwork",
-                                                    params: {
-                                                      id: _vm.details.course_id
+                                              attrs: { top: "" },
+                                              scopedSlots: _vm._u(
+                                                [
+                                                  {
+                                                    key: "activator",
+                                                    fn: function(ref) {
+                                                      var on = ref.on
+                                                      var attrs = ref.attrs
+                                                      return [
+                                                        _c(
+                                                          "v-btn",
+                                                          _vm._g(
+                                                            _vm._b(
+                                                              {
+                                                                attrs: {
+                                                                  icon: "",
+                                                                  rounded: ""
+                                                                },
+                                                                on: {
+                                                                  click: function(
+                                                                    $event
+                                                                  ) {
+                                                                    return _vm.$router.push(
+                                                                      {
+                                                                        name:
+                                                                          "classwork",
+                                                                        params: {
+                                                                          id:
+                                                                            _vm
+                                                                              .details
+                                                                              .course_id
+                                                                        }
+                                                                      }
+                                                                    )
+                                                                  }
+                                                                }
+                                                              },
+                                                              "v-btn",
+                                                              attrs,
+                                                              false
+                                                            ),
+                                                            on
+                                                          ),
+                                                          [
+                                                            _c("v-icon", [
+                                                              _vm._v(
+                                                                "mdi-arrow-left"
+                                                              )
+                                                            ])
+                                                          ],
+                                                          1
+                                                        )
+                                                      ]
                                                     }
-                                                  })
-                                                }
-                                              }
+                                                  }
+                                                ],
+                                                null,
+                                                false,
+                                                1675981583
+                                              )
                                             },
                                             [
-                                              _c("v-icon", [
-                                                _vm._v("mdi-arrow-left")
+                                              _vm._v(" "),
+                                              _c("span", [
+                                                _vm._v("Back to classworks")
                                               ])
-                                            ],
-                                            1
+                                            ]
                                           ),
                                           _vm._v(" "),
                                           _c("v-row", {
@@ -382,7 +440,7 @@ var render = function() {
                                                 "v-container",
                                                 {
                                                   staticClass:
-                                                    "d-flex flex-row justify-space-between mb-3",
+                                                    "d-flex flex-row justify-space-between mb-10",
                                                   attrs: {
                                                     "ma-0": "",
                                                     "pa-0": ""
@@ -425,7 +483,7 @@ var render = function() {
                                                         "div",
                                                         {
                                                           staticClass:
-                                                            "mt-3 ml-1"
+                                                            "mt-3 ml-2"
                                                         },
                                                         [
                                                           _c("h3", [
@@ -447,7 +505,7 @@ var render = function() {
                                               _c(
                                                 "v-col",
                                                 {
-                                                  staticClass: "ml-3",
+                                                  staticClass: "ml-3 d-flex",
                                                   attrs: { cols: "12" }
                                                 },
                                                 [
@@ -462,20 +520,11 @@ var render = function() {
                                                         "\r\n                                            Score:\r\n                                        "
                                                       )
                                                     ]
-                                                  )
-                                                ]
-                                              ),
-                                              _vm._v(" "),
-                                              _c(
-                                                "v-col",
-                                                {
-                                                  staticClass: "text-left",
-                                                  attrs: { cols: "12" }
-                                                },
-                                                [
+                                                  ),
+                                                  _vm._v(" "),
                                                   _c(
                                                     "div",
-                                                    { staticClass: "ml-10" },
+                                                    { staticClass: "ml-5" },
                                                     [
                                                       _c(
                                                         "span",
@@ -572,7 +621,7 @@ var render = function() {
                                           ),
                                           _vm._v(" "),
                                           _c("v-row", {
-                                            staticStyle: { height: "7vh" }
+                                            staticStyle: { height: "5vh" }
                                           })
                                         ],
                                         1

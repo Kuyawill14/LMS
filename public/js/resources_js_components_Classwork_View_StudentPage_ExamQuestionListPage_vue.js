@@ -286,6 +286,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
 
 
 
@@ -333,7 +335,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       tempCounter: 0,
       timeCount: null,
       classworkDetails: [],
-      confirmLeave: false
+      confirmLeave: false,
+      leaveStrike: 0,
+      preventWarning: false
     };
   },
   computed: (0,vuex__WEBPACK_IMPORTED_MODULE_4__.mapGetters)(["getAll_questions"]),
@@ -377,6 +381,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       clearInterval(this.timeCount);
       this.tempCounter = 0;
       this.CountTime();
+    },
+    SetWarning: function SetWarning() {
+      this.preventWarning = !this.preventWarning;
     },
     next: function next() {
       /*  let name = btoa('CurrentAnswers');
@@ -576,8 +583,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       });
     },
     preventNav: function preventNav(event) {
-      if (!this.isStart) return;
-      event.preventDefault(); // Chrome requires returnValue to be set.
+      if (!this.isStart) return; //event.preventDefault();
+      // Chrome requires returnValue to be set.
 
       event.returnValue = "";
     },
@@ -630,15 +637,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     triggerWarning: function triggerWarning() {
       //console.log("test 123");
-      this.warningDialog = true;
+      this.leaveStrike += 1;
+      /*   if(this.leaveStrike == 3){
+            this.SubmitAnswer();
+        } */
+
+      if (!this.preventWarning) {
+        this.warningDialog = true;
+      }
     }
   },
   beforeMount: function beforeMount() {
-    /*  window.addEventListener("beforeunload", this.preventNav);
-     let self = this;
-     $(window).blur(function(){
-         self.triggerWarning()
-     }); */
+    window.addEventListener("beforeunload", this.preventNav);
+    var self = this;
+    $(window).blur(function () {
+      self.triggerWarning();
+    });
   },
   mounted: function mounted() {
     this.CheckStatus();
@@ -962,12 +976,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -22816,7 +22824,7 @@ var render = function() {
       _c(
         "v-dialog",
         {
-          attrs: { persistent: "", "max-width": "480" },
+          attrs: { persistent: "", "max-width": "500" },
           model: {
             value: _vm.warningDialog,
             callback: function($$v) {
@@ -23253,9 +23261,11 @@ var render = function() {
                                               on: { click: _vm.prev }
                                             },
                                             [
-                                              _c("v-icon", [
-                                                _vm._v("mdi-arrow-left")
-                                              ]),
+                                              _c(
+                                                "v-icon",
+                                                { attrs: { left: "" } },
+                                                [_vm._v("mdi-arrow-left")]
+                                              ),
                                               _vm._v(
                                                 "\r\n                                        " +
                                                   _vm._s(
@@ -23294,9 +23304,11 @@ var render = function() {
                                                       ) +
                                                       "\r\n                                        "
                                                   ),
-                                                  _c("v-icon", [
-                                                    _vm._v("mdi-arrow-right")
-                                                  ])
+                                                  _c(
+                                                    "v-icon",
+                                                    { attrs: { right: "" } },
+                                                    [_vm._v("mdi-arrow-right")]
+                                                  )
                                                 ],
                                                 1
                                               )
@@ -23316,9 +23328,11 @@ var render = function() {
                                                   _vm._v(
                                                     "\r\n                                        Submit\r\n                                        "
                                                   ),
-                                                  _c("v-icon", [
-                                                    _vm._v("mdi-lock")
-                                                  ])
+                                                  _c(
+                                                    "v-icon",
+                                                    { attrs: { right: "" } },
+                                                    [_vm._v("mdi-lock")]
+                                                  )
                                                 ],
                                                 1
                                               )
@@ -23701,6 +23715,16 @@ var render = function() {
                                                                             _vm.options
                                                                         },
                                                                         on: {
+                                                                          focus: function(
+                                                                            $event
+                                                                          ) {
+                                                                            return _vm.SetWarning()
+                                                                          },
+                                                                          blur: function(
+                                                                            $event
+                                                                          ) {
+                                                                            return _vm.SetWarning()
+                                                                          },
                                                                           change: function(
                                                                             $event
                                                                           ) {
@@ -24537,7 +24561,7 @@ var render = function() {
                     "v-icon",
                     {
                       staticStyle: { "font-size": "7rem" },
-                      attrs: { color: "red lighten-2" }
+                      attrs: { color: "info" }
                     },
                     [
                       _vm._v(
@@ -24553,8 +24577,8 @@ var render = function() {
                 "v-col",
                 { staticClass: "text-center mt-0 pt-0", attrs: { cols: "12" } },
                 [
-                  _c("div", { staticClass: "red--text display-1" }, [
-                    _vm._v("Opps, This is warning!")
+                  _c("div", { staticClass: "info--text display-1" }, [
+                    _vm._v("Opps!")
                   ])
                 ]
               )
@@ -24567,40 +24591,38 @@ var render = function() {
       _vm._v(" "),
       _c(
         "v-card-text",
-        { staticClass: "font-weight-bold" },
         [
           _c(
             "v-row",
             [
-              _c("v-col", { staticClass: "text-center" }, [
-                _vm._v(
-                  "\n                Please refrain from leaving the examination page while it's ongoing or else it will be submitted automatically!\n            "
-                )
-              ])
+              _c(
+                "v-col",
+                { staticClass: "text-center" },
+                [
+                  _c("div", { staticClass: "body-1" }, [
+                    _vm._v(
+                      "\n                 Please refrain from leaving the examination page while it's ongoing or else it will be submitted automatically!\n              "
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      staticClass: "ml-3 mr-3 mt-2",
+                      attrs: { color: "primary", rounded: "", large: "" },
+                      on: {
+                        click: function($event) {
+                          return _vm.$emit("toggleCloaseDialog")
+                        }
+                      }
+                    },
+                    [_vm._v("Confirm")]
+                  )
+                ],
+                1
+              )
             ],
             1
-          )
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "v-card-actions",
-        { staticClass: "pb-5" },
-        [
-          _c("v-spacer"),
-          _vm._v(" "),
-          _c(
-            "v-btn",
-            {
-              attrs: { color: "primary", rounded: "" },
-              on: {
-                click: function($event) {
-                  return _vm.$emit("toggleCloaseDialog")
-                }
-              }
-            },
-            [_vm._v("\n        Confirm\n      ")]
           )
         ],
         1

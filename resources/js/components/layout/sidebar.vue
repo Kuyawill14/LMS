@@ -2,7 +2,7 @@
 <div>
     <!--  ######### header ################ -->
        <v-app-bar  :clipped-left="$vuetify.breakpoint.lgAndUp" app color="primary" dark>
-        <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+        <v-app-bar-nav-icon @click.stop="navBarType != 'classwork-preview' || getcourseInfo.completed == 1 ? drawer = !drawer : ''"></v-app-bar-nav-icon>
         <router-link to="/">
          <v-toolbar-title style="width: 300px;color: #fff" class="ml-0 pl-4 " >
             <span class="4pointer" >CCSICT-LMS</span>
@@ -61,11 +61,13 @@
 
     <!-- :expand-on-hover="$vuetify.breakpoint.lgAndUp" -->
    <!--  ######### sidebar ################ -->
-    <v-navigation-drawer  :expand-on-hover="$vuetify.breakpoint.lgAndUp"  v-model="drawer" :clipped="$vuetify.breakpoint.lgAndUp" v-if="navBarType != 'selectedCourse' ||  getcourseInfo.completed == 1 " app>
-        <mainNavbar :role="role" :drawer="drawer"  v-if="navBarType != 'selectedCourse' && (role == 'Student' || role == 'Teacher')" > </mainNavbar>
-        <courseNavbar :role="role" v-if="navBarType == 'selectedCourse'&& (role == 'Student' || role == 'Teacher') "> </courseNavbar>
-         <adminNavbar :role="role" v-if="role == 'Admin'"> </adminNavbar>
-    </v-navigation-drawer>
+   <div v-if="navBarType != 'classwork-preview' ">
+        <v-navigation-drawer  :expand-on-hover="$vuetify.breakpoint.lgAndUp"  v-model="drawer" :clipped="$vuetify.breakpoint.lgAndUp" v-if="navBarType != 'selectedCourse' ||  getcourseInfo.completed == 1 " app>
+            <mainNavbar :role="role" :drawer="drawer"  v-if="navBarType != 'selectedCourse'  && (role == 'Student' || role == 'Teacher')" > </mainNavbar>
+            <courseNavbar :role="role" v-if="navBarType == 'selectedCourse'&& (role == 'Student' || role == 'Teacher') "> </courseNavbar>
+            <adminNavbar :role="role" v-if="role == 'Admin'"> </adminNavbar>
+        </v-navigation-drawer>
+    </div>
     <!--  ######### end sidebar ################ -->
     
  <!--  ######### notifSiaebar ################ -->
@@ -113,6 +115,7 @@
         watch: {
             $route(to, from) {
                 this.navBarType = this.$route.matched[1].name;
+               
             }
         },
         computed: {
@@ -128,7 +131,6 @@
             logout() {
                 axios.post('/api/logout')
                     .then(() => {
-                        localStorage.removeItem(btoa('course-status'));
                         this.clear_current_user();
                         this.$router.push({
                             path: "/login"

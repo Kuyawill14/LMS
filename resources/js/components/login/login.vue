@@ -190,7 +190,7 @@ export default {
                           
                     }
                     else{
-                           this.isLoggin = false;
+                       this.isLoggin = false;
                        this.toastError(res.data);
                     }
                 })

@@ -85,10 +85,26 @@ class SubjectCourseController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function CheckCourseStatus($id)
+    public function CheckCourseStatus()
     {
-        $status = tbl_subject_course::find($id);
-        return $status->completed;
+        $userId = auth('sanctum')->id();
+        //$userId = 3;
+        $courseStatus;
+        if(auth('sanctum')->user()->role == "Student"){
+            $courseStatus = tbl_userclass::whereNull('tbl_userclasses.deleted_at')
+            ->select('tbl_subject_courses.id', 'tbl_subject_courses.completed as status')
+            ->leftjoin('tbl_subject_courses', 'tbl_subject_courses.id','=','tbl_userclasses.course_id')
+            ->where('tbl_userclasses.user_id', $userId)
+            ->get();
+
+        }else{
+            $courseStatus = tbl_teacher_course::whereNull('tbl_teacher_courses.deleted_at')
+            ->select('tbl_subject_courses.id', 'tbl_subject_courses.completed as status')
+            ->leftjoin('tbl_subject_courses', 'tbl_subject_courses.id','=','tbl_teacher_courses.course_id')
+            ->where('tbl_teacher_courses.user_id', $userId)
+            ->get();
+        }
+        return $courseStatus;
     }
 
     /**

@@ -171,15 +171,12 @@
                 this.form.class_name = "";
                 this.modalType = "add";
                 this.showModal = true;
-
-                console.log(this.modalType);
             },
             openEditmodal(class_name, class_id) {
                 this.showModal = true;
                 this.modalType = "edit";
                 this.class_id = class_id;
                 this.class_name = class_name;
-                console.log(this.modalType);
 
             },
             getTeacherClasses() {

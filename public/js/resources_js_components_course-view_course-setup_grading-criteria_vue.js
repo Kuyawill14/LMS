@@ -171,7 +171,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var total = 0;
       percentage_data.forEach(function (val) {
         total += parseFloat(val.percentage);
-        console.log(total);
       });
       return total;
     },
@@ -200,15 +199,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var _this = this;
 
       if (this.new_grading_criteria_form.name.trim() != '' || this.new_grading_criteria_form.percentage.trim() != '') {
-        this.loading = true; //  console.log(this.grading_criteria_form);
-
+        this.loading = true;
         var errors = '';
         this.new_grading_criteria_form.course_id = this.$route.params.id;
         this.$store.dispatch('addGradingCriteria', this.new_grading_criteria_form).then(function (data) {
           if (data[0] == 'error') {
             for (var i = 1; i < data.length; i++) {
               errors = data[i] + "<br>" + errors;
-              console.log(data[i]);
             }
 
             _this.toastError(errors);
@@ -236,12 +233,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.grading_criteria_form.course_id = this.$route.params.id;
       ;
       var errors = '';
-      console.log(this.grading_criteria_form);
       this.$store.dispatch('updateGradingCriteria', this.grading_criteria_form).then(function (data) {
         if (data[0] == 'error') {
           for (var i = 1; i < data.length; i++) {
             errors = data[i] + "<br>" + errors;
-            console.log(data[i]);
           }
 
           _this2.toastError(errors);
@@ -277,7 +272,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     var total = 0;
     percentage_data.forEach(function (val) {
       total += parseFloat(val.percentage);
-      console.log(total);
     });
     return total;
   }),

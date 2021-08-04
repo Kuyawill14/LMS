@@ -9,7 +9,7 @@
      v-if="dialog"></confirmDialog>
 </v-dialog>
 
-<v-dialog v-model="warningDialog" persistent max-width="480">
+<v-dialog v-model="warningDialog" persistent max-width="500">
     <dialogWarning
     v-on:toggleCloaseDialog="warningDialog = !warningDialog"
     
@@ -91,7 +91,7 @@
                                   
                                     <v-btn rounded color="primary" class="mr-2" outlined="" @click="prev" 
                                     :disabled="questionIndex <= 0">
-                                        <v-icon>mdi-arrow-left</v-icon>
+                                        <v-icon left>mdi-arrow-left</v-icon>
                                         {{$vuetify.breakpoint.xs || $vuetify.breakpoint.sm  ? '' : 'previous'}}
                                         </v-btn>
 
@@ -99,12 +99,12 @@
                                         
                                             rounded color="primary" @click="next">
                                         {{$vuetify.breakpoint.xs || $vuetify.breakpoint.sm  ? '' : 'Next'}}
-                                        <v-icon>mdi-arrow-right</v-icon>
+                                        <v-icon right>mdi-arrow-right</v-icon>
                                         </v-btn>
 
                                         <v-btn  v-if="questionIndex == Qlength-1"  rounded color="success" @click="SubmitPromp">
                                         Submit
-                                        <v-icon>mdi-lock</v-icon>
+                                        <v-icon right>mdi-lock</v-icon>
                                         </v-btn>
                                       </div>
                                 <v-divider></v-divider>
@@ -160,7 +160,9 @@
                                                 <v-col  ma-0 pa-0 class="ma-0 pa-0 mt-5" cols="12">
                                                     <v-card style="width:100%" class="mb-3">
                                                         <editor 
-                                                        @change="SelectAnswer()"
+                                                            @focus="SetWarning()"
+                                                             @blur="SetWarning()"
+                                                            @change="SelectAnswer()"
                                                             v-model="FinalAnswers[index].Answer" 
                                                             id="editor-container" placeholder="Answer" 
                                                             theme="snow" :options="options"></editor>
@@ -312,7 +314,9 @@ export default {
             tempCounter:0,
             timeCount:null,
             classworkDetails:[],
-            confirmLeave: false
+            confirmLeave: false,
+            leaveStrike: 0,
+            preventWarning: false
         }
     },
     computed: 
@@ -352,6 +356,11 @@ export default {
             clearInterval(this.timeCount);
             this.tempCounter = 0;
             this.CountTime();
+
+            
+        },
+        SetWarning(){
+            this.preventWarning = !this.preventWarning;
         },
         next: function() {
            /*  let name = btoa('CurrentAnswers');
@@ -531,7 +540,7 @@ export default {
         },
          preventNav(event) {
             if (!this.isStart) return;
-            event.preventDefault();
+            //event.preventDefault();
             // Chrome requires returnValue to be set.
             event.returnValue = "";
         },
@@ -590,15 +599,22 @@ export default {
         },
         triggerWarning(){
             //console.log("test 123");
-            this.warningDialog = true;
+            this.leaveStrike += 1;
+          /*   if(this.leaveStrike == 3){
+                this.SubmitAnswer();
+            } */
+            if(!this.preventWarning){
+                this.warningDialog = true;
+            }
+            
         },
     },
     beforeMount() {
-       /*  window.addEventListener("beforeunload", this.preventNav);
+        window.addEventListener("beforeunload", this.preventNav);
         let self = this;
         $(window).blur(function(){
             self.triggerWarning()
-        }); */
+        });
     },
     mounted(){
         this.CheckStatus();
