@@ -1,7 +1,8 @@
 import axios from 'axios'
 
 const state = {
-    allTeachers: []
+    allTeachers: [],
+    teacherDetails: []
 };
 const getters = {
     getTeachersSumarry: state => state.allTeachers,
@@ -10,6 +11,8 @@ const getters = {
 
 
     },
+    getTeacherDetails: state => state.teacherDetails,
+
 
 };
 
@@ -22,13 +25,21 @@ const actions = {
         );
         //console.log(res.data);
         commit('FETCH_TEACHERS', res.data);
+    },
 
-
-
+    async fetchTeacherDetails({
+        commit
+    }, id) {
+        const res = await axios.get(
+            '/api/teachers/profile/' + id
+        );
+        console.log(res.data);
+        commit('FETCH_TEACHERS', res.data);
     },
 };
 const mutations = {
     FETCH_TEACHERS: (state, allTeachers) => (state.allTeachers = allTeachers),
+    FETCH_TEACHER_DETAILS: (state, teacherDetails) => (state.teacherDetails = teacherDetails),
 
 };
 

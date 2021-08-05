@@ -124,6 +124,8 @@ let manageUsers = () =>
     import ("./components/admin/manage-users/manage-usersComponent");
 let monitorTeachers = () =>
     import ("./components/admin/monitor-teachers/monitorTeachersComponent");
+let teacherProfile = () =>
+    import ("./components/admin/monitor-teachers/teacherProfile/teacherProfile");
 
 
 const router = new Router({
@@ -164,6 +166,13 @@ const router = new Router({
 
                 },
                 {
+                    path: "/teacher-profile/:id",
+                    component: teacherProfile,
+                    name: "teacherProfile",
+
+
+                },
+                {
                     path: "/courses",
                     component: mycourse,
                     name: "courses",
@@ -174,47 +183,44 @@ const router = new Router({
                     path: "course/:id",
                     component: courseView,
                     name: "selectedCourse",
-                    
+
                     children: [{
                             name: "coursePage",
                             path: "",
                             component: classes_tab,
-                            beforeEnter: (to, from, next)=>{
+                            beforeEnter: (to, from, next) => {
                                 let Exist = false;
                                 let Completed = false;
-                                let CourseStatus = store.state.CurrentUser.MyCourses;    
+                                let CourseStatus = store.state.CurrentUser.MyCourses;
                                 CourseStatus.forEach(item => {
                                     if (to.params.id == item.id) {
                                         Exist = true;
-                                        if(item.status == 1){
+                                        if (item.status == 1) {
                                             Completed = true
                                         }
                                     }
                                 });
-                                if(Exist == true){
-                                    if(Completed == true){
-                                        if(store.state.CurrentUser.UserRole == 'Teacher'){
+                                if (Exist == true) {
+                                    if (Completed == true) {
+                                        if (store.state.CurrentUser.UserRole == 'Teacher') {
                                             next();
-                                        }
-                                        else{
+                                        } else {
                                             return next({
                                                 name: "announcement",
                                                 params: { id: to.params.id }
                                             })
                                         }
-                                        
-                                    }
-                                    else{
+
+                                    } else {
                                         return next({
                                             name: "courseSetup",
                                             params: { id: to.params.id }
                                         })
                                     }
-                                }
-                                else{
+                                } else {
                                     return next({
                                         name: "course-not-found",
-                                        params:{id: to.params.id}
+                                        params: { id: to.params.id }
                                     })
                                 }
                             },
@@ -223,58 +229,53 @@ const router = new Router({
                             path: "setup",
                             component: course_setup,
                             name: "courseSetup",
-                            beforeEnter: (to, from, next)=>{
-                                if(store.state.CurrentUser.UserRole == 'Teacher'){                               
-                                    store.dispatch('CheckMyCourse', to.params.id).then(res=>{
-                                        if(store.state.CurrentUser.CurrentStatus.exist == true){
-                                            if(store.state.CurrentUser.CurrentStatus.status == 1){
+                            beforeEnter: (to, from, next) => {
+                                if (store.state.CurrentUser.UserRole == 'Teacher') {
+                                    store.dispatch('CheckMyCourse', to.params.id).then(res => {
+                                        if (store.state.CurrentUser.CurrentStatus.exist == true) {
+                                            if (store.state.CurrentUser.CurrentStatus.status == 1) {
                                                 return next({
                                                     name: "coursePage",
                                                     params: { id: to.params.id }
                                                 })
-                                            }
-                                            else{
+                                            } else {
                                                 next();
                                             }
-                                        }
-                                        else{
+                                        } else {
                                             return next({
                                                 name: "course-not-found",
-                                                params:{id: to.params.id}
+                                                params: { id: to.params.id }
                                             })
                                         }
                                     })
-                                }
-                                else{
+                                } else {
                                     return next({
                                         name: "courses",
-                                       
+
                                     })
                                 }
                             },
-                           
+
                         },
                         {
                             name: "announcement",
                             path: "announcement",
                             component: announcement_tab,
                             beforeEnter: (to, form, next) => {
-                                store.dispatch('CheckMyCourse', to.params.id).then(res=>{
-                                    if(store.state.CurrentUser.CurrentStatus.exist == true){
-                                        if(store.state.CurrentUser.CurrentStatus.status == 1){
+                                store.dispatch('CheckMyCourse', to.params.id).then(res => {
+                                    if (store.state.CurrentUser.CurrentStatus.exist == true) {
+                                        if (store.state.CurrentUser.CurrentStatus.status == 1) {
                                             next();
-                                        }
-                                        else{
+                                        } else {
                                             return next({
                                                 name: "courseSetup",
                                                 params: { id: to.params.id }
-                                            }) 
+                                            })
                                         }
-                                    }
-                                    else{
+                                    } else {
                                         return next({
                                             name: "course-not-found",
-                                            params:{id: to.params.id}
+                                            params: { id: to.params.id }
                                         })
                                     }
                                 })
@@ -285,22 +286,20 @@ const router = new Router({
                             path: "classwork",
                             component: classwork_tab,
                             beforeEnter: (to, form, next) => {
-                                store.dispatch('CheckMyCourse', to.params.id).then(res=>{
-                                    if(store.state.CurrentUser.CurrentStatus.exist == true){
-                                        if(store.state.CurrentUser.CurrentStatus.status == 1){
+                                store.dispatch('CheckMyCourse', to.params.id).then(res => {
+                                    if (store.state.CurrentUser.CurrentStatus.exist == true) {
+                                        if (store.state.CurrentUser.CurrentStatus.status == 1) {
                                             next();
-                                        }
-                                        else{
+                                        } else {
                                             return next({
                                                 name: "courseSetup",
                                                 params: { id: to.params.id }
-                                            }) 
+                                            })
                                         }
-                                    }
-                                    else{
+                                    } else {
                                         return next({
                                             name: "course-not-found",
-                                            params:{id: to.params.id}
+                                            params: { id: to.params.id }
                                         })
                                     }
                                 })
@@ -327,22 +326,20 @@ const router = new Router({
                             component: studentmodules_tab,
                             props: { role: 'Student' },
                             beforeEnter: (to, form, next) => {
-                                store.dispatch('CheckMyCourse', to.params.id).then(res=>{
-                                    if(store.state.CurrentUser.CurrentStatus.exist == true){
-                                        if(store.state.CurrentUser.CurrentStatus.status == 1){
+                                store.dispatch('CheckMyCourse', to.params.id).then(res => {
+                                    if (store.state.CurrentUser.CurrentStatus.exist == true) {
+                                        if (store.state.CurrentUser.CurrentStatus.status == 1) {
                                             next();
-                                        }
-                                        else{
+                                        } else {
                                             return next({
                                                 name: "courseSetup",
                                                 params: { id: to.params.id }
-                                            }) 
+                                            })
                                         }
-                                    }
-                                    else{
+                                    } else {
                                         return next({
                                             name: "course-not-found",
-                                            params:{id: to.params.id}
+                                            params: { id: to.params.id }
                                         })
                                     }
                                 })
@@ -354,22 +351,20 @@ const router = new Router({
                             path: "modules-preview",
                             component: studentmodules_tab,
                             beforeEnter: (to, form, next) => {
-                                store.dispatch('CheckMyCourse', to.params.id).then(res=>{
-                                    if(store.state.CurrentUser.CurrentStatus.exist == true){
-                                        if(store.state.CurrentUser.CurrentStatus.status == 1){
+                                store.dispatch('CheckMyCourse', to.params.id).then(res => {
+                                    if (store.state.CurrentUser.CurrentStatus.exist == true) {
+                                        if (store.state.CurrentUser.CurrentStatus.status == 1) {
                                             next();
-                                        }
-                                        else{
+                                        } else {
                                             return next({
                                                 name: "courseSetup",
                                                 params: { id: to.params.id }
-                                            }) 
+                                            })
                                         }
-                                    }
-                                    else{
+                                    } else {
                                         return next({
                                             name: "course-not-found",
-                                            params:{id: to.params.id}
+                                            params: { id: to.params.id }
                                         })
                                     }
                                 })
@@ -380,22 +375,20 @@ const router = new Router({
                             path: "people",
                             component: studentListComponent,
                             beforeEnter: (to, form, next) => {
-                                store.dispatch('CheckMyCourse', to.params.id).then(res=>{
-                                    if(store.state.CurrentUser.CurrentStatus.exist == true){
-                                        if(store.state.CurrentUser.CurrentStatus.status == 1){
+                                store.dispatch('CheckMyCourse', to.params.id).then(res => {
+                                    if (store.state.CurrentUser.CurrentStatus.exist == true) {
+                                        if (store.state.CurrentUser.CurrentStatus.status == 1) {
                                             next();
-                                        }
-                                        else{
+                                        } else {
                                             return next({
                                                 name: "courseSetup",
                                                 params: { id: to.params.id }
-                                            }) 
+                                            })
                                         }
-                                    }
-                                    else{
+                                    } else {
                                         return next({
                                             name: "course-not-found",
-                                            params:{id: to.params.id}
+                                            params: { id: to.params.id }
                                         })
                                     }
                                 })
@@ -406,22 +399,20 @@ const router = new Router({
                             path: "about",
                             component: about_tab,
                             beforeEnter: (to, form, next) => {
-                                store.dispatch('CheckMyCourse', to.params.id).then(res=>{
-                                    if(store.state.CurrentUser.CurrentStatus.exist == true){
-                                        if(store.state.CurrentUser.CurrentStatus.status == 1){
+                                store.dispatch('CheckMyCourse', to.params.id).then(res => {
+                                    if (store.state.CurrentUser.CurrentStatus.exist == true) {
+                                        if (store.state.CurrentUser.CurrentStatus.status == 1) {
                                             next();
-                                        }
-                                        else{
+                                        } else {
                                             return next({
                                                 name: "courseSetup",
                                                 params: { id: to.params.id }
-                                            }) 
+                                            })
                                         }
-                                    }
-                                    else{
+                                    } else {
                                         return next({
                                             name: "course-not-found",
-                                            params:{id: to.params.id}
+                                            params: { id: to.params.id }
                                         })
                                     }
                                 })
@@ -432,22 +423,20 @@ const router = new Router({
                             path: "settings",
                             component: settings_tab,
                             beforeEnter: (to, form, next) => {
-                                store.dispatch('CheckMyCourse', to.params.id).then(res=>{
-                                    if(store.state.CurrentUser.CurrentStatus.exist == true){
-                                        if(store.state.CurrentUser.CurrentStatus.status == 1){
+                                store.dispatch('CheckMyCourse', to.params.id).then(res => {
+                                    if (store.state.CurrentUser.CurrentStatus.exist == true) {
+                                        if (store.state.CurrentUser.CurrentStatus.status == 1) {
                                             next();
-                                        }
-                                        else{
+                                        } else {
                                             return next({
                                                 name: "courseSetup",
                                                 params: { id: to.params.id }
-                                            }) 
+                                            })
                                         }
-                                    }
-                                    else{
+                                    } else {
                                         return next({
                                             name: "course-not-found",
-                                            params:{id: to.params.id}
+                                            params: { id: to.params.id }
                                         })
                                     }
                                 })
@@ -458,22 +447,20 @@ const router = new Router({
                             path: "grading-criteria",
                             component: grading_criteria_tab,
                             beforeEnter: (to, form, next) => {
-                                store.dispatch('CheckMyCourse', to.params.id).then(res=>{
-                                    if(store.state.CurrentUser.CurrentStatus.exist == true){
-                                        if(store.state.CurrentUser.CurrentStatus.status == 1){
+                                store.dispatch('CheckMyCourse', to.params.id).then(res => {
+                                    if (store.state.CurrentUser.CurrentStatus.exist == true) {
+                                        if (store.state.CurrentUser.CurrentStatus.status == 1) {
                                             next();
-                                        }
-                                        else{
+                                        } else {
                                             return next({
                                                 name: "courseSetup",
                                                 params: { id: to.params.id }
-                                            }) 
+                                            })
                                         }
-                                    }
-                                    else{
+                                    } else {
                                         return next({
                                             name: "course-not-found",
-                                            params:{id: to.params.id}
+                                            params: { id: to.params.id }
                                         })
                                     }
                                 })
@@ -484,22 +471,20 @@ const router = new Router({
                             path: "progress",
                             component: studentProgress_tab,
                             beforeEnter: (to, form, next) => {
-                                store.dispatch('CheckMyCourse', to.params.id).then(res=>{
-                                    if(store.state.CurrentUser.CurrentStatus.exist == true){
-                                        if(store.state.CurrentUser.CurrentStatus.status == 1){
+                                store.dispatch('CheckMyCourse', to.params.id).then(res => {
+                                    if (store.state.CurrentUser.CurrentStatus.exist == true) {
+                                        if (store.state.CurrentUser.CurrentStatus.status == 1) {
                                             next();
-                                        }
-                                        else{
+                                        } else {
                                             return next({
                                                 name: "courseSetup",
                                                 params: { id: to.params.id }
-                                            }) 
+                                            })
                                         }
-                                    }
-                                    else{
+                                    } else {
                                         return next({
                                             name: "course-not-found",
-                                            params:{id: to.params.id}
+                                            params: { id: to.params.id }
                                         })
                                     }
                                 })
@@ -510,22 +495,20 @@ const router = new Router({
                             path: "grade-book",
                             component: teacherGradeBook_tab,
                             beforeEnter: (to, form, next) => {
-                                store.dispatch('CheckMyCourse', to.params.id).then(res=>{
-                                    if(store.state.CurrentUser.CurrentStatus.exist == true){
-                                        if(store.state.CurrentUser.CurrentStatus.status == 1){
+                                store.dispatch('CheckMyCourse', to.params.id).then(res => {
+                                    if (store.state.CurrentUser.CurrentStatus.exist == true) {
+                                        if (store.state.CurrentUser.CurrentStatus.status == 1) {
                                             next();
-                                        }
-                                        else{
+                                        } else {
                                             return next({
                                                 name: "courseSetup",
                                                 params: { id: to.params.id }
-                                            }) 
+                                            })
                                         }
-                                    }
-                                    else{
+                                    } else {
                                         return next({
                                             name: "course-not-found",
-                                            params:{id: to.params.id}
+                                            params: { id: to.params.id }
                                         })
                                     }
                                 })
@@ -536,22 +519,20 @@ const router = new Router({
                             path: "my-grades",
                             component: studentGradeBook_tab,
                             beforeEnter: (to, form, next) => {
-                                store.dispatch('CheckMyCourse', to.params.id).then(res=>{
-                                    if(store.state.CurrentUser.CurrentStatus.exist == true){
-                                        if(store.state.CurrentUser.CurrentStatus.status == 1){
+                                store.dispatch('CheckMyCourse', to.params.id).then(res => {
+                                    if (store.state.CurrentUser.CurrentStatus.exist == true) {
+                                        if (store.state.CurrentUser.CurrentStatus.status == 1) {
                                             next();
-                                        }
-                                        else{
+                                        } else {
                                             return next({
                                                 name: "courseSetup",
                                                 params: { id: to.params.id }
-                                            }) 
+                                            })
                                         }
-                                    }
-                                    else{
+                                    } else {
                                         return next({
                                             name: "course-not-found",
-                                            params:{id: to.params.id}
+                                            params: { id: to.params.id }
                                         })
                                     }
                                 })
@@ -755,12 +736,12 @@ const router = new Router({
     }
 }) */
 router.beforeEach((to, from, next) => {
-    if(to.name != 'login'){
+    if (to.name != 'login') {
         store.dispatch('fetchMyCoursesStatus');
         store.dispatch('fetchCurrentUser');
     }
 
-    if(to.name == 'login') {
+    if (to.name == 'login') {
         axios.get("/api/authenticated")
             .then(() => {
                 next({
