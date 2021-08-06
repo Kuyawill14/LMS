@@ -237,7 +237,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         disabled: false,
         link: 'courses'
       }, {
-        text: this.role == "Teacher" ? 'Student Progress' : 'My Progress',
+        text: this.role == "Teacher" ? 'Student Progress' : 'My Progress ',
         disabled: true,
         link: 'breadcrumbs_link_2'
       }]

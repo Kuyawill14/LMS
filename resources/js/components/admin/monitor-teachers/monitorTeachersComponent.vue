@@ -49,11 +49,7 @@
                                     <td class="text-center"> {{item.classwork_count}} </td>
                                     <td class="text-center"> {{item.sub_modules_count}} </td>
                                     <td class="text-center">
-<<<<<<< HEAD
-                                        <v-btn icon @click="$router.push({name: 'teacherProfile', params:{id: item.user_id}})" color="success">
-=======
                                         <v-btn icon color="success" link  :to="{name: 'teacherProfile', params: {id: item.user_id}}">
->>>>>>> 6b79e7527dd536c9f932869b45500bc403cd9039
 
                                             <v-icon>
                                                 mdi-eye

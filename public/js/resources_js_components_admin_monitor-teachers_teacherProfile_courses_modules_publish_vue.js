@@ -121,7 +121,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['course_id'],
+  props: ['course_details'],
   components: {
     VueElementLoading: (vue_element_loading__WEBPACK_IMPORTED_MODULE_2___default())
   },
@@ -205,12 +205,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   }), _defineProperty(_methods, "fetchAllModule", function fetchAllModule() {
     var _this2 = this;
 
-    this.$store.dispatch('fetchMainModule', this.course_id).then(function () {
+    this.$store.dispatch('fetchMainModule', this.course_details.course_id).then(function () {
       _this2.isGetting = false;
       _this2.moduleLength = _this2.getmain_module.length;
       _this2.mainModule = _this2.getmain_module;
     });
-    this.$store.dispatch('fetchSubModule', this.course_id);
+    this.$store.dispatch('fetchSubModule', this.course_details.course_id);
   }), _methods),
   mounted: function mounted() {
     var _this3 = this;
@@ -4131,7 +4131,9 @@ var render = function() {
             1
           ),
           _vm._v(" "),
-          _c("v-toolbar-title", [_vm._v("{Course Name}")])
+          _c("v-toolbar-title", [
+            _vm._v(_vm._s(_vm.course_details.course_name))
+          ])
         ],
         1
       ),

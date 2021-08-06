@@ -17,113 +17,74 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuedraggable__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vuedraggable__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var vue_element_loading__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue-element-loading */ "./node_modules/vue-element-loading/lib/vue-element-loading.min.js");
 /* harmony import */ var vue_element_loading__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(vue_element_loading__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
-var _methods;
-
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+var modules = function modules() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_admin_monitor-teachers_teacherProfile_courses_summary_content_modules_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./summary_content/modules */ "./resources/js/components/admin/monitor-teachers/teacherProfile/courses/summary_content/modules.vue"));
+};
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+var classes = function classes() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_admin_monitor-teachers_teacherProfile_courses_summary_content_classes_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./summary_content/classes */ "./resources/js/components/admin/monitor-teachers/teacherProfile/courses/summary_content/classes.vue"));
+};
 
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['course_id'],
+  props: ['course_details'],
   components: {
-    VueElementLoading: (vue_element_loading__WEBPACK_IMPORTED_MODULE_2___default())
+    VueElementLoading: (vue_element_loading__WEBPACK_IMPORTED_MODULE_2___default()),
+    modules: modules,
+    classes: classes
   },
   data: function data() {
     return {
@@ -141,106 +102,25 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       mainModule: [],
       propModule: [],
       studentSubModuleProgress: [],
-      studentSubModuleProgressForm: {}
+      studentSubModuleProgressForm: {},
+      tab: null
     };
   },
-  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_3__.mapGetters)(["getmain_module", "getSub_module", "getAll_sub_module"])), {}, {
-    dragOptions: function dragOptions() {
-      return {
-        animation: 0,
-        group: "description",
-        disabled: false,
-        ghostClass: "ghost"
-      };
-    }
-  }),
-  methods: (_methods = {
-    onEnd: function onEnd() {
-      var _this = this;
-
-      this.isDrag = true;
-      axios.post("/api/main_module/arrange", {
-        mainModules: this.mainModule
-      }).then(function (res) {
-        _this.isDrag = false;
-      });
-    },
-    getdata: function getdata() {
-      this.mainModule = this.getmain_module;
-    },
-    student_sub_module_progress: function student_sub_module_progress(id) {
-      var data;
-    },
-    getCount: function getCount(module_id) {
-      var count = 0;
-
-      for (var i = 0; i < this.studentSubModuleProgress.length; i++) {
-        if (this.studentSubModuleProgress.main_module_id == module_id) {
-          count++;
-        }
-      }
-
-      return count;
-    }
-  }, _defineProperty(_methods, "getCount", function getCount(arr, mainModule_id) {
-    var count = 0;
-
-    for (var i = 0; i < arr.length; i++) {
-      if (arr[i].main_module_id == mainModule_id) {
-        count++;
-      }
-    }
-
-    return count;
-  }), _defineProperty(_methods, "checkSubModule", function checkSubModule(arr, sub_module_id) {
-    var check = false; //console.log(arr);
-
-    for (var i = 0; i < arr.length; i++) {
-      if (arr[i].sub_module_id == sub_module_id) {
-        check = true;
-      }
-    }
-
-    return check;
-  }), _defineProperty(_methods, "fetchAllModule", function fetchAllModule() {
-    var _this2 = this;
-
-    this.$store.dispatch('fetchMainModule', this.course_id).then(function () {
-      _this2.isGetting = false;
-      _this2.moduleLength = _this2.getmain_module.length;
-      _this2.mainModule = _this2.getmain_module;
-    });
-    this.$store.dispatch('fetchSubModule', this.course_id);
-  }), _methods),
+  computed: {},
+  methods: {},
   mounted: function mounted() {
-    var _this3 = this;
-
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              _this3.fetchAllModule(); // axios.get(
-              //     `/api/student_sub_module/all/${this.$route.params.id}`
-              // ).then((res) => {
-              //     this.studentSubModuleProgress = res.data;
-              //     this.getCount(this.studentSubModuleProgress, 23);
-              //     this.$store.dispatch('fetchMainModule', this.$route.params.id);
-              //     this.$store.dispatch('fetchSubModule', this.$route.params.id);
-              // }).catch((error) => {
-              //     console.log(error)
-              // })
-
-
-            case 1:
             case "end":
               return _context.stop();
           }
         }
       }, _callee);
     }))();
-  },
-  created: function created() {}
+  }
 });
 
 /***/ }),
@@ -4115,7 +3995,59 @@ var render = function() {
     [
       _c(
         "v-toolbar",
-        { attrs: { dark: "", color: "primary" } },
+        {
+          attrs: { dark: "", color: "primary" },
+          scopedSlots: _vm._u([
+            {
+              key: "extension",
+              fn: function() {
+                return [
+                  _c(
+                    "v-tabs",
+                    {
+                      staticClass: "pa-0 ma-0",
+                      attrs: { grow: "" },
+                      model: {
+                        value: _vm.tab,
+                        callback: function($$v) {
+                          _vm.tab = $$v
+                        },
+                        expression: "tab"
+                      }
+                    },
+                    [
+                      _c("v-tabs-slider", { attrs: { color: "white" } }),
+                      _vm._v(" "),
+                      _c(
+                        "v-tab",
+                        [
+                          _c("v-icon", { attrs: { left: "" } }, [
+                            _vm._v("mdi-google-classroom")
+                          ]),
+                          _vm._v(" Classes \n      ")
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-tab",
+                        [
+                          _c("v-icon", { attrs: { left: "" } }, [
+                            _vm._v("mdi-folder")
+                          ]),
+                          _vm._v("Modules \n      ")
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ]
+              },
+              proxy: true
+            }
+          ])
+        },
         [
           _c(
             "v-btn",
@@ -4131,7 +4063,9 @@ var render = function() {
             1
           ),
           _vm._v(" "),
-          _c("v-toolbar-title", [_vm._v("{Course Name}")])
+          _c("v-toolbar-title", [
+            _vm._v(_vm._s(_vm.course_details.course_name))
+          ])
         ],
         1
       ),
@@ -4146,261 +4080,51 @@ var render = function() {
       _vm._v(" "),
       _c(
         "v-container",
+        { attrs: { fluid: "" } },
         [
           _c(
-            "v-expansion-panels",
-            { attrs: { focusable: "" } },
+            "v-tabs-items",
+            {
+              model: {
+                value: _vm.tab,
+                callback: function($$v) {
+                  _vm.tab = $$v
+                },
+                expression: "tab"
+              }
+            },
             [
               _c(
-                "draggable",
-                _vm._b(
-                  {
-                    staticStyle: { width: "100%" },
-                    on: {
-                      change: _vm.onEnd,
-                      start: function($event) {
-                        _vm.isDragging = true
-                      },
-                      end: function($event) {
-                        _vm.isDragging = false
-                      }
-                    },
-                    model: {
-                      value: _vm.mainModule,
-                      callback: function($$v) {
-                        _vm.mainModule = $$v
-                      },
-                      expression: "mainModule"
-                    }
-                  },
-                  "draggable",
-                  _vm.dragOptions,
-                  false
-                ),
+                "v-tab-item",
                 [
-                  _c(
-                    "transition-group",
-                    { attrs: { type: "transition", name: "flip-list" } },
-                    _vm._l(_vm.mainModule, function(itemModule, i) {
-                      return _c(
-                        "v-expansion-panel",
-                        { key: "module" + i, attrs: { draggable: "true" } },
-                        [
-                          _c("span", { staticClass: "text-right pannel-btn" }),
-                          _vm._v(" "),
-                          _c("v-expansion-panel-header", [
-                            _c(
-                              "span",
-                              { staticStyle: { "font-size": "1.5rem" } },
-                              [
-                                _c(
-                                  "v-icon",
-                                  { staticStyle: { "font-size": "2.25rem" } },
-                                  [
-                                    _vm._v(
-                                      "\n                                        mdi-folder\n                                    "
-                                    )
-                                  ]
-                                ),
-                                _vm._v(
-                                  "\n                                    " +
-                                    _vm._s(itemModule.module_name) +
-                                    "\n\n                                "
-                                )
-                              ],
-                              1
-                            )
-                          ]),
-                          _vm._v(" "),
-                          _c(
-                            "v-expansion-panel-content",
-                            { staticClass: "pa-0" },
-                            _vm._l(_vm.getSub_module(itemModule.id), function(
-                              itemSubModule,
-                              i
-                            ) {
-                              return _c(
-                                "v-list-item",
-                                {
-                                  key: "Submodule" + i,
-                                  staticClass: "pl-8",
-                                  attrs: { link: "" }
-                                },
-                                [
-                                  _c(
-                                    "v-list-item-avatar",
-                                    [
-                                      _c(
-                                        "v-icon",
-                                        {
-                                          staticClass: "grey lighten-1",
-                                          attrs: { dark: "" }
-                                        },
-                                        [
-                                          _vm._v(
-                                            "\n                                            mdi-folder\n                                        "
-                                          )
-                                        ]
-                                      )
-                                    ],
-                                    1
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "v-list-item-content",
-                                    [
-                                      _c("v-list-item-title", [
-                                        _vm._v(
-                                          " " +
-                                            _vm._s(
-                                              itemSubModule.sub_module_name
-                                            )
-                                        )
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("v-list-item-subtitle", [
-                                        _vm._v(" " + _vm._s(itemSubModule.type))
-                                      ])
-                                    ],
-                                    1
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "v-list-item-action",
-                                    [
-                                      _c(
-                                        "v-menu",
-                                        {
-                                          attrs: {
-                                            transition: "slide-y-transition",
-                                            bottom: ""
-                                          },
-                                          scopedSlots: _vm._u(
-                                            [
-                                              {
-                                                key: "activator",
-                                                fn: function(ref) {
-                                                  var on = ref.on
-                                                  var attrs = ref.attrs
-                                                  return [
-                                                    _c(
-                                                      "v-btn",
-                                                      _vm._g(
-                                                        _vm._b(
-                                                          {
-                                                            attrs: { icon: "" }
-                                                          },
-                                                          "v-btn",
-                                                          attrs,
-                                                          false
-                                                        ),
-                                                        on
-                                                      ),
-                                                      [
-                                                        _c(
-                                                          "v-icon",
-                                                          {
-                                                            attrs: {
-                                                              color:
-                                                                "grey lighten-1"
-                                                            }
-                                                          },
-                                                          [
-                                                            _vm._v(
-                                                              "mdi-dots-vertical"
-                                                            )
-                                                          ]
-                                                        )
-                                                      ],
-                                                      1
-                                                    )
-                                                  ]
-                                                }
-                                              }
-                                            ],
-                                            null,
-                                            true
-                                          )
-                                        },
-                                        [
-                                          _vm._v(" "),
-                                          _c(
-                                            "v-list",
-                                            [
-                                              _c(
-                                                "v-list-item",
-                                                {
-                                                  attrs: { link: "" },
-                                                  on: {
-                                                    click: function($event) {
-                                                      return _vm.editFileBtn(
-                                                        itemModule.id
-                                                      )
-                                                    }
-                                                  }
-                                                },
-                                                [
-                                                  _c("v-list-item-title", [
-                                                    _vm._v("Edit")
-                                                  ])
-                                                ],
-                                                1
-                                              ),
-                                              _vm._v(" "),
-                                              _c(
-                                                "v-list-item",
-                                                {
-                                                  attrs: { link: "" },
-                                                  on: {
-                                                    click: function($event) {
-                                                      return _vm.editLinkBtn(
-                                                        itemModule.id
-                                                      )
-                                                    }
-                                                  }
-                                                },
-                                                [
-                                                  _c("v-list-item-title", [
-                                                    _vm._v("Delete")
-                                                  ])
-                                                ],
-                                                1
-                                              ),
-                                              _vm._v(" "),
-                                              _c(
-                                                "v-list-item",
-                                                { attrs: { link: "" } },
-                                                [
-                                                  _c("v-list-item-title", [
-                                                    _vm._v("Archive")
-                                                  ])
-                                                ],
-                                                1
-                                              )
-                                            ],
-                                            1
-                                          )
-                                        ],
-                                        1
-                                      )
-                                    ],
-                                    1
-                                  )
-                                ],
-                                1
-                              )
-                            }),
-                            1
-                          )
-                        ],
-                        1
-                      )
-                    }),
-                    1
-                  )
+                  _c("v-card", { attrs: { color: "basil", flat: "" } }, [
+                    _c(
+                      "div",
+                      { staticClass: "pa-1" },
+                      [
+                        _c("classes", {
+                          attrs: { course_details: _vm.course_details }
+                        })
+                      ],
+                      1
+                    )
+                  ])
                 ],
                 1
-              )
+              ),
+              _vm._v(" "),
+              _c("v-tab-item", { staticClass: "pa-1" }, [
+                _c(
+                  "div",
+                  { staticClass: "pl-1 pr-1" },
+                  [
+                    _c("modules", {
+                      attrs: { course_details: _vm.course_details }
+                    })
+                  ],
+                  1
+                )
+              ])
             ],
             1
           )

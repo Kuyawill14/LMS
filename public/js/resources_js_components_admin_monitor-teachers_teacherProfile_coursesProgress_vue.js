@@ -133,26 +133,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-var modulesPublished = function modulesPublished() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_admin_monitor-teachers_teacherProfile_courses_modules_publish_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./courses/modules_publish */ "./resources/js/components/admin/monitor-teachers/teacherProfile/courses/modules_publish.vue"));
-};
-
+//const modulesPublished = () => import('./courses/modules_publish')
 var coursesummarypreview = function coursesummarypreview() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_admin_monitor-teachers_teacherProfile_courses_course_summary_preview_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./courses/course_summary_preview */ "./resources/js/components/admin/monitor-teachers/teacherProfile/courses/course_summary_preview.vue"));
 };
@@ -169,11 +150,12 @@ var coursesummarypreview = function coursesummarypreview() {
       coursesLength: null,
       details: [],
       course_id: null,
+      course_details: null,
       items: ['2020-2021', '2021-2022', '2022-2023', '2023-2024']
     };
   },
   components: {
-    modulesPublished: modulesPublished,
+    //modulesPublished,
     coursesummarypreview: coursesummarypreview
   },
   computed: (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(['allCourse', 'allClass']),
@@ -318,17 +300,12 @@ var render = function() {
               }
             },
             [
-              _vm.moduledialog
-                ? _c("modulesPublished", {
-                    attrs: { course_id: _vm.course_id }
-                  })
-                : _vm._e(),
-              _vm._v(" "),
-              _vm.Coursedialog
+              _vm.dialog
                 ? _c("coursesummarypreview", {
+                    attrs: { course_details: _vm.course_details },
                     on: {
                       closeDialog: function($event) {
-                        ;(_vm.dialog = false), (_vm.Coursedialog = false)
+                        _vm.dialog = false
                       }
                     }
                   })
@@ -450,30 +427,36 @@ var render = function() {
                               staticClass: "mx-auto",
                               staticStyle: { cursor: "pointer" },
                               attrs: {
+                                link: "",
                                 elevation: "2",
                                 "max-width": "344",
                                 outlined: ""
+                              },
+                              on: {
+                                click: function($event) {
+                                  ;(_vm.dialog = true),
+                                    (_vm.course_details = item)
+                                }
                               }
                             },
                             [
                               _c(
-                                "v-list-item",
+                                "v-toolbar",
+                                {
+                                  class:
+                                    !_vm.$vuetify.breakpoint.xs &&
+                                    !_vm.$vuetify.breakpoint.sm
+                                      ? "d-flex justify-center"
+                                      : "",
+                                  attrs: {
+                                    dense: "",
+                                    dark: "",
+                                    color: "primary"
+                                  }
+                                },
                                 [
                                   _c(
-                                    "v-list-item-content",
-                                    {
-                                      staticStyle: {
-                                        "max-height": "30px",
-                                        overflow: "hidden"
-                                      },
-                                      on: {
-                                        click: function($event) {
-                                          _vm.dialog = true
-                                          ;(_vm.course_id = item.course_id),
-                                            (_vm.Coursedialog = true)
-                                        }
-                                      }
-                                    },
+                                    "v-toolbar-title",
                                     [
                                       _c(
                                         "v-tooltip",
@@ -493,7 +476,7 @@ var render = function() {
                                                         _vm._b(
                                                           {
                                                             staticClass:
-                                                              "text-center blue--text"
+                                                              "text-center "
                                                           },
                                                           "div",
                                                           attrs,
@@ -538,13 +521,6 @@ var render = function() {
                                     1
                                   )
                                 ],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "div",
-                                { staticClass: "text-center pl-4 pr-4" },
-                                [_c("v-divider")],
                                 1
                               ),
                               _vm._v(" "),
@@ -643,8 +619,7 @@ var render = function() {
                                       on: {
                                         click: function($event) {
                                           _vm.dialog = true
-                                          ;(_vm.course_id = item.course_id),
-                                            (_vm.moduledialog = true)
+                                          _vm.course_id = _vm.course_details = item
                                         }
                                       }
                                     },
@@ -654,9 +629,9 @@ var render = function() {
                                         { staticClass: "text-center " },
                                         [
                                           _vm._v(
-                                            "\n\n                                    Modules Published: " +
+                                            "\n                                    Modules Published: " +
                                               _vm._s(item.sub_modules_count) +
-                                              "\n\n                                "
+                                              "\n                                "
                                           )
                                         ]
                                       )

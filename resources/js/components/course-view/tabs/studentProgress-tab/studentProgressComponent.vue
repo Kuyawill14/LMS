@@ -222,7 +222,7 @@
                     link: 'courses',
                     },
                     {
-                    text: this.role == "Teacher" ? 'Student Progress' : 'My Progress',
+                    text: this.role == "Teacher" ? 'Student Progress' : 'My Progress ',
                     disabled: true,
                     link: 'breadcrumbs_link_2',
                     },
