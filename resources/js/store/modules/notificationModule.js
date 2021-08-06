@@ -11,6 +11,7 @@ const state = {
     lastPageCount: null,
     beforeLastPageCount: null,
     isGetting: null,
+    inviteAll:[]
 };
 const getters = {
     get_notification: (state) => {
@@ -18,6 +19,9 @@ const getters = {
     },
     get_notification_count: (state) => {
         return state.notificationCount;
+    },
+    get_invites: (state) => {
+        return state.inviteAll;
     },
     get_invite_count: (state) => {
         return state.inviteCount;
@@ -155,24 +159,14 @@ const actions = {
         commit('INVITE_COUNT', inviteCount);
     },
 
+    async fetchClassInvites({ commit }, id){
+        const res = await axios.get(`/api/notification/invite/all`)
 
-    
-  /*   async UnreadMessage({ commit }, id) {
-        let res = await axios
-            .post(`/api/notification/${id}`)
-            .then(response => {
-                Toast.fire({
-                    icon: "success",
-                    title: "Your have been unrolled to the class."
-                });
-                let newCLass = response.data;
-                commit("UNREAD_NOTIFICATION", newCLass);
-                return newCLass;
-                
-            });
-
-          
-    }, */
+        commit('FETCH_INVITE', res.data.data);
+    },
+    LessInviteCount({ commit }){
+        state.inviteCount -= 1;
+    }
 
   
  
@@ -182,6 +176,7 @@ const mutations = {
     //UNREAD_NOTIFICATION: (state, RemoveNotif) => (state.class_notification = RemoveNotif),
     UNREAD_NOTIFICATION: (state, newCLass) => (state.class_notification = newCLass),
     NOTIFICATION_COUNT: (state, count) => (state.notificationCount = count),
+    FETCH_INVITE: (state, inviteAll) => (state.inviteAll = inviteAll),
     INVITE_COUNT: (state, inviteCount) => (state.inviteCount = inviteCount),
     
 };

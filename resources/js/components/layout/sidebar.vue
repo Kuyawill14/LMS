@@ -53,7 +53,7 @@
                             </v-btn>
                             <v-divider class="my-3"></v-divider>
                             <v-badge :content="get_invite_count" :value="get_invite_count" offset-x="15" offset-y="15" color="red darken-4">
-                            <v-btn depressed @click="$router.push({name:'archive-course'})" rounded text>
+                            <v-btn depressed @click="$router.push({name: 'invites'})" rounded text>
                                 <v-icon left>mdi-account-multiple-plus</v-icon> Class Invite
                             </v-btn>
                             </v-badge>

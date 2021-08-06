@@ -26,7 +26,7 @@
                         </v-list-item-content>
                         <v-list-item-action>
 
-                            <v-btn @click="closing = true, $router.push({name: 'notifications'})" class="white--text caption" color="blue" text depressed rounded>
+                            <v-btn @click="closing = true, $router.push({name: 'notifications', params:{slug: 'all'}})" class="white--text caption" color="blue" text depressed rounded>
                                 See all
                             </v-btn>
 

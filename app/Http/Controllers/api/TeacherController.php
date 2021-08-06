@@ -53,7 +53,6 @@ class TeacherController extends Controller
             //return  $FindUser;
             $newNotification = new tbl_notification;
             $newNotification->user_id_to = $FindUser->id;
-            $newNotification->class_id = $request->class_id;
             $newNotification->from_id =  $userId;
             $newNotification->message = "Invited you join ".$request->class_name." class using the class code "."'".$request->class_code."'";
             $newNotification->notification_attachments = $request->class_code;

@@ -582,7 +582,7 @@ var notifications = function notifications() {
 };
 
 var invites = function invites() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_layout_notification_invites_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./notification/invites */ "./resources/js/components/layout/notification/invites.vue"));
+  return __webpack_require__.e(/*! import() */ "resources_js_components_layout_notification_invites_vue-_c8ea1").then(__webpack_require__.bind(__webpack_require__, /*! ./notification/invites */ "./resources/js/components/layout/notification/invites.vue"));
 };
 
 
@@ -22981,7 +22981,10 @@ var render = function() {
                               on: {
                                 click: function($event) {
                                   ;(_vm.closing = true),
-                                    _vm.$router.push({ name: "notifications" })
+                                    _vm.$router.push({
+                                      name: "notifications",
+                                      params: { slug: "all" }
+                                    })
                                 }
                               }
                             },
@@ -23804,7 +23807,7 @@ var render = function() {
                                       on: {
                                         click: function($event) {
                                           return _vm.$router.push({
-                                            name: "archive-course"
+                                            name: "invites"
                                           })
                                         }
                                       }

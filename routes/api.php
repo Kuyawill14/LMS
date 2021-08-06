@@ -163,6 +163,8 @@ Route::prefix('/notification')->group(function () {
     Route::get('/all/{type}', [NotificationController::class, 'getNotificationListWithFilter']);
     Route::post('/mark-all', [NotificationController::class, 'MarkAllAsRead']);
     
+    Route::get('/invite/all', [NotificationController::class, 'fetchmyInvite']);
+    
    
 });
 
