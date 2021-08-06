@@ -1,5 +1,5 @@
 <template>
-    <div class="pt-4">
+    <div class="pt-1">
         <v-row align="center" justify="center" class="pt-10" v-if="classLength == 0">
             <v-col cols="12" sm="8" md="4" class="text-center">
                 <v-icon style="font-size:14rem">

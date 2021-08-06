@@ -1,5 +1,16 @@
 <template>
     <div>
+        <v-breadcrumbs class="ma-0 pa-0 mt-3" :items="items">
+            <template v-slot:item="{ item }">
+            <v-breadcrumbs-item
+                :to="{name: item.link}"
+                :disabled="item.disabled"
+            >
+                {{ item.text.toUpperCase() }}
+            </v-breadcrumbs-item>
+            </template>
+        </v-breadcrumbs>
+
         <v-row class="mt-3 mb-5" >
             <v-col md="12" lg="8" class="ma-auto">
                 <v-card>
@@ -38,6 +49,18 @@
                 isLoading: false,
                 loadingImg: '../../images/loading.gif',
                 classNames: [],
+                 items: [
+                    {
+                    text: 'Course',
+                    disabled: false,
+                    link: 'courses',
+                    },
+                    {
+                    text: 'Announcement',
+                    disabled: true,
+                    link: 'breadcrumbs_link_2',
+                    },
+                ],
             }
         },
         methods:{

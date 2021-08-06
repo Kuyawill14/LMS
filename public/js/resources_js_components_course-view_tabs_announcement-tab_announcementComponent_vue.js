@@ -37,6 +37,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var announcementCreate = function announcementCreate() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_tabs_announcement-tab_announcementCreate_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./announcementCreate */ "./resources/js/components/course-view/tabs/announcement-tab/announcementCreate.vue"));
 };
@@ -61,7 +72,16 @@ var announcementPostList = function announcementPostList() {
       content: '',
       isLoading: false,
       loadingImg: '../../images/loading.gif',
-      classNames: []
+      classNames: [],
+      items: [{
+        text: 'Course',
+        disabled: false,
+        link: 'courses'
+      }, {
+        text: 'Announcement',
+        disabled: true,
+        link: 'breadcrumbs_link_2'
+      }]
     };
   },
   methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapActions)(['fetchClassPost'])), {}, {
@@ -21673,6 +21693,34 @@ var render = function() {
   return _c(
     "div",
     [
+      _c("v-breadcrumbs", {
+        staticClass: "ma-0 pa-0 mt-3",
+        attrs: { items: _vm.items },
+        scopedSlots: _vm._u([
+          {
+            key: "item",
+            fn: function(ref) {
+              var item = ref.item
+              return [
+                _c(
+                  "v-breadcrumbs-item",
+                  {
+                    attrs: { to: { name: item.link }, disabled: item.disabled }
+                  },
+                  [
+                    _vm._v(
+                      "\n            " +
+                        _vm._s(item.text.toUpperCase()) +
+                        "\n        "
+                    )
+                  ]
+                )
+              ]
+            }
+          }
+        ])
+      }),
+      _vm._v(" "),
       _c(
         "v-row",
         { staticClass: "mt-3 mb-5" },

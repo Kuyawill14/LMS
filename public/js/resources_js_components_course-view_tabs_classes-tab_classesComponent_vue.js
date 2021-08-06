@@ -21,6 +21,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* import studentClassPage from './class-type/student-classPage'
 import teacherClassPage from './class-type/teacher-classPage'
@@ -40,6 +50,19 @@ var teacherClassPage = function teacherClassPage() {
     VueElementLoading: (vue_element_loading__WEBPACK_IMPORTED_MODULE_0___default()),
     // studentClassPage,
     teacherClassPage: teacherClassPage
+  },
+  data: function data() {
+    return {
+      items: [{
+        text: 'Course',
+        disabled: false,
+        link: 'courses'
+      }, {
+        text: 'My Class',
+        disabled: true,
+        link: 'breadcrumbs_link_2'
+      }]
+    };
   }
 });
 
@@ -153,7 +176,37 @@ var render = function() {
   return _c(
     "div",
     { staticClass: "container-fluid p-top-class" },
-    [_c("teacherClassPage")],
+    [
+      _c("v-breadcrumbs", {
+        staticClass: "ma-0 pa-0 mt-3",
+        attrs: { items: _vm.items },
+        scopedSlots: _vm._u([
+          {
+            key: "item",
+            fn: function(ref) {
+              var item = ref.item
+              return [
+                _c(
+                  "v-breadcrumbs-item",
+                  {
+                    attrs: { to: { name: item.link }, disabled: item.disabled }
+                  },
+                  [
+                    _vm._v(
+                      "\n            " +
+                        _vm._s(item.text.toUpperCase()) +
+                        "\n        "
+                    )
+                  ]
+                )
+              ]
+            }
+          }
+        ])
+      }),
+      _vm._v(" "),
+      _c("teacherClassPage")
+    ],
     1
   )
 }

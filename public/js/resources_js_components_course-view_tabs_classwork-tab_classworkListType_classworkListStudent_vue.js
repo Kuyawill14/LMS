@@ -366,8 +366,8 @@ var render = function() {
       _vm._v(" "),
       _vm.ClassworkLength != 0
         ? _c(
-            "div",
-            { staticClass: "container" },
+            "v-container",
+            { attrs: { fluid: "" } },
             [
               _c(
                 "v-row",
@@ -443,13 +443,6 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "v-row",
-                { staticClass: "pl-5 pr-5 mt-0 pt-0" },
-                [_c("v-divider")],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "v-row",
                 {
                   staticClass: "mt-5",
                   attrs: { justify: "center", "align-content": "center" }
@@ -468,10 +461,6 @@ var render = function() {
                         _vm.SelectedFilter == data.title)
                         ? _c(
                             "v-row",
-                            {
-                              staticClass: "pl-1 pr-1",
-                              attrs: { "ma-0": "", "pa-0": "" }
-                            },
                             [
                               _c(
                                 "v-col",
@@ -672,8 +661,8 @@ var render = function() {
                                                                                         ) +
                                                                                           " "
                                                                                       ),
-                                                                                      item.type ==
-                                                                                      "Subjective Type"
+                                                                                      item.points !=
+                                                                                      null
                                                                                         ? _c(
                                                                                             "small",
                                                                                             {

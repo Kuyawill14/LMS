@@ -432,6 +432,14 @@ var render = function() {
                                             attrs: {
                                               icon: "",
                                               color: "success"
+                                            },
+                                            on: {
+                                              click: function($event) {
+                                                return _vm.$router.push({
+                                                  name: "teacherProfile",
+                                                  params: { id: item.user_id }
+                                                })
+                                              }
                                             }
                                           },
                                           [

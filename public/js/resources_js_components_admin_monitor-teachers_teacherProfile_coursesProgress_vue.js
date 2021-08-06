@@ -149,9 +149,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
 var modulesPublished = function modulesPublished() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_admin_monitor-teachers_teacherProfile_courses_modules_publish_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./courses/modules_publish */ "./resources/js/components/admin/monitor-teachers/teacherProfile/courses/modules_publish.vue"));
+};
+
+var coursesummarypreview = function coursesummarypreview() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_admin_monitor-teachers_teacherProfile_courses_course_summary_preview_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./courses/course_summary_preview */ "./resources/js/components/admin/monitor-teachers/teacherProfile/courses/course_summary_preview.vue"));
 };
 
 
@@ -160,6 +163,8 @@ var modulesPublished = function modulesPublished() {
   data: function data() {
     return {
       dialog: false,
+      moduledialog: false,
+      Coursedialog: false,
       isloading: true,
       coursesLength: null,
       details: [],
@@ -168,7 +173,8 @@ var modulesPublished = function modulesPublished() {
     };
   },
   components: {
-    modulesPublished: modulesPublished
+    modulesPublished: modulesPublished,
+    coursesummarypreview: coursesummarypreview
   },
   computed: (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(['allCourse', 'allClass']),
   methods: {
@@ -292,38 +298,47 @@ var render = function() {
   return _c(
     "div",
     [
-      _vm.dialog
-        ? _c(
-            "v-row",
-            { attrs: { justify: "center" } },
-            [
-              _c(
-                "v-dialog",
-                {
-                  attrs: {
-                    fullscreen: "",
-                    "hide-overlay": "",
-                    transition: "dialog-bottom-transition"
-                  },
-                  model: {
-                    value: _vm.dialog,
-                    callback: function($$v) {
-                      _vm.dialog = $$v
-                    },
-                    expression: "dialog"
-                  }
+      _c(
+        "div",
+        [
+          _c(
+            "v-dialog",
+            {
+              attrs: {
+                fullscreen: "",
+                "hide-overlay": "",
+                transition: "dialog-bottom-transition"
+              },
+              model: {
+                value: _vm.dialog,
+                callback: function($$v) {
+                  _vm.dialog = $$v
                 },
-                [
-                  _c("modulesPublished", {
+                expression: "dialog"
+              }
+            },
+            [
+              _vm.moduledialog
+                ? _c("modulesPublished", {
                     attrs: { course_id: _vm.course_id }
                   })
-                ],
-                1
-              )
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.Coursedialog
+                ? _c("coursesummarypreview", {
+                    on: {
+                      closeDialog: function($event) {
+                        ;(_vm.dialog = false), (_vm.Coursedialog = false)
+                      }
+                    }
+                  })
+                : _vm._e()
             ],
             1
           )
-        : _vm._e(),
+        ],
+        1
+      ),
       _vm._v(" "),
       _c(
         "v-row",
@@ -433,11 +448,12 @@ var render = function() {
                             "v-card",
                             {
                               staticClass: "mx-auto",
-                              staticStyle: {
-                                "border-top": "3px solid #EF6C00",
-                                cursor: "pointer"
-                              },
-                              attrs: { "max-width": "344", outlined: "" }
+                              staticStyle: { cursor: "pointer" },
+                              attrs: {
+                                elevation: "2",
+                                "max-width": "344",
+                                outlined: ""
+                              }
                             },
                             [
                               _c(
@@ -453,7 +469,8 @@ var render = function() {
                                       on: {
                                         click: function($event) {
                                           _vm.dialog = true
-                                          _vm.course_id = item.course_id
+                                          ;(_vm.course_id = item.course_id),
+                                            (_vm.Coursedialog = true)
                                         }
                                       }
                                     },
@@ -620,15 +637,31 @@ var render = function() {
                               _c(
                                 "v-list-item",
                                 [
-                                  _c("v-list-item-content", [
-                                    _c("div", { staticClass: "text-center " }, [
-                                      _vm._v(
-                                        "\n\n                                    Modules Published: " +
-                                          _vm._s(item.sub_modules_count) +
-                                          "\n\n                                "
+                                  _c(
+                                    "v-list-item-content",
+                                    {
+                                      on: {
+                                        click: function($event) {
+                                          _vm.dialog = true
+                                          ;(_vm.course_id = item.course_id),
+                                            (_vm.moduledialog = true)
+                                        }
+                                      }
+                                    },
+                                    [
+                                      _c(
+                                        "div",
+                                        { staticClass: "text-center " },
+                                        [
+                                          _vm._v(
+                                            "\n\n                                    Modules Published: " +
+                                              _vm._s(item.sub_modules_count) +
+                                              "\n\n                                "
+                                          )
+                                        ]
                                       )
-                                    ])
-                                  ])
+                                    ]
+                                  )
                                 ],
                                 1
                               )

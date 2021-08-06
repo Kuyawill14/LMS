@@ -24,6 +24,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /*  import gradingCategoryCard from './gradingCateogry'
  import classDescriptionCard from './class_description' */
@@ -39,6 +53,19 @@ var classDescriptionCard = function classDescriptionCard() {
   components: {
     gradingCategoryCard: gradingCategoryCard,
     classDescriptionCard: classDescriptionCard
+  },
+  data: function data() {
+    return {
+      items: [{
+        text: 'Course',
+        disabled: false,
+        link: 'courses'
+      }, {
+        text: 'About',
+        disabled: true,
+        link: 'breadcrumbs_link_2'
+      }]
+    };
   }
 });
 
@@ -133,12 +160,56 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "v-row",
-    { staticClass: "pt-4" },
+    "div",
     [
-      _c("v-col", { attrs: { lg: "8" } }, [_c("classDescriptionCard")], 1),
+      _c("v-breadcrumbs", {
+        staticClass: "ma-0 pa-0 mt-3",
+        attrs: { items: _vm.items },
+        scopedSlots: _vm._u([
+          {
+            key: "item",
+            fn: function(ref) {
+              var item = ref.item
+              return [
+                _c(
+                  "v-breadcrumbs-item",
+                  {
+                    attrs: { to: { name: item.link }, disabled: item.disabled }
+                  },
+                  [
+                    _vm._v(
+                      "\r\n            " +
+                        _vm._s(item.text.toUpperCase()) +
+                        "\r\n        "
+                    )
+                  ]
+                )
+              ]
+            }
+          }
+        ])
+      }),
       _vm._v(" "),
-      _c("v-col", { attrs: { lg: "4" } }, [_c("gradingCategoryCard")], 1)
+      _c(
+        "v-row",
+        { staticClass: "mt-1" },
+        [
+          _c(
+            "v-col",
+            { attrs: { cols: "12", md: "12", lg: "8" } },
+            [_c("classDescriptionCard")],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-col",
+            { staticClass: "12", attrs: { md: "12", lg: "4" } },
+            [_c("gradingCategoryCard")],
+            1
+          )
+        ],
+        1
+      )
     ],
     1
   )

@@ -26,7 +26,18 @@
         </v-btn>
         -->
 
-        <div>
+        <v-breadcrumbs class="ma-0 pa-0 mt-3" :items="items">
+            <template v-slot:item="{ item }">
+            <v-breadcrumbs-item
+                :to="{name: item.link}"
+                :disabled="item.disabled"
+            >
+                {{ item.text.toUpperCase() }}
+            </v-breadcrumbs-item>
+            </template>
+        </v-breadcrumbs>
+
+        <div class="ml-0 mr-0">
             <classworkList v-on:ToggleRefresh="getGeneralClassworks()" 
             v-if="!isGetting && ClassworkLength != 0" 
             v-on:reloadClassworks="getGeneralClassworks()"
@@ -72,6 +83,18 @@
                 isGetting: false,
                 dialog: false,
                 ClassworkLength: null,
+                items: [
+                    {
+                    text: 'Course',
+                    disabled: false,
+                    link: 'courses',
+                    },
+                    {
+                    text: 'Classwork',
+                    disabled: true,
+                    link: 'breadcrumbs_link_2',
+                    },
+                ],
             }
         },
         computed: mapGetters(['get_Classworks']),

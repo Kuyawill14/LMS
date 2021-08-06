@@ -13,7 +13,7 @@
         </v-row>
 
 
-    <div v-if="ClassworkLength != 0" class="container">
+    <v-container v-if="ClassworkLength != 0" fluid>
         
         <v-row >
             <v-col class="text-left mb-0 pb-0">
@@ -39,13 +39,13 @@
          </v-dialog>
         </div>
     
-        <v-row class="pl-5 pr-5 mt-0 pt-0">
+        <!-- <v-row class=" mt-0 pt-0">
             <v-divider></v-divider>
-        </v-row>
+        </v-row> -->
 
         <v-row class="mt-5" justify="center" align-content="center">
             <v-col cols="12" class="mt-1 ml-0  mr-0" v-for="(data, i) in classworks.ClassworkTitle" :key="i">
-            <v-row v-if="classworks.ClassworksList[i].length != 0 && (SelectedFilter == 'All' || SelectedFilter == data.title)" class="pl-1 pr-1" ma-0 pa-0>
+            <v-row v-if="classworks.ClassworksList[i].length != 0 && (SelectedFilter == 'All' || SelectedFilter == data.title)" >
                 <v-col cols="12"  class="ma-0 pa-0 "><h2 class="font-weight-regular">{{data.title}} <small class="font-weight-medium">({{data.percent}}%)</small> </h2></v-col>
                 <v-col cols="12" md="4" class="pb-0 mb-0" v-for="(item, index) in classworks.ClassworksList[i]" :key="index">
                     <v-hover v-slot="{ hover }">
@@ -69,7 +69,7 @@
                                              :style="$vuetify.breakpoint.xs ? 'width:180px;overflow: hidden;white-space: nowrap;text-overflow;text-overflow: ellipsis;' 
                                             : 'width: 220px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;'"
                                              class="h1 ml-1"> 
-                                                <span class="font-weight-bold">{{item.title}} <small class="primary--text font-weight-regular" v-if="item.type == 'Subjective Type'">({{item.points}} points)</small></span> 
+                                                <span class="font-weight-bold">{{item.title}} <small class="primary--text font-weight-regular" v-if="item.points != null">({{item.points}} points)</small></span> 
                                             </div> 
                                           </template>
                                              <span>{{item.title}}</span>
@@ -123,7 +123,7 @@
             </v-col>
              
         </v-row>
-    </div>
+    </v-container>
 
 </div>
 </template>

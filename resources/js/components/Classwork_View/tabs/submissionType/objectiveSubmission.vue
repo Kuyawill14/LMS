@@ -99,9 +99,20 @@
                     :items="StatusType"
                     >
                 </v-select>
+         
             </v-col>
 
-            <v-col cols="12" >
+            <v-col cols="12" md="12" lg="9" xl="9" class="pt-0 mt-0 pb-0 mb-0 pt-1">
+                
+                <v-text-field 
+                 class="mb-0 pb-0"
+                prepend-inner-icon="mdi-magnify"
+                outlined dense label="Search">
+                    
+                </v-text-field>
+            </v-col>
+
+            <v-col cols="12" class="mt-0 pt-0">
                 <v-row>
                     <v-col v-show="selectedStatus == 'All' || selectedStatus == item.status || (selectedStatus == 'No Submission' && item.status == null)" class="text-center ma-0 pa-0 pl-2 pr-3 pb-3" cols="6" md="3" lg="3" v-for="(item,i) in ListData" :key="i">
                         <v-card 
