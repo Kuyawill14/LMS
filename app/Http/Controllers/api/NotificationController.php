@@ -75,8 +75,7 @@ class NotificationController extends Controller
                 'tbl_notifications.notification_attachments','tbl_notifications.created_at')
                 ->leftJoin('tbl_notifications', function($join){
                     $join->on('tbl_notifications.class_id', '=', 'tbl_userclasses.class_id')
-                    ->orOn('tbl_notifications.class_id', '=', 'tbl_userclasses.course_id')
-                    ->orOn('tbl_notifications.user_id_to', '=', 'tbl_userclasses.user_id');
+                    ->orOn('tbl_notifications.class_id', '=', 'tbl_userclasses.course_id');
                 })
                 ->leftJoin('users', 'users.id', '=', 'tbl_notifications.from_id')
                 ->leftJoin('tbl_user_details', 'tbl_user_details.user_id','=','users.id')
@@ -192,8 +191,7 @@ class NotificationController extends Controller
             'user_notifications.status', 'user_notifications.hide_notif', 'user_notifications.notification_accepted')
             ->leftJoin('tbl_notifications', function($join){
                 $join->on('tbl_notifications.class_id', '=', 'tbl_userclasses.class_id')
-                ->orOn('tbl_notifications.class_id', '=', 'tbl_userclasses.course_id')
-                ->orOn('tbl_notifications.user_id_to', '=', 'tbl_userclasses.user_id');
+                ->orOn('tbl_notifications.class_id', '=', 'tbl_userclasses.course_id');
             })
             ->leftJoin('user_notifications', 'user_notifications.notification_id','=','tbl_notifications.id')
             ->orderBy('tbl_notifications.created_at', 'DESC')
@@ -216,7 +214,7 @@ class NotificationController extends Controller
     }
     
 
-    public function DeleteNotification($id){
+    public function HideNotification($id){
         $userId = auth('sanctum')->id();
         $HideNotif = UserNotification::where('user_notifications.notification_id', $id)
         ->where('user_notifications.user_id',$userId)->first();
@@ -227,10 +225,19 @@ class NotificationController extends Controller
         }
         return "Notification not found";
     }
+
+    public function DeleteNotification($id){
+        $removeNotif = tbl_notification::find($id);
+        if($removeNotif){
+            $removeNotif->delete();
+        }
+    }
+    
     
 
     public function getNotificationCount(){
         $userId = auth('sanctum')->id();
+        $InviteCount;
         if(auth('sanctum')->user()->role != 'Student'){
             $NotificationCount = tbl_teacher_course::where('tbl_teacher_courses.user_id', $userId)
             ->select('tbl_teacher_courses.course_id as cl_id',DB::raw('CONCAT(users.firstname, " ", users.lastName) as name'),
@@ -248,10 +255,7 @@ class NotificationController extends Controller
         
             
         }else{
-            $CheckIfJoinToClassesExist = tbl_userclass::where('tbl_userclasses.user_id', $userId)
-            ->exists();
-
-            if($CheckIfJoinToClassesExist){
+            
                 $NotificationCount = tbl_userclass::whereNull('tbl_userclasses.deleted_at')
                 ->where('tbl_userclasses.user_id', $userId)
                 ->select('tbl_userclasses.class_id as cl_id',DB::raw('CONCAT(users.firstname, " ", users.lastName) as name'),
@@ -259,8 +263,7 @@ class NotificationController extends Controller
                 'tbl_notifications.notification_attachments','tbl_notifications.created_at')
                 ->leftJoin('tbl_notifications', function($join){
                     $join->on('tbl_notifications.class_id', '=', 'tbl_userclasses.class_id')
-                    ->orOn('tbl_notifications.class_id', '=', 'tbl_userclasses.course_id')
-                    ->orOn('tbl_notifications.user_id_to', '=', 'tbl_userclasses.user_id');
+                    ->orOn('tbl_notifications.class_id', '=', 'tbl_userclasses.course_id');
                 })
                 ->leftJoin('users', 'users.id', '=', 'tbl_notifications.from_id')
                 ->leftJoin('tbl_user_details', 'tbl_user_details.user_id','=','users.id')
@@ -268,9 +271,8 @@ class NotificationController extends Controller
                 ->where('tbl_notifications.from_id','!=', $userId)
                 ->whereIn('tbl_notifications.notification_type', [1, 3, 4])
                 ->get();
-            }
-            else{
-                $NotificationCount = tbl_notification::where('tbl_notifications.user_id_to', $userId)
+           
+                $InviteCount = tbl_notification::where('tbl_notifications.user_id_to', $userId)
                 ->select(DB::raw('CONCAT(users.firstname, " ", users.lastName) as name'),
                 'tbl_user_details.profile_pic','tbl_notifications.id as n_id','tbl_notifications.notification_type','tbl_notifications.message',
                 'tbl_notifications.notification_attachments','tbl_notifications.created_at')
@@ -278,8 +280,8 @@ class NotificationController extends Controller
                 ->leftJoin('tbl_user_details', 'tbl_user_details.user_id','=','users.id')
                 ->leftJoin('user_notifications', 'user_notifications.notification_id','=','tbl_notifications.id')
                 ->orderBy('tbl_notifications.created_at', 'DESC')
-                ->get();
-            }
+                ->count();
+            
         }
 
         foreach($NotificationCount as $item){
@@ -309,7 +311,7 @@ class NotificationController extends Controller
                 $count++;
             }
         }
-    return  $count;
+    return ['notificationCount'=> $count, 'invitesCount'=> $InviteCount];
       
     }
 
@@ -363,8 +365,8 @@ class NotificationController extends Controller
                     'tbl_notifications.notification_attachments','tbl_notifications.created_at')
                     ->leftJoin('tbl_notifications', function($join){
                         $join->on('tbl_notifications.class_id', '=', 'tbl_userclasses.class_id')
-                        ->orOn('tbl_notifications.class_id', '=', 'tbl_userclasses.course_id')
-                        ->orOn('tbl_notifications.user_id_to', '=', 'tbl_userclasses.user_id');
+                        ->orOn('tbl_notifications.class_id', '=', 'tbl_userclasses.course_id');
+                
                     })
                     ->leftJoin('users', 'users.id', '=', 'tbl_notifications.from_id')
                     ->leftJoin('tbl_user_details', 'tbl_user_details.user_id','=','users.id')

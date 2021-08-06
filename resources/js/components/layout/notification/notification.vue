@@ -8,7 +8,7 @@
         :max-height="$vuetify.breakpoint.xs ? 500 : 650"
         v-model="menu" rounded="0" :close-on-content-click="closing" :nudge-width="400" offset-y :max-width="400">
             <template v-slot:activator="{ on, attrs }">
-                <v-btn @click="fetchNotificationall(attrs)" icon v-bind="attrs" v-on="on">
+                <v-btn @click="fetchNotificationall(attrs),isClose = false" icon v-bind="attrs" v-on="on">
                     <v-badge :content="get_notification_count" :value="get_notification_count" color="red darken-2"
                         overlap>
                         <v-icon>
@@ -19,7 +19,7 @@
             </template>
 
             <!-- <v-card :style="$vuetify.breakpoint.xs ? 'max-height:65vh':'max-height:80vh'"> -->
-                <v-list>
+                <v-list v-if="!isClose">
                     <v-list-item>
                         <v-list-item-content>
                             <v-list-item-title>Notification</v-list-item-title>
@@ -85,7 +85,7 @@
                             
                                 <div class="body-2">
                                     {{item.message}}
-                                    <a class="blue--text" @click.prevent="acceptJoin(item.notification_attachments,item.n_id)" href="" v-if="item.notification_type == 3 && item.notification_accepted == 0" link>
+                                    <a class="blue--text" @click.prevent="acceptJoin(item.notification_attachments,item.n_id, index),isClose = true" href="" v-if="item.notification_type == 3 && item.notification_accepted == 0" link>
                                     Accept invite</a>
                                 </div>
                                 <small>{{format_date(item.created_at)}}</small>
@@ -166,7 +166,8 @@
             closing: false,
             //isGetting: true,
             notifType: 'all',
-            AttachData: {}
+            AttachData: {},
+            isClose: false
      
         }),
         components:{
@@ -243,25 +244,27 @@
                     }
                 })
             },
-            acceptJoin(class_code, id){
+            acceptJoin(class_code, id, index){
                 this.form.class_code = class_code
                    this.$store.dispatch("joinClass", this.form).then(res => {
                     if(res.status == 200){
                         this.isAccepted = true;
                          this.toastSuccess(res.data.message);
-                         this.markAsread(id);
-                         this.$router.push({name: 'coursePage', params: {id: res.data.course_id}})
+                         this.$store.dispatch('removeNotification', id);
+                         this.$store.dispatch("LessNotificationCount");
+                         this.$router.push({name: 'announcement', params: {id: res.data.course_id}})
                     }
                     else if(res.status == 202){
                         this.isAccepted = true;
                         this.toastError(res.data.message);
-                        this.markAsread(id);
-                         this.$router.push({name: 'coursePage', params: {id: res.data.course_id}})
+                         this.$store.dispatch('removeNotification', id);
+                         this.$store.dispatch("LessNotificationCount");
+                         this.$router.push({name: 'announcement', params: {id: res.data.course_id}})
                     }
                     else{
                         this.toastError('Something went wrong while joining the class!');
                     }
-                    
+                    this.get_notification.splice(index, 1);
                 });
             },
             format_date(value) {

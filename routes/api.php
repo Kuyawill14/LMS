@@ -156,7 +156,8 @@ Route::prefix('/notification')->group(function () {
     Route::get('/notifCount', [NotificationController::class, 'getNotificationCount']);
     Route::post('/new', [NotificationController::class, 'NewNotification']);
     Route::put('/markread/{id}', [NotificationController::class, 'UnreadNotification']);
-    Route::put('/hide/{id}', [NotificationController::class, 'DeleteNotification']);
+    Route::put('/hide/{id}', [NotificationController::class, 'HideNotification']);
+    Route::delete('/delete/{id}', [NotificationController::class, 'DeleteNotification']);
     Route::post('/new', [NotificationController::class, 'NewNotification']);
     
     Route::get('/all/{type}', [NotificationController::class, 'getNotificationListWithFilter']);
