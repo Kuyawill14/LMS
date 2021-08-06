@@ -49,7 +49,7 @@
                                     <td class="text-center"> {{item.classwork_count}} </td>
                                     <td class="text-center"> {{item.sub_modules_count}} </td>
                                     <td class="text-center">
-                                        <v-btn icon color="success">
+                                        <v-btn icon color="success" link  :to="{name: 'teacherProfile', params: {id: item.user_id}}">
 
                                             <v-icon>
                                                 mdi-eye

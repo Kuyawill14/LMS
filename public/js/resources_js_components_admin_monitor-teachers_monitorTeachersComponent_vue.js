@@ -431,7 +431,12 @@ var render = function() {
                                           {
                                             attrs: {
                                               icon: "",
-                                              color: "success"
+                                              color: "success",
+                                              link: "",
+                                              to: {
+                                                name: "teacherProfile",
+                                                params: { id: item.user_id }
+                                              }
                                             }
                                           },
                                           [
