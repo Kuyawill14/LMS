@@ -1,17 +1,27 @@
 <template>
     <div>
 
-          <v-container style="margin-top: 13rem"  v-if="isGetting">
-                <v-row align-content="center" justify="center">
-                    <v-col class="text-subtitle-1 text-center" cols="12">
-                        Loading Modules
-                    </v-col>
-                    <v-col cols="6">
-                        <v-progress-linear color="primary" indeterminate rounded height="6"></v-progress-linear>
-                    </v-col>
-                </v-row>
-            </v-container>
-        <div v-if="!isGetting">
+       
+        <v-row style="margin-top: 13rem"  v-if="isGetting" align-content="center" justify="center">
+            <v-col class="text-subtitle-1 text-center" cols="12">
+                Loading Modules
+            </v-col>
+            <v-col cols="6">
+                <v-progress-linear color="primary" indeterminate rounded height="6"></v-progress-linear>
+            </v-col>
+        </v-row>
+           
+
+        <v-row style="margin-top: 7rem" align="center" justify="center" class="pt-10" v-if="getmain_module.length == 0 && !isGetting">
+            <v-col cols="12" sm="8" md="4" class="text-center">
+                <v-icon style="font-size:7rem">
+                    mdi-folder
+                </v-icon>
+                <h2> Empty Modules </h2>
+            </v-col>
+        </v-row>
+
+        <div  v-if="!isGetting && getmain_module.length != 0">
             <v-expansion-panels  focusable>
                 <draggable v-model="mainModule" style="width: 100%" @change="onEnd" @start="isDragging = true"
                     @end="isDragging = false" v-bind="dragOptions">

@@ -112,6 +112,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -366,41 +376,33 @@ var render = function() {
     [
       _vm.isGetting
         ? _c(
-            "v-container",
-            { staticStyle: { "margin-top": "13rem" } },
+            "v-row",
+            {
+              staticStyle: { "margin-top": "13rem" },
+              attrs: { "align-content": "center", justify: "center" }
+            },
             [
               _c(
-                "v-row",
-                { attrs: { "align-content": "center", justify: "center" } },
+                "v-col",
+                {
+                  staticClass: "text-subtitle-1 text-center",
+                  attrs: { cols: "12" }
+                },
+                [_vm._v("\n            Loading Modules\n        ")]
+              ),
+              _vm._v(" "),
+              _c(
+                "v-col",
+                { attrs: { cols: "6" } },
                 [
-                  _c(
-                    "v-col",
-                    {
-                      staticClass: "text-subtitle-1 text-center",
-                      attrs: { cols: "12" }
-                    },
-                    [
-                      _vm._v(
-                        "\n                    Loading Modules\n                "
-                      )
-                    ]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-col",
-                    { attrs: { cols: "6" } },
-                    [
-                      _c("v-progress-linear", {
-                        attrs: {
-                          color: "primary",
-                          indeterminate: "",
-                          rounded: "",
-                          height: "6"
-                        }
-                      })
-                    ],
-                    1
-                  )
+                  _c("v-progress-linear", {
+                    attrs: {
+                      color: "primary",
+                      indeterminate: "",
+                      rounded: "",
+                      height: "6"
+                    }
+                  })
                 ],
                 1
               )
@@ -409,7 +411,36 @@ var render = function() {
           )
         : _vm._e(),
       _vm._v(" "),
-      !_vm.isGetting
+      _vm.getmain_module.length == 0 && !_vm.isGetting
+        ? _c(
+            "v-row",
+            {
+              staticClass: "pt-10",
+              staticStyle: { "margin-top": "7rem" },
+              attrs: { align: "center", justify: "center" }
+            },
+            [
+              _c(
+                "v-col",
+                {
+                  staticClass: "text-center",
+                  attrs: { cols: "12", sm: "8", md: "4" }
+                },
+                [
+                  _c("v-icon", { staticStyle: { "font-size": "7rem" } }, [
+                    _vm._v("\n                mdi-folder\n            ")
+                  ]),
+                  _vm._v(" "),
+                  _c("h2", [_vm._v(" Empty Modules ")])
+                ],
+                1
+              )
+            ],
+            1
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      !_vm.isGetting && _vm.getmain_module.length != 0
         ? _c(
             "div",
             [

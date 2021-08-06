@@ -151,7 +151,7 @@ class TeacherProfileController extends Controller
         ->groupBy('tbl_classes.class_name','tbl_classes.class_code', 'tbl_subject_courses.course_name'
         ,'tbl_subject_courses.course_code', 'tbl_classes.id')
         ->where('user_id', $user_id)
-        ->get();
+        ->paginate(10);
 
         foreach($allClass as $key => $value) {
             $StudentCount = tbl_userclass::where('class_id', $value ->class_id)

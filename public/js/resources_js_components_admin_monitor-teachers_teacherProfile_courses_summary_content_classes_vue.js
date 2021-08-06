@@ -48,11 +48,31 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['course_details'],
   data: function data() {
     return {
-      ClassList: []
+      ClassList: [],
+      isGetting: true
     };
   },
   methods: {
@@ -65,7 +85,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context.prev = _context.next) {
               case 0:
                 axios.get('/api/teachers/classes/' + _this.course_details.course_id + '/' + _this.$route.params.id).then(function (res) {
-                  _this.ClassList = res.data;
+                  _this.ClassList = res.data.data; //this.isGetting = false;
+
+                  setTimeout(function () {
+                    return _this.isGetting = false;
+                  }, 1000);
                 });
 
               case 1:
@@ -175,82 +199,159 @@ var render = function() {
   return _c(
     "div",
     [
-      _c(
-        "v-row",
-        _vm._l(_vm.ClassList, function(item, index) {
-          return _c(
-            "v-col",
+      _vm.isGetting
+        ? _c(
+            "v-row",
             {
-              key: index,
-              attrs: { cols: "6", sm: "6", md: "3", lg: "2", xl: "2" }
+              staticStyle: { "margin-top": "10rem" },
+              attrs: { "align-content": "center", justify: "center" }
             },
             [
               _c(
-                "v-card",
-                { attrs: { elevation: "1" } },
+                "v-col",
+                {
+                  staticClass: "text-subtitle-1 text-center",
+                  attrs: { cols: "12" }
+                },
+                [_vm._v("\n            Loading Classes\n        ")]
+              ),
+              _vm._v(" "),
+              _c(
+                "v-col",
+                { attrs: { cols: "6" } },
                 [
-                  _c(
-                    "v-toolbar",
-                    { attrs: { dense: "", dark: "", color: "primary" } },
-                    [_c("v-toolbar-title", [_vm._v(_vm._s(item.class_name))])],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "pa-3" }, [
-                    _c(
-                      "div",
-                      [
-                        _c("v-icon", { attrs: { left: "" } }, [
-                          _vm._v("mdi-account-supervisor")
-                        ]),
-                        _vm._v(
-                          "\n                        Student: " +
-                            _vm._s(item.student_count) +
-                            "\n                    "
-                        )
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "div",
-                      [
-                        _c("v-icon", { attrs: { left: "" } }, [
-                          _vm._v("mdi-book-open-variant")
-                        ]),
-                        _vm._v(
-                          "\n                        Classwork: " +
-                            _vm._s(item.classwork_count) +
-                            "\n                    "
-                        )
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "div",
-                      [
-                        _c("v-icon", { attrs: { left: "" } }, [
-                          _vm._v("mdi-progress-check")
-                        ]),
-                        _vm._v(
-                          "\n                        Progress: " +
-                            _vm._s(item.classwork_count + "%") +
-                            "\n                    "
-                        )
-                      ],
-                      1
-                    )
-                  ])
+                  _c("v-progress-linear", {
+                    attrs: {
+                      color: "primary",
+                      indeterminate: "",
+                      rounded: "",
+                      height: "6"
+                    }
+                  })
                 ],
                 1
               )
             ],
             1
           )
-        }),
-        1
-      )
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.ClassList.length == 0 && !_vm.isGetting
+        ? _c(
+            "v-row",
+            {
+              staticClass: "pt-10",
+              staticStyle: { "margin-top": "7rem" },
+              attrs: { align: "center", justify: "center" }
+            },
+            [
+              _c(
+                "v-col",
+                {
+                  staticClass: "text-center",
+                  attrs: { cols: "12", sm: "8", md: "4" }
+                },
+                [
+                  _c("v-icon", { staticStyle: { "font-size": "7rem" } }, [
+                    _vm._v(
+                      "\n                mdi-book-open-variant\n            "
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("h2", [_vm._v(" Empty Classes ")])
+                ],
+                1
+              )
+            ],
+            1
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.ClassList.length != 0 && !_vm.isGetting
+        ? _c(
+            "v-row",
+            _vm._l(_vm.ClassList, function(item, index) {
+              return _c(
+                "v-col",
+                {
+                  key: index,
+                  attrs: { cols: "6", sm: "6", md: "3", lg: "2", xl: "2" }
+                },
+                [
+                  _c(
+                    "v-card",
+                    { attrs: { outlined: "" } },
+                    [
+                      _c(
+                        "v-toolbar",
+                        { attrs: { dense: "", dark: "", color: "primary" } },
+                        [
+                          _c("v-toolbar-title", [
+                            _vm._v(_vm._s(item.class_name))
+                          ])
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "pa-3" }, [
+                        _c(
+                          "div",
+                          { staticClass: "text-body-2" },
+                          [
+                            _c("v-icon", { attrs: { left: "" } }, [
+                              _vm._v("mdi-account-supervisor")
+                            ]),
+                            _vm._v(
+                              "\n                        Student: " +
+                                _vm._s(item.student_count) +
+                                "\n                    "
+                            )
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "text-body-2" },
+                          [
+                            _c("v-icon", { attrs: { left: "" } }, [
+                              _vm._v("mdi-book-open-variant")
+                            ]),
+                            _vm._v(
+                              "\n                        Classwork: " +
+                                _vm._s(item.classwork_count) +
+                                "\n                    "
+                            )
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "text-body-2" },
+                          [
+                            _c("v-icon", { attrs: { left: "" } }, [
+                              _vm._v("mdi-progress-check")
+                            ]),
+                            _vm._v(
+                              "\n                        Progress: " +
+                                _vm._s(item.classwork_count + "%") +
+                                "\n                    "
+                            )
+                          ],
+                          1
+                        )
+                      ])
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            }),
+            1
+          )
+        : _vm._e()
     ],
     1
   )
