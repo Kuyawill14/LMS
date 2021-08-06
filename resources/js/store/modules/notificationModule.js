@@ -3,6 +3,7 @@ import axios from 'axios'
 const state = {
     class_notification: [],
     notificationCount: null,
+    inviteCount: null,
     page: 0,
     loadMore: false,
     lastPage: 0,
@@ -10,6 +11,7 @@ const state = {
     lastPageCount: null,
     beforeLastPageCount: null,
     isGetting: null,
+    inviteAll:[]
 };
 const getters = {
     get_notification: (state) => {
@@ -17,6 +19,12 @@ const getters = {
     },
     get_notification_count: (state) => {
         return state.notificationCount;
+    },
+    get_invites: (state) => {
+        return state.inviteAll;
+    },
+    get_invite_count: (state) => {
+        return state.inviteCount;
     },
     ShowPage: (state) => {
         return state.page;
@@ -106,16 +114,7 @@ const actions = {
             state.page = nextpage;
        
             state.loadMore = false;
-          
         }
-       /*  const res = await axios.get(
-            `/api/notification/all?page=`+count)
-            .then(response=>{
-                for (let j = 0; j < state.lastPage; j++) {
-                    state.class_notification.splice(state.class_notification.length-1, 1);
-                }
-               
-            }) */
     },
 
     async LessNotificationCount({ commit }) {
@@ -139,40 +138,35 @@ const actions = {
             })
             return status;
     },
+    async removeNotification({ commit }, id, index){
+        const res = await axios.delete(`/api/notification/delete/`+id);
 
+        
 
-    
-
+    },
     async fetchNotificationCount({ commit }, id) {
         let NotifList;
         let count = 0;
+        let inviteCount = 0;
         const res = await axios.get(
             `/api/notification/notifCount`)
             .then(response=>{
-                count = response.data;
+                count = response.data.notificationCount;
+                inviteCount = response.data.invitesCount;
             })
           
         commit('NOTIFICATION_COUNT', count);
+        commit('INVITE_COUNT', inviteCount);
     },
 
+    async fetchClassInvites({ commit }, id){
+        const res = await axios.get(`/api/notification/invite/all`)
 
-    
-  /*   async UnreadMessage({ commit }, id) {
-        let res = await axios
-            .post(`/api/notification/${id}`)
-            .then(response => {
-                Toast.fire({
-                    icon: "success",
-                    title: "Your have been unrolled to the class."
-                });
-                let newCLass = response.data;
-                commit("UNREAD_NOTIFICATION", newCLass);
-                return newCLass;
-                
-            });
-
-          
-    }, */
+        commit('FETCH_INVITE', res.data.data);
+    },
+    LessInviteCount({ commit }){
+        state.inviteCount -= 1;
+    }
 
   
  
@@ -182,6 +176,8 @@ const mutations = {
     //UNREAD_NOTIFICATION: (state, RemoveNotif) => (state.class_notification = RemoveNotif),
     UNREAD_NOTIFICATION: (state, newCLass) => (state.class_notification = newCLass),
     NOTIFICATION_COUNT: (state, count) => (state.notificationCount = count),
+    FETCH_INVITE: (state, inviteAll) => (state.inviteAll = inviteAll),
+    INVITE_COUNT: (state, inviteCount) => (state.inviteCount = inviteCount),
     
 };
 

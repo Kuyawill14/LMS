@@ -33,6 +33,9 @@ let archiveComponent = () =>
 
 let SeeAllNotification = () =>
     import ("./components/layout/notification/SeeAllNotification");
+
+let invites = () =>
+    import ("./components/layout/notification/invites");
 // let classwork_main = () =>
 //     import ("./components/classwork_main/classwork_main");
 
@@ -554,10 +557,18 @@ const router = new Router({
                 },
 
                 {
-                    path: "/notifications",
+                    path: "/notifications/:slug",
                     component: SeeAllNotification,
                     name: "notifications"
                 },
+
+                {
+                    path: "/invites",
+                    component: invites,
+                    name: "invites"
+                },
+
+                
 
                 {
                     path: "/classwork/:id",

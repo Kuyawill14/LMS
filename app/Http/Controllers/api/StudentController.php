@@ -344,7 +344,7 @@ class StudentController extends Controller
         $newNotification->message = "Join to your ".$userInClass->course_name." - " .$userInClass->class_name ." class";
         $newNotification->notification_type = 2;
         $newNotification->save();
-        //broadcast(new NewNotification($newNotification))->toOthers();
+        broadcast(new NewNotification($newNotification))->toOthers();
         return response()->json([
             'course_id'=>$userInClass->course_id, 
             'status'=>$userInClass->status, 
