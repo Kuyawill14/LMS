@@ -184,8 +184,6 @@ class UserProfileController extends Controller
      */
     public function updateDetails(Request $request)
     {
-      
-      
         $userId = auth('sanctum')->id();
         $UpdateDetails = User::find($userId);
     

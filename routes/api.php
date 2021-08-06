@@ -24,8 +24,8 @@ use App\Http\Controllers\api\TeacherController;
 use App\Http\Controllers\api\ArchiveController;
 use App\Http\Controllers\api\StudentCourseFinalGrades;
 use App\Http\Controllers\api\AdminController;
-
-
+use App\Http\Controllers\api\MonitorTeacherController;
+use App\Http\Controllers\api\TeacherProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -285,7 +285,10 @@ Route::prefix('/teachers')->group(function () {
     Route::post('/update/{id}', [AdminController::class, 'update']);
     Route::post('/reset-password/{id}', [AdminController::class, 'resetTeacherPassword']);
     Route::delete('/remove/{id}', [AdminController::class, 'removeUser']);
-    
+
+    Route::get('/all/summarry', [MonitorTeacherController::class, 'getAllTeacherSummarryData']);
+    Route::get('/profile/{id}', [TeacherProfileController::class, 'teacherProfile']);
+    Route::get('/profile/ClassesList/{id}', [TeacherProfileController::class, 'getCourseAndClassesList']);
 });
 
 

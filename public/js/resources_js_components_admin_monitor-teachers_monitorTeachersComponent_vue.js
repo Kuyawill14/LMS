@@ -100,6 +100,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 
@@ -117,158 +122,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       IsResetting: false,
       type: '',
       search: "",
-      valid: true,
-      role: ['Teacher', 'Student'],
-      form: new Form({
-        firstName: "",
-        middleName: "",
-        lastName: "",
-        email: "",
-        phone: "",
-        password: "",
-        password_confirmation: "",
-        role: ""
-      }),
-      nameRules: [function (v) {
-        return !!v || 'Field is required';
-      }, function (v) {
-        return v && v.length <= 20 || 'Name must be less than 20 characters';
-      }],
-      loginEmailRules: [function (v) {
-        return !!v || "Field is required";
-      }, function (v) {
-        return /.+@.+\..+/.test(v) || "Email must be valid";
-      }],
-      RoleRules: [function (v) {
-        return !!v || "Field is required";
-      }],
-      show: false,
-      show1: false,
-      rules: {
-        required: function required(value) {
-          return !!value || "Field is required.";
-        },
-        min: function min(v) {
-          return v && v.length >= 6 || "min 6 characters";
-        }
-      }
+      valid: true
     };
   },
-  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(["getTeachers", "filterTeacher"])),
-  methods: {
-    SetPassword: function SetPassword(lastname) {
-      var tmpLastname = lastname.replace(/\s+/g, '-').toLowerCase();
-      this.form.password = 'LMS-' + tmpLastname;
-      this.show = true;
-      /* var self = this;
-        this.timeout = setTimeout(function () {
-           self.show = false;
-      }, 3000);  */
-    },
-    clearForm: function clearForm() {
-      this.form.user_id = '';
-      this.form.firstName = '';
-      this.form.middleName = '';
-      this.form.lastName = '';
-      this.form.phone = '';
-      this.form.email = '';
-    },
-    openAdd: function openAdd() {
-      this.clearForm();
-      this.$refs.RegisterForm.resetValidation();
-      this.type = 'add'; // this.grading_criteria_form.name = '';
-      // this.grading_criteria_form.percentage = '';
-
-      this.dialog = true;
-    },
-    openEdit: function openEdit(user_id) {
-      this.type = 'edit';
-      this.dialog = true;
-      var currentTeacher = this.filterTeacher(user_id);
-      console.log(currentTeacher);
-      this.form.user_id = currentTeacher.user_id;
-      this.form.firstName = currentTeacher.firstName;
-      this.form.middleName = currentTeacher.middleName;
-      this.form.lastName = currentTeacher.lastName;
-      this.form.phone = currentTeacher.cp_no;
-      this.form.email = currentTeacher.email;
-    },
-    openDelete: function openDelete(id) {
-      this.delId = id;
-      this.Deldialog = true;
-    },
-    updatePass: function updatePass(id) {
-      var _this = this;
-
-      this.IsResetting = true;
-      axios__WEBPACK_IMPORTED_MODULE_1___default().post('/api/teachers/reset-password/' + id).then(function (res) {
-        _this.toastSuccess(res.data);
-
-        _this.IsResetting = false;
-      });
-    },
-    deleteUser: function deleteUser() {
-      var _this2 = this;
-
-      this.IsDeleting = true;
-      axios__WEBPACK_IMPORTED_MODULE_1___default().delete('/api/teachers/remove/' + this.delId).then(function (res) {
-        if (res.status == 200) {
-          _this2.toastSuccess('User Successfully removed!');
-
-          _this2.IsDeleting = false;
-        } else {
-          _this2.toastError('Something went wrong!');
-
-          _this2.IsDeleting = false;
-        }
-
-        _this2.Deldialog = false;
-
-        _this2.$store.dispatch('fetchAllTeachers');
-      });
-    },
-    updateTeacherDetails: function updateTeacherDetails() {
-      this.$store.dispatch('updateTeacher', this.form);
-    },
-    validate: function validate() {
-      var _this3 = this;
-
-      this.IsAddUpdating = true;
-
-      if (this.$refs.RegisterForm.validate()) {
-        if (this.type == 'add') {
-          this.form.role = 'Teacher';
-          this.form.password_confirmation = this.form.password;
-          this.form.post('/api/register').then(function (res) {
-            _this3.$refs.RegisterForm.reset();
-
-            _this3.valid = true;
-            _this3.dialog = false;
-            _this3.IsAddUpdating = false;
-          });
-        }
-
-        if (this.type == 'edit') {
-          this.form.post('/api/teachers/update/' + this.form.user_id).then(function () {
-            console.log("Success");
-
-            _this3.$refs.RegisterForm.reset();
-
-            _this3.valid = true;
-            _this3.dialog = false;
-            _this3.IsAddUpdating = false;
-          });
-          this.toastSuccess('User Successfully Updated!');
-        }
-
-        this.$store.dispatch('fetchAllTeachers');
-      } else {
-        this.IsAddUpdating = false;
-      }
-    }
-  },
+  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(["getTeachersSumarry"])),
+  methods: {},
   mounted: function mounted() {
-    this.$store.dispatch('fetchAllTeachers');
+    this.$store.dispatch('teacherSummarryData');
   }
 });
 
@@ -476,31 +336,37 @@ var render = function() {
                                 _vm._v(" "),
                                 _c("th", [
                                   _vm._v(
-                                    "\n                                   Name\n                                "
+                                    "\n                                    Name\n                                "
                                   )
                                 ]),
                                 _vm._v(" "),
-                                _c("th", [
+                                _c("th", { staticClass: "text-center" }, [
                                   _vm._v(
-                                    "\n                                   Total Courses\n                                "
+                                    "\n                                    Total Courses\n                                "
                                   )
                                 ]),
                                 _vm._v(" "),
-                                _c("th", [
+                                _c("th", { staticClass: "text-center" }, [
                                   _vm._v(
-                                    "\n                                   Total Classes\n                                "
+                                    "\n                                    Total Classes\n                                "
                                   )
                                 ]),
                                 _vm._v(" "),
-                                _c("th", [
+                                _c("th", { staticClass: "text-center" }, [
                                   _vm._v(
-                                    "\n                                   Total Modules Created\n                                "
+                                    "\n                                    Total Modules Created\n                                "
                                   )
                                 ]),
                                 _vm._v(" "),
-                                _c("th", [
+                                _c("th", { staticClass: "text-center" }, [
                                   _vm._v(
-                                    "\n                                  Action\n                                "
+                                    "\n                                    Total Lesson Created\n                                "
+                                  )
+                                ]),
+                                _vm._v(" "),
+                                _c("th", { staticClass: "text-center" }, [
+                                  _vm._v(
+                                    "\n                                    Action\n                                "
                                   )
                                 ])
                               ])
@@ -509,7 +375,10 @@ var render = function() {
                             _c(
                               "tbody",
                               [
-                                _vm._l(_vm.getTeachers, function(item, index) {
+                                _vm._l(_vm.getTeachersSumarry, function(
+                                  item,
+                                  index
+                                ) {
                                   return _c("tr", { key: index }, [
                                     _c("td", [
                                       _vm._v(" " + _vm._s(item.user_id) + " ")
@@ -529,20 +398,33 @@ var render = function() {
                                       )
                                     ]),
                                     _vm._v(" "),
-                                    _c("td", [
-                                      _vm._v(" {# of total courses} ")
+                                    _c("td", { staticClass: "text-center" }, [
+                                      _vm._v(" " + _vm._s(item.course_count))
                                     ]),
                                     _vm._v(" "),
-                                    _c("td", [
-                                      _vm._v(" {# of total classes} ")
+                                    _c("td", { staticClass: "text-center" }, [
+                                      _vm._v(
+                                        " " + _vm._s(item.class_count) + " "
+                                      )
                                     ]),
                                     _vm._v(" "),
-                                    _c("td", [
-                                      _vm._v(" {# of total modules created} ")
+                                    _c("td", { staticClass: "text-center" }, [
+                                      _vm._v(
+                                        " " + _vm._s(item.classwork_count) + " "
+                                      )
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("td", { staticClass: "text-center" }, [
+                                      _vm._v(
+                                        " " +
+                                          _vm._s(item.sub_modules_count) +
+                                          " "
+                                      )
                                     ]),
                                     _vm._v(" "),
                                     _c(
                                       "td",
+                                      { staticClass: "text-center" },
                                       [
                                         _c(
                                           "v-btn",
@@ -567,7 +449,7 @@ var render = function() {
                                   ])
                                 }),
                                 _vm._v(" "),
-                                _vm.getTeachers.length == 0
+                                _vm.getTeachersSumarry.length == 0
                                   ? _c("tr", [
                                       _c(
                                         "td",

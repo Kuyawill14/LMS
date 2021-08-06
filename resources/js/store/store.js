@@ -20,6 +20,7 @@ import classwork from './modules/classwork'
 import studentClassworkGrades from './modules/student_classwork_grades'
 import stduentFinalGrades from './modules/student_final_grades'
 import allTeachers from './modules/allTeachers'
+import teacherSummary from './modules/teacherSummary'
 
 export default new Vuex.Store({
     modules: {
@@ -40,7 +41,8 @@ export default new Vuex.Store({
         studentMainmoduleProgress,
         studentClassworkGrades,
         stduentFinalGrades,
-        allTeachers
+        allTeachers,
+        teacherSummary
 
 
     },
