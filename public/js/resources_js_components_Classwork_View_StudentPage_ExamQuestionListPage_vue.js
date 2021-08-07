@@ -496,6 +496,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     SubmitAnswer: function SubmitAnswer() {
       var _this2 = this;
 
+      console.log('test');
       this.isExamStart = false;
       this.isLoading = !this.isLoading;
       this.isSubmitting = !this.isSubmitting;
@@ -523,36 +524,45 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       });
     },
     TimesUpSubmit: function TimesUpSubmit() {
-      /* this.isExamStart = false;
+      var _this3 = this;
+
+      this.isExamStart = false;
       this.isLoading = !this.isLoading;
       this.isSubmitting = !this.isSubmitting;
       this.isStart = !this.isStart;
       this.warningDialog = false;
-       axios.post('/api/question/check/'+this.$route.query.clwk, {item: this.FinalAnswers, AnsLength:this.questionIndex,timerCount: this.TimerCount})
-      .then(()=>{
-           setTimeout(() => {
-              this.isLoading = !this.isLoading;
-              this.isSubmitting = !this.isSubmitting;
-          }, 2000);
-          localStorage.removeItem(btoa('timer_time'));
-           localStorage.removeItem(btoa('CurrentAnswers'));
-           this.$router.push({name: 'result-page', params:{id: this.$route.query.clwk}})
-           
-            
-      }) */
+      axios.post('/api/question/check/' + this.$route.query.clwk, {
+        item: this.FinalAnswers,
+        AnsLength: this.questionIndex,
+        timerCount: this.TimerCount
+      }).then(function () {
+        setTimeout(function () {
+          _this3.isLoading = !_this3.isLoading;
+          _this3.isSubmitting = !_this3.isSubmitting;
+        }, 2000);
+        localStorage.removeItem(btoa('timer_time'));
+        localStorage.removeItem(btoa('CurrentAnswers'));
+
+        _this3.$router.push({
+          name: 'result-page',
+          params: {
+            id: _this3.$route.query.clwk
+          }
+        });
+      });
     },
     fetchQuestions: function fetchQuestions() {
-      var _this3 = this;
+      var _this4 = this;
 
       this.$store.dispatch('fetchQuestions', this.$route.query.clwk).then(function (res) {
-        _this3.Qlength = res[1];
-        _this3.isLoading = false;
+        _this4.Qlength = res[1];
+        _this4.isLoading = false;
         var name = btoa('CurrentAnswers');
         var AnswersList = JSON.parse(localStorage.getItem(name));
 
         if (AnswersList == null) {
           for (var index = 0; index < res[0].Question.length; index++) {
-            _this3.FinalAnswers.push({
+            _this4.FinalAnswers.push({
               Answer: '',
               Question_id: res[0].Question[index].id,
               type: res[0].Question[index].type,
@@ -560,12 +570,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             });
           }
 
-          localStorage.setItem(name, JSON.stringify(_this3.FinalAnswers));
+          localStorage.setItem(name, JSON.stringify(_this4.FinalAnswers));
         } else {
           for (var x = 0; x < res[0].Question.length; x++) {
             for (var j = 0; j < AnswersList.length; j++) {
               if (res[0].Question[x].id == AnswersList[j].Question_id) {
-                _this3.FinalAnswers.push({
+                _this4.FinalAnswers.push({
                   Answer: AnswersList[j].Answer,
                   Question_id: AnswersList[j].Question_id,
                   type: AnswersList[j].type,
@@ -584,27 +594,27 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       event.returnValue = "";
     },
     CheckStatus: function CheckStatus() {
-      var _this4 = this;
+      var _this5 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                axios.get('/api/student/checking/' + _this4.$route.query.clwk).then(function (res) {
-                  _this4.StartTime = res.data.startTime;
+                axios.get('/api/student/checking/' + _this5.$route.query.clwk).then(function (res) {
+                  _this5.StartTime = res.data.startTime;
 
                   if (res.data.status == 'Taking' || res.data.status == '') {
-                    _this4.StartQuiz();
+                    _this5.StartQuiz();
 
-                    _this4.preventNav = !_this4.preventNav;
+                    _this5.preventNav = !_this5.preventNav;
                   } else {
-                    _this4.isLoading = false;
+                    _this5.isLoading = false;
 
-                    _this4.$router.push({
+                    _this5.$router.push({
                       name: 'result-page',
                       params: {
-                        id: _this4.$route.query.clwk
+                        id: _this5.$route.query.clwk
                       }
                     });
                   }
@@ -619,16 +629,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     StartQuiz: function StartQuiz() {
-      var _this5 = this;
+      var _this6 = this;
 
       this.isStart = true;
       var alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
       this.Alphabet = alphabet;
       axios.get('/api/classwork/showDetails/' + this.$route.query.clwk + '/' + this.$route.params.id).then(function (res) {
-        _this5.duration = res.data.Details.duration;
-        _this5.classworkDetails = res.data.Details;
+        _this6.duration = res.data.Details.duration;
+        _this6.classworkDetails = res.data.Details;
 
-        _this5.fetchQuestions();
+        _this6.fetchQuestions();
       });
       this.CountTime();
     },
@@ -782,106 +792,8 @@ __webpack_require__.r(__webpack_exports__);
         return moment__WEBPACK_IMPORTED_MODULE_0___default()(String(value)).format('YYYY M D');
       }
     },
-    ShowTimer: function ShowTimer() {
-      var _this = this;
-
-      var StartTime = new Date();
-      var finalHour;
-      var format = moment__WEBPACK_IMPORTED_MODULE_0___default()(StartTime).format('a');
-      var hour = moment__WEBPACK_IMPORTED_MODULE_0___default()(StartTime).format('h');
-      var minutes = moment__WEBPACK_IMPORTED_MODULE_0___default()(StartTime).format('mm');
-      var finalSeconds;
-      var seconds_tic = localStorage.getItem('seconds_tic');
-
-      if (seconds_tic == null) {
-        finalSeconds = parseInt(moment__WEBPACK_IMPORTED_MODULE_0___default()(StartTime).format('ss')) + 1;
-        localStorage.setItem('seconds_tic', finalSeconds);
-      } else {
-        finalSeconds = parseInt(localStorage.getItem('seconds_tic'));
-      }
-
-      var year = moment__WEBPACK_IMPORTED_MODULE_0___default()(StartTime).format('YYYY');
-      var month = moment__WEBPACK_IMPORTED_MODULE_0___default()(StartTime).format('M');
-      var day = moment__WEBPACK_IMPORTED_MODULE_0___default()(StartTime).format('D');
-      finalHour = format == 'pm' ? parseInt(hour) + 12 : hour;
-      var additioanal;
-
-      if (format == 'pm') {
-        if (parseInt(hour) == 12) {
-          finalHour = hour;
-        } else {
-          finalHour = parseInt(hour) + 12;
-        }
-
-        additioanal = 1;
-      } else {
-        if (parseInt(hour) == 12) {
-          finalHour = 0;
-        } else {
-          finalHour = hour;
-        }
-
-        additioanal = 0;
-      }
-
-      var letFinalMinutes;
-      var SubDuration;
-      var subMinutes = localStorage.getItem('time_remaining');
-
-      if (subMinutes == null) {
-        localStorage.setItem('time_remaining', this.duration - 1);
-        SubDuration = this.duration;
-        letFinalMinutes = SubDuration + parseInt(minutes);
-      } else {
-        SubDuration = parseInt(subMinutes);
-        letFinalMinutes = SubDuration + parseInt(minutes);
-      }
-
-      var due = this.duration * 60 * 1000;
-      var timer = setInterval(function () {
-        var nowDate = new Date(); //const endDate = new Date(year,month,day,finalHour,letFinalMinutes,finalSeconds);
-
-        var timeRemain = nowDate.getTime() - nowDate.getTime() + due;
-        var days = Math.floor(timeRemain / _this._day);
-        var hours = Math.floor(timeRemain % _this._day / _this._hour);
-        var minutes = Math.floor(timeRemain % _this._hour / _this._minutes);
-        var second = Math.floor(timeRemain % _this._minutes / _this._seconds);
-        _this.displayHours = hours < 10 ? "0" + hours : hours;
-        _this.displayMinutes = minutes < 10 ? "0" + minutes : minutes;
-        _this.displaySeconds = second < 10 ? "0" + second : second;
-
-        if (parseInt(localStorage.getItem('time_remaining')) == 0) {
-          _this.displayHours = '00';
-          _this.displayMinutes = '00';
-        } else {
-          _this.displayHours = hours < 10 ? "0" + hours : hours;
-          _this.displayMinutes = minutes < 10 ? "0" + minutes : minutes;
-        }
-
-        _this.displaySeconds = second < 10 ? "0" + second : second;
-        _this.SecondProgress = _this.displaySeconds / 100;
-
-        if (second == '00' || second == 0) {
-          var check = localStorage.getItem('time_remaining');
-
-          if (check == '0' || check == '00') {
-            _this.$emit('TimesUp');
-
-            clearInterval(timer); //this.$router.push({path: '/'});
-
-            localStorage.removeItem('time_remaining');
-            localStorage.removeItem('seconds_tic');
-          } else {
-            var remain_time = parseInt(localStorage.getItem('time_remaining'));
-            localStorage.setItem('time_remaining', remain_time - 1);
-          }
-        }
-
-        _this.isLoaded = true;
-      }, 1000);
-    },
     startTimer: function startTimer() {
-      var _this2 = this;
+      var _this = this;
 
       console.log(this.StartTime); //this.Startdate = new Date(this.StartTime).getTime();
 
@@ -900,7 +812,7 @@ __webpack_require__.r(__webpack_exports__);
 
       var _final = '';
       this.NewTimer = setInterval(function () {
-        if (_this2.StopTimer != true) {
+        if (_this.StopTimer != true) {
           if (_final == '') {
             _final = due - 1000;
             var finalData = name + '|' + _final + '|' + name;
@@ -913,41 +825,24 @@ __webpack_require__.r(__webpack_exports__);
             localStorage.setItem(name, _finalData);
           }
         } else {
-          clearInterval(_this2.NewTimer);
+          clearInterval(_this.NewTimer);
           localStorage.removeItem(name);
 
-          _this2.$emit('TimerStop');
+          _this.$emit('TimerStop');
         }
       }, 1000);
       this.EndDate = new Date().getTime() + due;
     },
-    startTimer1: function startTimer1() {
-      console.log(this.StartTime); //this.Startdate = new Date(this.StartTime).getTime();
-
+    ShowTimer: function ShowTimer() {
       var due = this.duration * 60 * 1000;
-      var _final2 = '';
-      /*   this.NewTimer = setInterval(()=>{
-            if(this.StopTimer != true){
-                  if(final == ''){
-                    final = due - 1000;
-                    let finalData = name+'|'+final+'|'+name;
-               
-                }
-                else{
-                    final = final - 1000;
-                    let finalData = name+'|'+final+'|'+name;
-                
-                }
-            }
-            else{
-                clearInterval(this.NewTimer);
-                localStorage.removeItem(name);
-                 this.$emit('TimerStop');
-            }
-          
-        },1000) */
 
-      this.EndDate = new Date().getTime() + due;
+      if (this.StopTimer != true) {
+        console.log(this.StopTimer);
+      } else {
+        this.$emit('TimerStop');
+      }
+
+      this.EndDate = new Date(this.StartTime).getTime() + due;
     },
     EndTimer: function EndTimer() {
       console.log('test 123');
@@ -956,11 +851,11 @@ __webpack_require__.r(__webpack_exports__);
       this.$emit('TimesUp');
     },
     newTimer: function newTimer() {
-      var _this3 = this;
+      var _this2 = this;
 
       var ExamTime = this.duration * 1000;
       setInterval(function () {
-        var StartTime = new Date(_this3.StartTime);
+        var StartTime = new Date(_this2.StartTime);
         var DateNow = new Date();
         var remainingtime = ExamTime - Math.abs(StartTime - DateNow) / 1000;
         var hours = Math.floor(remainingtime / 3600); // get hours
@@ -971,17 +866,16 @@ __webpack_require__.r(__webpack_exports__);
         /*  console.log('diff' , (Math.abs(StartTime - DateNow)/1000));
          console.log('remain ',remainingtime); */
 
-        _this3.displayMinutes = minutes;
-        _this3.displayHours = hours < 10 ? "0" + hours : hours;
-        _this3.displayMinutes = minutes < 10 ? "0" + minutes : minutes;
-        _this3.displaySeconds = seconds < 10 ? "0" + seconds : seconds; //console.log(minutes+':'+seconds);
+        _this2.displayMinutes = minutes;
+        _this2.displayHours = hours < 10 ? "0" + hours : hours;
+        _this2.displayMinutes = minutes < 10 ? "0" + minutes : minutes;
+        _this2.displaySeconds = seconds < 10 ? "0" + seconds : seconds; //console.log(minutes+':'+seconds);
       }, 1000); //console.log(this.StartTime);
     }
   },
   mounted: function mounted() {
-    //this.ShowTimer();
-    //this.newTimer();
-    this.startTimer1();
+    this.ShowTimer(); //this.newTimer();
+    //this.startTimer1();
   }
 });
 
@@ -22879,7 +22773,7 @@ var render = function() {
                     _vm.dialog = !_vm.dialog
                   },
                   toggleSubmit: function($event) {
-                    _vm.StopTimer = true
+                    ;(_vm.StopTimer = true), _vm.SubmitAnswer()
                   }
                 }
               })
@@ -23227,7 +23121,7 @@ var render = function() {
                                               1
                                             ),
                                             _vm._v(" "),
-                                            !_vm.isLoading
+                                            !_vm.isLoading && _vm.StopTimer
                                               ? _c("quizTimer", {
                                                   attrs: {
                                                     StartTime: _vm.StartTime,
@@ -23238,8 +23132,7 @@ var render = function() {
                                                     TimerStop: function(
                                                       $event
                                                     ) {
-                                                      ;(_vm.StopTimer = false),
-                                                        _vm.SubmitAnswer()
+                                                      return _vm.SubmitAnswer()
                                                     },
                                                     TimesUp: function($event) {
                                                       return _vm.TimesUpSubmit()

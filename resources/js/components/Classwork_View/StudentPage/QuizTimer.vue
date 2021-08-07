@@ -93,117 +93,6 @@ export default {
                 return moment(String(value)).format('YYYY M D')
             }
         },
-        ShowTimer(){
-
-            const StartTime = new Date();
-            
-            let finalHour;
-            let format = moment(StartTime).format('a');
-            let hour = moment(StartTime).format('h');
-            let minutes = moment(StartTime).format('mm');
-
-            let finalSeconds;
-            let seconds_tic = localStorage.getItem('seconds_tic');
-            if(seconds_tic == null){ 
-                finalSeconds = parseInt(moment(StartTime).format('ss'))+1;
-                localStorage.setItem('seconds_tic', finalSeconds);
-       
-            }
-            else{
-                finalSeconds = parseInt(localStorage.getItem('seconds_tic'));
-            }
-            
-           
-            const year = moment(StartTime).format('YYYY');
-            const month = moment(StartTime).format('M');
-            const day = moment(StartTime).format('D');
-
-            finalHour = format == 'pm' ? ((parseInt(hour)+12)) : hour;
-            let additioanal;
-            if(format == 'pm'){
-                if(parseInt(hour) == 12){
-                    finalHour = hour;
-                    
-                }
-                else{
-                    finalHour = (parseInt(hour)+12);
-                }
-                additioanal = 1;
-            }
-            else{
-                if(parseInt(hour) == 12){
-                    finalHour = 0;
-                }
-                else{
-                    finalHour = hour;
-                }
-                additioanal = 0;
-              
-            }
-
-            let letFinalMinutes;
-            let SubDuration;
-            let subMinutes = localStorage.getItem('time_remaining');
-            if(subMinutes == null){
-                localStorage.setItem('time_remaining', (this.duration-1));
-                SubDuration = this.duration
-                letFinalMinutes = ((SubDuration)+(parseInt(minutes)));
-            }
-            else{
-                SubDuration = (parseInt(subMinutes))
-                letFinalMinutes = ((SubDuration)+(parseInt(minutes)));
-                
-            }
-        let due = (this.duration*60) * 1000;
-            const timer = setInterval(()=>{
-            const nowDate = new Date();
-            //const endDate = new Date(year,month,day,finalHour,letFinalMinutes,finalSeconds);
-            
-            const timeRemain = nowDate.getTime() -  nowDate.getTime()+due;
-
-            const days = Math.floor(timeRemain/this._day);
-            const hours = Math.floor((timeRemain % this._day)/this._hour);
-            const minutes = Math.floor((timeRemain % this._hour)/this._minutes);
-            const second = Math.floor((timeRemain % this._minutes)/this._seconds);
-            
-        
-             this.displayHours = hours < 10 ?"0" + hours :hours;
-            this.displayMinutes = minutes < 10 ?"0" + minutes :minutes;
-             this.displaySeconds = second < 10 ? "0" + second :second;
-            if(parseInt(localStorage.getItem('time_remaining')) == 0){
-                this.displayHours = '00';
-                this.displayMinutes = '00';
-            }
-            else{
-                 this.displayHours = hours < 10 ?"0" + hours :hours;
-                 this.displayMinutes = minutes < 10 ?"0" + minutes :minutes;
-            }
-           
-
-
-            this.displaySeconds = second < 10 ? "0" + second :second;
-
-            this.SecondProgress =   (this.displaySeconds / 100)
-
-                if(second == '00' || second == 0){
-                    let check = localStorage.getItem('time_remaining');
-                    if(check == '0' || check == '00'){
-                        this.$emit('TimesUp');
-                        clearInterval(timer);
-                        //this.$router.push({path: '/'});
-                        localStorage.removeItem('time_remaining');
-                        localStorage.removeItem('seconds_tic');
-                        
-                    }
-                    else{
-                        let remain_time = parseInt(localStorage.getItem('time_remaining'));
-                        localStorage.setItem('time_remaining', (remain_time-1));
-                    }
-                }
-                this.isLoaded = true;
-            },1000)
-            
-        },
         startTimer(){
 
          
@@ -247,40 +136,20 @@ export default {
             this.EndDate = (new Date).getTime()+due;
             
         },
-          startTimer1(){
+          ShowTimer(){
 
-         
-
-            console.log(this.StartTime);
-            
-            //this.Startdate = new Date(this.StartTime).getTime();
-       
-            
             let due = (this.duration*60) * 1000;
-    
-          
-            let final = '';
-          /*   this.NewTimer = setInterval(()=>{
-                if(this.StopTimer != true){
-                      if(final == ''){
-                        final = due - 1000;
-                        let finalData = name+'|'+final+'|'+name;
+              if(this.StopTimer != true){
                    
-                    }
-                    else{
-                        final = final - 1000;
-                        let finalData = name+'|'+final+'|'+name;
-                    
-                    }
-                }
-                else{
-                    clearInterval(this.NewTimer);
-                    localStorage.removeItem(name);
-                     this.$emit('TimerStop');
-                }
-              
-            },1000) */
-            this.EndDate = (new Date).getTime()+due;
+                   console.log(this.StopTimer)
+              }
+              else{
+                  
+                  this.$emit('TimerStop');
+              }
+
+              this.EndDate = new Date(this.StartTime).getTime()+due;
+           
             
         },
         EndTimer(){
@@ -320,9 +189,9 @@ export default {
     },
     mounted(){
         
-         //this.ShowTimer();
+         this.ShowTimer();
         //this.newTimer();
-            this.startTimer1();
+            //this.startTimer1();
        
              
             
