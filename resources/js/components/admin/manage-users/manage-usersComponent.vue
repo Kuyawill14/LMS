@@ -303,7 +303,7 @@
             },
             updatePass(id) {
                 this.IsResetting = true;
-                axios.post('/api/teachers/reset-password/' + id)
+                axios.post('/api/admin/teachers/reset-password/' + id)
                     .then(res => {
                         this.toastSuccess(res.data);
                         this.IsResetting = false;
@@ -311,7 +311,7 @@
             },
             deleteUser() {
                 this.IsDeleting = true;
-                axios.delete('/api/teachers/remove/' + this.delId)
+                axios.delete('/api/admin/teachers/remove/' + this.delId)
                     .then((res) => {
                         if (res.status == 200) {
                             this.toastSuccess('User Successfully removed!')
@@ -350,7 +350,7 @@
 
 
                     if (this.type == 'edit') {
-                        this.form.post('/api/teachers/update/' + this.form.user_id)
+                        this.form.post('/api/admin/teachers/update/' + this.form.user_id)
                             .then(() => {
                                 console.log("Success");
                                 this.$refs.RegisterForm.reset()

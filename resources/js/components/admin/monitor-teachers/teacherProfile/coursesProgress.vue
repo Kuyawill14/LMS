@@ -141,7 +141,7 @@ const coursesummarypreview = () => import('./courses/course_summary_preview')
         computed: mapGetters(['allCourse', 'allClass']),
         methods: {
             async fetchCourses() {
-                axios.get('/api/teachers/profile/ClassesList/' + this.UserDetails.user_id)
+                axios.get('/api/admin/teachers/profile/ClassesList/' + this.UserDetails.user_id)
                     .then(res => {
                         this.details = res.data;
                         this.isloading = false;

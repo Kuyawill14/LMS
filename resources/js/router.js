@@ -129,6 +129,8 @@ let monitorTeachers = () =>
     import ("./components/admin/monitor-teachers/monitorTeachersComponent");
 let teacherProfile = () =>
     import ("./components/admin/monitor-teachers/teacherProfile/teacherProfile");
+let schoolyear_semester = () =>
+    import ("./components/admin/schoolyear-semester/schoolyear-semesterComponent");
 
 
 const router = new Router({
@@ -172,6 +174,13 @@ const router = new Router({
                     path: "/teacher-profile/:id",
                     component: teacherProfile,
                     name: "teacherProfile",
+
+
+                },
+                {
+                    path: "/schoolyear-semester",
+                    component: schoolyear_semester,
+                    name: "schoolyear_semester",
 
 
                 },
@@ -568,7 +577,7 @@ const router = new Router({
                     name: "invites"
                 },
 
-                
+
 
                 {
                     path: "/classwork/:id",

@@ -148,6 +148,33 @@ var render = function() {
         _vm._v(" "),
         _c(
           "v-list-item",
+          {
+            attrs: { link: "", to: { name: "schoolyear_semester" }, exact: "" }
+          },
+          [
+            _c(
+              "v-list-item-action",
+              [_c("v-icon", [_vm._v("mdi-account-group")])],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "v-list-item-content",
+              [
+                _c("v-list-item-title", [
+                  _vm._v(
+                    "\n                    School Year / Semester\n                "
+                  )
+                ])
+              ],
+              1
+            )
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c(
+          "v-list-item",
           { attrs: { link: "", exact: "" } },
           [
             _c(
