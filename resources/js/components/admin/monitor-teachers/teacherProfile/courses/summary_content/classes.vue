@@ -58,7 +58,7 @@ export default {
  
     methods:{
          async getClasslist(){
-             axios.get('/api/teachers/classes/'+this.course_details.course_id+'/'+this.$route.params.id)
+             axios.get('/api/admin/teachers/classes/'+this.course_details.course_id+'/'+this.$route.params.id)
              .then(res=>{
                  this.ClassList = res.data.data;
                  //this.isGetting = false;

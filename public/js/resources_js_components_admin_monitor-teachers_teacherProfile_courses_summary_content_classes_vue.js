@@ -84,7 +84,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                axios.get('/api/teachers/classes/' + _this.course_details.course_id + '/' + _this.$route.params.id).then(function (res) {
+                axios.get('/api/admin/teachers/classes/' + _this.course_details.course_id + '/' + _this.$route.params.id).then(function (res) {
                   _this.ClassList = res.data.data; //this.isGetting = false;
 
                   setTimeout(function () {
