@@ -318,7 +318,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var _this = this;
 
       this.IsResetting = true;
-      axios__WEBPACK_IMPORTED_MODULE_1___default().post('/api/teachers/reset-password/' + id).then(function (res) {
+      axios__WEBPACK_IMPORTED_MODULE_1___default().post('/api/admin/teachers/reset-password/' + id).then(function (res) {
         _this.toastSuccess(res.data);
 
         _this.IsResetting = false;
@@ -328,7 +328,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var _this2 = this;
 
       this.IsDeleting = true;
-      axios__WEBPACK_IMPORTED_MODULE_1___default().delete('/api/teachers/remove/' + this.delId).then(function (res) {
+      axios__WEBPACK_IMPORTED_MODULE_1___default().delete('/api/admin/teachers/remove/' + this.delId).then(function (res) {
         if (res.status == 200) {
           _this2.toastSuccess('User Successfully removed!');
 
@@ -365,7 +365,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         }
 
         if (this.type == 'edit') {
-          this.form.post('/api/teachers/update/' + this.form.user_id).then(function () {
+          this.form.post('/api/admin/teachers/update/' + this.form.user_id).then(function () {
             console.log("Success");
 
             _this3.$refs.RegisterForm.reset();

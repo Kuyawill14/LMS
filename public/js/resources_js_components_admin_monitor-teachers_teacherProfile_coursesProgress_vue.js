@@ -168,7 +168,7 @@ var coursesummarypreview = function coursesummarypreview() {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                axios.get('/api/teachers/profile/ClassesList/' + _this.UserDetails.user_id).then(function (res) {
+                axios.get('/api/admin/teachers/profile/ClassesList/' + _this.UserDetails.user_id).then(function (res) {
                   _this.details = res.data;
                   _this.isloading = false;
                 });

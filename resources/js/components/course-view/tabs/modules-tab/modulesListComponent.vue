@@ -298,7 +298,12 @@
 
 </script>
 
+<<<<<<< HEAD
 <style>
+=======
+</style>
+<style scoped>
+>>>>>>> 36e4fa90c12415d00a09a4d749cd35ea7b4b102c
     .flip-list-move {
         transition: transform 0.5s !important;
     }
