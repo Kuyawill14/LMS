@@ -5,7 +5,7 @@
 <v-dialog v-model="dialog" persistent max-width="550">
     <confirmDialog
     v-on:toggleCancelDialog="dialog = !dialog"
-    v-on:toggleSubmit="StopTimer = true"
+    v-on:toggleSubmit="StopTimer = true,SubmitAnswer()"
      v-if="dialog"></confirmDialog>
 </v-dialog>
 
@@ -68,7 +68,7 @@
                                 </v-list>
                                 </v-menu>
                             </div>
-                             <quizTimer :StartTime="StartTime"  :StopTimer="StopTimer" v-on:TimerStop="StopTimer = false, SubmitAnswer()" v-on:TimesUp="TimesUpSubmit()" :duration="duration" v-if="!isLoading"></quizTimer>
+                             <quizTimer :StartTime="StartTime"  :StopTimer="StopTimer" v-on:TimerStop="SubmitAnswer()" v-on:TimesUp="TimesUpSubmit()" :duration="duration" v-if="!isLoading && StopTimer"></quizTimer>
                         </div>
                        
                     </div>
@@ -471,6 +471,7 @@ export default {
             
         },
          SubmitAnswer(){
+             console.log('test');
             this.isExamStart = false;
             this.isLoading = !this.isLoading;
             this.isSubmitting = !this.isSubmitting;
@@ -490,7 +491,7 @@ export default {
             })              
         },
         TimesUpSubmit(){
-            /* this.isExamStart = false;
+            this.isExamStart = false;
             this.isLoading = !this.isLoading;
             this.isSubmitting = !this.isSubmitting;
             this.isStart = !this.isStart;
@@ -506,7 +507,7 @@ export default {
                  this.$router.push({name: 'result-page', params:{id: this.$route.query.clwk}})
                  
                   
-            }) */
+            })
         },
         fetchQuestions(){
             this.$store.dispatch('fetchQuestions', this.$route.query.clwk).then(res=>{
