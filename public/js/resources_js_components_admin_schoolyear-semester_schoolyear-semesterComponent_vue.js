@@ -138,6 +138,101 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -147,19 +242,45 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   data: function data() {
     return {
+      school_year: '',
+      semester: '',
+      syModal: false,
+      semesterModal: false,
+      isSubmitting: false,
       Deldialog: false,
       dialog: false,
-      temp_id: '',
+      id: null,
       IsDeleting: false,
       IsAddUpdating: false,
       IsResetting: false,
       type: '',
       search: "",
-      valid: true
+      valid: true,
+      semester_data: [],
+      schoolyear_data: []
     };
   },
   computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(["getTeachersSumarry"])),
-  methods: {},
+  methods: {
+    fetchAllSchoolyear_semester: function fetchAllSchoolyear_semester() {
+      var _this = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_1___default().get('/api/admin/schoolyears_semesters/all').then(function (res) {
+        _this.semester_data = res.data.semester;
+        _this.school_year = res.data.schoolyear;
+      });
+    },
+    upsertSchoolyear_semester: function upsertSchoolyear_semester(name, id, type) {
+      var data = {
+        id: id,
+        name: name,
+        type: type
+      };
+      axios__WEBPACK_IMPORTED_MODULE_1___default().post('/api/admin/schoolyears_semesters/upsert', data).then(function (res) {
+        console.log(res.data);
+      });
+    }
+  },
   mounted: function mounted() {
     this.$store.dispatch('teacherSummarryData');
   }
@@ -319,28 +440,7 @@ var render = function() {
     "div",
     { staticClass: "pt-4" },
     [
-      _c("h2", [_vm._v("\n        Manage Schoolyear / Semester\n    ")]),
-      _vm._v(" "),
-      _c(
-        "v-btn",
-        {
-          attrs: {
-            bottom: "",
-            color: "primary",
-            dark: "",
-            fab: "",
-            fixed: "",
-            right: ""
-          },
-          on: {
-            click: function($event) {
-              return _vm.openAdd()
-            }
-          }
-        },
-        [_c("v-icon", [_vm._v("mdi-plus")])],
-        1
-      ),
+      _c("h2", [_vm._v("\n        Manage School Year / Semester\n    ")]),
       _vm._v(" "),
       _c(
         "v-row",
@@ -353,6 +453,46 @@ var render = function() {
                 "v-card",
                 { attrs: { elevation: "2" } },
                 [
+                  _c(
+                    "v-card-title",
+                    { staticClass: "d-flex" },
+                    [
+                      _vm._v(
+                        "\n                    School Year\n\n\n                    "
+                      ),
+                      _c(
+                        "v-btn",
+                        {
+                          staticClass: "white--text ml-auto",
+                          attrs: {
+                            color: "primary",
+                            small: "",
+                            align: "right"
+                          },
+                          on: {
+                            click: function($event) {
+                              _vm.syModal = true
+                            }
+                          }
+                        },
+                        [
+                          _vm._v(
+                            "\n                         School Year\n                        "
+                          ),
+                          _c("v-icon", { attrs: { right: "", dark: "" } }, [
+                            _vm._v(
+                              "\n                            mdi-plus\n                        "
+                            )
+                          ])
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c("v-divider"),
+                  _vm._v(" "),
                   _c("v-simple-table", {
                     scopedSlots: _vm._u([
                       {
@@ -435,6 +575,45 @@ var render = function() {
                 "v-card",
                 { attrs: { elevation: "2" } },
                 [
+                  _c(
+                    "v-card-title",
+                    [
+                      _vm._v(
+                        "\n                    Semester\n             \n                    "
+                      ),
+                      _c(
+                        "v-btn",
+                        {
+                          staticClass: "white--text ml-auto",
+                          attrs: {
+                            color: "primary",
+                            small: "",
+                            align: "right"
+                          },
+                          on: {
+                            click: function($event) {
+                              _vm.semesterModal = true
+                            }
+                          }
+                        },
+                        [
+                          _vm._v(
+                            "\n                         Semester\n                        "
+                          ),
+                          _c("v-icon", { attrs: { right: "", dark: "" } }, [
+                            _vm._v(
+                              "\n                            mdi-plus\n                        "
+                            )
+                          ])
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c("v-divider"),
+                  _vm._v(" "),
                   _c("v-simple-table", {
                     scopedSlots: _vm._u([
                       {
@@ -494,6 +673,330 @@ var render = function() {
                       }
                     ])
                   })
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-dialog",
+        {
+          attrs: { persistent: "", "max-width": "450px" },
+          scopedSlots: _vm._u([
+            {
+              key: "activator",
+              fn: function(ref) {
+                var on = ref.on
+                var attrs = ref.attrs
+                return [
+                  _c(
+                    "v-btn",
+                    _vm._g(
+                      _vm._b(
+                        {
+                          attrs: {
+                            bottom: "",
+                            color: "primary",
+                            dark: "",
+                            fab: "",
+                            fixed: "",
+                            right: ""
+                          },
+                          on: {
+                            click: function($event) {
+                              _vm.syModal = !_vm.syModal
+                            }
+                          }
+                        },
+                        "v-btn",
+                        attrs,
+                        false
+                      ),
+                      on
+                    ),
+                    [_c("v-icon", [_vm._v("mdi-plus")])],
+                    1
+                  )
+                ]
+              }
+            }
+          ]),
+          model: {
+            value: _vm.syModal,
+            callback: function($$v) {
+              _vm.syModal = $$v
+            },
+            expression: "syModal"
+          }
+        },
+        [
+          _vm._v(" "),
+          _c(
+            "v-card",
+            [
+              _c(
+                "v-form",
+                { ref: "registerForm" },
+                [
+                  _c("v-card-title", [
+                    _c("span", { staticClass: "headline" }, [
+                      _vm._v("Add School Year")
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "v-card-text",
+                    [
+                      _c(
+                        "v-container",
+                        [
+                          _c(
+                            "v-row",
+                            [
+                              _c(
+                                "v-col",
+                                { attrs: { cols: "12" } },
+                                [
+                                  _c("v-text-field", {
+                                    attrs: {
+                                      label: "School Year",
+                                      placeholder: "Eg. 2021-2022",
+                                      filled: "",
+                                      required: ""
+                                    },
+                                    model: {
+                                      value: _vm.school_year,
+                                      callback: function($$v) {
+                                        _vm.school_year = $$v
+                                      },
+                                      expression: "school_year"
+                                    }
+                                  })
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-card-actions",
+                    [
+                      _c("v-spacer"),
+                      _vm._v(" "),
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: { color: "orange darken-1", text: "" },
+                          on: {
+                            click: function($event) {
+                              _vm.syModal = false
+                            }
+                          }
+                        },
+                        [
+                          _vm._v(
+                            "\n                    Close\n                "
+                          )
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: {
+                            color: "secondary",
+                            text: "",
+                            loading: _vm.isSubmitting
+                          },
+                          on: {
+                            click: function($event) {
+                              return _vm.upsertSchoolyear_semester(
+                                _vm.school_year,
+                                _vm.id,
+                                "school_year"
+                              )
+                            }
+                          }
+                        },
+                        [_vm._v("\n                    Save\n                ")]
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-dialog",
+        {
+          attrs: { persistent: "", "max-width": "450px" },
+          scopedSlots: _vm._u([
+            {
+              key: "activator",
+              fn: function(ref) {
+                var on = ref.on
+                var attrs = ref.attrs
+                return [
+                  _c(
+                    "v-btn",
+                    _vm._g(
+                      _vm._b(
+                        {
+                          attrs: {
+                            bottom: "",
+                            color: "primary",
+                            dark: "",
+                            fab: "",
+                            fixed: "",
+                            right: ""
+                          },
+                          on: {
+                            click: function($event) {
+                              _vm.semesterModal = !_vm.semesterModal
+                            }
+                          }
+                        },
+                        "v-btn",
+                        attrs,
+                        false
+                      ),
+                      on
+                    ),
+                    [_c("v-icon", [_vm._v("mdi-plus")])],
+                    1
+                  )
+                ]
+              }
+            }
+          ]),
+          model: {
+            value: _vm.semesterModal,
+            callback: function($$v) {
+              _vm.semesterModal = $$v
+            },
+            expression: "semesterModal"
+          }
+        },
+        [
+          _vm._v(" "),
+          _c(
+            "v-card",
+            [
+              _c(
+                "v-form",
+                { ref: "registerForm" },
+                [
+                  _c("v-card-title", [
+                    _c("span", { staticClass: "headline" }, [
+                      _vm._v("Add Semester")
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "v-card-text",
+                    [
+                      _c(
+                        "v-container",
+                        [
+                          _c(
+                            "v-row",
+                            [
+                              _c(
+                                "v-col",
+                                { attrs: { cols: "12" } },
+                                [
+                                  _c("v-text-field", {
+                                    attrs: {
+                                      label: "School Year",
+                                      filled: "",
+                                      placeholder: "Eg. 2021-2022",
+                                      required: ""
+                                    },
+                                    model: {
+                                      value: _vm.semester,
+                                      callback: function($$v) {
+                                        _vm.semester = $$v
+                                      },
+                                      expression: "semester"
+                                    }
+                                  })
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-card-actions",
+                    [
+                      _c("v-spacer"),
+                      _vm._v(" "),
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: { color: "orange darken-1", text: "" },
+                          on: {
+                            click: function($event) {
+                              _vm.semesterModal = false
+                            }
+                          }
+                        },
+                        [
+                          _vm._v(
+                            "\n                    Close\n                "
+                          )
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: {
+                            color: "secondary",
+                            text: "",
+                            loading: _vm.isSubmitting
+                          },
+                          on: {
+                            click: function($event) {
+                              return _vm.upsertSchoolyear_semester(
+                                _vm.semester,
+                                _vm.id,
+                                "semester"
+                              )
+                            }
+                          }
+                        },
+                        [_vm._v("\n                    Save\n                ")]
+                      )
+                    ],
+                    1
+                  )
                 ],
                 1
               )

@@ -828,7 +828,7 @@ ___CSS_LOADER_EXPORT___.push([module.id, "\ninput[data-v-253ea14b], select[data-
   \****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /***/ (() => {
 
-throw new Error("Module build failed (from ./node_modules/postcss-loader/dist/cjs.js):\nSyntaxError\n\n(303:1) C:\\xampp\\htdocs\\LMS-Vue\\resources\\js\\components\\course-view\\tabs\\modules-tab\\modulesListComponent.vue Unknown word\n\n \u001b[90m 301 | \u001b[39m\n \u001b[90m 302 | \u001b[39m\n\u001b[1m\u001b[31m>\u001b[39m\u001b[22m\u001b[90m 303 | \u001b[39m=======\n \u001b[90m     | \u001b[39m\u001b[1m\u001b[31m^\u001b[39m\u001b[22m\n \u001b[90m 304 | \u001b[39m\n");
+throw new Error("Module build failed (from ./node_modules/postcss-loader/dist/cjs.js):\nSyntaxError\n\n(303:1) D:\\laravel_capstone\\Capstone\\LMS-VUE-Materialize\\LMS-VUE-Materialize\\resources\\js\\components\\course-view\\tabs\\modules-tab\\modulesListComponent.vue Unknown word\n\n \u001b[90m 301 | \u001b[39m\n \u001b[90m 302 | \u001b[39m\n\u001b[1m\u001b[31m>\u001b[39m\u001b[22m\u001b[90m 303 | \u001b[39m=======\n \u001b[90m     | \u001b[39m\u001b[1m\u001b[31m^\u001b[39m\u001b[22m\n \u001b[90m 304 | \u001b[39m\n");
 
 /***/ }),
 
