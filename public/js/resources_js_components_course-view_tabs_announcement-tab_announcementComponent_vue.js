@@ -48,6 +48,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var announcementCreate = function announcementCreate() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_tabs_announcement-tab_announcementCreate_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./announcementCreate */ "./resources/js/components/course-view/tabs/announcement-tab/announcementCreate.vue"));
 };
@@ -71,6 +82,7 @@ var announcementPostList = function announcementPostList() {
     return {
       content: '',
       isLoading: false,
+      isGetting: true,
       loadingImg: '../../images/loading.gif',
       classNames: [],
       items: [{
@@ -92,11 +104,13 @@ var announcementPostList = function announcementPostList() {
       this.fetchClassPost(this.$route.params.id).then(function (res) {
         if (res == 200) {
           _this.isLoading = false;
+          _this.isGetting = false;
         }
       });
-      window.Echo["private"]("post." + this.$route.params.id).listen('NewPost', function (e) {
-        vm.fetchClassPost(_this.$route.params.id);
-      });
+      /*  window.Echo.private("post."+ this.$route.params.id)
+       .listen('NewPost', e =>{
+           vm.fetchClassPost(this.$route.params.id);
+       }) */
     },
     SetClassname: function SetClassname(data) {
       this.ClassName = data;
@@ -120,6 +134,10 @@ var announcementPostList = function announcementPostList() {
   mounted: function mounted() {
     this.connect();
     this.fetchClassnames();
+  },
+  beforeDestroy: function beforeDestroy() {
+    //this.classNames.destroy();
+    this.getclass_post.destroy();
   }
 });
 
@@ -21749,27 +21767,66 @@ var render = function() {
         1
       ),
       _vm._v(" "),
-      _c(
-        "v-row",
-        { staticClass: "mt-3" },
-        [
-          _c(
-            "v-col",
-            { staticClass: "ma-auto", attrs: { md: "12", lg: "8" } },
+      _vm.isGetting
+        ? _c(
+            "v-row",
+            {
+              staticClass: "fill-height mt-12",
+              attrs: { "align-content": "center", justify: "center" }
+            },
             [
-              _c("announcementPostList", {
-                attrs: {
-                  classNames: _vm.classNames,
-                  UserDetails: _vm.UserDetails,
-                  PostList: _vm.getclass_post
-                }
-              })
+              _c(
+                "v-col",
+                {
+                  staticClass: "text-subtitle-1 text-center",
+                  attrs: { cols: "12" }
+                },
+                [_c("div", [_vm._v(" Loading Announcement ")])]
+              ),
+              _vm._v(" "),
+              _c(
+                "v-col",
+                { attrs: { cols: "4" } },
+                [
+                  _c("v-progress-linear", {
+                    attrs: {
+                      color: "primary",
+                      indeterminate: "",
+                      rounded: "",
+                      height: "6"
+                    }
+                  })
+                ],
+                1
+              )
             ],
             1
           )
-        ],
-        1
-      )
+        : _vm._e(),
+      _vm._v(" "),
+      !_vm.isGetting
+        ? _c(
+            "v-row",
+            { staticClass: "mt-3" },
+            [
+              _c(
+                "v-col",
+                { staticClass: "ma-auto", attrs: { md: "12", lg: "8" } },
+                [
+                  _c("announcementPostList", {
+                    attrs: {
+                      classNames: _vm.classNames,
+                      UserDetails: _vm.UserDetails,
+                      PostList: _vm.getclass_post
+                    }
+                  })
+                ],
+                1
+              )
+            ],
+            1
+          )
+        : _vm._e()
     ],
     1
   )

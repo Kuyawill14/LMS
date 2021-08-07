@@ -349,9 +349,9 @@ var render = function() {
                 rawName: "v-show",
                 value:
                   post.class_id == _vm.class_id ||
-                  _vm.class_id == _vm.$ - _vm.route.params.id,
+                  _vm.class_id == _vm.$route.params.id,
                 expression:
-                  "post.class_id == class_id || class_id == $-route.params.id"
+                  "post.class_id == class_id || class_id == $route.params.id"
               }
             ],
             key: post.id,

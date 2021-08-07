@@ -11,15 +11,26 @@
             </template>
         </v-breadcrumbs>
 
-        <v-row class="mt-3 mb-5" >
-            <v-col md="12" lg="8" class="ma-auto">
-                <v-card>
-                    <announcementCreate :classNames="classNames" :UserDetails='UserDetails' v-on:ReloadData="connect"> </announcementCreate>
-                </v-card>
-            </v-col>
-        </v-row>
+            <v-row class="mt-3 mb-5" >
+                <v-col md="12" lg="8" class="ma-auto">
+                    <v-card>
+                        <announcementCreate :classNames="classNames" :UserDetails='UserDetails' v-on:ReloadData="connect"> </announcementCreate>
+                    </v-card>
+                </v-col>
+            </v-row>
 
-            <v-row class="mt-3">
+             <v-row v-if="isGetting" class="fill-height mt-12" align-content="center" justify="center">
+                 
+                <v-col class="text-subtitle-1 text-center" cols="12">
+                    <div> Loading Announcement </div>
+                </v-col>
+                <v-col cols="4">
+                    <v-progress-linear color="primary" indeterminate rounded height="6"></v-progress-linear>
+                </v-col>
+            </v-row>
+
+
+            <v-row v-if="!isGetting"  class="mt-3">
             <v-col md="12" lg="8" class="ma-auto">
                 <announcementPostList :classNames="classNames" :UserDetails="UserDetails" :PostList="getclass_post"> </announcementPostList>
             </v-col>
@@ -47,6 +58,7 @@
             return {
                 content: '',
                 isLoading: false,
+                isGetting: true,
                 loadingImg: '../../images/loading.gif',
                 classNames: [],
                  items: [
@@ -71,12 +83,13 @@
                  .then(res=>{
                      if(res == 200){
                          this.isLoading = false;
+                         this.isGetting = false;
                      }
                  })
-                 window.Echo.private("post."+ this.$route.params.id)
+                /*  window.Echo.private("post."+ this.$route.params.id)
                  .listen('NewPost', e =>{
                      vm.fetchClassPost(this.$route.params.id);
-                 })
+                 }) */
             },
             SetClassname(data){
                 this.ClassName = data;
@@ -95,6 +108,10 @@
             this.connect();
             this.fetchClassnames();
            
+        },
+        beforeDestroy(){
+            //this.classNames.destroy();
+            this.getclass_post.destroy();
         }
     }
 

@@ -441,7 +441,7 @@ var render = function() {
       _vm.showComment
         ? _c(
             "div",
-            { staticClass: "mt-2" },
+            { staticClass: "mt-6" },
             [
               _c(
                 "transition-group",
@@ -451,7 +451,7 @@ var render = function() {
                     "v-container",
                     {
                       key: item.id,
-                      staticClass: "d-inline-flex pl-2 pr-4 pb-3 shrink",
+                      staticClass: "d-inline-flex pl-7 pr-4 pb-3 shrink",
                       attrs: { "pa-0": "" }
                     },
                     [

@@ -110,6 +110,16 @@ var studentClassArchive = function studentClassArchive() {
                 return axios.get('/api/archive/classes').then(function (res) {
                   _this2.ArchiveClasses = res.data;
                   _this2.classLength = res.data.length;
+                  console.log(res.data); //console.log( this.$store.state.CurrentUser.MyCourses)
+
+                  //console.log( this.$store.state.CurrentUser.MyCourses)
+                  res.data.forEach(function (item) {
+                    _this2.$store.state.CurrentUser.MyCourses.push({
+                      id: item.course_id,
+                      status: item.status
+                    });
+                  });
+                  console.log(_this2.$store.state.CurrentUser.MyCourses);
                   _this2.isGetting = false;
                 });
 

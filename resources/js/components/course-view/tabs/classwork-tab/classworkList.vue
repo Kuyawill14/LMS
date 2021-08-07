@@ -23,3 +23,8 @@
        
     }
 </script>
+<style >
+     .v-expansion-panel-content__wrap {
+        padding: 0 24px 16px !important;
+    }
+</style>

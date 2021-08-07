@@ -26,9 +26,9 @@
         <v-divider></v-divider>
     </v-row>
 
-  <div class="mt-2" v-if="showComment">
+  <div class="mt-6" v-if="showComment">
       <transition-group transition="v-expand-transition" >
-        <v-container v-for="item in CommentList" :key="item.id" class="d-inline-flex pl-2 pr-4 pb-3 shrink" pa-0>
+        <v-container v-for="item in CommentList" :key="item.id" class="d-inline-flex pl-7 pr-4 pb-3 shrink" pa-0>
             <v-avatar
             size="36"
             :class="isEditing && idEditing_id == item.id ? 'mt-1': ''">

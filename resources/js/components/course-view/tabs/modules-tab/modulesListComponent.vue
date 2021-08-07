@@ -26,8 +26,8 @@
 
                             </span>
                         </v-expansion-panel-header>
-                        <v-expansion-panel-content class="pa-0">
-                            <v-list-item v-for="(itemSubModule, i) in getSub_module(itemModule.id)" :key="'Submodule'+i"
+                        <v-expansion-panel-content >
+                            <v-list-item  v-for="(itemSubModule, i) in getSub_module(itemModule.id)" :key="'Submodule'+i"
                                 link class="pl-8">
                                 <v-list-item-avatar>
                                     <v-icon class="grey lighten-1" dark>
@@ -297,9 +297,7 @@
     }
 
 </script>
-<style scoped>
 
-</style>
 <style>
     .flip-list-move {
         transition: transform 0.5s !important;

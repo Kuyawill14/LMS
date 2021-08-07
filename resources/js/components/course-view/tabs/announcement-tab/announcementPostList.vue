@@ -16,7 +16,7 @@
         </v-row>
        
      
-        <v-card v-show="post.class_id == class_id || class_id == $-route.params.id" class="mb-10" v-for="(post) in PostList" :key="post.id">
+        <v-card v-show="post.class_id == class_id || class_id == $route.params.id" class="mb-10" v-for="(post) in PostList" :key="post.id">
            <!--Post Poser -->
             <v-row class="pl-5 pr-5 pt-2 mb-3 " >
                 <v-col cols="8">
