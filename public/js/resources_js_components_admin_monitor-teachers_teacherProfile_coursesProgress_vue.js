@@ -133,25 +133,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-var modulesPublished = function modulesPublished() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_admin_monitor-teachers_teacherProfile_courses_modules_publish_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./courses/modules_publish */ "./resources/js/components/admin/monitor-teachers/teacherProfile/courses/modules_publish.vue"));
+//const modulesPublished = () => import('./courses/modules_publish')
+var coursesummarypreview = function coursesummarypreview() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_admin_monitor-teachers_teacherProfile_courses_course_summary_preview_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./courses/course_summary_preview */ "./resources/js/components/admin/monitor-teachers/teacherProfile/courses/course_summary_preview.vue"));
 };
 
 
@@ -160,15 +144,19 @@ var modulesPublished = function modulesPublished() {
   data: function data() {
     return {
       dialog: false,
+      moduledialog: false,
+      Coursedialog: false,
       isloading: true,
       coursesLength: null,
       details: [],
       course_id: null,
+      course_details: null,
       items: ['2020-2021', '2021-2022', '2022-2023', '2023-2024']
     };
   },
   components: {
-    modulesPublished: modulesPublished
+    //modulesPublished,
+    coursesummarypreview: coursesummarypreview
   },
   computed: (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(['allCourse', 'allClass']),
   methods: {
@@ -292,38 +280,42 @@ var render = function() {
   return _c(
     "div",
     [
-      _vm.dialog
-        ? _c(
-            "v-row",
-            { attrs: { justify: "center" } },
-            [
-              _c(
-                "v-dialog",
-                {
-                  attrs: {
-                    fullscreen: "",
-                    "hide-overlay": "",
-                    transition: "dialog-bottom-transition"
-                  },
-                  model: {
-                    value: _vm.dialog,
-                    callback: function($$v) {
-                      _vm.dialog = $$v
-                    },
-                    expression: "dialog"
-                  }
+      _c(
+        "div",
+        [
+          _c(
+            "v-dialog",
+            {
+              attrs: {
+                fullscreen: "",
+                "hide-overlay": "",
+                transition: "dialog-bottom-transition"
+              },
+              model: {
+                value: _vm.dialog,
+                callback: function($$v) {
+                  _vm.dialog = $$v
                 },
-                [
-                  _c("modulesPublished", {
-                    attrs: { course_id: _vm.course_id }
+                expression: "dialog"
+              }
+            },
+            [
+              _vm.dialog
+                ? _c("coursesummarypreview", {
+                    attrs: { course_details: _vm.course_details },
+                    on: {
+                      closeDialog: function($event) {
+                        _vm.dialog = false
+                      }
+                    }
                   })
-                ],
-                1
-              )
+                : _vm._e()
             ],
             1
           )
-        : _vm._e(),
+        ],
+        1
+      ),
       _vm._v(" "),
       _c(
         "v-row",
@@ -433,30 +425,38 @@ var render = function() {
                             "v-card",
                             {
                               staticClass: "mx-auto",
-                              staticStyle: {
-                                "border-top": "3px solid #EF6C00",
-                                cursor: "pointer"
+                              staticStyle: { cursor: "pointer" },
+                              attrs: {
+                                link: "",
+                                elevation: "2",
+                                "max-width": "344",
+                                outlined: ""
                               },
-                              attrs: { "max-width": "344", outlined: "" }
+                              on: {
+                                click: function($event) {
+                                  ;(_vm.dialog = true),
+                                    (_vm.course_details = item)
+                                }
+                              }
                             },
                             [
                               _c(
-                                "v-list-item",
+                                "v-toolbar",
+                                {
+                                  class:
+                                    !_vm.$vuetify.breakpoint.xs &&
+                                    !_vm.$vuetify.breakpoint.sm
+                                      ? "d-flex justify-center"
+                                      : "",
+                                  attrs: {
+                                    dense: "",
+                                    dark: "",
+                                    color: "primary"
+                                  }
+                                },
                                 [
                                   _c(
-                                    "v-list-item-content",
-                                    {
-                                      staticStyle: {
-                                        "max-height": "30px",
-                                        overflow: "hidden"
-                                      },
-                                      on: {
-                                        click: function($event) {
-                                          _vm.dialog = true
-                                          _vm.course_id = item.course_id
-                                        }
-                                      }
-                                    },
+                                    "v-toolbar-title",
                                     [
                                       _c(
                                         "v-tooltip",
@@ -476,7 +476,7 @@ var render = function() {
                                                         _vm._b(
                                                           {
                                                             staticClass:
-                                                              "text-center blue--text"
+                                                              "text-center "
                                                           },
                                                           "div",
                                                           attrs,
@@ -521,13 +521,6 @@ var render = function() {
                                     1
                                   )
                                 ],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "div",
-                                { staticClass: "text-center pl-4 pr-4" },
-                                [_c("v-divider")],
                                 1
                               ),
                               _vm._v(" "),
@@ -620,15 +613,30 @@ var render = function() {
                               _c(
                                 "v-list-item",
                                 [
-                                  _c("v-list-item-content", [
-                                    _c("div", { staticClass: "text-center " }, [
-                                      _vm._v(
-                                        "\n\n                                    Modules Published: " +
-                                          _vm._s(item.sub_modules_count) +
-                                          "\n\n                                "
+                                  _c(
+                                    "v-list-item-content",
+                                    {
+                                      on: {
+                                        click: function($event) {
+                                          _vm.dialog = true
+                                          _vm.course_id = _vm.course_details = item
+                                        }
+                                      }
+                                    },
+                                    [
+                                      _c(
+                                        "div",
+                                        { staticClass: "text-center " },
+                                        [
+                                          _vm._v(
+                                            "\n                                    Modules Published: " +
+                                              _vm._s(item.sub_modules_count) +
+                                              "\n                                "
+                                          )
+                                        ]
                                       )
-                                    ])
-                                  ])
+                                    ]
+                                  )
                                 ],
                                 1
                               )

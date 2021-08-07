@@ -27,7 +27,7 @@
         </v-btn>
 
 
-    <div v-if="ClassworkLength != 0" class="container pt-4">
+    <v-container v-if="ClassworkLength != 0" fluid>
         <!-- Modal -->
 
         <v-row >
@@ -53,11 +53,11 @@
             v-on:ToggleRefresh="$emit('ToggleRefresh'), Removedialog = !Removedialog"
             v-if="Removedialog"></deleteDialog>
         </v-dialog>
-         <v-row >
+       <!--   <v-row >
             <v-divider></v-divider>
-        </v-row>
+        </v-row> -->
 
-            <v-row>
+            <v-row >
                 <v-col v-show=" SelectedFilter == 'All' || SelectedFilter == ClassworkType[i]" cols="12" class="ml-0  mr-0" v-for="(item, i) in classworks" :key="i">
                  <v-col v-if="classworks[i].length != 0 || SelectedFilter == ClassworkType[i]" cols="12" class="ma-0 pa-0 mb-2"><h3 class="font-weight-regular">{{ClassworkType[i]}}</h3></v-col>
                 <v-row v-if="classworks[i].length != 0" class="pl-1 pr-1 mt-1" ma-0 pa-0>
@@ -153,7 +153,7 @@
                 </v-row>
                </v-col>
             </v-row>
-    </div>
+    </v-container>
 </div>
 </template>
 

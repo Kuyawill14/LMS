@@ -72,7 +72,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "v-list",
-    { attrs: { dense: "" } },
+    { attrs: { nav: "", dense: "" } },
     [
       [
         _c(
@@ -138,6 +138,29 @@ var render = function() {
                   _vm._v(
                     "\n                    Monitor Teachers\n                "
                   )
+                ])
+              ],
+              1
+            )
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c(
+          "v-list-item",
+          { attrs: { link: "", exact: "" } },
+          [
+            _c(
+              "v-list-item-action",
+              [_c("v-icon", [_vm._v("mdi-account-group")])],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "v-list-item-content",
+              [
+                _c("v-list-item-title", [
+                  _vm._v("\n                    Department\n                ")
                 ])
               ],
               1

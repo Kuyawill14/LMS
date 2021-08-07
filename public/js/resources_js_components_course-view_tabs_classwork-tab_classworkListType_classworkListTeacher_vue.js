@@ -451,8 +451,8 @@ var render = function() {
       _vm._v(" "),
       _vm.ClassworkLength != 0
         ? _c(
-            "div",
-            { staticClass: "container pt-4" },
+            "v-container",
+            { attrs: { fluid: "" } },
             [
               _c(
                 "v-row",
@@ -529,8 +529,6 @@ var render = function() {
                 ],
                 1
               ),
-              _vm._v(" "),
-              _c("v-row", [_c("v-divider")], 1),
               _vm._v(" "),
               _c(
                 "v-row",

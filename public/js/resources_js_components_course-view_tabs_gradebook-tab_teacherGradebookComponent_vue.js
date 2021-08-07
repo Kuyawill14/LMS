@@ -175,6 +175,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -201,7 +211,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       classList: [],
       students: [],
       classworkTotalPoints: 0,
-      final_grades: []
+      final_grades: [],
+      items: [{
+        text: 'Course',
+        disabled: false,
+        link: 'courses'
+      }, {
+        text: 'Grade Book',
+        disabled: true,
+        link: 'breadcrumbs_link_2'
+      }]
     };
   },
   computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(["get_gradingCriteria", "allClass", "AllStudentClassworkGrades", "allStudentFinalGrades"])),
@@ -555,10 +574,36 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "pt-4" },
     [
+      _c("v-breadcrumbs", {
+        staticClass: "ma-0 pa-0 mt-3",
+        attrs: { items: _vm.items },
+        scopedSlots: _vm._u([
+          {
+            key: "item",
+            fn: function(ref) {
+              var item = ref.item
+              return [
+                _c(
+                  "v-breadcrumbs-item",
+                  {
+                    attrs: { to: { name: item.link }, disabled: item.disabled }
+                  },
+                  [
+                    _vm._v(
+                      "\n        " + _vm._s(item.text.toUpperCase()) + "\n    "
+                    )
+                  ]
+                )
+              ]
+            }
+          }
+        ])
+      }),
+      _vm._v(" "),
       _c(
         "v-row",
+        { staticClass: "pt-2" },
         [
           _c("v-col", { attrs: { cols: "6" } }, [
             _c("h2", [_vm._v("\n                Student Grades\n            ")])
@@ -862,35 +907,7 @@ var render = function() {
                                 return {
                                   key: "header." + h.value,
                                   fn: function(ref) {
-                                    return [
-                                      _c(
-                                        "v-tooltip",
-                                        {
-                                          attrs: { bottom: "" },
-                                          scopedSlots: _vm._u(
-                                            [
-                                              {
-                                                key: "activator",
-                                                fn: function(ref) {
-                                                  var on = ref.on
-                                                  return [
-                                                    _c("span", _vm._g({}, on), [
-                                                      _vm._v(_vm._s(h.text))
-                                                    ])
-                                                  ]
-                                                }
-                                              }
-                                            ],
-                                            null,
-                                            true
-                                          )
-                                        },
-                                        [
-                                          _vm._v(" "),
-                                          _c("span", [_vm._v(_vm._s(h.value))])
-                                        ]
-                                      )
-                                    ]
+                                    return undefined
                                   }
                                 }
                               }),

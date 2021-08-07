@@ -162,6 +162,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var resetConfirmation = function resetConfirmation() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_tabs_dialogs_resetConfirmation_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../dialogs/resetConfirmation */ "./resources/js/components/Classwork_View/tabs/dialogs/resetConfirmation.vue"));
 };
@@ -725,7 +736,27 @@ var render = function() {
                   _vm._v(" "),
                   _c(
                     "v-col",
-                    { attrs: { cols: "12" } },
+                    {
+                      staticClass: "pt-0 mt-0 pb-0 mb-0 pt-1",
+                      attrs: { cols: "12", md: "12", lg: "9", xl: "9" }
+                    },
+                    [
+                      _c("v-text-field", {
+                        staticClass: "mb-0 pb-0",
+                        attrs: {
+                          "prepend-inner-icon": "mdi-magnify",
+                          outlined: "",
+                          dense: "",
+                          label: "Search"
+                        }
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-col",
+                    { staticClass: "mt-0 pt-0", attrs: { cols: "12" } },
                     [
                       _c(
                         "v-row",

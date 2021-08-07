@@ -6,7 +6,7 @@
                 <v-icon>mdi-close</v-icon>
             </v-btn>
 
-        <v-toolbar-title>{Course Name}</v-toolbar-title>
+        <v-toolbar-title>{{course_details.course_name}}</v-toolbar-title>
 
         </v-toolbar>
         
@@ -94,7 +94,7 @@
     } from "vuex";
 
     export default {
-        props: ['course_id'],
+        props: ['course_details'],
         components: {
             VueElementLoading,
 
@@ -178,14 +178,14 @@
                 return check;
             },
                fetchAllModule() {
-                 this.$store.dispatch('fetchMainModule', this.course_id).then(() => {
+                 this.$store.dispatch('fetchMainModule', this.course_details.course_id).then(() => {
                       
                         this.isGetting = false;
                         this.moduleLength = this.getmain_module.length;
                            this.mainModule = this.getmain_module;
                         
                     });
-                    this.$store.dispatch('fetchSubModule', this.course_id);
+                    this.$store.dispatch('fetchSubModule', this.course_details.course_id);
 
 
             },

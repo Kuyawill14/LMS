@@ -1,11 +1,11 @@
 <template>
     <div>
 
-        <v-row justify="center" v-if="dialog">
+        <div  >
             <v-dialog v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
-                <modulesPublished :course_id="course_id">     </modulesPublished> 
+                 <coursesummarypreview :course_details="course_details" v-on:closeDialog="dialog = false" v-if="dialog"></coursesummarypreview>
             </v-dialog>
-        </v-row>
+        </div>
 
         <v-row>
             <v-col cols="12" sm="6" class="mb-0 pb-0">
@@ -38,32 +38,21 @@
 
                 <v-row>
                     <v-col cols="6" md="3" lg="3" v-for="(item) in details" :key="item.course_id" >
-                        <v-card style="border-top: 3px solid #EF6C00;cursor:pointer" class="mx-auto" max-width="344"
-                            outlined>
-                            <v-list-item>
-                                <v-list-item-content style="max-height:30px;overflow:hidden" @click="dialog = true;course_id =item.course_id">
-                                    <v-tooltip top>
+                        <v-card link style="cursor:pointer" elevation="2" class="mx-auto" @click="dialog = true, course_details = item" max-width="344" outlined>
+                        <v-toolbar dense :class="!$vuetify.breakpoint.xs && !$vuetify.breakpoint.sm ? 'd-flex justify-center' : ''"  dark color="primary">
+                            <v-toolbar-title>
+                                <v-tooltip top>
                                         <template v-slot:activator="{ on, attrs }">
-                                            <div v-bind="attrs" v-on="on" class="text-center blue--text">
+                                            <div v-bind="attrs" v-on="on" class="text-center ">
                                                 {{item.course_code +' - '+item.course_name}}
                                             </div>
                                         </template>
                                         <span>{{item.course_code +' - '+item.course_name}}</span>
                                     </v-tooltip>
-
-                                </v-list-item-content>
-                            </v-list-item>
-
-
-
-                            <div class="text-center pl-4 pr-4">
-                                <v-divider></v-divider>
-                            </div>
-
-
-
-
-
+                            </v-toolbar-title>
+                        </v-toolbar>
+                            
+                          
                             <v-list-item>
                                 <v-list-item-content>
                                     <div class="pa-2">
@@ -80,18 +69,14 @@
 
 
                                             <v-col>
-
                                                 <div class="text-center">
                                                     {{item.total_classes}}
                                                 </div>
-
                                                 <div class="text-center text-subtitle-2">
                                                     Total Classes
                                                 </div>
                                             </v-col>
                                         </v-row>
-
-
                                     </div>
 
                                 </v-list-item-content>
@@ -103,11 +88,9 @@
                             </div>
 
                             <v-list-item>
-                                <v-list-item-content>
+                                <v-list-item-content  @click="dialog = true;course_id = course_details = item">
                                     <div class="text-center ">
-
                                         Modules Published: {{item.sub_modules_count}}
-
                                     </div>
                                 </v-list-item-content>
                             </v-list-item>
@@ -129,7 +112,8 @@
     </div>
 </template>
 <script>
-const modulesPublished = () => import('./courses/modules_publish')
+//const modulesPublished = () => import('./courses/modules_publish')
+const coursesummarypreview = () => import('./courses/course_summary_preview')
 
     import {
         mapGetters,
@@ -140,15 +124,19 @@ const modulesPublished = () => import('./courses/modules_publish')
         data() {
             return {
                 dialog:false,
+                moduledialog: false,
+                Coursedialog: false,
                 isloading: true,
                 coursesLength: null,
                 details: [],
                 course_id: null,
+                course_details: null,
                 items: ['2020-2021', '2021-2022', '2022-2023', '2023-2024'],
             }
         },
         components:{
-            modulesPublished,
+            //modulesPublished,
+            coursesummarypreview
             },
         computed: mapGetters(['allCourse', 'allClass']),
         methods: {

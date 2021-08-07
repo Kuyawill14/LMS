@@ -1,6 +1,16 @@
 <template>
-    <div class="pt-5">
-        <v-card elevation="2" class="pa-3">
+    <div>
+         <v-breadcrumbs class="ma-0 pa-0 mt-3" :items="items">
+            <template v-slot:item="{ item }">
+            <v-breadcrumbs-item
+                :to="{name: item.link}"
+                :disabled="item.disabled"
+            >
+                {{ item.text.toUpperCase() }}
+            </v-breadcrumbs-item>
+            </template>
+        </v-breadcrumbs>
+        <v-card elevation="2" class="pa-3 mt-5">
             <!-- <v-text-field v-model="getcourseInfo.course_code" label="Course Code"></v-text-field>
 
             <v-text-field v-model="getcourseInfo.course_name" label="Course Name"></v-text-field>
@@ -63,6 +73,18 @@
             return {
                 classInfo: [],
                 loading: false,
+                 items: [
+                {
+                text: 'Course',
+                disabled: false,
+                link: 'courses',
+                },
+                {
+                text: 'Setting',
+                disabled: true,
+                link: 'breadcrumbs_link_2',
+                },
+            ],
 
             }
         },

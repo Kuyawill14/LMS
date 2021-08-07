@@ -1,7 +1,17 @@
 <template>
-    <div class="pt-4">
+    <div >
+        <v-breadcrumbs class="ma-0 pa-0 mt-3" :items="items">
+        <template v-slot:item="{ item }">
+        <v-breadcrumbs-item
+            :to="{name: item.link}"
+            :disabled="item.disabled"
+        >
+            {{ item.text.toUpperCase() }}
+        </v-breadcrumbs-item>
+        </template>
+    </v-breadcrumbs>
 
-        <v-row>
+        <v-row class="pt-2">
             <v-col cols="6">
 
                 <h2>
@@ -90,12 +100,12 @@
                     </v-card-title>
                     <v-data-table :headers="headers" :items="students" v-if="headers.length != 0">
                         <template v-for="h in headers" v-slot:[`header.${h.value}`]="{  }">
-                            <v-tooltip bottom>
+                            <!-- <v-tooltip bottom>
                                 <template v-slot:activator="{ on }">
                                     <span v-on="on">{{h.text}}</span>
                                 </template>
                                 <span>{{h.value}}</span>
-                            </v-tooltip>
+                            </v-tooltip> -->
                         </template>
                         <template v-slot:body="{ items }">
                             <tbody>
@@ -185,6 +195,18 @@
                 students: [],
                 classworkTotalPoints: 0,
                 final_grades: [],
+                items: [
+                    {
+                    text: 'Course',
+                    disabled: false,
+                    link: 'courses',
+                    },
+                    {
+                    text: 'Grade Book',
+                    disabled: true,
+                    link: 'breadcrumbs_link_2',
+                    },
+                ],
 
             }
 

@@ -1,5 +1,15 @@
 <template>
     <div class="container-fluid p-top-class">
+        <v-breadcrumbs class="ma-0 pa-0 mt-3" :items="items">
+            <template v-slot:item="{ item }">
+            <v-breadcrumbs-item
+                :to="{name: item.link}"
+                :disabled="item.disabled"
+            >
+                {{ item.text.toUpperCase() }}
+            </v-breadcrumbs-item>
+            </template>
+        </v-breadcrumbs>
         <!-- <studentClassPage v-if="role == 'Student'"></studentClassPage> -->
         <teacherClassPage></teacherClassPage>
     </div>
@@ -28,6 +38,22 @@
             // studentClassPage,
             teacherClassPage
         },
+        data(){
+            return{
+                 items: [
+                    {
+                    text: 'Course',
+                    disabled: false,
+                    link: 'courses',
+                    },
+                    {
+                    text: 'My Class',
+                    disabled: true,
+                    link: 'breadcrumbs_link_2',
+                    },
+                ],
+            }
+        }
      }
 
       

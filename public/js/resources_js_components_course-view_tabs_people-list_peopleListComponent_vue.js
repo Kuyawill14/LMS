@@ -24,6 +24,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var instructorView = function instructorView() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_tabs_people-list_InstructorListView_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./InstructorListView */ "./resources/js/components/course-view/tabs/people-list/InstructorListView.vue"));
 };
@@ -37,6 +48,19 @@ var studentView = function studentView() {
   components: {
     instructorView: instructorView,
     studentView: studentView
+  },
+  data: function data() {
+    return {
+      items: [{
+        text: 'Course',
+        disabled: false,
+        link: 'courses'
+      }, {
+        text: 'People',
+        disabled: true,
+        link: 'breadcrumbs_link_2'
+      }]
+    };
   }
 });
 
@@ -133,6 +157,34 @@ var render = function() {
   return _c(
     "div",
     [
+      _c("v-breadcrumbs", {
+        staticClass: "ma-0 pa-0 mt-3",
+        attrs: { items: _vm.items },
+        scopedSlots: _vm._u([
+          {
+            key: "item",
+            fn: function(ref) {
+              var item = ref.item
+              return [
+                _c(
+                  "v-breadcrumbs-item",
+                  {
+                    attrs: { to: { name: item.link }, disabled: item.disabled }
+                  },
+                  [
+                    _vm._v(
+                      "\n            " +
+                        _vm._s(item.text.toUpperCase()) +
+                        "\n        "
+                    )
+                  ]
+                )
+              ]
+            }
+          }
+        ])
+      }),
+      _vm._v(" "),
       _c(
         "v-row",
         [

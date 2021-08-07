@@ -337,7 +337,25 @@ var render = function() {
                   _vm._v(" "),
                   _c("h1", [_vm._v(" Empty Submission ")]),
                   _vm._v(" "),
-                  _c("p", [_vm._v(" No, student take your classwork yet!")])
+                  _c("p", [
+                    _vm._v(" Your classwork is not publish to any class yet!")
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: { color: "primary" },
+                      on: {
+                        click: function($event) {
+                          return _vm.$router.push({
+                            name: "publish-to",
+                            query: { clwk: _vm.$route.query.clwk }
+                          })
+                        }
+                      }
+                    },
+                    [_vm._v(" Publish classwork ")]
+                  )
                 ],
                 1
               )

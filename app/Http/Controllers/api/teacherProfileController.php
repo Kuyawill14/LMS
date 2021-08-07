@@ -116,6 +116,8 @@ class TeacherProfileController extends Controller
             $sub_module_count = '(SELECT COUNT(*) FROM tbl_main_modules 
             LEFT JOIN tbl_sub_modules ON  tbl_main_modules.id = tbl_sub_modules.main_module_id WHERE tbl_main_modules.created_by = '.$userId.' AND course_id = tbl_teacher_courses.course_id ) AS sub_modules_count';
             $student_count = '(SELECT COUNT(*) FROM tbl_userclasses WHERE  course_id = tbl_teacher_courses.course_id ) AS total_students';
+
+           
      
             $allCourses = tbl_subject_course::select('tbl_subject_courses.course_name',
             'tbl_subject_courses.course_code',
@@ -128,11 +130,40 @@ class TeacherProfileController extends Controller
             ->leftJoin('tbl_teacher_courses','tbl_teacher_courses.course_id','=','tbl_subject_courses.id')
             ->where('tbl_teacher_courses.user_id',$userId)
             ->get();
-            return $allCourses;
-
-        
-       
+            return $allCourses;       
     }
+
+
+    public function getCourseClassList($id, $user_id){
+
+        $allClass = tbl_userclass::where('tbl_userclasses.course_id',$id)
+        ->select('tbl_classes.class_name',
+        'tbl_classes.class_code',
+        'tbl_subject_courses.course_name',
+        'tbl_subject_courses.course_code',
+        'tbl_classes.id as class_id',
+        )
+        ->selectRaw('count(tbl_userclasses.course_id ) as student_count')
+        ->selectRaw('count(tbl_class_classworks.class_id ) as classwork_count')
+        ->leftJoin('tbl_classes', 'tbl_userclasses.class_id', '=', 'tbl_classes.id')
+        ->leftJoin('tbl_subject_courses', 'tbl_userclasses.course_id', '=', 'tbl_subject_courses.id')
+        ->leftJoin('tbl_class_classworks', 'tbl_class_classworks.class_id', '=', 'tbl_userclasses.class_id')
+        ->groupBy('tbl_classes.class_name','tbl_classes.class_code', 'tbl_subject_courses.course_name'
+        ,'tbl_subject_courses.course_code', 'tbl_classes.id')
+        ->where('user_id', $user_id)
+        ->paginate(10);
+
+        foreach($allClass as $key => $value) {
+            $StudentCount = tbl_userclass::where('class_id', $value ->class_id)
+            ->leftJoin('users','users.id','=','tbl_userclasses.user_id')
+            ->where('users.role','Student')
+            ->count();
+            $value->student_count = $StudentCount;
+        }
+
+        return $allClass;
+    }
+
 
     /**
      * Update the specified resource in storage.

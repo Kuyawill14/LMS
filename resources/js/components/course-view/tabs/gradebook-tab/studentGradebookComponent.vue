@@ -1,7 +1,17 @@
 <template>
-    <div class="pt-4">
+    <div >
+        <v-breadcrumbs class="ma-0 pa-0 mt-3" :items="items">
+        <template v-slot:item="{ item }">
+        <v-breadcrumbs-item
+            :to="{name: item.link}"
+            :disabled="item.disabled"
+        >
+            {{ item.text.toUpperCase() }}
+        </v-breadcrumbs-item>
+        </template>
+    </v-breadcrumbs>
 
-        <v-row>
+        <v-row class="pt-2">
             <v-col cols="6">
 
                 <h2>
@@ -144,7 +154,19 @@
                 classList: [],
                 students: [],
                 classworkTotalPoints: 0,
-                finalGrades: []
+                finalGrades: [],
+                 items: [
+                    {
+                    text: 'Course',
+                    disabled: false,
+                    link: 'courses',
+                    },
+                    {
+                    text: 'My grades',
+                    disabled: true,
+                    link: 'breadcrumbs_link_2',
+                    },
+                ],
             }
 
         },

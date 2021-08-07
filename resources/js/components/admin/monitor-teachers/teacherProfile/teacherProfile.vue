@@ -40,7 +40,7 @@
 
         <h2 v-if="!isloading">TEACHER'S PROFILE</h2>
         <v-row v-if="!isloading" class="">
-            <v-col cols="12" md="3" lg="3" xl="2" >
+            <v-col cols="12" md="12" lg="3" xl="2" >
               <v-card
                 elevation="1"
                 outlined
@@ -155,7 +155,7 @@
    
                  
             </v-col>
-            <v-col cols="12" md="9" lg="9" xl="10">
+            <v-col cols="12" md="12" lg="9" xl="10">
                   <v-card
                   class="pt-3 pb-3 pl-5 pr-5"
                 elevation="1" outlined>

@@ -1,5 +1,16 @@
 <template>
     <div>
+         <v-breadcrumbs class="ma-0 pa-0 mt-3" :items="items">
+            <template v-slot:item="{ item }">
+            <v-breadcrumbs-item
+                :to="{name: item.link}"
+                :disabled="item.disabled"
+            >
+                {{ item.text.toUpperCase() }}
+            </v-breadcrumbs-item>
+            </template>
+        </v-breadcrumbs>
+        
         <v-row>
             <v-col v-if="role == 'Teacher'" cols="12">
                 <instructorView :getcourseInfo="getcourseInfo" v-if="role == 'Teacher'" :role="role" :UserDetails="UserDetails"></instructorView>
@@ -20,6 +31,22 @@ export default {
         instructorView,
         studentView
         
+    },
+    data(){
+        return{
+            items: [
+                {
+                text: 'Course',
+                disabled: false,
+                link: 'courses',
+                },
+                {
+                text: 'People',
+                disabled: true,
+                link: 'breadcrumbs_link_2',
+                },
+            ],
+        }
     }
 }
 </script>
