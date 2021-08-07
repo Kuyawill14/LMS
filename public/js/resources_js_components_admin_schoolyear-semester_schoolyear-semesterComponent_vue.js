@@ -210,29 +210,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -256,8 +233,24 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       type: '',
       search: "",
       valid: true,
-      semester_data: [],
-      schoolyear_data: []
+      headers: [{
+        text: 'ID',
+        value: 'id'
+      }, {
+        text: 'School Year',
+        value: 'schoolyear',
+        align: 'start'
+      }, {
+        text: 'Actions',
+        sortable: false
+      }],
+      schoolyearList: [{
+        id: 1,
+        schoolyear: '2021-2022'
+      }, {
+        id: 2,
+        schoolyear: '2022-2023'
+      }]
     };
   },
   computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(["getTeachersSumarry"])),
@@ -448,115 +441,106 @@ var render = function() {
         [
           _c(
             "v-col",
+            { attrs: { cols: "12", md: "12", lg: "9", xl: "9" } },
             [
               _c(
                 "v-card",
                 { attrs: { elevation: "2" } },
                 [
-                  _c(
-                    "v-card-title",
-                    { staticClass: "d-flex" },
-                    [
-                      _vm._v(
-                        "\n                    School Year\n\n\n                    "
-                      ),
-                      _c(
-                        "v-btn",
-                        {
-                          staticClass: "white--text ml-auto",
-                          attrs: {
-                            color: "primary",
-                            small: "",
-                            align: "right"
-                          },
-                          on: {
-                            click: function($event) {
-                              _vm.syModal = true
-                            }
-                          }
-                        },
-                        [
-                          _vm._v(
-                            "\n                         School Year\n                        "
-                          ),
-                          _c("v-icon", { attrs: { right: "", dark: "" } }, [
-                            _vm._v(
-                              "\n                            mdi-plus\n                        "
-                            )
-                          ])
-                        ],
-                        1
-                      )
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c("v-divider"),
-                  _vm._v(" "),
-                  _c("v-simple-table", {
+                  _c("v-data-table", {
+                    staticClass: "elevation-1",
+                    attrs: {
+                      dense: "",
+                      headers: _vm.headers,
+                      items: _vm.schoolyearList,
+                      "items-per-page": 5
+                    },
                     scopedSlots: _vm._u([
                       {
-                        key: "default",
-                        fn: function() {
+                        key: "body",
+                        fn: function(ref) {
+                          var items = ref.items
                           return [
-                            _c("thead", [
-                              _c("tr", [
-                                _c("th", [
-                                  _vm._v(
-                                    "\n                                    ID\n                                "
-                                  )
-                                ]),
-                                _vm._v(" "),
-                                _c("th", [
-                                  _vm._v(
-                                    "\n                                    School Year\n                                "
-                                  )
-                                ]),
-                                _vm._v(" "),
-                                _c("th", { staticClass: "text-center" }, [
-                                  _vm._v(
-                                    "\n                                    Action\n                                "
+                            _c(
+                              "tbody",
+                              _vm._l(items, function(item) {
+                                return _c("tr", { key: item.id }, [
+                                  _c("td", { staticStyle: { width: "10%" } }, [
+                                    _vm._v(_vm._s(item.id))
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("td", [_vm._v(_vm._s(item.schoolyear))]),
+                                  _vm._v(" "),
+                                  _c(
+                                    "td",
+                                    [
+                                      _c(
+                                        "v-tooltip",
+                                        {
+                                          attrs: { top: "" },
+                                          scopedSlots: _vm._u(
+                                            [
+                                              {
+                                                key: "activator",
+                                                fn: function(ref) {
+                                                  var on = ref.on
+                                                  var attrs = ref.attrs
+                                                  return [
+                                                    _c(
+                                                      "v-btn",
+                                                      _vm._g(
+                                                        _vm._b(
+                                                          {
+                                                            attrs: {
+                                                              text: "",
+                                                              icon: ""
+                                                            }
+                                                          },
+                                                          "v-btn",
+                                                          attrs,
+                                                          false
+                                                        ),
+                                                        on
+                                                      ),
+                                                      [
+                                                        _c(
+                                                          "v-icon",
+                                                          {
+                                                            attrs: {
+                                                              color: "primary"
+                                                            }
+                                                          },
+                                                          [
+                                                            _vm._v(
+                                                              "mdi-pencil-box-multiple-outline"
+                                                            )
+                                                          ]
+                                                        )
+                                                      ],
+                                                      1
+                                                    )
+                                                  ]
+                                                }
+                                              }
+                                            ],
+                                            null,
+                                            true
+                                          )
+                                        },
+                                        [
+                                          _vm._v(" "),
+                                          _c("span", [_vm._v("Edit")])
+                                        ]
+                                      )
+                                    ],
+                                    1
                                   )
                                 ])
-                              ])
-                            ]),
-                            _vm._v(" "),
-                            _c("tbody", [
-                              _c("tr", [
-                                _c("td", [_vm._v("1")]),
-                                _vm._v(" "),
-                                _c("td", [_vm._v("2021-2022 ")]),
-                                _vm._v(" "),
-                                _c("td", [_vm._v("Edit ")])
-                              ]),
-                              _vm._v(" "),
-                              _c("tr", [
-                                _c("td", [_vm._v("2")]),
-                                _vm._v(" "),
-                                _c("td", [_vm._v("2021-2022 ")]),
-                                _vm._v(" "),
-                                _c("td", [_vm._v("Edit ")])
-                              ]),
-                              _vm._v(" "),
-                              _c("tr", [
-                                _c("td", [_vm._v("3")]),
-                                _vm._v(" "),
-                                _c("td", [_vm._v("2021-2022 ")]),
-                                _vm._v(" "),
-                                _c("td", [_vm._v("Edit ")])
-                              ]),
-                              _vm._v(" "),
-                              _c("tr", [
-                                _c("td", [_vm._v("4")]),
-                                _vm._v(" "),
-                                _c("td", [_vm._v("2021-2022 ")]),
-                                _vm._v(" "),
-                                _c("td", [_vm._v("Edit ")])
-                              ])
-                            ])
+                              }),
+                              0
+                            )
                           ]
-                        },
-                        proxy: true
+                        }
                       }
                     ])
                   })
@@ -569,7 +553,7 @@ var render = function() {
           _vm._v(" "),
           _c(
             "v-col",
-            { attrs: { cols: "3" } },
+            { attrs: { cols: "12", md: "12", lg: "3", xl: "3" } },
             [
               _c(
                 "v-card",

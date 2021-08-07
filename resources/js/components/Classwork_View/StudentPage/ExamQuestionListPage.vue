@@ -68,7 +68,7 @@
                                 </v-list>
                                 </v-menu>
                             </div>
-                             <quizTimer  :StopTimer="StopTimer" v-on:TimerStop="StopTimer = false, SubmitAnswer()" v-on:TimesUp="TimesUpSubmit()" :duration="duration" v-if="!isLoading"></quizTimer>
+                             <quizTimer :StartTime="StartTime"  :StopTimer="StopTimer" v-on:TimerStop="StopTimer = false, SubmitAnswer()" v-on:TimesUp="TimesUpSubmit()" :duration="duration" v-if="!isLoading"></quizTimer>
                         </div>
                        
                     </div>
@@ -316,7 +316,9 @@ export default {
             classworkDetails:[],
             confirmLeave: false,
             leaveStrike: 0,
-            preventWarning: false
+            preventWarning: false,
+            isExamStart: false,
+            StartTime: null,
         }
     },
     computed: 
@@ -469,6 +471,7 @@ export default {
             
         },
          SubmitAnswer(){
+            this.isExamStart = false;
             this.isLoading = !this.isLoading;
             this.isSubmitting = !this.isSubmitting;
             this.dialog = !this.dialog;
@@ -487,6 +490,7 @@ export default {
             })              
         },
         TimesUpSubmit(){
+            /* this.isExamStart = false;
             this.isLoading = !this.isLoading;
             this.isSubmitting = !this.isSubmitting;
             this.isStart = !this.isStart;
@@ -502,7 +506,7 @@ export default {
                  this.$router.push({name: 'result-page', params:{id: this.$route.query.clwk}})
                  
                   
-            })
+            }) */
         },
         fetchQuestions(){
             this.$store.dispatch('fetchQuestions', this.$route.query.clwk).then(res=>{
@@ -547,6 +551,7 @@ export default {
         async CheckStatus(){
             axios.get('/api/student/checking/'+this.$route.query.clwk)
             .then(res=>{
+                this.StartTime = res.data.startTime;
                 if(res.data.status == 'Taking' || res.data.status == ''){
                     this.StartQuiz();
                     this.preventNav = !this.preventNav;
@@ -610,13 +615,27 @@ export default {
         },
     },
     beforeMount() {
-        window.addEventListener("beforeunload", this.preventNav);
+       /*  window.addEventListener("beforeunload", this.preventNav);
         let self = this;
         $(window).blur(function(){
             self.triggerWarning()
-        });
+        }); */
+
+        /*  window.addEventListener("beforeunload", this.preventNav)
+            this.$once("hook:beforeDestroy", () => {
+            window.removeEventListener("beforeunload", this.preventNav);
+        }) */
     },
+    /*  beforeRouteLeave(to, from, next) {
+        if (this.isExamStart) {
+            if (!window.confirm("Leave without saving?")) {
+                return;
+            }
+        }
+        next();
+    }, */
     mounted(){
+        this.isExamStart = true
         this.CheckStatus();
 
     },
