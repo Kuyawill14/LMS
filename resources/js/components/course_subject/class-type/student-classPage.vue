@@ -51,19 +51,31 @@
         </v-dialog>
 
         <div v-if="coursesLength != 0 && isGetting == false">
-            <v-row>
+            <v-col class="text-right">
+                <v-btn bottom color="primary" dark fab fixed right @click="openJoinmodal">
+                    <v-icon>mdi-plus</v-icon>
+                </v-btn>
+            </v-col>
+            <v-row style="margin-bottom: -40px;">
                 <v-col>
                     <h2>My Classes</h2>
                 </v-col>
-                <v-col class="text-right">
-                    <v-btn bottom color="primary" dark fab fixed right @click="openJoinmodal">
-                        <v-icon>mdi-plus</v-icon>
-                    </v-btn>
+                <v-col lg="2" class="text-right">
+                    <v-select class="mr-2 my-0" :items="school_year" item-text="schoolyear" item-value="id"
+                        label="School Year" v-model="school_year_id" outlined small @change=" schoolYearFilter()">
+                    </v-select>
                 </v-col>
+                <v-col class="text-right" lg="2">
+                    <v-select class="mr-2 my-0" :items="semester" item-text="semester" item-value="id" label="Semester"
+                        v-model="semester_id" outlined small @change="semesterFilter()"></v-select>
+
+
+                </v-col>
+
             </v-row>
 
             <v-row class="mt-3">
-                <v-col lg="3" md="6" v-for="(item, i) in allClass" :key="'class' + i">
+                <v-col lg="3" md="6" v-for="(item, i) in allClassesData" :key="'class' + i">
                     <div class="card-expansion">
                         <v-card class="mx-auto">
                             <v-img :src="'../images/'+item.course_picture" height="200px"
@@ -77,16 +89,18 @@
                                 </v-card-subtitle>
                             </v-img>
                             <v-card-subtitle>
-                                <router-link :to="{name: 'coursePage', params: {id: item.course_id}, query:{class: item.class_id}}" style="text-decoration: none">
-                                    <p style="font-size: 16px;">{{item.course_code }} 
-                                    <br> {{ item.course_name}}
+                                <router-link
+                                    :to="{name: 'coursePage', params: {id: item.course_id}, query:{class: item.class_id}}"
+                                    style="text-decoration: none">
+                                    <p style="font-size: 16px;">{{item.course_code }}
+                                        <br> {{ item.course_name}}
                                     </p>
                                 </router-link>
                                 <hr>
-                                   {{ item.class_name}} <br>
-                                Class code:{{ item.class_code}} 
+                                {{ item.class_name}} <br>
+                                Class code:{{ item.class_code}}
                             </v-card-subtitle>
-                        
+
 
                         </v-card>
 
@@ -122,7 +136,12 @@
                 modalType: "",
                 form: new Form({
                     class_code: ""
-                })
+                }),
+                allClassesData: [],
+                school_year: [],
+                semester: [],
+                school_year_id: '',
+                semester_id: '',
             };
         },
         computed: mapGetters(["allClass"]),
@@ -134,17 +153,19 @@
             joinClass() {
                 this.dialog = false;
                 this.$store.dispatch("joinClass", this.form).then((res) => {
-                      if(res.status == 200){
-                         this.toastSuccess(res.data.message);
-                         this.$router.push({path: '/course/'+res.data.course_id+'/announcement'})
-                         this.fetchClasses();
-                         this.form.class_code = '';
-                    }
-                    else if(res.status == 202){
+                    if (res.status == 200) {
+                        this.toastSuccess(res.data.message);
+                        this.$router.push({
+                            path: '/course/' + res.data.course_id + '/announcement'
+                        })
+                        this.fetchClasses();
+                        this.form.class_code = '';
+                    } else if (res.status == 202) {
                         this.toastError(res.data.message);
-                        this.$router.push({path: '/course/'+res.data.course_id+'/announcement'})
-                    }
-                    else{
+                        this.$router.push({
+                            path: '/course/' + res.data.course_id + '/announcement'
+                        })
+                    } else {
                         this.toastError('Something went wrong while joining the class!');
                     }
                 });
@@ -158,15 +179,61 @@
             fetchClasses() {
                 this.isGetting = true;
                 this.$store.dispatch('fetchClassList').then(() => {
+                    this.allClassesData = this.allClass;
+
                     this.coursesLength = this.allClass.length;
                     this.isGetting = false;
                 });
             },
+            fetchAllSchoolyear_semester() {
+                axios.get('/api/admin/schoolyears_semesters/all')
+                    .then((res) => {
+                        this.school_year = res.data.school_year;
+                        this.semester = res.data.semester;
+                    })
+            },
+            schoolYearFilter() {
+                var data = [];
+                console.log(this.semester_id.length);
+                for (var key in this.allClass) {
+                    if (this.semester_id != '') {
+                        if (this.allClass[key].school_year_id == this.school_year_id && this.allClass[key]
+                            .semester_id == this.semester_id) {
+                            data.push(this.allClass[key]);
+                        }
+                    } else {
+                        if (this.allClass[key].school_year_id == this.school_year_id) {
+                            data.push(this.allClass[key]);
+                        }
+                    }
+
+                }
+                console.log(data);
+                this.allClassesData = data;
+
+
+            },
+
+            semesterFilter() {
+                var data = [];
+                for (var key in this.allClass) {
+                    if (this.allClass[key].school_year_id == this.school_year_id && this.allClass[key].semester_id ==
+                        this.semester_id) {
+                        data.push(this.allClass[key]);
+                    }
+                }
+                console.log(data);
+                this.allClassesData = data;
+
+
+            },
         },
         mounted() {
             this.fetchClasses();
+            this.fetchAllSchoolyear_semester();
         }
     };
+
 </script>
 
 <style scoped>

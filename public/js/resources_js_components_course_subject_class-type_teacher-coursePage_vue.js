@@ -158,6 +158,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
 var confirmArchiveCourse = function confirmArchiveCourse() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_course_subject_class-type_dialog_confirmArchiveCourse_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./dialog/confirmArchiveCourse */ "./resources/js/components/course_subject/class-type/dialog/confirmArchiveCourse.vue"));
 };
@@ -170,6 +176,10 @@ var confirmArchiveCourse = function confirmArchiveCourse() {
   },
   data: function data() {
     return {
+      school_year: [],
+      semester: [],
+      school_year_id: '',
+      semester_id: '',
       coursesLength: null,
       isGetting: false,
       dialog: false,
@@ -186,7 +196,8 @@ var confirmArchiveCourse = function confirmArchiveCourse() {
         course_code: ''
       },
       Archivedialog: false,
-      ArchiveDetails: {}
+      ArchiveDetails: {},
+      allCoursesData: []
     };
   },
   computed: (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)(['allCourse']),
@@ -255,13 +266,54 @@ var confirmArchiveCourse = function confirmArchiveCourse() {
 
       this.isGetting = true;
       this.$store.dispatch('fetchCourseList').then(function () {
+        _this3.allCoursesData = _this3.allCourse;
         _this3.coursesLength = _this3.allCourse.length;
         _this3.isGetting = false;
       });
+    },
+    fetchAllSchoolyear_semester: function fetchAllSchoolyear_semester() {
+      var _this4 = this;
+
+      axios.get('/api/admin/schoolyears_semesters/all').then(function (res) {
+        _this4.school_year = res.data.school_year;
+        _this4.semester = res.data.semester;
+      });
+    },
+    schoolYearFilter: function schoolYearFilter() {
+      var data = [];
+      console.log(this.semester_id.length);
+
+      for (var key in this.allCourse) {
+        if (this.semester_id != '') {
+          if (this.allCourse[key].school_year_id == this.school_year_id && this.allCourse[key].semester_id == this.semester_id) {
+            data.push(this.allCourse[key]);
+          }
+        } else {
+          if (this.allCourse[key].school_year_id == this.school_year_id) {
+            data.push(this.allCourse[key]);
+          }
+        }
+      }
+
+      console.log(data);
+      this.allCoursesData = data;
+    },
+    semesterFilter: function semesterFilter() {
+      var data = [];
+
+      for (var key in this.allCourse) {
+        if (this.allCourse[key].school_year_id == this.school_year_id && this.allCourse[key].semester_id == this.semester_id) {
+          data.push(this.allCourse[key]);
+        }
+      }
+
+      console.log(data);
+      this.allCoursesData = data;
     }
   }),
   mounted: function mounted() {
     this.fetchCourses();
+    this.fetchAllSchoolyear_semester();
   }
 });
 
@@ -665,34 +717,90 @@ var render = function() {
             "div",
             [
               _c(
+                "v-btn",
+                {
+                  attrs: {
+                    bottom: "",
+                    color: "primary",
+                    dark: "",
+                    fab: "",
+                    fixed: "",
+                    right: ""
+                  },
+                  on: {
+                    click: function($event) {
+                      return _vm.openAddmodal()
+                    }
+                  }
+                },
+                [_c("v-icon", [_vm._v("mdi-plus")])],
+                1
+              ),
+              _vm._v(" "),
+              _c(
                 "v-row",
+                { staticStyle: { "margin-bottom": "-40px" } },
                 [
                   _c("v-col", [_c("h2", [_vm._v("My Courses")])]),
                   _vm._v(" "),
                   _c(
                     "v-col",
-                    { staticClass: "text-right" },
+                    { staticClass: "text-right", attrs: { lg: "2" } },
                     [
-                      _c(
-                        "v-btn",
-                        {
-                          attrs: {
-                            bottom: "",
-                            color: "primary",
-                            dark: "",
-                            fab: "",
-                            fixed: "",
-                            right: ""
-                          },
-                          on: {
-                            click: function($event) {
-                              return _vm.openAddmodal()
-                            }
+                      _c("v-select", {
+                        staticClass: "mr-2 my-0",
+                        attrs: {
+                          items: _vm.school_year,
+                          "item-text": "schoolyear",
+                          "item-value": "id",
+                          label: "School Year",
+                          outlined: "",
+                          small: ""
+                        },
+                        on: {
+                          change: function($event) {
+                            return _vm.schoolYearFilter()
                           }
                         },
-                        [_c("v-icon", [_vm._v("mdi-plus")])],
-                        1
-                      )
+                        model: {
+                          value: _vm.school_year_id,
+                          callback: function($$v) {
+                            _vm.school_year_id = $$v
+                          },
+                          expression: "school_year_id"
+                        }
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-col",
+                    { staticClass: "text-right", attrs: { lg: "2" } },
+                    [
+                      _c("v-select", {
+                        staticClass: "mr-2 my-0",
+                        attrs: {
+                          items: _vm.semester,
+                          "item-text": "semester",
+                          "item-value": "id",
+                          label: "Semester",
+                          outlined: "",
+                          small: ""
+                        },
+                        on: {
+                          change: function($event) {
+                            return _vm.semesterFilter()
+                          }
+                        },
+                        model: {
+                          value: _vm.semester_id,
+                          callback: function($$v) {
+                            _vm.semester_id = $$v
+                          },
+                          expression: "semester_id"
+                        }
+                      })
                     ],
                     1
                   )
@@ -703,7 +811,7 @@ var render = function() {
               _c(
                 "v-row",
                 { staticClass: "mt-3" },
-                _vm._l(_vm.allCourse, function(item, i) {
+                _vm._l(_vm.allCoursesData, function(item, i) {
                   return _c(
                     "v-col",
                     { key: "course" + i, attrs: { lg: "3", md: "6" } },
@@ -867,7 +975,7 @@ var render = function() {
                                         [
                                           _vm._v(
                                             _vm._s(item.course_code) +
-                                              " \n                                "
+                                              "\n                                    "
                                           ),
                                           _c("br"),
                                           _vm._v(
@@ -882,7 +990,7 @@ var render = function() {
                                   _vm._v(" "),
                                   _c("hr"),
                                   _vm._v(
-                                    "\n                              " +
+                                    "\n                            " +
                                       _vm._s(item.student_count + " students") +
                                       " "
                                   ),

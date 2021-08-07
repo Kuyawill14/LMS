@@ -65,19 +65,62 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
       el: 2,
       isUpdating: false,
-      courseDetails: []
+      courseDetails: [],
+      school_year: [],
+      semester: []
     };
   },
   computed: (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)(["getcourseInfo"]),
   methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)(['fetchScourse'])), {}, {
+    fetchAllSchoolyear_semester: function fetchAllSchoolyear_semester() {
+      var _this = this;
+
+      axios.get('/api/admin/schoolyears_semesters/all').then(function (res) {
+        _this.school_year = res.data.school_year;
+        _this.semester = res.data.semester;
+      });
+    },
     updateCourseDetails: function updateCourseDetails() {
-      if (this.getcourseInfo.course_description.trim() == '' || this.getcourseInfo.course_name == '' || this.course_code == '') {
+      console.log(this.getcourseInfo.semester_id);
+
+      if (this.getcourseInfo.course_description.trim() == '' || this.getcourseInfo.course_name == '' || this.course_code == '' || this.getcourseInfo.semester_id === undefined || this.getcourseInfo.school_year_id === undefined) {
         this.toastError('Please complete all the field to proceed to the next step');
       } else {
         this.isUpdating = true;
@@ -86,11 +129,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         this.$emit('changeStep', this.el);
       }
     }
-  })
-  /*  mounted() {
-       this.courseDetails = this.fetchScourse(this.$route.params.id);
-    } */
-
+  }),
+  mounted: function mounted() {
+    this.fetchAllSchoolyear_semester();
+  }
 });
 
 /***/ }),
@@ -226,6 +268,15 @@ var render = function() {
         "v-col",
         { staticClass: "pa-0 ", attrs: { cols: "12" } },
         [
+          _c("small", { staticClass: "text-caption" }, [
+            _vm._v("Generate google meet here: "),
+            _c(
+              "a",
+              { attrs: { href: "https://meet.google.com/", target: "_blank" } },
+              [_vm._v("meet.google.com ")]
+            )
+          ]),
+          _vm._v(" "),
           _c("v-text-field", {
             attrs: {
               outlined: "",
@@ -238,6 +289,56 @@ var render = function() {
                 _vm.$set(_vm.getcourseInfo, "v_classroom_link", $$v)
               },
               expression: "getcourseInfo.v_classroom_link"
+            }
+          })
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-col",
+        { staticClass: "pa-0 ", attrs: { cols: "12" } },
+        [
+          _c("v-select", {
+            staticClass: "mr-2",
+            attrs: {
+              items: _vm.school_year,
+              "item-text": "schoolyear",
+              "item-value": "id",
+              label: "School Year",
+              outlined: ""
+            },
+            model: {
+              value: _vm.getcourseInfo.school_year_id,
+              callback: function($$v) {
+                _vm.$set(_vm.getcourseInfo, "school_year_id", $$v)
+              },
+              expression: "getcourseInfo.school_year_id"
+            }
+          })
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-col",
+        { staticClass: "pa-0 ", attrs: { cols: "12" } },
+        [
+          _c("v-select", {
+            staticClass: "mr-2",
+            attrs: {
+              items: _vm.semester,
+              "item-text": "semester",
+              "item-value": "id",
+              label: "Semester",
+              outlined: ""
+            },
+            model: {
+              value: _vm.getcourseInfo.semester_id,
+              callback: function($$v) {
+                _vm.$set(_vm.getcourseInfo, "semester_id", $$v)
+              },
+              expression: "getcourseInfo.semester_id"
             }
           })
         ],

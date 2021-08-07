@@ -34,7 +34,7 @@
                 <v-card-subtitle class="white--text">Instructor: {{getcourseInfo.name}}
 
                     <br>
-                    Google Meet: <a link :href="getcourseInfo.v_classroom_link" >{{getcourseInfo.v_classroom_link}}</a>
+                    Google Meet: <a link :href="getcourseInfo.v_classroom_link" target="_blank">{{getcourseInfo.v_classroom_link}}</a>
                 </v-card-subtitle>
             </v-img>
 

@@ -30,7 +30,8 @@ class SubjectCourseController extends Controller
        
         ->select('tbl_teacher_courses.id as useClass_id','tbl_subject_courses.id','tbl_subject_courses.course_code',
         'tbl_subject_courses.course_name','tbl_subject_courses.course_description','tbl_subject_courses.id as course_id',
-        'tbl_subject_courses.course_picture','tbl_subject_courses.completed','tbl_subject_courses.created_at')
+        'tbl_subject_courses.course_picture','tbl_subject_courses.completed','tbl_subject_courses.created_at', 'school_year_id',
+        'semester_id',)
         ->selectRaw('count(tbl_userclasses.course_id ) as student_count')
         ->leftJoin('tbl_subject_courses', 'tbl_teacher_courses.course_id', '=', 'tbl_subject_courses.id')
         ->leftJoin('tbl_userclasses', 'tbl_userclasses.course_id','=','tbl_subject_courses.id')
@@ -61,8 +62,16 @@ class SubjectCourseController extends Controller
         $userId = auth('sanctum')->id();
         if(auth('sanctum')->user()->role == "Student"){
             $ShowCourseDetails = tbl_subject_course::where('tbl_subject_courses.id', $id)
-            ->select('tbl_subject_courses.id', 'tbl_subject_courses.course_code', 'tbl_subject_courses.course_name', 'tbl_subject_courses.course_description'
-            , 'tbl_subject_courses.course_picture','tbl_subject_courses.v_classroom_link',DB::raw('CONCAT(users.firstname, " ", users.lastName) as name'),'completed')
+            ->select('tbl_subject_courses.id', 
+            'tbl_subject_courses.course_code',
+            'tbl_subject_courses.course_name',
+            'tbl_subject_courses.course_description',
+            'tbl_subject_courses.course_picture',
+            'tbl_subject_courses.v_classroom_link',
+            DB::raw('CONCAT(users.firstname, " ", users.lastName) as name'),
+            'school_year_id',
+            'semester_id',
+            'completed')
             ->leftjoin('tbl_userclasses', 'tbl_userclasses.course_id','=','tbl_subject_courses.id')
             ->leftjoin('users', 'users.id','=','tbl_userclasses.user_id')
             ->where('users.role', 'Teacher')
@@ -71,8 +80,15 @@ class SubjectCourseController extends Controller
         }
         else{
             $ShowCourseDetails = tbl_subject_course::where('tbl_subject_courses.id', $id)
-            ->select('tbl_subject_courses.id', 'tbl_subject_courses.course_code', 'tbl_subject_courses.course_name', 'tbl_subject_courses.course_description'
-            ,'tbl_subject_courses.course_picture','tbl_subject_courses.v_classroom_link','completed')
+            ->select('tbl_subject_courses.id',
+             'tbl_subject_courses.course_code',
+            'tbl_subject_courses.course_name',
+            'tbl_subject_courses.course_description',
+            'tbl_subject_courses.course_picture',
+            'tbl_subject_courses.v_classroom_link',
+            'school_year_id',
+            'semester_id',
+            'completed')
             ->first();
             $ShowCourseDetails->name = auth('sanctum')->user()->firstName.' '.auth('sanctum')->user()->lastName;
             return $ShowCourseDetails;
@@ -184,6 +200,8 @@ class SubjectCourseController extends Controller
             $existingCourse->course_code = $request->courseItem['course_code'];
             $existingCourse->course_description = $request->courseItem['course_description'];
             $existingCourse->v_classroom_link = $request->courseItem['v_classroom_link'];
+            $existingCourse->school_year_id = $request->courseItem['school_year_id'];
+            $existingCourse->semester_id = $request->courseItem['semester_id'];
             $existingCourse->save();
             return $existingCourse;
         }

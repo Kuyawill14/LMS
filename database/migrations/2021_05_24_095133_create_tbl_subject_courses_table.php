@@ -21,6 +21,8 @@ class CreateTblSubjectCoursesTable extends Migration
             $table->longtext('course_description')->nullable() ;
             $table->mediumText('course_picture');
             $table->tinyInteger('completed')->default(0);
+            $table->integer('semester_id')->length(3);
+            $table->integer('school_year_id')->length(3);
             $table->softDeletes();
             $table->timestamps();
         });
