@@ -9,57 +9,44 @@
         <v-row class="pt-2">
 
 
-            <v-col>
+            <v-col cols="12" md="12" lg="9" xl="9">
                 <v-card elevation="2">
-                    <v-simple-table>
-                        <template v-slot:default>
-                            <thead>
-                                <tr>
-                                    <th>
-                                        ID
-                                    </th>
-                                    <th>
-                                        School Year
-                                    </th>
-
-
-                                    <th class="text-center">
-                                        Action
-                                    </th>
-
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>2021-2022 </td>
-                                    <td>Edit </td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>2021-2022 </td>
-                                    <td>Edit </td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td>2021-2022 </td>
-                                    <td>Edit </td>
-                                </tr>
-                                <tr>
-                                    <td>4</td>
-                                    <td>2021-2022 </td>
-                                    <td>Edit </td>
-                                </tr>
-
-
-                            </tbody>
+                   <v-data-table
+                        dense
+                        :headers="headers"
+                        :items="schoolyearList" 
+                        :items-per-page="5"
+                        class="elevation-1" >
+                        <template v-slot:body="{ items }">
+                        <tbody>
+                            <tr v-for="item in items" :key="item.id">
+                           
+                                <td style="width:10%">{{ item.id }}</td>
+                                <td>{{item.schoolyear}}</td>
+                               
+                                <td >
+                                    <v-tooltip top>
+                                        <template v-slot:activator="{ on, attrs }">
+                                            <v-btn
+                                            v-bind="attrs"
+                                            v-on="on"
+                                            text icon
+                                            >
+                                                <v-icon color="primary">mdi-pencil-box-multiple-outline</v-icon>
+                                            </v-btn>
+                                        </template>
+                                        <span>Edit</span>
+                                    </v-tooltip>  
+                                </td>
+                            </tr>
+                        </tbody>
                         </template>
-                    </v-simple-table>
+                        </v-data-table>
                 </v-card>
             </v-col>
 
 
-            <v-col cols="3">
+            <v-col cols="12" md="12" lg="3" xl="3">
                 <v-card elevation="2">
                     <v-simple-table>
                         <template v-slot:default>
@@ -138,6 +125,21 @@
                 type: '',
                 search: "",
                 valid: true,
+                headers: [
+                    { text: 'ID', value: 'id' },
+                    { text: 'School Year', value: 'schoolyear',align: 'start',},
+                    { text: 'Actions',sortable: false},
+                ],
+                schoolyearList:[
+                    {
+                        id: 1,
+                        schoolyear: '2021-2022'
+                    },
+                     {
+                        id: 2,
+                        schoolyear: '2022-2023'
+                    }
+                ]
             }
 
 

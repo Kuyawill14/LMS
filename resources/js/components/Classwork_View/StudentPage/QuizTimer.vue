@@ -4,7 +4,8 @@
         <v-col class="text-subtitle-1 text-center" cols="12" md="10" lg="10" xl="12">
             <v-card :class="!isLoaded ? 'pt-5 pb-5': 'pt-5 pb-5'">
                 <div class="ma-0 pa-0 title">Time Remaining</div> -->
-               <!--  <v-container v-if="isLoaded" class="d-flex justify-center">
+            
+                <!-- <v-container  class="d-flex justify-center">
 
                     
                     <div  fab class="">
@@ -59,7 +60,7 @@
 <script>
 import moment from 'moment';
 export default {
-    props:['duration','StopTimer'],
+    props:['duration','StopTimer','StartTime'],
     data: ()=> ({
         Startdate: (new Date).getTime(),
         EndDate: null,
@@ -93,6 +94,7 @@ export default {
             }
         },
         ShowTimer(){
+
             const StartTime = new Date();
             
             let finalHour;
@@ -167,21 +169,21 @@ export default {
         
              this.displayHours = hours < 10 ?"0" + hours :hours;
             this.displayMinutes = minutes < 10 ?"0" + minutes :minutes;
-            
-           /*  if(parseInt(localStorage.getItem('time_remaining')) == 0){
+             this.displaySeconds = second < 10 ? "0" + second :second;
+            if(parseInt(localStorage.getItem('time_remaining')) == 0){
                 this.displayHours = '00';
                 this.displayMinutes = '00';
-            } */
-          /*   else{
+            }
+            else{
                  this.displayHours = hours < 10 ?"0" + hours :hours;
                  this.displayMinutes = minutes < 10 ?"0" + minutes :minutes;
-            } */
+            }
            
 
 
             this.displaySeconds = second < 10 ? "0" + second :second;
 
-         /*    this.SecondProgress =   (this.displaySeconds / 100)
+            this.SecondProgress =   (this.displaySeconds / 100)
 
                 if(second == '00' || second == 0){
                     let check = localStorage.getItem('time_remaining');
@@ -197,12 +199,18 @@ export default {
                         let remain_time = parseInt(localStorage.getItem('time_remaining'));
                         localStorage.setItem('time_remaining', (remain_time-1));
                     }
-                } */
+                }
                 this.isLoaded = true;
             },1000)
             
         },
         startTimer(){
+
+         
+
+            console.log(this.StartTime);
+            
+            //this.Startdate = new Date(this.StartTime).getTime();
             let due;
             let name = btoa('timer_time');
             let timer_time = localStorage.getItem(name);
@@ -239,6 +247,42 @@ export default {
             this.EndDate = (new Date).getTime()+due;
             
         },
+          startTimer1(){
+
+         
+
+            console.log(this.StartTime);
+            
+            //this.Startdate = new Date(this.StartTime).getTime();
+       
+            
+            let due = (this.duration*60) * 1000;
+    
+          
+            let final = '';
+          /*   this.NewTimer = setInterval(()=>{
+                if(this.StopTimer != true){
+                      if(final == ''){
+                        final = due - 1000;
+                        let finalData = name+'|'+final+'|'+name;
+                   
+                    }
+                    else{
+                        final = final - 1000;
+                        let finalData = name+'|'+final+'|'+name;
+                    
+                    }
+                }
+                else{
+                    clearInterval(this.NewTimer);
+                    localStorage.removeItem(name);
+                     this.$emit('TimerStop');
+                }
+              
+            },1000) */
+            this.EndDate = (new Date).getTime()+due;
+            
+        },
         EndTimer(){
                 console.log('test 123');
                 clearInterval(this.NewTimer);
@@ -246,13 +290,39 @@ export default {
                 this.$emit('TimesUp');
             
             
+        },
+        newTimer(){
+            let ExamTime = this.duration * 1000;
+            setInterval(()=>{
+                
+                let StartTime = new Date(this.StartTime);
+                
+                const DateNow = new Date();
+                let remainingtime = ExamTime - (Math.abs(StartTime - DateNow)/1000);
+
+                let hours   = Math.floor(remainingtime / 3600); // get hours
+                let minutes = Math.floor((remainingtime - (hours * 3600)) / 60); // get minutes
+                let seconds =  Math.floor(remainingtime - (hours * 3600) - (minutes * 60));
+                
+               /*  console.log('diff' , (Math.abs(StartTime - DateNow)/1000));
+                console.log('remain ',remainingtime); */
+                
+                this.displayMinutes = minutes;
+                this.displayHours = hours < 10 ?"0" + hours :hours;
+                this.displayMinutes = minutes < 10 ?"0" + minutes :minutes;
+                this.displaySeconds = seconds < 10 ? "0" + seconds :seconds;
+                //console.log(minutes+':'+seconds);
+            },1000)
+            //console.log(this.StartTime);
+            
+
         }
     },
     mounted(){
         
          //this.ShowTimer();
-       
-            this.startTimer();
+        //this.newTimer();
+            this.startTimer1();
        
              
             

@@ -337,7 +337,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       classworkDetails: [],
       confirmLeave: false,
       leaveStrike: 0,
-      preventWarning: false
+      preventWarning: false,
+      isExamStart: false,
+      StartTime: null
     };
   },
   computed: (0,vuex__WEBPACK_IMPORTED_MODULE_4__.mapGetters)(["getAll_questions"]),
@@ -494,6 +496,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     SubmitAnswer: function SubmitAnswer() {
       var _this2 = this;
 
+      this.isExamStart = false;
       this.isLoading = !this.isLoading;
       this.isSubmitting = !this.isSubmitting;
       this.dialog = !this.dialog;
@@ -520,44 +523,36 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       });
     },
     TimesUpSubmit: function TimesUpSubmit() {
-      var _this3 = this;
-
+      /* this.isExamStart = false;
       this.isLoading = !this.isLoading;
       this.isSubmitting = !this.isSubmitting;
       this.isStart = !this.isStart;
       this.warningDialog = false;
-      axios.post('/api/question/check/' + this.$route.query.clwk, {
-        item: this.FinalAnswers,
-        AnsLength: this.questionIndex,
-        timerCount: this.TimerCount
-      }).then(function () {
-        setTimeout(function () {
-          _this3.isLoading = !_this3.isLoading;
-          _this3.isSubmitting = !_this3.isSubmitting;
-        }, 2000);
-        localStorage.removeItem(btoa('timer_time'));
-        localStorage.removeItem(btoa('CurrentAnswers'));
-
-        _this3.$router.push({
-          name: 'result-page',
-          params: {
-            id: _this3.$route.query.clwk
-          }
-        });
-      });
+       axios.post('/api/question/check/'+this.$route.query.clwk, {item: this.FinalAnswers, AnsLength:this.questionIndex,timerCount: this.TimerCount})
+      .then(()=>{
+           setTimeout(() => {
+              this.isLoading = !this.isLoading;
+              this.isSubmitting = !this.isSubmitting;
+          }, 2000);
+          localStorage.removeItem(btoa('timer_time'));
+           localStorage.removeItem(btoa('CurrentAnswers'));
+           this.$router.push({name: 'result-page', params:{id: this.$route.query.clwk}})
+           
+            
+      }) */
     },
     fetchQuestions: function fetchQuestions() {
-      var _this4 = this;
+      var _this3 = this;
 
       this.$store.dispatch('fetchQuestions', this.$route.query.clwk).then(function (res) {
-        _this4.Qlength = res[1];
-        _this4.isLoading = false;
+        _this3.Qlength = res[1];
+        _this3.isLoading = false;
         var name = btoa('CurrentAnswers');
         var AnswersList = JSON.parse(localStorage.getItem(name));
 
         if (AnswersList == null) {
           for (var index = 0; index < res[0].Question.length; index++) {
-            _this4.FinalAnswers.push({
+            _this3.FinalAnswers.push({
               Answer: '',
               Question_id: res[0].Question[index].id,
               type: res[0].Question[index].type,
@@ -565,12 +560,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             });
           }
 
-          localStorage.setItem(name, JSON.stringify(_this4.FinalAnswers));
+          localStorage.setItem(name, JSON.stringify(_this3.FinalAnswers));
         } else {
           for (var x = 0; x < res[0].Question.length; x++) {
             for (var j = 0; j < AnswersList.length; j++) {
               if (res[0].Question[x].id == AnswersList[j].Question_id) {
-                _this4.FinalAnswers.push({
+                _this3.FinalAnswers.push({
                   Answer: AnswersList[j].Answer,
                   Question_id: AnswersList[j].Question_id,
                   type: AnswersList[j].type,
@@ -589,25 +584,27 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       event.returnValue = "";
     },
     CheckStatus: function CheckStatus() {
-      var _this5 = this;
+      var _this4 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                axios.get('/api/student/checking/' + _this5.$route.query.clwk).then(function (res) {
+                axios.get('/api/student/checking/' + _this4.$route.query.clwk).then(function (res) {
+                  _this4.StartTime = res.data.startTime;
+
                   if (res.data.status == 'Taking' || res.data.status == '') {
-                    _this5.StartQuiz();
+                    _this4.StartQuiz();
 
-                    _this5.preventNav = !_this5.preventNav;
+                    _this4.preventNav = !_this4.preventNav;
                   } else {
-                    _this5.isLoading = false;
+                    _this4.isLoading = false;
 
-                    _this5.$router.push({
+                    _this4.$router.push({
                       name: 'result-page',
                       params: {
-                        id: _this5.$route.query.clwk
+                        id: _this4.$route.query.clwk
                       }
                     });
                   }
@@ -622,16 +619,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     StartQuiz: function StartQuiz() {
-      var _this6 = this;
+      var _this5 = this;
 
       this.isStart = true;
       var alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
       this.Alphabet = alphabet;
       axios.get('/api/classwork/showDetails/' + this.$route.query.clwk + '/' + this.$route.params.id).then(function (res) {
-        _this6.duration = res.data.Details.duration;
-        _this6.classworkDetails = res.data.Details;
+        _this5.duration = res.data.Details.duration;
+        _this5.classworkDetails = res.data.Details;
 
-        _this6.fetchQuestions();
+        _this5.fetchQuestions();
       });
       this.CountTime();
     },
@@ -648,13 +645,28 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }
   },
   beforeMount: function beforeMount() {
-    window.addEventListener("beforeunload", this.preventNav);
-    var self = this;
-    $(window).blur(function () {
-      self.triggerWarning();
-    });
+    /*  window.addEventListener("beforeunload", this.preventNav);
+     let self = this;
+     $(window).blur(function(){
+         self.triggerWarning()
+     }); */
+
+    /*  window.addEventListener("beforeunload", this.preventNav)
+        this.$once("hook:beforeDestroy", () => {
+        window.removeEventListener("beforeunload", this.preventNav);
+    }) */
   },
+
+  /*  beforeRouteLeave(to, from, next) {
+      if (this.isExamStart) {
+          if (!window.confirm("Leave without saving?")) {
+              return;
+          }
+      }
+      next();
+  }, */
   mounted: function mounted() {
+    this.isExamStart = true;
     this.CheckStatus();
   }
 });
@@ -732,9 +744,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['duration', 'StopTimer'],
+  props: ['duration', 'StopTimer', 'StartTime'],
   data: function data() {
     return {
       Startdate: new Date().getTime(),
@@ -835,39 +848,42 @@ __webpack_require__.r(__webpack_exports__);
         var second = Math.floor(timeRemain % _this._minutes / _this._seconds);
         _this.displayHours = hours < 10 ? "0" + hours : hours;
         _this.displayMinutes = minutes < 10 ? "0" + minutes : minutes;
-        /*  if(parseInt(localStorage.getItem('time_remaining')) == 0){
-             this.displayHours = '00';
-             this.displayMinutes = '00';
-         } */
+        _this.displaySeconds = second < 10 ? "0" + second : second;
 
-        /*   else{
-               this.displayHours = hours < 10 ?"0" + hours :hours;
-               this.displayMinutes = minutes < 10 ?"0" + minutes :minutes;
-          } */
+        if (parseInt(localStorage.getItem('time_remaining')) == 0) {
+          _this.displayHours = '00';
+          _this.displayMinutes = '00';
+        } else {
+          _this.displayHours = hours < 10 ? "0" + hours : hours;
+          _this.displayMinutes = minutes < 10 ? "0" + minutes : minutes;
+        }
 
         _this.displaySeconds = second < 10 ? "0" + second : second;
-        /*    this.SecondProgress =   (this.displaySeconds / 100)
-                 if(second == '00' || second == 0){
-                   let check = localStorage.getItem('time_remaining');
-                   if(check == '0' || check == '00'){
-                       this.$emit('TimesUp');
-                       clearInterval(timer);
-                       //this.$router.push({path: '/'});
-                       localStorage.removeItem('time_remaining');
-                       localStorage.removeItem('seconds_tic');
-                       
-                   }
-                   else{
-                       let remain_time = parseInt(localStorage.getItem('time_remaining'));
-                       localStorage.setItem('time_remaining', (remain_time-1));
-                   }
-               } */
+        _this.SecondProgress = _this.displaySeconds / 100;
+
+        if (second == '00' || second == 0) {
+          var check = localStorage.getItem('time_remaining');
+
+          if (check == '0' || check == '00') {
+            _this.$emit('TimesUp');
+
+            clearInterval(timer); //this.$router.push({path: '/'});
+
+            localStorage.removeItem('time_remaining');
+            localStorage.removeItem('seconds_tic');
+          } else {
+            var remain_time = parseInt(localStorage.getItem('time_remaining'));
+            localStorage.setItem('time_remaining', remain_time - 1);
+          }
+        }
 
         _this.isLoaded = true;
       }, 1000);
     },
     startTimer: function startTimer() {
       var _this2 = this;
+
+      console.log(this.StartTime); //this.Startdate = new Date(this.StartTime).getTime();
 
       var due;
       var name = btoa('timer_time');
@@ -905,16 +921,67 @@ __webpack_require__.r(__webpack_exports__);
       }, 1000);
       this.EndDate = new Date().getTime() + due;
     },
+    startTimer1: function startTimer1() {
+      console.log(this.StartTime); //this.Startdate = new Date(this.StartTime).getTime();
+
+      var due = this.duration * 60 * 1000;
+      var _final2 = '';
+      /*   this.NewTimer = setInterval(()=>{
+            if(this.StopTimer != true){
+                  if(final == ''){
+                    final = due - 1000;
+                    let finalData = name+'|'+final+'|'+name;
+               
+                }
+                else{
+                    final = final - 1000;
+                    let finalData = name+'|'+final+'|'+name;
+                
+                }
+            }
+            else{
+                clearInterval(this.NewTimer);
+                localStorage.removeItem(name);
+                 this.$emit('TimerStop');
+            }
+          
+        },1000) */
+
+      this.EndDate = new Date().getTime() + due;
+    },
     EndTimer: function EndTimer() {
       console.log('test 123');
       clearInterval(this.NewTimer);
       localStorage.removeItem(name);
       this.$emit('TimesUp');
+    },
+    newTimer: function newTimer() {
+      var _this3 = this;
+
+      var ExamTime = this.duration * 1000;
+      setInterval(function () {
+        var StartTime = new Date(_this3.StartTime);
+        var DateNow = new Date();
+        var remainingtime = ExamTime - Math.abs(StartTime - DateNow) / 1000;
+        var hours = Math.floor(remainingtime / 3600); // get hours
+
+        var minutes = Math.floor((remainingtime - hours * 3600) / 60); // get minutes
+
+        var seconds = Math.floor(remainingtime - hours * 3600 - minutes * 60);
+        /*  console.log('diff' , (Math.abs(StartTime - DateNow)/1000));
+         console.log('remain ',remainingtime); */
+
+        _this3.displayMinutes = minutes;
+        _this3.displayHours = hours < 10 ? "0" + hours : hours;
+        _this3.displayMinutes = minutes < 10 ? "0" + minutes : minutes;
+        _this3.displaySeconds = seconds < 10 ? "0" + seconds : seconds; //console.log(minutes+':'+seconds);
+      }, 1000); //console.log(this.StartTime);
     }
   },
   mounted: function mounted() {
     //this.ShowTimer();
-    this.startTimer();
+    //this.newTimer();
+    this.startTimer1();
   }
 });
 
@@ -23163,6 +23230,7 @@ var render = function() {
                                             !_vm.isLoading
                                               ? _c("quizTimer", {
                                                   attrs: {
+                                                    StartTime: _vm.StartTime,
                                                     StopTimer: _vm.StopTimer,
                                                     duration: _vm.duration
                                                   },
@@ -24578,7 +24646,7 @@ var render = function() {
                 { staticClass: "text-center mt-0 pt-0", attrs: { cols: "12" } },
                 [
                   _c("div", { staticClass: "info--text display-1" }, [
-                    _vm._v("Opps!")
+                    _vm._v("Oops...")
                   ])
                 ]
               )
