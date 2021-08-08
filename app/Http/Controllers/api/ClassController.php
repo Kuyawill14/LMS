@@ -34,6 +34,7 @@ class ClassController extends Controller
         'tbl_subject_courses.id as course_id',
         'tbl_classes.id as class_id',
         'tbl_userclasses.progress'
+
         )
         ->leftJoin('tbl_classes', 'tbl_userclasses.class_id', '=', 'tbl_classes.id')
         ->leftJoin('tbl_subject_courses', 'tbl_userclasses.course_id', '=', 'tbl_subject_courses.id')
@@ -51,7 +52,9 @@ class ClassController extends Controller
             'tbl_subject_courses.course_picture',
             'tbl_subject_courses.id as course_id',
             'tbl_classes.id as class_id',
-            'tbl_userclasses.progress'
+            'tbl_userclasses.progress',
+            'school_year_id',
+            'semester_id',
             )
             ->leftJoin('tbl_classes', 'tbl_userclasses.class_id', '=', 'tbl_classes.id')
             ->leftJoin('tbl_subject_courses', 'tbl_userclasses.course_id', '=', 'tbl_subject_courses.id')

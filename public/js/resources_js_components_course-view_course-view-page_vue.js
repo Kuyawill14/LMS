@@ -451,7 +451,8 @@ var render = function() {
                       {
                         attrs: {
                           link: "",
-                          href: _vm.getcourseInfo.v_classroom_link
+                          href: _vm.getcourseInfo.v_classroom_link,
+                          target: "_blank"
                         }
                       },
                       [_vm._v(_vm._s(_vm.getcourseInfo.v_classroom_link))]

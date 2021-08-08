@@ -73,6 +73,36 @@ class SchoolyearSemesterController extends Controller
     }
 
 
+    public function deleteSchoolyear_semester(Request $request) {
+
+        $id = $request->id;
+
+
+        $type = $request->type;
+
+        if($type == 'school_year') {
+            $schoolyears =  tbl_schoolyear::find($id);
+            if($schoolyears) {
+                $schoolyears->delete();
+            } 
+        
+            return 'Succesfully Deleted';
+        } 
+
+        if($type == 'semester') {
+        
+            $semesters =  tbl_semester::find($id);
+            
+            if($semesters) {
+                $semesters->semester = $request->name;
+                $semesters->delete();
+            } 
+        
+
+            return 'Succesfully Deleted';
+        } 
+    }
+
 
     /**
      * Show the form for creating a new resource.

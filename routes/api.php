@@ -301,6 +301,7 @@ Route::prefix('/admin/teachers')->group(function () {
 Route::prefix('/admin/schoolyears_semesters')->group(function() {
     Route::get('/all', [SchoolyearSemesterController::class, 'fetchAllSchoolyear_Semester']);
     Route::post('/upsert', [SchoolyearSemesterController::class, 'addUpdateSchoolyear_semester']);
+    Route::post('/delete', [SchoolyearSemesterController::class, 'deleteSchoolyear_semester']);
 
 
 });

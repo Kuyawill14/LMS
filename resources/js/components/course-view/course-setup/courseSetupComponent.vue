@@ -21,7 +21,7 @@
                         </v-stepper-step>
                     </v-stepper-header>
 
-                    <v-stepper-items>
+                <v-stepper-items>
                         <v-stepper-content step="1">
 
                             <courseDetailsComponent v-if="e1 == 1" v-on:changeStep="step" />

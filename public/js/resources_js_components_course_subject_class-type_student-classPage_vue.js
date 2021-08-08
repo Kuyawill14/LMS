@@ -123,6 +123,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {},
@@ -136,7 +150,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       modalType: "",
       form: new Form({
         class_code: ""
-      })
+      }),
+      allClassesData: [],
+      school_year: [],
+      semester: [],
+      school_year_id: '',
+      semester_id: ''
     };
   },
   computed: (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)(["allClass"]),
@@ -185,13 +204,54 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       this.isGetting = true;
       this.$store.dispatch('fetchClassList').then(function () {
+        _this3.allClassesData = _this3.allClass;
         _this3.coursesLength = _this3.allClass.length;
         _this3.isGetting = false;
       });
+    },
+    fetchAllSchoolyear_semester: function fetchAllSchoolyear_semester() {
+      var _this4 = this;
+
+      axios.get('/api/admin/schoolyears_semesters/all').then(function (res) {
+        _this4.school_year = res.data.school_year;
+        _this4.semester = res.data.semester;
+      });
+    },
+    schoolYearFilter: function schoolYearFilter() {
+      var data = [];
+      console.log(this.semester_id.length);
+
+      for (var key in this.allClass) {
+        if (this.semester_id != '') {
+          if (this.allClass[key].school_year_id == this.school_year_id && this.allClass[key].semester_id == this.semester_id) {
+            data.push(this.allClass[key]);
+          }
+        } else {
+          if (this.allClass[key].school_year_id == this.school_year_id) {
+            data.push(this.allClass[key]);
+          }
+        }
+      }
+
+      console.log(data);
+      this.allClassesData = data;
+    },
+    semesterFilter: function semesterFilter() {
+      var data = [];
+
+      for (var key in this.allClass) {
+        if (this.allClass[key].school_year_id == this.school_year_id && this.allClass[key].semester_id == this.semester_id) {
+          data.push(this.allClass[key]);
+        }
+      }
+
+      console.log(data);
+      this.allClassesData = data;
     }
   }),
   mounted: function mounted() {
     this.fetchClasses();
+    this.fetchAllSchoolyear_semester();
   }
 });
 
@@ -522,30 +582,93 @@ var render = function() {
             "div",
             [
               _c(
+                "v-col",
+                { staticClass: "text-right" },
+                [
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: {
+                        bottom: "",
+                        color: "primary",
+                        dark: "",
+                        fab: "",
+                        fixed: "",
+                        right: ""
+                      },
+                      on: { click: _vm.openJoinmodal }
+                    },
+                    [_c("v-icon", [_vm._v("mdi-plus")])],
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
                 "v-row",
+                { staticStyle: { "margin-bottom": "-40px" } },
                 [
                   _c("v-col", [_c("h2", [_vm._v("My Classes")])]),
                   _vm._v(" "),
                   _c(
                     "v-col",
-                    { staticClass: "text-right" },
+                    { staticClass: "text-right", attrs: { lg: "2" } },
                     [
-                      _c(
-                        "v-btn",
-                        {
-                          attrs: {
-                            bottom: "",
-                            color: "primary",
-                            dark: "",
-                            fab: "",
-                            fixed: "",
-                            right: ""
-                          },
-                          on: { click: _vm.openJoinmodal }
+                      _c("v-select", {
+                        staticClass: "mr-2 my-0",
+                        attrs: {
+                          items: _vm.school_year,
+                          "item-text": "schoolyear",
+                          "item-value": "id",
+                          label: "School Year",
+                          outlined: "",
+                          small: ""
                         },
-                        [_c("v-icon", [_vm._v("mdi-plus")])],
-                        1
-                      )
+                        on: {
+                          change: function($event) {
+                            return _vm.schoolYearFilter()
+                          }
+                        },
+                        model: {
+                          value: _vm.school_year_id,
+                          callback: function($$v) {
+                            _vm.school_year_id = $$v
+                          },
+                          expression: "school_year_id"
+                        }
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-col",
+                    { staticClass: "text-right", attrs: { lg: "2" } },
+                    [
+                      _c("v-select", {
+                        staticClass: "mr-2 my-0",
+                        attrs: {
+                          items: _vm.semester,
+                          "item-text": "semester",
+                          "item-value": "id",
+                          label: "Semester",
+                          outlined: "",
+                          small: ""
+                        },
+                        on: {
+                          change: function($event) {
+                            return _vm.semesterFilter()
+                          }
+                        },
+                        model: {
+                          value: _vm.semester_id,
+                          callback: function($$v) {
+                            _vm.semester_id = $$v
+                          },
+                          expression: "semester_id"
+                        }
+                      })
                     ],
                     1
                   )
@@ -556,7 +679,7 @@ var render = function() {
               _c(
                 "v-row",
                 { staticClass: "mt-3" },
-                _vm._l(_vm.allClass, function(item, i) {
+                _vm._l(_vm.allClassesData, function(item, i) {
                   return _c(
                     "v-col",
                     { key: "class" + i, attrs: { lg: "3", md: "6" } },
@@ -649,7 +772,7 @@ var render = function() {
                                         [
                                           _vm._v(
                                             _vm._s(item.course_code) +
-                                              " \n                                "
+                                              "\n                                    "
                                           ),
                                           _c("br"),
                                           _vm._v(
@@ -664,7 +787,7 @@ var render = function() {
                                   _vm._v(" "),
                                   _c("hr"),
                                   _vm._v(
-                                    "\n                               " +
+                                    "\n                            " +
                                       _vm._s(item.class_name) +
                                       " "
                                   ),
@@ -672,7 +795,7 @@ var render = function() {
                                   _vm._v(
                                     "\n                            Class code:" +
                                       _vm._s(item.class_code) +
-                                      " \n                        "
+                                      "\n                        "
                                   )
                                 ],
                                 1

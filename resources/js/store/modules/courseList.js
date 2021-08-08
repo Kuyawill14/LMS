@@ -15,7 +15,7 @@ const actions = {
         const response = await axios.get("/api/course/all");
         commit("setcourseList", response.data);
     },
-    async createCourse({ commit , rootState}, courseItem) {
+    async createCourse({ commit, rootState }, courseItem) {
         delete courseItem.id;
         let res = await axios.post(`/api/course/insert`, { courseItem: courseItem });
         let newCourse = res.data;
@@ -28,7 +28,7 @@ const actions = {
     },
 
     async updateCourse({ commit }, courseItem) {
-        console.log(courseItem);
+        console.log('course_item', courseItem);
         let response = await axios
             .post(`/api/course/update/${courseItem.id}`, { courseItem: courseItem })
             .then(res => {
@@ -43,8 +43,8 @@ const actions = {
 
         return response;
     },
-  
-   
+
+
 };
 const mutations = {
     setcourseList: (state, courseList) => (state.courseList = courseList),

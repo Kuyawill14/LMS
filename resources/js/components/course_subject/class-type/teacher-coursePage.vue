@@ -2,11 +2,9 @@
     <div>
 
         <v-dialog v-model="Archivedialog" persistent max-width="400">
-            <confirmArchiveCourse
-            v-on:toggleCancelDialog="Archivedialog = !Archivedialog"
-            v-on:toggleconfirm="archiveCourse()"
-            :ArchiveDetails="ArchiveDetails"
-            v-if="Archivedialog"></confirmArchiveCourse>
+            <confirmArchiveCourse v-on:toggleCancelDialog="Archivedialog = !Archivedialog"
+                v-on:toggleconfirm="archiveCourse()" :ArchiveDetails="ArchiveDetails" v-if="Archivedialog">
+            </confirmArchiveCourse>
         </v-dialog>
 
         <v-row align="center" justify="center" class="pt-10" v-if="coursesLength == 0">
@@ -37,7 +35,6 @@
         </v-container>
 
 
-
         <v-dialog v-model="dialog" width="400px">
             <v-card>
                 <v-card-title class="">
@@ -66,19 +63,27 @@
         </v-dialog>
 
         <div v-if="coursesLength != 0 && isGetting == false">
-
-            <v-row>
+            <v-btn bottom color="primary" dark fab fixed right @click="openAddmodal()">
+                <v-icon>mdi-plus</v-icon>
+            </v-btn>
+            <v-row style="margin-bottom: -40px;">
                 <v-col>
                     <h2>My Courses</h2>
                 </v-col>
-                <v-col class="text-right">
-                    <v-btn bottom color="primary" dark fab fixed right @click="openAddmodal()">
-                        <v-icon>mdi-plus</v-icon>
-                    </v-btn>
+                <v-col lg="2" class="text-right">
+                    <v-select class="mr-2 my-0" :items="school_year" item-text="schoolyear" item-value="id"
+                        label="School Year" v-model="school_year_id" outlined small @change=" schoolYearFilter()">
+                    </v-select>
+                </v-col>
+                <v-col class="text-right" lg="2">
+                    <v-select class="mr-2 my-0" :items="semester" item-text="semester" item-value="id" label="Semester"
+                        v-model="semester_id" outlined small @change="semesterFilter()"></v-select>
+
+
                 </v-col>
             </v-row>
             <v-row class="mt-3">
-                <v-col lg="3" md="6" v-for="(item, i) in allCourse" :key="'course'+i">
+                <v-col lg="3" md="6" v-for="(item, i) in allCoursesData" :key="'course'+i">
                     <div class="card-expansion">
                         <v-card class="mx-auto">
                             <v-img :src="'../images/'+item.course_picture" height="200px">
@@ -110,13 +115,14 @@
                             </v-img>
 
                             <v-card-subtitle>
-                               <router-link :to="{name: 'coursePage', params: {id: item.id}}" style="text-decoration: none">
-                                    <p style="font-size: 16px;">{{item.course_code }} 
-                                    <br> {{ item.course_name}}
+                                <router-link :to="{name: 'coursePage', params: {id: item.id}}"
+                                    style="text-decoration: none">
+                                    <p style="font-size: 16px;">{{item.course_code }}
+                                        <br> {{ item.course_name}}
                                     </p>
                                 </router-link>
-                                 <hr>
-                                  {{item.student_count+' students'}} <br>
+                                <hr>
+                                {{item.student_count+' students'}} <br>
                                 {{item.class_count+' class'}}
                             </v-card-subtitle>
 
@@ -151,6 +157,10 @@
         },
         data() {
             return {
+                school_year: [],
+                semester: [],
+                school_year_id: '',
+                semester_id: '',
                 coursesLength: null,
                 isGetting: false,
                 dialog: false,
@@ -167,13 +177,14 @@
                     course_code: '',
                 },
                 Archivedialog: false,
-                ArchiveDetails:{}
+                ArchiveDetails: {},
+                allCoursesData: [],
             }
         },
         computed: mapGetters(['allCourse']),
         methods: {
             ...mapActions(['fetchCourseList']),
-               toastSuccess(message,icon) {
+            toastSuccess(message, icon) {
                 return this.$toasted.success(message, {
                     theme: "toasted-primary",
                     position: "top-center",
@@ -181,17 +192,17 @@
                     duration: 5000
                 });
             },
-            archiveConfirm(name,id){
+            archiveConfirm(name, id) {
                 this.ArchiveDetails.course_id = id;
                 this.ArchiveDetails.name = name;
                 this.Archivedialog = !this.Archivedialog
             },
-            archiveCourse(){
-                axios.delete('/api/course/archiveCourse/'+this.ArchiveDetails.course_id)
-                .then(res=>{
-                    this.fetchCourses();
-                    this.Archivedialog = !this.Archivedialog;
-                })
+            archiveCourse() {
+                axios.delete('/api/course/archiveCourse/' + this.ArchiveDetails.course_id)
+                    .then(res => {
+                        this.fetchCourses();
+                        this.Archivedialog = !this.Archivedialog;
+                    })
             },
             openAddmodal() {
                 this.dialog = !this.dialog;
@@ -200,7 +211,7 @@
                 this.modalType = "add";
             },
             openEditmodal(course_id) {
-                   this.dialog = !this.dialog;
+                this.dialog = !this.dialog;
                 this.modalType = "update";
                 var selectedCourse = this.allCourse.find(x => x.id === course_id);
                 this.form.id = course_id;
@@ -208,7 +219,7 @@
                 this.form.course_code = selectedCourse.course_code;
                 this.form.course_id = selectedCourse.course_id;
             },
-        
+
             createCourse() {
                 if (this.form.course_name != "" && this.form.course_code != "") {
                     this.isloading = true;
@@ -216,21 +227,71 @@
                         this.dialog = false;
                         let id = res.id;
                         this.toastSuccess("Your course has been Added", 'done');
-                        this.$router.push({name: 'courseSetup' , params: {id: id }})
-                       
+                        this.$router.push({
+                            name: 'courseSetup',
+                            params: {
+                                id: id
+                            }
+                        })
+
                     });
                 }
             },
             fetchCourses() {
                 this.isGetting = true;
                 this.$store.dispatch('fetchCourseList').then(() => {
+                    this.allCoursesData = this.allCourse;
                     this.coursesLength = this.allCourse.length;
                     this.isGetting = false;
                 });
             },
+            fetchAllSchoolyear_semester() {
+                axios.get('/api/admin/schoolyears_semesters/all')
+                    .then((res) => {
+                        this.school_year = res.data.school_year;
+                        this.semester = res.data.semester;
+                    })
+            },
+            schoolYearFilter() {
+                var data = [];
+                console.log(this.semester_id.length);
+                for (var key in this.allCourse) {
+                    if (this.semester_id != '') {
+                        if (this.allCourse[key].school_year_id == this.school_year_id && this.allCourse[key]
+                            .semester_id == this.semester_id) {
+                            data.push(this.allCourse[key]);
+                        }
+                    } else {
+                         if (this.allCourse[key].school_year_id == this.school_year_id ) {
+                            data.push(this.allCourse[key]);
+                        } 
+                    }
+
+                }
+                console.log(data);
+                this.allCoursesData = data;
+
+
+            },
+
+            semesterFilter() {
+                var data = [];
+                for (var key in this.allCourse) {
+                    if (this.allCourse[key].school_year_id == this.school_year_id && this.allCourse[key].semester_id ==
+                        this.semester_id) {
+                        data.push(this.allCourse[key]);
+                    }
+                }
+                console.log(data);
+                this.allCoursesData = data;
+
+
+            },
+
         },
         mounted() {
-          this.fetchCourses();
+            this.fetchCourses();
+            this.fetchAllSchoolyear_semester();
         },
     }
 
