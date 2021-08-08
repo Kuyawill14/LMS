@@ -2055,12 +2055,42 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var myNotification = function myNotification() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_dashboard_notificationComponent_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../notificationComponent */ "./resources/js/components/dashboard/notificationComponent.vue"));
 };
 
-var teacherCourse = function teacherCourse() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_dashboard_teacher_teacher-classes_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./teacher-classes */ "./resources/js/components/dashboard/teacher/teacher-classes.vue"));
+var teacherCourses = function teacherCourses() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_dashboard_teacher_teacher-courses_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./teacher-courses */ "./resources/js/components/dashboard/teacher/teacher-courses.vue"));
 };
 
 var myCalendar = function myCalendar() {
@@ -2084,62 +2114,14 @@ var progressChart = function progressChart() {
   components: {
     VChart: vue_echarts__WEBPACK_IMPORTED_MODULE_0__.default,
     myCalendar: myCalendar,
-    progressChart: progressChart
+    progressChart: progressChart,
+    teacherCourses: teacherCourses,
+    myNotification: myNotification
   },
   provide: {},
   data: function data() {
     return {
-      class_count: 0,
-      option: {
-        color: ["#FF5400", "#FFs400", "#FFd400"],
-        xAxis: {
-          data: ['Module 1', 'Module 2', 'Module 3', 'Module 4', 'Module 5', 'Module 6', 'Module 7', 'Module 8', 'Module 9']
-        },
-        yAxis: {
-          type: 'value'
-        },
-        tooltip: {
-          trigger: "item",
-          formatter: "{b} <br/>Time spent: {c} "
-        },
-        legend: {
-          show: false //     left: "center",
-          //   top: "30px",
-
-        },
-        series: [{
-          name: "Module 1",
-          type: "bar",
-          data: [{
-            value: 1,
-            name: "Module 1"
-          }, {
-            value: 2,
-            name: "Module 2"
-          }, {
-            value: 3,
-            name: "Module 3"
-          }, {
-            value: 4,
-            name: "Module 4"
-          }, {
-            value: 5,
-            name: "Module 5"
-          }, {
-            value: 6,
-            name: "Module 6"
-          }, {
-            value: 7,
-            name: "Module 7"
-          }, {
-            value: 8,
-            name: "Module 8"
-          }, {
-            value: 9,
-            name: "Module 9"
-          }]
-        }]
-      }
+      class_count: 0
     };
   },
   computed: (0,vuex__WEBPACK_IMPORTED_MODULE_8__.mapGetters)(['allCourse']),
@@ -46271,7 +46253,7 @@ var render = function() {
         [
           _c(
             "v-col",
-            { staticClass: "pt-0", attrs: { lg: "12" } },
+            { staticClass: "pt-0", attrs: { lg: "8" } },
             [
               _c(
                 "v-row",
@@ -46292,7 +46274,7 @@ var render = function() {
                           },
                           [
                             _vm._v(
-                              "\n                           " +
+                              "\n                            " +
                                 _vm._s(_vm.allCourse.length) +
                                 "\n                        "
                             )
@@ -46325,7 +46307,7 @@ var render = function() {
                           },
                           [
                             _vm._v(
-                              "\n                           " +
+                              "\n                            " +
                                 _vm._s(_vm.class_count) +
                                 "\n                        "
                             )
@@ -46343,6 +46325,13 @@ var render = function() {
                   )
                 ],
                 1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-row",
+                { staticClass: "mt-0" },
+                [_c("v-col", [_c("teacherCourses")], 1)],
+                1
               )
             ],
             1
@@ -46350,16 +46339,32 @@ var render = function() {
           _vm._v(" "),
           _c(
             "v-col",
-            { attrs: { cols: "12", md: "12", lg: "8" } },
-            [_c("progressChart")],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "v-col",
-            { attrs: { cols: "12", md: "12", lg: "4" } },
+            { attrs: { lg: "4" } },
             [
-              _c("v-card", [_c("myCalendar", { attrs: { role: _vm.role } })], 1)
+              _c(
+                "v-row",
+                [
+                  _c(
+                    "v-col",
+                    { staticClass: "pt-0" },
+                    [
+                      _c(
+                        "v-card",
+                        [_c("myCalendar", { attrs: { role: _vm.role } })],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-row",
+                [_c("v-col", [_c("v-card", [_c("myNotification")], 1)], 1)],
+                1
+              )
             ],
             1
           )
