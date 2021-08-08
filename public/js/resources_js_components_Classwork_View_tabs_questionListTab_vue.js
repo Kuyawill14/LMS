@@ -489,6 +489,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
 var deleteDialog = function deleteDialog() {
   return Promise.resolve(/*! import() */).then(__webpack_require__.bind(__webpack_require__, /*! ../dialogs/deleteDialog */ "./resources/js/components/Classwork_View/tabs/dialogs/deleteDialog.vue"));
 };
@@ -576,6 +580,7 @@ var optionRemoveDialog = function optionRemoveDialog() {
       } else {
         this.DeleteDetails.number = index + 1;
         this.DeleteDetails.id = id;
+        this.DeleteDetails.type = 'Multiple Choice';
         this.isOptionIndex = index;
         this.isOptionRemove = true;
         this.dialog = true;
@@ -589,9 +594,12 @@ var optionRemoveDialog = function optionRemoveDialog() {
         id: '',
         question_id: this.QuetionsList.id
       });
-      axios.post('/api/question/addOption', this.getAnswerList[this.getAnswerList.length - 1]).then(function (res) {
+      axios.post('/api/question/addOption', {
+        type: 'Multiple Choice',
+        answers: this.getAnswerList[this.getAnswerList.length - 1]
+      }).then(function (res) {
         if (res.status == 200) {
-          _this.getAnswerList[_this.getAnswerList.length - 1].id = res.data;
+          _this.getAnswerList[_this.getAnswerList.length - 1].id = res.data.answer_id;
         }
       });
     },
@@ -604,6 +612,7 @@ var optionRemoveDialog = function optionRemoveDialog() {
             switch (_context.prev = _context.next) {
               case 0:
                 axios.put('/api/question/update/' + _this2.QuetionsList.id, {
+                  type: 'Multiple Choice',
                   question: _this2.QuetionsList,
                   options: _this2.AnswerList
                 }).then(function (res) {
@@ -647,6 +656,36 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vue_element_loading__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-element-loading */ "./node_modules/vue-element-loading/lib/vue-element-loading.min.js");
+/* harmony import */ var vue_element_loading__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue_element_loading__WEBPACK_IMPORTED_MODULE_1__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -846,14 +885,24 @@ var deleteDialog = function deleteDialog() {
   return Promise.resolve(/*! import() */).then(__webpack_require__.bind(__webpack_require__, /*! ../dialogs/deleteDialog */ "./resources/js/components/Classwork_View/tabs/dialogs/deleteDialog.vue"));
 };
 
+var optionRemoveDialog = function optionRemoveDialog() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_tabs_dialogs_optionRemoveDialog_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../dialogs/optionRemoveDialog */ "./resources/js/components/Classwork_View/tabs/dialogs/optionRemoveDialog.vue"));
+};
+
+
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['number', 'Question', 'SubQuestion', 'Answers'],
   components: {
-    deleteDialog: deleteDialog
+    deleteDialog: deleteDialog,
+    optionRemoveDialog: optionRemoveDialog,
+    VueElementLoading: (vue_element_loading__WEBPACK_IMPORTED_MODULE_1___default())
   },
   data: function data() {
     return {
+      isUpdating: false,
+      OptionRemovedialog: false,
+      isOptionIndex: null,
       Alphabet: "",
       QuetionsList: {},
       SubQuestionList: {},
@@ -888,37 +937,85 @@ var deleteDialog = function deleteDialog() {
       ;
     },
     toastSuccess: function toastSuccess() {
-      return this.$toasted.success("Question Successfully added", {
-        theme: "toasted-primary",
-        position: "top-center",
-        icon: "done",
-        duration: 3000
-      });
+      this.toastSuccess("Question Successfully added");
     },
-    removeAnswer: function removeAnswer(id, index) {
+    SliceOption: function SliceOption() {
+      this.SubQuestionList.splice(this.isOptionIndex, 1);
+      this.AnswerList.splice(this.isOptionIndex, 1);
+    },
+    AddNewMatch: function AddNewMatch() {
       var _this = this;
 
-      if (index <= 2) {
-        Swal.fire({
-          icon: 'info',
-          title: 'Oops...',
-          text: 'You must leave atleast two choices'
-        });
+      this.QuetionsList.points += 1;
+      this.SubQuestionList.push({
+        sub_question: '',
+        id: '',
+        question_id: this.QuetionsList.id
+      });
+      this.AnswerList.push({
+        Choice: '',
+        id: '',
+        question_id: this.QuetionsList.id
+      });
+      axios.post('/api/question/addOption', {
+        type: 'Matching Type',
+        SubQuestion: this.SubQuestionList[this.SubQuestionList.length - 1],
+        answer: this.AnswerList[this.AnswerList.length - 1]
+      }).then(function (res) {
+        if (res.status == 200) {
+          _this.SubQuestionList[_this.SubQuestionList.length - 1].id = res.data.main_id;
+          _this.AnswerList[_this.AnswerList.length - 1].id = res.data.answer_id;
+        }
+      });
+    },
+    removeAnswer: function removeAnswer(index, id, subQuestionLength) {
+      if (subQuestionLength <= 2) {
+        this.toastError('You must leave atleast two choices');
       } else {
-        axios["delete"]('/api/question/' + id).then(function (res) {
-          _this.$store.dispatch('fetchQuestions', _this.$route.query.clwk).then(function (r) {
-            _this.Qlength = r[1];
-          });
-        });
+        this.DeleteDetails.number = index + 1;
+        this.DeleteDetails.id = id;
+        this.DeleteDetails.type = 'Matching Type';
+        this.isOptionIndex = index;
+        this.OptionRemovedialog = true;
       }
+    },
+    updateQuestion: function updateQuestion() {
+      var _this2 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                axios.put('/api/question/update/' + _this2.QuetionsList.id, {
+                  type: 'Matching Type',
+                  details: _this2.QuetionsList,
+                  question: _this2.SubQuestionList,
+                  options: _this2.AnswerList
+                }).then(function (res) {
+                  if (res.status == 200) {
+                    _this2.isUpdating = true;
+                    _this2.isEditing = false;
+                    _this2.isEditing = false;
+                    setTimeout(function () {
+                      return _this2.isUpdating = false, _this2.preview = !_this2.preview;
+                    }, 1000); //this.toastSuccess("Question Successfully updated");
+                  }
+                });
+
+              case 1:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
     }
   },
   mounted: function mounted() {
     this.QuetionsList = this.Question;
     this.AnswerList = this.Answers;
     this.SubQuestionList = this.SubQuestion;
-    var alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
-    this.Alphabet = alphabet;
   }
 });
 
@@ -945,6 +1042,7 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+//
 //
 //
 //
@@ -1468,6 +1566,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 _context.next = 2;
                 return axios.put('/api/question/update/' + data.id, {
+                  type: QuetionsList.type,
                   question: data
                 }).then(function (res) {
                   if (res.status == 200) {
@@ -2751,6 +2850,15 @@ var render = function() {
                                             attrs: { "ma-0": "", "pa-0": "" }
                                           },
                                           [
+                                            _c("v-container", [
+                                              _c("h3", [
+                                                _vm._v(
+                                                  "Question #" +
+                                                    _vm._s(_vm.number)
+                                                )
+                                              ])
+                                            ]),
+                                            _vm._v(" "),
                                             _c(
                                               "v-container",
                                               {
@@ -2872,12 +2980,6 @@ var render = function() {
                                           ],
                                           1
                                         ),
-                                        _vm._v(" "),
-                                        _c("h2", [
-                                          _vm._v(
-                                            "Question #" + _vm._s(_vm.number)
-                                          )
-                                        ]),
                                         _vm._v(" "),
                                         _c(
                                           "v-row",
@@ -3346,7 +3448,7 @@ var render = function() {
                                           "d-flex flex-row justify-space-between"
                                       },
                                       [
-                                        _c("h2", [
+                                        _c("h3", [
                                           _vm._v(
                                             "Question #" + _vm._s(_vm.number)
                                           )
@@ -3359,7 +3461,7 @@ var render = function() {
                                             on: {
                                               click: function($event) {
                                                 ;(_vm.preview = !_vm.preview),
-                                                  (_vm.isEditing = !_vm.isEditing)
+                                                  (_vm.isEditing = true)
                                               }
                                             }
                                           },
@@ -3388,6 +3490,8 @@ var render = function() {
                                       ],
                                       1
                                     ),
+                                    _vm._v(" "),
+                                    _c("v-divider"),
                                     _vm._v(" "),
                                     _c("v-container", [
                                       _c(
@@ -3591,6 +3695,37 @@ var render = function() {
                     ),
                     _vm._v(" "),
                     _c(
+                      "v-dialog",
+                      {
+                        attrs: { persistent: "", "max-width": "370" },
+                        model: {
+                          value: _vm.OptionRemovedialog,
+                          callback: function($$v) {
+                            _vm.OptionRemovedialog = $$v
+                          },
+                          expression: "OptionRemovedialog"
+                        }
+                      },
+                      [
+                        _vm.OptionRemovedialog
+                          ? _c("optionRemoveDialog", {
+                              attrs: { DeleteDetails: _vm.DeleteDetails },
+                              on: {
+                                toggleOptionDialog: function($event) {
+                                  _vm.OptionRemovedialog = !_vm.OptionRemovedialog
+                                },
+                                reloadOptionList: function($event) {
+                                  _vm.SliceOption(),
+                                    (_vm.OptionRemovedialog = !_vm.OptionRemovedialog)
+                                }
+                              }
+                            })
+                          : _vm._e()
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
                       "v-row",
                       [
                         !_vm.preview
@@ -3601,6 +3736,13 @@ var render = function() {
                                 attrs: { cols: "12", md: "12" }
                               },
                               [
+                                _c("vue-element-loading", {
+                                  attrs: {
+                                    active: _vm.isUpdating,
+                                    spinner: "bar-fade-scale"
+                                  }
+                                }),
+                                _vm._v(" "),
                                 _c(
                                   "v-container",
                                   { staticClass: "mb-1" },
@@ -3666,7 +3808,7 @@ var render = function() {
                                                 },
                                                 on: {
                                                   click: function($event) {
-                                                    _vm.preview = !_vm.preview
+                                                    return _vm.updateQuestion()
                                                   }
                                                 }
                                               },
@@ -3727,7 +3869,7 @@ var render = function() {
                                       1
                                     ),
                                     _vm._v(" "),
-                                    _c("h2", [
+                                    _c("h3", [
                                       _vm._v("Question #" + _vm._s(_vm.number))
                                     ]),
                                     _vm._v(" "),
@@ -3935,17 +4077,13 @@ var render = function() {
                                                               },
                                                               [
                                                                 _c(
-                                                                  "v-card",
+                                                                  "div",
                                                                   {
                                                                     staticClass:
-                                                                      "pa-3 mb-2",
+                                                                      "pr-2",
                                                                     staticStyle: {
                                                                       width:
                                                                         "100%"
-                                                                    },
-                                                                    attrs: {
-                                                                      outlined:
-                                                                        ""
                                                                     }
                                                                   },
                                                                   [
@@ -3976,6 +4114,12 @@ var render = function() {
                                                                         staticStyle: {
                                                                           width:
                                                                             "100%"
+                                                                        },
+                                                                        attrs: {
+                                                                          elevation:
+                                                                            "0",
+                                                                          outlined:
+                                                                            ""
                                                                         }
                                                                       },
                                                                       [
@@ -3983,8 +4127,6 @@ var render = function() {
                                                                           "editor",
                                                                           {
                                                                             attrs: {
-                                                                              rules:
-                                                                                _vm.rules,
                                                                               id:
                                                                                 "editor-container",
                                                                               placeholder:
@@ -4015,8 +4157,20 @@ var render = function() {
                                                                         )
                                                                       ],
                                                                       1
-                                                                    ),
-                                                                    _vm._v(" "),
+                                                                    )
+                                                                  ],
+                                                                  1
+                                                                ),
+                                                                _vm._v(" "),
+                                                                _c(
+                                                                  "div",
+                                                                  {
+                                                                    staticStyle: {
+                                                                      width:
+                                                                        "100%"
+                                                                    }
+                                                                  },
+                                                                  [
                                                                     _c(
                                                                       "div",
                                                                       {
@@ -4044,6 +4198,12 @@ var render = function() {
                                                                         staticStyle: {
                                                                           width:
                                                                             "100%"
+                                                                        },
+                                                                        attrs: {
+                                                                          elevation:
+                                                                            "0",
+                                                                          outlined:
+                                                                            ""
                                                                         }
                                                                       },
                                                                       [
@@ -4102,6 +4262,19 @@ var render = function() {
                                                                         attrs: {
                                                                           icon:
                                                                             ""
+                                                                        },
+                                                                        on: {
+                                                                          click: function(
+                                                                            $event
+                                                                          ) {
+                                                                            return _vm.removeAnswer(
+                                                                              i,
+                                                                              Ans.id,
+                                                                              _vm
+                                                                                .SubQuestionList
+                                                                                .length
+                                                                            )
+                                                                          }
                                                                         }
                                                                       },
                                                                       [
@@ -4152,7 +4325,7 @@ var render = function() {
                                                           click: function(
                                                             $event
                                                           ) {
-                                                            return _vm.addNewMatch()
+                                                            return _vm.AddNewMatch()
                                                           }
                                                         }
                                                       },
@@ -4208,7 +4381,7 @@ var render = function() {
                                       "d-flex flex-row justify-space-between"
                                   },
                                   [
-                                    _c("h2", [
+                                    _c("h3", [
                                       _vm._v("Question #" + _vm._s(_vm.number))
                                     ]),
                                     _vm._v(" "),
@@ -4218,9 +4391,8 @@ var render = function() {
                                         attrs: { rounded: "" },
                                         on: {
                                           click: function($event) {
-                                            _vm.previewAll
-                                              ? (_vm.preview = false)
-                                              : (_vm.preview = !_vm.preview)
+                                            ;(_vm.preview = !_vm.preview),
+                                              (_vm.isEditing = true)
                                           }
                                         }
                                       },
@@ -4661,7 +4833,7 @@ var render = function() {
                                       1
                                     ),
                                     _vm._v(" "),
-                                    _c("h2", [
+                                    _c("h3", [
                                       _vm._v("Question #" + _vm._s(_vm.number))
                                     ]),
                                     _vm._v(" "),
@@ -4950,7 +5122,7 @@ var render = function() {
                                       "d-flex flex-row justify-space-between"
                                   },
                                   [
-                                    _c("h2", [
+                                    _c("h3", [
                                       _vm._v("Question #" + _vm._s(_vm.number))
                                     ]),
                                     _vm._v(" "),
@@ -4982,7 +5154,9 @@ var render = function() {
                                         ])
                                       ],
                                       1
-                                    )
+                                    ),
+                                    _vm._v(" "),
+                                    _c("v-divider")
                                   ],
                                   1
                                 ),

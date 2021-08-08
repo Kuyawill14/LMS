@@ -21,9 +21,11 @@
             </v-dialog>
             <v-row >
                 <v-col v-if="!preview && !CheckPreview" cols="12" md="12" class="pa-5">
-                     <vue-element-loading :active="isUpdating" spinner="bar-fade-scale" />
+                    <vue-element-loading :active="isUpdating" spinner="bar-fade-scale" />
                     <v-container class="mb-1">
                             <v-container ma-0 pa-0 class="mb-3 d-flex flex-row justify-space-between">
+                               
+                                 <v-container>  <h3>Question #{{number}}</h3></v-container>
                                 <v-container ma-0 pa-0 class="pa-0 ma-0 d-flex justify-end">
                                     <v-btn
                                     class="mr-2"
@@ -55,7 +57,8 @@
                                 </v-container>
                             </v-container>
 
-                            <h2>Question #{{number}}</h2>
+                           
+                           
                             <v-row  class="pa-0 ma-0">
                                 <v-col class="pa-0 ma-0" cols="3"  md="1" lg="1">
                                     <v-text-field min="0" :readonly="!isEditing" outlined type="number" v-model="getQuestion.points" class="pa-0 ma-0"  label="Points"></v-text-field>
@@ -184,14 +187,15 @@
 
                 <v-col @dblclick="CheckPreview ? preview = false: preview = !preview"  v-if="preview || CheckPreview" cols="12" md="12" class="pl-4 pr-4 pt-2">
                         <v-container class="d-flex flex-row justify-space-between">
-                            <h2>Question #{{number}}</h2>
+                            <h3>Question #{{number}}</h3>
                                 <v-btn
                                 rounded
-                                @click="preview = !preview,isEditing = !isEditing">
+                                @click="preview = !preview,isEditing = true">
                                 {{$vuetify.breakpoint.xs ? '' : 'Edit'}}
                                 <v-icon right>mdi-square-edit-outline</v-icon>
                             </v-btn>
                         </v-container>
+                        <v-divider></v-divider>
                         <v-container>
                             <div :style="$vuetify.breakpoint.xs ? 'line-height:1.1':'line-height:1.5'" class="subtitle-2"> <span v-html="getQuestion.question" class="post-content"></span></div>
                         </v-container>
@@ -307,6 +311,7 @@ export default {
             }else{
                 this.DeleteDetails.number = index+1;
                 this.DeleteDetails.id = id;
+                this.DeleteDetails.type = 'Multiple Choice';
                 this.isOptionIndex = index;
                 this.isOptionRemove = true;
                 this.dialog = true;
@@ -315,15 +320,19 @@ export default {
         },
         add() {
             this.getAnswerList.push({ Choice: '' , id:'', question_id: this.QuetionsList.id });
-            axios.post('/api/question/addOption', this.getAnswerList[this.getAnswerList.length-1])
+            axios.post('/api/question/addOption',
+            {
+                type: 'Multiple Choice',
+                answers: this.getAnswerList[this.getAnswerList.length-1],
+            })
             .then(res=>{
                 if(res.status == 200){
-                    this.getAnswerList[this.getAnswerList.length-1].id = res.data;
+                    this.getAnswerList[this.getAnswerList.length-1].id = res.data.answer_id;
                 }
             })
         },
         async updateQuestion(){
-            axios.put('/api/question/update/'+this.QuetionsList.id, {question: this.QuetionsList, options: this.AnswerList})
+            axios.put('/api/question/update/'+this.QuetionsList.id, {type: 'Multiple Choice', question: this.QuetionsList, options: this.AnswerList})
             .then(res=>{
                 if(res.status == 200){
                     this.isUpdating = true;

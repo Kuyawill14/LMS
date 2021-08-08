@@ -875,7 +875,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   mounted: function mounted() {
     this.ShowTimer(); //this.newTimer();
-    //this.startTimer1();
+    //this.startTimer();
   }
 });
 
@@ -23121,7 +23121,7 @@ var render = function() {
                                               1
                                             ),
                                             _vm._v(" "),
-                                            !_vm.isLoading && _vm.StopTimer
+                                            !_vm.isLoading && !_vm.StopTimer
                                               ? _c("quizTimer", {
                                                   attrs: {
                                                     StartTime: _vm.StartTime,

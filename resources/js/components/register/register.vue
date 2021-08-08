@@ -11,6 +11,7 @@
                             <v-col :class="$vuetify.breakpoint.xs ? 'ma-0 pa-5' :'ma-0 pa-0'" cols="12" md="8">
                                 <v-row align="center" justify="center">
                                     <v-col class="text-left" cols="12" md="8" sm="10">
+                                         <vue-element-loading :active="isRegistering" spinner="bar-fade-scale" />
                                           <v-card-text >
                                            
 
@@ -64,13 +65,21 @@
                                                     </v-col>
 
                                                      <v-col class="ma-0 pa-0 mb-1" cols="12" md="8">
+<!--                                                        <HasError class="error--text" :form="form" field="lastName" /> -->
+                                                        <v-text-field class="mb-0 pb-0" label="Class Code" :rules="ClassCodeRules" name="lastname"
+                                                        hint="Please provide a valid class code to be able to register"
+                                                            v-model="form.class_code" type="text" color="primary" />
+                                                            <small class="error--text">{{invalid_classcode_message}}</small>
+                                                    </v-col>
+                                                    
+
+                                                     <v-col class="ma-0 pa-0 mb-1" cols="12" md="8">
                                                         <v-select :items="role" v-model="form.role" :rules="RoleRules"
                                                         label="Role"></v-select>
                                                     </v-col>
 
-
                                                     <v-col class="ma-0 pa-0 text-left mt-2" cols="12" md="8">
-                                                          <v-btn :disabled="!valid" @click="validate" color="primary" class="mb-5">
+                                                        <v-btn :loading="isRegistering" :disabled="!valid" @click="validate" color="primary" class="mb-5">
                                                             <v-icon class="mr-3">mdi-login</v-icon>
                                                             Sign Up
                                                         </v-btn>
@@ -109,10 +118,16 @@
 </template>
 
 <script>
+import VueElementLoading from 'vue-element-loading';
     export default {
+        components:{
+            VueElementLoading
+        },
         data: () => ({
+            isRegistering: false,
             valid: true,
             role: ['Teacher', 'Student'],
+            invalid_classcode_message: null,
             form: new Form({
                 firstName: "",
                 middleName: "",
@@ -120,7 +135,12 @@
                 email: "",
                 password: "",
                 password_confirmation: "",
-                role: ""
+                class_code: "",
+                role: "Student"
+            }),
+            loginForm: new Form({
+                email: "",
+                password: "",
             }),
             nameRules: [
                 v => !!v || 'Field is required',
@@ -133,6 +153,11 @@
             RoleRules: [
                 v => !!v || "Field is required",
             ],
+             ClassCodeRules: [
+                v => !!v || "Class code is required",
+            ],
+
+            
             show: false,
             show1: false,
             rules: {
@@ -151,14 +176,48 @@
             },
             validate() {
                 if (this.$refs.RegisterForm.validate()) {
+                    this.isRegistering = true;
                     this.form.post('/api/register')
-                    .then(() => {
-                        console.log("Success");
-                        this.$refs.RegisterForm.reset()
-                        this.valid = true;
+                    .then((res) => {
+                        if(res.status == 201){
+                            this.toastSuccess('User Registration Successfull!');
+                            this.login(res.data.email, this.form.password);
+                            this.$refs.RegisterForm.reset()
+                            this.valid = true;
+                            
+                        }
+                        else if(res.status == 202){
+                            this.toastError(res.data.message);
+                            this.invalid_classcode_message = res.data.message;
+                         
+                        }
+                       
                     })
+                    .catch(e=>{
+                        this.toastError('Something went wrong while registering!');
+                        
+                    })
+                    this.isRegistering = false;
                 }
             },
+            login(email, password){
+            this.loginForm.email = email;
+            this.loginForm.password = password;
+            axios.get('/sanctum/csrf-cookie').then(response => {
+                    this.loginForm.post('/api/login')
+                        .then((res) => {
+                            if(res.status == 200) {
+                                this.$store.dispatch('clear_current_user');
+                                this.$router.push({ path: "/" })
+                            }
+                            else{
+                            this.toastError(res.data);
+                            }
+                        })
+                
+                });
+                    
+            }
         }
     };
 

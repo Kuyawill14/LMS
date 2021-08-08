@@ -191,7 +191,7 @@ export default {
         
          this.ShowTimer();
         //this.newTimer();
-            //this.startTimer1();
+        //this.startTimer();
        
              
             

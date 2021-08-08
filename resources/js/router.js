@@ -298,6 +298,7 @@ const router = new Router({
                             path: "classwork",
                             component: classwork_tab,
                             beforeEnter: (to, form, next) => {
+                           
                                 store.dispatch('CheckMyCourse', to.params.id).then(res => {
                                     if (store.state.CurrentUser.CurrentStatus.exist == true) {
                                         if (store.state.CurrentUser.CurrentStatus.status == 1) {
@@ -740,23 +741,12 @@ const router = new Router({
 })
 
 
-/* Vue.mixin({
-    beforeRouteLeave (to, from, next){
-        if(to.name == 'quizstart'){
-            const answer = window.confirm('Do you really want to leave? you have unsaved changes!')
-            if (answer) {
-              next()
-            } else {
-              next(false)
-            }
-        }
-        else{n';lokj        1`
-            next()
-        }
-    }
-}) */
+
+
+
 router.beforeEach((to, from, next) => {
-    if (to.name != 'login') {
+  
+    if (to.name != 'login' && to.name != 'register') {
         store.dispatch('fetchMyCoursesStatus');
         store.dispatch('fetchCurrentUser');
     }

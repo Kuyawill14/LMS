@@ -135,9 +135,8 @@ var announcementPostList = function announcementPostList() {
     this.connect();
     this.fetchClassnames();
   },
-  beforeDestroy: function beforeDestroy() {
-    //this.classNames.destroy();
-    this.getclass_post.destroy();
+  beforeDestroy: function beforeDestroy() {//this.classNames.destroy();
+    //this.getclass_post.destroy();
   }
 });
 

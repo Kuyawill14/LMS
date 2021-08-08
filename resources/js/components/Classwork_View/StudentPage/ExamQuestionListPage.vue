@@ -68,7 +68,7 @@
                                 </v-list>
                                 </v-menu>
                             </div>
-                             <quizTimer :StartTime="StartTime"  :StopTimer="StopTimer" v-on:TimerStop="SubmitAnswer()" v-on:TimesUp="TimesUpSubmit()" :duration="duration" v-if="!isLoading && StopTimer"></quizTimer>
+                             <quizTimer :StartTime="StartTime"  :StopTimer="StopTimer" v-on:TimerStop="SubmitAnswer()" v-on:TimesUp="TimesUpSubmit()" :duration="duration" v-if="!isLoading && !StopTimer"></quizTimer>
                         </div>
                        
                     </div>

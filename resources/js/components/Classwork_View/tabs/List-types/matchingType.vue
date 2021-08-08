@@ -10,9 +10,25 @@
                 v-on:reloadList="$emit('reloadList'), dialog = !dialog, isRemoving = false"
                 
                 v-if="dialog"></deleteDialog>
+
+                
+
+
+            </v-dialog>
+
+            <v-dialog v-model="OptionRemovedialog" persistent max-width="370">
+             <optionRemoveDialog 
+                :DeleteDetails="DeleteDetails"
+                v-on:toggleOptionDialog="OptionRemovedialog = !OptionRemovedialog"
+                v-on:reloadOptionList="SliceOption(), OptionRemovedialog = !OptionRemovedialog"
+                v-if="OptionRemovedialog"
+                >
+                </optionRemoveDialog>
+
             </v-dialog>
             <v-row >
                 <v-col v-if="!preview" cols="12" md="12" class="pa-5">
+                     <vue-element-loading :active="isUpdating" spinner="bar-fade-scale" />
                     <v-container class="mb-1">
                             <v-container ma-0 pa-0 class="mb-3 d-flex flex-row justify-space-between">
                                     <v-container ma-0 pa-0 class="pa-0 ma-0 d-flex justify-end">
@@ -29,7 +45,7 @@
                                     <v-btn
                                         rounded
                                         color="primary"
-                                        @click="preview = !preview">
+                                        @click="updateQuestion()">
                                         
                                         {{$vuetify.breakpoint.xs ? '' : 'Update'}}
                                         <v-icon>mdi-check</v-icon>
@@ -46,7 +62,7 @@
                                     
                         </v-container>
                     
-                            <h2>Question #{{number}}</h2>
+                            <h3>Question #{{number}}</h3>
                             <v-row  class="pa-0 ma-0">
                             <!--  <v-col class="pa-0 ma-0" cols="3"  md="1" lg="1">
                                     <v-text-field :readonly="!isEditing" filled type="number" v-model="QuetionsList.points" class="pa-0 ma-0"  label="Points"></v-text-field>
@@ -99,29 +115,33 @@
                                             <v-row>
                                                 
                                             <v-col cols="12" >
-                                                <v-container class="d-flex flex-row ma-0 pa-0">
-                                                    <v-card style="width:100%" outlined class="pa-3 mb-2">
-                                                        <div class="font-weight-medium">{{'Question '}}{{i+1}}</div>
                                                 
-                                                        <v-card style="width:100%" class="mb-3">
-                                                        
-                                                        <editor :rules="rules"
-                                                            v-model="Ans.sub_question" 
-                                                        id="editor-container"  :placeholder="'Question '+(i+1)" 
-                                                            theme="snow" :options="options"></editor>
-                                                        </v-card>
-                                                        <div class="font-weight-medium">{{'Answer '}}{{i+1}}</div>
-                                                            <v-card style="width:100%" class="mb-3">
+                                                <v-container class="d-flex flex-row ma-0 pa-0">
+                                                    <div style="width:100%" class="pr-2">
+                                                        <div class="font-weight-medium">{{'Question '}}{{i+1}}</div>
+                                                            <v-card style="width:100%" class="mb-3" elevation="0" outlined>
+                                                            <editor
+                                                                v-model="Ans.sub_question" 
+                                                                id="editor-container"  :placeholder="'Question '+(i+1)" 
+                                                                theme="snow" :options="options">
+                                                            </editor>
+                                                            </v-card>
+                                                        </div>
+
+                                                        <div style="width:100%">
+                                                             <div class="font-weight-medium">{{'Answer '}}{{i+1}}</div>
+                                                            <v-card style="width:100%" class="mb-3" elevation="0" outlined>
                                                                 
-                                                        <editor 
-                                                        
-                                                            v-model="AnswerList[i].Choice"
-                                                        id="editor-container"  :placeholder="'Answer '+(i+1)" 
-                                                            theme="snow" :options="options"></editor>
-                                                        </v-card>
-                                                    </v-card>
+                                                            <editor 
+                                                                v-model="AnswerList[i].Choice"
+                                                                id="editor-container"  :placeholder="'Answer '+(i+1)" 
+                                                                theme="snow" :options="options">
+                                                            </editor>
+                                                            </v-card>
+                                                         </div>
 
                                                         <v-btn v-if="isEditing"
+                                                        @click="removeAnswer(i,Ans.id, SubQuestionList.length)"
                                                             icon class="mt-12 pl-2 pr-2">
                                                             <v-icon>mdi-delete</v-icon>
                                                     </v-btn>
@@ -134,7 +154,7 @@
                                             rounded
                                             class="mt-2"
                                             color="primary"
-                                            @click="addNewMatch()"
+                                            @click="AddNewMatch()"
                                             >
                                             <v-icon dark large>mdi-plus</v-icon>
                                             </v-btn>
@@ -146,10 +166,10 @@
 
                 <v-col @dblclick="preview =  !preview"  v-if="preview" cols="12" md="12" class="pl-4 pr-4 pt-2">
                         <v-container class="d-flex flex-row justify-space-between">
-                            <h2>Question #{{number}}</h2>
+                            <h3>Question #{{number}}</h3>
                                 <v-btn
                                 rounded
-                                @click="previewAll ? preview = false :preview = !preview">
+                                @click="preview = !preview, isEditing = true">
                                 {{$vuetify.breakpoint.xs ? '' : 'Edit'}}
                                 <v-icon right>mdi-square-edit-outline</v-icon>
                             </v-btn>
@@ -195,14 +215,21 @@
 </template>
 <script>
 const deleteDialog = () => import('../dialogs/deleteDialog')
+const optionRemoveDialog = () => import('../dialogs/optionRemoveDialog')
+import VueElementLoading from 'vue-element-loading'
  import {mapGetters, mapActions } from "vuex";
 export default {
     props:['number', 'Question','SubQuestion','Answers'],
     components:{
         deleteDialog,
+        optionRemoveDialog,
+        VueElementLoading
     },
     data(){
         return{
+            isUpdating: false,
+            OptionRemovedialog: false,
+            isOptionIndex: null,
             Alphabet: "",
             QuetionsList:{},
             SubQuestionList:{},
@@ -239,67 +266,68 @@ export default {
             this.dialog = true;;
         },
         toastSuccess() {
-            return this.$toasted.success("Question Successfully added", {
-                theme: "toasted-primary",
-                position: "top-center",
-                icon: "done",
-                duration: 3000
-            });
+           this.toastSuccess("Question Successfully added");
         },
-        removeAnswer(id, index){
-            if (index <= 2) {
-                Swal.fire({
-                    icon: 'info',
-                    title: 'Oops...',
-                    text: 'You must leave atleast two choices',
-                })
+         SliceOption(){
+            this.SubQuestionList.splice( this.isOptionIndex, 1);
+            this.AnswerList.splice( this.isOptionIndex, 1);
+            
+        },
+        AddNewMatch(){
+             this.QuetionsList.points +=1;
+             this.SubQuestionList.push({ sub_question: '' , id:'', question_id: this.QuetionsList.id });
+             this.AnswerList.push({ Choice: '' , id:'', question_id: this.QuetionsList.id });
+            axios.post('/api/question/addOption', 
+            {
+                type: 'Matching Type',
+                SubQuestion: this.SubQuestionList[this.SubQuestionList.length-1],
+                answer: this.AnswerList[this.AnswerList.length-1],
+            })
+            .then(res=>{
+                if(res.status == 200){
+                    this.SubQuestionList[this.SubQuestionList.length-1].id = res.data.main_id;
+                    this.AnswerList[this.AnswerList.length-1].id = res.data.answer_id;
+                }
+            })
+        },
+        removeAnswer(index,id, subQuestionLength){
+            if (subQuestionLength <= 2) {
+                this.toastError('You must leave atleast two choices');
             }else{
-                axios.delete('/api/question/'+id)
-                .then(res=>{
-                    this.$store.dispatch('fetchQuestions', this.$route.query.clwk)
-                    .then(r=>{
-                        this.Qlength = r[1];
-                    });
-                    
-                })
+                this.DeleteDetails.number = index+1;
+                this.DeleteDetails.id = id;
+                this.DeleteDetails.type = 'Matching Type';
+                this.isOptionIndex = index;
+              
+                this.OptionRemovedialog = true;
             }
-          
         },
+
+          async updateQuestion(){
+            axios.put('/api/question/update/'+this.QuetionsList.id, {
+                    type: 'Matching Type',
+                    details: this.QuetionsList,
+                    question: this.SubQuestionList, 
+                    options: this.AnswerList
+                })
+            .then(res=>{
+                if(res.status == 200){
+                    this.isUpdating = true;
+              
+                    this.isEditing = false;
+                    this.isEditing = false;
+                    setTimeout(() => (this.isUpdating = false, this.preview = !this.preview), 1000);
+                    //this.toastSuccess("Question Successfully updated");
+                }
+            })
+        }
         
     },
     mounted(){
         this.QuetionsList = this.Question;
         this.AnswerList =  this.Answers;
         this.SubQuestionList = this.SubQuestion
-         const alphabet = [
-            "A",
-            "B",
-            "C",
-            "D",
-            "E",
-            "F",
-            "G",
-            "H",
-            "I",
-            "J",
-            "K",
-            "L",
-            "M",
-            "N",
-            "O",
-            "P",
-            "q",
-            "r",
-            "s",
-            "t",
-            "u",
-            "v",
-            "w",
-            "x",
-            "y",
-            "z"
-        ];
-        this.Alphabet = alphabet;
+        
     }
     
 }

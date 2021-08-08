@@ -111,7 +111,7 @@
         },
         beforeDestroy(){
             //this.classNames.destroy();
-            this.getclass_post.destroy();
+            //this.getclass_post.destroy();
         }
     }
 

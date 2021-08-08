@@ -73,15 +73,15 @@
                                             required
                                    
                                             ></v-textarea> -->
-                                            <div class="mb-3">
+                                            <div style="width:100%" class="mb-3">
 
-                                               <v-card  style="width:100%" >
+                                           
                                                 <editor class="outlined" required :rules="rules"
                                          
                                                     v-model="quesForm.question"
                                                      id="editor-container"  placeholder="Question" 
                                                     theme="snow" :options="options"></editor>
-                                            </v-card>
+                                         
                                             <small v-if="!valid && quesForm.question == ''" class="error--text">*This field is required</small>
                                             </div>
                                             
@@ -110,15 +110,15 @@
                                                         <v-container  class="d-flex flex-row ma-0 pa-0">
                                                         <v-radio-group :rules="rules" v-model="quesForm.answer">
                                                             <v-radio
-                                                            @click="tempAnswer = item.answer, test()"
-                                                            color="primary"
-                                                            class="pa-0 ma-0"
-                                                            :disabled="item.answer.length == 0"
-                                                            :key="i"
-                                                            name="Answer" 
-                                                            :value="item.answer"
+                                                                @click="tempAnswer = item.answer, test()"
+                                                                color="primary"
+                                                                class="pa-0 ma-0"
+                                                                :disabled="item.answer.length == 0"
+                                                                :key="i"
+                                                                name="Answer" 
+                                                                :value="item.answer"
                                                             ></v-radio>
-                                                            </v-radio-group>
+                                                        </v-radio-group>
 
 
                                                         <!--   Text iNput -->
@@ -136,14 +136,14 @@
                                                             required
                                                             ></v-textarea> -->
 
-                                                              <v-card style="width:100%" class="mb-3">
+                                                              <div style="width:100%" class="mb-3">
                                                                 <editor :rules="rules"
                                                                
                                                                  @change="checker = item.answer"
                                                                  v-model="item.answer" 
                                                                 id="editor-container"  :placeholder="'Option '+(i+1)" 
                                                                  theme="snow" :options="options"></editor>
-                                                            </v-card>
+                                                            </div>
                                                     
                                                             <v-btn
                                                             @click="item.answer == quesForm.answer ? (remove(i), quesForm.answer = '') : (remove(i),quesForm.answer = tempAnswer) "
@@ -174,7 +174,7 @@
                                 <v-container  v-if="quesForm.type == 'Identification'">
                                     <v-row ma-0 pa-0>
                                         <div class="font-weight-medium">Answer</div>
-                                        <v-col  ma-0 pa-0 class="ma-0 pa-0 pl-9 pr-7 mt-2" cols="12">
+                                        <v-col  ma-0 pa-0 class="ma-0 pa-0 mt-2" cols="12">
                                             <!-- <v-textarea
                                             :rules="rules"
                                             v-model="quesForm.answer"
@@ -183,20 +183,23 @@
                                             label="Answer"
                                             auto-grow
                                             ></v-textarea> -->
-                                              <v-card style="width:100%" class="mb-3">
+                                              <div style="width:100%" class="mb-3">
                                                 <editor :rules="rules"
                                                     v-model="quesForm.answer" 
-                                                id="editor-container" placeholder="Answer" 
-                                                    theme="snow" :options="options"></editor>
-                                            </v-card>
+                                                    id="editor-container" placeholder="Answer" 
+                                                    theme="snow" :options="options">
+                                                </editor>
+                                            </div>
                                         </v-col>
-                                        
-                                        
                                     </v-row>
                                 </v-container>
 
                                 <v-container class="ma-0 pa-0 mt-2 pl-3 pr-4"  v-if="quesForm.type == 'True or False'">
                                     <v-row >
+                                        <v-col cols="12" class="pl-0 ml-0">
+                                             <div class="font-weight-medium">Options</div>
+                                        </v-col>
+                                       
                                         <v-col v-for="(x, n) in inputCheck" :key="n" class="ma-0 pa-0" cols="11">
                                             <v-container class="d-flex flex-row ma-0 pa-0">
                                                 <v-radio-group :rules="rules" v-model="quesForm.answer">
@@ -227,11 +230,10 @@
 
                                  <v-container mb-0 pb-0 v-if="quesForm.type == 'Matching type'">
                                     <v-row ma-0 pa-0>
-                                        
                                         <v-col  v-for="(item, i) in MatchQuestion" :key="i" ma-0 pa-0 class="ma-0 pa-0" cols="12">
                                            <v-row>
-                                            
                                                <v-col  cols="12">
+                                                    <div class="font-weight-medium">{{'Pair '}}{{i+1}}</div>
                                                    <v-container  class="d-flex flex-row ma-0 pa-0">
                                                    <!-- <v-textarea
                                                     @keyup="checker = item.answer"
@@ -245,31 +247,29 @@
                                                     required
                                                     ></v-textarea> -->
                                                     
-                                                    <v-card style="width:100%" outlined class="pa-3 mb-2">
-                                                          <div class="font-weight-medium">{{'Pair '}}{{i+1}}</div>
-                                               
-                                                      <v-card style="width:100%" class="mb-3">
+                                                
+                                                         
+                                                    <div style="width:100%"  class=" pr-2 mb-3">
                                                         <editor :rules="rules"
                                                             @change="checker = item.answer"
                                                             v-model="item.question" 
-                                                        id="editor-container"  :placeholder="'Question '+(i+1)" 
-                                                            theme="snow" :options="options"></editor>
-                                                        </v-card>
-
-                                                         <v-card style="width:100%" class="mb-3">
-                                                        <editor :rules="rules"
-                                                            @change="checker = item.answer"
-                                                            v-model="item.answer" 
-                                                        id="editor-container"  :placeholder="'Answer '+(i+1)" 
-                                                            theme="snow" :options="options"></editor>
-                                                        </v-card>
-                                                    </v-card>
+                                                            id="editor-container"  :placeholder="'Question '+(i+1)" 
+                                                            theme="snow" :options="options">
+                                                        </editor>
+                                                    </div>
+                                                     <div style="width:100%" class="mb-3" >
+                                                            <editor :rules="rules"
+                                                                @change="checker = item.answer"
+                                                                v-model="item.answer" 
+                                                                id="editor-container"  :placeholder="'Answer '+(i+1)" 
+                                                                theme="snow" :options="options">
+                                                            </editor>
+                                                      </div>
 
                                                      <v-btn
-                                                    @click="removeMatch(i)"
-                                                    icon class="mt-12 pl-2 pr-2">
+                                                        @click="removeMatch(i)"
+                                                        icon class="mt-12 pl-2 pr-2">
                                                         <v-icon>mdi-delete</v-icon>
-
                                                     </v-btn>
                                                     </v-container>
                                                </v-col>

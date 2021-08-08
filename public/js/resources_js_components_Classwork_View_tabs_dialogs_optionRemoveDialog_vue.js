@@ -39,16 +39,21 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['DeleteDetails'],
   methods: {
     RemoveOption: function RemoveOption(id) {
       var _this = this;
 
-      axios["delete"]('/api/question/' + id).then(function (res) {
-        _this.$store.dispatch('fetchQuestions', _this.$route.query.clwk).then(function (r) {
-          _this.$emit('reloadOptionList');
-        });
+      axios.put('/api/question/delete/' + id, {
+        type: this.DeleteDetails.type
+      }).then(function (res) {
+        /*  this.$store.dispatch('fetchQuestions', this.$route.query.clwk)
+         .then(r=>{ */
+        _this.$emit('reloadOptionList'); //});
+
       });
     }
   }
@@ -188,7 +193,7 @@ var render = function() {
                 }
               }
             },
-            [_vm._v("\n        Confirm\n      ")]
+            [_vm._v("\n        Confirm\n        \n      ")]
           )
         ],
         1

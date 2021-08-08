@@ -207,7 +207,7 @@ Route::prefix('/question')->group(function () {
 
     Route::put('/update/{id}', [ObjectiveController::class, 'update']);
 
-    Route::delete('/{id}', [ObjectiveController::class, 'destroy']);
+    Route::put('/delete/{id}', [ObjectiveController::class, 'removeOption']);
     Route::delete('/remove/{id}', [ObjectiveController::class, 'deleteQuestion']);
 });
 

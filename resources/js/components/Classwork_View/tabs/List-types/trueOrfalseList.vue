@@ -47,7 +47,7 @@
                                     </v-container>
                                 
                                 </v-container>
-                            <h2>Question #{{number}}</h2>
+                            <h3>Question #{{number}}</h3>
                             <v-row class="pa-0 ma-0">
                                 <v-col class="pa-0 ma-0" cols="12"  md="12" lg="12">
                                 
@@ -129,13 +129,14 @@
                 </v-col>
                 <v-col @dblclick="previewAll ? preview = false: preview = !preview"  v-if="preview || previewAll" cols="12" md="12" class="pl-4 pr-4 pt-2">
                     <v-container class="d-flex flex-row justify-space-between">
-                            <h2>Question #{{number}}</h2>
+                            <h3>Question #{{number}}</h3>
                             <v-btn
                                 rounded
                                 @click="previewAll ? preview = false :preview = !preview, isEditing = !isEditing">
                                 {{$vuetify.breakpoint.xs ? '' : 'Edit'}}
                                 <v-icon right>mdi-square-edit-outline</v-icon>
                             </v-btn>
+                            <v-divider></v-divider>
                         </v-container>
                         <v-container>
                             <div :style="$vuetify.breakpoint.xs ? 'line-height:1.1':'line-height:1.5'" class="subtitle-2"> <span v-html="QuetionsList.question" class="post-content"></span><!-- {{QuetionsList.question}} --></div>

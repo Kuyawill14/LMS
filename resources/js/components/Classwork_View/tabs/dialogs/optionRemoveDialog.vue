@@ -1,5 +1,6 @@
 <template>
     <v-card>
+     
         <v-card-title class="text-h5">
           Delete Option {{DeleteDetails.number}}
         </v-card-title>
@@ -22,6 +23,7 @@
             @click="RemoveOption(DeleteDetails.id)"
           >
             Confirm
+            
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -31,12 +33,12 @@ export default {
     props:['DeleteDetails'],
     methods:{
          RemoveOption(id){
-             axios.delete('/api/question/'+id)
+             axios.put('/api/question/delete/'+id, {type: this.DeleteDetails.type})
             .then(res=>{
-                this.$store.dispatch('fetchQuestions', this.$route.query.clwk)
-                .then(r=>{
+               /*  this.$store.dispatch('fetchQuestions', this.$route.query.clwk)
+                .then(r=>{ */
                     this.$emit('reloadOptionList');
-                });
+                //});
             })
         }
     }

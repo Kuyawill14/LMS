@@ -242,12 +242,33 @@ class ObjectiveController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function AddOption(Request $request)
-    {
-        $newChoice = new tbl_choice;
-        $newChoice->question_id = $request->question_id;
-        $newChoice->Choice = "<p>N/A</p>";
-        $newChoice->save();
-        return $newChoice->id;
+    {   
+       
+        if($request->type == 'Multiple Choice'){
+            $newChoice = new tbl_choice;
+            $newChoice->question_id = $request->answers['question_id'];
+            $newChoice->Choice = "<p>N/A</p>";
+            $newChoice->save();
+            return ["main_id"=>  $SubQuestion->question_id, "answer_id"=>  $newChoice->id];
+        }
+        elseif($request->type == 'Matching Type'){
+            $QuestionChoice  = new tbl_choice;
+            $QuestionChoice->question_id = $request->answer['question_id'];
+            $QuestionChoice->Choice = "<p>N/A</p>";
+            $QuestionChoice->save();
+
+             //Add to Sub question
+             $SubQuestion = new tbl_SubQuestion;
+             $SubQuestion->mainQuestion_id = $request->SubQuestion['question_id'];
+             $SubQuestion->answer_id = $QuestionChoice->id;
+             $SubQuestion->sub_question = "<p>N/A</p>";
+             $SubQuestion->save();
+
+            return ["main_id"=>  $SubQuestion->id, "answer_id"=>  $QuestionChoice->id];
+
+        }
+        
+      
     }
 
     /**
@@ -354,8 +375,8 @@ class ObjectiveController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //return $request->options;
-        if($request->question['type'] == 'Multiple Choice'){
+        //return $request;
+        if($request->type== 'Multiple Choice'){
             $UpdateQuestion = tbl_Questions::find($request->question['id']);
             if($UpdateQuestion){
                 $UpdateQuestion->question = $request->question['question'];
@@ -366,8 +387,8 @@ class ObjectiveController extends Controller
                 $classworkTotalPoints->save();
 
                 $UpdateQuestion->points = $request->question['points'];
-                $UpdateQuestion->question = 
                 $UpdateQuestion->save();
+
                 foreach($request->options as $options){
                     $UpdateChoices = tbl_choice::find($options['id']);
                     $UpdateChoices->Choice = $options['Choice'];
@@ -377,7 +398,7 @@ class ObjectiveController extends Controller
             }
             return 'Update Failed!';
         }
-        elseif($request->question['type'] == 'Identification' || $request->question['type'] == 'True or False' ){
+        elseif($request->type == 'Identification' || $request->type == 'True or False' ){
             $UpdateQuestion = tbl_Questions::find($request->question['id']);
             if($UpdateQuestion){
                 $UpdateQuestion->question = $request->question['question'];
@@ -394,24 +415,68 @@ class ObjectiveController extends Controller
             return 'Update Failed!';
 
         }
+        elseif($request->type == 'Matching Type'){
+            $UpdateQuestion = tbl_Questions::find($request->details['id']);
+            if($UpdateQuestion){
+                $UpdateQuestion->question = $request->details['question'];
+                $UpdateQuestion->points = $request->details['points'];
+                $UpdateQuestion->save();
+
+                $classworkTotalPoints = tbl_classwork::find($UpdateQuestion->classwork_id);
+                $classworkTotalPoints->points = (($classworkTotalPoints->points - $UpdateQuestion->points)+$request->details['points']);
+                $classworkTotalPoints->save();
+                
+
+                foreach($request->question as $question){
+                    $UpdateSubQuestion = tbl_SubQuestion::find($question['id']);
+                    $UpdateSubQuestion->sub_question = $question['sub_question'];
+                    $UpdateSubQuestion->save();
+                }
+
+                foreach($request->options as $option){
+                    $UpdateAnswer = tbl_choice::find($option['id']);
+                    $UpdateAnswer->Choice = $option['Choice'];
+                    $UpdateAnswer->save();
+                }
+                return 'Update Success!';
+            }
+            return 'Update Failed!';
+        }
        
 
     }
 
     /**
      * Remove the specified resource from storage.
-     *
+     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function removeOption(Request $request, $id)
     {
-        $DelAnswer = tbl_choice::find($id);
-        if($DelAnswer){
-            $DelAnswer->delete();
-            return "successfully Remove.";
+        //return $request->type;
+        if($request->type == 'Multiple Choice'){
+            $DelAnswer = tbl_choice::find($id);
+            if($DelAnswer){
+                $DelAnswer->delete();
+                return "successfully Remove.";
+            }
+            return "Question not found";
         }
-        return "Question not found";
+        elseif($request->type == 'Matching Type'){
+            $DelAnswerSubQuestion = tbl_SubQuestion::find($id);
+            if($DelAnswerSubQuestion){
+                $DelAnswer = tbl_choice::find($DelAnswerSubQuestion->answer_id);
+                if($DelAnswer){
+                    $DelAnswer->delete();
+                }
+                $DelAnswerSubQuestion->delete();
+                return "successfully Remove.";
+            }
+            return "Question not found";
+          
+        }
+        
     }
 
      /**
@@ -424,8 +489,8 @@ class ObjectiveController extends Controller
     {
         $DelQuestion = tbl_Questions::find($id);
         if($DelQuestion){
-            $DelAnswer = tbl_choice::where('question_id', $id)->delete();
-            if($DelQuestion->type != 4){
+            //$DelAnswer = tbl_choice::where('question_id', $id)->delete();
+            if($DelQuestion->type != 'Matching type'){
                 $DelAnswer = tbl_choice::where('question_id', $id)
                 ->delete();
             }

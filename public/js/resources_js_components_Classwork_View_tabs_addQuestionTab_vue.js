@@ -986,59 +986,48 @@ var render = function() {
                                                                 "div",
                                                                 {
                                                                   staticClass:
-                                                                    "mb-3"
+                                                                    "mb-3",
+                                                                  staticStyle: {
+                                                                    width:
+                                                                      "100%"
+                                                                  }
                                                                 },
                                                                 [
-                                                                  _c(
-                                                                    "v-card",
-                                                                    {
-                                                                      staticStyle: {
-                                                                        width:
-                                                                          "100%"
-                                                                      }
+                                                                  _c("editor", {
+                                                                    staticClass:
+                                                                      "outlined",
+                                                                    attrs: {
+                                                                      required:
+                                                                        "",
+                                                                      rules:
+                                                                        _vm.rules,
+                                                                      id:
+                                                                        "editor-container",
+                                                                      placeholder:
+                                                                        "Question",
+                                                                      theme:
+                                                                        "snow",
+                                                                      options:
+                                                                        _vm.options
                                                                     },
-                                                                    [
-                                                                      _c(
-                                                                        "editor",
-                                                                        {
-                                                                          staticClass:
-                                                                            "outlined",
-                                                                          attrs: {
-                                                                            required:
-                                                                              "",
-                                                                            rules:
-                                                                              _vm.rules,
-                                                                            id:
-                                                                              "editor-container",
-                                                                            placeholder:
-                                                                              "Question",
-                                                                            theme:
-                                                                              "snow",
-                                                                            options:
-                                                                              _vm.options
-                                                                          },
-                                                                          model: {
-                                                                            value:
-                                                                              _vm
-                                                                                .quesForm
-                                                                                .question,
-                                                                            callback: function(
-                                                                              $$v
-                                                                            ) {
-                                                                              _vm.$set(
-                                                                                _vm.quesForm,
-                                                                                "question",
-                                                                                $$v
-                                                                              )
-                                                                            },
-                                                                            expression:
-                                                                              "quesForm.question"
-                                                                          }
-                                                                        }
-                                                                      )
-                                                                    ],
-                                                                    1
-                                                                  ),
+                                                                    model: {
+                                                                      value:
+                                                                        _vm
+                                                                          .quesForm
+                                                                          .question,
+                                                                      callback: function(
+                                                                        $$v
+                                                                      ) {
+                                                                        _vm.$set(
+                                                                          _vm.quesForm,
+                                                                          "question",
+                                                                          $$v
+                                                                        )
+                                                                      },
+                                                                      expression:
+                                                                        "quesForm.question"
+                                                                    }
+                                                                  }),
                                                                   _vm._v(" "),
                                                                   !_vm.valid &&
                                                                   _vm.quesForm
@@ -1197,7 +1186,7 @@ var render = function() {
                                                                                     " "
                                                                                   ),
                                                                                   _c(
-                                                                                    "v-card",
+                                                                                    "div",
                                                                                     {
                                                                                       staticClass:
                                                                                         "mb-3",
@@ -1421,7 +1410,7 @@ var render = function() {
                                                                 "v-col",
                                                                 {
                                                                   staticClass:
-                                                                    "ma-0 pa-0 pl-9 pr-7 mt-2",
+                                                                    "ma-0 pa-0 mt-2",
                                                                   attrs: {
                                                                     "ma-0": "",
                                                                     "pa-0": "",
@@ -1430,7 +1419,7 @@ var render = function() {
                                                                 },
                                                                 [
                                                                   _c(
-                                                                    "v-card",
+                                                                    "div",
                                                                     {
                                                                       staticClass:
                                                                         "mb-3",
@@ -1477,8 +1466,7 @@ var render = function() {
                                                                     ],
                                                                     1
                                                                   )
-                                                                ],
-                                                                1
+                                                                ]
                                                               )
                                                             ],
                                                             1
@@ -1499,109 +1487,137 @@ var render = function() {
                                                         [
                                                           _c(
                                                             "v-row",
-                                                            _vm._l(
-                                                              _vm.inputCheck,
-                                                              function(x, n) {
-                                                                return _c(
-                                                                  "v-col",
-                                                                  {
-                                                                    key: n,
-                                                                    staticClass:
-                                                                      "ma-0 pa-0",
-                                                                    attrs: {
-                                                                      cols: "11"
-                                                                    }
-                                                                  },
-                                                                  [
-                                                                    _c(
-                                                                      "v-container",
-                                                                      {
-                                                                        staticClass:
-                                                                          "d-flex flex-row ma-0 pa-0"
-                                                                      },
-                                                                      [
-                                                                        _c(
-                                                                          "v-radio-group",
-                                                                          {
-                                                                            attrs: {
-                                                                              rules:
-                                                                                _vm.rules
-                                                                            },
-                                                                            model: {
-                                                                              value:
-                                                                                _vm
-                                                                                  .quesForm
-                                                                                  .answer,
-                                                                              callback: function(
-                                                                                $$v
-                                                                              ) {
-                                                                                _vm.$set(
-                                                                                  _vm.quesForm,
-                                                                                  "answer",
-                                                                                  $$v
-                                                                                )
+                                                            [
+                                                              _c(
+                                                                "v-col",
+                                                                {
+                                                                  staticClass:
+                                                                    "pl-0 ml-0",
+                                                                  attrs: {
+                                                                    cols: "12"
+                                                                  }
+                                                                },
+                                                                [
+                                                                  _c(
+                                                                    "div",
+                                                                    {
+                                                                      staticClass:
+                                                                        "font-weight-medium"
+                                                                    },
+                                                                    [
+                                                                      _vm._v(
+                                                                        "Options"
+                                                                      )
+                                                                    ]
+                                                                  )
+                                                                ]
+                                                              ),
+                                                              _vm._v(" "),
+                                                              _vm._l(
+                                                                _vm.inputCheck,
+                                                                function(x, n) {
+                                                                  return _c(
+                                                                    "v-col",
+                                                                    {
+                                                                      key: n,
+                                                                      staticClass:
+                                                                        "ma-0 pa-0",
+                                                                      attrs: {
+                                                                        cols:
+                                                                          "11"
+                                                                      }
+                                                                    },
+                                                                    [
+                                                                      _c(
+                                                                        "v-container",
+                                                                        {
+                                                                          staticClass:
+                                                                            "d-flex flex-row ma-0 pa-0"
+                                                                        },
+                                                                        [
+                                                                          _c(
+                                                                            "v-radio-group",
+                                                                            {
+                                                                              attrs: {
+                                                                                rules:
+                                                                                  _vm.rules
                                                                               },
-                                                                              expression:
-                                                                                "quesForm.answer"
-                                                                            }
-                                                                          },
-                                                                          [
-                                                                            _c(
-                                                                              "v-radio",
-                                                                              {
-                                                                                key: n,
-                                                                                attrs: {
-                                                                                  color:
-                                                                                    "primary",
-                                                                                  name:
-                                                                                    "Answer",
-                                                                                  value:
-                                                                                    _vm
-                                                                                      .inputCheck[
-                                                                                      n
-                                                                                    ]
-                                                                                }
+                                                                              model: {
+                                                                                value:
+                                                                                  _vm
+                                                                                    .quesForm
+                                                                                    .answer,
+                                                                                callback: function(
+                                                                                  $$v
+                                                                                ) {
+                                                                                  _vm.$set(
+                                                                                    _vm.quesForm,
+                                                                                    "answer",
+                                                                                    $$v
+                                                                                  )
+                                                                                },
+                                                                                expression:
+                                                                                  "quesForm.answer"
                                                                               }
-                                                                            )
-                                                                          ],
-                                                                          1
-                                                                        ),
-                                                                        _vm._v(
-                                                                          " "
-                                                                        ),
-                                                                        _c(
-                                                                          "v-textarea",
-                                                                          {
-                                                                            staticClass:
-                                                                              "pa-0 ma-0",
-                                                                            attrs: {
-                                                                              readonly:
-                                                                                "",
-                                                                              rows:
-                                                                                "1",
-                                                                              outlined:
-                                                                                "",
-                                                                              value:
-                                                                                _vm
-                                                                                  .inputCheck[
-                                                                                  n
-                                                                                ],
-                                                                              "auto-grow":
-                                                                                "",
-                                                                              required:
-                                                                                ""
+                                                                            },
+                                                                            [
+                                                                              _c(
+                                                                                "v-radio",
+                                                                                {
+                                                                                  key: n,
+                                                                                  attrs: {
+                                                                                    color:
+                                                                                      "primary",
+                                                                                    name:
+                                                                                      "Answer",
+                                                                                    value:
+                                                                                      _vm
+                                                                                        .inputCheck[
+                                                                                        n
+                                                                                      ]
+                                                                                  }
+                                                                                }
+                                                                              )
+                                                                            ],
+                                                                            1
+                                                                          ),
+                                                                          _vm._v(
+                                                                            " "
+                                                                          ),
+                                                                          _c(
+                                                                            "v-textarea",
+                                                                            {
+                                                                              staticClass:
+                                                                                "pa-0 ma-0",
+                                                                              attrs: {
+                                                                                readonly:
+                                                                                  "",
+                                                                                rows:
+                                                                                  "1",
+                                                                                outlined:
+                                                                                  "",
+                                                                                value:
+                                                                                  _vm
+                                                                                    .inputCheck[
+                                                                                    n
+                                                                                  ],
+                                                                                "auto-grow":
+                                                                                  "",
+                                                                                required:
+                                                                                  ""
+                                                                              }
                                                                             }
-                                                                          }
-                                                                        )
-                                                                      ],
-                                                                      1
-                                                                    )
-                                                                  ],
-                                                                  1
-                                                                )
-                                                              }
-                                                            ),
-                                                            1
+                                                                          )
+                                                                        ],
+                                                                        1
+                                                                      )
+                                                                    ],
+                                                                    1
+                                                                  )
+                                                                }
+                                                              )
+                                                            ],
+                                                            2
                                                           )
                                                         ],
                                                         1
@@ -1663,6 +1679,27 @@ var render = function() {
                                                                             },
                                                                             [
                                                                               _c(
+                                                                                "div",
+                                                                                {
+                                                                                  staticClass:
+                                                                                    "font-weight-medium"
+                                                                                },
+                                                                                [
+                                                                                  _vm._v(
+                                                                                    _vm._s(
+                                                                                      "Pair "
+                                                                                    ) +
+                                                                                      _vm._s(
+                                                                                        i +
+                                                                                          1
+                                                                                      )
+                                                                                  )
+                                                                                ]
+                                                                              ),
+                                                                              _vm._v(
+                                                                                " "
+                                                                              ),
+                                                                              _c(
                                                                                 "v-container",
                                                                                 {
                                                                                   staticClass:
@@ -1670,155 +1707,116 @@ var render = function() {
                                                                                 },
                                                                                 [
                                                                                   _c(
-                                                                                    "v-card",
+                                                                                    "div",
                                                                                     {
                                                                                       staticClass:
-                                                                                        "pa-3 mb-2",
+                                                                                        " pr-2 mb-3",
                                                                                       staticStyle: {
                                                                                         width:
                                                                                           "100%"
-                                                                                      },
-                                                                                      attrs: {
-                                                                                        outlined:
-                                                                                          ""
                                                                                       }
                                                                                     },
                                                                                     [
                                                                                       _c(
-                                                                                        "div",
+                                                                                        "editor",
                                                                                         {
-                                                                                          staticClass:
-                                                                                            "font-weight-medium"
-                                                                                        },
-                                                                                        [
-                                                                                          _vm._v(
-                                                                                            _vm._s(
-                                                                                              "Pair "
-                                                                                            ) +
-                                                                                              _vm._s(
-                                                                                                i +
-                                                                                                  1
+                                                                                          attrs: {
+                                                                                            rules:
+                                                                                              _vm.rules,
+                                                                                            id:
+                                                                                              "editor-container",
+                                                                                            placeholder:
+                                                                                              "Question " +
+                                                                                              (i +
+                                                                                                1),
+                                                                                            theme:
+                                                                                              "snow",
+                                                                                            options:
+                                                                                              _vm.options
+                                                                                          },
+                                                                                          on: {
+                                                                                            change: function(
+                                                                                              $event
+                                                                                            ) {
+                                                                                              _vm.checker =
+                                                                                                item.answer
+                                                                                            }
+                                                                                          },
+                                                                                          model: {
+                                                                                            value:
+                                                                                              item.question,
+                                                                                            callback: function(
+                                                                                              $$v
+                                                                                            ) {
+                                                                                              _vm.$set(
+                                                                                                item,
+                                                                                                "question",
+                                                                                                $$v
                                                                                               )
-                                                                                          )
-                                                                                        ]
-                                                                                      ),
-                                                                                      _vm._v(
-                                                                                        " "
-                                                                                      ),
-                                                                                      _c(
-                                                                                        "v-card",
-                                                                                        {
-                                                                                          staticClass:
-                                                                                            "mb-3",
-                                                                                          staticStyle: {
-                                                                                            width:
-                                                                                              "100%"
+                                                                                            },
+                                                                                            expression:
+                                                                                              "item.question"
                                                                                           }
-                                                                                        },
-                                                                                        [
-                                                                                          _c(
-                                                                                            "editor",
-                                                                                            {
-                                                                                              attrs: {
-                                                                                                rules:
-                                                                                                  _vm.rules,
-                                                                                                id:
-                                                                                                  "editor-container",
-                                                                                                placeholder:
-                                                                                                  "Question " +
-                                                                                                  (i +
-                                                                                                    1),
-                                                                                                theme:
-                                                                                                  "snow",
-                                                                                                options:
-                                                                                                  _vm.options
-                                                                                              },
-                                                                                              on: {
-                                                                                                change: function(
-                                                                                                  $event
-                                                                                                ) {
-                                                                                                  _vm.checker =
-                                                                                                    item.answer
-                                                                                                }
-                                                                                              },
-                                                                                              model: {
-                                                                                                value:
-                                                                                                  item.question,
-                                                                                                callback: function(
-                                                                                                  $$v
-                                                                                                ) {
-                                                                                                  _vm.$set(
-                                                                                                    item,
-                                                                                                    "question",
-                                                                                                    $$v
-                                                                                                  )
-                                                                                                },
-                                                                                                expression:
-                                                                                                  "item.question"
-                                                                                              }
-                                                                                            }
-                                                                                          )
-                                                                                        ],
-                                                                                        1
-                                                                                      ),
-                                                                                      _vm._v(
-                                                                                        " "
-                                                                                      ),
+                                                                                        }
+                                                                                      )
+                                                                                    ],
+                                                                                    1
+                                                                                  ),
+                                                                                  _vm._v(
+                                                                                    " "
+                                                                                  ),
+                                                                                  _c(
+                                                                                    "div",
+                                                                                    {
+                                                                                      staticClass:
+                                                                                        "mb-3",
+                                                                                      staticStyle: {
+                                                                                        width:
+                                                                                          "100%"
+                                                                                      }
+                                                                                    },
+                                                                                    [
                                                                                       _c(
-                                                                                        "v-card",
+                                                                                        "editor",
                                                                                         {
-                                                                                          staticClass:
-                                                                                            "mb-3",
-                                                                                          staticStyle: {
-                                                                                            width:
-                                                                                              "100%"
-                                                                                          }
-                                                                                        },
-                                                                                        [
-                                                                                          _c(
-                                                                                            "editor",
-                                                                                            {
-                                                                                              attrs: {
-                                                                                                rules:
-                                                                                                  _vm.rules,
-                                                                                                id:
-                                                                                                  "editor-container",
-                                                                                                placeholder:
-                                                                                                  "Answer " +
-                                                                                                  (i +
-                                                                                                    1),
-                                                                                                theme:
-                                                                                                  "snow",
-                                                                                                options:
-                                                                                                  _vm.options
-                                                                                              },
-                                                                                              on: {
-                                                                                                change: function(
-                                                                                                  $event
-                                                                                                ) {
-                                                                                                  _vm.checker =
-                                                                                                    item.answer
-                                                                                                }
-                                                                                              },
-                                                                                              model: {
-                                                                                                value:
-                                                                                                  item.answer,
-                                                                                                callback: function(
-                                                                                                  $$v
-                                                                                                ) {
-                                                                                                  _vm.$set(
-                                                                                                    item,
-                                                                                                    "answer",
-                                                                                                    $$v
-                                                                                                  )
-                                                                                                },
-                                                                                                expression:
-                                                                                                  "item.answer"
-                                                                                              }
+                                                                                          attrs: {
+                                                                                            rules:
+                                                                                              _vm.rules,
+                                                                                            id:
+                                                                                              "editor-container",
+                                                                                            placeholder:
+                                                                                              "Answer " +
+                                                                                              (i +
+                                                                                                1),
+                                                                                            theme:
+                                                                                              "snow",
+                                                                                            options:
+                                                                                              _vm.options
+                                                                                          },
+                                                                                          on: {
+                                                                                            change: function(
+                                                                                              $event
+                                                                                            ) {
+                                                                                              _vm.checker =
+                                                                                                item.answer
                                                                                             }
-                                                                                          )
-                                                                                        ],
-                                                                                        1
+                                                                                          },
+                                                                                          model: {
+                                                                                            value:
+                                                                                              item.answer,
+                                                                                            callback: function(
+                                                                                              $$v
+                                                                                            ) {
+                                                                                              _vm.$set(
+                                                                                                item,
+                                                                                                "answer",
+                                                                                                $$v
+                                                                                              )
+                                                                                            },
+                                                                                            expression:
+                                                                                              "item.answer"
+                                                                                          }
+                                                                                        }
                                                                                       )
                                                                                     ],
                                                                                     1
