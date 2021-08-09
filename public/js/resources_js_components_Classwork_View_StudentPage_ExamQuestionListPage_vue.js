@@ -655,26 +655,27 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }
   },
   beforeMount: function beforeMount() {
-    /*  window.addEventListener("beforeunload", this.preventNav);
-     let self = this;
-     $(window).blur(function(){
-         self.triggerWarning()
-     }); */
+    var _this7 = this;
 
-    /*  window.addEventListener("beforeunload", this.preventNav)
-        this.$once("hook:beforeDestroy", () => {
-        window.removeEventListener("beforeunload", this.preventNav);
-    }) */
+    window.addEventListener("beforeunload", this.preventNav);
+    var self = this;
+    $(window).blur(function () {
+      self.triggerWarning();
+    });
+    window.addEventListener("beforeunload", this.preventNav);
+    this.$once("hook:beforeDestroy", function () {
+      window.removeEventListener("beforeunload", _this7.preventNav);
+    });
   },
-
-  /*  beforeRouteLeave(to, from, next) {
-      if (this.isExamStart) {
-          if (!window.confirm("Leave without saving?")) {
-              return;
-          }
+  beforeRouteLeave: function beforeRouteLeave(to, from, next) {
+    if (this.isExamStart) {
+      if (!window.confirm("Leave without saving?")) {
+        return;
       }
-      next();
-  }, */
+    }
+
+    next();
+  },
   mounted: function mounted() {
     this.isExamStart = true;
     this.CheckStatus();
@@ -24522,7 +24523,7 @@ var render = function() {
                     "v-icon",
                     {
                       staticStyle: { "font-size": "7rem" },
-                      attrs: { color: "info" }
+                      attrs: { color: "error" }
                     },
                     [
                       _vm._v(
@@ -24538,7 +24539,7 @@ var render = function() {
                 "v-col",
                 { staticClass: "text-center mt-0 pt-0", attrs: { cols: "12" } },
                 [
-                  _c("div", { staticClass: "info--text display-1" }, [
+                  _c("div", { staticClass: "error--text display-1" }, [
                     _vm._v("Oops...")
                   ])
                 ]

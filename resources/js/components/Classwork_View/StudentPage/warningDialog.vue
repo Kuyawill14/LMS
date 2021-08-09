@@ -3,12 +3,12 @@
         <div class="mb-3 pa-2">
           <v-row align="center" justify="center">
               <v-col cols="12" class="text-center mb-0 pb-0">
-                  <v-icon color="info" style="font-size:7rem">
+                  <v-icon color="error" style="font-size:7rem">
                       mdi-alert-circle-outline
                   </v-icon>
               </v-col>
                <v-col cols="12" class="text-center mt-0 pt-0">
-                 <div class="info--text display-1">Oops...</div>
+                 <div class="error--text display-1">Oops...</div>
               </v-col>
           </v-row>
         </div>

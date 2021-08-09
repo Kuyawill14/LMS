@@ -616,25 +616,25 @@ export default {
         },
     },
     beforeMount() {
-       /*  window.addEventListener("beforeunload", this.preventNav);
+        window.addEventListener("beforeunload", this.preventNav);
         let self = this;
         $(window).blur(function(){
             self.triggerWarning()
-        }); */
+        });
 
-        /*  window.addEventListener("beforeunload", this.preventNav)
+         window.addEventListener("beforeunload", this.preventNav)
             this.$once("hook:beforeDestroy", () => {
             window.removeEventListener("beforeunload", this.preventNav);
-        }) */
+        })
     },
-    /*  beforeRouteLeave(to, from, next) {
+     beforeRouteLeave(to, from, next) {
         if (this.isExamStart) {
             if (!window.confirm("Leave without saving?")) {
                 return;
             }
         }
         next();
-    }, */
+    },
     mounted(){
         this.isExamStart = true
         this.CheckStatus();
