@@ -517,7 +517,7 @@ class ObjectiveController extends Controller
      */
     public function check(Request $request, $id)
     {
-        return $request;;
+        //return $request;;
         //return serialize($request->item);
         $userId = auth('sanctum')->id();
         $questionCount = tbl_Questions::where('tbl_questions.classwork_id', $id)->count();

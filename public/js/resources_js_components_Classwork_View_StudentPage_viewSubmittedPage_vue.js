@@ -200,7 +200,8 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   mounted: function mounted() {
-    this.fetchQuestions(); //console.log(this.classworkDetails);
+    this.fetchQuestions();
+    console.log(this.details); //console.log(this.classworkDetails);
     //console.log(this.details)
   }
 });

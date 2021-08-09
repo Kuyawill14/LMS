@@ -190,6 +190,7 @@ import moment from 'moment';
       },
       mounted(){
           this.fetchQuestions();
+          console.log(this.details);
           //console.log(this.classworkDetails);
           //console.log(this.details)
       }
