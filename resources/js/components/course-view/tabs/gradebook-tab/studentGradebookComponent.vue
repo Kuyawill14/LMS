@@ -80,6 +80,7 @@
                                         {{ header.text }}</th>
 
                                 </tr>
+                                
                             </thead>
                             <tbody>
                                 <tr>

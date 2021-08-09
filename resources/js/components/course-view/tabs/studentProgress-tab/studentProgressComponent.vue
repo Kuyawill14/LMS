@@ -1,4 +1,4 @@
-<template>
+          <template>
 
 
     <div >
@@ -21,7 +21,7 @@
                     {{role == 'Teacher' ? 'Student Progress' : 'My Progress'}}
                 </h2>
             </v-col>
-            <v-col cols="6">
+            <v-col cols="6" v-if="role == 'Teacher' ">
                 <v-select :items="classList" v-model="selectedClass" @change="getStudentList()" item-text='class_name'
                     item-value='class_id' label="Select Class" class="float-right">
                 </v-select>

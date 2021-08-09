@@ -565,34 +565,36 @@ var render = function() {
             ])
           ]),
           _vm._v(" "),
-          _c(
-            "v-col",
-            { attrs: { cols: "6" } },
-            [
-              _c("v-select", {
-                staticClass: "float-right",
-                attrs: {
-                  items: _vm.classList,
-                  "item-text": "class_name",
-                  "item-value": "class_id",
-                  label: "Select Class"
-                },
-                on: {
-                  change: function($event) {
-                    return _vm.getStudentList()
-                  }
-                },
-                model: {
-                  value: _vm.selectedClass,
-                  callback: function($$v) {
-                    _vm.selectedClass = $$v
-                  },
-                  expression: "selectedClass"
-                }
-              })
-            ],
-            1
-          )
+          _vm.role == "Teacher"
+            ? _c(
+                "v-col",
+                { attrs: { cols: "6" } },
+                [
+                  _c("v-select", {
+                    staticClass: "float-right",
+                    attrs: {
+                      items: _vm.classList,
+                      "item-text": "class_name",
+                      "item-value": "class_id",
+                      label: "Select Class"
+                    },
+                    on: {
+                      change: function($event) {
+                        return _vm.getStudentList()
+                      }
+                    },
+                    model: {
+                      value: _vm.selectedClass,
+                      callback: function($$v) {
+                        _vm.selectedClass = $$v
+                      },
+                      expression: "selectedClass"
+                    }
+                  })
+                ],
+                1
+              )
+            : _vm._e()
         ],
         1
       ),

@@ -100,12 +100,12 @@
                     </v-card-title>
                     <v-data-table :headers="headers" :items="students" v-if="headers.length != 0">
                         <template v-for="h in headers" v-slot:[`header.${h.value}`]="{  }">
-                            <!-- <v-tooltip bottom>
-                                <template v-slot:activator="{ on }">
-                                    <span v-on="on">{{h.text}}</span>
+                            <v-tooltip bottom>
+                                <template v-slot:activator="{ on, attrs }">
+                                    <span v-bind="attrs" v-on="on">{{h.text}}</span>
                                 </template>
                                 <span>{{h.value}}</span>
-                            </v-tooltip> -->
+                            </v-tooltip>
                         </template>
                         <template v-slot:body="{ items }">
                             <tbody>
