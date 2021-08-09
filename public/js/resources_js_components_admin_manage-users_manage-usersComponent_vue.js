@@ -355,6 +355,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       if (this.$refs.RegisterForm.validate()) {
         if (this.type == 'add') {
           this.form.role = 'Teacher';
+          this.form.class_code = '123';
           this.form.password_confirmation = this.form.password;
           this.form.post('/api/register').then(function (res) {
             _this3.$refs.RegisterForm.reset();

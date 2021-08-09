@@ -907,7 +907,46 @@ var render = function() {
                                 return {
                                   key: "header." + h.value,
                                   fn: function(ref) {
-                                    return undefined
+                                    return [
+                                      _c(
+                                        "v-tooltip",
+                                        {
+                                          attrs: { bottom: "" },
+                                          scopedSlots: _vm._u(
+                                            [
+                                              {
+                                                key: "activator",
+                                                fn: function(ref) {
+                                                  var on = ref.on
+                                                  var attrs = ref.attrs
+                                                  return [
+                                                    _c(
+                                                      "span",
+                                                      _vm._g(
+                                                        _vm._b(
+                                                          {},
+                                                          "span",
+                                                          attrs,
+                                                          false
+                                                        ),
+                                                        on
+                                                      ),
+                                                      [_vm._v(_vm._s(h.text))]
+                                                    )
+                                                  ]
+                                                }
+                                              }
+                                            ],
+                                            null,
+                                            true
+                                          )
+                                        },
+                                        [
+                                          _vm._v(" "),
+                                          _c("span", [_vm._v(_vm._s(h.value))])
+                                        ]
+                                      )
+                                    ]
                                   }
                                 }
                               }),
