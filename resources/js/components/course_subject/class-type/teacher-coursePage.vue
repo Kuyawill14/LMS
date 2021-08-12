@@ -106,7 +106,7 @@
                                             <v-list-item-title>Archive</v-list-item-title>
 
                                         </v-list-item>
-                                        <v-list-item link>
+                                        <v-list-item v-if="item.student_count == 0" link>
                                             <v-list-item-title>Delete</v-list-item-title>
 
                                         </v-list-item>

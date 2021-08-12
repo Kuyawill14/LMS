@@ -288,6 +288,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -339,7 +351,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       leaveStrike: 0,
       preventWarning: false,
       isExamStart: false,
-      StartTime: null
+      StartTime: null,
+      Submitted_Answers: null,
+      submission_id: null,
+      isSavingAnswer: false,
+      oldAnswer: null
     };
   },
   computed: (0,vuex__WEBPACK_IMPORTED_MODULE_4__.mapGetters)(["getAll_questions"]),
@@ -357,10 +373,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.dialog = true;
       ;
     },
-    reset: function reset(index) {
-      this.FinalAnswers[index].Answer = '';
-      var name = btoa('CurrentAnswers');
-      localStorage.setItem(name, JSON.stringify(this.FinalAnswers));
+    reset: function reset(index, type) {
+      if (type == 'Multiple Choice' || type == 'Identification' || type == 'True or False') {
+        this.FinalAnswers[index].Answer = '';
+      } else if (type == 'Matching type') {
+        this.FinalAnswers[index].Answer.forEach(function (item) {
+          item.Ans_letter = '', item.Answers = '';
+        });
+      }
     },
     removePropt: function removePropt(num, id) {
       this.DeleteDetails.number = num;
@@ -399,79 +419,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
        clearInterval(this.timeCount);
        this.tempCounter = 0;
        this.CountTime(); */
-      if (this.Questype == 'Matching type') {
-        if (this.FinalAnswers.length != 0) {
-          var check = false;
-          var index = 0;
-
-          for (var i = 0; i < this.FinalAnswers.length; i++) {
-            if (this.FinalAnswers[i].Question_id == this.PickAnswers_id.quesId) {
-              check = true;
-              index = i;
-            }
-          }
-
-          if (check == true) {
-            var Ans = new Array();
-
-            for (var _i = 0; _i < this.getAll_questions.Answer[this.questionIndex].SubAnswer.length; _i++) {
-              for (var x = 0; x < this.getAll_questions.Answer[this.questionIndex].SubAnswer.length; x++) {
-                if (this.Alphabet[x].toUpperCase() == this.SubAnswers[_i].toUpperCase()) {
-                  Ans[_i] = this.getAll_questions.Answer[this.questionIndex].SubAnswer[x].Choice;
-                }
-              }
-            }
-
-            this.FinalAnswers[index] = {
-              Answer: this.SubAnswers,
-              Question_id: this.PickAnswers_id.quesId,
-              SubQuestion_id: this.quesNumber,
-              type: this.Questype,
-              timeConsume: this.TimerCount[this.questionIndex]
-            };
-            console.log(this.FinalAnswers);
-          } else {
-            var _Ans = new Array();
-
-            for (var _i2 = 0; _i2 < this.getAll_questions.Answer[this.questionIndex].SubAnswer.length; _i2++) {
-              for (var _x = 0; _x < this.getAll_questions.Answer[this.questionIndex].SubAnswer.length; _x++) {
-                if (this.Alphabet[_x].toUpperCase() == this.SubAnswers[_i2].toUpperCase()) {
-                  _Ans[_i2] = this.getAll_questions.Answer[this.questionIndex].SubAnswer[_x].Choice;
-                }
-              }
-            }
-
-            this.FinalAnswers.push({
-              Answer: _Ans,
-              Question_id: this.PickAnswers_id.quesId,
-              SubQuestion_id: this.quesNumber,
-              type: this.Questype,
-              timeConsume: this.TimerCount[this.questionIndex]
-            });
-            console.log(this.FinalAnswers);
-          }
-        } else {
-          var _Ans2 = new Array();
-
-          for (var _i3 = 0; _i3 < this.getAll_questions.Answer[this.questionIndex].SubAnswer.length; _i3++) {
-            for (var _x2 = 0; _x2 < this.getAll_questions.Answer[this.questionIndex].SubAnswer.length; _x2++) {
-              if (this.Alphabet[_x2].toUpperCase() == this.SubAnswers[_i3].toUpperCase()) {
-                _Ans2[_i3] = this.getAll_questions.Answer[this.questionIndex].SubAnswer[_x2].Choice;
-              }
-            }
-          }
-
-          this.FinalAnswers.push({
-            Answer: _Ans2,
-            Question_id: this.PickAnswers_id.quesId,
-            SubQuestion_id: this.quesNumber,
-            type: this.Questype,
-            timeConsume: this.TimerCount[this.questionIndex]
-          });
-          console.log(this.FinalAnswers);
-        }
-      }
-
+      this.isSavingAnswer = true;
+      this.updateAnswer();
+      console.log(this.FinalAnswers);
       this.Questype = "";
       this.PickAnswers.ans = "";
       this.PickAnswers_id.quesId = "";
@@ -479,6 +429,31 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       if (this.questionIndex != this.Qlength - 1) {
         this.questionIndex++;
       }
+    },
+    updateAnswer: function updateAnswer() {
+      var _this2 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                axios.put('/api/question/store-answer/' + _this2.submission_id, {
+                  type: "multiple",
+                  data: _this2.FinalAnswers
+                }); //this.isSavingAnswer = false;
+
+                setTimeout(function () {
+                  return _this2.isSavingAnswer = false;
+                }, 500);
+
+              case 2:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
     },
     // Go to previous question
     prev: function prev() {
@@ -494,9 +469,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.questionIndex--;
     },
     SubmitAnswer: function SubmitAnswer() {
-      var _this2 = this;
+      var _this3 = this;
 
-      console.log('test');
       this.isExamStart = false;
       this.isLoading = !this.isLoading;
       this.isSubmitting = !this.isSubmitting;
@@ -509,22 +483,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         timerCount: this.TimerCount
       }).then(function () {
         setTimeout(function () {
-          _this2.isLoading = !_this2.isLoading;
-          _this2.isSubmitting = !_this2.isSubmitting;
+          _this3.isLoading = !_this3.isLoading;
+          _this3.isSubmitting = !_this3.isSubmitting;
         }, 2000);
-        localStorage.removeItem(btoa('timer_time'));
-        localStorage.removeItem(btoa('CurrentAnswers'));
 
-        _this2.$router.push({
+        _this3.$router.push({
           name: 'result-page',
           params: {
-            id: _this2.$route.query.clwk
+            id: _this3.$route.query.clwk
           }
         });
       });
     },
     TimesUpSubmit: function TimesUpSubmit() {
-      var _this3 = this;
+      var _this4 = this;
 
       this.isExamStart = false;
       this.isLoading = !this.isLoading;
@@ -537,50 +509,110 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         timerCount: this.TimerCount
       }).then(function () {
         setTimeout(function () {
-          _this3.isLoading = !_this3.isLoading;
-          _this3.isSubmitting = !_this3.isSubmitting;
+          _this4.isLoading = !_this4.isLoading;
+          _this4.isSubmitting = !_this4.isSubmitting;
         }, 2000);
         localStorage.removeItem(btoa('timer_time'));
         localStorage.removeItem(btoa('CurrentAnswers'));
 
-        _this3.$router.push({
+        _this4.$router.push({
           name: 'result-page',
           params: {
-            id: _this3.$route.query.clwk
+            id: _this4.$route.query.clwk
           }
         });
       });
     },
     fetchQuestions: function fetchQuestions() {
-      var _this4 = this;
+      var _this5 = this;
 
       this.$store.dispatch('fetchQuestions', this.$route.query.clwk).then(function (res) {
-        _this4.Qlength = res[1];
-        _this4.isLoading = false;
-        var name = btoa('CurrentAnswers');
-        var AnswersList = JSON.parse(localStorage.getItem(name));
+        _this5.Qlength = res[1];
+        _this5.isLoading = false;
+        var name = btoa('CurrentAnswers'); //let AnswersList = JSON.parse(localStorage.getItem(name));
+
+        var AnswersList = _this5.Submitted_Answers;
 
         if (AnswersList == null) {
           for (var index = 0; index < res[0].Question.length; index++) {
-            _this4.FinalAnswers.push({
-              Answer: '',
-              Question_id: res[0].Question[index].id,
-              type: res[0].Question[index].type,
-              timeConsume: null
-            });
+            if (res[0].Question[index].type == 'Identification' || res[0].Question[index].type == 'Multiple Choice' || res[0].Question[index].type == 'True or False') {
+              _this5.FinalAnswers.push({
+                Answer: '',
+                Question_id: res[0].Question[index].id,
+                type: res[0].Question[index].type,
+                timeConsume: null
+              });
+            } else if (res[0].Question[index].type == 'Matching type') {
+              (function () {
+                var Ans = new Array();
+                var Choices_id = new Array();
+                res[0].Answer[index].SubAnswer.forEach(function (item) {
+                  Choices_id.push({
+                    choice_id: item.id
+                  });
+                });
+                res[0].Answer[index].SubQuestion.forEach(function (item) {
+                  Ans.push({
+                    Ans_letter: '',
+                    Ans_id: null,
+                    subquestion_id: item.id,
+                    Answers: ''
+                  });
+                });
+
+                _this5.FinalAnswers.push({
+                  Answer: Ans,
+                  Choices_id: Choices_id,
+                  Question_id: res[0].Question[index].id,
+                  type: res[0].Question[index].type,
+                  timeConsume: null
+                });
+              })();
+            }
           }
 
-          localStorage.setItem(name, JSON.stringify(_this4.FinalAnswers));
+          axios.put('/api/question/store-answer/' + _this5.submission_id, {
+            type: "multiple",
+            data: _this5.FinalAnswers
+          }); //localStorage.setItem(name, JSON.stringify(this.FinalAnswers));
         } else {
           for (var x = 0; x < res[0].Question.length; x++) {
             for (var j = 0; j < AnswersList.length; j++) {
               if (res[0].Question[x].id == AnswersList[j].Question_id) {
-                _this4.FinalAnswers.push({
-                  Answer: AnswersList[j].Answer,
-                  Question_id: AnswersList[j].Question_id,
-                  type: AnswersList[j].type,
-                  timeConsume: AnswersList[j].timeConsume
-                });
+                if (res[0].Question[x].type == 'Identification' || res[0].Question[x].type == 'Multiple Choice' || res[0].Question[x].type == 'True or False') {
+                  _this5.FinalAnswers.push({
+                    Answer: AnswersList[j].Answer,
+                    Question_id: AnswersList[j].Question_id,
+                    type: AnswersList[j].type,
+                    timeConsume: AnswersList[j].timeConsume
+                  });
+                } else if (res[0].Question[x].type == 'Matching type') {
+                  (function () {
+                    var Ans = new Array();
+                    var Choices_id = new Array();
+                    res[0].Answer[x].SubAnswer.forEach(function (item) {
+                      Choices_id.push({
+                        choice_id: item.id
+                      });
+                    });
+                    AnswersList[j].Answer.forEach(function (item) {
+                      Ans.push({
+                        Ans_letter: item.Ans_letter,
+                        Ans_id: item.Ans_id,
+                        subquestion_id: item.subquestion_id,
+                        Answers: item.Answers
+                      });
+                    });
+
+                    _this5.FinalAnswers.push({
+                      Answer: Ans,
+                      Choices_id: Choices_id,
+                      Question_id: AnswersList[j].Question_id,
+                      type: AnswersList[j].type,
+                      timeConsume: AnswersList[j].timeConsume
+                    });
+                  })();
+                }
               }
             }
           }
@@ -594,27 +626,29 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       event.returnValue = "";
     },
     CheckStatus: function CheckStatus() {
-      var _this5 = this;
+      var _this6 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
           while (1) {
-            switch (_context.prev = _context.next) {
+            switch (_context2.prev = _context2.next) {
               case 0:
-                axios.get('/api/student/checking/' + _this5.$route.query.clwk).then(function (res) {
-                  _this5.StartTime = res.data.startTime;
+                axios.get('/api/student/checking/' + _this6.$route.query.clwk).then(function (res) {
+                  _this6.Submitted_Answers = res.data.Submitted_Answers;
+                  _this6.StartTime = res.data.startTime;
+                  _this6.submission_id = res.data.submission_id;
 
                   if (res.data.status == 'Taking' || res.data.status == '') {
-                    _this5.StartQuiz();
+                    _this6.StartQuiz();
 
-                    _this5.preventNav = !_this5.preventNav;
+                    _this6.preventNav = !_this6.preventNav;
                   } else {
-                    _this5.isLoading = false;
+                    _this6.isLoading = false;
 
-                    _this5.$router.push({
+                    _this6.$router.push({
                       name: 'result-page',
                       params: {
-                        id: _this5.$route.query.clwk
+                        id: _this6.$route.query.clwk
                       }
                     });
                   }
@@ -622,23 +656,37 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 1:
               case "end":
-                return _context.stop();
+                return _context2.stop();
             }
           }
-        }, _callee);
+        }, _callee2);
       }))();
     },
+    SelectMatch: function SelectMatch(id, main_index, second_index) {
+      var Answer = this.FinalAnswers[main_index].Answer[second_index].Ans_letter;
+
+      for (var i = 0; i < this.getAll_questions.Answer[this.questionIndex].SubAnswer.length; i++) {
+        for (var x = 0; x < this.getAll_questions.Answer[this.questionIndex].SubAnswer.length; x++) {
+          if (this.Alphabet[x].toUpperCase() == Answer.toUpperCase()) {
+            this.FinalAnswers[main_index].Answer[second_index].Answers = this.getAll_questions.Answer[this.questionIndex].SubAnswer[x].Choice;
+            this.FinalAnswers[main_index].Answer[second_index].Ans_id = this.getAll_questions.Answer[this.questionIndex].SubAnswer[x].id;
+          }
+        }
+      }
+
+      console.log(this.FinalAnswers[main_index]);
+    },
     StartQuiz: function StartQuiz() {
-      var _this6 = this;
+      var _this7 = this;
 
       this.isStart = true;
       var alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
       this.Alphabet = alphabet;
       axios.get('/api/classwork/showDetails/' + this.$route.query.clwk + '/' + this.$route.params.id).then(function (res) {
-        _this6.duration = res.data.Details.duration;
-        _this6.classworkDetails = res.data.Details;
+        _this7.duration = res.data.Details.duration;
+        _this7.classworkDetails = res.data.Details;
 
-        _this6.fetchQuestions();
+        _this7.fetchQuestions();
       });
       this.CountTime();
     },
@@ -655,7 +703,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }
   },
   beforeMount: function beforeMount() {
-    var _this7 = this;
+    var _this8 = this;
 
     window.addEventListener("beforeunload", this.preventNav);
     var self = this;
@@ -664,7 +712,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     });
     window.addEventListener("beforeunload", this.preventNav);
     this.$once("hook:beforeDestroy", function () {
-      window.removeEventListener("beforeunload", _this7.preventNav);
+      window.removeEventListener("beforeunload", _this8.preventNav);
     });
   },
   beforeRouteLeave: function beforeRouteLeave(to, from, next) {
@@ -893,6 +941,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+//
 //
 //
 //
@@ -23044,67 +23093,156 @@ var render = function() {
                                                               _c(
                                                                 "v-list-item-title",
                                                                 [
-                                                                  _c(
-                                                                    "v-btn",
-                                                                    {
-                                                                      attrs: {
-                                                                        text:
-                                                                          "",
-                                                                        rounded:
-                                                                          ""
-                                                                      },
-                                                                      on: {
-                                                                        click: function(
-                                                                          $event
-                                                                        ) {
-                                                                          _vm.questionIndex = index
-                                                                        }
-                                                                      }
-                                                                    },
-                                                                    [
-                                                                      _c(
-                                                                        "v-icon",
+                                                                  item.type ==
+                                                                    "Multiple Choice" ||
+                                                                  item.type ==
+                                                                    "Indentification" ||
+                                                                  item.type ==
+                                                                    "True or False"
+                                                                    ? _c(
+                                                                        "v-btn",
                                                                         {
                                                                           attrs: {
-                                                                            color:
-                                                                              _vm
-                                                                                .FinalAnswers[
-                                                                                index
-                                                                              ]
-                                                                                .Answer ==
+                                                                            text:
+                                                                              "",
+                                                                            rounded:
                                                                               ""
-                                                                                ? ""
-                                                                                : "primary",
-                                                                            left:
+                                                                          },
+                                                                          on: {
+                                                                            click: function(
+                                                                              $event
+                                                                            ) {
+                                                                              _vm.questionIndex = index
+                                                                            }
+                                                                          }
+                                                                        },
+                                                                        [
+                                                                          _c(
+                                                                            "v-icon",
+                                                                            {
+                                                                              attrs: {
+                                                                                color:
+                                                                                  _vm
+                                                                                    .FinalAnswers[
+                                                                                    index
+                                                                                  ]
+                                                                                    .Answer ==
+                                                                                    null ||
+                                                                                  _vm
+                                                                                    .FinalAnswers[
+                                                                                    index
+                                                                                  ]
+                                                                                    .Answer ==
+                                                                                    ""
+                                                                                    ? ""
+                                                                                    : "primary",
+                                                                                left:
+                                                                                  ""
+                                                                              }
+                                                                            },
+                                                                            [
+                                                                              _vm._v(
+                                                                                _vm._s(
+                                                                                  _vm
+                                                                                    .FinalAnswers[
+                                                                                    index
+                                                                                  ]
+                                                                                    .Answer ==
+                                                                                    null ||
+                                                                                    _vm
+                                                                                      .FinalAnswers[
+                                                                                      index
+                                                                                    ]
+                                                                                      .Answer ==
+                                                                                      ""
+                                                                                    ? "mdi-checkbox-blank-outline"
+                                                                                    : "mdi-checkbox-marked"
+                                                                                )
+                                                                              )
+                                                                            ]
+                                                                          ),
+                                                                          _vm._v(
+                                                                            "\r\n                                        " +
+                                                                              _vm._s(
+                                                                                index +
+                                                                                  1
+                                                                              ) +
+                                                                              "\r\n                                       "
+                                                                          )
+                                                                        ],
+                                                                        1
+                                                                      )
+                                                                    : _c(
+                                                                        "v-btn",
+                                                                        {
+                                                                          attrs: {
+                                                                            text:
+                                                                              "",
+                                                                            rounded:
                                                                               ""
                                                                           }
                                                                         },
                                                                         [
+                                                                          _c(
+                                                                            "v-icon",
+                                                                            {
+                                                                              attrs: {
+                                                                                color:
+                                                                                  _vm
+                                                                                    .FinalAnswers[
+                                                                                    index
+                                                                                  ]
+                                                                                    .Answer[0]
+                                                                                    .Ans_letter ==
+                                                                                    null ||
+                                                                                  _vm
+                                                                                    .FinalAnswers[
+                                                                                    index
+                                                                                  ]
+                                                                                    .Answer[0]
+                                                                                    .Ans_letter ==
+                                                                                    ""
+                                                                                    ? ""
+                                                                                    : "primary",
+                                                                                left:
+                                                                                  ""
+                                                                              }
+                                                                            },
+                                                                            [
+                                                                              _vm._v(
+                                                                                "\r\n                                                " +
+                                                                                  _vm._s(
+                                                                                    _vm
+                                                                                      .FinalAnswers[
+                                                                                      index
+                                                                                    ]
+                                                                                      .Answer[0]
+                                                                                      .Ans_letter ==
+                                                                                      null ||
+                                                                                      _vm
+                                                                                        .FinalAnswers[
+                                                                                        index
+                                                                                      ]
+                                                                                        .Answer[0]
+                                                                                        .Ans_letter ==
+                                                                                        ""
+                                                                                      ? "mdi-checkbox-blank-outline"
+                                                                                      : "mdi-checkbox-marked"
+                                                                                  )
+                                                                              )
+                                                                            ]
+                                                                          ),
                                                                           _vm._v(
-                                                                            _vm._s(
-                                                                              _vm
-                                                                                .FinalAnswers[
-                                                                                index
-                                                                              ]
-                                                                                .Answer ==
-                                                                                ""
-                                                                                ? "mdi-checkbox-blank-outline"
-                                                                                : "mdi-checkbox-marked"
-                                                                            )
+                                                                            "\r\n                                            " +
+                                                                              _vm._s(
+                                                                                index +
+                                                                                  1
+                                                                              ) +
+                                                                              "\r\n                                       "
                                                                           )
-                                                                        ]
-                                                                      ),
-                                                                      _vm._v(
-                                                                        "\r\n                                         " +
-                                                                          _vm._s(
-                                                                            index +
-                                                                              1
-                                                                          ) +
-                                                                          "\r\n                                       "
+                                                                        ],
+                                                                        1
                                                                       )
-                                                                    ],
-                                                                    1
-                                                                  )
                                                                 ],
                                                                 1
                                                               )
@@ -23248,6 +23386,7 @@ var render = function() {
                                                 "v-btn",
                                                 {
                                                   attrs: {
+                                                    loading: _vm.isSavingAnswer,
                                                     rounded: "",
                                                     color: "primary"
                                                   },
@@ -23281,6 +23420,7 @@ var render = function() {
                                                 "v-btn",
                                                 {
                                                   attrs: {
+                                                    loading: _vm.isSavingAnswer,
                                                     rounded: "",
                                                     color: "success"
                                                   },
@@ -23311,7 +23451,7 @@ var render = function() {
                                   _c(
                                     "v-col",
                                     {
-                                      staticClass: "pa-9",
+                                      staticClass: "pa-9 pt-0 mt-0",
                                       attrs: { cols: "12", md: "12", lg: "12" }
                                     },
                                     _vm._l(
@@ -23377,13 +23517,15 @@ var render = function() {
                                                               "p",
                                                               {
                                                                 staticClass:
-                                                                  "mr-5"
+                                                                  "mr-5 primary--text"
                                                               },
                                                               [
                                                                 _vm._v(
-                                                                  _vm._s(
-                                                                    item.points
-                                                                  ) + " Points"
+                                                                  "(" +
+                                                                    _vm._s(
+                                                                      item.points
+                                                                    ) +
+                                                                    " Points)"
                                                                 )
                                                               ]
                                                             )
@@ -23599,7 +23741,8 @@ var render = function() {
                                                                                 $event
                                                                               ) {
                                                                                 return _vm.reset(
-                                                                                  index
+                                                                                  index,
+                                                                                  item.type
                                                                                 )
                                                                               }
                                                                             }
@@ -23744,7 +23887,8 @@ var render = function() {
                                                                             $event
                                                                           ) {
                                                                             return _vm.reset(
-                                                                              index
+                                                                              index,
+                                                                              item.type
                                                                             )
                                                                           }
                                                                         }
@@ -23899,7 +24043,8 @@ var render = function() {
                                                                         $event
                                                                       ) {
                                                                         return _vm.reset(
-                                                                          index
+                                                                          index,
+                                                                          item.type
                                                                         )
                                                                       }
                                                                     }
@@ -24068,47 +24213,43 @@ var render = function() {
                                                                                         staticClass:
                                                                                           "centered-input",
                                                                                         on: {
-                                                                                          onkeyup: function(
-                                                                                            $event
-                                                                                          ) {
-                                                                                            _vm.SubAnswers[
-                                                                                              i
-                                                                                            ] = _vm.SubAnswers[
-                                                                                              i
-                                                                                            ].toUpperCase()
-                                                                                          },
                                                                                           change: function(
                                                                                             $event
                                                                                           ) {
-                                                                                            ;(_vm.quesNumber[
+                                                                                            return _vm.SelectMatch(
+                                                                                              item.id,
+                                                                                              index,
                                                                                               i
-                                                                                            ] =
-                                                                                              List.id),
-                                                                                              (_vm.PickAnswers_id.quesId =
-                                                                                                item.id),
-                                                                                              (_vm.Questype =
-                                                                                                item.type),
-                                                                                              (_vm.PickAnswers.ans =
-                                                                                                "Matching Type")
+                                                                                            )
                                                                                           }
                                                                                         },
                                                                                         model: {
                                                                                           value:
                                                                                             _vm
-                                                                                              .SubAnswers[
+                                                                                              .FinalAnswers[
+                                                                                              index
+                                                                                            ]
+                                                                                              .Answer[
                                                                                               i
-                                                                                            ],
+                                                                                            ]
+                                                                                              .Ans_letter,
                                                                                           callback: function(
                                                                                             $$v
                                                                                           ) {
                                                                                             _vm.$set(
-                                                                                              _vm.SubAnswers,
-                                                                                              i,
+                                                                                              _vm
+                                                                                                .FinalAnswers[
+                                                                                                index
+                                                                                              ]
+                                                                                                .Answer[
+                                                                                                i
+                                                                                              ],
+                                                                                              "Ans_letter",
                                                                                               $$v
                                                                                             )
                                                                                           },
                                                                                           expression:
-                                                                                            "SubAnswers[i]"
+                                                                                            "FinalAnswers[index].Answer[i].Ans_letter"
                                                                                         }
                                                                                       }
                                                                                     )
@@ -24267,6 +24408,45 @@ var render = function() {
                                                                     )
                                                                   ],
                                                                   2
+                                                                ),
+                                                                _vm._v(" "),
+                                                                _c(
+                                                                  "v-container",
+                                                                  {
+                                                                    staticClass:
+                                                                      "mb-0 pb-0 d-flex flex-row-reverse"
+                                                                  },
+                                                                  [
+                                                                    _c(
+                                                                      "v-btn",
+                                                                      {
+                                                                        attrs: {
+                                                                          text:
+                                                                            "",
+                                                                          rounded:
+                                                                            "",
+                                                                          small:
+                                                                            ""
+                                                                        },
+                                                                        on: {
+                                                                          click: function(
+                                                                            $event
+                                                                          ) {
+                                                                            return _vm.reset(
+                                                                              index,
+                                                                              item.type
+                                                                            )
+                                                                          }
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _vm._v(
+                                                                          "Reset Answer"
+                                                                        )
+                                                                      ]
+                                                                    )
+                                                                  ],
+                                                                  1
                                                                 )
                                                               ],
                                                               1
@@ -24433,7 +24613,7 @@ var render = function() {
       _c("v-card-text", { staticClass: "font-weight-bold" }, [
         _c(
           "div",
-          { staticClass: "subtitle-1 ", staticStyle: { "line-height": "1.1" } },
+          { staticClass: "subtitle-1 ", staticStyle: { "line-height": "1.3" } },
           [
             _vm._v(
               "Clicking submit will end this quiz. \n             You will no longer be able to make changes \n             to your answers unless allowed by the instructor. Continue?"
@@ -24444,14 +24624,13 @@ var render = function() {
       _vm._v(" "),
       _c(
         "v-card-actions",
-        { staticClass: "pb-5" },
         [
           _c("v-spacer"),
           _vm._v(" "),
           _c(
             "v-btn",
             {
-              attrs: { color: "primary", rounded: "", outlined: "" },
+              attrs: { rounded: "", text: "" },
               on: {
                 click: function($event) {
                   return _vm.$emit("toggleCancelDialog")
@@ -24464,7 +24643,7 @@ var render = function() {
           _c(
             "v-btn",
             {
-              attrs: { color: "primary", rounded: "" },
+              attrs: { color: "primary", text: "", rounded: "" },
               on: {
                 click: function($event) {
                   return _vm.$emit("toggleSubmit")

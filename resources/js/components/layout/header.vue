@@ -25,18 +25,20 @@
                         </v-avatar>
                     </v-btn>
                 </template>
-                <v-card>
-                    <v-list-item-content class="justify-center">
-                        <div class="mx-auto text-center">
+                <v-card >
+                    <v-list-item-content class="justify-center pa-1">
+                        <div class="mx-auto text-center ">
                             <v-avatar color="brown" size="40">
                                 <v-img alt="Proflie"
                                     :src="UserDetails.profile_pic == null || UserDetails.profile_pic == '' ? 'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=' + (UserDetails.firstName+' '+UserDetails.lastName) : UserDetails.profile_pic">
                                 </v-img>
                             </v-avatar>
+                            <div>
                             <h3>{{ UserDetails.firstName+' '+UserDetails.lastName }}</h3>
-                            <p class="text-caption mt-1">
+                            <p class="text-caption mt-1 pl-2 pr-2">
                                 {{ UserDetails.email }}
                             </p>
+                            </div>
                             <v-divider class="my-3"></v-divider>
                             <v-btn @click="$router.push({name: 'profile_page'})"  rounded color="primary">
                                 <v-icon left>mdi-account</v-icon> My Profile

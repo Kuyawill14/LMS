@@ -172,6 +172,8 @@ class TeacherController extends Controller
                 $ResetSubmission->status = null;
                 $ResetSubmission->points = null;
                 $ResetSubmission->Submitted_Answers = null;
+                $ResetSubmission->created_at = null;
+                $ResetSubmission->updated_at = null;
                 $ResetSubmission->save();
                 return "Reset Success";
            }

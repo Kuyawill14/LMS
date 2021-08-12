@@ -130,6 +130,49 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
@@ -368,15 +411,48 @@ var render = function() {
                       _c(
                         "v-col",
                         {
-                          staticClass: "primary ma-0 pa-0",
+                          staticClass: "primary ma-0 pa-0 d-flex flex-column",
                           style:
                             _vm.$vuetify.breakpoint.xs ||
                             _vm.$vuetify.breakpoint.sm
-                              ? "height:30vh;"
+                              ? "height:35vh;"
                               : "height:100vh",
                           attrs: { cols: "12", md: "4" }
                         },
                         [
+                          _vm.$vuetify.breakpoint.xs ||
+                          _vm.$vuetify.breakpoint.sm
+                            ? _c(
+                                "v-container",
+                                {
+                                  staticClass:
+                                    "pb-0 mb-0 pl-5 d-flex justify-space-between"
+                                },
+                                [
+                                  _c("v-img", {
+                                    attrs: {
+                                      height: "70",
+                                      width: "70",
+                                      "max-height": "70",
+                                      "max-width": "70",
+                                      src: "../images/isu_logo1.png"
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c("v-img", {
+                                    attrs: {
+                                      height: "70",
+                                      width: "70",
+                                      "max-height": "70",
+                                      "max-width": "70",
+                                      src: "../images/ccsict_logo_2.png"
+                                    }
+                                  })
+                                ],
+                                1
+                              )
+                            : _vm._e(),
+                          _vm._v(" "),
                           _c(
                             "v-container",
                             {
@@ -406,8 +482,54 @@ var render = function() {
                                             [
                                               _c(
                                                 "div",
-                                                { staticClass: "display-1" },
-                                                [_vm._v("Title")]
+                                                {
+                                                  staticClass:
+                                                    "display-2 white--text font-weight-bold"
+                                                },
+                                                [_vm._v("ORANGE")]
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "div",
+                                                { staticClass: "white--text" },
+                                                [
+                                                  _c(
+                                                    "b",
+                                                    { staticClass: "text-h6" },
+                                                    [_vm._v("O")]
+                                                  ),
+                                                  _vm._v("nline "),
+                                                  _c(
+                                                    "b",
+                                                    { staticClass: "text-h6" },
+                                                    [_vm._v("R")]
+                                                  ),
+                                                  _vm._v("esources "),
+                                                  _c(
+                                                    "b",
+                                                    { staticClass: "text-h6" },
+                                                    [_vm._v("A")]
+                                                  ),
+                                                  _vm._v("pp for a "),
+                                                  _c(
+                                                    "b",
+                                                    { staticClass: "text-h6" },
+                                                    [_vm._v("N")]
+                                                  ),
+                                                  _vm._v("ew "),
+                                                  _c(
+                                                    "b",
+                                                    { staticClass: "text-h6" },
+                                                    [_vm._v("G")]
+                                                  ),
+                                                  _vm._v("uild of "),
+                                                  _c(
+                                                    "b",
+                                                    { staticClass: "text-h6" },
+                                                    [_vm._v("E")]
+                                                  ),
+                                                  _vm._v("ducation")
+                                                ]
                                               )
                                             ]
                                           )
@@ -422,7 +544,40 @@ var render = function() {
                               )
                             ],
                             1
-                          )
+                          ),
+                          _vm._v(" "),
+                          !_vm.$vuetify.breakpoint.xs &&
+                          !_vm.$vuetify.breakpoint.sm
+                            ? _c(
+                                "v-container",
+                                {
+                                  staticClass:
+                                    "pb-0 mb-0 pl-5 d-flex justify-center"
+                                },
+                                [
+                                  _c("v-img", {
+                                    attrs: {
+                                      height: "70",
+                                      width: "70",
+                                      "max-height": "70",
+                                      "max-width": "70",
+                                      src: "../images/isu_logo1.png"
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c("v-img", {
+                                    attrs: {
+                                      height: "70",
+                                      width: "70",
+                                      "max-height": "70",
+                                      "max-width": "70",
+                                      src: "../images/ccsict_logo_2.png"
+                                    }
+                                  })
+                                ],
+                                1
+                              )
+                            : _vm._e()
                         ],
                         1
                       ),

@@ -4,7 +4,8 @@ const state = {
     CurrentUser: [],
     UserRole: null,
     MyCourses: [],
-    CurrentStatus: {}
+    CurrentStatus: {},
+    IsAuthenticated: false,
 
 };
 const getters = {
@@ -13,6 +14,14 @@ const getters = {
   
 };
 const actions = {
+    async IsAuthenticated({commit, actions}){
+        const res = await axios.get(`/api/authenticated`)
+        if(res.data == true){
+            commit('SET_AUTHENTICATED', true);
+        
+
+        }
+    },
     async fetchCurrentUser({ commit }) {
         if(state.CurrentUser.length == 0){
             const res = await axios.get(
@@ -31,6 +40,7 @@ const actions = {
         state.CurrentUser = [];
         state.UserRole = null;
         state.MyCourses = [];
+        state.IsAuthenticated = false;
     },
     async fetchMyCoursesStatus({ commit }){
         if(state.MyCourses.length == 0){
@@ -60,11 +70,13 @@ const actions = {
         });
         state.CurrentStatus.exist = exist;
         state.CurrentStatus.status = status;
-    }
+    },
+
 };
 const mutations = {
     FETCH_USER: (state, CurrentUser) => (state.CurrentUser = CurrentUser),
     SET_USER_ROLE: (state, UserRole) => (state.UserRole = UserRole),
+    SET_AUTHENTICATED: (state, IsAuthenticated) => (state.IsAuthenticated = IsAuthenticated),
 
 };
 

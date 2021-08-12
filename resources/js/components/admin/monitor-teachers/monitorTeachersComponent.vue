@@ -50,14 +50,11 @@
                                     <td class="text-center"> {{item.sub_modules_count}} </td>
                                     <td class="text-center">
                                         <v-btn icon color="success" link  :to="{name: 'teacherProfile', params: {id: item.user_id}}">
-
                                             <v-icon>
                                                 mdi-eye
                                             </v-icon>
-
                                         </v-btn>
                                     </td>
-
                                 </tr>
                                 <tr v-if="getTeachersSumarry.length == 0">
                                     <td colspan="42" class="text-center"> No data available</td>

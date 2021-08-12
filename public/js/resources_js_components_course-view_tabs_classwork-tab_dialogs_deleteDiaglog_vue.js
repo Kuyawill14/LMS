@@ -47,6 +47,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['DeleteDetails'],
   methods: {
@@ -179,7 +180,7 @@ var render = function() {
       _c("v-card-title", { staticClass: "text-h5" }, [
         _vm._v("\n      Delete"),
         _c("span", { staticClass: "primary--text ml-1" }, [
-          _vm._v(" " + _vm._s(_vm.DeleteDetails.title))
+          _vm._v(' "' + _vm._s(_vm.DeleteDetails.title) + '"')
         ])
       ]),
       _vm._v(" "),
@@ -193,14 +194,13 @@ var render = function() {
       _vm._v(" "),
       _c(
         "v-card-actions",
-        { staticClass: "pb-5" },
         [
           _c("v-spacer"),
           _vm._v(" "),
           _c(
             "v-btn",
             {
-              attrs: { color: "primary", rounded: "", outlined: "" },
+              attrs: { rounded: "", text: "" },
               on: {
                 click: function($event) {
                   return _vm.$emit("toggleDialog")
@@ -213,7 +213,7 @@ var render = function() {
           _c(
             "v-btn",
             {
-              attrs: { color: "primary", rounded: "" },
+              attrs: { color: "primary", rounded: "", text: "" },
               on: {
                 click: function($event) {
                   return _vm.RemoveClasswork()

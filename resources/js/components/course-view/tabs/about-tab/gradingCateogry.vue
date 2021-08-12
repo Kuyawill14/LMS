@@ -60,12 +60,8 @@
             },
             _totalPercent(percentage_data) {
                 var total = 0;
-
                 percentage_data.forEach(function (val) {
-
                     total += parseFloat(val.percentage);
-                    console.log(total);
-
                 })
                 return total;
             }

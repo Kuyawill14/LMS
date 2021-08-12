@@ -206,9 +206,12 @@ Route::prefix('/question')->group(function () {
     Route::post('/addOption', [ObjectiveController::class, 'AddOption']);
 
     Route::put('/update/{id}', [ObjectiveController::class, 'update']);
+    Route::put('/store-answer/{id}', [ObjectiveController::class, 'storeAnswer']);
 
     Route::put('/delete/{id}', [ObjectiveController::class, 'removeOption']);
     Route::delete('/remove/{id}', [ObjectiveController::class, 'deleteQuestion']);
+
+    
 });
 
 

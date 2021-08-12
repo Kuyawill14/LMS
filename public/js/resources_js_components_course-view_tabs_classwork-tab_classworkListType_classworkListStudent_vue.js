@@ -141,8 +141,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 var previewClassworkModal = function previewClassworkModal() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_tabs_classwork-tab_dialogs_previewClassworkModal_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../dialogs/previewClassworkModal */ "./resources/js/components/course-view/tabs/classwork-tab/dialogs/previewClassworkModal.vue"));
 };
@@ -972,32 +970,7 @@ var render = function() {
                                   ],
                                   1
                                 )
-                              }),
-                              _vm._v(" "),
-                              _c(
-                                "v-col",
-                                {
-                                  staticClass: "text-right mb-0 pb-0",
-                                  attrs: { cols: "12" }
-                                },
-                                [
-                                  _c(
-                                    "v-btn",
-                                    {
-                                      staticClass: "text-center",
-                                      attrs: { text: "", color: "blue" }
-                                    },
-                                    [
-                                      _vm._v("View more "),
-                                      _c("v-icon", { attrs: { center: "" } }, [
-                                        _vm._v("mdi-chevron-down")
-                                      ])
-                                    ],
-                                    1
-                                  )
-                                ],
-                                1
-                              )
+                              })
                             ],
                             2
                           )

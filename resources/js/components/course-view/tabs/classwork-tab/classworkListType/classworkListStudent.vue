@@ -116,9 +116,7 @@
                     </v-hover>
                  <v-divider></v-divider>
                 </v-col>
-               <v-col cols="12" class="text-right mb-0 pb-0"> 
-                   <v-btn text color="blue" class="text-center">View more <v-icon center>mdi-chevron-down</v-icon> </v-btn> 
-                </v-col>
+               
             </v-row>
             </v-col>
              

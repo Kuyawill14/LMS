@@ -5,7 +5,6 @@
     <v-dialog v-model="dialog"
     fullscreen
     hide-overlay
-    
     transition="dialog-bottom-transition">
     <checksubjective :classworkDetails="classworkDetails" v-on:UpdateSubmission="$emit('UpdateSubmission')" :CheckData="CheckData" v-on:closeDialog="dialog = !dialog"></checksubjective>
     </v-dialog>
@@ -40,12 +39,12 @@
                          <div class=" d-flex justify-start">
                             <v-avatar color="brown" size="40">
                                 <v-img alt="Profile"
-                                    :src="item.profile_pic == null || item.profile_pic == '' ? 'https://ui-avatars.com/api/?background=random&color=fff&name=' + item.name : item.profile_pic">
+                                    :src="item.profile_pic == null || item.profile_pic == '' ? 'https://ui-avatars.com/api/?background=random&color=fff&name=' + item.firstname +' '+item.lastName : item.profile_pic">
                                 </v-img>
                             </v-avatar>
                             <div class="mt-2 ml-2">
                             <div class="font-weight-medium">
-                                {{item.name}}
+                                {{item.firstname +' '+item.lastName}}
                                 <br>
 
                             </div>
@@ -89,6 +88,30 @@
                         </div>
                     </v-col>
                 </v-row>
+                <v-divider></v-divider>
+            </v-col>
+             <v-col cols="12" md="12" lg="3" xl="3" class="pt-0 mt-0 pb-0 mb-0 pt-1">
+                 <v-select
+                    outlined
+                    dense
+                    label="Status"
+                    v-model="selectedStatus"
+                    class="mb-0 pb-0"
+                    :items="StatusType"
+                    >
+                </v-select>
+         
+            </v-col>
+
+            <v-col cols="12" md="12" lg="9" xl="9" class="pt-0 mt-0 pb-0 mb-0 pt-1">
+                
+                <v-text-field 
+                 class="mb-0 pb-0"
+                 v-model="search"
+                prepend-inner-icon="mdi-magnify"
+                outlined dense label="Search">
+                
+                </v-text-field>
             </v-col>
 
             <v-col cols="12">
@@ -149,8 +172,8 @@ export default {
             ],
            isSavingScore: false,
             score: null,
-           
-            
+            StatusType: ['All', 'Submitted', 'Graded', 'No Submission'],
+            selectedStatus:'All',
         }
     },
     methods:{

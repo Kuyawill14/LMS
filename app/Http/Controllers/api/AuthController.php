@@ -30,6 +30,11 @@ class AuthController extends Controller
             $user = auth('sanctum')->user();
             //$authToken = $user->createToken('auth-token')->plainTextToken;
             $request->session()->regenerate();
+            //Auth::logoutOtherDevices($request->password);
+
+          /*   DB::table('sessions')
+            ->where('user_id', \Auth::user()->id)
+            ->where('id', '!=', \Session::getId())->delete(); */
             return response()->json("Login Success",200);
             
            /*  return response()->json([
@@ -159,6 +164,7 @@ class AuthController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function logout(Request $request) {
+        $session = DB::table('sessions')->where('id', \Session::getId())->delete();
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();

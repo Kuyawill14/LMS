@@ -92,7 +92,7 @@ var announcementPostList = function announcementPostList() {
       }, {
         text: 'Announcement',
         disabled: true,
-        link: 'breadcrumbs_link_2'
+        link: 'announcement'
       }]
     };
   },

@@ -4,8 +4,60 @@
             <v-row align="center" justify="center">
                 <v-col class="ma-0 pa-0" cols="12" sm="12" md="12">
                         <v-row :class="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm  ? 'fill-height' : ''" align="center" justify="center">
-                            <v-col :style="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm  ? 'height:30vh;':'height:100vh'"  cols="12" md="4" class="primary ma-0 pa-0">
-                               
+                            <v-col :style="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm  ? 'height:30vh;':'height:100vh'"  cols="12" md="4" class="primary ma-0 pa-0 d-flex flex-column">
+                                <v-container v-if="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm" class="pb-0 mb-0 pl-5 d-flex justify-space-between">
+                              <v-img
+                                height="70"
+                                width="70"
+                                max-height="70"
+                                max-width="70"
+                                src="../images/isu_logo1.png"
+                              ></v-img>
+
+                               <v-img
+                            
+                                height="70"
+                                width="70"
+                                max-height="70"
+                                max-width="70"
+                                src="../images/ccsict_logo_2.png"
+                              ></v-img>
+                          </v-container>
+                        
+                        
+                        <v-container class="fill-height" fluid>
+                          <v-card-text>
+                            <v-form class="text-center">
+                                <v-row align="center" justify="center">
+                                  <v-col cols="12">
+                                      <div class="display-2 white--text font-weight-bold">ORANGE</div>
+                                      <div class="white--text"><b class="text-h6">O</b>nline <b class="text-h6">R</b>esources <b class="text-h6">A</b>pp for a <b class="text-h6">N</b>ew <b class="text-h6">G</b>uild of <b class="text-h6">E</b>ducation</div>
+                                  </v-col>
+                                </v-row>
+                              </v-form>
+                          </v-card-text>
+
+                          
+                        </v-container>
+                       <v-container v-if="!$vuetify.breakpoint.xs && !$vuetify.breakpoint.sm" class="pb-0 mb-0 pl-5 d-flex justify-center">
+                              <v-img
+                         
+                                height="70"
+                                width="70"
+                                max-height="70"
+                                max-width="70"
+                                src="../images/isu_logo1.png"
+                              ></v-img>
+
+                               <v-img
+                            
+                                height="70"
+                                width="70"
+                                max-height="70"
+                                max-width="70"
+                                src="../images/ccsict_logo_2.png"
+                              ></v-img>
+                          </v-container>
                             </v-col>
 
                             <v-col :class="$vuetify.breakpoint.xs ? 'ma-0 pa-5' :'ma-0 pa-0'" cols="12" md="8">

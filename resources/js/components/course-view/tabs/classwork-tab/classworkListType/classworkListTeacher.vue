@@ -105,32 +105,28 @@
                                         
                                             </template>
                                         
-                                            <v-list pa-0 ma-0>
-                                                <v-list-item ma-0 pa-0>
-                                                    <v-list-item-title><v-btn rounded text @click="$router.push({name: 'clwk',params: {id: $route.params.id},query: {clwk: item.id}})"
-                                                    ><v-icon class="mr-1">mdi-notebook-edit-outline</v-icon>Review Classwork</v-btn></v-list-item-title>
+                                            <v-list  >
+                                                <v-list-item link :to="{name: 'clwk',params: {id: $route.params.id},query: {clwk: item.id}}" ma-0 pa-0>
+                                                    <v-list-item-title> <v-icon left>mdi-notebook-edit-outline</v-icon>Edit Classwork</v-list-item-title>
                                                 </v-list-item>
-                                                <v-list-item ma-0 pa-0>
-                                                    <v-list-item-title><v-btn rounded @click="$router.push({name: 'publish-to',params: {id: $route.params.id},query: {clwk: item.id}})" text><v-icon class="mr-1">mdi-file-upload-outline</v-icon>Publish Classwork</v-btn></v-list-item-title>
+                                               
+                                                <v-list-item link @click="RemoveCLasswork(item)" ma-0 pa-0>
+                                                    <v-list-item-title><v-icon left>mdi-archive</v-icon>Archive</v-list-item-title>
                                                 </v-list-item>
-                                                <v-list-item ma-0 pa-0>
-                                                    <v-list-item-title><v-btn rounded @click="$router.push({name: 'submission-list',params: {id: $route.params.id},query: {clwk: item.id}})" text><v-icon class="mr-1">mdi-file-eye-outline</v-icon>View Submission</v-btn></v-list-item-title>
+
+                                                   <v-list-item v-if="item.submittion_count == 0" link @click="RemoveCLasswork(item)" ma-0 pa-0>
+                                                    <v-list-item-title><v-icon left>mdi-delete</v-icon>Delete</v-list-item-title>
                                                 </v-list-item>
-                                                <v-list-item ma-0 pa-0>
-                                                    <v-list-item-title><v-btn @click="RemoveCLasswork(item)" rounded text><v-icon class="mr-1">mdi-archive</v-icon>Archive Classwork</v-btn></v-list-item-title>
-                                                </v-list-item>
-                                                <v-list-item ma-0 pa-0>
-                                                    <v-list-item-title><v-btn @click="RemoveCLasswork(item)" rounded text><v-icon class="mr-1">mdi-delete-outline</v-icon>Remove Classwork</v-btn></v-list-item-title>
-                                                </v-list-item>
+                                              
                                             </v-list>
                                         </v-menu>
                                     </div>
                                 </v-expansion-panel-header>
                             <!--  </v-hover> -->
-                            <v-expansion-panel-content class="ma-0 pa-0 mt-3">
-                                <v-row>
-                                    <v-col cols="8">
-                                        <div class="mb-5"> {{item.instruction}}</div>
+                            <v-expansion-panel-content id="extend" class=" expand ma-0 pa-0 mt-3">
+                                <v-row no-gutters>
+                                    <v-col cols="8" class="pr-2">
+                                        <div  class="mb-5 text-caption"> {{item.instruction}}</div>
                                     </v-col>
                                        <v-col cols="4">
                                            <div class="flex-column">
@@ -139,13 +135,9 @@
                                            </div>
                                     </v-col>
                                 </v-row>
-                                
-                                <v-btn class="ma-0" @click="$router.push({name: 'clwk',params: {id: $route.params.id},query: {clwk: item.id}})"
-                                rounded color="primary" small text>View Classwork</v-btn>
+                                <v-btn class="ma-0" @click="$router.push({name: 'submission-list',params: {id: $route.params.id},query: {clwk: item.id}})"
+                                rounded color="primary" small text>View Submission</v-btn>
                             </v-expansion-panel-content>
-                     
-
-                            
                             </v-expansion-panel>
                         </v-expansion-panels>
               
@@ -212,3 +204,14 @@
        
     }
 </script>
+<style lang="scss" >
+
+     .v-expansion-panel-content__wrap {
+        padding: 0 !important;
+    }
+
+     #extend{
+        padding: 0 24px 16px !important;
+    }
+</style>
+

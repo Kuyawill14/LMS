@@ -94,11 +94,7 @@ export default {
     mounted(){
         this.getClassworkDetails();
     },
-    beforeDestroy(){
-        this.classworkDetails.destroy();
-        this.totalPoints.destroy();
-        this.totalQuestion.destroy();
-    }
+  
     
 }
 </script>

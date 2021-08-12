@@ -92,7 +92,7 @@ VueElementLoading
                     {
                         text: 'Setting',
                         disabled: true,
-                        link: 'breadcrumbs_link_2',
+                        link: 'settings',
                     },
                 ],
                 school_year: [],

@@ -146,6 +146,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -163,7 +173,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       grading_criteria_form: {},
       grading_criteria: {},
       course_id: '',
-      delId: ''
+      delId: '',
+      items: [{
+        text: 'Course',
+        disabled: false,
+        link: 'courses'
+      }, {
+        text: 'Grading Criteria',
+        disabled: true,
+        link: 'gradingCriteria'
+      }]
     };
   },
   computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(["get_gradingCriteria"])),
@@ -194,8 +213,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var _this = this;
 
       if (this.grading_criteria_form.name.trim() != '' || this.grading_criteria_form.percentage.trim() != '') {
-        this.loading = true; //  console.log(this.grading_criteria_form);
-
+        this.loading = true;
         var errors = '';
         this.grading_criteria_form.course_id = this.$route.params.id;
         this.$store.dispatch('addGradingCriteria', this.grading_criteria_form).then(function (data) {
@@ -207,7 +225,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var _this2 = this;
 
       var errors = '';
-      console.log(this.grading_criteria_form);
       this.$store.dispatch('updateGradingCriteria', this.grading_criteria_form).then(function (data) {
         if (data[0] == 'error') {
           for (var i = 1; i < data.length; i++) {
@@ -235,7 +252,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var total = 0;
       percentage_data.forEach(function (val) {
         total += parseFloat(val.percentage);
-        console.log(total);
       });
       return total;
     }
@@ -399,8 +415,33 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "pt-4" },
     [
+      _c("v-breadcrumbs", {
+        staticClass: "ma-0 pa-0 mt-3",
+        attrs: { items: _vm.items },
+        scopedSlots: _vm._u([
+          {
+            key: "item",
+            fn: function(ref) {
+              var item = ref.item
+              return [
+                _c(
+                  "v-breadcrumbs-item",
+                  {
+                    attrs: { to: { name: item.link }, disabled: item.disabled }
+                  },
+                  [
+                    _vm._v(
+                      "\n        " + _vm._s(item.text.toUpperCase()) + "\n    "
+                    )
+                  ]
+                )
+              ]
+            }
+          }
+        ])
+      }),
+      _vm._v(" "),
       _c("h2", [_vm._v("\n        Grading Criteria\n    ")]),
       _vm._v(" "),
       _c(

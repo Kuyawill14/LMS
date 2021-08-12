@@ -73,6 +73,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['UserDetails'],
@@ -271,10 +273,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-var seeAllNotification = function seeAllNotification() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_layout_notification_SeeAllNotification_vue-_9dd71").then(__webpack_require__.bind(__webpack_require__, /*! ./SeeAllNotification */ "./resources/js/components/layout/notification/SeeAllNotification.vue"));
-};
-
+//const seeAllNotification = () => import("./SeeAllNotification")
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -298,8 +297,7 @@ var seeAllNotification = function seeAllNotification() {
       isClose: false
     };
   },
-  components: {
-    seeAllNotification: seeAllNotification
+  components: {//seeAllNotification
   },
   computed: (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(["get_notification", "get_notification_count", "ShowPage", "ShowLoadMore", "LastPage", "isGetting"]),
   methods: _objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapActions)(['fetchNotification'])), (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapActions)(['fetchNotificationCount'])), (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapActions)(['ShowMore'])), (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapActions)(['ShowLess'])), (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapActions)(['LessNotificationCount'])), (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapActions)(['UnreadMessage'])), {}, {
@@ -22712,116 +22710,126 @@ var render = function() {
               _c(
                 "v-card",
                 [
-                  _c("v-list-item-content", { staticClass: "justify-center" }, [
-                    _c(
-                      "div",
-                      { staticClass: "mx-auto text-center" },
-                      [
-                        _c(
-                          "v-avatar",
-                          { attrs: { color: "brown", size: "40" } },
-                          [
-                            _c("v-img", {
-                              attrs: {
-                                alt: "Proflie",
-                                src:
-                                  _vm.UserDetails.profile_pic == null ||
-                                  _vm.UserDetails.profile_pic == ""
-                                    ? "https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=" +
-                                      (_vm.UserDetails.firstName +
-                                        " " +
-                                        _vm.UserDetails.lastName)
-                                    : _vm.UserDetails.profile_pic
-                              }
-                            })
-                          ],
-                          1
-                        ),
-                        _vm._v(" "),
-                        _c("h3", [
-                          _vm._v(
-                            _vm._s(
-                              _vm.UserDetails.firstName +
-                                " " +
-                                _vm.UserDetails.lastName
+                  _c(
+                    "v-list-item-content",
+                    { staticClass: "justify-center pa-1" },
+                    [
+                      _c(
+                        "div",
+                        { staticClass: "mx-auto text-center " },
+                        [
+                          _c(
+                            "v-avatar",
+                            { attrs: { color: "brown", size: "40" } },
+                            [
+                              _c("v-img", {
+                                attrs: {
+                                  alt: "Proflie",
+                                  src:
+                                    _vm.UserDetails.profile_pic == null ||
+                                    _vm.UserDetails.profile_pic == ""
+                                      ? "https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=" +
+                                        (_vm.UserDetails.firstName +
+                                          " " +
+                                          _vm.UserDetails.lastName)
+                                      : _vm.UserDetails.profile_pic
+                                }
+                              })
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c("div", [
+                            _c("h3", [
+                              _vm._v(
+                                _vm._s(
+                                  _vm.UserDetails.firstName +
+                                    " " +
+                                    _vm.UserDetails.lastName
+                                )
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c(
+                              "p",
+                              { staticClass: "text-caption mt-1 pl-2 pr-2" },
+                              [
+                                _vm._v(
+                                  "\n                            " +
+                                    _vm._s(_vm.UserDetails.email) +
+                                    "\n                        "
+                                )
+                              ]
                             )
-                          )
-                        ]),
-                        _vm._v(" "),
-                        _c("p", { staticClass: "text-caption mt-1" }, [
-                          _vm._v(
-                            "\n                            " +
-                              _vm._s(_vm.UserDetails.email) +
-                              "\n                        "
-                          )
-                        ]),
-                        _vm._v(" "),
-                        _c("v-divider", { staticClass: "my-3" }),
-                        _vm._v(" "),
-                        _c(
-                          "v-btn",
-                          {
-                            attrs: { rounded: "", color: "primary" },
-                            on: {
-                              click: function($event) {
-                                return _vm.$router.push({
-                                  name: "profile_page"
-                                })
+                          ]),
+                          _vm._v(" "),
+                          _c("v-divider", { staticClass: "my-3" }),
+                          _vm._v(" "),
+                          _c(
+                            "v-btn",
+                            {
+                              attrs: { rounded: "", color: "primary" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.$router.push({
+                                    name: "profile_page"
+                                  })
+                                }
                               }
-                            }
-                          },
-                          [
-                            _c("v-icon", { attrs: { left: "" } }, [
-                              _vm._v("mdi-account")
-                            ]),
-                            _vm._v(" My Profile\n                        ")
-                          ],
-                          1
-                        ),
-                        _vm._v(" "),
-                        _c("v-divider", { staticClass: "my-3" }),
-                        _vm._v(" "),
-                        _c(
-                          "v-btn",
-                          {
-                            attrs: { depressed: "", rounded: "", text: "" },
-                            on: {
-                              click: function($event) {
-                                return _vm.$router.push({
-                                  name: "archive-course"
-                                })
+                            },
+                            [
+                              _c("v-icon", { attrs: { left: "" } }, [
+                                _vm._v("mdi-account")
+                              ]),
+                              _vm._v(" My Profile\n                        ")
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c("v-divider", { staticClass: "my-3" }),
+                          _vm._v(" "),
+                          _c(
+                            "v-btn",
+                            {
+                              attrs: { depressed: "", rounded: "", text: "" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.$router.push({
+                                    name: "archive-course"
+                                  })
+                                }
                               }
-                            }
-                          },
-                          [
-                            _c("v-icon", { attrs: { left: "" } }, [
-                              _vm._v("mdi-package-down")
-                            ]),
-                            _vm._v(" Archive\n                        ")
-                          ],
-                          1
-                        ),
-                        _vm._v(" "),
-                        _c("v-divider", { staticClass: "my-3" }),
-                        _vm._v(" "),
-                        _c(
-                          "v-btn",
-                          {
-                            attrs: { depressed: "", rounded: "", text: "" },
-                            on: { click: _vm.logout }
-                          },
-                          [
-                            _c("v-icon", { attrs: { left: "" } }, [
-                              _vm._v("mdi-power")
-                            ]),
-                            _vm._v(" Logout\n                        ")
-                          ],
-                          1
-                        )
-                      ],
-                      1
-                    )
-                  ])
+                            },
+                            [
+                              _c("v-icon", { attrs: { left: "" } }, [
+                                _vm._v("mdi-package-down")
+                              ]),
+                              _vm._v(" Archive\n                        ")
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c("v-divider", { staticClass: "my-3" }),
+                          _vm._v(" "),
+                          _c(
+                            "v-btn",
+                            {
+                              attrs: { depressed: "", rounded: "", text: "" },
+                              on: { click: _vm.logout }
+                            },
+                            [
+                              _c("v-icon", { attrs: { left: "" } }, [
+                                _vm._v("mdi-power")
+                              ]),
+                              _vm._v(" Logout\n                        ")
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ]
+                  )
                 ],
                 1
               )
@@ -23587,17 +23595,6 @@ var render = function() {
             ],
             1
           ),
-          _vm._v(" "),
-          _c("v-text-field", {
-            staticClass: "hidden-sm-and-down",
-            attrs: {
-              flat: "",
-              "solo-inverted": "",
-              "hide-details": "",
-              "prepend-inner-icon": "mdi-magnify",
-              label: "Search"
-            }
-          }),
           _vm._v(" "),
           _c("v-spacer"),
           _vm._v(" "),

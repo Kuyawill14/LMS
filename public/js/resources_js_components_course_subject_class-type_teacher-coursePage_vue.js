@@ -930,16 +930,18 @@ var render = function() {
                                             1
                                           ),
                                           _vm._v(" "),
-                                          _c(
-                                            "v-list-item",
-                                            { attrs: { link: "" } },
-                                            [
-                                              _c("v-list-item-title", [
-                                                _vm._v("Delete")
-                                              ])
-                                            ],
-                                            1
-                                          )
+                                          item.student_count == 0
+                                            ? _c(
+                                                "v-list-item",
+                                                { attrs: { link: "" } },
+                                                [
+                                                  _c("v-list-item-title", [
+                                                    _vm._v("Delete")
+                                                  ])
+                                                ],
+                                                1
+                                              )
+                                            : _vm._e()
                                         ],
                                         1
                                       )

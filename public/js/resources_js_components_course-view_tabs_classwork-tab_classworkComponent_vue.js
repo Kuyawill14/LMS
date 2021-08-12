@@ -112,7 +112,7 @@ var newClassworkModal = function newClassworkModal() {
       }, {
         text: 'Classwork',
         disabled: true,
-        link: 'breadcrumbs_link_2'
+        link: 'classwork'
       }]
     };
   },

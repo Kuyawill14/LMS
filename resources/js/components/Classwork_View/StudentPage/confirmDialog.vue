@@ -4,22 +4,23 @@
           Submit Answers
         </v-card-title>
         <v-card-text class="font-weight-bold">
-             <div class="subtitle-1 " style="line-height:1.1">Clicking submit will end this quiz. 
+             <div class="subtitle-1 " style="line-height:1.3">Clicking submit will end this quiz. 
                  You will no longer be able to make changes 
                  to your answers unless allowed by the instructor. Continue?</div>
             </v-card-text>
-        <v-card-actions class="pb-5">
+        <v-card-actions >
           <v-spacer></v-spacer>
           <v-btn
-            color="primary"
+          
             rounded
-            outlined
+            text
             @click="$emit('toggleCancelDialog')"
           >
             Cancel
           </v-btn>
           <v-btn
             color="primary"
+            text
             rounded
             @click="$emit('toggleSubmit')"
           >

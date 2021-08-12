@@ -110,7 +110,7 @@
                                                         <v-container  class="d-flex flex-row ma-0 pa-0">
                                                         <v-radio-group :rules="rules" v-model="quesForm.answer">
                                                             <v-radio
-                                                                @click="tempAnswer = item.answer, test()"
+                                                                @click="tempAnswer = item.answer"
                                                                 color="primary"
                                                                 class="pa-0 ma-0"
                                                                 :disabled="item.answer.length == 0"
@@ -417,9 +417,9 @@ export default {
         onFileChange(element){
         if (this.selectedImage[this.inputIndex] != '' || null) {
                 
-            console.log(this.inputIndex)
+    
             const file = element;
-            console.log(file);
+        
             let reader = new FileReader();
             let baseData;
             reader.onloadend = (res)=>{
@@ -430,15 +430,6 @@ export default {
             this.checker = "Success";
             }
         },
-        onButtonClick(i) {
-            /* this.isSelecting = true
-            window.addEventListener('focus', () => {
-            this.isSelecting = false
-            }, { once: true })
-
-            this.$refs.form.$refs.input.click(); */
-            $("#uploader"+i).click();
-        },
         validateChoice(){
             this.$refs.Choice.validate()
             this.add();
@@ -447,14 +438,10 @@ export default {
             this.$refs.form.validate()
             this.AddQuestion();
         },
-        test(){
-            console.log(this.tempAnswer)
-        },
         add() {
             if(this.form.length == 0){
                 this.check = true;
                 this.form.push({ answer: '' });
-                 //this.form.push({ answer: '' , image : null});
             }
             else{
                  if(this.form[this.form.length-1].answer != '' /* || this.form[this.form.length-1].image != null */){

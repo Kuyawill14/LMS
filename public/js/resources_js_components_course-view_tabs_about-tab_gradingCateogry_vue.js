@@ -74,7 +74,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var total = 0;
       percentage_data.forEach(function (val) {
         total += parseFloat(val.percentage);
-        console.log(total);
       });
       return total;
     }

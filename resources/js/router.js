@@ -140,16 +140,22 @@ const router = new Router({
             component: mainApp,
             name: "mainApp",
             beforeEnter: (to, form, next) => {
-                axios
-                    .get("/api/authenticated")
-                    .then(() => {
+               
+                store.dispatch('IsAuthenticated').then(()=>{
+                    if(store.state.CurrentUser.IsAuthenticated == true){
                         next();
-                    })
-                    .catch(() => {
+                    }
+                    else{
                         return next({
                             path: "/login"
                         });
+                    }
+                }).catch(()=>{
+                    store.state.CurrentUser.IsAuthenticated = false;
+                    return next({
+                        path: "/login"
                     });
+                })
             },
             children: [{
                     path: "",
@@ -707,11 +713,32 @@ const router = new Router({
         {
             path: "/login",
             component: login,
-            name: "login"
-        }, {
+            name: "login",
+            beforeEnter: (to, form, next) => {
+                store.dispatch('IsAuthenticated').then(()=>{
+                    return next({
+                        path: "/"
+                    });
+                }).catch(()=>{
+                   
+                    next();
+                })
+            },
+        },
+         {
             path: "/register",
             component: register,
-            name: "register"
+            name: "register",
+            beforeEnter: (to, form, next) => {
+                store.dispatch('IsAuthenticated').then(()=>{
+                    return next({
+                        path: "/"
+                    });
+                }).catch(()=>{
+                   
+                    next();
+                })
+            },
         },
 
         {
@@ -745,28 +772,14 @@ const router = new Router({
 
 
 router.beforeEach((to, from, next) => {
-  
-    if (to.name != 'login' && to.name != 'register') {
-        store.dispatch('fetchMyCoursesStatus');
-        store.dispatch('fetchCurrentUser');
-    }
-
-    if (to.name == 'login') {
-        axios.get("/api/authenticated")
-            .then(() => {
-                next({
-                    path: "/"
-                });
-            })
-            .catch((e) => {
-                next();
-            });
-    } else {
-        if (to.name) {
-            NProgress.start()
+    if (to.name) {
+        if(to.name != 'login' && to.name != 'register'){
+            store.dispatch('fetchMyCoursesStatus');
+            store.dispatch('fetchCurrentUser');
         }
-        next()
+        NProgress.start()
     }
+    next()
 })
 
 router.afterEach(() => {

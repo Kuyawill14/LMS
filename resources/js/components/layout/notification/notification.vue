@@ -143,7 +143,7 @@
 
 <script>
 
-    const seeAllNotification = () => import("./SeeAllNotification")
+    //const seeAllNotification = () => import("./SeeAllNotification")
     import moment from 'moment'
     import {
         mapGetters,
@@ -171,7 +171,7 @@
      
         }),
         components:{
-            seeAllNotification
+            //seeAllNotification
         },
         computed: mapGetters(["get_notification", "get_notification_count","ShowPage","ShowLoadMore","LastPage","isGetting"]),
         methods: {
