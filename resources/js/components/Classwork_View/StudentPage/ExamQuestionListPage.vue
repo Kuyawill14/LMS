@@ -64,7 +64,7 @@
                                         <v-icon :color="FinalAnswers[index].Answer == null || FinalAnswers[index].Answer == ''  ? '' : 'primary'" left>{{FinalAnswers[index].Answer == null || FinalAnswers[index].Answer == '' ? 'mdi-checkbox-blank-outline':'mdi-checkbox-marked'}}</v-icon>
                                         {{index+1}}
                                        </v-btn>
-                                       <v-btn text rounded v-else>
+                                       <v-btn text rounded v-if="item.type == 'Matching type'">
                                             <v-icon :color="FinalAnswers[index].Answer[0].Ans_letter == null || FinalAnswers[index].Answer[0].Ans_letter == ''  ? '' : 'primary'" left>
                                                 {{FinalAnswers[index].Answer[0].Ans_letter == null || FinalAnswers[index].Answer[0].Ans_letter == '' ? 'mdi-checkbox-blank-outline':'mdi-checkbox-marked'}}</v-icon>
                                             {{index+1}}
@@ -490,20 +490,20 @@ export default {
                          else if(res[0].Question[index].type == 'Matching type'){
                             let Ans = new Array();
                             let Choices_id = new Array();
-                             res[0].Answer[index].SubAnswer.forEach(item => {
+                             /* res[0].Answer[index].SubAnswer.forEach(item => {
                                 Choices_id.push({
                                    choice_id: item.id
                                 })
-                            });
+                            }); */
                             
-                            res[0].Answer[index].SubQuestion.forEach(item => {
+                            /* res[0].Answer[index].SubQuestion.forEach(item => {
                                 Ans.push({
                                     Ans_letter: '',
                                     Ans_id: null,
                                     subquestion_id: item.id,
                                     Answers: ''
                                 })
-                            });
+                            }); */
 
 
                                 this.FinalAnswers.push({
@@ -515,7 +515,7 @@ export default {
                             });
                         }                      
                     }
-                    axios.put('/api/question/store-answer/'+ this.submission_id , {
+                        axios.put('/api/question/store-answer/'+ this.submission_id , {
                         type: "multiple",
                         data: this.FinalAnswers
                     })
@@ -536,20 +536,20 @@ export default {
                                      let Ans = new Array();
                                     let Choices_id = new Array();
 
-                                    res[0].Answer[x].SubAnswer.forEach(item => {
+                                    /* res[0].Answer[x].SubAnswer.forEach(item => {
                                         Choices_id.push({
                                             choice_id: item.id
                                         })
-                                    });
+                                    }); */
 
-                                     AnswersList[j].Answer.forEach(item => {
+                                    /*  AnswersList[j].Answer.forEach(item => {
                                         Ans.push({
-                                            Ans_letter: item.Ans_letter,
+                                            //Ans_letter: item.Ans_letter,
                                             Ans_id: item.Ans_id,
                                             subquestion_id: item.subquestion_id,
                                             Answers: item.Answers
                                         })
-                                     });
+                                     }); */
                                      this.FinalAnswers.push({
                                         Answer: Ans,
                                         Choices_id: Choices_id,

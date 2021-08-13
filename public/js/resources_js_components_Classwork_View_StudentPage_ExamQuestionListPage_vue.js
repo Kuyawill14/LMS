@@ -543,31 +543,30 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 timeConsume: null
               });
             } else if (res[0].Question[index].type == 'Matching type') {
-              (function () {
-                var Ans = new Array();
-                var Choices_id = new Array();
-                res[0].Answer[index].SubAnswer.forEach(function (item) {
-                  Choices_id.push({
+              var Ans = new Array();
+              var Choices_id = new Array();
+              /* res[0].Answer[index].SubAnswer.forEach(item => {
+                 Choices_id.push({
                     choice_id: item.id
-                  });
-                });
-                res[0].Answer[index].SubQuestion.forEach(function (item) {
-                  Ans.push({
-                    Ans_letter: '',
-                    Ans_id: null,
-                    subquestion_id: item.id,
-                    Answers: ''
-                  });
-                });
+                 })
+              }); */
 
-                _this5.FinalAnswers.push({
-                  Answer: Ans,
-                  Choices_id: Choices_id,
-                  Question_id: res[0].Question[index].id,
-                  type: res[0].Question[index].type,
-                  timeConsume: null
-                });
-              })();
+              /* res[0].Answer[index].SubQuestion.forEach(item => {
+                  Ans.push({
+                      Ans_letter: '',
+                      Ans_id: null,
+                      subquestion_id: item.id,
+                      Answers: ''
+                  })
+              }); */
+
+              _this5.FinalAnswers.push({
+                Answer: Ans,
+                Choices_id: Choices_id,
+                Question_id: res[0].Question[index].id,
+                type: res[0].Question[index].type,
+                timeConsume: null
+              });
             }
           }
 
@@ -587,31 +586,32 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     timeConsume: AnswersList[j].timeConsume
                   });
                 } else if (res[0].Question[x].type == 'Matching type') {
-                  (function () {
-                    var Ans = new Array();
-                    var Choices_id = new Array();
-                    res[0].Answer[x].SubAnswer.forEach(function (item) {
-                      Choices_id.push({
-                        choice_id: item.id
-                      });
-                    });
-                    AnswersList[j].Answer.forEach(function (item) {
-                      Ans.push({
-                        Ans_letter: item.Ans_letter,
-                        Ans_id: item.Ans_id,
-                        subquestion_id: item.subquestion_id,
-                        Answers: item.Answers
-                      });
-                    });
+                  var _Ans = new Array();
 
-                    _this5.FinalAnswers.push({
-                      Answer: Ans,
-                      Choices_id: Choices_id,
-                      Question_id: AnswersList[j].Question_id,
-                      type: AnswersList[j].type,
-                      timeConsume: AnswersList[j].timeConsume
-                    });
-                  })();
+                  var _Choices_id = new Array();
+                  /* res[0].Answer[x].SubAnswer.forEach(item => {
+                      Choices_id.push({
+                          choice_id: item.id
+                      })
+                  }); */
+
+                  /*  AnswersList[j].Answer.forEach(item => {
+                      Ans.push({
+                          //Ans_letter: item.Ans_letter,
+                          Ans_id: item.Ans_id,
+                          subquestion_id: item.subquestion_id,
+                          Answers: item.Answers
+                      })
+                   }); */
+
+
+                  _this5.FinalAnswers.push({
+                    Answer: _Ans,
+                    Choices_id: _Choices_id,
+                    Question_id: AnswersList[j].Question_id,
+                    type: AnswersList[j].type,
+                    timeConsume: AnswersList[j].timeConsume
+                  });
                 }
               }
             }
@@ -23172,7 +23172,11 @@ var render = function() {
                                                                         ],
                                                                         1
                                                                       )
-                                                                    : _c(
+                                                                    : _vm._e(),
+                                                                  _vm._v(" "),
+                                                                  item.type ==
+                                                                  "Matching type"
+                                                                    ? _c(
                                                                         "v-btn",
                                                                         {
                                                                           attrs: {
@@ -23243,6 +23247,7 @@ var render = function() {
                                                                         ],
                                                                         1
                                                                       )
+                                                                    : _vm._e()
                                                                 ],
                                                                 1
                                                               )

@@ -60,7 +60,7 @@
                                  
                         </v-list-item-content>
              
-                        <v-list-item-action>
+                      <!--   <v-list-item-action>
                            
 
                              <v-tooltip v-if="item.status == null || item.status == 0"  left>
@@ -84,7 +84,7 @@
                                 <span>Hide notification</span>
                             </v-tooltip>
                            
-                        </v-list-item-action>
+                        </v-list-item-action> -->
                    
                     </v-list-item>
 
@@ -159,9 +159,6 @@
                         this.notificationList = res.data.data;
 
                     })
-
-                     console.log(this.notificationList);
-                
             }
             
 

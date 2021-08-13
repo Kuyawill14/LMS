@@ -224,7 +224,7 @@
                     {
                     text: this.role == "Teacher" ? 'Student Progress' : 'My Progress ',
                     disabled: true,
-                    link: 'breadcrumbs_link_2',
+                    link: 'studentProgress',
                     },
                 ],
 

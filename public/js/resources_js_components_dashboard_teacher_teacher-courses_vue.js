@@ -146,7 +146,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       },
       Archivedialog: false,
       ArchiveDetails: {},
-      allCoursesData: []
+      allCoursesData: [],
+      model: true
     };
   },
   computed: (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)(['allCourse']),

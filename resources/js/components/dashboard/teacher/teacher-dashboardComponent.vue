@@ -30,14 +30,14 @@
                     </v-col>
                 </v-row>
 
-                <!--  <v-row>
+                 <v-row>
                     <v-col cols="12">
-                        <studentGradeChart> </studentGradeChart>
+                        <progressChart> </progressChart>
                     </v-col>
                     <v-col>
                        
                     </v-col>
-                </v-row> -->
+                </v-row>
 
 
                 <v-row class="mt-0">
@@ -87,39 +87,9 @@
         mapGetters,
         mapActions
     } from "vuex";
-    import {
-        use
-    } from "echarts/core";
-    import {
-        CanvasRenderer
-    } from "echarts/renderers";
-    import {
-        BarChart
-    } from "echarts/charts";
-
-
-    import {
-        TitleComponent,
-        TooltipComponent,
-        LegendComponent,
-        GridComponent
-
-    } from "echarts/components";
-    import VChart, {
-        THEME_KEY
-    } from "vue-echarts";
-
-    use([
-        CanvasRenderer,
-        BarChart,
-        TitleComponent,
-        TooltipComponent,
-        LegendComponent,
-        GridComponent
-    ]);
+    
 
     export default {
-        name: "HelloWorld",
         props: ['role'],
         components: {
             VChart,
@@ -128,10 +98,6 @@
             teacherCourses,
             myNotification
         },
-        provide: {
-
-        },
-
         data() {
             return {
                 class_count: 0,

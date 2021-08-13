@@ -134,6 +134,7 @@
                 Archivedialog: false,
                 ArchiveDetails: {},
                 allCoursesData: [],
+                model: true
             };
         },
             computed: mapGetters(['allCourse']),

@@ -122,12 +122,10 @@
         },
         computed: mapGetters(["allClass"]),
         methods: {
-            ...mapActions(["fetchClassList"]),
             openJoinmodal() {
                 this.dialog = !this.dialogl;
             },
             joinClass() {
-
                 this.isloading = true;
                 this.dialog = false;
                 this.$store.dispatch("joinClass", this.form).then(() => {
@@ -161,7 +159,7 @@
             },
         },
         mounted() {
-            this.fetchClasses();
+            //this.fetchClasses();
         }
     };
 
