@@ -1228,7 +1228,6 @@ var deleteDialog = function deleteDialog() {
   data: function data() {
     return {
       inputCheck: ['True', 'False'],
-      QuetionsList: {},
       isUpdating: null,
       preview: true,
       dialog: false,
@@ -1261,7 +1260,7 @@ var deleteDialog = function deleteDialog() {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _this.$emit('updateQuestion', _this.QuetionsList);
+                _this.$emit('updateQuestion', _this.Question);
 
                 _this.isUpdating = true;
                 _this.isEditing = !_this.isEditing;
@@ -1277,9 +1276,6 @@ var deleteDialog = function deleteDialog() {
         }, _callee);
       }))();
     }
-  },
-  created: function created() {
-    this.QuetionsList = this.Question;
   }
 });
 
@@ -1571,7 +1567,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 _context.next = 2;
                 return axios.put('/api/question/update/' + data.id, {
-                  type: QuetionsList.type,
+                  type: data.type,
                   question: data
                 }).then(function (res) {
                   if (res.status == 200) {
@@ -4819,7 +4815,7 @@ var render = function() {
                                       [
                                         _vm._v(
                                           "(" +
-                                            _vm._s(_vm.QuetionsList.points) +
+                                            _vm._s(_vm.Question.points) +
                                             "points)"
                                         )
                                       ]
@@ -4850,7 +4846,7 @@ var render = function() {
                                               click: function($event) {
                                                 _vm.removePropt(
                                                   _vm.number,
-                                                  _vm.QuetionsList.id
+                                                  _vm.Question.id
                                                 )
                                               }
                                             }
@@ -5042,16 +5038,15 @@ var render = function() {
                                                 label: "Points"
                                               },
                                               model: {
-                                                value: _vm.QuetionsList.points,
+                                                value: _vm.Question.points,
                                                 callback: function($$v) {
                                                   _vm.$set(
-                                                    _vm.QuetionsList,
+                                                    _vm.Question,
                                                     "points",
                                                     $$v
                                                   )
                                                 },
-                                                expression:
-                                                  "QuetionsList.points"
+                                                expression: "Question.points"
                                               }
                                             })
                                           ],
@@ -5085,15 +5080,15 @@ var render = function() {
                                                 label: "Type"
                                               },
                                               model: {
-                                                value: _vm.QuetionsList.type,
+                                                value: _vm.Question.type,
                                                 callback: function($$v) {
                                                   _vm.$set(
-                                                    _vm.QuetionsList,
+                                                    _vm.Question,
                                                     "type",
                                                     $$v
                                                   )
                                                 },
-                                                expression: "QuetionsList.type"
+                                                expression: "Question.type"
                                               }
                                             })
                                           ],
@@ -5143,19 +5138,18 @@ var render = function() {
                                                       },
                                                       model: {
                                                         value:
-                                                          _vm.QuetionsList
-                                                            .question,
+                                                          _vm.Question.question,
                                                         callback: function(
                                                           $$v
                                                         ) {
                                                           _vm.$set(
-                                                            _vm.QuetionsList,
+                                                            _vm.Question,
                                                             "question",
                                                             $$v
                                                           )
                                                         },
                                                         expression:
-                                                          "QuetionsList.question"
+                                                          "Question.question"
                                                       }
                                                     })
                                                   ],
@@ -5209,19 +5203,18 @@ var render = function() {
                                                       {
                                                         model: {
                                                           value:
-                                                            _vm.QuetionsList
-                                                              .answer,
+                                                            _vm.Question.answer,
                                                           callback: function(
                                                             $$v
                                                           ) {
                                                             _vm.$set(
-                                                              _vm.QuetionsList,
+                                                              _vm.Question,
                                                               "answer",
                                                               $$v
                                                             )
                                                           },
                                                           expression:
-                                                            "QuetionsList.answer"
+                                                            "Question.answer"
                                                         }
                                                       },
                                                       [
@@ -5300,7 +5293,7 @@ var render = function() {
                                         staticClass: "post-content",
                                         domProps: {
                                           innerHTML: _vm._s(
-                                            _vm.QuetionsList.question
+                                            _vm.Question.question
                                           )
                                         }
                                       })
@@ -5324,15 +5317,15 @@ var render = function() {
                                           {
                                             staticClass: "ma-0 pa-0",
                                             model: {
-                                              value: _vm.QuetionsList.answer,
+                                              value: _vm.Question.answer,
                                               callback: function($$v) {
                                                 _vm.$set(
-                                                  _vm.QuetionsList,
+                                                  _vm.Question,
                                                   "answer",
                                                   $$v
                                                 )
                                               },
-                                              expression: "QuetionsList.answer"
+                                              expression: "Question.answer"
                                             }
                                           },
                                           [
@@ -5346,7 +5339,7 @@ var render = function() {
                                               on: {
                                                 click: function($event) {
                                                   _vm.tempAnswer =
-                                                    _vm.QuetionsList.answer
+                                                    _vm.Question.answer
                                                 }
                                               }
                                             })
@@ -5362,7 +5355,7 @@ var render = function() {
                                               "\r\n                                    " +
                                                 _vm._s(_vm.inputCheck[n])
                                             ),
-                                            _vm.QuetionsList.answer ==
+                                            _vm.Question.answer ==
                                             _vm.inputCheck[n]
                                               ? _c(
                                                   "span",

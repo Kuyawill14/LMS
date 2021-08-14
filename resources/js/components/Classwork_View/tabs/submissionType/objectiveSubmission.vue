@@ -145,8 +145,8 @@
             </v-col>
         </v-row>
     </v-col >
-    <v-col v-if="isViewing" cols="12" md="12" lg="8" xl="8" class="pl-6">
-         <checkobjective v-on:RestSubmission="ResetSubmission()" :classworkDetails="classworkDetails" :ViewDetails="ViewDetails"  v-on:UpdateSubmission="$emit('UpdateSubmission')" v-on:closeDialog="isViewing = !isViewing"></checkobjective>
+    <v-col v-if="isViewing" style="max-height:85vh;overflow-y:scroll;overflow-x: hidden;" cols="12" md="12" lg="8" xl="8" class="pl-6">
+         <checkobjective v-on:RestSubmission="ResetSubmission()" :classworkDetails="classworkDetails" :ViewDetails="ViewDetails"  v-on:UpdateSubmission="$emit('UpdateSubmission')" v-on:closeDialog="isViewing = false"></checkobjective>
     </v-col>
 </v-row>
 </div>
@@ -206,7 +206,7 @@ export default {
     methods:{
         ViewSubmision(data, index){
             //if(data.status == 'Submitted'){
-                this.isViewing = !this.isViewing;
+                this.isViewing = true;
                 /* this.dialog = !this.dialog;
                 this.Viewdialog = !this.Viewdialog; */
                 this.ViewDetails = data;

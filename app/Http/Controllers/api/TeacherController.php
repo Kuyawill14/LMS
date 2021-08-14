@@ -9,6 +9,9 @@ use App\Models\tbl_Submission;
 use App\Models\User;
 use App\Models\tbl_notification;
 use App\Models\UserNotification;
+use App\Models\tbl_student_course_subject_grades;
+use App\Models\tbl_userclass;
+
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SendInviteMail;
@@ -94,9 +97,17 @@ class TeacherController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function getStudentGradesInClass($id)
     {
-        //
+        $StudentGradeList = tbl_userclass::where('tbl_userclasses.class_id', $id)
+        ->select('users.firstname', 'users.lastName',
+        'tbl_student_course_subject_grades.final_grade')
+        ->leftJoin('tbl_subject_courses','tbl_subject_courses.id', '=','tbl_userclasses.course_id')
+        ->leftJoin('tbl_student_course_subject_grades','tbl_student_course_subject_grades.student_id', '=','tbl_userclasses.user_id')
+        ->leftJoin('users','users.id', '=','tbl_userclasses.user_id')
+        ->where('users.role', 'Student')
+        ->get();
+        return $StudentGradeList;
     }
 
     /**

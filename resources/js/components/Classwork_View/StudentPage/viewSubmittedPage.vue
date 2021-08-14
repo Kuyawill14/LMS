@@ -200,6 +200,24 @@ import moment from 'moment';
               .then(res=>{
                   //console.log(res.data)
                    this.QuestionAndAnswer = res.data;
+
+                    let Submitted_length = this.details.Submitted_Answers.length;
+                    let Question_length = this.QuestionAndAnswer.Question.length;
+                    let diff = Question_length  - Submitted_length;
+                    for (let i = 0; i < diff; i++) {
+                        if(this.QuestionAndAnswer.Question[i].type == 'Multiple Choice' || this.QuestionAndAnswer.Question[i].type == 'Identification' || this.QuestionAndAnswer.Question[i].type == 'True or False'){
+                            this.details.Submitted_Answers.push({
+                                Answer: null,
+                                Question_id: this.QuestionAndAnswer.Question[i].id,
+                                timeConsume: null,
+                                type: this.QuestionAndAnswer.Question[i].type
+                            })
+                        }
+                        else if(this.QuestionAndAnswer.Question[i].type == 'Matching type'){
+
+                        }
+    
+                    }
                     for (let i = 0; i < this.QuestionAndAnswer.Question.length; i++) {
                         for (let j = 0; j < this.details.Submitted_Answers.length; j++) {
                             if(this.QuestionAndAnswer.Question[i].id == this.details.Submitted_Answers[j].Question_id){

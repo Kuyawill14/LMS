@@ -129,11 +129,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       semester: [],
       school_year_id: '',
       semester_id: '',
-      coursesLength: null,
       isGetting: false,
-      dialog: false,
       isloading: true,
-      modalType: '',
       isPageLoading: false,
       class_code: null,
       form: {
@@ -144,30 +141,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         course_picture: '',
         course_code: ''
       },
-      Archivedialog: false,
-      ArchiveDetails: {},
-      allCoursesData: [],
       model: true
     };
   },
   computed: (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)(['allCourse']),
   methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)(['fetchCourseList'])), {}, {
     fetchCourses: function fetchCourses() {
-      var _this = this;
-
-      this.isGetting = true;
-      this.$store.dispatch('fetchCourseList').then(function () {
-        _this.allCoursesData = _this.allCourse;
-        _this.coursesLength = _this.allCourse.length;
-        _this.isGetting = false;
-      });
+      this.isGetting = false;
     },
     fetchAllSchoolyear_semester: function fetchAllSchoolyear_semester() {
-      var _this2 = this;
+      var _this = this;
 
       axios.get('/api/admin/schoolyears_semesters/all').then(function (res) {
-        _this2.school_year = res.data.school_year;
-        _this2.semester = res.data.semester;
+        _this.school_year = res.data.school_year;
+        _this.semester = res.data.semester;
       });
     },
     schoolYearFilter: function schoolYearFilter() {
@@ -187,7 +174,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
 
       console.log(data);
-      this.allCoursesData = data;
+      this.allCourse = data;
     },
     semesterFilter: function semesterFilter() {
       var data = [];
@@ -199,7 +186,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
 
       console.log(data);
-      this.allCoursesData = data;
+      this.allCourse = data;
     },
     goToclass: function goToclass(course_id, class_id) {
       this.$router.to({
@@ -214,6 +201,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
   }),
   mounted: function mounted() {
+    this.isGetting = true;
     this.fetchCourses();
     this.fetchAllSchoolyear_semester();
   }
@@ -353,81 +341,10 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _vm.coursesLength != 0 && _vm.isGetting == false
+    _vm.allCourse.length != 0 && _vm.isGetting == false
       ? _c(
           "div",
           [
-            _c(
-              "v-row",
-              { staticClass: "mt-0" },
-              [
-                _c("v-col", [_c("h2", [_vm._v("My Courses")])]),
-                _vm._v(" "),
-                _c(
-                  "v-col",
-                  { staticClass: "text-right", attrs: { lg: "3" } },
-                  [
-                    _c("v-select", {
-                      staticClass: "mr-2 my-0",
-                      attrs: {
-                        items: _vm.school_year,
-                        "item-text": "schoolyear",
-                        "item-value": "id",
-                        label: "School Year",
-                        outlined: "",
-                        small: ""
-                      },
-                      on: {
-                        change: function($event) {
-                          return _vm.schoolYearFilter()
-                        }
-                      },
-                      model: {
-                        value: _vm.school_year_id,
-                        callback: function($$v) {
-                          _vm.school_year_id = $$v
-                        },
-                        expression: "school_year_id"
-                      }
-                    })
-                  ],
-                  1
-                ),
-                _vm._v(" "),
-                _c(
-                  "v-col",
-                  { staticClass: "text-right", attrs: { lg: "3" } },
-                  [
-                    _c("v-select", {
-                      staticClass: "mr-2 my-0",
-                      attrs: {
-                        items: _vm.semester,
-                        "item-text": "semester",
-                        "item-value": "id",
-                        label: "Semester",
-                        outlined: "",
-                        small: ""
-                      },
-                      on: {
-                        change: function($event) {
-                          return _vm.semesterFilter()
-                        }
-                      },
-                      model: {
-                        value: _vm.semester_id,
-                        callback: function($$v) {
-                          _vm.semester_id = $$v
-                        },
-                        expression: "semester_id"
-                      }
-                    })
-                  ],
-                  1
-                )
-              ],
-              1
-            ),
-            _vm._v(" "),
             _c(
               "v-row",
               { staticStyle: { "margin-top": "-40px" } },
@@ -437,12 +354,87 @@ var render = function() {
                   [
                     _c(
                       "v-card",
-                      { staticClass: "mx-auto" },
+                      { staticClass: "mx-auto pa-2" },
                       [
+                        _c(
+                          "v-row",
+                          { staticClass: "mt-0" },
+                          [
+                            _c("v-col", { staticClass: "text-left" }, [
+                              _c("h3", [_vm._v("My Courses")])
+                            ]),
+                            _vm._v(" "),
+                            _c(
+                              "v-col",
+                              { staticClass: "text-right", attrs: { lg: "3" } },
+                              [
+                                _c("v-select", {
+                                  staticClass: "mr-2 my-0",
+                                  attrs: {
+                                    dense: "",
+                                    items: _vm.school_year,
+                                    "item-text": "schoolyear",
+                                    "item-value": "id",
+                                    label: "School Year",
+                                    outlined: "",
+                                    small: ""
+                                  },
+                                  on: {
+                                    change: function($event) {
+                                      return _vm.schoolYearFilter()
+                                    }
+                                  },
+                                  model: {
+                                    value: _vm.school_year_id,
+                                    callback: function($$v) {
+                                      _vm.school_year_id = $$v
+                                    },
+                                    expression: "school_year_id"
+                                  }
+                                })
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "v-col",
+                              { staticClass: "text-right", attrs: { lg: "3" } },
+                              [
+                                _c("v-select", {
+                                  staticClass: "mr-2 my-0",
+                                  attrs: {
+                                    dense: "",
+                                    items: _vm.semester,
+                                    "item-text": "semester",
+                                    "item-value": "id",
+                                    label: "Semester",
+                                    outlined: "",
+                                    small: ""
+                                  },
+                                  on: {
+                                    change: function($event) {
+                                      return _vm.semesterFilter()
+                                    }
+                                  },
+                                  model: {
+                                    value: _vm.semester_id,
+                                    callback: function($$v) {
+                                      _vm.semester_id = $$v
+                                    },
+                                    expression: "semester_id"
+                                  }
+                                })
+                              ],
+                              1
+                            )
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
                         _c(
                           "v-slide-group",
                           {
-                            staticClass: "px-2",
+                            staticClass: "px-1",
                             attrs: {
                               "active-class": "success",
                               "show-arrows": "",
@@ -457,7 +449,7 @@ var render = function() {
                               expression: "model"
                             }
                           },
-                          _vm._l(_vm.allCoursesData, function(item, i) {
+                          _vm._l(_vm.allCourse, function(item, i) {
                             return _c("v-slide-item", {
                               key: "class" + i,
                               scopedSlots: _vm._u(

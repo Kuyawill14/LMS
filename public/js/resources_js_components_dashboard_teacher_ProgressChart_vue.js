@@ -15,19 +15,19 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   "extends": vue_chartjs__WEBPACK_IMPORTED_MODULE_0__.Bar,
-  props: ['courseList'],
+  props: ['ChartLabel', 'ChartData', 'ChartBarColor', 'ChartBorder'],
   data: function data() {
     return {
       class_count: null,
       chartData: {
-        labels: this.courseList,
+        labels: this.ChartLabel,
         datasets: [{
           label: 'Course Progress',
           borderWidth: 1,
-          backgroundColor: ['rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(255, 206, 86, 0.2)', 'rgba(75, 192, 192, 0.2)', 'rgba(153, 102, 255, 0.2)', 'rgba(255, 159, 64, 0.2)', 'rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(255, 206, 86, 0.2)', 'rgba(75, 192, 192, 0.2)', 'rgba(153, 102, 255, 0.2)', 'rgba(255, 159, 64, 0.2)'],
-          borderColor: ['rgba(255,99,132,1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)', 'rgba(75, 192, 192, 1)', 'rgba(153, 102, 255, 1)', 'rgba(255, 159, 64, 1)', 'rgba(255,99,132,1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)', 'rgba(75, 192, 192, 1)', 'rgba(153, 102, 255, 1)', 'rgba(255, 159, 64, 1)'],
+          backgroundColor: this.ChartBarColor,
+          borderColor: this.ChartBorder,
           pointBorderColor: '#2554FF',
-          data: [70, 30, 100]
+          data: this.ChartData
         }]
       },
       options: {
@@ -72,8 +72,91 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _Charts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Charts */ "./resources/js/components/dashboard/teacher/Charts.vue");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _Charts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Charts */ "./resources/js/components/dashboard/teacher/Charts.vue");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -84,27 +167,110 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  props: ['allCourse'],
   components: {
-    BarChart: _Charts__WEBPACK_IMPORTED_MODULE_0__.default
+    BarChart: _Charts__WEBPACK_IMPORTED_MODULE_1__.default
   },
   data: function data() {
     return {
       courseList: [],
-      isLoaded: false
+      isLoaded: false,
+      CLassList: [],
+      selectedCourse_id: null,
+      selected_classid: null,
+      ChartLabel: [],
+      ChartData: [],
+      ChartBarColor: [],
+      ChartBorder: [],
+      backgroundColor: ['rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(255, 206, 86, 0.2)', 'rgba(75, 192, 192, 0.2)', 'rgba(153, 102, 255, 0.2)', 'rgba(255, 159, 64, 0.2)', 'rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(255, 206, 86, 0.2)', 'rgba(75, 192, 192, 0.2)', 'rgba(153, 102, 255, 0.2)', 'rgba(255, 159, 64, 0.2)'],
+      borderColor: ['rgba(255,99,132,1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)', 'rgba(75, 192, 192, 1)', 'rgba(153, 102, 255, 1)', 'rgba(255, 159, 64, 1)', 'rgba(255,99,132,1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)', 'rgba(75, 192, 192, 1)', 'rgba(153, 102, 255, 1)', 'rgba(255, 159, 64, 1)']
     };
   },
-  computed: (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(['allCourse']),
+  computed: (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(['allClass']),
   methods: {
     fetchCourseNames: function fetchCourseNames() {
       var _this = this;
 
-      this.$store.dispatch('fetchCourseList').then(function () {
-        for (var i = 0; i < _this.allCourse.length; i++) {
-          _this.courseList[i] = _this.allCourse[i].course_name;
-        }
+      //this.$store.dispatch('fetchCourseList').then(()=>{
 
-        _this.isLoaded = true;
-      });
+      /* for (let i = 0; i < this.allCourse.length; i++) {
+          this.courseList[i] = this.allCourse[i].course_name
+      } */
+      //this.isLoaded = true;
+      setTimeout(function () {
+        return _this.isLoaded = true;
+      }, 500); //})
+    },
+    fetchClassList: function fetchClassList() {
+      var _this2 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _this2.$store.dispatch('fetchSubjectCourseClassList', _this2.selectedCourse_id);
+                /*  axios.get('/api/class/subjectCourseClassList/all/'+this.selectedCourse_id)
+                 .then(res=>{
+                 this.fetchSubjectCourseClassList(this.$route.params.id)
+                 }) */
+
+
+              case 1:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
+    },
+    setChartData: function setChartData() {
+      var _this3 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _this3.clearData();
+
+                _context2.next = 3;
+                return axios.get('/api/teacher/student-classGrades/' + _this3.selected_classid).then(function (res) {
+                  var x = 0;
+                  res.data.forEach(function (item) {
+                    var name = item.firstname.charAt(0) + '.' + item.lastName;
+                    _this3.ChartLabel[x] = name;
+                    _this3.ChartData[x] = item.final_grade != null ? parseInt(item.final_grade) : 0;
+
+                    var color = _this3.rnd(0, _this3.backgroundColor.length - 1);
+
+                    _this3.ChartBarColor[x] = _this3.backgroundColor[color];
+                    _this3.ChartBorder[x] = _this3.borderColor[color];
+                    x++;
+                  });
+                  _this3.ChartData[_this3.ChartData.length + 1] = 100;
+                  setTimeout(function () {
+                    return _this3.isLoaded = true;
+                  }, 500);
+                });
+
+              case 3:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }))();
+    },
+    rnd: function rnd(a, b) {
+      return Math.floor((b - a + 1) * Math.random()) + a;
+    },
+    clearData: function clearData() {
+      this.ChartLabel = [];
+      this.ChartData = [];
+      this.ChartBarColor = [];
+      this.ChartBorder = [];
+      this.isLoaded = false;
     }
   },
   mounted: function mounted() {
@@ -38154,11 +38320,208 @@ var render = function() {
   return _c(
     "div",
     [
-      _c("h3", [_vm._v("Classes Progress")]),
-      _vm._v(" "),
-      _vm.isLoaded
-        ? _c("bar-chart", { attrs: { courseList: _vm.courseList } })
-        : _vm._e()
+      _c(
+        "v-card",
+        { staticClass: "pa-2" },
+        [
+          _c(
+            "v-row",
+            [
+              _c(
+                "v-col",
+                {
+                  staticClass: "d-flex justify-space-between mb-0 pb-0",
+                  attrs: { cols: "12" }
+                },
+                [
+                  _c(
+                    "v-row",
+                    [
+                      _c(
+                        "v-col",
+                        {
+                          staticClass: "text-left",
+                          attrs: { cols: "12", md: "12", lg: "7", xl: "7" }
+                        },
+                        [_c("h3", [_vm._v("Course/Classes Progress")])]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-col",
+                        { attrs: { cols: "12", lg: "5", xl: "5", md: "12" } },
+                        [
+                          _c(
+                            "div",
+                            { staticClass: "d-flex" },
+                            [
+                              _c("v-select", {
+                                staticClass: "pr-1",
+                                attrs: {
+                                  dense: "",
+                                  items: _vm.allCourse,
+                                  "item-text": "course_code",
+                                  "item-value": "course_id",
+                                  label: "Course",
+                                  outlined: ""
+                                },
+                                on: {
+                                  change: function($event) {
+                                    return _vm.fetchClassList()
+                                  }
+                                },
+                                model: {
+                                  value: _vm.selectedCourse_id,
+                                  callback: function($$v) {
+                                    _vm.selectedCourse_id = $$v
+                                  },
+                                  expression: "selectedCourse_id"
+                                }
+                              }),
+                              _vm._v(" "),
+                              _vm.selectedCourse_id != null
+                                ? _c("v-select", {
+                                    attrs: {
+                                      dense: "",
+                                      items: _vm.allClass,
+                                      "item-text": "class_name",
+                                      "item-value": "class_id",
+                                      label: "Class",
+                                      outlined: ""
+                                    },
+                                    on: {
+                                      change: function($event) {
+                                        return _vm.setChartData()
+                                      }
+                                    },
+                                    model: {
+                                      value: _vm.selected_classid,
+                                      callback: function($$v) {
+                                        _vm.selected_classid = $$v
+                                      },
+                                      expression: "selected_classid"
+                                    }
+                                  })
+                                : _vm._e()
+                            ],
+                            1
+                          )
+                        ]
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-col",
+                { staticClass: "mt-0 pt-0", attrs: { cols: "12" } },
+                [
+                  !_vm.isLoaded
+                    ? _c(
+                        "v-container",
+                        {
+                          staticClass: "fill-height",
+                          staticStyle: { height: "500px" }
+                        },
+                        [
+                          _c(
+                            "v-row",
+                            {
+                              attrs: {
+                                "align-content": "center",
+                                justify: "center"
+                              }
+                            },
+                            [
+                              _c(
+                                "v-col",
+                                {
+                                  staticClass: "text-center",
+                                  attrs: { cols: "12" }
+                                },
+                                [
+                                  _c("v-progress-circular", {
+                                    attrs: {
+                                      size: 50,
+                                      color: "primary",
+                                      indeterminate: ""
+                                    }
+                                  })
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.isLoaded && _vm.selected_classid == null
+                    ? _c(
+                        "v-container",
+                        {
+                          staticClass: "fill-height",
+                          staticStyle: { height: "500px" }
+                        },
+                        [
+                          _c(
+                            "v-row",
+                            {
+                              attrs: {
+                                "align-content": "center",
+                                justify: "center"
+                              }
+                            },
+                            [
+                              _c(
+                                "v-col",
+                                {
+                                  staticClass: "text-center",
+                                  attrs: { cols: "12" }
+                                },
+                                [
+                                  _c(
+                                    "v-icon",
+                                    {
+                                      staticStyle: { "font-size": "8rem" },
+                                      attrs: { large: "" }
+                                    },
+                                    [_vm._v("mdi-chart-bar")]
+                                  )
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.isLoaded && _vm.selected_classid != null
+                    ? _c("bar-chart", {
+                        attrs: {
+                          ChartLabel: _vm.ChartLabel,
+                          ChartData: _vm.ChartData,
+                          ChartBarColor: _vm.ChartBarColor,
+                          ChartBorder: _vm.ChartBorder
+                        }
+                      })
+                    : _vm._e()
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      )
     ],
     1
   )

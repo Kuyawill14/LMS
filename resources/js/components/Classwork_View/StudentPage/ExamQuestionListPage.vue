@@ -521,6 +521,25 @@ export default {
                     })
                    //localStorage.setItem(name, JSON.stringify(this.FinalAnswers));
                 }else{
+
+                  /*   let Submitted_length = AnswersList.length;
+                    let Question_length = res[0].Question.length;
+                    let diff = Question_length  - Submitted_length;
+                    for (let i = 0; i < diff; i++) {
+                        if(this.QuestionAndAnswer.Question[i].type == 'Multiple Choice' || this.QuestionAndAnswer.Question[i].type == 'Identification' || this.QuestionAndAnswer.Question[i].type == 'True or False'){
+                            this.details.Submitted_Answers.push({
+                                Answer: null,
+                                Question_id: this.QuestionAndAnswer.Question[i].id,
+                                timeConsume: null,
+                                type: this.QuestionAndAnswer.Question[i].type
+                            })
+                        }
+                        else if(this.QuestionAndAnswer.Question[i].type == 'Matching type'){
+
+                        }
+    
+                    } */
+                    
                      for (let x = 0; x < res[0].Question.length; x++) {
                          for (let j = 0; j < AnswersList.length; j++) {
                             if(res[0].Question[x].id == AnswersList[j].Question_id){

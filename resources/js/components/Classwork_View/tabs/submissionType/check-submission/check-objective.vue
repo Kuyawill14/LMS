@@ -120,7 +120,7 @@
                     </v-btn> -->
                     
                     <h3 class="font-weight-bold">{{index+1}}.</h3>
-                        <span v-html="item.question" class="post-content ml-1"></span>
+                        <span style="width:90%" v-html="item.question" class="post-content ml-1"></span>
                         <small class="primary--text ml-1">({{item.points+' points'}})</small>
                         </div>
             </v-container> 
@@ -251,11 +251,29 @@ const resetConfirmation = () => import('../../dialogs/resetConfirmation')
             this.$store.dispatch('fetchQuestions', this.$route.query.clwk).then(res=>{
                 //console.log(res);
                 this.Details = res[0];
+                let Submitted_length = this.ViewDetails.Submitted_Answers.length;
+                let Question_length = this.Details.Question.length;
+                let diff = Question_length  - Submitted_length;
+                for (let i = 0; i < diff; i++) {
+                    if(this.Details.Question[i].type == 'Multiple Choice' || this.Details.Question[i].type == 'Identification' || this.Details.Question[i].type == 'True or False'){
+                        this.ViewDetails.Submitted_Answers.push({
+                            Answer: null,
+                            Question_id: this.Details.Question[i].id,
+                            timeConsume: null,
+                            type: this.Details.Question[i].type
+                        })
+                    }
+                    else if(this.Details.Question[i].type == 'Matching type'){
+
+                    }
+ 
+                }
+              
                 for (let i = 0; i < this.Details.Question.length; i++) {
                     for (let j = 0; j < this.ViewDetails.Submitted_Answers.length; j++) {
                         if(this.Details.Question[i].id == this.ViewDetails.Submitted_Answers[j].Question_id){
                             if(this.Details.Question[i].type == 'Multiple Choice' || this.Details.Question[i].type == 'Identification' || this.Details.Question[i].type == 'True or False'){
-                                 this.SubmittedAnswer[i] =  this.ViewDetails.Submitted_Answers[j];
+                                this.SubmittedAnswer[i] =  this.ViewDetails.Submitted_Answers[j];
                                 if(this.Details.Question[i].answer == this.ViewDetails.Submitted_Answers[j].Answer){
                                     this.Check[i] = true;
                                 }
@@ -263,10 +281,10 @@ const resetConfirmation = () => import('../../dialogs/resetConfirmation')
                                     this.Check[i] = false;
                                 }
                             }
-                             else if(this.Details.Question[i].type == 'Matching type'){
+                            else if(this.Details.Question[i].type == 'Matching type'){
                                     let Ans = new Array();
                                     let match_check = new Array();
-                                     this.ViewDetails.Submitted_Answers[j].Answer.forEach(item => {
+                                    this.ViewDetails.Submitted_Answers[j].Answer.forEach(item => {
                                         for (let x = 0; x < this.Details.Answer[i].SubQuestion.length; x++) {
                                             if(this.Details.Answer[i].SubQuestion[x].id == item.subquestion_id){
                                                 Ans.push({
@@ -279,7 +297,7 @@ const resetConfirmation = () => import('../../dialogs/resetConfirmation')
 
                                             }                           
                                         }
-                                     });  
+                                    });  
                                     let tmpChoices = new Array();
                                     this.ViewDetails.Submitted_Answers[j].Choices_id.forEach(item => {
                                         this.Details.Answer[i].SubAnswer.forEach(choice => {
@@ -302,6 +320,8 @@ const resetConfirmation = () => import('../../dialogs/resetConfirmation')
                     }
                     
                 }
+                 
+                 
                 //console.log(this.ViewDetails.Submitted_Answers);
                 this.isLoading = false;
             });
@@ -384,3 +404,25 @@ const resetConfirmation = () => import('../../dialogs/resetConfirmation')
       }
   }
 </script>
+<style scoped>
+    /* width */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888; 
+   border-radius: 3px
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}
+</style>

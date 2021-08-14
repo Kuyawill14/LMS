@@ -239,6 +239,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['role']
 });
@@ -366,7 +368,7 @@ var render = function() {
       _vm.role != undefined
         ? _c(
             "v-list",
-            { attrs: { nav: "", dense: "" } },
+            { attrs: { nav: "" } },
             [
               [
                 _vm.role == "Teacher"
@@ -389,11 +391,15 @@ var render = function() {
                         _c(
                           "v-list-item-content",
                           [
-                            _c("v-list-item-title", [
-                              _vm._v(
-                                "\r\n                        Classes\r\n                    "
-                              )
-                            ])
+                            _c(
+                              "v-list-item-title",
+                              { staticClass: "font-weight-medium" },
+                              [
+                                _vm._v(
+                                  "\r\n                        Classes\r\n                    "
+                                )
+                              ]
+                            )
                           ],
                           1
                         )
@@ -417,11 +423,15 @@ var render = function() {
                     _c(
                       "v-list-item-content",
                       [
-                        _c("v-list-item-title", [
-                          _vm._v(
-                            "\r\n                        Announcement\r\n                    "
-                          )
-                        ])
+                        _c(
+                          "v-list-item-title",
+                          { staticClass: "font-weight-medium" },
+                          [
+                            _vm._v(
+                              "\r\n                        Announcement\r\n                    "
+                            )
+                          ]
+                        )
                       ],
                       1
                     )
@@ -442,11 +452,20 @@ var render = function() {
                     _c(
                       "v-list-item-content",
                       [
-                        _c("v-list-item-title", [
-                          _vm._v(
-                            "\r\n                        Classwork\r\n                    "
-                          )
-                        ])
+                        _c(
+                          "v-list-item-title",
+                          { staticClass: "font-weight-medium" },
+                          [
+                            _vm._v("\r\n                        Classwork"),
+                            _c("br"),
+                            _vm._v(" "),
+                            _c(
+                              "small",
+                              { staticClass: "font-weight-regular" },
+                              [_vm._v("Quiz & Activities")]
+                            )
+                          ]
+                        )
                       ],
                       1
                     )
@@ -470,11 +489,15 @@ var render = function() {
                         _c(
                           "v-list-item-content",
                           [
-                            _c("v-list-item-title", [
-                              _vm._v(
-                                "\r\n                        Modules\r\n                    "
-                              )
-                            ])
+                            _c(
+                              "v-list-item-title",
+                              { staticClass: "font-weight-medium" },
+                              [
+                                _vm._v(
+                                  "\r\n                        Modules\r\n                    "
+                                )
+                              ]
+                            )
                           ],
                           1
                         )
@@ -503,11 +526,15 @@ var render = function() {
                         _c(
                           "v-list-item-content",
                           [
-                            _c("v-list-item-title", [
-                              _vm._v(
-                                "\r\n                        Student's Progress\r\n                    "
-                              )
-                            ])
+                            _c(
+                              "v-list-item-title",
+                              { staticClass: "font-weight-medium" },
+                              [
+                                _vm._v(
+                                  "\r\n                        Student's Progress\r\n                    "
+                                )
+                              ]
+                            )
                           ],
                           1
                         )
@@ -536,11 +563,15 @@ var render = function() {
                         _c(
                           "v-list-item-content",
                           [
-                            _c("v-list-item-title", [
-                              _vm._v(
-                                "\r\n                        Modules\r\n                    "
-                              )
-                            ])
+                            _c(
+                              "v-list-item-title",
+                              { staticClass: "font-weight-medium" },
+                              [
+                                _vm._v(
+                                  "\r\n                        Modules\r\n                    "
+                                )
+                              ]
+                            )
                           ],
                           1
                         )
@@ -569,11 +600,15 @@ var render = function() {
                         _c(
                           "v-list-item-content",
                           [
-                            _c("v-list-item-title", [
-                              _vm._v(
-                                "\r\n                        My Progress\r\n                    "
-                              )
-                            ])
+                            _c(
+                              "v-list-item-title",
+                              { staticClass: "font-weight-medium" },
+                              [
+                                _vm._v(
+                                  "\r\n                        My Progress\r\n                    "
+                                )
+                              ]
+                            )
                           ],
                           1
                         )
@@ -602,11 +637,15 @@ var render = function() {
                         _c(
                           "v-list-item-content",
                           [
-                            _c("v-list-item-title", [
-                              _vm._v(
-                                "\r\n                        My Grades\r\n                    "
-                              )
-                            ])
+                            _c(
+                              "v-list-item-title",
+                              { staticClass: "font-weight-medium" },
+                              [
+                                _vm._v(
+                                  "\r\n                        My Grades\r\n                    "
+                                )
+                              ]
+                            )
                           ],
                           1
                         )
@@ -630,11 +669,20 @@ var render = function() {
                     _c(
                       "v-list-item-content",
                       [
-                        _c("v-list-item-title", [
-                          _vm._v(
-                            "\r\n                        People\r\n                    "
-                          )
-                        ])
+                        _c(
+                          "v-list-item-title",
+                          { staticClass: "font-weight-medium" },
+                          [
+                            _vm._v("\r\n                        People"),
+                            _c("br"),
+                            _vm._v(" "),
+                            _c(
+                              "small",
+                              { staticClass: "font-weight-regular" },
+                              [_vm._v("Instructors & Students")]
+                            )
+                          ]
+                        )
                       ],
                       1
                     )
@@ -662,11 +710,15 @@ var render = function() {
                         _c(
                           "v-list-item-content",
                           [
-                            _c("v-list-item-title", [
-                              _vm._v(
-                                "\r\n                        Grade Book\r\n                    "
-                              )
-                            ])
+                            _c(
+                              "v-list-item-title",
+                              { staticClass: "font-weight-medium" },
+                              [
+                                _vm._v(
+                                  "\r\n                        Grade Book\r\n                    "
+                                )
+                              ]
+                            )
                           ],
                           1
                         )
@@ -701,11 +753,15 @@ var render = function() {
                         _c(
                           "v-list-item-content",
                           [
-                            _c("v-list-item-title", [
-                              _vm._v(
-                                "\r\n                        Grading Criteria\r\n                    "
-                              )
-                            ])
+                            _c(
+                              "v-list-item-title",
+                              { staticClass: "font-weight-medium" },
+                              [
+                                _vm._v(
+                                  "\r\n                        Grading Criteria\r\n                    "
+                                )
+                              ]
+                            )
                           ],
                           1
                         )
@@ -727,11 +783,15 @@ var render = function() {
                     _c(
                       "v-list-item-content",
                       [
-                        _c("v-list-item-title", [
-                          _vm._v(
-                            "\r\n                        About\r\n                    "
-                          )
-                        ])
+                        _c(
+                          "v-list-item-title",
+                          { staticClass: "font-weight-medium" },
+                          [
+                            _vm._v(
+                              "\r\n                        About\r\n                    "
+                            )
+                          ]
+                        )
                       ],
                       1
                     )
@@ -755,11 +815,15 @@ var render = function() {
                         _c(
                           "v-list-item-content",
                           [
-                            _c("v-list-item-title", [
-                              _vm._v(
-                                "\r\n                        Settings\r\n                    "
-                              )
-                            ])
+                            _c(
+                              "v-list-item-title",
+                              { staticClass: "font-weight-medium" },
+                              [
+                                _vm._v(
+                                  "\r\n                        Settings\r\n                    "
+                                )
+                              ]
+                            )
                           ],
                           1
                         )

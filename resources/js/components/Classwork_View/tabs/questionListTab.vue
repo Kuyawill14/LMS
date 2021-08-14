@@ -177,7 +177,7 @@ export default {
         },
 
          async updateQuestion(data){
-            await axios.put('/api/question/update/'+data.id, {type: QuetionsList.type, question: data})
+            await axios.put('/api/question/update/'+data.id, {type: data.type, question: data})
             .then(res=>{
                 if(res.status == 200){
                      this.toastSuccess("Question Successfully updated");

@@ -117,7 +117,6 @@ var progressChart = function progressChart() {
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['role'],
   components: {
-    VChart: VChart,
     myCalendar: myCalendar,
     progressChart: progressChart,
     teacherCourses: teacherCourses,
@@ -365,7 +364,11 @@ var render = function() {
                   _c(
                     "v-col",
                     { attrs: { cols: "12" } },
-                    [_c("progressChart")],
+                    [
+                      _c("progressChart", {
+                        attrs: { allCourse: _vm.allCourse }
+                      })
+                    ],
                     1
                   ),
                   _vm._v(" "),

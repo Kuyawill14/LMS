@@ -142,6 +142,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
@@ -187,7 +196,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       chartTitle: '',
       backgroundColor: ['rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(255, 206, 86, 0.2)', 'rgba(75, 192, 192, 0.2)', 'rgba(153, 102, 255, 0.2)', 'rgba(255, 159, 64, 0.2)', 'rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(255, 206, 86, 0.2)', 'rgba(75, 192, 192, 0.2)', 'rgba(153, 102, 255, 0.2)', 'rgba(255, 159, 64, 0.2)'],
       borderColor: ['rgba(255,99,132,1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)', 'rgba(75, 192, 192, 1)', 'rgba(153, 102, 255, 1)', 'rgba(255, 159, 64, 1)', 'rgba(255,99,132,1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)', 'rgba(75, 192, 192, 1)', 'rgba(153, 102, 255, 1)', 'rgba(255, 159, 64, 1)'],
-      isSettingData: false
+      isSettingData: false,
+      isSelected: null
     };
   },
   methods: {
@@ -220,6 +230,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   });
                   _this.QCorrentCount[_this.QCorrentCount.length + 1] = 2;
                   _this.chartTitle = '# Correct student per question';
+                  _this.isSelected = 'All';
                   _this.isloading = !_this.isloading;
                 });
 
@@ -234,6 +245,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     setChartForThisQuestion: function setChartForThisQuestion(data, index) {
       var _this2 = this;
 
+      this.isSelected = index;
       this.clearChartData();
       this.Qname[0] = '# of Correct';
       this.Qname[1] = '# of Wrong';
@@ -248,6 +260,37 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
       setTimeout(function () {
         return _this2.isSettingData = false;
+      }, 500);
+    },
+    setChartForAllQuestion: function setChartForAllQuestion() {
+      var _this3 = this;
+
+      this.isSelected = 'All';
+      this.clearChartData();
+      axios.get('/api/QAnalytics/all/' + this.$route.query.clwk).then(function (res) {
+        _this3.List = res.data;
+        var x = 0;
+        var total = 0;
+        res.data.forEach(function (item) {
+          _this3.Qname[x] = 'Q' + (x + 1);
+          _this3.QCorrentCount[x] = item.correct_count != null ? item.correct_count : 0;
+
+          var color = _this3.rnd(0, _this3.backgroundColor.length - 1);
+
+          _this3.barColors[x] = _this3.backgroundColor[color];
+          _this3.barborderColors[x] = _this3.borderColor[color];
+
+          if (x == 0) {
+            total = item.correct_count + item.wrong_count;
+          }
+
+          x++;
+        });
+        _this3.QCorrentCount[_this3.QCorrentCount.length + 1] = 2;
+        _this3.chartTitle = '# Correct student per question';
+      });
+      setTimeout(function () {
+        return _this3.isSettingData = false;
       }, 500);
     },
     clearChartData: function clearChartData() {
@@ -16467,7 +16510,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n    /* width */\n[data-v-5e081adf]::-webkit-scrollbar {\n  width: 5px;\n}\n\n/* Track */\n[data-v-5e081adf]::-webkit-scrollbar-track {\n  background: #f1f1f1;\n}\n \n/* Handle */\n[data-v-5e081adf]::-webkit-scrollbar-thumb {\n  background: #888; \n   border-radius: 3px\n}\n\n/* Handle on hover */\n[data-v-5e081adf]::-webkit-scrollbar-thumb:hover {\n  background: #555;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n    /* width */\n[data-v-5e081adf]::-webkit-scrollbar {\n  width: 5px;\n}\n\n/* Track */\n[data-v-5e081adf]::-webkit-scrollbar-track {\n  background: #f1f1f1;\n}\n \n/* Handle */\n[data-v-5e081adf]::-webkit-scrollbar-thumb {\n  background: #888; \n   border-radius: 3px\n}\n\n/* Handle on hover */\n[data-v-5e081adf]::-webkit-scrollbar-thumb:hover {\n  background: #555;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -38420,18 +38463,18 @@ var render = function() {
                       _vm._v(" "),
                       _c(
                         "v-list",
-                        _vm._l(_vm.List, function(item, index) {
-                          return _c(
+                        [
+                          _c(
                             "v-list-item",
                             {
-                              key: index,
+                              class:
+                                _vm.isSelected == "All"
+                                  ? "grey lighten-2 rounded"
+                                  : "rounded",
                               attrs: { link: "" },
                               on: {
                                 click: function($event) {
-                                  return _vm.setChartForThisQuestion(
-                                    item,
-                                    index
-                                  )
+                                  return _vm.setChartForAllQuestion()
                                 }
                               }
                             },
@@ -38441,26 +38484,71 @@ var render = function() {
                                 { staticClass: "ma-0 pa-0" },
                                 [
                                   _c("div", { staticClass: "d-flex" }, [
-                                    _c("h4", [
-                                      _vm._v(_vm._s("Q" + (index + 1) + ". "))
-                                    ]),
-                                    _vm._v(" "),
-                                    _c("p", { staticClass: "mb-0 pb-0 pl-1" }, [
-                                      _c("span", {
-                                        staticClass: "post-content",
-                                        domProps: {
-                                          innerHTML: _vm._s(item.question)
-                                        }
-                                      })
-                                    ])
+                                    _c(
+                                      "p",
+                                      {
+                                        staticClass:
+                                          "mb-0 pb-0 pl-1 font-weight-bold"
+                                      },
+                                      [_vm._v("All")]
+                                    )
                                   ])
                                 ]
                               )
                             ],
                             1
-                          )
-                        }),
-                        1
+                          ),
+                          _vm._v(" "),
+                          _vm._l(_vm.List, function(item, index) {
+                            return _c(
+                              "v-list-item",
+                              {
+                                key: index,
+                                class:
+                                  _vm.isSelected == index
+                                    ? "grey lighten-2 rounded"
+                                    : "rounded",
+                                attrs: { link: "" },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.setChartForThisQuestion(
+                                      item,
+                                      index
+                                    )
+                                  }
+                                }
+                              },
+                              [
+                                _c(
+                                  "v-list-item-content",
+                                  { staticClass: "ma-0 pa-0" },
+                                  [
+                                    _c("div", { staticClass: "d-flex" }, [
+                                      _c("h4", [
+                                        _vm._v(_vm._s("Q" + (index + 1) + ". "))
+                                      ]),
+                                      _vm._v(" "),
+                                      _c(
+                                        "p",
+                                        { staticClass: "mb-0 pb-0 pl-1" },
+                                        [
+                                          _c("span", {
+                                            staticClass: "post-content",
+                                            domProps: {
+                                              innerHTML: _vm._s(item.question)
+                                            }
+                                          })
+                                        ]
+                                      )
+                                    ])
+                                  ]
+                                )
+                              ],
+                              1
+                            )
+                          })
+                        ],
+                        2
                       )
                     ],
                     1

@@ -32,7 +32,7 @@
 
                  <v-row>
                     <v-col cols="12">
-                        <progressChart> </progressChart>
+                        <progressChart :allCourse="allCourse"> </progressChart>
                     </v-col>
                     <v-col>
                        
@@ -42,7 +42,7 @@
 
                 <v-row class="mt-0">
                     <v-col>
-                        <teacherCourses />
+                        <teacherCourses></teacherCourses>
                     </v-col>
                 </v-row>
 
@@ -92,7 +92,6 @@
     export default {
         props: ['role'],
         components: {
-            VChart,
             myCalendar,
             progressChart,
             teacherCourses,

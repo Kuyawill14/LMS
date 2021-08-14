@@ -231,7 +231,7 @@ var checkobjective = function checkobjective() {
   methods: {
     ViewSubmision: function ViewSubmision(data, index) {
       //if(data.status == 'Submitted'){
-      this.isViewing = !this.isViewing;
+      this.isViewing = true;
       /* this.dialog = !this.dialog;
       this.Viewdialog = !this.Viewdialog; */
 
@@ -961,6 +961,11 @@ var render = function() {
                 "v-col",
                 {
                   staticClass: "pl-6",
+                  staticStyle: {
+                    "max-height": "85vh",
+                    "overflow-y": "scroll",
+                    "overflow-x": "hidden"
+                  },
                   attrs: { cols: "12", md: "12", lg: "8", xl: "8" }
                 },
                 [
@@ -977,7 +982,7 @@ var render = function() {
                         return _vm.$emit("UpdateSubmission")
                       },
                       closeDialog: function($event) {
-                        _vm.isViewing = !_vm.isViewing
+                        _vm.isViewing = false
                       }
                     }
                   })

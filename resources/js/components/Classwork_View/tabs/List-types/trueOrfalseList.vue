@@ -14,7 +14,7 @@
             <v-row>
                  <v-col cols="12" classs="ma-0 pa-0">
                      <v-container ma-0 pa-0 class="mb-3 d-flex flex-row ">
-                        <v-container mb-0 pb-0 class="d-flex">  <h3>Question #{{number}}</h3><small class="primary--text mt-1 ml-1">({{QuetionsList.points}}points)</small> </v-container>
+                        <v-container mb-0 pb-0 class="d-flex">  <h3>Question #{{number}}</h3><small class="primary--text mt-1 ml-1">({{Question.points}}points)</small> </v-container>
                             <v-container v-if="!preview" ma-0 pa-0 class="pa-0 ma-0 d-flex justify-end">
                                 <v-btn
                                 class="mr-2"
@@ -22,7 +22,7 @@
                                     rounded
                                     :disabled="isRemoving"
                                     :loading="isRemoving"
-                                    @click="removePropt((number), QuetionsList.id)">
+                                    @click="removePropt((number), Question.id)">
                                     {{$vuetify.breakpoint.xs || $vuetify.breakpoint.sm  ? '' : 'Delete'}}
                                     <v-icon>mdi-delete-outline</v-icon>
                                 </v-btn>
@@ -62,12 +62,12 @@
                                 
                                 </v-col>
                                 <v-col class="pa-0 ma-0" cols="3"  md="1" lg="1">
-                                    <v-text-field min="0" :readonly="!isEditing" outlined type="number" v-model="QuetionsList.points" class="pa-0 ma-0"  label="Points"></v-text-field>
+                                    <v-text-field min="0" :readonly="!isEditing" outlined type="number" v-model="Question.points" class="pa-0 ma-0"  label="Points"></v-text-field>
                                 </v-col>
                                 <v-col class="pa-0 ma-0 pl-2 pl-sm-0 text-right" cols="9" md="11" lg="11">
                                         <v-select
                                         :readonly="!isEditing"
-                                        v-model="QuetionsList.type"
+                                        v-model="Question.type"
                                         class="float-right pa-0 ma-0"
                                         :items="['Multiple Choice', 'Identification', 'True or False', 'Matching type']"
                                         outlined
@@ -81,7 +81,7 @@
                                     <!--  <v-textarea
                                         rows="1"
                                         :readonly="!isEditing"
-                                        v-model="QuetionsList.question"
+                                        v-model="Question.question"
                                         filled
                                         class="pa-0 ma-0"
                                         label="Question"
@@ -90,7 +90,7 @@
                                         ></v-textarea> -->
                                         <v-card style="width:100%" class="mb-3">
                                             <editor
-                                                v-model="QuetionsList.question"
+                                                v-model="Question.question"
                                                 id="editor-container" placeholder="Question" 
                                                 theme="snow" :options="options"></editor>
                                         </v-card>
@@ -98,7 +98,7 @@
                                 <!--  <v-col class="pa-0 ma-0 pl-md-3 pl-sm-0" cols="12" md="3" lg="3">
                                         <v-select
                                         :readonly="!isEditing"
-                                        v-model="QuetionsList.type"
+                                        v-model="Question.type"
                                         class="pa-0 ma-0"
                                         :items="['Multiple Choice', 'Identification', 'True or False', 'Matching type']"
                                         filled
@@ -111,7 +111,7 @@
                                 <v-row ma-0 pa-0>
                                         <v-col v-for="(x, n) in inputCheck" :key="n"  ma-0 pa-0 class="ma-0 pa-0" cols="8">
                                             <v-container ma-0 pa-0 class="d-flex flex-row ma-0 pa-0">
-                                                <v-radio-group v-model="QuetionsList.answer">
+                                                <v-radio-group v-model="Question.answer">
                                                     <v-radio
                                                     :readonly="!isEditing"
                                                     color="primary"
@@ -138,15 +138,15 @@
                 </v-col>
                 <v-col @dblclick="previewAll ? preview = false: preview = !preview"  v-if="preview || previewAll" cols="12" md="12" class="pl-4 pr-4 pt-2">
                         <v-container>
-                            <div :style="$vuetify.breakpoint.xs ? 'line-height:1.1':'line-height:1.5'" class="subtitle-2"> <span v-html="QuetionsList.question" class="post-content"></span><!-- {{QuetionsList.question}} --></div>
+                            <div :style="$vuetify.breakpoint.xs ? 'line-height:1.1':'line-height:1.5'" class="subtitle-2"> <span v-html="Question.question" class="post-content"></span><!-- {{Question.question}} --></div>
                         </v-container>
 
                         <v-container class="pl-5 pr-5">
                             <v-container class="d-flex flex-row ma-0 pa-0" v-for="(x, n) in inputCheck" :key="n">
-                            <v-radio-group  class="ma-0 pa-0"  v-model="QuetionsList.answer">
+                            <v-radio-group  class="ma-0 pa-0"  v-model="Question.answer">
                                 <v-radio
                                 :readonly="!isEditing"
-                                @click="tempAnswer = QuetionsList.answer"
+                                @click="tempAnswer = Question.answer"
                                 color="primary"
                                 :key="n"
                                 :value="inputCheck[n]"
@@ -154,7 +154,7 @@
                                 </v-radio-group>
 
                                 <div class="Subtitle 1">
-                                    {{inputCheck[n]}}<span class="caption primary--text ml-1" v-if="QuetionsList.answer == inputCheck[n]">(correct answer)</span>
+                                    {{inputCheck[n]}}<span class="caption primary--text ml-1" v-if="Question.answer == inputCheck[n]">(correct answer)</span>
                                 </div>
                                 </v-container>
                         </v-container>
@@ -177,7 +177,6 @@ export default {
     data(){
         return{
             inputCheck:['True','False'],
-            QuetionsList:{},
             isUpdating: null,
             preview:true,
             dialog:false,
@@ -206,15 +205,13 @@ export default {
         },
 
          async updateQuestion(){
-            this.$emit('updateQuestion', this.QuetionsList)
+            this.$emit('updateQuestion', this.Question)
             this.isUpdating = true;
             this.isEditing = !this.isEditing;
             setTimeout(() => (this.isUpdating = false, this.preview = !this.preview), 1000);
         }
     },
-    created(){
-        this.QuetionsList = this.Question;
-    }
+  
     
 }
 </script>

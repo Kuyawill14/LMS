@@ -17,7 +17,16 @@
           <v-col cols="4" style="max-height:85vh;overflow-y:scroll;overflow-x: hidden;">
               <h3>Questions</h3>
                 <v-list>
-                    <v-list-item @click="setChartForThisQuestion(item,index)" link v-for="(item, index) in List" :key="index">
+                      <v-list-item @click="setChartForAllQuestion()" link :class="isSelected == 'All' ? 'grey lighten-2 rounded' : 'rounded'"  >
+                        <v-list-item-content class="ma-0 pa-0" >
+                            <div class="d-flex">
+                                <p class="mb-0 pb-0 pl-1 font-weight-bold">All</p>
+                            </div>
+                        </v-list-item-content>
+                       
+                    </v-list-item>
+                    <v-list-item @click="setChartForThisQuestion(item,index)" :class="isSelected == index ? 'grey lighten-2 rounded' : 'rounded'"
+                    link v-for="(item, index) in List" :key="index">
                         <v-list-item-content class="ma-0 pa-0" >
                             <div class="d-flex">
                                 <h4>{{'Q'+ (index+1) +". " }}</h4>
@@ -120,6 +129,7 @@ export default {
               'rgba(255, 159, 64, 1)'
             ],
            isSettingData: false,
+           isSelected: null
         }
     },
     methods:{
@@ -142,10 +152,12 @@ export default {
                 });
                 this.QCorrentCount[this.QCorrentCount.length+1] = 2;
                 this.chartTitle = '# Correct student per question';
+                this.isSelected = 'All';
                 this.isloading = !this.isloading;
             })
         },
         setChartForThisQuestion(data, index){
+          this.isSelected = index;
            this.clearChartData();
            this.Qname[0] = '# of Correct';
            this.Qname[1] = '# of Wrong'
@@ -160,6 +172,31 @@ export default {
            this.chartTitle = 'Question #'+(index+1);
            //this.isSettingData = false;
            setTimeout(() => (this.isSettingData = false), 500);
+        },
+        setChartForAllQuestion(){
+            this.isSelected = 'All';
+            this.clearChartData();
+             axios.get('/api/QAnalytics/all/'+this.$route.query.clwk)
+            .then(res=>{
+                this.List = res.data;
+                let x = 0;
+                let total = 0
+                res.data.forEach(item => {
+                    this.Qname[x] = 'Q'+(x+1);
+                    this.QCorrentCount[x] = item.correct_count != null ? item.correct_count : 0;
+                    let color = this.rnd(0, this.backgroundColor.length - 1);
+                    this.barColors[x] =  this.backgroundColor[color];
+                    this.barborderColors[x] =  this.borderColor[color];
+                    if(x == 0){
+                        total = item.correct_count + item.wrong_count;
+                    }
+                    x++;
+                });
+                this.QCorrentCount[this.QCorrentCount.length+1] = 2;
+                this.chartTitle = '# Correct student per question';
+            })
+            setTimeout(() => (this.isSettingData = false), 500);
+            
         },
         clearChartData(){
             this.isSettingData = true;
