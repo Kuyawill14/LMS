@@ -47,7 +47,7 @@ class StudentController extends Controller
         ->leftJoin('tbl_user_details', 'tbl_user_details.user_id', '=', 'users.id',)
         ->where('tbl_userclasses.course_id', $id)
         ->where('users.role', 'Student')
-        ->orderBy('users.lastName', 'ASC')
+        ->orderBy('tbl_user_details.lastName', 'ASC')
         ->get();
 
 
@@ -56,7 +56,7 @@ class StudentController extends Controller
         ->leftJoin('users', 'tbl_teacher_courses.user_id', '=', 'users.id', )
         ->leftJoin('tbl_user_details', 'tbl_user_details.user_id', '=', 'users.id',)
         ->where('users.role', 'Teacher')
-        ->orderBy('users.lastName', 'ASC')
+        ->orderBy('tbl_user_details.lastName', 'ASC')
         ->get();
 
         
@@ -76,7 +76,7 @@ class StudentController extends Controller
             ->leftJoin('users', 'tbl_userclasses.user_id', '=', 'users.id', )
             ->leftJoin('tbl_user_details', 'tbl_user_details.user_id', '=', 'users.id', )
             ->where('users.role', 'Student')
-            ->orderBy('users.lastName', 'ASC')
+            ->orderBy('tbl_user_details.lastName', 'ASC')
             ->get();
 
            
@@ -86,7 +86,7 @@ class StudentController extends Controller
             ->leftJoin('tbl_user_details', 'tbl_user_details.user_id', '=', 'users.id', )
             ->where('users.role', 'Teacher')
             ->where('tbl_userclasses.class_id', $Class->class_id)
-            ->orderBy('users.lastName', 'ASC')
+            ->orderBy('tbl_user_details.lastName', 'ASC')
             ->get();
 
             
@@ -104,7 +104,7 @@ class StudentController extends Controller
         ->leftJoin('tbl_user_details', 'tbl_user_details.user_id', '=', 'users.id', )
         ->where('tbl_userclasses.class_id', $class_id)
         ->where('role', 'Student')
-        ->orderBy('users.lastName', 'ASC')
+        ->orderBy('tbl_user_details.lastName', 'ASC')
         ->get();
         return $StudentList;
     }
