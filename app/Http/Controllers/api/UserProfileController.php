@@ -30,7 +30,7 @@ class UserProfileController extends Controller
         $userId = auth('sanctum')->id();
         
         $userDetails = User::where('users.id' ,$userId)
-        ->select('users.role','users.firstName','users.middleName','users.lastName','users.email',
+        ->select('users.role','users.email',
         'tbl_user_details.*')
         ->leftJoin('tbl_user_details', 'tbl_user_details.user_id', '=', 'users.id')
         ->first();
@@ -185,23 +185,19 @@ class UserProfileController extends Controller
     public function updateDetails(Request $request)
     {
         $userId = auth('sanctum')->id();
-        $UpdateDetails = User::find($userId);
-    
-        //tbl_userDetails::where("tbl_user_details.user_id",$userId)->first();
+        $UpdateDetails = User::where('users.id',$userId)
+        ->leftJoin('tbl_user_details','tbl_user_details.user_id','=','users.id')
+        ->first();
         if($UpdateDetails){
             $UpdateDetails->firstName = $request->firstName;
             $UpdateDetails->middleName = $request->middleName;
             $UpdateDetails->lastName = $request->lastName;
             $UpdateDetails->email = $request->email;
+            $UpdateDetails->address = $request->address;
+            $UpdateDetails->cp_no = $request->cp_no;
+            $UpdateDetails->social_account =  $request->social_account;
+            $UpdateDetails->save();
             
-            $Info = tbl_userDetails::where("tbl_user_details.user_id",$userId)->first();
-            if($Info){
-                $Info->address = $request->address;
-                $Info->cp_no = $request->cp_no;
-                $Info->social_account = $request->social_account;
-                $Info->save();
-                $UpdateDetails->save();
-            }
             return "Details Successfully Updated";
         }
     }

@@ -61,7 +61,7 @@ class AnnouncementController extends Controller
                 $allClassPost = tbl_classpost::where('tbl_classposts.class_id', $Class_id->class_id)
                 ->orWhere('tbl_classposts.class_id', $id)
 
-                ->select('tbl_classposts.id as post_id', 'tbl_class_announcements.id as announcement_id','tbl_class_announcements.*','tbl_user_details.profile_pic', DB::raw('CONCAT(users.firstname, " ", users.lastName) as name'))
+                ->select('tbl_classposts.id as post_id', 'tbl_class_announcements.id as announcement_id','tbl_class_announcements.*','tbl_user_details.profile_pic', DB::raw('CONCAT(tbl_user_details.firstname, " ", tbl_user_details.lastName) as name'))
                 ->selectRaw('count(tbl_comments.id ) as comment_count')
                 ->selectRaw('count(tbl_likes.id ) as likes_count')
                 ->leftJoin('tbl_classworks', 'tbl_classposts.classwork_id', '=', 'tbl_classworks.id')
@@ -71,7 +71,7 @@ class AnnouncementController extends Controller
                 ->leftJoin('users', 'tbl_classposts.user_id', '=', 'users.id')
                 ->leftJoin('tbl_user_details', 'users.id', '=', 'tbl_user_details.user_id')
                 ->orderBy('created_at', 'DESC')
-                ->groupBy('tbl_classposts.id','tbl_class_announcements.id','tbl_class_announcements.content','tbl_class_announcements.file','tbl_class_announcements.created_at','tbl_class_announcements.updated_at','tbl_user_details.profile_pic','users.firstName','users.lastName')
+                ->groupBy('tbl_classposts.id','tbl_class_announcements.id','tbl_class_announcements.content','tbl_class_announcements.file','tbl_class_announcements.created_at','tbl_class_announcements.updated_at','tbl_user_details.profile_pic','tbl_user_details.firstName','tbl_user_details.lastName')
                 ->paginate(5);
                 //return $allClassPost->toArray();
                 return $allClassPost;
@@ -105,7 +105,7 @@ class AnnouncementController extends Controller
         //
         $userId = auth('sanctum')->id();
         $username = User::where('users.id', $userId)
-        ->select(DB::raw('CONCAT(users.firstname, " ", users.lastName) as name'), 'tbl_user_details.profile_pic')
+        ->select(DB::raw('CONCAT(tbl_user_details.firstname, " ", tbl_user_details.lastName) as name'), 'tbl_user_details.profile_pic')
         ->leftJoin('tbl_user_details', 'users.id', '=', 'tbl_user_details.user_id')
         ->get();
 

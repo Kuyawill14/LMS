@@ -22,7 +22,7 @@ class AdminController extends Controller
     }
     public function getAllTeacher() {
         $teachers = tbl_userDetails::where('role','Teacher')
-        ->select('users.role','users.firstName','users.middleName','users.lastName','users.email',
+        ->select('users.role','users.email',
         'tbl_user_details.*')
         ->leftJoin('users', 'users.id', '=', 'tbl_user_details.user_id')
         ->get();
@@ -33,7 +33,7 @@ class AdminController extends Controller
 
     public function getAllTeacherProgress() {
         $teachers = tbl_userDetails::where('role','Teacher')
-        ->select('users.role','users.firstName','users.middleName','users.lastName','users.email',
+        ->select('users.role','users.email',
         'tbl_user_details.*')
         ->leftJoin('users', 'users.id', '=', 'tbl_user_details.user_id')
         ->get();
@@ -107,22 +107,18 @@ class AdminController extends Controller
     public function update(Request $request, $id)
     {
        
-        $userId =$id;
-        $UpdateDetails = User::find($userId);
-    
+        $userId = $id;
+        $UpdateDetails = User::where('users.id',$userId)
+        ->leftjoin('tbl_user_details', 'tbl_user_details.user_id', '=', 'users.id')
+        ->first();
         //tbl_userDetails::where("tbl_user_details.user_id",$userId)->first();
         if($UpdateDetails){
             $UpdateDetails->firstName = $request->firstName;
             $UpdateDetails->middleName = $request->middleName;
             $UpdateDetails->lastName = $request->lastName;
             $UpdateDetails->email = $request->email;
-            
-            $Info = tbl_userDetails::where("tbl_user_details.user_id",$userId)->first();
-            if($Info){
-                $Info->cp_no = $request->cp_no;
-                $Info->save();
-                $UpdateDetails->save();
-            }
+            $UpdateDetails->cp_no = $request->cp_no;
+            $UpdateDetails->save();
             return "Details Successfully Updated";
         }
     }

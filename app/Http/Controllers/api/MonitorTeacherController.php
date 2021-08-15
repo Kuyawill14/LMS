@@ -20,7 +20,7 @@ class MonitorTeacherController extends Controller
     }
     public function teacherData() {
         $teachers = tbl_userDetails::where('role','Teacher')
-        ->select('users.role','users.firstName','users.middleName','users.lastName','users.email',
+        ->select('users.role','users.email',
         'tbl_user_details.*')
         ->leftJoin('users', 'users.id', '=', 'tbl_user_details.user_id')
         ->leftjoin('tbl_teacher_courses', 'tbl_teacher_courses.id' , '=', 'users.id')
@@ -40,7 +40,8 @@ class MonitorTeacherController extends Controller
      
      
         $teachers = DB::table('users')
-        ->select('users.id as user_id','users.role','users.firstName','users.middleName','users.lastName','users.email')
+        ->select('users.id as user_id','users.role','tbl_user_details.firstName','tbl_user_details.middleName','tbl_user_details.lastName','users.email')
+        ->leftjoin('tbl_user_details', 'tbl_user_details.user_id','=','users.id')
         ->selectRaw( $course_count)
         ->selectRaw( $class_count)
         ->selectRaw( $classwork_count)
@@ -124,21 +125,16 @@ class MonitorTeacherController extends Controller
     {
        
         $userId =$id;
-        $UpdateDetails = User::find($userId);
-    
-        //tbl_userDetails::where("tbl_user_details.user_id",$userId)->first();
+        $UpdateDetails = User::where('users.id',$userId)
+        ->leftjoin('tbl_user_details', 'tbl_user_details.user_id', '=', 'users.id')
+        ->first();
         if($UpdateDetails){
             $UpdateDetails->firstName = $request->firstName;
             $UpdateDetails->middleName = $request->middleName;
             $UpdateDetails->lastName = $request->lastName;
             $UpdateDetails->email = $request->email;
-            
-            $Info = tbl_userDetails::where("tbl_user_details.user_id",$userId)->first();
-            if($Info){
-                $Info->cp_no = $request->cp_no;
-                $Info->save();
-                $UpdateDetails->save();
-            }
+            $UpdateDetails->cp_no = $request->cp_no;
+            $UpdateDetails->save();
             return "Details Successfully Updated";
         }
     }
