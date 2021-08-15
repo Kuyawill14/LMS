@@ -71,12 +71,12 @@
                     <h2>My Courses</h2>
                 </v-col>
                 <v-col lg="2" class="text-right">
-                    <v-select class="mr-2 my-0" :items="school_year" item-text="schoolyear" item-value="id"
+                    <v-select class="mr-2 my-0" dense :items="school_year" item-text="schoolyear" item-value="id"
                         label="School Year" v-model="school_year_id" outlined small @change=" schoolYearFilter()">
                     </v-select>
                 </v-col>
                 <v-col class="text-right" lg="2">
-                    <v-select class="mr-2 my-0" :items="semester" item-text="semester" item-value="id" label="Semester"
+                    <v-select class="mr-2 my-0" dense :items="semester" item-text="semester" item-value="id" label="Semester"
                         v-model="semester_id" outlined small @change="semesterFilter()"></v-select>
 
 

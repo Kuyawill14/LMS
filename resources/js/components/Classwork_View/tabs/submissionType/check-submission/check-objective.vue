@@ -82,7 +82,7 @@
                        </v-row>
                       
                    </v-col>
-                   <v-col v-if="ViewDetails.Submitted_Answers == null && ViewDetails.Submitted_Answers == ''" cols="12" class="ma-0 pa-0 mb-2">
+                   <v-col v-if="ViewDetails.Submitted_Answers != null && ViewDetails.Submitted_Answers != ''" cols="12" class="ma-0 pa-0 mb-2">
                        <v-btn @click="dialog = !dialog" color="primary" ><v-icon left>mdi-restart</v-icon> Reset Submission</v-btn>
                        
                    </v-col>

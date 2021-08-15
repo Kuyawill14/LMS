@@ -17,14 +17,24 @@
           <v-col cols="4" style="max-height:85vh;overflow-y:scroll;overflow-x: hidden;">
               <h3>Questions</h3>
                 <v-list>
-                      <v-list-item @click="setChartForAllQuestion()" link :class="isSelected == 'All' ? 'grey lighten-2 rounded' : 'rounded'"  >
+                      <v-list-item @click="setChartForAllQuestionCorrect()" link :class="isSelected == 'correct' ? 'grey lighten-2 rounded' : 'rounded'"  >
                         <v-list-item-content class="ma-0 pa-0" >
                             <div class="d-flex">
-                                <p class="mb-0 pb-0 pl-1 font-weight-bold">All</p>
+                       
+                                <p class="mb-0 pb-0 pl-1 font-weight-bold"><v-icon left color="success">mdi-check</v-icon>Correct student per question</p>
                             </div>
                         </v-list-item-content>
-                       
                     </v-list-item>
+
+                     <v-list-item @click="setChartForAllQuestionWrong()" link :class="isSelected == 'wrong' ? 'grey lighten-2 rounded' : 'rounded'"  >
+                        <v-list-item-content class="ma-0 pa-0" >
+                            <div class="d-flex">
+                                <p class="mb-0 pb-0 pl-1 font-weight-bold"><v-icon left color="error">mdi-close</v-icon>Wrong student per question</p>
+                            </div>
+                        </v-list-item-content>
+                    </v-list-item>
+                         <v-divider></v-divider>
+                    
                     <v-list-item @click="setChartForThisQuestion(item,index)" :class="isSelected == index ? 'grey lighten-2 rounded' : 'rounded'"
                     link v-for="(item, index) in List" :key="index">
                         <v-list-item-content class="ma-0 pa-0" >
@@ -55,7 +65,7 @@
             <v-container class="fill-height" v-if="!isSettingData" style="height: 600px;">
                   <v-row  align-content="center" justify="center">
                     <v-col class="text-subtitle-1 text-center" cols="12">
-                          <h3>Question Chart</h3>
+                          <h3>Question statistics</h3>
                     </v-col>
                     <v-col cols="12">
                         <bar-chart v-if="!isSettingData" :chartTitle="chartTitle" :Qname="Qname" :QCorrentCount="QCorrentCount" :barColors="barColors" :barborderColors="barborderColors"></bar-chart>
@@ -129,30 +139,29 @@ export default {
               'rgba(255, 159, 64, 1)'
             ],
            isSettingData: false,
-           isSelected: null
+           isSelected: null,
+           submissionLength: 0,
         }
     },
     methods:{
        async GetList(){
             axios.get('/api/QAnalytics/all/'+this.$route.query.clwk)
             .then(res=>{
-                this.List = res.data;
+                this.List = res.data.analytics;
+                this.submissionLength = res.data.totalSubmission;
                 let x = 0;
                 let total = 0
-                res.data.forEach(item => {
+                res.data.analytics.forEach(item => {
                     this.Qname[x] = 'Q'+(x+1);
                     this.QCorrentCount[x] = item.correct_count != null ? item.correct_count : 0;
                     let color = this.rnd(0, this.backgroundColor.length - 1);
                     this.barColors[x] =  this.backgroundColor[color];
                     this.barborderColors[x] =  this.borderColor[color];
-                    if(x == 0){
-                        total = item.correct_count + item.wrong_count;
-                    }
                     x++;
                 });
-                this.QCorrentCount[this.QCorrentCount.length+1] = 2;
+                this.QCorrentCount[this.QCorrentCount.length+1] = this.submissionLength;
                 this.chartTitle = '# Correct student per question';
-                this.isSelected = 'All';
+                this.isSelected = 'correct';
                 this.isloading = !this.isloading;
             })
         },
@@ -163,7 +172,7 @@ export default {
            this.Qname[1] = '# of Wrong'
            this.QCorrentCount[0] = data.correct_count;
            this.QCorrentCount[1] = data.wrong_count;
-           this.QCorrentCount[3] = data.correct_count + data.wrong_count;
+           this.QCorrentCount[3] =  this.submissionLength;
 
            this.barColors[0] =  'rgba(76,175,80,0.2)';
            this.barborderColors[0] =  'rgba(76,175,80,1)';
@@ -173,30 +182,49 @@ export default {
            //this.isSettingData = false;
            setTimeout(() => (this.isSettingData = false), 500);
         },
-        setChartForAllQuestion(){
-            this.isSelected = 'All';
+        setChartForAllQuestionCorrect(){
+            this.isSelected = 'correct';
             this.clearChartData();
              axios.get('/api/QAnalytics/all/'+this.$route.query.clwk)
             .then(res=>{
-                this.List = res.data;
+                this.List = res.data.analytics;
+                 this.submissionLength = res.data.totalSubmission;
                 let x = 0;
                 let total = 0
-                res.data.forEach(item => {
+                res.data.analytics.forEach(item => {
                     this.Qname[x] = 'Q'+(x+1);
                     this.QCorrentCount[x] = item.correct_count != null ? item.correct_count : 0;
                     let color = this.rnd(0, this.backgroundColor.length - 1);
                     this.barColors[x] =  this.backgroundColor[color];
                     this.barborderColors[x] =  this.borderColor[color];
-                    if(x == 0){
-                        total = item.correct_count + item.wrong_count;
-                    }
                     x++;
                 });
-                this.QCorrentCount[this.QCorrentCount.length+1] = 2;
+                this.QCorrentCount[this.QCorrentCount.length+1] = this.submissionLength;
                 this.chartTitle = '# Correct student per question';
             })
             setTimeout(() => (this.isSettingData = false), 500);
-            
+        },
+        setChartForAllQuestionWrong(){
+            this.isSelected = 'wrong';
+            this.clearChartData();
+             axios.get('/api/QAnalytics/all/'+this.$route.query.clwk)
+            .then(res=>{
+                this.List = res.data.analytics;
+                 this.submissionLength = res.data.totalSubmission;
+                let x = 0;
+                let total = 0
+                res.data.analytics.forEach(item => {
+                    this.Qname[x] = 'Q'+(x+1);
+                    this.QCorrentCount[x] = item.wrong_count != null ? item.wrong_count : 0;
+                    let color = this.rnd(0, this.backgroundColor.length - 1);
+                    this.barColors[x] =  this.backgroundColor[color];
+                    this.barborderColors[x] =  this.borderColor[color];
+                    x++;
+                });
+                this.QCorrentCount[this.QCorrentCount.length+1] = this.submissionLength;
+                this.chartTitle = '# Wrong student per question';
+            })
+            setTimeout(() => (this.isSettingData = false), 500);
         },
         clearChartData(){
             this.isSettingData = true;
@@ -209,6 +237,24 @@ export default {
         rnd (a, b) {
             return Math.floor((b - a + 1) * Math.random()) + a
         },
+    },
+    async GetSubmissionLIst(){
+        
+        axios.get('/api/submission/all/'+this.$route.query.clwk)
+        .then(res=>{
+            this.List = res.data;
+                res.data.forEach(item => {
+                if(item.status == 'Submitted'){
+                    this.Submitted +=1;
+                }
+                if(item.graded == 1){
+                    this.Graded +=1;
+                }
+                
+            });
+            this.isloading = !this.isloading;
+        })
+        
     },
     mounted(){
         this.GetList();

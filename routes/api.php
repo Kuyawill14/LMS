@@ -27,6 +27,8 @@ use App\Http\Controllers\api\AdminController;
 use App\Http\Controllers\api\MonitorTeacherController;
 use App\Http\Controllers\api\TeacherProfileController;
 use App\Http\Controllers\api\SchoolyearSemesterController;
+use App\Http\Controllers\api\DepartmentController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -314,6 +316,12 @@ Route::prefix('/admin/schoolyears_semesters')->group(function() {
 Route::prefix('/admin/schoolyears')->group(function() {
     Route::get('/all', [SchoolyearSemesterController::class, 'fetchAllSchoolyear']);
 });
+
+//department
+Route::prefix('/admin/department')->group(function() {
+    Route::get('/all', [DepartmentController::class, 'index']);
+});
+
 
 
 

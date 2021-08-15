@@ -190,6 +190,12 @@
                          newVm.$store.dispatch("fetchNotification", this.notifType )
                         newVm.fetchNotificationCount();
                     })
+                    
+                 /*    Echo.channel('notification')
+                     .listen('NewNotification', e => {
+                         newVm.$store.dispatch("fetchNotification", this.notifType )
+                        newVm.fetchNotificationCount();
+                    }) */
             },
           /*   UnreadNotification(id) {
                 axios.post('/api/notification/'+id, {accepted: this.isAccepted}).then((res) => {

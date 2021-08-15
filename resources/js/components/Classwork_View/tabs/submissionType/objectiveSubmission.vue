@@ -146,7 +146,8 @@
         </v-row>
     </v-col >
     <v-col v-if="isViewing" style="max-height:85vh;overflow-y:scroll;overflow-x: hidden;" cols="12" md="12" lg="8" xl="8" class="pl-6">
-         <checkobjective v-on:RestSubmission="ResetSubmission()" :classworkDetails="classworkDetails" :ViewDetails="ViewDetails"  v-on:UpdateSubmission="$emit('UpdateSubmission')" v-on:closeDialog="isViewing = false"></checkobjective>
+            
+         <checkobjective v-if="!isLoadingData" v-on:RestSubmission="ResetSubmission()" :classworkDetails="classworkDetails" :ViewDetails="ViewDetails"  v-on:UpdateSubmission="$emit('UpdateSubmission')" v-on:closeDialog="isViewing = false"></checkobjective>
     </v-col>
 </v-row>
 </div>
@@ -163,6 +164,7 @@ export default {
     data(){
         return{
             isloading:true,
+            isLoadingData: false,
              selectedTasks: [],
              headers: [
 
@@ -205,6 +207,8 @@ export default {
         },
     methods:{
         ViewSubmision(data, index){
+             this.ViewDetails = null;
+             this.isLoadingData = true;
             //if(data.status == 'Submitted'){
                 this.isViewing = true;
                 /* this.dialog = !this.dialog;
@@ -212,6 +216,7 @@ export default {
                 this.ViewDetails = data;
                 this.selected_index = index;
             //}
+            setTimeout(() => (this.isLoadingData = false), 100);
         },
         ResetSubmission(){
             this.ListData[this.selected_index].status = null;

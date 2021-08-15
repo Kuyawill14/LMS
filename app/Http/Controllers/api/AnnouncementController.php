@@ -50,7 +50,7 @@ class AnnouncementController extends Controller
        
             ->orderBy('created_at', 'DESC')
             ->groupBy('tbl_classposts.id','tbl_classposts.class_id', 'tbl_class_announcements.id','tbl_class_announcements.content','tbl_class_announcements.file','tbl_class_announcements.created_at','tbl_class_announcements.updated_at','tbl_user_details.profile_pic','users.firstName','users.lastName')
-            ->paginate(10);
+            ->paginate(5);
             //->get();
             return $allClassPost;
         }
@@ -72,7 +72,7 @@ class AnnouncementController extends Controller
                 ->leftJoin('tbl_user_details', 'users.id', '=', 'tbl_user_details.user_id')
                 ->orderBy('created_at', 'DESC')
                 ->groupBy('tbl_classposts.id','tbl_class_announcements.id','tbl_class_announcements.content','tbl_class_announcements.file','tbl_class_announcements.created_at','tbl_class_announcements.updated_at','tbl_user_details.profile_pic','users.firstName','users.lastName')
-                ->paginate(10);
+                ->paginate(5);
                 //return $allClassPost->toArray();
                 return $allClassPost;
             }
@@ -132,19 +132,19 @@ class AnnouncementController extends Controller
 
         
           //New notification
-         $userInClass = tbl_subject_course::where('tbl_subject_courses.id', $NewPost->course_id)
-          ->first();
+         /* $userInClass = tbl_subject_course::where('tbl_subject_courses.id', $NewPost->course_id)
+          ->first(); */
 
-        $newNotification = new tbl_notification;
+        /* $newNotification = new tbl_notification;
         $newNotification->course_id = $request->announcement['course_id'];
         $newNotification->class_id = $NewPost->class_id;
         $newNotification->from_id =  $userId;
         $newNotification->message = "Posted new announcement in ".$userInClass->course_name;
         $newNotification->notification_type = 1;
-        $newNotification->save();
+        $newNotification->save(); */
           
 
-          broadcast(new NewNotification($newNotification))->toOthers();
+         /*  broadcast(new NewNotification($newNotification))->toOthers(); */
           //broadcast(new NewPost($NewPost))->toOthers();
 
 

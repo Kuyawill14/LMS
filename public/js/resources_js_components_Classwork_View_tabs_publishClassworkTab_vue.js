@@ -303,9 +303,10 @@ var updatePublishDialog = function updatePublishDialog() {
                 _this5.notifyDetails.classwork_id = data.classwork_id;
                 _this5.notifyDetails.class_id = data.class_id;
                 _this5.notifyDetails.course_id = _this5.$route.params.id;
+                _this5.notifyDetails.type = 'classwork';
                 axios.post('/api/notification/new', _this5.notifyDetails).then(function (res) {});
 
-              case 5:
+              case 6:
               case "end":
                 return _context4.stop();
             }

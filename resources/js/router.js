@@ -131,8 +131,9 @@ let teacherProfile = () =>
     import ("./components/admin/monitor-teachers/teacherProfile/teacherProfile");
 let schoolyear_semester = () =>
     import ("./components/admin/schoolyear-semester/schoolyear-semesterComponent");
-
-
+let department = () =>
+    import ("./components/admin/departments/department");
+    
 const router = new Router({
     mode: "history",
     routes: [{
@@ -187,6 +188,13 @@ const router = new Router({
                     path: "/schoolyear-semester",
                     component: schoolyear_semester,
                     name: "schoolyear_semester",
+
+
+                },
+                {
+                    path: "/department",
+                    component: department,
+                    name: "department",
 
 
                 },

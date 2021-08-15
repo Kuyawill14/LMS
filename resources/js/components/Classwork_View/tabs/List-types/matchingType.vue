@@ -173,7 +173,7 @@
                     </v-container>
                 </v-col>
 
-                <v-col @dblclick="preview =  !preview"  v-if="preview" cols="12" md="12" class="pl-4 pr-4 pt-2">
+                <v-col @dblclick="preview = !preview, isEditing = true"  v-if="preview" cols="12" md="12" class="pl-4 pr-4 pt-2">
                         <v-container>
                         <div :style="$vuetify.breakpoint.xs ? 'line-height:1.1':'line-height:1.5'" class="subtitle-2"> <span v-html="QuetionsList.question" class="post-content"></span><!-- {{QuetionsList.question}} --></div>
                         </v-container>

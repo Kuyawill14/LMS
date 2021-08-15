@@ -32,7 +32,8 @@
 
             <v-row v-if="!isGetting"  class="mt-3">
             <v-col md="12" lg="8" class="ma-auto">
-                <announcementPostList :classNames="classNames" :UserDetails="UserDetails" :PostList="getclass_post"> </announcementPostList>
+                <announcementPostList v-on:loadmore="loadMore()" :classNames="classNames" :UserDetails="UserDetails" :PostList="getclass_post"> </announcementPostList>
+               
             </v-col>
         </v-row>
     </div>
@@ -91,6 +92,7 @@
                      vm.fetchClassPost(this.$route.params.id);
                  }) */
             },
+          
             SetClassname(data){
                 this.ClassName = data;
             },

@@ -38326,6 +38326,7 @@ var render = function() {
         [
           _c(
             "v-row",
+            { staticClass: "pa-2" },
             [
               _c(
                 "v-col",

@@ -63,6 +63,14 @@
             :LikesCount="post.likes_count"
             :PostId="post.post_id" :UserDetails="UserDetails" ></commentList>
         </v-card>
+
+         <div v-if="isLoadingMore" class="text-center">
+                <v-progress-circular
+                indeterminate
+                color="primary"
+                ></v-progress-circular>
+                loading
+        </div>
     </div>
 
 </template>
@@ -72,8 +80,8 @@
     import moment from 'moment';
     const announcementList = () => import('./PostListType/AnnouncementList');
     const commentList = () => import('./actions/commentList');
+     import {mapGetters, mapActions} from "vuex";
     export default {
-        
         props:['PostList','UserDetails','classNames'],
         components:{
             commentList,
@@ -81,7 +89,7 @@
         },
         data(){
             return{
-                 password: 'Password',
+            password: 'Password',
             show: false,
             comment: [],
             marker: true,
@@ -90,13 +98,17 @@
             CommentList:[],
             showLess:true,
             class_id: this.$route.params.id,
+            isLoadingMore: false,
             }
         },
         computed: {
+            ...mapGetters(['current_page','last_page']),
             icon () {
                 return this.icons[this.iconIndex]
             },
+            
         },
+    
         methods: {
             test() {
                 $('.img-fluid').click(function () {
@@ -128,9 +140,37 @@
                 .then((res)=>{
                     this.CommentList = res.data;
                 })
-            }
+            },
+             getAnnouncementWhileScrolling() {
+                window.onscroll = () => {
+                    let bottomOfWindow = document.documentElement.scrollTop + window.innerHeight === document.documentElement.offsetHeight;
+                    if (bottomOfWindow) {
+                        if(this.isLoadingMore != true){
+                            this.loadMore();
+                        }
+                       
+                    }
+                }
+            },
+              loadMore(){
+                this.isLoadingMore = true;
+                if(this.current_page != this.last_page){
+                    this.$store.dispatch('loadMore',this.$route.params.id).then(res=>{
+                        if(res == 200){
+                             this.isLoadingMore = false;
+                        }else{
+                            this.isLoadingMore = false;
+                        }
+                    })
+                }
+                else{
+                    this.isLoadingMore = false;
+                    //setTimeout(() => (this.isLoadingMore = false), 1000);
+                }
+                
+            },
         },
-        created() {
+        beforeMount() {
             $(".post-content p").replaceWith(function () {
                 return "<span>" + this.innerHTML + "</span>";
             });
@@ -140,6 +180,9 @@
            
               
         },
+        mounted(){
+            this.getAnnouncementWhileScrolling();
+        }
         
     }
 

@@ -81,6 +81,7 @@
                 })
             },
             logout() {
+                window.Echo.leave('notification');
                 axios.post('/api/logout')
                     .then(() => {
                         this.$router.push({

@@ -2669,9 +2669,8 @@ var render = function() {
                                     attrs: { cols: "12", md: "12" },
                                     on: {
                                       dblclick: function($event) {
-                                        _vm.previewAll
-                                          ? (_vm.preview = false)
-                                          : (_vm.preview = !_vm.preview)
+                                        ;(_vm.preview = !_vm.preview),
+                                          (_vm.isEditing = true)
                                       }
                                     }
                                   },
@@ -3536,127 +3535,113 @@ var render = function() {
                                 )
                               : _vm._e(),
                             _vm._v(" "),
-                            _vm.preview || _vm.CheckPreview
-                              ? _c(
-                                  "v-col",
-                                  {
-                                    staticClass: "pl-4 pr-4 pt-2",
-                                    attrs: { cols: "12", md: "12" },
-                                    on: {
-                                      dblclick: function($event) {
-                                        _vm.CheckPreview
-                                          ? (_vm.preview = false)
-                                          : (_vm.preview = !_vm.preview)
-                                      }
-                                    }
-                                  },
-                                  [
-                                    _c("v-container", [
-                                      _c(
-                                        "div",
-                                        {
-                                          staticClass: "subtitle-2",
-                                          style: _vm.$vuetify.breakpoint.xs
-                                            ? "line-height:1.1"
-                                            : "line-height:1.5"
-                                        },
-                                        [
-                                          _c("span", {
-                                            staticClass: "post-content",
-                                            domProps: {
-                                              innerHTML: _vm._s(
-                                                _vm.getQuestion.question
-                                              )
-                                            }
-                                          })
-                                        ]
-                                      )
-                                    ]),
-                                    _vm._v(" "),
-                                    _c(
+                            _c(
+                              "v-col",
+                              {
+                                staticClass: "pl-4 pr-4 pt-2",
+                                attrs: { cols: "12", md: "12" },
+                                on: {
+                                  dblclick: function($event) {
+                                    ;(_vm.preview = !_vm.preview),
+                                      (_vm.isEditing = true)
+                                  }
+                                }
+                              },
+                              [
+                                _c("v-container", [
+                                  _c(
+                                    "div",
+                                    {
+                                      staticClass: "subtitle-2",
+                                      style: _vm.$vuetify.breakpoint.xs
+                                        ? "line-height:1.1"
+                                        : "line-height:1.5"
+                                    },
+                                    [
+                                      _c("span", {
+                                        staticClass: "post-content",
+                                        domProps: {
+                                          innerHTML: _vm._s(
+                                            _vm.getQuestion.question
+                                          )
+                                        }
+                                      })
+                                    ]
+                                  )
+                                ]),
+                                _vm._v(" "),
+                                _c(
+                                  "v-container",
+                                  { staticClass: "pl-5 pr-5" },
+                                  _vm._l(_vm.getAnswerList, function(Ans) {
+                                    return _c(
                                       "v-container",
-                                      { staticClass: "pl-5 pr-5" },
-                                      _vm._l(_vm.getAnswerList, function(Ans) {
-                                        return _c(
-                                          "v-container",
+                                      {
+                                        key: Ans.id,
+                                        staticClass: "d-flex flex-row ma-0 pa-0"
+                                      },
+                                      [
+                                        _c(
+                                          "v-radio-group",
                                           {
-                                            key: Ans.id,
-                                            staticClass:
-                                              "d-flex flex-row ma-0 pa-0"
+                                            staticClass: "ma-0 pa-0",
+                                            model: {
+                                              value: _vm.getQuestion.answer,
+                                              callback: function($$v) {
+                                                _vm.$set(
+                                                  _vm.getQuestion,
+                                                  "answer",
+                                                  $$v
+                                                )
+                                              },
+                                              expression: "getQuestion.answer"
+                                            }
                                           },
                                           [
-                                            _c(
-                                              "v-radio-group",
-                                              {
-                                                staticClass: "ma-0 pa-0",
-                                                model: {
-                                                  value: _vm.getQuestion.answer,
-                                                  callback: function($$v) {
-                                                    _vm.$set(
-                                                      _vm.getQuestion,
-                                                      "answer",
-                                                      $$v
-                                                    )
-                                                  },
-                                                  expression:
-                                                    "getQuestion.answer"
-                                                }
-                                              },
-                                              [
-                                                _c("v-radio", {
-                                                  key: Ans.id,
-                                                  attrs: {
-                                                    readonly: "",
-                                                    color: "primary",
-                                                    value: Ans.Choice
-                                                  }
-                                                })
-                                              ],
-                                              1
-                                            ),
-                                            _vm._v(" "),
-                                            _c(
-                                              "div",
-                                              {
-                                                staticClass: "Subtitle-1 d-flex"
-                                              },
-                                              [
-                                                _c("span", {
-                                                  staticClass: "post-content",
-                                                  domProps: {
-                                                    innerHTML: _vm._s(
-                                                      Ans.Choice
-                                                    )
-                                                  }
-                                                }),
-                                                _vm._v(" "),
-                                                _vm.getQuestion.answer ==
-                                                Ans.Choice
-                                                  ? _c(
-                                                      "span",
-                                                      {
-                                                        staticClass:
-                                                          "caption primary--text ml-1 mt-1"
-                                                      },
-                                                      [
-                                                        _vm._v(
-                                                          "(correct answer)"
-                                                        )
-                                                      ]
-                                                    )
-                                                  : _vm._e()
-                                              ]
-                                            )
+                                            _c("v-radio", {
+                                              key: Ans.id,
+                                              attrs: {
+                                                readonly: "",
+                                                color: "primary",
+                                                value: Ans.Choice
+                                              }
+                                            })
                                           ],
                                           1
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "div",
+                                          { staticClass: "Subtitle-1 d-flex" },
+                                          [
+                                            _c("span", {
+                                              staticClass: "post-content",
+                                              domProps: {
+                                                innerHTML: _vm._s(Ans.Choice)
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _vm.getQuestion.answer == Ans.Choice
+                                              ? _c(
+                                                  "span",
+                                                  {
+                                                    staticClass:
+                                                      "caption primary--text ml-1 mt-1"
+                                                  },
+                                                  [_vm._v("(correct answer)")]
+                                                )
+                                              : _vm._e()
+                                          ]
                                         )
-                                      }),
+                                      ],
                                       1
                                     )
-                                  ],
+                                  }),
                                   1
                                 )
-                              : _vm._e()
+                              ],
+                              1
+                            )
                           ],
                           1
                         )
@@ -4500,7 +4485,8 @@ var render = function() {
                                 attrs: { cols: "12", md: "12" },
                                 on: {
                                   dblclick: function($event) {
-                                    _vm.preview = !_vm.preview
+                                    ;(_vm.preview = !_vm.preview),
+                                      (_vm.isEditing = true)
                                   }
                                 }
                               },
@@ -5272,9 +5258,8 @@ var render = function() {
                                 attrs: { cols: "12", md: "12" },
                                 on: {
                                   dblclick: function($event) {
-                                    _vm.previewAll
-                                      ? (_vm.preview = false)
-                                      : (_vm.preview = !_vm.preview)
+                                    ;(_vm.preview = !_vm.preview),
+                                      (_vm.isEditing = true)
                                   }
                                 }
                               },

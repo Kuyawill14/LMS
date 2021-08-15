@@ -164,6 +164,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 var resetConfirmation = function resetConfirmation() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_tabs_dialogs_resetConfirmation_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../dialogs/resetConfirmation */ "./resources/js/components/Classwork_View/tabs/dialogs/resetConfirmation.vue"));
 };
@@ -181,6 +182,7 @@ var checkobjective = function checkobjective() {
   data: function data() {
     return {
       isloading: true,
+      isLoadingData: false,
       selectedTasks: [],
       headers: [{
         text: 'Name',
@@ -230,13 +232,21 @@ var checkobjective = function checkobjective() {
   },
   methods: {
     ViewSubmision: function ViewSubmision(data, index) {
-      //if(data.status == 'Submitted'){
+      var _this2 = this;
+
+      this.ViewDetails = null;
+      this.isLoadingData = true; //if(data.status == 'Submitted'){
+
       this.isViewing = true;
       /* this.dialog = !this.dialog;
       this.Viewdialog = !this.Viewdialog; */
 
       this.ViewDetails = data;
       this.selected_index = index; //}
+
+      setTimeout(function () {
+        return _this2.isLoadingData = false;
+      }, 100);
     },
     ResetSubmission: function ResetSubmission() {
       this.ListData[this.selected_index].status = null;
@@ -969,23 +979,25 @@ var render = function() {
                   attrs: { cols: "12", md: "12", lg: "8", xl: "8" }
                 },
                 [
-                  _c("checkobjective", {
-                    attrs: {
-                      classworkDetails: _vm.classworkDetails,
-                      ViewDetails: _vm.ViewDetails
-                    },
-                    on: {
-                      RestSubmission: function($event) {
-                        return _vm.ResetSubmission()
-                      },
-                      UpdateSubmission: function($event) {
-                        return _vm.$emit("UpdateSubmission")
-                      },
-                      closeDialog: function($event) {
-                        _vm.isViewing = false
-                      }
-                    }
-                  })
+                  !_vm.isLoadingData
+                    ? _c("checkobjective", {
+                        attrs: {
+                          classworkDetails: _vm.classworkDetails,
+                          ViewDetails: _vm.ViewDetails
+                        },
+                        on: {
+                          RestSubmission: function($event) {
+                            return _vm.ResetSubmission()
+                          },
+                          UpdateSubmission: function($event) {
+                            return _vm.$emit("UpdateSubmission")
+                          },
+                          closeDialog: function($event) {
+                            _vm.isViewing = false
+                          }
+                        }
+                      })
+                    : _vm._e()
                 ],
                 1
               )

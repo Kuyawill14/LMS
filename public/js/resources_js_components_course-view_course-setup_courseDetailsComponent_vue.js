@@ -96,6 +96,23 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
@@ -104,7 +121,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       isUpdating: false,
       courseDetails: [],
       school_year: [],
-      semester: []
+      semester: [],
+      departmentsList: []
     };
   },
   computed: (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)(["getcourseInfo"]),
@@ -128,10 +146,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         this.isUpdating = false;
         this.$emit('changeStep', this.el);
       }
+    },
+    fetchDeparmentList: function fetchDeparmentList() {
+      var _this2 = this;
+
+      axios.get('/api/admin/department/all').then(function (res) {
+        _this2.departmentsList = res.data;
+      });
     }
   }),
   mounted: function mounted() {
     this.fetchAllSchoolyear_semester();
+    this.fetchDeparmentList();
   }
 });
 
@@ -289,6 +315,31 @@ var render = function() {
                 _vm.$set(_vm.getcourseInfo, "v_classroom_link", $$v)
               },
               expression: "getcourseInfo.v_classroom_link"
+            }
+          })
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-col",
+        { staticClass: "pa-0 ", attrs: { cols: "12" } },
+        [
+          _c("v-select", {
+            staticClass: "mr-2",
+            attrs: {
+              items: _vm.departmentsList,
+              "item-text": "name",
+              "item-value": "id",
+              label: "Department",
+              outlined: ""
+            },
+            model: {
+              value: _vm.getcourseInfo.department,
+              callback: function($$v) {
+                _vm.$set(_vm.getcourseInfo, "department", $$v)
+              },
+              expression: "getcourseInfo.department"
             }
           })
         ],

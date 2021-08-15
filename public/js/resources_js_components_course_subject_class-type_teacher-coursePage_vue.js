@@ -750,6 +750,7 @@ var render = function() {
                       _c("v-select", {
                         staticClass: "mr-2 my-0",
                         attrs: {
+                          dense: "",
                           items: _vm.school_year,
                           "item-text": "schoolyear",
                           "item-value": "id",
@@ -781,6 +782,7 @@ var render = function() {
                       _c("v-select", {
                         staticClass: "mr-2 my-0",
                         attrs: {
+                          dense: "",
                           items: _vm.semester,
                           "item-text": "semester",
                           "item-value": "id",

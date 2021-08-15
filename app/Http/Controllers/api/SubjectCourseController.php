@@ -30,8 +30,8 @@ class SubjectCourseController extends Controller
        
         ->select('tbl_teacher_courses.id as useClass_id','tbl_subject_courses.id','tbl_subject_courses.course_code',
         'tbl_subject_courses.course_name','tbl_subject_courses.course_description','tbl_subject_courses.id as course_id',
-        'tbl_subject_courses.course_picture','tbl_subject_courses.completed','tbl_subject_courses.created_at', 'school_year_id',
-        'semester_id',)
+        'tbl_subject_courses.course_picture','tbl_subject_courses.completed','tbl_subject_courses.created_at', 'tbl_subject_courses.school_year_id',
+        'tbl_subject_courses.semester_id','tbl_subject_courses.department')
         ->selectRaw('count(tbl_userclasses.course_id ) as student_count')
         ->leftJoin('tbl_subject_courses', 'tbl_teacher_courses.course_id', '=', 'tbl_subject_courses.id')
         ->leftJoin('tbl_userclasses', 'tbl_userclasses.course_id','=','tbl_subject_courses.id')
@@ -88,6 +88,7 @@ class SubjectCourseController extends Controller
             'tbl_subject_courses.v_classroom_link',
             'school_year_id',
             'semester_id',
+            'tbl_subject_courses.department',
             'completed')
             ->first();
             $ShowCourseDetails->name = auth('sanctum')->user()->firstName.' '.auth('sanctum')->user()->lastName;

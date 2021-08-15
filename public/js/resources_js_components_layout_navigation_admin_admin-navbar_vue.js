@@ -175,7 +175,7 @@ var render = function() {
         _vm._v(" "),
         _c(
           "v-list-item",
-          { attrs: { link: "", exact: "" } },
+          { attrs: { link: "", to: { name: "department" }, exact: "" } },
           [
             _c(
               "v-list-item-action",

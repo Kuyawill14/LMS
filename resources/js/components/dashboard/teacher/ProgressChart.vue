@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-card class="pa-2">
-        <v-row>
+        <v-row class="pa-2">
            <v-col cols="12" class="d-flex justify-space-between mb-0 pb-0">
                  
                  <v-row>

@@ -151,6 +151,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
@@ -197,7 +207,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       backgroundColor: ['rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(255, 206, 86, 0.2)', 'rgba(75, 192, 192, 0.2)', 'rgba(153, 102, 255, 0.2)', 'rgba(255, 159, 64, 0.2)', 'rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(255, 206, 86, 0.2)', 'rgba(75, 192, 192, 0.2)', 'rgba(153, 102, 255, 0.2)', 'rgba(255, 159, 64, 0.2)'],
       borderColor: ['rgba(255,99,132,1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)', 'rgba(75, 192, 192, 1)', 'rgba(153, 102, 255, 1)', 'rgba(255, 159, 64, 1)', 'rgba(255,99,132,1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)', 'rgba(75, 192, 192, 1)', 'rgba(153, 102, 255, 1)', 'rgba(255, 159, 64, 1)'],
       isSettingData: false,
-      isSelected: null
+      isSelected: null,
+      submissionLength: 0
     };
   },
   methods: {
@@ -210,10 +221,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context.prev = _context.next) {
               case 0:
                 axios.get('/api/QAnalytics/all/' + _this.$route.query.clwk).then(function (res) {
-                  _this.List = res.data;
+                  _this.List = res.data.analytics;
+                  _this.submissionLength = res.data.totalSubmission;
                   var x = 0;
                   var total = 0;
-                  res.data.forEach(function (item) {
+                  res.data.analytics.forEach(function (item) {
                     _this.Qname[x] = 'Q' + (x + 1);
                     _this.QCorrentCount[x] = item.correct_count != null ? item.correct_count : 0;
 
@@ -221,16 +233,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                     _this.barColors[x] = _this.backgroundColor[color];
                     _this.barborderColors[x] = _this.borderColor[color];
-
-                    if (x == 0) {
-                      total = item.correct_count + item.wrong_count;
-                    }
-
                     x++;
                   });
-                  _this.QCorrentCount[_this.QCorrentCount.length + 1] = 2;
+                  _this.QCorrentCount[_this.QCorrentCount.length + 1] = _this.submissionLength;
                   _this.chartTitle = '# Correct student per question';
-                  _this.isSelected = 'All';
+                  _this.isSelected = 'correct';
                   _this.isloading = !_this.isloading;
                 });
 
@@ -251,7 +258,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.Qname[1] = '# of Wrong';
       this.QCorrentCount[0] = data.correct_count;
       this.QCorrentCount[1] = data.wrong_count;
-      this.QCorrentCount[3] = data.correct_count + data.wrong_count;
+      this.QCorrentCount[3] = this.submissionLength;
       this.barColors[0] = 'rgba(76,175,80,0.2)';
       this.barborderColors[0] = 'rgba(76,175,80,1)';
       this.barColors[1] = 'rgba(183,28,28,0.2)';
@@ -262,16 +269,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         return _this2.isSettingData = false;
       }, 500);
     },
-    setChartForAllQuestion: function setChartForAllQuestion() {
+    setChartForAllQuestionCorrect: function setChartForAllQuestionCorrect() {
       var _this3 = this;
 
-      this.isSelected = 'All';
+      this.isSelected = 'correct';
       this.clearChartData();
       axios.get('/api/QAnalytics/all/' + this.$route.query.clwk).then(function (res) {
-        _this3.List = res.data;
+        _this3.List = res.data.analytics;
+        _this3.submissionLength = res.data.totalSubmission;
         var x = 0;
         var total = 0;
-        res.data.forEach(function (item) {
+        res.data.analytics.forEach(function (item) {
           _this3.Qname[x] = 'Q' + (x + 1);
           _this3.QCorrentCount[x] = item.correct_count != null ? item.correct_count : 0;
 
@@ -279,18 +287,40 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
           _this3.barColors[x] = _this3.backgroundColor[color];
           _this3.barborderColors[x] = _this3.borderColor[color];
-
-          if (x == 0) {
-            total = item.correct_count + item.wrong_count;
-          }
-
           x++;
         });
-        _this3.QCorrentCount[_this3.QCorrentCount.length + 1] = 2;
+        _this3.QCorrentCount[_this3.QCorrentCount.length + 1] = _this3.submissionLength;
         _this3.chartTitle = '# Correct student per question';
       });
       setTimeout(function () {
         return _this3.isSettingData = false;
+      }, 500);
+    },
+    setChartForAllQuestionWrong: function setChartForAllQuestionWrong() {
+      var _this4 = this;
+
+      this.isSelected = 'wrong';
+      this.clearChartData();
+      axios.get('/api/QAnalytics/all/' + this.$route.query.clwk).then(function (res) {
+        _this4.List = res.data.analytics;
+        _this4.submissionLength = res.data.totalSubmission;
+        var x = 0;
+        var total = 0;
+        res.data.analytics.forEach(function (item) {
+          _this4.Qname[x] = 'Q' + (x + 1);
+          _this4.QCorrentCount[x] = item.wrong_count != null ? item.wrong_count : 0;
+
+          var color = _this4.rnd(0, _this4.backgroundColor.length - 1);
+
+          _this4.barColors[x] = _this4.backgroundColor[color];
+          _this4.barborderColors[x] = _this4.borderColor[color];
+          x++;
+        });
+        _this4.QCorrentCount[_this4.QCorrentCount.length + 1] = _this4.submissionLength;
+        _this4.chartTitle = '# Wrong student per question';
+      });
+      setTimeout(function () {
+        return _this4.isSettingData = false;
       }, 500);
     },
     clearChartData: function clearChartData() {
@@ -304,6 +334,36 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     rnd: function rnd(a, b) {
       return Math.floor((b - a + 1) * Math.random()) + a;
     }
+  },
+  GetSubmissionLIst: function GetSubmissionLIst() {
+    var _this5 = this;
+
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              axios.get('/api/submission/all/' + _this5.$route.query.clwk).then(function (res) {
+                _this5.List = res.data;
+                res.data.forEach(function (item) {
+                  if (item.status == 'Submitted') {
+                    _this5.Submitted += 1;
+                  }
+
+                  if (item.graded == 1) {
+                    _this5.Graded += 1;
+                  }
+                });
+                _this5.isloading = !_this5.isloading;
+              });
+
+            case 1:
+            case "end":
+              return _context2.stop();
+          }
+        }
+      }, _callee2);
+    }))();
   },
   mounted: function mounted() {
     this.GetList();
@@ -16510,7 +16570,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n    /* width */\n[data-v-5e081adf]::-webkit-scrollbar {\n  width: 5px;\n}\n\n/* Track */\n[data-v-5e081adf]::-webkit-scrollbar-track {\n  background: #f1f1f1;\n}\n \n/* Handle */\n[data-v-5e081adf]::-webkit-scrollbar-thumb {\n  background: #888; \n   border-radius: 3px\n}\n\n/* Handle on hover */\n[data-v-5e081adf]::-webkit-scrollbar-thumb:hover {\n  background: #555;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n    /* width */\n[data-v-5e081adf]::-webkit-scrollbar {\n  width: 5px;\n}\n\n/* Track */\n[data-v-5e081adf]::-webkit-scrollbar-track {\n  background: #f1f1f1;\n}\n \n/* Handle */\n[data-v-5e081adf]::-webkit-scrollbar-thumb {\n  background: #888; \n   border-radius: 3px\n}\n\n/* Handle on hover */\n[data-v-5e081adf]::-webkit-scrollbar-thumb:hover {\n  background: #555;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -38468,13 +38528,13 @@ var render = function() {
                             "v-list-item",
                             {
                               class:
-                                _vm.isSelected == "All"
+                                _vm.isSelected == "correct"
                                   ? "grey lighten-2 rounded"
                                   : "rounded",
                               attrs: { link: "" },
                               on: {
                                 click: function($event) {
-                                  return _vm.setChartForAllQuestion()
+                                  return _vm.setChartForAllQuestionCorrect()
                                 }
                               }
                             },
@@ -38490,7 +38550,20 @@ var render = function() {
                                         staticClass:
                                           "mb-0 pb-0 pl-1 font-weight-bold"
                                       },
-                                      [_vm._v("All")]
+                                      [
+                                        _c(
+                                          "v-icon",
+                                          {
+                                            attrs: {
+                                              left: "",
+                                              color: "success"
+                                            }
+                                          },
+                                          [_vm._v("mdi-check")]
+                                        ),
+                                        _vm._v("Correct student per question")
+                                      ],
+                                      1
                                     )
                                   ])
                                 ]
@@ -38498,6 +38571,53 @@ var render = function() {
                             ],
                             1
                           ),
+                          _vm._v(" "),
+                          _c(
+                            "v-list-item",
+                            {
+                              class:
+                                _vm.isSelected == "wrong"
+                                  ? "grey lighten-2 rounded"
+                                  : "rounded",
+                              attrs: { link: "" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.setChartForAllQuestionWrong()
+                                }
+                              }
+                            },
+                            [
+                              _c(
+                                "v-list-item-content",
+                                { staticClass: "ma-0 pa-0" },
+                                [
+                                  _c("div", { staticClass: "d-flex" }, [
+                                    _c(
+                                      "p",
+                                      {
+                                        staticClass:
+                                          "mb-0 pb-0 pl-1 font-weight-bold"
+                                      },
+                                      [
+                                        _c(
+                                          "v-icon",
+                                          {
+                                            attrs: { left: "", color: "error" }
+                                          },
+                                          [_vm._v("mdi-close")]
+                                        ),
+                                        _vm._v("Wrong student per question")
+                                      ],
+                                      1
+                                    )
+                                  ])
+                                ]
+                              )
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c("v-divider"),
                           _vm._v(" "),
                           _vm._l(_vm.List, function(item, index) {
                             return _c(
@@ -38636,7 +38756,7 @@ var render = function() {
                                         "text-subtitle-1 text-center",
                                       attrs: { cols: "12" }
                                     },
-                                    [_c("h3", [_vm._v("Question Chart")])]
+                                    [_c("h3", [_vm._v("Question statistics")])]
                                   ),
                                   _vm._v(" "),
                                   _c(

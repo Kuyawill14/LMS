@@ -25,7 +25,7 @@ class SchoolyearSemesterController extends Controller
         $semesters = tbl_semester::select('id', 'semester')
         ->orderBy('id', 'desc')
         ->get();
-
+    
         $result = [
             'school_year' => $schoolyears,
             'semester' => $semesters

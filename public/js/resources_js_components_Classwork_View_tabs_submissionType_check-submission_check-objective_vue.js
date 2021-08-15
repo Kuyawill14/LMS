@@ -22233,8 +22233,8 @@ var render = function() {
                     1
                   ),
                   _vm._v(" "),
-                  _vm.ViewDetails.Submitted_Answers == null &&
-                  _vm.ViewDetails.Submitted_Answers == ""
+                  _vm.ViewDetails.Submitted_Answers != null &&
+                  _vm.ViewDetails.Submitted_Answers != ""
                     ? _c(
                         "v-col",
                         {
