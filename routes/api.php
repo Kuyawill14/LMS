@@ -342,6 +342,7 @@ Route::prefix('/admin/department')->group(function() {
 Route::post('/login', [AuthController::class, 'UserLogin']);
 Route::post('/logout', [AuthController::class, 'logout']);
 Route::post('/register', [AuthController::class, 'UserRegister']);
+Route::middleware('auth:sanctum')->post('/change-password', [AuthController::class, 'ChangePassword']);
 
 
     //pre na dc ka sa dicord?

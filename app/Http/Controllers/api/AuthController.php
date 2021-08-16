@@ -158,6 +158,29 @@ class AuthController extends Controller
     
     }
 
+
+    public function ChangePassword(Request $request){
+        
+        $validated = $request->validate([
+            'new_password' => ['required', 'min:6'],
+        ]);
+
+        if(Hash::check($request->current_password, auth()->user()->password)){
+            //return $request;
+
+            $ChangePass = User::find(auth('sanctum')->id());
+            if($ChangePass){
+                $ChangePass->password = Hash::make($request->new_password);
+                $ChangePass->update();
+            }
+
+
+        }
+        else{
+            return 'Change password failed!';
+        } 
+    }
+
     /**
      * Log the user out of the application.
      *
