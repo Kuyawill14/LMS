@@ -20,8 +20,8 @@ class CommentController extends Controller
     {
         $Comment = tbl_comment::where('tbl_comments.post_id', $id)
         ->select('tbl_comments.id','tbl_comments.post_id','tbl_comments.content','tbl_comments.created_at',
-         DB::raw('CONCAT(tbl_user_details.firstname, " ", tbl_user_details.lastName) as name'),
          'tbl_user_details.profile_pic', 'tbl_comments.id')
+         ->selectRaw('CONCAT(tbl_user_details.firstname, " ", tbl_user_details.lastName) as name')
         ->leftJoin('users', 'users.id','=','tbl_comments.user_id')
         ->leftJoin('tbl_user_details', 'tbl_user_details.user_id','=','tbl_comments.user_id')
         ->orderBy('created_at', 'ASC')
@@ -129,8 +129,8 @@ class CommentController extends Controller
         $likes = tbl_like::where('post_id', );
        /*  $Comment = tbl_comment::where('tbl_comments.post_id', $id)
         ->select('tbl_comments.id','tbl_comments.post_id','tbl_comments.content','tbl_comments.created_at',
-         DB::raw('CONCAT(users.firstname, " ", users.lastName) as name'),
          'tbl_user_details.profile_pic', 'tbl_comments.id')
+         ->selectRaw('CONCAT(tbl_user_details.firstname, " ", tbl_user_details.lastName) as name')
         ->leftJoin('users', 'users.id','=','tbl_comments.user_id')
         ->leftJoin('tbl_user_details', 'tbl_user_details.user_id','=','tbl_comments.user_id')
         ->orderBy('created_at', 'ASC')
