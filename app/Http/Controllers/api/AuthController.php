@@ -120,9 +120,6 @@ class AuthController extends Controller
             $Class = Tbl_class::where('class_code', $request->class_code)->first();
             if($Class){
                 $New = User::create([
-                    'firstName' =>  $request->firstName,
-                    'middleName' =>  $request->middleName,
-                    'lastName' =>  $request->lastName,
                     'email' =>  $request->email,
                     'password' => Hash::make($request->password),
                     'role' =>  $request->role,
