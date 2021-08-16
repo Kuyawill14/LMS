@@ -100,8 +100,8 @@ class StudentSubModuleProgressController extends Controller
 
 
         $main_modules = DB::table('tbl_main_modules') 
-        ->select('tbl_main_modules.id as main_module_id' ,'tbl_main_modules.module_name',
-        DB::raw('count(tbl_sub_modules.id) AS sub_module_length'))
+        ->select('tbl_main_modules.id as main_module_id' ,'tbl_main_modules.module_name')
+        ->selectRaw('count(tbl_sub_modules.id) AS sub_module_length')
         ->leftJoin('tbl_sub_modules' , 'tbl_sub_modules.main_module_id' , '=' , 'tbl_main_modules.id')
         ->groupBy('tbl_main_modules.id')
         
@@ -119,8 +119,9 @@ class StudentSubModuleProgressController extends Controller
         'tbl_user_details.firstName',
         'tbl_user_details.middleName',
         'tbl_user_details.lastName',
-        DB::raw('SUM(tbl_student_sub_module_progress.time_spent) AS total_time_spent'),
-        DB::raw('SUM(case when tbl_student_sub_module_progress.completed = 1 then 1 else 0 end ) AS completed'))
+      )
+      ->selectRaw('SUM(tbl_student_sub_module_progress.time_spent) AS total_time_spent')
+      ->selectRaw('SUM(case when tbl_student_sub_module_progress.completed = 1 then 1 else 0 end ) AS completed')
         ->leftJoin('users', 'users.id', '=', 'tbl_student_sub_module_progress.student_id')
         ->leftJoin('tbl_user_details','tbl_user_details.user_id' ,'=','users.id')
         ->leftJoin('tbl_main_modules', 'tbl_main_modules.id', '=', 'tbl_student_sub_module_progress.main_module_id')
