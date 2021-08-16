@@ -423,9 +423,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       if (this.selectedImage[this.inputIndex] != '' || null) {
-        console.log(this.inputIndex);
         var file = element;
-        console.log(file);
         var reader = new FileReader();
         var baseData;
 
@@ -437,14 +435,6 @@ __webpack_require__.r(__webpack_exports__);
         this.checker = "Success";
       }
     },
-    onButtonClick: function onButtonClick(i) {
-      /* this.isSelecting = true
-      window.addEventListener('focus', () => {
-      this.isSelecting = false
-      }, { once: true })
-        this.$refs.form.$refs.input.click(); */
-      $("#uploader" + i).click();
-    },
     validateChoice: function validateChoice() {
       this.$refs.Choice.validate();
       this.add();
@@ -453,15 +443,12 @@ __webpack_require__.r(__webpack_exports__);
       this.$refs.form.validate();
       this.AddQuestion();
     },
-    test: function test() {
-      console.log(this.tempAnswer);
-    },
     add: function add() {
       if (this.form.length == 0) {
         this.check = true;
         this.form.push({
           answer: ''
-        }); //this.form.push({ answer: '' , image : null});
+        });
       } else {
         if (this.form[this.form.length - 1].answer != ''
         /* || this.form[this.form.length-1].image != null */
@@ -601,7 +588,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n /* .ql-toolbar.ql-snow {\n        background: #f2f2f2;\n        border: none;\n }\n .ql-bold,.ql-italic,.ql-underline, .ql-strike\n    ,.ql-picker-label,.ql-align,.ql-list,.ql-link\n    ,.ql-image,.ql-video\n    {\n        outline: none !important;\n        border:none !important;\n    }  */\n.centered-input >>> input {\n    text-align: center\n}\n.ql-editor img{\n\n    max-height: 15rem !important;\n}\n.ql-container{\n    max-height: 50rem;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n /* .ql-toolbar.ql-snow {\n        background: #f2f2f2;\n        border: none;\n }\n .ql-bold,.ql-italic,.ql-underline, .ql-strike\n    ,.ql-picker-label,.ql-align,.ql-list,.ql-link\n    ,.ql-image,.ql-video\n    {\n        outline: none !important;\n        border:none !important;\n    }  */\n.centered-input >>> input {\n    text-align: center\n}\n.ql-editor img{\n\n    max-height: 15rem !important;\n}\n.ql-container{\n    max-height: 50rem;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -1172,9 +1159,8 @@ var render = function() {
                                                                                             click: function(
                                                                                               $event
                                                                                             ) {
-                                                                                              ;(_vm.tempAnswer =
-                                                                                                item.answer),
-                                                                                                _vm.test()
+                                                                                              _vm.tempAnswer =
+                                                                                                item.answer
                                                                                             }
                                                                                           }
                                                                                         }

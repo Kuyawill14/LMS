@@ -53,7 +53,7 @@
                             <tbody>
                                 <tr>
                                     <td class="text-center" v-for="(final, index) in  finalGrades" :key="index">
-                                        {{final.grade_percentage.toFixed(2)}}% </td>
+                                        {{final.transmuted_grade_percentage.toFixed(2)}}% </td>
                                     <td class="text-center"> {{    totalFinalPercentage(finalGrades) }}% </td>
                                 </tr>
 
@@ -164,7 +164,7 @@
                     {
                     text: 'My grades',
                     disabled: true,
-                    link: 'breadcrumbs_link_2',
+                    link: 'studentGradebook',
                     },
                 ],
             }
@@ -215,8 +215,8 @@
                 for (var i = 0; i < arr.length; i++) {
                     total += arr[i]['points'];
                 }
-                console.log('tota;', total);
-                console.log('classworktoal', this.classworkTotalPoints)
+               /*  console.log('tota;', total);
+                console.log('classworktoal', this.classworkTotalPoints) */
                 let result = (total / this.classworkTotalPoints) * total_percent;
                 return isNaN(result) == true ? 0 : result.toFixed(2);
             },
@@ -295,7 +295,7 @@
             getStudentClassworksGrades(grading_criteria_id) {
                 axios.get('/api/grade-book/classworkGrades/' + this.selectedClass).then(res => {
                     this.classworkList = res.data;
-                    console.log(res.data);
+                    /* console.log(res.data); */
 
                     for (var i = 0; i < this.classworkList.length; i++) {
 
@@ -313,7 +313,7 @@
                 percentage_data.forEach(function (val) {
 
                     total += parseFloat(val.percentage);
-                    console.log(total);
+                    /* console.log(total); */
 
                 })
                 return total;
@@ -325,14 +325,13 @@
                     this.selectedClass = this.classList[0].class_id;
                     this.getClassworkList();
                     this.getStudentList();
-    this.getfinalGrades();
+                    this.getfinalGrades();
                     console.log('class Liost: ', this.classList);
                 });
             },
             getfinalGrades() {
                 axios.get('/api/grade-book/student-finalgrade/' + this.selectedClass + '/' + this.$route.params.id).then(res => {
                     this.finalGrades = res.data;
-
                 })
             }
         },

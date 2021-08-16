@@ -116,6 +116,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 var removeConfirmDialog = function removeConfirmDialog() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_tabs_people-list_dialog_removeConfirmDialog_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../dialog/removeConfirmDialog */ "./resources/js/components/course-view/tabs/people-list/dialog/removeConfirmDialog.vue"));
 };

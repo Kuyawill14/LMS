@@ -10,6 +10,9 @@ use App\Models\tbl_classwork;
 use App\Models\tbl_notification;
 use App\Models\UserNotification;
 use App\Models\tbl_teacher_course;
+use App\Events\NewPost;
+use App\Events\NewNotification;
+use App\Models\tbl_subject_course;
 
 class NotificationController extends Controller
 {
@@ -18,23 +21,57 @@ class NotificationController extends Controller
     public function NewNotification(Request $request){
 
         $userId = auth('sanctum')->id();
-        $clsssworkTitle = tbl_classwork::where('tbl_classworks.id', $request->classwork_id)
-        ->select('tbl_classworks.title', 'tbl_subject_courses.course_name')
-        ->leftJoin('tbl_subject_courses', 'tbl_subject_courses.id','=','tbl_classworks.course_id')
-        ->first();
-        $newNotification = new tbl_notification;
-        $newNotification->course_id = $request->course_id;
-        $newNotification->class_id = $request->class_id;
-        $newNotification->from_id =  $userId;
-        $newNotification->message = $clsssworkTitle->title.' assigned in your '.$clsssworkTitle->course_name;
-        $newNotification->notification_type = 4;
-        $newNotification->save();
+
+        if($request->type == 'classwork'){
+            $clsssworkTitle = tbl_classwork::where('tbl_classworks.id', $request->classwork_id)
+            ->select('tbl_classworks.title', 'tbl_subject_courses.course_name')
+            ->leftJoin('tbl_subject_courses', 'tbl_subject_courses.id','=','tbl_classworks.course_id')
+            ->first();
+            $newNotification = new tbl_notification;
+            $newNotification->course_id = $request->course_id;
+            $newNotification->class_id = $request->class_id;
+            $newNotification->from_id =  $userId;
+            $newNotification->message = $clsssworkTitle->title.' assigned in your '.$clsssworkTitle->course_name;
+            $newNotification->notification_type = 4;
+            $newNotification->save();
+            broadcast(new NewNotification($newNotification))->toOthers();
+            return;
+        }
+        elseif($request->type == 'announcement'){
+            $userInClass = tbl_subject_course::where('tbl_subject_courses.id', $request->course_id)->first();
+
+            $newNotification = new tbl_notification;
+            $newNotification->course_id = $request->course_id;
+            $newNotification->class_id = $request->class_id;
+            $newNotification->from_id =  $userId;
+            $newNotification->message = "Posted new announcement in ".$userInClass->course_name;
+            $newNotification->notification_type = 1;
+            $newNotification->save();
+            broadcast(new NewNotification($newNotification))->toOthers();
+            return;
+        }
+       
+       
+
+
     }
+/* 
+    public function NewNotificationfornAnnouncement(Request $request){
+
+        $newNotification = new tbl_notification;
+        $newNotification->course_id = $request->announcement['course_id'];
+        $newNotification->class_id = $NewPost->class_id;
+        $newNotification->from_id =  $userId;
+        $newNotification->message = "Posted new announcement in ".$userInClass->course_name;
+        $newNotification->notification_type = 1;
+        $newNotification->save();
+        broadcast(new NewNotification($newNotification))->toOthers();
+    } */
     
     public function fetchmyInvite(){
         $userId = auth('sanctum')->id();
         $allInvites = tbl_notification::where('tbl_notifications.user_id_to', $userId)
-        ->select(DB::raw('CONCAT(users.firstname, " ", users.lastName) as name'),
+        ->select(DB::raw('CONCAT(tbl_user_details.firstname, " ", tbl_user_details.lastName) as name'),
         'tbl_user_details.profile_pic','tbl_notifications.id as n_id','tbl_notifications.notification_type','tbl_notifications.message',
         'tbl_notifications.notification_attachments','tbl_notifications.created_at')
         ->leftJoin('users', 'users.id', '=', 'tbl_notifications.from_id')
@@ -74,7 +111,7 @@ class NotificationController extends Controller
         if(auth('sanctum')->user()->role != 'Student'){
             if($CheckIfJoinToClassesExist){
                 $allNotification = tbl_teacher_course::where('tbl_teacher_courses.user_id', $userId)
-                ->select('tbl_teacher_courses.course_id as cl_id',DB::raw('CONCAT(users.firstname, " ", users.lastName) as name'),
+                ->select('tbl_teacher_courses.course_id as cl_id',DB::raw('CONCAT(tbl_user_details.firstname, " ", tbl_user_details.lastName) as name'),
                 'tbl_user_details.profile_pic','tbl_notifications.id as n_id','tbl_notifications.notification_type','tbl_notifications.message',
                 'tbl_notifications.created_at')
                 ->leftJoin('tbl_notifications', function($join){
@@ -89,7 +126,7 @@ class NotificationController extends Controller
             }
             else{
                 $allNotification = tbl_notification::where('tbl_notifications.user_id_to', $userId)
-                ->select(DB::raw('CONCAT(users.firstname, " ", users.lastName) as name'),
+                ->select(DB::raw('CONCAT(tbl_user_details.firstname, " ", tbl_user_details.lastName) as name'),
                 'tbl_user_details.profile_pic','tbl_notifications.id as n_id','tbl_notifications.notification_type','tbl_notifications.message',
                 'tbl_notifications.notification_attachments','tbl_notifications.created_at')
                 ->leftJoin('users', 'users.id', '=', 'tbl_notifications.from_id')
@@ -104,7 +141,7 @@ class NotificationController extends Controller
             if($CheckIfJoinToClassesExist){
                 $allNotification = tbl_userclass::whereNull('tbl_userclasses.deleted_at')
                 ->where('tbl_userclasses.user_id', $userId)
-                ->select('tbl_userclasses.class_id as cl_id',DB::raw('CONCAT(users.firstname, " ", users.lastName) as name'),
+                ->select('tbl_userclasses.class_id as cl_id',DB::raw('CONCAT(tbl_user_details.firstname, " ", tbl_user_details.lastName) as name'),
                 'tbl_user_details.profile_pic','tbl_notifications.id as n_id','tbl_notifications.notification_type','tbl_notifications.message',
                 'tbl_notifications.notification_attachments','tbl_notifications.created_at')
                 ->leftJoin('tbl_notifications', function($join){
@@ -120,7 +157,7 @@ class NotificationController extends Controller
             }
             else{
                 $allNotification = tbl_notification::where('tbl_notifications.user_id_to', $userId)
-                ->select(DB::raw('CONCAT(users.firstname, " ", users.lastName) as name'),
+                ->select(DB::raw('CONCAT(tbl_user_details.firstname, " ", tbl_user_details.lastName) as name'),
                 'tbl_user_details.profile_pic','tbl_notifications.id as n_id','tbl_notifications.notification_type','tbl_notifications.message',
                 'tbl_notifications.notification_attachments','tbl_notifications.created_at')
                 ->leftJoin('users', 'users.id', '=', 'tbl_notifications.from_id')
@@ -274,7 +311,7 @@ class NotificationController extends Controller
         $InviteCount;
         if(auth('sanctum')->user()->role != 'Student'){
             $NotificationCount = tbl_teacher_course::where('tbl_teacher_courses.user_id', $userId)
-            ->select('tbl_teacher_courses.course_id as cl_id',DB::raw('CONCAT(users.firstname, " ", users.lastName) as name'),
+            ->select('tbl_teacher_courses.course_id as cl_id',DB::raw('CONCAT(tbl_user_details.firstname, " ", tbl_user_details.lastName) as name'),
             'tbl_user_details.profile_pic','tbl_notifications.id as n_id','tbl_notifications.notification_type','tbl_notifications.message',
             'tbl_notifications.created_at')
             ->leftJoin('tbl_notifications', function($join){
@@ -292,7 +329,7 @@ class NotificationController extends Controller
             
                 $NotificationCount = tbl_userclass::whereNull('tbl_userclasses.deleted_at')
                 ->where('tbl_userclasses.user_id', $userId)
-                ->select('tbl_userclasses.class_id as cl_id',DB::raw('CONCAT(users.firstname, " ", users.lastName) as name'),
+                ->select('tbl_userclasses.class_id as cl_id',DB::raw('CONCAT(tbl_user_details.firstname, " ", tbl_user_details.lastName) as name'),
                 'tbl_user_details.profile_pic','tbl_notifications.id as n_id','tbl_notifications.notification_type','tbl_notifications.message',
                 'tbl_notifications.notification_attachments','tbl_notifications.created_at')
                 ->leftJoin('tbl_notifications', function($join){
@@ -311,7 +348,7 @@ class NotificationController extends Controller
         }
 
             $InviteCount = tbl_notification::where('tbl_notifications.user_id_to', $userId)
-            ->select(DB::raw('CONCAT(users.firstname, " ", users.lastName) as name'),
+            ->select(DB::raw('CONCAT(tbl_user_details.firstname, " ", tbl_user_details.lastName) as name'),
             'tbl_user_details.profile_pic','tbl_notifications.id as n_id','tbl_notifications.notification_type','tbl_notifications.message',
             'tbl_notifications.notification_attachments','tbl_notifications.created_at')
             ->leftJoin('users', 'users.id', '=', 'tbl_notifications.from_id')
@@ -391,7 +428,7 @@ class NotificationController extends Controller
         if(auth('sanctum')->user()->role != 'Student'){
             if($type != 'all'){
                 $allNotification = tbl_teacher_course::where('tbl_teacher_courses.user_id', $userId)
-                ->select('tbl_teacher_courses.course_id as cl_id',DB::raw('CONCAT(users.firstname, " ", users.lastName) as name'),
+                ->select('tbl_teacher_courses.course_id as cl_id',DB::raw('CONCAT(tbl_user_details.firstname, " ", tbl_user_details.lastName) as name'),
                 'tbl_user_details.profile_pic','tbl_notifications.id as n_id','tbl_notifications.notification_type','tbl_notifications.message',
                 'tbl_notifications.created_at')
                 ->leftJoin('tbl_notifications', function($join){
@@ -407,7 +444,7 @@ class NotificationController extends Controller
             }
             else{
                 $allNotification = tbl_teacher_course::where('tbl_teacher_courses.user_id', $userId)
-                ->select('tbl_teacher_courses.course_id as cl_id',DB::raw('CONCAT(users.firstname, " ", users.lastName) as name'),
+                ->select('tbl_teacher_courses.course_id as cl_id',DB::raw('CONCAT(tbl_user_details.firstname, " ", tbl_user_details.lastName) as name'),
                 'tbl_user_details.profile_pic','tbl_notifications.id as n_id','tbl_notifications.notification_type','tbl_notifications.message',
                 'tbl_notifications.created_at')
                 ->leftJoin('tbl_notifications', function($join){
@@ -428,7 +465,7 @@ class NotificationController extends Controller
                 if($CheckIfJoinToClassesExist){
                     $allNotification = tbl_userclass::whereNull('tbl_userclasses.deleted_at')
                     ->where('tbl_userclasses.user_id', $userId)
-                    ->select('tbl_userclasses.class_id as cl_id',DB::raw('CONCAT(users.firstname, " ", users.lastName) as name'),
+                    ->select('tbl_userclasses.class_id as cl_id',DB::raw('CONCAT(tbl_user_details.firstname, " ", tbl_user_details.lastName) as name'),
                     'tbl_user_details.profile_pic','tbl_notifications.id as n_id','tbl_notifications.notification_type','tbl_notifications.message',
                     'tbl_notifications.notification_attachments','tbl_notifications.created_at')
                     ->leftJoin('tbl_notifications', function($join){
@@ -445,7 +482,7 @@ class NotificationController extends Controller
                 }
                 else{
                     $allNotification = tbl_notification::where('tbl_notifications.user_id_to', $userId)
-                    ->select(DB::raw('CONCAT(users.firstname, " ", users.lastName) as name'),
+                    ->select(DB::raw('CONCAT(tbl_user_details.firstname, " ", tbl_user_details.lastName) as name'),
                     'tbl_user_details.profile_pic','tbl_notifications.id as n_id','tbl_notifications.notification_type','tbl_notifications.message',
                     'tbl_notifications.notification_attachments','tbl_notifications.created_at')
                     ->leftJoin('users', 'users.id', '=', 'tbl_notifications.from_id')
@@ -458,7 +495,7 @@ class NotificationController extends Controller
                 if($CheckIfJoinToClassesExist){
                     $allNotification = tbl_userclass::whereNull('tbl_userclasses.deleted_at')
                     ->where('tbl_userclasses.user_id', $userId)
-                    ->select('tbl_userclasses.class_id as cl_id',DB::raw('CONCAT(users.firstname, " ", users.lastName) as name'),
+                    ->select('tbl_userclasses.class_id as cl_id',DB::raw('CONCAT(tbl_user_details.firstname, " ", tbl_user_details.lastName) as name'),
                     'tbl_user_details.profile_pic','tbl_notifications.id as n_id','tbl_notifications.notification_type','tbl_notifications.message',
                     'tbl_notifications.notification_attachments','tbl_notifications.created_at')
                     ->leftJoin('tbl_notifications', function($join){
@@ -474,7 +511,7 @@ class NotificationController extends Controller
                 }
                 else{
                     $allNotification = tbl_notification::where('tbl_notifications.user_id_to', $userId)
-                    ->select(DB::raw('CONCAT(users.firstname, " ", users.lastName) as name'),
+                    ->select(DB::raw('CONCAT(tbl_user_details.firstname, " ", tbl_user_details.lastName) as name'),
                     'tbl_user_details.profile_pic','tbl_notifications.id as n_id','tbl_notifications.notification_type','tbl_notifications.message',
                     'tbl_notifications.notification_attachments','tbl_notifications.created_at')
                     ->leftJoin('users', 'users.id', '=', 'tbl_notifications.from_id')

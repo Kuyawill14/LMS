@@ -1,8 +1,5 @@
 <template>
 
-    <v-container class="fill-height" fluid>
-
-
 <div class="pt-5">
 
 
@@ -76,7 +73,6 @@
     </v-row>
 
 </div>
-    </v-container>
 
 </template>
 

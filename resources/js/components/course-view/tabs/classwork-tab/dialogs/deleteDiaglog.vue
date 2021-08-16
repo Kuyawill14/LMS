@@ -1,17 +1,17 @@
 <template>
     <v-card>
         <v-card-title class="text-h5">
-          Delete<span class="primary--text ml-1"> {{ DeleteDetails.title}}</span> 
+          Delete<span class="primary--text ml-1"> "{{ DeleteDetails.title}}"</span> 
         </v-card-title>
         <v-card-text>
              <p>This will permanently remove the classwork and all data related to it.</p>
             </v-card-text>
-        <v-card-actions class="pb-5">
+        <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn
-            color="primary"
+        
             rounded
-            outlined
+            text
             @click="$emit('toggleDialog')"
           >
             Cancel
@@ -19,6 +19,7 @@
           <v-btn
             color="primary"
             rounded
+            text
             @click="RemoveClasswork()"
           >
             Confirm

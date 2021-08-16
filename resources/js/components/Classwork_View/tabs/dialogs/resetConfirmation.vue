@@ -5,20 +5,21 @@
         </v-card-title>
         <v-card-text class="font-weight-bold">
              <div class="subtitle-1 " style="line-height:1.1">
-                 Clicking Confirm will reset the Submission of <span class="font-weight-bold">{{Name}}</span>. Continue?</div>
+                 Clicking confirm will reset the Submission of <span class="font-weight-bold">{{ViewDetails.name}}</span>. Continue?</div>
             </v-card-text>
-        <v-card-actions class="pb-5">
+        <v-card-actions >
           <v-spacer></v-spacer>
           <v-btn
-            color="primary"
+         
+            text
             rounded
-            outlined
             @click="$emit('toggleCancelDialog')"
           >
             Cancel
           </v-btn>
           <v-btn
             color="primary"
+            text
             rounded
             @click="$emit('toggleconfirm')"
           >
@@ -29,7 +30,7 @@
 </template>
 <script>
 export default {
-    props:['Name'],
+    props:['ViewDetails'],
     
 }
 </script>

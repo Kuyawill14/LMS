@@ -134,11 +134,6 @@ var teacherStartPage = function teacherStartPage() {
   },
   mounted: function mounted() {
     this.getClassworkDetails();
-  },
-  beforeDestroy: function beforeDestroy() {
-    this.classworkDetails.destroy();
-    this.totalPoints.destroy();
-    this.totalQuestion.destroy();
   }
 });
 

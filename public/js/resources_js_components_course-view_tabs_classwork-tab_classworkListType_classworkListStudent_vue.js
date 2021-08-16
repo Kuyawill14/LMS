@@ -143,6 +143,34 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var previewClassworkModal = function previewClassworkModal() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_tabs_classwork-tab_dialogs_previewClassworkModal_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../dialogs/previewClassworkModal */ "./resources/js/components/course-view/tabs/classwork-tab/dialogs/previewClassworkModal.vue"));
 };
@@ -160,7 +188,9 @@ var previewClassworkModal = function previewClassworkModal() {
       DateToday: '',
       SelectedFilter: "All",
       FilterItems: [],
-      ClassworkLength: null
+      ClassworkLength: null,
+      isSearching: false,
+      search: ""
     };
   },
   methods: {
@@ -369,43 +399,6 @@ var render = function() {
             "v-container",
             { attrs: { fluid: "" } },
             [
-              _c(
-                "v-row",
-                [
-                  _c("v-col", { staticClass: "text-left mb-0 pb-0" }, [
-                    _c("h2", { staticClass: "mt-1" }, [_vm._v("Classworks")])
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "v-col",
-                    {
-                      staticClass: "text-right mb-0 pb-0",
-                      attrs: { cols: "6", md: "3", xl: "3", lg: "3" }
-                    },
-                    [
-                      _c("v-select", {
-                        staticClass: "ma-0 pa-0",
-                        attrs: {
-                          items: _vm.FilterItems,
-                          "item-text": "title",
-                          dense: "",
-                          outlined: ""
-                        },
-                        model: {
-                          value: _vm.SelectedFilter,
-                          callback: function($$v) {
-                            _vm.SelectedFilter = $$v
-                          },
-                          expression: "SelectedFilter"
-                        }
-                      })
-                    ],
-                    1
-                  )
-                ],
-                1
-              ),
-              _vm._v(" "),
               _vm.Previewdialog
                 ? _c(
                     "div",
@@ -440,6 +433,50 @@ var render = function() {
                     1
                   )
                 : _vm._e(),
+              _vm._v(" "),
+              _c(
+                "v-row",
+                [
+                  _c("v-col", { staticClass: "text-left mb-0 pb-0" }, [
+                    _c(
+                      "div",
+                      {
+                        staticClass:
+                          "text-lg-h5 font-weight-medium text-sm-h6 mt-1"
+                      },
+                      [_vm._v("Classworks")]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "v-col",
+                    {
+                      staticClass: "text-right mb-0 pb-0",
+                      attrs: { cols: "6", md: "3", xl: "3", lg: "3" }
+                    },
+                    [
+                      _c("v-select", {
+                        staticClass: "ma-0 pa-0",
+                        attrs: {
+                          items: _vm.FilterItems,
+                          "item-text": "title",
+                          dense: "",
+                          outlined: ""
+                        },
+                        model: {
+                          value: _vm.SelectedFilter,
+                          callback: function($$v) {
+                            _vm.SelectedFilter = $$v
+                          },
+                          expression: "SelectedFilter"
+                        }
+                      })
+                    ],
+                    1
+                  )
+                ],
+                1
+              ),
               _vm._v(" "),
               _c(
                 "v-row",
@@ -972,32 +1009,7 @@ var render = function() {
                                   ],
                                   1
                                 )
-                              }),
-                              _vm._v(" "),
-                              _c(
-                                "v-col",
-                                {
-                                  staticClass: "text-right mb-0 pb-0",
-                                  attrs: { cols: "12" }
-                                },
-                                [
-                                  _c(
-                                    "v-btn",
-                                    {
-                                      staticClass: "text-center",
-                                      attrs: { text: "", color: "blue" }
-                                    },
-                                    [
-                                      _vm._v("View more "),
-                                      _c("v-icon", { attrs: { center: "" } }, [
-                                        _vm._v("mdi-chevron-down")
-                                      ])
-                                    ],
-                                    1
-                                  )
-                                ],
-                                1
-                              )
+                              })
                             ],
                             2
                           )

@@ -50,6 +50,7 @@
                  this.restoreDetails.index = index;
                  this.$emit('RestoreConfirm', this.restoreDetails)
             },
+
         },
     }
 

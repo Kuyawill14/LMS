@@ -9,6 +9,10 @@ use App\Models\tbl_Submission;
 use App\Models\User;
 use App\Models\tbl_notification;
 use App\Models\UserNotification;
+use App\Models\tbl_student_course_subject_grades;
+use App\Models\tbl_userclass;
+use App\Models\tbl_userDetails;
+
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SendInviteMail;
@@ -44,8 +48,10 @@ class TeacherController extends Controller
     public function InviteStudent(Request $request)
     {   
         $userId = auth('sanctum')->id();
-        $UserFullName = auth('sanctum')->user()->firstName.' '.auth('sanctum')->user()->lastName;
-        //return $request;
+
+        $userId = auth('sanctum')->id();
+        $name = tbl_userDetails::where('user_id',  $userId)->first();
+        $UserFullName = $name->firstName.' '. $name->lastName;
         $FindUser = User::where('users.email', $request->email)
         ->first();
 
@@ -94,9 +100,18 @@ class TeacherController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function getStudentGradesInClass($id)
     {
-        //
+        $StudentGradeList = tbl_userclass::where('tbl_userclasses.class_id', $id)
+        ->select('tbl_user_details.firstname', 'tbl_user_details.lastName',
+        'tbl_student_course_subject_grades.final_grade')
+        ->leftJoin('tbl_subject_courses','tbl_subject_courses.id', '=','tbl_userclasses.course_id')
+        ->leftJoin('tbl_student_course_subject_grades','tbl_student_course_subject_grades.student_id', '=','tbl_userclasses.user_id')
+        ->leftJoin('users','users.id', '=','tbl_userclasses.user_id')
+        ->leftJoin('tbl_user_details','users.id', '=','tbl_user_details.user_id')
+        ->where('users.role', 'Student')
+        ->get();
+        return $StudentGradeList;
     }
 
     /**
@@ -172,6 +187,8 @@ class TeacherController extends Controller
                 $ResetSubmission->status = null;
                 $ResetSubmission->points = null;
                 $ResetSubmission->Submitted_Answers = null;
+                $ResetSubmission->created_at = null;
+                $ResetSubmission->updated_at = null;
                 $ResetSubmission->save();
                 return "Reset Success";
            }

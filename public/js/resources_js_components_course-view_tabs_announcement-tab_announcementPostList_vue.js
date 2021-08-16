@@ -13,6 +13,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -93,6 +108,7 @@ var commentList = function commentList() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_tabs_announcement-tab_actions_commentList_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./actions/commentList */ "./resources/js/components/course-view/tabs/announcement-tab/actions/commentList.vue"));
 };
 
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['PostList', 'UserDetails', 'classNames'],
   components: {
@@ -109,14 +125,15 @@ var commentList = function commentList() {
       data: {},
       CommentList: [],
       showLess: true,
-      class_id: this.$route.params.id
+      class_id: this.$route.params.id,
+      isLoadingMore: false
     };
   },
-  computed: {
+  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(['current_page', 'last_page'])), {}, {
     icon: function icon() {
       return this.icons[this.iconIndex];
     }
-  },
+  }),
   methods: {
     test: function test() {
       $('.img-fluid').click(function () {
@@ -151,14 +168,47 @@ var commentList = function commentList() {
       axios.get('/api/comment/allcomment/' + this.$route.params.id).then(function (res) {
         _this2.CommentList = res.data;
       });
+    },
+    getAnnouncementWhileScrolling: function getAnnouncementWhileScrolling() {
+      var _this3 = this;
+
+      window.onscroll = function () {
+        var bottomOfWindow = document.documentElement.scrollTop + window.innerHeight === document.documentElement.offsetHeight;
+
+        if (bottomOfWindow) {
+          if (_this3.isLoadingMore != true) {
+            _this3.loadMore();
+          }
+        }
+      };
+    },
+    loadMore: function loadMore() {
+      var _this4 = this;
+
+      this.isLoadingMore = true;
+
+      if (this.current_page != this.last_page) {
+        this.$store.dispatch('loadMore', this.$route.params.id).then(function (res) {
+          if (res == 200) {
+            _this4.isLoadingMore = false;
+          } else {
+            _this4.isLoadingMore = false;
+          }
+        });
+      } else {
+        this.isLoadingMore = false; //setTimeout(() => (this.isLoadingMore = false), 1000);
+      }
     }
   },
-  created: function created() {
+  beforeMount: function beforeMount() {
     $(".post-content p").replaceWith(function () {
       return "<span>" + this.innerHTML + "</span>";
     });
     this.test();
     this.getComments();
+  },
+  mounted: function mounted() {
+    this.getAnnouncementWhileScrolling();
   }
 });
 
@@ -477,7 +527,21 @@ var render = function() {
           ],
           1
         )
-      })
+      }),
+      _vm._v(" "),
+      _vm.isLoadingMore
+        ? _c(
+            "div",
+            { staticClass: "text-center" },
+            [
+              _c("v-progress-circular", {
+                attrs: { indeterminate: "", color: "primary" }
+              }),
+              _vm._v("\n            loading\n    ")
+            ],
+            1
+          )
+        : _vm._e()
     ],
     2
   )

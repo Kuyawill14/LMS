@@ -8,7 +8,24 @@
     <meta name="description" content="Reset Password Email Template.">
     <style type="text/css">
         a:hover {text-decoration: underline !important;}
+        .copy_button{
+            outline: none;
+            border:none;
+            background:transparent;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+        .copy_button:hover{
+            color: #FF5400;
+        }
+       .input_text{
+           display: none;
+       }
+       
     </style>
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+
+  
 </head>
 
 <body marginheight="0" topmargin="0" marginwidth="0" style="margin: 0px; background-color: #f2f3f8;" leftmargin="0">
@@ -51,7 +68,11 @@
                                             Use this class code to join the class:
                                         
                                         </p>
-                                        <p style="font-size: 35px;margin-top: 0px;margin-bottom: 0px;">    <strong>{{$class_code}} </strong></p >
+                                        {{-- <input class="input_text" type="text" value="{{$class_code}}" id="class_code"> --}}
+                                        <p style="font-size: 35px;margin-top: 0px;margin-bottom: 0px;">    <strong>{{$class_code}}</strong> 
+                                          {{--   <button class="copy_button" onclick="copyFunction()"> copy <i  class="far fa-copy"></i></button>
+                                        </p > --}}
+
                                         <a href="javascript:void(0);"
                                             style="background:#FF5400;text-decoration:none !important; font-weight:500; margin-top:35px; color:#fff;text-transform:uppercase; font-size:14px;padding:10px 24px;display:inline-block;border-radius:50px;">Accept Invite</a>
                                     </td>
@@ -66,7 +87,7 @@
                     </tr>
                     <tr>
                         <td style="text-align:center;">
-                            <p style="font-size:14px; color:rgba(69, 80, 86, 0.7411764705882353); line-height:18px; margin:0 0 0;">&copy; <strong>CCSICT LMS</strong></p>
+                            <p style="font-size:14px; color:rgba(69, 80, 86, 0.7411764705882353); line-height:18px; margin:0 0 0;">&copy; <strong>ORANGE</strong></p>
                         </td>
                     </tr>
                     <tr>
@@ -77,6 +98,16 @@
         </tr>
     </table>
     <!--/100% body table-->
+
+    <script>
+        function copyFunction() {
+          var copyText = document.getElementById("class_code");
+          copyText.select();
+          copyText.setSelectionRange(0, 99999)
+          document.execCommand("copy");
+          alert("Class Code copied ");
+        }
+        </script>
 </body>
 
 </html>

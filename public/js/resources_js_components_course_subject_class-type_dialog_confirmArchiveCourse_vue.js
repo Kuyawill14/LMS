@@ -158,14 +158,13 @@ var render = function() {
       _vm._v(" "),
       _c(
         "v-card-actions",
-        { staticClass: "pb-5" },
         [
           _c("v-spacer"),
           _vm._v(" "),
           _c(
             "v-btn",
             {
-              attrs: { color: "primary", rounded: "", outlined: "" },
+              attrs: { rounded: "", text: "" },
               on: {
                 click: function($event) {
                   return _vm.$emit("toggleCancelDialog")
@@ -178,7 +177,7 @@ var render = function() {
           _c(
             "v-btn",
             {
-              attrs: { color: "primary", rounded: "" },
+              attrs: { color: "primary", rounded: "", text: "" },
               on: {
                 click: function($event) {
                   return _vm.$emit("toggleconfirm")

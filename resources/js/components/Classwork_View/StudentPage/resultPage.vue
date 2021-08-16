@@ -47,23 +47,21 @@
                                 </v-tooltip>
                                 <v-row style="height:8vh"></v-row>
                                 <v-row>
-                                <v-container ma-0 pa-0 class="d-flex flex-row justify-space-between mb-10">
-                                    <div class="d-flex">
-                                           <v-btn
-                                            class="mx-1"
-                                            fab
-                                            dark
-                                            color="primary"
-                                                >
-                                            <v-icon large>
-                                            mdi-book-open-variant
-                                            </v-icon>
-                                            </v-btn>
-                                            <div class="mt-3 ml-2">
-                                                <h3>{{details.title}}</h3>
+                                    <v-col cols="12">
+                                         <v-container ma-0 pa-0 class="d-flex flex-row justify-space-between">
+                                            <div class="d-flex">
+                                                <v-btn class="mx-1" fab dark color="primary">
+                                                    <v-icon large>
+                                                    mdi-book-open-variant
+                                                    </v-icon>
+                                                </v-btn>
+                                                <div class="mt-3 ml-2">
+                                                    <h3>{{details.title}}</h3>
+                                                </div>
                                             </div>
-                                     </div>
-                                </v-container>
+                                        </v-container>
+                                    </v-col>
+                               
                                     <v-col cols="12" class="ml-3 d-flex">
                                         <div class="display-2 primary--text">
                                             Score:
@@ -79,17 +77,20 @@
                                             </span>
                                         </div>
                                     </v-col>
-                                   
+                                   <v-col cols="12">
+                                        <v-row style="height:5vh"></v-row> 
+                                   </v-col>
 
                                      <v-col cols="12" class="text-right mt-4">
-                                      
-                                            <v-btn @click="Viewdialog = !Viewdialog" rounded color="primary" outlined>
-                                                View Submission
-                                            </v-btn>
-                                      
+                                        <v-btn @click="Viewdialog = !Viewdialog" rounded text color="primary" >
+                                            View Submission
+                                        </v-btn>
+                                        <v-btn @click="Viewdialog = !Viewdialog" rounded text >
+                                            CLose
+                                        </v-btn>
                                     </v-col>
                                 </v-row>
-                                <v-row style="height:5vh"></v-row> 
+                               
                             </v-col>
                         </v-row>
                 </v-window-item>

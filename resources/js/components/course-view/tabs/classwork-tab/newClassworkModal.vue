@@ -1,6 +1,7 @@
 <template>
   
-    <v-card ><!-- style="border-top:3px solid #EF6C00" -->
+    <v-card >
+        <vue-element-loading :active="loading" spinner="bar-fade-scale" />
         <v-form ref="NewClassworkForm" v-model="valid" lazy-validation>
             <v-card-title>
                 <span class="headline">Add Classwork</span>
@@ -112,9 +113,15 @@
 </template>
 
 <script>
+const VueElementLoading = () => import('vue-element-loading')
+
+//import VueElementLoading from 'vue-element-loading'
 import moment from 'moment';
 import Form from 'vform'
 export default {
+    components:{
+        VueElementLoading
+    },
     data(){
         return{
             valid:false,
@@ -187,11 +194,10 @@ export default {
             .then(res=>{
               if(res.status == 201){
                 this.toastSuccess();
-                this.form.reset()
-                this.dialog = false;
+                this.$router.push({name: 'add-question',params: {id: res.data.course_id},query: {clwk: res.data.id}})
+                this.$refs.NewClassworkForm.reset()
                 this.loading = !this.loading;
-                this.$router.push({name: 'clwk',params: {id: res.data.course_id},query: {clwk: res.data.id}})
-                this.$emit('realodClassworks');
+                //this.$emit('realodClassworks');
               }
                
 

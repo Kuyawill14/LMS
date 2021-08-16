@@ -99,10 +99,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['classworkDetails', 'totalPoints', 'totalQuestion'],
@@ -275,268 +271,46 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "v-container",
-    { staticClass: "fill-height", attrs: { fluid: "" } },
+    "div",
+    { staticClass: "pt-5" },
     [
       _c(
-        "div",
-        { staticClass: "pt-5" },
+        "v-row",
         [
           _c(
-            "v-row",
+            "v-col",
+            { staticClass: "pl-7 pr-9 pt-5", attrs: { cols: "12", md: "12" } },
             [
               _c(
-                "v-col",
+                "v-card",
                 {
-                  staticClass: "pl-7 pr-9 pt-5",
-                  attrs: { cols: "12", md: "12" }
+                  staticClass: "pa-3",
+                  attrs: { elevation: "1", outlined: "" }
                 },
                 [
                   _c(
-                    "v-card",
-                    {
-                      staticClass: "pa-3",
-                      attrs: { elevation: "1", outlined: "" }
-                    },
+                    "v-row",
                     [
                       _c(
-                        "v-row",
+                        "v-col",
+                        { attrs: { cols: "12" } },
                         [
                           _c(
-                            "v-col",
-                            { attrs: { cols: "12" } },
-                            [
-                              _c(
-                                "v-btn",
-                                {
-                                  attrs: { rounded: "", text: "" },
-                                  on: {
-                                    click: function($event) {
-                                      return _vm.$router.push({
-                                        name: "classwork"
-                                      })
-                                    }
-                                  }
-                                },
-                                [
-                                  _c(
-                                    "v-icon",
-                                    { attrs: { left: "", dark: "" } },
-                                    [_vm._v("mdi-arrow-left-thick")]
-                                  ),
-                                  _vm._v(
-                                    "\n                                Back to classworks\n                            "
-                                  )
-                                ],
-                                1
-                              )
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c("v-row", { staticStyle: { height: "4vh" } }),
-                          _vm._v(" "),
-                          _c(
-                            "v-col",
-                            { attrs: { cols: "12" } },
-                            [
-                              _c(
-                                "v-container",
-                                {
-                                  staticClass:
-                                    "d-flex flex-row justify-space-between",
-                                  attrs: { "ma-0": "", "pa-0": "" }
-                                },
-                                [
-                                  _c(
-                                    "v-btn",
-                                    {
-                                      staticClass: "mx-2",
-                                      attrs: {
-                                        fab: "",
-                                        dark: "",
-                                        color: "primary"
-                                      }
-                                    },
-                                    [
-                                      _c(
-                                        "v-icon",
-                                        { attrs: { "x-large": "" } },
-                                        [
-                                          _vm._v(
-                                            "\n                        mdi-book-open-variant\n                        "
-                                          )
-                                        ]
-                                      )
-                                    ],
-                                    1
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "div",
-                                    {
-                                      staticClass: "float-right mt-3",
-                                      attrs: { fab: "" }
-                                    },
-                                    [
-                                      _c(
-                                        "div",
-                                        { staticClass: "text-md-h5" },
-                                        [
-                                          _c(
-                                            "v-icon",
-                                            {
-                                              attrs: {
-                                                large: "",
-                                                color: "primary"
-                                              }
-                                            },
-                                            [_vm._v("mdi-book-clock-outline")]
-                                          ),
-                                          _vm._v(
-                                            " " +
-                                              _vm._s(
-                                                _vm.classworkDetails.duration
-                                              ) +
-                                              " mins"
-                                          )
-                                        ],
-                                        1
-                                      ),
-                                      _vm._v(" "),
-                                      _c(
-                                        "div",
-                                        { staticClass: "caption ml-2" },
-                                        [
-                                          _vm._v(
-                                            "Due " +
-                                              _vm._s(
-                                                _vm.classworkDetails
-                                                  .availability
-                                                  ? _vm.format_date(
-                                                      _vm.classworkDetails
-                                                        .to_date
-                                                    )
-                                                  : "always Available"
-                                              )
-                                          )
-                                        ]
-                                      )
-                                    ]
-                                  )
-                                ],
-                                1
-                              )
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-col",
-                            { staticClass: "pl-7 pr-5", attrs: { cols: "12" } },
-                            [
-                              _c(
-                                "div",
-                                {
-                                  staticClass:
-                                    "text-sm-body-2 text-md-h5 text-lg-h6 text-xl-h6"
-                                },
-                                [_vm._v(_vm._s(_vm.classworkDetails.title))]
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "div",
-                                { staticClass: "pt-2 d-flex flex-row " },
-                                [
-                                  _c(
-                                    "div",
-                                    { staticClass: "captions" },
-                                    [
-                                      _c("v-icon", [
-                                        _vm._v("mdi-circle-medium")
-                                      ]),
-                                      _vm._v(
-                                        _vm._s(_vm.totalQuestion) + " Question"
-                                      )
-                                    ],
-                                    1
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "div",
-                                    { staticClass: "captions" },
-                                    [
-                                      _c("v-icon", [
-                                        _vm._v("mdi-circle-medium")
-                                      ]),
-                                      _vm._v(
-                                        _vm._s(_vm.classworkDetails.points) +
-                                          " Points"
-                                      )
-                                    ],
-                                    1
-                                  )
-                                ]
-                              ),
-                              _vm._v(" "),
-                              _c("v-divider")
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-col",
+                            "v-btn",
                             {
-                              staticClass: "pl-10 pr-5 pb-10",
-                              attrs: { cols: "12" }
+                              attrs: { rounded: "", text: "" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.$router.push({ name: "classwork" })
+                                }
+                              }
                             },
                             [
-                              _c("div", { staticClass: "text-sm-body-2" }, [
-                                _vm._v(
-                                  " " + _vm._s(_vm.classworkDetails.instruction)
-                                )
-                              ])
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-col",
-                            {
-                              staticClass: "pl-10 pr-5 pb-10 text-right",
-                              attrs: { cols: "12" }
-                            },
-                            [
-                              _c(
-                                "v-btn",
-                                {
-                                  attrs: {
-                                    rounded: "",
-                                    color: "primary",
-                                    dark: _vm.totalQuestion != 0,
-                                    disabled: _vm.totalQuestion == 0
-                                  },
-                                  on: {
-                                    click: function($event) {
-                                      _vm.status == null ? _vm.start() : ""
-                                    }
-                                  }
-                                },
-                                [
-                                  _vm._v(
-                                    "\n                        " +
-                                      _vm._s(
-                                        _vm.status == null
-                                          ? "Take Quiz"
-                                          : "View Submission"
-                                      )
-                                  ),
-                                  _c(
-                                    "v-icon",
-                                    { attrs: { right: "", dark: "" } },
-                                    [_vm._v("mdi-book-arrow-right-outline")]
-                                  )
-                                ],
-                                1
+                              _c("v-icon", { attrs: { left: "", dark: "" } }, [
+                                _vm._v("mdi-arrow-left-thick")
+                              ]),
+                              _vm._v(
+                                "\r\n                                Back to classworks\r\n                            "
                               )
                             ],
                             1
@@ -545,10 +319,189 @@ var render = function() {
                         1
                       ),
                       _vm._v(" "),
-                      _c("v-row", { staticStyle: { height: "5vh" } })
+                      _c("v-row", { staticStyle: { height: "4vh" } }),
+                      _vm._v(" "),
+                      _c(
+                        "v-col",
+                        { attrs: { cols: "12" } },
+                        [
+                          _c(
+                            "v-container",
+                            {
+                              staticClass:
+                                "d-flex flex-row justify-space-between",
+                              attrs: { "ma-0": "", "pa-0": "" }
+                            },
+                            [
+                              _c(
+                                "v-btn",
+                                {
+                                  staticClass: "mx-2",
+                                  attrs: { fab: "", dark: "", color: "primary" }
+                                },
+                                [
+                                  _c("v-icon", { attrs: { "x-large": "" } }, [
+                                    _vm._v(
+                                      "\r\n                        mdi-book-open-variant\r\n                        "
+                                    )
+                                  ])
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                {
+                                  staticClass: "float-right mt-3",
+                                  attrs: { fab: "" }
+                                },
+                                [
+                                  _c(
+                                    "div",
+                                    { staticClass: "text-md-h5" },
+                                    [
+                                      _c(
+                                        "v-icon",
+                                        {
+                                          attrs: { large: "", color: "primary" }
+                                        },
+                                        [_vm._v("mdi-book-clock-outline")]
+                                      ),
+                                      _vm._v(
+                                        " " +
+                                          _vm._s(
+                                            _vm.classworkDetails.duration
+                                          ) +
+                                          " mins"
+                                      )
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "caption ml-2" }, [
+                                    _vm._v(
+                                      "Due " +
+                                        _vm._s(
+                                          _vm.classworkDetails.availability
+                                            ? _vm.format_date(
+                                                _vm.classworkDetails.to_date
+                                              )
+                                            : "always Available"
+                                        )
+                                    )
+                                  ])
+                                ]
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-col",
+                        { staticClass: "pl-7 pr-5", attrs: { cols: "12" } },
+                        [
+                          _c(
+                            "div",
+                            {
+                              staticClass:
+                                "text-sm-body-2 text-md-h5 text-lg-h6 text-xl-h6"
+                            },
+                            [_vm._v(_vm._s(_vm.classworkDetails.title))]
+                          ),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "pt-2 d-flex flex-row " }, [
+                            _c(
+                              "div",
+                              { staticClass: "captions" },
+                              [
+                                _c("v-icon", [_vm._v("mdi-circle-medium")]),
+                                _vm._v(_vm._s(_vm.totalQuestion) + " Question")
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              { staticClass: "captions" },
+                              [
+                                _c("v-icon", [_vm._v("mdi-circle-medium")]),
+                                _vm._v(
+                                  _vm._s(_vm.classworkDetails.points) +
+                                    " Points"
+                                )
+                              ],
+                              1
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("v-divider")
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-col",
+                        {
+                          staticClass: "pl-10 pr-5 pb-10",
+                          attrs: { cols: "12" }
+                        },
+                        [
+                          _c("div", { staticClass: "text-sm-body-2" }, [
+                            _vm._v(
+                              " " + _vm._s(_vm.classworkDetails.instruction)
+                            )
+                          ])
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-col",
+                        {
+                          staticClass: "pl-10 pr-5 pb-10 text-right",
+                          attrs: { cols: "12" }
+                        },
+                        [
+                          _c(
+                            "v-btn",
+                            {
+                              attrs: {
+                                rounded: "",
+                                color: "primary",
+                                dark: _vm.totalQuestion != 0,
+                                disabled: _vm.totalQuestion == 0
+                              },
+                              on: {
+                                click: function($event) {
+                                  _vm.status == null ? _vm.start() : ""
+                                }
+                              }
+                            },
+                            [
+                              _vm._v(
+                                "\r\n                        " +
+                                  _vm._s(
+                                    _vm.status == null
+                                      ? "Take Quiz"
+                                      : "View Submission"
+                                  )
+                              ),
+                              _c("v-icon", { attrs: { right: "", dark: "" } }, [
+                                _vm._v("mdi-book-arrow-right-outline")
+                              ])
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
                     ],
                     1
-                  )
+                  ),
+                  _vm._v(" "),
+                  _c("v-row", { staticStyle: { height: "5vh" } })
                 ],
                 1
               )
@@ -558,7 +511,8 @@ var render = function() {
         ],
         1
       )
-    ]
+    ],
+    1
   )
 }
 var staticRenderFns = []

@@ -1,5 +1,5 @@
 <template>
-    <v-list nav dense>
+    <v-list nav >
         <template>
 
             <v-list-item link :to="{name: 'dashboard'}" exact>
@@ -47,7 +47,7 @@
             </v-list-item>
 
 
-            <v-list-item link exact>
+            <v-list-item link  :to="{name: 'department'}" exact>
                 <v-list-item-action>
                     <v-icon>mdi-account-group</v-icon>
                 </v-list-item-action>

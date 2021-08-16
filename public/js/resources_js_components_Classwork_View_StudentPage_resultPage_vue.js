@@ -121,6 +121,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 var submittedView = function submittedView() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_StudentPage_viewSubmittedPage_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./viewSubmittedPage */ "./resources/js/components/Classwork_View/StudentPage/viewSubmittedPage.vue"));
 };
@@ -437,69 +438,79 @@ var render = function() {
                                             "v-row",
                                             [
                                               _c(
-                                                "v-container",
-                                                {
-                                                  staticClass:
-                                                    "d-flex flex-row justify-space-between mb-10",
-                                                  attrs: {
-                                                    "ma-0": "",
-                                                    "pa-0": ""
-                                                  }
-                                                },
+                                                "v-col",
+                                                { attrs: { cols: "12" } },
                                                 [
                                                   _c(
-                                                    "div",
-                                                    { staticClass: "d-flex" },
+                                                    "v-container",
+                                                    {
+                                                      staticClass:
+                                                        "d-flex flex-row justify-space-between",
+                                                      attrs: {
+                                                        "ma-0": "",
+                                                        "pa-0": ""
+                                                      }
+                                                    },
                                                     [
                                                       _c(
-                                                        "v-btn",
+                                                        "div",
                                                         {
-                                                          staticClass: "mx-1",
-                                                          attrs: {
-                                                            fab: "",
-                                                            dark: "",
-                                                            color: "primary"
-                                                          }
+                                                          staticClass: "d-flex"
                                                         },
                                                         [
                                                           _c(
-                                                            "v-icon",
+                                                            "v-btn",
                                                             {
+                                                              staticClass:
+                                                                "mx-1",
                                                               attrs: {
-                                                                large: ""
+                                                                fab: "",
+                                                                dark: "",
+                                                                color: "primary"
                                                               }
                                                             },
                                                             [
-                                                              _vm._v(
-                                                                "\r\n                                            mdi-book-open-variant\r\n                                            "
+                                                              _c(
+                                                                "v-icon",
+                                                                {
+                                                                  attrs: {
+                                                                    large: ""
+                                                                  }
+                                                                },
+                                                                [
+                                                                  _vm._v(
+                                                                    "\r\n                                                    mdi-book-open-variant\r\n                                                    "
+                                                                  )
+                                                                ]
                                                               )
+                                                            ],
+                                                            1
+                                                          ),
+                                                          _vm._v(" "),
+                                                          _c(
+                                                            "div",
+                                                            {
+                                                              staticClass:
+                                                                "mt-3 ml-2"
+                                                            },
+                                                            [
+                                                              _c("h3", [
+                                                                _vm._v(
+                                                                  _vm._s(
+                                                                    _vm.details
+                                                                      .title
+                                                                  )
+                                                                )
+                                                              ])
                                                             ]
                                                           )
                                                         ],
                                                         1
-                                                      ),
-                                                      _vm._v(" "),
-                                                      _c(
-                                                        "div",
-                                                        {
-                                                          staticClass:
-                                                            "mt-3 ml-2"
-                                                        },
-                                                        [
-                                                          _c("h3", [
-                                                            _vm._v(
-                                                              _vm._s(
-                                                                _vm.details
-                                                                  .title
-                                                              )
-                                                            )
-                                                          ])
-                                                        ]
                                                       )
-                                                    ],
-                                                    1
+                                                    ]
                                                   )
-                                                ]
+                                                ],
+                                                1
                                               ),
                                               _vm._v(" "),
                                               _c(
@@ -585,6 +596,19 @@ var render = function() {
                                               _vm._v(" "),
                                               _c(
                                                 "v-col",
+                                                { attrs: { cols: "12" } },
+                                                [
+                                                  _c("v-row", {
+                                                    staticStyle: {
+                                                      height: "5vh"
+                                                    }
+                                                  })
+                                                ],
+                                                1
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "v-col",
                                                 {
                                                   staticClass:
                                                     "text-right mt-4",
@@ -596,8 +620,8 @@ var render = function() {
                                                     {
                                                       attrs: {
                                                         rounded: "",
-                                                        color: "primary",
-                                                        outlined: ""
+                                                        text: "",
+                                                        color: "primary"
                                                       },
                                                       on: {
                                                         click: function(
@@ -609,7 +633,29 @@ var render = function() {
                                                     },
                                                     [
                                                       _vm._v(
-                                                        "\r\n                                                View Submission\r\n                                            "
+                                                        "\r\n                                            View Submission\r\n                                        "
+                                                      )
+                                                    ]
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _c(
+                                                    "v-btn",
+                                                    {
+                                                      attrs: {
+                                                        rounded: "",
+                                                        text: ""
+                                                      },
+                                                      on: {
+                                                        click: function(
+                                                          $event
+                                                        ) {
+                                                          _vm.Viewdialog = !_vm.Viewdialog
+                                                        }
+                                                      }
+                                                    },
+                                                    [
+                                                      _vm._v(
+                                                        "\r\n                                            CLose\r\n                                        "
                                                       )
                                                     ]
                                                   )
@@ -618,11 +664,7 @@ var render = function() {
                                               )
                                             ],
                                             1
-                                          ),
-                                          _vm._v(" "),
-                                          _c("v-row", {
-                                            staticStyle: { height: "5vh" }
-                                          })
+                                          )
                                         ],
                                         1
                                       )

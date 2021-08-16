@@ -30,6 +30,11 @@ class AuthController extends Controller
             $user = auth('sanctum')->user();
             //$authToken = $user->createToken('auth-token')->plainTextToken;
             $request->session()->regenerate();
+            //Auth::logoutOtherDevices($request->password);
+
+          /*   DB::table('sessions')
+            ->where('user_id', \Auth::user()->id)
+            ->where('id', '!=', \Session::getId())->delete(); */
             return response()->json("Login Success",200);
             
            /*  return response()->json([
@@ -122,9 +127,14 @@ class AuthController extends Controller
                     'password' => Hash::make($request->password),
                     'role' =>  $request->role,
                 ]);
-                
+
+              
+
                 $details = new tbl_userDetails;
                 $details->user_id = $New->id;
+                $details->firstName = $request->firstName;
+                $details->middleName = $request->middleName;
+                $details->lastName = $request->lastName;
                 $details->save();
                 $this->JoinClassAfterRegister($New->id, $request->class_code);
                 return $New;  
@@ -135,9 +145,6 @@ class AuthController extends Controller
         }
         else{
             $New =  User::create([
-                'firstName' =>  $request->firstName,
-                'middleName' =>  $request->middleName,
-                'lastName' =>  $request->lastName,
                 'email' =>  $request->email,
                 'password' => Hash::make($request->password),
                 'role' =>  $request->role,
@@ -145,11 +152,13 @@ class AuthController extends Controller
 
             $details = new tbl_userDetails;
             $details->user_id = $New->id;
+            $details->firstName = $request->firstName;
+            $details->middleName = $request->middleName;
+            $details->lastName = $request->lastName;
             $details->save();
             return $New;  
         }
     
-      
     }
 
     /**
@@ -159,6 +168,7 @@ class AuthController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function logout(Request $request) {
+        $session = DB::table('sessions')->where('id', \Session::getId())->delete();
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();

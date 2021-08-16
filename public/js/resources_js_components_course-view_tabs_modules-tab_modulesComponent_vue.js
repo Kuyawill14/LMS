@@ -237,6 +237,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
  //import modulesListComponent from './modulesListComponent'
 
 
@@ -258,7 +268,16 @@ var modulesListComponent = function modulesListComponent() {
       moduleDialog: false,
       loading: false,
       isGetting: false,
-      moduleLength: null
+      moduleLength: null,
+      items: [{
+        text: 'Course',
+        disabled: false,
+        link: 'courses'
+      }, {
+        text: 'Modules',
+        disabled: true,
+        link: 'modules'
+      }]
     };
   },
   computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(["getmain_module", "getSub_module", "getAll_sub_module"])),
@@ -675,6 +694,34 @@ var render = function() {
   return _c(
     "div",
     [
+      _c("v-breadcrumbs", {
+        staticClass: "ma-0 pa-0 mt-3",
+        attrs: { items: _vm.items },
+        scopedSlots: _vm._u([
+          {
+            key: "item",
+            fn: function(ref) {
+              var item = ref.item
+              return [
+                _c(
+                  "v-breadcrumbs-item",
+                  {
+                    attrs: { to: { name: item.link }, disabled: item.disabled }
+                  },
+                  [
+                    _vm._v(
+                      "\n            " +
+                        _vm._s(item.text.toUpperCase()) +
+                        "\n        "
+                    )
+                  ]
+                )
+              ]
+            }
+          }
+        ])
+      }),
+      _vm._v(" "),
       _vm.moduleLength == 0
         ? _c(
             "v-row",

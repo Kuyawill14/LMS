@@ -63,7 +63,7 @@ var classDescriptionCard = function classDescriptionCard() {
       }, {
         text: 'About',
         disabled: true,
-        link: 'breadcrumbs_link_2'
+        link: 'about'
       }]
     };
   }

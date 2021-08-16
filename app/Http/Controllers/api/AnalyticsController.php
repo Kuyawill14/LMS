@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\tbl_Questions;
+use App\Models\tbl_classwork;
+use App\Models\tbl_classClassworks;
 
 class AnalyticsController extends Controller
 {
@@ -22,7 +24,21 @@ class AnalyticsController extends Controller
         ->leftJoin('tbl_question_analytics', 'tbl_question_analytics.question_id', '=', 'tbl_questions.id')
         ->orderBy('tbl_questions.created_at','DESC')
         ->get();
-        return $analytics;
+        
+
+
+
+        $SubmissionCount = tbl_classClassworks::where('tbl_class_classworks.classwork_id', $id)
+        ->select('tbl_class_classworks.classwork_id', 'tbl_class_classworks.class_id', 'tbl_userclasses.user_id','tbl_user_details.profile_pic','tbl_user_details.firstname', 'tbl_user_details.lastName')
+        ->leftJoin('tbl_userclasses', 'tbl_userclasses.class_id','=','tbl_class_classworks.class_id')
+        ->leftJoin('users', 'users.id','=','tbl_userclasses.user_id')
+        ->leftjoin('tbl_user_details','tbl_user_details.user_id','=','users.id')
+        ->where('users.role','Student')
+        ->count();
+
+        return ['analytics'=>  $analytics, 'totalSubmission'=> $SubmissionCount];
+   /*      return $analytics;
+        return $SubmissionCount; */
 
     }
 

@@ -135,9 +135,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+var VueElementLoading = function VueElementLoading() {
+  return __webpack_require__.e(/*! import() */ "node_modules_vue-element-loading_lib_vue-element-loading_min_js").then(__webpack_require__.t.bind(__webpack_require__, /*! vue-element-loading */ "./node_modules/vue-element-loading/lib/vue-element-loading.min.js", 23));
+}; //import VueElementLoading from 'vue-element-loading'
+
+
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  components: {
+    VueElementLoading: VueElementLoading
+  },
   data: function data() {
     return {
       valid: false,
@@ -219,13 +228,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   if (res.status == 201) {
                     _this2.toastSuccess();
 
-                    _this2.form.reset();
-
-                    _this2.dialog = false;
-                    _this2.loading = !_this2.loading;
-
                     _this2.$router.push({
-                      name: 'clwk',
+                      name: 'add-question',
                       params: {
                         id: res.data.course_id
                       },
@@ -234,7 +238,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                       }
                     });
 
-                    _this2.$emit('realodClassworks');
+                    _this2.$refs.NewClassworkForm.reset();
+
+                    _this2.loading = !_this2.loading; //this.$emit('realodClassworks');
                   }
                 });
 
@@ -364,6 +370,10 @@ var render = function() {
   return _c(
     "v-card",
     [
+      _c("vue-element-loading", {
+        attrs: { active: _vm.loading, spinner: "bar-fade-scale" }
+      }),
+      _vm._v(" "),
       _c(
         "v-form",
         {

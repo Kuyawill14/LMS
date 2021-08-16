@@ -72,7 +72,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "v-list",
-    { attrs: { nav: "", dense: "" } },
+    { attrs: { nav: "" } },
     [
       [
         _c(
@@ -175,7 +175,7 @@ var render = function() {
         _vm._v(" "),
         _c(
           "v-list-item",
-          { attrs: { link: "", exact: "" } },
+          { attrs: { link: "", to: { name: "department" }, exact: "" } },
           [
             _c(
               "v-list-item-action",

@@ -26,6 +26,7 @@
 
             <v-container fluid v-if="!isGetting" class="mt-0">
             <v-row>
+               
                 <v-col cols="12" >
                     <v-row>
                         <v-col class="mb-0 pb-0" cols="7"  md="10" lg="10">

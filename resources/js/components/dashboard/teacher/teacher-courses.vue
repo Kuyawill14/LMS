@@ -2,32 +2,32 @@
     <div>
 
 
-        <div v-if="coursesLength != 0 && isGetting == false">
-            <v-row class="mt-0">
-                <v-col>
-                    <h2>My Courses</h2>
-                </v-col>
-
-                  <v-col lg="3" class="text-right">
-                    <v-select class="mr-2 my-0" :items="school_year" item-text="schoolyear" item-value="id"
-                        label="School Year" v-model="school_year_id" outlined small @change=" schoolYearFilter()">
-                    </v-select>
-                </v-col>
-                <v-col class="text-right" lg="3">
-                    <v-select class="mr-2 my-0" :items="semester" item-text="semester" item-value="id" label="Semester"
-                        v-model="semester_id" outlined small @change="semesterFilter()"></v-select>
-
-
-                </v-col>
-
-            </v-row>
+        <div v-if="allCourse.length != 0 && isGetting == false">
+            
 
             <v-row style="margin-top: -40px">
                 <v-col>
-                    <v-card class="mx-auto">
-                        <v-slide-group v-model="model" class="px-2" active-class="success" show-arrows
+                    <v-card class="mx-auto pa-2">
+                        <v-row class="mt-0">
+                            <v-col class="text-left">
+                                <h3>My Courses</h3>
+                            </v-col>
+
+                            <v-col lg="3" class="text-right">
+                                <v-select class="mr-2 my-0" dense :items="school_year" item-text="schoolyear" item-value="id"
+                                    label="School Year" v-model="school_year_id" outlined small @change=" schoolYearFilter()">
+                                </v-select>
+                            </v-col>
+                            <v-col class="text-right" lg="3">
+                                <v-select class="mr-2 my-0" dense :items="semester" item-text="semester" item-value="id" label="Semester"
+                                    v-model="semester_id" outlined small @change="semesterFilter()"></v-select>
+                            </v-col>
+
+                        </v-row>
+
+                        <v-slide-group v-model="model" class="px-1" active-class="success" show-arrows
                             mobile-breakpoint="1000" center-active>
-                            <v-slide-item v-for="(item, i) in allCoursesData" :key="'class' + i" v-slot:default="{ active }">
+                            <v-slide-item v-for="(item, i) in allCourse" :key="'class' + i" v-slot:default="{ active }">
                                 <router-link
                                     :to="{name: 'coursePage', params: {id: item.course_id}, query:{class: item.class_id}}"
                                     style="text-decoration: none">
@@ -107,6 +107,7 @@
         mapActions
     } from "vuex";
     export default {
+       
         components: {
 
         },
@@ -116,11 +117,8 @@
                 semester: [],
                 school_year_id: '',
                 semester_id: '',
-                coursesLength: null,
                 isGetting: false,
-                dialog: false,
                 isloading: true,
-                modalType: '',
                 isPageLoading: false,
                 class_code: null,
                 form: {
@@ -131,21 +129,14 @@
                     course_picture: '',
                     course_code: '',
                 },
-                Archivedialog: false,
-                ArchiveDetails: {},
-                allCoursesData: [],
+                model: true
             };
         },
-            computed: mapGetters(['allCourse']),
+        computed: mapGetters(['allCourse']),
         methods: {
               ...mapActions(['fetchCourseList']),
              fetchCourses() {
-                this.isGetting = true;
-                this.$store.dispatch('fetchCourseList').then(() => {
-                    this.allCoursesData = this.allCourse;
-                    this.coursesLength = this.allCourse.length;
-                    this.isGetting = false;
-                });
+                this.isGetting = false;
             },
               fetchAllSchoolyear_semester() {
                 axios.get('/api/admin/schoolyears_semesters/all')
@@ -171,9 +162,7 @@
 
                 }
                 console.log(data);
-                this.allCoursesData = data;
-
-
+                this.allCourse = data;
             },
 
             semesterFilter() {
@@ -185,9 +174,7 @@
                     }
                 }
                 console.log(data);
-                this.allCoursesData = data;
-
-
+                this.allCourse = data;
             },
             goToclass(course_id, class_id) {
                 this.$router.to({
@@ -202,6 +189,7 @@
             },
         },
         mounted() {
+            this.isGetting = true;
             this.fetchCourses();
             this. fetchAllSchoolyear_semester();
         }

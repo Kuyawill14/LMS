@@ -84,7 +84,7 @@
                                         <div v-if="item.type == 'True or False'" class="mb-2">
                                             <trueOrfalseList v-on:updateQuestion="updateQuestion" :previewAll="previewAll" v-on:reloadList="fetchQuestionsList()" v-if="item.type == 'True or False'" :number="index+1" :Question="item"></trueOrfalseList>
                                     </div>
-                                        <div v-if="item.type == 'Matching type'" class="mb-2">
+                                    <div v-if="item.type == 'Matching type'" class="mb-2">
                                             <matchingType v-on:reloadList="fetchQuestionsList()" v-if="item.type == 'Matching type'" 
                                             :number="index+1" 
                                             :Question="item" 
@@ -177,7 +177,7 @@ export default {
         },
 
          async updateQuestion(data){
-            await axios.put('/api/question/update/'+data.id, {type: QuetionsList.type, question: data})
+            await axios.put('/api/question/update/'+data.id, {type: data.type, question: data})
             .then(res=>{
                 if(res.status == 200){
                      this.toastSuccess("Question Successfully updated");

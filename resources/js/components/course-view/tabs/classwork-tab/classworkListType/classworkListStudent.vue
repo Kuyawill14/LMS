@@ -14,10 +14,18 @@
 
 
     <v-container v-if="ClassworkLength != 0" fluid>
-        
+        <!-- Modal -->
+        <div v-if="Previewdialog">
+               <v-dialog v-model="Previewdialog"  width="650px">
+            <previewClassworkModal v-if="Previewdialog" v-on:toggleCloseDialog="Previewdialog = !Previewdialog" :Preview_id="Preview_id"></previewClassworkModal>
+         </v-dialog>
+        </div>
+
+
         <v-row >
             <v-col class="text-left mb-0 pb-0">
-                 <h2 class="mt-1">Classworks</h2>
+                <div class="text-lg-h5 font-weight-medium text-sm-h6 mt-1">Classworks</div>
+                <!--  <h2 class="mt-1">Classworks</h2> -->
             </v-col>
             <v-col cols="6" md="3" xl="3" lg="3" class="text-right mb-0 pb-0">
                   <v-select
@@ -29,15 +37,37 @@
                     class="ma-0 pa-0"
                     ></v-select>
             </v-col>
+
+             <!-- <v-col cols="12" class="mb-0 pb-0 mt-0 pt-0 d-flex justify-start">
+                     <div class="d-flex justify-start ma-0"  :style="$vuetify.breakpoint.xs ? 'width: 100%' : 'width: 30%'">
+
+                     <v-tooltip top>
+                        <template v-slot:activator="{ on, attrs }">
+                            <v-btn icon @click="isSearching = !isSearching" v-bind="attrs" v-on="on">
+                                <v-icon>
+                                {{!isSearching ? 'mdi-magnify' : 'mdi-close'}}
+                                </v-icon>
+                            </v-btn>
+                        </template>
+                         <span>{{!isSearching ? 'Search' : 'Close'}}</span>
+                     </v-tooltip>
+                     <v-text-field
+                        dense
+                        transition="slide-x-transition"
+                        v-if="isSearching"
+                        label="Search"
+                        v-model="search"
+                        placeholder="Name"
+                        outlined
+                        class="ma-0 pa-0"
+                    ></v-text-field>
+                    
+                     </div>
+                </v-col> -->
         </v-row>
 
     
-        <!-- Modal -->
-        <div v-if="Previewdialog">
-               <v-dialog v-model="Previewdialog"  width="650px">
-            <previewClassworkModal v-if="Previewdialog" v-on:toggleCloseDialog="Previewdialog = !Previewdialog" :Preview_id="Preview_id"></previewClassworkModal>
-         </v-dialog>
-        </div>
+        
     
         <!-- <v-row class=" mt-0 pt-0">
             <v-divider></v-divider>
@@ -116,9 +146,7 @@
                     </v-hover>
                  <v-divider></v-divider>
                 </v-col>
-               <v-col cols="12" class="text-right mb-0 pb-0"> 
-                   <v-btn text color="blue" class="text-center">View more <v-icon center>mdi-chevron-down</v-icon> </v-btn> 
-                </v-col>
+               
             </v-row>
             </v-col>
              
@@ -144,6 +172,8 @@
                 SelectedFilter: "All",
                 FilterItems:[],
                 ClassworkLength: null,
+                isSearching: false,
+                search: ""
             }
         },
         methods: {

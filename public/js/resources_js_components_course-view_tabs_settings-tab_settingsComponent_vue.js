@@ -107,7 +107,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }, {
         text: 'Setting',
         disabled: true,
-        link: 'breadcrumbs_link_2'
+        link: 'settings'
       }],
       school_year: [],
       semester: [],

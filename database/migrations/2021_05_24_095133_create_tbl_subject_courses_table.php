@@ -23,6 +23,7 @@ class CreateTblSubjectCoursesTable extends Migration
             $table->tinyInteger('completed')->default(0);
             $table->integer('semester_id')->length(3);
             $table->integer('school_year_id')->length(3);
+            $table->integer('department');
             $table->softDeletes();
             $table->timestamps();
         });

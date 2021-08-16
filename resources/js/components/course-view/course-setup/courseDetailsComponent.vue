@@ -19,6 +19,19 @@
             </v-text-field>
        
         </v-col>
+
+         <v-col cols="12" class="pa-0 ">
+                 <v-select
+                class="mr-2"
+                 :items="departmentsList"
+                item-text="name"
+                item-value="id"
+                label="Department"
+                  v-model="getcourseInfo.department"
+                outlined
+                ></v-select>
+        </v-col>
+
         
         <v-col cols="12" class="pa-0 ">
                  <v-select
@@ -46,6 +59,10 @@
                outlined
                 ></v-select>
         </v-col>
+
+             
+       
+         
 
 
         <v-col cols="12" class="pa-0 ma-0">
@@ -88,7 +105,8 @@
                 isUpdating: false,
                 courseDetails: [],
                 school_year: [],
-                semester: []
+                semester: [],
+                departmentsList:[]
             }
         },
 
@@ -114,10 +132,18 @@
                     this.$emit('changeStep', this.el);
                 }
 
-            }
+            },
+             fetchDeparmentList() {
+                axios.get('/api/admin/department/all')
+                    .then((res) => {
+                        this.departmentsList = res.data;
+                    })
+            },
+            
         },
        mounted() {
            this.fetchAllSchoolyear_semester();
+           this.fetchDeparmentList();
         } 
     }
 

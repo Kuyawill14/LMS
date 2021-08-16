@@ -180,7 +180,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }, {
         text: 'My grades',
         disabled: true,
-        link: 'breadcrumbs_link_2'
+        link: 'studentGradebook'
       }]
     };
   },
@@ -228,9 +228,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       for (var i = 0; i < arr.length; i++) {
         total += arr[i]['points'];
       }
+      /*  console.log('tota;', total);
+       console.log('classworktoal', this.classworkTotalPoints) */
 
-      console.log('tota;', total);
-      console.log('classworktoal', this.classworkTotalPoints);
+
       var result = total / this.classworkTotalPoints * total_percent;
       return isNaN(result) == true ? 0 : result.toFixed(2);
     },
@@ -308,7 +309,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       axios.get('/api/grade-book/classworkGrades/' + this.selectedClass).then(function (res) {
         _this4.classworkList = res.data;
-        console.log(res.data);
+        /* console.log(res.data); */
 
         for (var i = 0; i < _this4.classworkList.length; i++) {
           if (_this4.classworkList[i]['grading_criteria_id'] == grading_criteria_id) {}
@@ -319,7 +320,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var total = 0;
       percentage_data.forEach(function (val) {
         total += parseFloat(val.percentage);
-        console.log(total);
+        /* console.log(total); */
       });
       return total;
     },
@@ -668,7 +669,9 @@ var render = function() {
                                         _vm._v(
                                           "\n                                    " +
                                             _vm._s(
-                                              final.grade_percentage.toFixed(2)
+                                              final.transmuted_grade_percentage.toFixed(
+                                                2
+                                              )
                                             ) +
                                             "% "
                                         )

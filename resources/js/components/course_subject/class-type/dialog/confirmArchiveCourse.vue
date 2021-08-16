@@ -7,12 +7,11 @@
              <div class="subtitle-1 " style="line-height:1.1">
                  Clicking confirm will put your <span class="font-weight-bold">{{ArchiveDetails.name+' course'}}</span> in archive. Continue?</div>
             </v-card-text>
-        <v-card-actions class="pb-5">
+        <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn
-            color="primary"
             rounded
-            outlined
+            text
             @click="$emit('toggleCancelDialog')"
           >
             Cancel
@@ -20,6 +19,7 @@
           <v-btn
             color="primary"
             rounded
+            text
             @click="$emit('toggleconfirm')"
           >
             Confirm

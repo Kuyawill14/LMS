@@ -60,7 +60,7 @@ var teacherClassPage = function teacherClassPage() {
       }, {
         text: 'My Class',
         disabled: true,
-        link: 'breadcrumbs_link_2'
+        link: 'coursePage'
       }]
     };
   }

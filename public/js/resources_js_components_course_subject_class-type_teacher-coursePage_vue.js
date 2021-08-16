@@ -750,6 +750,7 @@ var render = function() {
                       _c("v-select", {
                         staticClass: "mr-2 my-0",
                         attrs: {
+                          dense: "",
                           items: _vm.school_year,
                           "item-text": "schoolyear",
                           "item-value": "id",
@@ -781,6 +782,7 @@ var render = function() {
                       _c("v-select", {
                         staticClass: "mr-2 my-0",
                         attrs: {
+                          dense: "",
                           items: _vm.semester,
                           "item-text": "semester",
                           "item-value": "id",
@@ -930,16 +932,18 @@ var render = function() {
                                             1
                                           ),
                                           _vm._v(" "),
-                                          _c(
-                                            "v-list-item",
-                                            { attrs: { link: "" } },
-                                            [
-                                              _c("v-list-item-title", [
-                                                _vm._v("Delete")
-                                              ])
-                                            ],
-                                            1
-                                          )
+                                          item.student_count == 0
+                                            ? _c(
+                                                "v-list-item",
+                                                { attrs: { link: "" } },
+                                                [
+                                                  _c("v-list-item-title", [
+                                                    _vm._v("Delete")
+                                                  ])
+                                                ],
+                                                1
+                                              )
+                                            : _vm._e()
                                         ],
                                         1
                                       )

@@ -1,5 +1,15 @@
 <template>
-    <div class="pt-4">
+    <div >
+    <v-breadcrumbs class="ma-0 pa-0 mt-3" :items="items">
+        <template v-slot:item="{ item }">
+        <v-breadcrumbs-item
+            :to="{name: item.link}"
+            :disabled="item.disabled"
+        >
+            {{ item.text.toUpperCase() }}
+        </v-breadcrumbs-item>
+        </template>
+    </v-breadcrumbs>
         <h2>
             Grading Criteria
         </h2>
@@ -147,6 +157,18 @@
                 grading_criteria: {},
                 course_id: '',
                 delId: '',
+                items: [
+                    {
+                    text: 'Course',
+                    disabled: false,
+                    link: 'courses',
+                    },
+                    {
+                    text: 'Grading Criteria',
+                    disabled: true,
+                    link: 'gradingCriteria',
+                    },
+                ],
             }
 
         },
@@ -181,7 +203,6 @@
                 if (this.grading_criteria_form.name.trim() != '' || this.grading_criteria_form.percentage.trim() !=
                     '') {
                     this.loading = true;
-                    //  console.log(this.grading_criteria_form);
                     var errors = '';
                     this.grading_criteria_form.course_id = this.$route.params.id;
                     this.$store.dispatch('addGradingCriteria', this.grading_criteria_form).then((data) => {
@@ -195,7 +216,6 @@
             },
             updateGradeCriteria() {
                 var errors = '';
-                console.log(this.grading_criteria_form);
                 this.$store.dispatch('updateGradingCriteria', this.grading_criteria_form).then((data) => {
                     if (data[0] == 'error') {
                         for (var i = 1; i < data.length; i++) {
@@ -227,10 +247,7 @@
                 var total = 0;
 
                 percentage_data.forEach(function (val) {
-
                     total += parseFloat(val.percentage);
-                    console.log(total);
-
                 })
                 return total;
             }

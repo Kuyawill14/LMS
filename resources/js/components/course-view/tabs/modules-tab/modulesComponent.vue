@@ -1,5 +1,15 @@
 <template>
     <div>
+        <v-breadcrumbs class="ma-0 pa-0 mt-3" :items="items">
+            <template v-slot:item="{ item }">
+            <v-breadcrumbs-item
+                :to="{name: item.link}"
+                :disabled="item.disabled"
+            >
+                {{ item.text.toUpperCase() }}
+            </v-breadcrumbs-item>
+            </template>
+        </v-breadcrumbs>
         <v-row align="center" justify="center" class="pt-10" v-if="moduleLength == 0">
             <v-col cols="12" sm="8" md="4" class="text-center">
                 <v-icon style="font-size:14rem">
@@ -96,6 +106,18 @@
                 loading: false,
                 isGetting: false,
                 moduleLength: null,
+                items: [
+                    {
+                    text: 'Course',
+                    disabled: false,
+                    link: 'courses',
+                    },
+                    {
+                    text: 'Modules',
+                    disabled: true,
+                    link: 'modules',
+                    },
+                ],
             }
         },
         computed: {

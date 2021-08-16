@@ -11,14 +11,14 @@
             </v-list-item-content>
         </v-list-item>
     <v-divider></v-divider>
-    <v-list nav dense v-if="role!= undefined">
+    <v-list nav  v-if="role!= undefined">
         <template>
             <v-list-item link :to="{name: 'coursePage'}" v-if="role == 'Teacher'" exact>
                 <v-list-item-action>
                     <v-icon>mdi-google-classroom</v-icon>
                 </v-list-item-action>
                 <v-list-item-content>
-                    <v-list-item-title>
+                    <v-list-item-title class="font-weight-medium">
                         Classes
                     </v-list-item-title>
                 </v-list-item-content>
@@ -30,7 +30,7 @@
                     <v-icon>mdi-message-alert</v-icon>
                 </v-list-item-action>
                 <v-list-item-content>
-                    <v-list-item-title>
+                    <v-list-item-title class="font-weight-medium">
                         Announcement
                     </v-list-item-title>
                 </v-list-item-content>
@@ -42,8 +42,9 @@
                     <v-icon>mdi-book-open-variant</v-icon>
                 </v-list-item-action>
                 <v-list-item-content>
-                    <v-list-item-title>
-                        Classwork
+                    <v-list-item-title class="font-weight-medium">
+                        Classwork<br>
+                        <small class="font-weight-regular">Quiz & Activities</small>
                     </v-list-item-title>
                 </v-list-item-content>
 
@@ -54,7 +55,7 @@
                     <v-icon>mdi-book-variant-multiple</v-icon>
                 </v-list-item-action>
                 <v-list-item-content>
-                    <v-list-item-title>
+                    <v-list-item-title class="font-weight-medium">
                         Modules
                     </v-list-item-title>
                 </v-list-item-content>
@@ -65,7 +66,7 @@
                     <v-icon>mdi-chart-box-outline</v-icon>
                 </v-list-item-action>
                 <v-list-item-content>
-                    <v-list-item-title>
+                    <v-list-item-title class="font-weight-medium">
                         Student's Progress
                     </v-list-item-title>
                 </v-list-item-content>
@@ -77,7 +78,7 @@
                     <v-icon>mdi-book-variant-multiple</v-icon>
                 </v-list-item-action>
                 <v-list-item-content>
-                    <v-list-item-title>
+                    <v-list-item-title class="font-weight-medium">
                         Modules
                     </v-list-item-title>
                 </v-list-item-content>
@@ -88,7 +89,7 @@
                     <v-icon>mdi-chart-box-outline</v-icon>
                 </v-list-item-action>
                 <v-list-item-content>
-                    <v-list-item-title>
+                    <v-list-item-title class="font-weight-medium">
                         My Progress
                     </v-list-item-title>
                 </v-list-item-content>
@@ -99,7 +100,7 @@
                              <v-icon>mdi-book-open</v-icon>
                 </v-list-item-action>
                 <v-list-item-content>
-                    <v-list-item-title>
+                    <v-list-item-title class="font-weight-medium">
                         My Grades
                     </v-list-item-title>
                 </v-list-item-content>
@@ -112,8 +113,9 @@
                     <v-icon>mdi-account-group</v-icon>
                 </v-list-item-action>
                 <v-list-item-content>
-                    <v-list-item-title>
-                        People
+                    <v-list-item-title class="font-weight-medium">
+                        People<br>
+                        <small class="font-weight-regular">Instructors & Students</small>
                     </v-list-item-title>
                 </v-list-item-content>
 
@@ -124,7 +126,7 @@
                     <v-icon>mdi-book-open</v-icon>
                 </v-list-item-action>
                 <v-list-item-content>
-                    <v-list-item-title>
+                    <v-list-item-title class="font-weight-medium">
                         Grade Book
                     </v-list-item-title>
                 </v-list-item-content>
@@ -139,7 +141,7 @@
                     </v-icon>
                 </v-list-item-action>
                 <v-list-item-content>
-                    <v-list-item-title>
+                    <v-list-item-title class="font-weight-medium">
                         Grading Criteria
                     </v-list-item-title>
                 </v-list-item-content>
@@ -152,7 +154,7 @@
                     <v-icon>mdi-information</v-icon>
                 </v-list-item-action>
                 <v-list-item-content>
-                    <v-list-item-title>
+                    <v-list-item-title class="font-weight-medium">
                         About
                     </v-list-item-title>
                 </v-list-item-content>
@@ -164,7 +166,7 @@
                     <v-icon>mdi-tune-vertical-variant</v-icon>
                 </v-list-item-action>
                 <v-list-item-content>
-                    <v-list-item-title>
+                    <v-list-item-title class="font-weight-medium">
                         Settings
                     </v-list-item-title>
                 </v-list-item-content>

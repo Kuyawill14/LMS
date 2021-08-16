@@ -40,8 +40,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['Name']
+  props: ['ViewDetails']
 });
 
 /***/ }),
@@ -148,10 +149,10 @@ var render = function() {
           { staticClass: "subtitle-1 ", staticStyle: { "line-height": "1.1" } },
           [
             _vm._v(
-              "\n             Clicking Confirm will reset the Submission of "
+              "\n             Clicking confirm will reset the Submission of "
             ),
             _c("span", { staticClass: "font-weight-bold" }, [
-              _vm._v(_vm._s(_vm.Name))
+              _vm._v(_vm._s(_vm.ViewDetails.name))
             ]),
             _vm._v(". Continue?")
           ]
@@ -160,14 +161,13 @@ var render = function() {
       _vm._v(" "),
       _c(
         "v-card-actions",
-        { staticClass: "pb-5" },
         [
           _c("v-spacer"),
           _vm._v(" "),
           _c(
             "v-btn",
             {
-              attrs: { color: "primary", rounded: "", outlined: "" },
+              attrs: { text: "", rounded: "" },
               on: {
                 click: function($event) {
                   return _vm.$emit("toggleCancelDialog")
@@ -180,7 +180,7 @@ var render = function() {
           _c(
             "v-btn",
             {
-              attrs: { color: "primary", rounded: "" },
+              attrs: { color: "primary", text: "", rounded: "" },
               on: {
                 click: function($event) {
                   return _vm.$emit("toggleconfirm")

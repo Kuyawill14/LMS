@@ -27,6 +27,8 @@ use App\Http\Controllers\api\AdminController;
 use App\Http\Controllers\api\MonitorTeacherController;
 use App\Http\Controllers\api\TeacherProfileController;
 use App\Http\Controllers\api\SchoolyearSemesterController;
+use App\Http\Controllers\api\DepartmentController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -145,6 +147,7 @@ Route::prefix('/teacher')->group(function () {
     Route::put('/reset-obj/{id}', [TeacherController::class, 'resetStudentObjSubmission']);
     Route::post('/invite-student', [TeacherController::class, 'InviteStudent']);
     Route::post('/invite-instructor', [TeacherController::class, 'InviteInstructor']);
+    Route::get('/student-classGrades/{id}', [TeacherController::class, 'getStudentGradesInClass']);
     
 });
 
@@ -206,9 +209,12 @@ Route::prefix('/question')->group(function () {
     Route::post('/addOption', [ObjectiveController::class, 'AddOption']);
 
     Route::put('/update/{id}', [ObjectiveController::class, 'update']);
+    Route::put('/store-answer/{id}', [ObjectiveController::class, 'storeAnswer']);
 
     Route::put('/delete/{id}', [ObjectiveController::class, 'removeOption']);
     Route::delete('/remove/{id}', [ObjectiveController::class, 'deleteQuestion']);
+
+    
 });
 
 
@@ -310,6 +316,12 @@ Route::prefix('/admin/schoolyears_semesters')->group(function() {
 Route::prefix('/admin/schoolyears')->group(function() {
     Route::get('/all', [SchoolyearSemesterController::class, 'fetchAllSchoolyear']);
 });
+
+//department
+Route::prefix('/admin/department')->group(function() {
+    Route::get('/all', [DepartmentController::class, 'index']);
+});
+
 
 
 

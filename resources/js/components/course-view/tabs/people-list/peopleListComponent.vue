@@ -43,7 +43,7 @@ export default {
                 {
                 text: 'People',
                 disabled: true,
-                link: 'breadcrumbs_link_2',
+                link: 'Student-list',
                 },
             ],
         }

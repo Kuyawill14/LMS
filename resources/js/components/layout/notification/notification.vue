@@ -143,7 +143,7 @@
 
 <script>
 
-    const seeAllNotification = () => import("./SeeAllNotification")
+    //const seeAllNotification = () => import("./SeeAllNotification")
     import moment from 'moment'
     import {
         mapGetters,
@@ -171,7 +171,7 @@
      
         }),
         components:{
-            seeAllNotification
+            //seeAllNotification
         },
         computed: mapGetters(["get_notification", "get_notification_count","ShowPage","ShowLoadMore","LastPage","isGetting"]),
         methods: {
@@ -190,6 +190,12 @@
                          newVm.$store.dispatch("fetchNotification", this.notifType )
                         newVm.fetchNotificationCount();
                     })
+                    
+                 /*    Echo.channel('notification')
+                     .listen('NewNotification', e => {
+                         newVm.$store.dispatch("fetchNotification", this.notifType )
+                        newVm.fetchNotificationCount();
+                    }) */
             },
           /*   UnreadNotification(id) {
                 axios.post('/api/notification/'+id, {accepted: this.isAccepted}).then((res) => {

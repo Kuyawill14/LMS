@@ -141,6 +141,29 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 var checksubjective = function checksubjective() {
@@ -183,7 +206,9 @@ var checksubjective = function checksubjective() {
         sortable: false
       }],
       isSavingScore: false,
-      score: null
+      score: null,
+      StatusType: ['All', 'Submitted', 'Graded', 'No Submission'],
+      selectedStatus: 'All'
     };
   },
   methods: {
@@ -21907,7 +21932,9 @@ var render = function() {
                                               item.profile_pic == null ||
                                               item.profile_pic == ""
                                                 ? "https://ui-avatars.com/api/?background=random&color=fff&name=" +
-                                                  item.name
+                                                  item.firstname +
+                                                  " " +
+                                                  item.lastName
                                                 : item.profile_pic
                                           }
                                         })
@@ -21922,7 +21949,11 @@ var render = function() {
                                         [
                                           _vm._v(
                                             "\r\n                                " +
-                                              _vm._s(item.name) +
+                                              _vm._s(
+                                                item.firstname +
+                                                  " " +
+                                                  item.lastName
+                                              ) +
                                               "\r\n                                "
                                           ),
                                           _c("br")
@@ -22044,7 +22075,63 @@ var render = function() {
                           )
                         ],
                         1
-                      )
+                      ),
+                      _vm._v(" "),
+                      _c("v-divider")
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-col",
+                    {
+                      staticClass: "pt-0 mt-0 pb-0 mb-0 pt-1",
+                      attrs: { cols: "12", md: "12", lg: "3", xl: "3" }
+                    },
+                    [
+                      _c("v-select", {
+                        staticClass: "mb-0 pb-0",
+                        attrs: {
+                          outlined: "",
+                          dense: "",
+                          label: "Status",
+                          items: _vm.StatusType
+                        },
+                        model: {
+                          value: _vm.selectedStatus,
+                          callback: function($$v) {
+                            _vm.selectedStatus = $$v
+                          },
+                          expression: "selectedStatus"
+                        }
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-col",
+                    {
+                      staticClass: "pt-0 mt-0 pb-0 mb-0 pt-1",
+                      attrs: { cols: "12", md: "12", lg: "9", xl: "9" }
+                    },
+                    [
+                      _c("v-text-field", {
+                        staticClass: "mb-0 pb-0",
+                        attrs: {
+                          "prepend-inner-icon": "mdi-magnify",
+                          outlined: "",
+                          dense: "",
+                          label: "Search"
+                        },
+                        model: {
+                          value: _vm.search,
+                          callback: function($$v) {
+                            _vm.search = $$v
+                          },
+                          expression: "search"
+                        }
+                      })
                     ],
                     1
                   ),

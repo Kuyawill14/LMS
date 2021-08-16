@@ -35,7 +35,8 @@
 
             <v-container fluid v-if="!isGetting" class="mt-0">
             <v-row>
-                <v-col cols="12" >
+                
+                <v-col cols="12" class="mt-0 pt-0" >
                     <v-row>
                         <v-col class="mb-0 pb-0" cols="7"  md="10" lg="10">
                             <v-btn rounded @click="OpenaddStudentDialog(), course_name = getcourseInfo.course_name"  color="primary"> <v-icon left>mdi-plus</v-icon>Student</v-btn>
@@ -58,9 +59,35 @@
             </v-row>
 
              <v-row>
+                 <v-col cols="12" class=" mb-0 pb-0 mt-0 pt-0 d-flex justify-end">
+                     <div class="d-flex justify-end"  style="width: 30%">
+
+                    
+                     <v-text-field
+                        dense
+                        transition="slide-x-transition"
+                        v-if="isSearching"
+                        label="Search"
+                        v-model="search"
+                        placeholder="Name"
+                        outlined
+                        class="mb-0 pb-0"
+                    ></v-text-field>
+                     <v-tooltip top>
+                        <template v-slot:activator="{ on, attrs }">
+                            <v-btn icon @click="isSearching = !isSearching" v-bind="attrs" v-on="on">
+                                <v-icon>
+                                {{!isSearching ? 'mdi-magnify' : 'mdi-close'}}
+                                </v-icon>
+                            </v-btn>
+                        </template>
+                         <span>{{!isSearching ? 'Search' : 'Close'}}</span>
+                     </v-tooltip>
+                     </div>
+                </v-col>
                 <v-col class="pl-0 ml-0 pb-0 mb-0 pt-0 mt-0" cols="12"
                 v-show="item.class_id == Class_id || Class_id == $route.params.id"
-                 v-for="item in students" v-bind:key="item.user_id">
+                 v-for="item in getAllStudents" v-bind:key="item.user_id">
                     <v-container style="cursor:pointer">
     
                         <v-container class="pb-0 mb-0 pt-0 mt-0 d-flex flex-sm-row">
@@ -119,7 +146,6 @@ const addStudentDialog = () => import('../dialog/addStudentDialog')
                 AddStudent: false,
                 isloading:true,
                 isGetting: true,
-                search: "",
                 isClassNameLoaded:false,
                 classNames:[],
                 Class_id: this.$route.params.id,
@@ -127,6 +153,8 @@ const addStudentDialog = () => import('../dialog/addStudentDialog')
                 students: null,
                 classList: [],
                 course_name: null,
+                search: "",
+                isSearching: false
             }
 
         },

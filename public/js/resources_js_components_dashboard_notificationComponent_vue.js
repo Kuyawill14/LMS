@@ -178,7 +178,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       axios.get('/api/notification/all').then(function (res) {
         _this3.notificationList = res.data.data;
       });
-      console.log(this.notificationList);
     }
   }),
   mounted: function mounted() {
@@ -21893,129 +21892,6 @@ var render = function() {
                     _c("small", [
                       _vm._v(_vm._s(_vm.format_date(item.created_at)))
                     ])
-                  ],
-                  1
-                ),
-                _vm._v(" "),
-                _c(
-                  "v-list-item-action",
-                  [
-                    item.status == null || item.status == 0
-                      ? _c(
-                          "v-tooltip",
-                          {
-                            attrs: { left: "" },
-                            scopedSlots: _vm._u(
-                              [
-                                {
-                                  key: "activator",
-                                  fn: function(ref) {
-                                    var on = ref.on
-                                    var attrs = ref.attrs
-                                    return [
-                                      item.status == null || item.status == 0
-                                        ? _c(
-                                            "v-btn",
-                                            _vm._g(
-                                              _vm._b(
-                                                {
-                                                  staticStyle: {
-                                                    "z-index": "50"
-                                                  },
-                                                  attrs: { icon: "" },
-                                                  on: {
-                                                    click: function($event) {
-                                                      return _vm.UnreadNotification(
-                                                        item.n_id
-                                                      )
-                                                    }
-                                                  }
-                                                },
-                                                "v-btn",
-                                                attrs,
-                                                false
-                                              ),
-                                              on
-                                            ),
-                                            [
-                                              _c("v-icon", [
-                                                _vm._v("mdi-check")
-                                              ])
-                                            ],
-                                            1
-                                          )
-                                        : _vm._e()
-                                    ]
-                                  }
-                                }
-                              ],
-                              null,
-                              true
-                            )
-                          },
-                          [_vm._v(" "), _c("span", [_vm._v("Mark as read")])]
-                        )
-                      : _vm._e(),
-                    _vm._v(" "),
-                    item.status == 1
-                      ? _c(
-                          "v-tooltip",
-                          {
-                            attrs: { left: "" },
-                            scopedSlots: _vm._u(
-                              [
-                                {
-                                  key: "activator",
-                                  fn: function(ref) {
-                                    var on = ref.on
-                                    var attrs = ref.attrs
-                                    return [
-                                      item.status == 1
-                                        ? _c(
-                                            "v-btn",
-                                            _vm._g(
-                                              _vm._b(
-                                                {
-                                                  staticStyle: {
-                                                    "z-index": "50"
-                                                  },
-                                                  attrs: { icon: "" },
-                                                  on: {
-                                                    click: function($event) {
-                                                      return _vm.DeleteNotification(
-                                                        item.n_id
-                                                      )
-                                                    }
-                                                  }
-                                                },
-                                                "v-btn",
-                                                attrs,
-                                                false
-                                              ),
-                                              on
-                                            ),
-                                            [
-                                              _c("v-icon", [
-                                                _vm._v("mdi-close")
-                                              ])
-                                            ],
-                                            1
-                                          )
-                                        : _vm._e()
-                                    ]
-                                  }
-                                }
-                              ],
-                              null,
-                              true
-                            )
-                          },
-                          [
-                            _vm._v(" "),
-                            _c("span", [_vm._v("Hide notification")])
-                          ]
-                        )
-                      : _vm._e()
                   ],
                   1
                 )

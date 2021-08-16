@@ -297,8 +297,11 @@
     }
 
 </script>
-<style>
-    .flip-list-move {
+
+
+<style lang="scss" >
+
+.flip-list-move {
         transition: transform 0.5s !important;
     }
 
@@ -313,7 +316,7 @@
         z-index: 100;
     }
 
-    .v-expansion-panel-content__wrap {
+     .v-expansion-panel-content__wrap {
         padding: 0 !important;
     }
 
@@ -323,3 +326,4 @@
     }
 
 </style>
+

@@ -204,7 +204,7 @@
                     {
                     text: 'Grade Book',
                     disabled: true,
-                    link: 'breadcrumbs_link_2',
+                    link: 'gradebook',
                     },
                 ],
 
@@ -273,8 +273,8 @@
                 for (var i = 0; i < arr.length; i++) {
                     total += arr[i]['points'];
                 }
-                console.log('tota;', total);
-                console.log('classworktoal', this.classworkTotalPoints)
+               /*  console.log('tota;', total);
+                console.log('classworktoal', this.classworkTotalPoints) */
                 let result = (total / this.classworkTotalPoints) * grading_percentage;
                 return isNaN(result) == true ? 0 : result.toFixed(2);
             },

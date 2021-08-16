@@ -91,6 +91,7 @@ export default {
             isLoadingClassNames: true,
             isLoaded:false,
             //classNames:[],
+            notifyDetails: {},
             selectedFile: null,
             isSelecting: false,
             isEditing: false,
@@ -141,6 +142,7 @@ export default {
                     .then(res=>{
                         if(res.status == 200){
                             this.isloading = false;
+                            this.newNotification();
                         }else{
                              this.isloading = false;
                         }
@@ -175,6 +177,12 @@ export default {
             },
             testing(){
                 console.log(this.class_id);
+            },
+           async newNotification(){
+                this.notifyDetails.class_id = this.class_id;
+                this.notifyDetails.course_id = this.$route.params.id;
+                this.notifyDetails.type = 'announcement';
+                axios.post('/api/notification/new', this.notifyDetails);
             }
         },
 }

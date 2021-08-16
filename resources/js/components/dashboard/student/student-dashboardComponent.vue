@@ -27,14 +27,14 @@
                     </v-col>
                 </v-row>
 
-               <!--  <v-row>
+                <v-row>
                     <v-col cols="12">
-                        <studentGradeChart> </studentGradeChart>
+                        <studentGradeChart :allClass="allClass"> </studentGradeChart>
                     </v-col>
                     <v-col>
                        
                     </v-col>
-                </v-row> -->
+                </v-row>
 
 
                  <v-row class="mt-0">
@@ -81,50 +81,39 @@
     const myCalendar = () => import('../myCalendar')
     const myNotification = () => import('../notificationComponent')
     const studentClasses = () => import('./student-classes')
-    const studentGradeChart = () => import('./student-grades-radarChart')
-
-    import axios from 'axios';
-
-
+    const studentGradeChart = () => import('./ProgressChart')
     export default {
         props: ['role'],
-        name: "HelloWorld",
         components: {
-
             myCalendar,
             myNotification,
             studentClasses,
             studentGradeChart
         },
-        provide: {
-
-        },
-
         data() {
             return {
                 class_count: 0,
                 unfinishCount: 0,
-
-
             };
         },
+        computed: mapGetters(["allClass"]),
         methods: {
             classCount() {
-
                 axios.get('/api/class/count')
                     .then(res => {
                         this.class_count = res.data;
                     })
-
             },
             TotalClasswork(data) {
-                console.log(data);
                 this.unfinishCount = data;
-            }
+            },
+            async fetchClasses() {
+                this.$store.dispatch('fetchClassList');
+            },
         },
         mounted() {
-            //this.fetchCourseList();
             this.classCount();
+            this.fetchClasses();
         },
     };
 

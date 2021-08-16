@@ -13,6 +13,8 @@ use App\Models\tbl_Submission;
 use App\Events\NewNotification;
 use App\Models\tbl_teacher_course;
 use App\Models\tbl_classClassworks;
+use App\Models\tbl_userDetails;
+
 
 
 class StudentController extends Controller
@@ -39,22 +41,22 @@ class StudentController extends Controller
         if(auth('sanctum')->user()->role == 'Teacher') {
         $StudentList = tbl_userclass::whereNull('tbl_userclasses.deleted_at')
         ->select('tbl_userclasses.class_id as class_id','tbl_classes.class_name'
-        ,'users.id as user_id','users.firstName','users.email','users.lastName','users.role','tbl_user_details.profile_pic' )
+        ,'users.id as user_id','tbl_user_details.firstName','users.email','tbl_user_details.lastName','users.role','tbl_user_details.profile_pic' )
         ->leftJoin('tbl_classes', 'tbl_classes.id', '=', 'tbl_userclasses.class_id', )
         ->leftJoin('users', 'tbl_userclasses.user_id', '=', 'users.id', )
         ->leftJoin('tbl_user_details', 'tbl_user_details.user_id', '=', 'users.id',)
         ->where('tbl_userclasses.course_id', $id)
         ->where('users.role', 'Student')
-        ->orderBy('users.lastName', 'ASC')
+        ->orderBy('tbl_user_details.lastName', 'ASC')
         ->get();
 
 
         $InstructorList = tbl_teacher_course::where('tbl_teacher_courses.course_id', $id)
-        ->select('tbl_teacher_courses.course_id','users.id as user_id','users.firstName','users.email','users.lastName','tbl_user_details.profile_pic' )
+        ->select('tbl_teacher_courses.course_id','users.id as user_id','tbl_user_details.firstName','users.email','tbl_user_details.lastName','tbl_user_details.profile_pic' )
         ->leftJoin('users', 'tbl_teacher_courses.user_id', '=', 'users.id', )
         ->leftJoin('tbl_user_details', 'tbl_user_details.user_id', '=', 'users.id',)
         ->where('users.role', 'Teacher')
-        ->orderBy('users.lastName', 'ASC')
+        ->orderBy('tbl_user_details.lastName', 'ASC')
         ->get();
 
         
@@ -70,21 +72,21 @@ class StudentController extends Controller
 
 
             $StudentList = tbl_userclass::where('tbl_userclasses.class_id', $Class->class_id)
-            ->select('users.firstName','users.lastName','tbl_user_details.profile_pic' )
+            ->select('tbl_user_details.firstName','tbl_user_details.lastName','tbl_user_details.profile_pic' )
             ->leftJoin('users', 'tbl_userclasses.user_id', '=', 'users.id', )
             ->leftJoin('tbl_user_details', 'tbl_user_details.user_id', '=', 'users.id', )
             ->where('users.role', 'Student')
-            ->orderBy('users.lastName', 'ASC')
+            ->orderBy('tbl_user_details.lastName', 'ASC')
             ->get();
 
            
             $InstructorList = tbl_userclass::where('tbl_userclasses.course_id', $id)
-            ->select('users.firstName','users.lastName', 'tbl_user_details.profile_pic' )
+            ->select('tbl_user_details.firstName','tbl_user_details.lastName', 'tbl_user_details.profile_pic' )
             ->leftJoin('users', 'tbl_userclasses.user_id', '=', 'users.id', )
             ->leftJoin('tbl_user_details', 'tbl_user_details.user_id', '=', 'users.id', )
             ->where('users.role', 'Teacher')
             ->where('tbl_userclasses.class_id', $Class->class_id)
-            ->orderBy('users.lastName', 'ASC')
+            ->orderBy('tbl_user_details.lastName', 'ASC')
             ->get();
 
             
@@ -97,12 +99,12 @@ class StudentController extends Controller
 
     public function getStudentListbyClass($class_id) {
         $StudentList = DB::table('tbl_userclasses')
-        ->select('tbl_userclasses.id as uc_id','users.id','users.firstName','users.email','users.lastName','users.role' )
+        ->select('tbl_userclasses.id as uc_id','users.id','tbl_user_details.firstName','users.email','tbl_user_details.lastName','users.role' )
         ->leftJoin('users', 'tbl_userclasses.user_id', '=', 'users.id', )
         ->leftJoin('tbl_user_details', 'tbl_user_details.user_id', '=', 'users.id', )
         ->where('tbl_userclasses.class_id', $class_id)
         ->where('role', 'Student')
-        ->orderBy('users.lastName', 'ASC')
+        ->orderBy('tbl_user_details.lastName', 'ASC')
         ->get();
         return $StudentList;
     }
@@ -214,7 +216,8 @@ class StudentController extends Controller
     {
 
         $userId = auth('sanctum')->id();
-        $UserFullName = auth('sanctum')->user()->firstName.' '.auth('sanctum')->user()->lastName;
+        $name = tbl_userDetails::where('user_id',  $userId)->first();
+        $UserFullName = $name->firstName.' '. $name ->lastName;
         $CheckStatus = tbl_Submission::where('tbl_submissions.classwork_id', $id)
         ->select('tbl_submissions.status','tbl_submissions.points as score','tbl_class_classworks.id as class_classwork_id'
         ,'tbl_class_classworks.showAnswer','tbl_class_classworks.showAnswerType','tbl_class_classworks.showDateFrom','tbl_class_classworks.showDateTo','tbl_class_classworks.response_late',
@@ -255,20 +258,28 @@ class StudentController extends Controller
         $userId = auth('sanctum')->id();
         $CheckStatus = tbl_Submission::where("tbl_submissions.user_id",$userId)
         ->where('tbl_submissions.classwork_id',$id)
-        ->select('tbl_submissions.status','tbl_submissions.created_at')
+        ->select('tbl_submissions.id','tbl_submissions.status','tbl_submissions.Submitted_Answers','tbl_submissions.created_at')
         ->first();
+        
+        $tempAnswer = $CheckStatus->Submitted_Answers != null ? unserialize($CheckStatus->Submitted_Answers) : null;
+
         if($CheckStatus){
+         
             return response()->json([
-                'user_id'=> $userId, 
+                'submission_id'=> $CheckStatus->id, 
+                //'user_id'=> $userId, 
                 'status' => $CheckStatus->status,
-                'startTime' => $CheckStatus->created_at
+                'startTime' => $CheckStatus->created_at,
+                'Submitted_Answers'=>$tempAnswer
             ]);
         }
         else{
             return response()->json([
-                'user_id'=> $userId, 
+                'submission_id'=> $CheckStatus->id, 
+                //'user_id'=> $userId, 
                 'status' => null,
-                'startTime' => $CheckStatus->created_at
+                'startTime' => $CheckStatus->created_at,
+                'Submitted_Answers'=>$tempAnswer
             ]);  
         }
     }
