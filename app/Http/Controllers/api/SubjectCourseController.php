@@ -61,10 +61,8 @@ class SubjectCourseController extends Controller
     }
     public function CourseDetails($id)
     {
-        $userId = auth('sanctum')->id();
-        //return auth('sanctum')->user()->role;
-        
-        //if(auth('sanctum')->user()->role == "Student"){
+        $userId = auth('sanctum')->id();        
+        if(auth('sanctum')->user()->role == "Student"){
             $ShowCourseDetails = tbl_subject_course::where('tbl_subject_courses.id', $id)
             ->select('tbl_subject_courses.id', 
             'tbl_subject_courses.course_code',
@@ -83,7 +81,7 @@ class SubjectCourseController extends Controller
             ->first();
 
             return $ShowCourseDetails;
-       /*  }
+        }
         else{
             $ShowCourseDetails = tbl_subject_course::where('tbl_subject_courses.id', $id)
             ->select('tbl_subject_courses.id',
@@ -102,7 +100,7 @@ class SubjectCourseController extends Controller
             $UserFullName = $name->firstName.' '. $name ->lastName;
             $ShowCourseDetails->name = $UserFullName;
             return $ShowCourseDetails;
-        } */
+        }
     }
 
      /**
