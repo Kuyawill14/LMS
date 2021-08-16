@@ -309,7 +309,7 @@ class NotificationController extends Controller
     public function getNotificationCount(){
         $userId = auth('sanctum')->id();
         $InviteCount;
-        return auth('sanctum')->user()->role;
+
         if(auth('sanctum')->user()->role != 'Student'){
             $NotificationCount = tbl_teacher_course::where('tbl_teacher_courses.user_id', $userId)
             ->select('tbl_teacher_courses.course_id as cl_id',DB::raw('CONCAT(tbl_user_details.firstname, " ", tbl_user_details.lastName) as name'),
