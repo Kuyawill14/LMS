@@ -62,7 +62,7 @@ class SubjectCourseController extends Controller
     public function CourseDetails($id)
     {
         $userId = auth('sanctum')->id();
-        return auth('sanctum')->user()->role;
+    
         
         if(auth('sanctum')->user()->role == "Student"){
             $ShowCourseDetails = tbl_subject_course::where('tbl_subject_courses.id', $id)
