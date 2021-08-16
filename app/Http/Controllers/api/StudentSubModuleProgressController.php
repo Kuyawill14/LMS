@@ -100,8 +100,8 @@ class StudentSubModuleProgressController extends Controller
 
 
         $main_modules = DB::table('tbl_main_modules') 
-        ->select('tbl_main_modules.id as main_module_id' ,'tbl_main_modules.module_name',
-        DB::raw('count(tbl_sub_modules.id) AS sub_module_length'))
+        ->select('tbl_main_modules.id as main_module_id' ,'tbl_main_modules.module_name')
+        ->selectRaw('CONCAT(tbl_user_details.firstname, " ", tbl_user_details.lastName) as name')
         ->leftJoin('tbl_sub_modules' , 'tbl_sub_modules.main_module_id' , '=' , 'tbl_main_modules.id')
         ->groupBy('tbl_main_modules.id')
         
