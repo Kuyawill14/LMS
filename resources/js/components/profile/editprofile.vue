@@ -191,6 +191,25 @@
                     </v-col>
                 </v-row>
             </v-col>
+
+            <!--  <v-col cols="12" class="mt-0 pt-0 mb-0 pb-0">
+                <v-row>
+                    <v-col cols="12" md="2" :class="$vuetify.breakpoint.xs ? 'mb-0 pb-0': 'mt-2'">
+                        Session
+                    </v-col>
+                    <v-col cols="12" md="6" class="pb-0 mb-0">
+                        <v-text-field
+                        class="blue--text"
+                        dense
+                            outlined
+                            v-model="UserDetails.social_account"
+                            ></v-text-field>
+                    </v-col>
+                </v-row>
+            </v-col> -->
+
+
+
         </v-col>
     </v-row>
  </v-form>

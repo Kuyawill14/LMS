@@ -62,7 +62,9 @@ class SubjectCourseController extends Controller
     public function CourseDetails($id)
     {
         $userId = auth('sanctum')->id();
-        if(auth('sanctum')->user()->role == "Student"){
+    
+        
+        //if(auth('sanctum')->user()->role == "Student"){
             $ShowCourseDetails = tbl_subject_course::where('tbl_subject_courses.id', $id)
             ->select('tbl_subject_courses.id', 
             'tbl_subject_courses.course_code',
@@ -79,8 +81,9 @@ class SubjectCourseController extends Controller
             ->leftjoin('tbl_user_details', 'tbl_user_details.user_id','=','users.id')
             ->where('users.role', 'Teacher')
             ->first();
+
             return $ShowCourseDetails;
-        }
+       /*  }
         else{
             $ShowCourseDetails = tbl_subject_course::where('tbl_subject_courses.id', $id)
             ->select('tbl_subject_courses.id',
@@ -99,7 +102,7 @@ class SubjectCourseController extends Controller
             $UserFullName = $name->firstName.' '. $name ->lastName;
             $ShowCourseDetails->name = $UserFullName;
             return $ShowCourseDetails;
-        }
+        } */
     }
 
      /**
@@ -139,19 +142,16 @@ class SubjectCourseController extends Controller
     public function store(Request $request)
     {
         $userId = auth('sanctum')->id();
+
+
         $Newcourse = new tbl_subject_course;
         $coursePic = ['theme1.jpg','theme2.jpg','theme3.jpg','theme4.jpg','theme5.jpg','theme6.jpg','theme7.jpg','theme8.jpg'];
         shuffle($coursePic);
-
-
         $Newcourse->course_name =  $request->courseItem['course_name'];
         $Newcourse->course_code =  $request->courseItem['course_code'];
         $Newcourse->course_description ='';
         $Newcourse->course_picture = $coursePic[0];
         $Newcourse->save();
-
- 
-      
         $teacherSubjectCourse  = new tbl_teacher_course;
         $teacherSubjectCourse->course_id = $Newcourse->id;
         $teacherSubjectCourse->user_id = $userId;

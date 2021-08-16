@@ -95,13 +95,38 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
       showCurrent: false,
       showNew: false,
-      ShowNewRetype: false
+      ShowNewRetype: false,
+      data: {},
+      form: {
+        current_password: null,
+        new_password: null,
+        confirm_password: null
+      },
+      rules: {
+        required: function required(value) {
+          return !!value || "Required.";
+        },
+        min: function min(v) {
+          return v && v.length >= 6 || "Min 6 characters";
+        }
+      }
     };
+  },
+  methods: {
+    changepassword: function changepassword() {
+      axios.post('/api/change-password', this.form).then(function (res) {});
+    }
   }
 });
 
@@ -252,6 +277,7 @@ var render = function() {
                           ? "mdi-eye"
                           : "mdi-eye-off",
                         dense: "",
+                        rules: [_vm.rules.required, _vm.rules.min],
                         outlined: "",
                         type: _vm.showCurrent ? "text" : "password"
                       },
@@ -259,6 +285,13 @@ var render = function() {
                         "click:append": function($event) {
                           _vm.showCurrent = !_vm.showCurrent
                         }
+                      },
+                      model: {
+                        value: _vm.form.current_password,
+                        callback: function($$v) {
+                          _vm.$set(_vm.form, "current_password", $$v)
+                        },
+                        expression: "form.current_password"
                       }
                     },
                     [_vm._v("\n                    >")]
@@ -299,6 +332,7 @@ var render = function() {
                       attrs: {
                         "append-icon": _vm.showNew ? "mdi-eye" : "mdi-eye-off",
                         dense: "",
+                        rules: [_vm.rules.required, _vm.rules.min],
                         outlined: "",
                         type: _vm.showNew ? "text" : "password"
                       },
@@ -306,6 +340,13 @@ var render = function() {
                         "click:append": function($event) {
                           _vm.showNew = !_vm.showNew
                         }
+                      },
+                      model: {
+                        value: _vm.form.new_password,
+                        callback: function($$v) {
+                          _vm.$set(_vm.form, "new_password", $$v)
+                        },
+                        expression: "form.new_password"
                       }
                     },
                     [_vm._v("\n                    >")]
@@ -353,12 +394,20 @@ var render = function() {
                           : "mdi-eye-off",
                         dense: "",
                         outlined: "",
+                        rules: [_vm.rules.required, _vm.rules.min],
                         type: _vm.ShowNewRetype ? "text" : "password"
                       },
                       on: {
                         "click:append": function($event) {
                           _vm.ShowNewRetype = !_vm.ShowNewRetype
                         }
+                      },
+                      model: {
+                        value: _vm.form.confirm_password,
+                        callback: function($$v) {
+                          _vm.$set(_vm.form, "confirm_password", $$v)
+                        },
+                        expression: "form.confirm_password"
                       }
                     },
                     [_vm._v("\n                    >")]
@@ -391,7 +440,14 @@ var render = function() {
                 [
                   _c(
                     "v-btn",
-                    { attrs: { rounded: "", color: "primary", dark: "" } },
+                    {
+                      attrs: { rounded: "", color: "primary", dark: "" },
+                      on: {
+                        click: function($event) {
+                          return _vm.changepassword()
+                        }
+                      }
+                    },
                     [_vm._v("Save Changes")]
                   ),
                   _vm._v(" "),
