@@ -100,7 +100,6 @@
                                         </v-tooltip>
                                     </td>
 
-
                                     <td class="text-center">
                                         {{totalPoints(StudentClassworkGrades(gradingCriteria.id))}}
                                     </td>

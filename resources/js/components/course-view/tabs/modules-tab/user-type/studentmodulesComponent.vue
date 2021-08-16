@@ -224,6 +224,7 @@
             }
         },
         created() {
+            console.log(this.role);
             if (this.subModuleData) {
                 this.loading = true;
             }
