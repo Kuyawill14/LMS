@@ -61,7 +61,9 @@ class SubjectCourseController extends Controller
     }
     public function CourseDetails($id)
     {
-        $userId = auth('sanctum')->id();        
+        $userId = auth('sanctum')->id();
+        return auth('sanctum')->user()->role;
+        
         if(auth('sanctum')->user()->role == "Student"){
             $ShowCourseDetails = tbl_subject_course::where('tbl_subject_courses.id', $id)
             ->select('tbl_subject_courses.id', 
@@ -70,10 +72,11 @@ class SubjectCourseController extends Controller
             'tbl_subject_courses.course_description',
             'tbl_subject_courses.course_picture',
             'tbl_subject_courses.v_classroom_link',
-            DB::raw('CONCAT(tbl_user_details.firstname, " ", tbl_user_details.lastName) as name'),
+        
             'school_year_id',
             'semester_id',
             'completed')
+            ->selectRaw('CONCAT(tbl_user_details.firstname, " ", tbl_user_details.lastName) as name')
             ->leftjoin('tbl_userclasses', 'tbl_userclasses.course_id','=','tbl_subject_courses.id')
             ->leftjoin('users', 'users.id','=','tbl_userclasses.user_id')
             ->leftjoin('tbl_user_details', 'tbl_user_details.user_id','=','users.id')
@@ -100,7 +103,7 @@ class SubjectCourseController extends Controller
             $UserFullName = $name->firstName.' '. $name ->lastName;
             $ShowCourseDetails->name = $UserFullName;
             return $ShowCourseDetails;
-        }
+        } 
     }
 
      /**
