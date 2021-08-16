@@ -50,7 +50,7 @@ class AnnouncementController extends Controller
             ->leftJoin('tbl_user_details', 'users.id', '=', 'tbl_user_details.user_id')
        
             ->orderBy('created_at', 'DESC')
-            ->groupBy('tbl_classposts.id','tbl_classposts.class_id', 'tbl_class_announcements.id','tbl_class_announcements.content','tbl_class_announcements.file','tbl_class_announcements.created_at','tbl_class_announcements.updated_at','tbl_user_details.profile_pic','tbl_user_details.firstName','tbl_user_details.lastName')
+            ->groupBy('tbl_classposts.id','tbl_classposts.class_id', 'tbl_class_announcements.id','tbl_class_announcements.content','tbl_class_announcements.file','tbl_class_announcements.created_at','tbl_class_announcements.updated_at','tbl_user_details.profile_pic')
             ->paginate(5);
             //->get();
             return $allClassPost;
@@ -73,7 +73,7 @@ class AnnouncementController extends Controller
                 ->leftJoin('users', 'tbl_classposts.user_id', '=', 'users.id')
                 ->leftJoin('tbl_user_details', 'users.id', '=', 'tbl_user_details.user_id')
                 ->orderBy('created_at', 'DESC')
-                ->groupBy('tbl_classposts.id','tbl_class_announcements.id','tbl_class_announcements.content','tbl_class_announcements.file','tbl_class_announcements.created_at','tbl_class_announcements.updated_at','tbl_user_details.profile_pic','tbl_user_details.firstName','tbl_user_details.lastName')
+                ->groupBy('tbl_classposts.id','tbl_class_announcements.id','tbl_class_announcements.content','tbl_class_announcements.file','tbl_class_announcements.created_at','tbl_class_announcements.updated_at','tbl_user_details.profile_pic')
                 ->paginate(5);
                 //return $allClassPost->toArray();
                 return $allClassPost;
