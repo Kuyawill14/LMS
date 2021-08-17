@@ -15,9 +15,6 @@
 </template>
 
 <script>
-    // import VuePdfApp from "vue-pdf-app";
-    // import "vue-pdf-app/dist/icons/main.css";
-    // VuePdfApp component is registered in src/main.js
 
 
     export default {
@@ -29,11 +26,6 @@
             };
         },
 
-     
-        methods: {
-         
-
-        },
         created() {
         var host = window.location.protocol + "//" + window.location.host;
         this.pdf_path = host+ this.pdf_file;

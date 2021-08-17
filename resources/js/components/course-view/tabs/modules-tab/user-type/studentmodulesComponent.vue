@@ -124,13 +124,11 @@
 </template>
 
 <script>
-    import VuePdfApp from "vue-pdf-app";
-    // import this to use default icons for buttons
-    import "vue-pdf-app/dist/icons/main.css";
-    import pdfviewer from "./pdfview"
-    import {
-        LazyYoutube
-    } from 'vue-lazytube'
+
+
+       const pdfviewer = () => import('./pdfview')
+        const LazyYoutube = () => import('./vue-lazytube')
+  
 
     import VueElementLoading from 'vue-element-loading'
     //import modulesListComponent from './modulesListComponent'
@@ -146,7 +144,6 @@
             VueElementLoading,
             modulesListComponent,
             LazyYoutube,
-            VuePdfApp,
             pdfviewer
 
 
