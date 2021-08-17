@@ -4,7 +4,7 @@
 
     <v-card>
         
-       <iframe title="google pdf viewer" id="pdf-iframe" :src="'https://docs.google.com/viewer?embedded=true&amp;url='+'http://188.166.248.37/storage/' + subModuleData.file_attachment" sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
+       <iframe title="google pdf viewer" id="pdf-iframe" :src="'https://docs.google.com/viewer?embedded=true&amp;url='+'http://188.166.248.37/storage/' + pdf_path" sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
                              style="position: absolute; top: 0px; left: 0px; width: 100%; height: 100%;"></iframe>
                             
     </v-card>
