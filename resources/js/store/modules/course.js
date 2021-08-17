@@ -13,7 +13,6 @@ const getters = {
 };
 
 const actions = {
-
     async fetchScourse({ commit }, id) {
         let check;
         const res = await axios.get(

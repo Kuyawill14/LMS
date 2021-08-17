@@ -240,7 +240,7 @@ var VueElementLoading = function VueElementLoading() {
                       });
                     } else if (_this2.form.type == 'Subjective Type') {
                       _this2.$router.push({
-                        name: 'classwork-details',
+                        name: 'clwk',
                         params: {
                           id: res.data.course_id
                         },
