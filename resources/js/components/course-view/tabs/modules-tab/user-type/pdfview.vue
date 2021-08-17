@@ -39,8 +39,8 @@
 </template>
 
 <script>
-    import VuePdfApp from "vue-pdf-app";
-    import "vue-pdf-app/dist/icons/main.css";
+    // import VuePdfApp from "vue-pdf-app";
+    // import "vue-pdf-app/dist/icons/main.css";
     // VuePdfApp component is registered in src/main.js
 
 

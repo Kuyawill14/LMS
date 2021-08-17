@@ -30,11 +30,16 @@
                             </div>
 
                             <!-- <v-dialog v-model="pdfdialog" v-if="type=='Document' " fullscreen hide-overlay transition="dialog-bottom-transition"> -->
-                            <pdfviewer :key="subModuleData.sub_module_name + 1"
+                            <!-- <pdfviewer :key="subModuleData.sub_module_name + 1"
                                 v-if="type=='Document'  && isSelectedModule " :title="subModuleData.sub_module_name"
                                 :pdf_file="'/storage/' + subModuleData.file_attachment"
-                                v-on:closePdf="pdfdialog = false" />
+                                v-on:closePdf="pdfdialog = false" /> -->
                             <!-- </v-dialog> -->
+
+ <v-dialog v-model="pdfdialog" v-if="type=='Document' " fullscreen hide-overlay transition="dialog-bottom-transition"> -->
+                            <iframe title="google pdf viewer" id="pdf-iframe" :src="'https://docs.google.com/viewer?embedded=true&amp;url='+'/storage/' + subModuleData.file_attachment" sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
+                             style="position: absolute; top: 0px; left: 0px; width: 100%; height: 100%;"></iframe>
+                               </v-dialog>
                         </v-container>
 
 
