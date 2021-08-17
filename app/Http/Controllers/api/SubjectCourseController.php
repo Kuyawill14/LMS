@@ -25,34 +25,34 @@ class SubjectCourseController extends Controller
     public function index()
     {
         $totalProgress = 0;
-        $userId = auth('sanctum')->id();
+        $userId = auth("sanctum")->id();
         //$userId = 1;
-        $allCourseSubject = tbl_teacher_course::whereNull('tbl_teacher_courses.deleted_at')
-        ->where('tbl_teacher_courses.user_id', $userId)
+        $allCourseSubject = tbl_teacher_course::whereNull("tbl_teacher_courses.deleted_at")
+        ->where("tbl_teacher_courses.user_id", $userId)
        
-        ->select('tbl_teacher_courses.id as useClass_id','tbl_subject_courses.id','tbl_subject_courses.course_code',
-        'tbl_subject_courses.course_name','tbl_subject_courses.course_description','tbl_subject_courses.id as course_id',
-        'tbl_subject_courses.course_picture','tbl_subject_courses.completed','tbl_subject_courses.created_at', 'tbl_subject_courses.school_year_id',
-        'tbl_subject_courses.semester_id','tbl_subject_courses.department')
-        ->selectRaw('count(tbl_userclasses.course_id ) as student_count')
-        ->leftJoin('tbl_subject_courses', 'tbl_teacher_courses.course_id', '=', 'tbl_subject_courses.id')
-        ->leftJoin('tbl_userclasses', 'tbl_userclasses.course_id','=','tbl_subject_courses.id')
-        ->leftJoin('users', 'users.id','=','tbl_userclasses.user_id' )
-        ->groupBy('tbl_teacher_courses.id','tbl_subject_courses.id','tbl_subject_courses.course_code',
-        'tbl_subject_courses.course_name','tbl_subject_courses.course_description','tbl_subject_courses.id',
-        'tbl_subject_courses.course_picture','tbl_subject_courses.completed','tbl_subject_courses.created_at')
-        ->orderBy('created_at', 'ASC')
+        ->select("tbl_teacher_courses.id as useClass_id","tbl_subject_courses.id","tbl_subject_courses.course_code",
+        "tbl_subject_courses.course_name","tbl_subject_courses.course_description","tbl_subject_courses.id as course_id",
+        "tbl_subject_courses.course_picture","tbl_subject_courses.completed","tbl_subject_courses.created_at", "tbl_subject_courses.school_year_id",
+        "tbl_subject_courses.semester_id","tbl_subject_courses.department")
+        ->selectRaw("count(tbl_userclasses.course_id ) as student_count")
+        ->leftJoin("tbl_subject_courses", "tbl_teacher_courses.course_id", "=", "tbl_subject_courses.id")
+        ->leftJoin("tbl_userclasses", "tbl_userclasses.course_id","=","tbl_subject_courses.id")
+        ->leftJoin("users", "users.id","=","tbl_userclasses.user_id" )
+        ->groupBy("tbl_teacher_courses.id","tbl_subject_courses.id","tbl_subject_courses.course_code",
+        "tbl_subject_courses.course_name","tbl_subject_courses.course_description","tbl_subject_courses.id",
+        "tbl_subject_courses.course_picture","tbl_subject_courses.completed","tbl_subject_courses.created_at")
+        ->orderBy("created_at", "ASC")
         ->get();
 
 
         foreach($allCourseSubject as $item){
-            $countClass = tbl_userclass::where('tbl_userclasses.course_id', $item->id)
-            ->where('tbl_userclasses.user_id', $userId )
+            $countClass = tbl_userclass::where("tbl_userclasses.course_id", $item->id)
+            ->where("tbl_userclasses.user_id", $userId )
             ->count();
             $item->class_count = $countClass;
 
-            $StudentCount = tbl_userclass::where('tbl_userclasses.course_id', $item->id)
-            ->where('tbl_userclasses.user_id','!=' ,$userId )
+            $StudentCount = tbl_userclass::where("tbl_userclasses.course_id", $item->id)
+            ->where("tbl_userclasses.user_id","!=" ,$userId )
             ->count();
 
             $item->student_count =  $StudentCount;
@@ -61,46 +61,45 @@ class SubjectCourseController extends Controller
     }
     public function CourseDetails($id)
     {
-        $userId = auth('sanctum')->id();
+        $userId = auth("sanctum")->id();
     
         
-        if(auth('sanctum')->user()->role == "Student"){
-            $ShowCourseDetails = tbl_subject_course::where('tbl_subject_courses.id', $id)
-            ->select('tbl_subject_courses.id', 
-            'tbl_subject_courses.course_code',
-            'tbl_subject_courses.course_name',
-            'tbl_subject_courses.course_description',
-            'tbl_subject_courses.course_picture',
-            'tbl_subject_courses.v_classroom_link',
-        
-            'school_year_id',
-            'semester_id',
-            'completed')
-            ->selectRaw('CONCAT(tbl_user_details.firstname, " ", tbl_user_details.lastName) as name')
-            ->leftjoin('tbl_userclasses', 'tbl_userclasses.course_id','=','tbl_subject_courses.id')
-            ->leftjoin('users', 'users.id','=','tbl_userclasses.user_id')
-            ->leftjoin('tbl_user_details', 'tbl_user_details.user_id','=','users.id')
-            ->where('users.role', 'Teacher')
+        if(auth("sanctum")->user()->role == "Student"){
+            $ShowCourseDetails = tbl_subject_course::where("tbl_subject_courses.id", $id)
+            ->select("tbl_subject_courses.id", 
+            "tbl_subject_courses.course_code",
+            "tbl_subject_courses.course_name",
+            "tbl_subject_courses.course_description",
+            "tbl_subject_courses.course_picture",
+            "tbl_subject_courses.v_classroom_link",
+            DB::raw("CONCAT(tbl_user_details.firstName,' ',tbl_user_details.lastName) as name"),
+            "school_year_id",
+            "semester_id",
+            "completed")
+            ->leftjoin("tbl_userclasses", "tbl_userclasses.course_id","=","tbl_subject_courses.id")
+            ->leftjoin("users", "users.id","=","tbl_userclasses.user_id")
+            ->leftjoin("tbl_user_details", "tbl_user_details.user_id","=","users.id")
+            ->where("users.role", "Teacher")
             ->first();
 
             return $ShowCourseDetails;
         }
         else{
-            $ShowCourseDetails = tbl_subject_course::where('tbl_subject_courses.id', $id)
-            ->select('tbl_subject_courses.id',
-             'tbl_subject_courses.course_code',
-            'tbl_subject_courses.course_name',
-            'tbl_subject_courses.course_description',
-            'tbl_subject_courses.course_picture',
-            'tbl_subject_courses.v_classroom_link',
-            'school_year_id',
-            'semester_id',
-            'tbl_subject_courses.department',
-            'completed')
+            $ShowCourseDetails = tbl_subject_course::where("tbl_subject_courses.id", $id)
+            ->select("tbl_subject_courses.id",
+             "tbl_subject_courses.course_code",
+            "tbl_subject_courses.course_name",
+            "tbl_subject_courses.course_description",
+            "tbl_subject_courses.course_picture",
+            "tbl_subject_courses.v_classroom_link",
+            "school_year_id",
+            "semester_id",
+            "tbl_subject_courses.department",
+            "completed")
             ->first();
 
-            $name = tbl_userDetails::where('user_id',  $userId)->first();
-            $UserFullName = $name->firstName.' '. $name ->lastName;
+            $name = tbl_userDetails::where("user_id",  $userId)->first();
+            $UserFullName = $name->firstName." ". $name ->lastName;
             $ShowCourseDetails->name = $UserFullName;
             return $ShowCourseDetails;
         } 
@@ -114,21 +113,21 @@ class SubjectCourseController extends Controller
      */
     public function CheckCourseStatus()
     {
-        $userId = auth('sanctum')->id();
+        $userId = auth("sanctum")->id();
         //$userId = 3;
         $courseStatus;
-        if(auth('sanctum')->user()->role == "Student"){
-            $courseStatus = tbl_userclass::whereNull('tbl_userclasses.deleted_at')
-            ->select('tbl_subject_courses.id', 'tbl_subject_courses.completed as status')
-            ->leftjoin('tbl_subject_courses', 'tbl_subject_courses.id','=','tbl_userclasses.course_id')
-            ->where('tbl_userclasses.user_id', $userId)
+        if(auth("sanctum")->user()->role == "Student"){
+            $courseStatus = tbl_userclass::whereNull("tbl_userclasses.deleted_at")
+            ->select("tbl_subject_courses.id", "tbl_subject_courses.completed as status")
+            ->leftjoin("tbl_subject_courses", "tbl_subject_courses.id","=","tbl_userclasses.course_id")
+            ->where("tbl_userclasses.user_id", $userId)
             ->get();
 
         }else{
-            $courseStatus = tbl_teacher_course::whereNull('tbl_teacher_courses.deleted_at')
-            ->select('tbl_subject_courses.id', 'tbl_subject_courses.completed as status')
-            ->leftjoin('tbl_subject_courses', 'tbl_subject_courses.id','=','tbl_teacher_courses.course_id')
-            ->where('tbl_teacher_courses.user_id', $userId)
+            $courseStatus = tbl_teacher_course::whereNull("tbl_teacher_courses.deleted_at")
+            ->select("tbl_subject_courses.id", "tbl_subject_courses.completed as status")
+            ->leftjoin("tbl_subject_courses", "tbl_subject_courses.id","=","tbl_teacher_courses.course_id")
+            ->where("tbl_teacher_courses.user_id", $userId)
             ->get();
         }
         return $courseStatus;
@@ -142,15 +141,15 @@ class SubjectCourseController extends Controller
      */
     public function store(Request $request)
     {
-        $userId = auth('sanctum')->id();
+        $userId = auth("sanctum")->id();
 
 
         $Newcourse = new tbl_subject_course;
-        $coursePic = ['theme1.jpg','theme2.jpg','theme3.jpg','theme4.jpg','theme5.jpg','theme6.jpg','theme7.jpg','theme8.jpg'];
+        $coursePic = ["theme1.jpg","theme2.jpg","theme3.jpg","theme4.jpg","theme5.jpg","theme6.jpg","theme7.jpg","theme8.jpg"];
         shuffle($coursePic);
-        $Newcourse->course_name =  $request->courseItem['course_name'];
-        $Newcourse->course_code =  $request->courseItem['course_code'];
-        $Newcourse->course_description ='';
+        $Newcourse->course_name =  $request->courseItem["course_name"];
+        $Newcourse->course_code =  $request->courseItem["course_code"];
+        $Newcourse->course_description ="";
         $Newcourse->course_picture = $coursePic[0];
         $Newcourse->save();
         $teacherSubjectCourse  = new tbl_teacher_course;
@@ -181,9 +180,9 @@ class SubjectCourseController extends Controller
     public function ArchiveCourse($id)
     {
         //return $id;
-        $CheckCourse = tbl_teacher_course::where('course_id', $id)->first();
+        $CheckCourse = tbl_teacher_course::where("course_id", $id)->first();
         if($CheckCourse){
-            $CheckClass = tbl_userclass::where('course_id', $id)
+            $CheckClass = tbl_userclass::where("course_id", $id)
             ->delete();
             $CheckCourse->delete();
             return "Course Archive";
@@ -204,19 +203,19 @@ class SubjectCourseController extends Controller
         $existingCourse = tbl_subject_course::find($id);
 
         if($existingCourse) {
-            $existingCourse->course_name = $request->courseItem['course_name'];
-            $existingCourse->course_code = $request->courseItem['course_code'];
-            $existingCourse->course_description = $request->courseItem['course_description'];
-            $existingCourse->v_classroom_link = $request->courseItem['v_classroom_link'];
-            $existingCourse->school_year_id = $request->courseItem['school_year_id'];
-            $existingCourse->semester_id = $request->courseItem['semester_id'];
+            $existingCourse->course_name = $request->courseItem["course_name"];
+            $existingCourse->course_code = $request->courseItem["course_code"];
+            $existingCourse->course_description = $request->courseItem["course_description"];
+            $existingCourse->v_classroom_link = $request->courseItem["v_classroom_link"];
+            $existingCourse->school_year_id = $request->courseItem["school_year_id"];
+            $existingCourse->semester_id = $request->courseItem["semester_id"];
             $existingCourse->save();
             return $existingCourse;
         }
         return $request->courseItem;
     }
     public function courseCompleted($id) {
-        $userId = auth('sanctum')->id();
+        $userId = auth("sanctum")->id();
         $existingCourse = tbl_subject_course::find($id);
 
         if($existingCourse) {

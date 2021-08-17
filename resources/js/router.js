@@ -141,7 +141,7 @@ const router = new Router({
             component: mainApp,
             name: "mainApp",
             beforeEnter: (to, form, next) => {
-               
+                store.dispatch('fetchCurrentUser');
                 store.dispatch('IsAuthenticated').then(()=>{
                     if(store.state.CurrentUser.IsAuthenticated == true){
                         next();
@@ -209,9 +209,6 @@ const router = new Router({
                     path: "course/:id",
                     component: courseView,
                     name: "selectedCourse",
-                    beforeEnter: (to, from, next) => {
-                        store.dispatch('fetchMyCoursesStatus');
-                    },
                     children: [{
                             name: "coursePage",
                             path: "",
@@ -342,6 +339,7 @@ const router = new Router({
                             path: "modules",
                             component: modules_tab,
                             beforeEnter: (to, form, next) => {
+                                store.dispatch('fetchMyCoursesStatus');
                                 if (store.state.CurrentUser.UserRole == 'Teacher') {
                                     next();
                                 } else if (store.state.CurrentUser.UserRole == 'Student') {
@@ -795,10 +793,6 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
     if (to.name) {
-        if(to.name != 'login' && to.name != 'register'){
-            //store.dispatch('fetchMyCoursesStatus');
-            store.dispatch('fetchCurrentUser');
-        }
         NProgress.start()
     }
     next()

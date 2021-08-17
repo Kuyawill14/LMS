@@ -22,34 +22,34 @@ class ArchiveController extends Controller
      */
     public function index()
     {
-        $userId = auth('sanctum')->id();
+        $userId = auth("sanctum")->id();
         //$userId = 1;
-        if(auth('sanctum')->user()->role != 'Student'){
+        if(auth("sanctum")->user()->role != "Student"){
             $allArchiveCourse = tbl_teacher_course::onlyTrashed()
-            ->where('tbl_teacher_courses.user_id', $userId)
-            ->select('tbl_teacher_courses.id as useClass_id','tbl_subject_courses.id','tbl_subject_courses.course_code',
-            'tbl_subject_courses.course_name','tbl_subject_courses.course_description','tbl_subject_courses.id as course_id',
-            'tbl_subject_courses.course_picture','tbl_subject_courses.completed','tbl_subject_courses.created_at')
-            ->selectRaw('count(tbl_userclasses.course_id ) as student_count')
-            ->leftJoin('tbl_subject_courses', 'tbl_teacher_courses.course_id', '=', 'tbl_subject_courses.id')
-            ->leftJoin('tbl_userclasses', 'tbl_userclasses.course_id','=','tbl_subject_courses.id')
-            ->leftJoin('users', 'users.id','=','tbl_userclasses.user_id')
-            ->groupBy('tbl_teacher_courses.id','tbl_subject_courses.id','tbl_subject_courses.course_code',
-            'tbl_subject_courses.course_name','tbl_subject_courses.course_description','tbl_subject_courses.id',
-            'tbl_subject_courses.course_picture','tbl_subject_courses.completed','tbl_subject_courses.created_at')
-            ->orderBy('created_at', 'ASC')
+            ->where("tbl_teacher_courses.user_id", $userId)
+            ->select("tbl_teacher_courses.id as useClass_id","tbl_subject_courses.id","tbl_subject_courses.course_code",
+            "tbl_subject_courses.course_name","tbl_subject_courses.course_description","tbl_subject_courses.id as course_id",
+            "tbl_subject_courses.course_picture","tbl_subject_courses.completed","tbl_subject_courses.created_at")
+            ->selectRaw("count(tbl_userclasses.course_id ) as student_count")
+            ->leftJoin("tbl_subject_courses", "tbl_teacher_courses.course_id", "=", "tbl_subject_courses.id")
+            ->leftJoin("tbl_userclasses", "tbl_userclasses.course_id","=","tbl_subject_courses.id")
+            ->leftJoin("users", "users.id","=","tbl_userclasses.user_id")
+            ->groupBy("tbl_teacher_courses.id","tbl_subject_courses.id","tbl_subject_courses.course_code",
+            "tbl_subject_courses.course_name","tbl_subject_courses.course_description","tbl_subject_courses.id",
+            "tbl_subject_courses.course_picture","tbl_subject_courses.completed","tbl_subject_courses.created_at")
+            ->orderBy("created_at", "ASC")
             ->get();
 
             foreach($allArchiveCourse as $item){
                 $countClass = tbl_userclass::onlyTrashed()
-                ->where('tbl_userclasses.course_id', $item->id)
-                ->where('tbl_userclasses.user_id', $userId )
+                ->where("tbl_userclasses.course_id", $item->id)
+                ->where("tbl_userclasses.user_id", $userId )
                 ->count();
                 $item->class_count = $countClass;
 
                 $StudentCount = tbl_userclass::onlyTrashed()
-                ->where('tbl_userclasses.course_id', $item->id)
-                ->where('tbl_userclasses.user_id','!=' ,$userId )
+                ->where("tbl_userclasses.course_id", $item->id)
+                ->where("tbl_userclasses.user_id","!=" ,$userId )
                 ->count();
 
                 $item->student_count =  $StudentCount;
@@ -66,9 +66,9 @@ class ArchiveController extends Controller
      */
     public function restoreArchive($id)
     {
-        $CheckCourse = tbl_teacher_course::withTrashed()->where('course_id', $id)->first();
+        $CheckCourse = tbl_teacher_course::withTrashed()->where("course_id", $id)->first();
         if($CheckCourse){
-            $CheckClass = tbl_userclass::withTrashed()->where('course_id', $id)
+            $CheckClass = tbl_userclass::withTrashed()->where("course_id", $id)
             ->restore();
             $CheckCourse->restore();
             return "Course Restored";
@@ -91,31 +91,31 @@ class ArchiveController extends Controller
     public function showArchiveClasses()
     {
         $totalProgress = 0;
-        $userId = auth('sanctum')->id();
+        $userId = auth("sanctum")->id();
 
-        if(auth('sanctum')->user()->role != "Student") {
+        if(auth("sanctum")->user()->role != "Student") {
 
             $allClass = tbl_userclass::onlyTrashed()
-            ->where('tbl_userclasses.user_id', $userId)
-            ->select('tbl_classes.class_name',
-            'tbl_classes.class_code',
-            'tbl_subject_courses.course_name',
-            'tbl_subject_courses.course_code',
-            'tbl_subject_courses.completed as status',
-            'tbl_classes.id as class_id',
+            ->where("tbl_userclasses.user_id", $userId)
+            ->select("tbl_classes.class_name",
+            "tbl_classes.class_code",
+            "tbl_subject_courses.course_name",
+            "tbl_subject_courses.course_code",
+            "tbl_subject_courses.completed as status",
+            "tbl_classes.id as class_id",
             )
-            ->selectRaw('count(tbl_userclasses.course_id ) as student_count')
-            ->leftJoin('tbl_classes', 'tbl_userclasses.class_id', '=', 'tbl_classes.id')
-            ->leftJoin('tbl_subject_courses', 'tbl_userclasses.course_id', '=', 'tbl_subject_courses.id')
-            ->groupBy('tbl_classes.class_name','tbl_classes.class_code', 'tbl_subject_courses.course_name'
-            ,'tbl_subject_courses.course_code', 'tbl_subject_courses.completed', 'tbl_classes.id')
+            ->selectRaw("count(tbl_userclasses.course_id ) as student_count")
+            ->leftJoin("tbl_classes", "tbl_userclasses.class_id", "=", "tbl_classes.id")
+            ->leftJoin("tbl_subject_courses", "tbl_userclasses.course_id", "=", "tbl_subject_courses.id")
+            ->groupBy("tbl_classes.class_name","tbl_classes.class_code", "tbl_subject_courses.course_name"
+            ,"tbl_subject_courses.course_code", "tbl_subject_courses.completed", "tbl_classes.id")
             ->get();
 
             foreach($allClass as $key => $value) {
                 $StudentCount = tbl_userclass::onlyTrashed()
-                ->where('class_id', $value ->class_id)
-                ->leftJoin('users','users.id','=','tbl_userclasses.user_id')
-                ->where('users.role','Student')
+                ->where("class_id", $value ->class_id)
+                ->leftJoin("users","users.id","=","tbl_userclasses.user_id")
+                ->where("users.role","Student")
                 ->count();
                 $value->student_count = $StudentCount;
             }
@@ -123,42 +123,42 @@ class ArchiveController extends Controller
         else{
            
             $allClass = tbl_userclass::onlyTrashed()
-            ->select('tbl_userclasses.id as useClass_id',
-            'tbl_classes.class_name',
-            'tbl_classes.class_code',
-            'tbl_subject_courses.course_picture',
-            'tbl_subject_courses.course_name',
-            'tbl_subject_courses.course_code',
-            'tbl_subject_courses.course_picture',
-            'tbl_subject_courses.id as course_id',
-            'tbl_subject_courses.completed as status',
-            'tbl_classes.id as class_id',
-            'tbl_userclasses.progress'
+            ->select("tbl_userclasses.id as useClass_id",
+            "tbl_classes.class_name",
+            "tbl_classes.class_code",
+            "tbl_subject_courses.course_picture",
+            "tbl_subject_courses.course_name",
+            "tbl_subject_courses.course_code",
+            "tbl_subject_courses.course_picture",
+            "tbl_subject_courses.id as course_id",
+            "tbl_subject_courses.completed as status",
+            "tbl_classes.id as class_id",
+            "tbl_userclasses.progress"
             )
-            ->leftJoin('tbl_classes', 'tbl_userclasses.class_id', '=', 'tbl_classes.id')
-            ->leftJoin('tbl_subject_courses', 'tbl_userclasses.course_id', '=', 'tbl_subject_courses.id')
-            ->where('user_id',$userId)
+            ->leftJoin("tbl_classes", "tbl_userclasses.class_id", "=", "tbl_classes.id")
+            ->leftJoin("tbl_subject_courses", "tbl_userclasses.course_id", "=", "tbl_subject_courses.id")
+            ->where("user_id",$userId)
             ->get();
             foreach($allClass as $key => $value) {
-                $allSubModulesProgress = DB::table('tbl_student_sub_module_progress')
-                ->select('tbl_student_sub_module_progress.*')
-                ->leftJoin('tbl_sub_modules', 'tbl_sub_modules.id', '=', 'tbl_student_sub_module_progress.sub_module_id')
-                ->where('tbl_student_sub_module_progress.course_id', $value ->course_id )
-                ->where('tbl_student_sub_module_progress.student_id',  $userId )
+                $allSubModulesProgress = DB::table("tbl_student_sub_module_progress")
+                ->select("tbl_student_sub_module_progress.*")
+                ->leftJoin("tbl_sub_modules", "tbl_sub_modules.id", "=", "tbl_student_sub_module_progress.sub_module_id")
+                ->where("tbl_student_sub_module_progress.course_id", $value ->course_id )
+                ->where("tbl_student_sub_module_progress.student_id",  $userId )
                 ->get();
 
                 $allSubModulesProgress = json_decode($allSubModulesProgress, true);
-                $allSubModules = DB::table('tbl_sub_modules')
-                ->select('tbl_sub_modules.*', "course_id")
-                ->leftJoin('tbl_main_modules', 'tbl_main_modules.id', '=', 'tbl_sub_modules.main_module_id')
-                ->where('tbl_main_modules.course_id', $value ->course_id)
+                $allSubModules = DB::table("tbl_sub_modules")
+                ->select("tbl_sub_modules.*", "course_id")
+                ->leftJoin("tbl_main_modules", "tbl_main_modules.id", "=", "tbl_sub_modules.main_module_id")
+                ->where("tbl_main_modules.course_id", $value ->course_id)
                 ->get();
                 $allSubModules = json_decode($allSubModules, true);
                 $completed = 0;
                 for($i = 0 ; $i < count($allSubModules) ; $i++) {
                     for($j = 0; $j < count($allSubModulesProgress); $j++) {
-                        if($allSubModulesProgress[$j]['sub_module_id'] == $allSubModules[$i]['id'] ){
-                            if($allSubModulesProgress[$j]['time_spent'] >= $allSubModules[$i]['required_time'] ){
+                        if($allSubModulesProgress[$j]["sub_module_id"] == $allSubModules[$i]["id"] ){
+                            if($allSubModulesProgress[$j]["time_spent"] >= $allSubModules[$i]["required_time"] ){
                             $completed++;
                             }
                         }
@@ -172,10 +172,10 @@ class ArchiveController extends Controller
                     $totalProgress = 0;
                 }
                 
-                DB::table('tbl_userclasses')
-                ->where('user_id', $userId)
-                ->where('course_id', $value ->course_id)
-                ->update(['progress' =>   $totalProgress]);
+                DB::table("tbl_userclasses")
+                ->where("user_id", $userId)
+                ->where("course_id", $value ->course_id)
+                ->update(["progress" =>   $totalProgress]);
             }
 
             //return $allClass;
@@ -192,7 +192,7 @@ class ArchiveController extends Controller
     public function restoreClass($id)
     {
      
-        $CheckClass = tbl_userclass::withTrashed()->where('class_id', $id)
+        $CheckClass = tbl_userclass::withTrashed()->where("class_id", $id)
         ->restore();
          if($CheckClass){
             return "Class Restored";

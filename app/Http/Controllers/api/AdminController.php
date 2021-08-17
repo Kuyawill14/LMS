@@ -21,10 +21,10 @@ class AdminController extends Controller
         //
     }
     public function getAllTeacher() {
-        $teachers = tbl_userDetails::where('role','Teacher')
-        ->select('users.role','users.email',
-        'tbl_user_details.*')
-        ->leftJoin('users', 'users.id', '=', 'tbl_user_details.user_id')
+        $teachers = tbl_userDetails::where("role","Teacher")
+        ->select("users.role","users.email",
+        "tbl_user_details.*")
+        ->leftJoin("users", "users.id", "=", "tbl_user_details.user_id")
         ->get();
 
         return $teachers;
@@ -32,10 +32,10 @@ class AdminController extends Controller
 
 
     public function getAllTeacherProgress() {
-        $teachers = tbl_userDetails::where('role','Teacher')
-        ->select('users.role','users.email',
-        'tbl_user_details.*')
-        ->leftJoin('users', 'users.id', '=', 'tbl_user_details.user_id')
+        $teachers = tbl_userDetails::where("role","Teacher")
+        ->select("users.role","users.email",
+        "tbl_user_details.*")
+        ->leftJoin("users", "users.id", "=", "tbl_user_details.user_id")
         ->get();
 
         return $teachers;
@@ -45,8 +45,8 @@ class AdminController extends Controller
 
 
     public function removeUser($id) {
-        $user_details = tbl_userDetails::where('user_id',$id)->first();
-        $user = User::where('id',$id)->first();
+        $user_details = tbl_userDetails::where("user_id",$id)->first();
+        $user = User::where("id",$id)->first();
         if($user_details && $user){
             $user_details->delete();
             $user->delete();
@@ -108,8 +108,8 @@ class AdminController extends Controller
     {
        
         $userId = $id;
-        $UpdateDetails = User::where('users.id',$userId)
-        ->leftjoin('tbl_user_details', 'tbl_user_details.user_id', '=', 'users.id')
+        $UpdateDetails = User::where("users.id",$userId)
+        ->leftjoin("tbl_user_details", "tbl_user_details.user_id", "=", "users.id")
         ->first();
         //tbl_userDetails::where("tbl_user_details.user_id",$userId)->first();
         if($UpdateDetails){
@@ -124,7 +124,7 @@ class AdminController extends Controller
     }
 
     public function generatePassword() {
-        $append= 'isu';
+        $append= "isu";
         $alphabet = "aeiouxyzBCDFGHIJKL1023456789#$%&@@";
         $pass = array(); //remember to declare $pass as an array
         $alphaLength = strlen($alphabet) - 1; //put the length -1 in cache
@@ -132,7 +132,7 @@ class AdminController extends Controller
             $n = rand(0, $alphaLength);
             $pass[] = $alphabet[$n];
         }
-        return $append . '-'. implode($pass); //turn the array into a string
+        return $append . "-". implode($pass); //turn the array into a string
     }
 
     public function resetTeacherPassword($id) {
@@ -143,8 +143,7 @@ class AdminController extends Controller
             $userTeacher->password =  Hash::make($newpassword);
             $userTeacher->save();
             Mail::to($userTeacher->email)->send(new SendNewPassword($newpassword));
- 
-            return "User's password successfully reset!";
+            return "Users password successfully reset!";
         }
 
     }

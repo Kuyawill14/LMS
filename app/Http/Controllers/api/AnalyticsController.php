@@ -18,25 +18,25 @@ class AnalyticsController extends Controller
      */
     public function index($id)
     {
-        $analytics = tbl_Questions::where('tbl_questions.classwork_id','=',$id)
-        ->select('tbl_questions.id','tbl_questions.question', 
-        'tbl_question_analytics.correct_count','tbl_question_analytics.wrong_count','tbl_question_analytics.average_time')
-        ->leftJoin('tbl_question_analytics', 'tbl_question_analytics.question_id', '=', 'tbl_questions.id')
-        ->orderBy('tbl_questions.created_at','DESC')
+        $analytics = tbl_Questions::where("tbl_questions.classwork_id","=",$id)
+        ->select("tbl_questions.id","tbl_questions.question", 
+        "tbl_question_analytics.correct_count","tbl_question_analytics.wrong_count","tbl_question_analytics.average_time")
+        ->leftJoin("tbl_question_analytics", "tbl_question_analytics.question_id", "=", "tbl_questions.id")
+        ->orderBy("tbl_questions.created_at","DESC")
         ->get();
         
 
 
 
-        $SubmissionCount = tbl_classClassworks::where('tbl_class_classworks.classwork_id', $id)
-        ->select('tbl_class_classworks.classwork_id', 'tbl_class_classworks.class_id', 'tbl_userclasses.user_id','tbl_user_details.profile_pic','tbl_user_details.firstname', 'tbl_user_details.lastName')
-        ->leftJoin('tbl_userclasses', 'tbl_userclasses.class_id','=','tbl_class_classworks.class_id')
-        ->leftJoin('users', 'users.id','=','tbl_userclasses.user_id')
-        ->leftjoin('tbl_user_details','tbl_user_details.user_id','=','users.id')
-        ->where('users.role','Student')
+        $SubmissionCount = tbl_classClassworks::where("tbl_class_classworks.classwork_id", $id)
+        ->select("tbl_class_classworks.classwork_id", "tbl_class_classworks.class_id", "tbl_userclasses.user_id","tbl_user_details.profile_pic","tbl_user_details.firstName", "tbl_user_details.lastName")
+        ->leftJoin("tbl_userclasses", "tbl_userclasses.class_id","=","tbl_class_classworks.class_id")
+        ->leftJoin("users", "users.id","=","tbl_userclasses.user_id")
+        ->leftjoin("tbl_user_details","tbl_user_details.user_id","=","users.id")
+        ->where("users.role","Student")
         ->count();
 
-        return ['analytics'=>  $analytics, 'totalSubmission'=> $SubmissionCount];
+        return ["analytics"=>  $analytics, "totalSubmission"=> $SubmissionCount];
    /*      return $analytics;
         return $SubmissionCount; */
 
