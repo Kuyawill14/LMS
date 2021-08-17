@@ -27,9 +27,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-// import VuePdfApp from "vue-pdf-app";
-// import "vue-pdf-app/dist/icons/main.css";
-// VuePdfApp component is registered in src/main.js
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['pdf_file', 'title'],
   data: function data() {
@@ -38,7 +35,6 @@ __webpack_require__.r(__webpack_exports__);
       pdf_path: null
     };
   },
-  methods: {},
   created: function created() {
     var host = window.location.protocol + "//" + window.location.host;
     this.pdf_path = host + this.pdf_file;
@@ -178,7 +174,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("v-card", [
+  return _c("v-card", { staticStyle: { height: "500px" } }, [
     _c("iframe", {
       staticStyle: {
         position: "absolute",

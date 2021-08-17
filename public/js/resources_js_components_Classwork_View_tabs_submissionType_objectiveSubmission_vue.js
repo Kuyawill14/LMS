@@ -222,7 +222,7 @@ var checkobjective = function checkobjective() {
       if (this.search) {
         return this.ListData.filter(function (item) {
           return _this.search.toLowerCase().split(' ').every(function (v) {
-            return item.firstname.toLowerCase().includes(v) || item.lastName.toLowerCase().includes(v);
+            return item.firstName.toLowerCase().includes(v) || item.lastName.toLowerCase().includes(v);
           });
         });
       } else {
@@ -522,7 +522,7 @@ var render = function() {
                                                             null ||
                                                           item.profile_pic == ""
                                                             ? "https://ui-avatars.com/api/?background=random&color=fff&name=" +
-                                                              item.firstname +
+                                                              item.firstName +
                                                               " " +
                                                               item.lastName
                                                             : item.profile_pic
@@ -544,13 +544,13 @@ var render = function() {
                                                       },
                                                       [
                                                         _vm._v(
-                                                          "\n                                " +
+                                                          "\r\n                                " +
                                                             _vm._s(
-                                                              item.firstname +
+                                                              item.firstName +
                                                                 " " +
                                                                 item.lastName
                                                             ) +
-                                                            "\n                                "
+                                                            "\r\n                                "
                                                         ),
                                                         _c("br")
                                                       ]
@@ -884,13 +884,13 @@ var render = function() {
                                                           },
                                                           [
                                                             _vm._v(
-                                                              "\n                                                    " +
+                                                              "\r\n                                                    " +
                                                                 _vm._s(
-                                                                  item.firstname +
+                                                                  item.firstName +
                                                                     " " +
                                                                     item.lastName
                                                                 ) +
-                                                                "\n                                                "
+                                                                "\r\n                                                "
                                                             )
                                                           ]
                                                         ),
@@ -908,7 +908,7 @@ var render = function() {
                                                                   "small",
                                                                   [
                                                                     _vm._v(
-                                                                      "Submitted\n                                                        "
+                                                                      "Submitted\r\n                                                        "
                                                                     ),
                                                                     _c(
                                                                       "v-icon",
