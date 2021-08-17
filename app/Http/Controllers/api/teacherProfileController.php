@@ -29,12 +29,17 @@ class TeacherProfileController extends Controller
     public function teacherProfile($id)
     {
     
+        // return $id;
+        $userDetails = User::find($id);
+        // ->leftJoin('tbl_user_details', 'tbl_user_details.user_id', '=', 'users.id')
+
+
+        // $userDetails = User::where('users.id' ,$id)
+        // ->select('users.role','users.email',
+        // 'tbl_user_details.*')
+        // ->leftJoin('tbl_user_details', 'tbl_user_details.user_id', '=', 'users.id')
+        // ->first();
         
-        $userDetails = User::where('users.id' ,$id)
-        ->select('users.role','users.email',
-        'tbl_user_details.*')
-        ->leftJoin('tbl_user_details', 'tbl_user_details.user_id', '=', 'users.id')
-        ->first();
         
         return $userDetails;
     }
