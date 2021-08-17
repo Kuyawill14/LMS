@@ -62,7 +62,7 @@ class AnnouncementController extends Controller
                 ->orWhere('tbl_classposts.class_id', $id)
 
                 ->select('tbl_classposts.id as post_id', 'tbl_class_announcements.id as announcement_id','tbl_class_announcements.*',
-                DB::raw('CONCAT(tbl_user_details.firstName, " ", tbl_user_details.lastName) as name'),'tbl_user_details.profile_pic')
+                DB::raw('CONCAT(tbl_user_details.firstName," ",tbl_user_details.lastName) as name'),'tbl_user_details.profile_pic')
                 ->selectRaw('count(tbl_comments.id ) as comment_count')
                 ->selectRaw('count(tbl_likes.id ) as likes_count')
                 ->leftJoin('tbl_classworks', 'tbl_classposts.classwork_id', '=', 'tbl_classworks.id')
@@ -71,7 +71,7 @@ class AnnouncementController extends Controller
                 ->leftJoin('tbl_likes', 'tbl_classposts.id', '=', 'tbl_likes.post_id')
                 ->leftJoin('users', 'tbl_classposts.user_id', '=', 'users.id')
                 ->leftJoin('tbl_user_details', 'users.id', '=', 'tbl_user_details.user_id')
-                ->orderBy('created_at', 'DESC')
+                ->orderBy('tbl_classposts.created_at', 'DESC')
                 ->paginate(5);
                 //return $allClassPost->toArray();
                 return $allClassPost;
@@ -105,11 +105,11 @@ class AnnouncementController extends Controller
     {
         //
         $userId = auth('sanctum')->id();
+
         $username = User::where('users.id', $userId)
-        ->select('tbl_user_details.profile_pic')
-        ->selectRaw('CONCAT(tbl_user_details.firstName, " ", tbl_user_details.lastName) as name')
+        ->select('tbl_user_details.profile_pic','tbl_user_details.firstName','tbl_user_details.lastName')
         ->leftJoin('tbl_user_details', 'users.id', '=', 'tbl_user_details.user_id')
-        ->get();
+        ->first();
 
           //
           $NewAnnouncement = new tbl_classAnnouncement;
@@ -156,7 +156,7 @@ class AnnouncementController extends Controller
             'content'=>$NewAnnouncement->content, 
             'created_at'=>$NewAnnouncement->created_at, 
             'updated_at'=>$NewAnnouncement->updated_at, 
-            'name' => $username[0]->name,
+            'name' => $username->firstName." ".$username->lastName,
             'profile_pic' => $username[0]->profile_pic,
             'comment_count' => 0,
             'likes_count' => 0
