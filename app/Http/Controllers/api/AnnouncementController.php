@@ -33,45 +33,45 @@ class AnnouncementController extends Controller
     
     public function allClassPost($id)
     {
-        $userId = auth('sanctum')->id();
+        $userId = auth("sanctum")->id();
         //$userId = 3;
-        if(auth('sanctum')->user()->role != 'Student')
+        if(auth("sanctum")->user()->role != "Student")
         {
-            $allClassPost = tbl_classpost::where('tbl_classposts.course_id', $id)
-            ->select('tbl_classposts.id as post_id', 'tbl_classposts.class_id', 'tbl_class_announcements.id as announcement_id','tbl_class_announcements.*',
-             DB::raw('CONCAT(tbl_user_details.firstName, " ", tbl_user_details.lastName) as name'),'tbl_user_details.profile_pic')
-            ->selectRaw('count(tbl_comments.id ) as comment_count')
-            ->selectRaw('count(tbl_likes.id ) as likes_count')
-            ->leftJoin('tbl_classworks', 'tbl_classposts.classwork_id', '=', 'tbl_classworks.id')
-            ->leftJoin('tbl_class_announcements', 'tbl_classposts.announcement_id', '=', 'tbl_class_announcements.id')
-            ->leftJoin('tbl_comments', 'tbl_classposts.id', '=', 'tbl_comments.post_id')
-            ->leftJoin('tbl_likes', 'tbl_classposts.id', '=', 'tbl_likes.post_id')
-            ->leftJoin('users', 'tbl_classposts.user_id', '=', 'users.id')
-            ->leftJoin('tbl_user_details', 'users.id', '=', 'tbl_user_details.user_id')
-            ->orderBy('tbl_classposts.created_at', 'DESC')
+            $allClassPost = tbl_classpost::where("tbl_classposts.course_id", $id)
+            ->select("tbl_classposts.id as post_id", "tbl_classposts.class_id", "tbl_class_announcements.id as announcement_id","tbl_class_announcements.*",
+             DB::raw("CONCAT(tbl_user_details.firstName,' ',tbl_user_details.lastName) as name"),"tbl_user_details.profile_pic")
+            ->selectRaw("count(tbl_comments.id ) as comment_count")
+            ->selectRaw("count(tbl_likes.id ) as likes_count")
+            ->leftJoin("tbl_classworks", "tbl_classposts.classwork_id", "=", "tbl_classworks.id")
+            ->leftJoin("tbl_class_announcements", "tbl_classposts.announcement_id", "=", "tbl_class_announcements.id")
+            ->leftJoin("tbl_comments", "tbl_classposts.id", "=", "tbl_comments.post_id")
+            ->leftJoin("tbl_likes", "tbl_classposts.id", "=", "tbl_likes.post_id")
+            ->leftJoin("users", "tbl_classposts.user_id", "=", "users.id")
+            ->leftJoin("tbl_user_details", "users.id", "=", "tbl_user_details.user_id")
+            ->orderBy("tbl_classposts.created_at", "DESC")
            
             ->paginate(5);
             //->get();
             return $allClassPost;
         }
         else{
-            $Class_id = tbl_userclass::where('course_id', $id)
-            ->where('user_id', $userId)->first();
+            $Class_id = tbl_userclass::where("course_id", $id)
+            ->where("user_id", $userId)->first();
             if($Class_id ){
-                $allClassPost = tbl_classpost::where('tbl_classposts.class_id', $Class_id->class_id)
-                ->orWhere('tbl_classposts.class_id', $id)
+                $allClassPost = tbl_classpost::where("tbl_classposts.class_id", $Class_id->class_id)
+                ->orWhere("tbl_classposts.class_id", $id)
 
-                ->select('tbl_classposts.id as post_id', 'tbl_class_announcements.id as announcement_id','tbl_class_announcements.*',
-                DB::raw('CONCAT(tbl_user_details.firstName," ",tbl_user_details.lastName) as name'),'tbl_user_details.profile_pic')
-                ->selectRaw('count(tbl_comments.id ) as comment_count')
-                ->selectRaw('count(tbl_likes.id ) as likes_count')
-                ->leftJoin('tbl_classworks', 'tbl_classposts.classwork_id', '=', 'tbl_classworks.id')
-                ->leftJoin('tbl_class_announcements', 'tbl_classposts.announcement_id', '=', 'tbl_class_announcements.id')
-                ->leftJoin('tbl_comments', 'tbl_classposts.id', '=', 'tbl_comments.post_id')
-                ->leftJoin('tbl_likes', 'tbl_classposts.id', '=', 'tbl_likes.post_id')
-                ->leftJoin('users', 'tbl_classposts.user_id', '=', 'users.id')
-                ->leftJoin('tbl_user_details', 'users.id', '=', 'tbl_user_details.user_id')
-                ->orderBy('tbl_classposts.created_at', 'DESC')
+                ->select("tbl_classposts.id as post_id", "tbl_class_announcements.id as announcement_id","tbl_class_announcements.*",
+                DB::raw("CONCAT(tbl_user_details.firstName,' ',tbl_user_details.lastName) as name"),"tbl_user_details.profile_pic")
+                ->selectRaw("count(tbl_comments.id ) as comment_count")
+                ->selectRaw("count(tbl_likes.id ) as likes_count")
+                ->leftJoin("tbl_classworks", "tbl_classposts.classwork_id", "=", "tbl_classworks.id")
+                ->leftJoin("tbl_class_announcements", "tbl_classposts.announcement_id", "=", "tbl_class_announcements.id")
+                ->leftJoin("tbl_comments", "tbl_classposts.id", "=", "tbl_comments.post_id")
+                ->leftJoin("tbl_likes", "tbl_classposts.id", "=", "tbl_likes.post_id")
+                ->leftJoin("users", "tbl_classposts.user_id", "=", "users.id")
+                ->leftJoin("tbl_user_details", "users.id", "=", "tbl_user_details.user_id")
+                ->orderBy("tbl_classposts.created_at", "DESC")
                 ->paginate(5);
                 //return $allClassPost->toArray();
                 return $allClassPost;
@@ -104,28 +104,28 @@ class AnnouncementController extends Controller
     public function store(Request $request)
     {
         //
-        $userId = auth('sanctum')->id();
+        $userId = auth("sanctum")->id();
 
-        $username = User::where('users.id', $userId)
-        ->select('tbl_user_details.profile_pic','tbl_user_details.firstName','tbl_user_details.lastName')
-        ->leftJoin('tbl_user_details', 'users.id', '=', 'tbl_user_details.user_id')
+        $username = User::where("users.id", $userId)
+        ->select("tbl_user_details.profile_pic","tbl_user_details.firstName","tbl_user_details.lastName")
+        ->leftJoin("tbl_user_details", "users.id", "=", "tbl_user_details.user_id")
         ->first();
 
           //
           $NewAnnouncement = new tbl_classAnnouncement;
-          $NewAnnouncement->content = $request->announcement['content'];
-          $NewAnnouncement->file = $request->announcement['file'];
+          $NewAnnouncement->content = $request->announcement["content"];
+          $NewAnnouncement->file = $request->announcement["file"];
           $NewAnnouncement->save();
   
           
   
           //New Post
-          $Class_id = tbl_userclass::where('course_id', $request->announcement['course_id'])
-          ->where('user_id', $userId)->first();
+          $Class_id = tbl_userclass::where("course_id", $request->announcement["course_id"])
+          ->where("user_id", $userId)->first();
 
           $NewPost  = new tbl_classpost;
-          $NewPost->course_id = $request->announcement['course_id'];
-          $NewPost->class_id = auth('sanctum')->user()->role != 'Student' ? $request->announcement['class_id'] : $Class_id->class_id;
+          $NewPost->course_id = $request->announcement["course_id"];
+          $NewPost->class_id = auth("sanctum")->user()->role != "Student" ? $request->announcement["class_id"] : $Class_id->class_id;
           $NewPost->announcement_id =$NewAnnouncement->id;
           $NewPost->classwork_id = 0;
           $NewPost->user_id = $userId ;
@@ -134,11 +134,11 @@ class AnnouncementController extends Controller
 
         
           //New notification
-         /* $userInClass = tbl_subject_course::where('tbl_subject_courses.id', $NewPost->course_id)
+         /* $userInClass = tbl_subject_course::where("tbl_subject_courses.id", $NewPost->course_id)
           ->first(); */
 
         /* $newNotification = new tbl_notification;
-        $newNotification->course_id = $request->announcement['course_id'];
+        $newNotification->course_id = $request->announcement["course_id"];
         $newNotification->class_id = $NewPost->class_id;
         $newNotification->from_id =  $userId;
         $newNotification->message = "Posted new announcement in ".$userInClass->course_name;
@@ -151,15 +151,15 @@ class AnnouncementController extends Controller
 
 
           return response()->json([
-            'post_id'=>$NewPost->id, 
-            'announcement_id'=>$NewPost->announcement_id, 
-            'content'=>$NewAnnouncement->content, 
-            'created_at'=>$NewAnnouncement->created_at, 
-            'updated_at'=>$NewAnnouncement->updated_at, 
-            'name' => $username->firstName." ".$username->lastName,
-            'profile_pic' => $username[0]->profile_pic,
-            'comment_count' => 0,
-            'likes_count' => 0
+            "post_id"=>$NewPost->id, 
+            "announcement_id"=>$NewPost->announcement_id, 
+            "content"=>$NewAnnouncement->content, 
+            "created_at"=>$NewAnnouncement->created_at, 
+            "updated_at"=>$NewAnnouncement->updated_at, 
+            "name" => $username->firstName." ".$username->lastName,
+            "profile_pic" => $username->profile_pic,
+            "comment_count" => 0,
+            "likes_count" => 0
         ]);
      
     }
