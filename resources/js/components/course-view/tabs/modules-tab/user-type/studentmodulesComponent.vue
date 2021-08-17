@@ -29,12 +29,12 @@
                                     :src="'/storage/' + subModuleData.file_attachment"></vue-core-video-player>
                             </div>
 
-                            <v-dialog v-model="pdfdialog" v-if="type=='Document' " fullscreen hide-overlay transition="dialog-bottom-transition">
+                            <!-- <v-dialog v-model="pdfdialog" v-if="type=='Document' " fullscreen hide-overlay transition="dialog-bottom-transition"> -->
                             <pdfviewer :key="subModuleData.sub_module_name + 1"
                                 v-if="type=='Document'  && isSelectedModule " :title="subModuleData.sub_module_name"
                                 :pdf_file="'/storage/' + subModuleData.file_attachment"
                                 v-on:closePdf="pdfdialog = false" />
-                            </v-dialog>
+                            <!-- </v-dialog> -->
                         </v-container>
 
 
