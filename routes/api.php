@@ -295,7 +295,7 @@ Route::prefix('/admin/teachers')->group(function () {
     Route::delete('/remove/{id}', [AdminController::class, 'removeUser']);
 
     Route::get('/all/summarry', [MonitorTeacherController::class, 'getAllTeacherSummarryData']);
-    Route::get('/p/{id}', [TeacherProfileController::class, 'teacherProfile']);
+    Route::get('/profile/{id}', [TeacherProfileController::class, 'teacherProfile']);
     Route::get('/profile/ClassesList/{id}', [TeacherProfileController::class, 'getCourseAndClassesList']);
     Route::get('/classes/{id}/{user_id}', [TeacherProfileController::class, 'getCourseClassList']);
 
