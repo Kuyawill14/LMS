@@ -445,17 +445,17 @@ var render = function() {
                             [
                               _c("v-icon", { attrs: { left: "" } }, [
                                 _vm._v(
-                                  "\r\n                        cloud_upload\r\n                        "
+                                  "\n                        cloud_upload\n                        "
                                 )
                               ]),
                               _vm._v(
-                                "\r\n                        " +
+                                "\n                        " +
                                   _vm._s(
                                     _vm.$vuetify.breakpoint.xs
                                       ? ""
                                       : "Upload file"
                                   ) +
-                                  "\r\n                    "
+                                  "\n                    "
                               )
                             ],
                             1
