@@ -220,7 +220,7 @@ const router = new Router({
                                 store.dispatch('fetchMyCoursesStatus').then((res)=>{
                                
                                     if(res.status == 200){
-                                        let Exist = false;
+                                       /*  let Exist = false;
                                         let Completed = false;
                                         let CourseStatus = store.state.CurrentUser.MyCourses;
                                         CourseStatus.forEach(item => {
@@ -230,30 +230,32 @@ const router = new Router({
                                                     Completed = true
                                                 }
                                             }
-                                        });
-                                        if (Exist == true) {
-                                            if (Completed == true) {
-                                                if (store.state.CurrentUser.UserRole == 'Teacher') {
-                                                    next();
+                                        }); */
+                                        store.dispatch('CheckMyCourse', to.params.id).then(response => {
+                                            if (response.exist == true) {
+                                                if (response.status == true) {
+                                                    if (store.state.CurrentUser.UserRole == 'Teacher') {
+                                                        next();
+                                                    } else {
+                                                        return next({
+                                                            name: "announcement",
+                                                            params: { id: to.params.id }
+                                                        })
+                                                    }
+
                                                 } else {
                                                     return next({
-                                                        name: "announcement",
+                                                        name: "courseSetup",
                                                         params: { id: to.params.id }
                                                     })
                                                 }
-
                                             } else {
                                                 return next({
-                                                    name: "courseSetup",
+                                                    name: "course-not-found",
                                                     params: { id: to.params.id }
                                                 })
                                             }
-                                        } else {
-                                            return next({
-                                                name: "course-not-found",
-                                                params: { id: to.params.id }
-                                            })
-                                        }
+                                        })
                                     }
                                 })
                                 

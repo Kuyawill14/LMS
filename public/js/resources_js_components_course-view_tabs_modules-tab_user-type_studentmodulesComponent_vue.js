@@ -11,10 +11,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var vue_pdf_app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-pdf-app */ "./node_modules/vue-pdf-app/dist/vue-pdf-app.umd.js");
-/* harmony import */ var vue_pdf_app__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue_pdf_app__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var vue_pdf_app_dist_icons_main_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-pdf-app/dist/icons/main.css */ "./node_modules/vue-pdf-app/dist/icons/main.css");
-/* harmony import */ var vue_pdf_app_dist_icons_main_css__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue_pdf_app_dist_icons_main_css__WEBPACK_IMPORTED_MODULE_1__);
 //
 //
 //
@@ -31,61 +27,21 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
- // VuePdfApp component is registered in src/main.js
-
+// import VuePdfApp from "vue-pdf-app";
+// import "vue-pdf-app/dist/icons/main.css";
+// VuePdfApp component is registered in src/main.js
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['pdf_file', 'title'],
   data: function data() {
     return {
       dialog: false,
-      idConfig: {
-        pageNumber: "vuePdfAppPageNumber"
-      },
-      page: 6,
       pdf_path: null
     };
   },
-  components: {
-    VuePdfApp: (vue_pdf_app__WEBPACK_IMPORTED_MODULE_0___default())
-  },
-  methods: {
-    pagesRendered: function pagesRendered(pdfApp) {},
-    pageHandler: function pageHandler() {//  $('.page').css("display", "none");
-      //                 var currentPage = parseInt($('#vuePdfAppPageNumber').val()) - 1;
-      //                 $('.page:eq(' + currentPage + ')').attr('style', 'display:block');
-      //                 console.log(currentPage);
-    },
-    test: function test() {
-      alert('12312');
-    }
-  },
+  methods: {},
   created: function created() {
-    this.pdf_path = this.pdf_file;
+    var host = window.location.protocol + "//" + window.location.host;
+    this.pdf_path = host + this.pdf_file;
   }
 });
 
@@ -833,77 +789,23 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "v-card",
-    [
-      _c(
-        "v-toolbar",
-        {
-          staticStyle: { display: "none" },
-          attrs: { dark: "", color: "primary" }
-        },
-        [
-          _c(
-            "v-btn",
-            {
-              attrs: { icon: "", dark: "" },
-              on: {
-                click: function($event) {
-                  return _vm.$emit("closePdf")
-                }
-              }
-            },
-            [_c("v-icon", [_vm._v("mdi-close")])],
-            1
-          ),
-          _vm._v(" "),
-          _c("v-toolbar-title", [_vm._v(_vm._s(_vm.title))]),
-          _vm._v(" "),
-          _c("v-spacer"),
-          _vm._v(" "),
-          _c("v-toolbar-items", [
-            _c("span", { staticClass: "divider" }),
-            _vm._v(" "),
-            _c("input", {
-              staticStyle: { width: "40px" },
-              attrs: {
-                id: _vm.idConfig.pageNumber,
-                type: "number",
-                name: "pageNumber"
-              },
-              on: {
-                change: function($event) {
-                  return _vm.pageHandler()
-                }
-              }
-            }),
-            _vm._v(" "),
-            _c("span", { staticClass: "divider" }),
-            _vm._v(" "),
-            _c("span", [_vm._v(" pages")])
-          ])
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "div",
-        [
-          _c("vue-pdf-app", {
-            staticStyle: { height: "80vh" },
-            attrs: {
-              pdf: _vm.pdf_path,
-              "id-config": _vm.idConfig,
-              "page-scale": _vm.page - _vm.fit
-            },
-            on: { "pages-rendered": _vm.pagesRendered }
-          })
-        ],
-        1
-      )
-    ],
-    1
-  )
+  return _c("v-card", [
+    _c("iframe", {
+      staticStyle: {
+        position: "absolute",
+        top: "0px",
+        left: "0px",
+        width: "100%",
+        height: "100%"
+      },
+      attrs: {
+        title: "google pdf viewer",
+        id: "pdf-iframe",
+        src: "https://docs.google.com/viewer?embedded=true&url=" + _vm.pdf_path,
+        sandbox: "allow-same-origin allow-scripts allow-popups allow-forms"
+      }
+    })
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
