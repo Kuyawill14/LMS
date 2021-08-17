@@ -34,7 +34,7 @@ class TeacherProfileController extends Controller
         //$userDetails = User::find($id);
         // ->leftJoin('tbl_user_details', 'tbl_user_details.user_id', '=', 'users.id')
 
-        
+
         $userDetails = User::where('users.id' ,$id)
         ->select('users.role','users.email',
         'tbl_user_details.*')
