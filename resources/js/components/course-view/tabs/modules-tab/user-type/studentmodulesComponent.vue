@@ -127,8 +127,9 @@
 
 
        const pdfviewer = () => import('./pdfview')
-        const LazyYoutube = () => import('./vue-lazytube')
-  
+    import {
+        LazyYoutube
+    } from 'vue-lazytube'
 
     import VueElementLoading from 'vue-element-loading'
     //import modulesListComponent from './modulesListComponent'
