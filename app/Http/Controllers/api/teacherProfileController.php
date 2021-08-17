@@ -28,10 +28,9 @@ class TeacherProfileController extends Controller
      */
     public function teacherProfile($id)
     {
-        $userId = $id;
+    
         
-        $userDetails = User::where('users.id' ,$userId)
-        ->where('users.role', 'Teacher')
+        $userDetails = User::where('users.id' ,$id)
         ->select('users.role','users.email',
         'tbl_user_details.*')
         ->leftJoin('tbl_user_details', 'tbl_user_details.user_id', '=', 'users.id')
