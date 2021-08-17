@@ -262,7 +262,7 @@ var myCalendar = function myCalendar() {
     getUserDetails: function getUserDetails() {
       var _this = this;
 
-      axios.get('/api/admin/teachers/profile/' + this.$route.params.id).then(function (res) {
+      axios.get('/api/admin/teachers/p/' + this.$route.params.id).then(function (res) {
         _this.UserDetails = res.data;
         _this.isloading = !_this.isloading;
       })["catch"](function (e) {
