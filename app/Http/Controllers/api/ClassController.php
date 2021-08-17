@@ -260,8 +260,11 @@ class ClassController extends Controller
         $isExist = '';
         $gen_class_code ='';
         $code_length = 6;
+
         while($isExist != 0) {
-            $gen_class_code = $this->gen_uid($code_length);
+
+
+            $gen_class_code = 123123;
             $isExist = Tbl_class::select('class_code')->where('class_code', $gen_class_code)->count();
         }
         
