@@ -397,7 +397,7 @@ var render = function() {
                 ],
                 1
               ),
-              _vm._v("\r\n            Like\r\n        ")
+              _vm._v("\n            Like\n        ")
             ],
             1
           ),
@@ -428,7 +428,7 @@ var render = function() {
                 ],
                 1
               ),
-              _vm._v("\r\n            Comment\r\n        ")
+              _vm._v("\n            Comment\n        ")
             ],
             1
           )

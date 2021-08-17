@@ -404,7 +404,7 @@ var render = function() {
                       staticClass: "text-subtitle-1 text-center",
                       attrs: { cols: "12" }
                     },
-                    [_vm._v("\r\n            Loading\r\n        ")]
+                    [_vm._v("\n            Loading\n        ")]
                   ),
                   _vm._v(" "),
                   _c(
@@ -687,9 +687,9 @@ var render = function() {
                                                         },
                                                         [
                                                           _vm._v(
-                                                            "\r\n                                                " +
+                                                            "\n                                                " +
                                                               _vm._s(text) +
-                                                              "\r\n                                            "
+                                                              "\n                                            "
                                                           )
                                                         ]
                                                       )
@@ -699,7 +699,7 @@ var render = function() {
                                               ],
                                               null,
                                               false,
-                                              3880112256
+                                              1193889600
                                             )
                                           })
                                         ],
@@ -763,14 +763,14 @@ var render = function() {
                                         },
                                         [
                                           _vm._v(
-                                            "\r\n                                            Update\r\n                                            "
+                                            "\n                                            Update\n                                            "
                                           ),
                                           _c(
                                             "v-icon",
                                             { attrs: { right: "", dark: "" } },
                                             [
                                               _vm._v(
-                                                "\r\n                                                mdi-update\r\n                                            "
+                                                "\n                                                mdi-update\n                                            "
                                               )
                                             ]
                                           )
