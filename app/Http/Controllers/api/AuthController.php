@@ -45,7 +45,61 @@ class AuthController extends Controller
         return response()->json("Login Failed",203);
     }
 
-  
+    public function UserRegister(Request $request){
+        
+        $validated = $request->validate([
+            'firstName' => ['required'],
+            'middleName' => ['required'],
+            'lastName' => ['required'],
+            'role' => ['required'],
+            'class_code' => ['required'],
+            'email' => ['required', 'email', 'unique:users'],
+            'password' => ['required', 'min:6', 'confirmed']
+        ]);
+
+ 
+        if($request->role == 'Student'){
+
+            $Class = Tbl_class::where('class_code', $request->class_code)->first();
+            if($Class){
+                $New = User::create([
+                    'email' =>  $request->email,
+                    'password' => Hash::make($request->password),
+                    'role' =>  $request->role,
+                ]);
+
+              
+
+                $details = new tbl_userDetails;
+                $details->user_id = $New->id;
+                $details->firstName = $request->firstName;
+                $details->middleName = $request->middleName;
+                $details->lastName = $request->lastName;
+                $details->save();
+                $this->JoinClassAfterRegister($New->id, $request->class_code);
+                return $New;  
+            }
+            else{
+                return response()->json(['message'=>"Class code is invalid!"],202);
+            }
+        }
+        else{
+            $New =  User::create([
+                'email' =>  $request->email,
+                'password' => Hash::make($request->password),
+                'role' =>  $request->role,
+            ]);
+
+            $details = new tbl_userDetails;
+            $details->user_id = $New->id;
+            $details->firstName = $request->firstName;
+            $details->middleName = $request->middleName;
+            $details->lastName = $request->lastName;
+            $details->save();
+            return $New;  
+        }
+    
+    }
 
     public function JoinClassAfterRegister($userId, $id){
 
@@ -102,61 +156,7 @@ class AuthController extends Controller
 
 
     
-    public function UserRegister(Request $request){
-        
-        $validated = $request->validate([
-            'firstName' => ['required'],
-            'middleName' => ['required'],
-            'lastName' => ['required'],
-            'role' => ['required'],
-            'class_code' => ['required'],
-            'email' => ['required', 'email', 'unique:users'],
-            'password' => ['required', 'min:6', 'confirmed']
-        ]);
-
- 
-        if($request->role == 'Student'){
-
-            $Class = Tbl_class::where('class_code', $request->class_code)->first();
-            if($Class){
-                $New = User::create([
-                    'email' =>  $request->email,
-                    'password' => Hash::make($request->password),
-                    'role' =>  $request->role,
-                ]);
-
-              
-
-                $details = new tbl_userDetails;
-                $details->user_id = $New->id;
-                $details->firstName = $request->firstName;
-                $details->middleName = $request->middleName;
-                $details->lastName = $request->lastName;
-                $details->save();
-                $this->JoinClassAfterRegister($New->id, $request->class_code);
-                return $New;  
-            }
-            else{
-                return response()->json(['message'=>"Class code is invalid!"],202);
-            }
-        }
-        else{
-            $New =  User::create([
-                'email' =>  $request->email,
-                'password' => Hash::make($request->password),
-                'role' =>  $request->role,
-            ]);
-
-            $details = new tbl_userDetails;
-            $details->user_id = $New->id;
-            $details->firstName = $request->firstName;
-            $details->middleName = $request->middleName;
-            $details->lastName = $request->lastName;
-            $details->save();
-            return $New;  
-        }
     
-    }
 
 
     public function ChangePassword(Request $request){
