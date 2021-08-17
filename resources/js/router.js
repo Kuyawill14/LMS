@@ -4,7 +4,7 @@ import NProgress from 'nprogress';
 //import '../node_modules/nprogress/nprogress.css'
 import '../../node_modules/nprogress/nprogress.css'
 import store from './store/store'
-import { toNumber } from "lodash";
+import { flatMap, toNumber } from "lodash";
 import axios from "axios";
 
 Vue.use(Router);
@@ -217,88 +217,31 @@ const router = new Router({
                             path: "",
                             component: classes_tab,
                             beforeEnter: (to, from, next) => {
-                                store.dispatch('fetchMyCoursesStatus').then(()=>{
-                                    let Exist = false;
-                                    let Completed = false;
-                                    let CourseStatus = store.state.CurrentUser.MyCourses;
-                                    CourseStatus.forEach(item => {
-                                        if (to.params.id == item.id) {
-                                            Exist = true;
-                                            if (item.status == 1) {
-                                                Completed = true
+                                store.dispatch('fetchMyCoursesStatus').then((res)=>{
+                               
+                                    if(res.status == 200){
+                                        let Exist = false;
+                                        let Completed = false;
+                                        let CourseStatus = store.state.CurrentUser.MyCourses;
+                                        CourseStatus.forEach(item => {
+                                            if (to.params.id == item.id) {
+                                                Exist = true;
+                                                if (item.status == 1) {
+                                                    Completed = true
+                                                }
                                             }
-                                        }
-                                    });
-                                    if (Exist == true) {
-                                        if (Completed == true) {
-                                            if (store.state.CurrentUser.UserRole == 'Teacher') {
-                                                next();
-                                            } else {
-                                                return next({
-                                                    name: "announcement",
-                                                    params: { id: to.params.id }
-                                                })
-                                            }
-
-                                        } else {
-                                            return next({
-                                                name: "courseSetup",
-                                                params: { id: to.params.id }
-                                            })
-                                        }
-                                    } else {
-                                        return next({
-                                            name: "course-not-found",
-                                            params: { id: to.params.id }
-                                        })
-                                    }
-                                })
-                            },
-                        },
-                        {
-                            path: "setup",
-                            component: course_setup,
-                            name: "courseSetup",
-                            beforeEnter: (to, from, next) => {
-                                store.dispatch('fetchMyCoursesStatus').then(()=>{
-                                    if (store.state.CurrentUser.UserRole == 'Teacher') {
-                                        store.dispatch('CheckMyCourse', to.params.id).then(res => {
-                                            if (store.state.CurrentUser.CurrentStatus.exist == true) {
-                                                if (store.state.CurrentUser.CurrentStatus.status == 1) {
+                                        });
+                                        if (Exist == true) {
+                                            if (Completed == true) {
+                                                if (store.state.CurrentUser.UserRole == 'Teacher') {
+                                                    next();
+                                                } else {
                                                     return next({
-                                                        name: "coursePage",
+                                                        name: "announcement",
                                                         params: { id: to.params.id }
                                                     })
-                                                } else {
-                                                    next();
                                                 }
-                                            } else {
-                                                return next({
-                                                    name: "course-not-found",
-                                                    params: { id: to.params.id }
-                                                })
-                                            }
-                                        })
-                                    } else {
-                                        return next({
-                                            name: "courses",
 
-                                        })
-                                    }
-                                })
-                            },
-
-                        },
-                        {
-                            name: "announcement",
-                            path: "announcement",
-                            component: announcement_tab,
-                            beforeEnter: (to, form, next) => {
-                                store.dispatch('fetchMyCoursesStatus').then(()=>{
-                                    store.dispatch('CheckMyCourse', to.params.id).then(res => {
-                                        if (store.state.CurrentUser.CurrentStatus.exist == true) {
-                                            if (store.state.CurrentUser.CurrentStatus.status == 1) {
-                                                next();
                                             } else {
                                                 return next({
                                                     name: "courseSetup",
@@ -311,7 +254,72 @@ const router = new Router({
                                                 params: { id: to.params.id }
                                             })
                                         }
+                                    }
+                                })
+                                
+                            },
+                        },
+                        {
+                            path: "setup",
+                            component: course_setup,
+                            name: "courseSetup",
+                            beforeEnter: (to, from, next) => {
+                                store.dispatch('fetchMyCoursesStatus').then(()=>{
+                                    store.dispatch('fetchCurrentUser').then(()=>{
+                                        if (store.state.CurrentUser.UserRole == 'Teacher') {
+                                            store.dispatch('CheckMyCourse', to.params.id).then(res => {
+                                                if (store.state.CurrentUser.CurrentStatus.exist == true) {
+                                                    if (store.state.CurrentUser.CurrentStatus.status == 1) {
+                                                        return next({
+                                                            name: "coursePage",
+                                                            params: { id: to.params.id }
+                                                        })
+                                                    } else {
+                                                        next();
+                                                    }
+                                                } else {
+                                                    return next({
+                                                        name: "course-not-found",
+                                                        params: { id: to.params.id }
+                                                    })
+                                                }
+                                            })
+                                        } else {
+                                            return next({
+                                                name: "courses",
+
+                                            })
+                                        }
                                     })
+                                })
+                            },
+
+                        },
+                        {
+                            name: "announcement",
+                            path: "announcement",
+                            component: announcement_tab,
+                            beforeEnter: (to, form, next) => {
+                                store.dispatch('fetchMyCoursesStatus').then((res)=>{
+                                    if(res.status == 200){                                
+                                        store.dispatch('CheckMyCourse', to.params.id).then(res => {
+                                            if (store.state.CurrentUser.CurrentStatus.exist == true) {
+                                                if (store.state.CurrentUser.CurrentStatus.status == 1) {
+                                                    next();
+                                                } else {
+                                                    return next({
+                                                        name: "courseSetup",
+                                                        params: { id: to.params.id }
+                                                    })
+                                                }
+                                            } else {
+                                                return next({
+                                                    name: "course-not-found",
+                                                    params: { id: to.params.id }
+                                                })
+                                            }
+                                        })
+                                    }
                                 })
                             }
                         },

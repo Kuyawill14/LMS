@@ -46,6 +46,10 @@ const actions = {
         if(state.MyCourses.length == 0){
             const res = await axios.get(`/api/course/status`);
             state.MyCourses = res.data;
+            return res;
+        }
+        else{
+            return {'status': 200};
         }
     },
     setCourseStatus({ commit }, id){
