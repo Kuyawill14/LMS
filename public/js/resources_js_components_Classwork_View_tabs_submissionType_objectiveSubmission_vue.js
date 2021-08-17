@@ -522,7 +522,7 @@ var render = function() {
                                                             null ||
                                                           item.profile_pic == ""
                                                             ? "https://ui-avatars.com/api/?background=random&color=fff&name=" +
-                                                              item.firstName +
+                                                              item.firstname +
                                                               " " +
                                                               item.lastName
                                                             : item.profile_pic
@@ -546,7 +546,7 @@ var render = function() {
                                                         _vm._v(
                                                           "\r\n                                " +
                                                             _vm._s(
-                                                              item.firstName +
+                                                              item.firstname +
                                                                 " " +
                                                                 item.lastName
                                                             ) +
@@ -886,7 +886,7 @@ var render = function() {
                                                             _vm._v(
                                                               "\r\n                                                    " +
                                                                 _vm._s(
-                                                                  item.firstName +
+                                                                  item.firstname +
                                                                     " " +
                                                                     item.lastName
                                                                 ) +

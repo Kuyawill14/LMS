@@ -133,6 +133,15 @@ class StudentController extends Controller
             ->where('user_id',  $userId)->first();
             if($Check){
                 $Check->status = "Taking";
+                if($Check->status == "Taking"){
+                    $Check->status = "Taking";
+                 
+                }
+                else if($Check->status == null){
+                    $Check->status = "Taking";
+                    $Check->created_at = date('Y-m-d H:i:s');
+                    $Check->updated_at = date('Y-m-d H:i:s');
+                }
                 $Check->save();
                 return;
             }
