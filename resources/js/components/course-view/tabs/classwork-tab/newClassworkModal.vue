@@ -194,7 +194,13 @@ export default {
             .then(res=>{
               if(res.status == 201){
                 this.toastSuccess();
-                this.$router.push({name: 'add-question',params: {id: res.data.course_id},query: {clwk: res.data.id}})
+                if(this.form.type == 'Objective Type'){
+                    this.$router.push({name: 'add-question',params: {id: res.data.course_id},query: {clwk: res.data.id}})
+                }
+                else if(this.form.type == 'Subjective Type'){
+                    this.$router.push({name: 'classwork-details',params: {id: res.data.course_id},query: {clwk: res.data.id}})
+                }
+                
                 this.$refs.NewClassworkForm.reset()
                 this.loading = !this.loading;
                 //this.$emit('realodClassworks');

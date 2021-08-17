@@ -228,15 +228,27 @@ var VueElementLoading = function VueElementLoading() {
                   if (res.status == 201) {
                     _this2.toastSuccess();
 
-                    _this2.$router.push({
-                      name: 'add-question',
-                      params: {
-                        id: res.data.course_id
-                      },
-                      query: {
-                        clwk: res.data.id
-                      }
-                    });
+                    if (_this2.form.type == 'Objective Type') {
+                      _this2.$router.push({
+                        name: 'add-question',
+                        params: {
+                          id: res.data.course_id
+                        },
+                        query: {
+                          clwk: res.data.id
+                        }
+                      });
+                    } else if (_this2.form.type == 'Subjective Type') {
+                      _this2.$router.push({
+                        name: 'classwork-details',
+                        params: {
+                          id: res.data.course_id
+                        },
+                        query: {
+                          clwk: res.data.id
+                        }
+                      });
+                    }
 
                     _this2.$refs.NewClassworkForm.reset();
 
