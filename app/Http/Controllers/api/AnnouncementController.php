@@ -49,7 +49,7 @@ class AnnouncementController extends Controller
             ->leftJoin("users", "tbl_classposts.user_id", "=", "users.id")
             ->leftJoin("tbl_user_details", "users.id", "=", "tbl_user_details.user_id")
             ->orderBy("tbl_classposts.created_at", "DESC")
-           
+            ->groupBy('tbl_classposts.id')
             ->paginate(5);
             //->get();
             return $allClassPost;
@@ -60,7 +60,6 @@ class AnnouncementController extends Controller
             if($Class_id ){
                 $allClassPost = tbl_classpost::where("tbl_classposts.class_id", $Class_id->class_id)
                 ->orWhere("tbl_classposts.class_id", $id)
-
                 ->select("tbl_classposts.id as post_id", "tbl_class_announcements.id as announcement_id","tbl_class_announcements.*",
                 DB::raw("CONCAT(tbl_user_details.firstName,' ',tbl_user_details.lastName) as name"),"tbl_user_details.profile_pic")
                 ->selectRaw("count(tbl_comments.id ) as comment_count")
@@ -72,6 +71,7 @@ class AnnouncementController extends Controller
                 ->leftJoin("users", "tbl_classposts.user_id", "=", "users.id")
                 ->leftJoin("tbl_user_details", "users.id", "=", "tbl_user_details.user_id")
                 ->orderBy("tbl_classposts.created_at", "DESC")
+                ->groupBy('tbl_classposts.id')
                 ->paginate(5);
                 //return $allClassPost->toArray();
                 return $allClassPost;
