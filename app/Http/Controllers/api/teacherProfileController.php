@@ -128,7 +128,6 @@ class TeacherProfileController extends Controller
             'tbl_subject_courses.course_code',
             'tbl_subject_courses.id as course_id',
             )
-            ->selectRaw($course_count)
             ->selectRaw($class_count)
             ->selectRaw($classwork_count)
             ->selectRaw($sub_module_count)
