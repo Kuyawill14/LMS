@@ -25,7 +25,7 @@ use App\Http\Controllers\api\ArchiveController;
 use App\Http\Controllers\api\StudentCourseFinalGrades;
 use App\Http\Controllers\api\AdminController;
 use App\Http\Controllers\api\MonitorTeacherController;
-use App\Http\Controllers\api\TeacherProfileController;
+use App\Http\Controllers\api\teacherProfileController;
 use App\Http\Controllers\api\SchoolyearSemesterController;
 use App\Http\Controllers\api\DepartmentController;
 
