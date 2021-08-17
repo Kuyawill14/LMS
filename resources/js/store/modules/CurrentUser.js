@@ -72,8 +72,10 @@ const actions = {
                 }
             }
         });
+       
         state.CurrentStatus.exist = exist;
         state.CurrentStatus.status = status;
+        return {'exist' : exist, 'status': status };
     },
 
 };

@@ -301,10 +301,12 @@ const router = new Router({
                             component: announcement_tab,
                             beforeEnter: (to, form, next) => {
                                 store.dispatch('fetchMyCoursesStatus').then((res)=>{
+                                    console.log(res.status);
                                     if(res.status == 200){                                
-                                        store.dispatch('CheckMyCourse', to.params.id).then(res => {
-                                            if (store.state.CurrentUser.CurrentStatus.exist == true) {
-                                                if (store.state.CurrentUser.CurrentStatus.status == 1) {
+                                        store.dispatch('CheckMyCourse', to.params.id).then(response => {
+                                            console.log(response);
+                                            if (response.exist == true) {
+                                                if (response.status == 1) {
                                                     next();
                                                 } else {
                                                     return next({
@@ -328,24 +330,28 @@ const router = new Router({
                             path: "classwork",
                             component: classwork_tab,
                             beforeEnter: (to, form, next) => {
-                                store.dispatch('fetchMyCoursesStatus').then(()=>{
-                                    store.dispatch('CheckMyCourse', to.params.id).then(res => {
-                                        if (store.state.CurrentUser.CurrentStatus.exist == true) {
-                                            if (store.state.CurrentUser.CurrentStatus.status == 1) {
-                                                next();
+                                store.dispatch('fetchMyCoursesStatus').then((res)=>{
+                                    console.log(res.status);
+                                    if(res.status == 200){                                
+                                        store.dispatch('CheckMyCourse', to.params.id).then(response => {
+                                            console.log(response);
+                                            if (response.exist == true) {
+                                                if (response.status == 1) {
+                                                    next();
+                                                } else {
+                                                    return next({
+                                                        name: "courseSetup",
+                                                        params: { id: to.params.id }
+                                                    })
+                                                }
                                             } else {
                                                 return next({
-                                                    name: "courseSetup",
+                                                    name: "course-not-found",
                                                     params: { id: to.params.id }
                                                 })
                                             }
-                                        } else {
-                                            return next({
-                                                name: "course-not-found",
-                                                params: { id: to.params.id }
-                                            })
-                                        }
-                                    })
+                                        })
+                                    }
                                 })
                             }
                         },
