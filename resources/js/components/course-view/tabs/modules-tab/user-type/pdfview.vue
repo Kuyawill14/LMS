@@ -2,7 +2,7 @@
 
 
 
-    <v-card>
+    <v-card style="height: 500px;">
         
        <iframe title="google pdf viewer" id="pdf-iframe" :src="'https://docs.google.com/viewer?embedded=true&amp;url=' + pdf_path" sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
                              style="position: absolute; top: 0px; left: 0px; width: 100%; height: 100%;"></iframe>
@@ -15,9 +15,6 @@
 </template>
 
 <script>
-    // import VuePdfApp from "vue-pdf-app";
-    // import "vue-pdf-app/dist/icons/main.css";
-    // VuePdfApp component is registered in src/main.js
 
 
     export default {
@@ -29,11 +26,6 @@
             };
         },
 
-     
-        methods: {
-         
-
-        },
         created() {
         var host = window.location.protocol + "//" + window.location.host;
         this.pdf_path = host+ this.pdf_file;
