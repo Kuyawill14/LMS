@@ -31,7 +31,7 @@ const actions = {
         commit
     }, id) {
         const res = await axios.get(
-            '/api/admin/teachers/profile/' + id
+            '/api/admin/teachers/p/' + id
         );
         console.log(res.data);
         commit('FETCH_TEACHERS', res.data);

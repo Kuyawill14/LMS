@@ -265,6 +265,7 @@ var myCalendar = function myCalendar() {
       axios.get('/api/admin/teachers/p/' + this.$route.params.id).then(function (res) {
         _this.UserDetails = res.data;
         _this.isloading = !_this.isloading;
+        console.log(res.data);
       })["catch"](function (e) {
         console.log(e);
       });
