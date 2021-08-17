@@ -198,7 +198,7 @@ export default {
                     this.$router.push({name: 'add-question',params: {id: res.data.course_id},query: {clwk: res.data.id}})
                 }
                 else if(this.form.type == 'Subjective Type'){
-                    this.$router.push({name: 'classwork-details',params: {id: res.data.course_id},query: {clwk: res.data.id}})
+                    this.$router.push({name: 'clwk',params: {id: res.data.course_id},query: {clwk: res.data.id}})
                 }
                 
                 this.$refs.NewClassworkForm.reset()
