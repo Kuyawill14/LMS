@@ -21,7 +21,6 @@ if (mix.isWatching()) {
 mix.js('resources/js/app.js', 'public/js')
     .vue()
     .sass('resources/sass/app.scss', 'public/css')
-<<<<<<< HEAD
     .extract(['vuetify'], 'public/js/vendor~utils-0.js')
     .extract(['vue-core-video-player'], 'public/js/vendor~utils-1.js')
     .extract(['bootstrap'], 'public/js/vendor~utils-2.js')
@@ -32,25 +31,9 @@ mix.js('resources/js/app.js', 'public/js')
 
     
     
-=======
-    .extract(['vuetify'], 'public/js/vendor0.js')
-    .extract(['vue-core-video-player'], 'public/js/vendor1.js')
-    .extract(['bootstrap'], 'public/js/vendor2.js')
-    .extract(['jquery'], 'public/js/vendor3.js')
-    .extract(['lodash'], 'public/js/vendor4.js')
-    .extract(['pusher.js'], 'public/js/vendor5.js')
-    .extract(['vue'], 'public/js/vendor6.js');
-
->>>>>>> 4483c637b315e8558c7b0555f03351014c345494
 /*     
 if (mix.inProduction()) {
         mix.version();
     }
     
-<<<<<<< HEAD
- */ss
-=======
  */
-
-    
->>>>>>> bac8a4e7215effae7a824d07db28aa56c252a330
