@@ -1,20 +1,28 @@
 <template>
   
       <v-card>
-        <v-toolbar
+        <!-- <v-toolbar
           dark
           color="primary"
         >
           <v-btn
             icon
+            fixed
+            
             dark
             @click="$emit('closeDialog')"
           >
             <v-icon>mdi-close</v-icon>
           </v-btn>
-        </v-toolbar>
+        </v-toolbar> -->
+         <v-app-bar
+        color="primary">
+            <v-btn dark @click="$emit('closeDialog')" icon>
+                <v-icon>mdi-close</v-icon>
+            </v-btn>
+    </v-app-bar>
 
-        <v-card-text>
+        <v-card-text class="ma-0 pa-0 pa-2">
                 
                 <v-row no-gutters>
                     <v-col cols="12" md="4" lg="4" :class="$vuetify.breakpoint.xs ? 'pt-2' : 'pt-2 pr-3'">
@@ -103,13 +111,18 @@
                                      <v-divider></v-divider>
                                 </div>
                               
-                                <div>
+                                <div style="height:100vh;">
                                    <!--  <iframe :src="'https://view.officeapps.live.com/op/embed.aspx?src=http://127.0.0.1:8000/storage/'+CheckData.Submitted_Answers[0].link" width='100%' height='570' frameborder='0'>
                                     This is an embedded <a target='_blank' href='http://office.com'>Microsoft Office</a> document, powered by <a target='_blank' href='http://office.com/webapps'>Office Online</a>.</iframe>  -->
                                     <!-- <iframe src='https://view.officeapps.live.com/op/embed.aspx?src=http%3A%2F%2Fieee802%2Eorg%3A80%2Fsecmail%2FdocIZSEwEqHFr%2Edoc' width='100%' height='570' frameborder='0'>This is an embedded <a target='_blank' href='http://office.com'>Microsoft Office</a> document, powered by <a target='_blank' href='http://office.com/webapps'>Office Online</a>.</iframe> --> 
-                                    <vue-pdf-app :pdf="'/storage/'+this.CheckData.Submitted_Answers[0].link"  
+                                   <!--  <vue-pdf-app :pdf="pdf_path"  
                                         style="height:80vh">
-                                    </vue-pdf-app>              
+                                    </vue-pdf-app>  -->
+
+                                    <iframe title="google pdf viewer" id="pdf-iframe" 
+                                    :src="'https://docs.google.com/viewer?embedded=true&amp;url=' + pdf_path" 
+                                    sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
+                                    style="position: absolute; top: 0px; left: 0px; width: 100%; height: 100%;"></iframe>             
                                 </div>
                             </v-card>
                          </v-container>
@@ -123,14 +136,11 @@
 
 </template>
 <script>
-import VuePdfApp from "vue-pdf-app";
-import "vue-pdf-app/dist/icons/main.css";
+/* import VuePdfApp from "vue-pdf-app";
+import "vue-pdf-app/dist/icons/main.css"; */
 import moment from 'moment';
   export default {
     props:['CheckData','classworkDetails'],
-     components: {
-        VuePdfApp
-    },
     data () {
       return {
         dialog: false,
@@ -141,10 +151,8 @@ import moment from 'moment';
         timeout: null,
         value: '',
         score: '',
+        pdf_path: null,
         isSavingScore: false,
-        idConfig: {
-            pageNumber: "vuePdfAppPageNumber",
-        },
       }
     },
     methods:{
@@ -154,7 +162,8 @@ import moment from 'moment';
             }
         },
         DownloadFile(link){
-            window.location = "/storage/"+link;
+            var host = window.location.protocol + "//" + window.location.host;
+            window.location = host+"/storage/"+link;
 
         },
         SaveScore(){
@@ -200,6 +209,12 @@ import moment from 'moment';
             });
         },
     },
+    created(){
+        let path = '/storage/'+this.CheckData.Submitted_Answers[0].link;
+        var host = window.location.protocol + "//" + window.location.host;
+        this.pdf_path = host+ path;
+        //this.pdf_path  = path;
+    }
   
   }
 </script>

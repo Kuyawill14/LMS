@@ -71,7 +71,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 var gradingCriteria = function gradingCriteria() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_course-setup_grading-criteria_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./grading-criteria */ "./resources/js/components/course-view/course-setup/grading-criteria.vue"));
+  return Promise.all(/*! import() */[__webpack_require__.e("/js/vendor"), __webpack_require__.e("resources_js_components_course-view_course-setup_grading-criteria_vue")]).then(__webpack_require__.bind(__webpack_require__, /*! ./grading-criteria */ "./resources/js/components/course-view/course-setup/grading-criteria.vue"));
 };
 
 var courseDetailsComponent = function courseDetailsComponent() {

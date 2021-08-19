@@ -66,7 +66,7 @@ var objectiveSubmission = function objectiveSubmission() {
 };
 
 var subjectiveSubmission = function subjectiveSubmission() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_tabs_submissionType_subjectiveSubmission_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./submissionType/subjectiveSubmission */ "./resources/js/components/Classwork_View/tabs/submissionType/subjectiveSubmission.vue"));
+  return Promise.all(/*! import() */[__webpack_require__.e("/js/vendor"), __webpack_require__.e("node_modules_moment_locale_sync_recursive_-resources_js_components_Classwork_View_tabs_submis-5c8abd")]).then(__webpack_require__.bind(__webpack_require__, /*! ./submissionType/subjectiveSubmission */ "./resources/js/components/Classwork_View/tabs/submissionType/subjectiveSubmission.vue"));
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -291,7 +291,7 @@ var render = function() {
                       staticClass: "text-subtitle-1 text-center",
                       attrs: { cols: "12" }
                     },
-                    [_vm._v("\n            Loading\n        ")]
+                    [_vm._v("\r\n            Loading\r\n        ")]
                   ),
                   _vm._v(" "),
                   _c(
@@ -330,7 +330,9 @@ var render = function() {
                 },
                 [
                   _c("v-icon", { staticStyle: { "font-size": "10rem" } }, [
-                    _vm._v("\n            mdi-notebook-check-outline\n        ")
+                    _vm._v(
+                      "\r\n            mdi-notebook-check-outline\r\n        "
+                    )
                   ]),
                   _vm._v(" "),
                   _c("h1", [_vm._v(" Empty Submission ")]),

@@ -177,7 +177,7 @@ var deleteDialog = function deleteDialog() {
 };
 
 var newClassworkModal = function newClassworkModal() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_tabs_classwork-tab_newClassworkModal_vue-_69321").then(__webpack_require__.bind(__webpack_require__, /*! ../newClassworkModal */ "./resources/js/components/course-view/tabs/classwork-tab/newClassworkModal.vue"));
+  return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_tabs_classwork-tab_newClassworkModal_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../newClassworkModal */ "./resources/js/components/course-view/tabs/classwork-tab/newClassworkModal.vue"));
 };
 
 
@@ -429,7 +429,7 @@ var render = function() {
                 [
                   _c("v-icon", { staticStyle: { "font-size": "14rem" } }, [
                     _vm._v(
-                      "\n                    mdi-book-open-variant\n                "
+                      "\r\n                    mdi-book-open-variant\r\n                "
                     )
                   ]),
                   _vm._v(" "),
@@ -670,7 +670,7 @@ var render = function() {
                                                             },
                                                             [
                                                               _vm._v(
-                                                                "\n                                                    mdi-book-open-variant\n                                                "
+                                                                "\r\n                                                    mdi-book-open-variant\r\n                                                "
                                                               )
                                                             ]
                                                           )
@@ -708,11 +708,11 @@ var render = function() {
                                                               },
                                                               [
                                                                 _vm._v(
-                                                                  "\n                                                        " +
+                                                                  "\r\n                                                        " +
                                                                     _vm._s(
                                                                       item.title
                                                                     ) +
-                                                                    "\n                                                        "
+                                                                    "\r\n                                                        "
                                                                 ),
                                                                 item.type ==
                                                                 "Subjective Type"

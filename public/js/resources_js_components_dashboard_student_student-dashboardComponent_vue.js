@@ -98,11 +98,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 var myCalendar = function myCalendar() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_dashboard_myCalendar_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../myCalendar */ "./resources/js/components/dashboard/myCalendar.vue"));
+  return Promise.all(/*! import() */[__webpack_require__.e("/js/vendor"), __webpack_require__.e("node_modules_moment_locale_sync_recursive_-resources_js_components_dashboard_myCalendar_vue")]).then(__webpack_require__.bind(__webpack_require__, /*! ../myCalendar */ "./resources/js/components/dashboard/myCalendar.vue"));
 };
 
 var myNotification = function myNotification() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_dashboard_notificationComponent_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../notificationComponent */ "./resources/js/components/dashboard/notificationComponent.vue"));
+  return Promise.all(/*! import() */[__webpack_require__.e("/js/vendor"), __webpack_require__.e("node_modules_moment_locale_sync_recursive_-resources_js_components_dashboard_notificationComp-f635f7")]).then(__webpack_require__.bind(__webpack_require__, /*! ../notificationComponent */ "./resources/js/components/dashboard/notificationComponent.vue"));
 };
 
 var studentClasses = function studentClasses() {
@@ -110,7 +110,7 @@ var studentClasses = function studentClasses() {
 };
 
 var studentGradeChart = function studentGradeChart() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_dashboard_student_ProgressChart_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./ProgressChart */ "./resources/js/components/dashboard/student/ProgressChart.vue"));
+  return Promise.all(/*! import() */[__webpack_require__.e("/js/vendor"), __webpack_require__.e("node_modules_moment_locale_sync_recursive_-resources_js_components_dashboard_student_Progress-834598")]).then(__webpack_require__.bind(__webpack_require__, /*! ./ProgressChart */ "./resources/js/components/dashboard/student/ProgressChart.vue"));
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({

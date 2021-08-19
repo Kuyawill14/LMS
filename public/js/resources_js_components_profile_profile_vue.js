@@ -218,7 +218,7 @@ var coursesProgress = function coursesProgress() {
 };
 
 var myCalendar = function myCalendar() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_profile_myCalendar_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./myCalendar */ "./resources/js/components/profile/myCalendar.vue"));
+  return Promise.all(/*! import() */[__webpack_require__.e("/js/vendor"), __webpack_require__.e("node_modules_moment_locale_sync_recursive_-resources_js_components_profile_myCalendar_vue")]).then(__webpack_require__.bind(__webpack_require__, /*! ./myCalendar */ "./resources/js/components/profile/myCalendar.vue"));
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({

@@ -132,10 +132,8 @@ class StudentController extends Controller
             $Check = tbl_Submission::where('classwork_id', $request->id)
             ->where('user_id',  $userId)->first();
             if($Check){
-                $Check->status = "Taking";
                 if($Check->status == "Taking"){
                     $Check->status = "Taking";
-                 
                 }
                 else if($Check->status == null){
                     $Check->status = "Taking";

@@ -140,7 +140,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 var publishDialog = function publishDialog() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_tabs_dialogs_publishDialog_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./dialogs/publishDialog */ "./resources/js/components/Classwork_View/tabs/dialogs/publishDialog.vue"));
+  return Promise.all(/*! import() */[__webpack_require__.e("/js/vendor"), __webpack_require__.e("node_modules_moment_locale_sync_recursive_-resources_js_components_Classwork_View_tabs_dialog-4da3a7")]).then(__webpack_require__.bind(__webpack_require__, /*! ./dialogs/publishDialog */ "./resources/js/components/Classwork_View/tabs/dialogs/publishDialog.vue"));
 };
 
 var unpublishConfirmDialog = function unpublishConfirmDialog() {
@@ -148,7 +148,7 @@ var unpublishConfirmDialog = function unpublishConfirmDialog() {
 };
 
 var updatePublishDialog = function updatePublishDialog() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_tabs_dialogs_UpdatePublishDialog_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./dialogs/UpdatePublishDialog */ "./resources/js/components/Classwork_View/tabs/dialogs/UpdatePublishDialog.vue"));
+  return Promise.all(/*! import() */[__webpack_require__.e("/js/vendor"), __webpack_require__.e("node_modules_moment_locale_sync_recursive_-resources_js_components_Classwork_View_tabs_dialog-9481a3")]).then(__webpack_require__.bind(__webpack_require__, /*! ./dialogs/UpdatePublishDialog */ "./resources/js/components/Classwork_View/tabs/dialogs/UpdatePublishDialog.vue"));
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -507,7 +507,7 @@ var render = function() {
                       staticClass: "text-subtitle-1 text-center",
                       attrs: { cols: "12" }
                     },
-                    [_vm._v("\n            Loading\n        ")]
+                    [_vm._v("\r\n            Loading\r\n        ")]
                   ),
                   _vm._v(" "),
                   _c(
@@ -634,18 +634,18 @@ var render = function() {
                                                     },
                                                     [
                                                       _vm._v(
-                                                        "\n                                                    " +
+                                                        "\r\n                                                    " +
                                                           _vm._s(
                                                             _vm.$vuetify
                                                               .breakpoint.xs
                                                               ? ""
                                                               : "Publish"
                                                           ) +
-                                                          "\n                                                "
+                                                          "\r\n                                                "
                                                       ),
                                                       _c("v-icon", [
                                                         _vm._v(
-                                                          "\n                                                    mdi-share\n                                                "
+                                                          "\r\n                                                    mdi-share\r\n                                                "
                                                         )
                                                       ])
                                                     ],
@@ -759,7 +759,7 @@ var render = function() {
                                                                     ]
                                                                   ),
                                                                   _vm._v(
-                                                                    " Edit Publication\n                                                        "
+                                                                    " Edit Publication\r\n                                                        "
                                                                   )
                                                                 ],
                                                                 1
@@ -808,7 +808,7 @@ var render = function() {
                                                                     ]
                                                                   ),
                                                                   _vm._v(
-                                                                    " Unpublish\n                                                            "
+                                                                    " Unpublish\r\n                                                            "
                                                                   )
                                                                 ],
                                                                 1

@@ -85,11 +85,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 var classworkList = function classworkList() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_tabs_classwork-tab_classworkList_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./classworkList */ "./resources/js/components/course-view/tabs/classwork-tab/classworkList.vue"));
+  return Promise.all(/*! import() */[__webpack_require__.e("/js/vendor"), __webpack_require__.e("node_modules_moment_locale_sync_recursive_-resources_js_components_course-view_tabs_classwork-35f0fb")]).then(__webpack_require__.bind(__webpack_require__, /*! ./classworkList */ "./resources/js/components/course-view/tabs/classwork-tab/classworkList.vue"));
 };
 
 var newClassworkModal = function newClassworkModal() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_tabs_classwork-tab_newClassworkModal_vue-_69320").then(__webpack_require__.bind(__webpack_require__, /*! ./newClassworkModal */ "./resources/js/components/course-view/tabs/classwork-tab/newClassworkModal.vue"));
+  return Promise.all(/*! import() */[__webpack_require__.e("/js/vendor"), __webpack_require__.e("node_modules_moment_locale_sync_recursive_-resources_js_components_course-view_tabs_classwork-1264a2")]).then(__webpack_require__.bind(__webpack_require__, /*! ./newClassworkModal */ "./resources/js/components/course-view/tabs/classwork-tab/newClassworkModal.vue"));
 };
 
 
