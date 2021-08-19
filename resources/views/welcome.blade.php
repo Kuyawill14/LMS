@@ -20,9 +20,9 @@
             <main-component></main-component>
           </div>
 
-        <script src="{{mix('js/manifest.js')}}"></script>
-        <script src="{{mix('js/vendor.js')}}"></script>
-        <script src="{{mix('js/app.js')}}"> </script>
+        <script src="/js/manifest.js"></script>
+        <script src="/js/vendor.js"></script>
+        <script src="/js/app.js"> </script>
         <script src="https://cdn.quilljs.com/1.0.0/quill.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@morioh/v-quill-editor/dist/editor.min.js" type="text/javascript"></script>
 {{--         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>

@@ -98,7 +98,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 var myNotification = function myNotification() {
-  return Promise.all(/*! import() */[__webpack_require__.e("/js/vendor"), __webpack_require__.e("node_modules_moment_locale_sync_recursive_-resources_js_components_dashboard_notificationComp-f635f7")]).then(__webpack_require__.bind(__webpack_require__, /*! ../notificationComponent */ "./resources/js/components/dashboard/notificationComponent.vue"));
+  return __webpack_require__.e(/*! import() */ "resources_js_components_dashboard_notificationComponent_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../notificationComponent */ "./resources/js/components/dashboard/notificationComponent.vue"));
 };
 
 var teacherCourses = function teacherCourses() {
@@ -106,11 +106,11 @@ var teacherCourses = function teacherCourses() {
 };
 
 var myCalendar = function myCalendar() {
-  return Promise.all(/*! import() */[__webpack_require__.e("/js/vendor"), __webpack_require__.e("node_modules_moment_locale_sync_recursive_-resources_js_components_dashboard_myCalendar_vue")]).then(__webpack_require__.bind(__webpack_require__, /*! ../myCalendar */ "./resources/js/components/dashboard/myCalendar.vue"));
+  return __webpack_require__.e(/*! import() */ "resources_js_components_dashboard_myCalendar_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../myCalendar */ "./resources/js/components/dashboard/myCalendar.vue"));
 };
 
 var progressChart = function progressChart() {
-  return Promise.all(/*! import() */[__webpack_require__.e("/js/vendor"), __webpack_require__.e("node_modules_moment_locale_sync_recursive_-resources_js_components_dashboard_teacher_Progress-ec426f")]).then(__webpack_require__.bind(__webpack_require__, /*! ./ProgressChart */ "./resources/js/components/dashboard/teacher/ProgressChart.vue"));
+  return __webpack_require__.e(/*! import() */ "resources_js_components_dashboard_teacher_ProgressChart_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./ProgressChart */ "./resources/js/components/dashboard/teacher/ProgressChart.vue"));
 };
 
 

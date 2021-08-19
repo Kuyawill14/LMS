@@ -135,7 +135,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //const modulesPublished = () => import('./courses/modules_publish')
 var coursesummarypreview = function coursesummarypreview() {
-  return Promise.all(/*! import() */[__webpack_require__.e("/js/vendor"), __webpack_require__.e("resources_js_components_admin_monitor-teachers_teacherProfile_courses_course_summary_preview_vue")]).then(__webpack_require__.bind(__webpack_require__, /*! ./courses/course_summary_preview */ "./resources/js/components/admin/monitor-teachers/teacherProfile/courses/course_summary_preview.vue"));
+  return __webpack_require__.e(/*! import() */ "resources_js_components_admin_monitor-teachers_teacherProfile_courses_course_summary_preview_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./courses/course_summary_preview */ "./resources/js/components/admin/monitor-teachers/teacherProfile/courses/course_summary_preview.vue"));
 };
 
 
