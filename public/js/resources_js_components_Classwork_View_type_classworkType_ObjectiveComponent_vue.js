@@ -310,7 +310,7 @@ var render = function() {
                                 _vm._v("mdi-arrow-left-thick")
                               ]),
                               _vm._v(
-                                "\r\n                                Back to classworks\r\n                            "
+                                "\n                                Back to classworks\n                            "
                               )
                             ],
                             1
@@ -342,7 +342,7 @@ var render = function() {
                                 [
                                   _c("v-icon", { attrs: { "x-large": "" } }, [
                                     _vm._v(
-                                      "\r\n                        mdi-book-open-variant\r\n                        "
+                                      "\n                        mdi-book-open-variant\n                        "
                                     )
                                   ])
                                 ],
@@ -481,7 +481,7 @@ var render = function() {
                             },
                             [
                               _vm._v(
-                                "\r\n                        " +
+                                "\n                        " +
                                   _vm._s(
                                     _vm.status == null
                                       ? "Take Quiz"

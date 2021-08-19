@@ -429,7 +429,7 @@ var render = function() {
                 [
                   _c("v-icon", { staticStyle: { "font-size": "14rem" } }, [
                     _vm._v(
-                      "\r\n                    mdi-book-open-variant\r\n                "
+                      "\n                    mdi-book-open-variant\n                "
                     )
                   ]),
                   _vm._v(" "),
@@ -670,7 +670,7 @@ var render = function() {
                                                             },
                                                             [
                                                               _vm._v(
-                                                                "\r\n                                                    mdi-book-open-variant\r\n                                                "
+                                                                "\n                                                    mdi-book-open-variant\n                                                "
                                                               )
                                                             ]
                                                           )
@@ -708,11 +708,11 @@ var render = function() {
                                                               },
                                                               [
                                                                 _vm._v(
-                                                                  "\r\n                                                        " +
+                                                                  "\n                                                        " +
                                                                     _vm._s(
                                                                       item.title
                                                                     ) +
-                                                                    "\r\n                                                        "
+                                                                    "\n                                                        "
                                                                 ),
                                                                 item.type ==
                                                                 "Subjective Type"
