@@ -20,9 +20,15 @@
             <main-component></main-component>
           </div>
 
-        <script src="/js/manifest.js"></script>
-        <script src="/js/vendor.js"></script>
-        <script src="/js/app.js"> </script>
+        <script src="{{mix('js/manifest.js')}}"></script>
+        <script src="{{mix('js/vendor0.js')}}"></script>
+        <script src="{{mix('js/vendor1.js')}}"></script>
+        <script src="{{mix('js/vendor2.js')}}"></script>
+        <script src="{{mix('js/vendor3.js')}}"></script>
+        <script src="{{mix('js/vendor4.js')}}"></script>
+        <script src="{{mix('js/vendor5.js')}}"></script>
+        <script src="{{mix('js/vendor6.js')}}"></script>
+        <script src="{{mix('js/app.js')}}"> </script>
         <script src="https://cdn.quilljs.com/1.0.0/quill.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@morioh/v-quill-editor/dist/editor.min.js" type="text/javascript"></script>
 {{--         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
