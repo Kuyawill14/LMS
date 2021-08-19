@@ -123,7 +123,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 var submittedView = function submittedView() {
-  return Promise.all(/*! import() */[__webpack_require__.e("/js/vendor"), __webpack_require__.e("node_modules_moment_locale_sync_recursive_-resources_js_components_Classwork_View_StudentPage-314fd2")]).then(__webpack_require__.bind(__webpack_require__, /*! ./viewSubmittedPage */ "./resources/js/components/Classwork_View/StudentPage/viewSubmittedPage.vue"));
+  return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_StudentPage_viewSubmittedPage_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./viewSubmittedPage */ "./resources/js/components/Classwork_View/StudentPage/viewSubmittedPage.vue"));
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({

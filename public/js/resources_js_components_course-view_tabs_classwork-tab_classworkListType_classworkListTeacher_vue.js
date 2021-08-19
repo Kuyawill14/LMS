@@ -177,7 +177,7 @@ var deleteDialog = function deleteDialog() {
 };
 
 var newClassworkModal = function newClassworkModal() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_tabs_classwork-tab_newClassworkModal_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../newClassworkModal */ "./resources/js/components/course-view/tabs/classwork-tab/newClassworkModal.vue"));
+  return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_tabs_classwork-tab_newClassworkModal_vue-_69321").then(__webpack_require__.bind(__webpack_require__, /*! ../newClassworkModal */ "./resources/js/components/course-view/tabs/classwork-tab/newClassworkModal.vue"));
 };
 
 

@@ -21,6 +21,6 @@ require('dotenv').config();
 mix.js('resources/js/app.js', 'public/js')
     .vue()
     .sass('resources/sass/app.scss', 'public/css')
-    .extract();
+    .extract(['vue','vuetify','vue-core-video-player','jquery']);
 
     

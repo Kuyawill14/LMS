@@ -225,7 +225,7 @@ var coursesProgress = function coursesProgress() {
 };
 
 var myCalendar = function myCalendar() {
-  return Promise.all(/*! import() */[__webpack_require__.e("/js/vendor"), __webpack_require__.e("node_modules_moment_locale_sync_recursive_-resources_js_components_admin_monitor-teachers_tea-b188d3")]).then(__webpack_require__.bind(__webpack_require__, /*! ./myCalendar */ "./resources/js/components/admin/monitor-teachers/teacherProfile/myCalendar.vue"));
+  return __webpack_require__.e(/*! import() */ "resources_js_components_admin_monitor-teachers_teacherProfile_myCalendar_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./myCalendar */ "./resources/js/components/admin/monitor-teachers/teacherProfile/myCalendar.vue"));
 };
 
 

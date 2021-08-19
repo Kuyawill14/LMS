@@ -140,7 +140,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 var publishDialog = function publishDialog() {
-  return Promise.all(/*! import() */[__webpack_require__.e("/js/vendor"), __webpack_require__.e("node_modules_moment_locale_sync_recursive_-resources_js_components_Classwork_View_tabs_dialog-4da3a7")]).then(__webpack_require__.bind(__webpack_require__, /*! ./dialogs/publishDialog */ "./resources/js/components/Classwork_View/tabs/dialogs/publishDialog.vue"));
+  return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_tabs_dialogs_publishDialog_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./dialogs/publishDialog */ "./resources/js/components/Classwork_View/tabs/dialogs/publishDialog.vue"));
 };
 
 var unpublishConfirmDialog = function unpublishConfirmDialog() {
@@ -148,7 +148,7 @@ var unpublishConfirmDialog = function unpublishConfirmDialog() {
 };
 
 var updatePublishDialog = function updatePublishDialog() {
-  return Promise.all(/*! import() */[__webpack_require__.e("/js/vendor"), __webpack_require__.e("node_modules_moment_locale_sync_recursive_-resources_js_components_Classwork_View_tabs_dialog-9481a3")]).then(__webpack_require__.bind(__webpack_require__, /*! ./dialogs/UpdatePublishDialog */ "./resources/js/components/Classwork_View/tabs/dialogs/UpdatePublishDialog.vue"));
+  return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_tabs_dialogs_UpdatePublishDialog_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./dialogs/UpdatePublishDialog */ "./resources/js/components/Classwork_View/tabs/dialogs/UpdatePublishDialog.vue"));
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
