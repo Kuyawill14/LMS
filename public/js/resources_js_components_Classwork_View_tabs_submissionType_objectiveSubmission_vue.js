@@ -544,13 +544,13 @@ var render = function() {
                                                       },
                                                       [
                                                         _vm._v(
-                                                          "\r\n                                " +
+                                                          "\n                                " +
                                                             _vm._s(
                                                               item.firstname +
                                                                 " " +
                                                                 item.lastName
                                                             ) +
-                                                            "\r\n                                "
+                                                            "\n                                "
                                                         ),
                                                         _c("br")
                                                       ]
@@ -884,13 +884,13 @@ var render = function() {
                                                           },
                                                           [
                                                             _vm._v(
-                                                              "\r\n                                                    " +
+                                                              "\n                                                    " +
                                                                 _vm._s(
                                                                   item.firstname +
                                                                     " " +
                                                                     item.lastName
                                                                 ) +
-                                                                "\r\n                                                "
+                                                                "\n                                                "
                                                             )
                                                           ]
                                                         ),
@@ -908,7 +908,7 @@ var render = function() {
                                                                   "small",
                                                                   [
                                                                     _vm._v(
-                                                                      "Submitted\r\n                                                        "
+                                                                      "Submitted\n                                                        "
                                                                     ),
                                                                     _c(
                                                                       "v-icon",
