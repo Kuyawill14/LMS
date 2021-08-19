@@ -559,10 +559,17 @@ export default {
           
     },
 
-    beforeMount(){
+    mounted(){
         this.isloading = !this.isloading;
-        
+        this.$emit('isMounted');
+    },
+    created(){
+        this.$emit('isMounted');
+    },
+    beforeDestroy(){
+        this.$emit('isUnMounted');
     }
+    
   
   
 }

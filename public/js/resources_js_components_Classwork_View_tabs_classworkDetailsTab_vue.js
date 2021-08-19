@@ -272,9 +272,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }
     }
   },
-  beforeMount: function beforeMount() {
+  mounted: function mounted() {
     this.Details = this.classworkDetails;
     this.isloading = !this.isloading;
+    this.$emit('isMounted');
+  },
+  created: function created() {
+    this.$emit('isMounted');
+  },
+  beforeDestroy: function beforeDestroy() {
+    this.$emit('isUnMounted');
   }
 });
 

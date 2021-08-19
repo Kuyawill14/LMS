@@ -239,9 +239,18 @@ export default {
             }
         },
     },
-    beforeMount(){
+
+    mounted(){
         this.Details = this.classworkDetails;
         this.isloading = !this.isloading;
+        this.$emit('isMounted');
+    },
+
+    created(){
+        this.$emit('isMounted');
+    },
+    beforeDestroy(){
+        this.$emit('isUnMounted');
     }
 }
 </script>

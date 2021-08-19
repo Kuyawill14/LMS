@@ -317,6 +317,13 @@ var updatePublishDialog = function updatePublishDialog() {
   },
   mounted: function mounted() {
     this.fetchClassnames();
+    this.$emit('isMounted');
+  },
+  created: function created() {
+    this.$emit('isMounted');
+  },
+  beforeDestroy: function beforeDestroy() {
+    this.$emit('isUnMounted');
   }
 });
 
@@ -492,326 +499,266 @@ var render = function() {
         1
       ),
       _vm._v(" "),
-      _vm.isloading
-        ? _c(
-            "v-container",
-            { staticClass: "fill-height", staticStyle: { height: "500px" } },
+      _c(
+        "v-container",
+        {
+          staticClass: "pa-0 pa-0",
+          attrs: { "pa-0": "", "ma-0": "", fluid: "" }
+        },
+        [
+          _c(
+            "v-row",
+            { attrs: { align: "center", justify: "center" } },
             [
               _c(
-                "v-row",
-                { attrs: { "align-content": "center", justify: "center" } },
+                "v-col",
+                { attrs: { cols: "12", lg: "9", xl: "9", md: "8" } },
                 [
                   _c(
-                    "v-col",
+                    "v-card",
                     {
-                      staticClass: "text-subtitle-1 text-center",
-                      attrs: { cols: "12" }
+                      staticClass: "pa-5",
+                      attrs: { elevation: "1", outlined: "" }
                     },
-                    [_vm._v("\r\n            Loading\r\n        ")]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-col",
-                    { attrs: { cols: "6" } },
-                    [
-                      _c("v-progress-linear", {
-                        attrs: {
-                          color: "primary",
-                          indeterminate: "",
-                          rounded: "",
-                          height: "6"
-                        }
-                      })
-                    ],
-                    1
-                  )
-                ],
-                1
-              )
-            ],
-            1
-          )
-        : _vm._e(),
-      _vm._v(" "),
-      !_vm.isloading
-        ? _c(
-            "v-container",
-            {
-              staticClass: "pa-0 pa-0",
-              attrs: { "pa-0": "", "ma-0": "", fluid: "" }
-            },
-            [
-              _c(
-                "v-row",
-                { attrs: { align: "center", justify: "center" } },
-                [
-                  _c(
-                    "v-col",
-                    { attrs: { cols: "12", lg: "9", xl: "9", md: "8" } },
                     [
                       _c(
-                        "v-card",
-                        {
-                          staticClass: "pa-5",
-                          attrs: { elevation: "1", outlined: "" }
-                        },
+                        "v-row",
                         [
                           _c(
-                            "v-row",
-                            [
-                              _c(
-                                "v-col",
-                                {
-                                  staticClass: "pt-2 pl-3 pr-3",
-                                  attrs: { cols: "12", md: "12" }
-                                },
-                                _vm._l(_vm.classNames, function(
-                                  details,
-                                  index
-                                ) {
-                                  return _c(
-                                    "v-container",
-                                    { key: index },
+                            "v-col",
+                            {
+                              staticClass: "pt-2 pl-3 pr-3",
+                              attrs: { cols: "12", md: "12" }
+                            },
+                            _vm._l(_vm.classNames, function(details, index) {
+                              return _c(
+                                "v-container",
+                                { key: index },
+                                [
+                                  _c(
+                                    "v-list-item",
                                     [
                                       _c(
-                                        "v-list-item",
+                                        "v-list-item-avatar",
                                         [
-                                          _c(
-                                            "v-list-item-avatar",
-                                            [
-                                              _c("v-icon", [
-                                                _vm._v("mdi-account-multiple")
-                                              ])
-                                            ],
-                                            1
-                                          ),
+                                          _c("v-icon", [
+                                            _vm._v("mdi-account-multiple")
+                                          ])
+                                        ],
+                                        1
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-list-item-content",
+                                        [
+                                          _c("v-list-item-title", [
+                                            _vm._v(
+                                              _vm._s(details.class_name) + " "
+                                            )
+                                          ])
+                                        ],
+                                        1
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "div",
+                                        {},
+                                        [
+                                          details.status == 0
+                                            ? _c(
+                                                "v-btn",
+                                                {
+                                                  attrs: {
+                                                    loading:
+                                                      _vm.isPublishing &&
+                                                      _vm.isPublishing_id ==
+                                                        details.class_id,
+                                                    color: "primary",
+                                                    outlined:
+                                                      details.status == 0,
+                                                    rounded: "",
+                                                    dark: ""
+                                                  },
+                                                  on: {
+                                                    click: function($event) {
+                                                      return _vm.OpenPublishDialog(
+                                                        _vm.$route.query.clwk,
+                                                        details.class_id,
+                                                        details.class_name,
+                                                        details.status
+                                                      )
+                                                    }
+                                                  }
+                                                },
+                                                [
+                                                  _vm._v(
+                                                    "\r\n                                                    " +
+                                                      _vm._s(
+                                                        _vm.$vuetify.breakpoint
+                                                          .xs
+                                                          ? ""
+                                                          : "Publish"
+                                                      ) +
+                                                      "\r\n                                                "
+                                                  ),
+                                                  _c("v-icon", [
+                                                    _vm._v(
+                                                      "\r\n                                                    mdi-share\r\n                                                "
+                                                    )
+                                                  ])
+                                                ],
+                                                1
+                                              )
+                                            : _vm._e(),
                                           _vm._v(" "),
-                                          _c(
-                                            "v-list-item-content",
-                                            [
-                                              _c("v-list-item-title", [
-                                                _vm._v(
-                                                  _vm._s(details.class_name) +
-                                                    " "
-                                                )
-                                              ])
-                                            ],
-                                            1
-                                          ),
-                                          _vm._v(" "),
-                                          _c(
-                                            "div",
-                                            {},
-                                            [
-                                              details.status == 0
-                                                ? _c(
-                                                    "v-btn",
-                                                    {
-                                                      attrs: {
-                                                        loading:
-                                                          _vm.isPublishing &&
-                                                          _vm.isPublishing_id ==
-                                                            details.class_id,
-                                                        color: "primary",
-                                                        outlined:
-                                                          details.status == 0,
-                                                        rounded: "",
-                                                        dark: ""
-                                                      },
-                                                      on: {
-                                                        click: function(
-                                                          $event
-                                                        ) {
-                                                          return _vm.OpenPublishDialog(
-                                                            _vm.$route.query
-                                                              .clwk,
-                                                            details.class_id,
-                                                            details.class_name,
-                                                            details.status
-                                                          )
+                                          details.status == 1
+                                            ? _c(
+                                                "v-menu",
+                                                {
+                                                  attrs: { "offset-y": "" },
+                                                  scopedSlots: _vm._u(
+                                                    [
+                                                      {
+                                                        key: "activator",
+                                                        fn: function(ref) {
+                                                          var on = ref.on
+                                                          var attrs = ref.attrs
+                                                          return [
+                                                            details.status == 1
+                                                              ? _c(
+                                                                  "v-btn",
+                                                                  _vm._g(
+                                                                    _vm._b(
+                                                                      {
+                                                                        attrs: {
+                                                                          color:
+                                                                            "primary",
+                                                                          dark:
+                                                                            "",
+                                                                          icon:
+                                                                            "",
+                                                                          text:
+                                                                            ""
+                                                                        }
+                                                                      },
+                                                                      "v-btn",
+                                                                      attrs,
+                                                                      false
+                                                                    ),
+                                                                    on
+                                                                  ),
+                                                                  [
+                                                                    _c(
+                                                                      "v-icon",
+                                                                      [
+                                                                        _vm._v(
+                                                                          "mdi-dots-vertical"
+                                                                        )
+                                                                      ]
+                                                                    )
+                                                                  ],
+                                                                  1
+                                                                )
+                                                              : _vm._e()
+                                                          ]
                                                         }
                                                       }
-                                                    },
-                                                    [
-                                                      _vm._v(
-                                                        "\r\n                                                    " +
-                                                          _vm._s(
-                                                            _vm.$vuetify
-                                                              .breakpoint.xs
-                                                              ? ""
-                                                              : "Publish"
-                                                          ) +
-                                                          "\r\n                                                "
-                                                      ),
-                                                      _c("v-icon", [
-                                                        _vm._v(
-                                                          "\r\n                                                    mdi-share\r\n                                                "
-                                                        )
-                                                      ])
                                                     ],
-                                                    1
+                                                    null,
+                                                    true
                                                   )
-                                                : _vm._e(),
-                                              _vm._v(" "),
-                                              details.status == 1
-                                                ? _c(
-                                                    "v-menu",
-                                                    {
-                                                      attrs: { "offset-y": "" },
-                                                      scopedSlots: _vm._u(
-                                                        [
-                                                          {
-                                                            key: "activator",
-                                                            fn: function(ref) {
-                                                              var on = ref.on
-                                                              var attrs =
-                                                                ref.attrs
-                                                              return [
-                                                                details.status ==
-                                                                1
-                                                                  ? _c(
-                                                                      "v-btn",
-                                                                      _vm._g(
-                                                                        _vm._b(
-                                                                          {
-                                                                            attrs: {
-                                                                              color:
-                                                                                "primary",
-                                                                              dark:
-                                                                                "",
-                                                                              icon:
-                                                                                "",
-                                                                              text:
-                                                                                ""
-                                                                            }
-                                                                          },
-                                                                          "v-btn",
-                                                                          attrs,
-                                                                          false
-                                                                        ),
-                                                                        on
-                                                                      ),
-                                                                      [
-                                                                        _c(
-                                                                          "v-icon",
-                                                                          [
-                                                                            _vm._v(
-                                                                              "mdi-dots-vertical"
-                                                                            )
-                                                                          ]
-                                                                        )
-                                                                      ],
-                                                                      1
-                                                                    )
-                                                                  : _vm._e()
-                                                              ]
+                                                },
+                                                [
+                                                  _vm._v(" "),
+                                                  _c(
+                                                    "v-list",
+                                                    { staticClass: "pa-1" },
+                                                    [
+                                                      _c(
+                                                        "v-list-item",
+                                                        {
+                                                          staticClass:
+                                                            "rounded",
+                                                          attrs: { link: "" },
+                                                          on: {
+                                                            click: function(
+                                                              $event
+                                                            ) {
+                                                              return _vm.OpenEditPublish(
+                                                                _vm.$route.query
+                                                                  .clwk,
+                                                                details.class_id,
+                                                                details.class_name,
+                                                                details.Class_classwork_id
+                                                              )
                                                             }
                                                           }
-                                                        ],
-                                                        null,
-                                                        true
-                                                      )
-                                                    },
-                                                    [
-                                                      _vm._v(" "),
-                                                      _c(
-                                                        "v-list",
-                                                        { staticClass: "pa-1" },
+                                                        },
                                                         [
                                                           _c(
-                                                            "v-list-item",
-                                                            {
-                                                              staticClass:
-                                                                "rounded",
-                                                              attrs: {
-                                                                link: ""
-                                                              },
-                                                              on: {
-                                                                click: function(
-                                                                  $event
-                                                                ) {
-                                                                  return _vm.OpenEditPublish(
-                                                                    _vm.$route
-                                                                      .query
-                                                                      .clwk,
-                                                                    details.class_id,
-                                                                    details.class_name,
-                                                                    details.Class_classwork_id
-                                                                  )
-                                                                }
-                                                              }
-                                                            },
+                                                            "v-list-item-title",
                                                             [
                                                               _c(
-                                                                "v-list-item-title",
+                                                                "v-icon",
+                                                                {
+                                                                  attrs: {
+                                                                    left: ""
+                                                                  }
+                                                                },
                                                                 [
-                                                                  _c(
-                                                                    "v-icon",
-                                                                    {
-                                                                      attrs: {
-                                                                        left: ""
-                                                                      }
-                                                                    },
-                                                                    [
-                                                                      _vm._v(
-                                                                        "mdi-pencil"
-                                                                      )
-                                                                    ]
-                                                                  ),
                                                                   _vm._v(
-                                                                    " Edit Publication\r\n                                                        "
+                                                                    "mdi-pencil"
                                                                   )
-                                                                ],
-                                                                1
+                                                                ]
+                                                              ),
+                                                              _vm._v(
+                                                                " Edit Publication\r\n                                                        "
                                                               )
                                                             ],
                                                             1
-                                                          ),
-                                                          _vm._v(" "),
+                                                          )
+                                                        ],
+                                                        1
+                                                      ),
+                                                      _vm._v(" "),
+                                                      _c(
+                                                        "v-list-item",
+                                                        {
+                                                          staticClass:
+                                                            "rounded",
+                                                          attrs: { link: "" },
+                                                          on: {
+                                                            click: function(
+                                                              $event
+                                                            ) {
+                                                              return _vm.OpenUnpublishDiaglog(
+                                                                _vm.$route.query
+                                                                  .clwk,
+                                                                details.class_id,
+                                                                details.class_name
+                                                              )
+                                                            }
+                                                          }
+                                                        },
+                                                        [
                                                           _c(
-                                                            "v-list-item",
-                                                            {
-                                                              staticClass:
-                                                                "rounded",
-                                                              attrs: {
-                                                                link: ""
-                                                              },
-                                                              on: {
-                                                                click: function(
-                                                                  $event
-                                                                ) {
-                                                                  return _vm.OpenUnpublishDiaglog(
-                                                                    _vm.$route
-                                                                      .query
-                                                                      .clwk,
-                                                                    details.class_id,
-                                                                    details.class_name
-                                                                  )
-                                                                }
-                                                              }
-                                                            },
+                                                            "v-list-item-title",
                                                             [
                                                               _c(
-                                                                "v-list-item-title",
+                                                                "v-icon",
+                                                                {
+                                                                  attrs: {
+                                                                    left: ""
+                                                                  }
+                                                                },
                                                                 [
-                                                                  _c(
-                                                                    "v-icon",
-                                                                    {
-                                                                      attrs: {
-                                                                        left: ""
-                                                                      }
-                                                                    },
-                                                                    [
-                                                                      _vm._v(
-                                                                        "mdi-share-off"
-                                                                      )
-                                                                    ]
-                                                                  ),
                                                                   _vm._v(
-                                                                    " Unpublish\r\n                                                            "
+                                                                    "mdi-share-off"
                                                                   )
-                                                                ],
-                                                                1
+                                                                ]
+                                                              ),
+                                                              _vm._v(
+                                                                " Unpublish\r\n                                                            "
                                                               )
                                                             ],
                                                             1
@@ -822,22 +769,22 @@ var render = function() {
                                                     ],
                                                     1
                                                   )
-                                                : _vm._e()
-                                            ],
-                                            1
-                                          )
+                                                ],
+                                                1
+                                              )
+                                            : _vm._e()
                                         ],
                                         1
-                                      ),
-                                      _vm._v(" "),
-                                      _c("v-divider")
+                                      )
                                     ],
                                     1
-                                  )
-                                }),
+                                  ),
+                                  _vm._v(" "),
+                                  _c("v-divider")
+                                ],
                                 1
                               )
-                            ],
+                            }),
                             1
                           )
                         ],
@@ -852,7 +799,9 @@ var render = function() {
             ],
             1
           )
-        : _vm._e()
+        ],
+        1
+      )
     ],
     1
   )
