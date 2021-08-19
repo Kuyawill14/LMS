@@ -1483,9 +1483,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
 
 
 
@@ -1594,15 +1591,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     this.fetchQuestionsList();
     this.Show = true;
     this.isLoading = false;
-  },
-  mounted: function mounted() {
-    this.$emit('isMounted');
-  },
-  created: function created() {
-    this.$emit('isMounted');
-  },
-  beforeDestroy: function beforeDestroy() {
-    this.$emit('isUnMounted');
   }
 });
 
@@ -5536,10 +5524,42 @@ var render = function() {
                 [
                   _c(
                     "v-col",
+<<<<<<< HEAD
                     { staticClass: "text-center", attrs: { cols: "12" } },
+=======
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 44f72179b95c15a0096412e9daaea723fb9f2dcc
+                    {
+                      staticClass: "text-subtitle-1 text-center",
+                      attrs: { cols: "12" }
+                    },
+<<<<<<< HEAD
+                    [_vm._v("\r\n                Loading\r\n            ")]
+=======
+                    [_vm._v("\n                Loading\n            ")]
+>>>>>>> 44f72179b95c15a0096412e9daaea723fb9f2dcc
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-col",
+                    { attrs: { cols: "6" } },
+<<<<<<< HEAD
+=======
+=======
+                    { staticClass: "text-center", attrs: { cols: "12" } },
+>>>>>>> 20307c3412719b0774c2d24fb30586fde2fc4868
+>>>>>>> 44f72179b95c15a0096412e9daaea723fb9f2dcc
+>>>>>>> 73760af0f458931b8c42d85e7f6435874e477092
                     [
-                      _c("v-progress-circular", {
-                        attrs: { size: 50, indeterminate: "", color: "primary" }
+                      _c("v-progress-linear", {
+                        attrs: {
+                          color: "primary",
+                          indeterminate: "",
+                          rounded: "",
+                          height: "6"
+                        }
                       })
                     ],
                     1

@@ -258,14 +258,6 @@ export default {
     },
     mounted(){
         this.GetList();
-        this.$emit('isMounted');
-    },
-
-    created(){
-        this.$emit('isMounted');
-    },
-    beforeDestroy(){
-        this.$emit('isUnMounted');
     }
 }
 </script>

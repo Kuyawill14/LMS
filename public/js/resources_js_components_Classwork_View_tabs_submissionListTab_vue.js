@@ -179,13 +179,6 @@ var subjectiveSubmission = function subjectiveSubmission() {
   mounted: function mounted() {
     this.GetList();
     this.FetchCLassNames();
-    this.$emit('isMounted');
-  },
-  created: function created() {
-    this.$emit('isMounted');
-  },
-  beforeDestroy: function beforeDestroy() {
-    this.$emit('isUnMounted');
   }
 });
 
@@ -283,6 +276,63 @@ var render = function() {
     "div",
     { staticClass: "pa-1" },
     [
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 44f72179b95c15a0096412e9daaea723fb9f2dcc
+      _vm.isloading
+        ? _c(
+            "v-container",
+            { staticClass: "fill-height", staticStyle: { height: "400px" } },
+            [
+              _c(
+                "v-row",
+                { attrs: { "align-content": "center", justify: "center" } },
+                [
+                  _c(
+                    "v-col",
+                    {
+                      staticClass: "text-subtitle-1 text-center",
+                      attrs: { cols: "12" }
+                    },
+<<<<<<< HEAD
+                    [_vm._v("\r\n            Loading\r\n        ")]
+=======
+                    [_vm._v("\n            Loading\n        ")]
+>>>>>>> 44f72179b95c15a0096412e9daaea723fb9f2dcc
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-col",
+                    { attrs: { cols: "6" } },
+                    [
+                      _c("v-progress-linear", {
+                        attrs: {
+                          color: "primary",
+                          indeterminate: "",
+                          rounded: "",
+                          height: "6"
+                        }
+                      })
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        : _vm._e(),
+      _vm._v(" "),
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> 20307c3412719b0774c2d24fb30586fde2fc4868
+>>>>>>> 44f72179b95c15a0096412e9daaea723fb9f2dcc
+>>>>>>> 73760af0f458931b8c42d85e7f6435874e477092
       _vm.List.length == 0 && !_vm.isloading
         ? _c(
             "v-row",

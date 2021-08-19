@@ -144,8 +144,12 @@ const router = new Router({
                 //store.dispatch('fetchCurrentUser').then(()=>{
                     store.dispatch('IsAuthenticated').then(()=>{
                         if(store.state.CurrentUser.IsAuthenticated == true){
-                            store.dispatch('fetchCurrentUser')
-                            next();
+                            store.dispatch('fetchCurrentUser').then(()=>{
+                                next();
+                            }).catch(()=>{
+                                next();
+                            })
+                        
                         }
                         else{
                             return next({

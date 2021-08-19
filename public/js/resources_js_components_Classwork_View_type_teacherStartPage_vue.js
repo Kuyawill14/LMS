@@ -99,17 +99,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['classworkDetails'],
   data: function data() {
@@ -153,8 +142,7 @@ __webpack_require__.r(__webpack_exports__);
         text: "SUBMISSION LIST",
         icon: "mdi-notebook-check-outline"
       }],
-      tabs: null,
-      isLoading: true
+      tabs: null
     };
   }
 });
@@ -498,66 +486,8 @@ var render = function() {
                   "div",
                   { staticClass: "mt-3" },
                   [
-                    _vm.isLoading
-                      ? _c(
-                          "v-container",
-                          {
-                            staticClass: "fill-height",
-                            staticStyle: { height: "500px" }
-                          },
-                          [
-                            _c(
-                              "v-row",
-                              {
-                                attrs: {
-                                  "align-content": "center",
-                                  justify: "center"
-                                }
-                              },
-                              [
-                                _c(
-                                  "v-col",
-                                  {
-                                    staticClass: "text-center",
-                                    attrs: { cols: "12" }
-                                  },
-                                  [
-                                    _c("v-progress-circular", {
-                                      attrs: {
-                                        size: 40,
-                                        indeterminate: "",
-                                        color: "primary"
-                                      }
-                                    })
-                                  ],
-                                  1
-                                )
-                              ],
-                              1
-                            )
-                          ],
-                          1
-                        )
-                      : _vm._e(),
-                    _vm._v(" "),
                     _c("router-view", {
-                      directives: [
-                        {
-                          name: "show",
-                          rawName: "v-show",
-                          value: !_vm.isLoading,
-                          expression: "!isLoading"
-                        }
-                      ],
-                      attrs: { classworkDetails: _vm.classworkDetails },
-                      on: {
-                        isUnMounted: function($event) {
-                          _vm.isLoading = true
-                        },
-                        isMounted: function($event) {
-                          _vm.isLoading = false
-                        }
-                      }
+                      attrs: { classworkDetails: _vm.classworkDetails }
                     })
                   ],
                   1
