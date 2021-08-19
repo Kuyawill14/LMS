@@ -520,50 +520,6 @@ var render = function() {
                       staticClass: "pa-5",
                       attrs: { elevation: "1", outlined: "" }
                     },
-<<<<<<< HEAD
-                    [_vm._v("\n            Loading\n        ")]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-col",
-                    { attrs: { cols: "6" } },
-                    [
-                      _c("v-progress-linear", {
-                        attrs: {
-                          color: "primary",
-                          indeterminate: "",
-                          rounded: "",
-                          height: "6"
-                        }
-                      })
-                    ],
-                    1
-                  )
-                ],
-                1
-              )
-            ],
-            1
-          )
-        : _vm._e(),
-      _vm._v(" "),
-      !_vm.isloading
-        ? _c(
-            "v-container",
-            {
-              staticClass: "pa-0 pa-0",
-              attrs: { "pa-0": "", "ma-0": "", fluid: "" }
-            },
-            [
-              _c(
-                "v-row",
-                { attrs: { align: "center", justify: "center" } },
-                [
-                  _c(
-                    "v-col",
-                    { attrs: { cols: "12", lg: "9", xl: "9", md: "8" } },
-=======
->>>>>>> 20307c3412719b0774c2d24fb30586fde2fc4868
                     [
                       _c(
                         "v-row",
@@ -636,18 +592,18 @@ var render = function() {
                                                 },
                                                 [
                                                   _vm._v(
-                                                    "\r\n                                                    " +
+                                                    "\n                                                    " +
                                                       _vm._s(
                                                         _vm.$vuetify.breakpoint
                                                           .xs
                                                           ? ""
                                                           : "Publish"
                                                       ) +
-                                                      "\r\n                                                "
+                                                      "\n                                                "
                                                   ),
                                                   _c("v-icon", [
                                                     _vm._v(
-                                                      "\r\n                                                    mdi-share\r\n                                                "
+                                                      "\n                                                    mdi-share\n                                                "
                                                     )
                                                   ])
                                                 ],
@@ -662,45 +618,6 @@ var render = function() {
                                                   attrs: { "offset-y": "" },
                                                   scopedSlots: _vm._u(
                                                     [
-<<<<<<< HEAD
-                                                      _vm._v(
-                                                        "\n                                                    " +
-                                                          _vm._s(
-                                                            _vm.$vuetify
-                                                              .breakpoint.xs
-                                                              ? ""
-                                                              : "Publish"
-                                                          ) +
-                                                          "\n                                                "
-                                                      ),
-                                                      _c("v-icon", [
-                                                        _vm._v(
-                                                          "\n                                                    mdi-share\n                                                "
-                                                        )
-                                                      ])
-                                                    ],
-                                                    1
-                                                  )
-                                                : _vm._e(),
-                                              _vm._v(" "),
-                                              details.status == 1
-                                                ? _c(
-                                                    "v-menu",
-                                                    {
-                                                      attrs: { "offset-y": "" },
-                                                      scopedSlots: _vm._u(
-                                                        [
-                                                          {
-                                                            key: "activator",
-                                                            fn: function(ref) {
-                                                              var on = ref.on
-                                                              var attrs =
-                                                                ref.attrs
-                                                              return [
-                                                                details.status ==
-                                                                1
-                                                                  ? _c(
-=======
                                                       {
                                                         key: "activator",
                                                         fn: function(ref) {
@@ -724,7 +641,6 @@ var render = function() {
                                                                             ""
                                                                         }
                                                                       },
->>>>>>> 20307c3412719b0774c2d24fb30586fde2fc4868
                                                                       "v-btn",
                                                                       attrs,
                                                                       false
@@ -791,16 +707,12 @@ var render = function() {
                                                                 },
                                                                 [
                                                                   _vm._v(
-<<<<<<< HEAD
-                                                                    " Edit Publication\n                                                        "
-=======
                                                                     "mdi-pencil"
->>>>>>> 20307c3412719b0774c2d24fb30586fde2fc4868
                                                                   )
                                                                 ]
                                                               ),
                                                               _vm._v(
-                                                                " Edit Publication\r\n                                                        "
+                                                                " Edit Publication\n                                                        "
                                                               )
                                                             ],
                                                             1
@@ -841,16 +753,12 @@ var render = function() {
                                                                 },
                                                                 [
                                                                   _vm._v(
-<<<<<<< HEAD
-                                                                    " Unpublish\n                                                            "
-=======
                                                                     "mdi-share-off"
->>>>>>> 20307c3412719b0774c2d24fb30586fde2fc4868
                                                                   )
                                                                 ]
                                                               ),
                                                               _vm._v(
-                                                                " Unpublish\r\n                                                            "
+                                                                " Unpublish\n                                                            "
                                                               )
                                                             ],
                                                             1

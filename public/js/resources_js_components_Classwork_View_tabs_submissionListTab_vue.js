@@ -283,50 +283,6 @@ var render = function() {
     "div",
     { staticClass: "pa-1" },
     [
-<<<<<<< HEAD
-      _vm.isloading
-        ? _c(
-            "v-container",
-            { staticClass: "fill-height", staticStyle: { height: "400px" } },
-            [
-              _c(
-                "v-row",
-                { attrs: { "align-content": "center", justify: "center" } },
-                [
-                  _c(
-                    "v-col",
-                    {
-                      staticClass: "text-subtitle-1 text-center",
-                      attrs: { cols: "12" }
-                    },
-                    [_vm._v("\n            Loading\n        ")]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-col",
-                    { attrs: { cols: "6" } },
-                    [
-                      _c("v-progress-linear", {
-                        attrs: {
-                          color: "primary",
-                          indeterminate: "",
-                          rounded: "",
-                          height: "6"
-                        }
-                      })
-                    ],
-                    1
-                  )
-                ],
-                1
-              )
-            ],
-            1
-          )
-        : _vm._e(),
-      _vm._v(" "),
-=======
->>>>>>> 20307c3412719b0774c2d24fb30586fde2fc4868
       _vm.List.length == 0 && !_vm.isloading
         ? _c(
             "v-row",
