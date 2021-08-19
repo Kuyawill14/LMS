@@ -291,7 +291,7 @@ var render = function() {
                       staticClass: "text-subtitle-1 text-center",
                       attrs: { cols: "12" }
                     },
-                    [_vm._v("\r\n            Loading\r\n        ")]
+                    [_vm._v("\n            Loading\n        ")]
                   ),
                   _vm._v(" "),
                   _c(
@@ -330,9 +330,7 @@ var render = function() {
                 },
                 [
                   _c("v-icon", { staticStyle: { "font-size": "10rem" } }, [
-                    _vm._v(
-                      "\r\n            mdi-notebook-check-outline\r\n        "
-                    )
+                    _vm._v("\n            mdi-notebook-check-outline\n        ")
                   ]),
                   _vm._v(" "),
                   _c("h1", [_vm._v(" Empty Submission ")]),
