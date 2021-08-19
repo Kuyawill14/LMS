@@ -1483,6 +1483,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
 
 
 
@@ -1591,6 +1594,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     this.fetchQuestionsList();
     this.Show = true;
     this.isLoading = false;
+  },
+  mounted: function mounted() {
+    this.$emit('isMounted');
+  },
+  created: function created() {
+    this.$emit('isMounted');
+  },
+  beforeDestroy: function beforeDestroy() {
+    this.$emit('isUnMounted');
   }
 });
 
@@ -5524,6 +5536,7 @@ var render = function() {
                 [
                   _c(
                     "v-col",
+<<<<<<< HEAD
                     {
                       staticClass: "text-subtitle-1 text-center",
                       attrs: { cols: "12" }
@@ -5534,14 +5547,12 @@ var render = function() {
                   _c(
                     "v-col",
                     { attrs: { cols: "6" } },
+=======
+                    { staticClass: "text-center", attrs: { cols: "12" } },
+>>>>>>> 20307c3412719b0774c2d24fb30586fde2fc4868
                     [
-                      _c("v-progress-linear", {
-                        attrs: {
-                          color: "primary",
-                          indeterminate: "",
-                          rounded: "",
-                          height: "6"
-                        }
+                      _c("v-progress-circular", {
+                        attrs: { size: 50, indeterminate: "", color: "primary" }
                       })
                     ],
                     1

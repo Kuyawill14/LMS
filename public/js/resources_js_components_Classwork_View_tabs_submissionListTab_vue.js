@@ -179,6 +179,13 @@ var subjectiveSubmission = function subjectiveSubmission() {
   mounted: function mounted() {
     this.GetList();
     this.FetchCLassNames();
+    this.$emit('isMounted');
+  },
+  created: function created() {
+    this.$emit('isMounted');
+  },
+  beforeDestroy: function beforeDestroy() {
+    this.$emit('isUnMounted');
   }
 });
 
@@ -276,6 +283,7 @@ var render = function() {
     "div",
     { staticClass: "pa-1" },
     [
+<<<<<<< HEAD
       _vm.isloading
         ? _c(
             "v-container",
@@ -317,6 +325,8 @@ var render = function() {
           )
         : _vm._e(),
       _vm._v(" "),
+=======
+>>>>>>> 20307c3412719b0774c2d24fb30586fde2fc4868
       _vm.List.length == 0 && !_vm.isloading
         ? _c(
             "v-row",
