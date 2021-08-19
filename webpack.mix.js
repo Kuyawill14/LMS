@@ -12,12 +12,12 @@ require('dotenv').config();
  |
  */
 
-require('laravel-mix-bundle-analyzer');
+/* require('laravel-mix-bundle-analyzer');
 
 if (mix.isWatching()) {
     mix.bundleAnalyzer();
 }
-
+ */
 mix.js('resources/js/app.js', 'public/js')
     .vue()
     .sass('resources/sass/app.scss', 'public/css')
@@ -34,4 +34,10 @@ if (mix.inProduction()) {
         mix.version();
     }
     
+<<<<<<< HEAD
  */ss
+=======
+ */
+
+    
+>>>>>>> bac8a4e7215effae7a824d07db28aa56c252a330
