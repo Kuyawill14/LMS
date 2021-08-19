@@ -12,15 +12,32 @@ require('dotenv').config();
  |
  */
 
- require('laravel-mix-bundle-analyzer');
- 
- if (mix.isWatching()) {
-     mix.bundleAnalyzer();
- }
+require('laravel-mix-bundle-analyzer');
+
+if (mix.isWatching()) {
+    mix.bundleAnalyzer();
+}
 
 mix.js('resources/js/app.js', 'public/js')
     .vue()
     .sass('resources/sass/app.scss', 'public/css')
-    .extract(['vue','vuetify','vue-core-video-player','jquery']);
+<<<<<<< HEAD
+    .extract(['vue', 'vuetify', 'vue-core-video-player', 'jquery']);
+=======
+    .extract(['vuetify'], 'public/js/vendor0.js')
+    .extract(['vue-core-video-player'], 'public/js/vendor1.js')
+    .extract(['bootstrap'], 'public/js/vendor2.js')
+    .extract(['jquery'], 'public/js/vendor3.js')
+    .extract(['lodash'], 'public/js/vendor4.js')
+    .extract(['pusher.js'], 'public/js/vendor5.js')
+    .extract(['vue'], 'public/js/vendor6.js');
+    
+/*     
+if (mix.inProduction()) {
+        mix.version();
+    }
+    
+ */
 
     
+>>>>>>> f226564a7b83821ba1ef55126e939385153b5b6b
