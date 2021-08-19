@@ -11,7 +11,7 @@
                 </v-col>
            </v-row> -->
 
-      <v-container class="fill-height" v-if="isloading" style="height: 500px;">
+     <!--  <v-container class="fill-height" v-if="isloading" style="height: 500px;">
             <v-row  align-content="center" justify="center">
                 <v-col class="text-subtitle-1 text-center" cols="12">
                     Loading
@@ -20,7 +20,7 @@
                     <v-progress-linear color="primary" indeterminate rounded height="6"></v-progress-linear>
                 </v-col>
             </v-row>
-        </v-container>
+        </v-container> -->
 
         <v-row v-if="!isloading">
             <v-col v-if="role == 'Teacher'" cols="12" class="ma-0 pa-0 pa-2">

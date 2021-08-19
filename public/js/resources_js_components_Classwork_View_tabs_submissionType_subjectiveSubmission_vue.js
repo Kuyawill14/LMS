@@ -21948,13 +21948,13 @@ var render = function() {
                                         { staticClass: "font-weight-medium" },
                                         [
                                           _vm._v(
-                                            "\n                                " +
+                                            "\r\n                                " +
                                               _vm._s(
                                                 item.firstname +
                                                   " " +
                                                   item.lastName
                                               ) +
-                                              "\n                                "
+                                              "\r\n                                "
                                           ),
                                           _c("br")
                                         ]

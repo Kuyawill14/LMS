@@ -629,7 +629,7 @@ var render = function() {
                                 "v-col",
                                 {
                                   staticClass: "text-left",
-                                  attrs: { cols: "12", md: "8", sm: "10" }
+                                  attrs: { cols: "12", md: "6", sm: "8" }
                                 },
                                 [
                                   _c("vue-element-loading", {
@@ -675,10 +675,10 @@ var render = function() {
                                                 },
                                                 [
                                                   _c(
-                                                    "h1",
+                                                    "div",
                                                     {
                                                       staticClass:
-                                                        " display-1 font-weight-bold"
+                                                        "text-md-h5 text-xs-h5 text-sm-h6 font-weight-bold"
                                                     },
                                                     [
                                                       _vm._v("Sign Up "),
@@ -723,12 +723,13 @@ var render = function() {
                                                 "v-col",
                                                 {
                                                   staticClass:
-                                                    "ma-0 pa-0 mt-2 mb-1",
+                                                    "ma-0 pa-0 mt-2 mb-2",
                                                   attrs: { cols: "12", md: "8" }
                                                 },
                                                 [
                                                   _c("v-text-field", {
                                                     attrs: {
+                                                      dense: "",
                                                       rules: _vm.nameRules,
                                                       label: "First Name",
                                                       name: "firstName",
@@ -755,7 +756,7 @@ var render = function() {
                                               _c(
                                                 "v-col",
                                                 {
-                                                  staticClass: "ma-0 pa-0 mb-1",
+                                                  staticClass: "ma-0 pa-0 mb-2",
                                                   attrs: { cols: "12", md: "8" }
                                                 },
                                                 [
@@ -769,6 +770,7 @@ var render = function() {
                                                   _vm._v(" "),
                                                   _c("v-text-field", {
                                                     attrs: {
+                                                      dense: "",
                                                       label: "Middle Name",
                                                       rules: _vm.nameRules,
                                                       name: "middleName",
@@ -796,7 +798,7 @@ var render = function() {
                                               _c(
                                                 "v-col",
                                                 {
-                                                  staticClass: "ma-0 pa-0 mb-1",
+                                                  staticClass: "ma-0 pa-0 mb-2",
                                                   attrs: { cols: "12", md: "8" }
                                                 },
                                                 [
@@ -810,6 +812,7 @@ var render = function() {
                                                   _vm._v(" "),
                                                   _c("v-text-field", {
                                                     attrs: {
+                                                      dense: "",
                                                       label: "Last Name",
                                                       rules: _vm.nameRules,
                                                       name: "lastname",
@@ -836,7 +839,7 @@ var render = function() {
                                               _c(
                                                 "v-col",
                                                 {
-                                                  staticClass: "ma-0 pa-0 mb-1",
+                                                  staticClass: "ma-0 pa-0 mb-2",
                                                   attrs: { cols: "12", md: "8" }
                                                 },
                                                 [
@@ -850,6 +853,7 @@ var render = function() {
                                                   _vm._v(" "),
                                                   _c("v-text-field", {
                                                     attrs: {
+                                                      dense: "",
                                                       label: "Email",
                                                       name: "Email",
                                                       rules:
@@ -876,7 +880,7 @@ var render = function() {
                                               _c(
                                                 "v-col",
                                                 {
-                                                  staticClass: "ma-0 pa-0 mb-1",
+                                                  staticClass: "ma-0 pa-0 mb-2",
                                                   attrs: { cols: "12", md: "8" }
                                                 },
                                                 [
@@ -890,6 +894,7 @@ var render = function() {
                                                   _vm._v(" "),
                                                   _c("v-text-field", {
                                                     attrs: {
+                                                      dense: "",
                                                       "append-icon": _vm.show
                                                         ? "mdi-eye"
                                                         : "mdi-eye-off",
@@ -933,12 +938,13 @@ var render = function() {
                                               _c(
                                                 "v-col",
                                                 {
-                                                  staticClass: "ma-0 pa-0 mb-1",
+                                                  staticClass: "ma-0 pa-0 mb-2",
                                                   attrs: { cols: "12", md: "8" }
                                                 },
                                                 [
                                                   _c("v-text-field", {
                                                     attrs: {
+                                                      dense: "",
                                                       "append-icon": _vm.show1
                                                         ? "mdi-eye"
                                                         : "mdi-eye-off",
@@ -985,13 +991,14 @@ var render = function() {
                                               _c(
                                                 "v-col",
                                                 {
-                                                  staticClass: "ma-0 pa-0 mb-1",
+                                                  staticClass: "ma-0 pa-0 mb-2",
                                                   attrs: { cols: "12", md: "8" }
                                                 },
                                                 [
                                                   _c("v-text-field", {
                                                     staticClass: "mb-0 pb-0",
                                                     attrs: {
+                                                      dense: "",
                                                       label: "Class Code",
                                                       rules: _vm.ClassCodeRules,
                                                       name: "lastname",
@@ -1041,6 +1048,7 @@ var render = function() {
                                                 [
                                                   _c("v-select", {
                                                     attrs: {
+                                                      dense: "",
                                                       items: _vm.role,
                                                       rules: _vm.RoleRules,
                                                       label: "Role"

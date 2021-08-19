@@ -173,6 +173,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
@@ -599,7 +600,7 @@ var render = function() {
                                 "v-col",
                                 {
                                   staticClass: "text-left",
-                                  attrs: { cols: "12", md: "8", sm: "10" }
+                                  attrs: { cols: "12", md: "6", sm: "8" }
                                 },
                                 [
                                   _c(
@@ -638,10 +639,10 @@ var render = function() {
                                                 },
                                                 [
                                                   _c(
-                                                    "h1",
+                                                    "div",
                                                     {
                                                       staticClass:
-                                                        " display-1 font-weight-bold"
+                                                        " text-md-h5 text-xs-h5 text-sm-h6 font-weight-bold"
                                                     },
                                                     [
                                                       _vm._v(
@@ -691,8 +692,7 @@ var render = function() {
                                               _c(
                                                 "v-col",
                                                 {
-                                                  staticClass:
-                                                    "ma-0 pa-0  mt-12",
+                                                  staticClass: "ma-0 pa-0 mt-4",
                                                   attrs: { cols: "12", md: "8" }
                                                 },
                                                 [
@@ -704,6 +704,7 @@ var render = function() {
                                                       name: "Email",
                                                       "prepend-inner-icon":
                                                         "email",
+                                                      dense: "",
                                                       type: "email",
                                                       color: "primary",
                                                       required: ""
@@ -741,6 +742,7 @@ var render = function() {
                                                 [
                                                   _c("v-text-field", {
                                                     attrs: {
+                                                      dense: "",
                                                       "append-icon": _vm.show
                                                         ? "mdi-eye"
                                                         : "mdi-eye-off",

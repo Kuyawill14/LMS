@@ -62,7 +62,7 @@
 
                             <v-col :class="$vuetify.breakpoint.xs ? 'ma-0 pa-5' :'ma-0 pa-0'" cols="12" md="8">
                                 <v-row align="center" justify="center">
-                                    <v-col class="text-left" cols="12" md="8" sm="10">
+                                    <v-col class="text-left" cols="12" md="6" sm="8">
                                          <vue-element-loading :active="isRegistering" spinner="bar-fade-scale" />
                                           <v-card-text >
                                            
@@ -71,44 +71,44 @@
                                                 v-model="valid" lazy-validation>
                                                  <v-row align="center" justify="center">
                                                     <v-col class="ma-0 pa-0 text-left mt-5"  cols="12" md="8">
-                                                        <h1 class=" display-1 font-weight-bold">Sign Up <span class="font-weight-regular">Now</span></h1>
+                                                        <div class="text-md-h5 text-xs-h5 text-sm-h6 font-weight-bold">Sign Up <span class="font-weight-regular">Now</span></div>
                                                         <p class="mt-2">Login Your Account <router-link class="blue--text" :to="{name: 'login'}">Click here</router-link></p>
                                                     </v-col>
 
-                                                    <v-col class="ma-0 pa-0 mt-2 mb-1" cols="12" md="8">
-                                                        <v-text-field :rules="nameRules" label="First Name" name="firstName"
+                                                    <v-col class="ma-0 pa-0 mt-2 mb-2" cols="12" md="8">
+                                                        <v-text-field dense :rules="nameRules" label="First Name" name="firstName"
                                                         v-model="form.firstName" type="text" color="primary" />
                                                     </v-col>
 
-                                                     <v-col class="ma-0 pa-0 mb-1" cols="12" md="8">
+                                                     <v-col class="ma-0 pa-0 mb-2" cols="12" md="8">
                                                        <HasError class="error--text" :form="form" field="middleName" />
-                                                        <v-text-field label="Middle Name" :rules="nameRules" name="middleName"
+                                                        <v-text-field dense label="Middle Name" :rules="nameRules" name="middleName"
                                                             v-model="form.middleName" type="text" color="primary" />
                                                     </v-col>
 
-                                                    <v-col class="ma-0 pa-0 mb-1" cols="12" md="8">
+                                                    <v-col class="ma-0 pa-0 mb-2" cols="12" md="8">
                                                        <HasError class="error--text" :form="form" field="lastName" />
-                                                        <v-text-field label="Last Name" :rules="nameRules" name="lastname"
+                                                        <v-text-field dense label="Last Name" :rules="nameRules" name="lastname"
                                                             v-model="form.lastName" type="text" color="primary" />
                                                     </v-col>
 
-                                                    <v-col class="ma-0 pa-0 mb-1" cols="12" md="8">
+                                                    <v-col class="ma-0 pa-0 mb-2" cols="12" md="8">
                                                        <HasError class="error--text" :form="form" field="email" />
-                                                        <v-text-field label="Email" name="Email" :rules="loginEmailRules"
+                                                        <v-text-field dense label="Email" name="Email" :rules="loginEmailRules"
                                                             v-model="form.email" type="email" color="primary" />
                                                     </v-col>
 
-                                                    <v-col class="ma-0 pa-0 mb-1" cols="12" md="8">
+                                                    <v-col class="ma-0 pa-0 mb-2" cols="12" md="8">
                                                         <HasError class="error--text" :form="form" field="password" />
-                                                        <v-text-field :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
+                                                        <v-text-field dense :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
                                                             id="password" label="Password" name="password"
                                                             v-model="form.password" :type="show ? 'text' : 'password'"
                                                             color="primary" :rules="[rules.required, rules.min]" counter
                                                             @click:append="show = !show" />
                                                     </v-col>
 
-                                                     <v-col class="ma-0 pa-0 mb-1" cols="12" md="8">
-                                                        <v-text-field :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+                                                     <v-col class="ma-0 pa-0 mb-2" cols="12" md="8">
+                                                        <v-text-field dense :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
                                                         id="passwordConfirmation" label="Confirm Password" name="password"
                                                         v-model="form.password_confirmation"
                                                         :type="show1 ? 'text' : 'password'" color="primary"
@@ -116,9 +116,9 @@
                                                         @click:append="show1 = !show1" />
                                                     </v-col>
 
-                                                     <v-col class="ma-0 pa-0 mb-1" cols="12" md="8">
+                                                     <v-col class="ma-0 pa-0 mb-2" cols="12" md="8">
 <!--                                                        <HasError class="error--text" :form="form" field="lastName" /> -->
-                                                        <v-text-field class="mb-0 pb-0" label="Class Code" :rules="ClassCodeRules" name="lastname"
+                                                        <v-text-field dense class="mb-0 pb-0" label="Class Code" :rules="ClassCodeRules" name="lastname"
                                                         hint="Please provide a valid class code to be able to register"
                                                             v-model="form.class_code" type="text" color="primary" />
                                                             <small class="error--text">{{invalid_classcode_message}}</small>
@@ -126,7 +126,7 @@
                                                     
 
                                                      <v-col class="ma-0 pa-0 mb-1" cols="12" md="8">
-                                                        <v-select :items="role" v-model="form.role" :rules="RoleRules"
+                                                        <v-select dense :items="role" v-model="form.role" :rules="RoleRules"
                                                         label="Role"></v-select>
                                                     </v-col>
 

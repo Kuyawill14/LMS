@@ -62,25 +62,25 @@
                     </v-col>
                     <v-col :class="$vuetify.breakpoint.xs ? 'ma-0 pa-3' :'ma-0 pa-0'" cols="12" md="8">
                       <v-row align="center" justify="center">
-                        <v-col class="text-left" cols="12" md="8" sm="10">
+                        <v-col class="text-left" cols="12" md="6" sm="8">
                           <v-card-text>
                               <v-form class="text-center" ref="loginForm" v-model="valid" lazy-validation>
                                 <v-row align="center" justify="center">
                                   <v-col class="ma-0 pa-0 text-left" cols="12" md="8">
-                                        <h1 class=" display-1 font-weight-bold">
+                                        <div class=" text-md-h5 text-xs-h5 text-sm-h6 font-weight-bold">
                                         Login to your <span class="font-weight-regular">Account</span>
-                                        </h1>
+                                        </div>
                                         <p class="mt-2">Don't have an account? <router-link class="blue--text" :to="{name: 'register'}">Create one here</router-link></p>
                                   </v-col>
 
-                                  <v-col class="ma-0 pa-0  mt-12" cols="12" md="8">
+                                  <v-col class="ma-0 pa-0 mt-4" cols="12" md="8">
                                       <v-text-field
                                         label="Email"
                                         v-model="form.email" 
                                         :rules="loginEmailRules"
                                         name="Email"
                                         prepend-inner-icon="email"
-                                      
+                                        dense
                                         type="email"
                                         color="primary"
                                         required
@@ -89,6 +89,7 @@
                                   </v-col>
                                   <v-col class="ma-0 pa-0 mt-2" cols="12" md="8">
                                     <v-text-field 
+                                      dense
                                       v-model="form.password" 
                                       :append-icon="show ?'mdi-eye':'mdi-eye-off'" 
                                       :rules="[rules.required, rules.min]" 
