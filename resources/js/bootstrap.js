@@ -1,4 +1,8 @@
-window._ = require('lodash');
+import isNull from 'lodash/isNull';
+
+window._ = { isNull };
+
+//window._ = require('lodash');
 
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support

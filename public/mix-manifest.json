@@ -1,12 +1,12 @@
 {
     "/js/app.js": "/js/app.js",
     "/js/manifest.js": "/js/manifest.js",
-    "/js/vendor0.js": "/js/vendor0.js",
+    "/js/vendor~utils-0.js": "/js/vendor~utils-0.js",
     "/css/app.css": "/css/app.css",
-    "/js/vendor6.js": "/js/vendor6.js",
-    "/js/vendor1.js": "/js/vendor1.js",
-    "/js/vendor5.js": "/js/vendor5.js",
-    "/js/vendor4.js": "/js/vendor4.js",
-    "/js/vendor3.js": "/js/vendor3.js",
-    "/js/vendor2.js": "/js/vendor2.js"
+    "/js/vendor~utils-4.js": "/js/vendor~utils-4.js",
+    "/js/vendor~utils-6.js": "/js/vendor~utils-6.js",
+    "/js/vendor~utils-1.js": "/js/vendor~utils-1.js",
+    "/js/vendor~utils-5.js": "/js/vendor~utils-5.js",
+    "/js/vendor~utils-3.js": "/js/vendor~utils-3.js",
+    "/js/vendor~utils-2.js": "/js/vendor~utils-2.js"
 }

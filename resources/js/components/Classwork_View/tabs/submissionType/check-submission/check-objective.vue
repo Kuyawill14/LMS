@@ -23,7 +23,7 @@
         </v-toolbar> -->
 
         
-
+<!-- 
             <v-container class="fill-height" v-if="isLoading" style="height: 400px;">
                 <v-row  align-content="center" justify="center">
                     <v-col class="text-subtitle-1 text-center" cols="12">
@@ -33,9 +33,9 @@
                         <v-progress-linear color="primary" indeterminate rounded height="6"></v-progress-linear>
                     </v-col>
                 </v-row>
-            </v-container>
+            </v-container> -->
 
-           <v-container fluid v-if="!isLoading" ma-0 pa-0>
+           <v-container fluid  ma-0 pa-0>
                <v-row class="pl-5 mb-0 pb-0"> 
                    <v-col cols="12" class="text-right ma-0 pa-0 pr-2">
                         <v-btn
@@ -323,7 +323,7 @@ const resetConfirmation = () => import('../../dialogs/resetConfirmation')
                  
                  
                 //console.log(this.ViewDetails.Submitted_Answers);
-                this.isLoading = false;
+                this.$emit('isMounted');
             });
 
         },
@@ -359,49 +359,45 @@ const resetConfirmation = () => import('../../dialogs/resetConfirmation')
         }
      
       },
+    
       mounted(){
-          //this.fetchQuestions();
-        
-        if(this.ViewDetails.Submitted_Answers != null){
-            this.fetchQuestions();
-        }
-        else{
-             this.isLoading = false;
-        }
 
-        const alphabet = [
-                "A",
-                "B",
-                "C",
-                "D",
-                "E",
-                "F",
-                "G",
-                "H",
-                "I",
-                "J",
-                "K",
-                "L",
-                "M",
-                "N",
-                "O",
-                "P",
-                "q",
-                "r",
-                "s",
-                "t",
-                "u",
-                "v",
-                "w",
-                "x",
-                "y",
-                "z"
-            ];
-            this.Alphabet = alphabet;
-         
-          //console.log(this.classworkDetails);
-          //console.log(this.ViewDetails)
-      }
+            if(this.ViewDetails.Submitted_Answers != null){
+                this.fetchQuestions();
+            }
+            else{
+                this.$emit('isMounted');
+            }
+            const alphabet = [
+                    "A",
+                    "B",
+                    "C",
+                    "D",
+                    "E",
+                    "F",
+                    "G",
+                    "H",
+                    "I",
+                    "J",
+                    "K",
+                    "L",
+                    "M",
+                    "N",
+                    "O",
+                    "P",
+                    "q",
+                    "r",
+                    "s",
+                    "t",
+                    "u",
+                    "v",
+                    "w",
+                    "x",
+                    "y",
+                    "z"
+                ];
+                this.Alphabet = alphabet;
+        }
   }
 </script>
 <style scoped>

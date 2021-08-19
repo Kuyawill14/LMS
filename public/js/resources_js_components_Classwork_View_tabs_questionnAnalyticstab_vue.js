@@ -38471,7 +38471,7 @@ var render = function() {
                       staticClass: "text-subtitle-1 text-center",
                       attrs: { cols: "12" }
                     },
-                    [_vm._v("\n            Loading\n        ")]
+                    [_vm._v("\r\n            Loading\r\n        ")]
                   ),
                   _vm._v(" "),
                   _c(
@@ -38704,7 +38704,7 @@ var render = function() {
                                     },
                                     [
                                       _vm._v(
-                                        "\n                        Loading Chart\n                    "
+                                        "\r\n                        Loading Chart\r\n                    "
                                       )
                                     ]
                                   ),

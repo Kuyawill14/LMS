@@ -146,8 +146,18 @@
         </v-row>
     </v-col >
     <v-col v-if="isViewing" style="max-height:85vh;overflow-y:scroll;overflow-x: hidden;" cols="12" md="12" lg="8" xl="8" class="pl-6">
-            
-         <checkobjective v-if="!isLoadingData" v-on:RestSubmission="ResetSubmission()" :classworkDetails="classworkDetails" :ViewDetails="ViewDetails"  v-on:UpdateSubmission="$emit('UpdateSubmission')" v-on:closeDialog="isViewing = false"></checkobjective>
+         
+            <v-container class="fill-height" v-if="isLoadingData && !isMounted" style="height: 400px;">
+                <v-row  align-content="center" justify="center">
+                    <v-col class="text-subtitle-1 text-center" cols="12">
+                        Loading
+                    </v-col>
+                    <v-col cols="6">
+                        <v-progress-linear color="primary" indeterminate rounded height="6"></v-progress-linear>
+                    </v-col>
+                </v-row>
+            </v-container>
+         <checkobjective v-if="isLoadingData" v-show="isMounted" v-on:isMounted="isMounted = true" v-on:RestSubmission="ResetSubmission()" :classworkDetails="classworkDetails" :ViewDetails="ViewDetails"  v-on:UpdateSubmission="$emit('UpdateSubmission')" v-on:closeDialog="isViewing = false"></checkobjective>
     </v-col>
 </v-row>
 </div>
@@ -164,8 +174,9 @@ export default {
     data(){
         return{
             isloading:true,
-            isLoadingData: false,
+            isLoadingData: true,
              selectedTasks: [],
+             isMounted: false,
              headers: [
 
                 { text: 'Name', value: 'name' },
@@ -216,7 +227,7 @@ export default {
                 this.ViewDetails = data;
                 this.selected_index = index;
             //}
-            setTimeout(() => (this.isLoadingData = false), 100);
+       
         },
         ResetSubmission(){
             this.ListData[this.selected_index].status = null;

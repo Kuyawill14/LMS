@@ -165,6 +165,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var resetConfirmation = function resetConfirmation() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_tabs_dialogs_resetConfirmation_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../dialogs/resetConfirmation */ "./resources/js/components/Classwork_View/tabs/dialogs/resetConfirmation.vue"));
 };
@@ -182,8 +192,9 @@ var checkobjective = function checkobjective() {
   data: function data() {
     return {
       isloading: true,
-      isLoadingData: false,
+      isLoadingData: true,
       selectedTasks: [],
+      isMounted: false,
       headers: [{
         text: 'Name',
         value: 'name'
@@ -232,8 +243,6 @@ var checkobjective = function checkobjective() {
   },
   methods: {
     ViewSubmision: function ViewSubmision(data, index) {
-      var _this2 = this;
-
       this.ViewDetails = null;
       this.isLoadingData = true; //if(data.status == 'Submitted'){
 
@@ -243,10 +252,6 @@ var checkobjective = function checkobjective() {
 
       this.ViewDetails = data;
       this.selected_index = index; //}
-
-      setTimeout(function () {
-        return _this2.isLoadingData = false;
-      }, 100);
     },
     ResetSubmission: function ResetSubmission() {
       this.ListData[this.selected_index].status = null;
@@ -544,13 +549,13 @@ var render = function() {
                                                       },
                                                       [
                                                         _vm._v(
-                                                          "\n                                " +
+                                                          "\r\n                                " +
                                                             _vm._s(
                                                               item.firstname +
                                                                 " " +
                                                                 item.lastName
                                                             ) +
-                                                            "\n                                "
+                                                            "\r\n                                "
                                                         ),
                                                         _c("br")
                                                       ]
@@ -884,13 +889,13 @@ var render = function() {
                                                           },
                                                           [
                                                             _vm._v(
-                                                              "\n                                                    " +
+                                                              "\r\n                                                    " +
                                                                 _vm._s(
                                                                   item.firstname +
                                                                     " " +
                                                                     item.lastName
                                                                 ) +
-                                                                "\n                                                "
+                                                                "\r\n                                                "
                                                             )
                                                           ]
                                                         ),
@@ -908,7 +913,7 @@ var render = function() {
                                                                   "small",
                                                                   [
                                                                     _vm._v(
-                                                                      "Submitted\n                                                        "
+                                                                      "Submitted\r\n                                                        "
                                                                     ),
                                                                     _c(
                                                                       "v-icon",
@@ -979,13 +984,77 @@ var render = function() {
                   attrs: { cols: "12", md: "12", lg: "8", xl: "8" }
                 },
                 [
-                  !_vm.isLoadingData
+                  _vm.isLoadingData && !_vm.isMounted
+                    ? _c(
+                        "v-container",
+                        {
+                          staticClass: "fill-height",
+                          staticStyle: { height: "400px" }
+                        },
+                        [
+                          _c(
+                            "v-row",
+                            {
+                              attrs: {
+                                "align-content": "center",
+                                justify: "center"
+                              }
+                            },
+                            [
+                              _c(
+                                "v-col",
+                                {
+                                  staticClass: "text-subtitle-1 text-center",
+                                  attrs: { cols: "12" }
+                                },
+                                [
+                                  _vm._v(
+                                    "\r\n                        Loading\r\n                    "
+                                  )
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-col",
+                                { attrs: { cols: "6" } },
+                                [
+                                  _c("v-progress-linear", {
+                                    attrs: {
+                                      color: "primary",
+                                      indeterminate: "",
+                                      rounded: "",
+                                      height: "6"
+                                    }
+                                  })
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.isLoadingData
                     ? _c("checkobjective", {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: _vm.isMounted,
+                            expression: "isMounted"
+                          }
+                        ],
                         attrs: {
                           classworkDetails: _vm.classworkDetails,
                           ViewDetails: _vm.ViewDetails
                         },
                         on: {
+                          isMounted: function($event) {
+                            _vm.isMounted = true
+                          },
                           RestSubmission: function($event) {
                             return _vm.ResetSubmission()
                           },
