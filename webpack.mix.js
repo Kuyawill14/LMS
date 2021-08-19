@@ -28,12 +28,16 @@ mix.js('resources/js/app.js', 'public/js')
     .extract(['lodash'], 'public/js/vendor4.js')
     .extract(['pusher.js'], 'public/js/vendor5.js')
     .extract(['vue'], 'public/js/vendor6.js');
-    
+
 /*     
 if (mix.inProduction()) {
         mix.version();
     }
     
+<<<<<<< HEAD
+ */ss
+=======
  */
 
     
+>>>>>>> bac8a4e7215effae7a824d07db28aa56c252a330
