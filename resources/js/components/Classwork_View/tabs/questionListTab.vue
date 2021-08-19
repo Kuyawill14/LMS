@@ -12,14 +12,11 @@
 
     <v-container class="fill-height" v-if="isloading" style="height: 500px;">
         <v-row  align-content="center" justify="center">
-         
-            <v-col cols="12" class="text-center">
-              
-                <v-progress-circular
-                :size="50"
-                indeterminate
-                color="primary"
-                ></v-progress-circular>
+            <v-col class="text-subtitle-1 text-center" cols="12">
+                Loading
+            </v-col>
+            <v-col cols="6">
+                <v-progress-linear color="primary" indeterminate rounded height="6"></v-progress-linear>
             </v-col>
         </v-row>
     </v-container>
@@ -197,19 +194,8 @@ export default {
         this.fetchQuestionsList();
          this.Show = true
         this.isLoading = false;
-        
       
     },
-    mounted(){
-        this.$emit('isMounted');
-    },
-
-    created(){
-        this.$emit('isMounted');
-    },
-    beforeDestroy(){
-        this.$emit('isUnMounted');
-    }
   
   
 }

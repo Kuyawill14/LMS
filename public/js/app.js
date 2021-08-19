@@ -2261,8 +2261,11 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_6__.default({
       //store.dispatch('fetchCurrentUser').then(()=>{
       _store_store__WEBPACK_IMPORTED_MODULE_2__.default.dispatch('IsAuthenticated').then(function () {
         if (_store_store__WEBPACK_IMPORTED_MODULE_2__.default.state.CurrentUser.IsAuthenticated == true) {
-          _store_store__WEBPACK_IMPORTED_MODULE_2__.default.dispatch('fetchCurrentUser');
-          next();
+          _store_store__WEBPACK_IMPORTED_MODULE_2__.default.dispatch('fetchCurrentUser').then(function () {
+            next();
+          })["catch"](function () {
+            next();
+          });
         } else {
           return next({
             path: "/login"

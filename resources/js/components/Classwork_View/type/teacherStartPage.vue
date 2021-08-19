@@ -30,7 +30,7 @@
                 
                         <v-tabs-slider color="primary"></v-tabs-slider>  
                         <v-tab class="d-flex justify-center" v-for="(item,index) in ObjectIveTabs" :key="index"
-                        :to="{name: item.name, query: {clwk: $route.query.clwk}}" >
+                        :to="{name: item.name, query: {clwk: $route.query.clwk}}">
                           <div :style="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm ? 'line-height: 1.2' : ''" :class="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm ? 'text-caption' : ''">{{item.text}}</div>
                          <v-icon :right="!$vuetify.breakpoint.xs || !$vuetify.breakpoint.sm ">
                             {{item.icon}}
@@ -52,36 +52,25 @@
                 centered
                 v-model="activeTab">
                         <v-tabs-slider color="primary"></v-tabs-slider>  
-                        <v-tab class="d-flex justify-center" 
-                            
-                        v-for="(item,index) in SubjectiveTabs" :key="index"
+                        <v-tab class="d-flex justify-center" v-for="(item,index) in SubjectiveTabs" :key="index"
                         :to="{name: item.name, query: {clwk: $route.query.clwk}}">
                          <div :style="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm ? 'line-height: 1.2' : ''" :class="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm ? 'text-caption' : ''">{{item.text}}</div>
                          <v-icon :right="!$vuetify.breakpoint.xs || !$vuetify.breakpoint.sm ">
                             {{item.icon}}
                         </v-icon>
-                       
+                    
                         </v-tab>  
                  </v-tabs>
 
+             
+               
                   </v-col>
                  
                   <v-col class="ma-0" cols="12">
                        <v-divider></v-divider>
                         <v-tabs-items :value="activeTab">
                         <div class="mt-3" >
-                              <v-container class="fill-height" v-if="isLoading" style="height: 500px;">
-                                <v-row  align-content="center" justify="center">
-                                    <v-col cols="12" class="text-center">
-                                        <v-progress-circular
-                                        :size="40"
-                                        indeterminate
-                                        color="primary"
-                                        ></v-progress-circular>
-                                    </v-col>
-                                </v-row>
-                            </v-container>
-                            <router-view v-show="!isLoading" v-on:isUnMounted="isLoading = true" v-on:isMounted="isLoading = false" :classworkDetails="classworkDetails"></router-view>
+                            <router-view :classworkDetails="classworkDetails"></router-view>
                         </div>
                     </v-tabs-items>
                   </v-col>
@@ -119,7 +108,6 @@ export default {
               
             ],
             tabs: null,
-            isLoading: true,
         }
     },
 }

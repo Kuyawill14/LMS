@@ -27,7 +27,7 @@
 
         
 
-<!-- <v-container class="fill-height" v-if="isloading" style="height: 500px;">
+<v-container class="fill-height" v-if="isloading" style="height: 500px;">
     <v-row  align-content="center" justify="center">
         <v-col class="text-subtitle-1 text-center" cols="12">
             Loading
@@ -36,7 +36,7 @@
             <v-progress-linear color="primary" indeterminate rounded height="6"></v-progress-linear>
         </v-col>
     </v-row>
-</v-container> -->
+</v-container>
 
 <!--  <v-row align="center" justify="center" class="pt-10" v-if="Qlength == 0">
     <v-col cols="12" sm="8" md="4" class="text-center">
@@ -49,7 +49,7 @@
     </v-col>
 </v-row> -->
 
-  <v-container  pa-0 ma-0  class="pa-0 pa-0" fluid>
+  <v-container v-if="!isloading" pa-0 ma-0  class="pa-0 pa-0" fluid>
         <v-row align="center" justify="center">
             <v-col cols="12" lg="9" xl="9" md="8">
                 <v-card elevation="1" outlined class="pa-5" >
@@ -234,14 +234,7 @@ export default {
     },
     mounted(){
         this.fetchClassnames();
-        this.$emit('isMounted');
-    },
-
-    created(){
-        this.$emit('isMounted');
-    },
-    beforeDestroy(){
-        this.$emit('isUnMounted');
+      
     }
 
 }

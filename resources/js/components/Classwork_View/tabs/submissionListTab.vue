@@ -1,7 +1,7 @@
 
 <template>
 <div class="pa-1">
-<!-- <v-container class="fill-height" v-if="isloading" style="height: 400px;">
+<v-container class="fill-height" v-if="isloading" style="height: 400px;">
     <v-row  align-content="center" justify="center">
         <v-col class="text-subtitle-1 text-center" cols="12">
             Loading
@@ -11,7 +11,7 @@
         </v-col>
     </v-row>
 </v-container>
- -->
+
  <v-row  justify="center" v-if="List.length == 0 && !isloading">
     <v-col cols="12" sm="8" md="4" class="text-center">
         <v-icon style="font-size:10rem">
@@ -107,16 +107,7 @@ export default {
     mounted(){
         this.GetList();
         this.FetchCLassNames();
-        this.$emit('isMounted');
-    },
-
-    created(){
-        this.$emit('isMounted');
-    },
-    beforeDestroy(){
-        this.$emit('isUnMounted');
     }
-    
     
 }
 </script>
