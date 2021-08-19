@@ -12,15 +12,13 @@ require('dotenv').config();
  |
  */
 
- require('laravel-mix-bundle-analyzer');
- 
- if (mix.isWatching()) {
-     mix.bundleAnalyzer();
- }
+require('laravel-mix-bundle-analyzer');
+
+if (mix.isWatching()) {
+    mix.bundleAnalyzer();
+}
 
 mix.js('resources/js/app.js', 'public/js')
     .vue()
     .sass('resources/sass/app.scss', 'public/css')
-    .extract(['vue','vuetify','vue-core-video-player','jquery']);
-
-    
+    .extract(['vue', 'vuetify', 'vue-core-video-player', 'jquery']);
