@@ -527,7 +527,7 @@ var render = function() {
                                                             null ||
                                                           item.profile_pic == ""
                                                             ? "https://ui-avatars.com/api/?background=random&color=fff&name=" +
-                                                              item.firstname +
+                                                              item.firstName +
                                                               " " +
                                                               item.lastName
                                                             : item.profile_pic
@@ -549,13 +549,13 @@ var render = function() {
                                                       },
                                                       [
                                                         _vm._v(
-                                                          "\n                                " +
+                                                          "\r\n                                " +
                                                             _vm._s(
-                                                              item.firstname +
+                                                              item.firstName +
                                                                 " " +
                                                                 item.lastName
                                                             ) +
-                                                            "\n                                "
+                                                            "\r\n                                "
                                                         ),
                                                         _c("br")
                                                       ]
@@ -858,7 +858,7 @@ var render = function() {
                                                               item.profile_pic ==
                                                                 ""
                                                                 ? "https://ui-avatars.com/api/?background=random&color=fff&name=" +
-                                                                  item.firstname +
+                                                                  item.firstName +
                                                                   " " +
                                                                   item.lastName
                                                                 : item.profile_pic
@@ -889,13 +889,13 @@ var render = function() {
                                                           },
                                                           [
                                                             _vm._v(
-                                                              "\n                                                    " +
+                                                              "\r\n                                                    " +
                                                                 _vm._s(
-                                                                  item.firstname +
+                                                                  item.firstName +
                                                                     " " +
                                                                     item.lastName
                                                                 ) +
-                                                                "\n                                                "
+                                                                "\r\n                                                "
                                                             )
                                                           ]
                                                         ),
@@ -913,7 +913,7 @@ var render = function() {
                                                                   "small",
                                                                   [
                                                                     _vm._v(
-                                                                      "Submitted\n                                                        "
+                                                                      "Submitted\r\n                                                        "
                                                                     ),
                                                                     _c(
                                                                       "v-icon",
@@ -1009,7 +1009,7 @@ var render = function() {
                                 },
                                 [
                                   _vm._v(
-                                    "\n                        Loading\n                    "
+                                    "\r\n                        Loading\r\n                    "
                                   )
                                 ]
                               ),

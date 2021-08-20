@@ -40,12 +40,12 @@
                          <div class=" d-flex justify-start">
                             <v-avatar color="brown" size="40">
                                 <v-img alt="Profile"
-                                    :src="item.profile_pic == null || item.profile_pic == '' ? 'https://ui-avatars.com/api/?background=random&color=fff&name=' + item.firstname +' '+item.lastName : item.profile_pic">
+                                    :src="item.profile_pic == null || item.profile_pic == '' ? 'https://ui-avatars.com/api/?background=random&color=fff&name=' + item.firstName +' '+item.lastName : item.profile_pic">
                                 </v-img>
                             </v-avatar>
                             <div class="mt-2 ml-2">
                             <div class="font-weight-medium">
-                                {{item.firstname +' '+item.lastName}}
+                                {{item.firstName +' '+item.lastName}}
                                 <br>
                             </div>
                             </div>
@@ -120,12 +120,12 @@
                                         <div class=" d-flex justify-start">
                                             <v-avatar color="brown" :size="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm ? '25' :'40'">
                                                 <v-img alt="Profile"
-                                                    :src="item.profile_pic == null || item.profile_pic == '' ? 'https://ui-avatars.com/api/?background=random&color=fff&name=' + item.firstname +' '+item.lastName : item.profile_pic">
+                                                    :src="item.profile_pic == null || item.profile_pic == '' ? 'https://ui-avatars.com/api/?background=random&color=fff&name=' + item.firstName +' '+item.lastName : item.profile_pic">
                                                 </v-img>
                                             </v-avatar>
                                             <div class="d-flex flex-column">
                                                 <div :class="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm ? 'mt-0 ml-1 caption' : 'mt-2 ml-3'">
-                                                    {{item.firstname +' '+item.lastName}}
+                                                    {{item.firstName +' '+item.lastName}}
                                                 </div>
                                                 <div class="d-flex ml-3">
                                                     <small v-if="item.status == 'Submitted'">Submitted
