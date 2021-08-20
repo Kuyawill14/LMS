@@ -26,7 +26,7 @@ mix.js('resources/js/app.js', 'public/js')
     .extract(['bootstrap'], 'public/js/vendor~utils-2.js')
     .extract(['jquery'], 'public/js/vendor~utils-3.js')
     .extract(['lodash'], 'public/js/vendor~utils-4.js')
-    .extract(['pusher.js'], 'public/js/vendor~utils-5.js')
+    //.extract(['pusher.js'], 'public/js/vendor~utils-5.js')
     .extract(['vue'], 'public/js/vendor~utils-6.js')
 
     
