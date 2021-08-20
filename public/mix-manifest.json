@@ -1,8 +1,4 @@
 {
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 74c955ba31b031cd0faa943253d563ce9d4a56d6
     "/js/app.js": "/js/app.js",
     "/js/manifest.js": "/js/manifest.js",
     "/js/vendor~utils-0.js": "/js/vendor~utils-0.js",
@@ -13,19 +9,4 @@
     "/js/vendor~utils-5.js": "/js/vendor~utils-5.js",
     "/js/vendor~utils-3.js": "/js/vendor~utils-3.js",
     "/js/vendor~utils-2.js": "/js/vendor~utils-2.js"
-<<<<<<< HEAD
-=======
-=======
-    "/js/app.js": "/js/app.js?id=68265255f8ccf9cd05b1",
-    "/js/manifest.js": "/js/manifest.js?id=19a958bde6f2235bca4e",
-    "/js/vendor~utils-0.js": "/js/vendor~utils-0.js?id=0e4cf4f801081c9db473",
-    "/css/app.css": "/css/app.css?id=f2217793268394d0d36b",
-    "/js/vendor~utils-4.js": "/js/vendor~utils-4.js?id=e2c048d5a3b3e2d1dca3",
-    "/js/vendor~utils-6.js": "/js/vendor~utils-6.js?id=e3f7b608d41d94dab290",
-    "/js/vendor~utils-1.js": "/js/vendor~utils-1.js?id=f152b8407d7ac73a484b",
-    "/js/vendor~utils-5.js": "/js/vendor~utils-5.js?id=103cbb0ceee29a4c12a4",
-    "/js/vendor~utils-3.js": "/js/vendor~utils-3.js?id=5a70274ba6f242f21454",
-    "/js/vendor~utils-2.js": "/js/vendor~utils-2.js?id=3c922ea4d323e68afbd5"
->>>>>>> 54395d377d5bbd536b0ae7e00a2f2dc80cdf6c8e
->>>>>>> 74c955ba31b031cd0faa943253d563ce9d4a56d6
 }
