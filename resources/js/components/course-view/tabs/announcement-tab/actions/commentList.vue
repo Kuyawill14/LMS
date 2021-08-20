@@ -145,7 +145,7 @@ export default {
 
         },
         async getComments(){ 
-            axios.get('/api/post/allcomment/'+this.PostId, {Check: this.showLess})
+            axios.get('/api/post/allcomment/'+this.postDetails.post_id, {Check: this.showLess})
             .then((res)=>{
                 this.CommentList = res.data;
                 this.getCommentCount();
@@ -153,7 +153,7 @@ export default {
         
         },
         async getCommentCount(){
-            axios.get('/api/post/commentCount/'+this.PostId)
+            axios.get('/api/post/commentCount/'+this.postDetails.post_id)
             .then((res)=>{
                 this.commentLength = res.data;
                 this.isLengthLoaded = true;
@@ -162,7 +162,7 @@ export default {
         async addComment () {
             this.data.content = this.comment;
             this.data.course_id = this.$route.params.id;
-            this.data.post_id = this.PostId;
+            this.data.post_id = this.postDetails.post_id;
             axios.post('/api/post/comment/insert',this.data)
             .then(res=>{
                 this.showComment = true;

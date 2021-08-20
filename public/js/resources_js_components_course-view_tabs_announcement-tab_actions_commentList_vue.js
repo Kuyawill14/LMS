@@ -185,7 +185,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                axios.get('/api/post/allcomment/' + _this2.PostId, {
+                axios.get('/api/post/allcomment/' + _this2.postDetails.post_id, {
                   Check: _this2.showLess
                 }).then(function (res) {
                   _this2.CommentList = res.data;
@@ -209,7 +209,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                axios.get('/api/post/commentCount/' + _this3.PostId).then(function (res) {
+                axios.get('/api/post/commentCount/' + _this3.postDetails.post_id).then(function (res) {
                   _this3.commentLength = res.data;
                   _this3.isLengthLoaded = true;
                 });
@@ -232,7 +232,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 _this4.data.content = _this4.comment;
                 _this4.data.course_id = _this4.$route.params.id;
-                _this4.data.post_id = _this4.PostId;
+                _this4.data.post_id = _this4.postDetails.post_id;
                 axios.post('/api/post/comment/insert', _this4.data).then(function (res) {
                   _this4.showComment = true;
 
