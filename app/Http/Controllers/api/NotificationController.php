@@ -34,7 +34,7 @@ class NotificationController extends Controller
             $newNotification->message = $clsssworkTitle->title." assigned in your ".$clsssworkTitle->course_name;
             $newNotification->notification_type = 4;
             $newNotification->save();
-            broadcast(new NewNotification($newNotification))->toOthers();
+            //broadcast(new NewNotification($newNotification))->toOthers();
             return;
         }
         elseif($request->type == "announcement"){
@@ -47,7 +47,7 @@ class NotificationController extends Controller
             $newNotification->message = "Posted new announcement in ".$userInClass->course_name;
             $newNotification->notification_type = 1;
             $newNotification->save();
-            broadcast(new NewNotification($newNotification))->toOthers();
+            //broadcast(new NewNotification($newNotification))->toOthers();
             return;
         }
        

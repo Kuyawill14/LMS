@@ -14,6 +14,7 @@ use App\Models\tbl_notification;
 use App\Events\NewPost;
 use App\Events\NewNotification;
 use App\Models\tbl_comment;
+use App\Models\tbl_like;
 use App\Models\tbl_subject_course;
 
 
@@ -35,6 +36,7 @@ class AnnouncementController extends Controller
     {
         $userId = auth("sanctum")->id();
         //$userId = 3;
+        $allClassPost;
         if(auth("sanctum")->user()->role != "Student")
         {
             $allClassPost = tbl_classpost::where("tbl_classposts.course_id", $id)
@@ -50,9 +52,9 @@ class AnnouncementController extends Controller
             ->leftJoin("tbl_user_details", "users.id", "=", "tbl_user_details.user_id")
             ->orderBy("tbl_classposts.created_at", "DESC")
             ->groupBy("tbl_classposts.id","tbl_class_announcements.id","tbl_class_announcements.content","tbl_class_announcements.file","tbl_class_announcements.created_at","tbl_class_announcements.updated_at","tbl_user_details.profile_pic","tbl_user_details.firstName","tbl_user_details.lastName")
-            ->paginate(5);
+            ->paginate(8);
             //->get();
-            return $allClassPost;
+
         }
         else{
             $Class_id = tbl_userclass::where("course_id", $id)
@@ -72,11 +74,34 @@ class AnnouncementController extends Controller
                 ->leftJoin("tbl_user_details", "users.id", "=", "tbl_user_details.user_id")
                 ->orderBy("tbl_classposts.created_at", "DESC")
                 ->groupBy("tbl_classposts.id","tbl_class_announcements.id","tbl_class_announcements.content","tbl_class_announcements.file","tbl_class_announcements.created_at","tbl_class_announcements.updated_at","tbl_user_details.profile_pic","tbl_user_details.firstName","tbl_user_details.lastName")
-                ->paginate(5);
+                ->paginate(8);
                 //return $allClassPost->toArray();
-                return $allClassPost;
+
             }
         }
+
+        
+        foreach ($allClassPost as $post) {
+            $Comment = tbl_comment::where("tbl_comments.post_id", $post->post_id)
+            ->select("tbl_comments.id","tbl_comments.post_id","tbl_comments.content","tbl_comments.created_at",
+            DB::raw("CONCAT(tbl_user_details.firstName,' ',tbl_user_details.lastName) as name"),"tbl_user_details.profile_pic", "tbl_comments.id")
+            ->leftJoin("tbl_user_details", "tbl_user_details.user_id","=","tbl_comments.user_id")
+            ->orderBy("tbl_user_details.created_at", "ASC")
+            ->get();
+            $post->comment = $Comment;
+
+
+            $like = tbl_like::where('post_id', $post->post_id)
+            ->where('user_id', $userId)->first();
+            $post->liked = $like ? true : false;
+
+            
+        }
+        
+        return $allClassPost;
+
+
+
        
     }
 

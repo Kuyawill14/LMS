@@ -139,6 +139,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 var publishDialog = function publishDialog() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_tabs_dialogs_publishDialog_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./dialogs/publishDialog */ "./resources/js/components/Classwork_View/tabs/dialogs/publishDialog.vue"));
 };
@@ -503,6 +504,9 @@ var render = function() {
                 [
                   _c(
                     "v-col",
+<<<<<<< HEAD
+                    { staticClass: "text-center", attrs: { cols: "12" } },
+=======
                     {
                       staticClass: "text-subtitle-1 text-center",
                       attrs: { cols: "12" }
@@ -513,14 +517,10 @@ var render = function() {
                   _c(
                     "v-col",
                     { attrs: { cols: "6" } },
+>>>>>>> 54395d377d5bbd536b0ae7e00a2f2dc80cdf6c8e
                     [
-                      _c("v-progress-linear", {
-                        attrs: {
-                          color: "primary",
-                          indeterminate: "",
-                          rounded: "",
-                          height: "6"
-                        }
+                      _c("v-progress-circular", {
+                        attrs: { size: 40, color: "primary", indeterminate: "" }
                       })
                     ],
                     1
@@ -548,6 +548,18 @@ var render = function() {
                   _c(
                     "v-col",
                     { attrs: { cols: "12", lg: "9", xl: "9", md: "8" } },
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> 20307c3412719b0774c2d24fb30586fde2fc4868
+>>>>>>> 44f72179b95c15a0096412e9daaea723fb9f2dcc
+>>>>>>> 73760af0f458931b8c42d85e7f6435874e477092
+>>>>>>> 54395d377d5bbd536b0ae7e00a2f2dc80cdf6c8e
+>>>>>>> 74c955ba31b031cd0faa943253d563ce9d4a56d6
                     [
                       _c(
                         "v-card",
@@ -633,19 +645,38 @@ var render = function() {
                                                       }
                                                     },
                                                     [
+<<<<<<< HEAD
                                                       _vm._v(
                                                         "\n                                                    " +
+=======
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 54395d377d5bbd536b0ae7e00a2f2dc80cdf6c8e
+                                                      _vm._v(
+                                                        "\r\n                                                    " +
+>>>>>>> 74c955ba31b031cd0faa943253d563ce9d4a56d6
                                                           _vm._s(
                                                             _vm.$vuetify
                                                               .breakpoint.xs
                                                               ? ""
                                                               : "Publish"
                                                           ) +
+<<<<<<< HEAD
                                                           "\n                                                "
                                                       ),
                                                       _c("v-icon", [
                                                         _vm._v(
                                                           "\n                                                    mdi-share\n                                                "
+=======
+                                                          "\r\n                                                "
+                                                      ),
+                                                      _c("v-icon", [
+                                                        _vm._v(
+                                                          "\r\n                                                    mdi-share\r\n                                                "
+>>>>>>> 74c955ba31b031cd0faa943253d563ce9d4a56d6
                                                         )
                                                       ])
                                                     ],
@@ -670,6 +701,44 @@ var render = function() {
                                                                 details.status ==
                                                                 1
                                                                   ? _c(
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> 73760af0f458931b8c42d85e7f6435874e477092
+                                                      {
+                                                        key: "activator",
+                                                        fn: function(ref) {
+                                                          var on = ref.on
+                                                          var attrs = ref.attrs
+                                                          return [
+                                                            details.status == 1
+                                                              ? _c(
+                                                                  "v-btn",
+                                                                  _vm._g(
+                                                                    _vm._b(
+                                                                      {
+                                                                        attrs: {
+                                                                          color:
+                                                                            "primary",
+                                                                          dark:
+                                                                            "",
+                                                                          icon:
+                                                                            "",
+                                                                          text:
+                                                                            ""
+                                                                        }
+                                                                      },
+<<<<<<< HEAD
+=======
+>>>>>>> 20307c3412719b0774c2d24fb30586fde2fc4868
+>>>>>>> 44f72179b95c15a0096412e9daaea723fb9f2dcc
+>>>>>>> 73760af0f458931b8c42d85e7f6435874e477092
+>>>>>>> 54395d377d5bbd536b0ae7e00a2f2dc80cdf6c8e
+>>>>>>> 74c955ba31b031cd0faa943253d563ce9d4a56d6
                                                                       "v-btn",
                                                                       _vm._g(
                                                                         _vm._b(
@@ -759,7 +828,23 @@ var render = function() {
                                                                     ]
                                                                   ),
                                                                   _vm._v(
+<<<<<<< HEAD
                                                                     " Edit Publication\n                                                        "
+=======
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+                                                                    "mdi-pencil"
+                                                                  )
+                                                                ]
+                                                              ),
+                                                              _vm._v(
+                                                                " Edit Publication\n                                                        "
+=======
+<<<<<<< HEAD
+>>>>>>> 54395d377d5bbd536b0ae7e00a2f2dc80cdf6c8e
+                                                                    " Edit Publication\r\n                                                        "
+>>>>>>> 74c955ba31b031cd0faa943253d563ce9d4a56d6
                                                                   )
                                                                 ],
                                                                 1
@@ -808,7 +893,23 @@ var render = function() {
                                                                     ]
                                                                   ),
                                                                   _vm._v(
+<<<<<<< HEAD
                                                                     " Unpublish\n                                                            "
+=======
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+                                                                    "mdi-share-off"
+                                                                  )
+                                                                ]
+                                                              ),
+                                                              _vm._v(
+                                                                " Unpublish\n                                                            "
+=======
+<<<<<<< HEAD
+>>>>>>> 54395d377d5bbd536b0ae7e00a2f2dc80cdf6c8e
+                                                                    " Unpublish\r\n                                                            "
+>>>>>>> 74c955ba31b031cd0faa943253d563ce9d4a56d6
                                                                   )
                                                                 ],
                                                                 1

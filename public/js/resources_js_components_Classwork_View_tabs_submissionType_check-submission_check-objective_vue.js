@@ -22230,7 +22230,7 @@ var render = function() {
                     [
                       _c("v-icon", { staticStyle: { "font-size": "8rem" } }, [
                         _vm._v(
-                          "\n                        mdi-notebook-remove-outline\n                    "
+                          "\r\n                        mdi-notebook-remove-outline\r\n                    "
                         )
                       ]),
                       _vm._v(" "),
@@ -22495,9 +22495,9 @@ var render = function() {
                                   _vm._v(" "),
                                   _c("div", { staticClass: "Subtitle 1" }, [
                                     _vm._v(
-                                      "\n                    " +
+                                      "\r\n                    " +
                                         _vm._s(_vm.inputCheck[n]) +
-                                        "\n                "
+                                        "\r\n                "
                                     )
                                   ])
                                 ],
@@ -22563,7 +22563,7 @@ var render = function() {
                                                     },
                                                     [
                                                       _vm._v(
-                                                        "\n                                        Column A\n                                    "
+                                                        "\r\n                                        Column A\r\n                                    "
                                                       )
                                                     ]
                                                   ),
@@ -22577,7 +22577,7 @@ var render = function() {
                                                     },
                                                     [
                                                       _vm._v(
-                                                        "\n                                        Column B\n                                    "
+                                                        "\r\n                                        Column B\r\n                                    "
                                                       )
                                                     ]
                                                   )

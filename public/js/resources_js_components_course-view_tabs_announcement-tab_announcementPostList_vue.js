@@ -98,6 +98,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
 
 
 var announcementList = function announcementList() {
@@ -151,7 +153,7 @@ var commentList = function commentList() {
       this.data.content = this.comment[i];
       this.data.course_id = this.$route.params.id;
       this.data.post_id = post_id;
-      axios.post('/api/comment/insert', this.data).then(function (res) {
+      axios.post('/api/post/insert', this.data).then(function (res) {
         res.data;
 
         _this.getComments();
@@ -165,7 +167,7 @@ var commentList = function commentList() {
     getComments: function getComments() {
       var _this2 = this;
 
-      axios.get('/api/comment/allcomment/' + this.$route.params.id).then(function (res) {
+      axios.get('/api/post/allcomment/' + this.$route.params.id).then(function (res) {
         _this2.CommentList = res.data;
       });
     },
@@ -204,8 +206,7 @@ var commentList = function commentList() {
     $(".post-content p").replaceWith(function () {
       return "<span>" + this.innerHTML + "</span>";
     });
-    this.test();
-    this.getComments();
+    this.test(); //this.getComments();
   },
   mounted: function mounted() {
     this.getAnnouncementWhileScrolling();
@@ -512,6 +513,8 @@ var render = function() {
               attrs: {
                 commentCount: post.comment_count,
                 LikesCount: post.likes_count,
+                commentListData: post.comment,
+                postDetails: post,
                 PostId: post.post_id,
                 UserDetails: _vm.UserDetails
               },

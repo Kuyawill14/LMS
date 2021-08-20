@@ -133,8 +133,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['PostId', 'UserDetails', 'commentCount', 'LikesCount'],
+  props: ['UserDetails', 'postDetails'],
   data: function data() {
     return {
       totalComment: null,
@@ -153,11 +155,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       idEditing_id: null,
       UpdateComment: ''
     };
-  },
-  computed: {
-    CommentCountAll: function CommentCountAll() {
-      return this.commentCount;
-    }
   },
   methods: {
     CheckCommentLoad: function CheckCommentLoad() {
@@ -188,7 +185,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                axios.get('/api/comment/allcomment/' + _this2.PostId, {
+                axios.get('/api/post/allcomment/' + _this2.PostId, {
                   Check: _this2.showLess
                 }).then(function (res) {
                   _this2.CommentList = res.data;
@@ -212,7 +209,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                axios.get('/api/comment/commentCount/' + _this3.PostId).then(function (res) {
+                axios.get('/api/post/commentCount/' + _this3.PostId).then(function (res) {
                   _this3.commentLength = res.data;
                   _this3.isLengthLoaded = true;
                 });
@@ -236,7 +233,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _this4.data.content = _this4.comment;
                 _this4.data.course_id = _this4.$route.params.id;
                 _this4.data.post_id = _this4.PostId;
-                axios.post('/api/comment/insert', _this4.data).then(function (res) {
+                axios.post('/api/post/comment/insert', _this4.data).then(function (res) {
                   _this4.showComment = true;
 
                   _this4.$emit("AddCount"); //this.getCommentCount();
@@ -267,7 +264,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context5.prev = _context5.next) {
               case 0:
-                axios["delete"]('/api/comment/remove/' + id).then(function () {
+                axios["delete"]('/api/post/comment/remove/' + id).then(function () {
                   _this5.$emit("MinusCount"); //this.getCommentCount();
 
 
@@ -282,7 +279,37 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee5);
       }))();
     },
-    UpdateCommentData: function UpdateCommentData() {}
+    UpdateCommentData: function UpdateCommentData() {},
+    LikePost: function LikePost(id, liked) {
+      var _this6 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee6() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee6$(_context6) {
+          while (1) {
+            switch (_context6.prev = _context6.next) {
+              case 0:
+                if (!liked) {
+                  axios.post('/api/post/like', {
+                    post_id: id
+                  }).then(function () {
+                    _this6.postDetails.liked = true;
+                    _this6.postDetails.likes_count += 1;
+                  });
+                } else {
+                  axios["delete"]('/api/post/like/delete/' + id).then(function () {
+                    _this6.postDetails.liked = false;
+                    _this6.postDetails.likes_count = _this6.postDetails.likes_count != 0 ? _this6.postDetails.likes_count -= 1 : 0;
+                  });
+                }
+
+              case 1:
+              case "end":
+                return _context6.stop();
+            }
+          }
+        }, _callee6);
+      }))();
+    }
   }
 });
 
@@ -381,23 +408,59 @@ var render = function() {
     [
       _c(
         "v-container",
-        { staticClass: "mt-3 text-right pl-3 pr-3 mb-2 d-inline-flex" },
+        { staticClass: "mt-3 text-right pl-5 pr-3 mb-2 d-inline-flex" },
         [
           _c(
             "v-btn",
-            { attrs: { rounded: "", text: "" } },
+            {
+              attrs: { rounded: "", text: "" },
+              on: {
+                click: function($event) {
+                  return _vm.LikePost(
+                    _vm.postDetails.post_id,
+                    _vm.postDetails.liked
+                  )
+                }
+              }
+            },
             [
               _c(
                 "v-badge",
-                { attrs: { content: _vm.LikesCount, value: _vm.LikesCount } },
+                {
+                  attrs: {
+                    "offset-x": "40",
+                    "offset-y": "12",
+                    content: _vm.postDetails.likes_count,
+                    value: _vm.postDetails.likes_count
+                  }
+                },
                 [
-                  _c("v-icon", { staticClass: "mr-1" }, [
-                    _vm._v("mdi-thumb-up-outline")
-                  ])
+                  _c(
+                    "v-icon",
+                    {
+                      staticClass: "mr-1",
+                      attrs: { color: _vm.postDetails.liked ? "blue" : "" }
+                    },
+                    [
+                      _vm._v(
+                        "  " +
+                          _vm._s(
+                            _vm.postDetails.liked
+                              ? "mdi-thumb-up"
+                              : "mdi-thumb-up-outline"
+                          ) +
+                          " "
+                      )
+                    ]
+                  )
                 ],
                 1
               ),
-              _vm._v("\n            Like\n        ")
+              _vm._v(
+                "\r\n            " +
+                  _vm._s(_vm.postDetails.liked ? "" : "like") +
+                  "\r\n        "
+              )
             ],
             1
           ),
@@ -408,9 +471,8 @@ var render = function() {
               attrs: { rounded: "", text: "" },
               on: {
                 click: function($event) {
-                  _vm.commentCount != 0
-                    ? (_vm.CheckCommentLoad(),
-                      (_vm.showComment = !_vm.showComment))
+                  _vm.postDetails.comment_count != 0
+                    ? (_vm.showComment = !_vm.showComment)
                     : ""
                 }
               }
@@ -419,7 +481,14 @@ var render = function() {
               _c(
                 "v-badge",
                 {
-                  attrs: { content: _vm.commentCount, value: _vm.commentCount }
+                  attrs: {
+                    "offset-x": "40",
+                    "offset-y": "12",
+                    content: !_vm.showComment
+                      ? _vm.postDetails.comment_count
+                      : "",
+                    value: !_vm.showComment ? _vm.postDetails.comment_count : ""
+                  }
                 },
                 [
                   _c("v-icon", { staticClass: "mr-1" }, [
@@ -427,8 +496,7 @@ var render = function() {
                   ])
                 ],
                 1
-              ),
-              _vm._v("\n            Comment\n        ")
+              )
             ],
             1
           )
@@ -446,7 +514,7 @@ var render = function() {
               _c(
                 "transition-group",
                 { attrs: { transition: "v-expand-transition" } },
-                _vm._l(_vm.CommentList, function(item) {
+                _vm._l(_vm.postDetails.comment, function(item) {
                   return _c(
                     "v-container",
                     {

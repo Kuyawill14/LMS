@@ -1,24 +1,26 @@
 <template>
 <div>
-    <v-container class="mt-3 text-right pl-3 pr-3 mb-2 d-inline-flex">
-        <v-btn rounded text>
+    <v-container class="mt-3 text-right pl-5 pr-3 mb-2 d-inline-flex">
+        <v-btn rounded text @click="LikePost(postDetails.post_id, postDetails.liked)">
         <v-badge 
-         :content="LikesCount"
-        :value="LikesCount"
+        offset-x="40" offset-y="12"
+         :content="postDetails.likes_count"
+        :value="postDetails.likes_count"
         >
-        <v-icon class="mr-1">mdi-thumb-up-outline</v-icon>
+        <v-icon :color="postDetails.liked ? 'blue' : ''" class="mr-1">  {{postDetails.liked ? 'mdi-thumb-up' : 'mdi-thumb-up-outline'}} </v-icon>
         </v-badge>
-            Like
+            {{postDetails.liked ? '' :'like'}}
         </v-btn>
         
-        <v-btn rounded text @click="commentCount != 0 ? (CheckCommentLoad(), showComment = !showComment) : ''">
+        <v-btn rounded text @click="postDetails.comment_count != 0 ?  showComment = !showComment : ''">
         <v-badge 
-        :content="commentCount"
-        :value="commentCount"
+        offset-x="40" offset-y="12"
+        :content="!showComment ? postDetails.comment_count : ''"
+        :value="!showComment ? postDetails.comment_count : ''"
         >
         <v-icon class="mr-1">mdi-comment-outline</v-icon>
         </v-badge>
-            Comment
+           
         </v-btn>
     </v-container>
 
@@ -28,7 +30,7 @@
 
   <div class="mt-6" v-if="showComment">
       <transition-group transition="v-expand-transition" >
-        <v-container v-for="item in CommentList" :key="item.id" class="d-inline-flex pl-7 pr-4 pb-3 shrink" pa-0>
+        <v-container v-for="item in postDetails.comment" :key="item.id" class="d-inline-flex pl-7 pr-4 pb-3 shrink" pa-0>
             <v-avatar
             size="36"
             :class="isEditing && idEditing_id == item.id ? 'mt-1': ''">
@@ -114,7 +116,7 @@
 </template>
 <script>
 export default {
-    props:['PostId', 'UserDetails','commentCount','LikesCount'],
+    props:['UserDetails','postDetails'],
     data(){
         return{
             totalComment: null,
@@ -134,21 +136,16 @@ export default {
             UpdateComment:''
         }
     },
-    computed:{
-        CommentCountAll(){
-            return this.commentCount;
-        }
-    },
     methods:{
         async CheckCommentLoad(){
-                if(!this.showComment){
-                    this.getComments();
-                }
+            if(!this.showComment){
+                this.getComments();
+            }
              
 
         },
         async getComments(){ 
-            axios.get('/api/comment/allcomment/'+this.PostId, {Check: this.showLess})
+            axios.get('/api/post/allcomment/'+this.PostId, {Check: this.showLess})
             .then((res)=>{
                 this.CommentList = res.data;
                 this.getCommentCount();
@@ -156,7 +153,7 @@ export default {
         
         },
         async getCommentCount(){
-            axios.get('/api/comment/commentCount/'+this.PostId)
+            axios.get('/api/post/commentCount/'+this.PostId)
             .then((res)=>{
                 this.commentLength = res.data;
                 this.isLengthLoaded = true;
@@ -166,7 +163,7 @@ export default {
             this.data.content = this.comment;
             this.data.course_id = this.$route.params.id;
             this.data.post_id = this.PostId;
-            axios.post('/api/comment/insert',this.data)
+            axios.post('/api/post/comment/insert',this.data)
             .then(res=>{
                 this.showComment = true;
                 this.$emit("AddCount");
@@ -181,7 +178,7 @@ export default {
             this.comment = ''
         },
         async RemoveComment(id){
-            axios.delete('/api/comment/remove/'+id)
+            axios.delete('/api/post/comment/remove/'+id)
             .then(()=>{
                 this.$emit("MinusCount");
                 //this.getCommentCount();
@@ -190,6 +187,19 @@ export default {
         },
         UpdateCommentData(){
 
+        },
+        async LikePost(id, liked){
+            if(!liked){
+                axios.post('/api/post/like',{post_id : id}).then(()=>{
+                    this.postDetails.liked = true;
+                    this.postDetails.likes_count += 1;
+                })
+            }else{
+                axios.delete('/api/post/like/delete/'+id).then(()=>{
+                    this.postDetails.liked = false;
+                      this.postDetails.likes_count =  this.postDetails.likes_count != 0 ? this.postDetails.likes_count-=1 : 0;
+                })
+            }
         }
     },  
 }
