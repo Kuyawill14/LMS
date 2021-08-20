@@ -179,6 +179,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['classworkDetails'],
@@ -274,6 +275,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   beforeMount: function beforeMount() {
     this.Details = this.classworkDetails;
+  },
+  created: function created() {
     this.isloading = !this.isloading;
   }
 });
@@ -400,24 +403,10 @@ var render = function() {
                 [
                   _c(
                     "v-col",
-                    {
-                      staticClass: "text-subtitle-1 text-center",
-                      attrs: { cols: "12" }
-                    },
-                    [_vm._v("\n            Loading\n        ")]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-col",
-                    { attrs: { cols: "6" } },
+                    { staticClass: "text-center", attrs: { cols: "12" } },
                     [
-                      _c("v-progress-linear", {
-                        attrs: {
-                          color: "primary",
-                          indeterminate: "",
-                          rounded: "",
-                          height: "6"
-                        }
+                      _c("v-progress-circular", {
+                        attrs: { size: 40, color: "primary", indeterminate: "" }
                       })
                     ],
                     1
@@ -687,9 +676,9 @@ var render = function() {
                                                         },
                                                         [
                                                           _vm._v(
-                                                            "\n                                                " +
+                                                            "\r\n                                                " +
                                                               _vm._s(text) +
-                                                              "\n                                            "
+                                                              "\r\n                                            "
                                                           )
                                                         ]
                                                       )
@@ -699,7 +688,7 @@ var render = function() {
                                               ],
                                               null,
                                               false,
-                                              1193889600
+                                              3880112256
                                             )
                                           })
                                         ],
@@ -763,14 +752,14 @@ var render = function() {
                                         },
                                         [
                                           _vm._v(
-                                            "\n                                            Update\n                                            "
+                                            "\r\n                                            Update\r\n                                            "
                                           ),
                                           _c(
                                             "v-icon",
                                             { attrs: { right: "", dark: "" } },
                                             [
                                               _vm._v(
-                                                "\n                                                mdi-update\n                                            "
+                                                "\r\n                                                mdi-update\r\n                                            "
                                               )
                                             ]
                                           )

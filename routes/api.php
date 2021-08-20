@@ -98,12 +98,15 @@ Route::prefix('/announcement')->group(function () {
 });
 
 //CommentLike
-Route::prefix('/comment')->group(function () {
+Route::prefix('/post')->group(function () {
     Route::get('/allcomment/{id}', [CommentController::class, 'index']);
     Route::get('/commentCount/{id}', [CommentController::class, 'TotalComment']);
-    Route::post('/insert', [CommentController::class, 'store']);
-    Route::delete('/remove/{id}', [CommentController::class, 'destroy']);
-  
+    Route::post('/comment/insert', [CommentController::class, 'store']);
+    Route::post('/like', [CommentController::class, 'likedPost']);
+    Route::delete('/like/delete/{id}', [CommentController::class, 'RemoveLike']);
+    
+    Route::delete('/comment/remove/{id}', [CommentController::class, 'destroy']);
+    
 });
 
 

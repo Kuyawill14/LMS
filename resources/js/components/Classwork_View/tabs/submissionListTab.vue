@@ -3,11 +3,12 @@
 <div class="pa-1">
 <v-container class="fill-height" v-if="isloading" style="height: 400px;">
     <v-row  align-content="center" justify="center">
-        <v-col class="text-subtitle-1 text-center" cols="12">
-            Loading
-        </v-col>
-        <v-col cols="6">
-            <v-progress-linear color="primary" indeterminate rounded height="6"></v-progress-linear>
+        <v-col cols="12" class="text-center">
+            <v-progress-circular
+            :size="40"
+            color="primary"
+            indeterminate
+            ></v-progress-circular>
         </v-col>
     </v-row>
 </v-container>

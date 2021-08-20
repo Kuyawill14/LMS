@@ -61,6 +61,8 @@
             v-on:MinusCount="post.comment_count--" 
             :commentCount="post.comment_count"
             :LikesCount="post.likes_count"
+            :commentListData="post.comment"
+            :postDetails="post"
             :PostId="post.post_id" :UserDetails="UserDetails" ></commentList>
         </v-card>
 
@@ -124,7 +126,7 @@
                 this.data.content = this.comment[i];
                 this.data.course_id = this.$route.params.id;
                 this.data.post_id = post_id;
-                axios.post('/api/comment/insert',this.data)
+                axios.post('/api/post/insert',this.data)
                 .then(res=>{
                     res.data;
                     this.getComments();
@@ -136,7 +138,7 @@
             },
 
             getComments(){
-                axios.get('/api/comment/allcomment/'+this.$route.params.id)
+                axios.get('/api/post/allcomment/'+this.$route.params.id)
                 .then((res)=>{
                     this.CommentList = res.data;
                 })
@@ -175,7 +177,7 @@
                 return "<span>" + this.innerHTML + "</span>";
             });
              this.test();
-            this.getComments();
+            //this.getComments();
 
            
               
