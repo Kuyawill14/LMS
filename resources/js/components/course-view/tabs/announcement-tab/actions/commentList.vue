@@ -29,7 +29,7 @@
     </v-row>
 
   <div class="mt-6" v-if="showComment">
-      <transition-group transition="v-expand-transition" >
+      <transition transition="v-expand-transition" >
         <v-container v-for="item in postDetails.comment" :key="item.id" class="d-inline-flex pl-7 pr-4 pb-3 shrink" pa-0>
             <v-avatar
             size="36"
@@ -80,7 +80,7 @@
                     </v-menu>
             </v-container>
         </v-container>
-        </transition-group>
+        </transition>
      </div>
 
       <v-row nu class="pt-1 pr-7" >

@@ -512,7 +512,7 @@ var render = function() {
             { staticClass: "mt-6" },
             [
               _c(
-                "transition-group",
+                "transition",
                 { attrs: { transition: "v-expand-transition" } },
                 _vm._l(_vm.postDetails.comment, function(item) {
                   return _c(
