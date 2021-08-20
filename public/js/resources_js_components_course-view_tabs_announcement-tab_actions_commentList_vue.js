@@ -236,13 +236,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 axios.post('/api/post/comment/insert', _this4.data).then(function (res) {
                   _this4.showComment = true;
 
-                  _this4.$emit("AddCount"); //this.getCommentCount();
-
+                  _this4.$emit("AddCount");
 
                   _this4.clearComment();
 
-                  _this4.getComments(); //this.CommentList.push({...res.data})
-
+                  _this4.getComments();
                 });
 
               case 4:
@@ -457,9 +455,9 @@ var render = function() {
                 1
               ),
               _vm._v(
-                "\n            " +
+                "\r\n            " +
                   _vm._s(_vm.postDetails.liked ? "" : "like") +
-                  "\n        "
+                  "\r\n        "
               )
             ],
             1

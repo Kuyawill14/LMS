@@ -167,11 +167,8 @@ export default {
             .then(res=>{
                 this.showComment = true;
                 this.$emit("AddCount");
-                //this.getCommentCount();
                 this.clearComment();
                 this.getComments();
-
-                //this.CommentList.push({...res.data})
             })
         },
         clearComment () {
