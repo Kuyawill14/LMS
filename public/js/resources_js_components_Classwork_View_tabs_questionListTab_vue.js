@@ -5525,7 +5525,44 @@ var render = function() {
                 [
                   _c(
                     "v-col",
+<<<<<<< HEAD
                     { staticClass: "text-center", attrs: { cols: "12" } },
+=======
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+                    { staticClass: "text-center", attrs: { cols: "12" } },
+=======
+<<<<<<< HEAD
+                    { staticClass: "text-center", attrs: { cols: "12" } },
+=======
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 44f72179b95c15a0096412e9daaea723fb9f2dcc
+>>>>>>> 74c955ba31b031cd0faa943253d563ce9d4a56d6
+                    {
+                      staticClass: "text-subtitle-1 text-center",
+                      attrs: { cols: "12" }
+                    },
+                    [_vm._v("\n                Loading\n            ")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-col",
+                    { attrs: { cols: "6" } },
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+=======
+                    { staticClass: "text-center", attrs: { cols: "12" } },
+>>>>>>> 20307c3412719b0774c2d24fb30586fde2fc4868
+>>>>>>> 44f72179b95c15a0096412e9daaea723fb9f2dcc
+>>>>>>> 73760af0f458931b8c42d85e7f6435874e477092
+>>>>>>> 54395d377d5bbd536b0ae7e00a2f2dc80cdf6c8e
+>>>>>>> 74c955ba31b031cd0faa943253d563ce9d4a56d6
+>>>>>>> c192edbd5eb30e33d6be5f6e2e206c89fda62d00
                     [
                       _c("v-progress-circular", {
                         attrs: { size: 40, color: "primary", indeterminate: "" }
