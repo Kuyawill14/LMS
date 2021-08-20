@@ -35,7 +35,7 @@
         <script src="{{mix('js/vendor~utils-2.js')}}"></script>
         <script src="{{mix('js/vendor~utils-3.js')}}"></script>
         <script src="{{mix('js/vendor~utils-4.js')}}"></script>
-     {{--    <script src="{{mix('js/vendor~utils-5.js')}}"></script> --}}
+        <script src="{{mix('js/vendor~utils-5.js')}}"></script>
         <script src="{{mix('js/vendor~utils-6.js')}}"></script>
         <script src="{{mix('js/app.js')}}"> </script>
         <script src="https://cdn.quilljs.com/1.0.0/quill.js"></script>
