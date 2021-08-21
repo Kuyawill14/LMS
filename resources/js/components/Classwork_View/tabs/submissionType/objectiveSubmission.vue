@@ -2,11 +2,17 @@
 <div class="pa-2">
 
 <v-row justify="center" v-if="dialog">
+     <v-overlay :value="isStarting">
+      <v-progress-circular
+        indeterminate
+        size="64"
+      ></v-progress-circular>
+    </v-overlay>
     <v-dialog v-model="dialog"
     fullscreen
     hide-overlay
     transition="dialog-bottom-transition">
-    <checkobjective v-on:RestSubmission="ResetSubmission()" :classworkDetails="classworkDetails" :ViewDetails="ViewDetails"  v-on:UpdateSubmission="$emit('UpdateSubmission')" v-on:closeDialog="dialog = !dialog, Viewdialog = !Viewdialog "></checkobjective>
+    <checkobjective v-show="!isStarting" v-if="dialog" v-on:isMounted="isStarting = false" v-on:RestSubmission="ResetSubmission()" :classworkDetails="classworkDetails" :ViewDetails="ViewDetails"  v-on:UpdateSubmission="$emit('UpdateSubmission')" v-on:closeDialog="dialog = !dialog, Viewdialog = !Viewdialog "></checkobjective>
 </v-dialog>
 
    
@@ -199,7 +205,8 @@ export default {
             selectedStatus:'All',
             isSavingScore: false,
             search: "",
-            isViewing: false
+            isViewing: false,
+            isStarting: false,
             
         }
     },
@@ -223,6 +230,7 @@ export default {
             //if(data.status == 'Submitted'){
                 //this.isViewing = true;
                 this.dialog = !this.dialog;
+                this.isStarting = true;
                 this.Viewdialog = !this.Viewdialog;
                 this.ViewDetails = data;
                 this.selected_index = index;

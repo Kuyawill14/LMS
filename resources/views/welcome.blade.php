@@ -32,7 +32,7 @@
         <script src="{{mix('js/manifest.js')}}"></script>
         <script src="{{mix('js/vendor~utils-0.js')}}"></script>
         <script src="{{mix('js/vendor~utils-1.js')}}"></script>
-        <script src="{{mix('js/vendor~utils-2.js')}}"></script>
+      {{--   <script src="{{mix('js/vendor~utils-2.js')}}"></script> --}}
         <script src="{{mix('js/vendor~utils-3.js')}}"></script>
         <script src="{{mix('js/vendor~utils-4.js')}}"></script>
         <script src="{{mix('js/vendor~utils-5.js')}}"></script>

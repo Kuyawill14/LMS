@@ -325,8 +325,7 @@ import {mapGetters} from "vuex";
             var host = window.location.protocol + "//" + window.location.host;
             this.pdf_path = host+ path;
         }
-        
-        //this.pdf_path  = path;
+         this.$emit('isMounted');
     }
   
   }

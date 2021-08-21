@@ -2,11 +2,18 @@
 <div class="pa-2">
 
 <v-row justify="center" v-if="dialog">
+    <v-overlay :value="isStarting">
+      <v-progress-circular
+        indeterminate
+        size="64"
+      ></v-progress-circular>
+    </v-overlay>
+
     <v-dialog v-model="dialog"
     fullscreen
     hide-overlay
     transition="dialog-bottom-transition">
-    <checksubjective :classworkDetails="classworkDetails" v-on:UpdateSubmission="$emit('UpdateSubmission')" :CheckData="CheckData" v-on:closeDialog="dialog = !dialog"></checksubjective>
+    <checksubjective v-show="!isStarting" v-if="dialog" v-on:isMounted="isStarting = false" :classworkDetails="classworkDetails" v-on:UpdateSubmission="$emit('UpdateSubmission')" :CheckData="CheckData" v-on:closeDialog="dialog = !dialog"></checksubjective>
     </v-dialog>
  </v-row> 
 
@@ -35,7 +42,7 @@
             <v-col cols="12" >
                   <v-list >
                     <v-list-item-group >
-                        <v-list-item @click="CheckData = item ,dialog = !dialog" v-show="Class == $route.params.id || Class == item.class_id" v-for="(item,i) in ListData" :key="i">
+                        <v-list-item @click="CheckData = item ,dialog = !dialog, isStarting = true" v-show="Class == $route.params.id || Class == item.class_id" v-for="(item,i) in ListData" :key="i">
                         <v-list-item-avatar>
                             <v-img alt="Profile"
                                 :src="item.profile_pic == null || item.profile_pic == '' ? 'https://ui-avatars.com/api/?background=random&color=fff&name=' + item.firstName +' '+item.lastName : '/storage/'+item.profile_pic">
@@ -142,7 +149,7 @@
                         class="mx-auto"
                       
                         outlined>
-                        <v-list-item link @click="CheckData = item ,dialog = !dialog" >
+                        <v-list-item link @click="CheckData = item ,dialog = !dialog, isStarting = true" >
                                 <v-list-item-content>
                                     <div class="d-flex flex-column align-self-center">
                                         <div class="mb-2" style="max-height:30px;overflow:hidden">{{item.firstName +' '+item.lastName}}</div>
@@ -195,6 +202,7 @@ export default {
             score: null,
             StatusType: ['All', 'Submitted', 'Graded', 'No Submission'],
             selectedStatus:'All',
+            isStarting: false,
         }
     },
      computed: {

@@ -382,8 +382,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var path = '/storage/' + this.CheckData.Submitted_Answers[0].link;
       var host = window.location.protocol + "//" + window.location.host;
       this.pdf_path = host + path;
-    } //this.pdf_path  = path;
+    }
 
+    this.$emit('isMounted');
   }
 });
 
