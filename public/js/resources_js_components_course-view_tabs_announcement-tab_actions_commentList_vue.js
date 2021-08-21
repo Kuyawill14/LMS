@@ -189,8 +189,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   Check: _this2.showLess
                 }).then(function (res) {
                   _this2.CommentList = res.data;
-
-                  _this2.getCommentCount();
+                  _this2.postDetails.comment = res.data;
+                  _this2.postDetails.comment_count = res.data.length;
                 });
 
               case 1:
@@ -201,7 +201,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee2);
       }))();
     },
-    getCommentCount: function getCommentCount() {
+    addComment: function addComment() {
       var _this3 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
@@ -209,12 +209,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                axios.get('/api/post/commentCount/' + _this3.postDetails.post_id).then(function (res) {
-                  _this3.commentLength = res.data;
-                  _this3.isLengthLoaded = true;
+                _this3.data.content = _this3.comment;
+                _this3.data.course_id = _this3.$route.params.id;
+                _this3.data.post_id = _this3.postDetails.post_id;
+                axios.post('/api/post/comment/insert', _this3.data).then(function (res) {
+                  _this3.showComment = true;
+
+                  _this3.$emit("AddCount");
+
+                  _this3.clearComment();
+
+                  _this3.getComments();
                 });
 
-              case 1:
+              case 4:
               case "end":
                 return _context3.stop();
             }
@@ -222,7 +230,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee3);
       }))();
     },
-    addComment: function addComment() {
+    clearComment: function clearComment() {
+      this.comment = '';
+    },
+    RemoveComment: function RemoveComment(id) {
       var _this4 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
@@ -230,20 +241,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
-                _this4.data.content = _this4.comment;
-                _this4.data.course_id = _this4.$route.params.id;
-                _this4.data.post_id = _this4.postDetails.post_id;
-                axios.post('/api/post/comment/insert', _this4.data).then(function (res) {
-                  _this4.showComment = true;
+                axios["delete"]('/api/post/comment/remove/' + id).then(function () {
+                  _this4.$emit("MinusCount"); //this.getCommentCount();
 
-                  _this4.$emit("AddCount");
-
-                  _this4.clearComment();
 
                   _this4.getComments();
                 });
 
-              case 4:
+              case 1:
               case "end":
                 return _context4.stop();
             }
@@ -251,10 +256,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee4);
       }))();
     },
-    clearComment: function clearComment() {
-      this.comment = '';
-    },
-    RemoveComment: function RemoveComment(id) {
+    UpdateCommentData: function UpdateCommentData() {},
+    LikePost: function LikePost(id, liked) {
       var _this5 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5() {
@@ -262,12 +265,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context5.prev = _context5.next) {
               case 0:
-                axios["delete"]('/api/post/comment/remove/' + id).then(function () {
-                  _this5.$emit("MinusCount"); //this.getCommentCount();
-
-
-                  _this5.getComments();
-                });
+                if (!liked) {
+                  axios.post('/api/post/like', {
+                    post_id: id
+                  }).then(function () {
+                    _this5.postDetails.liked = true;
+                    _this5.postDetails.likes_count += 1;
+                  });
+                } else {
+                  axios["delete"]('/api/post/like/delete/' + id).then(function () {
+                    _this5.postDetails.liked = false;
+                    _this5.postDetails.likes_count = _this5.postDetails.likes_count != 0 ? _this5.postDetails.likes_count -= 1 : 0;
+                  });
+                }
 
               case 1:
               case "end":
@@ -275,37 +285,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             }
           }
         }, _callee5);
-      }))();
-    },
-    UpdateCommentData: function UpdateCommentData() {},
-    LikePost: function LikePost(id, liked) {
-      var _this6 = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee6() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee6$(_context6) {
-          while (1) {
-            switch (_context6.prev = _context6.next) {
-              case 0:
-                if (!liked) {
-                  axios.post('/api/post/like', {
-                    post_id: id
-                  }).then(function () {
-                    _this6.postDetails.liked = true;
-                    _this6.postDetails.likes_count += 1;
-                  });
-                } else {
-                  axios["delete"]('/api/post/like/delete/' + id).then(function () {
-                    _this6.postDetails.liked = false;
-                    _this6.postDetails.likes_count = _this6.postDetails.likes_count != 0 ? _this6.postDetails.likes_count -= 1 : 0;
-                  });
-                }
-
-              case 1:
-              case "end":
-                return _context6.stop();
-            }
-          }
-        }, _callee6);
       }))();
     }
   }
@@ -504,250 +483,244 @@ var render = function() {
       _vm._v(" "),
       _c("v-row", { staticClass: "pl-5 pr-5" }, [_c("v-divider")], 1),
       _vm._v(" "),
-      _vm.showComment
-        ? _c(
-            "div",
-            { staticClass: "mt-6" },
-            [
-              _c(
-                "transition",
-                { attrs: { transition: "v-expand-transition" } },
-                _vm._l(_vm.postDetails.comment, function(item) {
-                  return _c(
-                    "v-container",
-                    {
-                      key: item.id,
-                      staticClass: "d-inline-flex pl-7 pr-4 pb-3 shrink",
-                      attrs: { "pa-0": "" }
-                    },
-                    [
-                      _c(
-                        "v-avatar",
-                        {
-                          class:
-                            _vm.isEditing && _vm.idEditing_id == item.id
-                              ? "mt-1"
-                              : "",
-                          attrs: { size: "36" }
-                        },
-                        [
-                          _c("v-img", {
-                            staticClass: "rounded-circle",
-                            attrs: {
-                              src:
-                                item.profile_pic == null ||
-                                item.profile_pic == ""
-                                  ? "https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=" +
-                                    item.name
-                                  : item.profile_pic
-                            }
-                          })
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "v-container",
-                        {
-                          staticClass: "d-flex flex-row ml-1 mt-1",
-                          attrs: { "ma-0": "", "pa-0": "" }
-                        },
-                        [
-                          _c(
-                            "v-container",
-                            {
-                              staticClass: "d-flex flex-column ml-1 pr-10",
-                              attrs: { "ma-0": "", "pa-0": "" }
-                            },
-                            [
-                              !_vm.isEditing || _vm.idEditing_id != item.id
-                                ? _c("span", { staticClass: "d-block name" }, [
-                                    _vm._v(_vm._s(item.name))
-                                  ])
-                                : _vm._e(),
-                              _vm._v(" "),
-                              !_vm.isEditing || _vm.idEditing_id != item.id
-                                ? _c(
-                                    "span",
-                                    {
-                                      staticClass: "caption",
-                                      staticStyle: { "line-height": "1.5" }
-                                    },
-                                    [_vm._v(_vm._s(item.content))]
-                                  )
-                                : _vm._e(),
-                              _vm._v(" "),
-                              _vm.isEditing && _vm.idEditing_id == item.id
-                                ? _c("v-text-field", {
-                                    staticClass: "text-caption",
-                                    attrs: {
-                                      "append-outer-icon": "mdi-send",
-                                      "prepend-avatar": "mdi-emoticon-dead",
-                                      filled: "",
-                                      rounded: "",
-                                      dense: "",
-                                      "clear-icon": "mdi-close-circle",
-                                      clearable: "",
-                                      placeholder: "Comment",
-                                      type: "text"
-                                    },
-                                    on: {
-                                      "click:append-outer": function($event) {
-                                        return _vm.UpdateCommentData()
-                                      },
-                                      "click:clear": function($event) {
-                                        _vm.UpdateComment = ""
-                                      }
-                                    },
-                                    model: {
-                                      value: _vm.UpdateComment,
-                                      callback: function($$v) {
-                                        _vm.UpdateComment = $$v
-                                      },
-                                      expression: "UpdateComment"
-                                    }
-                                  })
-                                : _vm._e()
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-menu",
-                            {
-                              attrs: { "offset-y": "" },
-                              scopedSlots: _vm._u(
-                                [
+      _c("transition", { attrs: { transition: "v-expand-transition" } }, [
+        _vm.showComment
+          ? _c(
+              "div",
+              { staticClass: "mt-6" },
+              _vm._l(_vm.postDetails.comment, function(item) {
+                return _c(
+                  "v-container",
+                  {
+                    key: item.id,
+                    staticClass: "d-inline-flex pl-7 pr-4 pb-3 shrink",
+                    attrs: { "pa-0": "" }
+                  },
+                  [
+                    _c(
+                      "v-avatar",
+                      {
+                        class:
+                          _vm.isEditing && _vm.idEditing_id == item.id
+                            ? "mt-1"
+                            : "",
+                        attrs: { size: "36" }
+                      },
+                      [
+                        _c("v-img", {
+                          staticClass: "rounded-circle",
+                          attrs: {
+                            src:
+                              item.profile_pic == null || item.profile_pic == ""
+                                ? "https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=" +
+                                  item.name
+                                : "/storage/" + item.profile_pic
+                          }
+                        })
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "v-container",
+                      {
+                        staticClass: "d-flex flex-row ml-1 mt-1",
+                        attrs: { "ma-0": "", "pa-0": "" }
+                      },
+                      [
+                        _c(
+                          "v-container",
+                          {
+                            staticClass: "d-flex flex-column ml-1 pr-10",
+                            attrs: { "ma-0": "", "pa-0": "" }
+                          },
+                          [
+                            !_vm.isEditing || _vm.idEditing_id != item.id
+                              ? _c("span", { staticClass: "d-block name" }, [
+                                  _vm._v(_vm._s(item.name))
+                                ])
+                              : _vm._e(),
+                            _vm._v(" "),
+                            !_vm.isEditing || _vm.idEditing_id != item.id
+                              ? _c(
+                                  "span",
                                   {
-                                    key: "activator",
-                                    fn: function(ref) {
-                                      var on = ref.on
-                                      var attrs = ref.attrs
-                                      return [
-                                        _c(
-                                          "v-btn",
-                                          _vm._g(
-                                            _vm._b(
-                                              { attrs: { icon: "" } },
-                                              "v-btn",
-                                              attrs,
-                                              false
-                                            ),
-                                            on
-                                          ),
-                                          [
-                                            _c("v-icon", [
-                                              _vm._v("mdi-dots-horizontal")
-                                            ])
-                                          ],
-                                          1
-                                        )
-                                      ]
+                                    staticClass: "caption",
+                                    staticStyle: { "line-height": "1.5" }
+                                  },
+                                  [_vm._v(_vm._s(item.content))]
+                                )
+                              : _vm._e(),
+                            _vm._v(" "),
+                            _vm.isEditing && _vm.idEditing_id == item.id
+                              ? _c("v-text-field", {
+                                  staticClass: "text-caption",
+                                  attrs: {
+                                    "append-outer-icon": "mdi-send",
+                                    "prepend-avatar": "mdi-emoticon-dead",
+                                    filled: "",
+                                    rounded: "",
+                                    dense: "",
+                                    "clear-icon": "mdi-close-circle",
+                                    clearable: "",
+                                    placeholder: "Comment",
+                                    type: "text"
+                                  },
+                                  on: {
+                                    "click:append-outer": function($event) {
+                                      return _vm.UpdateCommentData()
+                                    },
+                                    "click:clear": function($event) {
+                                      _vm.UpdateComment = ""
                                     }
+                                  },
+                                  model: {
+                                    value: _vm.UpdateComment,
+                                    callback: function($$v) {
+                                      _vm.UpdateComment = $$v
+                                    },
+                                    expression: "UpdateComment"
                                   }
-                                ],
-                                null,
-                                true
-                              )
-                            },
-                            [
-                              _vm._v(" "),
-                              _c(
-                                "v-list",
-                                { attrs: { "pa-0": "", "ma-0": "" } },
-                                [
-                                  _c(
-                                    "v-list-item",
-                                    { attrs: { "ma-0": "", "pa-0": "" } },
-                                    [
+                                })
+                              : _vm._e()
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "v-menu",
+                          {
+                            attrs: { "offset-y": "" },
+                            scopedSlots: _vm._u(
+                              [
+                                {
+                                  key: "activator",
+                                  fn: function(ref) {
+                                    var on = ref.on
+                                    var attrs = ref.attrs
+                                    return [
                                       _c(
-                                        "v-list-item-title",
-                                        [
-                                          _c(
+                                        "v-btn",
+                                        _vm._g(
+                                          _vm._b(
+                                            { attrs: { icon: "" } },
                                             "v-btn",
-                                            {
-                                              attrs: { text: "" },
-                                              on: {
-                                                click: function($event) {
-                                                  ;(_vm.UpdateComment =
-                                                    item.content),
-                                                    (_vm.isEditing = true),
-                                                    (_vm.idEditing_id = item.id)
-                                                }
-                                              }
-                                            },
-                                            [_vm._v("Edit")]
-                                          )
-                                        ],
-                                        1
-                                      )
-                                    ],
-                                    1
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "v-list-item",
-                                    { attrs: { "ma-0": "", "pa-0": "" } },
-                                    [
-                                      _c(
-                                        "v-list-item-title",
+                                            attrs,
+                                            false
+                                          ),
+                                          on
+                                        ),
                                         [
-                                          _c(
-                                            "v-btn",
-                                            {
-                                              attrs: { text: "" },
-                                              on: {
-                                                click: function($event) {
-                                                  return _vm.RemoveComment(
-                                                    item.id
-                                                  )
-                                                }
-                                              }
-                                            },
-                                            [_vm._v("Remove")]
-                                          )
-                                        ],
-                                        1
-                                      )
-                                    ],
-                                    1
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "v-list-item",
-                                    { attrs: { "ma-0": "", "pa-0": "" } },
-                                    [
-                                      _c(
-                                        "v-list-item-title",
-                                        [
-                                          _c("v-btn", { attrs: { text: "" } }, [
-                                            _vm._v("Hide")
+                                          _c("v-icon", [
+                                            _vm._v("mdi-dots-horizontal")
                                           ])
                                         ],
                                         1
                                       )
-                                    ],
-                                    1
-                                  )
-                                ],
-                                1
-                              )
-                            ],
-                            1
-                          )
-                        ],
-                        1
-                      )
-                    ],
-                    1
-                  )
-                }),
-                1
-              )
-            ],
-            1
-          )
-        : _vm._e(),
+                                    ]
+                                  }
+                                }
+                              ],
+                              null,
+                              true
+                            )
+                          },
+                          [
+                            _vm._v(" "),
+                            _c(
+                              "v-list",
+                              { attrs: { "pa-0": "", "ma-0": "" } },
+                              [
+                                _c(
+                                  "v-list-item",
+                                  { attrs: { "ma-0": "", "pa-0": "" } },
+                                  [
+                                    _c(
+                                      "v-list-item-title",
+                                      [
+                                        _c(
+                                          "v-btn",
+                                          {
+                                            attrs: { text: "" },
+                                            on: {
+                                              click: function($event) {
+                                                ;(_vm.UpdateComment =
+                                                  item.content),
+                                                  (_vm.isEditing = true),
+                                                  (_vm.idEditing_id = item.id)
+                                              }
+                                            }
+                                          },
+                                          [_vm._v("Edit")]
+                                        )
+                                      ],
+                                      1
+                                    )
+                                  ],
+                                  1
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "v-list-item",
+                                  { attrs: { "ma-0": "", "pa-0": "" } },
+                                  [
+                                    _c(
+                                      "v-list-item-title",
+                                      [
+                                        _c(
+                                          "v-btn",
+                                          {
+                                            attrs: { text: "" },
+                                            on: {
+                                              click: function($event) {
+                                                return _vm.RemoveComment(
+                                                  item.id
+                                                )
+                                              }
+                                            }
+                                          },
+                                          [_vm._v("Remove")]
+                                        )
+                                      ],
+                                      1
+                                    )
+                                  ],
+                                  1
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "v-list-item",
+                                  { attrs: { "ma-0": "", "pa-0": "" } },
+                                  [
+                                    _c(
+                                      "v-list-item-title",
+                                      [
+                                        _c("v-btn", { attrs: { text: "" } }, [
+                                          _vm._v("Hide")
+                                        ])
+                                      ],
+                                      1
+                                    )
+                                  ],
+                                  1
+                                )
+                              ],
+                              1
+                            )
+                          ],
+                          1
+                        )
+                      ],
+                      1
+                    )
+                  ],
+                  1
+                )
+              }),
+              1
+            )
+          : _vm._e()
+      ]),
       _vm._v(" "),
       _c(
         "v-row",
@@ -779,7 +752,7 @@ var render = function() {
                             (_vm.UserDetails.firstName +
                               " " +
                               _vm.UserDetails.lastName)
-                          : _vm.UserDetails.profile_pic
+                          : "/storage/" + _vm.UserDetails.profile_pic
                     }
                   })
                 ],

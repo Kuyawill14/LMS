@@ -13,6 +13,7 @@ use App\Models\tbl_classwork;
 use App\Models\tbl_classClassworks;
 use App\Models\tbl_student_course_subject_grades;
 use App\Models\tbl_student_main_grades;
+use App\Models\tbl_comment;
 class SubmissionController extends Controller
 {
     /**
@@ -22,7 +23,8 @@ class SubmissionController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index($id)
-    {
+    {   
+        $userId = auth('sanctum')->id();
         $SubmissionList = tbl_classClassworks::where('tbl_class_classworks.classwork_id', $id)
         ->select('tbl_class_classworks.classwork_id', 'tbl_class_classworks.class_id', 'tbl_userclasses.user_id','tbl_user_details.profile_pic','tbl_user_details.firstName', 'tbl_user_details.lastName')
         ->leftJoin('tbl_userclasses', 'tbl_userclasses.class_id','=','tbl_class_classworks.class_id')
@@ -52,6 +54,16 @@ class SubmissionController extends Controller
                     $Sub->updated_at = $Submission->updated_at;
                     $Sub->Submitted_Answers = unserialize($Submission->Submitted_Answers);
                 }
+
+                $PrivateComment = tbl_comment::where("tbl_comments.classwork_id",  $Sub->classwork_id)
+                ->select("tbl_comments.id","tbl_comments.content",DB::raw("CONCAT(tbl_user_details.firstName,' ',tbl_user_details.lastName) as name"),"tbl_user_details.profile_pic")
+                ->leftJoin("tbl_user_details", "tbl_user_details.user_id","=","tbl_comments.user_id")
+                ->where('tbl_comments.user_id', $Sub->user_id)
+                ->Where('tbl_comments.to_user',  $userId)
+                ->orderBy("tbl_comments.created_at", "ASC")
+                ->get();
+                $Sub->comments =  $PrivateComment;
+
                
             }
         } 

@@ -101,10 +101,13 @@ Route::prefix('/announcement')->group(function () {
 Route::prefix('/post')->group(function () {
     Route::get('/allcomment/{id}', [CommentController::class, 'index']);
     Route::get('/commentCount/{id}', [CommentController::class, 'TotalComment']);
+    Route::get('/classwork/comment/{id}', [CommentController::class, 'FetchClassworkPrivateComment']);
+
     Route::post('/comment/insert', [CommentController::class, 'store']);
     Route::post('/like', [CommentController::class, 'likedPost']);
+    Route::post('/classwork/comment/insert', [CommentController::class, 'addClassworkPrivateComment']);
+
     Route::delete('/like/delete/{id}', [CommentController::class, 'RemoveLike']);
-    
     Route::delete('/comment/remove/{id}', [CommentController::class, 'destroy']);
     
 });

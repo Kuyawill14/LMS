@@ -164,6 +164,27 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 var checksubjective = function checksubjective() {
@@ -211,6 +232,21 @@ var checksubjective = function checksubjective() {
       selectedStatus: 'All'
     };
   },
+  computed: {
+    studentSubmissionList: function studentSubmissionList() {
+      var _this = this;
+
+      if (this.search) {
+        return this.ListData.filter(function (item) {
+          return _this.search.toLowerCase().split(' ').every(function (v) {
+            return item.firstName.toLowerCase().includes(v) || item.lastName.toLowerCase().includes(v);
+          });
+        });
+      } else {
+        return this.ListData;
+      }
+    }
+  },
   methods: {
     format_date: function format_date(value) {
       if (value) {
@@ -227,25 +263,25 @@ var checksubjective = function checksubjective() {
       }, 1000);
     },
     UpdateScore: function UpdateScore(id) {
-      var _this = this;
+      var _this2 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                if (_this.score <= _this.classworkDetails.points) {
+                if (_this2.score <= _this2.classworkDetails.points) {
                   axios.put('/api/submission/update-score/' + id, {
-                    score: _this.score
+                    score: _this2.score
                   }).then(function (res) {
                     if (res.status == 200) {
-                      _this.toastSuccess("Score Updated");
+                      _this2.toastSuccess("Score Updated");
 
-                      _this.isSavingScore = !_this.isSavingScore;
+                      _this2.isSavingScore = !_this2.isSavingScore;
 
-                      _this.$emit('UpdateSubmission');
+                      _this2.$emit('UpdateSubmission');
 
-                      _this.ListData.forEach(function (data) {
+                      _this2.ListData.forEach(function (data) {
                         if (data.id == id) {
                           data.graded = 1;
                         }
@@ -253,9 +289,9 @@ var checksubjective = function checksubjective() {
                     }
                   });
                 } else {
-                  _this.isSavingScore = !_this.isSavingScore;
+                  _this2.isSavingScore = !_this2.isSavingScore;
 
-                  _this.toastError('Score is higher than the set points!');
+                  _this2.toastError('Score is higher than the set points!');
                 }
 
               case 1:
@@ -21891,137 +21927,149 @@ var render = function() {
                     1
                   ),
                   _vm._v(" "),
-                  _vm._l(_vm.ListData, function(item, i) {
-                    return _c(
-                      "v-col",
-                      {
-                        directives: [
-                          {
-                            name: "show",
-                            rawName: "v-show",
-                            value:
-                              _vm.Class == _vm.$route.params.id ||
-                              _vm.Class == item.class_id,
-                            expression:
-                              "Class == $route.params.id || Class == item.class_id"
-                          }
-                        ],
-                        key: i,
-                        attrs: { cols: "12" }
-                      },
-                      [
-                        _c(
-                          "v-row",
-                          [
-                            _c(
-                              "v-col",
-                              { staticClass: "pa-5", attrs: { cols: "9" } },
-                              [
-                                _c(
-                                  "div",
-                                  { staticClass: " d-flex justify-start" },
-                                  [
-                                    _c(
-                                      "v-avatar",
-                                      { attrs: { color: "brown", size: "40" } },
-                                      [
-                                        _c("v-img", {
-                                          attrs: {
-                                            alt: "Profile",
-                                            src:
-                                              item.profile_pic == null ||
-                                              item.profile_pic == ""
-                                                ? "https://ui-avatars.com/api/?background=random&color=fff&name=" +
-                                                  item.firstname +
-                                                  " " +
-                                                  item.lastName
-                                                : item.profile_pic
-                                          }
-                                        })
-                                      ],
-                                      1
-                                    ),
-                                    _vm._v(" "),
-                                    _c("div", { staticClass: "mt-2 ml-2" }, [
+                  _c(
+                    "v-col",
+                    { attrs: { cols: "12" } },
+                    [
+                      _c(
+                        "v-list",
+                        [
+                          _c(
+                            "v-list-item-group",
+                            _vm._l(_vm.ListData, function(item, i) {
+                              return _c(
+                                "v-list-item",
+                                {
+                                  directives: [
+                                    {
+                                      name: "show",
+                                      rawName: "v-show",
+                                      value:
+                                        _vm.Class == _vm.$route.params.id ||
+                                        _vm.Class == item.class_id,
+                                      expression:
+                                        "Class == $route.params.id || Class == item.class_id"
+                                    }
+                                  ],
+                                  key: i,
+                                  on: {
+                                    click: function($event) {
+                                      ;(_vm.CheckData = item),
+                                        (_vm.dialog = !_vm.dialog)
+                                    }
+                                  }
+                                },
+                                [
+                                  _c(
+                                    "v-list-item-avatar",
+                                    [
+                                      _c("v-img", {
+                                        attrs: {
+                                          alt: "Profile",
+                                          src:
+                                            item.profile_pic == null ||
+                                            item.profile_pic == ""
+                                              ? "https://ui-avatars.com/api/?background=random&color=fff&name=" +
+                                                item.firstName +
+                                                " " +
+                                                item.lastName
+                                              : "/storage/" + item.profile_pic
+                                        }
+                                      })
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-list-item-content",
+                                    [
                                       _c(
-                                        "div",
+                                        "v-list-item-title",
                                         { staticClass: "font-weight-medium" },
                                         [
                                           _vm._v(
-                                            "\r\n                                " +
-                                              _vm._s(
-                                                item.firstname +
-                                                  " " +
-                                                  item.lastName
-                                              ) +
-                                              "\r\n                                "
-                                          ),
-                                          _c("br")
-                                        ]
-                                      )
-                                    ])
-                                  ],
-                                  1
-                                )
-                              ]
-                            ),
-                            _vm._v(" "),
-                            item.status == "Submitted"
-                              ? _c(
-                                  "v-col",
-                                  {
-                                    staticClass: "text-left",
-                                    attrs: { cols: "3" }
-                                  },
-                                  [
-                                    _c("v-text-field", {
-                                      staticClass: "mb-0 pb-0",
-                                      style: _vm.$vuetify.breakpoint.xs
-                                        ? "width:100%"
-                                        : "width:80%",
-                                      attrs: {
-                                        loading: _vm.isSavingScore,
-                                        dense: "",
-                                        outlined: "",
-                                        type: "number",
-                                        suffix:
-                                          "/" + _vm.classworkDetails.points,
-                                        max: _vm.classworkDetails.points,
-                                        maxlength: _vm.classworkDetails.points.toString()
-                                          .length,
-                                        min: "0"
-                                      },
-                                      on: {
-                                        keyup: function($event) {
-                                          return _vm.SaveScore(
-                                            item.id,
-                                            item.points
+                                            _vm._s(
+                                              item.firstName +
+                                                " " +
+                                                item.lastName
+                                            )
                                           )
-                                        }
-                                      },
-                                      model: {
-                                        value: item.points,
-                                        callback: function($$v) {
-                                          _vm.$set(item, "points", $$v)
+                                        ]
+                                      ),
+                                      _vm._v(" "),
+                                      item.graded == 1
+                                        ? _c(
+                                            "v-list-item-subtitle",
+                                            [
+                                              _c(
+                                                "v-icon",
+                                                {
+                                                  attrs: {
+                                                    small: "",
+                                                    color: "success"
+                                                  }
+                                                },
+                                                [_vm._v("mdi-check")]
+                                              ),
+                                              _vm._v(" Graded")
+                                            ],
+                                            1
+                                          )
+                                        : _vm._e()
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-list-item-action",
+                                    [
+                                      _c("v-text-field", {
+                                        staticClass: "ma-0 pa-0",
+                                        attrs: {
+                                          loading: _vm.isSavingScore,
+                                          dense: "",
+                                          outlined: "",
+                                          type: "number",
+                                          suffix:
+                                            "/" + _vm.classworkDetails.points,
+                                          max: _vm.classworkDetails.points,
+                                          maxlength: _vm.classworkDetails.points.toString()
+                                            .length,
+                                          min: "0"
                                         },
-                                        expression: "item.points"
-                                      }
-                                    })
-                                  ],
-                                  1
-                                )
-                              : _vm._e()
-                          ],
-                          1
-                        ),
-                        _vm._v(" "),
-                        _c("v-divider")
-                      ],
-                      1
-                    )
-                  })
+                                        on: {
+                                          keyup: function($event) {
+                                            return _vm.SaveScore(
+                                              item.id,
+                                              item.points
+                                            )
+                                          }
+                                        },
+                                        model: {
+                                          value: item.points,
+                                          callback: function($$v) {
+                                            _vm.$set(item, "points", $$v)
+                                          },
+                                          expression: "item.points"
+                                        }
+                                      })
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              )
+                            }),
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
                 ],
-                2
+                1
               )
             ],
             1
@@ -22142,7 +22190,7 @@ var render = function() {
                     [
                       _c(
                         "v-row",
-                        _vm._l(_vm.ListData, function(item, i) {
+                        _vm._l(_vm.studentSubmissionList, function(item, i) {
                           return _c(
                             "v-col",
                             {
@@ -22150,8 +22198,11 @@ var render = function() {
                                 {
                                   name: "show",
                                   rawName: "v-show",
-                                  value: item.Submitted_Answers != null,
-                                  expression: "item.Submitted_Answers != null"
+                                  value:
+                                    item.Submitted_Answers != null &&
+                                    item.Submitted_Answers != "",
+                                  expression:
+                                    "item.Submitted_Answers != null && item.Submitted_Answers != ''"
                                 }
                               ],
                               key: i,
@@ -22159,16 +22210,21 @@ var render = function() {
                               attrs: { link: "", cols: "6", md: "3", lg: "3" }
                             },
                             [
-                              _c(
-                                "v-card",
-                                {
-                                  staticClass: "mx-auto",
-                                  staticStyle: { cursor: "pointer" },
-                                  attrs: { outlined: "" }
-                                },
-                                [
-                                  item.status == "Submitted"
-                                    ? _c(
+                              _vm.selectedStatus == "All" ||
+                              _vm.selectedStatus == item.status ||
+                              (_vm.selectedStatus == "Graded" &&
+                                item.graded == 1) ||
+                              (_vm.selectedStatus == "No Submission" &&
+                                (item.status == null || item.status == ""))
+                                ? _c(
+                                    "v-card",
+                                    {
+                                      staticClass: "mx-auto",
+                                      staticStyle: { cursor: "pointer" },
+                                      attrs: { outlined: "" }
+                                    },
+                                    [
+                                      _c(
                                         "v-list-item",
                                         {
                                           attrs: { link: "" },
@@ -22197,7 +22253,15 @@ var render = function() {
                                                       overflow: "hidden"
                                                     }
                                                   },
-                                                  [_vm._v(_vm._s(item.name))]
+                                                  [
+                                                    _vm._v(
+                                                      _vm._s(
+                                                        item.firstName +
+                                                          " " +
+                                                          item.lastName
+                                                      )
+                                                    )
+                                                  ]
                                                 ),
                                                 _vm._v(" "),
                                                 _c("v-divider"),
@@ -22242,10 +22306,10 @@ var render = function() {
                                         ],
                                         1
                                       )
-                                    : _vm._e()
-                                ],
-                                1
-                              )
+                                    ],
+                                    1
+                                  )
+                                : _vm._e()
                             ],
                             1
                           )

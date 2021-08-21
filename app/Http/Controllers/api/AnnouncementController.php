@@ -42,8 +42,6 @@ class AnnouncementController extends Controller
             $allClassPost = tbl_classpost::where("tbl_classposts.course_id", $id)
             ->select("tbl_classposts.id as post_id", "tbl_classposts.class_id", "tbl_class_announcements.id as announcement_id","tbl_class_announcements.content","tbl_class_announcements.file","tbl_class_announcements.created_at","tbl_class_announcements.updated_at",
              DB::raw("CONCAT(tbl_user_details.firstName,' ',tbl_user_details.lastName) as name"),"tbl_user_details.profile_pic")
-            ->selectRaw("count(tbl_comments.id ) as comment_count")
-            ->selectRaw("count(tbl_likes.id ) as likes_count")
             ->leftJoin("tbl_classworks", "tbl_classposts.classwork_id", "=", "tbl_classworks.id")
             ->leftJoin("tbl_class_announcements", "tbl_classposts.announcement_id", "=", "tbl_class_announcements.id")
             ->leftJoin("tbl_comments", "tbl_classposts.id", "=", "tbl_comments.post_id")
@@ -64,8 +62,6 @@ class AnnouncementController extends Controller
                 ->orWhere("tbl_classposts.class_id", $id)
                 ->select("tbl_classposts.id as post_id", "tbl_class_announcements.id as announcement_id","tbl_class_announcements.content","tbl_class_announcements.file","tbl_class_announcements.created_at","tbl_class_announcements.updated_at",
                 DB::raw("CONCAT(tbl_user_details.firstName,' ',tbl_user_details.lastName) as name"),"tbl_user_details.profile_pic")
-                ->selectRaw("count(tbl_comments.id ) as comment_count")
-                ->selectRaw("count(tbl_likes.id ) as likes_count")
                 ->leftJoin("tbl_classworks", "tbl_classposts.classwork_id", "=", "tbl_classworks.id")
                 ->leftJoin("tbl_class_announcements", "tbl_classposts.announcement_id", "=", "tbl_class_announcements.id")
                 ->leftJoin("tbl_comments", "tbl_classposts.id", "=", "tbl_comments.post_id")
@@ -86,14 +82,16 @@ class AnnouncementController extends Controller
             ->select("tbl_comments.id","tbl_comments.post_id","tbl_comments.content","tbl_comments.created_at",
             DB::raw("CONCAT(tbl_user_details.firstName,' ',tbl_user_details.lastName) as name"),"tbl_user_details.profile_pic", "tbl_comments.id")
             ->leftJoin("tbl_user_details", "tbl_user_details.user_id","=","tbl_comments.user_id")
-            ->orderBy("tbl_user_details.created_at", "ASC")
+            ->orderBy("tbl_comments.created_at", "ASC")
             ->get();
             $post->comment = $Comment;
+            $post->comment_count = count($Comment);
 
-
-            $like = tbl_like::where('post_id', $post->post_id)
-            ->where('user_id', $userId)->first();
+            $like = tbl_like::where('post_id', $post->post_id) ->where('user_id', $userId)->first();
             $post->liked = $like ? true : false;
+
+            $like = tbl_like::where('post_id', $post->post_id)->where('user_id', $userId)->get();
+            $post->likes_count = count($like);
 
             
         }

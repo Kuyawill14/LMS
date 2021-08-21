@@ -232,7 +232,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.post-content img {\n    max-height: 23rem !important;\n}\n.post-content iframe{\n    width: 100% !important;\n    height: 25rem !important;\n}\n\n\n\n\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.post-content img {\n    max-height: 23rem !important;\n    max-width: 100%;\n}\n.post-content iframe{\n    width: 100% !important;\n    height: 25rem !important;\n}\n\n\n\n\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -438,7 +438,7 @@ var render = function() {
                                 post.profile_pic == ""
                                   ? "https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=" +
                                     post.name
-                                  : post.profile_pic
+                                  : "/storage/" + post.profile_pic
                             }
                           })
                         ],

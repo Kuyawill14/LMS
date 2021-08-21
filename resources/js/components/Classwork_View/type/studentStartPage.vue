@@ -4,7 +4,7 @@
 
           <v-col v-if="classworkDetails.availability == 0" cols="12" >
             <v-row align="center" justify="center">
-              <v-col v-if="classworkDetails.type == 'Objective Type'" cols="12" sm="12" md="10" lg="7" xl="7">
+              <v-col v-if="classworkDetails.type == 'Objective Type'" cols="12" sm="12" md="12" lg="10" xl="10">
                     <objectiveType v-if="classworkDetails.type == 'Objective Type'" :classworkDetails="classworkDetails"
                     :totalPoints="totalPoints" :totalQuestion="totalQuestion"
                     ></objectiveType>  
@@ -27,7 +27,7 @@
               </v-col>
                <v-col v-else cols="12" >
                  <v-row align="center" justify="center">
-                   <v-col v-if="classworkDetails.type == 'Objective Type'" sm="10" md="9" lg="7" xl="7" cols="12">
+                   <v-col v-if="classworkDetails.type == 'Objective Type'" sm="12" md="12" lg="10" xl="10" cols="12">
                      <objectiveType v-if="classworkDetails.type == 'Objective Type'" :classworkDetails="classworkDetails"
                     :totalPoints="totalPoints" :totalQuestion="totalQuestion"
                     ></objectiveType>  

@@ -61,7 +61,7 @@
                                     size="80"
                                     style="cursor: pointer"
                                     >
-                                     <v-img alt="Proflie" :src="UserDetails.profile_pic == null || UserDetails.profile_pic == '' ? 'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=' + (UserDetails.firstName+' '+UserDetails.lastName) : UserDetails.profile_pic"></v-img>
+                                     <v-img alt="Proflie" :src="UserDetails.profile_pic == null || UserDetails.profile_pic == '' ? 'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=' + (UserDetails.firstName+' '+UserDetails.lastName) : '/storage/'+UserDetails.profile_pic"></v-img>
                                     </v-avatar>
                                       <v-fade-transition>
                                         <v-overlay
@@ -231,7 +231,7 @@
              this.$refs.fileInput.click();
             },
             onFileChange(element) {
-                const file = element.target.files[0];
+                /* const file = element.target.files[0];
                 var reader = new FileReader()
                 reader.readAsDataURL(file)
                 let testFile;
@@ -239,10 +239,26 @@
                     this.UserDetails.profile_pic = reader.result;
                     testFile = reader.result;
                     this.UpdateProfile();
+                } */
+              
+          
+                this.imageFile = element.target.files[0];
+                console.log(this.imageFile);
+                //this.file_name = element.target.files[0].name;
+                if( this.imageFile.size <= 500000){
+                    this.UpdateProfile();
                 }
+                else{
+                    
+                }
+                this.UserDetails.profile_pic =   URL.createObjectURL(this.imageFile )
+                
             },
             async UpdateProfile(){
-                axios.post('/api/profile/profile_picture', {data:this.UserDetails.profile_pic})
+                let fd = new FormData;
+                fd.append('file', this.imageFile);
+
+                axios.post('/api/profile/profile_picture', fd)
                 .then(res=>{
                    
                 })

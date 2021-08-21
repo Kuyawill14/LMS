@@ -31,7 +31,7 @@
                         <v-container class="pb-0 mb-0 pt-0 mt-0 d-flex flex-sm-row">
                             <v-avatar  size="40">
                                 <v-img 
-                                    :src="item.profile_pic == null || item.profile_pic == '' ? 'https://ui-avatars.com/api/?background=random&color=white&name=' + (item.firstName+' '+item.lastName) : item.profile_pic">
+                                    :src="item.profile_pic == null || item.profile_pic == '' ? 'https://ui-avatars.com/api/?background=random&color=white&name=' + (item.firstName+' '+item.lastName) : '/storage/'+item.profile_pic">
                                 </v-img>
                             </v-avatar>
                             <v-container  class="pb-0 mb-0 pt-0 mt-0 d-flex flex-column ml-5 pb-5" ma-0 pa-0>
@@ -59,7 +59,7 @@
                         <v-container class="pb-0 mb-0 pt-0 mt-0 d-flex flex-sm-row">
                             <v-avatar  size="40">
                                 <v-img 
-                                    :src="item.profile_pic == null || item.profile_pic == '' ? 'https://ui-avatars.com/api/?background=random&color=white&name=' + (item.firstName+' '+item.lastName) : item.profile_pic">
+                                    :src="item.profile_pic == null || item.profile_pic == '' ? 'https://ui-avatars.com/api/?background=random&color=white&name=' + (item.firstName+' '+item.lastName) : '/storage/'+item.profile_pic">
                                 </v-img>
                             </v-avatar>
                             <v-container  class="pb-0 mb-0 pt-0 mt-0 d-flex flex-column ml-5 pb-5" ma-0 pa-0>

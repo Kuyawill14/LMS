@@ -15,14 +15,82 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -376,10 +444,12 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
       isloading: true,
       fileIndex: null,
       tempFile: null,
-      isUpIndex: null
+      isUpIndex: null,
+      comment: null,
+      isCommenting: false
     };
   },
-  computed: {
+  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(['get_CurrentUser'])), {}, {
     extension: function extension() {
       return this.tempFile ? this.tempFile.name.split('.').pop() : '';
     },
@@ -391,7 +461,7 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
       var attach = this.StatusDetails.Submitted_Answers[0].name;
       return attach.split('.').pop();
     }
-  },
+  }),
   methods: {
     UploadFile: function UploadFile() {
       this.$refs.UploadAttachFile.click();
@@ -470,7 +540,7 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
     removeFile: function removeFile(index) {
       var _this = this;
 
-      axios__WEBPACK_IMPORTED_MODULE_2___default().put('/api/submission/file-remove/' + this.tempId, {
+      axios.put('/api/submission/file-remove/' + this.tempId, {
         Fileindex: index
       }).then(function (res) {
         _this.uploadPercentage = 0;
@@ -491,7 +561,7 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                axios__WEBPACK_IMPORTED_MODULE_2___default().get('/api/submission/check-sbj/' + _this2.classworkDetails.id).then(function (res) {
+                axios.get('/api/submission/check-sbj/' + _this2.classworkDetails.id).then(function (res) {
                   _this2.StatusDetails = res.data;
                   _this2.tempId = res.data.Sub_id;
 
@@ -521,7 +591,7 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
       fd.append('fileSize', this.file[index].fileSize);
       fd.append('fileExte', this.extension);
       fd.append('file', this.file[index].file);
-      axios__WEBPACK_IMPORTED_MODULE_2___default().post('/api/student/update-status', fd, {
+      axios.post('/api/student/update-status', fd, {
         onUploadProgress: function onUploadProgress(progressEvent) {
           var total = progressEvent.total;
           var totalLength = progressEvent.lengthComputable ? total : null;
@@ -538,7 +608,7 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
       var _this4 = this;
 
       var type = 'submit';
-      axios__WEBPACK_IMPORTED_MODULE_2___default().put('/api/submission/file-remove/' + this.tempId, {
+      axios.put('/api/submission/file-remove/' + this.tempId, {
         Fileindex: index
       }).then(function (res) {
         _this4.checkStatus(type);
@@ -557,7 +627,7 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
             switch (_context2.prev = _context2.next) {
               case 0:
                 type = 'submit';
-                axios__WEBPACK_IMPORTED_MODULE_2___default().put('/api/student/submit-classwork/' + _this5.tempId).then(function (res) {
+                axios.put('/api/student/submit-classwork/' + _this5.tempId).then(function (res) {
                   if (res.status == 200) {
                     _this5.checkStatus(type);
 
@@ -571,6 +641,45 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
             }
           }
         }, _callee2);
+      }))();
+    },
+    addComment: function addComment(details) {
+      var _this6 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
+        var data;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                data = {};
+                _this6.isCommenting = true;
+                data.classwork_id = details.id;
+                data.to_user = details.user_id;
+                data.course_id = _this6.$route.params.id;
+                data.comment = _this6.comment;
+                axios.post('/api/post/classwork/comment/insert', data).then(function (res) {
+                  console.log(res.data);
+
+                  if (res.status == 200) {
+                    _this6.classworkDetails.comments.push({
+                      content: res.data.comment,
+                      id: res.data.id,
+                      name: res.data.name,
+                      profile_pic: res.data.profile_pic
+                    });
+
+                    _this6.comment = null;
+                  }
+                });
+                _this6.isCommenting = false;
+
+              case 8:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3);
       }))();
     }
   },
@@ -1015,7 +1124,7 @@ var render = function() {
                                                                 "v-alert",
                                                                 {
                                                                   staticClass:
-                                                                    "mb-1 pa-3",
+                                                                    ",b-1 pa-2",
                                                                   class: hover
                                                                     ? "grey lighten-2"
                                                                     : "",
@@ -1024,6 +1133,7 @@ var render = function() {
                                                                       "pointer"
                                                                   },
                                                                   attrs: {
+                                                                    dense: "",
                                                                     outlined:
                                                                       "",
                                                                     icon:
@@ -1315,7 +1425,7 @@ var render = function() {
                                                                   "v-alert",
                                                                   {
                                                                     staticClass:
-                                                                      "mb-1 pa-3",
+                                                                      "mb-1 pa-2",
                                                                     class: hover
                                                                       ? "grey lighten-2"
                                                                       : "",
@@ -1324,6 +1434,7 @@ var render = function() {
                                                                         "pointer"
                                                                     },
                                                                     attrs: {
+                                                                      dense: "",
                                                                       outlined:
                                                                         "",
                                                                       icon:
@@ -1578,10 +1689,8 @@ var render = function() {
                                                           {
                                                             staticClass:
                                                               "pl-12 pr-12 pb-3 pt-3",
-                                                            staticStyle: {
-                                                              width: "100%"
-                                                            },
                                                             attrs: {
+                                                              block: "",
                                                               color: "primary",
                                                               dark: "",
                                                               outlined: ""
@@ -1599,7 +1708,7 @@ var render = function() {
                                                             _vm._s(
                                                               attrs.expanded
                                                             ) +
-                                                            "\r\n                                    Attach "
+                                                            "\r\n                                    Add "
                                                         ),
                                                         _c(
                                                           "v-icon",
@@ -1617,7 +1726,7 @@ var render = function() {
                                             ],
                                             null,
                                             false,
-                                            459478437
+                                            857056327
                                           )
                                         },
                                         [
@@ -1650,7 +1759,7 @@ var render = function() {
                                                     ]
                                                   ),
                                                   _vm._v(
-                                                    " Upload File\r\n                                      \r\n                                  "
+                                                    " Upload File\r\n                                  "
                                                   )
                                                 ],
                                                 1
@@ -1700,9 +1809,8 @@ var render = function() {
                                     "v-btn",
                                     {
                                       staticClass: "pl-12 pr-12 pb-3 pt-3",
-                                      staticStyle: { width: "100%" },
                                       attrs: {
-                                        flat: "",
+                                        block: "",
                                         color:
                                           _vm.StatusDetails.status ==
                                             "Submitted" && !_vm.isResubmit
@@ -1756,10 +1864,192 @@ var render = function() {
               _c(
                 "v-card",
                 {
-                  staticClass: "mt-2 pa-3",
+                  staticClass: "mt-4",
                   attrs: { elevation: "1", outlined: "" }
                 },
-                [_vm._v("\r\n            Comment\r\n          ")]
+                [
+                  _c(
+                    "div",
+                    { staticClass: "pt-3 pl-4 pr-4 pb-2" },
+                    [
+                      _c("v-icon", { attrs: { left: "" } }, [
+                        _vm._v("mdi-comment")
+                      ]),
+                      _vm._v("Private Comments\r\n            ")
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c("v-divider"),
+                  _vm._v(" "),
+                  _c(
+                    "v-list",
+                    { staticClass: "mb-0 pb-0" },
+                    _vm._l(_vm.classworkDetails.comments, function(item, i) {
+                      return _c(
+                        "v-list-item",
+                        { key: i, staticClass: "mb-0 pb-0" },
+                        [
+                          _c(
+                            "v-list-item-avatar",
+                            [
+                              _c("v-img", {
+                                attrs: {
+                                  src:
+                                    item.profile_pic == null ||
+                                    item.profile_pic == ""
+                                      ? "https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=" +
+                                        item.name
+                                      : "/storage/" + item.profile_pic
+                                }
+                              })
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-list-item-content",
+                            [
+                              _c("v-list-item-title", {
+                                domProps: { innerHTML: _vm._s(item.name) }
+                              }),
+                              _vm._v(" "),
+                              _c("v-list-item-subtitle", {
+                                domProps: { innerHTML: _vm._s(item.content) }
+                              })
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-list-item-action",
+                            [
+                              _c(
+                                "v-btn",
+                                { attrs: { icon: "" } },
+                                [
+                                  _c(
+                                    "v-icon",
+                                    {
+                                      attrs: {
+                                        small: "",
+                                        color: "grey lighten-1"
+                                      }
+                                    },
+                                    [_vm._v("mdi-dots-vertical")]
+                                  )
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    }),
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c("v-divider"),
+                  _vm._v(" "),
+                  _c(
+                    "v-list",
+                    { staticClass: "mb-0 pb-0 mt-0 pt-0" },
+                    [
+                      _c(
+                        "v-list-item",
+                        { staticClass: "mb-0 pb-0" },
+                        [
+                          _c(
+                            "v-list-item-avatar",
+                            [
+                              _c("v-img", {
+                                attrs: {
+                                  src:
+                                    _vm.get_CurrentUser.profile_pic == null ||
+                                    _vm.get_CurrentUser.profile_pic == ""
+                                      ? "https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=" +
+                                        _vm.get_CurrentUser.firstName +
+                                        " " +
+                                        _vm.get_CurrentUser.lastName
+                                      : "/storage/" +
+                                        _vm.get_CurrentUser.profile_pic
+                                }
+                              })
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-list-item-content",
+                            { staticClass: "ma-0 pa-0" },
+                            [
+                              _c("v-textarea", {
+                                staticClass: "pa-0 mt-7",
+                                attrs: {
+                                  loading: _vm.isCommenting,
+                                  "prepend-avatar": "mdi-emoticon-dead",
+                                  filled: "",
+                                  rounded: "",
+                                  dense: "",
+                                  "auto-grow": "",
+                                  rows: "1",
+                                  "clear-icon": "mdi-close-circle",
+                                  clearable: "",
+                                  placeholder: "Comment",
+                                  type: "text"
+                                },
+                                model: {
+                                  value: _vm.comment,
+                                  callback: function($$v) {
+                                    _vm.comment = $$v
+                                  },
+                                  expression: "comment"
+                                }
+                              })
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-list-item-action",
+                            [
+                              _c(
+                                "v-btn",
+                                {
+                                  attrs: {
+                                    loading: _vm.isCommenting,
+                                    icon: ""
+                                  },
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.addComment(
+                                        _vm.classworkDetails
+                                      )
+                                    }
+                                  }
+                                },
+                                [
+                                  _c(
+                                    "v-icon",
+                                    { attrs: { color: "primary" } },
+                                    [_vm._v("mdi-send")]
+                                  )
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
               )
             ],
             1
@@ -1864,10 +2154,13 @@ var render = function() {
                                               _vm._v(
                                                 "Due " +
                                                   _vm._s(
-                                                    _vm.format_date(
-                                                      _vm.classworkDetails
-                                                        .due_date
-                                                    )
+                                                    _vm.classworkDetails
+                                                      .availability
+                                                      ? _vm.format_date(
+                                                          _vm.classworkDetails
+                                                            .to_date
+                                                        )
+                                                      : "always Available"
                                                   )
                                               )
                                             ]
@@ -1938,7 +2231,7 @@ var render = function() {
                               _c(
                                 "v-col",
                                 {
-                                  staticClass: " pb-10 pl-4 pr-4",
+                                  staticClass: " pb-5 pl-4 pr-4",
                                   attrs: { cols: "12" }
                                 },
                                 [
@@ -1964,8 +2257,8 @@ var render = function() {
                                                       "v-alert",
                                                       {
                                                         class: hover
-                                                          ? "grey lighten-2"
-                                                          : "",
+                                                          ? "grey lighten-2 pa-3"
+                                                          : "pa-3",
                                                         staticStyle: {
                                                           cursor: "pointer"
                                                         },
@@ -2099,6 +2392,8 @@ var render = function() {
                                                             _c(
                                                               "v-col",
                                                               {
+                                                                staticClass:
+                                                                  "text-right",
                                                                 attrs: {
                                                                   cols: "3"
                                                                 }
@@ -2116,9 +2411,19 @@ var render = function() {
                                                                         _vm
                                                                           .classworkDetails
                                                                           .attachment_size
-                                                                      )
+                                                                      ) +
+                                                                        "\r\n\r\n                                                  "
+                                                                    ),
+                                                                    _c(
+                                                                      "v-icon",
+                                                                      [
+                                                                        _vm._v(
+                                                                          "mdi-downoad"
+                                                                        )
+                                                                      ]
                                                                     )
-                                                                  ]
+                                                                  ],
+                                                                  1
                                                                 )
                                                               ]
                                                             )

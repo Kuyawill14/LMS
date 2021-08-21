@@ -4,18 +4,99 @@
 
 
 
-    <v-row  >
-            <v-col cols="12" md="12" class="pl-7 pr-9 pt-5">
+    <v-row justify="center" no-gutters class="pa-2">
+        <v-col cols="12" md="5" lg="4" class="mb-0 pb-0">
             <v-card class="pa-3" elevation="1" outlined>
-         
+                <v-row  >
+                    <v-col cols="12" class="mb-0 pb-0">
+                        <v-tooltip top>
+                            <template v-slot:activator="{ on, attrs }">
+                                <v-btn rounded
+                                    v-bind="attrs"
+                                    v-on="on"
+                                    icon 
+                                    text 
+                                    class=""
+                                    @click="$router.push({name: 'classwork'})" >
+                                <v-icon dark>mdi-arrow-left-thick</v-icon>
+                                </v-btn>
+                            </template>
+                            <span>Back to classworks</span>
+                        </v-tooltip>
+                    </v-col>
+                    <v-col class="ma-0 pa-0">
+                        <div class="pt-2 pl-4 pr-4 pb-2">
+                            <v-icon left>mdi-comment</v-icon>Private Comments
+                        </div>
+                        <v-divider></v-divider>
+                        <v-list class="mb-0 pb-0">
+      
+                        <v-list-item class="mb-0 pb-0" v-for="(item, i) in classworkDetails.comments" :key="i">
+                            <v-list-item-avatar>
+                                <v-img 
+                                :src="item.profile_pic == null || item.profile_pic == ''? 'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=' +  item.name : '/storage/'+item.profile_pic">
+                                </v-img>
+                            </v-list-item-avatar>
+                            <v-list-item-content>
+                                <v-list-item-title v-html="item.name"></v-list-item-title>
+                                <v-list-item-subtitle v-html="item.content"></v-list-item-subtitle>
+                            </v-list-item-content>
+                            <v-list-item-action>
+                                <v-btn icon>
+                                <v-icon small color="grey lighten-1">mdi-dots-vertical</v-icon>
+                                </v-btn>
+                            </v-list-item-action>
+                        </v-list-item>
+          
+                    </v-list>
+                    <v-divider></v-divider>
+                        <v-list class="mb-0 pb-0 mt-0 pt-0">
+                            <v-list-item class="mb-0 pb-0">
+                            <v-list-item-avatar>
+                                <v-img 
+                                :src="get_CurrentUser.profile_pic == null || get_CurrentUser.profile_pic == ''? 'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=' +  get_CurrentUser.firstName+' '+get_CurrentUser.lastName : '/storage/'+get_CurrentUser.profile_pic">
+                                </v-img>
+                            </v-list-item-avatar>
+                            <v-list-item-content class="ma-0 pa-0">
+                                <v-textarea
+                                    :loading="isCommenting"
+                                    v-model="comment"
+                                    prepend-avatar="mdi-emoticon-dead"
+                                    filled
+                                    rounded
+                                    dense
+                                    auto-grow
+                                    rows="1"
+                                    clear-icon="mdi-close-circle"
+                                    clearable
+                                    placeholder="Comment"
+                                    class="pa-0 mt-7"
+                                    type="text"
+                                    >
+                                    </v-textarea>
+                            </v-list-item-content>
+                            <v-list-item-action>
+                                <v-btn :loading="isCommenting" @click="addComment(classworkDetails)" icon>
+                                <v-icon  color="primary">mdi-send</v-icon>
+                                </v-btn>
+                            </v-list-item-action>
+                            </v-list-item>
+                        </v-list>
+
+                    </v-col>
+                </v-row>
+            </v-card>
+        </v-col>
+        <v-col :class="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm ? 'mt-2 pl-0 pt-2' : 'pt-0 pl-5'" cols="12" md="7" lg="8" >
+            <v-card class="pa-3" elevation="1" outlined>
                 <v-row >
-                     <v-col cols="12" >
+                   <!--   <v-col cols="12" >
                               <v-btn rounded text="" class=""
                             @click="$router.push({name: 'classwork'})" >
                                 <v-icon left dark>mdi-arrow-left-thick</v-icon>
                                 Back to classworks
                             </v-btn>
-                        </v-col>
+                        </v-col> -->
                            <v-row style="height:4vh"></v-row>
                     <v-col cols="12">
                         <v-container ma-0 pa-0 class="d-flex flex-row justify-space-between">
@@ -79,14 +160,20 @@
 <script>
 
 import moment from 'moment';
+import {mapGetters} from "vuex";
 export default {
     props:['classworkDetails','totalPoints','totalQuestion'],
     data(){
         return{
             status: null,
-            updateDetails:{}
+            updateDetails:{},
+            isCommenting: false,
+            comment: null
         }
         
+    },
+    computed:{
+        ...mapGetters(['get_CurrentUser']),
     },
     methods:{
          format_date(value) {
@@ -119,7 +206,30 @@ export default {
             .then(res=>{
 
             })
-        }
+        },
+         async addComment(details){
+              let data = {};
+              this.isCommenting = true;
+              data.classwork_id = details.id;
+              data.to_user = details.user_id;
+              data.course_id = this.$route.params.id;
+              data.comment = this.comment;
+              axios.post('/api/post/classwork/comment/insert', data)
+              .then((res)=>{
+                console.log(res.data);
+                  if(res.status == 200 ){
+                    this.classworkDetails.comments.push({
+                      content : res.data.comment,
+                      id : res.data.id,
+                      name : res.data.name,
+                      profile_pic : res.data.profile_pic
+                    })
+                    this.comment = null;
+                  }
+                  
+              })
+               this.isCommenting = false;
+          },
     },
   /*   beforeMount(){
         this.checkStatus();

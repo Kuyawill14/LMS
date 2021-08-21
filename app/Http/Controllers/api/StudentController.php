@@ -163,7 +163,7 @@ class StudentController extends Controller
                 $StatusUpdate->status = "Submitting";
                 $file = $request->file('file');
                 if($file != ""){
-                    $newFile = $file->store('public/upload/classworkSubmission/'.$userId);
+                    $newFile = $file->store('public/upload/classworkSubmission/'.$request->class_classwork_id.'/'.$userId);
                     $tempAnswer[] = ["link"=> preg_replace('/\bpublic\/\b/', '', $newFile) , 
                     "name"=> $request->fileName,"fileSize"=> $request->fileSize,"fileExte"=> $request->fileExte];
                     $StatusUpdate->Submitted_Answers = serialize($tempAnswer);

@@ -243,13 +243,12 @@ var checkobjective = function checkobjective() {
   },
   methods: {
     ViewSubmision: function ViewSubmision(data, index) {
-      this.ViewDetails = null;
-      this.isLoadingData = true; //if(data.status == 'Submitted'){
+      this.ViewDetails = null; //this.isLoadingData = true;
+      //if(data.status == 'Submitted'){
+      //this.isViewing = true;
 
-      this.isViewing = true;
-      /* this.dialog = !this.dialog;
-      this.Viewdialog = !this.Viewdialog; */
-
+      this.dialog = !this.dialog;
+      this.Viewdialog = !this.Viewdialog;
       this.ViewDetails = data;
       this.selected_index = index; //}
     },
@@ -530,7 +529,8 @@ var render = function() {
                                                               item.firstName +
                                                               " " +
                                                               item.lastName
-                                                            : item.profile_pic
+                                                            : "/storage/" +
+                                                              item.profile_pic
                                                       }
                                                     })
                                                   ],
@@ -861,7 +861,8 @@ var render = function() {
                                                                   item.firstName +
                                                                   " " +
                                                                   item.lastName
-                                                                : item.profile_pic
+                                                                : "/storage/" +
+                                                                  item.profile_pic
                                                           }
                                                         })
                                                       ],
@@ -966,107 +967,6 @@ var render = function() {
                     ],
                     1
                   )
-                ],
-                1
-              )
-            : _vm._e(),
-          _vm._v(" "),
-          _vm.isViewing
-            ? _c(
-                "v-col",
-                {
-                  staticClass: "pl-6",
-                  staticStyle: {
-                    "max-height": "85vh",
-                    "overflow-y": "scroll",
-                    "overflow-x": "hidden"
-                  },
-                  attrs: { cols: "12", md: "12", lg: "8", xl: "8" }
-                },
-                [
-                  _vm.isLoadingData && !_vm.isMounted
-                    ? _c(
-                        "v-container",
-                        {
-                          staticClass: "fill-height",
-                          staticStyle: { height: "400px" }
-                        },
-                        [
-                          _c(
-                            "v-row",
-                            {
-                              attrs: {
-                                "align-content": "center",
-                                justify: "center"
-                              }
-                            },
-                            [
-                              _c(
-                                "v-col",
-                                {
-                                  staticClass: "text-subtitle-1 text-center",
-                                  attrs: { cols: "12" }
-                                },
-                                [
-                                  _vm._v(
-                                    "\r\n                        Loading\r\n                    "
-                                  )
-                                ]
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "v-col",
-                                { attrs: { cols: "6" } },
-                                [
-                                  _c("v-progress-linear", {
-                                    attrs: {
-                                      color: "primary",
-                                      indeterminate: "",
-                                      rounded: "",
-                                      height: "6"
-                                    }
-                                  })
-                                ],
-                                1
-                              )
-                            ],
-                            1
-                          )
-                        ],
-                        1
-                      )
-                    : _vm._e(),
-                  _vm._v(" "),
-                  _vm.isLoadingData
-                    ? _c("checkobjective", {
-                        directives: [
-                          {
-                            name: "show",
-                            rawName: "v-show",
-                            value: _vm.isMounted,
-                            expression: "isMounted"
-                          }
-                        ],
-                        attrs: {
-                          classworkDetails: _vm.classworkDetails,
-                          ViewDetails: _vm.ViewDetails
-                        },
-                        on: {
-                          isMounted: function($event) {
-                            _vm.isMounted = true
-                          },
-                          RestSubmission: function($event) {
-                            return _vm.ResetSubmission()
-                          },
-                          UpdateSubmission: function($event) {
-                            return _vm.$emit("UpdateSubmission")
-                          },
-                          closeDialog: function($event) {
-                            _vm.isViewing = false
-                          }
-                        }
-                      })
-                    : _vm._e()
                 ],
                 1
               )

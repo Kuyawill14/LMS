@@ -746,7 +746,7 @@ var render = function() {
                                                   (item.firstName +
                                                     " " +
                                                     item.lastName)
-                                                : item.profile_pic
+                                                : "/storage/" + item.profile_pic
                                           }
                                         })
                                       ],

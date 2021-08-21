@@ -22698,7 +22698,8 @@ var render = function() {
                                         (_vm.UserDetails.firstName +
                                           " " +
                                           _vm.UserDetails.lastName)
-                                      : _vm.UserDetails.profile_pic
+                                      : "/storage/" +
+                                        _vm.UserDetails.profile_pic
                                 }
                               })
                             ],
@@ -22739,7 +22740,8 @@ var render = function() {
                                         (_vm.UserDetails.firstName +
                                           " " +
                                           _vm.UserDetails.lastName)
-                                      : _vm.UserDetails.profile_pic
+                                      : "/storage/" +
+                                        _vm.UserDetails.profile_pic
                                 }
                               })
                             ],
@@ -23663,7 +23665,8 @@ var render = function() {
                                                 (_vm.UserDetails.firstName +
                                                   " " +
                                                   _vm.UserDetails.lastName)
-                                              : _vm.UserDetails.profile_pic
+                                              : "/storage/" +
+                                                _vm.UserDetails.profile_pic
                                         }
                                       })
                                     ],
@@ -23707,14 +23710,15 @@ var render = function() {
                                             (_vm.UserDetails.firstName +
                                               " " +
                                               _vm.UserDetails.lastName)
-                                          : _vm.UserDetails.profile_pic
+                                          : "/storage/" +
+                                            _vm.UserDetails.profile_pic
                                     }
                                   })
                                 ],
                                 1
                               ),
                               _vm._v(" "),
-                              _c("h3", [
+                              _c("h4", [
                                 _vm._v(
                                   _vm._s(
                                     _vm.UserDetails.firstName +
