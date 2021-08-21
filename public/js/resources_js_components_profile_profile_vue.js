@@ -263,33 +263,38 @@ var myCalendar = function myCalendar() {
       this.$refs.fileInput.click();
     },
     onFileChange: function onFileChange(element) {
-      var _this2 = this;
+      /* const file = element.target.files[0];
+      var reader = new FileReader()
+      reader.readAsDataURL(file)
+      let testFile;
+      reader.onload = () => {
+          this.UserDetails.profile_pic = reader.result;
+          testFile = reader.result;
+          this.UpdateProfile();
+      } */
+      this.imageFile = element.target.files[0];
+      console.log(this.imageFile); //this.file_name = element.target.files[0].name;
 
-      var file = element.target.files[0];
-      var reader = new FileReader();
-      reader.readAsDataURL(file);
-      var testFile;
+      if (this.imageFile.size <= 500000) {
+        this.UpdateProfile();
+      } else {}
 
-      reader.onload = function () {
-        _this2.UserDetails.profile_pic = reader.result;
-        testFile = reader.result;
-
-        _this2.UpdateProfile();
-      };
+      this.UserDetails.profile_pic = URL.createObjectURL(this.imageFile);
     },
     UpdateProfile: function UpdateProfile() {
-      var _this3 = this;
+      var _this2 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        var fd;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                axios.post('/api/profile/profile_picture', {
-                  data: _this3.UserDetails.profile_pic
-                }).then(function (res) {});
+                fd = new FormData();
+                fd.append('file', _this2.imageFile);
+                axios.post('/api/profile/profile_picture', fd).then(function (res) {});
 
-              case 1:
+              case 3:
               case "end":
                 return _context.stop();
             }
@@ -522,7 +527,8 @@ var render = function() {
                                                                   _vm
                                                                     .UserDetails
                                                                     .lastName)
-                                                              : _vm.UserDetails
+                                                              : "/storage/" +
+                                                                _vm.UserDetails
                                                                   .profile_pic
                                                         }
                                                       })
@@ -586,7 +592,7 @@ var render = function() {
                                       ],
                                       null,
                                       false,
-                                      1122338967
+                                      176418117
                                     )
                                   })
                                 ],

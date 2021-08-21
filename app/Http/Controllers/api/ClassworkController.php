@@ -9,7 +9,9 @@ use App\Models\tbl_classClassworks;
 use App\Models\tbl_Questions;
 use App\Models\tbl_Submission;
 use App\Models\tbl_userclass;
+use App\Models\tbl_comment;
 use App\Models\tbl_main_gradeCategory;
+use App\Models\tbl_teacher_course;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 
@@ -280,6 +282,8 @@ class ClassworkController extends Controller
         ->select('tbl_userclasses.class_id')
         ->where('tbl_userclasses.course_id', $courseId)
         ->first();
+
+       
     
 
         $classworkDetails;
@@ -298,18 +302,37 @@ class ClassworkController extends Controller
             ->leftJoin('tbl_userclasses', 'tbl_userclasses.user_id','=', 'tbl_classworks.user_id')
             ->where('tbl_class_classworks.class_id', $class_id->class_id)
             ->first();
-        }
 
-        $Items = tbl_Questions::where('classwork_id','=', $id)
-        ->select('tbl_questions.points')
-        ->get();
-        $count = 0;
-        $points = 0;
-        foreach($Items as $i){
-            $count++;
-            $points+= $i->points;
+            $teacher_id = tbl_teacher_course::where('course_id', $courseId)->first();
+            $PrivateComment = tbl_comment::where("tbl_comments.classwork_id",  $classworkDetails ->id)
+            ->select("tbl_comments.id","tbl_comments.content",DB::raw("CONCAT(tbl_user_details.firstName,' ',tbl_user_details.lastName) as name"),"tbl_user_details.profile_pic")
+            ->leftJoin("tbl_user_details", "tbl_user_details.user_id","=","tbl_comments.user_id")
+            ->where('tbl_comments.user_id', $userId)
+            ->Where('tbl_comments.to_user', $teacher_id->user_id)
+            ->orderBy("tbl_comments.created_at", "ASC")
+            ->get();
+            $classworkDetails->comments =  $PrivateComment;
+
+
         }
-        return ['Details'=>$classworkDetails,'ItemsCount'=>$count,'totalpoints'=>$points];
+        if($classworkDetails->type == 'Objective Type'){
+            $Items = tbl_Questions::where('classwork_id','=', $id)
+            ->select('tbl_questions.points')
+            ->get();
+            $count = 0;
+            $points = 0;
+            foreach($Items as $i){
+                $count++;
+                $points+= $i->points;
+            }
+            return ['Details'=>$classworkDetails,'ItemsCount'=>$count,'totalpoints'=>$points];
+        }
+        else if($classworkDetails->type == 'Subjective Type'){
+            return ['Details'=>$classworkDetails];
+        }
+        
+        
+       
     }
 
     /**

@@ -161,6 +161,9 @@ export default {
     beforeMount(){
         this.getClassworkDetails();
         //this.Details = this.Preview_Details;
+    },
+    created(){
+        this.$emit('isMounted');
     }
     
     

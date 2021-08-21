@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\tbl_comment;
 use App\Models\tbl_like;
-
+use App\Models\tbl_userDetails;
 use Illuminate\Support\Facades\DB;
 
 class CommentController extends Controller
@@ -22,7 +22,7 @@ class CommentController extends Controller
         ->select("tbl_comments.id","tbl_comments.post_id","tbl_comments.content","tbl_comments.created_at",
         DB::raw("CONCAT(tbl_user_details.firstName,' ',tbl_user_details.lastName) as name"),"tbl_user_details.profile_pic", "tbl_comments.id")
         ->leftJoin("tbl_user_details", "tbl_user_details.user_id","=","tbl_comments.user_id")
-        ->orderBy("tbl_user_details.created_at", "ASC")
+        ->orderBy("tbl_comments.created_at", "ASC")
         ->get();
         return $Comment;
     }
@@ -95,9 +95,58 @@ class CommentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Request $request, $id)
+    public function FetchClassworkPrivateComment($id)
     {
-        //
+        $PrivateComment = tbl_comment::where("tbl_comments.classwork_id", $id)
+        ->select("tbl_comments.id","tbl_comments.content","tbl_comments.created_at",
+        DB::raw("CONCAT(tbl_user_details.firstName,' ',tbl_user_details.lastName) as name"),"tbl_user_details.profile_pic", "tbl_comments.id")
+        ->leftJoin("tbl_user_details", "tbl_user_details.user_id","=","tbl_comments.user_id")
+        ->orderBy("tbl_comments.created_at", "ASC")
+        ->get();
+
+        return $PrivateComment;
+
+        
+    }
+
+
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function addClassworkPrivateComment(Request $request){
+        //return $request;
+        $userId = auth("sanctum")->id();
+
+        if(auth('sanctum')->user()->role != 'Student'){
+            $NewComment = new tbl_comment;
+            $NewComment->classwork_id = $request->classwork_id;
+            $NewComment->user_id = $request->to_user;
+            $NewComment->to_user = $userId;
+            $NewComment->course_id =  $request->course_id;
+            $NewComment->content = $request->comment;
+            $NewComment->save();
+        }else{
+            $NewComment = new tbl_comment;
+            $NewComment->classwork_id = $request->classwork_id;
+            $NewComment->user_id = $userId;
+            $NewComment->to_user = $request->to_user;
+            $NewComment->course_id =  $request->course_id;
+            $NewComment->content = $request->comment;
+            $NewComment->save();
+        }
+      
+        
+        $details = tbl_userDetails::where('user_id', $NewComment->user_id)->first();
+        return response()->json([
+            "id"=>$NewComment->id, 
+            "comment"=>$NewComment->content, 
+            "name"=> $details->firstName.' '.$details->lastName,
+            "profile_pic"=>$details->profile_pic
+        ]);
     }
 
     /**

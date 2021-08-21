@@ -20,7 +20,7 @@
                     <v-btn icon x-large v-on="on">
                         <v-avatar color="brown" size="40">
                             <v-img alt="Proflie"
-                                :src="UserDetails.profile_pic == null || UserDetails.profile_pic == '' ? 'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=' + (UserDetails.firstName+' '+UserDetails.lastName) : UserDetails.profile_pic">
+                                :src="UserDetails.profile_pic == null || UserDetails.profile_pic == '' ? 'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=' + (UserDetails.firstName+' '+UserDetails.lastName) : '/storage/'+UserDetails.profile_pic">
                             </v-img>
                         </v-avatar>
                     </v-btn>
@@ -30,7 +30,7 @@
                         <div class="mx-auto text-center ">
                             <v-avatar color="brown" size="40">
                                 <v-img alt="Proflie"
-                                    :src="UserDetails.profile_pic == null || UserDetails.profile_pic == '' ? 'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=' + (UserDetails.firstName+' '+UserDetails.lastName) : UserDetails.profile_pic">
+                                    :src="UserDetails.profile_pic == null || UserDetails.profile_pic == '' ? 'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=' + (UserDetails.firstName+' '+UserDetails.lastName) : '/storage/'+UserDetails.profile_pic">
                                 </v-img>
                             </v-avatar>
                             <div>

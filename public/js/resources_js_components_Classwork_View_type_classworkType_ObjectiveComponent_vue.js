@@ -15,12 +15,100 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -100,14 +188,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['classworkDetails', 'totalPoints', 'totalQuestion'],
   data: function data() {
     return {
       status: null,
-      updateDetails: {}
+      updateDetails: {},
+      isCommenting: false,
+      comment: null
     };
   },
+  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(['get_CurrentUser'])),
   methods: {
     format_date: function format_date(value) {
       if (value) {
@@ -170,6 +262,45 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             }
           }
         }, _callee2);
+      }))();
+    },
+    addComment: function addComment(details) {
+      var _this3 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
+        var data;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                data = {};
+                _this3.isCommenting = true;
+                data.classwork_id = details.id;
+                data.to_user = details.user_id;
+                data.course_id = _this3.$route.params.id;
+                data.comment = _this3.comment;
+                axios.post('/api/post/classwork/comment/insert', data).then(function (res) {
+                  console.log(res.data);
+
+                  if (res.status == 200) {
+                    _this3.classworkDetails.comments.push({
+                      content: res.data.comment,
+                      id: res.data.id,
+                      name: res.data.name,
+                      profile_pic: res.data.profile_pic
+                    });
+
+                    _this3.comment = null;
+                  }
+                });
+                _this3.isCommenting = false;
+
+              case 8:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3);
       }))();
     }
   }
@@ -276,10 +407,14 @@ var render = function() {
     [
       _c(
         "v-row",
+        { staticClass: "pa-2", attrs: { justify: "center", "no-gutters": "" } },
         [
           _c(
             "v-col",
-            { staticClass: "pl-7 pr-9 pt-5", attrs: { cols: "12", md: "12" } },
+            {
+              staticClass: "mb-0 pb-0",
+              attrs: { cols: "12", md: "5", lg: "4" }
+            },
             [
               _c(
                 "v-card",
@@ -293,32 +428,298 @@ var render = function() {
                     [
                       _c(
                         "v-col",
-                        { attrs: { cols: "12" } },
+                        { staticClass: "mb-0 pb-0", attrs: { cols: "12" } },
                         [
                           _c(
-                            "v-btn",
+                            "v-tooltip",
                             {
-                              attrs: { rounded: "", text: "" },
-                              on: {
-                                click: function($event) {
-                                  return _vm.$router.push({ name: "classwork" })
+                              attrs: { top: "" },
+                              scopedSlots: _vm._u([
+                                {
+                                  key: "activator",
+                                  fn: function(ref) {
+                                    var on = ref.on
+                                    var attrs = ref.attrs
+                                    return [
+                                      _c(
+                                        "v-btn",
+                                        _vm._g(
+                                          _vm._b(
+                                            {
+                                              attrs: {
+                                                rounded: "",
+                                                icon: "",
+                                                text: ""
+                                              },
+                                              on: {
+                                                click: function($event) {
+                                                  return _vm.$router.push({
+                                                    name: "classwork"
+                                                  })
+                                                }
+                                              }
+                                            },
+                                            "v-btn",
+                                            attrs,
+                                            false
+                                          ),
+                                          on
+                                        ),
+                                        [
+                                          _c(
+                                            "v-icon",
+                                            { attrs: { dark: "" } },
+                                            [_vm._v("mdi-arrow-left-thick")]
+                                          )
+                                        ],
+                                        1
+                                      )
+                                    ]
+                                  }
                                 }
-                              }
+                              ])
                             },
                             [
-                              _c("v-icon", { attrs: { left: "", dark: "" } }, [
-                                _vm._v("mdi-arrow-left-thick")
+                              _vm._v(" "),
+                              _c("span", [_vm._v("Back to classworks")])
+                            ]
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-col",
+                        { staticClass: "ma-0 pa-0" },
+                        [
+                          _c(
+                            "div",
+                            { staticClass: "pt-2 pl-4 pr-4 pb-2" },
+                            [
+                              _c("v-icon", { attrs: { left: "" } }, [
+                                _vm._v("mdi-comment")
                               ]),
                               _vm._v(
+<<<<<<< HEAD
                                 "\n                                Back to classworks\n                            "
+=======
+                                "Private Comments\r\n                        "
+                              )
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c("v-divider"),
+                          _vm._v(" "),
+                          _c(
+                            "v-list",
+                            { staticClass: "mb-0 pb-0" },
+                            _vm._l(_vm.classworkDetails.comments, function(
+                              item,
+                              i
+                            ) {
+                              return _c(
+                                "v-list-item",
+                                { key: i, staticClass: "mb-0 pb-0" },
+                                [
+                                  _c(
+                                    "v-list-item-avatar",
+                                    [
+                                      _c("v-img", {
+                                        attrs: {
+                                          src:
+                                            item.profile_pic == null ||
+                                            item.profile_pic == ""
+                                              ? "https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=" +
+                                                item.name
+                                              : "/storage/" + item.profile_pic
+                                        }
+                                      })
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-list-item-content",
+                                    [
+                                      _c("v-list-item-title", {
+                                        domProps: {
+                                          innerHTML: _vm._s(item.name)
+                                        }
+                                      }),
+                                      _vm._v(" "),
+                                      _c("v-list-item-subtitle", {
+                                        domProps: {
+                                          innerHTML: _vm._s(item.content)
+                                        }
+                                      })
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-list-item-action",
+                                    [
+                                      _c(
+                                        "v-btn",
+                                        { attrs: { icon: "" } },
+                                        [
+                                          _c(
+                                            "v-icon",
+                                            {
+                                              attrs: {
+                                                small: "",
+                                                color: "grey lighten-1"
+                                              }
+                                            },
+                                            [_vm._v("mdi-dots-vertical")]
+                                          )
+                                        ],
+                                        1
+                                      )
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              )
+                            }),
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c("v-divider"),
+                          _vm._v(" "),
+                          _c(
+                            "v-list",
+                            { staticClass: "mb-0 pb-0 mt-0 pt-0" },
+                            [
+                              _c(
+                                "v-list-item",
+                                { staticClass: "mb-0 pb-0" },
+                                [
+                                  _c(
+                                    "v-list-item-avatar",
+                                    [
+                                      _c("v-img", {
+                                        attrs: {
+                                          src:
+                                            _vm.get_CurrentUser.profile_pic ==
+                                              null ||
+                                            _vm.get_CurrentUser.profile_pic ==
+                                              ""
+                                              ? "https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=" +
+                                                _vm.get_CurrentUser.firstName +
+                                                " " +
+                                                _vm.get_CurrentUser.lastName
+                                              : "/storage/" +
+                                                _vm.get_CurrentUser.profile_pic
+                                        }
+                                      })
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-list-item-content",
+                                    { staticClass: "ma-0 pa-0" },
+                                    [
+                                      _c("v-textarea", {
+                                        staticClass: "pa-0 mt-7",
+                                        attrs: {
+                                          loading: _vm.isCommenting,
+                                          "prepend-avatar": "mdi-emoticon-dead",
+                                          filled: "",
+                                          rounded: "",
+                                          dense: "",
+                                          "auto-grow": "",
+                                          rows: "1",
+                                          "clear-icon": "mdi-close-circle",
+                                          clearable: "",
+                                          placeholder: "Comment",
+                                          type: "text"
+                                        },
+                                        model: {
+                                          value: _vm.comment,
+                                          callback: function($$v) {
+                                            _vm.comment = $$v
+                                          },
+                                          expression: "comment"
+                                        }
+                                      })
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-list-item-action",
+                                    [
+                                      _c(
+                                        "v-btn",
+                                        {
+                                          attrs: {
+                                            loading: _vm.isCommenting,
+                                            icon: ""
+                                          },
+                                          on: {
+                                            click: function($event) {
+                                              return _vm.addComment(
+                                                _vm.classworkDetails
+                                              )
+                                            }
+                                          }
+                                        },
+                                        [
+                                          _c(
+                                            "v-icon",
+                                            { attrs: { color: "primary" } },
+                                            [_vm._v("mdi-send")]
+                                          )
+                                        ],
+                                        1
+                                      )
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+>>>>>>> refs/remotes/origin/main
                               )
                             ],
                             1
                           )
                         ],
                         1
-                      ),
-                      _vm._v(" "),
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-col",
+            {
+              class:
+                _vm.$vuetify.breakpoint.xs || _vm.$vuetify.breakpoint.sm
+                  ? "mt-2 pl-0 pt-2"
+                  : "pt-0 pl-5",
+              attrs: { cols: "12", md: "7", lg: "8" }
+            },
+            [
+              _c(
+                "v-card",
+                {
+                  staticClass: "pa-3",
+                  attrs: { elevation: "1", outlined: "" }
+                },
+                [
+                  _c(
+                    "v-row",
+                    [
                       _c("v-row", { staticStyle: { height: "4vh" } }),
                       _vm._v(" "),
                       _c(

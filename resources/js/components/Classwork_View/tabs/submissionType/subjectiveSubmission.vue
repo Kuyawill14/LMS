@@ -32,21 +32,42 @@
                 >
                 </v-select>
             </v-col>
-            <v-col v-show="Class == $route.params.id || Class == item.class_id" cols="12" v-for="(item,i) in ListData" :key="i">
-                  
-                <v-row>
-                    <v-col cols="9" class="pa-5">
+            <v-col cols="12" >
+                  <v-list >
+                    <v-list-item-group >
+                        <v-list-item @click="CheckData = item ,dialog = !dialog" v-show="Class == $route.params.id || Class == item.class_id" v-for="(item,i) in ListData" :key="i">
+                        <v-list-item-avatar>
+                            <v-img alt="Profile"
+                                :src="item.profile_pic == null || item.profile_pic == '' ? 'https://ui-avatars.com/api/?background=random&color=fff&name=' + item.firstName +' '+item.lastName : '/storage/'+item.profile_pic">
+                            </v-img>
+                        </v-list-item-avatar>
+                      
+                        <v-list-item-content>
+                            <v-list-item-title class="font-weight-medium">{{item.firstName +' '+item.lastName}}</v-list-item-title>
+                            <v-list-item-subtitle v-if="item.graded == 1"><v-icon small color="success">mdi-check</v-icon> Graded</v-list-item-subtitle>
+                        </v-list-item-content>
+                         <v-list-item-action>
+                              <v-text-field 
+                         class="ma-0 pa-0"
+                         :loading="isSavingScore" 
+                                 @keyup="SaveScore(item.id, item.points)"  v-model="item.points" 
+                                dense outlined  type="number" :suffix="'/' +classworkDetails.points" :max="classworkDetails.points" :maxlength="classworkDetails.points.toString().length" min="0">
+                        </v-text-field>
+                        </v-list-item-action>
+                        </v-list-item>
+                    </v-list-item-group>
+                    </v-list>
+               <!--  <v-row>
+                    <v-col cols="9" class="">
                          <div class=" d-flex justify-start">
                             <v-avatar color="brown" size="40">
                                 <v-img alt="Profile"
-                                    :src="item.profile_pic == null || item.profile_pic == '' ? 'https://ui-avatars.com/api/?background=random&color=fff&name=' + item.firstname +' '+item.lastName : item.profile_pic">
+                                    :src="item.profile_pic == null || item.profile_pic == '' ? 'https://ui-avatars.com/api/?background=random&color=fff&name=' + item.firstName +' '+item.lastName : '/storage/'+item.profile_pic">
                                 </v-img>
                             </v-avatar>
                             <div class="mt-2 ml-2">
                             <div class="font-weight-medium">
-                                {{item.firstname +' '+item.lastName}}
-                                <br>
-
+                                {{item.firstName +' '+item.lastName}}
                             </div>
                                
                             </div>
@@ -63,8 +84,7 @@
                         </v-text-field>
                        
                     </v-col>
-                </v-row>
-                 <v-divider ></v-divider>
+                </v-row> -->
             </v-col>
         </v-row>
     </v-col>
@@ -116,15 +136,16 @@
 
             <v-col cols="12">
                 <v-row>
-                    <v-col v-show="item.Submitted_Answers != null" link class="text-center" cols="6" md="3" lg="3" v-for="(item,i) in ListData" :key="i">
-                          <v-card style="cursor:pointer" 
+                    <v-col v-show="item.Submitted_Answers != null && item.Submitted_Answers != ''" link class="text-center" cols="6" md="3" lg="3" v-for="(item,i) in studentSubmissionList" :key="i">
+                          <v-card
+                          v-if="selectedStatus == 'All' || selectedStatus == item.status || (selectedStatus == 'Graded' && item.graded == 1) || (selectedStatus == 'No Submission' && (item.status == null || item.status == ''))" style="cursor:pointer" 
                         class="mx-auto"
                       
                         outlined>
-                        <v-list-item link @click="CheckData = item ,dialog = !dialog" v-if="item.status == 'Submitted'">
+                        <v-list-item link @click="CheckData = item ,dialog = !dialog" >
                                 <v-list-item-content>
                                     <div class="d-flex flex-column align-self-center">
-                                        <div class="mb-2" style="max-height:30px;overflow:hidden">{{item.name}}</div>
+                                        <div class="mb-2" style="max-height:30px;overflow:hidden">{{item.firstName +' '+item.lastName}}</div>
                                         <v-divider></v-divider>
                                         <v-icon color="red" x-large>mdi-file-pdf</v-icon>
                                         <small style="max-height:15px;overflow:hidden;"> {{ item.Submitted_Answers != null ? item.Submitted_Answers[0].name : ''}}</small>
@@ -174,6 +195,19 @@ export default {
             score: null,
             StatusType: ['All', 'Submitted', 'Graded', 'No Submission'],
             selectedStatus:'All',
+        }
+    },
+     computed: {
+        studentSubmissionList() {
+            if (this.search) {
+                return this.ListData.filter((item) => {
+                    return this.search.toLowerCase().split(' ').every(v => item.firstName.toLowerCase()
+                        .includes(v) || item.lastName.toLowerCase()
+                        .includes(v))
+                })
+            } else {
+                return this.ListData;
+            }
         }
     },
     methods:{

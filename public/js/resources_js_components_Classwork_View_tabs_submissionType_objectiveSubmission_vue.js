@@ -243,13 +243,12 @@ var checkobjective = function checkobjective() {
   },
   methods: {
     ViewSubmision: function ViewSubmision(data, index) {
-      this.ViewDetails = null;
-      this.isLoadingData = true; //if(data.status == 'Submitted'){
+      this.ViewDetails = null; //this.isLoadingData = true;
+      //if(data.status == 'Submitted'){
+      //this.isViewing = true;
 
-      this.isViewing = true;
-      /* this.dialog = !this.dialog;
-      this.Viewdialog = !this.Viewdialog; */
-
+      this.dialog = !this.dialog;
+      this.Viewdialog = !this.Viewdialog;
       this.ViewDetails = data;
       this.selected_index = index; //}
     },
@@ -530,7 +529,8 @@ var render = function() {
                                                               item.firstName +
                                                               " " +
                                                               item.lastName
-                                                            : item.profile_pic
+                                                            : "/storage/" +
+                                                              item.profile_pic
                                                       }
                                                     })
                                                   ],
@@ -861,7 +861,8 @@ var render = function() {
                                                                   item.firstName +
                                                                   " " +
                                                                   item.lastName
-                                                                : item.profile_pic
+                                                                : "/storage/" +
+                                                                  item.profile_pic
                                                           }
                                                         })
                                                       ],
@@ -969,6 +970,7 @@ var render = function() {
                 ],
                 1
               )
+<<<<<<< HEAD
             : _vm._e(),
           _vm._v(" "),
           _vm.isViewing
@@ -1070,6 +1072,8 @@ var render = function() {
                 ],
                 1
               )
+=======
+>>>>>>> refs/remotes/origin/main
             : _vm._e()
         ],
         1

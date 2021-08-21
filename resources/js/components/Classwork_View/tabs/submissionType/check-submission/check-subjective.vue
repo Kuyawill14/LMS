@@ -27,18 +27,39 @@
                 <v-row no-gutters>
                     <v-col cols="12" md="4" lg="4" :class="$vuetify.breakpoint.xs ? 'pt-2' : 'pt-2 pr-3'">
                          <v-container fluid ma-0 pa-0>
-                            <v-card class="pa-5 pb-8">
+                            <v-card class="pa-5 pb-8 pt-0">
                                 <v-row  no-gutters>
-                                    <v-col >
-                                        <div class="d-flex justify-space-between">
+                                    <v-col class="ma-0 pa-0">
+
+                                         <v-list class="ma-0 pa-0">
+                                                <v-list-item  class="ma-0 pa-0">
+                                                    <v-list-item-avatar>
+                                                        <v-img alt="Profile"
+                                                            :src="CheckData.profile_pic == null || CheckData.profile_pic == '' ? 'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=' + (CheckData.firstName+' '+CheckData.lastName) : '/storage/'+CheckData.profile_pic">
+                                                        </v-img>
+                                                    </v-list-item-avatar>
+                                                
+                                                    <v-list-item-content>
+                                                        <v-list-item-title class="font-weight-medium">{{CheckData.firstName +' '+CheckData.lastName}}</v-list-item-title>
+                                                        <v-list-item-subtitle >Submitted: {{format_date(CheckData.updated_at)}}</v-list-item-subtitle>
+                                                    </v-list-item-content>
+                                                    <v-list-item-action class="mt-8">
+                                                        <v-text-field :loading="isSavingScore" 
+                                                    @keyup="SaveScore()" v-model="CheckData.points" 
+                                                    dense outlined label="Score" type="number" :suffix="'/' +classworkDetails.points" :max="classworkDetails.points" :maxlength="classworkDetails.points.toString().length" min="0"></v-text-field>
+                                                    </v-list-item-action>
+                                                </v-list-item>
+                                        </v-list>
+                                       
+                                     <!--    <div class="d-flex justify-space-between">
                                             <div class="d-flex">
                                                 <v-avatar color="brown" size="40">
                                                     <v-img alt="Profile"
-                                                        :src="CheckData.profile_pic == null || CheckData.profile_pic == '' ? 'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=' + CheckData.name : CheckData.profile_pic">
+                                                        :src="CheckData.profile_pic == null || CheckData.profile_pic == '' ? 'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=' + (CheckData.firstName+' '+CheckData.lastName) : '/storage/'+CheckData.profile_pic">
                                                     </v-img>
                                                 </v-avatar>
                                                 <div>
-                                                    <h4 style="line-height:1.0" class="font-weight-medium ml-2 mt-1 mb-0 pb-0">{{CheckData.name}}</h4>
+                                                    <h4 style="line-height:1.0" class="font-weight-medium ml-2 mt-1 mb-0 pb-0">{{CheckData.firstName +' '+CheckData.lastName}}</h4>
                                                     <div class="ml-2 caption">Submitted: {{format_date(CheckData.updated_at)}}</div>
                                                 </div>
                                             </div>
@@ -48,7 +69,7 @@
                                                 @keyup="SaveScore()" class="mt-2 float-right" v-model="CheckData.points" 
                                                 dense outlined label="Score" type="number" :suffix="'/' +classworkDetails.points" :max="classworkDetails.points" :maxlength="classworkDetails.points.toString().length" min="0"></v-text-field>
                                             </div>
-                                        </div>
+                                        </div> -->
                                     </v-col>
                                     <v-col cols="12">
                                         <v-row>
@@ -56,55 +77,141 @@
                                                 <h2>{{classworkDetails.title}}</h2>
                                                 <!-- (<span class="primary--text">{{classworkDetails.points}} <small>points</small> </span>) -->
                                             </v-col>
-                                            <v-col v-for="(item, index) in CheckData.Submitted_Answers" :key="index" class="ma-0 pa-0 " cols="12" md="11" lg="11" xl="11">
-                                            <div class="d-flex">
-                                                <div class="body-1 pr-2 mt-2">
-                                                    {{index+1}}.
-                                                </div>
 
-                                                    <div style="width:100%">
-                                                        <v-hover  v-slot="{ hover }">
-                                                        <v-alert
-                                                            class="mb-2 pa-3"
-                                                            style="cursor:pointer"
-                                                                :class="hover ? 'grey lighten-2' :''"
-                                                                outlined
-                                                                :icon="item.fileExte == 'pdf' ? 'mdi-file-pdf': item.fileExte == 'docx'? 'mdi-file-word': 
-                                                                item.fileExte == 'jpg' ||  item.fileExte == 'png' ||  item.fileExte == 'bmp' ? 'mdi-folder-multiple-image' :''"
-                                                            :color="item.fileExte == 'pdf' ? 'red' : item.fileExte == 'docx'? 'blue':
-                                                                item.fileExte == 'jpg' ||  item.fileExte == 'png' ||  item.fileExte == 'bmp' ? 'info': ''"
-                                                            >
-                                                            <v-row align="center" >
-                                                                <v-col class="grow text-left">
-                                                                <div  :class="hover ? 'text-decoration-underline':''"> {{item.name}}</div>
-                                                                </v-col>
-                                                                <v-col class="shrink d-flex">
-                                                                <div class="black--text mt-1 mr-1">{{item.fileSize}}</div>
-                                                                <div class="pt-1">
-                                                                    <v-tooltip top>
-                                                                    <template v-slot:activator="{ on, attrs }">
-                                                                        <v-btn  v-bind="attrs" v-on="on" 
-                                                                        rounded small icon text @click="DownloadFile(item.link)"> <v-icon color="blue">mdi-download-circle-outline</v-icon></v-btn>
-                                                                    </template>
-                                                                    <span>Download</span>
-                                                                    </v-tooltip>
-                                                                </div>
-                                                                </v-col>
-                                                            </v-row>
-                                                            </v-alert>
-                                                        </v-hover>
-                                                    </div>
-                                                </div>
+                                            <v-col cols="12" >
+                                        
+                                            <v-row v-if="CheckData.Submitted_Answers != null && CheckData.Submitted_Answers != ''">
+                                                <v-col v-for="(item, index) in CheckData.Submitted_Answers" :key="index" class="mb-0 pb-0 mt-0 pt-0" cols="12" >
+                                                    <div class="d-flex">
+                                                        <div class="body-1 pr-2 pl-2 mt-2">
+                                                            {{index+1}}.
+                                                        </div>
+
+                                                            <div style="width:100%">
+                                                                <v-hover  v-slot="{ hover }">
+                                                                <v-alert
+                                                                    dense
+                                                                    class="mb-1 pa-2"
+                                                                    style="cursor:pointer"
+                                                                        :class="hover ? 'grey lighten-2' :''"
+                                                                        outlined
+                                                                        :icon="item.fileExte == 'pdf' ? 'mdi-file-pdf': item.fileExte == 'docx'? 'mdi-file-word': 
+                                                                        item.fileExte == 'jpg' ||  item.fileExte == 'png' ||  item.fileExte == 'bmp' ? 'mdi-folder-multiple-image' :''"
+                                                                    :color="item.fileExte == 'pdf' ? 'red' : item.fileExte == 'docx'? 'blue':
+                                                                        item.fileExte == 'jpg' ||  item.fileExte == 'png' ||  item.fileExte == 'bmp' ? 'info': ''"
+                                                                    >
+                                                                    <v-row align="center" >
+                                                                        <v-col class="grow text-left">
+                                                                        <div  :class="hover ? 'text-decoration-underline':''"> {{item.name}}</div>
+                                                                        </v-col>
+                                                                        <v-col class="shrink d-flex">
+                                                                        <div class="black--text mt-1 mr-1">{{item.fileSize}}</div>
+                                                                        <div class="pt-1">
+                                                                            <v-tooltip top>
+                                                                            <template v-slot:activator="{ on, attrs }">
+                                                                                <v-btn  v-bind="attrs" v-on="on" 
+                                                                                rounded small icon text @click="DownloadFile(item.link)"> <v-icon color="blue">mdi-download</v-icon></v-btn>
+                                                                            </template>
+                                                                            <span>Download</span>
+                                                                            </v-tooltip>
+                                                                        </div>
+                                                                        </v-col>
+                                                                    </v-row>
+                                                                    </v-alert>
+                                                                </v-hover>
+                                                            </div>
+                                                        </div>
+                                                    </v-col>
+                                                </v-row>
                                             </v-col>
+                                            
                                         </v-row>
 
                                     </v-col>
                                 </v-row>
                             </v-card>
+
+                             <v-card class="mt-2 " elevation="1" outlined>
+                                <div class="pt-3 pl-4 pr-4 pb-2">
+                                <v-icon left>mdi-comment</v-icon>Private Comments
+                                </div>
+                                
+                                <v-divider></v-divider>
+                                <v-list class="mb-0 pb-0">
+                        
+                                    <v-list-item class="mb-0 pb-0" v-for="(item, i) in CheckData.comments" :key="i">
+                                    <v-list-item-avatar>
+                                        <v-img 
+                                        :src="item.profile_pic == null || item.profile_pic == ''? 'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=' +  item.name : '/storage/'+item.profile_pic">
+                                        </v-img>
+                                    </v-list-item-avatar>
+                                    <v-list-item-content>
+                                        <v-list-item-title v-html="item.name"></v-list-item-title>
+                                        <v-list-item-subtitle v-html="item.content"></v-list-item-subtitle>
+                                    </v-list-item-content>
+                                    <v-list-item-action>
+                                        <v-btn icon>
+                                        <v-icon small color="grey lighten-1">mdi-dots-vertical</v-icon>
+                                        </v-btn>
+                                    </v-list-item-action>
+                                    </v-list-item>
+                            
+                                </v-list>
+                               <v-divider></v-divider>
+                                <v-list class="mb-0 pb-0 mt-0 pt-0">
+                                    <v-list-item class="mb-0 pb-0">
+                                    <v-list-item-avatar>
+                                        <v-img 
+                                        :src="get_CurrentUser.profile_pic == null || get_CurrentUser.profile_pic == ''? 'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=' +  get_CurrentUser.firstName+' '+get_CurrentUser.lastName : '/storage/'+get_CurrentUser.profile_pic">
+                                        </v-img>
+                                    </v-list-item-avatar>
+                                    <v-list-item-content class="ma-0 pa-0">
+                                        <v-textarea
+                                            :loading="isCommenting"
+                                            v-model="comment"
+                                            prepend-avatar="mdi-emoticon-dead"
+                                            filled
+                                            rounded
+                                            dense
+                                            auto-grow
+                                            rows="1"
+                                            clear-icon="mdi-close-circle"
+                                            clearable
+                                            placeholder="Comment"
+                                            class="pa-0 mt-7"
+                                            type="text"
+                                            >
+                                            </v-textarea>
+                                    </v-list-item-content>
+                                    <v-list-item-action>
+                                        <v-btn :loading="isCommenting" @click="addComment(CheckData)" icon>
+                                        <v-icon  color="primary">mdi-send</v-icon>
+                                        </v-btn>
+                                    </v-list-item-action>
+                                    </v-list-item>
+                                </v-list>
+                            </v-card>
                         </v-container>
                     </v-col>
-                     <v-col cols="12" md="8" lg="8" class="pt-2">
-                         <v-container fluid ma-0 pa-0>
+                     <v-col cols="12" md="8" lg="8" class="pt-1">
+                          <v-container class="pt-1" v-if="CheckData.Submitted_Answers == null || CheckData.Submitted_Answers == ''" fluid ma-0 pa-0>
+                            <v-card style="height: 40rem" class="pa-2">
+                                <v-row   justify="center" align-content="center" >
+                                    <v-col style="margin-top: 10rem" cols="12"   class="text-center">
+                                        <v-icon style="font-size:8rem">
+                                            mdi-notebook-remove-outline
+                                        </v-icon>
+                                        <h2> Empty Submission </h2>
+                                        <p class="mb-0 pb-0"> This student did not submit yet!</p>
+                                        <v-btn color="primary">Alert Student <v-icon right>mdi-account-alert</v-icon> </v-btn>
+                                    </v-col>
+                                </v-row>
+                            </v-card>
+                                    
+                             
+                          </v-container>
+                        
+                         <v-container v-if="CheckData.Submitted_Answers != null && CheckData.Submitted_Answers != ''" fluid ma-0 pa-0>
                             <v-card>
                                 <div class="pa-3">
                                      <h3 class="font-weight-bold">Document Preview</h3>
@@ -112,13 +219,6 @@
                                 </div>
                               
                                 <div style="height:100vh;">
-                                   <!--  <iframe :src="'https://view.officeapps.live.com/op/embed.aspx?src=http://127.0.0.1:8000/storage/'+CheckData.Submitted_Answers[0].link" width='100%' height='570' frameborder='0'>
-                                    This is an embedded <a target='_blank' href='http://office.com'>Microsoft Office</a> document, powered by <a target='_blank' href='http://office.com/webapps'>Office Online</a>.</iframe>  -->
-                                    <!-- <iframe src='https://view.officeapps.live.com/op/embed.aspx?src=http%3A%2F%2Fieee802%2Eorg%3A80%2Fsecmail%2FdocIZSEwEqHFr%2Edoc' width='100%' height='570' frameborder='0'>This is an embedded <a target='_blank' href='http://office.com'>Microsoft Office</a> document, powered by <a target='_blank' href='http://office.com/webapps'>Office Online</a>.</iframe> --> 
-                                   <!--  <vue-pdf-app :pdf="pdf_path"  
-                                        style="height:80vh">
-                                    </vue-pdf-app>  -->
-
                                     <iframe title="google pdf viewer" id="pdf-iframe" 
                                     :src="'https://docs.google.com/viewer?embedded=true&amp;url=' + pdf_path" 
                                     sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
@@ -136,9 +236,8 @@
 
 </template>
 <script>
-/* import VuePdfApp from "vue-pdf-app";
-import "vue-pdf-app/dist/icons/main.css"; */
 import moment from 'moment';
+import {mapGetters} from "vuex";
   export default {
     props:['CheckData','classworkDetails'],
     data () {
@@ -153,7 +252,12 @@ import moment from 'moment';
         score: '',
         pdf_path: null,
         isSavingScore: false,
+        isCommenting: false,
+        comment: null
       }
+    },
+    computed:{
+        ...mapGetters(['get_CurrentUser']),
     },
     methods:{
          format_date(value) {
@@ -180,7 +284,7 @@ import moment from 'moment';
                 axios.put('/api/submission/update-score/'+this.CheckData.id,{score: this.score})
                 .then(res=>{
                     if(res.status == 200){
-                        this.toastSuccess();
+                        this.toastSuccess("Score Updated");
                         this.isSavingScore = !this.isSavingScore;
                         this.$emit('UpdateSubmission')
                     }
@@ -188,31 +292,40 @@ import moment from 'moment';
             }
             else{
                 this.isSavingScore = !this.isSavingScore;
-                this.toastError();
+                 this.toastError('Score is higher than the set points!');
             }
             
         },
-         toastSuccess() {
-            return this.$toasted.success("Score Updated", {
-                theme: "toasted-primary",
-                position: "top-center",
-                icon: "done",
-                duration: 3000
-            });
-        },
-         toastError() {
-            return this.$toasted.error("Score is higher than the set points", {
-                theme: "toasted-primary",
-                position: "top-center",
-                icon: "error",
-                duration: 3000
-            });
-        },
+         async addComment(details){
+              let data = {};
+              this.isCommenting = true;
+              data.classwork_id = details.classwork_id;
+              data.course_id = this.$route.params.id;
+              data.to_user = details.user_id;
+              data.comment = this.comment;
+              axios.post('/api/post/classwork/comment/insert', data)
+              .then((res)=>{
+                  if(res.status == 200 ){
+                    this.CheckData.comments.push({
+                      content : res.data.comment,
+                      id : res.data.id,
+                      name : res.data.name,
+                      profile_pic : res.data.profile_pic
+                    })
+                    this.comment = null;
+                  }
+                  
+              })
+               this.isCommenting = false;
+          },
     },
     created(){
-        let path = '/storage/'+this.CheckData.Submitted_Answers[0].link;
-        var host = window.location.protocol + "//" + window.location.host;
-        this.pdf_path = host+ path;
+        if(this.CheckData.Submitted_Answers != null && this.CheckData.Submitted_Answers != ''){
+            let path = '/storage/'+this.CheckData.Submitted_Answers[0].link;
+            var host = window.location.protocol + "//" + window.location.host;
+            this.pdf_path = host+ path;
+        }
+        
         //this.pdf_path  = path;
     }
   

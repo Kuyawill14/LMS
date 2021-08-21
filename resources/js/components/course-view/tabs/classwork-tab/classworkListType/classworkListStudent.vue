@@ -16,8 +16,8 @@
     <v-container v-if="ClassworkLength != 0" fluid>
         <!-- Modal -->
         <div v-if="Previewdialog">
-               <v-dialog v-model="Previewdialog"  width="650px">
-            <previewClassworkModal v-if="Previewdialog" v-on:toggleCloseDialog="Previewdialog = !Previewdialog" :Preview_id="Preview_id"></previewClassworkModal>
+               <v-dialog persistent v-model="Previewdialog"  width="650px">
+            <previewClassworkModal v-on:isMounted="isLoading = false" v-if="Previewdialog" v-on:toggleCloseDialog="Previewdialog = !Previewdialog" :Preview_id="Preview_id"></previewClassworkModal>
          </v-dialog>
         </div>
 
@@ -78,6 +78,7 @@
             <v-row v-if="classworks.ClassworksList[i].length != 0 && (SelectedFilter == 'All' || SelectedFilter == data.title)" >
                 <v-col cols="12"  class="ma-0 pa-0 "><h2 class="font-weight-regular">{{data.title}} <small class="font-weight-medium">({{data.percent}}%)</small> </h2></v-col>
                 <v-col cols="12" md="4" class="pb-0 mb-0" v-for="(item, index) in classworks.ClassworksList[i]" :key="index">
+                    <vue-element-loading  :active="isLoading && Preview_id == item.classwork_id " text="Loading..." spinner="bar-fade-scale" />
                     <v-hover v-slot="{ hover }">
                         <v-card  @click="OpenClaswork(item.type,item.status,item.score,item.classwork_id)" 
                             link :elevation="hover ? 1 :0"  >
@@ -159,10 +160,12 @@
 <script>
     const previewClassworkModal = () => import('../dialogs/previewClassworkModal');
     import moment from 'moment';
+    import VueElementLoading from 'vue-element-loading'
     export default {
         props: ['classworks'],
         components: {
             previewClassworkModal,
+            VueElementLoading
         },
         data() {
             return {
@@ -173,7 +176,8 @@
                 FilterItems:[],
                 ClassworkLength: null,
                 isSearching: false,
-                search: ""
+                search: "",
+                isLoading: false,
             }
         },
         methods: {
@@ -193,7 +197,7 @@
          
             },
             OpenClaswork(type, status, score,classwork_id){
-                
+                this.isLoading = true;
                 if(status == 'Submitted' && score != null){
                     if(type == 'Objective Type'){
                      this.$router.push({name:'result-page', params:{id: classwork_id}})

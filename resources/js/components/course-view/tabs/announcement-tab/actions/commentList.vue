@@ -27,15 +27,15 @@
     <v-row class="pl-5 pr-5">
         <v-divider></v-divider>
     </v-row>
-
+     <transition transition="v-expand-transition" >
   <div class="mt-6" v-if="showComment">
-      <transition transition="v-expand-transition" >
+     
         <v-container v-for="item in postDetails.comment" :key="item.id" class="d-inline-flex pl-7 pr-4 pb-3 shrink" pa-0>
             <v-avatar
             size="36"
             :class="isEditing && idEditing_id == item.id ? 'mt-1': ''">
             <v-img class="rounded-circle"  
-                :src="item.profile_pic == null || item.profile_pic == ''? 'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=' + item.name : item.profile_pic"></v-img> 
+                :src="item.profile_pic == null || item.profile_pic == ''? 'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=' + item.name : '/storage/'+item.profile_pic"></v-img> 
             </v-avatar>
             <v-container class="d-flex flex-row ml-1 mt-1" ma-0 pa-0>
                 <v-container  class="d-flex flex-column ml-1 pr-10" ma-0 pa-0>
@@ -80,9 +80,9 @@
                     </v-menu>
             </v-container>
         </v-container>
-        </transition>
+      
      </div>
-
+      </transition>
       <v-row nu class="pt-1 pr-7" >
         <v-col cols="2" sm="2" lg="1" md="1" class="pr-0 mr-0">
             <v-avatar
@@ -90,7 +90,7 @@
             size="36"
             >
             <v-img 
-            :src="UserDetails.profile_pic == null || UserDetails.profile_pic == ''? 'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=' + (UserDetails.firstName+' '+UserDetails.lastName) : UserDetails.profile_pic"></v-img>
+            :src="UserDetails.profile_pic == null || UserDetails.profile_pic == ''? 'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=' + (UserDetails.firstName+' '+UserDetails.lastName) : '/storage/'+UserDetails.profile_pic"></v-img>
             </v-avatar>
         </v-col>
         <v-col class="pl-0 ml-0" cols="10" sm="10" lg="11" md="11" >
@@ -148,17 +148,12 @@ export default {
             axios.get('/api/post/allcomment/'+this.postDetails.post_id, {Check: this.showLess})
             .then((res)=>{
                 this.CommentList = res.data;
-                this.getCommentCount();
-            })
-        
-        },
-        async getCommentCount(){
-            axios.get('/api/post/commentCount/'+this.postDetails.post_id)
-            .then((res)=>{
-                this.commentLength = res.data;
-                this.isLengthLoaded = true;
+                this.postDetails.comment = res.data;
+                this.postDetails.comment_count = res.data.length;
+
             })
         },
+       
         async addComment () {
             this.data.content = this.comment;
             this.data.course_id = this.$route.params.id;

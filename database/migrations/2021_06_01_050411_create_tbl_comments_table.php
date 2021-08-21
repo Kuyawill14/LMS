@@ -15,8 +15,10 @@ class CreateTblCommentsTable extends Migration
     {
         Schema::create('tbl_comments', function (Blueprint $table) {
             $table->id();
-            $table->integer('post_id');
+            $table->integer('post_id')->nullable();
+            $table->integer('classwork_id')->nullable();
             $table->integer('user_id');
+            $table->integer('to_user')->nullable();
             $table->integer('course_id');
             $table->mediumText('content');
             $table->timestamps();

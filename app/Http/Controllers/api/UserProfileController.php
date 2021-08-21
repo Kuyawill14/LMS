@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use App\Models\User;
 use App\Models\tbl_userDetails;
 use App\Models\Tbl_class;
@@ -167,10 +168,19 @@ class UserProfileController extends Controller
      */
     public function updatePicture(Request $request)
     {
+        //return $request;
+       
         $userId = auth('sanctum')->id();
         $UpdatePicture = tbl_userDetails::where("tbl_user_details.user_id",$userId)->first();
         if($UpdatePicture){
-            $UpdatePicture->profile_pic = $request->data;
+           // $UpdatePicture->profile_pic = $request->data;
+            $file = $request->file('file');
+            if($file != ""){
+
+                Storage::delete('public/'.$UpdatePicture->profile_pic);
+                $newFile = $file->store('public/upload/profile_picture/'.$userId);
+                $UpdatePicture->profile_pic = preg_replace('/\bpublic\/\b/', '', $newFile);
+            }
             $UpdatePicture->save();
             return "Profile Picture Updated";
         }

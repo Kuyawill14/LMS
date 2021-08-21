@@ -64,7 +64,8 @@
                                 <v-col v-for="(item, index) in file" :key="index" class="ma-0 pa-0 " cols="12">
                                   <v-hover v-slot="{ hover }">
                                     <v-alert
-                                        class="mb-1 pa-3"
+                                    dense
+                                        class=",b-1 pa-2"
                                         style="cursor:pointer"
                                           :class="hover ? 'grey lighten-2' :''"
                                           outlined
@@ -107,7 +108,8 @@
                                   <v-col v-for="(item, index) in StatusDetails.Submitted_Answers" :key="index" class="ma-0 pa-0" cols="12">
                                     <v-hover  v-slot="{ hover }">
                                     <v-alert
-                                        class="mb-1 pa-3"
+                                    dense
+                                        class="mb-1 pa-2"
                                         style="cursor:pointer"
                                           :class="hover ? 'grey lighten-2' :''"
                                           outlined
@@ -145,7 +147,8 @@
                             <v-menu max-width="250" v-if="isResubmit || (StatusDetails.status == 'Submitting' || StatusDetails.status == null)" transition="scale-transition" offset-y>
                                 <template v-slot:activator="{ on, attrs }">
                                   <v-btn
-                                    style="width:100%"
+                                    block
+                            
                                     class="pl-12 pr-12 pb-3 pt-3"
                                     color="primary"
                                     dark
@@ -154,14 +157,12 @@
                                     v-on="on"
                                   >
                                   {{attrs.expanded}}
-                                    Attach <v-icon right>mdi-plus</v-icon>
+                                    Add <v-icon right>mdi-plus</v-icon>
                                   </v-btn>
                                 </template>
                                 <v-list>
                                   <v-list-item link  @click="file[fileIndex-1] || isResubmit ? UploadMoreFile() : UploadFile()">
-                                    
                                         <v-icon left>mdi-cloud-upload-outline</v-icon> Upload File
-                                      
                                   </v-list-item>
                                     <v-list-item link @click="AttachLink = !AttachLink" >
                                           <v-icon left>mdi-link-variant</v-icon>Attach Link
@@ -172,8 +173,8 @@
 
                            <v-col class="ma-0 pa-0 mb-1 " cols="12" >
                               <v-btn
-                              flat
-                              style="width:100%"
+                              
+                              block
                                class="pl-12 pr-12 pb-3 pt-3"
                                 @click="StatusDetails.status == 'Submitted' && !isResubmit ? '' :SubmitClasswork()"  
                                 :color="StatusDetails.status == 'Submitted' && !isResubmit  ? 'success': 'primary'">
@@ -232,8 +233,67 @@
                    </v-col>
                 </v-row> 
           </v-card>
-          <v-card class="mt-2 pa-3" elevation="1" outlined>
-            Comment
+          <v-card class="mt-4" elevation="1" outlined>
+            <div class="pt-3 pl-4 pr-4 pb-2">
+               <v-icon left>mdi-comment</v-icon>Private Comments
+            </div>
+            
+            <v-divider></v-divider>
+            <v-list class="mb-0 pb-0">
+      
+                <v-list-item class="mb-0 pb-0" v-for="(item, i) in classworkDetails.comments" :key="i">
+                  <v-list-item-avatar>
+                      <v-img 
+                      :src="item.profile_pic == null || item.profile_pic == ''? 'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=' +  item.name : '/storage/'+item.profile_pic">
+                      </v-img>
+                  </v-list-item-avatar>
+                  <v-list-item-content>
+                      <v-list-item-title v-html="item.name"></v-list-item-title>
+                      <v-list-item-subtitle v-html="item.content"></v-list-item-subtitle>
+                  </v-list-item-content>
+                   <v-list-item-action>
+                    <v-btn icon>
+                      <v-icon small color="grey lighten-1">mdi-dots-vertical</v-icon>
+                    </v-btn>
+                  </v-list-item-action>
+                </v-list-item>
+          
+            </v-list>
+             <v-divider></v-divider>
+                  <v-list class="mb-0 pb-0 mt-0 pt-0">
+                    <v-list-item class="mb-0 pb-0">
+                      <v-list-item-avatar>
+                          <v-img 
+                          :src="get_CurrentUser.profile_pic == null || get_CurrentUser.profile_pic == ''? 'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=' +  get_CurrentUser.firstName+' '+get_CurrentUser.lastName : '/storage/'+get_CurrentUser.profile_pic">
+                          </v-img>
+                      </v-list-item-avatar>
+                      <v-list-item-content class="ma-0 pa-0">
+                          <v-textarea
+                              :loading="isCommenting"
+                              v-model="comment"
+                              prepend-avatar="mdi-emoticon-dead"
+                              filled
+                              rounded
+                              dense
+                              auto-grow
+                              rows="1"
+                              clear-icon="mdi-close-circle"
+                              clearable
+                              placeholder="Comment"
+                              class="pa-0 mt-7"
+                              type="text"
+                              >
+                            </v-textarea>
+                      </v-list-item-content>
+                      <v-list-item-action>
+                        <v-btn :loading="isCommenting" @click="addComment(classworkDetails)" icon>
+                          <v-icon  color="primary">mdi-send</v-icon>
+                        </v-btn>
+                      </v-list-item-action>
+                    </v-list-item>
+                </v-list>
+                    
+           
           </v-card>
         </v-col>
          <v-col :class="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm ? 'mt-2 pl-0 pt-2' : 'pt-0 pl-5'" cols="12" md="7" lg="8" >
@@ -259,7 +319,7 @@
                                     fab
                                     >
                                     <div class="text-md-h5"> <v-icon large color="primary">mdi-book-clock-outline</v-icon></div>
-                                    <div class="caption ml-2">Due {{ format_date(classworkDetails.due_date)}}</div>  
+                                    <div class="caption ml-2">Due {{ classworkDetails.availability ? format_date(classworkDetails.to_date) : 'always Available'}}</div>  
                                     </div>
                                 </div>
                                 </v-col>
@@ -278,15 +338,15 @@
                                     <div class="text-sm-body-2"> {{classworkDetails.instruction}}</div>
                                 </v-col>
 
-                                 <v-col  cols="12" class=" pb-10 pl-4 pr-4">
+                                 <v-col  cols="12" class=" pb-5 pl-4 pr-4">
                                    <div class="overline">Attachments</div>
                                    <v-row>
                                      <v-col cols="12" >
                                        <v-hover v-slot="{ hover }">
                                           <v-alert
-                                          
+                                       
                                            style="cursor:pointer"
-                                            :class="hover ? 'grey lighten-2' :''"
+                                            :class="hover ? 'grey lighten-2 pa-3' :'pa-3'"
                                               outlined
                                               :icon="Fileextension == 'pdf' ? 'mdi-file-pdf': Fileextension == 'docx'? 'mdi-file-word':''"
                                             :color="Fileextension == 'pdf' ? 'red' : Fileextension == 'docx'? 'blue':''"
@@ -305,8 +365,11 @@
                                                     <span>{{classworkDetails.attachment_name}}</span>
                                                   </v-tooltip>
                                               </v-col>
-                                              <v-col cols="3" class="">
-                                                <div class="black--text">{{classworkDetails.attachment_size}}</div>
+                                              <v-col cols="3" class="text-right">
+                                                <div class="black--text">{{classworkDetails.attachment_size}}
+
+                                                  <v-icon>mdi-downoad</v-icon>
+                                                </div>
                                               </v-col>
                                             </v-row>
                                           </v-alert>
@@ -328,7 +391,8 @@
 <script>
 const attachlinkDiaglog = () => import('./attachLinkDialog')
 import moment from 'moment';
-import axios from 'axios';
+
+import {mapGetters} from "vuex";
 export default {
     props:['classworkDetails'],
     components:{
@@ -350,9 +414,12 @@ export default {
             fileIndex:null,
             tempFile: null,
             isUpIndex: null,
+            comment: null,
+            isCommenting: false,
         }
     },
      computed: {
+       ...mapGetters(['get_CurrentUser']),
         extension() {
             return (this.tempFile) ? this.tempFile.name.split('.').pop() : '';
         },
@@ -493,7 +560,31 @@ export default {
                 this.isResubmit = false;
               }
             })
-          }
+          },
+          async addComment(details){
+              let data = {};
+              this.isCommenting = true;
+              data.classwork_id = details.id;
+              data.to_user = details.user_id;
+              data.course_id = this.$route.params.id;
+              data.comment = this.comment;
+              axios.post('/api/post/classwork/comment/insert', data)
+              .then((res)=>{
+                console.log(res.data);
+                  if(res.status == 200 ){
+                    this.classworkDetails.comments.push({
+                      content : res.data.comment,
+                      id : res.data.id,
+                      name : res.data.name,
+                      profile_pic : res.data.profile_pic
+                    })
+                    this.comment = null;
+                  }
+                  
+              })
+               this.isCommenting = false;
+          },
+        
 
             
 

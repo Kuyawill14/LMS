@@ -233,9 +233,9 @@ var render = function() {
                           attrs: {
                             cols: "12",
                             sm: "12",
-                            md: "10",
-                            lg: "7",
-                            xl: "7"
+                            md: "12",
+                            lg: "10",
+                            xl: "10"
                           }
                         },
                         [
@@ -318,10 +318,10 @@ var render = function() {
                                     "v-col",
                                     {
                                       attrs: {
-                                        sm: "10",
-                                        md: "9",
-                                        lg: "7",
-                                        xl: "7",
+                                        sm: "12",
+                                        md: "12",
+                                        lg: "10",
+                                        xl: "10",
                                         cols: "12"
                                       }
                                     },

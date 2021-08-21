@@ -175,6 +175,9 @@ __webpack_require__.r(__webpack_exports__);
   },
   beforeMount: function beforeMount() {
     this.getClassworkDetails(); //this.Details = this.Preview_Details;
+  },
+  created: function created() {
+    this.$emit('isMounted');
   }
 });
 

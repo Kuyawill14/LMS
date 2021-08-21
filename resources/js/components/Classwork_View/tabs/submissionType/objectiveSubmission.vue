@@ -40,7 +40,7 @@
                          <div class=" d-flex justify-start">
                             <v-avatar color="brown" size="40">
                                 <v-img alt="Profile"
-                                    :src="item.profile_pic == null || item.profile_pic == '' ? 'https://ui-avatars.com/api/?background=random&color=fff&name=' + item.firstName +' '+item.lastName : item.profile_pic">
+                                    :src="item.profile_pic == null || item.profile_pic == '' ? 'https://ui-avatars.com/api/?background=random&color=fff&name=' + item.firstName +' '+item.lastName : '/storage/'+item.profile_pic">
                                 </v-img>
                             </v-avatar>
                             <div class="mt-2 ml-2">
@@ -120,7 +120,7 @@
                                         <div class=" d-flex justify-start">
                                             <v-avatar color="brown" :size="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm ? '25' :'40'">
                                                 <v-img alt="Profile"
-                                                    :src="item.profile_pic == null || item.profile_pic == '' ? 'https://ui-avatars.com/api/?background=random&color=fff&name=' + item.firstName +' '+item.lastName : item.profile_pic">
+                                                    :src="item.profile_pic == null || item.profile_pic == '' ? 'https://ui-avatars.com/api/?background=random&color=fff&name=' + item.firstName +' '+item.lastName : '/storage/'+item.profile_pic">
                                                 </v-img>
                                             </v-avatar>
                                             <div class="d-flex flex-column">
@@ -145,7 +145,7 @@
             </v-col>
         </v-row>
     </v-col >
-    <v-col v-if="isViewing" style="max-height:85vh;overflow-y:scroll;overflow-x: hidden;" cols="12" md="12" lg="8" xl="8" class="pl-6">
+   <!--  <v-col v-if="isViewing" style="max-height:85vh;overflow-y:scroll;overflow-x: hidden;" cols="12" md="12" lg="8" xl="8" class="pl-6">
          
             <v-container class="fill-height" v-if="isLoadingData && !isMounted" style="height: 400px;">
                 <v-row  align-content="center" justify="center">
@@ -158,7 +158,7 @@
                 </v-row>
             </v-container>
          <checkobjective v-if="isLoadingData" v-show="isMounted" v-on:isMounted="isMounted = true" v-on:RestSubmission="ResetSubmission()" :classworkDetails="classworkDetails" :ViewDetails="ViewDetails"  v-on:UpdateSubmission="$emit('UpdateSubmission')" v-on:closeDialog="isViewing = false"></checkobjective>
-    </v-col>
+    </v-col> -->
 </v-row>
 </div>
 </template>
@@ -219,11 +219,11 @@ export default {
     methods:{
         ViewSubmision(data, index){
              this.ViewDetails = null;
-             this.isLoadingData = true;
+             //this.isLoadingData = true;
             //if(data.status == 'Submitted'){
-                this.isViewing = true;
-                /* this.dialog = !this.dialog;
-                this.Viewdialog = !this.Viewdialog; */
+                //this.isViewing = true;
+                this.dialog = !this.dialog;
+                this.Viewdialog = !this.Viewdialog;
                 this.ViewDetails = data;
                 this.selected_index = index;
             //}

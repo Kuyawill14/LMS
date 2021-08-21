@@ -25,7 +25,7 @@
                         <v-badge :content="get_invite_count" :value="get_invite_count" offset-x="12" offset-y="12" color="red darken-4">
                         <v-avatar color="brown" size="40">
                             <v-img alt="Proflie"
-                                :src="UserDetails.profile_pic == null || UserDetails.profile_pic == '' ? 'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=' + (UserDetails.firstName+' '+UserDetails.lastName) : UserDetails.profile_pic">
+                                :src="UserDetails.profile_pic == null || UserDetails.profile_pic == '' ? 'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=' + (UserDetails.firstName+' '+UserDetails.lastName) : '/storage/'+UserDetails.profile_pic">
                             </v-img>
                         </v-avatar>
                         </v-badge>
@@ -36,10 +36,10 @@
                         <div class="mx-auto text-center">
                             <v-avatar color="brown" size="40">
                                 <v-img alt="Proflie"
-                                    :src="UserDetails.profile_pic == null || UserDetails.profile_pic == '' ? 'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=' + (UserDetails.firstName+' '+UserDetails.lastName) : UserDetails.profile_pic">
+                                    :src="UserDetails.profile_pic == null || UserDetails.profile_pic == '' ? 'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=' + (UserDetails.firstName+' '+UserDetails.lastName) : '/storage/'+UserDetails.profile_pic">
                                 </v-img>
                             </v-avatar>
-                            <h3>{{ UserDetails.firstName+' '+UserDetails.lastName }}</h3>
+                            <h4>{{ UserDetails.firstName+' '+UserDetails.lastName }}</h4>
                             <p class="text-caption mt-1">
                                 {{ UserDetails.email }}
                             </p>
