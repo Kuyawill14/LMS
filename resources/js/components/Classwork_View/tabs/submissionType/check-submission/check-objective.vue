@@ -468,6 +468,9 @@ const resetConfirmation = () => import('../../dialogs/resetConfirmation')
                     "z"
                 ];
                 this.Alphabet = alphabet;
+        },
+        created(){
+            this.$emit('isMounted');
         }
   }
 </script>

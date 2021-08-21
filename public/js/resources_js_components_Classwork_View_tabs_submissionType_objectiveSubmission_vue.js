@@ -175,6 +175,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 var resetConfirmation = function resetConfirmation() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_tabs_dialogs_resetConfirmation_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../dialogs/resetConfirmation */ "./resources/js/components/Classwork_View/tabs/dialogs/resetConfirmation.vue"));
 };
@@ -223,7 +229,8 @@ var checkobjective = function checkobjective() {
       selectedStatus: 'All',
       isSavingScore: false,
       search: "",
-      isViewing: false
+      isViewing: false,
+      isStarting: false
     };
   },
   computed: {
@@ -248,6 +255,7 @@ var checkobjective = function checkobjective() {
       //this.isViewing = true;
 
       this.dialog = !this.dialog;
+      this.isStarting = true;
       this.Viewdialog = !this.Viewdialog;
       this.ViewDetails = data;
       this.selected_index = index; //}
@@ -365,6 +373,17 @@ var render = function() {
             { attrs: { justify: "center" } },
             [
               _c(
+                "v-overlay",
+                { attrs: { value: _vm.isStarting } },
+                [
+                  _c("v-progress-circular", {
+                    attrs: { indeterminate: "", size: "64" }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
                 "v-dialog",
                 {
                   attrs: {
@@ -381,24 +400,37 @@ var render = function() {
                   }
                 },
                 [
-                  _c("checkobjective", {
-                    attrs: {
-                      classworkDetails: _vm.classworkDetails,
-                      ViewDetails: _vm.ViewDetails
-                    },
-                    on: {
-                      RestSubmission: function($event) {
-                        return _vm.ResetSubmission()
-                      },
-                      UpdateSubmission: function($event) {
-                        return _vm.$emit("UpdateSubmission")
-                      },
-                      closeDialog: function($event) {
-                        ;(_vm.dialog = !_vm.dialog),
-                          (_vm.Viewdialog = !_vm.Viewdialog)
-                      }
-                    }
-                  })
+                  _vm.dialog
+                    ? _c("checkobjective", {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: !_vm.isStarting,
+                            expression: "!isStarting"
+                          }
+                        ],
+                        attrs: {
+                          classworkDetails: _vm.classworkDetails,
+                          ViewDetails: _vm.ViewDetails
+                        },
+                        on: {
+                          isMounted: function($event) {
+                            _vm.isStarting = false
+                          },
+                          RestSubmission: function($event) {
+                            return _vm.ResetSubmission()
+                          },
+                          UpdateSubmission: function($event) {
+                            return _vm.$emit("UpdateSubmission")
+                          },
+                          closeDialog: function($event) {
+                            ;(_vm.dialog = !_vm.dialog),
+                              (_vm.Viewdialog = !_vm.Viewdialog)
+                          }
+                        }
+                      })
+                    : _vm._e()
                 ],
                 1
               )

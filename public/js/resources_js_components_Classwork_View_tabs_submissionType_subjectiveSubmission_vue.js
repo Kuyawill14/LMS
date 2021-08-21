@@ -185,6 +185,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 
 var checksubjective = function checksubjective() {
@@ -229,7 +236,8 @@ var checksubjective = function checksubjective() {
       isSavingScore: false,
       score: null,
       StatusType: ['All', 'Submitted', 'Graded', 'No Submission'],
-      selectedStatus: 'All'
+      selectedStatus: 'All',
+      isStarting: false
     };
   },
   computed: {
@@ -21840,6 +21848,17 @@ var render = function() {
             { attrs: { justify: "center" } },
             [
               _c(
+                "v-overlay",
+                { attrs: { value: _vm.isStarting } },
+                [
+                  _c("v-progress-circular", {
+                    attrs: { indeterminate: "", size: "64" }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
                 "v-dialog",
                 {
                   attrs: {
@@ -21856,20 +21875,33 @@ var render = function() {
                   }
                 },
                 [
-                  _c("checksubjective", {
-                    attrs: {
-                      classworkDetails: _vm.classworkDetails,
-                      CheckData: _vm.CheckData
-                    },
-                    on: {
-                      UpdateSubmission: function($event) {
-                        return _vm.$emit("UpdateSubmission")
-                      },
-                      closeDialog: function($event) {
-                        _vm.dialog = !_vm.dialog
-                      }
-                    }
-                  })
+                  _vm.dialog
+                    ? _c("checksubjective", {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: !_vm.isStarting,
+                            expression: "!isStarting"
+                          }
+                        ],
+                        attrs: {
+                          classworkDetails: _vm.classworkDetails,
+                          CheckData: _vm.CheckData
+                        },
+                        on: {
+                          isMounted: function($event) {
+                            _vm.isStarting = false
+                          },
+                          UpdateSubmission: function($event) {
+                            return _vm.$emit("UpdateSubmission")
+                          },
+                          closeDialog: function($event) {
+                            _vm.dialog = !_vm.dialog
+                          }
+                        }
+                      })
+                    : _vm._e()
                 ],
                 1
               )
@@ -21955,7 +21987,8 @@ var render = function() {
                                   on: {
                                     click: function($event) {
                                       ;(_vm.CheckData = item),
-                                        (_vm.dialog = !_vm.dialog)
+                                        (_vm.dialog = !_vm.dialog),
+                                        (_vm.isStarting = true)
                                     }
                                   }
                                 },
@@ -22231,7 +22264,8 @@ var render = function() {
                                           on: {
                                             click: function($event) {
                                               ;(_vm.CheckData = item),
-                                                (_vm.dialog = !_vm.dialog)
+                                                (_vm.dialog = !_vm.dialog),
+                                                (_vm.isStarting = true)
                                             }
                                           }
                                         },
