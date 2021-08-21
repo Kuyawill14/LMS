@@ -500,7 +500,11 @@ var render = function() {
                                 _vm._v("mdi-comment")
                               ]),
                               _vm._v(
+<<<<<<< HEAD
                                 "Private Comments\n                        "
+=======
+                                "Private Comments\r\n                        "
+>>>>>>> a9312edf23ca59a17854629376bc3d27133badfb
                               )
                             ],
                             1
@@ -739,7 +743,7 @@ var render = function() {
                                 [
                                   _c("v-icon", { attrs: { "x-large": "" } }, [
                                     _vm._v(
-                                      "\n                        mdi-book-open-variant\n                        "
+                                      "\r\n                        mdi-book-open-variant\r\n                        "
                                     )
                                   ])
                                 ],
@@ -878,7 +882,7 @@ var render = function() {
                             },
                             [
                               _vm._v(
-                                "\n                        " +
+                                "\r\n                        " +
                                   _vm._s(
                                     _vm.status == null
                                       ? "Take Quiz"

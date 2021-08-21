@@ -22431,8 +22431,6 @@ var render = function() {
                                           suffix:
                                             "/" + _vm.classworkDetails.points,
                                           max: _vm.classworkDetails.points,
-                                          maxlength: _vm.classworkDetails.points.toString()
-                                            .length,
                                           min: "0"
                                         },
                                         model: {
