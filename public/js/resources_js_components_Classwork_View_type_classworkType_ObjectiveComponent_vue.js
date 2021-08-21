@@ -500,10 +500,7 @@ var render = function() {
                                 _vm._v("mdi-comment")
                               ]),
                               _vm._v(
-<<<<<<< HEAD
-                                "\n                                Back to classworks\n                            "
-=======
-                                "Private Comments\r\n                        "
+                                "Private Comments\n                        "
                               )
                             ],
                             1
@@ -682,7 +679,6 @@ var render = function() {
                                   )
                                 ],
                                 1
->>>>>>> refs/remotes/origin/main
                               )
                             ],
                             1

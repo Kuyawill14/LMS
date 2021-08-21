@@ -1708,11 +1708,7 @@ var render = function() {
                                                             _vm._s(
                                                               attrs.expanded
                                                             ) +
-<<<<<<< HEAD
-                                                            "\n                                    Attach "
-=======
-                                                            "\r\n                                    Add "
->>>>>>> refs/remotes/origin/main
+                                                            "\n                                    Add "
                                                         ),
                                                         _c(
                                                           "v-icon",
@@ -1730,11 +1726,7 @@ var render = function() {
                                             ],
                                             null,
                                             false,
-<<<<<<< HEAD
-                                            1406844773
-=======
-                                            857056327
->>>>>>> refs/remotes/origin/main
+                                            2745953415
                                           )
                                         },
                                         [
@@ -1767,11 +1759,7 @@ var render = function() {
                                                     ]
                                                   ),
                                                   _vm._v(
-<<<<<<< HEAD
-                                                    " Upload File\n                                      \n                                  "
-=======
-                                                    " Upload File\r\n                                  "
->>>>>>> refs/remotes/origin/main
+                                                    " Upload File\n                                  "
                                                   )
                                                 ],
                                                 1
@@ -1879,9 +1867,6 @@ var render = function() {
                   staticClass: "mt-4",
                   attrs: { elevation: "1", outlined: "" }
                 },
-<<<<<<< HEAD
-                [_vm._v("\n            Comment\n          ")]
-=======
                 [
                   _c(
                     "div",
@@ -1890,7 +1875,7 @@ var render = function() {
                       _c("v-icon", { attrs: { left: "" } }, [
                         _vm._v("mdi-comment")
                       ]),
-                      _vm._v("Private Comments\r\n            ")
+                      _vm._v("Private Comments\n            ")
                     ],
                     1
                   ),
@@ -2065,7 +2050,6 @@ var render = function() {
                   )
                 ],
                 1
->>>>>>> refs/remotes/origin/main
               )
             ],
             1
@@ -2428,7 +2412,7 @@ var render = function() {
                                                                           .classworkDetails
                                                                           .attachment_size
                                                                       ) +
-                                                                        "\r\n\r\n                                                  "
+                                                                        "\n\n                                                  "
                                                                     ),
                                                                     _c(
                                                                       "v-icon",
