@@ -22349,48 +22349,8 @@ var render = function() {
                 },
                 [
                   _c(
-<<<<<<< HEAD
-                    "v-col",
-                    {
-                      staticClass: "text-center",
-                      attrs: { cols: "12", sm: "8", md: "4" }
-                    },
-                    [
-                      _c("v-icon", { staticStyle: { "font-size": "8rem" } }, [
-                        _vm._v(
-                          "\n                        mdi-notebook-remove-outline\n                    "
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c("h1", [_vm._v(" Empty Submission ")]),
-                      _vm._v(" "),
-                      _c("p", [
-                        _vm._v(" This student did not take the classwork yet!")
-                      ])
-                    ],
-                    1
-                  )
-                ],
-                1
-              )
-            : _vm._e(),
-          _vm._v(" "),
-          _vm.ViewDetails.Submitted_Answers != null &&
-          _vm.ViewDetails.Submitted_Answers != ""
-            ? _c(
-                "div",
-                _vm._l(_vm.getAll_questions.Question, function(item, index) {
-                  return _c(
-                    "v-container",
-                    {
-                      key: index,
-                      staticClass: "pl-5 pt-5",
-                      attrs: { "ma-0": "", "pa-0": "" }
-                    },
-=======
                     "v-row",
                     { staticClass: "pl-5 mb-0 pb-0" },
->>>>>>> refs/remotes/origin/main
                     [
                       _c(
                         "v-col",
@@ -22471,8 +22431,6 @@ var render = function() {
                                           suffix:
                                             "/" + _vm.classworkDetails.points,
                                           max: _vm.classworkDetails.points,
-                                          maxlength: _vm.classworkDetails.points.toString()
-                                            .length,
                                           min: "0"
                                         },
                                         model: {
@@ -22663,44 +22621,6 @@ var render = function() {
                                       )
                                     ],
                                     1
-<<<<<<< HEAD
-                                  ),
-                                  _vm._v(" "),
-                                  _c("div", { staticClass: "Subtitle 1" }, [
-                                    _vm._v(
-                                      "\n                    " +
-                                        _vm._s(_vm.inputCheck[n]) +
-                                        "\n                "
-                                    )
-                                  ])
-                                ],
-                                1
-                              )
-                            }),
-                            1
-                          )
-                        : _vm._e(),
-                      _vm._v(" "),
-                      item.type == "Matching type"
-                        ? _c(
-                            "v-container",
-                            { attrs: { "ma-0": "", "pa-0": "" } },
-                            [
-                              _c(
-                                "v-row",
-                                { attrs: { "no-gutters": "" } },
-                                [
-                                  _c(
-                                    "v-col",
-                                    {
-                                      staticClass: "ma-0 pa-0",
-                                      attrs: {
-                                        "ma-0": "",
-                                        "pa-0": "",
-                                        cols: "12",
-                                        lg: "7",
-                                        md: "12"
-=======
                                   )
                                 ]
                               ),
@@ -22795,7 +22715,6 @@ var render = function() {
                                           ],
                                           1
                                         )
->>>>>>> refs/remotes/origin/main
                                       }
                                     ),
                                     1
@@ -22829,58 +22748,12 @@ var render = function() {
                                                 "subtitle-1 d-flex item ml-4"
                                             },
                                             [
-<<<<<<< HEAD
-                                              _c(
-                                                "v-row",
-                                                [
-                                                  _c("v-col", {
-                                                    staticClass:
-                                                      "font-weight-bold",
-                                                    attrs: {
-                                                      cols: "1",
-                                                      md: "1",
-                                                      lg: "1"
-                                                    }
-                                                  }),
-                                                  _vm._v(" "),
-                                                  _c(
-                                                    "v-col",
-                                                    {
-                                                      staticClass:
-                                                        "font-weight-bold",
-                                                      attrs: {
-                                                        cols: "5",
-                                                        md: "6",
-                                                        lg: "6"
-                                                      }
-                                                    },
-                                                    [
-                                                      _vm._v(
-                                                        "\n                                        Column A\n                                    "
-                                                      )
-                                                    ]
-                                                  ),
-                                                  _vm._v(" "),
-                                                  _c(
-                                                    "v-col",
-                                                    {
-                                                      staticClass:
-                                                        "font-weight-bold",
-                                                      attrs: { cols: "5" }
-                                                    },
-                                                    [
-                                                      _vm._v(
-                                                        "\n                                        Column B\n                                    "
-                                                      )
-                                                    ]
-=======
                                               _c("span", {
                                                 staticClass: "post-content",
                                                 domProps: {
                                                   innerHTML: _vm._s(
                                                     _vm.SubmittedAnswer[index]
                                                       .Answer
->>>>>>> refs/remotes/origin/main
                                                   )
                                                 }
                                               })

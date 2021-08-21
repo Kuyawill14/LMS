@@ -986,11 +986,11 @@ var render = function() {
                                 },
                                 [
                                   _vm._v(
-                                    "\n                         Graded: " +
+                                    "\r\n                         Graded: " +
                                       _vm._s(_vm.StatusDetails.score) +
                                       " /" +
                                       _vm._s(_vm.StatusDetails.totalPoints) +
-                                      "\n                        "
+                                      "\r\n                        "
                                   )
                                 ]
                               )
@@ -1034,7 +1034,7 @@ var render = function() {
                                             },
                                             [
                                               _vm._v(
-                                                "\n                                Loading\n                            "
+                                                "\r\n                                Loading\r\n                            "
                                               )
                                             ]
                                           ),
@@ -1704,15 +1704,11 @@ var render = function() {
                                                       ),
                                                       [
                                                         _vm._v(
-                                                          "\n                                  " +
+                                                          "\r\n                                  " +
                                                             _vm._s(
                                                               attrs.expanded
                                                             ) +
-<<<<<<< HEAD
-                                                            "\n                                    Attach "
-=======
                                                             "\r\n                                    Add "
->>>>>>> refs/remotes/origin/main
                                                         ),
                                                         _c(
                                                           "v-icon",
@@ -1730,11 +1726,7 @@ var render = function() {
                                             ],
                                             null,
                                             false,
-<<<<<<< HEAD
-                                            1406844773
-=======
                                             857056327
->>>>>>> refs/remotes/origin/main
                                           )
                                         },
                                         [
@@ -1767,11 +1759,7 @@ var render = function() {
                                                     ]
                                                   ),
                                                   _vm._v(
-<<<<<<< HEAD
-                                                    " Upload File\n                                      \n                                  "
-=======
                                                     " Upload File\r\n                                  "
->>>>>>> refs/remotes/origin/main
                                                   )
                                                 ],
                                                 1
@@ -1794,7 +1782,7 @@ var render = function() {
                                                     [_vm._v("mdi-link-variant")]
                                                   ),
                                                   _vm._v(
-                                                    "Attach Link\n                                  "
+                                                    "Attach Link\r\n                                  "
                                                   )
                                                 ],
                                                 1
@@ -1848,7 +1836,7 @@ var render = function() {
                                           )
                                         : _vm._e(),
                                       _vm._v(
-                                        "\n                                " +
+                                        "\r\n                                " +
                                           _vm._s(
                                             _vm.StatusDetails.status ==
                                               "Submitted" && !_vm.isResubmit
@@ -1879,9 +1867,6 @@ var render = function() {
                   staticClass: "mt-4",
                   attrs: { elevation: "1", outlined: "" }
                 },
-<<<<<<< HEAD
-                [_vm._v("\n            Comment\n          ")]
-=======
                 [
                   _c(
                     "div",
@@ -2065,7 +2050,6 @@ var render = function() {
                   )
                 ],
                 1
->>>>>>> refs/remotes/origin/main
               )
             ],
             1
@@ -2127,7 +2111,7 @@ var render = function() {
                                         [
                                           _c("v-icon", [
                                             _vm._v(
-                                              "\n                                    mdi-book-open-variant\n                                    "
+                                              "\r\n                                    mdi-book-open-variant\r\n                                    "
                                             )
                                           ])
                                         ],
@@ -2371,7 +2355,7 @@ var render = function() {
                                                                                 ),
                                                                                 [
                                                                                   _vm._v(
-                                                                                    "\n                                                         " +
+                                                                                    "\r\n                                                         " +
                                                                                       _vm._s(
                                                                                         _vm
                                                                                           .classworkDetails

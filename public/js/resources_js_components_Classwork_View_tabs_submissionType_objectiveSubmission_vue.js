@@ -549,13 +549,13 @@ var render = function() {
                                                       },
                                                       [
                                                         _vm._v(
-                                                          "\n                                " +
+                                                          "\r\n                                " +
                                                             _vm._s(
                                                               item.firstName +
                                                                 " " +
                                                                 item.lastName
                                                             ) +
-                                                            "\n                                "
+                                                            "\r\n                                "
                                                         ),
                                                         _c("br")
                                                       ]
@@ -890,13 +890,13 @@ var render = function() {
                                                           },
                                                           [
                                                             _vm._v(
-                                                              "\n                                                    " +
+                                                              "\r\n                                                    " +
                                                                 _vm._s(
                                                                   item.firstName +
                                                                     " " +
                                                                     item.lastName
                                                                 ) +
-                                                                "\n                                                "
+                                                                "\r\n                                                "
                                                             )
                                                           ]
                                                         ),
@@ -914,7 +914,7 @@ var render = function() {
                                                                   "small",
                                                                   [
                                                                     _vm._v(
-                                                                      "Submitted\n                                                        "
+                                                                      "Submitted\r\n                                                        "
                                                                     ),
                                                                     _c(
                                                                       "v-icon",
@@ -970,110 +970,6 @@ var render = function() {
                 ],
                 1
               )
-<<<<<<< HEAD
-            : _vm._e(),
-          _vm._v(" "),
-          _vm.isViewing
-            ? _c(
-                "v-col",
-                {
-                  staticClass: "pl-6",
-                  staticStyle: {
-                    "max-height": "85vh",
-                    "overflow-y": "scroll",
-                    "overflow-x": "hidden"
-                  },
-                  attrs: { cols: "12", md: "12", lg: "8", xl: "8" }
-                },
-                [
-                  _vm.isLoadingData && !_vm.isMounted
-                    ? _c(
-                        "v-container",
-                        {
-                          staticClass: "fill-height",
-                          staticStyle: { height: "400px" }
-                        },
-                        [
-                          _c(
-                            "v-row",
-                            {
-                              attrs: {
-                                "align-content": "center",
-                                justify: "center"
-                              }
-                            },
-                            [
-                              _c(
-                                "v-col",
-                                {
-                                  staticClass: "text-subtitle-1 text-center",
-                                  attrs: { cols: "12" }
-                                },
-                                [
-                                  _vm._v(
-                                    "\n                        Loading\n                    "
-                                  )
-                                ]
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "v-col",
-                                { attrs: { cols: "6" } },
-                                [
-                                  _c("v-progress-linear", {
-                                    attrs: {
-                                      color: "primary",
-                                      indeterminate: "",
-                                      rounded: "",
-                                      height: "6"
-                                    }
-                                  })
-                                ],
-                                1
-                              )
-                            ],
-                            1
-                          )
-                        ],
-                        1
-                      )
-                    : _vm._e(),
-                  _vm._v(" "),
-                  _vm.isLoadingData
-                    ? _c("checkobjective", {
-                        directives: [
-                          {
-                            name: "show",
-                            rawName: "v-show",
-                            value: _vm.isMounted,
-                            expression: "isMounted"
-                          }
-                        ],
-                        attrs: {
-                          classworkDetails: _vm.classworkDetails,
-                          ViewDetails: _vm.ViewDetails
-                        },
-                        on: {
-                          isMounted: function($event) {
-                            _vm.isMounted = true
-                          },
-                          RestSubmission: function($event) {
-                            return _vm.ResetSubmission()
-                          },
-                          UpdateSubmission: function($event) {
-                            return _vm.$emit("UpdateSubmission")
-                          },
-                          closeDialog: function($event) {
-                            _vm.isViewing = false
-                          }
-                        }
-                      })
-                    : _vm._e()
-                ],
-                1
-              )
-=======
->>>>>>> refs/remotes/origin/main
             : _vm._e()
         ],
         1

@@ -46,7 +46,7 @@
                                                     <v-list-item-action class="mt-8">
                                                         <v-text-field :loading="isSavingScore" 
                                                     @keyup="SaveScore()" v-model="CheckData.points" 
-                                                    dense outlined label="Score" type="number" :suffix="'/' +classworkDetails.points" :max="classworkDetails.points" :maxlength="classworkDetails.points.toString().length" min="0"></v-text-field>
+                                                    dense outlined label="Score" type="number" :suffix="'/' +classworkDetails.points" :max="classworkDetails.points"  min="0"></v-text-field>
                                                     </v-list-item-action>
                                                 </v-list-item>
                                         </v-list>

@@ -21988,24 +21988,12 @@ var render = function() {
                                         { staticClass: "font-weight-medium" },
                                         [
                                           _vm._v(
-<<<<<<< HEAD
-                                            "\n                                " +
-                                              _vm._s(
-                                                item.firstname +
-                                                  " " +
-                                                  item.lastName
-                                              ) +
-                                              "\n                                "
-                                          ),
-                                          _c("br")
-=======
                                             _vm._s(
                                               item.firstName +
                                                 " " +
                                                 item.lastName
                                             )
                                           )
->>>>>>> refs/remotes/origin/main
                                         ]
                                       ),
                                       _vm._v(" "),
