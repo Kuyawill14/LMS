@@ -676,9 +676,9 @@ var render = function() {
                                                         },
                                                         [
                                                           _vm._v(
-                                                            "\r\n                                                " +
+                                                            "\n                                                " +
                                                               _vm._s(text) +
-                                                              "\r\n                                            "
+                                                              "\n                                            "
                                                           )
                                                         ]
                                                       )
@@ -688,7 +688,7 @@ var render = function() {
                                               ],
                                               null,
                                               false,
-                                              3880112256
+                                              1193889600
                                             )
                                           })
                                         ],
@@ -752,14 +752,14 @@ var render = function() {
                                         },
                                         [
                                           _vm._v(
-                                            "\r\n                                            Update\r\n                                            "
+                                            "\n                                            Update\n                                            "
                                           ),
                                           _c(
                                             "v-icon",
                                             { attrs: { right: "", dark: "" } },
                                             [
                                               _vm._v(
-                                                "\r\n                                                mdi-update\r\n                                            "
+                                                "\n                                                mdi-update\n                                            "
                                               )
                                             ]
                                           )

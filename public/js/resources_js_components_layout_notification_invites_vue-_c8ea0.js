@@ -21941,9 +21941,9 @@ var render = function() {
               "span",
               { staticClass: "text-h6" },
               [
-                _vm._v("Invites \r\n        "),
+                _vm._v("Invites \n        "),
                 _c("v-icon", { attrs: { right: "" } }, [
-                  _vm._v("\r\n            mdi-account-plus\r\n        ")
+                  _vm._v("\n            mdi-account-plus\n        ")
                 ])
               ],
               1
@@ -22007,19 +22007,19 @@ var render = function() {
                                 },
                                 [
                                   _vm._v(
-                                    "\r\n                 mdi-bell\r\n                "
+                                    "\n                 mdi-bell\n                "
                                   )
                                 ]
                               ),
                               _vm._v(
-                                "\r\n                " +
+                                "\n                " +
                                   _vm._s(
                                     !_vm.$vuetify.breakpoint.xs &&
                                       !_vm.$vuetify.breakpoint.sm
                                       ? "Invite"
                                       : ""
                                   ) +
-                                  "\r\n                \r\n            "
+                                  "\n                \n            "
                               )
                             ],
                             1
@@ -22046,19 +22046,19 @@ var render = function() {
                                 },
                                 [
                                   _vm._v(
-                                    "\r\n                 mdi-bell\r\n                "
+                                    "\n                 mdi-bell\n                "
                                   )
                                 ]
                               ),
                               _vm._v(
-                                "\r\n                " +
+                                "\n                " +
                                   _vm._s(
                                     !_vm.$vuetify.breakpoint.xs &&
                                       !_vm.$vuetify.breakpoint.sm
                                       ? "Request"
                                       : ""
                                   ) +
-                                  "\r\n            "
+                                  "\n            "
                               )
                             ],
                             1
@@ -22111,7 +22111,7 @@ var render = function() {
                                                   },
                                                   [
                                                     _vm._v(
-                                                      "\r\n                                        mdi-bell-off\r\n                                    "
+                                                      "\n                                        mdi-bell-off\n                                    "
                                                     )
                                                   ]
                                                 ),
@@ -22183,9 +22183,9 @@ var render = function() {
                                             },
                                             [
                                               _vm._v(
-                                                "\r\n                                " +
+                                                "\n                                " +
                                                   _vm._s(item.name) +
-                                                  "   \r\n                                "
+                                                  "   \n                                "
                                               )
                                             ]
                                           )
@@ -22195,9 +22195,9 @@ var render = function() {
                                       _vm._v(" "),
                                       _c("div", { staticClass: "body-2" }, [
                                         _vm._v(
-                                          "\r\n                                " +
+                                          "\n                                " +
                                             _vm._s(item.message) +
-                                            "\r\n                                 "
+                                            "\n                                 "
                                         ),
                                         item.notification_type == 3 &&
                                         item.notification_accepted == 0
@@ -22219,7 +22219,7 @@ var render = function() {
                                               },
                                               [
                                                 _vm._v(
-                                                  "\r\n                                Accept invite"
+                                                  "\n                                Accept invite"
                                                 )
                                               ]
                                             )

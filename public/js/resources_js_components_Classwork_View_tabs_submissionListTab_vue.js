@@ -317,9 +317,7 @@ var render = function() {
                 },
                 [
                   _c("v-icon", { staticStyle: { "font-size": "10rem" } }, [
-                    _vm._v(
-                      "\r\n            mdi-notebook-check-outline\r\n        "
-                    )
+                    _vm._v("\n            mdi-notebook-check-outline\n        ")
                   ]),
                   _vm._v(" "),
                   _c("h1", [_vm._v(" Empty Submission ")]),
