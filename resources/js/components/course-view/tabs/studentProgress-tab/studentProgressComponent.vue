@@ -187,7 +187,6 @@
 </style>
 
 <script>
-    import VueElementLoading from 'vue-element-loading'
 
     import {
         mapGetters,
@@ -195,9 +194,6 @@
     } from "vuex";
     export default {
         props: ['role'],
-        components: {
-            VueElementLoading
-        },
         data: function () {
             return {
                 Deldialog: false,

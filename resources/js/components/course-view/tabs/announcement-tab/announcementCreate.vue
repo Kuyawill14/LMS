@@ -80,12 +80,8 @@
 </div>
 </template>
 <script>
- import VueElementLoading from 'vue-element-loading'
 export default {
     props:['UserDetails','classNames'],
-    components:{
-         VueElementLoading
-    },
     data() {
         return {
             isLoadingClassNames: true,

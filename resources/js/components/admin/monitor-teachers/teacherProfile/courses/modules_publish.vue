@@ -85,9 +85,6 @@
 
 <script>
     import draggable from "vuedraggable";
-
-    import VueElementLoading from 'vue-element-loading'
-
     import {
         mapGetters,
         mapActions
@@ -95,10 +92,6 @@
 
     export default {
         props: ['course_details'],
-        components: {
-            VueElementLoading,
-
-        },
         data() {
             return {
                 moduleName: '',

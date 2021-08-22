@@ -16,6 +16,8 @@
                 </v-row>
             </v-container>
 
+            
+
             <v-container fluid v-if="!isGetting" class="mt-0">
             
 
@@ -24,22 +26,20 @@
                  <v-col cols="12" class="mb-0 pb-0 mt-2 pt-0">
                      <div><h3 class="font-weight-regular">Intructor</h3></div>
                  </v-col>
-                <v-col class="pl-0 ml-0 pb-0 mb-0 pt-0 mt-0" cols="12"
-                    
-                 v-for="item in instructor" v-bind:key="item.user_id">
-                    <v-container style="cursor:pointer">
-                        <v-container class="pb-0 mb-0 pt-0 mt-0 d-flex flex-sm-row">
-                            <v-avatar  size="40">
-                                <v-img 
+                <v-col cols="12" class="ma-0 pa-0">
+                     <v-list class="mb-0 pb-0">
+                        <v-list-item class="mb-0 pb-0" v-for="item in instructor" :key="item.user_id">
+                            <v-list-item-avatar color="secondary" >
+                                 <v-img 
                                     :src="item.profile_pic == null || item.profile_pic == '' ? 'https://ui-avatars.com/api/?background=random&color=white&name=' + (item.firstName+' '+item.lastName) : '/storage/'+item.profile_pic">
                                 </v-img>
-                            </v-avatar>
-                            <v-container  class="pb-0 mb-0 pt-0 mt-0 d-flex flex-column ml-5 pb-5" ma-0 pa-0>
-                                <div class="text-left  mt-1">{{item.firstName}} {{item.lastName}}</div>
-                            </v-container>
-                        </v-container>
-                        
-                    </v-container>
+                            </v-list-item-avatar>
+                            <v-list-item-content>
+                                <v-list-item-title>{{item.firstName}} {{item.lastName}}</v-list-item-title>
+                            </v-list-item-content>
+                           
+                        </v-list-item>
+                    </v-list>
                         
                 </v-col>
                 <v-col cols="12" class="mt-0 mb-0">
@@ -47,32 +47,23 @@
                 </v-col>
 
                 <!-- Students -->
-
                 <v-col cols="12" class="mb-0 pb-0 mt-3 pt-0">
-                    
                     <div><h3 class="font-weight-regular">Classmates</h3></div>
                  </v-col>
-                <v-col class="pl-0 ml-0 pb-0 mb-0 pt-0 mt-0" cols="12"
-                    
-                 v-for="item in students" v-bind:key="item.user_id">
-                    <v-container style="cursor:pointer">
-                        <v-container class="pb-0 mb-0 pt-0 mt-0 d-flex flex-sm-row">
-                            <v-avatar  size="40">
-                                <v-img 
+                <v-col class="ma-0 pa-0" cols="12">
+                    <v-list class="mb-0 pb-0">
+                        <v-list-item class="mb-0 pb-0" v-for="item in students" :key="item.user_id">
+                            <v-list-item-avatar color="secondary" >
+                                 <v-img 
                                     :src="item.profile_pic == null || item.profile_pic == '' ? 'https://ui-avatars.com/api/?background=random&color=white&name=' + (item.firstName+' '+item.lastName) : '/storage/'+item.profile_pic">
                                 </v-img>
-                            </v-avatar>
-                            <v-container  class="pb-0 mb-0 pt-0 mt-0 d-flex flex-column ml-5 pb-5" ma-0 pa-0>
-                                <div class="text-left  mt-1">{{item.firstName}} {{item.lastName}}</div>
-                            </v-container>
-                        </v-container>
-                      
-                    </v-container>
+                            </v-list-item-avatar>
+                            <v-list-item-content>
+                                <v-list-item-title>{{item.firstName}} {{item.lastName}}</v-list-item-title>
+                            </v-list-item-content>
+                        </v-list-item>
+                    </v-list>
                 </v-col>
-              
-
-
-
             </v-row>
         </v-container>
         </v-container>

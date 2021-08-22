@@ -33,9 +33,9 @@
 
                                          <v-list class="ma-0 pa-0">
                                                 <v-list-item  class="ma-0 pa-0">
-                                                    <v-list-item-avatar>
+                                                    <v-list-item-avatar color="secondary">
                                                         <v-img alt="Profile"
-                                                            :src="CheckData.profile_pic == null || CheckData.profile_pic == '' ? 'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=' + (CheckData.firstName+' '+CheckData.lastName) : '/storage/'+CheckData.profile_pic">
+                                                            :src="CheckData.profile_pic == null || CheckData.profile_pic == '' ? 'https://ui-avatars.com/api/?background=random&color=fff&name=' + (CheckData.firstName+' '+CheckData.lastName) : '/storage/'+CheckData.profile_pic">
                                                         </v-img>
                                                     </v-list-item-avatar>
                                                 
@@ -160,9 +160,9 @@
                                <v-divider></v-divider>
                                 <v-list class="mb-0 pb-0 mt-0 pt-0">
                                     <v-list-item class="mb-0 pb-0">
-                                    <v-list-item-avatar>
+                                    <v-list-item-avatar color="secondary">
                                         <v-img 
-                                        :src="get_CurrentUser.profile_pic == null || get_CurrentUser.profile_pic == ''? 'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=' +  get_CurrentUser.firstName+' '+get_CurrentUser.lastName : '/storage/'+get_CurrentUser.profile_pic">
+                                        :src="get_CurrentUser.profile_pic == null || get_CurrentUser.profile_pic == ''? 'https://ui-avatars.com/api/?background=random&color=fff&name=' +  get_CurrentUser.firstName+' '+get_CurrentUser.lastName : get_CurrentUser.profile_pic">
                                         </v-img>
                                     </v-list-item-avatar>
                                     <v-list-item-content class="ma-0 pa-0">

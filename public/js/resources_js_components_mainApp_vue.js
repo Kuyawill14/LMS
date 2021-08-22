@@ -22626,25 +22626,7 @@ var render = function() {
         }
       }),
       _vm._v(" "),
-      _c(
-        "router-link",
-        { attrs: { to: "/" } },
-        [
-          _c(
-            "v-toolbar-title",
-            {
-              staticClass: "ml-0 pl-4 ",
-              staticStyle: { width: "300px", color: "#fff" }
-            },
-            [
-              _c("span", { staticClass: "hidden-sm-and-down pointer" }, [
-                _vm._v("CCSICT-LMS")
-              ])
-            ]
-          )
-        ],
-        1
-      ),
+      _c("router-link", { attrs: { to: "/" } }),
       _vm._v(" "),
       _c("v-text-field", {
         staticClass: "hidden-sm-and-down",
@@ -22682,11 +22664,17 @@ var render = function() {
                     return [
                       _c(
                         "v-btn",
-                        _vm._g({ attrs: { icon: "", "x-large": "" } }, on),
+                        _vm._g(
+                          {
+                            staticClass: "ma-0",
+                            attrs: { icon: "", "x-large": "" }
+                          },
+                          on
+                        ),
                         [
                           _c(
                             "v-avatar",
-                            { attrs: { color: "brown", size: "40" } },
+                            { attrs: { color: "brown", size: "35" } },
                             [
                               _c("v-img", {
                                 attrs: {
@@ -22698,8 +22686,7 @@ var render = function() {
                                         (_vm.UserDetails.firstName +
                                           " " +
                                           _vm.UserDetails.lastName)
-                                      : "/storage/" +
-                                        _vm.UserDetails.profile_pic
+                                      : _vm.UserDetails.profile_pic
                                 }
                               })
                             ],
@@ -22728,7 +22715,7 @@ var render = function() {
                         [
                           _c(
                             "v-avatar",
-                            { attrs: { color: "brown", size: "40" } },
+                            { attrs: { color: "brown", size: "35" } },
                             [
                               _c("v-img", {
                                 attrs: {
@@ -22740,8 +22727,7 @@ var render = function() {
                                         (_vm.UserDetails.firstName +
                                           " " +
                                           _vm.UserDetails.lastName)
-                                      : "/storage/" +
-                                        _vm.UserDetails.profile_pic
+                                      : _vm.UserDetails.profile_pic
                                 }
                               })
                             ],
@@ -23589,18 +23575,9 @@ var render = function() {
             "router-link",
             { attrs: { to: "/" } },
             [
-              _c(
-                "v-toolbar-title",
-                {
-                  staticClass: "ml-0 pl-4 ",
-                  staticStyle: { width: "300px", color: "#fff" }
-                },
-                [
-                  _c("span", { staticClass: "4pointer" }, [
-                    _vm._v("CCSICT-LMS")
-                  ])
-                ]
-              )
+              _c("v-toolbar-title", { staticClass: "ml-0 white--text" }, [
+                _c("span", { staticClass: "pointer" }, [_vm._v("ORANGE")])
+              ])
             ],
             1
           ),
@@ -23665,8 +23642,7 @@ var render = function() {
                                                 (_vm.UserDetails.firstName +
                                                   " " +
                                                   _vm.UserDetails.lastName)
-                                              : "/storage/" +
-                                                _vm.UserDetails.profile_pic
+                                              : _vm.UserDetails.profile_pic
                                         }
                                       })
                                     ],
@@ -23710,8 +23686,7 @@ var render = function() {
                                             (_vm.UserDetails.firstName +
                                               " " +
                                               _vm.UserDetails.lastName)
-                                          : "/storage/" +
-                                            _vm.UserDetails.profile_pic
+                                          : _vm.UserDetails.profile_pic
                                     }
                                   })
                                 ],
@@ -23730,9 +23705,9 @@ var render = function() {
                               _vm._v(" "),
                               _c("p", { staticClass: "text-caption mt-1" }, [
                                 _vm._v(
-                                  "\r\n                                " +
+                                  "\n                                " +
                                     _vm._s(_vm.UserDetails.email) +
-                                    "\r\n                            "
+                                    "\n                            "
                                 )
                               ]),
                               _vm._v(" "),
@@ -23755,7 +23730,7 @@ var render = function() {
                                     _vm._v("mdi-account")
                                   ]),
                                   _vm._v(
-                                    " My Profile\r\n                            "
+                                    " My Profile\n                            "
                                   )
                                 ],
                                 1
@@ -23784,7 +23759,7 @@ var render = function() {
                                     _vm._v("mdi-package-down")
                                   ]),
                                   _vm._v(
-                                    " Archive\r\n                            "
+                                    " Archive\n                            "
                                   )
                                 ],
                                 1
@@ -23825,7 +23800,7 @@ var render = function() {
                                         _vm._v("mdi-account-multiple-plus")
                                       ]),
                                       _vm._v(
-                                        " Class Invite\r\n                            "
+                                        " Class Invite\n                            "
                                       )
                                     ],
                                     1
@@ -23851,7 +23826,7 @@ var render = function() {
                                     _vm._v("mdi-power")
                                   ]),
                                   _vm._v(
-                                    " Logout\r\n                            "
+                                    " Logout\n                            "
                                   )
                                 ],
                                 1

@@ -219,14 +219,12 @@
 <script>
 const deleteDialog = () => import('../dialogs/deleteDialog')
 const optionRemoveDialog = () => import('../dialogs/optionRemoveDialog')
-import VueElementLoading from 'vue-element-loading'
  import {mapGetters, mapActions } from "vuex";
 export default {
     props:['number', 'Question','SubQuestion','Answers'],
     components:{
         deleteDialog,
         optionRemoveDialog,
-        VueElementLoading
     },
     data(){
         return{

@@ -123,8 +123,13 @@ let documentPreview = () =>
 
 //admin
 
-let manageUsers = () =>
-    import ("./components/admin/manage-users/manage-usersComponent");
+/* let manageUsers = () =>
+    import ("./components/admin/manage-users/manage-usersComponent"); */
+let manageteachers = () =>
+    import ("./components/admin/manage-users/manage-teachersComponent");
+let managestudents = () =>
+    import ("./components/admin/manage-users/manage-studentsComponent");
+
 let monitorTeachers = () =>
     import ("./components/admin/monitor-teachers/monitorTeachersComponent");
 let teacherProfile = () =>
@@ -171,12 +176,20 @@ const router = new Router({
                     name: "dashboard"
                 },
                 {
-                    path: "/manage-users",
-                    component: manageUsers,
-                    name: "manageUsers",
+                    path: "/manage-users/teachers",
+                    component: manageteachers,
+                    name: "manageteachers",
 
 
                 },
+                {
+                    path: "/manage-users/students",
+                    component: managestudents,
+                    name: "managestudents",
+
+
+                },
+             
                 {
                     path: "/monitor-teachers",
                     component: monitorTeachers,

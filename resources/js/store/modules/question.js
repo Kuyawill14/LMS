@@ -4,14 +4,7 @@ const state = {
     question_data: []
 };
 const getters = {
-    getAll_questions: (state) => state.question_data,
-    /* getAll_questions: (state) => {
-        return state.question_data[0].slice()
-        .sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
-
-        
-    }
- */
+    getAll_questions: (state) => state.question_data
 };
 
 const actions = {
@@ -20,6 +13,7 @@ const actions = {
             `/api/question/all/${id}`
         );
         let data = [res.data, res.data.Question.length];
+       
         commit('FETCH_QUESTIONS', res.data);
         return data;
     },

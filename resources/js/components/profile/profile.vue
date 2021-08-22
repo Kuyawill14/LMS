@@ -61,7 +61,7 @@
                                     size="80"
                                     style="cursor: pointer"
                                     >
-                                     <v-img alt="Proflie" :src="UserDetails.profile_pic == null || UserDetails.profile_pic == '' ? 'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=' + (UserDetails.firstName+' '+UserDetails.lastName) : '/storage/'+UserDetails.profile_pic"></v-img>
+                                     <v-img alt="Proflie" :src="UserDetails.profile_pic == null || UserDetails.profile_pic == '' ? 'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=' + (UserDetails.firstName+' '+UserDetails.lastName) : UserDetails.profile_pic"></v-img>
                                     </v-avatar>
                                       <v-fade-transition>
                                         <v-overlay
@@ -221,11 +221,13 @@
             getUserDetails() {
                 axios.get('/api/profile/details').then((res) => {
                     this.UserDetails = res.data[0];
+                    this.UserDetails.profile_pic = '/storage/'+this.UserDetails.profile_pic;
                     this.isloading = !this.isloading;
 
                 }).catch((e) => {
                     console.log(e);
                 })
+                console.log(this.UserDetails.profile_pic);
             },
             TestUpload(){
              this.$refs.fileInput.click();

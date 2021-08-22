@@ -66,8 +66,7 @@ var announcementCreate = function announcementCreate() {
 
 var announcementPostList = function announcementPostList() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_tabs_announcement-tab_announcementPostList_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./announcementPostList */ "./resources/js/components/course-view/tabs/announcement-tab/announcementPostList.vue"));
-}; //import VueElementLoading from 'vue-element-loading'
-
+};
 
 
 

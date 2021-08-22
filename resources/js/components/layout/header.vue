@@ -2,9 +2,9 @@
     <v-app-bar :clipped-left="$vuetify.breakpoint.lgAndUp" app color="primary" dark>
         <v-app-bar-nav-icon @click="$emit('toggleSidebar', $vuetify.breakpoint.lgAndUp)"></v-app-bar-nav-icon>
         <router-link to="/">
-         <v-toolbar-title style="width: 300px;color: #fff" class="ml-0 pl-4 " >
+         <!-- <v-toolbar-title style="width: 300px;color: #fff" class="ml-0 pl-4 " >
             <span class="hidden-sm-and-down pointer" >CCSICT-LMS</span>
-        </v-toolbar-title>
+        </v-toolbar-title> -->
         </router-link>
        
         <v-text-field flat solo-inverted hide-details prepend-inner-icon="mdi-magnify" label="Search"
@@ -17,10 +17,10 @@
         <div class="text-center">
             <v-menu bottom min-width="200px" rounded offset-y>
                 <template v-slot:activator="{ on }">
-                    <v-btn icon x-large v-on="on">
-                        <v-avatar color="brown" size="40">
+                    <v-btn class="ma-0" icon x-large v-on="on">
+                        <v-avatar color="brown" size="35">
                             <v-img alt="Proflie"
-                                :src="UserDetails.profile_pic == null || UserDetails.profile_pic == '' ? 'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=' + (UserDetails.firstName+' '+UserDetails.lastName) : '/storage/'+UserDetails.profile_pic">
+                                :src="UserDetails.profile_pic == null || UserDetails.profile_pic == '' ? 'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=' + (UserDetails.firstName+' '+UserDetails.lastName) : UserDetails.profile_pic">
                             </v-img>
                         </v-avatar>
                     </v-btn>
@@ -28,9 +28,9 @@
                 <v-card >
                     <v-list-item-content class="justify-center pa-1">
                         <div class="mx-auto text-center ">
-                            <v-avatar color="brown" size="40">
+                            <v-avatar color="brown" size="35">
                                 <v-img alt="Proflie"
-                                    :src="UserDetails.profile_pic == null || UserDetails.profile_pic == '' ? 'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=' + (UserDetails.firstName+' '+UserDetails.lastName) : '/storage/'+UserDetails.profile_pic">
+                                    :src="UserDetails.profile_pic == null || UserDetails.profile_pic == '' ? 'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=' + (UserDetails.firstName+' '+UserDetails.lastName) : UserDetails.profile_pic">
                                 </v-img>
                             </v-avatar>
                             <div>

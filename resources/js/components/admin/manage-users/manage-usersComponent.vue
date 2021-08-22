@@ -1,7 +1,7 @@
 <template>
     <div class="pt-4">
         <h2>
-            Manage users
+            Manage Teachers
         </h2>
         <v-btn bottom color="primary" dark fab fixed right @click="openAdd()">
             <v-icon>mdi-plus</v-icon>
@@ -204,17 +204,12 @@
 </style>
 
 <script>
-    import VueElementLoading from 'vue-element-loading'
-
     import {
         mapGetters,
         mapActions
     } from "vuex";
     import axios from 'axios';
     export default {
-        components: {
-            VueElementLoading
-        },
         data: function () {
             return {
                 Deldialog: false,

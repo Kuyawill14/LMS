@@ -79,19 +79,12 @@
 </style>
 
 <script>
-
-    import VueElementLoading from 'vue-element-loading'
-
     import {
         mapGetters,
         mapActions
     } from "vuex";
     import axios from 'axios';
     export default {
-        components: {
-            VueElementLoading,
-     
-        },
         data: function () {
             return {
                 Deldialog: false,

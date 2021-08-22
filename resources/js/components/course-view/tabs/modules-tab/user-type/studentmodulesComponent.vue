@@ -130,8 +130,6 @@
     import {
         LazyYoutube
     } from 'vue-lazytube'
-
-    import VueElementLoading from 'vue-element-loading'
     //import modulesListComponent from './modulesListComponent'
 
     const modulesListComponent = () => import("./studentmodulesListComponent")
@@ -142,7 +140,6 @@
     export default {
         props: ['role'],
         components: {
-            VueElementLoading,
             modulesListComponent,
             LazyYoutube,
             pdfviewer

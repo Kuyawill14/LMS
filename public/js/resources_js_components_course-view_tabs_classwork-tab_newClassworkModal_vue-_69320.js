@@ -136,17 +136,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-var VueElementLoading = function VueElementLoading() {
-  return __webpack_require__.e(/*! import() */ "node_modules_vue-element-loading_lib_vue-element-loading_min_js").then(__webpack_require__.t.bind(__webpack_require__, /*! vue-element-loading */ "./node_modules/vue-element-loading/lib/vue-element-loading.min.js", 23));
-}; //import VueElementLoading from 'vue-element-loading'
-
-
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  components: {
-    VueElementLoading: VueElementLoading
-  },
   data: function data() {
     return {
       valid: false,

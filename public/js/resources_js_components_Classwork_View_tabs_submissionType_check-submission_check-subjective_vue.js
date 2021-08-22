@@ -431,7 +431,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\ninput::-webkit-outer-spin-button,\r\ninput::-webkit-inner-spin-button {\r\n    /* display: none; <- Crashes Chrome on hover */\r\n    -webkit-appearance: none;\r\n    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */\n}\ninput[type=number] {\r\n    -moz-appearance:textfield; /* Firefox */\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\ninput::-webkit-outer-spin-button,\ninput::-webkit-inner-spin-button {\n    /* display: none; <- Crashes Chrome on hover */\n    -webkit-appearance: none;\n    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */\n}\ninput[type=number] {\n    -moz-appearance:textfield; /* Firefox */\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -629,6 +629,7 @@ var render = function() {
                                         [
                                           _c(
                                             "v-list-item-avatar",
+                                            { attrs: { color: "secondary" } },
                                             [
                                               _c("v-img", {
                                                 attrs: {
@@ -638,7 +639,7 @@ var render = function() {
                                                       null ||
                                                     _vm.CheckData.profile_pic ==
                                                       ""
-                                                      ? "https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=" +
+                                                      ? "https://ui-avatars.com/api/?background=random&color=fff&name=" +
                                                         (_vm.CheckData
                                                           .firstName +
                                                           " " +
@@ -1180,6 +1181,7 @@ var render = function() {
                                 [
                                   _c(
                                     "v-list-item-avatar",
+                                    { attrs: { color: "secondary" } },
                                     [
                                       _c("v-img", {
                                         attrs: {
@@ -1188,12 +1190,11 @@ var render = function() {
                                               null ||
                                             _vm.get_CurrentUser.profile_pic ==
                                               ""
-                                              ? "https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=" +
+                                              ? "https://ui-avatars.com/api/?background=random&color=fff&name=" +
                                                 _vm.get_CurrentUser.firstName +
                                                 " " +
                                                 _vm.get_CurrentUser.lastName
-                                              : "/storage/" +
-                                                _vm.get_CurrentUser.profile_pic
+                                              : _vm.get_CurrentUser.profile_pic
                                         }
                                       })
                                     ],

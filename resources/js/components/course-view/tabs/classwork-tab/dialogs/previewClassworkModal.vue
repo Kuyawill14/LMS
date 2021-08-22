@@ -92,7 +92,7 @@
                             color="primary"
                             :dark="totalQuestion != 0"
                           
-                             @click="$router.push({name: 'clwk',params: {id: $route.params.id},query: {clwk: Preview_id}})"
+                             @click="$emit('OpenClasswork')"
                         >
                             Take Quiz<v-icon right dark>mdi-book-arrow-right-outline</v-icon>
                         </v-btn>
@@ -103,7 +103,7 @@
                             color="primary"
                             dark
                 
-                             @click="$router.push({name: 'clwk',params: {id: $route.params.id},query: {clwk: Preview_id}})"
+                             @click="$emit('OpenClasswork')"
                         >
                             Submit Work<v-icon right dark>mdi-book-arrow-right-outline</v-icon>
                         </v-btn>

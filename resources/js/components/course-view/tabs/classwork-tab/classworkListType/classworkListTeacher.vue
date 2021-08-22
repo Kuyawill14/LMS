@@ -1,12 +1,6 @@
 <template>
 <div>
-    <v-dialog v-model="dialog" persistent max-width="600">
-            <newClassworkModal
-            v-on:CloseDialog="dialog =!dialog"
-            v-on:realodClassworks="$emit('reloadClassworks'), dialog = !dialog" 
-            v-if="dialog">
-            </newClassworkModal>
-         </v-dialog>
+  
        
          <v-row align="center" justify="center" class="pt-10" v-if="ClassworkLength == 0">
             <v-col cols="12" sm="8" md="4" class="text-center">

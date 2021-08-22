@@ -113,15 +113,9 @@
 </template>
 
 <script>
-const VueElementLoading = () => import('vue-element-loading')
-
-//import VueElementLoading from 'vue-element-loading'
 import moment from 'moment';
 import Form from 'vform'
 export default {
-    components:{
-        VueElementLoading
-    },
     data(){
         return{
             valid:false,

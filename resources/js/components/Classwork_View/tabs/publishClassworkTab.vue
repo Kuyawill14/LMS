@@ -1,6 +1,13 @@
 
 <template>
 <div class="pa-1">
+     <v-overlay :value="isLeaving">
+        <v-progress-circular
+            indeterminate
+            size="64"
+        ></v-progress-circular>
+    </v-overlay>
+    
         <v-dialog v-model="dialog" persistent max-width="600">
             <publishDialog 
             :Details="Details"
@@ -142,7 +149,8 @@ export default {
             UnpublishDiaglog:false,
             isAdding: false,
             isUpdate: false,
-            notifyDetails:{}
+            notifyDetails:{},
+            isLeaving: false
         }
     },
     methods:{
@@ -235,8 +243,11 @@ export default {
     },
     mounted(){
         this.fetchClassnames();
-      
-    }
+    },
+    beforeRouteLeave(to, from, next) {
+        this.isLeaving = true;
+        next();
+    },
 
 }
 </script>

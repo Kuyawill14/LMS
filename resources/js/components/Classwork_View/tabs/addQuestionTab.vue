@@ -1,7 +1,12 @@
 <template>
 <div class="pa-1">
 
-
+<v-overlay :value="isLeaving">
+    <v-progress-circular
+        indeterminate
+        size="64"
+    ></v-progress-circular>
+</v-overlay>
 
 <v-container class="fill-height" v-if="isloading" style="height: 500px;">
     <v-row  align-content="center" justify="center">
@@ -347,16 +352,13 @@
 </div>
 </template>
 <script>
-import VueElementLoading from 'vue-element-loading'
 import {mapGetters, mapActions} from "vuex";
 export default {
-    components:{
-        VueElementLoading
-    },
     data(){
         return{
             isloading: true,
             isAdding: false,
+            isLeaving: false,
             inputIndex:'',
             checker:'',
             testDetails:'',
@@ -558,11 +560,14 @@ export default {
         },
           
     },
-
     beforeMount(){
         this.isloading = !this.isloading;
         
-    }
+    },
+     beforeRouteLeave(to, from, next) {
+        this.isLeaving = true;
+        next();
+    },
   
   
 }

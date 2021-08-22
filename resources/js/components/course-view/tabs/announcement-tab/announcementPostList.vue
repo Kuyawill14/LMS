@@ -21,7 +21,7 @@
             <v-row class="pl-5 pr-5 pt-2 mb-3 " >
                 <v-col cols="8">
                     <div class="d-flex flex-row user-info">
-                        <v-avatar :size="!$vuetify.breakpoint.xs  && !$vuetify.breakpoint.sm ? 45 : 40">
+                        <v-avatar color="grey" :size="!$vuetify.breakpoint.xs  && !$vuetify.breakpoint.sm ? 45 : 40">
                             <v-img class="rounded-circle"  
                             :src="post.profile_pic == null || post.profile_pic == ''? 'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=' + post.name : '/storage/'+post.profile_pic"></v-img> 
                         </v-avatar>

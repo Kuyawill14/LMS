@@ -1,6 +1,13 @@
 <template>
 <div class="pa-1">
-   
+    <v-overlay :value="isLeaving">
+        <v-progress-circular
+            indeterminate
+            size="64"
+        ></v-progress-circular>
+    </v-overlay>
+
+
     <v-dialog v-model="dialog" persistent max-width="370">
             <deleteDialog 
             :DeleteDetails="DeleteDetails"
@@ -133,6 +140,7 @@ export default {
             DeleteDetails:{},
             QuestionsList:[],
             isFetching: true,
+            isLeaving: false
           
         }
     },
@@ -196,6 +204,10 @@ export default {
          this.Show = true
         this.isLoading = false;
       
+    },
+    beforeRouteLeave(to, from, next) {
+        this.isLeaving = true;
+        next();
     },
   
   
