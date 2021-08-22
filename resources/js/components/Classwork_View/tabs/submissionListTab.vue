@@ -1,6 +1,12 @@
 
 <template>
 <div class="pa-1">
+<v-overlay :value="isLeaving">
+    <v-progress-circular
+        indeterminate
+        size="64"
+    ></v-progress-circular>
+</v-overlay>
 <v-container class="fill-height" v-if="isloading" style="height: 400px;">
     <v-row  align-content="center" justify="center">
         <v-col cols="12" class="text-center">
@@ -58,6 +64,7 @@ export default {
             Graded: 0,
             Submitted: 0,
             ClassList: [],
+            isLeaving: false,
         }
     },
     methods:{
@@ -108,7 +115,11 @@ export default {
     mounted(){
         this.GetList();
         this.FetchCLassNames();
-    }
+    },
+     beforeRouteLeave(to, from, next) {
+        this.isLeaving = true;
+        next();
+    },
     
 }
 </script>

@@ -90,15 +90,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //const removeConfirmDialog = () => import('../dialog/removeConfirmDialog')
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {//removeConfirmDialog
@@ -377,77 +368,60 @@ var render = function() {
                         ]
                       ),
                       _vm._v(" "),
-                      _vm._l(_vm.instructor, function(item) {
-                        return _c(
-                          "v-col",
-                          {
-                            key: item.user_id,
-                            staticClass: "pl-0 ml-0 pb-0 mb-0 pt-0 mt-0",
-                            attrs: { cols: "12" }
-                          },
-                          [
-                            _c(
-                              "v-container",
-                              { staticStyle: { cursor: "pointer" } },
-                              [
-                                _c(
-                                  "v-container",
-                                  {
-                                    staticClass:
-                                      "pb-0 mb-0 pt-0 mt-0 d-flex flex-sm-row"
-                                  },
-                                  [
-                                    _c(
-                                      "v-avatar",
-                                      { attrs: { size: "40" } },
-                                      [
-                                        _c("v-img", {
-                                          attrs: {
-                                            src:
-                                              item.profile_pic == null ||
-                                              item.profile_pic == ""
-                                                ? "https://ui-avatars.com/api/?background=random&color=white&name=" +
-                                                  (item.firstName +
-                                                    " " +
-                                                    item.lastName)
-                                                : "/storage/" + item.profile_pic
-                                          }
-                                        })
-                                      ],
-                                      1
-                                    ),
-                                    _vm._v(" "),
-                                    _c(
-                                      "v-container",
-                                      {
-                                        staticClass:
-                                          "pb-0 mb-0 pt-0 mt-0 d-flex flex-column ml-5 pb-5",
-                                        attrs: { "ma-0": "", "pa-0": "" }
-                                      },
-                                      [
-                                        _c(
-                                          "div",
-                                          { staticClass: "text-left  mt-1" },
-                                          [
-                                            _vm._v(
-                                              _vm._s(item.firstName) +
-                                                " " +
-                                                _vm._s(item.lastName)
-                                            )
-                                          ]
+                      _c(
+                        "v-col",
+                        { staticClass: "ma-0 pa-0", attrs: { cols: "12" } },
+                        [
+                          _c(
+                            "v-list",
+                            { staticClass: "mb-0 pb-0" },
+                            _vm._l(_vm.instructor, function(item) {
+                              return _c(
+                                "v-list-item",
+                                { key: item.user_id, staticClass: "mb-0 pb-0" },
+                                [
+                                  _c(
+                                    "v-list-item-avatar",
+                                    { attrs: { color: "secondary" } },
+                                    [
+                                      _c("v-img", {
+                                        attrs: {
+                                          src:
+                                            item.profile_pic == null ||
+                                            item.profile_pic == ""
+                                              ? "https://ui-avatars.com/api/?background=random&color=white&name=" +
+                                                (item.firstName +
+                                                  " " +
+                                                  item.lastName)
+                                              : "/storage/" + item.profile_pic
+                                        }
+                                      })
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-list-item-content",
+                                    [
+                                      _c("v-list-item-title", [
+                                        _vm._v(
+                                          _vm._s(item.firstName) +
+                                            " " +
+                                            _vm._s(item.lastName)
                                         )
-                                      ]
-                                    )
-                                  ],
-                                  1
-                                )
-                              ],
-                              1
-                            )
-                          ],
-                          1
-                        )
-                      }),
+                                      ])
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              )
+                            }),
+                            1
+                          )
+                        ],
+                        1
+                      ),
                       _vm._v(" "),
                       _c(
                         "v-col",
@@ -471,79 +445,62 @@ var render = function() {
                         ]
                       ),
                       _vm._v(" "),
-                      _vm._l(_vm.students, function(item) {
-                        return _c(
-                          "v-col",
-                          {
-                            key: item.user_id,
-                            staticClass: "pl-0 ml-0 pb-0 mb-0 pt-0 mt-0",
-                            attrs: { cols: "12" }
-                          },
-                          [
-                            _c(
-                              "v-container",
-                              { staticStyle: { cursor: "pointer" } },
-                              [
-                                _c(
-                                  "v-container",
-                                  {
-                                    staticClass:
-                                      "pb-0 mb-0 pt-0 mt-0 d-flex flex-sm-row"
-                                  },
-                                  [
-                                    _c(
-                                      "v-avatar",
-                                      { attrs: { size: "40" } },
-                                      [
-                                        _c("v-img", {
-                                          attrs: {
-                                            src:
-                                              item.profile_pic == null ||
-                                              item.profile_pic == ""
-                                                ? "https://ui-avatars.com/api/?background=random&color=white&name=" +
-                                                  (item.firstName +
-                                                    " " +
-                                                    item.lastName)
-                                                : "/storage/" + item.profile_pic
-                                          }
-                                        })
-                                      ],
-                                      1
-                                    ),
-                                    _vm._v(" "),
-                                    _c(
-                                      "v-container",
-                                      {
-                                        staticClass:
-                                          "pb-0 mb-0 pt-0 mt-0 d-flex flex-column ml-5 pb-5",
-                                        attrs: { "ma-0": "", "pa-0": "" }
-                                      },
-                                      [
-                                        _c(
-                                          "div",
-                                          { staticClass: "text-left  mt-1" },
-                                          [
-                                            _vm._v(
-                                              _vm._s(item.firstName) +
-                                                " " +
-                                                _vm._s(item.lastName)
-                                            )
-                                          ]
+                      _c(
+                        "v-col",
+                        { staticClass: "ma-0 pa-0", attrs: { cols: "12" } },
+                        [
+                          _c(
+                            "v-list",
+                            { staticClass: "mb-0 pb-0" },
+                            _vm._l(_vm.students, function(item) {
+                              return _c(
+                                "v-list-item",
+                                { key: item.user_id, staticClass: "mb-0 pb-0" },
+                                [
+                                  _c(
+                                    "v-list-item-avatar",
+                                    { attrs: { color: "secondary" } },
+                                    [
+                                      _c("v-img", {
+                                        attrs: {
+                                          src:
+                                            item.profile_pic == null ||
+                                            item.profile_pic == ""
+                                              ? "https://ui-avatars.com/api/?background=random&color=white&name=" +
+                                                (item.firstName +
+                                                  " " +
+                                                  item.lastName)
+                                              : "/storage/" + item.profile_pic
+                                        }
+                                      })
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-list-item-content",
+                                    [
+                                      _c("v-list-item-title", [
+                                        _vm._v(
+                                          _vm._s(item.firstName) +
+                                            " " +
+                                            _vm._s(item.lastName)
                                         )
-                                      ]
-                                    )
-                                  ],
-                                  1
-                                )
-                              ],
-                              1
-                            )
-                          ],
-                          1
-                        )
-                      })
+                                      ])
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              )
+                            }),
+                            1
+                          )
+                        ],
+                        1
+                      )
                     ],
-                    2
+                    1
                   )
                 ],
                 1

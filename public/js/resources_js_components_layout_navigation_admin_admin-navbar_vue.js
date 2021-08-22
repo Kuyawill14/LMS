@@ -99,21 +99,76 @@ var render = function() {
         ),
         _vm._v(" "),
         _c(
-          "v-list-item",
-          { attrs: { link: "", to: { name: "manageUsers" }, exact: "" } },
+          "v-list-group",
+          {
+            attrs: {
+              color: "none",
+              value: "false",
+              link: "",
+              "prepend-icon": "mdi-contacts"
+            },
+            scopedSlots: _vm._u([
+              {
+                key: "activator",
+                fn: function() {
+                  return [_c("v-list-item-title", [_vm._v("Manage Users")])]
+                },
+                proxy: true
+              }
+            ])
+          },
           [
+            _vm._v(" "),
             _c(
-              "v-list-item-action",
-              [_c("v-icon", [_vm._v("mdi-contacts")])],
+              "v-list-item",
+              {
+                attrs: { link: "", to: { name: "manageteachers" }, exact: "" }
+              },
+              [
+                _c(
+                  "v-list-item-action",
+                  [_c("v-icon", [_vm._v("mdi-human-male-board-poll")])],
+                  1
+                ),
+                _vm._v(" "),
+                _c(
+                  "v-list-item-content",
+                  [
+                    _c("v-list-item-title", [
+                      _vm._v(
+                        "\n                        Teachers\n                    "
+                      )
+                    ])
+                  ],
+                  1
+                )
+              ],
               1
             ),
             _vm._v(" "),
             _c(
-              "v-list-item-content",
+              "v-list-item",
+              {
+                attrs: { link: "", to: { name: "managestudents" }, exact: "" }
+              },
               [
-                _c("v-list-item-title", [
-                  _vm._v("\n                    Manage Users\n                ")
-                ])
+                _c(
+                  "v-list-item-action",
+                  [_c("v-icon", [_vm._v("mdi-human-greeting")])],
+                  1
+                ),
+                _vm._v(" "),
+                _c(
+                  "v-list-item-content",
+                  [
+                    _c("v-list-item-title", [
+                      _vm._v(
+                        "\n                        Students\n                    "
+                      )
+                    ])
+                  ],
+                  1
+                )
               ],
               1
             )

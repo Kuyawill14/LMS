@@ -62,6 +62,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
 var objectiveSubmission = function objectiveSubmission() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_tabs_submissionType_objectiveSubmission_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./submissionType/objectiveSubmission */ "./resources/js/components/Classwork_View/tabs/submissionType/objectiveSubmission.vue"));
 };
@@ -82,7 +88,8 @@ var subjectiveSubmission = function subjectiveSubmission() {
       isloading: true,
       Graded: 0,
       Submitted: 0,
-      ClassList: []
+      ClassList: [],
+      isLeaving: false
     };
   },
   methods: {
@@ -180,6 +187,10 @@ var subjectiveSubmission = function subjectiveSubmission() {
   mounted: function mounted() {
     this.GetList();
     this.FetchCLassNames();
+  },
+  beforeRouteLeave: function beforeRouteLeave(to, from, next) {
+    this.isLeaving = true;
+    next();
   }
 });
 
@@ -277,6 +288,17 @@ var render = function() {
     "div",
     { staticClass: "pa-1" },
     [
+      _c(
+        "v-overlay",
+        { attrs: { value: _vm.isLeaving } },
+        [
+          _c("v-progress-circular", {
+            attrs: { indeterminate: "", size: "64" }
+          })
+        ],
+        1
+      ),
+      _vm._v(" "),
       _vm.isloading
         ? _c(
             "v-container",

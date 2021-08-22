@@ -83,7 +83,6 @@
 </template>
 
 <script>
-    import VueElementLoading from 'vue-element-loading'
     //import modulesListComponent from './modulesListComponent'
     import ModuleForm from './Forms/ModuleForm'
     const modulesListComponent = () => import("./modulesListComponent")
@@ -94,9 +93,7 @@
     export default {
         props: ['role'],
         components: {
-            VueElementLoading,
             modulesListComponent,
-
             ModuleForm,
 
         },

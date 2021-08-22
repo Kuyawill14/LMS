@@ -1,7 +1,10 @@
 <template>
   <v-app>
+    
       <v-container :class="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm  ? '' : 'fill-height'" fluid>
+       
         <v-row  align="center" justify="center">
+           
           <v-col :class="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm  ? '' : 'ma-0 pa-0'" cols="12" sm="12" md="12">  
                 <v-row :class="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm  ? 'fill-height' : ''" align="center" justify="center">
                     <v-col :style="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm  ? 'height:35vh;':'height:100vh'"  cols="12" md="4" class="primary ma-0 pa-0 d-flex flex-column">
@@ -61,6 +64,7 @@
                        
                     </v-col>
                     <v-col :class="$vuetify.breakpoint.xs ? 'ma-0 pa-3' :'ma-0 pa-0'" cols="12" md="8">
+                      <vue-element-loading :active="isLoggin" spinner="bar-fade-scale" />
                       <v-row align="center" justify="center">
                         <v-col class="text-left" cols="12" md="6" sm="8">
                           <v-card-text>
@@ -75,6 +79,7 @@
 
                                   <v-col class="ma-0 pa-0 mt-4" cols="12" md="8">
                                       <v-text-field
+                                        outlined
                                         label="Email"
                                         v-model="form.email" 
                                         :rules="loginEmailRules"
@@ -90,6 +95,7 @@
                                   <v-col class="ma-0 pa-0 mt-2" cols="12" md="8">
                                     <v-text-field 
                                       dense
+                                      outlined
                                       v-model="form.password" 
                                       :append-icon="show ?'mdi-eye':'mdi-eye-off'" 
                                       :rules="[rules.required, rules.min]" 
@@ -103,7 +109,7 @@
                                       </v-text-field>
                                       <HasError class="error--text" :form="form" field="password" />
                                   </v-col>
-                                  <v-col class="ma-0 pa-0 mt-2" cols="12" md="8">
+                                  <v-col class="ma-0 pa-0" cols="12" md="8">
                                     <v-row class="">
                                       <v-col>
                                       <v-checkbox
@@ -160,11 +166,7 @@
 </template>
 
 <script>
-import VueElementLoading from 'vue-element-loading';
 export default {
-  components: {
-    VueElementLoading,
-  },
   data(){
     return{
       isLoggin: false,
@@ -221,12 +223,10 @@ export default {
       axios.get('/sanctum/csrf-cookie').then(response => {
             this.form.post('/api/login')
                 .then((res) => {
-                  
                     if(res.status == 200) {
                         this.toastSuccess(res.data);
                         this.$store.dispatch('clear_current_user');
                         this.$router.push({ path: "/" })
-                          
                     }
                     else{
                        this.isLoggin = false;
@@ -236,8 +236,10 @@ export default {
            
         });
               
-    }
+    },
+    
   },
+  
 
 
 };

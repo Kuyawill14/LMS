@@ -181,12 +181,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -196,7 +190,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       status: null,
       updateDetails: {},
       isCommenting: false,
-      comment: null
+      comment: null,
+      isLoaded: true
     };
   },
   computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(['get_CurrentUser'])),
@@ -231,8 +226,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             switch (_context.prev = _context.next) {
               case 0:
                 axios.get('/api/student/check-status/' + _this.classworkDetails.id).then(function (res) {
-                  _this.status = res.data[0].status;
-                  console.log(res.data[0].status);
+                  _this.status = res.data.status;
+                  console.log(res.data.status);
+                  _this.isLoaded = false;
                 });
 
               case 1:
@@ -303,12 +299,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         }, _callee3);
       }))();
     }
+  },
+  mounted: function mounted() {
+    this.checkStatus(); //window.history.forward(1)
   }
-  /*   beforeMount(){
-        this.checkStatus();
-      window.history.forward(1)
-    } */
-
 });
 
 /***/ }),
@@ -706,6 +700,10 @@ var render = function() {
               attrs: { cols: "12", md: "7", lg: "8" }
             },
             [
+              _c("vue-element-loading", {
+                attrs: { active: _vm.isLoaded, spinner: "bar-fade-scale" }
+              }),
+              _vm._v(" "),
               _c(
                 "v-card",
                 {

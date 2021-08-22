@@ -15,9 +15,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vuedraggable__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuedraggable */ "./node_modules/vuedraggable/dist/vuedraggable.umd.js");
 /* harmony import */ var vuedraggable__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vuedraggable__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var vue_element_loading__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue-element-loading */ "./node_modules/vue-element-loading/lib/vue-element-loading.min.js");
-/* harmony import */ var vue_element_loading__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(vue_element_loading__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 var _methods;
 
 
@@ -124,12 +122,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 
 
-
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['course_details'],
-  components: {
-    VueElementLoading: (vue_element_loading__WEBPACK_IMPORTED_MODULE_2___default())
-  },
   data: function data() {
     return {
       moduleName: '',
@@ -150,7 +144,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       isGetting: true
     };
   },
-  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_3__.mapGetters)(["getmain_module", "getSub_module", "getAll_sub_module"])), {}, {
+  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(["getmain_module", "getSub_module", "getAll_sub_module"])), {}, {
     dragOptions: function dragOptions() {
       return {
         animation: 0,

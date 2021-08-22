@@ -50,12 +50,12 @@
             </v-row>
 
              <v-row>
-                <v-col class="pl-0 ml-0 pb-0 mb-0 pt-0 mt-0" cols="12"
+                <v-col class="ma-0 pa-0" cols="12"
                 v-show="item.class_id == Class_id || Class_id == $route.params.id"
                  v-for="item in students" v-bind:key="item.user_id">
-                    <v-container style="cursor:pointer">
+                
     
-                        <v-container class="pb-0 mb-0 pt-0 mt-0 d-flex flex-sm-row">
+                       <!--  <v-container class="pb-0 mb-0 pt-0 mt-0 d-flex flex-sm-row">
                             <v-avatar class="mt-1"  size="40">
                                 <v-img 
                                     :src="item.profile_pic == null || item.profile_pic == '' ? 'https://ui-avatars.com/api/?background=random&color=white&name=' + (item.firstName+' '+item.lastName) : '/storage/'+item.profile_pic">
@@ -67,29 +67,45 @@
                             </v-container>
 
 
-                            <!--  <v-app-bar  flat color="rgba(0, 0, 0, 0)">
-                                <v-spacer></v-spacer>
-                                <v-menu transition="slide-y-transition" bottom left>
-                                    <template v-slot:activator="{ on, attrs }">
-                                        <v-btn icon v-bind="attrs" v-on="on" class="float-right" color="black">
-                                            <v-icon>
-                                                mdi-dots-vertical
-                                            </v-icon>
-                                        </v-btn>
-                                    </template>
-                                    <v-list>
-                                        <v-list-item link @click="RemoveConfirm(item.firstName, item.lastName, item.class_name,item.class_id, item.user_id)" >
-                                            <v-list-item-title>Remove student</v-list-item-title>
-                                        </v-list-item>
-                                        <v-list-item link>
-                                            <v-list-item-title>View Student</v-list-item-title>
-                                        </v-list-item>
-                                    </v-list>
-                                </v-menu>
-                            </v-app-bar> -->
+                            
                         </v-container>
-                        <v-divider></v-divider>
-                    </v-container>
+                  -->
+
+                         <v-list class="mb-0 pb-0">
+                            <v-list-item class="mb-0 pb-0" v-show="item.class_id == Class_id || Class_id == $route.params.id" v-for="item in students" v-bind:key="item.user_id">
+                                <v-list-item-avatar color="secondary" >
+                                    <v-img 
+                                        :src="item.profile_pic == null || item.profile_pic == '' ? 'https://ui-avatars.com/api/?background=random&color=white&name=' + (item.firstName+' '+item.lastName) : '/storage/'+item.profile_pic">
+                                    </v-img>
+                                </v-list-item-avatar>
+                                <v-list-item-content>
+                                    <v-list-item-title>{{item.firstName}} {{item.lastName}}</v-list-item-title>
+                                    <v-list-item-subtitle>{{item.email}}</v-list-item-subtitle>
+                                </v-list-item-content>
+                                <v-list-item-action class="ma-0 pa-0">
+                                    <v-app-bar  flat color="rgba(0, 0, 0, 0)">
+                                        <v-spacer></v-spacer>
+                                        <v-menu transition="slide-y-transition" bottom left>
+                                            <template v-slot:activator="{ on, attrs }">
+                                                <v-btn icon v-bind="attrs" v-on="on" class="float-right" color="black">
+                                                    <v-icon>
+                                                        mdi-dots-vertical
+                                                    </v-icon>
+                                                </v-btn>
+                                            </template>
+                                            <v-list>
+                                                <v-list-item link @click="RemoveConfirm(item.firstName, item.lastName, item.class_name,item.class_id, item.user_id)" >
+                                                    <v-list-item-title>Remove student</v-list-item-title>
+                                                </v-list-item>
+                                                <v-list-item link>
+                                                    <v-list-item-title>View Student</v-list-item-title>
+                                                </v-list-item>
+                                            </v-list>
+                                        </v-menu>
+                                    </v-app-bar>
+                                </v-list-item-action>
+                            </v-list-item>
+                        </v-list>
                 </v-col>
             </v-row>
         </v-container>

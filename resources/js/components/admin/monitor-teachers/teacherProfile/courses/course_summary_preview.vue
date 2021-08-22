@@ -44,12 +44,9 @@
 </template>
 
 <script>
-const modules = () => import('./summary_content/modules')
-const classes = () => import('./summary_content/classes')
+    const modules = () => import('./summary_content/modules')
+    const classes = () => import('./summary_content/classes')
     import draggable from "vuedraggable";
-
-    import VueElementLoading from 'vue-element-loading'
-
     import {
         mapGetters,
         mapActions
@@ -58,7 +55,6 @@ const classes = () => import('./summary_content/classes')
     export default {
         props: ['course_details'],
         components: {
-            VueElementLoading,
             modules,
             classes
         },

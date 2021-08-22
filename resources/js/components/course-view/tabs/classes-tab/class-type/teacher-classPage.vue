@@ -168,10 +168,7 @@
         },
         computed: mapGetters(['allClass']),
         mounted() {
-
             this.getTeacherClasses();
-
-
         },
 
 

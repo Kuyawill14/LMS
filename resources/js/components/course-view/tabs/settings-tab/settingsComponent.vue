@@ -73,13 +73,7 @@
         mapGetters,
         mapActions
     } from "vuex";
-        import VueElementLoading from 'vue-element-loading'
     export default {
-
-        components: {
-VueElementLoading
-
-        },
         data: function () {
             return {
                 classInfo: [],

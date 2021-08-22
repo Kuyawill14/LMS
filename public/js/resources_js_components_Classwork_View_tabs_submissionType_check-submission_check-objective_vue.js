@@ -288,6 +288,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
 
 
 var resetConfirmation = function resetConfirmation() {
@@ -315,7 +317,7 @@ var resetConfirmation = function resetConfirmation() {
       comment: null
     };
   },
-  computed: (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(["getAll_questions", "get_CurrentUser"]),
+  computed: (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(['get_CurrentUser']),
   methods: {
     format_date: function format_date(value) {
       if (value) {
@@ -326,7 +328,6 @@ var resetConfirmation = function resetConfirmation() {
       var _this = this;
 
       this.$store.dispatch('fetchQuestions', this.$route.query.clwk).then(function (res) {
-        //console.log(res);
         _this.Details = res[0];
         var Submitted_length = _this.ViewDetails.Submitted_Answers.length;
         var Question_length = _this.Details.Question.length;
@@ -341,7 +342,8 @@ var resetConfirmation = function resetConfirmation() {
               type: _this.Details.Question[i].type
             });
           } else if (_this.Details.Question[i].type == 'Matching type') {}
-        }
+        } //console.log(this.Details.Question)
+
 
         var _loop = function _loop(_i) {
           for (var j = 0; j < _this.ViewDetails.Submitted_Answers.length; j++) {
@@ -499,7 +501,7 @@ var resetConfirmation = function resetConfirmation() {
       }))();
     }
   },
-  mounted: function mounted() {
+  beforeMount: function beforeMount() {
     if (this.ViewDetails.Submitted_Answers != null) {
       this.fetchQuestions();
     } else {
@@ -533,7 +535,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n    /* width */\n[data-v-6ded7147]::-webkit-scrollbar {\n  width: 5px;\n}\n\n/* Track */\n[data-v-6ded7147]::-webkit-scrollbar-track {\n  background: #f1f1f1;\n}\n \n/* Handle */\n[data-v-6ded7147]::-webkit-scrollbar-thumb {\n  background: #888; \n   border-radius: 3px\n}\n\n/* Handle on hover */\n[data-v-6ded7147]::-webkit-scrollbar-thumb:hover {\n  background: #555;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n    /* width */\n[data-v-6ded7147]::-webkit-scrollbar {\n  width: 5px;\n}\n\n/* Track */\n[data-v-6ded7147]::-webkit-scrollbar-track {\n  background: #f1f1f1;\n}\n \n/* Handle */\n[data-v-6ded7147]::-webkit-scrollbar-thumb {\n  background: #888; \n   border-radius: 3px\n}\n\n/* Handle on hover */\n[data-v-6ded7147]::-webkit-scrollbar-thumb:hover {\n  background: #555;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -22180,13 +22182,14 @@ var render = function() {
                             [
                               _c(
                                 "v-list-item-avatar",
+                                { attrs: { color: "secondary" } },
                                 [
                                   _c("v-img", {
                                     attrs: {
                                       src:
                                         item.profile_pic == null ||
                                         item.profile_pic == ""
-                                          ? "https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=" +
+                                          ? "https://ui-avatars.com/api/?background=random&color=fff&name=" +
                                             item.name
                                           : "/storage/" + item.profile_pic
                                     }
@@ -22253,6 +22256,7 @@ var render = function() {
                             [
                               _c(
                                 "v-list-item-avatar",
+                                { attrs: { color: "secondary" } },
                                 [
                                   _c("v-img", {
                                     attrs: {
@@ -22260,12 +22264,11 @@ var render = function() {
                                         _vm.get_CurrentUser.profile_pic ==
                                           null ||
                                         _vm.get_CurrentUser.profile_pic == ""
-                                          ? "https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=" +
+                                          ? "https://ui-avatars.com/api/?background=random&color=fff&name=" +
                                             _vm.get_CurrentUser.firstName +
                                             " " +
                                             _vm.get_CurrentUser.lastName
-                                          : "/storage/" +
-                                            _vm.get_CurrentUser.profile_pic
+                                          : _vm.get_CurrentUser.profile_pic
                                     }
                                   })
                                 ],
@@ -22533,7 +22536,19 @@ var render = function() {
                                 _vm._v(
                                   " This student did not take the classwork yet!"
                                 )
-                              ])
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "v-btn",
+                                { attrs: { color: "primary" } },
+                                [
+                                  _vm._v("Alert Student "),
+                                  _c("v-icon", { attrs: { right: "" } }, [
+                                    _vm._v("mdi-account-alert")
+                                  ])
+                                ],
+                                1
+                              )
                             ],
                             1
                           )
@@ -22546,10 +22561,7 @@ var render = function() {
                   _vm.ViewDetails.Submitted_Answers != ""
                     ? _c(
                         "div",
-                        _vm._l(_vm.getAll_questions.Question, function(
-                          item,
-                          index
-                        ) {
+                        _vm._l(_vm.Details.Question, function(item, index) {
                           return _c(
                             "v-container",
                             {
@@ -22699,7 +22711,7 @@ var render = function() {
                                                   }
                                                 }),
                                                 _vm._v(" "),
-                                                item.answer == Ans.Choice
+                                                item.Answer == Ans.Choice
                                                   ? _c(
                                                       "span",
                                                       {
@@ -22821,8 +22833,24 @@ var render = function() {
                                               _vm._v(
                                                 "\n                        " +
                                                   _vm._s(_vm.inputCheck[n]) +
+<<<<<<< HEAD
                                                   "\n                    "
                                               )
+=======
+                                                  " \r\n                        "
+                                              ),
+                                              _vm.inputCheck[n] ==
+                                              _vm.SubmittedAnswer[index].Answer
+                                                ? _c(
+                                                    "span",
+                                                    {
+                                                      staticClass:
+                                                        "caption primary--text ml-1 mt-1"
+                                                    },
+                                                    [_vm._v("(correct answer)")]
+                                                  )
+                                                : _vm._e()
+>>>>>>> f33d65b8f14e7242238d0d06f5dbaac0d595bef6
                                             ]
                                           )
                                         ],

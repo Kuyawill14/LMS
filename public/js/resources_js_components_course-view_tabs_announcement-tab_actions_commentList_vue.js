@@ -135,6 +135,37 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['UserDetails', 'postDetails'],
   data: function data() {
@@ -487,13 +518,13 @@ var render = function() {
         _vm.showComment
           ? _c(
               "div",
-              { staticClass: "mt-6" },
+              { staticClass: "mt-6 mb-0 pb-0" },
               _vm._l(_vm.postDetails.comment, function(item) {
                 return _c(
                   "v-container",
                   {
                     key: item.id,
-                    staticClass: "d-inline-flex pl-7 pr-4 pb-3 shrink",
+                    staticClass: "d-inline-flex pl-7 pr-4 pb-2 shrink",
                     attrs: { "pa-0": "" }
                   },
                   [
@@ -504,7 +535,7 @@ var render = function() {
                           _vm.isEditing && _vm.idEditing_id == item.id
                             ? "mt-1"
                             : "",
-                        attrs: { size: "36" }
+                        attrs: { color: "grey", size: "36" }
                       },
                       [
                         _c("v-img", {
@@ -724,76 +755,83 @@ var render = function() {
       _vm._v(" "),
       _c(
         "v-row",
-        { staticClass: "pt-1 pr-7", attrs: { nu: "" } },
+        { staticClass: "pa-3 pt-0 mt-0 mb-0 pb-0" },
         [
           _c(
             "v-col",
-            {
-              staticClass: "pr-0 mr-0",
-              attrs: { cols: "2", sm: "2", lg: "1", md: "1" }
-            },
+            { staticClass: "ma-0 pa-0 pt-3", attrs: { cols: "12" } },
             [
               _c(
-                "v-avatar",
-                {
-                  class:
-                    !_vm.$vuetify.breakpoint.xs && !_vm.$vuetify.breakpoint.sm
-                      ? "ml-7"
-                      : "ml-6",
-                  attrs: { size: "36" }
-                },
+                "v-list",
+                { staticClass: "mb-0 pb-0 mt-0 pt-0" },
                 [
-                  _c("v-img", {
-                    attrs: {
-                      src:
-                        _vm.UserDetails.profile_pic == null ||
-                        _vm.UserDetails.profile_pic == ""
-                          ? "https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=" +
-                            (_vm.UserDetails.firstName +
-                              " " +
-                              _vm.UserDetails.lastName)
-                          : "/storage/" + _vm.UserDetails.profile_pic
-                    }
-                  })
+                  _c(
+                    "v-list-item",
+                    { staticClass: "mb-0 pb-0" },
+                    [
+                      _c(
+                        "v-list-item-avatar",
+                        { attrs: { color: "secondary" } },
+                        [
+                          _c("v-img", {
+                            attrs: {
+                              src:
+                                _vm.UserDetails.profile_pic == null ||
+                                _vm.UserDetails.profile_pic == ""
+                                  ? "https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=" +
+                                    (_vm.UserDetails.firstName +
+                                      " " +
+                                      _vm.UserDetails.lastName)
+                                  : _vm.UserDetails.profile_pic
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-list-item-content",
+                        [
+                          _c(
+                            "v-list-item-title",
+                            [
+                              _c("v-text-field", {
+                                staticClass: "text-caption pl-0 mt-6",
+                                attrs: {
+                                  "append-outer-icon": "mdi-send",
+                                  "prepend-avatar": "mdi-emoticon-dead",
+                                  filled: "",
+                                  rounded: "",
+                                  dense: "",
+                                  "clear-icon": "mdi-close-circle",
+                                  clearable: "",
+                                  placeholder: "Comment",
+                                  type: "text"
+                                },
+                                on: {
+                                  "click:append-outer": _vm.addComment,
+                                  "click:clear": _vm.clearComment
+                                },
+                                model: {
+                                  value: _vm.comment,
+                                  callback: function($$v) {
+                                    _vm.comment = $$v
+                                  },
+                                  expression: "comment"
+                                }
+                              })
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
                 ],
                 1
               )
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "v-col",
-            {
-              staticClass: "pl-0 ml-0",
-              attrs: { cols: "10", sm: "10", lg: "11", md: "11" }
-            },
-            [
-              _c("v-text-field", {
-                staticClass: "text-caption pl-0",
-                attrs: {
-                  "append-outer-icon": "mdi-send",
-                  "prepend-avatar": "mdi-emoticon-dead",
-                  filled: "",
-                  rounded: "",
-                  dense: "",
-                  "clear-icon": "mdi-close-circle",
-                  clearable: "",
-                  placeholder: "Comment",
-                  type: "text"
-                },
-                on: {
-                  "click:append-outer": _vm.addComment,
-                  "click:clear": _vm.clearComment
-                },
-                model: {
-                  value: _vm.comment,
-                  callback: function($$v) {
-                    _vm.comment = $$v
-                  },
-                  expression: "comment"
-                }
-              })
             ],
             1
           )

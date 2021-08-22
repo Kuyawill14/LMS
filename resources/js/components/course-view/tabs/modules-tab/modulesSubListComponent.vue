@@ -26,8 +26,6 @@
 
 <script>
     import draggable from "vuedraggable";
-
-    import VueElementLoading from 'vue-element-loading'
     import newLectureForm from './Forms/NewLectureForm'
     import newClassworkForm from './Forms/NewClassworkForm'
     import {
@@ -38,7 +36,6 @@
     export default {
         props: ['role', 'itemSubModules'],
         components: {
-            VueElementLoading,
             draggable
         },
         data() {

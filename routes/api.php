@@ -293,17 +293,19 @@ Route::prefix('/student-course')->group(function () {
 });
 
 //Get all teachers
-Route::prefix('/admin/teachers')->group(function () {
-    Route::get('/all', [AdminController::class, 'getAllTeacher']);
-    Route::get('/all/progress', [AdminController::class, 'getAllTeacherProgress']);
-    Route::post('/update/{id}', [AdminController::class, 'update']);
-    Route::post('/reset-password/{id}', [AdminController::class, 'resetTeacherPassword']);
+Route::prefix('/admin')->group(function () {
+    Route::get('teachers/all', [AdminController::class, 'getAllTeacher']);
+    Route::get('/students/all', [AdminController::class, 'getAllStudent']);
+    
+    Route::get('/teachers/all/progress', [AdminController::class, 'getAllTeacherProgress']);
+    Route::post('/teachers/update/{id}', [AdminController::class, 'update']);
+    Route::post('/teachers/reset-password/{id}', [AdminController::class, 'resetTeacherPassword']);
     Route::delete('/remove/{id}', [AdminController::class, 'removeUser']);
 
-    Route::get('/all/summarry', [MonitorTeacherController::class, 'getAllTeacherSummarryData']);
-    Route::get('/profile/{id}', [TeacherProfileController::class, 'teacherProfile']);
-    Route::get('/profile/ClassesList/{id}', [TeacherProfileController::class, 'getCourseAndClassesList']);
-    Route::get('/classes/{id}/{user_id}', [TeacherProfileController::class, 'getCourseClassList']);
+    Route::get('/teachers/all/summarry', [MonitorTeacherController::class, 'getAllTeacherSummarryData']);
+    Route::get('/teachers/profile/{id}', [TeacherProfileController::class, 'teacherProfile']);
+    Route::get('/teachers/profile/ClassesList/{id}', [TeacherProfileController::class, 'getCourseAndClassesList']);
+    Route::get('/teachers/classes/{id}/{user_id}', [TeacherProfileController::class, 'getCourseClassList']);
 
     
     

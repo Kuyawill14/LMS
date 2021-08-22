@@ -84,6 +84,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 var classworkList = function classworkList() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_tabs_classwork-tab_classworkList_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./classworkList */ "./resources/js/components/course-view/tabs/classwork-tab/classworkList.vue"));
 };
@@ -102,6 +109,7 @@ var newClassworkModal = function newClassworkModal() {
   data: function data() {
     return {
       classworks: [],
+      isLeaving: false,
       isGetting: false,
       dialog: false,
       ClassworkLength: null,
@@ -131,6 +139,10 @@ var newClassworkModal = function newClassworkModal() {
   }),
   mounted: function mounted() {
     this.getGeneralClassworks();
+  },
+  beforeRouteLeave: function beforeRouteLeave(to, from, next) {
+    this.isLeaving = true;
+    next();
   }
 });
 
@@ -227,6 +239,17 @@ var render = function() {
   return _c(
     "div",
     [
+      _c(
+        "v-overlay",
+        { attrs: { value: _vm.isLeaving } },
+        [
+          _c("v-progress-circular", {
+            attrs: { indeterminate: "", size: "64" }
+          })
+        ],
+        1
+      ),
+      _vm._v(" "),
       _c("v-breadcrumbs", {
         staticClass: "ma-0 pa-0 mt-3",
         attrs: { items: _vm.items },

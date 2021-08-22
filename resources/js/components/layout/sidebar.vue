@@ -4,8 +4,8 @@
        <v-app-bar   :clipped-left="$vuetify.breakpoint.lgAndUp" app color="primary" dark>
         <v-app-bar-nav-icon @click.stop="navBarType != 'classwork-preview' || getcourseInfo.completed == 1 ? drawer = !drawer : ''"></v-app-bar-nav-icon>
         <router-link to="/">
-         <v-toolbar-title style="width: 300px;color: #fff" class="ml-0 pl-4 " >
-            <span class="4pointer" >CCSICT-LMS</span>
+         <v-toolbar-title class="ml-0 white--text" >
+            <span class="pointer" >ORANGE</span>
         </v-toolbar-title>
         </router-link>
        
@@ -25,7 +25,7 @@
                         <v-badge :content="get_invite_count" :value="get_invite_count" offset-x="12" offset-y="12" color="red darken-4">
                         <v-avatar color="brown" size="40">
                             <v-img alt="Proflie"
-                                :src="UserDetails.profile_pic == null || UserDetails.profile_pic == '' ? 'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=' + (UserDetails.firstName+' '+UserDetails.lastName) : '/storage/'+UserDetails.profile_pic">
+                                :src="UserDetails.profile_pic == null || UserDetails.profile_pic == '' ? 'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=' + (UserDetails.firstName+' '+UserDetails.lastName) : UserDetails.profile_pic">
                             </v-img>
                         </v-avatar>
                         </v-badge>
@@ -36,7 +36,7 @@
                         <div class="mx-auto text-center">
                             <v-avatar color="brown" size="40">
                                 <v-img alt="Proflie"
-                                    :src="UserDetails.profile_pic == null || UserDetails.profile_pic == '' ? 'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=' + (UserDetails.firstName+' '+UserDetails.lastName) : '/storage/'+UserDetails.profile_pic">
+                                    :src="UserDetails.profile_pic == null || UserDetails.profile_pic == '' ? 'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=' + (UserDetails.firstName+' '+UserDetails.lastName) : UserDetails.profile_pic">
                                 </v-img>
                             </v-avatar>
                             <h4>{{ UserDetails.firstName+' '+UserDetails.lastName }}</h4>

@@ -26,6 +26,13 @@
         </v-btn>
         -->
 
+    <v-overlay :value="isLeaving">
+        <v-progress-circular
+            indeterminate
+            size="64"
+        ></v-progress-circular>
+    </v-overlay>
+
         <v-breadcrumbs class="ma-0 pa-0 mt-3" :items="items">
             <template v-slot:item="{ item }">
             <v-breadcrumbs-item
@@ -80,6 +87,7 @@
         data() {
             return {
                 classworks: [],
+                isLeaving: false,
                 isGetting: false,
                 dialog: false,
                 ClassworkLength: null,
@@ -117,7 +125,11 @@
         },
         mounted() {
             this.getGeneralClassworks();
-        }
+        },
+          beforeRouteLeave(to, from, next) {
+            this.isLeaving = true;
+            next();
+        },
 
     }
 

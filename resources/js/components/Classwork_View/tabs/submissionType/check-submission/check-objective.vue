@@ -53,9 +53,9 @@
                              <v-list class="mb-0 pb-0">
                         
                                     <v-list-item class="mb-0 pb-0" v-for="(item, i) in ViewDetails.comments" :key="i">
-                                    <v-list-item-avatar>
+                                    <v-list-item-avatar color="secondary">
                                         <v-img 
-                                        :src="item.profile_pic == null || item.profile_pic == ''? 'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=' +  item.name : '/storage/'+item.profile_pic">
+                                        :src="item.profile_pic == null || item.profile_pic == ''? 'https://ui-avatars.com/api/?background=random&color=fff&name=' +  item.name : '/storage/'+item.profile_pic">
                                         </v-img>
                                     </v-list-item-avatar>
                                     <v-list-item-content>
@@ -73,9 +73,9 @@
                                <v-divider></v-divider>
                                 <v-list class="mb-0 pb-0 mt-0 pt-0">
                                     <v-list-item class="mb-0 pb-0">
-                                    <v-list-item-avatar>
+                                    <v-list-item-avatar color="secondary">
                                         <v-img 
-                                        :src="get_CurrentUser.profile_pic == null || get_CurrentUser.profile_pic == ''? 'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=' +  get_CurrentUser.firstName+' '+get_CurrentUser.lastName : '/storage/'+get_CurrentUser.profile_pic">
+                                        :src="get_CurrentUser.profile_pic == null || get_CurrentUser.profile_pic == ''? 'https://ui-avatars.com/api/?background=random&color=fff&name=' +  get_CurrentUser.firstName+' '+get_CurrentUser.lastName : get_CurrentUser.profile_pic">
                                         </v-img>
                                     </v-list-item-avatar>
                                     <v-list-item-content class="ma-0 pa-0">
@@ -141,11 +141,12 @@
                     </v-icon>
                     <h1> Empty Submission </h1>
                     <p> This student did not take the classwork yet!</p>
+                     <v-btn color="primary">Alert Student <v-icon right>mdi-account-alert</v-icon> </v-btn>
                 </v-col>
             </v-row>
-
+            
             <div v-if="ViewDetails.Submitted_Answers != null && ViewDetails.Submitted_Answers != ''">
-            <v-container class="pl-5 pt-5" ma-0 pa-0 v-for="(item, index) in getAll_questions.Question" :key="index">
+            <v-container class="pl-5 pt-5" ma-0 pa-0 v-for="(item, index) in Details.Question" :key="index">
                 <v-container ma-0 pa-0 class="ma-0 pa-0">
                     <div :style="$vuetify.breakpoint.xs ? 'line-height:1.1': ''" class="subtitle-1 d-flex"> 
                         <v-checkbox
@@ -180,7 +181,7 @@
                         </v-radio-group>
                         <div style="line-height:1.4" class="Subtitle-1 ma-0 pa-0 d-flex">
                             <span v-html="Ans.Choice" class="post-content"></span>
-                            <span class="caption primary--text ml-1 mt-1" v-if="item.answer == Ans.Choice">(correct answer)</span>
+                            <span class="caption primary--text ml-1 mt-1" v-if="item.Answer == Ans.Choice">(correct answer)</span>
                         </div>
                     </v-container>
                 </v-container>
@@ -206,7 +207,8 @@
                         </v-radio>
                     </v-radio-group>
                     <div class="Subtitle 1">
-                        {{inputCheck[n]}}
+                        {{inputCheck[n]}} 
+                        <span class="caption primary--text ml-1 mt-1" v-if="inputCheck[n] == SubmittedAnswer[index].Answer">(correct answer)</span>
                     </div>
                 </v-container>
                 </v-container>
@@ -289,7 +291,7 @@ const resetConfirmation = () => import('../../dialogs/resetConfirmation')
             comment: null
           }
       },
-      computed:mapGetters(["getAll_questions","get_CurrentUser"]),
+      computed:mapGetters(['get_CurrentUser']),
       methods:{
            format_date(value) {
             if (value) {
@@ -298,7 +300,6 @@ const resetConfirmation = () => import('../../dialogs/resetConfirmation')
         },
           fetchQuestions(){
             this.$store.dispatch('fetchQuestions', this.$route.query.clwk).then(res=>{
-                //console.log(res);
                 this.Details = res[0];
                 let Submitted_length = this.ViewDetails.Submitted_Answers.length;
                 let Question_length = this.Details.Question.length;
@@ -317,7 +318,7 @@ const resetConfirmation = () => import('../../dialogs/resetConfirmation')
                     }
  
                 }
-              
+                //console.log(this.Details.Question)
                 for (let i = 0; i < this.Details.Question.length; i++) {
                     for (let j = 0; j < this.ViewDetails.Submitted_Answers.length; j++) {
                         if(this.Details.Question[i].id == this.ViewDetails.Submitted_Answers[j].Question_id){
@@ -362,6 +363,8 @@ const resetConfirmation = () => import('../../dialogs/resetConfirmation')
                                     for (let a = 0; a < Ans.length; a++) {
                                         Ans[a].SubChoice = tmpChoices[a].choice;
                                     }
+
+                                    
                                     this.SubmittedAnswer[i] = Ans;
                                 }
                         }
@@ -431,8 +434,8 @@ const resetConfirmation = () => import('../../dialogs/resetConfirmation')
      
       },
     
-      mounted(){
-
+      beforeMount(){
+      
             if(this.ViewDetails.Submitted_Answers != null){
                 this.fetchQuestions();
             }

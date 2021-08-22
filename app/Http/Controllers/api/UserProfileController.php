@@ -36,6 +36,8 @@ class UserProfileController extends Controller
         ->leftJoin('tbl_user_details', 'tbl_user_details.user_id', '=', 'users.id')
         ->first();
         
+        $path = '/'.'storage'.'/';
+        $userDetails->profile_pic = $userDetails->profile_pic != null && $userDetails->profile_pic != '' ? $path.$userDetails->profile_pic : null;
         return $userDetails;
     }
 

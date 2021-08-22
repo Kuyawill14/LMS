@@ -41,7 +41,6 @@
 <script>
     const announcementCreate = () => import('./announcementCreate')
     const announcementPostList = () => import('./announcementPostList')
-    //import VueElementLoading from 'vue-element-loading'
     import moment from 'moment'
     import {
         mapGetters,

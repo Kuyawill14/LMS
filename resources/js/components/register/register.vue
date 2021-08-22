@@ -61,6 +61,7 @@
                             </v-col>
 
                             <v-col :class="$vuetify.breakpoint.xs ? 'ma-0 pa-5' :'ma-0 pa-0'" cols="12" md="8">
+                                <vue-element-loading :active="isRegistering" spinner="bar-fade-scale" color="#EF6C00" />
                                 <v-row align="center" justify="center">
                                     <v-col class="text-left" cols="12" md="6" sm="8">
                                          <vue-element-loading :active="isRegistering" spinner="bar-fade-scale" />
@@ -75,40 +76,40 @@
                                                         <p class="mt-2">Login Your Account <router-link class="blue--text" :to="{name: 'login'}">Click here</router-link></p>
                                                     </v-col>
 
-                                                    <v-col class="ma-0 pa-0 mt-2 mb-2" cols="12" md="8">
-                                                        <v-text-field dense :rules="nameRules" label="First Name" name="firstName"
+                                                    <v-col class="ma-0 pa-0 mt-2 " cols="12" md="8">
+                                                        <v-text-field outlined dense :rules="nameRules" label="First Name" name="firstName"
                                                         v-model="form.firstName" type="text" color="primary" />
                                                     </v-col>
 
-                                                     <v-col class="ma-0 pa-0 mb-2" cols="12" md="8">
+                                                     <v-col class="ma-0 pa-0 " cols="12" md="8">
                                                        <HasError class="error--text" :form="form" field="middleName" />
-                                                        <v-text-field dense label="Middle Name" :rules="nameRules" name="middleName"
+                                                        <v-text-field outlined dense label="Middle Name" :rules="nameRules" name="middleName"
                                                             v-model="form.middleName" type="text" color="primary" />
                                                     </v-col>
 
-                                                    <v-col class="ma-0 pa-0 mb-2" cols="12" md="8">
+                                                    <v-col class="ma-0 pa-0 " cols="12" md="8">
                                                        <HasError class="error--text" :form="form" field="lastName" />
-                                                        <v-text-field dense label="Last Name" :rules="nameRules" name="lastname"
+                                                        <v-text-field outlined dense label="Last Name" :rules="nameRules" name="lastname"
                                                             v-model="form.lastName" type="text" color="primary" />
                                                     </v-col>
 
-                                                    <v-col class="ma-0 pa-0 mb-2" cols="12" md="8">
+                                                    <v-col class="ma-0 pa-0 " cols="12" md="8">
                                                        <HasError class="error--text" :form="form" field="email" />
-                                                        <v-text-field dense label="Email" name="Email" :rules="loginEmailRules"
+                                                        <v-text-field outlined dense label="Email" name="Email" :rules="loginEmailRules"
                                                             v-model="form.email" type="email" color="primary" />
                                                     </v-col>
 
-                                                    <v-col class="ma-0 pa-0 mb-2" cols="12" md="8">
+                                                    <v-col class="ma-0 pa-0 " cols="12" md="8">
                                                         <HasError class="error--text" :form="form" field="password" />
-                                                        <v-text-field dense :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
+                                                        <v-text-field outlined dense :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
                                                             id="password" label="Password" name="password"
                                                             v-model="form.password" :type="show ? 'text' : 'password'"
                                                             color="primary" :rules="[rules.required, rules.min]" counter
                                                             @click:append="show = !show" />
                                                     </v-col>
 
-                                                     <v-col class="ma-0 pa-0 mb-2" cols="12" md="8">
-                                                        <v-text-field dense :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+                                                     <v-col class="ma-0 pa-0 " cols="12" md="8">
+                                                        <v-text-field outlined dense :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
                                                         id="passwordConfirmation" label="Confirm Password" name="password"
                                                         v-model="form.password_confirmation"
                                                         :type="show1 ? 'text' : 'password'" color="primary"
@@ -116,19 +117,21 @@
                                                         @click:append="show1 = !show1" />
                                                     </v-col>
 
-                                                     <v-col class="ma-0 pa-0 mb-2" cols="12" md="8">
-<!--                                                        <HasError class="error--text" :form="form" field="lastName" /> -->
-                                                        <v-text-field dense class="mb-0 pb-0" label="Class Code" :rules="ClassCodeRules" name="lastname"
+                                                     <v-col class="ma-0 pa-0 " cols="12" md="8">
+                                                        
+                                                         <span class="error--text text-left"> {{invalid_classcode_message}}</span>
+                                                        <v-text-field 
+                                                         outlined dense class="mb-0 pb-0" label="Class Code" :rules="[ClassCodeRules.required]" name="class_code"
                                                         hint="Please provide a valid class code to be able to register"
                                                             v-model="form.class_code" type="text" color="primary" />
-                                                            <small class="error--text">{{invalid_classcode_message}}</small>
+                                                            
                                                     </v-col>
                                                     
 
-                                                     <v-col class="ma-0 pa-0 mb-1" cols="12" md="8">
+                                                    <!--  <v-col class="ma-0 pa-0 mb-1" cols="12" md="8">
                                                         <v-select dense :items="role" v-model="form.role" :rules="RoleRules"
                                                         label="Role"></v-select>
-                                                    </v-col>
+                                                    </v-col> -->
 
                                                     <v-col class="ma-0 pa-0 text-left mt-2" cols="12" md="8">
                                                         <v-btn :loading="isRegistering" :disabled="!valid" @click="validate" color="primary" class="mb-5">
@@ -170,11 +173,7 @@
 </template>
 
 <script>
-import VueElementLoading from 'vue-element-loading';
     export default {
-        components:{
-            VueElementLoading
-        },
         data: () => ({
             isRegistering: false,
             valid: true,
@@ -205,11 +204,9 @@ import VueElementLoading from 'vue-element-loading';
             RoleRules: [
                 v => !!v || "Field is required",
             ],
-             ClassCodeRules: [
-                v => !!v || "Class code is required",
-            ],
-
-            
+            ClassCodeRules:{
+                required: v => !!v || "Class code is required",
+            },
             show: false,
             show1: false,
             rules: {
@@ -241,15 +238,15 @@ import VueElementLoading from 'vue-element-loading';
                         else if(res.status == 202){
                             this.toastError(res.data.message);
                             this.invalid_classcode_message = res.data.message;
-                         
+                            this.isRegistering = false;
                         }
                        
                     })
                     .catch(e=>{
                         this.toastError('Something went wrong while registering!');
-                        
+                        this.isRegistering = false;
                     })
-                    this.isRegistering = false;
+                    
                 }
             },
             login(email, password){
@@ -257,19 +254,20 @@ import VueElementLoading from 'vue-element-loading';
             this.loginForm.password = password;
             axios.get('/sanctum/csrf-cookie').then(response => {
                     this.loginForm.post('/api/login')
-                        .then((res) => {
-                            if(res.status == 200) {
-                                this.$store.dispatch('clear_current_user');
-                                this.$router.push({ path: "/" })
-                            }
-                            else{
-                            this.toastError(res.data);
-                            }
-                        })
-                
+                    .then((res) => {
+                        if(res.status == 200) {
+                            this.$store.dispatch('clear_current_user');
+                            this.$router.push({ path: "/" })
+                        }
+                        else{
+                        this.toastError(res.data);
+                        }
+                    })
+            
                 });
                     
-            }
+            },
+            
         }
     };
 

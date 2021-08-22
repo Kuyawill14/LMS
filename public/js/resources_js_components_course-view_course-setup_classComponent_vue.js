@@ -332,7 +332,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 var VueElementLoading = function VueElementLoading() {
-  return __webpack_require__.e(/*! import() */ "node_modules_vue-element-loading_lib_vue-element-loading_min_js").then(__webpack_require__.t.bind(__webpack_require__, /*! vue-element-loading */ "./node_modules/vue-element-loading/lib/vue-element-loading.min.js", 23));
+  return Promise.resolve(/*! import() */).then(__webpack_require__.t.bind(__webpack_require__, /*! vue-element-loading */ "./node_modules/vue-element-loading/lib/vue-element-loading.min.js", 23));
 };
 
 
