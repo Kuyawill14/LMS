@@ -629,6 +629,7 @@ var render = function() {
                                         [
                                           _c(
                                             "v-list-item-avatar",
+                                            { attrs: { color: "secondary" } },
                                             [
                                               _c("v-img", {
                                                 attrs: {
@@ -638,7 +639,7 @@ var render = function() {
                                                       null ||
                                                     _vm.CheckData.profile_pic ==
                                                       ""
-                                                      ? "https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=" +
+                                                      ? "https://ui-avatars.com/api/?background=random&color=fff&name=" +
                                                         (_vm.CheckData
                                                           .firstName +
                                                           " " +
@@ -1180,6 +1181,7 @@ var render = function() {
                                 [
                                   _c(
                                     "v-list-item-avatar",
+                                    { attrs: { color: "secondary" } },
                                     [
                                       _c("v-img", {
                                         attrs: {
@@ -1188,12 +1190,11 @@ var render = function() {
                                               null ||
                                             _vm.get_CurrentUser.profile_pic ==
                                               ""
-                                              ? "https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=" +
+                                              ? "https://ui-avatars.com/api/?background=random&color=fff&name=" +
                                                 _vm.get_CurrentUser.firstName +
                                                 " " +
                                                 _vm.get_CurrentUser.lastName
-                                              : "/storage/" +
-                                                _vm.get_CurrentUser.profile_pic
+                                              : _vm.get_CurrentUser.profile_pic
                                         }
                                       })
                                     ],

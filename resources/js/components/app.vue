@@ -26,6 +26,7 @@ export default {
     box-shadow: 0 0 10px #2196F3, 0 0 5px #2196F3 !important;
   }
   #nprogress .spinner{
-    display: none !important;
+      border-radius: 60% !important;
   }
+
 </style>

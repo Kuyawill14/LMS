@@ -127,8 +127,6 @@
 
 <script>
     import draggable from "vuedraggable";
-
-    import VueElementLoading from 'vue-element-loading'
     import fileForm from './Forms/FileForm'
     import linkForm from './Forms/LinkForm'
     import moduleFormEdit from './Forms/ModuleForm'
@@ -142,7 +140,6 @@
     export default {
         props: ['role'],
         components: {
-            VueElementLoading,
             fileForm,
             linkForm,
             newClassworkForm,

@@ -254,10 +254,12 @@ var myCalendar = function myCalendar() {
 
       axios.get('/api/profile/details').then(function (res) {
         _this.UserDetails = res.data[0];
+        _this.UserDetails.profile_pic = '/storage/' + _this.UserDetails.profile_pic;
         _this.isloading = !_this.isloading;
       })["catch"](function (e) {
         console.log(e);
       });
+      console.log(this.UserDetails.profile_pic);
     },
     TestUpload: function TestUpload() {
       this.$refs.fileInput.click();
@@ -527,8 +529,7 @@ var render = function() {
                                                                   _vm
                                                                     .UserDetails
                                                                     .lastName)
-                                                              : "/storage/" +
-                                                                _vm.UserDetails
+                                                              : _vm.UserDetails
                                                                   .profile_pic
                                                         }
                                                       })
@@ -592,7 +593,7 @@ var render = function() {
                                       ],
                                       null,
                                       false,
-                                      176418117
+                                      1122338967
                                     )
                                   })
                                 ],

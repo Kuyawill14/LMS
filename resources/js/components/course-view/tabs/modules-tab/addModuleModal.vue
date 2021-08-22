@@ -46,7 +46,6 @@
 </template>
 
 <script>
-    import VueElementLoading from 'vue-element-loading'
     import Form from 'vform'
     import {
         mapGetters,

@@ -22,20 +22,10 @@
         mapActions
     } from "vuex";
 
-    /* import studentClassPage from './class-type/student-classPage'
-    import teacherClassPage from './class-type/teacher-classPage'
-    import VueElementLoading from 'vue-element-loading' */
-
-    // const studentClassPage = () => import("./class-type/student-classPage")
-    const teacherClassPage = () => import("./class-type/teacher-classPage")
-    import VueElementLoading from 'vue-element-loading'
-    /*  const VueElementLoading = () => import("vue-element-loading") */
-
+    const teacherClassPage = () => import("./class-type/teacher-classPage");
     export default {
         props: ['role'],
         components: {
-            VueElementLoading,
-            // studentClassPage,
             teacherClassPage
         },
         data(){
@@ -53,7 +43,8 @@
                     },
                 ],
             }
-        }
+        },
+        
      }
 
       

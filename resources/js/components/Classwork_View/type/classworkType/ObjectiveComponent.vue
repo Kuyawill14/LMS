@@ -3,7 +3,7 @@
 <div class="pt-5">
 
 
-
+     
     <v-row justify="center" no-gutters class="pa-2">
         <v-col cols="12" md="5" lg="4" class="mb-0 pb-0">
             <v-card class="pa-3" elevation="1" outlined>
@@ -30,7 +30,7 @@
                         </div>
                         <v-divider></v-divider>
                         <v-list class="mb-0 pb-0">
-      
+                   
                         <v-list-item class="mb-0 pb-0" v-for="(item, i) in classworkDetails.comments" :key="i">
                             <v-list-item-avatar>
                                 <v-img 
@@ -88,16 +88,10 @@
             </v-card>
         </v-col>
         <v-col :class="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm ? 'mt-2 pl-0 pt-2' : 'pt-0 pl-5'" cols="12" md="7" lg="8" >
+            <vue-element-loading  :active="isLoaded" spinner="bar-fade-scale" />
             <v-card class="pa-3" elevation="1" outlined>
                 <v-row >
-                   <!--   <v-col cols="12" >
-                              <v-btn rounded text="" class=""
-                            @click="$router.push({name: 'classwork'})" >
-                                <v-icon left dark>mdi-arrow-left-thick</v-icon>
-                                Back to classworks
-                            </v-btn>
-                        </v-col> -->
-                           <v-row style="height:4vh"></v-row>
+                    <v-row style="height:4vh"></v-row>
                     <v-col cols="12">
                         <v-container ma-0 pa-0 class="d-flex flex-row justify-space-between">
                         <v-btn
@@ -168,7 +162,8 @@ export default {
             status: null,
             updateDetails:{},
             isCommenting: false,
-            comment: null
+            comment: null,
+            isLoaded: true,
         }
         
     },
@@ -193,8 +188,9 @@ export default {
         async checkStatus(){
             axios.get('/api/student/check-status/'+this.classworkDetails.id)
             .then(res=>{
-                this.status = res.data[0].status;
-                console.log(res.data[0].status);
+                this.status = res.data.status;
+                console.log(res.data.status);
+                this.isLoaded = false
             })
         },
         async UpdateStatus(id){
@@ -231,9 +227,9 @@ export default {
                this.isCommenting = false;
           },
     },
-  /*   beforeMount(){
+    mounted(){
         this.checkStatus();
-      window.history.forward(1)
-    } */
+      //window.history.forward(1)
+    }
 }
 </script>

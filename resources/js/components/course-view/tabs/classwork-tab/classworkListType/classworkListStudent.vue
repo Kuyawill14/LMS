@@ -1,5 +1,7 @@
 <template>
 <div>
+   
+
      <v-row align="center" justify="center" class="pt-10" v-if="ClassworkLength == 0">
             <v-col cols="12" sm="8" md="4" class="text-center">
                 <v-icon style="font-size:14rem">
@@ -17,10 +19,10 @@
         <!-- Modal -->
         <div v-if="Previewdialog">
                <v-dialog persistent v-model="Previewdialog"  width="650px">
-            <previewClassworkModal v-on:isMounted="isLoading = false" v-if="Previewdialog" v-on:toggleCloseDialog="Previewdialog = !Previewdialog" :Preview_id="Preview_id"></previewClassworkModal>
+            <previewClassworkModal v-on:OpenClasswork="Previewdialog = false,$router.push({name: 'clwk',params: {id: $route.params.id},query: {clwk: Preview_id}})" v-on:isMounted="isLoading = false" v-if="Previewdialog" v-on:toggleCloseDialog="Previewdialog = !Previewdialog" :Preview_id="Preview_id"></previewClassworkModal>
          </v-dialog>
         </div>
-
+<!-- , $router.push({name: 'clwk',params: {id: $route.params.id},query: {clwk: Preview_id}}) -->
 
         <v-row >
             <v-col class="text-left mb-0 pb-0">
@@ -160,12 +162,10 @@
 <script>
     const previewClassworkModal = () => import('../dialogs/previewClassworkModal');
     import moment from 'moment';
-    import VueElementLoading from 'vue-element-loading'
     export default {
         props: ['classworks'],
         components: {
-            previewClassworkModal,
-            VueElementLoading
+            previewClassworkModal
         },
         data() {
             return {
@@ -177,7 +177,7 @@
                 ClassworkLength: null,
                 isSearching: false,
                 search: "",
-                isLoading: false,
+                isLoading: false
             }
         },
         methods: {
@@ -235,9 +235,8 @@
             this.setFilterItems();
             let newDate = new Date();
             this.DateToday = moment(newDate).format("YYYY-MM-DDTHH:mm:ss");
-            
-
-        }
+        },
+       
        
     }
 </script>

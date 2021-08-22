@@ -21995,6 +21995,7 @@ var render = function() {
                                 [
                                   _c(
                                     "v-list-item-avatar",
+                                    { attrs: { color: "secondary" } },
                                     [
                                       _c("v-img", {
                                         attrs: {

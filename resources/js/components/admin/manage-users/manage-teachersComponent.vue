@@ -48,8 +48,8 @@
 
 
                                     <td>
-                                        <v-btn color="primary" :loading="IsResetting" @click="updatePass(item.user_id)">
-                                            Reset Password
+                                        <v-btn color="primary" :disabled="IsResetting && IsResetting_id == item.user_id" @click="updatePass(item.user_id)">
+                                            {{IsResetting && IsResetting_id == item.user_id ? 'Reseting...' : ' Reset Password'}}
                                         </v-btn>
                                     </td>
                                     <td>
@@ -204,6 +204,7 @@
 </style>
 
 <script>
+
     import {
         mapGetters,
         mapActions
@@ -218,6 +219,7 @@
                 IsDeleting: false,
                 IsAddUpdating: false,
                 IsResetting: false,
+                IsResetting_id: null,
                 type: '',
                 search: "",
                 valid: true,
@@ -297,6 +299,7 @@
                 this.Deldialog = true;
             },
             updatePass(id) {
+                this.IsResetting_id = id;
                 this.IsResetting = true;
                 axios.post('/api/admin/teachers/reset-password/' + id)
                     .then(res => {
@@ -373,13 +376,7 @@
         mounted() {
 
             this.$store.dispatch('fetchAllTeachers');
-
-
-
         }
-
-
-
     }
 
 </script>

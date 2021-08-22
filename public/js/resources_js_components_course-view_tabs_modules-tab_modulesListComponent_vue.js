@@ -480,14 +480,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vuedraggable__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuedraggable */ "./node_modules/vuedraggable/dist/vuedraggable.umd.js");
 /* harmony import */ var vuedraggable__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vuedraggable__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var vue_element_loading__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue-element-loading */ "./node_modules/vue-element-loading/lib/vue-element-loading.min.js");
-/* harmony import */ var vue_element_loading__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(vue_element_loading__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _Forms_FileForm__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Forms/FileForm */ "./resources/js/components/course-view/tabs/modules-tab/Forms/FileForm.vue");
-/* harmony import */ var _Forms_LinkForm__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Forms/LinkForm */ "./resources/js/components/course-view/tabs/modules-tab/Forms/LinkForm.vue");
-/* harmony import */ var _Forms_ModuleForm__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Forms/ModuleForm */ "./resources/js/components/course-view/tabs/modules-tab/Forms/ModuleForm.vue");
-/* harmony import */ var _Forms_deleteForm__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Forms/deleteForm */ "./resources/js/components/course-view/tabs/modules-tab/Forms/deleteForm.vue");
-/* harmony import */ var _Forms_NewClassworkForm__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./Forms/NewClassworkForm */ "./resources/js/components/course-view/tabs/modules-tab/Forms/NewClassworkForm.vue");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _Forms_FileForm__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Forms/FileForm */ "./resources/js/components/course-view/tabs/modules-tab/Forms/FileForm.vue");
+/* harmony import */ var _Forms_LinkForm__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Forms/LinkForm */ "./resources/js/components/course-view/tabs/modules-tab/Forms/LinkForm.vue");
+/* harmony import */ var _Forms_ModuleForm__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Forms/ModuleForm */ "./resources/js/components/course-view/tabs/modules-tab/Forms/ModuleForm.vue");
+/* harmony import */ var _Forms_deleteForm__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Forms/deleteForm */ "./resources/js/components/course-view/tabs/modules-tab/Forms/deleteForm.vue");
+/* harmony import */ var _Forms_NewClassworkForm__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Forms/NewClassworkForm */ "./resources/js/components/course-view/tabs/modules-tab/Forms/NewClassworkForm.vue");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 var _methods;
 
 
@@ -636,17 +634,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
-
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['role'],
   components: {
-    VueElementLoading: (vue_element_loading__WEBPACK_IMPORTED_MODULE_2___default()),
-    fileForm: _Forms_FileForm__WEBPACK_IMPORTED_MODULE_3__.default,
-    linkForm: _Forms_LinkForm__WEBPACK_IMPORTED_MODULE_4__.default,
-    newClassworkForm: _Forms_NewClassworkForm__WEBPACK_IMPORTED_MODULE_7__.default,
+    fileForm: _Forms_FileForm__WEBPACK_IMPORTED_MODULE_2__.default,
+    linkForm: _Forms_LinkForm__WEBPACK_IMPORTED_MODULE_3__.default,
+    newClassworkForm: _Forms_NewClassworkForm__WEBPACK_IMPORTED_MODULE_6__.default,
     draggable: (vuedraggable__WEBPACK_IMPORTED_MODULE_1___default()),
-    moduleFormEdit: _Forms_ModuleForm__WEBPACK_IMPORTED_MODULE_5__.default,
-    deleteForm: _Forms_deleteForm__WEBPACK_IMPORTED_MODULE_6__.default
+    moduleFormEdit: _Forms_ModuleForm__WEBPACK_IMPORTED_MODULE_4__.default,
+    deleteForm: _Forms_deleteForm__WEBPACK_IMPORTED_MODULE_5__.default
   },
   data: function data() {
     return {
@@ -667,7 +663,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       studentSubModuleProgressForm: {}
     };
   },
-  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_8__.mapGetters)(["getmain_module", "getSub_module", "getAll_sub_module"])), {}, {
+  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_7__.mapGetters)(["getmain_module", "getSub_module", "getAll_sub_module"])), {}, {
     dragOptions: function dragOptions() {
       return {
         animation: 0,

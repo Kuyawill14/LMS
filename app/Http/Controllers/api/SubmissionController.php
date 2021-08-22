@@ -63,13 +63,8 @@ class SubmissionController extends Controller
                 ->orderBy("tbl_comments.created_at", "ASC")
                 ->get();
                 $Sub->comments =  $PrivateComment;
-
-               
             }
         } 
-
-  
-      
         return $SubmissionList;
     }
 

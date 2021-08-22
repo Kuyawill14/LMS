@@ -614,11 +614,7 @@ var render = function() {
                               },
                               on: {
                                 click: function($event) {
-                                  return _vm.$router.push({
-                                    name: "clwk",
-                                    params: { id: _vm.$route.params.id },
-                                    query: { clwk: _vm.Preview_id }
-                                  })
+                                  return _vm.$emit("OpenClasswork")
                                 }
                               }
                             },
@@ -643,11 +639,7 @@ var render = function() {
                               },
                               on: {
                                 click: function($event) {
-                                  return _vm.$router.push({
-                                    name: "clwk",
-                                    params: { id: _vm.$route.params.id },
-                                    query: { clwk: _vm.Preview_id }
-                                  })
+                                  return _vm.$emit("OpenClasswork")
                                 }
                               }
                             },

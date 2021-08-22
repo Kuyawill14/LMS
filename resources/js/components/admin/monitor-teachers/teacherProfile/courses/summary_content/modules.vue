@@ -90,7 +90,6 @@
 </template>
 <script>
     import draggable from "vuedraggable";
-    import VueElementLoading from 'vue-element-loading'
 
     import {
         mapGetters,
@@ -99,10 +98,6 @@
 
     export default {
         props: ['course_details'],
-        components: {
-            VueElementLoading,
-
-        },
         data() {
             return {
                     moduleName: '',

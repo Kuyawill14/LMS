@@ -1,7 +1,7 @@
 <template>
     <div class="pt-4">
         <h2>
-            Manage Teachers
+            Manage Students
         </h2>
         <v-btn bottom color="primary" dark fab fixed right @click="openAdd()">
             <v-icon>mdi-plus</v-icon>
@@ -39,7 +39,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="(item, index) in getTeachers" :key="index">
+                                <tr v-for="(item, index) in StudentList" :key="index">
                                     <td> {{item.user_id}} </td>
                                     <td> {{item.lastName }} </td>
                                     <td> {{item.firstName}} </td>
@@ -48,13 +48,13 @@
 
 
                                     <td>
-                                        <v-btn color="primary" :loading="IsResetting" @click="updatePass(item.user_id)">
+                                        <v-btn color="primary" :loading="IsResetting && IsResetting_id == item.user_id" @click="updatePass(item.user_id)">
                                             Reset Password
                                         </v-btn>
                                     </td>
                                     <td>
 
-                                        <v-btn icon color="success" @click="openEdit(item.user_id)">
+                                        <v-btn icon color="success" @click="openEdit(item)">
                                             <v-icon>
                                                 mdi-pencil
                                             </v-icon>
@@ -69,7 +69,7 @@
                                     </td>
 
                                 </tr>
-                                <tr v-if="getTeachers.length == 0">
+                                <tr v-if="StudentList.length == 0">
                                     <td colspan="42" class="text-center"> No data available</td>
                                 </tr>
 
@@ -141,25 +141,6 @@
                         </v-row>
 
 
-                        <!-- <v-col> -->
-                        <!-- <v-row class="pa-5"> -->
-                        <!-- <v-col class="ma-0 pa-0 mb-1" cols="12" md="12" v-if="type== 'add'">
-                                        <HasError class="error--text" :form="form" field="password" />
-                                        <v-text-field :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'" id="password"
-                                            label="Password" name="password" v-model="form.password"
-                                            :type="show ? 'text' : 'password'" color="primary"
-                                            :rules="[rules.required, rules.min]" counter @click:append="show = !show"
-                                            outlined />
-                                    </v-col> -->
-
-
-
-                        <!-- <v-col class="ma-0 pa-0 mb-1" cols="12" md="12">
-                                        <v-select :items="role" v-model="form.role" :rules="RoleRules" outlined
-                                            label="Role"></v-select>
-                                    </v-col> -->
-                        <!-- </v-row> -->
-                        <!-- </v-col> -->
 
                     </v-form>
                 </v-container>
@@ -218,6 +199,7 @@
                 IsDeleting: false,
                 IsAddUpdating: false,
                 IsResetting: false,
+                IsResetting_id: null,
                 type: '',
                 search: "",
                 valid: true,
@@ -250,7 +232,8 @@
                 rules: {
                     required: value => !!value || "Field is required.",
                     min: v => (v && v.length >= 6) || "min 6 characters"
-                }
+                },
+                StudentList: [],
 
 
 
@@ -278,17 +261,17 @@
                 // this.grading_criteria_form.percentage = '';
                 this.dialog = true;
             },
-            openEdit(user_id) {
+            openEdit(details) {
                 this.type = 'edit'
                 this.dialog = true;
-                var currentTeacher = this.filterTeacher(user_id);
-                console.log(currentTeacher);
-                this.form.user_id = currentTeacher.user_id;
-                this.form.firstName = currentTeacher.firstName;
-                this.form.middleName = currentTeacher.middleName;
-                this.form.lastName = currentTeacher.lastName;
-                this.form.phone = currentTeacher.cp_no;
-                this.form.email = currentTeacher.email;
+         
+      
+                this.form.user_id = details.user_id;
+                this.form.firstName = details.firstName;
+                this.form.middleName = details.middleName;
+                this.form.lastName = details.lastName;
+                this.form.phone = details.cp_no;
+                this.form.email = details.email;
 
 
             },
@@ -297,6 +280,7 @@
                 this.Deldialog = true;
             },
             updatePass(id) {
+                this.IsResetting_id = id;
                 this.IsResetting = true;
                 axios.post('/api/admin/teachers/reset-password/' + id)
                     .then(res => {
@@ -368,18 +352,18 @@
                     this.valid = false;
                       this.IsAddUpdating = false;
             },
+            async getStudent(){
+                axios.get('/api/admin/students/all')
+                .then(res=>{
+                    this.StudentList = res.data;
+                })
+            }
         },
 
         mounted() {
-
-            this.$store.dispatch('fetchAllTeachers');
-
-
-
+            this.getStudent();
+            //this.$store.dispatch('fetchAllTeachers');
         }
-
-
-
     }
 
 </script>

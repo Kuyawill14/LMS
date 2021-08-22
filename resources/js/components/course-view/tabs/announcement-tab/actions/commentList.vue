@@ -28,10 +28,11 @@
         <v-divider></v-divider>
     </v-row>
      <transition transition="v-expand-transition" >
-  <div class="mt-6" v-if="showComment">
+  <div class="mt-6 mb-0 pb-0" v-if="showComment">
      
-        <v-container v-for="item in postDetails.comment" :key="item.id" class="d-inline-flex pl-7 pr-4 pb-3 shrink" pa-0>
+        <v-container v-for="item in postDetails.comment" :key="item.id" class="d-inline-flex pl-7 pr-4 pb-2 shrink" pa-0>
             <v-avatar
+            color="grey"
             size="36"
             :class="isEditing && idEditing_id == item.id ? 'mt-1': ''">
             <v-img class="rounded-circle"  
@@ -83,18 +84,18 @@
       
      </div>
       </transition>
-      <v-row nu class="pt-1 pr-7" >
-        <v-col cols="2" sm="2" lg="1" md="1" class="pr-0 mr-0">
+      <v-row  class="pa-3 pt-0 mt-0 mb-0 pb-0" >
+        <!-- <v-col cols="2" sm="2" lg="1" md="1" class="pr-0 mr-0">
             <v-avatar
             :class="!$vuetify.breakpoint.xs  && !$vuetify.breakpoint.sm ? 'ml-7' : 'ml-6'"
             size="36"
             >
             <v-img 
-            :src="UserDetails.profile_pic == null || UserDetails.profile_pic == ''? 'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=' + (UserDetails.firstName+' '+UserDetails.lastName) : '/storage/'+UserDetails.profile_pic"></v-img>
+            :src="UserDetails.profile_pic == null || UserDetails.profile_pic == ''? 'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=' + (UserDetails.firstName+' '+UserDetails.lastName) : UserDetails.profile_pic"></v-img>
             </v-avatar>
-        </v-col>
-        <v-col class="pl-0 ml-0" cols="10" sm="10" lg="11" md="11" >
-            <v-text-field
+        </v-col> -->
+         <v-col  cols="12" class="ma-0 pa-0 pt-3" >
+            <!-- <v-text-field
                 v-model="comment"
                 append-outer-icon="mdi-send"
                 prepend-avatar="mdi-emoticon-dead"
@@ -109,7 +110,37 @@
                 @click:append-outer="addComment"
                 @click:clear="clearComment"
                 >
-            </v-text-field>
+            </v-text-field> -->
+
+            <v-list class="mb-0 pb-0 mt-0 pt-0">
+                <v-list-item class="mb-0 pb-0" >
+                    <v-list-item-avatar color="secondary" >
+                        <v-img :src="UserDetails.profile_pic == null || UserDetails.profile_pic == ''? 
+                        'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=' + (UserDetails.firstName+' '+UserDetails.lastName) : UserDetails.profile_pic">
+                        </v-img>
+                    </v-list-item-avatar>
+                    <v-list-item-content>
+                        <v-list-item-title>
+                             <v-text-field
+                                    v-model="comment"
+                                    append-outer-icon="mdi-send"
+                                    prepend-avatar="mdi-emoticon-dead"
+                                    filled
+                                    rounded
+                                    dense
+                                    clear-icon="mdi-close-circle"
+                                    clearable
+                                    placeholder="Comment"
+                                    class="text-caption pl-0 mt-6"
+                                    type="text"
+                                    @click:append-outer="addComment"
+                                    @click:clear="clearComment"
+                                    >
+                                </v-text-field>
+                        </v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
+            </v-list>
         </v-col>
     </v-row>
 </div>

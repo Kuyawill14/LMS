@@ -30,6 +30,16 @@ class AdminController extends Controller
         return $teachers;
     }
 
+    public function getAllStudent() {
+        $teachers = tbl_userDetails::where("role","Student")
+        ->select("users.role","users.email",
+        "tbl_user_details.*")
+        ->leftJoin("users", "users.id", "=", "tbl_user_details.user_id")
+        ->get();
+
+        return $teachers;
+    }
+
 
     public function getAllTeacherProgress() {
         $teachers = tbl_userDetails::where("role","Teacher")

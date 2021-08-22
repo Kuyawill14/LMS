@@ -32,6 +32,8 @@ Vue.use(VueCoreVideoPlayer)
 import VueCountdownTimer from 'vuejs-countdown-timer';
 Vue.use(VueCountdownTimer);
 
+import VueElementLoading from "vue-element-loading";
+Vue.component("VueElementLoading", VueElementLoading);
 
 
 //Vuex Store

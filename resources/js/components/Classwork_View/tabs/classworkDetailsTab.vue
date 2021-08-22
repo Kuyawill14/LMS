@@ -1,7 +1,7 @@
 
 <template>
 <div class="pa-1">
-<v-container class="fill-height" v-if="isloading" style="height: 500px;">
+<!-- <v-container class="fill-height" v-if="isloading" style="height: 500px;">
   <v-row  align-content="center" justify="center">
             <v-col cols="12" class="text-center">
                 <v-progress-circular
@@ -11,8 +11,17 @@
                 ></v-progress-circular>
             </v-col>
         </v-row>
-</v-container>
-  <v-container v-if="!isloading" pa-0 ma-0  class="pa-0 pa-0" fluid>
+</v-container> -->
+
+
+ <v-overlay :value="isLeaving">
+      <v-progress-circular
+        indeterminate
+        size="64"
+      ></v-progress-circular>
+</v-overlay>
+
+  <v-container v-if="!isLeaving" pa-0 ma-0  class="pa-0 pa-0" fluid>
         <v-row align="center" justify="center">
             <v-col cols="12"  md="8" lg="9" xl="9">
                 <vue-element-loading :active="isUpdating" spinner="bar-fade-scale" />
@@ -158,12 +167,8 @@
 </div>
 </template>
 <script>
-import VueElementLoading from 'vue-element-loading'
 export default {
     props:['classworkDetails'],
-    components:{
-        VueElementLoading
-    },
     data(){
         return{
             valid:false,
@@ -176,7 +181,8 @@ export default {
                 v => !!v || 'Field is required',
             ],
             isCheckingFile: false,
-            isUploading: false
+            isUploading: false,
+            isLeaving: false,
         }
     },
     methods:{
@@ -242,11 +248,12 @@ export default {
     },
     beforeMount(){
         this.Details = this.classworkDetails;
-        
     },
-    created(){
-        this.isloading = !this.isloading;
-    }
+     beforeRouteLeave(to, from, next) {
+        this.isLeaving = true;
+        next();
+    },
+
 }
 </script>
 

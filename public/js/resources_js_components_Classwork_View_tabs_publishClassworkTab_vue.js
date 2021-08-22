@@ -140,6 +140,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 var publishDialog = function publishDialog() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_tabs_dialogs_publishDialog_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./dialogs/publishDialog */ "./resources/js/components/Classwork_View/tabs/dialogs/publishDialog.vue"));
 };
@@ -170,7 +177,8 @@ var updatePublishDialog = function updatePublishDialog() {
       UnpublishDiaglog: false,
       isAdding: false,
       isUpdate: false,
-      notifyDetails: {}
+      notifyDetails: {},
+      isLeaving: false
     };
   },
   methods: {
@@ -318,6 +326,10 @@ var updatePublishDialog = function updatePublishDialog() {
   },
   mounted: function mounted() {
     this.fetchClassnames();
+  },
+  beforeRouteLeave: function beforeRouteLeave(to, from, next) {
+    this.isLeaving = true;
+    next();
   }
 });
 
@@ -415,6 +427,17 @@ var render = function() {
     "div",
     { staticClass: "pa-1" },
     [
+      _c(
+        "v-overlay",
+        { attrs: { value: _vm.isLeaving } },
+        [
+          _c("v-progress-circular", {
+            attrs: { indeterminate: "", size: "64" }
+          })
+        ],
+        1
+      ),
+      _vm._v(" "),
       _c(
         "v-dialog",
         {

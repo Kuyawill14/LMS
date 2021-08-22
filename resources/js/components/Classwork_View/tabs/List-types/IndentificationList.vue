@@ -153,13 +153,11 @@
 </template>
 <script>
 const deleteDialog = () => import('../dialogs/deleteDialog')
-import VueElementLoading from 'vue-element-loading'
 import {mapGetters, mapActions } from "vuex";
 export default {
     props:['Question','number','previewAll'],
     components:{
         deleteDialog,
-        VueElementLoading,
     },
     data(){
         return{

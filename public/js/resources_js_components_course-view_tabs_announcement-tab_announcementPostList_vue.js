@@ -422,6 +422,7 @@ var render = function() {
                         "v-avatar",
                         {
                           attrs: {
+                            color: "grey",
                             size:
                               !_vm.$vuetify.breakpoint.xs &&
                               !_vm.$vuetify.breakpoint.sm

@@ -1,6 +1,12 @@
 
 <template>
 <div class="pa-1">
+<v-overlay :value="isLeaving">
+    <v-progress-circular
+        indeterminate
+        size="64"
+    ></v-progress-circular>
+</v-overlay>
 <v-container class="fill-height" v-if="isloading" style="height: 500px;">
     <v-row  align-content="center" justify="center">
             <v-col cols="12" class="text-center">
@@ -89,6 +95,7 @@ export default {
     },
     data(){
         return{
+            isLeaving: false,
             List:[],
             search:'',
             selectedTasks: [],
@@ -260,7 +267,11 @@ export default {
     },
     mounted(){
         this.GetList();
-    }
+    },
+    beforeRouteLeave(to, from, next) {
+        this.isLeaving = true;
+        next();
+    },
 }
 </script>
 
