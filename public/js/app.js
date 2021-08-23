@@ -4824,16 +4824,6 @@ var getters = {
   getAll_questions: function getAll_questions(state) {
     return state.question_data;
   }
-<<<<<<< HEAD
-  /* getAll_questions: (state) => {
-      return state.question_data[0].slice()
-      .sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
-       
-  }
-  */
-
-=======
->>>>>>> f33d65b8f14e7242238d0d06f5dbaac0d595bef6
 };
 var actions = {
   fetchQuestions: function fetchQuestions(_ref, id) {

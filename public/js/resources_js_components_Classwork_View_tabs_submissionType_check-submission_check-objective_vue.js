@@ -22833,11 +22833,7 @@ var render = function() {
                                               _vm._v(
                                                 "\n                        " +
                                                   _vm._s(_vm.inputCheck[n]) +
-<<<<<<< HEAD
-                                                  "\n                    "
-                                              )
-=======
-                                                  " \r\n                        "
+                                                  " \n                        "
                                               ),
                                               _vm.inputCheck[n] ==
                                               _vm.SubmittedAnswer[index].Answer
@@ -22850,7 +22846,6 @@ var render = function() {
                                                     [_vm._v("(correct answer)")]
                                                   )
                                                 : _vm._e()
->>>>>>> f33d65b8f14e7242238d0d06f5dbaac0d595bef6
                                             ]
                                           )
                                         ],
