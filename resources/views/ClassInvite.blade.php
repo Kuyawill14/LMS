@@ -72,7 +72,7 @@
                                         <p style="font-size: 35px;margin-top: 0px;margin-bottom: 0px;">    <strong>{{$class_code}}</strong> 
                                           {{--   <button class="copy_button" onclick="copyFunction()"> copy <i  class="far fa-copy"></i></button>
                                         </p > --}}
-
+                                        <br>
                                         <a href="javascript:void(0);"
                                             style="background:#FF5400;text-decoration:none !important; font-weight:500; margin-top:35px; color:#fff;text-transform:uppercase; font-size:14px;padding:10px 24px;display:inline-block;border-radius:50px;">Accept Invite</a>
                                     </td>
