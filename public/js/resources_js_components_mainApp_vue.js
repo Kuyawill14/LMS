@@ -23705,9 +23705,9 @@ var render = function() {
                               _vm._v(" "),
                               _c("p", { staticClass: "text-caption mt-1" }, [
                                 _vm._v(
-                                  "\n                                " +
+                                  "\r\n                                " +
                                     _vm._s(_vm.UserDetails.email) +
-                                    "\n                            "
+                                    "\r\n                            "
                                 )
                               ]),
                               _vm._v(" "),
@@ -23730,7 +23730,7 @@ var render = function() {
                                     _vm._v("mdi-account")
                                   ]),
                                   _vm._v(
-                                    " My Profile\n                            "
+                                    " My Profile\r\n                            "
                                   )
                                 ],
                                 1
@@ -23759,7 +23759,7 @@ var render = function() {
                                     _vm._v("mdi-package-down")
                                   ]),
                                   _vm._v(
-                                    " Archive\n                            "
+                                    " Archive\r\n                            "
                                   )
                                 ],
                                 1
@@ -23800,7 +23800,7 @@ var render = function() {
                                         _vm._v("mdi-account-multiple-plus")
                                       ]),
                                       _vm._v(
-                                        " Class Invite\n                            "
+                                        " Class Invite\r\n                            "
                                       )
                                     ],
                                     1
@@ -23826,7 +23826,7 @@ var render = function() {
                                     _vm._v("mdi-power")
                                   ]),
                                   _vm._v(
-                                    " Logout\n                            "
+                                    " Logout\r\n                            "
                                   )
                                 ],
                                 1
