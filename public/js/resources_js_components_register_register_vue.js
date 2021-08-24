@@ -256,13 +256,13 @@ __webpack_require__.r(__webpack_exports__);
         this.isRegistering = true;
         this.form.post('/api/register').then(function (res) {
           if (res.status == 201) {
-            _this2.toastSuccess('User Registration Successfull!');
+            _this2.toastSuccess('User Registration Successfull!'); //this.login(res.data.email, this.form.password);
 
-            _this2.login(res.data.email, _this2.form.password);
 
             _this2.$refs.RegisterForm.reset();
 
             _this2.valid = true;
+            _this2.isRegistering = false;
           } else if (res.status == 202) {
             _this2.toastError(res.data.message);
 
@@ -600,7 +600,7 @@ var render = function() {
                         "v-col",
                         {
                           class: _vm.$vuetify.breakpoint.xs
-                            ? "ma-0 pa-5"
+                            ? "ma-0 pa-3"
                             : "ma-0 pa-0",
                           attrs: { cols: "12", md: "8" }
                         },
@@ -621,16 +621,14 @@ var render = function() {
                                 "v-col",
                                 {
                                   staticClass: "text-left",
-                                  attrs: { cols: "12", md: "6", sm: "8" }
+                                  attrs: {
+                                    cols: "12",
+                                    md: "8",
+                                    lg: "6",
+                                    sm: "7"
+                                  }
                                 },
                                 [
-                                  _c("vue-element-loading", {
-                                    attrs: {
-                                      active: _vm.isRegistering,
-                                      spinner: "bar-fade-scale"
-                                    }
-                                  }),
-                                  _vm._v(" "),
                                   _c(
                                     "v-card-text",
                                     [

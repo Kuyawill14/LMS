@@ -200,7 +200,8 @@
                 this.isLoading = true;
                 if(status == 'Submitted' && score != null){
                     if(type == 'Objective Type'){
-                     this.$router.push({name:'result-page', params:{id: classwork_id}})
+                    // this.$router.push({name:'result-page', params:{id: classwork_id}})
+                     this.$router.push({name: 'clwk',params: {id: this.$route.params.id},query: {clwk: classwork_id}})
                     }
                     else{
                         this.$router.push({name: 'clwk',params: {id: this.$route.params.id},query: {clwk: classwork_id}})

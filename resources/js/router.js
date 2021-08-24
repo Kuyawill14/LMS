@@ -811,16 +811,11 @@ const router = new Router({
         },
 
         {
-            path: "/testing",
-            component: test,
-            name: "testing"
+            path: "/verify-email",
+            name: "verifyEmail",
+            component: ()=> import(/*webpackChunkName: "verifyEmail"*/"./components/verify/verifyEmail.vue"),
         },
 
-        {
-            path: "/documentPreview",
-            component: documentPreview,
-            name: "documentPreview"
-        },
 
 
 

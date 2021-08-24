@@ -111,6 +111,39 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var VueElementLoading = function VueElementLoading() {
   return Promise.resolve(/*! import() */).then(__webpack_require__.t.bind(__webpack_require__, /*! vue-element-loading */ "./node_modules/vue-element-loading/lib/vue-element-loading.min.js", 23));
 };
@@ -149,7 +182,8 @@ var archiveClass = function archiveClass() {
         course_id: null
       },
       ArchiveDetails: null,
-      removeIndex: null
+      removeIndex: null,
+      copied: false
     };
   },
   methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)(['fetchSubjectCourseClassList'])), {}, {
@@ -186,6 +220,11 @@ var archiveClass = function archiveClass() {
     SuccessArchive: function SuccessArchive() {
       this.showModal = false;
       this.allClass.splice(this.removeIndex, 1);
+    },
+    CopyClassCode: function CopyClassCode(code) {
+      var CodeText = code;
+      navigator.clipboard.writeText(CodeText);
+      this.copied = true;
     }
   }),
   computed: (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)(['allClass']),
@@ -346,7 +385,7 @@ var render = function() {
                   attrs: { cols: "12", sm: "8", md: "4" }
                 },
                 [
-                  _c("v-icon", { staticStyle: { "font-size": "14rem" } }, [
+                  _c("v-icon", { staticStyle: { "font-size": "10rem" } }, [
                     _vm._v(
                       "\n                mdi-google-classroom\n            "
                     )
@@ -392,7 +431,7 @@ var render = function() {
                   attrs: { "align-content": "center", justify: "center" }
                 },
                 [
-                  _c("v-icon", { staticStyle: { "font-size": "14rem" } }, [
+                  _c("v-icon", { staticStyle: { "font-size": "10rem" } }, [
                     _vm._v(
                       "\n                mdi-google-classroom\n            "
                     )
@@ -544,11 +583,81 @@ var render = function() {
                               _vm._v(_vm._s(item.class_name) + " ")
                             ]),
                             _vm._v(" "),
-                            _c("v-list-item-subtitle", [
-                              _vm._v(
-                                "Class code: " + _vm._s(item.class_code) + " "
-                              )
-                            ]),
+                            _c(
+                              "v-list-item-subtitle",
+                              [
+                                _vm._v(
+                                  "Class code: " +
+                                    _vm._s(item.class_code) +
+                                    "  \n                                "
+                                ),
+                                _c(
+                                  "v-tooltip",
+                                  {
+                                    attrs: { top: "", small: "" },
+                                    scopedSlots: _vm._u(
+                                      [
+                                        {
+                                          key: "activator",
+                                          fn: function(ref) {
+                                            var on = ref.on
+                                            var attrs = ref.attrs
+                                            return [
+                                              _c(
+                                                "v-btn",
+                                                _vm._g(
+                                                  _vm._b(
+                                                    {
+                                                      attrs: {
+                                                        small: "",
+                                                        icon: ""
+                                                      },
+                                                      on: {
+                                                        click: function(
+                                                          $event
+                                                        ) {
+                                                          return _vm.CopyClassCode(
+                                                            item.class_code
+                                                          )
+                                                        }
+                                                      }
+                                                    },
+                                                    "v-btn",
+                                                    attrs,
+                                                    false
+                                                  ),
+                                                  on
+                                                ),
+                                                [
+                                                  _c(
+                                                    "v-icon",
+                                                    {
+                                                      attrs: {
+                                                        color: "blue",
+                                                        small: ""
+                                                      }
+                                                    },
+                                                    [_vm._v("mdi-content-copy")]
+                                                  )
+                                                ],
+                                                1
+                                              )
+                                            ]
+                                          }
+                                        }
+                                      ],
+                                      null,
+                                      true
+                                    )
+                                  },
+                                  [
+                                    _vm._v(" "),
+                                    _c("small", [_vm._v("Copy class code")])
+                                  ]
+                                )
+                              ],
+                              1
+                            ),
                             _vm._v(" "),
                             _c("v-list-item-subtitle", [
                               _vm._v("Students: " + _vm._s(item.student_count))
@@ -671,7 +780,61 @@ var render = function() {
             ],
             2
           )
-        : _vm._e()
+        : _vm._e(),
+      _vm._v(" "),
+      _c(
+        "v-snackbar",
+        {
+          attrs: {
+            absolute: "",
+            bottom: "",
+            width: _vm.$vuetify.breakpoint.sm ? "100%" : "",
+            right: _vm.$vuetify.breakpoint.lgAndUp,
+            centered: _vm.$vuetify.breakpoint.sm
+          },
+          scopedSlots: _vm._u([
+            {
+              key: "action",
+              fn: function(ref) {
+                var attrs = ref.attrs
+                return [
+                  _c(
+                    "v-btn",
+                    _vm._b(
+                      {
+                        attrs: {
+                          color: "pink",
+                          text: "",
+                          bottom: "",
+                          left: ""
+                        },
+                        on: {
+                          click: function($event) {
+                            _vm.copied = false
+                          }
+                        }
+                      },
+                      "v-btn",
+                      attrs,
+                      false
+                    ),
+                    [_c("v-icon", [_vm._v("mdi-close")])],
+                    1
+                  )
+                ]
+              }
+            }
+          ]),
+          model: {
+            value: _vm.copied,
+            callback: function($$v) {
+              _vm.copied = $$v
+            },
+            expression: "copied"
+          }
+        },
+        [_vm._v("\n    Class code copied to clipboard\n\n    ")]
+      )
     ],
     1
   )

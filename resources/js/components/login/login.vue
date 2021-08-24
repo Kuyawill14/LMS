@@ -66,7 +66,7 @@
                     <v-col :class="$vuetify.breakpoint.xs ? 'ma-0 pa-3' :'ma-0 pa-0'" cols="12" md="8">
                       <vue-element-loading :active="isLoggin" spinner="bar-fade-scale" />
                       <v-row align="center" justify="center">
-                        <v-col class="text-left" cols="12" md="6" sm="8">
+                        <v-col class="text-left" cols="12" md="8" lg="6" sm="7">
                           <v-card-text>
                               <v-form class="text-center" ref="loginForm" v-model="valid" lazy-validation>
                                 <v-row align="center" justify="center">
@@ -232,6 +232,11 @@ export default {
                        this.isLoggin = false;
                        this.toastError(res.data);
                     }
+                })
+                .catch(err=>{
+                    this.toastError(err.response.data.message);
+                    this.isLoggin = false;
+                  
                 })
            
         });

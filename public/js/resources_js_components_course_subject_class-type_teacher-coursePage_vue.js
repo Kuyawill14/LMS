@@ -164,6 +164,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 var confirmArchiveCourse = function confirmArchiveCourse() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_course_subject_class-type_dialog_confirmArchiveCourse_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./dialog/confirmArchiveCourse */ "./resources/js/components/course_subject/class-type/dialog/confirmArchiveCourse.vue"));
 };
@@ -183,7 +190,7 @@ var confirmArchiveCourse = function confirmArchiveCourse() {
       coursesLength: null,
       isGetting: false,
       dialog: false,
-      isloading: true,
+      isloading: false,
       modalType: '',
       isPageLoading: false,
       class_code: null,
@@ -197,7 +204,8 @@ var confirmArchiveCourse = function confirmArchiveCourse() {
       },
       Archivedialog: false,
       ArchiveDetails: {},
-      allCoursesData: []
+      allCoursesData: [],
+      isLeaving: false
     };
   },
   computed: (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)(['allCourse']),
@@ -244,13 +252,16 @@ var confirmArchiveCourse = function confirmArchiveCourse() {
     createCourse: function createCourse() {
       var _this2 = this;
 
+      this.isloading = true;
+
       if (this.form.course_name != "" && this.form.course_code != "") {
-        this.isloading = true;
         this.$store.dispatch('createCourse', this.form).then(function (res) {
           _this2.dialog = false;
           var id = res.id;
 
           _this2.toastSuccess("Your course has been Added", 'done');
+
+          _this2.isLeaving = true;
 
           _this2.$router.push({
             name: 'courseSetup',
@@ -454,6 +465,17 @@ var render = function() {
     "div",
     [
       _c(
+        "v-overlay",
+        { attrs: { value: _vm.isLeaving } },
+        [
+          _c("v-progress-circular", {
+            attrs: { indeterminate: "", size: "64" }
+          })
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
         "v-dialog",
         {
           attrs: { persistent: "", "max-width": "400" },
@@ -598,6 +620,10 @@ var render = function() {
           _c(
             "v-card",
             [
+              _c("vue-element-loading", {
+                attrs: { active: _vm.isloading, spinner: "bar-fade-scale" }
+              }),
+              _vm._v(" "),
               _c("v-card-title", {}, [
                 _vm._v(
                   "\n                " +
@@ -686,7 +712,11 @@ var render = function() {
                   _c(
                     "v-btn",
                     {
-                      attrs: { text: "", color: "primary" },
+                      attrs: {
+                        text: "",
+                        disabled: _vm.isloading,
+                        color: "primary"
+                      },
                       on: {
                         click: function($event) {
                           _vm.modalType == "add"
@@ -698,7 +728,7 @@ var render = function() {
                     [
                       _vm._v(
                         "\n                    " +
-                          _vm._s(_vm.modalType == "add" ? "Save" : "Update")
+                          _vm._s(_vm.isloading ? "Saving..." : "Save")
                       )
                     ]
                   )
@@ -995,7 +1025,7 @@ var render = function() {
                                   _c("hr"),
                                   _vm._v(
                                     "\n                            " +
-                                      _vm._s(item.student_count + " students") +
+                                      _vm._s(item.student_count + " enrolled") +
                                       " "
                                   ),
                                   _c("br"),

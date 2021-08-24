@@ -1,6 +1,7 @@
 {
     "/js/app.js": "/js/app.js",
     "/js/manifest.js": "/js/manifest.js",
+    "/js/verifyEmail.js": "/js/verifyEmail.js",
     "/js/vendor~utils-0.js": "/js/vendor~utils-0.js",
     "/css/app.css": "/css/app.css",
     "/js/vendor~utils-4.js": "/js/vendor~utils-4.js",

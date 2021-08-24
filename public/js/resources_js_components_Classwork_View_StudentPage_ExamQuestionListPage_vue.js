@@ -543,30 +543,31 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 timeConsume: null
               });
             } else if (res[0].Question[index].type == 'Matching type') {
-              var Ans = new Array();
-              var Choices_id = new Array();
-              /* res[0].Answer[index].SubAnswer.forEach(item => {
-                 Choices_id.push({
+              (function () {
+                var Ans = new Array();
+                var Choices_id = new Array();
+                res[0].Answer[index].SubAnswer.forEach(function (item) {
+                  Choices_id.push({
                     choice_id: item.id
-                 })
-              }); */
-
-              /* res[0].Answer[index].SubQuestion.forEach(item => {
+                  });
+                });
+                res[0].Answer[index].SubQuestion.forEach(function (item) {
                   Ans.push({
-                      Ans_letter: '',
-                      Ans_id: null,
-                      subquestion_id: item.id,
-                      Answers: ''
-                  })
-              }); */
+                    Ans_letter: '',
+                    Ans_id: null,
+                    subquestion_id: item.id,
+                    Answers: ''
+                  });
+                });
 
-              _this5.FinalAnswers.push({
-                Answer: Ans,
-                Choices_id: Choices_id,
-                Question_id: res[0].Question[index].id,
-                type: res[0].Question[index].type,
-                timeConsume: null
-              });
+                _this5.FinalAnswers.push({
+                  Answer: Ans,
+                  Choices_id: Choices_id,
+                  Question_id: res[0].Question[index].id,
+                  type: res[0].Question[index].type,
+                  timeConsume: null
+                });
+              })();
             }
           }
 
@@ -575,21 +576,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             data: _this5.FinalAnswers
           }); //localStorage.setItem(name, JSON.stringify(this.FinalAnswers));
         } else {
-          /*   let Submitted_length = AnswersList.length;
-            let Question_length = res[0].Question.length;
-            let diff = Question_length  - Submitted_length;
-            for (let i = 0; i < diff; i++) {
-                if(this.QuestionAndAnswer.Question[i].type == 'Multiple Choice' || this.QuestionAndAnswer.Question[i].type == 'Identification' || this.QuestionAndAnswer.Question[i].type == 'True or False'){
-                    this.details.Submitted_Answers.push({
-                        Answer: null,
-                        Question_id: this.QuestionAndAnswer.Question[i].id,
-                        timeConsume: null,
-                        type: this.QuestionAndAnswer.Question[i].type
-                    })
-                }
-                else if(this.QuestionAndAnswer.Question[i].type == 'Matching type'){
-                 }
-                 } */
+          var Submitted_length = AnswersList.length;
+          var Question_length = res[0].Question.length;
+          var diff = Question_length - Submitted_length;
+
+          for (var i = 0; i < diff; i++) {
+            if (_this5.QuestionAndAnswer.Question[i].type == 'Multiple Choice' || _this5.QuestionAndAnswer.Question[i].type == 'Identification' || _this5.QuestionAndAnswer.Question[i].type == 'True or False') {
+              _this5.details.Submitted_Answers.push({
+                Answer: null,
+                Question_id: _this5.QuestionAndAnswer.Question[i].id,
+                timeConsume: null,
+                type: _this5.QuestionAndAnswer.Question[i].type
+              });
+            } else if (_this5.QuestionAndAnswer.Question[i].type == 'Matching type') {}
+          }
+
           for (var x = 0; x < res[0].Question.length; x++) {
             for (var j = 0; j < AnswersList.length; j++) {
               if (res[0].Question[x].id == AnswersList[j].Question_id) {
@@ -601,32 +602,31 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     timeConsume: AnswersList[j].timeConsume
                   });
                 } else if (res[0].Question[x].type == 'Matching type') {
-                  var _Ans = new Array();
-
-                  var _Choices_id = new Array();
-                  /* res[0].Answer[x].SubAnswer.forEach(item => {
+                  (function () {
+                    var Ans = new Array();
+                    var Choices_id = new Array();
+                    res[0].Answer[x].SubAnswer.forEach(function (item) {
                       Choices_id.push({
-                          choice_id: item.id
-                      })
-                  }); */
-
-                  /*  AnswersList[j].Answer.forEach(item => {
+                        choice_id: item.id
+                      });
+                    });
+                    AnswersList[j].Answer.forEach(function (item) {
                       Ans.push({
-                          //Ans_letter: item.Ans_letter,
-                          Ans_id: item.Ans_id,
-                          subquestion_id: item.subquestion_id,
-                          Answers: item.Answers
-                      })
-                   }); */
+                        //Ans_letter: item.Ans_letter,
+                        Ans_id: item.Ans_id,
+                        subquestion_id: item.subquestion_id,
+                        Answers: item.Answers
+                      });
+                    });
 
-
-                  _this5.FinalAnswers.push({
-                    Answer: _Ans,
-                    Choices_id: _Choices_id,
-                    Question_id: AnswersList[j].Question_id,
-                    type: AnswersList[j].type,
-                    timeConsume: AnswersList[j].timeConsume
-                  });
+                    _this5.FinalAnswers.push({
+                      Answer: Ans,
+                      Choices_id: Choices_id,
+                      Question_id: AnswersList[j].Question_id,
+                      type: AnswersList[j].type,
+                      timeConsume: AnswersList[j].timeConsume
+                    });
+                  })();
                 }
               }
             }
@@ -22890,13 +22890,13 @@ var render = function() {
                     },
                     [
                       _vm._v(
-                        "\n            " +
+                        "\r\n            " +
                           _vm._s(
                             _vm.isSubmitting
                               ? "Submitting Questions"
                               : "Loading Questions"
                           ) +
-                          "\n        "
+                          "\r\n        "
                       )
                     ]
                   ),
@@ -22996,7 +22996,7 @@ var render = function() {
                                                 },
                                                 [
                                                   _vm._v(
-                                                    "\n                            mdi-book-open-variant\n                            "
+                                                    "\r\n                            mdi-book-open-variant\r\n                            "
                                                   )
                                                 ]
                                               )
@@ -23177,12 +23177,12 @@ var render = function() {
                                                                             ]
                                                                           ),
                                                                           _vm._v(
-                                                                            "\n                                        " +
+                                                                            "\r\n                                        " +
                                                                               _vm._s(
                                                                                 index +
                                                                                   1
                                                                               ) +
-                                                                              "\n                                       "
+                                                                              "\r\n                                       "
                                                                           )
                                                                         ],
                                                                         1
@@ -23229,7 +23229,7 @@ var render = function() {
                                                                             },
                                                                             [
                                                                               _vm._v(
-                                                                                "\n                                                " +
+                                                                                "\r\n                                                " +
                                                                                   _vm._s(
                                                                                     _vm
                                                                                       .FinalAnswers[
@@ -23252,12 +23252,12 @@ var render = function() {
                                                                             ]
                                                                           ),
                                                                           _vm._v(
-                                                                            "\n                                            " +
+                                                                            "\r\n                                            " +
                                                                               _vm._s(
                                                                                 index +
                                                                                   1
                                                                               ) +
-                                                                              "\n                                       "
+                                                                              "\r\n                                       "
                                                                           )
                                                                         ],
                                                                         1
@@ -23387,7 +23387,7 @@ var render = function() {
                                                 [_vm._v("mdi-arrow-left")]
                                               ),
                                               _vm._v(
-                                                "\n                                        " +
+                                                "\r\n                                        " +
                                                   _vm._s(
                                                     _vm.$vuetify.breakpoint
                                                       .xs ||
@@ -23395,7 +23395,7 @@ var render = function() {
                                                       ? ""
                                                       : "previous"
                                                   ) +
-                                                  "\n                                        "
+                                                  "\r\n                                        "
                                               )
                                             ],
                                             1
@@ -23414,7 +23414,7 @@ var render = function() {
                                                 },
                                                 [
                                                   _vm._v(
-                                                    "\n                                        " +
+                                                    "\r\n                                        " +
                                                       _vm._s(
                                                         _vm.$vuetify.breakpoint
                                                           .xs ||
@@ -23423,7 +23423,7 @@ var render = function() {
                                                           ? ""
                                                           : "Next"
                                                       ) +
-                                                      "\n                                        "
+                                                      "\r\n                                        "
                                                   ),
                                                   _c(
                                                     "v-icon",
@@ -23448,7 +23448,7 @@ var render = function() {
                                                 },
                                                 [
                                                   _vm._v(
-                                                    "\n                                        Submit\n                                        "
+                                                    "\r\n                                        Submit\r\n                                        "
                                                   ),
                                                   _c(
                                                     "v-icon",
@@ -24025,14 +24025,14 @@ var render = function() {
                                                                       },
                                                                       [
                                                                         _vm._v(
-                                                                          "\n                                                        " +
+                                                                          "\r\n                                                        " +
                                                                             _vm._s(
                                                                               _vm
                                                                                 .inputCheck[
                                                                                 n
                                                                               ]
                                                                             ) +
-                                                                            "\n                                                    "
+                                                                            "\r\n                                                    "
                                                                         )
                                                                       ]
                                                                     )
@@ -24155,7 +24155,7 @@ var render = function() {
                                                                               },
                                                                               [
                                                                                 _vm._v(
-                                                                                  "\n                                                                        Column A\n                                                                    "
+                                                                                  "\r\n                                                                        Column A\r\n                                                                    "
                                                                                 )
                                                                               ]
                                                                             ),
@@ -24174,7 +24174,7 @@ var render = function() {
                                                                               },
                                                                               [
                                                                                 _vm._v(
-                                                                                  "\n                                                                        Column B\n                                                                    "
+                                                                                  "\r\n                                                                        Column B\r\n                                                                    "
                                                                                 )
                                                                               ]
                                                                             )

@@ -60,11 +60,11 @@
                           </v-container>
                             </v-col>
 
-                            <v-col :class="$vuetify.breakpoint.xs ? 'ma-0 pa-5' :'ma-0 pa-0'" cols="12" md="8">
+                            <v-col :class="$vuetify.breakpoint.xs ? 'ma-0 pa-3' :'ma-0 pa-0'" cols="12" md="8">
                                 <vue-element-loading :active="isRegistering" spinner="bar-fade-scale" color="#EF6C00" />
                                 <v-row align="center" justify="center">
-                                    <v-col class="text-left" cols="12" md="6" sm="8">
-                                         <vue-element-loading :active="isRegistering" spinner="bar-fade-scale" />
+                                    <v-col class="text-left" cols="12" md="8" lg="6" sm="7">
+                                         
                                           <v-card-text >
                                            
 
@@ -230,9 +230,10 @@
                     .then((res) => {
                         if(res.status == 201){
                             this.toastSuccess('User Registration Successfull!');
-                            this.login(res.data.email, this.form.password);
+                            //this.login(res.data.email, this.form.password);
                             this.$refs.RegisterForm.reset()
                             this.valid = true;
+                            this.isRegistering = false;
                             
                         }
                         else if(res.status == 202){

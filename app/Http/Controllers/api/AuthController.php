@@ -14,6 +14,9 @@ use App\Models\tbl_notification;
 use App\Events\NewNotification;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidatationException;
+use Illuminate\Auth\Events\Registered;
+
+
 
 class AuthController extends Controller
 {
@@ -25,6 +28,13 @@ class AuthController extends Controller
             'email' => ['required', 'email'],
             'password' => ['required']
         ]);
+
+        if($request->email != "admin@gmail.com"){
+            $user = User::where('email', $request->email)->whereNotNull('email_verified_at')->firstOrfail();
+        }
+
+        
+
         
         if(Auth::attempt($request->only('email', 'password'))){
             $user = auth('sanctum')->user();
@@ -117,15 +127,13 @@ class AuthController extends Controller
  
         if($request->role == 'Student'){
 
-            $Class = Tbl_class::where('class_code', $request->class_code)->first();
-            if($Class){
+            /* $Class = Tbl_class::where('class_code', $request->class_code)->first();
+            if($Class){ */
                 $New = User::create([
                     'email' =>  $request->email,
                     'password' => Hash::make($request->password),
                     'role' =>  $request->role,
                 ]);
-
-              
 
                 $details = new tbl_userDetails;
                 $details->user_id = $New->id;
@@ -133,12 +141,14 @@ class AuthController extends Controller
                 $details->middleName = $request->middleName;
                 $details->lastName = $request->lastName;
                 $details->save();
-                $this->JoinClassAfterRegister($New->id, $request->class_code);
+                //$this->JoinClassAfterRegister($New->id, $request->class_code);
+                //event(new Registered($New));
+                $New->sendEmailVerificationNotification();
                 return $New;  
-            }
+            /* }
             else{
                 return response()->json(['message'=>"Class code is invalid!"],202);
-            }
+            } */
         }
         else{
             $New =  User::create([
@@ -153,6 +163,8 @@ class AuthController extends Controller
             $details->middleName = $request->middleName;
             $details->lastName = $request->lastName;
             $details->save();
+
+            event(new Registered($user));
             return $New;  
         }
     
@@ -167,14 +179,10 @@ class AuthController extends Controller
 
         if(Hash::check($request->current_password, auth()->user()->password)){
             //return $request;
+            auth()->user()->password = Hash::make($request->new_password);
+            auth()->user()->save();
 
-            $ChangePass = User::find(auth('sanctum')->id());
-            if($ChangePass){
-                $ChangePass->password = Hash::make($request->new_password);
-                $ChangePass->update();
-            }
-
-
+            auth()->user();
         }
         else{
             return 'Change password failed!';

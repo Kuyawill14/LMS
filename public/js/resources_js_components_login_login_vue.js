@@ -259,6 +259,10 @@ __webpack_require__.r(__webpack_exports__);
 
             _this2.toastError(res.data);
           }
+        })["catch"](function (err) {
+          _this2.toastError(err.response.data.message);
+
+          _this2.isLoggin = false;
         });
       });
     }
@@ -590,7 +594,12 @@ var render = function() {
                                 "v-col",
                                 {
                                   staticClass: "text-left",
-                                  attrs: { cols: "12", md: "6", sm: "8" }
+                                  attrs: {
+                                    cols: "12",
+                                    md: "8",
+                                    lg: "6",
+                                    sm: "7"
+                                  }
                                 },
                                 [
                                   _c(

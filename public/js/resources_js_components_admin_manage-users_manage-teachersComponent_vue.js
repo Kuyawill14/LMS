@@ -930,6 +930,7 @@ var render = function() {
                               _vm._v(" "),
                               _c("v-text-field", {
                                 attrs: {
+                                  autocomplete: "false",
                                   label: "Email",
                                   name: "Email",
                                   rules: _vm.loginEmailRules,
@@ -969,10 +970,10 @@ var render = function() {
                                   _vm._v(" "),
                                   _c("v-text-field", {
                                     attrs: {
+                                      autocomplete: "off",
                                       "append-icon": _vm.show
                                         ? "mdi-eye"
                                         : "mdi-eye-off",
-                                      id: "password",
                                       label: "Password",
                                       name: "password",
                                       type: _vm.show ? "text" : "password",

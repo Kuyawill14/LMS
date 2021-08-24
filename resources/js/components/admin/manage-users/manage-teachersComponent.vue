@@ -121,13 +121,13 @@
 
                             <v-col class="ma-0 pa-0 mb-1" cols="12" md="12">
                                 <HasError class="error--text" :form="form" field="email" />
-                                <v-text-field label="Email" name="Email" :rules="loginEmailRules" v-model="form.email"
+                                <v-text-field autocomplete="false" label="Email" name="Email" :rules="loginEmailRules" v-model="form.email"
                                     type="email" color="primary" outlined />
                                 <HasError class="error--text" :form="form" field="email" />
                             </v-col>
                             <v-col class="ma-0 pa-0 mb-1" cols="12" md="12" v-if="type== 'add'">
                                 <HasError class="error--text" :form="form" field="password" />
-                                <v-text-field :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'" id="password"
+                                <v-text-field autocomplete="off" :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'" 
                                     label="Password" name="password" v-model="form.password"
                                     :type="show ? 'text' : 'password'" color="primary"
                                     :rules="[rules.required, rules.min]" counter @click:append="show = !show"

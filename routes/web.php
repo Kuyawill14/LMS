@@ -16,10 +16,10 @@ Route::get('/test123', function () {
     return view('ClassInvite');
 });
 
-/* Route::get('/login', function () {
+Route::post('login', function () {
     return view('welcome');
-}); */
-
+});
+//Auth::routes(['verify' => true]);
 
 Route::get('/{any}', function () {
     return view('welcome');

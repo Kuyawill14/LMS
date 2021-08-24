@@ -364,6 +364,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
@@ -373,6 +375,8 @@ __webpack_require__.r(__webpack_exports__);
       isLeaving: false,
       inputIndex: '',
       checker: '',
+      pair1: null,
+      pair2: null,
       testDetails: '',
       selectedImage: [],
       valid: false,
@@ -592,7 +596,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n /* .ql-toolbar.ql-snow {\n        background: #f2f2f2;\n        border: none;\n }\n .ql-bold,.ql-italic,.ql-underline, .ql-strike\n    ,.ql-picker-label,.ql-align,.ql-list,.ql-link\n    ,.ql-image,.ql-video\n    {\n        outline: none !important;\n        border:none !important;\n    }  */\n.centered-input >>> input {\n    text-align: center\n}\n.ql-editor img{\n\n    max-height: 15rem !important;\n}\n.ql-container{\n    max-height: 50rem;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n /* .ql-toolbar.ql-snow {\n        background: #f2f2f2;\n        border: none;\n }\n .ql-bold,.ql-italic,.ql-underline, .ql-strike\n    ,.ql-picker-label,.ql-align,.ql-list,.ql-link\n    ,.ql-image,.ql-video\n    {\n        outline: none !important;\n        border:none !important;\n    }  */\n.centered-input >>> input {\n    text-align: center\n}\n.ql-editor img{\n\n    max-height: 15rem !important;\n}\n.ql-container{\n    max-height: 50rem;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -736,7 +740,7 @@ var render = function() {
                       staticClass: "text-subtitle-1 text-center",
                       attrs: { cols: "12" }
                     },
-                    [_vm._v("\n            Loading\n        ")]
+                    [_vm._v("\r\n            Loading\r\n        ")]
                   ),
                   _vm._v(" "),
                   _c(
@@ -947,7 +951,17 @@ var render = function() {
                                                           staticClass:
                                                             "font-weight-medium"
                                                         },
-                                                        [_vm._v("Question")]
+                                                        [
+                                                          _vm._v(
+                                                            _vm._s(
+                                                              _vm.quesForm
+                                                                .type !=
+                                                                "Matching type"
+                                                                ? "Question"
+                                                                : "Instuction"
+                                                            )
+                                                          )
+                                                        ]
                                                       ),
                                                       _vm._v(" "),
                                                       _c(
@@ -1347,7 +1361,7 @@ var render = function() {
                                                                         ]
                                                                       ),
                                                                       _vm._v(
-                                                                        "\n                                            Add Choice\n                                            "
+                                                                        "\r\n                                            Add Choice\r\n                                            "
                                                                       )
                                                                     ],
                                                                     1
@@ -1722,8 +1736,8 @@ var render = function() {
                                                                                             change: function(
                                                                                               $event
                                                                                             ) {
-                                                                                              _vm.checker =
-                                                                                                item.answer
+                                                                                              _vm.pair1 =
+                                                                                                item.question
                                                                                             }
                                                                                           },
                                                                                           model: {
@@ -1781,7 +1795,7 @@ var render = function() {
                                                                                             change: function(
                                                                                               $event
                                                                                             ) {
-                                                                                              _vm.checker =
+                                                                                              _vm.pair2 =
                                                                                                 item.answer
                                                                                             }
                                                                                           },
@@ -1867,6 +1881,11 @@ var render = function() {
                                                                       staticClass:
                                                                         "mt-2",
                                                                       attrs: {
+                                                                        disabled:
+                                                                          _vm.pair1 ==
+                                                                            null ||
+                                                                          _vm.pair2 ==
+                                                                            null,
                                                                         rounded:
                                                                           "",
                                                                         color:
@@ -1876,7 +1895,9 @@ var render = function() {
                                                                         click: function(
                                                                           $event
                                                                         ) {
-                                                                          return _vm.addNewMatch()
+                                                                          _vm.addNewMatch(),
+                                                                            (_vm.pair1 = null),
+                                                                            (_vm.pair2 = null)
                                                                         }
                                                                       }
                                                                     },
@@ -1969,7 +1990,7 @@ var render = function() {
                                                         },
                                                         [
                                                           _vm._v(
-                                                            "\n                                        Add Question"
+                                                            "\r\n                                        Add Question"
                                                           ),
                                                           _c(
                                                             "v-icon",

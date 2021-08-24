@@ -178,9 +178,9 @@ var render = function() {
                   },
                   [
                     _vm._v(
-                      "\n            " +
+                      "\r\n            " +
                         _vm._s(item.text.toUpperCase()) +
-                        "\n        "
+                        "\r\n        "
                     )
                   ]
                 )

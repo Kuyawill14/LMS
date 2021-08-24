@@ -166,6 +166,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
 var deleteDialog = function deleteDialog() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_tabs_classwork-tab_dialogs_deleteDiaglog_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../dialogs/deleteDiaglog */ "./resources/js/components/course-view/tabs/classwork-tab/dialogs/deleteDiaglog.vue"));
 };
@@ -394,7 +398,7 @@ var render = function() {
                 [
                   _c("v-icon", { staticStyle: { "font-size": "14rem" } }, [
                     _vm._v(
-                      "\n                    mdi-book-open-variant\n                "
+                      "\r\n                    mdi-book-open-variant\r\n                "
                     )
                   ]),
                   _vm._v(" "),
@@ -454,6 +458,32 @@ var render = function() {
             "v-container",
             { attrs: { fluid: "" } },
             [
+              _c(
+                "v-dialog",
+                {
+                  attrs: { persistent: "", "max-width": "650" },
+                  model: {
+                    value: _vm.dialog,
+                    callback: function($$v) {
+                      _vm.dialog = $$v
+                    },
+                    expression: "dialog"
+                  }
+                },
+                [
+                  _vm.dialog
+                    ? _c("newClassworkModal", {
+                        on: {
+                          CloseDialog: function($event) {
+                            _vm.dialog = !_vm.dialog
+                          }
+                        }
+                      })
+                    : _vm._e()
+                ],
+                1
+              ),
+              _vm._v(" "),
               _c(
                 "v-row",
                 [
@@ -635,7 +665,7 @@ var render = function() {
                                                             },
                                                             [
                                                               _vm._v(
-                                                                "\n                                                    mdi-book-open-variant\n                                                "
+                                                                "\r\n                                                    mdi-book-open-variant\r\n                                                "
                                                               )
                                                             ]
                                                           )
@@ -673,11 +703,11 @@ var render = function() {
                                                               },
                                                               [
                                                                 _vm._v(
-                                                                  "\n                                                        " +
+                                                                  "\r\n                                                        " +
                                                                     _vm._s(
                                                                       item.title
                                                                     ) +
-                                                                    "\n                                                        "
+                                                                    "\r\n                                                        "
                                                                 ),
                                                                 item.type ==
                                                                 "Subjective Type"

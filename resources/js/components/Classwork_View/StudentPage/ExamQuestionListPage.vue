@@ -490,20 +490,20 @@ export default {
                          else if(res[0].Question[index].type == 'Matching type'){
                             let Ans = new Array();
                             let Choices_id = new Array();
-                             /* res[0].Answer[index].SubAnswer.forEach(item => {
+                             res[0].Answer[index].SubAnswer.forEach(item => {
                                 Choices_id.push({
                                    choice_id: item.id
                                 })
-                            }); */
+                            });
                             
-                            /* res[0].Answer[index].SubQuestion.forEach(item => {
+                            res[0].Answer[index].SubQuestion.forEach(item => {
                                 Ans.push({
                                     Ans_letter: '',
                                     Ans_id: null,
                                     subquestion_id: item.id,
                                     Answers: ''
                                 })
-                            }); */
+                            });
 
 
                                 this.FinalAnswers.push({
@@ -522,7 +522,7 @@ export default {
                    //localStorage.setItem(name, JSON.stringify(this.FinalAnswers));
                 }else{
 
-                  /*   let Submitted_length = AnswersList.length;
+                    let Submitted_length = AnswersList.length;
                     let Question_length = res[0].Question.length;
                     let diff = Question_length  - Submitted_length;
                     for (let i = 0; i < diff; i++) {
@@ -538,7 +538,7 @@ export default {
 
                         }
     
-                    } */
+                    }
                     
                      for (let x = 0; x < res[0].Question.length; x++) {
                          for (let j = 0; j < AnswersList.length; j++) {
@@ -555,20 +555,20 @@ export default {
                                      let Ans = new Array();
                                     let Choices_id = new Array();
 
-                                    /* res[0].Answer[x].SubAnswer.forEach(item => {
+                                    res[0].Answer[x].SubAnswer.forEach(item => {
                                         Choices_id.push({
                                             choice_id: item.id
                                         })
-                                    }); */
+                                    });
 
-                                    /*  AnswersList[j].Answer.forEach(item => {
+                                     AnswersList[j].Answer.forEach(item => {
                                         Ans.push({
                                             //Ans_letter: item.Ans_letter,
                                             Ans_id: item.Ans_id,
                                             subquestion_id: item.subquestion_id,
                                             Answers: item.Answers
                                         })
-                                     }); */
+                                     });
                                      this.FinalAnswers.push({
                                         Answer: Ans,
                                         Choices_id: Choices_id,

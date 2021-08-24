@@ -91,7 +91,14 @@
             <vue-element-loading  :active="isLoaded" spinner="bar-fade-scale" />
             <v-card class="pa-3" elevation="1" outlined>
                 <v-row >
-                    <v-row style="height:4vh"></v-row>
+                    
+                    <v-col cols="12">
+                        <div class="text-right pt-1">
+                            <v-chip color="success"> <v-icon left>mdi-check</v-icon> Score: {{statusDetails.score+'/'+statusDetails.totalPoints}}</v-chip>
+                        </div>
+                        <v-row style="height:4vh"></v-row>
+                        <v-divider></v-divider>
+                    </v-col>
                     <v-col cols="12">
                         <v-container ma-0 pa-0 class="d-flex flex-row justify-space-between">
                         <v-btn
@@ -164,6 +171,7 @@ export default {
             isCommenting: false,
             comment: null,
             isLoaded: true,
+            statusDetails: [],
         }
         
     },
@@ -189,6 +197,7 @@ export default {
             axios.get('/api/student/check-status/'+this.classworkDetails.id)
             .then(res=>{
                 this.status = res.data.status;
+                this.statusDetails = res.data;
                 console.log(res.data.status);
                 this.isLoaded = false
             })

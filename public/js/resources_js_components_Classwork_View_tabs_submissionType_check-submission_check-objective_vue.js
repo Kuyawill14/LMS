@@ -290,6 +290,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 var resetConfirmation = function resetConfirmation() {
@@ -360,6 +371,7 @@ var resetConfirmation = function resetConfirmation() {
                 (function () {
                   var Ans = new Array();
                   var match_check = new Array();
+                  var counter = 0;
 
                   _this.ViewDetails.Submitted_Answers[j].Answer.forEach(function (item) {
                     for (var x = 0; x < _this.Details.Answer[_i].SubQuestion.length; x++) {
@@ -370,8 +382,16 @@ var resetConfirmation = function resetConfirmation() {
                           SubQuestion: _this.Details.Answer[_i].SubQuestion[x].sub_question,
                           SubChoice: null
                         });
+
+                        if (_this.Details.Answer[_i].SubAnswer[x].Choice == item.Answers) {
+                          match_check[counter] = true;
+                        } else {
+                          match_check[counter] = false;
+                        }
                       }
                     }
+
+                    counter += 1;
                   });
 
                   var tmpChoices = new Array();
@@ -392,6 +412,8 @@ var resetConfirmation = function resetConfirmation() {
                   }
 
                   _this.SubmittedAnswer[_i] = Ans;
+                  _this.Check[_i] = match_check;
+                  console.log(_this.Check);
                 })();
               }
             }
@@ -535,7 +557,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n    /* width */\n[data-v-6ded7147]::-webkit-scrollbar {\n  width: 5px;\n}\n\n/* Track */\n[data-v-6ded7147]::-webkit-scrollbar-track {\n  background: #f1f1f1;\n}\n \n/* Handle */\n[data-v-6ded7147]::-webkit-scrollbar-thumb {\n  background: #888; \n   border-radius: 3px\n}\n\n/* Handle on hover */\n[data-v-6ded7147]::-webkit-scrollbar-thumb:hover {\n  background: #555;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n    /* width */\n[data-v-6ded7147]::-webkit-scrollbar {\n  width: 5px;\n}\n\n/* Track */\n[data-v-6ded7147]::-webkit-scrollbar-track {\n  background: #f1f1f1;\n}\n \n/* Handle */\n[data-v-6ded7147]::-webkit-scrollbar-thumb {\n  background: #888; \n   border-radius: 3px\n}\n\n/* Handle on hover */\n[data-v-6ded7147]::-webkit-scrollbar-thumb:hover {\n  background: #555;\n}\n.centered-input[data-v-6ded7147] input {\n      text-align: center\n}\n.post-content img[data-v-6ded7147]{\n        \n     max-height: 8rem !important;\n}\n.centered-input input[data-v-6ded7147] {\n  text-align: center\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -22085,7 +22107,6 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "v-card",
-    { staticClass: "pa-2" },
     [
       _c(
         "v-dialog",
@@ -22139,17 +22160,17 @@ var render = function() {
       ),
       _vm._v(" "),
       _c(
-        "v-card-text",
+        "div",
         { staticClass: "ma-0 pa-0 pa-2" },
         [
           _c(
             "v-row",
-            { staticClass: "pa-2", attrs: { "no-gutters": "" } },
+            { staticClass: "pa-2" },
             [
               _c(
                 "v-col",
                 {
-                  class: _vm.$vuetify.breakpoint.xs ? "pt-2" : "pt-2 pr-3",
+                  class: _vm.$vuetify.breakpoint.xs ? "pt-2 mb-0" : "pt-2 pr-3",
                   attrs: { cols: "12", md: "4", lg: "4" }
                 },
                 [
@@ -22164,7 +22185,7 @@ var render = function() {
                             _vm._v("mdi-comment")
                           ]),
                           _vm._v(
-                            "Private Comments\n                            "
+                            "Private Comments\r\n                            "
                           )
                         ],
                         1
@@ -22349,108 +22370,123 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "v-col",
-                {
-                  staticClass: "pt-1",
-                  attrs: { cols: "12", md: "8", lg: "8" }
-                },
+                { attrs: { cols: "12", md: "8", lg: "8" } },
                 [
                   _c(
                     "v-row",
-                    { staticClass: "pl-5 mb-0 pb-0" },
+                    { staticClass: "mb-0 pb-0 pa-3" },
                     [
                       _c(
-                        "v-col",
-                        { staticClass: "mb-0 pb-0", attrs: { cols: "12" } },
+                        "v-card",
+                        {
+                          staticClass: "pa-2",
+                          attrs: { outlined: "", width: "100%" }
+                        },
                         [
                           _c(
-                            "v-list",
+                            "v-col",
+                            { staticClass: "mb-0 pb-0", attrs: { cols: "12" } },
                             [
                               _c(
-                                "v-list-item",
+                                "v-list",
                                 [
                                   _c(
-                                    "v-list-item-avatar",
-                                    [
-                                      _c("v-img", {
-                                        attrs: {
-                                          alt: "Profile",
-                                          src:
-                                            _vm.ViewDetails.profile_pic ==
-                                              null ||
-                                            _vm.ViewDetails.profile_pic == ""
-                                              ? "https://ui-avatars.com/api/?background=random&color=fff&name=" +
-                                                _vm.ViewDetails.firstName +
-                                                " " +
-                                                _vm.ViewDetails.lastName
-                                              : _vm.ViewDetails.profile_pic
-                                        }
-                                      })
-                                    ],
-                                    1
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "v-list-item-content",
+                                    "v-list-item",
                                     [
                                       _c(
-                                        "v-list-item-title",
-                                        { staticClass: "font-weight-medium" },
+                                        "v-list-item-avatar",
+                                        { attrs: { color: "secondary" } },
                                         [
-                                          _vm._v(
-                                            _vm._s(
-                                              _vm.ViewDetails.firstName +
-                                                " " +
-                                                _vm.ViewDetails.lastName
-                                            )
-                                          )
-                                        ]
+                                          _c("v-img", {
+                                            attrs: {
+                                              alt: "Profile",
+                                              src:
+                                                _vm.ViewDetails.profile_pic ==
+                                                  null ||
+                                                _vm.ViewDetails.profile_pic ==
+                                                  ""
+                                                  ? "https://ui-avatars.com/api/?background=random&color=fff&name=" +
+                                                    _vm.ViewDetails.firstName +
+                                                    " " +
+                                                    _vm.ViewDetails.lastName
+                                                  : "/storage/" +
+                                                    _vm.ViewDetails.profile_pic
+                                            }
+                                          })
+                                        ],
+                                        1
                                       ),
                                       _vm._v(" "),
-                                      _vm.ViewDetails.Submitted_Answers !=
-                                        null &&
-                                      _vm.ViewDetails.Submitted_Answers != ""
-                                        ? _c("v-list-item-subtitle", [
-                                            _vm._v(
-                                              "Submitted: " +
+                                      _c(
+                                        "v-list-item-content",
+                                        [
+                                          _c(
+                                            "v-list-item-title",
+                                            {
+                                              staticClass: "font-weight-medium"
+                                            },
+                                            [
+                                              _vm._v(
                                                 _vm._s(
-                                                  _vm.format_date(
-                                                    _vm.ViewDetails.updated_at
-                                                  )
+                                                  _vm.ViewDetails.firstName +
+                                                    " " +
+                                                    _vm.ViewDetails.lastName
                                                 )
-                                            )
-                                          ])
-                                        : _vm._e()
-                                    ],
-                                    1
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "v-list-item-action",
-                                    [
-                                      _c("v-text-field", {
-                                        staticClass: "mt-7",
-                                        attrs: {
-                                          dense: "",
-                                          outlined: "",
-                                          label: "Score",
-                                          type: "number",
-                                          suffix:
-                                            "/" + _vm.classworkDetails.points,
-                                          max: _vm.classworkDetails.points,
-                                          min: "0"
-                                        },
-                                        model: {
-                                          value: _vm.ViewDetails.points,
-                                          callback: function($$v) {
-                                            _vm.$set(
-                                              _vm.ViewDetails,
-                                              "points",
-                                              $$v
-                                            )
-                                          },
-                                          expression: "ViewDetails.points"
-                                        }
-                                      })
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _vm.ViewDetails.Submitted_Answers !=
+                                            null &&
+                                          _vm.ViewDetails.Submitted_Answers !=
+                                            ""
+                                            ? _c("v-list-item-subtitle", [
+                                                _vm._v(
+                                                  "Submitted: " +
+                                                    _vm._s(
+                                                      _vm.format_date(
+                                                        _vm.ViewDetails
+                                                          .updated_at
+                                                      )
+                                                    )
+                                                )
+                                              ])
+                                            : _vm._e()
+                                        ],
+                                        1
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-list-item-action",
+                                        [
+                                          _c("v-text-field", {
+                                            staticClass: "mt-7",
+                                            attrs: {
+                                              dense: "",
+                                              outlined: "",
+                                              label: "Score",
+                                              type: "number",
+                                              suffix:
+                                                "/" +
+                                                _vm.classworkDetails.points,
+                                              max: _vm.classworkDetails.points,
+                                              min: "0"
+                                            },
+                                            model: {
+                                              value: _vm.ViewDetails.points,
+                                              callback: function($$v) {
+                                                _vm.$set(
+                                                  _vm.ViewDetails,
+                                                  "points",
+                                                  $$v
+                                                )
+                                              },
+                                              expression: "ViewDetails.points"
+                                            }
+                                          })
+                                        ],
+                                        1
+                                      )
                                     ],
                                     1
                                   )
@@ -22459,42 +22495,42 @@ var render = function() {
                               )
                             ],
                             1
-                          )
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _vm.ViewDetails.Submitted_Answers != null &&
-                      _vm.ViewDetails.Submitted_Answers != ""
-                        ? _c(
-                            "v-col",
-                            {
-                              staticClass: "ma-0 pa-0 mb-2",
-                              attrs: { cols: "12" }
-                            },
-                            [
-                              _c(
-                                "v-btn",
+                          ),
+                          _vm._v(" "),
+                          _vm.ViewDetails.Submitted_Answers != null &&
+                          _vm.ViewDetails.Submitted_Answers != ""
+                            ? _c(
+                                "v-col",
                                 {
-                                  attrs: { color: "primary" },
-                                  on: {
-                                    click: function($event) {
-                                      _vm.dialog = !_vm.dialog
-                                    }
-                                  }
+                                  staticClass: "ma-0 pa-0 pb-4",
+                                  attrs: { cols: "12" }
                                 },
                                 [
-                                  _c("v-icon", { attrs: { left: "" } }, [
-                                    _vm._v("mdi-restart")
-                                  ]),
-                                  _vm._v(" Reset Submission")
+                                  _c(
+                                    "v-btn",
+                                    {
+                                      attrs: { rounded: "", color: "primary" },
+                                      on: {
+                                        click: function($event) {
+                                          _vm.dialog = !_vm.dialog
+                                        }
+                                      }
+                                    },
+                                    [
+                                      _c("v-icon", { attrs: { left: "" } }, [
+                                        _vm._v("mdi-restart")
+                                      ]),
+                                      _vm._v(" Reset Submission")
+                                    ],
+                                    1
+                                  )
                                 ],
                                 1
                               )
-                            ],
-                            1
-                          )
-                        : _vm._e()
+                            : _vm._e()
+                        ],
+                        1
+                      )
                     ],
                     1
                   ),
@@ -22504,48 +22540,55 @@ var render = function() {
                   _vm.ViewDetails.Submitted_Answers == null ||
                   _vm.ViewDetails.Submitted_Answers == ""
                     ? _c(
-                        "v-row",
-                        {
-                          staticClass: "mt-12",
-                          attrs: {
-                            justify: "center",
-                            "align-content": "center"
-                          }
-                        },
+                        "v-card",
+                        { staticClass: "mt-3 pa-4 ", attrs: { outlined: "" } },
                         [
                           _c(
-                            "v-col",
+                            "v-row",
                             {
-                              staticClass: "text-center",
-                              attrs: { cols: "12", sm: "8", md: "4" }
+                              staticClass: "mt-12",
+                              attrs: {
+                                justify: "center",
+                                "align-content": "center"
+                              }
                             },
                             [
                               _c(
-                                "v-icon",
-                                { staticStyle: { "font-size": "8rem" } },
+                                "v-col",
+                                {
+                                  staticClass: "text-center pb-10",
+                                  attrs: { cols: "12", sm: "8", md: "4" }
+                                },
                                 [
-                                  _vm._v(
-                                    "\n                        mdi-notebook-remove-outline\n                    "
+                                  _c(
+                                    "v-icon",
+                                    { staticStyle: { "font-size": "7rem" } },
+                                    [
+                                      _vm._v(
+                                        "\r\n                        mdi-notebook-remove-outline\r\n                    "
+                                      )
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("h1", [_vm._v(" Empty Submission ")]),
+                                  _vm._v(" "),
+                                  _c("p", [
+                                    _vm._v(
+                                      " This student did not take the classwork yet!"
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-btn",
+                                    { attrs: { color: "primary" } },
+                                    [
+                                      _vm._v("Alert Student "),
+                                      _c("v-icon", { attrs: { right: "" } }, [
+                                        _vm._v("mdi-account-alert")
+                                      ])
+                                    ],
+                                    1
                                   )
-                                ]
-                              ),
-                              _vm._v(" "),
-                              _c("h1", [_vm._v(" Empty Submission ")]),
-                              _vm._v(" "),
-                              _c("p", [
-                                _vm._v(
-                                  " This student did not take the classwork yet!"
-                                )
-                              ]),
-                              _vm._v(" "),
-                              _c(
-                                "v-btn",
-                                { attrs: { color: "primary" } },
-                                [
-                                  _vm._v("Alert Student "),
-                                  _c("v-icon", { attrs: { right: "" } }, [
-                                    _vm._v("mdi-account-alert")
-                                  ])
                                 ],
                                 1
                               )
@@ -22560,15 +22603,12 @@ var render = function() {
                   _vm.ViewDetails.Submitted_Answers != null &&
                   _vm.ViewDetails.Submitted_Answers != ""
                     ? _c(
-                        "div",
+                        "v-card",
+                        { staticClass: "mt-3 pa-4", attrs: { outlined: "" } },
                         _vm._l(_vm.Details.Question, function(item, index) {
                           return _c(
                             "v-container",
-                            {
-                              key: index,
-                              staticClass: "pl-5 pt-5",
-                              attrs: { "ma-0": "", "pa-0": "" }
-                            },
+                            { key: index, attrs: { "ma-0": "", "pa-0": "" } },
                             [
                               _c(
                                 "v-container",
@@ -22644,94 +22684,84 @@ var render = function() {
                                 ? _c(
                                     "v-container",
                                     { attrs: { "ml-0": "", "pl-0": "" } },
-                                    _vm._l(
-                                      _vm.getAll_questions.Answer[index],
-                                      function(Ans, i) {
-                                        return _c(
-                                          "v-container",
-                                          {
-                                            key: i,
-                                            class: !_vm.$vuetify.breakpoint.xs
-                                              ? "d-flex flex-row ma-0 pa-0 mb-1 ml-8"
-                                              : "d-flex flex-row ma-0 pa-0"
-                                          },
-                                          [
-                                            _c(
-                                              "v-radio-group",
-                                              {
-                                                staticClass: "ma-0 pa-0",
-                                                attrs: {
-                                                  name: "option" + index
+                                    _vm._l(_vm.Details.Answer[index], function(
+                                      Ans,
+                                      i
+                                    ) {
+                                      return _c(
+                                        "v-container",
+                                        {
+                                          key: i,
+                                          class: !_vm.$vuetify.breakpoint.xs
+                                            ? "d-flex flex-row ma-0 pa-0 mb-1 ml-8"
+                                            : "d-flex flex-row ma-0 pa-0"
+                                        },
+                                        [
+                                          _c(
+                                            "v-radio-group",
+                                            {
+                                              staticClass: "ma-0 pa-0",
+                                              attrs: { name: "option" + index },
+                                              model: {
+                                                value:
+                                                  _vm.SubmittedAnswer[index]
+                                                    .Answer,
+                                                callback: function($$v) {
+                                                  _vm.$set(
+                                                    _vm.SubmittedAnswer[index],
+                                                    "Answer",
+                                                    $$v
+                                                  )
                                                 },
-                                                model: {
-                                                  value:
-                                                    _vm.SubmittedAnswer[index]
-                                                      .Answer,
-                                                  callback: function($$v) {
-                                                    _vm.$set(
-                                                      _vm.SubmittedAnswer[
-                                                        index
-                                                      ],
-                                                      "Answer",
-                                                      $$v
-                                                    )
-                                                  },
-                                                  expression:
-                                                    "SubmittedAnswer[index].Answer"
+                                                expression:
+                                                  "SubmittedAnswer[index].Answer"
+                                              }
+                                            },
+                                            [
+                                              _c("v-radio", {
+                                                key: index,
+                                                attrs: {
+                                                  color: "primary",
+                                                  value: Ans.Choice
                                                 }
-                                              },
-                                              [
-                                                _c("v-radio", {
-                                                  key: index,
-                                                  attrs: {
-                                                    color: "primary",
-                                                    value: Ans.Choice
-                                                  }
-                                                })
-                                              ],
-                                              1
-                                            ),
-                                            _vm._v(" "),
-                                            _c(
-                                              "div",
-                                              {
-                                                staticClass:
-                                                  "Subtitle-1 ma-0 pa-0 d-flex",
-                                                staticStyle: {
-                                                  "line-height": "1.4"
+                                              })
+                                            ],
+                                            1
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "div",
+                                            {
+                                              staticClass:
+                                                "Subtitle-1 ma-0 pa-0 d-flex",
+                                              staticStyle: {
+                                                "line-height": "1.4"
+                                              }
+                                            },
+                                            [
+                                              _c("span", {
+                                                staticClass: "post-content",
+                                                domProps: {
+                                                  innerHTML: _vm._s(Ans.Choice)
                                                 }
-                                              },
-                                              [
-                                                _c("span", {
-                                                  staticClass: "post-content",
-                                                  domProps: {
-                                                    innerHTML: _vm._s(
-                                                      Ans.Choice
-                                                    )
-                                                  }
-                                                }),
-                                                _vm._v(" "),
-                                                item.Answer == Ans.Choice
-                                                  ? _c(
-                                                      "span",
-                                                      {
-                                                        staticClass:
-                                                          "caption primary--text ml-1 mt-1"
-                                                      },
-                                                      [
-                                                        _vm._v(
-                                                          "(correct answer)"
-                                                        )
-                                                      ]
-                                                    )
-                                                  : _vm._e()
-                                              ]
-                                            )
-                                          ],
-                                          1
-                                        )
-                                      }
-                                    ),
+                                              }),
+                                              _vm._v(" "),
+                                              item.Answer == Ans.Choice
+                                                ? _c(
+                                                    "span",
+                                                    {
+                                                      staticClass:
+                                                        "caption primary--text ml-1 mt-1"
+                                                    },
+                                                    [_vm._v("(correct answer)")]
+                                                  )
+                                                : _vm._e()
+                                            ]
+                                          )
+                                        ],
+                                        1
+                                      )
+                                    }),
                                     1
                                   )
                                 : _vm._e(),
@@ -22831,13 +22861,9 @@ var render = function() {
                                             { staticClass: "Subtitle 1" },
                                             [
                                               _vm._v(
-                                                "\n                        " +
+                                                "\r\n                                " +
                                                   _vm._s(_vm.inputCheck[n]) +
-<<<<<<< HEAD
-                                                  "\n                    "
-                                              )
-=======
-                                                  " \r\n                        "
+                                                  " \r\n                                "
                                               ),
                                               _vm.inputCheck[n] ==
                                               _vm.SubmittedAnswer[index].Answer
@@ -22850,7 +22876,6 @@ var render = function() {
                                                     [_vm._v("(correct answer)")]
                                                   )
                                                 : _vm._e()
->>>>>>> f33d65b8f14e7242238d0d06f5dbaac0d595bef6
                                             ]
                                           )
                                         ],
@@ -22864,7 +22889,10 @@ var render = function() {
                               item.type == "Matching type"
                                 ? _c(
                                     "v-container",
-                                    { attrs: { "ma-0": "", "pa-0": "" } },
+                                    {
+                                      staticClass: "mb-3",
+                                      attrs: { "ma-0": "", "pa-0": "" }
+                                    },
                                     [
                                       _c(
                                         "v-row",
@@ -22878,7 +22906,7 @@ var render = function() {
                                                 "ma-0": "",
                                                 "pa-0": "",
                                                 cols: "12",
-                                                lg: "7",
+                                                lg: "10",
                                                 md: "12"
                                               }
                                             },
@@ -22897,9 +22925,9 @@ var render = function() {
                                                             staticClass:
                                                               "font-weight-bold",
                                                             attrs: {
-                                                              cols: "1",
-                                                              md: "1",
-                                                              lg: "1"
+                                                              cols: "2",
+                                                              md: "2",
+                                                              lg: "2"
                                                             }
                                                           }),
                                                           _vm._v(" "),
@@ -22910,13 +22938,13 @@ var render = function() {
                                                                 "font-weight-bold",
                                                               attrs: {
                                                                 cols: "5",
-                                                                md: "6",
-                                                                lg: "6"
+                                                                md: "5",
+                                                                lg: "5"
                                                               }
                                                             },
                                                             [
                                                               _vm._v(
-                                                                "\n                                            Column A\n                                        "
+                                                                "\r\n                                                    Column A\r\n                                                "
                                                               )
                                                             ]
                                                           ),
@@ -22932,7 +22960,7 @@ var render = function() {
                                                             },
                                                             [
                                                               _vm._v(
-                                                                "\n                                            Column B\n                                        "
+                                                                "\r\n                                                    Column B\r\n                                                "
                                                               )
                                                             ]
                                                           )
@@ -22963,7 +22991,55 @@ var render = function() {
                                                                 "v-col",
                                                                 {
                                                                   staticClass:
-                                                                    "mb-1 pb-0 pt-0 mt-0",
+                                                                    "mb-1 pb-0 pt-0 mt-0 mr-0 pr-0",
+                                                                  attrs: {
+                                                                    cols: "2",
+                                                                    md: "1",
+                                                                    lg: "1"
+                                                                  }
+                                                                },
+                                                                [
+                                                                  _c(
+                                                                    "v-checkbox",
+                                                                    {
+                                                                      staticClass:
+                                                                        "mt-4 pr-0 mr-0",
+                                                                      attrs: {
+                                                                        color:
+                                                                          "success"
+                                                                      },
+                                                                      model: {
+                                                                        value:
+                                                                          _vm
+                                                                            .Check[
+                                                                            index
+                                                                          ][i],
+                                                                        callback: function(
+                                                                          $$v
+                                                                        ) {
+                                                                          _vm.$set(
+                                                                            _vm
+                                                                              .Check[
+                                                                              index
+                                                                            ],
+                                                                            i,
+                                                                            $$v
+                                                                          )
+                                                                        },
+                                                                        expression:
+                                                                          "Check[index][i]"
+                                                                      }
+                                                                    }
+                                                                  )
+                                                                ],
+                                                                1
+                                                              ),
+                                                              _vm._v(" "),
+                                                              _c(
+                                                                "v-col",
+                                                                {
+                                                                  staticClass:
+                                                                    "ml-0 pl-0 mb-1 pb-0 pt-0 mt-0",
                                                                   attrs: {
                                                                     cols: "2",
                                                                     md: "1",
@@ -22975,7 +23051,7 @@ var render = function() {
                                                                     "v-text-field",
                                                                     {
                                                                       staticClass:
-                                                                        "centered-input",
+                                                                        "ml-0 pl-0 centered-input",
                                                                       attrs: {
                                                                         readonly:
                                                                           ""
@@ -23007,9 +23083,9 @@ var render = function() {
                                                                   staticClass:
                                                                     "mb-1 pb-0 pt-0 mt-0",
                                                                   attrs: {
-                                                                    cols: "5",
-                                                                    md: "6",
-                                                                    lg: "6"
+                                                                    cols: "4",
+                                                                    md: "5",
+                                                                    lg: "5"
                                                                   }
                                                                 },
                                                                 [
@@ -23068,8 +23144,8 @@ var render = function() {
                                                                   staticClass:
                                                                     "mb-1 pb-0 pt-0 mt-0",
                                                                   attrs: {
-                                                                    cols: "5",
-                                                                    md: "5",
+                                                                    cols: "4",
+                                                                    md: "4",
                                                                     lg: "5"
                                                                   }
                                                                 },

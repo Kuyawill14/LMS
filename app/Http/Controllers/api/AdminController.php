@@ -65,13 +65,47 @@ class AdminController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Store a newly created resource in storage.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function AddStudent(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'firstName' => ['required'],
+            'middleName' => ['required'],
+            'lastName' => ['required'],
+            'role' => ['required'],
+            'email' => ['required', 'email', 'unique:users'],
+            'password' => ['required', 'min:6', 'confirmed']
+        ]);
+
+        $New = User::create([
+            'email' =>  $request->email,
+            'password' => Hash::make($request->password),
+            'role' =>  $request->role,
+        ]);
+
+        $details = new tbl_userDetails;
+        $details->user_id = $New->id;
+        $details->firstName = $request->firstName;
+        $details->middleName = $request->middleName;
+        $details->lastName = $request->lastName;
+        $details->save();
+
+
+        return response()->json([
+            "user_id"=> $New->id, 
+            "firstName"=>$details->firstName, 
+            "lastName"=>$details->lastName, 
+            "middleName"=>$details->middleName, 
+            "role"=>$request->role, 
+            "email" => $New->email
+        ]);
+
+
+    
     }
 
     /**
@@ -80,7 +114,7 @@ class AdminController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function addTeacher(Request $request)
     {
         //
     }

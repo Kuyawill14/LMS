@@ -212,8 +212,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -338,14 +336,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       if (this.$refs.RegisterForm.validate()) {
         if (this.type == 'add') {
-          this.form.role = 'Teacher';
-          this.form.class_code = '123';
+          this.form.role = 'Student';
           this.form.password_confirmation = this.form.password;
-          this.form.post('/api/register').then(function (res) {
+          this.form.post('/api/admin/add/student').then(function (res) {
             _this3.$refs.RegisterForm.reset();
 
             _this3.valid = true;
             _this3.dialog = false;
+
+            _this3.StudentList.push(res.data);
           });
         }
 
@@ -360,9 +359,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             _this3.IsAddUpdating = false;
           });
           this.toastSuccess('User Successfully Updated!');
-        }
+        } //this.$store.dispatch('fetchAllTeachers');
 
-        this.$store.dispatch('fetchAllTeachers');
       } else {
         this.IsAddUpdating = false;
       }
@@ -696,7 +694,7 @@ var render = function() {
                                           [
                                             _c("v-icon", [
                                               _vm._v(
-                                                "\n                                            mdi-pencil\n                                        "
+                                                "\n                                        mdi-pencil\n                                    "
                                               )
                                             ])
                                           ],
@@ -718,7 +716,7 @@ var render = function() {
                                           [
                                             _c("v-icon", [
                                               _vm._v(
-                                                "\n                                            mdi-delete\n                                        "
+                                                "\n                                        mdi-delete\n                                    "
                                               )
                                             ])
                                           ],
@@ -778,7 +776,7 @@ var render = function() {
             "v-card",
             [
               _c("v-card-title", {}, [
-                _vm._v("\n                Add Teacher\n            ")
+                _vm._v("\n                Add Student\n            ")
               ]),
               _vm._v(" "),
               _c("v-divider"),

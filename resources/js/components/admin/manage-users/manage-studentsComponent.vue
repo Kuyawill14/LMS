@@ -45,8 +45,6 @@
                                     <td> {{item.firstName}} </td>
                                     <td> {{item.middleName}} </td>
                                     <td> {{item.email}} </td>
-
-
                                     <td>
                                         <v-btn color="primary" :loading="IsResetting && IsResetting_id == item.user_id" @click="updatePass(item.user_id)">
                                             Reset Password
@@ -54,19 +52,19 @@
                                     </td>
                                     <td>
 
-                                        <v-btn icon color="success" @click="openEdit(item)">
-                                            <v-icon>
-                                                mdi-pencil
-                                            </v-icon>
+                                    <v-btn icon color="success" @click="openEdit(item)">
+                                        <v-icon>
+                                            mdi-pencil
+                                        </v-icon>
 
-                                        </v-btn>
-                                        <v-btn icon color="red" @click="openDelete(item.user_id)">
-                                            <v-icon>
-                                                mdi-delete
-                                            </v-icon>
+                                    </v-btn>
+                                    <v-btn icon color="red" @click="openDelete(item.user_id)">
+                                        <v-icon>
+                                            mdi-delete
+                                        </v-icon>
 
-                                        </v-btn>
-                                    </td>
+                                    </v-btn>
+                                </td>
 
                                 </tr>
                                 <tr v-if="StudentList.length == 0">
@@ -84,7 +82,7 @@
         <v-dialog v-model="dialog" width="500">
             <v-card>
                 <v-card-title class="">
-                    Add Teacher
+                    Add Student
                 </v-card-title>
                 <v-divider></v-divider>
                 <v-container>
@@ -310,20 +308,14 @@
                 this.IsAddUpdating = true;
                 if (this.$refs.RegisterForm.validate()) {
                     if (this.type == 'add') {
-                        this.form.role = 'Teacher';
-                           this.form.class_code = '123';
+                        this.form.role = 'Student';
                         this.form.password_confirmation = this.form.password
-
-
-                        this.form.post('/api/register')
+                        this.form.post('/api/admin/add/student')
                             .then((res) => {
-
-
                                 this.$refs.RegisterForm.reset()
                                 this.valid = true;
                                 this.dialog = false;
-
-
+                                this.StudentList.push(res.data);
                             })
 
                     }
@@ -340,8 +332,9 @@
                             })
                         this.toastSuccess('User Successfully Updated!')
                     }
-                    this.$store.dispatch('fetchAllTeachers');
+                    //this.$store.dispatch('fetchAllTeachers');
 
+                   
 
 
 
