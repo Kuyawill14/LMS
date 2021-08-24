@@ -22560,6 +22560,7 @@ var render = function() {
                                   attrs: { cols: "12", sm: "8", md: "4" }
                                 },
                                 [
+<<<<<<< HEAD
                                   _c(
                                     "v-icon",
                                     { staticStyle: { "font-size": "7rem" } },
@@ -22588,6 +22589,10 @@ var render = function() {
                                       ])
                                     ],
                                     1
+=======
+                                  _vm._v(
+                                    "\r\n                        mdi-notebook-remove-outline\r\n                    "
+>>>>>>> 9f8969e761549058035cb56d1558e41911e67d40
                                   )
                                 ],
                                 1
@@ -22861,9 +22866,15 @@ var render = function() {
                                             { staticClass: "Subtitle 1" },
                                             [
                                               _vm._v(
+<<<<<<< HEAD
                                                 "\r\n                                " +
                                                   _vm._s(_vm.inputCheck[n]) +
                                                   " \r\n                                "
+=======
+                                                "\r\n                        " +
+                                                  _vm._s(_vm.inputCheck[n]) +
+                                                  " \r\n                        "
+>>>>>>> 9f8969e761549058035cb56d1558e41911e67d40
                                               ),
                                               _vm.inputCheck[n] ==
                                               _vm.SubmittedAnswer[index].Answer
@@ -22944,7 +22955,11 @@ var render = function() {
                                                             },
                                                             [
                                                               _vm._v(
+<<<<<<< HEAD
                                                                 "\r\n                                                    Column A\r\n                                                "
+=======
+                                                                "\r\n                                            Column A\r\n                                        "
+>>>>>>> 9f8969e761549058035cb56d1558e41911e67d40
                                                               )
                                                             ]
                                                           ),
@@ -22960,7 +22975,11 @@ var render = function() {
                                                             },
                                                             [
                                                               _vm._v(
+<<<<<<< HEAD
                                                                 "\r\n                                                    Column B\r\n                                                "
+=======
+                                                                "\r\n                                            Column B\r\n                                        "
+>>>>>>> 9f8969e761549058035cb56d1558e41911e67d40
                                                               )
                                                             ]
                                                           )
