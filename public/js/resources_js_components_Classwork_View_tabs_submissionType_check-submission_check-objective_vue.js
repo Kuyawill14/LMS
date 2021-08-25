@@ -22164,7 +22164,7 @@ var render = function() {
                             _vm._v("mdi-comment")
                           ]),
                           _vm._v(
-                            "Private Comments\r\n                            "
+                            "Private Comments\n                            "
                           )
                         ],
                         1
@@ -22525,7 +22525,7 @@ var render = function() {
                                 { staticStyle: { "font-size": "8rem" } },
                                 [
                                   _vm._v(
-                                    "\r\n                        mdi-notebook-remove-outline\r\n                    "
+                                    "\n                        mdi-notebook-remove-outline\n                    "
                                   )
                                 ]
                               ),
@@ -22831,13 +22831,9 @@ var render = function() {
                                             { staticClass: "Subtitle 1" },
                                             [
                                               _vm._v(
-                                                "\r\n                        " +
+                                                "\n                        " +
                                                   _vm._s(_vm.inputCheck[n]) +
-<<<<<<< HEAD
                                                   " \n                        "
-=======
-                                                  " \r\n                        "
->>>>>>> 9f8969e761549058035cb56d1558e41911e67d40
                                               ),
                                               _vm.inputCheck[n] ==
                                               _vm.SubmittedAnswer[index].Answer
@@ -22915,7 +22911,7 @@ var render = function() {
                                                             },
                                                             [
                                                               _vm._v(
-                                                                "\r\n                                            Column A\r\n                                        "
+                                                                "\n                                            Column A\n                                        "
                                                               )
                                                             ]
                                                           ),
@@ -22931,7 +22927,7 @@ var render = function() {
                                                             },
                                                             [
                                                               _vm._v(
-                                                                "\r\n                                            Column B\r\n                                        "
+                                                                "\n                                            Column B\n                                        "
                                                               )
                                                             ]
                                                           )
