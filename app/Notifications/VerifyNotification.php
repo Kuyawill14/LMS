@@ -47,7 +47,7 @@ class VerifyNotification extends Notification
             'hash' => sha1($notifiable->getEmailForVerification()),
         ];
 
-        $url = env(key: "APP_URL").'/verify-email?';
+        $url = env("APP_URL")."/verify-email?";
 
        /*  foreach ($params as $key => $param) {
             $url .= "{$key}={$param}&";
