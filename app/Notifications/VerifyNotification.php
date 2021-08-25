@@ -52,10 +52,11 @@ class VerifyNotification extends Notification
             $url .= "{$key}={$param}&";
         }
 
+        
         return (new MailMessage)
-                    ->line('THE VERIFY EMAIL')
-                    ->action('Verify Email', $url)
-                    ->line('Thank you for using our application!');
+                    ->line('Please click the button below to verify your email address.')
+                    ->action('Verify Email Address', $url)
+                    ->line('Thank you for using '.env(key: 'APP_NAME'));
     }
 
     /**

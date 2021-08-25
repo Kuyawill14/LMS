@@ -13,13 +13,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::get('/test123', function () {
-    return view('ClassInvite');
+    return view('VerifyEmail');
 });
 
-Route::post('login', function () {
-    return view('welcome');
-});
-//Auth::routes(['verify' => true]);
+
 
 Route::get('/{any}', function () {
     return view('welcome');

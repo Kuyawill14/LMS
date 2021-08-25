@@ -9,11 +9,13 @@ export default {
       methods: {
             ...mapActions(["verifyEmail"])
         },
-    mounted(){
+    created(){
        this.verifyEmail(this.$route.query).then((response) => {
-           console.log(response);
-            this.$router.push({name: 'login'})
+            this.$router.push({name: 'login'});
         });
+
+        
+        
     }
 }
 </script>

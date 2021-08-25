@@ -1,9 +1,9 @@
-(self["webpackChunk"] = self["webpackChunk"] || []).push([["resources_js_components_register_register_vue"],{
+(self["webpackChunk"] = self["webpackChunk"] || []).push([["login"],{
 
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/register/register.vue?vue&type=script&lang=js&":
-/*!************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/register/register.vue?vue&type=script&lang=js& ***!
-  \************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/login/login.vue?vue&type=script&lang=js&":
+/*!******************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/login/login.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -11,15 +11,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -195,51 +186,33 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
-      isRegistering: false,
+      isLoggin: false,
+      dialog: true,
       valid: true,
-      role: ['Teacher', 'Student'],
-      invalid_classcode_message: null,
       form: new Form({
-        firstName: "",
-        middleName: "",
-        lastName: "",
-        email: "",
-        password: "",
-        password_confirmation: "",
-        student_id: ""
-      }),
-      loginForm: new Form({
         email: "",
         password: ""
       }),
-      nameRules: [function (v) {
-        return !!v || 'Field is required';
-      }, function (v) {
-        return v && v.length <= 20 || 'Name must be less than 20 characters';
-      }],
       loginEmailRules: [function (v) {
-        return !!v || "Field is required";
+        return !!v || "Required";
       }, function (v) {
         return /.+@.+\..+/.test(v) || "Email must be valid";
       }],
-      RoleRules: [function (v) {
-        return !!v || "Field is required";
+      emailRules: [function (v) {
+        return !!v || "Required";
+      }, function (v) {
+        return /.+@.+\..+/.test(v) || "Email must be valid";
       }],
-      ClassCodeRules: {
-        required: function required(v) {
-          return !!v || "Class code is required";
-        }
-      },
       show: false,
-      show1: false,
       rules: {
         required: function required(value) {
-          return !!value || "Field is required.";
+          return !!value || "Required.";
         },
         min: function min(v) {
-          return v && v.length >= 6 || "min 6 characters";
+          return v && v.length >= 6 || "Min 6 characters";
         }
-      }
+      },
+      ToManyAttepmtError: null
     };
   },
   computed: {
@@ -247,56 +220,61 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       return function () {
-        return _this.password === _this.password_confirmation || "Password must match";
+        return _this.password === _this.verify || "Password must match";
       };
     }
   },
   methods: {
-    Test: function Test() {
-      console.log(this.form);
-    },
     validate: function validate() {
+      if (this.$refs.loginForm.validate()) {
+        this.login();
+        /* this.$store.dispatch('login', this.form)
+        .then(res=>{
+          console.log(res);
+           if(res == 200){
+               this.toastSuccess("Login success");
+           }
+           else if(res == 203){
+                this.toastError('Login failed!');
+           }
+        }) */
+      }
+    },
+    reset: function reset() {
+      this.$refs.form.reset();
+    },
+    resetValidation: function resetValidation() {
+      this.$refs.form.resetValidation();
+    },
+    login: function login() {
       var _this2 = this;
 
-      if (this.$refs.RegisterForm.validate()) {
-        this.isRegistering = true;
-        this.form.post('/api/register').then(function (res) {
+      this.isLoggin = true;
+      axios.get('/sanctum/csrf-cookie').then(function (response) {
+        _this2.form.post('/api/login').then(function (res) {
+          console;
+
           if (res.data.success == true) {
             _this2.toastSuccess(res.data.message);
 
-            _this2.$refs.RegisterForm.reset();
+            _this2.$store.dispatch('clear_current_user');
 
-            _this2.valid = true;
-            _this2.isRegistering = false;
-          } else {
-            _this2.toastError(res.data.message);
-
-            _this2.invalid_classcode_message = res.data.message;
-            _this2.isRegistering = false;
-          }
-        })["catch"](function (e) {
-          _this2.toastError(e.response.data.message);
-
-          _this2.isRegistering = false;
-        });
-      }
-    },
-    login: function login(email, password) {
-      var _this3 = this;
-
-      this.loginForm.email = email;
-      this.loginForm.password = password;
-      axios.get('/sanctum/csrf-cookie').then(function (response) {
-        _this3.loginForm.post('/api/login').then(function (res) {
-          if (res.status == 200) {
-            _this3.$store.dispatch('clear_current_user');
-
-            _this3.$router.push({
+            _this2.$router.push({
               path: "/"
             });
           } else {
-            _this3.toastError(res.data);
+            _this2.isLoggin = false;
+
+            _this2.toastError(res.data.message);
           }
+        })["catch"](function (err) {
+          if (err.response.status == 429) {
+            _this2.toastError(err.response.data.errors[_this2.form.email][0]);
+          } else {
+            _this2.toastError(err.response.data.message);
+          }
+
+          _this2.isLoggin = false;
         });
       });
     }
@@ -305,10 +283,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/register/register.vue":
-/*!*******************************************************!*\
-  !*** ./resources/js/components/register/register.vue ***!
-  \*******************************************************/
+/***/ "./resources/js/components/login/login.vue":
+/*!*************************************************!*\
+  !*** ./resources/js/components/login/login.vue ***!
+  \*************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -316,8 +294,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _register_vue_vue_type_template_id_98047358___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./register.vue?vue&type=template&id=98047358& */ "./resources/js/components/register/register.vue?vue&type=template&id=98047358&");
-/* harmony import */ var _register_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./register.vue?vue&type=script&lang=js& */ "./resources/js/components/register/register.vue?vue&type=script&lang=js&");
+/* harmony import */ var _login_vue_vue_type_template_id_ecc2ca70___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./login.vue?vue&type=template&id=ecc2ca70& */ "./resources/js/components/login/login.vue?vue&type=template&id=ecc2ca70&");
+/* harmony import */ var _login_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./login.vue?vue&type=script&lang=js& */ "./resources/js/components/login/login.vue?vue&type=script&lang=js&");
 /* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -327,9 +305,9 @@ __webpack_require__.r(__webpack_exports__);
 /* normalize component */
 ;
 var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__.default)(
-  _register_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
-  _register_vue_vue_type_template_id_98047358___WEBPACK_IMPORTED_MODULE_0__.render,
-  _register_vue_vue_type_template_id_98047358___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  _login_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
+  _login_vue_vue_type_template_id_ecc2ca70___WEBPACK_IMPORTED_MODULE_0__.render,
+  _login_vue_vue_type_template_id_ecc2ca70___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
   false,
   null,
   null,
@@ -339,15 +317,15 @@ var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__
 
 /* hot reload */
 if (false) { var api; }
-component.options.__file = "resources/js/components/register/register.vue"
+component.options.__file = "resources/js/components/login/login.vue"
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
 
 /***/ }),
 
-/***/ "./resources/js/components/register/register.vue?vue&type=script&lang=js&":
-/*!********************************************************************************!*\
-  !*** ./resources/js/components/register/register.vue?vue&type=script&lang=js& ***!
-  \********************************************************************************/
+/***/ "./resources/js/components/login/login.vue?vue&type=script&lang=js&":
+/*!**************************************************************************!*\
+  !*** ./resources/js/components/login/login.vue?vue&type=script&lang=js& ***!
+  \**************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -355,32 +333,32 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_register_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./register.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/register/register.vue?vue&type=script&lang=js&");
- /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_register_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_login_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./login.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/login/login.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_login_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
 
 /***/ }),
 
-/***/ "./resources/js/components/register/register.vue?vue&type=template&id=98047358&":
-/*!**************************************************************************************!*\
-  !*** ./resources/js/components/register/register.vue?vue&type=template&id=98047358& ***!
-  \**************************************************************************************/
+/***/ "./resources/js/components/login/login.vue?vue&type=template&id=ecc2ca70&":
+/*!********************************************************************************!*\
+  !*** ./resources/js/components/login/login.vue?vue&type=template&id=ecc2ca70& ***!
+  \********************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_register_vue_vue_type_template_id_98047358___WEBPACK_IMPORTED_MODULE_0__.render),
-/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_register_vue_vue_type_template_id_98047358___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_login_vue_vue_type_template_id_ecc2ca70___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_login_vue_vue_type_template_id_ecc2ca70___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_register_vue_vue_type_template_id_98047358___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./register.vue?vue&type=template&id=98047358& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/register/register.vue?vue&type=template&id=98047358&");
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_login_vue_vue_type_template_id_ecc2ca70___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./login.vue?vue&type=template&id=ecc2ca70& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/login/login.vue?vue&type=template&id=ecc2ca70&");
 
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/register/register.vue?vue&type=template&id=98047358&":
-/*!*****************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/register/register.vue?vue&type=template&id=98047358& ***!
-  \*****************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/login/login.vue?vue&type=template&id=ecc2ca70&":
+/*!***********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/login/login.vue?vue&type=template&id=ecc2ca70& ***!
+  \***********************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -413,7 +391,10 @@ var render = function() {
               _c(
                 "v-col",
                 {
-                  staticClass: "ma-0 pa-0",
+                  class:
+                    _vm.$vuetify.breakpoint.xs || _vm.$vuetify.breakpoint.sm
+                      ? ""
+                      : "ma-0 pa-0",
                   attrs: { cols: "12", sm: "12", md: "12" }
                 },
                 [
@@ -434,7 +415,7 @@ var render = function() {
                           style:
                             _vm.$vuetify.breakpoint.xs ||
                             _vm.$vuetify.breakpoint.sm
-                              ? "height:30vh;"
+                              ? "height:35vh;"
                               : "height:100vh",
                           attrs: { cols: "12", md: "4" }
                         },
@@ -612,10 +593,8 @@ var render = function() {
                         [
                           _c("vue-element-loading", {
                             attrs: {
-                              active: _vm.isRegistering,
-                              text: "Registering...",
-                              spinner: "bar-fade-scale",
-                              color: "#EF6C00"
+                              active: _vm.isLoggin,
+                              spinner: "bar-fade-scale"
                             }
                           }),
                           _vm._v(" "),
@@ -641,12 +620,9 @@ var render = function() {
                                       _c(
                                         "v-form",
                                         {
-                                          ref: "RegisterForm",
-                                          staticClass: "text-center ",
-                                          attrs: {
-                                            autocomplete: "off",
-                                            "lazy-validation": ""
-                                          },
+                                          ref: "loginForm",
+                                          staticClass: "text-center",
+                                          attrs: { "lazy-validation": "" },
                                           model: {
                                             value: _vm.valid,
                                             callback: function($$v) {
@@ -669,7 +645,7 @@ var render = function() {
                                                 "v-col",
                                                 {
                                                   staticClass:
-                                                    "ma-0 pa-0 text-left mt-5",
+                                                    "ma-0 pa-0 text-left",
                                                   attrs: { cols: "12", md: "8" }
                                                 },
                                                 [
@@ -677,17 +653,19 @@ var render = function() {
                                                     "div",
                                                     {
                                                       staticClass:
-                                                        "text-md-h5 text-xs-h5 text-sm-h6 font-weight-bold"
+                                                        " text-md-h5 text-xs-h5 text-sm-h6 font-weight-bold"
                                                     },
                                                     [
-                                                      _vm._v("Sign Up "),
+                                                      _vm._v(
+                                                        "\n                                      Login to your "
+                                                      ),
                                                       _c(
                                                         "span",
                                                         {
                                                           staticClass:
                                                             "font-weight-regular"
                                                         },
-                                                        [_vm._v("Now")]
+                                                        [_vm._v("Account")]
                                                       )
                                                     ]
                                                   ),
@@ -697,7 +675,7 @@ var render = function() {
                                                     { staticClass: "mt-2" },
                                                     [
                                                       _vm._v(
-                                                        "Login Your Account "
+                                                        "Don't have an account? "
                                                       ),
                                                       _c(
                                                         "router-link",
@@ -706,11 +684,15 @@ var render = function() {
                                                             "blue--text",
                                                           attrs: {
                                                             to: {
-                                                              name: "login"
+                                                              name: "register"
                                                             }
                                                           }
                                                         },
-                                                        [_vm._v("Click here")]
+                                                        [
+                                                          _vm._v(
+                                                            "Create one here"
+                                                          )
+                                                        ]
                                                       )
                                                     ],
                                                     1
@@ -721,192 +703,23 @@ var render = function() {
                                               _c(
                                                 "v-col",
                                                 {
-                                                  staticClass:
-                                                    "ma-0 pa-0 mt-2 ",
-                                                  attrs: { cols: "12", md: "8" }
-                                                },
-                                                [
-                                                  _c("HasError", {
-                                                    staticClass: "error--text",
-                                                    attrs: {
-                                                      form: _vm.form,
-                                                      field: "student_id"
-                                                    }
-                                                  }),
-                                                  _vm._v(" "),
-                                                  _c("v-text-field", {
-                                                    attrs: {
-                                                      outlined: "",
-                                                      dense: "",
-                                                      rules: _vm.nameRules,
-                                                      label:
-                                                        "Student ID Number",
-                                                      name: "student_id",
-                                                      type: "text",
-                                                      color: "primary"
-                                                    },
-                                                    model: {
-                                                      value:
-                                                        _vm.form.student_id,
-                                                      callback: function($$v) {
-                                                        _vm.$set(
-                                                          _vm.form,
-                                                          "student_id",
-                                                          $$v
-                                                        )
-                                                      },
-                                                      expression:
-                                                        "form.student_id"
-                                                    }
-                                                  })
-                                                ],
-                                                1
-                                              ),
-                                              _vm._v(" "),
-                                              _c(
-                                                "v-col",
-                                                {
-                                                  staticClass: "ma-0 pa-0",
+                                                  staticClass: "ma-0 pa-0 mt-4",
                                                   attrs: { cols: "12", md: "8" }
                                                 },
                                                 [
                                                   _c("v-text-field", {
                                                     attrs: {
                                                       outlined: "",
-                                                      dense: "",
-                                                      rules: _vm.nameRules,
-                                                      label: "First Name",
-                                                      name: "firstName",
-                                                      type: "text",
-                                                      color: "primary"
-                                                    },
-                                                    model: {
-                                                      value: _vm.form.firstName,
-                                                      callback: function($$v) {
-                                                        _vm.$set(
-                                                          _vm.form,
-                                                          "firstName",
-                                                          $$v
-                                                        )
-                                                      },
-                                                      expression:
-                                                        "form.firstName"
-                                                    }
-                                                  })
-                                                ],
-                                                1
-                                              ),
-                                              _vm._v(" "),
-                                              _c(
-                                                "v-col",
-                                                {
-                                                  staticClass: "ma-0 pa-0 ",
-                                                  attrs: { cols: "12", md: "8" }
-                                                },
-                                                [
-                                                  _c("HasError", {
-                                                    staticClass: "error--text",
-                                                    attrs: {
-                                                      form: _vm.form,
-                                                      field: "middleName"
-                                                    }
-                                                  }),
-                                                  _vm._v(" "),
-                                                  _c("v-text-field", {
-                                                    attrs: {
-                                                      outlined: "",
-                                                      dense: "",
-                                                      label: "Middle Name",
-                                                      rules: _vm.nameRules,
-                                                      name: "middleName",
-                                                      type: "text",
-                                                      color: "primary"
-                                                    },
-                                                    model: {
-                                                      value:
-                                                        _vm.form.middleName,
-                                                      callback: function($$v) {
-                                                        _vm.$set(
-                                                          _vm.form,
-                                                          "middleName",
-                                                          $$v
-                                                        )
-                                                      },
-                                                      expression:
-                                                        "form.middleName"
-                                                    }
-                                                  })
-                                                ],
-                                                1
-                                              ),
-                                              _vm._v(" "),
-                                              _c(
-                                                "v-col",
-                                                {
-                                                  staticClass: "ma-0 pa-0 ",
-                                                  attrs: { cols: "12", md: "8" }
-                                                },
-                                                [
-                                                  _c("HasError", {
-                                                    staticClass: "error--text",
-                                                    attrs: {
-                                                      form: _vm.form,
-                                                      field: "lastName"
-                                                    }
-                                                  }),
-                                                  _vm._v(" "),
-                                                  _c("v-text-field", {
-                                                    attrs: {
-                                                      outlined: "",
-                                                      dense: "",
-                                                      label: "Last Name",
-                                                      rules: _vm.nameRules,
-                                                      name: "lastname",
-                                                      type: "text",
-                                                      color: "primary"
-                                                    },
-                                                    model: {
-                                                      value: _vm.form.lastName,
-                                                      callback: function($$v) {
-                                                        _vm.$set(
-                                                          _vm.form,
-                                                          "lastName",
-                                                          $$v
-                                                        )
-                                                      },
-                                                      expression:
-                                                        "form.lastName"
-                                                    }
-                                                  })
-                                                ],
-                                                1
-                                              ),
-                                              _vm._v(" "),
-                                              _c(
-                                                "v-col",
-                                                {
-                                                  staticClass: "ma-0 pa-0 ",
-                                                  attrs: { cols: "12", md: "8" }
-                                                },
-                                                [
-                                                  _c("HasError", {
-                                                    staticClass: "error--text",
-                                                    attrs: {
-                                                      form: _vm.form,
-                                                      field: "email"
-                                                    }
-                                                  }),
-                                                  _vm._v(" "),
-                                                  _c("v-text-field", {
-                                                    attrs: {
-                                                      outlined: "",
-                                                      dense: "",
                                                       label: "Email",
-                                                      name: "Email",
                                                       rules:
                                                         _vm.loginEmailRules,
+                                                      name: "Email",
+                                                      "prepend-inner-icon":
+                                                        "email",
+                                                      dense: "",
                                                       type: "email",
-                                                      color: "primary"
+                                                      color: "primary",
+                                                      required: ""
                                                     },
                                                     model: {
                                                       value: _vm.form.email,
@@ -927,36 +740,32 @@ var render = function() {
                                               _c(
                                                 "v-col",
                                                 {
-                                                  staticClass: "ma-0 pa-0 ",
+                                                  staticClass: "ma-0 pa-0 mt-2",
                                                   attrs: { cols: "12", md: "8" }
                                                 },
                                                 [
-                                                  _c("HasError", {
-                                                    staticClass: "error--text",
-                                                    attrs: {
-                                                      form: _vm.form,
-                                                      field: "password"
-                                                    }
-                                                  }),
-                                                  _vm._v(" "),
                                                   _c("v-text-field", {
+                                                    staticClass: "mb-0 pb-0",
                                                     attrs: {
-                                                      outlined: "",
                                                       dense: "",
+                                                      outlined: "",
                                                       "append-icon": _vm.show
                                                         ? "mdi-eye"
                                                         : "mdi-eye-off",
-                                                      id: "password",
-                                                      label: "Password",
-                                                      name: "password",
-                                                      type: _vm.show
-                                                        ? "text"
-                                                        : "password",
-                                                      color: "primary",
                                                       rules: [
                                                         _vm.rules.required,
                                                         _vm.rules.min
                                                       ],
+                                                      type: _vm.show
+                                                        ? "text"
+                                                        : "password",
+                                                      name: "password",
+                                                      label: "Password",
+                                                      "prepend-inner-icon":
+                                                        "lock",
+                                                      hint:
+                                                        "At least 6 characters",
+                                                      color: "primary",
                                                       counter: ""
                                                     },
                                                     on: {
@@ -978,59 +787,13 @@ var render = function() {
                                                       expression:
                                                         "form.password"
                                                     }
-                                                  })
-                                                ],
-                                                1
-                                              ),
-                                              _vm._v(" "),
-                                              _c(
-                                                "v-col",
-                                                {
-                                                  staticClass: "ma-0 pa-0 ",
-                                                  attrs: { cols: "12", md: "8" }
-                                                },
-                                                [
-                                                  _c("v-text-field", {
+                                                  }),
+                                                  _vm._v(" "),
+                                                  _c("HasError", {
+                                                    staticClass: "error--text",
                                                     attrs: {
-                                                      outlined: "",
-                                                      dense: "",
-                                                      "append-icon": _vm.show1
-                                                        ? "mdi-eye"
-                                                        : "mdi-eye-off",
-                                                      id:
-                                                        "passwordConfirmation",
-                                                      label: "Confirm Password",
-                                                      name: "password",
-                                                      type: _vm.show1
-                                                        ? "text"
-                                                        : "password",
-                                                      color: "primary",
-                                                      rules: [
-                                                        _vm.rules.required,
-                                                        _vm.passwordMatch
-                                                      ],
-                                                      counter: ""
-                                                    },
-                                                    on: {
-                                                      "click:append": function(
-                                                        $event
-                                                      ) {
-                                                        _vm.show1 = !_vm.show1
-                                                      }
-                                                    },
-                                                    model: {
-                                                      value:
-                                                        _vm.form
-                                                          .password_confirmation,
-                                                      callback: function($$v) {
-                                                        _vm.$set(
-                                                          _vm.form,
-                                                          "password_confirmation",
-                                                          $$v
-                                                        )
-                                                      },
-                                                      expression:
-                                                        "form.password_confirmation"
+                                                      form: _vm.form,
+                                                      field: "password"
                                                     }
                                                   })
                                                 ],
@@ -1040,8 +803,68 @@ var render = function() {
                                               _c(
                                                 "v-col",
                                                 {
+                                                  staticClass: "ma-0 pa-0",
+                                                  attrs: { cols: "12", md: "8" }
+                                                },
+                                                [
+                                                  _c(
+                                                    "v-row",
+                                                    {},
+                                                    [
+                                                      _c(
+                                                        "v-col",
+                                                        [
+                                                          _c("v-checkbox", {
+                                                            staticClass:
+                                                              "ma-0 pa-0",
+                                                            attrs: {
+                                                              "ma-0": "",
+                                                              "pa-0": "",
+                                                              label:
+                                                                "Remember me"
+                                                            }
+                                                          })
+                                                        ],
+                                                        1
+                                                      ),
+                                                      _vm._v(" "),
+                                                      _c(
+                                                        "v-col",
+                                                        {
+                                                          staticClass:
+                                                            "float-right"
+                                                        },
+                                                        [
+                                                          _c(
+                                                            "a",
+                                                            {
+                                                              staticClass:
+                                                                "float-right",
+                                                              attrs: {
+                                                                href:
+                                                                  "forget-password.html"
+                                                              }
+                                                            },
+                                                            [
+                                                              _vm._v(
+                                                                "Forgot Password?"
+                                                              )
+                                                            ]
+                                                          )
+                                                        ]
+                                                      )
+                                                    ],
+                                                    1
+                                                  )
+                                                ],
+                                                1
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "v-col",
+                                                {
                                                   staticClass:
-                                                    "ma-0 pa-0 text-left mt-2",
+                                                    "ma-0 pa-0 text-left",
                                                   attrs: { cols: "12", md: "8" }
                                                 },
                                                 [
@@ -1050,10 +873,9 @@ var render = function() {
                                                     {
                                                       staticClass: "mb-5",
                                                       attrs: {
-                                                        loading:
-                                                          _vm.isRegistering,
+                                                        color: "primary",
                                                         disabled: !_vm.valid,
-                                                        color: "primary"
+                                                        loading: _vm.isLoggin
                                                       },
                                                       on: {
                                                         click: _vm.validate
@@ -1066,7 +888,7 @@ var render = function() {
                                                         [_vm._v("mdi-login")]
                                                       ),
                                                       _vm._v(
-                                                        "\n                                                        Sign Up\n                                                    "
+                                                        "\n                                    Login\n                                  "
                                                       )
                                                     ],
                                                     1
@@ -1088,12 +910,7 @@ var render = function() {
                               )
                             ],
                             1
-                          ),
-                          _vm._v(" "),
-                          _c("v-container", {
-                            staticClass: "pb-5 pl-5 pr-5",
-                            attrs: { "ma-0": "", "pa-0": "" }
-                          })
+                          )
                         ],
                         1
                       )

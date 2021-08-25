@@ -16,7 +16,7 @@
                             <thead>
                                 <tr>
                                     <th>
-                                        ID
+                                        STUDENT ID
                                     </th>
                                     <th>
                                         Last Name
@@ -40,7 +40,7 @@
                             </thead>
                             <tbody>
                                 <tr v-for="(item, index) in StudentList" :key="index">
-                                    <td> {{item.user_id}} </td>
+                                    <td> {{item.student_id}} </td>
                                     <td> {{item.lastName }} </td>
                                     <td> {{item.firstName}} </td>
                                     <td> {{item.middleName}} </td>
@@ -82,16 +82,22 @@
         <v-dialog v-model="dialog" width="500">
             <v-card>
                 <v-card-title class="">
-                    Add Student
+                    {{this.type == "add" ? 'Add Student' :  'Update Student'}}
                 </v-card-title>
                 <v-divider></v-divider>
                 <v-container>
 
-                    <v-form class="text-center " ref="RegisterForm" v-model="valid" lazy-validation>
+                    <v-form autocomplete="off"  class="text-center " ref="RegisterForm" v-model="valid" lazy-validation>
 
 
                         <v-row class="pa-5">
                             <v-col class="ma-0 pa-0 mb-1" cols="12" md="12">
+                                <HasError class="error--text" :form="form" field="student_id" />
+                                <v-text-field  :rules="nameRules" label="Student ID Number" name="student_id"
+                                    v-model="form.student_id" type="text" color="primary"  outlined />
+                            </v-col>
+                            <v-col class="ma-0 pa-0 mb-1" cols="12" md="12">
+                                 <HasError class="error--text" :form="form" field="firstName" />
                                 <v-text-field :rules="nameRules" label="First Name" name="firstName"
                                     v-model="form.firstName" type="text" color="primary" outlined />
                             </v-col>
@@ -100,7 +106,6 @@
                                 <HasError class="error--text" :form="form" field="middleName" />
                                 <v-text-field label="Middle Name" :rules="nameRules" name="middleName"
                                     v-model="form.middleName" type="text" color="primary" outlined />
-                                <HasError class="error--text" :form="form" field="middleName" />
                             </v-col>
 
                             <v-col class="ma-0 pa-0 mb-1" cols="12" md="12">
@@ -108,20 +113,12 @@
                                 <v-text-field label="Last Name" :rules="nameRules" name="lastname"
                                     v-model="form.lastName" type="text" color="primary" outlined
                                     @keyup="SetPassword(form.lastName)" />
-                                <HasError class="error--text" :form="form" field="lastName" />
                             </v-col>
-                            <!-- <v-col class="ma-0 pa-0 mb-1" cols="12" md="12">
-                                <HasError class="error--text" :form="form" field="phone" />
-                                <v-text-field label="Phone number" name="phone" :rules="RoleRules" v-model="form.phone"
-                                    type="phone" color="primary" outlined />
-                            </v-col> -->
-
-
+                          
                             <v-col class="ma-0 pa-0 mb-1" cols="12" md="12">
                                 <HasError class="error--text" :form="form" field="email" />
                                 <v-text-field label="Email" name="Email" :rules="loginEmailRules" v-model="form.email"
                                     type="email" color="primary" outlined />
-                                <HasError class="error--text" :form="form" field="email" />
                             </v-col>
                             <v-col class="ma-0 pa-0 mb-1" cols="12" md="12" v-if="type== 'add'">
                                 <HasError class="error--text" :form="form" field="password" />
@@ -130,7 +127,6 @@
                                     :type="show ? 'text' : 'password'" color="primary"
                                     :rules="[rules.required, rules.min]" counter @click:append="show = !show"
                                     outlined />
-                                <HasError class="error--text" :form="form" field="password" />
                             </v-col>
 
 
@@ -147,7 +143,7 @@
                     <v-spacer></v-spacer>
                     <v-btn text color="primary" @click="dialog = false;$refs.RegisterForm.reset()">Cancel</v-btn>
                     <v-btn text @click="validate()" :loading="IsAddUpdating">
-                        Add</v-btn>
+                        {{this.type == "add" ? 'Add' :  'Update'}}</v-btn>
                 </v-card-actions>
             </v-card>
         </v-dialog>
@@ -207,10 +203,9 @@
                     middleName: "",
                     lastName: "",
                     email: "",
-                    phone: "",
                     password: "",
                     password_confirmation: "",
-                    role: ""
+                    student_id: ""
                 }),
 
                 nameRules: [
@@ -247,31 +242,24 @@
                 var tmpLastname = lastname.replace(/\s+/g, '-').toLowerCase();
                 this.form.password = 'LMS-' + tmpLastname;
                 this.show = true;
-                /* var self = this;
-                  this.timeout = setTimeout(function () {
-                     self.show = false;
-                }, 3000);  */
             },
 
             openAdd() {
                 this.type = 'add'
-                // this.grading_criteria_form.name = '';
-                // this.grading_criteria_form.percentage = '';
                 this.dialog = true;
             },
             openEdit(details) {
+                 
                 this.type = 'edit'
                 this.dialog = true;
-         
-      
                 this.form.user_id = details.user_id;
                 this.form.firstName = details.firstName;
                 this.form.middleName = details.middleName;
                 this.form.lastName = details.lastName;
                 this.form.phone = details.cp_no;
                 this.form.email = details.email;
-
-
+                this.form.student_id = details.student_id;
+                this.$refs.RegisterForm.resetValidation();
             },
             openDelete(id) {
                 this.delId = id;
@@ -315,6 +303,7 @@
                                 this.$refs.RegisterForm.reset()
                                 this.valid = true;
                                 this.dialog = false;
+                                this.IsAddUpdating = false;
                                 this.StudentList.push(res.data);
                             })
 

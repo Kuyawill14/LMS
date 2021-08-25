@@ -26,12 +26,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   methods: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)(["verifyEmail"])),
-  mounted: function mounted() {
+  created: function created() {
     var _this = this;
 
     this.verifyEmail(this.$route.query).then(function (response) {
-      console.log(response);
-
       _this.$router.push({
         name: 'login'
       });

@@ -127,7 +127,7 @@ var render = function() {
               [
                 _c(
                   "v-list-item-action",
-                  [_c("v-icon", [_vm._v("mdi-human-male-board-poll")])],
+                  [_c("v-icon", [_vm._v("mdi-account-supervisor")])],
                   1
                 ),
                 _vm._v(" "),

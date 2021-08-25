@@ -31,7 +31,7 @@
 
                 <v-list-item  link :to="{name: 'manageteachers'}" exact>
                     <v-list-item-action>
-                        <v-icon>mdi-human-male-board-poll</v-icon>
+                        <v-icon>mdi-account-supervisor</v-icon>
                     </v-list-item-action>
                     <v-list-item-content>
                         <v-list-item-title>

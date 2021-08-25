@@ -576,7 +576,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             data: _this5.FinalAnswers
           }); //localStorage.setItem(name, JSON.stringify(this.FinalAnswers));
         } else {
-<<<<<<< HEAD
           var Submitted_length = AnswersList.length;
           var Question_length = res[0].Question.length;
           var diff = Question_length - Submitted_length;
@@ -592,23 +591,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             } else if (_this5.QuestionAndAnswer.Question[i].type == 'Matching type') {}
           }
 
-=======
-          /*   let Submitted_length = AnswersList.length;
-            let Question_length = res[0].Question.length;
-            let diff = Question_length  - Submitted_length;
-            for (let i = 0; i < diff; i++) {
-                if(this.QuestionAndAnswer.Question[i].type == 'Multiple Choice' || this.QuestionAndAnswer.Question[i].type == 'Identification' || this.QuestionAndAnswer.Question[i].type == 'True or False'){
-                    this.details.Submitted_Answers.push({
-                        Answer: null,
-                        Question_id: this.QuestionAndAnswer.Question[i].id,
-                        timeConsume: null,
-                        type: this.QuestionAndAnswer.Question[i].type
-                    })
-                }
-                else if(this.QuestionAndAnswer.Question[i].type == 'Matching type'){
-                  }
-                  } */
->>>>>>> 9f8969e761549058035cb56d1558e41911e67d40
           for (var x = 0; x < res[0].Question.length; x++) {
             for (var j = 0; j < AnswersList.length; j++) {
               if (res[0].Question[x].id == AnswersList[j].Question_id) {

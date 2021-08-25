@@ -84,16 +84,15 @@
         <v-dialog v-model="dialog" width="500">
             <v-card>
                 <v-card-title class="">
-                    Add Teacher
+                    {{this.type == "add" ? 'Add Teacher' :  'Update Teacher'}}
                 </v-card-title>
                 <v-divider></v-divider>
                 <v-container>
 
                     <v-form class="text-center " ref="RegisterForm" v-model="valid" lazy-validation>
-
-
                         <v-row class="pa-5">
                             <v-col class="ma-0 pa-0 mb-1" cols="12" md="12">
+                                  <HasError class="error--text" :form="form" field="firstName" />
                                 <v-text-field :rules="nameRules" label="First Name" name="firstName"
                                     v-model="form.firstName" type="text" color="primary" outlined />
                             </v-col>
@@ -102,7 +101,6 @@
                                 <HasError class="error--text" :form="form" field="middleName" />
                                 <v-text-field label="Middle Name" :rules="nameRules" name="middleName"
                                     v-model="form.middleName" type="text" color="primary" outlined />
-                                <HasError class="error--text" :form="form" field="middleName" />
                             </v-col>
 
                             <v-col class="ma-0 pa-0 mb-1" cols="12" md="12">
@@ -110,20 +108,12 @@
                                 <v-text-field label="Last Name" :rules="nameRules" name="lastname"
                                     v-model="form.lastName" type="text" color="primary" outlined
                                     @keyup="SetPassword(form.lastName)" />
-                                <HasError class="error--text" :form="form" field="lastName" />
                             </v-col>
-                            <!-- <v-col class="ma-0 pa-0 mb-1" cols="12" md="12">
-                                <HasError class="error--text" :form="form" field="phone" />
-                                <v-text-field label="Phone number" name="phone" :rules="RoleRules" v-model="form.phone"
-                                    type="phone" color="primary" outlined />
-                            </v-col> -->
-
-
+                         
                             <v-col class="ma-0 pa-0 mb-1" cols="12" md="12">
                                 <HasError class="error--text" :form="form" field="email" />
                                 <v-text-field autocomplete="false" label="Email" name="Email" :rules="loginEmailRules" v-model="form.email"
                                     type="email" color="primary" outlined />
-                                <HasError class="error--text" :form="form" field="email" />
                             </v-col>
                             <v-col class="ma-0 pa-0 mb-1" cols="12" md="12" v-if="type== 'add'">
                                 <HasError class="error--text" :form="form" field="password" />
@@ -132,35 +122,8 @@
                                     :type="show ? 'text' : 'password'" color="primary"
                                     :rules="[rules.required, rules.min]" counter @click:append="show = !show"
                                     outlined />
-                                <HasError class="error--text" :form="form" field="password" />
                             </v-col>
-
-
-
-
                         </v-row>
-
-
-                        <!-- <v-col> -->
-                        <!-- <v-row class="pa-5"> -->
-                        <!-- <v-col class="ma-0 pa-0 mb-1" cols="12" md="12" v-if="type== 'add'">
-                                        <HasError class="error--text" :form="form" field="password" />
-                                        <v-text-field :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'" id="password"
-                                            label="Password" name="password" v-model="form.password"
-                                            :type="show ? 'text' : 'password'" color="primary"
-                                            :rules="[rules.required, rules.min]" counter @click:append="show = !show"
-                                            outlined />
-                                    </v-col> -->
-
-
-
-                        <!-- <v-col class="ma-0 pa-0 mb-1" cols="12" md="12">
-                                        <v-select :items="role" v-model="form.role" :rules="RoleRules" outlined
-                                            label="Role"></v-select>
-                                    </v-col> -->
-                        <!-- </v-row> -->
-                        <!-- </v-col> -->
-
                     </v-form>
                 </v-container>
                 <v-card-actions>
@@ -168,7 +131,7 @@
                     <v-spacer></v-spacer>
                     <v-btn text color="primary" @click="dialog = false;$refs.RegisterForm.reset()">Cancel</v-btn>
                     <v-btn text @click="validate()" :loading="IsAddUpdating">
-                        Add</v-btn>
+                        {{this.type == "add" ? 'Add' :  'Update'}}</v-btn>
                 </v-card-actions>
             </v-card>
         </v-dialog>
@@ -176,7 +139,6 @@
 
 
         <v-dialog v-model="Deldialog" persistent max-width="290">
-
             <v-card>
                 <v-card-title class="headline">
                     Are you sure you want to delete this?
@@ -193,7 +155,6 @@
                 </v-card-actions>
             </v-card>
         </v-dialog>
-
     </div>
 
 
@@ -229,10 +190,8 @@
                     middleName: "",
                     lastName: "",
                     email: "",
-                    phone: "",
                     password: "",
                     password_confirmation: "",
-                    role: ""
                 }),
 
                 nameRules: [
@@ -268,19 +227,14 @@
                 var tmpLastname = lastname.replace(/\s+/g, '-').toLowerCase();
                 this.form.password = 'LMS-' + tmpLastname;
                 this.show = true;
-                /* var self = this;
-                  this.timeout = setTimeout(function () {
-                     self.show = false;
-                }, 3000);  */
             },
 
             openAdd() {
                 this.type = 'add'
-                // this.grading_criteria_form.name = '';
-                // this.grading_criteria_form.percentage = '';
                 this.dialog = true;
             },
             openEdit(user_id) {
+               
                 this.type = 'edit'
                 this.dialog = true;
                 var currentTeacher = this.filterTeacher(user_id);
@@ -289,10 +243,7 @@
                 this.form.firstName = currentTeacher.firstName;
                 this.form.middleName = currentTeacher.middleName;
                 this.form.lastName = currentTeacher.lastName;
-                this.form.phone = currentTeacher.cp_no;
                 this.form.email = currentTeacher.email;
-
-
             },
             openDelete(id) {
                 this.delId = id;
@@ -329,20 +280,14 @@
                 this.IsAddUpdating = true;
                 if (this.$refs.RegisterForm.validate()) {
                     if (this.type == 'add') {
-                        this.form.role = 'Teacher';
-                           this.form.class_code = '123';
                         this.form.password_confirmation = this.form.password
 
 
-                        this.form.post('/api/register')
+                        this.form.post('/api/admin/add/teacher')
                             .then((res) => {
-
-
                                 this.$refs.RegisterForm.reset()
                                 this.valid = true;
                                 this.dialog = false;
-
-
                             })
 
                     }

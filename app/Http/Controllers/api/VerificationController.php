@@ -4,13 +4,13 @@ namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Auth\Events\Verified;
 use App\Models\User;
 
 class VerificationController extends Controller
 {
     public function verify(Request $request){
-        //dd($request->all());
-
+ 
         $user = User::findOrFail($request->id);
 
         //dd($user->getEmailForVerification(), $request->hash);
@@ -27,34 +27,20 @@ class VerificationController extends Controller
         }
 
         if ($user->hasVerifiedEmail()) {
-           /*  return $request->wantsJson()
-                        ? new JsonResponse([], 204)
-                        : redirect($this->redirectPath()); */
-
-                return response()->json([
-                    "message" => "User already verified!",
-                    "success" => false
-                ]);
-
-                //return redirect($this->redirectPath());
+            return response()->json([
+                "message" => "User already verified!",
+                "success" => false
+            ]);
         }
 
         if ($user->markEmailAsVerified()) {
             event(new Verified($user));
         }
 
-        /* if ($response = $this->verified($request)) {
-            return $response;
-        } */
-
-       /*  return $request->wantsJson()
-                    ? new JsonResponse([], 204)
-                    : redirect($this->redirectPath())->with('verified', true); */
-
-                    return response()->json([
-                        "message" => "Email verified successfully!",
-                        "success" => true
-                    ]);
+        return response()->json([
+            "message" => "Email verified successfully!",
+            "success" => true
+        ]);
     }
 
     public function resendVerificationEmail(Request $request){

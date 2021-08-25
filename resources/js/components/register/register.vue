@@ -61,14 +61,14 @@
                             </v-col>
 
                             <v-col :class="$vuetify.breakpoint.xs ? 'ma-0 pa-3' :'ma-0 pa-0'" cols="12" md="8">
-                                <vue-element-loading :active="isRegistering" spinner="bar-fade-scale" color="#EF6C00" />
+                                <vue-element-loading :active="isRegistering" text="Registering..." spinner="bar-fade-scale" color="#EF6C00" />
                                 <v-row align="center" justify="center">
                                     <v-col class="text-left" cols="12" md="8" lg="6" sm="7">
                                          
                                           <v-card-text >
                                            
 
-                                            <v-form class="text-center " ref="RegisterForm"
+                                            <v-form autocomplete="off"  class="text-center " ref="RegisterForm"
                                                 v-model="valid" lazy-validation>
                                                  <v-row align="center" justify="center">
                                                     <v-col class="ma-0 pa-0 text-left mt-5"  cols="12" md="8">
@@ -76,7 +76,14 @@
                                                         <p class="mt-2">Login Your Account <router-link class="blue--text" :to="{name: 'login'}">Click here</router-link></p>
                                                     </v-col>
 
-                                                    <v-col class="ma-0 pa-0 mt-2 " cols="12" md="8">
+
+                                                     <v-col class="ma-0 pa-0 mt-2 " cols="12" md="8">
+                                                         <HasError class="error--text" :form="form" field="student_id" />
+                                                        <v-text-field outlined dense :rules="nameRules" label="Student ID Number" name="student_id"
+                                                        v-model="form.student_id" type="text" color="primary" />
+                                                    </v-col>
+
+                                                    <v-col class="ma-0 pa-0" cols="12" md="8">
                                                         <v-text-field outlined dense :rules="nameRules" label="First Name" name="firstName"
                                                         v-model="form.firstName" type="text" color="primary" />
                                                     </v-col>
@@ -117,7 +124,7 @@
                                                         @click:append="show1 = !show1" />
                                                     </v-col>
 
-                                                     <v-col class="ma-0 pa-0 " cols="12" md="8">
+                                                   <!--   <v-col class="ma-0 pa-0 " cols="12" md="8">
                                                         
                                                          <span class="error--text text-left"> {{invalid_classcode_message}}</span>
                                                         <v-text-field 
@@ -125,7 +132,7 @@
                                                         hint="Please provide a valid class code to be able to register"
                                                             v-model="form.class_code" type="text" color="primary" />
                                                             
-                                                    </v-col>
+                                                    </v-col> -->
                                                     
 
                                                     <!--  <v-col class="ma-0 pa-0 mb-1" cols="12" md="8">
@@ -186,8 +193,7 @@
                 email: "",
                 password: "",
                 password_confirmation: "",
-                class_code: "",
-                role: "Student"
+                student_id: ""
             }),
             loginForm: new Form({
                 email: "",
@@ -228,15 +234,14 @@
                     this.isRegistering = true;
                     this.form.post('/api/register')
                     .then((res) => {
-                        if(res.status == 201){
-                            this.toastSuccess('User Registration Successfull!');
-                            //this.login(res.data.email, this.form.password);
+                        if(res.data.success == true){
+                            this.toastSuccess(res.data.message);
                             this.$refs.RegisterForm.reset()
                             this.valid = true;
                             this.isRegistering = false;
                             
                         }
-                        else if(res.status == 202){
+                        else{
                             this.toastError(res.data.message);
                             this.invalid_classcode_message = res.data.message;
                             this.isRegistering = false;
@@ -244,7 +249,7 @@
                        
                     })
                     .catch(e=>{
-                        this.toastError('Something went wrong while registering!');
+                        this.toastError(e.response.data.message);
                         this.isRegistering = false;
                     })
                     
