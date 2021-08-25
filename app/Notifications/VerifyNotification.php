@@ -6,6 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use App\Models\tbl_userDetails;
 
 class VerifyNotification extends Notification
 {
@@ -46,14 +47,19 @@ class VerifyNotification extends Notification
             'hash' => sha1($notifiable->getEmailForVerification()),
         ];
 
-        $url = env(key: 'APP_URL') . '/verify-email?';
+        $url = env(key: "APP_URL") ."/verify-email?";
 
-        foreach ($params as $key => $param) {
+       /*  foreach ($params as $key => $param) {
             $url .= "{$key}={$param}&";
-        }
+        } */
 
+        $url = $url.'id='.$params['id'].'&hash='.$params['hash'];
+
+
+        $user = tbl_userDetails::where('user_id', $params['id'])->first();
         
         return (new MailMessage)
+                    ->greeting('Hello '.$user->firstName)
                     ->line('Please click the button below to verify your email address.')
                     ->action('Verify Email Address', $url)
                     ->line('Thank you for using '.env(key: 'APP_NAME'));

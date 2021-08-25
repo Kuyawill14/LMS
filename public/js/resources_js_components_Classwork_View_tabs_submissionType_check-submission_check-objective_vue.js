@@ -22185,7 +22185,7 @@ var render = function() {
                             _vm._v("mdi-comment")
                           ]),
                           _vm._v(
-                            "Private Comments\n                            "
+                            "Private Comments\r\n                            "
                           )
                         ],
                         1
@@ -22861,9 +22861,15 @@ var render = function() {
                                             { staticClass: "Subtitle 1" },
                                             [
                                               _vm._v(
+<<<<<<< HEAD
                                                 "\n                                " +
                                                   _vm._s(_vm.inputCheck[n]) +
                                                   " \n                                "
+=======
+                                                "\r\n                                " +
+                                                  _vm._s(_vm.inputCheck[n]) +
+                                                  " \r\n                                "
+>>>>>>> 1b8c1c190bbbdb49bd62cb28b7197f842095798e
                                               ),
                                               _vm.inputCheck[n] ==
                                               _vm.SubmittedAnswer[index].Answer
@@ -22944,7 +22950,11 @@ var render = function() {
                                                             },
                                                             [
                                                               _vm._v(
+<<<<<<< HEAD
                                                                 "\n                                                    Column A\n                                                "
+=======
+                                                                "\r\n                                                    Column A\r\n                                                "
+>>>>>>> 1b8c1c190bbbdb49bd62cb28b7197f842095798e
                                                               )
                                                             ]
                                                           ),
@@ -22960,7 +22970,11 @@ var render = function() {
                                                             },
                                                             [
                                                               _vm._v(
+<<<<<<< HEAD
                                                                 "\n                                                    Column B\n                                                "
+=======
+                                                                "\r\n                                                    Column B\r\n                                                "
+>>>>>>> 1b8c1c190bbbdb49bd62cb28b7197f842095798e
                                                               )
                                                             ]
                                                           )

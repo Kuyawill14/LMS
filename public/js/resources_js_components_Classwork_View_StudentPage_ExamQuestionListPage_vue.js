@@ -22890,13 +22890,13 @@ var render = function() {
                     },
                     [
                       _vm._v(
-                        "\n            " +
+                        "\r\n            " +
                           _vm._s(
                             _vm.isSubmitting
                               ? "Submitting Questions"
                               : "Loading Questions"
                           ) +
-                          "\n        "
+                          "\r\n        "
                       )
                     ]
                   ),
@@ -22996,7 +22996,7 @@ var render = function() {
                                                 },
                                                 [
                                                   _vm._v(
-                                                    "\n                            mdi-book-open-variant\n                            "
+                                                    "\r\n                            mdi-book-open-variant\r\n                            "
                                                   )
                                                 ]
                                               )
@@ -23177,12 +23177,12 @@ var render = function() {
                                                                             ]
                                                                           ),
                                                                           _vm._v(
-                                                                            "\n                                        " +
+                                                                            "\r\n                                        " +
                                                                               _vm._s(
                                                                                 index +
                                                                                   1
                                                                               ) +
-                                                                              "\n                                       "
+                                                                              "\r\n                                       "
                                                                           )
                                                                         ],
                                                                         1
@@ -23229,7 +23229,7 @@ var render = function() {
                                                                             },
                                                                             [
                                                                               _vm._v(
-                                                                                "\n                                                " +
+                                                                                "\r\n                                                " +
                                                                                   _vm._s(
                                                                                     _vm
                                                                                       .FinalAnswers[
@@ -23252,12 +23252,12 @@ var render = function() {
                                                                             ]
                                                                           ),
                                                                           _vm._v(
-                                                                            "\n                                            " +
+                                                                            "\r\n                                            " +
                                                                               _vm._s(
                                                                                 index +
                                                                                   1
                                                                               ) +
-                                                                              "\n                                       "
+                                                                              "\r\n                                       "
                                                                           )
                                                                         ],
                                                                         1
@@ -23387,7 +23387,7 @@ var render = function() {
                                                 [_vm._v("mdi-arrow-left")]
                                               ),
                                               _vm._v(
-                                                "\n                                        " +
+                                                "\r\n                                        " +
                                                   _vm._s(
                                                     _vm.$vuetify.breakpoint
                                                       .xs ||
@@ -23395,7 +23395,7 @@ var render = function() {
                                                       ? ""
                                                       : "previous"
                                                   ) +
-                                                  "\n                                        "
+                                                  "\r\n                                        "
                                               )
                                             ],
                                             1
@@ -23414,7 +23414,7 @@ var render = function() {
                                                 },
                                                 [
                                                   _vm._v(
-                                                    "\n                                        " +
+                                                    "\r\n                                        " +
                                                       _vm._s(
                                                         _vm.$vuetify.breakpoint
                                                           .xs ||
@@ -23423,7 +23423,7 @@ var render = function() {
                                                           ? ""
                                                           : "Next"
                                                       ) +
-                                                      "\n                                        "
+                                                      "\r\n                                        "
                                                   ),
                                                   _c(
                                                     "v-icon",
@@ -23448,7 +23448,7 @@ var render = function() {
                                                 },
                                                 [
                                                   _vm._v(
-                                                    "\n                                        Submit\n                                        "
+                                                    "\r\n                                        Submit\r\n                                        "
                                                   ),
                                                   _c(
                                                     "v-icon",
@@ -24025,14 +24025,14 @@ var render = function() {
                                                                       },
                                                                       [
                                                                         _vm._v(
-                                                                          "\n                                                        " +
+                                                                          "\r\n                                                        " +
                                                                             _vm._s(
                                                                               _vm
                                                                                 .inputCheck[
                                                                                 n
                                                                               ]
                                                                             ) +
-                                                                            "\n                                                    "
+                                                                            "\r\n                                                    "
                                                                         )
                                                                       ]
                                                                     )
@@ -24155,7 +24155,7 @@ var render = function() {
                                                                               },
                                                                               [
                                                                                 _vm._v(
-                                                                                  "\n                                                                        Column A\n                                                                    "
+                                                                                  "\r\n                                                                        Column A\r\n                                                                    "
                                                                                 )
                                                                               ]
                                                                             ),
@@ -24174,7 +24174,7 @@ var render = function() {
                                                                               },
                                                                               [
                                                                                 _vm._v(
-                                                                                  "\n                                                                        Column B\n                                                                    "
+                                                                                  "\r\n                                                                        Column B\r\n                                                                    "
                                                                                 )
                                                                               ]
                                                                             )
