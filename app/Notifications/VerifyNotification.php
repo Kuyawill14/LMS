@@ -46,16 +46,21 @@ class VerifyNotification extends Notification
             'hash' => sha1($notifiable->getEmailForVerification()),
         ];
 
-        $url = "http://188.166.248.37/verify-email?";
+        $url = "/verify-email?";
         $url = $url.'id='.$params['id'].'&hash='.$params['hash'];
 
         $user = tbl_userDetails::where('user_id', $params['id'])->first();
         
-        return (new MailMessage)
-                    ->greeting('Hello '.$user->firstName)
-                    ->line('Please click the button below to verify your email address.')
-                    ->action('Verify Email Address', $url)
-                    ->line('Thank you for using '.config('app.name'));
+      /*   return (new MailMessage)
+                ->greeting('Hello '.$user->firstName)
+                ->line('Please click the button below to verify your email address.')
+                ->action('Verify Email Address', $url)
+                ->line('Thank you for using '.config('app.name')); */
+            return (new MailMessage)->view('VerifyEmail', 
+                    ['firstName' => $user->firstName,
+                     'url'=> $url,
+                    ]
+                );
     }
 
     /**

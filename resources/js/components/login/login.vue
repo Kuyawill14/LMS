@@ -64,7 +64,8 @@
                        
                     </v-col>
                     <v-col :class="$vuetify.breakpoint.xs ? 'ma-0 pa-3' :'ma-0 pa-0'" cols="12" md="8">
-                      <vue-element-loading :active="isLoggin" spinner="bar-fade-scale" />
+                    
+                       <vue-element-loading :active="isLoggin" text="Please wait..." spinner="bar-fade-scale" color="#EF6C00" />
                       <v-row align="center" justify="center">
                         <v-col class="text-left" cols="12" md="8" lg="6" sm="7">
                           <v-card-text>

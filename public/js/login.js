@@ -183,6 +183,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -594,7 +595,9 @@ var render = function() {
                           _c("vue-element-loading", {
                             attrs: {
                               active: _vm.isLoggin,
-                              spinner: "bar-fade-scale"
+                              text: "Please wait...",
+                              spinner: "bar-fade-scale",
+                              color: "#EF6C00"
                             }
                           }),
                           _vm._v(" "),
