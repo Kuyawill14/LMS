@@ -2,7 +2,7 @@
     <div class="pt-1">
         <v-row align="center" justify="center" class="pt-10" v-if="classLength == 0">
             <v-col cols="12" sm="8" md="4" class="text-center">
-                <v-icon style="font-size:14rem">
+                <v-icon style="font-size:10rem">
                     mdi-google-classroom
                 </v-icon>
                 <h1> Empty Class </h1>
@@ -13,7 +13,7 @@
 
         <v-container v-if="isGetting" style="height: 400px;">
             <v-row class="fill-height" align-content="center" justify="center">
-                <v-icon style="font-size:14rem">
+                <v-icon style="font-size:10rem">
                     mdi-google-classroom
                 </v-icon>
                 <v-col class="text-subtitle-1 text-center" cols="12">
@@ -58,7 +58,18 @@
                         </v-list-item-avatar>
                         <v-list-item-content>
                             <v-list-item-title>{{item.class_name}} </v-list-item-title>
-                            <v-list-item-subtitle>Class code: {{item.class_code}} </v-list-item-subtitle>
+                            <v-list-item-subtitle>Class code: {{item.class_code}}  
+                                    <v-tooltip top small>
+                                        <template v-slot:activator="{ on, attrs }">
+                                        
+                                            <v-btn  v-on="on" v-bind="attrs" @click="CopyClassCode(item.class_code)" small icon><v-icon color="blue" small>mdi-content-copy</v-icon></v-btn>
+                                        </template>
+                                        <small>Copy class code</small>
+                                    </v-tooltip>
+                                
+                                
+                                
+                                  </v-list-item-subtitle>
                             <v-list-item-subtitle>Students: {{item.student_count}}</v-list-item-subtitle>
                         </v-list-item-content>
                     <v-list-item-action>
@@ -86,6 +97,28 @@
             </v-card>
         </div>
 
+      <v-snackbar
+       absolute
+        bottom
+        :width="$vuetify.breakpoint.sm ? '100%' : ''"
+        :right="$vuetify.breakpoint.lgAndUp"
+        :centered="$vuetify.breakpoint.sm"
+        v-model="copied">
+        Class code copied to clipboard
+
+        <template v-slot:action="{ attrs }">
+            <v-btn
+            color="pink"
+            text
+            bottom
+            left
+            v-bind="attrs"
+            @click="copied = false"
+            >
+            <v-icon>mdi-close</v-icon>
+            </v-btn>
+        </template>
+        </v-snackbar>
 
     </div>
 </template>
@@ -123,6 +156,7 @@
             },
             ArchiveDetails:null,
             removeIndex: null,
+            copied: false
         }),
 
 
@@ -164,6 +198,11 @@
             SuccessArchive(){
                 this.showModal = false;
                 this.allClass.splice(this.removeIndex, 1);
+            },
+            CopyClassCode(code){
+                let CodeText = code;
+                navigator.clipboard.writeText(CodeText);
+                this.copied = true;
             }
         },
         computed: mapGetters(['allClass']),

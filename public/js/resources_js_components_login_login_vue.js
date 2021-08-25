@@ -178,6 +178,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -206,7 +211,8 @@ __webpack_require__.r(__webpack_exports__);
         min: function min(v) {
           return v && v.length >= 6 || "Min 6 characters";
         }
-      }
+      },
+      ToManyAttepmtError: null
     };
   },
   computed: {
@@ -246,8 +252,10 @@ __webpack_require__.r(__webpack_exports__);
       this.isLoggin = true;
       axios.get('/sanctum/csrf-cookie').then(function (response) {
         _this2.form.post('/api/login').then(function (res) {
-          if (res.status == 200) {
-            _this2.toastSuccess(res.data);
+          console;
+
+          if (res.data.success == true) {
+            _this2.toastSuccess(res.data.message);
 
             _this2.$store.dispatch('clear_current_user');
 
@@ -257,8 +265,16 @@ __webpack_require__.r(__webpack_exports__);
           } else {
             _this2.isLoggin = false;
 
-            _this2.toastError(res.data);
+            _this2.toastError(res.data.message);
           }
+        })["catch"](function (err) {
+          if (err.response.status == 429) {
+            _this2.toastError(err.response.data.errors[_this2.form.email][0]);
+          } else {
+            _this2.toastError(err.response.data.message);
+          }
+
+          _this2.isLoggin = false;
         });
       });
     }
@@ -590,7 +606,12 @@ var render = function() {
                                 "v-col",
                                 {
                                   staticClass: "text-left",
-                                  attrs: { cols: "12", md: "6", sm: "8" }
+                                  attrs: {
+                                    cols: "12",
+                                    md: "8",
+                                    lg: "6",
+                                    sm: "7"
+                                  }
                                 },
                                 [
                                   _c(
@@ -711,14 +732,6 @@ var render = function() {
                                                       },
                                                       expression: "form.email"
                                                     }
-                                                  }),
-                                                  _vm._v(" "),
-                                                  _c("HasError", {
-                                                    staticClass: "error--text",
-                                                    attrs: {
-                                                      form: _vm.form,
-                                                      field: "email"
-                                                    }
                                                   })
                                                 ],
                                                 1
@@ -732,6 +745,7 @@ var render = function() {
                                                 },
                                                 [
                                                   _c("v-text-field", {
+                                                    staticClass: "mb-0 pb-0",
                                                     attrs: {
                                                       dense: "",
                                                       outlined: "",

@@ -66,7 +66,7 @@
                     <v-col :class="$vuetify.breakpoint.xs ? 'ma-0 pa-3' :'ma-0 pa-0'" cols="12" md="8">
                       <vue-element-loading :active="isLoggin" spinner="bar-fade-scale" />
                       <v-row align="center" justify="center">
-                        <v-col class="text-left" cols="12" md="6" sm="8">
+                        <v-col class="text-left" cols="12" md="8" lg="6" sm="7">
                           <v-card-text>
                               <v-form class="text-center" ref="loginForm" v-model="valid" lazy-validation>
                                 <v-row align="center" justify="center">
@@ -89,11 +89,14 @@
                                         type="email"
                                         color="primary"
                                         required
+                                       
                                       />
-                                      <HasError class="error--text" :form="form" field="email" />
+                                    <!--   <HasError class="error--text" :form="form" field="email" /> -->
+                                     
                                   </v-col>
                                   <v-col class="ma-0 pa-0 mt-2" cols="12" md="8">
                                     <v-text-field 
+                                    class="mb-0 pb-0"
                                       dense
                                       outlined
                                       v-model="form.password" 
@@ -109,6 +112,8 @@
                                       </v-text-field>
                                       <HasError class="error--text" :form="form" field="password" />
                                   </v-col>
+                                 <!--   <span class="error--text mt-0 pt-0 mb-2">{{ToManyAttepmtError}}</span> -->
+
                                   <v-col class="ma-0 pa-0" cols="12" md="8">
                                     <v-row class="">
                                       <v-col>
@@ -188,7 +193,8 @@ export default {
       rules: {
         required: value => !!value || "Required.",
         min: v => (v && v.length >= 6) || "Min 6 characters"
-      }
+      },
+      ToManyAttepmtError: null,
     }
   },
   computed: {
@@ -223,15 +229,26 @@ export default {
       axios.get('/sanctum/csrf-cookie').then(response => {
             this.form.post('/api/login')
                 .then((res) => {
-                    if(res.status == 200) {
-                        this.toastSuccess(res.data);
+                  console
+                    if(res.data.success == true) {
+                        this.toastSuccess(res.data.message);
                         this.$store.dispatch('clear_current_user');
                         this.$router.push({ path: "/" })
                     }
                     else{
                        this.isLoggin = false;
-                       this.toastError(res.data);
+                       this.toastError(res.data.message);
                     }
+                })
+                .catch(err=>{
+                    if(err.response.status == 429){
+                      this.toastError(err.response.data.errors[this.form.email][0]);
+                    }
+                    else{
+                       this.toastError(err.response.data.message);
+                    }
+                     this.isLoggin = false;
+                  
                 })
            
         });

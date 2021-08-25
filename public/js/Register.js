@@ -1,4 +1,4 @@
-(self["webpackChunk"] = self["webpackChunk"] || []).push([["resources_js_components_register_register_vue"],{
+(self["webpackChunk"] = self["webpackChunk"] || []).push([["register"],{
 
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/register/register.vue?vue&type=script&lang=js&":
 /*!************************************************************************************************************************************************************************************************************************!*\

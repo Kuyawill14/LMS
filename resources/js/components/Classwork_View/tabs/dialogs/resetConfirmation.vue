@@ -5,14 +5,14 @@
         </v-card-title>
         <v-card-text class="font-weight-bold">
              <div class="subtitle-1 " style="line-height:1.1">
-                 Clicking confirm will reset the Submission of <span class="font-weight-bold">{{ViewDetails.name}}</span>. Continue?</div>
+                 Clicking confirm will reset the Submission of <span class="font-weight-bold">{{ViewDetails.firstName+' '+ViewDetails.lastName}}</span>. Continue?</div>
             </v-card-text>
         <v-card-actions >
           <v-spacer></v-spacer>
           <v-btn
          
             text
-            rounded
+       
             @click="$emit('toggleCancelDialog')"
           >
             Cancel
@@ -20,7 +20,7 @@
           <v-btn
             color="primary"
             text
-            rounded
+      
             @click="$emit('toggleconfirm')"
           >
             Confirm

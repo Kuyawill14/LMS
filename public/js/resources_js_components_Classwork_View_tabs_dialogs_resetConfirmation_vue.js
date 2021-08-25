@@ -152,7 +152,11 @@ var render = function() {
               "\n             Clicking confirm will reset the Submission of "
             ),
             _c("span", { staticClass: "font-weight-bold" }, [
-              _vm._v(_vm._s(_vm.ViewDetails.name))
+              _vm._v(
+                _vm._s(
+                  _vm.ViewDetails.firstName + " " + _vm.ViewDetails.lastName
+                )
+              )
             ]),
             _vm._v(". Continue?")
           ]
@@ -167,7 +171,7 @@ var render = function() {
           _c(
             "v-btn",
             {
-              attrs: { text: "", rounded: "" },
+              attrs: { text: "" },
               on: {
                 click: function($event) {
                   return _vm.$emit("toggleCancelDialog")
@@ -180,7 +184,7 @@ var render = function() {
           _c(
             "v-btn",
             {
-              attrs: { color: "primary", text: "", rounded: "" },
+              attrs: { color: "primary", text: "" },
               on: {
                 click: function($event) {
                   return _vm.$emit("toggleconfirm")

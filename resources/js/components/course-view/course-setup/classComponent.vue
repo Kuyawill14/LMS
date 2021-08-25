@@ -1,8 +1,8 @@
 <template>
-    <v-container>
+    <v-container fluid ma-0 pa-0>
         <v-row align="center" justify="center" class="pt-10" v-if="classLength == 0">
             <v-col cols="12" sm="8" md="4" class="text-center">
-                <v-icon style="font-size:14rem">
+                <v-icon style="font-size:10rem">
                     mdi-google-classroom
                 </v-icon>
                 <h1> Create Class </h1>
@@ -15,7 +15,7 @@
 
         <v-container v-if="isGetting" style="height: 400px;">
             <v-row class="fill-height" align-content="center" justify="center">
-                <v-icon style="font-size:14rem">
+                <v-icon style="font-size:10rem">
                     mdi-google-classroom
                 </v-icon>
                 <v-col class="text-subtitle-1 text-center" cols="12">

@@ -224,10 +224,14 @@ var previewClassworkModal = function previewClassworkModal() {
 
       if (status == 'Submitted' && score != null) {
         if (type == 'Objective Type') {
+          // this.$router.push({name:'result-page', params:{id: classwork_id}})
           this.$router.push({
-            name: 'result-page',
+            name: 'clwk',
             params: {
-              id: classwork_id
+              id: this.$route.params.id
+            },
+            query: {
+              clwk: classwork_id
             }
           });
         } else {

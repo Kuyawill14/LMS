@@ -13,12 +13,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::get('/test123', function () {
-    return view('ClassInvite');
+    return view('VerifyEmail');
 });
 
-/* Route::get('/login', function () {
-    return view('welcome');
-}); */
 
 
 Route::get('/{any}', function () {

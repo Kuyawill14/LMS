@@ -977,6 +977,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "v-container",
+    { attrs: { fluid: "", "ma-0": "", "pa-0": "" } },
     [
       _vm.classLength == 0
         ? _c(
@@ -993,7 +994,7 @@ var render = function() {
                   attrs: { cols: "12", sm: "8", md: "4" }
                 },
                 [
-                  _c("v-icon", { staticStyle: { "font-size": "14rem" } }, [
+                  _c("v-icon", { staticStyle: { "font-size": "10rem" } }, [
                     _vm._v(
                       "\n                mdi-google-classroom\n            "
                     )
@@ -1047,7 +1048,7 @@ var render = function() {
                   attrs: { "align-content": "center", justify: "center" }
                 },
                 [
-                  _c("v-icon", { staticStyle: { "font-size": "14rem" } }, [
+                  _c("v-icon", { staticStyle: { "font-size": "10rem" } }, [
                     _vm._v(
                       "\n                mdi-google-classroom\n            "
                     )

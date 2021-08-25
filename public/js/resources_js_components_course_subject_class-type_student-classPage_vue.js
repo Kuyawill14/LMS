@@ -137,6 +137,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {},
@@ -155,7 +161,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       school_year: [],
       semester: [],
       school_year_id: '',
-      semester_id: ''
+      semester_id: '',
+      isLeaving: false,
+      isJoining: false
     };
   },
   computed: (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)(["allClass"]),
@@ -166,20 +174,25 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     joinClass: function joinClass() {
       var _this = this;
 
-      this.dialog = false;
+      this.isJoining = true;
       this.$store.dispatch("joinClass", this.form).then(function (res) {
         if (res.status == 200) {
           _this.toastSuccess(res.data.message);
 
+          _this.dialog = false;
+          _this.isLeaving = true;
+
           _this.$router.push({
             path: '/course/' + res.data.course_id + '/announcement'
-          });
+          }); //this.fetchClasses();
 
-          _this.fetchClasses();
 
           _this.form.class_code = '';
         } else if (res.status == 202) {
           _this.toastError(res.data.message);
+
+          _this.dialog = false;
+          _this.isLeaving = true;
 
           _this.$router.push({
             path: '/course/' + res.data.course_id + '/announcement'
@@ -391,6 +404,17 @@ var render = function() {
   return _c(
     "div",
     [
+      _c(
+        "v-overlay",
+        { attrs: { value: _vm.isLeaving } },
+        [
+          _c("v-progress-circular", {
+            attrs: { indeterminate: "", size: "64" }
+          })
+        ],
+        1
+      ),
+      _vm._v(" "),
       _vm.coursesLength == 0 && !_vm.isGetting
         ? _c(
             "v-row",
@@ -562,10 +586,14 @@ var render = function() {
                   _c(
                     "v-btn",
                     {
-                      attrs: { text: "", color: "primary" },
+                      attrs: {
+                        text: "",
+                        color: "primary",
+                        disabled: _vm.isJoining
+                      },
                       on: { click: _vm.joinClass }
                     },
-                    [_vm._v("Join")]
+                    [_vm._v(_vm._s(_vm.isJoining ? "Joining..." : "Join"))]
                   )
                 ],
                 1

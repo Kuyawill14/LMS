@@ -1,5 +1,11 @@
 <template>
     <div>
+        <v-overlay :value="isLeaving">
+            <v-progress-circular
+                indeterminate
+                size="64"
+            ></v-progress-circular>
+        </v-overlay>
         <v-row align="center" justify="center" class="pt-10" v-if="coursesLength == 0 && !isGetting">
             <v-col cols="12" sm="8" md="4" class="text-center">
                 <v-icon style="font-size:14rem">
@@ -45,7 +51,7 @@
 
                     <v-spacer></v-spacer>
                     <v-btn text color="secondary" @click="dialog = false">Cancel</v-btn>
-                    <v-btn text color="primary" @click="joinClass">Join</v-btn>
+                    <v-btn text color="primary" :disabled="isJoining" @click="joinClass">{{isJoining ? 'Joining...': 'Join'}}</v-btn>
                 </v-card-actions>
             </v-card>
         </v-dialog>
@@ -142,6 +148,8 @@
                 semester: [],
                 school_year_id: '',
                 semester_id: '',
+                isLeaving: false,
+                isJoining: false
             };
         },
         computed: mapGetters(["allClass"]),
@@ -151,17 +159,22 @@
                 this.dialog = !this.dialog;
             },
             joinClass() {
-                this.dialog = false;
+                this.isJoining = true
                 this.$store.dispatch("joinClass", this.form).then((res) => {
                     if (res.status == 200) {
                         this.toastSuccess(res.data.message);
+                        this.dialog = false;
+                        this.isLeaving = true
                         this.$router.push({
                             path: '/course/' + res.data.course_id + '/announcement'
                         })
-                        this.fetchClasses();
+                        
+                        //this.fetchClasses();
                         this.form.class_code = '';
                     } else if (res.status == 202) {
                         this.toastError(res.data.message);
+                        this.dialog = false;
+                        this.isLeaving = true
                         this.$router.push({
                             path: '/course/' + res.data.course_id + '/announcement'
                         })

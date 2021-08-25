@@ -137,6 +137,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
@@ -156,7 +157,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       grading_criteria: {},
       course_id: '',
       delId: '',
-      time: ''
+      time: '',
+      isAdding: false
     };
   },
   computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)(["get_gradingCriteria"])),
@@ -192,6 +194,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     addGradeCriteria: function addGradeCriteria() {
       var _this = this;
 
+      this.isAdding = true;
+
       if (this.new_grading_criteria_form.name.trim() != '' || this.new_grading_criteria_form.percentage.trim() != '') {
         this.loading = true;
         var errors = '';
@@ -209,6 +213,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
             _this.toastSuccess("Criteria Successfully added");
           }
+
+          _this.isAdding = false;
         });
         setTimeout(function () {
           _this.loading = false;
@@ -528,7 +534,11 @@ var render = function() {
                     "v-btn",
                     {
                       staticClass: "float-right",
-                      attrs: { color: "primary", outlined: "" },
+                      attrs: {
+                        color: "primary",
+                        disabled: _vm.isAdding,
+                        outlined: ""
+                      },
                       on: {
                         click: function($event) {
                           return _vm.addGradeCriteria()
@@ -542,7 +552,9 @@ var render = function() {
                         )
                       ]),
                       _vm._v(
-                        "\n                    Add Criteria\n\n                "
+                        "\n                    " +
+                          _vm._s(_vm.isAdding ? "Adding..." : "Add Criteria") +
+                          "\n                    \n\n                "
                       )
                     ],
                     1

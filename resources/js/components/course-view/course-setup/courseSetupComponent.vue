@@ -1,5 +1,5 @@
 <template>
-    <v-container>
+    <v-container ma-0 pa-0>
         <v-row align="center" justify="center">
             <v-col cols="12" lg="10">
                 <v-stepper v-model="e1">

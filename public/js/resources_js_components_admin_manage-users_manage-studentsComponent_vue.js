@@ -208,12 +208,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -235,10 +229,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         middleName: "",
         lastName: "",
         email: "",
-        phone: "",
         password: "",
         password_confirmation: "",
-        role: ""
+        student_id: ""
       }),
       nameRules: [function (v) {
         return !!v || 'Field is required';
@@ -272,15 +265,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var tmpLastname = lastname.replace(/\s+/g, '-').toLowerCase();
       this.form.password = 'LMS-' + tmpLastname;
       this.show = true;
-      /* var self = this;
-        this.timeout = setTimeout(function () {
-           self.show = false;
-      }, 3000);  */
     },
     openAdd: function openAdd() {
-      this.type = 'add'; // this.grading_criteria_form.name = '';
-      // this.grading_criteria_form.percentage = '';
-
+      this.type = 'add';
       this.dialog = true;
     },
     openEdit: function openEdit(details) {
@@ -292,6 +279,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.form.lastName = details.lastName;
       this.form.phone = details.cp_no;
       this.form.email = details.email;
+      this.form.student_id = details.student_id;
+      this.$refs.RegisterForm.resetValidation();
     },
     openDelete: function openDelete(id) {
       this.delId = id;
@@ -338,14 +327,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       if (this.$refs.RegisterForm.validate()) {
         if (this.type == 'add') {
-          this.form.role = 'Teacher';
-          this.form.class_code = '123';
+          this.form.role = 'Student';
           this.form.password_confirmation = this.form.password;
-          this.form.post('/api/register').then(function (res) {
+          this.form.post('/api/admin/add/student').then(function (res) {
             _this3.$refs.RegisterForm.reset();
 
             _this3.valid = true;
             _this3.dialog = false;
+            _this3.IsAddUpdating = false;
+
+            _this3.StudentList.push(res.data);
           });
         }
 
@@ -360,9 +351,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             _this3.IsAddUpdating = false;
           });
           this.toastSuccess('User Successfully Updated!');
-        }
+        } //this.$store.dispatch('fetchAllTeachers');
 
-        this.$store.dispatch('fetchAllTeachers');
       } else {
         this.IsAddUpdating = false;
       }
@@ -577,7 +567,7 @@ var render = function() {
                               _c("tr", [
                                 _c("th", [
                                   _vm._v(
-                                    "\n                                    ID\n                                "
+                                    "\n                                    STUDENT ID\n                                "
                                   )
                                 ]),
                                 _vm._v(" "),
@@ -625,7 +615,9 @@ var render = function() {
                                 _vm._l(_vm.StudentList, function(item, index) {
                                   return _c("tr", { key: index }, [
                                     _c("td", [
-                                      _vm._v(" " + _vm._s(item.user_id) + " ")
+                                      _vm._v(
+                                        " " + _vm._s(item.student_id) + " "
+                                      )
                                     ]),
                                     _vm._v(" "),
                                     _c("td", [
@@ -696,7 +688,7 @@ var render = function() {
                                           [
                                             _c("v-icon", [
                                               _vm._v(
-                                                "\n                                            mdi-pencil\n                                        "
+                                                "\n                                        mdi-pencil\n                                    "
                                               )
                                             ])
                                           ],
@@ -718,7 +710,7 @@ var render = function() {
                                           [
                                             _c("v-icon", [
                                               _vm._v(
-                                                "\n                                            mdi-delete\n                                        "
+                                                "\n                                        mdi-delete\n                                    "
                                               )
                                             ])
                                           ],
@@ -778,7 +770,13 @@ var render = function() {
             "v-card",
             [
               _c("v-card-title", {}, [
-                _vm._v("\n                Add Teacher\n            ")
+                _vm._v(
+                  "\n                " +
+                    _vm._s(
+                      this.type == "add" ? "Add Student" : "Update Student"
+                    ) +
+                    "\n            "
+                )
               ]),
               _vm._v(" "),
               _c("v-divider"),
@@ -791,7 +789,7 @@ var render = function() {
                     {
                       ref: "RegisterForm",
                       staticClass: "text-center ",
-                      attrs: { "lazy-validation": "" },
+                      attrs: { autocomplete: "off", "lazy-validation": "" },
                       model: {
                         value: _vm.valid,
                         callback: function($$v) {
@@ -812,6 +810,44 @@ var render = function() {
                               attrs: { cols: "12", md: "12" }
                             },
                             [
+                              _c("HasError", {
+                                staticClass: "error--text",
+                                attrs: { form: _vm.form, field: "student_id" }
+                              }),
+                              _vm._v(" "),
+                              _c("v-text-field", {
+                                attrs: {
+                                  rules: _vm.nameRules,
+                                  label: "Student ID Number",
+                                  name: "student_id",
+                                  type: "text",
+                                  color: "primary",
+                                  outlined: ""
+                                },
+                                model: {
+                                  value: _vm.form.student_id,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.form, "student_id", $$v)
+                                  },
+                                  expression: "form.student_id"
+                                }
+                              })
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-col",
+                            {
+                              staticClass: "ma-0 pa-0 mb-1",
+                              attrs: { cols: "12", md: "12" }
+                            },
+                            [
+                              _c("HasError", {
+                                staticClass: "error--text",
+                                attrs: { form: _vm.form, field: "firstName" }
+                              }),
+                              _vm._v(" "),
                               _c("v-text-field", {
                                 attrs: {
                                   rules: _vm.nameRules,
@@ -861,11 +897,6 @@ var render = function() {
                                   },
                                   expression: "form.middleName"
                                 }
-                              }),
-                              _vm._v(" "),
-                              _c("HasError", {
-                                staticClass: "error--text",
-                                attrs: { form: _vm.form, field: "middleName" }
                               })
                             ],
                             1
@@ -904,11 +935,6 @@ var render = function() {
                                   },
                                   expression: "form.lastName"
                                 }
-                              }),
-                              _vm._v(" "),
-                              _c("HasError", {
-                                staticClass: "error--text",
-                                attrs: { form: _vm.form, field: "lastName" }
                               })
                             ],
                             1
@@ -942,11 +968,6 @@ var render = function() {
                                   },
                                   expression: "form.email"
                                 }
-                              }),
-                              _vm._v(" "),
-                              _c("HasError", {
-                                staticClass: "error--text",
-                                attrs: { form: _vm.form, field: "email" }
                               })
                             ],
                             1
@@ -994,11 +1015,6 @@ var render = function() {
                                       },
                                       expression: "form.password"
                                     }
-                                  }),
-                                  _vm._v(" "),
-                                  _c("HasError", {
-                                    staticClass: "error--text",
-                                    attrs: { form: _vm.form, field: "password" }
                                   })
                                 ],
                                 1
@@ -1043,7 +1059,12 @@ var render = function() {
                         }
                       }
                     },
-                    [_vm._v("\n                    Add")]
+                    [
+                      _vm._v(
+                        "\n                    " +
+                          _vm._s(this.type == "add" ? "Add" : "Update")
+                      )
+                    ]
                   )
                 ],
                 1

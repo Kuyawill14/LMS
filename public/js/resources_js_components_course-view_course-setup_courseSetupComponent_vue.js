@@ -209,6 +209,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "v-container",
+    { attrs: { "ma-0": "", "pa-0": "" } },
     [
       _c(
         "v-row",
