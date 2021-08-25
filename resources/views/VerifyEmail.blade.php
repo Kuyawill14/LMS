@@ -4,7 +4,7 @@
 
 <head>
     <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
-    <title>Class Invitation</title>
+    <title>{{config('app.name')}}</title>
     <meta name="description" content="Reset Password Email Template.">
     <style type="text/css">
         a:hover {text-decoration: underline !important;}
@@ -46,22 +46,27 @@
                                         <span
                                             style="display:inline-block; vertical-align:middle; margin:29px 0 26px; border-bottom:1px solid #cecece; width:100px;"></span>
                                         <p style="color:#455056; font-size:15px;line-height:24px; margin:0;">
-
-                                            Please confirm that you want to use this as your {{env('APP_NAME')}} account <br>
-                                            email address. Once it's done you will be able to log in into your account.
-                                            
-                                            
+                                         
+                                            Please confirm that you want to use this as your {{config('app.name')}} account
+                                            email address. Once it's done you will be able to log in.
                                         </p>
+
+                                        <p style="font-size: 35px;margin-top: 0px;margin-bottom: 0px;">  </strong></p >
+                                        <a href="{{ url($url) }}"
+                                            style="background:#FF5400;text-decoration:none !important; font-weight:500; margin-top:35px; color:#fff;text-transform:uppercase; font-size:14px;padding:10px 24px;display:inline-block;border-radius:50px;">Verify Email Address</a>
+                                        
+
 
                                         <p style="text-align:left ;color:#455056; font-size:15px;line-height:24px;  margin-top:15px;margin-bottom:0px">
                                             Regards,<br>
-                                            {{env('APP_NAME')}}
+                                            {{config('app.name')}}
                                         </p>
-                                     
-                                       
-                                        <p style="font-size: 35px;margin-top: 0px;margin-bottom: 0px;">  </strong></p >
-                                        <a href="{{ url('/login') }}"
-                                            style="background:#FF5400;text-decoration:none !important; font-weight:500; margin-top:35px; color:#fff;text-transform:uppercase; font-size:14px;padding:10px 24px;display:inline-block;border-radius:50px;">Verify Email Address</a>
+
+                                        <hr>
+                                        <p style="text-align:center ;color:#455056; font-size:15px;line-height:24px;  margin-top:15px;margin-bottom:0px">
+                                           Or paste this link into your browser:
+                                           <a href="{{ url($url) }}">{{config('app.url').$url}}</a>
+                                        </p>
                                     </td>
                                 </tr>
                                 <tr>
@@ -75,6 +80,7 @@
                     <tr>
                         <td style="text-align:center;">
                             <p style="font-size:14px; color:rgba(69, 80, 86, 0.7411764705882353); line-height:18px; margin:0 0 0;">&copy; <strong>ORANGE LMS</strong></p>
+
                         </td>
                     </tr>
                     <tr>

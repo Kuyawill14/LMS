@@ -15,6 +15,8 @@ use App\Events\NewNotification;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidatationException;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\SendEmailVerification;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 
 
@@ -109,6 +111,8 @@ class AuthController extends Controller
         $details->student_id = $request->student_id;
         $details->save();
         $New->sendEmailVerificationNotification();
+
+        //return $request->email;
         return response()->json([
             "message" => "Please check your email for Verification!",
             "success" => true
