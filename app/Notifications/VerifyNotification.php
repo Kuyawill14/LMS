@@ -41,20 +41,13 @@ class VerifyNotification extends Notification
      */
     public function toMail($notifiable)
     {
-
         $params =  [
             'id' => $notifiable->getKey(),
             'hash' => sha1($notifiable->getEmailForVerification()),
         ];
 
-        $url = env("APP_URL")."/verify-email?";
-
-       /*  foreach ($params as $key => $param) {
-            $url .= "{$key}={$param}&";
-        } */
-
+        $url = config('app.url')."/verify-email?";
         $url = $url.'id='.$params['id'].'&hash='.$params['hash'];
-
 
         $user = tbl_userDetails::where('user_id', $params['id'])->first();
         
@@ -62,7 +55,7 @@ class VerifyNotification extends Notification
                     ->greeting('Hello '.$user->firstName)
                     ->line('Please click the button below to verify your email address.')
                     ->action('Verify Email Address', $url)
-                    ->line('Thank you for using '.env("APP_NAME"));
+                    ->line('Thank you for using '.config('app.name'));
     }
 
     /**
