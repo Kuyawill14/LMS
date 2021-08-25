@@ -22560,16 +22560,12 @@ var render = function() {
                                   attrs: { cols: "12", sm: "8", md: "4" }
                                 },
                                 [
-<<<<<<< HEAD
-                                  _vm._v(
-                                    "\n                        mdi-notebook-remove-outline\n                    "
-=======
                                   _c(
                                     "v-icon",
                                     { staticStyle: { "font-size": "7rem" } },
                                     [
                                       _vm._v(
-                                        "\r\n                        mdi-notebook-remove-outline\r\n                    "
+                                        "\n                        mdi-notebook-remove-outline\n                    "
                                       )
                                     ]
                                   ),
@@ -22592,7 +22588,6 @@ var render = function() {
                                       ])
                                     ],
                                     1
->>>>>>> b3f2c2602d749e60edccfb0435be753531efcd88
                                   )
                                 ],
                                 1
@@ -22866,15 +22861,9 @@ var render = function() {
                                             { staticClass: "Subtitle 1" },
                                             [
                                               _vm._v(
-<<<<<<< HEAD
-                                                "\n                        " +
+                                                "\n                                " +
                                                   _vm._s(_vm.inputCheck[n]) +
-                                                  " \n                        "
-=======
-                                                "\r\n                                " +
-                                                  _vm._s(_vm.inputCheck[n]) +
-                                                  " \r\n                                "
->>>>>>> b3f2c2602d749e60edccfb0435be753531efcd88
+                                                  " \n                                "
                                               ),
                                               _vm.inputCheck[n] ==
                                               _vm.SubmittedAnswer[index].Answer
@@ -22955,11 +22944,7 @@ var render = function() {
                                                             },
                                                             [
                                                               _vm._v(
-<<<<<<< HEAD
-                                                                "\n                                            Column A\n                                        "
-=======
-                                                                "\r\n                                                    Column A\r\n                                                "
->>>>>>> b3f2c2602d749e60edccfb0435be753531efcd88
+                                                                "\n                                                    Column A\n                                                "
                                                               )
                                                             ]
                                                           ),
@@ -22975,11 +22960,7 @@ var render = function() {
                                                             },
                                                             [
                                                               _vm._v(
-<<<<<<< HEAD
-                                                                "\n                                            Column B\n                                        "
-=======
-                                                                "\r\n                                                    Column B\r\n                                                "
->>>>>>> b3f2c2602d749e60edccfb0435be753531efcd88
+                                                                "\n                                                    Column B\n                                                "
                                                               )
                                                             ]
                                                           )
