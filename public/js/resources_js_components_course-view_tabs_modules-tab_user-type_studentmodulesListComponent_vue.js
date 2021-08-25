@@ -271,7 +271,7 @@ Vue.use((vue_confetti__WEBPACK_IMPORTED_MODULE_1___default()));
         }, 1000);
         this.updateTime = setInterval(function () {
           _this2.updateStudentTimeProgress(mainModule_id, subModule_id, _this2.timespent);
-        }, 30000);
+        }, 2000);
       }
     },
     updateStudentTimeProgress: function updateStudentTimeProgress(main_module_id, subModule_id, time_spent) {
