@@ -94,7 +94,7 @@
                     
                     <v-col cols="12">
                         <div class="text-right pt-1">
-                            <v-chip color="success"> <v-icon left>mdi-check</v-icon> Score: {{statusDetails.score+'/'+statusDetails.totalPoints}}</v-chip>
+                            <v-chip v-if="status == 'Submitted'" color="success"> <v-icon left>mdi-check</v-icon> Score: {{statusDetails.score+'/'+statusDetails.totalPoints}}</v-chip>
                         </div>
                         <v-row style="height:4vh"></v-row>
                         <v-divider></v-divider>

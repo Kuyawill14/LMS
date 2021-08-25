@@ -1,7 +1,7 @@
 <template>
     <div class="pt-4">
         <h2>
-            Manage Teachers
+            Manage Instructors
         </h2>
         <v-btn bottom color="primary" dark fab fixed right @click="openAdd()">
             <v-icon>mdi-plus</v-icon>

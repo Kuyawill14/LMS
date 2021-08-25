@@ -475,7 +475,7 @@ var render = function() {
     "div",
     { staticClass: "pt-4" },
     [
-      _c("h2", [_vm._v("\n        Manage Teachers\n    ")]),
+      _c("h2", [_vm._v("\n        Manage Instructors\n    ")]),
       _vm._v(" "),
       _c(
         "v-btn",

@@ -22,6 +22,7 @@
 <v-container v-if="!isloading" pa-0 ma-0 class="pa-0 ma-0" fluid>
         <v-row align="center" justify="center">
           <v-col cols="12" md="8" lg="9" xl="9">
+          
             <v-card  class="pa-3" elevation="1" outlined>
               <v-window>
                 <v-window-item >

@@ -54,7 +54,7 @@
         
         <v-container v-if="isGetting" style="height: 400px;">
             <v-row class="fill-height" align-content="center" justify="center">
-                 <v-icon style="font-size:14rem">
+                 <v-icon style="font-size:10rem">
                     mdi-book-open-variant
                 </v-icon>
                 <v-col class="text-subtitle-1 text-center" cols="12">

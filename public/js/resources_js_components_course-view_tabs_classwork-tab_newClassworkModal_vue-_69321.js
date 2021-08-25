@@ -631,11 +631,7 @@ var render = function() {
               _c(
                 "v-btn",
                 {
-                  attrs: {
-                    color: "blue darken-1",
-                    text: "",
-                    disabled: _vm.loading
-                  },
+                  attrs: { text: "", disabled: _vm.loading },
                   on: {
                     click: function($event) {
                       return _vm.$emit("CloseDialog")
@@ -649,7 +645,7 @@ var render = function() {
                 "v-btn",
                 {
                   attrs: {
-                    color: "blue darken-1",
+                    color: "primary",
                     text: "",
                     disabled: _vm.loading,
                     loading: _vm.loading
