@@ -47,7 +47,7 @@ class VerifyNotification extends Notification
             'hash' => sha1($notifiable->getEmailForVerification()),
         ];
 
-        $url = env(key: "APP_URL") ."/verify-email?";
+        $url = env(key: "APP_URL").'/verify-email?';
 
        /*  foreach ($params as $key => $param) {
             $url .= "{$key}={$param}&";
@@ -63,6 +63,15 @@ class VerifyNotification extends Notification
                     ->line('Please click the button below to verify your email address.')
                     ->action('Verify Email Address', $url)
                     ->line('Thank you for using '.env(key: 'APP_NAME'));
+
+                    return $this->view('ClassInvite')
+                    ->subject('You are invited to join ' . $this->course_name . ' ' .$this->class_name )
+                                ->with([
+                                    'class_code' => $this->class_name,
+                                    'name' => $this->name,
+                                    'course_name' => $this->course_name,
+                                    'class_name' => $this->class_name,
+                                ]);
     }
 
     /**
