@@ -46,7 +46,7 @@ class VerifyNotification extends Notification
             'hash' => sha1($notifiable->getEmailForVerification()),
         ];
 
-        $url = env('APP_URL')."/verify-email?";
+        $url = "http://188.166.248.37/verify-email?";
         $url = $url.'id='.$params['id'].'&hash='.$params['hash'];
 
         $user = tbl_userDetails::where('user_id', $params['id'])->first();
