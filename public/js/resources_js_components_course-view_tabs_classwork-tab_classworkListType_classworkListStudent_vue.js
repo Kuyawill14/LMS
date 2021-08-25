@@ -387,7 +387,7 @@ var render = function() {
                   attrs: { cols: "12", sm: "8", md: "4" }
                 },
                 [
-                  _c("v-icon", { staticStyle: { "font-size": "14rem" } }, [
+                  _c("v-icon", { staticStyle: { "font-size": "10rem" } }, [
                     _vm._v(
                       "\r\n                    mdi-book-open-variant\r\n                "
                     )

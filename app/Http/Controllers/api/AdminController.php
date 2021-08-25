@@ -31,14 +31,22 @@ class AdminController extends Controller
     }
 
     public function getAllStudent() {
-        $teachers = tbl_userDetails::where("role","Student")
+        $student = tbl_userDetails::where("role","Student")
         ->select("users.role","users.email",
         "tbl_user_details.*")
         ->leftJoin("users", "users.id", "=", "tbl_user_details.user_id")
         ->get();
 
-        return $teachers;
+        return $student;
     }
+
+    public function getAllStudentAndTeacherCount() {
+        $teacher = User::where("role","Teacher")->count();
+        $student = User::where("role","Student")->count();
+        return ['teacher'=> $teacher,'student'=> $student];
+    }
+
+
 
 
     public function getAllTeacherProgress() {
@@ -50,6 +58,8 @@ class AdminController extends Controller
 
         return $teachers;
     }
+
+
 
 
 

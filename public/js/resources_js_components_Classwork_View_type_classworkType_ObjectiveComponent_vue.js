@@ -731,24 +731,26 @@ var render = function() {
                             "div",
                             { staticClass: "text-right pt-1" },
                             [
-                              _c(
-                                "v-chip",
-                                { attrs: { color: "success" } },
-                                [
-                                  _c("v-icon", { attrs: { left: "" } }, [
-                                    _vm._v("mdi-check")
-                                  ]),
-                                  _vm._v(
-                                    " Score: " +
-                                      _vm._s(
-                                        _vm.statusDetails.score +
-                                          "/" +
-                                          _vm.statusDetails.totalPoints
+                              _vm.status == "Submitted"
+                                ? _c(
+                                    "v-chip",
+                                    { attrs: { color: "success" } },
+                                    [
+                                      _c("v-icon", { attrs: { left: "" } }, [
+                                        _vm._v("mdi-check")
+                                      ]),
+                                      _vm._v(
+                                        " Score: " +
+                                          _vm._s(
+                                            _vm.statusDetails.score +
+                                              "/" +
+                                              _vm.statusDetails.totalPoints
+                                          )
                                       )
+                                    ],
+                                    1
                                   )
-                                ],
-                                1
-                              )
+                                : _vm._e()
                             ],
                             1
                           ),

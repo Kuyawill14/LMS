@@ -136,7 +136,7 @@ var render = function() {
                   [
                     _c("v-list-item-title", [
                       _vm._v(
-                        "\n                        Teachers\n                    "
+                        "\n                        Instructors\n                    "
                       )
                     ])
                   ],

@@ -35,7 +35,7 @@
                     </v-list-item-action>
                     <v-list-item-content>
                         <v-list-item-title>
-                            Teachers
+                            Instructors
                         </v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>

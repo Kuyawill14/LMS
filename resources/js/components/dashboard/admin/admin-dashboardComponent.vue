@@ -6,10 +6,10 @@
             <v-col lg="6" class="pt-0">
                 <v-card>
                     <div class="text-center" style="font-size: 3rem;color:#FF5400 ">
-                       {{getTeachers.length}}
+                       {{Count.teacher}}
                     </div>
                     <div class="text-center">
-                        Total Teachers
+                        Total Instructor
                     </div>
                 </v-card>
             </v-col>
@@ -18,7 +18,7 @@
             <v-col lg="6" class="pt-0">
                 <v-card>
                     <div class="text-center" style="font-size: 3rem;color:#FF5400 ">
-                        0
+                        {{Count.student}}
                     </div>
                     <div class="text-center">
                         Total Students
@@ -58,19 +58,20 @@
             return {
                 class_count: 0,
                 unfinishCount: 0,
-
+                Count:[]
 
             };
         },
-         computed: {
-            ...mapGetters(["getTeachers"])
+        methods: {
+           async FetchStudentAndTeacherCount(){
+               await axios.get('/api/admin/studentAndteacher/count')
+                .then(res=>{
+                    this.Count = res.data;
+                })
+            }
         },
-            mounted() {
-
-            this.$store.dispatch('fetchAllTeachers');
-
-
-
+        mounted() {
+            this.FetchStudentAndTeacherCount();
         }
 
     };
