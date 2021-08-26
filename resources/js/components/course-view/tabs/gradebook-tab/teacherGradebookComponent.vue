@@ -199,7 +199,7 @@
         </v-card>
 
         
-        <table id="testTable" hidden>
+        <table id="testTable">
             <tr>
                 <th>Name</th>
                 <th class="text-center" :colspan="classworkData(classworkList,gradingCriteria.id).length"

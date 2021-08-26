@@ -2284,7 +2284,7 @@ var render = function() {
       _vm._v(" "),
       _c(
         "table",
-        { attrs: { id: "testTable", hidden: "" } },
+        { attrs: { id: "testTable" } },
         [
           _c(
             "tr",
