@@ -156,95 +156,95 @@ class SubmissionController extends Controller
             $userId = $UpdateScore->user_id;
             $classwork_id = $UpdateScore->classwork_id;
             
-            $tbl_classClassworks = tbl_classClassworks::where('classwork_id',$classwork_id)
-            ->select('grading_criteria as grading_criteria_id','class_id','percentage')
-            ->leftJoin('tbl_main_grade_categories' , 'tbl_main_grade_categories.id' , '=' , 'tbl_class_classworks.grading_criteria')
-            ->first();
+            // $tbl_classClassworks = tbl_classClassworks::where('classwork_id',$classwork_id)
+            // ->select('grading_criteria as grading_criteria_id','class_id','percentage')
+            // ->leftJoin('tbl_main_grade_categories' , 'tbl_main_grade_categories.id' , '=' , 'tbl_class_classworks.grading_criteria')
+            // ->first();
 
-            $tbl_classworks = tbl_classwork::
-            select('tbl_classworks.course_id')
-            ->selectRaw('sum(tbl_classworks.points) as total_category_points ')
+            // $tbl_classworks = tbl_classwork::
+            // select('tbl_classworks.course_id')
+            // ->selectRaw('sum(tbl_classworks.points) as total_category_points ')
 
-            ->leftJoin('tbl_class_classworks' , 'tbl_class_classworks.classwork_id' , '=' , 'tbl_classworks.id')
-            ->where('tbl_class_classworks.class_id',   $tbl_classClassworks->class_id )
-            ->where('tbl_class_classworks.grading_criteria',   $tbl_classClassworks->grading_criteria_id )
-            ->get();
+            // ->leftJoin('tbl_class_classworks' , 'tbl_class_classworks.classwork_id' , '=' , 'tbl_classworks.id')
+            // ->where('tbl_class_classworks.class_id',   $tbl_classClassworks->class_id )
+            // ->where('tbl_class_classworks.grading_criteria',   $tbl_classClassworks->grading_criteria_id )
+            // ->get();
 
-            $totalPoints =  tbl_Submission::where("tbl_submissions.user_id",$userId)
-            ->selectRaw('sum(tbl_submissions.points) as total_points ')
-            ->leftJoin('tbl_class_classworks' , 'tbl_class_classworks.classwork_id' , '=' , 'tbl_submissions.classwork_id')
-            ->where('tbl_class_classworks.class_id',  $tbl_classClassworks->class_id)
-            ->where('tbl_class_classworks.grading_criteria',  $tbl_classClassworks->grading_criteria_id)
-            ->first();
+            // $totalPoints =  tbl_Submission::where("tbl_submissions.user_id",$userId)
+            // ->selectRaw('sum(tbl_submissions.points) as total_points ')
+            // ->leftJoin('tbl_class_classworks' , 'tbl_class_classworks.classwork_id' , '=' , 'tbl_submissions.classwork_id')
+            // ->where('tbl_class_classworks.class_id',  $tbl_classClassworks->class_id)
+            // ->where('tbl_class_classworks.grading_criteria',  $tbl_classClassworks->grading_criteria_id)
+            // ->first();
 
             
-            $totalPercentage = ($totalPoints->total_points/$tbl_classworks[0]->total_category_points) *  $tbl_classClassworks->percentage;
+            // $totalPercentage = ($totalPoints->total_points/$tbl_classworks[0]->total_category_points) *  $tbl_classClassworks->percentage;
 
-            $tbl_student_main_grades = tbl_student_main_grades::
-            select('grade_category_id')
-            ->where('course_id',$tbl_classworks[0]->course_id)
-            ->where('grade_category_id', $tbl_classClassworks->grading_criteria_id )
-            ->where( 'student_id', $userId)
-            ->count();
+            // $tbl_student_main_grades = tbl_student_main_grades::
+            // select('grade_category_id')
+            // ->where('course_id',$tbl_classworks[0]->course_id)
+            // ->where('grade_category_id', $tbl_classClassworks->grading_criteria_id )
+            // ->where( 'student_id', $userId)
+            // ->count();
           
-            if($tbl_student_main_grades == 0) {
-                $tbl_student_main_grades = new tbl_student_main_grades;
-                $tbl_student_main_grades->student_id =  $userId;
-                $tbl_student_main_grades->grade_category_id =   $tbl_classClassworks->grading_criteria_id;
-                $tbl_student_main_grades->course_id =  $tbl_classworks[0]->course_id;
-                $tbl_student_main_grades->grade =  $totalPercentage;
-                $tbl_student_main_grades->save();
+            // if($tbl_student_main_grades == 0) {
+            //     $tbl_student_main_grades = new tbl_student_main_grades;
+            //     $tbl_student_main_grades->student_id =  $userId;
+            //     $tbl_student_main_grades->grade_category_id =   $tbl_classClassworks->grading_criteria_id;
+            //     $tbl_student_main_grades->course_id =  $tbl_classworks[0]->course_id;
+            //     $tbl_student_main_grades->grade =  $totalPercentage;
+            //     $tbl_student_main_grades->save();
 
-            } else {
-               // return [$tbl_classworks[0]->course_id,$tbl_classClassworks->grading_criteria_id,$userId ];
-                $tbl_student_main_grades = DB::table('tbl_student_main_grades')
-                ->where(['course_id'=>$tbl_classworks[0]->course_id,
-                'grade_category_id'=> $tbl_classClassworks->grading_criteria_id,
-                'student_id'=> $userId ])
-                ->update(
-                    [
-                    'grade' => $totalPercentage
-                    ]
-                );
-            }
+            // } else {
+            //    // return [$tbl_classworks[0]->course_id,$tbl_classClassworks->grading_criteria_id,$userId ];
+            //     $tbl_student_main_grades = DB::table('tbl_student_main_grades')
+            //     ->where(['course_id'=>$tbl_classworks[0]->course_id,
+            //     'grade_category_id'=> $tbl_classClassworks->grading_criteria_id,
+            //     'student_id'=> $userId ])
+            //     ->update(
+            //         [
+            //         'grade' => $totalPercentage
+            //         ]
+            //     );
+            // }
 
-            $get_all_student_main_grades = tbl_student_main_grades::
-            select('grade')
-            ->where('course_id',$tbl_classworks[0]->course_id)
-            ->where( 'student_id', $userId)
-            ->get();
+            // $get_all_student_main_grades = tbl_student_main_grades::
+            // select('grade')
+            // ->where('course_id',$tbl_classworks[0]->course_id)
+            // ->where( 'student_id', $userId)
+            // ->get();
 
-            $final_grade = 0;
-            foreach($get_all_student_main_grades as $grade)
-            {
-                $final_grade += $grade->grade;
-            }
+            // $final_grade = 0;
+            // foreach($get_all_student_main_grades as $grade)
+            // {
+            //     $final_grade += $grade->grade;
+            // }
 
 
-            $update_course_finalGrade = tbl_student_course_subject_grades::
-            select('student_id')
-            ->where('course_id',$tbl_classworks[0]->course_id)
-            ->where( 'student_id', $userId)
-            ->count();
+            // $update_course_finalGrade = tbl_student_course_subject_grades::
+            // select('student_id')
+            // ->where('course_id',$tbl_classworks[0]->course_id)
+            // ->where( 'student_id', $userId)
+            // ->count();
           
-            if($update_course_finalGrade == 0) {
-                $update_course_finalGrade = new tbl_student_course_subject_grades;
-                $update_course_finalGrade->student_id =  $userId;
-                $update_course_finalGrade->course_id =  $tbl_classworks[0]->course_id;
-                $update_course_finalGrade->final_grade =  $final_grade;
-                $update_course_finalGrade->save();
+            // if($update_course_finalGrade == 0) {
+            //     $update_course_finalGrade = new tbl_student_course_subject_grades;
+            //     $update_course_finalGrade->student_id =  $userId;
+            //     $update_course_finalGrade->course_id =  $tbl_classworks[0]->course_id;
+            //     $update_course_finalGrade->final_grade =  $final_grade;
+            //     $update_course_finalGrade->save();
 
-            } else {
-               // return [$tbl_classworks[0]->course_id,$tbl_classClassworks->grading_criteria_id,$userId ];
-               $update_course_finalGrade = DB::table('tbl_student_course_subject_grades')
-               ->where(['course_id'=>$tbl_classworks[0]->course_id,
-               'student_id'=> $userId ])
-               ->update(
-                   [
-                   'final_grade' => $final_grade
-                   ]
-               );
-            }
+            // } else {
+            //    // return [$tbl_classworks[0]->course_id,$tbl_classClassworks->grading_criteria_id,$userId ];
+            //    $update_course_finalGrade = DB::table('tbl_student_course_subject_grades')
+            //    ->where(['course_id'=>$tbl_classworks[0]->course_id,
+            //    'student_id'=> $userId ])
+            //    ->update(
+            //        [
+            //        'final_grade' => $final_grade
+            //        ]
+            //    );
+            // }
 
 
 
