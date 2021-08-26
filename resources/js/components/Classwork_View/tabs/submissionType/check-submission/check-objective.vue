@@ -41,10 +41,10 @@
         <div  class="ma-0 pa-0 pa-2">
         
           
-               <v-row class="pa-2"> 
-                   <v-col cols="12" md="4" lg="4" :class="$vuetify.breakpoint.xs ? 'pt-2 mb-0' : 'pt-2 pr-3'">
-                       <v-card>
-                            <div class="pt-2 pl-4 pr-4 pb-2">
+               <v-row no-gutters class="pa-2"> 
+                   <v-col cols="12" md="4" lg="4" :class="$vuetify.breakpoint.xs ? 'pt-2 mb-0' : ' pr-3'">
+                       <v-card outlined elevation="1">
+                            <div class="pt-3 pl-4 pr-4 pb-2">
                                 <v-icon left>mdi-comment</v-icon>Private Comments
                             </div>
                             <v-divider></v-divider>
@@ -108,7 +108,7 @@
                 <v-row class="mb-0 pb-0 pa-3"> 
                     <v-card outlined width="100%" class="pa-2">
                     <v-col cols="12" class="mb-0 pb-0" >
-                        <v-list >
+                        <v-list class="pa-0 ma-0">
                                 <v-list-item>
                                 <v-list-item-avatar color="secondary">
                                     <v-img alt="Profile"
@@ -122,7 +122,7 @@
                                 </v-list-item-content>
                                 <v-list-item-action >
                                         <v-text-field  
-                                        class="mt-7" v-model="ViewDetails.points" 
+                                        class="mt-" v-model="ViewDetails.points" 
                                         dense outlined label="Score" type="number" :suffix="'/' +classworkDetails.points" :max="classworkDetails.points"  min="0"></v-text-field>
                                 </v-list-item-action>
                                 </v-list-item>
@@ -143,7 +143,7 @@
                     </v-icon>
                     <h1> Empty Submission </h1>
                     <p> This student did not take the classwork yet!</p>
-                     <v-btn color="primary">Alert Student <v-icon right>mdi-account-alert</v-icon> </v-btn>
+                     <v-btn @click="alertStudent()" :loading="isAlerting" color="primary">Alert Student <v-icon right>mdi-account-alert</v-icon> </v-btn>
                 </v-col>
             </v-row>
              </v-card>
@@ -299,7 +299,8 @@ const resetConfirmation = () => import('../../dialogs/resetConfirmation')
             dialog: false,
             Alphabet: null,
             isCommenting:false,
-            comment: null
+            comment: null,
+            isAlerting: false
           }
       },
       computed:mapGetters(['get_CurrentUser']),
@@ -456,6 +457,23 @@ const resetConfirmation = () => import('../../dialogs/resetConfirmation')
               })
                this.isCommenting = false;
           },
+
+          async alertStudent(){
+              let data = {};
+              this.isAlerting = true;
+              data.user_id = this.ViewDetails.user_id;
+              data.classwork_name = this.classworkDetails.title;
+              data.classwork_id = this.classworkDetails.id;
+              data.course_id = this.classworkDetails.course_id;
+              data.firstName = this.ViewDetails.firstName;
+              axios.post('/api/teacher/alert-student',data)
+              .then((res)=>{
+                  if(res.data.success == true){
+                      this.toastSuccess(res.data.message);
+                      this.isAlerting = false;
+                  }
+              })
+          }
      
       },
     

@@ -2,10 +2,10 @@
 
 
 
-    <v-card style="height: 500px;">
+    <v-card style="height: 620px;">
         
-       <iframe title="google pdf viewer" id="pdf-iframe" :src="'https://docs.google.com/viewer?embedded=true&amp;url=' + pdf_path" sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
-                             style="position: absolute; top: 0px; left: 0px; width: 100%; height: 100%;"></iframe>
+       <iframe title="google pdf viewer"  class="pdf-viewer" :src="'https://docs.google.com/viewer?embedded=true&amp;url=' + pdf_path" sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
+                             style="position: absolute; top: 0px; left: 0px; width: 100% !important; height: 100%; !important"></iframe>
                             
     </v-card>
 
@@ -39,5 +39,9 @@
 <style >
     .toolbar {
         z-index: 1 !important;
+    }
+    .pdf-viewer {
+        height: 100% !important;
+        width: 100% !important;
     }
 </style>

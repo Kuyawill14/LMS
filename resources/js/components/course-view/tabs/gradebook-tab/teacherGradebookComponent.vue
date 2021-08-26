@@ -1,17 +1,34 @@
 <template>
-    <div >
+    <div>
         <v-breadcrumbs class="ma-0 pa-0 mt-3" :items="items">
-        <template v-slot:item="{ item }">
-        <v-breadcrumbs-item
-            :to="{name: item.link}"
-            :disabled="item.disabled"
-        >
-            {{ item.text.toUpperCase() }}
-        </v-breadcrumbs-item>
-        </template>
-    </v-breadcrumbs>
+            <template v-slot:item="{ item }">
+                <v-breadcrumbs-item :to="{name: item.link}" :disabled="item.disabled">
+                    {{ item.text.toUpperCase() }}
+                </v-breadcrumbs-item>
+            </template>
+        </v-breadcrumbs>
+        <v-row>
+            <v-col cols="12">
+                <div class="downloads float-right">
 
+                    <export-excel class="btn btn-default" :data="json_data" :fields="json_fields"
+                        worksheet="My Worksheet"
+                        :name="getcourseInfo.course_code + ' - ' + getcourseInfo.course_name + '-' + selectedClassName">
+                        <v-btn @click="get_AllFinalGrades_s()">
+                            <v-icon color="grey lighten-1" left>
+                                download
+                            </v-icon>
+                            ALl Grades
+                        </v-btn>
+
+                    </export-excel>
+
+                </div>
+            </v-col>
+
+        </v-row>
         <v-row class="pt-2">
+
             <v-col cols="6">
 
                 <h2>
@@ -37,6 +54,18 @@
 
                     <v-card-title>
                         Final Grades
+
+                        <export-excel class="btn btn-default ml-2" :data="json_data" :fields="json_fields"
+                            worksheet="My Worksheet"
+                            :name="getcourseInfo.course_code + ' - ' + getcourseInfo.course_name + '-' + selectedClassName">
+                            <v-btn @click="getFinalGrades()" small>
+                                <v-icon color="grey lighten-1">
+                                    download
+                                </v-icon>
+                                <!-- Final Grades -->
+                            </v-btn>
+
+                        </export-excel>
                         <v-spacer></v-spacer>
                         <v-text-field v-model="search" append-icon="mdi-magnify" label="Search" single-line
                             hide-details>
@@ -64,6 +93,7 @@
                                     <td class="text-center"
                                         v-for="(student_final, index) in allStudentFinalGrades(student.id)"
                                         :key="index">
+
                                         {{student_final.transmuted_grade_percentage.toFixed(2)}}
                                         <!-- {{student_final.grade_percentage.toFixed(2)}} -->
                                     </td>
@@ -88,11 +118,24 @@
 
                 </v-tab-item>
 
-
                 <v-tab-item v-for="(gradingCriteria, index) in get_gradingCriteria" :key="index">
 
                     <v-card-title>
                         {{gradingCriteria.name}} - {{gradingCriteria.percentage}}%
+
+                        <export-excel class="btn btn-default ml-2" :data="json_data" :fields="json_fields"
+                            worksheet="My Worksheet"
+                            :name="getcourseInfo.course_code + ' - ' + getcourseInfo.course_name + '-' + gradingCriteria.name">
+                            <v-btn @click="getFinalGrades()" small>
+                                <v-icon color="grey lighten-1">
+                                    download
+                                </v-icon>
+                                <!-- Final Grades -->
+                            </v-btn>
+
+                        </export-excel>
+
+
                         <v-spacer></v-spacer>
                         <v-text-field v-model="search" append-icon="mdi-magnify" label="Search" single-line
                             hide-details>
@@ -164,6 +207,9 @@
 
 
 <script>
+    import excel from 'vue-excel-export'
+
+    Vue.use(excel)
     import {
         mapGetters,
         mapActions
@@ -171,8 +217,21 @@
     export default {
         data: function () {
             return {
+                json_fields: {
+                    'Full Name': 'name',
+                    // 'Raw Grade': 'raw_grade',
+                    // 'Transmuted': 'transmuted_grade',
+                },
+                json_data: [],
+                json_meta: [
+                    [{
+                        'key': 'charset',
+                        'value': 'utf-8'
+                    }]
+                ],
                 activeTab: null,
                 shown: false,
+                selectedClassName: '',
                 selectedClass: null,
                 Deldialog: false,
                 dialog: false,
@@ -190,16 +249,15 @@
                 students: [],
                 classworkTotalPoints: 0,
                 final_grades: [],
-                items: [
-                    {
-                    text: 'Course',
-                    disabled: false,
-                    link: 'courses',
+                items: [{
+                        text: 'Course',
+                        disabled: false,
+                        link: 'courses',
                     },
                     {
-                    text: 'Grade Book',
-                    disabled: true,
-                    link: 'gradebook',
+                        text: 'Grade Book',
+                        disabled: true,
+                        link: 'gradebook',
                     },
                 ],
 
@@ -207,6 +265,7 @@
 
         },
         computed: {
+            ...mapGetters(["getcourseInfo"]),
             ...mapGetters(["get_gradingCriteria", "allClass", "AllStudentClassworkGrades", "allStudentFinalGrades"])
         },
 
@@ -268,8 +327,8 @@
                 for (var i = 0; i < arr.length; i++) {
                     total += arr[i]['points'];
                 }
-               /*  console.log('tota;', total);
-                console.log('classworktoal', this.classworkTotalPoints) */
+                /*  console.log('tota;', total);
+                 console.log('classworktoal', this.classworkTotalPoints) */
                 let result = (total / this.classworkTotalPoints) * grading_percentage;
                 return isNaN(result) == true ? 0 : result.toFixed(2);
             },
@@ -298,8 +357,7 @@
 
                 axios.get('/api/grade-book/classworks/' + this.selectedClass).then(res => {
                     this.classworkList = res.data;
-                    console.log(res.data);
-
+                 
                     for (var i = 0; i < this.classworkList.length; i++) {
                         // this.headers[i+1] = {text: this.classworkList[i]['title'], value: this.classworkList[i]['title']};
                         if (this.classworkList[i]['grading_criteria_id'] == this.get_gradingCriteria[0].id) {
@@ -320,21 +378,24 @@
                     this.totalPercentHeader();
                 })
 
-
+                var data = {
+                    course_id: this.$route.params.id,
+                    class_id: this.selectedClass
+                };
                 this.$store.dispatch('fetchAllStudentClassworkGrades', this.selectedClass);
-                this.$store.dispatch('fetchAllStudentFinalGrades', this.selectedClass).then(() => {
+                this.$store.dispatch('fetchAllStudentFinalGrades', data).then(() => {
                     this.loading = false;
                 });
 
             },
             _getFInalGradestTab() {
-                this.activeTab ='finalgrades';
+                this.activeTab = 'finalgrades';
             },
             _getClassworkListbyTab(grading_criteria_id, index) {
-         
-                
+
+
                 if (this.activeTab != grading_criteria_id) {
-                           this.headers = [];
+                    this.headers = [];
                     this.activeTab = grading_criteria_id;
                     this.$store.dispatch("fetchNotification", this.notificationType)
                     var total = 0;
@@ -346,7 +407,7 @@
 
                     axios.get('/api/grade-book/classworks/' + this.selectedClass).then(res => {
                         this.classworkList = res.data;
-                        console.log(res.data);
+            
 
                         for (var i = 0; i < this.classworkList.length; i++) {
                             // this.headers[i+1] = {text: this.classworkList[i]['title'], value: this.classworkList[i]['title']};
@@ -372,7 +433,7 @@
             getStudentClassworksGrades(grading_criteria_id) {
                 axios.get('/api/grade-book/classworkGrades/' + this.selectedClass).then(res => {
                     this.classworkList = res.data;
-                    console.log(res.data);
+              
 
                     for (var i = 0; i < this.classworkList.length; i++) {
 
@@ -390,7 +451,7 @@
                 percentage_data.forEach(function (val) {
 
                     total += parseFloat(val.percentage);
-                    console.log(total);
+                   
 
                 })
                 return total;
@@ -400,29 +461,138 @@
                     this.classList = this.allClass;
 
                     this.selectedClass = this.classList[0].class_id;
+                    this.selectedClassName = this.classList[0].class_name;
                     this.getClassworkList();
                     this.getStudentList();
 
 
-                    console.log('class Liost: ', this.classList);
+                 
+                 
+                    var data = {
+                        course_id: this.$route.params.id,
+                        class_id: this.selectedClass
+                    };
+                    this.$store.dispatch('fetchAllStudentFinalGrades', data).then(() => {
+                        this.loading = false;
+                    });
                 });
-                this.$store.dispatch('fetchAllStudentFinalGrades', this.$route.params.id).then(() => {
-                    this.loading = false;
-                });
+
 
             },
             getFinalGrades() {
 
+                var grade = null;
+                var header = [];
+                this.students.sort();
+                for (var i = 0; i < this.get_gradingCriteria.length; i++) {
+
+                    this.json_fields[this.get_gradingCriteria[i].name] = this.get_gradingCriteria[i].name;
+                }
+                this.json_fields['Raw Grade'] = 'raw_grade';
+                this.json_fields['Transmuted Grade'] = 'transmuted_grade';
+
+
+
+                var dataFields = {};
+                for (var i = 0; i < this.students.length; i++) {
+
+                    var student_final = this.allStudentFinalGrades(this.students[i].id);
+                 
+                 
+
+                    dataFields['name'] = this.students[i].lastName + ', ' + this.students[i].firstName;
+
+                    for (var j = 0; j < student_final.length; j++) {
+                        dataFields[student_final[j].name] = student_final[j].grade_percentage;
+                    }
+
+
+                    var raw_grade = this.sumPercentage(this.allStudentFinalGrades(this.students[i].id));
+                    var transmuted_grade = this.sumTransmutedGrade(this.allStudentFinalGrades(this.students[i].id));
+                    dataFields['raw_grade'] = raw_grade;
+                    dataFields['transmuted_grade'] = transmuted_grade;
+                  
+                  
+                    this.json_data.push(dataFields);
+
+
+
+                }
+
+
+                console.log('json_data ', this.json_data);
+            },
+            get_AllFinalGrades_s() {
+
+                var grade = null;
+                var header = [];
+                var classworks ={};
+                this.students.sort();
+                for (var i = 0; i < this.get_gradingCriteria.length; i++) {
+                    // var classworkGrades =  this.AllStudentClassworkGrades(this.students[i].id, student_final[i].grade_category_id);
+                     this.json_fields['|'+(i+1) +'|'] =''  ;
+                    this.json_fields[this.get_gradingCriteria[i].name] = this.get_gradingCriteria[i].name;
+     
+                   for (var x = 0; x < this.classworkList.length; x++) {
+
+                            if( this.get_gradingCriteria[i].id ==this.classworkList[x].grading_criteria_id) {
+                                    this.json_fields[this.classworkList[x].title] = this.classworkList[x].title;
+                            }
+                        
+                    }
+                  
+                }
+                this.json_fields['Raw Grade'] = 'raw_grade';
+                this.json_fields['Transmuted Grade'] = 'transmuted_grade';
+                console.log('json_fields    ' , this.json_fields);
+
+
+                var dataFields = {};
+                for (var i = 0; i < this.students.length; i++) {
+
+                    var student_final = this.allStudentFinalGrades(this.students[i].id);
+                    console.log(student_final);
+                    dataFields['name'] = this.students[i].lastName + ', ' + this.students[i].firstName;
+
+                    for (var j = 0; j < student_final.length; j++) {
+                        for (var x = 0; x < student_final.length; x++) {
+                            this.AllStudentClassworkGrades(this.students[i].id, student_final[i].grade_category_id)
+                        }
+                        dataFields[student_final[j].name] = student_final[j].grade_percentage;
+                    }
+
+
+
+
+                    var raw_grade = this.sumPercentage(this.allStudentFinalGrades(this.students[i].id));
+                    var transmuted_grade = this.sumTransmutedGrade(this.allStudentFinalGrades(this.students[i].id));
+                    dataFields['raw_grade'] = raw_grade;
+                    dataFields['transmuted_grade'] = transmuted_grade;
+                    console.log(dataFields, 'dataFields')
+                    this.json_data.push(dataFields); 
+
+
+
+                    console.log(i)
+
+                }
+
+
+                console.log('json_data ', this.json_data);
             }
         },
 
-        created() {
+        mounted() {
             this.loading = true;
             this.getAllGradeCriteria();
 
             this.getClassList();
 
             this.loading = false;
+
+            var students = this.students;
+            this.loading = false;
+
         }
 
 

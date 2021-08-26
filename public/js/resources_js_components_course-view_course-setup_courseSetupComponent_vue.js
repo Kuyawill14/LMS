@@ -209,7 +209,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "v-container",
-    { attrs: { "ma-0": "", "pa-0": "" } },
+    { attrs: { "pa-0": "" } },
     [
       _c(
         "v-row",
@@ -260,7 +260,7 @@ var render = function() {
                       _vm._v(" "),
                       _c("v-stepper-step", { attrs: { step: "3" } }, [
                         _vm._v(
-                          "\n                        Class\n                    "
+                          "\n                        Create Class\n                    "
                         )
                       ])
                     ],

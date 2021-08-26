@@ -34,7 +34,9 @@
                         </v-col>
                     </v-row> -->
                  <teacherStartPage v-if="role == 'Teacher'" 
-                :classworkDetails="classworkDetails"
+                  :totalPoints="totalPoints"
+                  :totalQuestion="totalQuestion"
+                  :classworkDetails="classworkDetails"
                 ></teacherStartPage>
             </v-col>
             <v-col v-if="role == 'Student'" cols="12" class="ma-0 pa-0 ">

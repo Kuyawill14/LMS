@@ -12,7 +12,7 @@ const actions = {
         const res = await axios.get(
             `/api/question/all/${id}`
         );
-        let data = [res.data, res.data.Question.length];
+        let data = res;
        
         commit('FETCH_QUESTIONS', res.data);
         return data;
@@ -26,7 +26,12 @@ const actions = {
                 answers: data.answers,
                 length:data.ansLength,
                 classwork_id: data.clw
-            });
+            })
+            .catch((e)=>{
+                return e.response
+            })
+            return res;
+        
        }
        else{
            const res = await axios.post(`/api/question/insert`, 
@@ -34,7 +39,11 @@ const actions = {
                answers: data.answers,
                length:data.ansLength,
               classwork_id: data.clw
-           });
+           })
+           .catch((e)=>{
+            return e.response
+            })
+            return res;
        }
        
         

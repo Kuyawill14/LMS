@@ -255,10 +255,16 @@ var render = function() {
                     ref: "_classname",
                     attrs: {
                       required: "",
-                      value: _vm.className,
                       filled: "",
                       color: "primary",
                       label: "Class Name"
+                    },
+                    model: {
+                      value: _vm.className,
+                      callback: function($$v) {
+                        _vm.className = $$v
+                      },
+                      expression: "className"
                     }
                   })
                 ],

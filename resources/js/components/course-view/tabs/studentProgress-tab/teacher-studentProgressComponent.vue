@@ -39,7 +39,74 @@
                         <v-tab v-for="(main_module, index) in getmain_module" :key="index">
                             {{main_module.module_name}}
                         </v-tab>
-            
+                        <v-tab-item id="all" v-if="role=='Teacher'">
+                            <v-simple-table>
+                                <template v-slot:default>
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center" v-if="role=='Teacher'">
+                                                Student Name
+                                            </th>
+
+
+                                            <th class="text-center" v-for="(main_module, index) in getmain_module"
+                                                :key="index">
+                                                {{main_module.module_name}} <br>
+                                                Completed
+                                            </th>
+                                            <th class="text-center">
+                                                Total Completed
+                                            </th>
+
+                                            <th class="text-center">
+                                                Percentage
+                                            </th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody v-if="loading == false">
+                                        <tr v-for="(student, i) in students" :key="''+i">
+                                            <td class="text-center" v-if="role=='Teacher'">{{student.firstName}}
+                                                {{student.lastName}}
+
+                                            </td>
+
+                                            <td class="text-center"
+                                                v-for="(main, i) in getStudentMainModuleProgress(student.id)"
+                                                :key="''+i">
+                                                {{main.completed}} / {{main.sub_module_length}}
+                                            </td>
+                                            <td class="text-center">
+                                                {{getTotalCompleted(getStudentMainModuleProgress(student.id))}}</td>
+
+
+                                            <td class="text-center">
+                                                {{getTotalPercent(getStudentMainModuleProgress(student.id))}}%</td>
+
+
+
+
+
+                                        </tr>
+                                        <tr v-if="students.length == 0">
+                                            <td class="text-center" colspan="100">
+                                                No data available, please add or invite students.
+                                            </td>
+                                        </tr>
+
+
+                                    </tbody>
+                                </template>
+                            </v-simple-table>
+
+
+                        </v-tab-item>
+
+
+
+
+
+
 
                         <v-tab-item v-for="(main_module, index) in getmain_module" :key="index">
 
@@ -76,7 +143,12 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
+                                        <tr v-for="(student, index) in students" :key="index">
+
+                                            <td class="text-center" v-if="role=='Teacher'">
+                                                {{student.firstName}} {{student.lastName}}
+                                            </td>
+
                                             <td class="text-center"
                                                 v-for="(subModule, index) in SubModuleProgress(main_module.id,student.id )"
                                                 :key="index">

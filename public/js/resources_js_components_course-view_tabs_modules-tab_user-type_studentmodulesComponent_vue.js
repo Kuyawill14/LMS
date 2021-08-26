@@ -140,11 +140,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
 var pdfviewer = function pdfviewer() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_tabs_modules-tab_user-type_pdfview_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./pdfview */ "./resources/js/components/course-view/tabs/modules-tab/user-type/pdfview.vue"));
 };
@@ -219,6 +214,13 @@ var modulesListComponent = function modulesListComponent() {
       var origin_url = window.location.origin;
       var base_src = 'https://drive.google.com/viewerng/viewer?url=' + origin_url;
       this.iframeSrc = base_src + '/storage/' + file;
+    },
+    scrollToElement: function scrollToElement(options) {
+      var el = this.$el.getElementsByClassName('v-tab--active')[0];
+
+      if (el) {
+        el.scrollIntoView(options);
+      }
     }
   },
   created: function created() {
@@ -569,17 +571,43 @@ var render = function() {
                             "v-tabs",
                             { attrs: { color: "primary", center: "" } },
                             [
-                              _c("v-tab", { attrs: { href: "#overview" } }, [
-                                _vm._v(
-                                  "\n                               Overview\n                           "
-                                )
-                              ]),
+                              _c(
+                                "v-tab",
+                                {
+                                  attrs: { href: "#overview" },
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.scrollToElement({
+                                        behavior: "smooth"
+                                      })
+                                    }
+                                  }
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                            Overview\n                        "
+                                  )
+                                ]
+                              ),
                               _vm._v(" "),
-                              _c("v-tab", { attrs: { href: "#description" } }, [
-                                _vm._v(
-                                  "\n                               Description\n                           "
-                                )
-                              ]),
+                              _c(
+                                "v-tab",
+                                {
+                                  attrs: { href: "#description" },
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.scrollToElement({
+                                        behavior: "smooth"
+                                      })
+                                    }
+                                  }
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                            Description\n                        "
+                                  )
+                                ]
+                              ),
                               _vm._v(" "),
                               _c(
                                 "v-tab-item",
@@ -594,7 +622,7 @@ var render = function() {
                                               _vm.subModuleData.main_module_id
                                             ).module_name
                                           ) +
-                                          " -\n                                       " +
+                                          " -\n                                    " +
                                           _vm._s(
                                             _vm.subModuleData.sub_module_name
                                           ) +
@@ -688,7 +716,7 @@ var render = function() {
                             { staticStyle: { "font-size": "14rem" } },
                             [
                               _vm._v(
-                                "\n                           mdi-book-variant-multiple\n                       "
+                                "\n                        mdi-book-variant-multiple\n                    "
                               )
                             ]
                           ),

@@ -42,31 +42,32 @@
                                 </tr>
                                 <tr>
                                     <td style="padding:0 35px;">
-                                        <h1 style="color:#1e1e2d; font-weight:500; margin:0;font-size:30px;font-family:'Rubik',sans-serif;">Verify your email address</h1>
+                                        <h1 style="color:#1e1e2d; font-weight:500; margin:0;font-size:30px;font-family:'Rubik',sans-serif;">Hello {{$firstName}}!</h1>
                                         <span
                                             style="display:inline-block; vertical-align:middle; margin:29px 0 26px; border-bottom:1px solid #cecece; width:100px;"></span>
                                         <p style="color:#455056; font-size:15px;line-height:24px; margin:0;">
                                          
-                                            Please confirm that you want to use this as your {{config('app.name')}} account
-                                            email address. Once it's done you will be able to log in.
+                                            Please start answering your classwork <b>{{$classwork_name}}</b> from <b>{{$course_name}}</b> in will end soon.
                                         </p>
 
                                         <p style="font-size: 35px;margin-top: 0px;margin-bottom: 0px;">  </strong></p >
                                         <a href="{{ url($url) }}"
-                                            style="background:#FF5400;text-decoration:none !important; font-weight:500; margin-top:35px; color:#fff;text-transform:uppercase; font-size:14px;padding:10px 24px;display:inline-block;border-radius:50px;">Verify Email Address</a>
+                                            style="background:#FF5400;width: 10rem;text-decoration:none !important; font-weight:500; margin-top:35px; color:#fff;text-transform:uppercase; font-size:14px;padding:10px 24px;display:inline-block;border-radius:50px;">
+                                            OK
+                                        </a>
                                         
 
 
-                                        <p style="text-align:left ;color:#455056; font-size:15px;line-height:24px;  margin-top:15px;margin-bottom:0px">
+                                        {{-- <p style="text-align:left ;color:#455056; font-size:15px;line-height:24px;  margin-top:15px;margin-bottom:0px">
                                             Regards,<br>
                                             {{config('app.name')}}
-                                        </p>
+                                        </p> --}}
 
-                                        <hr>
+                                       {{--  <hr>
                                         <p style="text-align:center ;color:#455056; font-size:15px;line-height:24px;  margin-top:15px;margin-bottom:0px">
                                            Or paste this link into your browser:
-                                           <a href="{{ url($url) }}">{{url($url)}}</a>
-                                        </p>
+                                         
+                                        </p> --}}
                                     </td>
                                 </tr>
                                 <tr>

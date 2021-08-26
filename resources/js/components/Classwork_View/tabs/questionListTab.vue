@@ -56,8 +56,8 @@
                                 </v-btn>
                             </v-container>
                         </v-col> -->
-
-                        <v-col v-if="Show && Qlength != 0" class="pl-8 pr-8 pt-10 pb-4 mb-0" cols="12" md="12">
+                      
+                        <v-col v-if="Show && Qlength != 0" class="pl-8 pr-8 pt-10  mb-0" cols="12" md="12">
                             <v-row>
                                 <v-col cols="6" md="8" lg="8" class="text-left pb-0 mb-0">
                                         <v-text-field
@@ -80,6 +80,14 @@
                             
                             
                         </v-col>
+
+                        <v-col cols="12" class="pl-8 pr-8">
+                          
+                            <div class="text--body-1 ">Total Points: <span class="primary--text">{{totalPoints}}<small class=" font-weight-regular"> points</small></span> </div>
+                            <div class="text--body-1">Total Question: <span class="primary--text">{{totalQuestion}}</span></div>
+                              <v-divider></v-divider>
+                        </v-col>
+                      
                         
                         <v-col v-if="Show && Qlength != 0" cols="12" md="12"  class="pl-5 pr-5 pt-1">
                             <v-container v-show="ListType == 'All' || ListType == item.type" class="mb-1 pt-0 mt-0" v-for="(item, index) in getAll_questions.Question" :key="item.id">
@@ -118,6 +126,7 @@ import matchingType from './List-types/matchingType'
 import deleteDialog from './dialogs/deleteDialog';
  import {mapGetters, mapActions } from "vuex";
 export default {
+    props:['classworkDetails','totalQuestion','totalPoints'],
     components:{
         deleteDialog,
         multipleChoiceList,
@@ -178,7 +187,8 @@ export default {
         },
         fetchQuestionsList(){
             this.$store.dispatch('fetchQuestions', this.$route.query.clwk).then(res=>{
-                this.Qlength = res[1];
+                console.log(res);
+                this.Qlength = res.data.Question.length;
                 this.QuestionsList = res[0];
                 this.isloading = false;
                 this.isFetching = false;
