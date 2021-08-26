@@ -315,10 +315,9 @@ const router = new Router({
                             component: announcement_tab,
                             beforeEnter: (to, form, next) => {
                                 store.dispatch('fetchMyCoursesStatus').then((res)=>{
-                                    console.log(res.status);
                                     if(res.status == 200){                                
                                         store.dispatch('CheckMyCourse', to.params.id).then(response => {
-                                            console.log(response);
+                                     
                                             if (response.exist == true) {
                                                 if (response.status == 1) {
                                                     next();
@@ -345,10 +344,8 @@ const router = new Router({
                             component: classwork_tab,
                             beforeEnter: (to, form, next) => {
                                 store.dispatch('fetchMyCoursesStatus').then((res)=>{
-                                    console.log(res.status);
                                     if(res.status == 200){                                
                                         store.dispatch('CheckMyCourse', to.params.id).then(response => {
-                                            console.log(response);
                                             if (response.exist == true) {
                                                 if (response.status == 1) {
                                                     next();

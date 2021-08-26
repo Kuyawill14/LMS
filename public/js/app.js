@@ -2409,12 +2409,8 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_6__.default({
         component: announcement_tab,
         beforeEnter: function beforeEnter(to, form, next) {
           _store_store__WEBPACK_IMPORTED_MODULE_2__.default.dispatch('fetchMyCoursesStatus').then(function (res) {
-            console.log(res.status);
-
             if (res.status == 200) {
               _store_store__WEBPACK_IMPORTED_MODULE_2__.default.dispatch('CheckMyCourse', to.params.id).then(function (response) {
-                console.log(response);
-
                 if (response.exist == true) {
                   if (response.status == 1) {
                     next();
@@ -2444,12 +2440,8 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_6__.default({
         component: classwork_tab,
         beforeEnter: function beforeEnter(to, form, next) {
           _store_store__WEBPACK_IMPORTED_MODULE_2__.default.dispatch('fetchMyCoursesStatus').then(function (res) {
-            console.log(res.status);
-
             if (res.status == 200) {
               _store_store__WEBPACK_IMPORTED_MODULE_2__.default.dispatch('CheckMyCourse', to.params.id).then(function (response) {
-                console.log(response);
-
                 if (response.exist == true) {
                   if (response.status == 1) {
                     next();
@@ -4839,7 +4831,7 @@ var actions = {
 
             case 3:
               res = _context.sent;
-              data = [res.data, res.data.Question.length];
+              data = res;
               commit('FETCH_QUESTIONS', res.data);
               return _context.abrupt("return", data);
 
@@ -4862,7 +4854,7 @@ var actions = {
               commit = _ref2.commit;
 
               if (!(data.questions.type != 'Matching type')) {
-                _context2.next = 7;
+                _context2.next = 8;
                 break;
               }
 
@@ -4872,26 +4864,30 @@ var actions = {
                 answers: data.answers,
                 length: data.ansLength,
                 classwork_id: data.clw
+              })["catch"](function (e) {
+                return e.response;
               });
 
             case 4:
               res = _context2.sent;
-              _context2.next = 10;
-              break;
+              return _context2.abrupt("return", res);
 
-            case 7:
-              _context2.next = 9;
+            case 8:
+              _context2.next = 10;
               return axios__WEBPACK_IMPORTED_MODULE_1___default().post("/api/question/insert", {
                 questions: data.questions,
                 answers: data.answers,
                 length: data.ansLength,
                 classwork_id: data.clw
+              })["catch"](function (e) {
+                return e.response;
               });
 
-            case 9:
-              _res = _context2.sent;
-
             case 10:
+              _res = _context2.sent;
+              return _context2.abrupt("return", _res);
+
+            case 12:
             case "end":
               return _context2.stop();
           }

@@ -26,7 +26,7 @@
             <v-card  class="pa-3" elevation="1" outlined>
               <v-window>
                 <v-window-item >
-                    <vue-element-loading :active="isAdding" spinner="bar-fade-scale" />
+                    <vue-element-loading :active="isAdding" text="Adding..." spinner="bar-fade-scale" />
                     <v-form ref="form" v-model="valid" lazy-validation>
                         <v-row>
                            <!--  <v-col cols="12" md="12" class="primary">
@@ -483,26 +483,34 @@ export default {
                     this.finalData.answers = this.form;
                    
                     this.$store.dispatch('addQuestions', this.finalData )
-                     .then( (success)  => {
-                        this.toastSuccess("Question Successfully added");
-                        //this.$store.dispatch('fetchQuestions', this.$route.query.clwk);
-                        this.CallReset();
+                     .then( (response)  => {
+                         if(response.data.success == true){
+                            this.toastSuccess(response.data.message);
+                            this.CallReset();
+                            this.isAdding = false
+                         }
+                         else{
+                             this.toastError(response.data.message);
+                             this.isAdding = false
+                         }
                     })
                 }
                 else if(this.quesForm.question == ""){
                     this.toastError('Question is required!');
+                    this.isAdding = false;
                 }
-                else if(this.quesForm.answer != '' && this.quesForm.points == 0){
+                else if(this.quesForm.points == 0){
                     this.toastError('You must atleast allocate one points to this question!');
+                    this.isAdding = false;
                 }
                 else if(this.quesForm.answer == ''){
                     this.toastError('You must atleast write/pick one answer');
+                    this.isAdding = false;
                 }
                 else{
                     this.toastError('You must atleast enter two choices');
+                    this.isAdding = false;
                 }
-                 setTimeout(() => (this.isAdding = false), 1000);
-                //this.isAdding = false;
             }
             else if(this.quesForm.type == 'Identification' || this.quesForm.type == 'True or False'){
                 if(this.quesForm.answer != '' && this.quesForm.points != 0 || ''){
@@ -511,17 +519,22 @@ export default {
                     this.finalData.questions = this.quesForm;
                     this.finalData.answers = this.form;
                     this.$store.dispatch('addQuestions', this.finalData)
-                    .then( (success)  => {
-                       this.toastSuccess("Question Successfully added");
-                        //this.$store.dispatch('fetchQuestions', this.$route.query.clwk);
-                        this.CallReset();
+                    .then((response)  => {
+                        if(response.data.success == true){
+                            this.toastSuccess(response.data.message);
+                            this.CallReset();
+                            this.isAdding = false
+                         }
+                         else{
+                             this.toastError(response.data.message);
+                             this.isAdding = false
+                         }
                     })
                 }
                 else{
                     this.toastError('You must atleast write/pick one answer');
+                    this.isAdding = false
                 }
-                setTimeout(() => (this.isAdding = false), 1000);
-               //this.isAdding = false;
             }
             else if(this.quesForm.type == 'Matching type'){
                  this.quesForm.answer = 'Matching Type';
@@ -530,13 +543,17 @@ export default {
                  this.finalData.questions = this.quesForm;
                  this.finalData.answers = this.MatchQuestion;
                  this.$store.dispatch('addQuestions', this.finalData)
-                  .then( (success)  => {
-                    this.toastSuccess("Question Successfully added");
-                    //this.$store.dispatch('fetchQuestions', this.$route.query.clwk);
-                    this.CallReset();
+                  .then((response)  => {
+                    if(response.data.success == true){
+                        this.toastSuccess(response.data.message);
+                        this.CallReset();
+                        this.isAdding = false
+                    }
+                    else{
+                        this.toastError(response.data.message);
+                        this.isAdding = false
+                    }
                 })
-                 setTimeout(() => (this.isAdding = false), 1000);
-                //this.isAdding = false;
             }
 
         },
@@ -548,7 +565,6 @@ export default {
             
             if(this.quesForm.type == 'Multiple Choice')
             {
-               
                 for (let i = 0; i < this.form.length; i++) {
                     this.form[i].answer = '';
                     this.selectedImage[i]='';
@@ -565,9 +581,8 @@ export default {
         },
           
     },
-    beforeMount(){
+    created(){
         this.isloading = !this.isloading;
-        
     },
      beforeRouteLeave(to, from, next) {
         this.isLeaving = true;

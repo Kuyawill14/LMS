@@ -291,6 +291,13 @@ class ObjectiveController extends Controller
         $newQuestion->sensitivity = $request->questions['Sensitive'];
         $newQuestion->save();
 
+        if(!$newQuestion){
+            return response()->json([
+                "message" => "Something went wrong while adding question!",
+                "success" => false
+            ]);
+        }
+
         $objectAnswer = array();
         $objectAnswer1 = array();
         if($request->questions['type'] == 'Multiple Choice'){
@@ -336,11 +343,14 @@ class ObjectiveController extends Controller
             $UpdateClassworkPoints->save();
         }
 
-       
-
-        $jsonString = json_encode($objectAnswer);
+       /*  $jsonString = json_encode($objectAnswer);
         $object = json_decode($jsonString);
-        return ["Question"=>$newQuestion , "Answer"=>$object];
+        return ["Question"=>$newQuestion , "Answer"=>$object]; */
+
+        return response()->json([
+            "message" => "Question Succesfully Added!",
+            "success" => true
+        ]);
       
     }
 
@@ -510,6 +520,8 @@ class ObjectiveController extends Controller
             $UpdatePoints = tbl_classwork::find($DelQuestion->classwork_id);
             $UpdatePoints->points =  $UpdatePoints->points - $DelQuestion->points;
             $UpdatePoints->save();
+
+
             $DelQuestion->delete();
             return "Success";
 

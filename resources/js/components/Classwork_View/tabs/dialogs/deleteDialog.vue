@@ -3,22 +3,20 @@
         <v-card-title class="text-h5">
           Delete Question {{DeleteDetails.number}}
         </v-card-title>
-        <v-card-text>
+        <v-card-text class="pb-0 mb-0">
              <p>This will permanently remove the question.</p>
-            </v-card-text>
-        <v-card-actions class="pb-5">
+        </v-card-text >
+        <v-card-actions class="pb-2">
           <v-spacer></v-spacer>
           <v-btn
-            color="primary"
-            rounded
-            outlined
+            text
             @click="$emit('toggleDialog')"
           >
             Cancel
           </v-btn>
           <v-btn
             color="primary"
-            rounded
+            text
             @click="RemoveQuestion(DeleteDetails.id)"
           >
             Confirm
@@ -51,7 +49,6 @@ export default {
     },
     mounted(){
       this.DeleteData = this.DeleteDetails;
-      console.log(this.DeleteDetails);
     }
 
 }

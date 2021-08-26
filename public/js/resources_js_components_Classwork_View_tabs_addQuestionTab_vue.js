@@ -493,59 +493,74 @@ __webpack_require__.r(__webpack_exports__);
 
           this.finalData.questions = this.quesForm;
           this.finalData.answers = this.form;
-          this.$store.dispatch('addQuestions', this.finalData).then(function (success) {
-            _this2.toastSuccess("Question Successfully added"); //this.$store.dispatch('fetchQuestions', this.$route.query.clwk);
+          this.$store.dispatch('addQuestions', this.finalData).then(function (response) {
+            if (response.data.success == true) {
+              _this2.toastSuccess(response.data.message);
 
+              _this2.CallReset();
 
-            _this2.CallReset();
+              _this2.isAdding = false;
+            } else {
+              _this2.toastError(response.data.message);
+
+              _this2.isAdding = false;
+            }
           });
         } else if (this.quesForm.question == "") {
           this.toastError('Question is required!');
-        } else if (this.quesForm.answer != '' && this.quesForm.points == 0) {
+          this.isAdding = false;
+        } else if (this.quesForm.points == 0) {
           this.toastError('You must atleast allocate one points to this question!');
+          this.isAdding = false;
         } else if (this.quesForm.answer == '') {
           this.toastError('You must atleast write/pick one answer');
+          this.isAdding = false;
         } else {
           this.toastError('You must atleast enter two choices');
+          this.isAdding = false;
         }
-
-        setTimeout(function () {
-          return _this2.isAdding = false;
-        }, 1000); //this.isAdding = false;
       } else if (this.quesForm.type == 'Identification' || this.quesForm.type == 'True or False') {
         if (this.quesForm.answer != '' && this.quesForm.points != 0 || '') {
           this.finalData.ansLength = this.form.length;
           this.finalData.clw = this.$route.query.clwk;
           this.finalData.questions = this.quesForm;
           this.finalData.answers = this.form;
-          this.$store.dispatch('addQuestions', this.finalData).then(function (success) {
-            _this2.toastSuccess("Question Successfully added"); //this.$store.dispatch('fetchQuestions', this.$route.query.clwk);
+          this.$store.dispatch('addQuestions', this.finalData).then(function (response) {
+            if (response.data.success == true) {
+              _this2.toastSuccess(response.data.message);
 
+              _this2.CallReset();
 
-            _this2.CallReset();
+              _this2.isAdding = false;
+            } else {
+              _this2.toastError(response.data.message);
+
+              _this2.isAdding = false;
+            }
           });
         } else {
           this.toastError('You must atleast write/pick one answer');
+          this.isAdding = false;
         }
-
-        setTimeout(function () {
-          return _this2.isAdding = false;
-        }, 1000); //this.isAdding = false;
       } else if (this.quesForm.type == 'Matching type') {
         this.quesForm.answer = 'Matching Type';
         this.finalData.ansLength = this.MatchQuestion.length;
         this.finalData.clw = this.$route.query.clwk;
         this.finalData.questions = this.quesForm;
         this.finalData.answers = this.MatchQuestion;
-        this.$store.dispatch('addQuestions', this.finalData).then(function (success) {
-          _this2.toastSuccess("Question Successfully added"); //this.$store.dispatch('fetchQuestions', this.$route.query.clwk);
+        this.$store.dispatch('addQuestions', this.finalData).then(function (response) {
+          if (response.data.success == true) {
+            _this2.toastSuccess(response.data.message);
 
+            _this2.CallReset();
 
-          _this2.CallReset();
+            _this2.isAdding = false;
+          } else {
+            _this2.toastError(response.data.message);
+
+            _this2.isAdding = false;
+          }
         });
-        setTimeout(function () {
-          return _this2.isAdding = false;
-        }, 1000); //this.isAdding = false;
       }
     },
     CallReset: function CallReset() {
@@ -569,7 +584,7 @@ __webpack_require__.r(__webpack_exports__);
       }
     }
   },
-  beforeMount: function beforeMount() {
+  created: function created() {
     this.isloading = !this.isloading;
   },
   beforeRouteLeave: function beforeRouteLeave(to, from, next) {
@@ -597,7 +612,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n /* .ql-toolbar.ql-snow {\n        background: #f2f2f2;\n        border: none;\n }\n .ql-bold,.ql-italic,.ql-underline, .ql-strike\n    ,.ql-picker-label,.ql-align,.ql-list,.ql-link\n    ,.ql-image,.ql-video\n    {\n        outline: none !important;\n        border:none !important;\n    }  */\n.centered-input >>> input {\n    text-align: center\n}\n.ql-editor img{\n\n    max-height: 15rem !important;\n}\n.ql-container{\n    max-height: 50rem;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n /* .ql-toolbar.ql-snow {\n        background: #f2f2f2;\n        border: none;\n }\n .ql-bold,.ql-italic,.ql-underline, .ql-strike\n    ,.ql-picker-label,.ql-align,.ql-list,.ql-link\n    ,.ql-image,.ql-video\n    {\n        outline: none !important;\n        border:none !important;\n    }  */\n.centered-input >>> input {\n    text-align: center\n}\n.ql-editor img{\n\n    max-height: 15rem !important;\n}\n.ql-container{\n    max-height: 50rem;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -799,6 +814,7 @@ var render = function() {
                                   _c("vue-element-loading", {
                                     attrs: {
                                       active: _vm.isAdding,
+                                      text: "Adding...",
                                       spinner: "bar-fade-scale"
                                     }
                                   }),

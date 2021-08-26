@@ -10,12 +10,14 @@ use App\Models\User;
 use App\Models\tbl_notification;
 use App\Models\UserNotification;
 use App\Models\tbl_student_course_subject_grades;
+use App\Models\tbl_subject_course;
 use App\Models\tbl_userclass;
 use App\Models\tbl_userDetails;
-
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SendInviteMail;
+use App\Mail\AlertStudentMail;
+
 
 class TeacherController extends Controller
 {
@@ -90,6 +92,27 @@ class TeacherController extends Controller
     {
         //
     }
+
+       /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function AlertStudent(Request $request)
+    {   
+
+        $user = User::find($request->user_id);
+        $course = tbl_subject_course::find($request->course_id);
+        //return $request;
+        //return $user->email;
+        Mail::to($user->email)->send(new AlertStudentMail($request->classwork_id, $request->classwork_name, $request->course_id, $course->course_name, $request->firstName));
+        return response()->json([
+            "message" => "Alert message has been send successfully.",
+            "success" => true
+        ]);
+    }
+
 
 
     
