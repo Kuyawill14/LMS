@@ -136,8 +136,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
     },
     updateCourseDetails: function updateCourseDetails() {
-      console.log(this.getcourseInfo.semester_id);
-
+      //console.log(this.getcourseInfo.semester_id);
       if (this.getcourseInfo.course_description.trim() == '' || this.getcourseInfo.course_name == '' || this.course_code == '' || this.getcourseInfo.semester_id === undefined || this.getcourseInfo.school_year_id === undefined) {
         this.toastError('Please complete all the field to proceed to the next step');
       } else {
@@ -449,14 +448,20 @@ var render = function() {
                 "v-btn",
                 {
                   staticClass: "float-right",
-                  attrs: { color: "primary", loading: _vm.isUpdating },
+                  attrs: { color: "primary", disabled: _vm.isUpdating },
                   on: {
                     click: function($event) {
                       return _vm.updateCourseDetails()
                     }
                   }
                 },
-                [_vm._v("\n                Next\n            ")]
+                [
+                  _vm._v(
+                    "\n                " +
+                      _vm._s(_vm.isUpdating ? "Saving.." : "Next") +
+                      "\n            "
+                  )
+                ]
               )
             ],
             1

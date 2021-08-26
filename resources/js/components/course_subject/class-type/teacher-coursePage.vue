@@ -1,6 +1,12 @@
 <template>
     <div>
+        <v-overlay :value="isLeaving">
+            <v-progress-circular
+                indeterminate
+                size="64"
+            ></v-progress-circular>
 
+        </v-overlay>
         <v-dialog v-model="Archivedialog" persistent max-width="400">
             <confirmArchiveCourse v-on:toggleCancelDialog="Archivedialog = !Archivedialog"
                 v-on:toggleconfirm="archiveCourse()" :ArchiveDetails="ArchiveDetails" v-if="Archivedialog">
@@ -37,6 +43,7 @@
 
         <v-dialog v-model="dialog" width="400px">
             <v-card>
+                 <vue-element-loading :active="isloading" spinner="bar-fade-scale" />
                 <v-card-title class="">
                     {{modalType == 'add' ? 'Create Course' : 'Edit Course'}}
                 </v-card-title>
@@ -56,8 +63,8 @@
                 <v-card-actions>
                     <v-spacer></v-spacer>
                     <v-btn text color="secondary" @click="dialog = false">Cancel</v-btn>
-                    <v-btn text color="primary" @click="modalType == 'add' ? createCourse() : updateCourse()">
-                        {{modalType == 'add' ? 'Save' : 'Update'}}</v-btn>
+                    <v-btn text :disabled="isloading" color="primary" @click="modalType == 'add' ? createCourse() : updateCourse()">
+                        {{isloading ? 'Saving...' : 'Save'}}</v-btn>
                 </v-card-actions>
             </v-card>
         </v-dialog>
@@ -122,7 +129,7 @@
                                     </p>
                                 </router-link>
                                 <hr>
-                                {{item.student_count+' students'}} <br>
+                                {{item.student_count+' enrolled'}} <br>
                                 {{item.class_count+' class'}}
                             </v-card-subtitle>
 
@@ -136,7 +143,7 @@
         </div>
 
 
-
+      
     </div>
 
 
@@ -164,7 +171,7 @@
                 coursesLength: null,
                 isGetting: false,
                 dialog: false,
-                isloading: true,
+                isloading: false,
                 modalType: '',
                 isPageLoading: false,
                 class_code: null,
@@ -179,6 +186,8 @@
                 Archivedialog: false,
                 ArchiveDetails: {},
                 allCoursesData: [],
+                isLeaving: false,
+     
             }
         },
         computed: mapGetters(['allCourse']),
@@ -221,12 +230,13 @@
             },
 
             createCourse() {
+                this.isloading = true;
                 if (this.form.course_name != "" && this.form.course_code != "") {
-                    this.isloading = true;
                     this.$store.dispatch('createCourse', this.form).then((res) => {
                         this.dialog = false;
                         let id = res.id;
                         this.toastSuccess("Your course has been Added", 'done');
+                        this.isLeaving = true;
                         this.$router.push({
                             name: 'courseSetup',
                             params: {
@@ -236,6 +246,7 @@
 
                     });
                 }
+                
             },
             fetchCourses() {
                 this.isGetting = true;

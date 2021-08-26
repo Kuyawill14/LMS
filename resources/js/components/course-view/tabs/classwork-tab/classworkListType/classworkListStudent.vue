@@ -4,7 +4,7 @@
 
      <v-row align="center" justify="center" class="pt-10" v-if="ClassworkLength == 0">
             <v-col cols="12" sm="8" md="4" class="text-center">
-                <v-icon style="font-size:14rem">
+                <v-icon style="font-size:10rem">
                     mdi-book-open-variant
                 </v-icon>
                 <h1> Empty Classwork </h1>
@@ -200,7 +200,8 @@
                 this.isLoading = true;
                 if(status == 'Submitted' && score != null){
                     if(type == 'Objective Type'){
-                     this.$router.push({name:'result-page', params:{id: classwork_id}})
+                    // this.$router.push({name:'result-page', params:{id: classwork_id}})
+                     this.$router.push({name: 'clwk',params: {id: this.$route.params.id},query: {clwk: classwork_id}})
                     }
                     else{
                         this.$router.push({name: 'clwk',params: {id: this.$route.params.id},query: {clwk: classwork_id}})

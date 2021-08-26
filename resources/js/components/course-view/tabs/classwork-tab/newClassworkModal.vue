@@ -98,10 +98,10 @@
             </v-card-text>
             <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color="blue darken-1" text @click="$emit('CloseDialog')" :disabled="loading">
+                <v-btn  text @click="$emit('CloseDialog')" :disabled="loading">
                     Close
                 </v-btn>
-                <v-btn color="blue darken-1" text @click="validate()" :disabled="loading" :loading="loading">
+                <v-btn color="primary" text @click="validate()" :disabled="loading" :loading="loading">
                     Save
                 </v-btn>
             </v-card-actions>

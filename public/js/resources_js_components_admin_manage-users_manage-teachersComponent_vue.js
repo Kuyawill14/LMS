@@ -186,45 +186,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -246,10 +207,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         middleName: "",
         lastName: "",
         email: "",
-        phone: "",
         password: "",
-        password_confirmation: "",
-        role: ""
+        password_confirmation: ""
       }),
       nameRules: [function (v) {
         return !!v || 'Field is required';
@@ -282,15 +241,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var tmpLastname = lastname.replace(/\s+/g, '-').toLowerCase();
       this.form.password = 'LMS-' + tmpLastname;
       this.show = true;
-      /* var self = this;
-        this.timeout = setTimeout(function () {
-           self.show = false;
-      }, 3000);  */
     },
     openAdd: function openAdd() {
-      this.type = 'add'; // this.grading_criteria_form.name = '';
-      // this.grading_criteria_form.percentage = '';
-
+      this.type = 'add';
       this.dialog = true;
     },
     openEdit: function openEdit(user_id) {
@@ -302,7 +255,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.form.firstName = currentTeacher.firstName;
       this.form.middleName = currentTeacher.middleName;
       this.form.lastName = currentTeacher.lastName;
-      this.form.phone = currentTeacher.cp_no;
       this.form.email = currentTeacher.email;
     },
     openDelete: function openDelete(id) {
@@ -350,10 +302,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       if (this.$refs.RegisterForm.validate()) {
         if (this.type == 'add') {
-          this.form.role = 'Teacher';
-          this.form.class_code = '123';
           this.form.password_confirmation = this.form.password;
-          this.form.post('/api/register').then(function (res) {
+          this.form.post('/api/admin/add/teacher').then(function (res) {
             _this3.$refs.RegisterForm.reset();
 
             _this3.valid = true;
@@ -525,7 +475,7 @@ var render = function() {
     "div",
     { staticClass: "pt-4" },
     [
-      _c("h2", [_vm._v("\n        Manage Teachers\n    ")]),
+      _c("h2", [_vm._v("\n        Manage Instructors\n    ")]),
       _vm._v(" "),
       _c(
         "v-btn",
@@ -780,7 +730,13 @@ var render = function() {
             "v-card",
             [
               _c("v-card-title", {}, [
-                _vm._v("\n                Add Teacher\n            ")
+                _vm._v(
+                  "\n                " +
+                    _vm._s(
+                      this.type == "add" ? "Add Teacher" : "Update Teacher"
+                    ) +
+                    "\n            "
+                )
               ]),
               _vm._v(" "),
               _c("v-divider"),
@@ -814,6 +770,11 @@ var render = function() {
                               attrs: { cols: "12", md: "12" }
                             },
                             [
+                              _c("HasError", {
+                                staticClass: "error--text",
+                                attrs: { form: _vm.form, field: "firstName" }
+                              }),
+                              _vm._v(" "),
                               _c("v-text-field", {
                                 attrs: {
                                   rules: _vm.nameRules,
@@ -863,11 +824,6 @@ var render = function() {
                                   },
                                   expression: "form.middleName"
                                 }
-                              }),
-                              _vm._v(" "),
-                              _c("HasError", {
-                                staticClass: "error--text",
-                                attrs: { form: _vm.form, field: "middleName" }
                               })
                             ],
                             1
@@ -906,11 +862,6 @@ var render = function() {
                                   },
                                   expression: "form.lastName"
                                 }
-                              }),
-                              _vm._v(" "),
-                              _c("HasError", {
-                                staticClass: "error--text",
-                                attrs: { form: _vm.form, field: "lastName" }
                               })
                             ],
                             1
@@ -930,6 +881,7 @@ var render = function() {
                               _vm._v(" "),
                               _c("v-text-field", {
                                 attrs: {
+                                  autocomplete: "false",
                                   label: "Email",
                                   name: "Email",
                                   rules: _vm.loginEmailRules,
@@ -944,11 +896,6 @@ var render = function() {
                                   },
                                   expression: "form.email"
                                 }
-                              }),
-                              _vm._v(" "),
-                              _c("HasError", {
-                                staticClass: "error--text",
-                                attrs: { form: _vm.form, field: "email" }
                               })
                             ],
                             1
@@ -969,10 +916,10 @@ var render = function() {
                                   _vm._v(" "),
                                   _c("v-text-field", {
                                     attrs: {
+                                      autocomplete: "off",
                                       "append-icon": _vm.show
                                         ? "mdi-eye"
                                         : "mdi-eye-off",
-                                      id: "password",
                                       label: "Password",
                                       name: "password",
                                       type: _vm.show ? "text" : "password",
@@ -996,11 +943,6 @@ var render = function() {
                                       },
                                       expression: "form.password"
                                     }
-                                  }),
-                                  _vm._v(" "),
-                                  _c("HasError", {
-                                    staticClass: "error--text",
-                                    attrs: { form: _vm.form, field: "password" }
                                   })
                                 ],
                                 1
@@ -1045,7 +987,12 @@ var render = function() {
                         }
                       }
                     },
-                    [_vm._v("\n                    Add")]
+                    [
+                      _vm._v(
+                        "\n                    " +
+                          _vm._s(this.type == "add" ? "Add" : "Update")
+                      )
+                    ]
                   )
                 ],
                 1

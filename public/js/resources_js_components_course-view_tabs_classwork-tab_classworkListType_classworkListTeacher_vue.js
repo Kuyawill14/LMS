@@ -166,6 +166,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
 var deleteDialog = function deleteDialog() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_tabs_classwork-tab_dialogs_deleteDiaglog_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../dialogs/deleteDiaglog */ "./resources/js/components/course-view/tabs/classwork-tab/dialogs/deleteDiaglog.vue"));
 };
@@ -392,7 +397,7 @@ var render = function() {
                   attrs: { cols: "12", sm: "8", md: "4" }
                 },
                 [
-                  _c("v-icon", { staticStyle: { "font-size": "14rem" } }, [
+                  _c("v-icon", { staticStyle: { "font-size": "10rem" } }, [
                     _vm._v(
                       "\r\n                    mdi-book-open-variant\r\n                "
                     )
@@ -448,6 +453,32 @@ var render = function() {
             1
           )
         : _vm._e(),
+      _vm._v(" "),
+      _c(
+        "v-dialog",
+        {
+          attrs: { persistent: "", "max-width": "650" },
+          model: {
+            value: _vm.dialog,
+            callback: function($$v) {
+              _vm.dialog = $$v
+            },
+            expression: "dialog"
+          }
+        },
+        [
+          _vm.dialog
+            ? _c("newClassworkModal", {
+                on: {
+                  CloseDialog: function($event) {
+                    _vm.dialog = !_vm.dialog
+                  }
+                }
+              })
+            : _vm._e()
+        ],
+        1
+      ),
       _vm._v(" "),
       _vm.ClassworkLength != 0
         ? _c(

@@ -4,7 +4,7 @@
        
          <v-row align="center" justify="center" class="pt-10" v-if="ClassworkLength == 0">
             <v-col cols="12" sm="8" md="4" class="text-center">
-                <v-icon style="font-size:14rem">
+                <v-icon style="font-size:10rem">
                     mdi-book-open-variant
                 </v-icon>
                 <h1> Empty Classwork </h1>
@@ -20,9 +20,14 @@
             <v-icon>mdi-plus</v-icon>
         </v-btn>
 
-
+    <v-dialog v-model="dialog" persistent max-width="650">
+            <newClassworkModal v-on:CloseDialog="dialog = !dialog" v-if="dialog"></newClassworkModal>
+    </v-dialog>
+    
     <v-container v-if="ClassworkLength != 0" fluid>
         <!-- Modal -->
+       
+        
 
         <v-row >
             <v-col cols="12" md="9" lg="9" class="text-left mb-0 pb-0">

@@ -94,7 +94,7 @@
                           
                              @click="$emit('OpenClasswork')"
                         >
-                            Take Quiz<v-icon right dark>mdi-book-arrow-right-outline</v-icon>
+                            View Quiz<v-icon right dark>mdi-book-arrow-right-outline</v-icon>
                         </v-btn>
 
                           <v-btn

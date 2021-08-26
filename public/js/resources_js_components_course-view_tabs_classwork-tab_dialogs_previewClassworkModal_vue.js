@@ -619,7 +619,7 @@ var render = function() {
                               }
                             },
                             [
-                              _vm._v("\n                        Take Quiz"),
+                              _vm._v("\n                        View Quiz"),
                               _c("v-icon", { attrs: { right: "", dark: "" } }, [
                                 _vm._v("mdi-book-arrow-right-outline")
                               ])

@@ -11,13 +11,8 @@ Vue.use(Router);
 
 
 
-//login
-let login = () =>
-    import ("./components/login/login");
-let register = () =>
-    import ("./components/register/register");
 let profile = () =>
-    import ("./components/profile/profile");
+import ("./components/profile/profile");
 //Main Pages
 let mainApp = () =>
     import ("./components/mainApp");
@@ -778,49 +773,44 @@ const router = new Router({
             props: true
         },
 
-
+        //login
         {
             path: "/login",
-            component: login,
+            component: ()=> import(/*webpackChunkName: "login"*/"./components/login/login.vue"),
             name: "login",
             beforeEnter: (to, form, next) => {
-                store.dispatch('IsAuthenticated').then(()=>{
+                if(!store.state.CurrentUser.IsAuthenticated){
+                    next()
+                }
+                else{
                     return next({
                         path: "/"
                     });
-                }).catch(()=>{
-                   
-                    next();
-                })
+                }
             },
         },
          {
             path: "/register",
-            component: register,
+            component: ()=> import(/*webpackChunkName: "register"*/"./components/register/register.vue"),
             name: "register",
             beforeEnter: (to, form, next) => {
-                store.dispatch('IsAuthenticated').then(()=>{
+                if(!store.state.CurrentUser.IsAuthenticated){
+                    next()
+                }
+                else{
                     return next({
                         path: "/"
                     });
-                }).catch(()=>{
-                   
-                    next();
-                })
+                }
             },
         },
 
         {
-            path: "/testing",
-            component: test,
-            name: "testing"
+            path: "/verify-email",
+            name: "verifyEmail",
+            component: ()=> import(/*webpackChunkName: "verifyEmail"*/"./components/verify/verifyEmail.vue"),
         },
 
-        {
-            path: "/documentPreview",
-            component: documentPreview,
-            name: "documentPreview"
-        },
 
 
 

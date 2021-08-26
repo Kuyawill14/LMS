@@ -82,8 +82,8 @@
         <br>
         <v-row>
             <v-col>
-                <v-btn class="float-right" color="primary" @click="updateCourseDetails()" :loading="isUpdating">
-                    Next
+                <v-btn class="float-right" color="primary" @click="updateCourseDetails()" :disabled="isUpdating">
+                    {{isUpdating ? 'Saving..' : 'Next'}}
                 </v-btn>
             </v-col>
 
@@ -121,7 +121,7 @@
                     })
             },
             updateCourseDetails() {
-                console.log(this.getcourseInfo.semester_id);
+                //console.log(this.getcourseInfo.semester_id);
                 if (this.getcourseInfo.course_description.trim() == '' || this.getcourseInfo.course_name == '' || this
                     .course_code == '' ||  this.getcourseInfo.semester_id === undefined || this.getcourseInfo.school_year_id === undefined) {
                     this.toastError('Please complete all the field to proceed to the next step');

@@ -181,6 +181,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -191,7 +198,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       updateDetails: {},
       isCommenting: false,
       comment: null,
-      isLoaded: true
+      isLoaded: true,
+      statusDetails: []
     };
   },
   computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(['get_CurrentUser'])),
@@ -227,6 +235,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               case 0:
                 axios.get('/api/student/check-status/' + _this.classworkDetails.id).then(function (res) {
                   _this.status = res.data.status;
+                  _this.statusDetails = res.data;
                   console.log(res.data.status);
                   _this.isLoaded = false;
                 });
@@ -714,7 +723,44 @@ var render = function() {
                   _c(
                     "v-row",
                     [
-                      _c("v-row", { staticStyle: { height: "4vh" } }),
+                      _c(
+                        "v-col",
+                        { attrs: { cols: "12" } },
+                        [
+                          _c(
+                            "div",
+                            { staticClass: "text-right pt-1" },
+                            [
+                              _vm.status == "Submitted"
+                                ? _c(
+                                    "v-chip",
+                                    { attrs: { color: "success" } },
+                                    [
+                                      _c("v-icon", { attrs: { left: "" } }, [
+                                        _vm._v("mdi-check")
+                                      ]),
+                                      _vm._v(
+                                        " Score: " +
+                                          _vm._s(
+                                            _vm.statusDetails.score +
+                                              "/" +
+                                              _vm.statusDetails.totalPoints
+                                          )
+                                      )
+                                    ],
+                                    1
+                                  )
+                                : _vm._e()
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c("v-row", { staticStyle: { height: "4vh" } }),
+                          _vm._v(" "),
+                          _c("v-divider")
+                        ],
+                        1
+                      ),
                       _vm._v(" "),
                       _c(
                         "v-col",

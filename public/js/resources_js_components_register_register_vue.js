@@ -185,6 +185,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -199,8 +206,7 @@ __webpack_require__.r(__webpack_exports__);
         email: "",
         password: "",
         password_confirmation: "",
-        class_code: "",
-        role: "Student"
+        student_id: ""
       }),
       loginForm: new Form({
         email: "",
@@ -255,22 +261,21 @@ __webpack_require__.r(__webpack_exports__);
       if (this.$refs.RegisterForm.validate()) {
         this.isRegistering = true;
         this.form.post('/api/register').then(function (res) {
-          if (res.status == 201) {
-            _this2.toastSuccess('User Registration Successfull!');
-
-            _this2.login(res.data.email, _this2.form.password);
+          if (res.data.success == true) {
+            _this2.toastSuccess(res.data.message);
 
             _this2.$refs.RegisterForm.reset();
 
             _this2.valid = true;
-          } else if (res.status == 202) {
+            _this2.isRegistering = false;
+          } else {
             _this2.toastError(res.data.message);
 
             _this2.invalid_classcode_message = res.data.message;
             _this2.isRegistering = false;
           }
         })["catch"](function (e) {
-          _this2.toastError('Something went wrong while registering!');
+          _this2.toastError(e.response.data.message);
 
           _this2.isRegistering = false;
         });
@@ -600,7 +605,7 @@ var render = function() {
                         "v-col",
                         {
                           class: _vm.$vuetify.breakpoint.xs
-                            ? "ma-0 pa-5"
+                            ? "ma-0 pa-3"
                             : "ma-0 pa-0",
                           attrs: { cols: "12", md: "8" }
                         },
@@ -608,6 +613,7 @@ var render = function() {
                           _c("vue-element-loading", {
                             attrs: {
                               active: _vm.isRegistering,
+                              text: "Registering...",
                               spinner: "bar-fade-scale",
                               color: "#EF6C00"
                             }
@@ -621,16 +627,14 @@ var render = function() {
                                 "v-col",
                                 {
                                   staticClass: "text-left",
-                                  attrs: { cols: "12", md: "6", sm: "8" }
+                                  attrs: {
+                                    cols: "12",
+                                    md: "8",
+                                    lg: "6",
+                                    sm: "7"
+                                  }
                                 },
                                 [
-                                  _c("vue-element-loading", {
-                                    attrs: {
-                                      active: _vm.isRegistering,
-                                      spinner: "bar-fade-scale"
-                                    }
-                                  }),
-                                  _vm._v(" "),
                                   _c(
                                     "v-card-text",
                                     [
@@ -639,7 +643,10 @@ var render = function() {
                                         {
                                           ref: "RegisterForm",
                                           staticClass: "text-center ",
-                                          attrs: { "lazy-validation": "" },
+                                          attrs: {
+                                            autocomplete: "off",
+                                            "lazy-validation": ""
+                                          },
                                           model: {
                                             value: _vm.valid,
                                             callback: function($$v) {
@@ -716,6 +723,50 @@ var render = function() {
                                                 {
                                                   staticClass:
                                                     "ma-0 pa-0 mt-2 ",
+                                                  attrs: { cols: "12", md: "8" }
+                                                },
+                                                [
+                                                  _c("HasError", {
+                                                    staticClass: "error--text",
+                                                    attrs: {
+                                                      form: _vm.form,
+                                                      field: "student_id"
+                                                    }
+                                                  }),
+                                                  _vm._v(" "),
+                                                  _c("v-text-field", {
+                                                    attrs: {
+                                                      outlined: "",
+                                                      dense: "",
+                                                      rules: _vm.nameRules,
+                                                      label:
+                                                        "Student ID Number",
+                                                      name: "student_id",
+                                                      type: "text",
+                                                      color: "primary"
+                                                    },
+                                                    model: {
+                                                      value:
+                                                        _vm.form.student_id,
+                                                      callback: function($$v) {
+                                                        _vm.$set(
+                                                          _vm.form,
+                                                          "student_id",
+                                                          $$v
+                                                        )
+                                                      },
+                                                      expression:
+                                                        "form.student_id"
+                                                    }
+                                                  })
+                                                ],
+                                                1
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "v-col",
+                                                {
+                                                  staticClass: "ma-0 pa-0",
                                                   attrs: { cols: "12", md: "8" }
                                                 },
                                                 [
@@ -980,63 +1031,6 @@ var render = function() {
                                                       },
                                                       expression:
                                                         "form.password_confirmation"
-                                                    }
-                                                  })
-                                                ],
-                                                1
-                                              ),
-                                              _vm._v(" "),
-                                              _c(
-                                                "v-col",
-                                                {
-                                                  staticClass: "ma-0 pa-0 ",
-                                                  attrs: { cols: "12", md: "8" }
-                                                },
-                                                [
-                                                  _c(
-                                                    "span",
-                                                    {
-                                                      staticClass:
-                                                        "error--text text-left"
-                                                    },
-                                                    [
-                                                      _vm._v(
-                                                        " " +
-                                                          _vm._s(
-                                                            _vm.invalid_classcode_message
-                                                          )
-                                                      )
-                                                    ]
-                                                  ),
-                                                  _vm._v(" "),
-                                                  _c("v-text-field", {
-                                                    staticClass: "mb-0 pb-0",
-                                                    attrs: {
-                                                      outlined: "",
-                                                      dense: "",
-                                                      label: "Class Code",
-                                                      rules: [
-                                                        _vm.ClassCodeRules
-                                                          .required
-                                                      ],
-                                                      name: "class_code",
-                                                      hint:
-                                                        "Please provide a valid class code to be able to register",
-                                                      type: "text",
-                                                      color: "primary"
-                                                    },
-                                                    model: {
-                                                      value:
-                                                        _vm.form.class_code,
-                                                      callback: function($$v) {
-                                                        _vm.$set(
-                                                          _vm.form,
-                                                          "class_code",
-                                                          $$v
-                                                        )
-                                                      },
-                                                      expression:
-                                                        "form.class_code"
                                                     }
                                                   })
                                                 ],

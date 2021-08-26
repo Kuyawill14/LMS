@@ -31,14 +31,22 @@ class AdminController extends Controller
     }
 
     public function getAllStudent() {
-        $teachers = tbl_userDetails::where("role","Student")
+        $student = tbl_userDetails::where("role","Student")
         ->select("users.role","users.email",
         "tbl_user_details.*")
         ->leftJoin("users", "users.id", "=", "tbl_user_details.user_id")
         ->get();
 
-        return $teachers;
+        return $student;
     }
+
+    public function getAllStudentAndTeacherCount() {
+        $teacher = User::where("role","Teacher")->count();
+        $student = User::where("role","Student")->count();
+        return ['teacher'=> $teacher,'student'=> $student];
+    }
+
+
 
 
     public function getAllTeacherProgress() {
@@ -54,6 +62,8 @@ class AdminController extends Controller
 
 
 
+
+
     public function removeUser($id) {
         $user_details = tbl_userDetails::where("user_id",$id)->first();
         $user = User::where("id",$id)->first();
@@ -65,13 +75,54 @@ class AdminController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Store a newly created resource in storage.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function AddStudent(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'firstName' => ['required'],
+            'middleName' => ['required'],
+            'lastName' => ['required'],
+            'email' => ['required', 'email', 'unique:users'],
+            'student_id' => ['required', 'unique:tbl_user_details'],
+            'password' => ['required', 'min:6','max:15', 'confirmed']
+        ]);
+
+        $New = User::create([
+            'email' =>  $request->email,
+            'password' => Hash::make($request->password),
+            'role' =>  'Student',
+            'email_verified_at' =>  date('Y-m-d H:i:s'),
+        ]);
+
+        if(!$New){
+            return response()->json([
+                "message" => "The provided details is invalid!",
+                "success" => false
+            ]);
+        }
+        
+        $details = new tbl_userDetails;
+        $details->user_id = $New->id;
+        $details->firstName = $request->firstName;
+        $details->middleName = $request->middleName;
+        $details->lastName = $request->lastName;
+        $details->student_id = $request->student_id;
+        $details->save();
+        return response()->json([
+            "user_id"=> $New->id, 
+            "firstName"=>$details->firstName, 
+            "lastName"=>$details->lastName, 
+            "middleName"=>$details->middleName, 
+            "role"=>$request->role, 
+            "email" => $New->email
+        ]);
+
+
+    
     }
 
     /**
@@ -80,9 +131,47 @@ class AdminController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function addTeacher(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'firstName' => ['required'],
+            'middleName' => ['required'],
+            'lastName' => ['required'],
+            'email' => ['required', 'email', 'unique:users'],
+            'password' => ['required', 'min:6', 'confirmed']
+        ]);
+
+        $New = User::create([
+            'email' =>  $request->email,
+            'password' => Hash::make($request->password),
+            'role' =>  'Teacher',
+            'email_verified_at' =>  date('Y-m-d H:i:s'),
+        ]);
+
+        if(!$New){
+            return response()->json([
+                "message" => "The provided details is invalid!",
+                "success" => false
+            ]);
+        }
+
+
+        $details = new tbl_userDetails;
+        $details->user_id = $New->id;
+        $details->firstName = $request->firstName;
+        $details->middleName = $request->middleName;
+        $details->lastName = $request->lastName;
+        $details->save();
+
+
+        return response()->json([
+            "user_id"=> $New->id, 
+            "firstName"=>$details->firstName, 
+            "lastName"=>$details->lastName, 
+            "middleName"=>$details->middleName, 
+            "role"=>$request->role, 
+            "email" => $New->email
+        ]);
     }
 
     /**

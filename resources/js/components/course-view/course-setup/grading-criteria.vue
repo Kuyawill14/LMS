@@ -17,11 +17,12 @@
 
             <v-row class="ma-0 pa-0">
                 <v-col class="float-right mx-2 pt-0">
-                    <v-btn class="float-right" color="primary" outlined @click="addGradeCriteria()">
+                    <v-btn class="float-right" color="primary" :disabled="isAdding" outlined @click="addGradeCriteria()">
                         <v-icon left>
                             mdi-plus
                         </v-icon>
-                        Add Criteria
+                        {{isAdding ? 'Adding...' : 'Add Criteria'}}
+                        
 
                     </v-btn>
                 </v-col>
@@ -141,6 +142,7 @@
                 course_id: '',
                 delId: '',
                 time: '',
+                isAdding: false
             }
 
         },
@@ -187,7 +189,7 @@
             },
 
             addGradeCriteria() {
-
+                this.isAdding = true;
                 if (this.new_grading_criteria_form.name.trim() != '' || this.new_grading_criteria_form.percentage
                     .trim() !=
                     '') {
@@ -208,6 +210,7 @@
                             this.toastSuccess("Criteria Successfully added");
 
                         }
+                        this.isAdding = false;
                     });
                     setTimeout(() => {
                         this.loading = false;

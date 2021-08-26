@@ -5,7 +5,7 @@ const state = {
     UserRole: null,
     MyCourses: [],
     CurrentStatus: {},
-    IsAuthenticated: false,
+    IsAuthenticated: window.localStorage.getItem('IsAuthenticated')
 
 };
 const getters = {
@@ -16,10 +16,13 @@ const getters = {
 const actions = {
     async IsAuthenticated({commit, actions}){
         const res = await axios.get(`/api/authenticated`)
+        .catch((e)=>{
+            commit('SET_AUTHENTICATED', false);
+            window.localStorage.removeItem('IsAuthenticated');
+        })
         if(res.data == true){
             commit('SET_AUTHENTICATED', true);
-        
-
+            window.localStorage.setItem('IsAuthenticated', true);
         }
     },
     async fetchCurrentUser({ commit }) {
@@ -41,6 +44,7 @@ const actions = {
         state.UserRole = null;
         state.MyCourses = [];
         state.IsAuthenticated = false;
+        window.localStorage.removeItem('IsAuthenticated');
     },
     async fetchMyCoursesStatus({ commit }){
         if(state.MyCourses.length == 0){

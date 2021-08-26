@@ -311,7 +311,7 @@ var render = function() {
                   attrs: { "align-content": "center", justify: "center" }
                 },
                 [
-                  _c("v-icon", { staticStyle: { "font-size": "14rem" } }, [
+                  _c("v-icon", { staticStyle: { "font-size": "10rem" } }, [
                     _vm._v(
                       "\n                mdi-book-open-variant\n            "
                     )

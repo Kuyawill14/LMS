@@ -22,6 +22,7 @@
 <v-container v-if="!isloading" pa-0 ma-0 class="pa-0 ma-0" fluid>
         <v-row align="center" justify="center">
           <v-col cols="12" md="8" lg="9" xl="9">
+          
             <v-card  class="pa-3" elevation="1" outlined>
               <v-window>
                 <v-window-item >
@@ -62,7 +63,7 @@
                                 </v-row>
 
                                 <v-container class="pa-0 ma-0" ma-0 pa-0> 
-                                    <div class="font-weight-medium">Question</div>
+                                    <div class="font-weight-medium">{{quesForm.type != 'Matching type' ? 'Question' : 'Instuction'}}</div>
                                     <v-row class="pa-0 ma-0">
                                         
                                         <v-col class="pa-0 ma-0 mt-2 mb-2" cols="12">
@@ -256,7 +257,7 @@
                                                          
                                                     <div style="width:100%"  class=" pr-2 mb-3">
                                                         <editor :rules="rules"
-                                                            @change="checker = item.answer"
+                                                            @change="pair1 = item.question"
                                                             v-model="item.question" 
                                                             id="editor-container"  :placeholder="'Question '+(i+1)" 
                                                             theme="snow" :options="options">
@@ -264,7 +265,7 @@
                                                     </div>
                                                      <div style="width:100%" class="mb-3" >
                                                             <editor :rules="rules"
-                                                                @change="checker = item.answer"
+                                                                @change="pair2 = item.answer"
                                                                 v-model="item.answer" 
                                                                 id="editor-container"  :placeholder="'Answer '+(i+1)" 
                                                                 theme="snow" :options="options">
@@ -272,6 +273,7 @@
                                                       </div>
 
                                                      <v-btn
+                                                        
                                                         @click="removeMatch(i)"
                                                         icon class="mt-12 pl-2 pr-2">
                                                         <v-icon>mdi-delete</v-icon>
@@ -301,11 +303,12 @@
                                            </v-row>
                                         </v-col>
                                         <v-col class="ma-0 pa-0 text-right">
-                                            <v-btn    
+                                            <v-btn
+                                             :disabled="pair1 == null || pair2 == null" 
                                             rounded
                                             class="mt-2"
                                             color="primary"
-                                            @click="addNewMatch()"
+                                            @click="addNewMatch(),pair1 = null, pair2 = null"
                                             >
                                             <v-icon dark large>mdi-plus</v-icon>
                                             </v-btn>
@@ -361,6 +364,8 @@ export default {
             isLeaving: false,
             inputIndex:'',
             checker:'',
+            pair1: null,
+            pair2:null,
             testDetails:'',
             selectedImage:[],
             valid: false,

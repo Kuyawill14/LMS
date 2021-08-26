@@ -224,10 +224,14 @@ var previewClassworkModal = function previewClassworkModal() {
 
       if (status == 'Submitted' && score != null) {
         if (type == 'Objective Type') {
+          // this.$router.push({name:'result-page', params:{id: classwork_id}})
           this.$router.push({
-            name: 'result-page',
+            name: 'clwk',
             params: {
-              id: classwork_id
+              id: this.$route.params.id
+            },
+            query: {
+              clwk: classwork_id
             }
           });
         } else {
@@ -383,7 +387,7 @@ var render = function() {
                   attrs: { cols: "12", sm: "8", md: "4" }
                 },
                 [
-                  _c("v-icon", { staticStyle: { "font-size": "14rem" } }, [
+                  _c("v-icon", { staticStyle: { "font-size": "10rem" } }, [
                     _vm._v(
                       "\r\n                    mdi-book-open-variant\r\n                "
                     )

@@ -28,6 +28,7 @@ use App\Http\Controllers\api\MonitorTeacherController;
 use App\Http\Controllers\api\teacherProfileController;
 use App\Http\Controllers\api\SchoolyearSemesterController;
 use App\Http\Controllers\api\DepartmentController;
+use App\Http\Controllers\api\VerificationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -296,6 +297,12 @@ Route::prefix('/student-course')->group(function () {
 Route::prefix('/admin')->group(function () {
     Route::get('teachers/all', [AdminController::class, 'getAllTeacher']);
     Route::get('/students/all', [AdminController::class, 'getAllStudent']);
+    Route::get('/studentAndteacher/count', [AdminController::class, 'getAllStudentAndTeacherCount']);
+
+    Route::post('/add/teacher', [AdminController::class, 'AddTeacher']);
+    Route::post('/add/student', [AdminController::class, 'AddStudent']);
+    
+    
     
     Route::get('/teachers/all/progress', [AdminController::class, 'getAllTeacherProgress']);
     Route::post('/teachers/update/{id}', [AdminController::class, 'update']);
@@ -350,6 +357,8 @@ Route::prefix('/admin/department')->group(function() {
 Route::post('/login', [AuthController::class, 'UserLogin']);
 Route::post('/logout', [AuthController::class, 'logout']);
 Route::post('/register', [AuthController::class, 'UserRegister']);
+
+Route::get('/email-verification', [VerificationController::class, 'verify'])->name('verification.verify');
 Route::middleware('auth:sanctum')->post('/change-password', [AuthController::class, 'ChangePassword']);
 
 
