@@ -18,7 +18,7 @@ class GradingCriteriaController extends Controller
         //
         $gradingCriteria =  tbl_main_gradeCategory::select('*')
         ->where('course_id' , '=' ,$course_id)
-        ->orderBy('classwork_id', 'asc')
+        ->orderBy('id', 'asc')
         ->get();
 
         return  $gradingCriteria;
