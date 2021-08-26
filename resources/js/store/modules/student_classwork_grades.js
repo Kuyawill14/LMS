@@ -11,6 +11,9 @@ const getters = {
     StudentClassworkGrades: state => (grading_criteria_id) => {
         return state.classworks_grades.filter(classworks_grades => classworks_grades.grading_criteria_id == grading_criteria_id);
     },
+    AllStudentClassworkGradesFortable: state => (student_id) => {
+        return state.classworks_grades.filter(classworks_grades => classworks_grades.student_id == student_id);
+    },
 
 };
 
