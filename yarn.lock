@@ -1740,6 +1740,11 @@ brorand@^1.0.1, brorand@^1.1.0:
   resolved "https://registry.npmjs.org/brorand/-/brorand-1.1.0.tgz"
   integrity sha1-EsJe/kCkXjwyPrhnWgoM5XsiNx8=
 
+browser-downloads@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/browser-downloads/-/browser-downloads-0.2.0.tgz#f5444558f9da511b0bc7bf66619ea5ff12eade75"
+  integrity sha512-0tQntpixIPo8ZuOufMjPbZIp2jZMvCUz00rCiaf/T3LzLxcbt6j0r6Ef8Ao3lNP3bYh/ibLoWVoLCJ7SCvxrSA==
+
 browserify-aes@^1.0.0, browserify-aes@^1.0.4:
   version "1.2.0"
   resolved "https://registry.npmjs.org/browserify-aes/-/browserify-aes-1.2.0.tgz"
@@ -7123,6 +7128,13 @@ vue-element-loading@^2.0.2:
   integrity sha512-Djp0mISxhWglOYsCin987Y8+4/pj3a93ztdIusd6hK+7aBKXjCuQYgcMadUtS4UxERWccYbLXHtXr2wjVEt3Uw==
   dependencies:
     vue "^2.5.22"
+
+vue-excel-export@^0.1.3:
+  version "0.1.3"
+  resolved "https://registry.yarnpkg.com/vue-excel-export/-/vue-excel-export-0.1.3.tgz#d895afdc958022ddbb7ae67b17b8f6a63546bb13"
+  integrity sha512-vjCKrVocZ9Q4Y1BJsuDiLR9E9x97vHY+ew7oSigxg7WDh6AsTbH5v4TFpCD65WwYy2jt1tQU6fsAIpKjVOXibw==
+  dependencies:
+    browser-downloads "^0.2.0"
 
 vue-github-button@^1.2.0:
   version "1.3.0"

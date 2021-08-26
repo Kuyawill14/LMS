@@ -224,6 +224,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       search: "",
       valid: true,
       role: ['Teacher', 'Student'],
+      updateIndex: null,
+      deleteIndex: null,
       form: new Form({
         firstName: "",
         middleName: "",
@@ -233,6 +235,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         password_confirmation: "",
         student_id: ""
       }),
+      studenIdRule: [function (v) {
+        return !!v || 'Student Id is required';
+      }],
       nameRules: [function (v) {
         return !!v || 'Field is required';
       }, function (v) {
@@ -270,19 +275,23 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.type = 'add';
       this.dialog = true;
     },
-    openEdit: function openEdit(details) {
+    openEdit: function openEdit(details, index) {
+      this.updateIndex = index;
       this.type = 'edit';
       this.dialog = true;
       this.form.user_id = details.user_id;
       this.form.firstName = details.firstName;
       this.form.middleName = details.middleName;
       this.form.lastName = details.lastName;
-      this.form.phone = details.cp_no;
       this.form.email = details.email;
       this.form.student_id = details.student_id;
-      this.$refs.RegisterForm.resetValidation();
+
+      if (!this.valid) {
+        this.$refs.RegisterForm.resetValidation();
+      }
     },
-    openDelete: function openDelete(id) {
+    openDelete: function openDelete(id, index) {
+      this.deleteIndex = index;
       this.delId = id;
       this.Deldialog = true;
     },
@@ -303,6 +312,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.IsDeleting = true;
       axios__WEBPACK_IMPORTED_MODULE_1___default().delete('/api/admin/teachers/remove/' + this.delId).then(function (res) {
         if (res.status == 200) {
+          _this2.StudentList.splice(_this2.deleteIndex, 1);
+
           _this2.toastSuccess('User Successfully removed!');
 
           _this2.IsDeleting = false;
@@ -342,17 +353,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
         if (this.type == 'edit') {
           this.form.post('/api/admin/teachers/update/' + this.form.user_id).then(function () {
-            console.log("Success");
-
-            _this3.$refs.RegisterForm.reset();
+            //console.log(this.StudentList[this.updateIndex])
+            _this3.updateDataInfrontEnd(_this3.form);
 
             _this3.valid = true;
             _this3.dialog = false;
-            _this3.IsAddUpdating = false;
+            _this3.IsAddUpdating = false; //
           });
           this.toastSuccess('User Successfully Updated!');
-        } //this.$store.dispatch('fetchAllTeachers');
-
+        }
       } else {
         this.IsAddUpdating = false;
       }
@@ -379,6 +388,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           }
         }, _callee);
       }))();
+    },
+    updateDataInfrontEnd: function updateDataInfrontEnd(data) {
+      this.StudentList[this.updateIndex].user_id = data.user_id;
+      this.StudentList[this.updateIndex].firstName = data.firstName;
+      this.StudentList[this.updateIndex].middleName = data.middleName;
+      this.StudentList[this.updateIndex].lastName = data.lastName;
+      this.StudentList[this.updateIndex].email = data.email;
+      this.StudentList[this.updateIndex].student_id = data.student_id;
+      this.$refs.RegisterForm.reset();
     }
   },
   mounted: function mounted() {
@@ -681,7 +699,7 @@ var render = function() {
                                             },
                                             on: {
                                               click: function($event) {
-                                                return _vm.openEdit(item)
+                                                return _vm.openEdit(item, index)
                                               }
                                             }
                                           },
@@ -702,7 +720,8 @@ var render = function() {
                                             on: {
                                               click: function($event) {
                                                 return _vm.openDelete(
-                                                  item.user_id
+                                                  item.user_id,
+                                                  index
                                                 )
                                               }
                                             }
@@ -817,7 +836,7 @@ var render = function() {
                               _vm._v(" "),
                               _c("v-text-field", {
                                 attrs: {
-                                  rules: _vm.nameRules,
+                                  rules: _vm.studenIdRule,
                                   label: "Student ID Number",
                                   name: "student_id",
                                   type: "text",
@@ -1038,7 +1057,7 @@ var render = function() {
                   _c(
                     "v-btn",
                     {
-                      attrs: { text: "", color: "primary" },
+                      attrs: { text: "" },
                       on: {
                         click: function($event) {
                           _vm.dialog = false
@@ -1052,7 +1071,11 @@ var render = function() {
                   _c(
                     "v-btn",
                     {
-                      attrs: { text: "", loading: _vm.IsAddUpdating },
+                      attrs: {
+                        text: "",
+                        color: "primary",
+                        loading: _vm.IsAddUpdating
+                      },
                       on: {
                         click: function($event) {
                           return _vm.validate()

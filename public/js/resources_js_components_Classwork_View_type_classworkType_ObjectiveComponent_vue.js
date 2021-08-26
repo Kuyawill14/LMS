@@ -190,6 +190,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -908,36 +912,45 @@ var render = function() {
                           attrs: { cols: "12" }
                         },
                         [
-                          _c(
-                            "v-btn",
-                            {
-                              attrs: {
-                                rounded: "",
-                                color: "primary",
-                                dark: _vm.totalQuestion != 0,
-                                disabled: _vm.totalQuestion == 0
-                              },
-                              on: {
-                                click: function($event) {
-                                  _vm.status == null ? _vm.start() : ""
-                                }
-                              }
-                            },
-                            [
-                              _vm._v(
-                                "\r\n                        " +
-                                  _vm._s(
-                                    _vm.status == null
-                                      ? "Take Quiz"
-                                      : "View Submission"
+                          _vm.status != null || _vm.status != ""
+                            ? _c(
+                                "v-btn",
+                                {
+                                  attrs: {
+                                    rounded: "",
+                                    color: "primary",
+                                    dark: _vm.totalQuestion != 0,
+                                    disabled: _vm.totalQuestion == 0
+                                  },
+                                  on: {
+                                    click: function($event) {
+                                      _vm.status == null ? _vm.start() : ""
+                                    }
+                                  }
+                                },
+                                [
+                                  _vm._v("Take Quiz"),
+                                  _c(
+                                    "v-icon",
+                                    { attrs: { right: "", dark: "" } },
+                                    [_vm._v("mdi-book-arrow-right-outline")]
                                   )
-                              ),
-                              _c("v-icon", { attrs: { right: "", dark: "" } }, [
-                                _vm._v("mdi-book-arrow-right-outline")
-                              ])
-                            ],
-                            1
-                          )
+                                ],
+                                1
+                              )
+                            : _c(
+                                "v-btn",
+                                { attrs: { rounded: "", color: "primary" } },
+                                [
+                                  _vm._v("View Submission"),
+                                  _c(
+                                    "v-icon",
+                                    { attrs: { right: "", dark: "" } },
+                                    [_vm._v("mdi-book-arrow-right-outline")]
+                                  )
+                                ],
+                                1
+                              )
                         ],
                         1
                       )

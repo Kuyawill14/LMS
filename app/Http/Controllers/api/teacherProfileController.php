@@ -196,19 +196,22 @@ class TeacherProfileController extends Controller
     public function updateDetails(Request $request)
     {
         $userId = auth('sanctum')->id();
-        $UpdateDetails = User::where('users.id',$userId)
-        ->leftjoin('tbl_user_details','tbl_user_details.user_id','=','users.id')
-        ->first();
-        if($UpdateDetails){
-            $UpdateDetails->firstName = $request->firstName;
-            $UpdateDetails->middleName = $request->middleName;
-            $UpdateDetails->lastName = $request->lastName;
-            $UpdateDetails->email = $request->email;
-            $UpdateDetails->address = $request->address;
-            $UpdateDetails->cp_no = $request->cp_no;
-            $UpdateDetails->social_account = $request->social_account;
-            $UpdateDetails->save();
-            return "Details Successfully Updated";
+        $user = User::find($userId);
+        if($user){
+            $UpdateDetails = tbl_userDetails::where('tbl_user_details.user_id',$userId)->first();
+            if($UpdateDetails){
+                $UpdateDetails->firstName = $request->firstName;
+                $UpdateDetails->middleName = $request->middleName;
+                $UpdateDetails->lastName = $request->lastName;
+                $UpdateDetails->address = $request->address;
+                $UpdateDetails->cp_no = $request->cp_no;
+                $UpdateDetails->social_account =  $request->social_account;
+                $UpdateDetails->save();
+
+                $user->email = $request->email;
+                $user->save();
+                return "Details Successfully Updated";
+            }
         }
     }
 

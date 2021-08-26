@@ -118,7 +118,8 @@ class AdminController extends Controller
             "lastName"=>$details->lastName, 
             "middleName"=>$details->middleName, 
             "role"=>$request->role, 
-            "email" => $New->email
+            "email" => $New->email,
+            "student_id" => $details->student_id,
         ]);
 
 
@@ -205,21 +206,26 @@ class AdminController extends Controller
      */
     public function update(Request $request, $id)
     {
-       
-        $userId = $id;
-        $UpdateDetails = User::where("users.id",$userId)
-        ->leftjoin("tbl_user_details", "tbl_user_details.user_id", "=", "users.id")
-        ->first();
-        //tbl_userDetails::where("tbl_user_details.user_id",$userId)->first();
-        if($UpdateDetails){
-            $UpdateDetails->firstName = $request->firstName;
-            $UpdateDetails->middleName = $request->middleName;
-            $UpdateDetails->lastName = $request->lastName;
-            $UpdateDetails->email = $request->email;
-            $UpdateDetails->cp_no = $request->cp_no;
-            $UpdateDetails->save();
-            return "Details Successfully Updated";
-        }
+
+       $user = User::find($id);
+       if($user){
+           $UpdateDetails = tbl_userDetails::where('tbl_user_details.user_id',$id)->first();
+           if($UpdateDetails){
+               $UpdateDetails->firstName = $request->firstName;
+               $UpdateDetails->middleName = $request->middleName;
+               $UpdateDetails->lastName = $request->lastName;
+               $UpdateDetails->address = $request->address;
+               $UpdateDetails->student_id = $request->student_id;
+               $UpdateDetails->cp_no = $request->cp_no;
+               $UpdateDetails->social_account =  $request->social_account;
+               $UpdateDetails->save();
+
+               $user->email = $request->email;
+               $user->save();
+               return "Details Successfully Updated";
+           }
+       }
+    
     }
 
     public function generatePassword() {

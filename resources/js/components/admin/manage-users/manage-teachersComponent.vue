@@ -60,7 +60,7 @@
                                             </v-icon>
 
                                         </v-btn>
-                                        <v-btn icon color="red" @click="openDelete(item.user_id)">
+                                        <v-btn icon color="red" @click="openDelete(item.user_id, index)">
                                             <v-icon>
                                                 mdi-delete
                                             </v-icon>
@@ -181,6 +181,7 @@
                 IsAddUpdating: false,
                 IsResetting: false,
                 IsResetting_id: null,
+                deleteIndex: null,
                 type: '',
                 search: "",
                 valid: true,
@@ -238,14 +239,14 @@
                 this.type = 'edit'
                 this.dialog = true;
                 var currentTeacher = this.filterTeacher(user_id);
-                console.log(currentTeacher);
                 this.form.user_id = currentTeacher.user_id;
                 this.form.firstName = currentTeacher.firstName;
                 this.form.middleName = currentTeacher.middleName;
                 this.form.lastName = currentTeacher.lastName;
                 this.form.email = currentTeacher.email;
             },
-            openDelete(id) {
+            openDelete(id, index) {
+                this.deleteIndex = index;
                 this.delId = id;
                 this.Deldialog = true;
             },
@@ -263,6 +264,7 @@
                 axios.delete('/api/admin/teachers/remove/' + this.delId)
                     .then((res) => {
                         if (res.status == 200) {
+                             this.getTeachers.splice(this.deleteIndex, 1);
                             this.toastSuccess('User Successfully removed!')
                             this.IsDeleting = false;
                         } else {
@@ -275,6 +277,8 @@
             },
             updateTeacherDetails() {
                 this.$store.dispatch('updateTeacher', this.form);
+               
+       
             },
             validate() {
                 this.IsAddUpdating = true;
@@ -296,7 +300,6 @@
                     if (this.type == 'edit') {
                         this.form.post('/api/admin/teachers/update/' + this.form.user_id)
                             .then(() => {
-                                console.log("Success");
                                 this.$refs.RegisterForm.reset()
                                 this.valid = true;
                                 this.dialog = false;
