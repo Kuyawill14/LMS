@@ -11,7 +11,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+Object(function webpackMissingModule() { var e = new Error("Cannot find module 'vue-excel-export'"); e.code = 'MODULE_NOT_FOUND'; throw e; }());
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -183,12 +184,68 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+Vue.use(Object(function webpackMissingModule() { var e = new Error("Cannot find module 'vue-excel-export'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
+      json_fields: {
+        'Full Name': 'name' // 'Raw Grade': 'raw_grade',
+        // 'Transmuted': 'transmuted_grade',
+
+      },
+      json_data: [],
+      json_meta: [[{
+        'key': 'charset',
+        'value': 'utf-8'
+      }]],
       activeTab: null,
       shown: false,
+      selectedClassName: '',
       selectedClass: null,
       Deldialog: false,
       dialog: false,
@@ -217,7 +274,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }]
     };
   },
-  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)(["get_gradingCriteria", "allClass", "AllStudentClassworkGrades", "allStudentFinalGrades"])),
+  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(["getcourseInfo"])), (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(["get_gradingCriteria", "allClass", "AllStudentClassworkGrades", "allStudentFinalGrades"])),
   methods: {
     transmutedGrade: function transmutedGrade(total_score, percentage) {
       if (this.classworkTotalPoints) {
@@ -307,7 +364,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
       axios.get('/api/grade-book/classworks/' + this.selectedClass).then(function (res) {
         _this2.classworkList = res.data;
-        console.log(res.data);
 
         for (var i = 0; i < _this2.classworkList.length; i++) {
           // this.headers[i+1] = {text: this.classworkList[i]['title'], value: this.classworkList[i]['title']};
@@ -327,8 +383,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
         _this2.totalPercentHeader();
       });
+      var data = {
+        course_id: this.$route.params.id,
+        class_id: this.selectedClass
+      };
       this.$store.dispatch('fetchAllStudentClassworkGrades', this.selectedClass);
-      this.$store.dispatch('fetchAllStudentFinalGrades', this.selectedClass).then(function () {
+      this.$store.dispatch('fetchAllStudentFinalGrades', data).then(function () {
         _this2.loading = false;
       });
     },
@@ -349,7 +409,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         });
         axios.get('/api/grade-book/classworks/' + this.selectedClass).then(function (res) {
           _this3.classworkList = res.data;
-          console.log(res.data);
 
           for (var i = 0; i < _this3.classworkList.length; i++) {
             // this.headers[i+1] = {text: this.classworkList[i]['title'], value: this.classworkList[i]['title']};
@@ -375,7 +434,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       axios.get('/api/grade-book/classworkGrades/' + this.selectedClass).then(function (res) {
         _this4.classworkList = res.data;
-        console.log(res.data);
 
         for (var i = 0; i < _this4.classworkList.length; i++) {
           if (_this4.classworkList[i]['grading_criteria_id'] == grading_criteria_id) {}
@@ -386,7 +444,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var total = 0;
       percentage_data.forEach(function (val) {
         total += parseFloat(val.percentage);
-        console.log(total);
       });
       return total;
     },
@@ -396,23 +453,106 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.$store.dispatch('fetchSubjectCourseClassList', this.$route.params.id).then(function () {
         _this5.classList = _this5.allClass;
         _this5.selectedClass = _this5.classList[0].class_id;
+        _this5.selectedClassName = _this5.classList[0].class_name;
 
         _this5.getClassworkList();
 
         _this5.getStudentList();
 
-        console.log('class Liost: ', _this5.classList);
-      });
-      this.$store.dispatch('fetchAllStudentFinalGrades', this.$route.params.id).then(function () {
-        _this5.loading = false;
+        var data = {
+          course_id: _this5.$route.params.id,
+          class_id: _this5.selectedClass
+        };
+
+        _this5.$store.dispatch('fetchAllStudentFinalGrades', data).then(function () {
+          _this5.loading = false;
+        });
       });
     },
-    getFinalGrades: function getFinalGrades() {}
+    getFinalGrades: function getFinalGrades() {
+      var grade = null;
+      var header = [];
+      this.students.sort();
+
+      for (var i = 0; i < this.get_gradingCriteria.length; i++) {
+        this.json_fields[this.get_gradingCriteria[i].name] = this.get_gradingCriteria[i].name;
+      }
+
+      this.json_fields['Raw Grade'] = 'raw_grade';
+      this.json_fields['Transmuted Grade'] = 'transmuted_grade';
+      var dataFields = {};
+
+      for (var i = 0; i < this.students.length; i++) {
+        var student_final = this.allStudentFinalGrades(this.students[i].id);
+        dataFields['name'] = this.students[i].lastName + ', ' + this.students[i].firstName;
+
+        for (var j = 0; j < student_final.length; j++) {
+          dataFields[student_final[j].name] = student_final[j].grade_percentage;
+        }
+
+        var raw_grade = this.sumPercentage(this.allStudentFinalGrades(this.students[i].id));
+        var transmuted_grade = this.sumTransmutedGrade(this.allStudentFinalGrades(this.students[i].id));
+        dataFields['raw_grade'] = raw_grade;
+        dataFields['transmuted_grade'] = transmuted_grade;
+        this.json_data.push(dataFields);
+      }
+
+      console.log('json_data ', this.json_data);
+    },
+    get_AllFinalGrades_s: function get_AllFinalGrades_s() {
+      var grade = null;
+      var header = [];
+      var classworks = {};
+      this.students.sort();
+
+      for (var i = 0; i < this.get_gradingCriteria.length; i++) {
+        // var classworkGrades =  this.AllStudentClassworkGrades(this.students[i].id, student_final[i].grade_category_id);
+        this.json_fields['|' + (i + 1) + '|'] = '';
+        this.json_fields[this.get_gradingCriteria[i].name] = this.get_gradingCriteria[i].name;
+
+        for (var x = 0; x < this.classworkList.length; x++) {
+          if (this.get_gradingCriteria[i].id == this.classworkList[x].grading_criteria_id) {
+            this.json_fields[this.classworkList[x].title] = this.classworkList[x].title;
+          }
+        }
+      }
+
+      this.json_fields['Raw Grade'] = 'raw_grade';
+      this.json_fields['Transmuted Grade'] = 'transmuted_grade';
+      console.log('json_fields    ', this.json_fields);
+      var dataFields = {};
+
+      for (var i = 0; i < this.students.length; i++) {
+        var student_final = this.allStudentFinalGrades(this.students[i].id);
+        console.log(student_final);
+        dataFields['name'] = this.students[i].lastName + ', ' + this.students[i].firstName;
+
+        for (var j = 0; j < student_final.length; j++) {
+          for (var x = 0; x < student_final.length; x++) {
+            this.AllStudentClassworkGrades(this.students[i].id, student_final[i].grade_category_id);
+          }
+
+          dataFields[student_final[j].name] = student_final[j].grade_percentage;
+        }
+
+        var raw_grade = this.sumPercentage(this.allStudentFinalGrades(this.students[i].id));
+        var transmuted_grade = this.sumTransmutedGrade(this.allStudentFinalGrades(this.students[i].id));
+        dataFields['raw_grade'] = raw_grade;
+        dataFields['transmuted_grade'] = transmuted_grade;
+        console.log(dataFields, 'dataFields');
+        this.json_data.push(dataFields);
+        console.log(i);
+      }
+
+      console.log('json_data ', this.json_data);
+    }
   },
-  created: function created() {
+  mounted: function mounted() {
     this.loading = true;
     this.getAllGradeCriteria();
     this.getClassList();
+    this.loading = false;
+    var students = this.students;
     this.loading = false;
   }
 });
@@ -569,7 +709,9 @@ var render = function() {
                   },
                   [
                     _vm._v(
-                      "\n        " + _vm._s(item.text.toUpperCase()) + "\n    "
+                      "\n                " +
+                        _vm._s(item.text.toUpperCase()) +
+                        "\n            "
                     )
                   ]
                 )
@@ -578,6 +720,67 @@ var render = function() {
           }
         ])
       }),
+      _vm._v(" "),
+      _c(
+        "v-row",
+        [
+          _c("v-col", { attrs: { cols: "12" } }, [
+            _c(
+              "div",
+              { staticClass: "downloads float-right" },
+              [
+                _c(
+                  "export-excel",
+                  {
+                    staticClass: "btn btn-default",
+                    attrs: {
+                      data: _vm.json_data,
+                      fields: _vm.json_fields,
+                      worksheet: "My Worksheet",
+                      name:
+                        _vm.getcourseInfo.course_code +
+                        " - " +
+                        _vm.getcourseInfo.course_name +
+                        "-" +
+                        _vm.selectedClassName
+                    }
+                  },
+                  [
+                    _c(
+                      "v-btn",
+                      {
+                        on: {
+                          click: function($event) {
+                            return _vm.get_AllFinalGrades_s()
+                          }
+                        }
+                      },
+                      [
+                        _c(
+                          "v-icon",
+                          { attrs: { color: "grey lighten-1", left: "" } },
+                          [
+                            _vm._v(
+                              "\n                            download\n                        "
+                            )
+                          ]
+                        ),
+                        _vm._v(
+                          "\n                        ALl Grades\n                    "
+                        )
+                      ],
+                      1
+                    )
+                  ],
+                  1
+                )
+              ],
+              1
+            )
+          ])
+        ],
+        1
+      ),
       _vm._v(" "),
       _c(
         "v-row",
@@ -668,8 +871,52 @@ var render = function() {
                     "v-card-title",
                     [
                       _vm._v(
-                        "\n                    Final Grades\n                    "
+                        "\n                    Final Grades\n\n                    "
                       ),
+                      _c(
+                        "export-excel",
+                        {
+                          staticClass: "btn btn-default ml-2",
+                          attrs: {
+                            data: _vm.json_data,
+                            fields: _vm.json_fields,
+                            worksheet: "My Worksheet",
+                            name:
+                              _vm.getcourseInfo.course_code +
+                              " - " +
+                              _vm.getcourseInfo.course_name +
+                              "-" +
+                              _vm.selectedClassName
+                          }
+                        },
+                        [
+                          _c(
+                            "v-btn",
+                            {
+                              attrs: { small: "" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.getFinalGrades()
+                                }
+                              }
+                            },
+                            [
+                              _c(
+                                "v-icon",
+                                { attrs: { color: "grey lighten-1" } },
+                                [
+                                  _vm._v(
+                                    "\n                                download\n                            "
+                                  )
+                                ]
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
                       _c("v-spacer"),
                       _vm._v(" "),
                       _c("v-text-field", {
@@ -775,7 +1022,7 @@ var render = function() {
                                                 },
                                                 [
                                                   _vm._v(
-                                                    "\n                                    " +
+                                                    "\n\n                                    " +
                                                       _vm._s(
                                                         student_final.transmuted_grade_percentage.toFixed(
                                                           2
@@ -853,8 +1100,52 @@ var render = function() {
                             _vm._s(gradingCriteria.name) +
                             " - " +
                             _vm._s(gradingCriteria.percentage) +
-                            "%\n                    "
+                            "%\n\n                    "
                         ),
+                        _c(
+                          "export-excel",
+                          {
+                            staticClass: "btn btn-default ml-2",
+                            attrs: {
+                              data: _vm.json_data,
+                              fields: _vm.json_fields,
+                              worksheet: "My Worksheet",
+                              name:
+                                _vm.getcourseInfo.course_code +
+                                " - " +
+                                _vm.getcourseInfo.course_name +
+                                "-" +
+                                gradingCriteria.name
+                            }
+                          },
+                          [
+                            _c(
+                              "v-btn",
+                              {
+                                attrs: { small: "" },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.getFinalGrades()
+                                  }
+                                }
+                              },
+                              [
+                                _c(
+                                  "v-icon",
+                                  { attrs: { color: "grey lighten-1" } },
+                                  [
+                                    _vm._v(
+                                      "\n                                download\n                            "
+                                    )
+                                  ]
+                                )
+                              ],
+                              1
+                            )
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
                         _c("v-spacer"),
                         _vm._v(" "),
                         _c("v-text-field", {

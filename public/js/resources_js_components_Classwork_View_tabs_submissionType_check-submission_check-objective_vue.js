@@ -22595,7 +22595,11 @@ var render = function() {
                                     { staticStyle: { "font-size": "7rem" } },
                                     [
                                       _vm._v(
+<<<<<<< HEAD
                                         "\r\n                            mdi-notebook-remove-outline\r\n                        "
+=======
+                                        "\n                        mdi-notebook-remove-outline\n                    "
+>>>>>>> cbba68c62e443681308a011183d761df2bd55bcd
                                       )
                                     ]
                                   ),
@@ -22904,9 +22908,21 @@ var render = function() {
                                             { staticClass: "Subtitle 1" },
                                             [
                                               _vm._v(
+<<<<<<< HEAD
                                                 "\r\n                                    " +
                                                   _vm._s(_vm.inputCheck[n]) +
                                                   " \r\n                                    "
+=======
+<<<<<<< HEAD
+                                                "\n                                " +
+                                                  _vm._s(_vm.inputCheck[n]) +
+                                                  " \n                                "
+=======
+                                                "\r\n                                " +
+                                                  _vm._s(_vm.inputCheck[n]) +
+                                                  " \r\n                                "
+>>>>>>> 1b8c1c190bbbdb49bd62cb28b7197f842095798e
+>>>>>>> cbba68c62e443681308a011183d761df2bd55bcd
                                               ),
                                               _vm.inputCheck[n] ==
                                               _vm.SubmittedAnswer[index].Answer
@@ -22987,7 +23003,15 @@ var render = function() {
                                                             },
                                                             [
                                                               _vm._v(
+<<<<<<< HEAD
                                                                 "\r\n                                                        Column A\r\n                                                    "
+=======
+<<<<<<< HEAD
+                                                                "\n                                                    Column A\n                                                "
+=======
+                                                                "\r\n                                                    Column A\r\n                                                "
+>>>>>>> 1b8c1c190bbbdb49bd62cb28b7197f842095798e
+>>>>>>> cbba68c62e443681308a011183d761df2bd55bcd
                                                               )
                                                             ]
                                                           ),
@@ -23003,7 +23027,15 @@ var render = function() {
                                                             },
                                                             [
                                                               _vm._v(
+<<<<<<< HEAD
                                                                 "\r\n                                                        Column B\r\n                                                    "
+=======
+<<<<<<< HEAD
+                                                                "\n                                                    Column B\n                                                "
+=======
+                                                                "\r\n                                                    Column B\r\n                                                "
+>>>>>>> 1b8c1c190bbbdb49bd62cb28b7197f842095798e
+>>>>>>> cbba68c62e443681308a011183d761df2bd55bcd
                                                               )
                                                             ]
                                                           )

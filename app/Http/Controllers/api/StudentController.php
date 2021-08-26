@@ -48,6 +48,7 @@ class StudentController extends Controller
         ->where('tbl_userclasses.course_id', $id)
         ->where('users.role', 'Student')
         ->orderBy('tbl_user_details.lastName', 'ASC')
+        ->where('tbl_userclasses.deleted_at', null)
         ->get();
 
 
@@ -104,6 +105,7 @@ class StudentController extends Controller
         ->leftJoin('tbl_user_details', 'tbl_user_details.user_id', '=', 'users.id', )
         ->where('tbl_userclasses.class_id', $class_id)
         ->where('role', 'Student')
+        ->where('tbl_userclasses.deleted_at', null)
         ->orderBy('tbl_user_details.lastName', 'ASC')
         ->get();
         return $StudentList;

@@ -61,6 +61,7 @@ class GradebookController extends Controller
 
         ->where('tbl_userclasses.class_id', $class_id )
         ->where('role', 'Student')
+        ->where('tbl_userclasses.deleted_at', null)
         ->get();
 
         $studentList = json_decode($studentList, true);
@@ -102,6 +103,7 @@ class GradebookController extends Controller
         ->where('users.id', $userId )
         ->where('tbl_userclasses.class_id', $class_id )
         ->where('role', 'Student')
+        ->where('tbl_userclasses.deleted_at', null)
         ->get();
 
         $studentList = json_decode($studentList, true);
@@ -183,19 +185,10 @@ class GradebookController extends Controller
 
     }
 
-    public function fetchAllStudentFinalGrades($class_id) {
+    public function fetchAllStudentFinalGrades($course_id, $class_id) {
         // $tbl_student_main_grades = new tbl_student_main_grades;
-        $userId = auth('sanctum')->id();
-        $course_id = -1;
-        $tmpcourse_id =  tbl_userclass::where('class_id', $class_id) -> where('user_id', $userId)
-        ->select('course_id')
-        ->first();
       
       
-        if($course_id) {
-            $course_id =  $tmpcourse_id->course_id;
-        }
-
         $studentList = DB::table('users')
         ->select('users.id as student_id',
         'course_id',
@@ -204,10 +197,11 @@ class GradebookController extends Controller
         ->leftJoin('tbl_userclasses' , 'tbl_userclasses.user_id' , '=' , 'users.id')
         ->where('tbl_userclasses.class_id', $class_id )
         ->where('role', 'Student')
+        ->where('tbl_userclasses.deleted_at', null)
         ->get();
 
         $studentList = json_decode($studentList, true);
-
+  
         
         $classworks = DB::table('tbl_classworks')
         ->select('grading_criteria')
