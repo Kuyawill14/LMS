@@ -18,10 +18,10 @@ const getters = {
 
 const actions = {
 
-    async fetchAllStudentFinalGrades({ commit }, id) {
-
+    async fetchAllStudentFinalGrades({ commit }, data) {
+        console.log('ffffck', data);
         const res = await axios.get(
-            `/api/grade-book/all-student-finalgrade/${id}`
+            `/api/grade-book/all-student-finalgrade/${data.course_id}/${data.class_id}`
         );
 
         commit('FETCH_STUDENT_FINAL_GRADES', res.data);

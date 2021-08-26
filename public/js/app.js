@@ -5089,7 +5089,7 @@ var getters = {
   }
 };
 var actions = {
-  fetchAllStudentFinalGrades: function fetchAllStudentFinalGrades(_ref, id) {
+  fetchAllStudentFinalGrades: function fetchAllStudentFinalGrades(_ref, data) {
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
       var commit, res;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
@@ -5097,15 +5097,16 @@ var actions = {
           switch (_context.prev = _context.next) {
             case 0:
               commit = _ref.commit;
-              _context.next = 3;
-              return axios__WEBPACK_IMPORTED_MODULE_1___default().get("/api/grade-book/all-student-finalgrade/".concat(id));
+              console.log('ffffck', data);
+              _context.next = 4;
+              return axios__WEBPACK_IMPORTED_MODULE_1___default().get("/api/grade-book/all-student-finalgrade/".concat(data.course_id, "/").concat(data.class_id));
 
-            case 3:
+            case 4:
               res = _context.sent;
               commit('FETCH_STUDENT_FINAL_GRADES', res.data);
               return _context.abrupt("return");
 
-            case 6:
+            case 7:
             case "end":
               return _context.stop();
           }

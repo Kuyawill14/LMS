@@ -7,7 +7,7 @@
             <v-row class="mx-2">
 
                 <v-col cols="12" class="pa-0 ma-0">
-                    <v-text-field required :value="className" ref="_classname" filled color="primary" label="Class Name">
+                    <v-text-field required v-model="className" ref="_classname" filled color="primary" label="Class Name">
                     </v-text-field>
 
                 </v-col>
