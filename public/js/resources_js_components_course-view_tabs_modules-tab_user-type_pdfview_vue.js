@@ -60,7 +60,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.toolbar {\n    z-index: 1 !important;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.toolbar {\n    z-index: 1 !important;\n}\n.pdf-viewer {\n    height: 100% !important;\n    width: 100% !important;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -174,18 +174,18 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("v-card", { staticStyle: { height: "500px" } }, [
+  return _c("v-card", { staticStyle: { height: "620px" } }, [
     _c("iframe", {
+      staticClass: "pdf-viewer",
       staticStyle: {
         position: "absolute",
         top: "0px",
         left: "0px",
-        width: "100%",
+        width: "100% !important",
         height: "100%"
       },
       attrs: {
         title: "google pdf viewer",
-        id: "pdf-iframe",
         src: "https://docs.google.com/viewer?embedded=true&url=" + _vm.pdf_path,
         sandbox: "allow-same-origin allow-scripts allow-popups allow-forms"
       }

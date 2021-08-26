@@ -1997,7 +1997,7 @@ axios.defaults.withCredentials = true;
 window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/dist/web/pusher.js");
 window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_1__.default({
   broadcaster: 'pusher',
-  key: "b3ecbaa590cb9ca65930",
+  key: "05597b24c42e8d5d33ef",
   cluster: "ap1",
   forceTLS: true
 });
@@ -2167,6 +2167,10 @@ var pdftest_tab = function pdftest_tab() {
 
 var studentProgress_tab = function studentProgress_tab() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_tabs_studentProgress-tab_studentProgressComponent_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/course-view/tabs/studentProgress-tab/studentProgressComponent */ "./resources/js/components/course-view/tabs/studentProgress-tab/studentProgressComponent.vue"));
+};
+
+var teacher_studentProgress_tab = function teacher_studentProgress_tab() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_tabs_studentProgress-tab_teacher-studentProgressComponent_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/course-view/tabs/studentProgress-tab/teacher-studentProgressComponent */ "./resources/js/components/course-view/tabs/studentProgress-tab/teacher-studentProgressComponent.vue"));
 };
 
 var studentListComponent = function studentListComponent() {
@@ -2668,6 +2672,35 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_6__.default({
       }, {
         name: "studentProgress",
         path: "progress",
+        component: teacher_studentProgress_tab,
+        beforeEnter: function beforeEnter(to, form, next) {
+          _store_store__WEBPACK_IMPORTED_MODULE_2__.default.dispatch('fetchMyCoursesStatus').then(function () {
+            _store_store__WEBPACK_IMPORTED_MODULE_2__.default.dispatch('CheckMyCourse', to.params.id).then(function (res) {
+              if (_store_store__WEBPACK_IMPORTED_MODULE_2__.default.state.CurrentUser.CurrentStatus.exist == true) {
+                if (_store_store__WEBPACK_IMPORTED_MODULE_2__.default.state.CurrentUser.CurrentStatus.status == 1) {
+                  next();
+                } else {
+                  return next({
+                    name: "courseSetup",
+                    params: {
+                      id: to.params.id
+                    }
+                  });
+                }
+              } else {
+                return next({
+                  name: "course-not-found",
+                  params: {
+                    id: to.params.id
+                  }
+                });
+              }
+            });
+          });
+        }
+      }, {
+        name: "my-studentProgress",
+        path: "my-progress",
         component: studentProgress_tab,
         beforeEnter: function beforeEnter(to, form, next) {
           _store_store__WEBPACK_IMPORTED_MODULE_2__.default.dispatch('fetchMyCoursesStatus').then(function () {

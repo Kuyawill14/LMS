@@ -1,5 +1,5 @@
 <template>
-    <v-container ma-0 pa-0>
+    <v-container  pa-0>
         <v-row align="center" justify="center">
             <v-col cols="12" lg="10">
                 <v-stepper v-model="e1">
@@ -17,7 +17,7 @@
                         <v-divider></v-divider>
 
                         <v-stepper-step step="3">
-                            Class
+                            Create Class
                         </v-stepper-step>
                     </v-stepper-header>
 

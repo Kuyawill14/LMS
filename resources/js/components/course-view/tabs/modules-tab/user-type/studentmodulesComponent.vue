@@ -12,11 +12,6 @@
                                 <v-icon>mdi-arrow-left</v-icon>
                             </v-btn>
 
-                            <!-- <iframe title="office viewer" class="video-c" v-if="type=='Document' "
-                                :src="iframeSrc + googledocsParams"
-                                sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
-                                style="width: 100%;height: 100%"></iframe>
- -->
 
                             <LazyYoutube ref="youtubeLazyVideo" :src="subModuleData.link" v-if="type=='Link'"
                                 style="width: 100% !important;height: 100%" aspect-ratio="16:9"
@@ -47,10 +42,10 @@
                     <v-col>
 
                         <v-tabs color="primary" center>
-                            <v-tab href="#overview">
+                            <v-tab href="#overview" @click=" scrollToElement({behavior: 'smooth'});">
                                 Overview
                             </v-tab>
-                            <v-tab href="#description">
+                            <v-tab href="#description" @click="scrollToElement({behavior: 'smooth'});">
                                 Description
                             </v-tab>
 
@@ -68,7 +63,7 @@
 
 
                             <v-tab-item id="description">
-                           
+
                                 <v-card-text class="text--primary">
                                     <div v-html="subModuleData.description"></div>
 
@@ -80,7 +75,7 @@
 
                         </v-tabs>
 
-                        
+
 
                     </v-col>
 
@@ -102,8 +97,8 @@
 
             <v-col lg="4" cols="12" sm="12" md="12" class="pa-0 border"
                 v-if="isExpand == false && isChangeSize == false">
-                <modulesListComponent v-on:subModule="getsubModuleData" :role="role" v-on:listClose="expandContent" :expand="removeX"
-                    style="height:100vh;" />
+                <modulesListComponent v-on:subModule="getsubModuleData" :role="role" v-on:listClose="expandContent"
+                    :expand="removeX" style="height:100vh;" />
             </v-col>
 
             <v-dialog v-model="listDialaog" max-width="600px" class="list_modal">
@@ -124,9 +119,7 @@
 </template>
 
 <script>
-
-
-       const pdfviewer = () => import('./pdfview')
+    const pdfviewer = () => import('./pdfview')
     import {
         LazyYoutube
     } from 'vue-lazytube'
@@ -216,7 +209,14 @@
                 var base_src = 'https://drive.google.com/viewerng/viewer?url=' + origin_url;
                 this.iframeSrc = base_src + '/storage/' + file;
 
-            }
+            },
+            scrollToElement(options) {
+                const el = this.$el.getElementsByClassName('v-tab--active')[0];
+
+                if (el) {
+                    el.scrollIntoView(options);
+                }
+            },
         },
         created() {
             console.log(this.role);
