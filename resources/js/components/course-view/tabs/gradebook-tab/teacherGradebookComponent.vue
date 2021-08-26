@@ -484,10 +484,10 @@
                 var grade = null;
                 var header = [];
                 this.students.sort();
-                for (var i = 0; i < this.get_gradingCriteria.length; i++) {
+                // for (var i = 0; i < this.get_gradingCriteria.length; i++) {
 
-                    this.json_fields[this.get_gradingCriteria[i].name] = this.get_gradingCriteria[i].name;
-                }
+                //     this.json_fields[this.get_gradingCriteria[i].name] = this.get_gradingCriteria[i].name;
+                // }
                 this.json_fields['Raw Grade'] = 'raw_grade';
                 this.json_fields['Transmuted Grade'] = 'transmuted_grade';
 
@@ -502,9 +502,9 @@
 
                     dataFields['name'] = this.students[i].lastName + ', ' + this.students[i].firstName;
 
-                    for (var j = 0; j < student_final.length; j++) {
-                        dataFields[student_final[j].name] = student_final[j].grade_percentage;
-                    }
+                    // for (var j = 0; j < student_final.length; j++) {
+                    //     dataFields[student_final[j].name] = student_final[j].grade_percentage;
+                    // }
 
 
                     var raw_grade = this.sumPercentage(this.allStudentFinalGrades(this.students[i].id));
@@ -512,10 +512,7 @@
                     dataFields['raw_grade'] = raw_grade;
                     dataFields['transmuted_grade'] = transmuted_grade;
                   
-                  
                     this.json_data.push(dataFields);
-
-
 
                 }
 

@@ -472,11 +472,9 @@ Vue.use(vue_excel_export__WEBPACK_IMPORTED_MODULE_0__.default);
     getFinalGrades: function getFinalGrades() {
       var grade = null;
       var header = [];
-      this.students.sort();
-
-      for (var i = 0; i < this.get_gradingCriteria.length; i++) {
-        this.json_fields[this.get_gradingCriteria[i].name] = this.get_gradingCriteria[i].name;
-      }
+      this.students.sort(); // for (var i = 0; i < this.get_gradingCriteria.length; i++) {
+      //     this.json_fields[this.get_gradingCriteria[i].name] = this.get_gradingCriteria[i].name;
+      // }
 
       this.json_fields['Raw Grade'] = 'raw_grade';
       this.json_fields['Transmuted Grade'] = 'transmuted_grade';
@@ -484,11 +482,9 @@ Vue.use(vue_excel_export__WEBPACK_IMPORTED_MODULE_0__.default);
 
       for (var i = 0; i < this.students.length; i++) {
         var student_final = this.allStudentFinalGrades(this.students[i].id);
-        dataFields['name'] = this.students[i].lastName + ', ' + this.students[i].firstName;
-
-        for (var j = 0; j < student_final.length; j++) {
-          dataFields[student_final[j].name] = student_final[j].grade_percentage;
-        }
+        dataFields['name'] = this.students[i].lastName + ', ' + this.students[i].firstName; // for (var j = 0; j < student_final.length; j++) {
+        //     dataFields[student_final[j].name] = student_final[j].grade_percentage;
+        // }
 
         var raw_grade = this.sumPercentage(this.allStudentFinalGrades(this.students[i].id));
         var transmuted_grade = this.sumTransmutedGrade(this.allStudentFinalGrades(this.students[i].id));
