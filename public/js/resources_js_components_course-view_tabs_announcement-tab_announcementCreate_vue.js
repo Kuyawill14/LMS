@@ -162,7 +162,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           if (res.status == 200) {
             _this.isloading = false;
 
-            _this.newNotification();
+            _this.newNotification(res.data.announcement_id);
           } else {
             _this.isloading = false;
           }
@@ -205,7 +205,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     testing: function testing() {
       console.log(this.class_id);
     },
-    newNotification: function newNotification() {
+    newNotification: function newNotification(announcement_id) {
       var _this4 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
@@ -215,10 +215,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 _this4.notifyDetails.class_id = _this4.class_id;
                 _this4.notifyDetails.course_id = _this4.$route.params.id;
+                _this4.notifyDetails.announcement_id = announcement_id;
                 _this4.notifyDetails.type = 'announcement';
                 axios.post('/api/notification/new', _this4.notifyDetails);
 
-              case 4:
+              case 5:
               case "end":
                 return _context.stop();
             }

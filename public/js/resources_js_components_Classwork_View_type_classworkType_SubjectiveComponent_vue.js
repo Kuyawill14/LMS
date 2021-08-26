@@ -656,6 +656,7 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
                 _this6.isCommenting = true;
                 data.classwork_id = details.id;
                 data.to_user = details.user_id;
+                data.type = 'Private';
                 data.course_id = _this6.$route.params.id;
                 data.comment = _this6.comment;
                 axios.post('/api/post/classwork/comment/insert', data).then(function (res) {
@@ -674,7 +675,7 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
                 });
                 _this6.isCommenting = false;
 
-              case 8:
+              case 9:
               case "end":
                 return _context3.stop();
             }
@@ -1898,7 +1899,7 @@ var render = function() {
                                   src:
                                     item.profile_pic == null ||
                                     item.profile_pic == ""
-                                      ? "https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=" +
+                                      ? "https://ui-avatars.com/api/?background=random&color=fff&name=" +
                                         item.name
                                       : "/storage/" + item.profile_pic
                                 }
@@ -1969,7 +1970,7 @@ var render = function() {
                                   src:
                                     _vm.get_CurrentUser.profile_pic == null ||
                                     _vm.get_CurrentUser.profile_pic == ""
-                                      ? "https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=" +
+                                      ? "https://ui-avatars.com/api/?background=random&color=fff&name=" +
                                         _vm.get_CurrentUser.firstName +
                                         " " +
                                         _vm.get_CurrentUser.lastName

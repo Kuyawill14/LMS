@@ -27,10 +27,9 @@
                 <v-row no-gutters>
                     <v-col cols="12" md="4" lg="4" :class="$vuetify.breakpoint.xs ? 'pt-2' : 'pt-2 pr-3'">
                          <v-container fluid ma-0 pa-0>
-                            <v-card class="pa-5 pb-8 pt-0">
+                            <v-card class="pa-5 pb-8 pt-0" elevation="1" outlined>
                                 <v-row  no-gutters>
                                     <v-col class="ma-0 pa-0">
-
                                          <v-list class="ma-0 pa-0">
                                                 <v-list-item  class="ma-0 pa-0">
                                                     <v-list-item-avatar color="secondary">
@@ -50,26 +49,6 @@
                                                     </v-list-item-action>
                                                 </v-list-item>
                                         </v-list>
-                                       
-                                     <!--    <div class="d-flex justify-space-between">
-                                            <div class="d-flex">
-                                                <v-avatar color="brown" size="40">
-                                                    <v-img alt="Profile"
-                                                        :src="CheckData.profile_pic == null || CheckData.profile_pic == '' ? 'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=' + (CheckData.firstName+' '+CheckData.lastName) : '/storage/'+CheckData.profile_pic">
-                                                    </v-img>
-                                                </v-avatar>
-                                                <div>
-                                                    <h4 style="line-height:1.0" class="font-weight-medium ml-2 mt-1 mb-0 pb-0">{{CheckData.firstName +' '+CheckData.lastName}}</h4>
-                                                    <div class="ml-2 caption">Submitted: {{format_date(CheckData.updated_at)}}</div>
-                                                </div>
-                                            </div>
-                                            <div>
-                                            
-                                                <v-text-field :loading="isSavingScore"  :style="$vuetify.breakpoint.xs ? 'width:100%' :'width:90%'" 
-                                                @keyup="SaveScore()" class="mt-2 float-right" v-model="CheckData.points" 
-                                                dense outlined label="Score" type="number" :suffix="'/' +classworkDetails.points" :max="classworkDetails.points" :maxlength="classworkDetails.points.toString().length" min="0"></v-text-field>
-                                            </div>
-                                        </div> -->
                                     </v-col>
                                     <v-col cols="12">
                                         <v-row>

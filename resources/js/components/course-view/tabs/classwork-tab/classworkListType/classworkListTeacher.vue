@@ -23,6 +23,11 @@
     <v-dialog v-model="dialog" persistent max-width="650">
             <newClassworkModal v-on:CloseDialog="dialog = !dialog" v-if="dialog"></newClassworkModal>
     </v-dialog>
+
+
+
+
+    
     
     <v-container v-if="ClassworkLength != 0" fluid>
         <!-- Modal -->
@@ -36,7 +41,6 @@
             <v-col cols="12" md="3" lg="3" class="text-right mb-0 pb-0">
                   <v-select
                      :items="FilterItems"
-               
                     dense
                     v-model="SelectedFilter"
                     outlined
@@ -51,6 +55,12 @@
             v-on:toggleDialog="Removedialog = !Removedialog"
             v-on:ToggleRefresh="$emit('ToggleRefresh'), Removedialog = !Removedialog"
             v-if="Removedialog"></deleteDialog>
+        </v-dialog>
+
+        <v-dialog v-model="archiveDialog" persistent max-width="400">
+                <archiveClassworkDialog 
+                :ArchiveDetails="ArchiveDetails"
+                 v-on:toggleDialog="archiveDialog = !archiveDialog" v-if="archiveDialog"></archiveClassworkDialog>
         </v-dialog>
        <!--   <v-row >
             <v-divider></v-divider>
@@ -109,7 +119,7 @@
                                                     <v-list-item-title> <v-icon left>mdi-notebook-edit-outline</v-icon>Edit Classwork</v-list-item-title>
                                                 </v-list-item>
                                                
-                                                <v-list-item link @click="RemoveCLasswork(item)" ma-0 pa-0>
+                                                <v-list-item link @click="ArchiveClasswork(item)" ma-0 pa-0>
                                                     <v-list-item-title><v-icon left>mdi-archive</v-icon>Archive</v-list-item-title>
                                                 </v-list-item>
 
@@ -150,13 +160,15 @@
 
 <script>
     const deleteDialog = () => import('../dialogs/deleteDiaglog');
+    const archiveClassworkDialog = () => import('../dialogs/archiveClassworkDialog');
     const newClassworkModal = () => import('../newClassworkModal')
     import moment from 'moment';
     export default {
         props: ['classworks'],
         components: {
             deleteDialog,
-            newClassworkModal
+            newClassworkModal,
+            archiveClassworkDialog
         },
         data() {
             return {
@@ -171,6 +183,8 @@
                 ClassworkLength: null,
                 FilterItems:['All', 'Objective Type','Subjective Type'],
                 SelectedFilter: 'All',
+                archiveDialog: false,
+                ArchiveDetails: []
             }
         },
         methods: {
@@ -187,6 +201,10 @@
             async RemoveCLasswork(details){
                 this.DeleteDetails = details;
                 this.Removedialog = !this.Removedialog;
+            },
+            async ArchiveClasswork(details){
+                this.ArchiveDetails = details;
+                this.archiveDialog = !this.archiveDialog;
             },
             CheckClassworkCount(){
                 this.classworks.forEach(element => {

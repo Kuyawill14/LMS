@@ -66,14 +66,14 @@
 
 
                     
-                        <v-list-item  v-show="item.hide_notif == 0 || item.hide_notif == null" v-for="(item, index) in get_notification" :key="index">
-                            <v-list-item-avatar >
+                        <v-list-item  link v-show="item.hide_notif == 0 || item.hide_notif == null" v-for="(item, index) in get_notification" :key="index">
+                            <v-list-item-avatar @click="GotoThisNotification(item)">
                                 <v-icon color="blue" v-if="item.notification_type == 3 || item.notification_type == 2" large>mdi-account-plus</v-icon>
                                 <v-icon color="red" v-if="item.notification_type == 1" large>mdi-bullhorn-outline</v-icon>
                                 <v-icon color="green" v-if="item.notification_type == 4" large> mdi-book-open-variant</v-icon>
                                
                             </v-list-item-avatar>
-                            <v-list-item-content>
+                            <v-list-item-content @click="GotoThisNotification(item)">
                                 
                                 <v-list-item-title  class="font-weight-medium">
                                     <v-badge :content="item.status == 1 ? '' :'new'" :value="item.status == 1 ? '' :'new'" 
@@ -95,7 +95,7 @@
                             <v-list-item-action>
                             
 
-                                <v-tooltip v-if="item.status == null || item.status == 0"  left>
+                              <!--   <v-tooltip v-if="item.status == null || item.status == 0"  left>
                                     <template v-slot:activator="{ on, attrs }">
                                         <v-btn style="z-index:50" icon v-bind="attrs" v-on="on"
                                             v-if="item.status == null || item.status == 0" @click="markAsread(item.n_id),closing = false">
@@ -104,7 +104,7 @@
                                     </template>
                             
                                     <span>Mark as read</span>
-                                </v-tooltip>
+                                </v-tooltip> -->
 
                                 <v-tooltip v-if="item.status == 1" left>
                                     <template v-slot:activator="{ on, attrs }">
@@ -285,6 +285,29 @@
             },
             ShowLess(){
                 this.$store.dispatch("ShowLess", this.ShowPage);
+            },
+            GotoThisNotification(data){
+                if(data.status == null || data.status == 0){
+                    this.markAsread(data.n_id);
+                }
+
+                if(data.notification_type == 4){
+                    let startPath = '/classwork/'+data.c_id+'/classwork-details';
+                    if(this.$route.path != startPath){
+                        this.$router.push({path: '/classwork/'+data.c_id+'/classwork-details?clwk='+data.notification_attachments});
+                    }else{
+                        if(this.$route.query.clwk != data.notification_attachments){
+                            this.$router.push({path: '/classwork/'+data.c_id+'/classwork-details?clwk='+data.notification_attachments});
+                        }
+                    }
+                }
+                else if(data.notification_type == 1){
+                    let path = '/course/'+data.c_id+'/announcement';
+                    if(this.$route.path != path){
+                        this.$router.push({path: path});
+                    }
+                    
+                }
             },
             fetchNotificationall(on){
                 let checker = on['aria-expanded'] == 'false' ? false : true;

@@ -641,7 +641,7 @@ class ObjectiveController extends Controller
             $UpdateStatus->update();
 
 
-         
+         /* 
             $tbl_classClassworks = tbl_classClassworks::where('classwork_id',$id)
             ->select('grading_criteria as grading_criteria_id','class_id','percentage')
             ->leftJoin('tbl_main_grade_categories' , 'tbl_main_grade_categories.id' , '=' , 'tbl_class_classworks.grading_criteria')
@@ -730,7 +730,7 @@ class ObjectiveController extends Controller
                    'final_grade' => $final_grade
                    ]
                );
-            }
+            } */
 
 
           
@@ -749,7 +749,7 @@ class ObjectiveController extends Controller
             // );
            
             // $gradingCategory = json_decode($gradingCategory, true);
-            return   $final_grade;
+            //return   $final_grade;
         }   
        
         

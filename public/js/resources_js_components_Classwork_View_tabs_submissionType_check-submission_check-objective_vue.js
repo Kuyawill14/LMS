@@ -500,14 +500,15 @@ var resetConfirmation = function resetConfirmation() {
                 data.classwork_id = details.classwork_id;
                 data.course_id = _this4.$route.params.id;
                 data.to_user = details.user_id;
+                data.type = 'Private';
                 data.comment = _this4.comment;
                 axios.post('/api/post/classwork/comment/insert', data).then(function (res) {
                   if (res.status == 200) {
-                    _this4.CheckData.comments.push({
+                    _this4.ViewDetails.comments.push({
                       content: res.data.comment,
                       id: res.data.id,
-                      name: res.data.name,
-                      profile_pic: res.data.profile_pic
+                      name: _this4.get_CurrentUser.firstName + ' ' + _this4.get_CurrentUser.lastName,
+                      profile_pic: _this4.profile_pic
                     });
 
                     _this4.comment = null;
@@ -515,7 +516,7 @@ var resetConfirmation = function resetConfirmation() {
                 });
                 _this4.isCommenting = false;
 
-              case 8:
+              case 9:
               case "end":
                 return _context3.stop();
             }
@@ -590,7 +591,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n    /* width */\n[data-v-6ded7147]::-webkit-scrollbar {\n  width: 5px;\n}\n\n/* Track */\n[data-v-6ded7147]::-webkit-scrollbar-track {\n  background: #f1f1f1;\n}\n \n/* Handle */\n[data-v-6ded7147]::-webkit-scrollbar-thumb {\n  background: #888; \n   border-radius: 3px\n}\n\n/* Handle on hover */\n[data-v-6ded7147]::-webkit-scrollbar-thumb:hover {\n  background: #555;\n}\n.centered-input[data-v-6ded7147] input {\n      text-align: center\n}\n.post-content img[data-v-6ded7147]{\n        \n     max-height: 8rem !important;\n}\n.centered-input input[data-v-6ded7147] {\n  text-align: center\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n    /* width */\n[data-v-6ded7147]::-webkit-scrollbar {\n  width: 5px;\n}\n\n/* Track */\n[data-v-6ded7147]::-webkit-scrollbar-track {\n  background: #f1f1f1;\n}\n \n/* Handle */\n[data-v-6ded7147]::-webkit-scrollbar-thumb {\n  background: #888; \n   border-radius: 3px\n}\n\n/* Handle on hover */\n[data-v-6ded7147]::-webkit-scrollbar-thumb:hover {\n  background: #555;\n}\n.centered-input[data-v-6ded7147] input {\n      text-align: center\n}\n.post-content img[data-v-6ded7147]{\n        \n     max-height: 8rem !important;\n}\n.centered-input input[data-v-6ded7147] {\n  text-align: center\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -22193,99 +22194,121 @@ var render = function() {
       ),
       _vm._v(" "),
       _c(
-        "div",
+        "v-card-text",
         { staticClass: "ma-0 pa-0 pa-2" },
         [
           _c(
             "v-row",
-            { staticClass: "pa-2", attrs: { "no-gutters": "" } },
+            { attrs: { "no-gutters": "" } },
             [
               _c(
                 "v-col",
                 {
-                  class: _vm.$vuetify.breakpoint.xs ? "pt-2 mb-0" : " pr-3",
+                  class: _vm.$vuetify.breakpoint.xs ? "pt-2" : "pt-2 pr-3",
                   attrs: { cols: "12", md: "4", lg: "4" }
                 },
                 [
                   _c(
-                    "v-card",
-                    { attrs: { outlined: "", elevation: "1" } },
+                    "v-container",
+                    { attrs: { fluid: "", "ma-0": "", "pa-0": "" } },
                     [
                       _c(
-                        "div",
+                        "v-card",
                         { staticClass: "pt-3 pl-4 pr-4 pb-2" },
                         [
-                          _c("v-icon", { attrs: { left: "" } }, [
-                            _vm._v("mdi-comment")
-                          ]),
-                          _vm._v(
-                            "Private Comments\r\n                            "
-                          )
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c("v-divider"),
-                      _vm._v(" "),
-                      _c(
-                        "v-list",
-                        { staticClass: "mb-0 pb-0" },
-                        _vm._l(_vm.ViewDetails.comments, function(item, i) {
-                          return _c(
-                            "v-list-item",
-                            { key: i, staticClass: "mb-0 pb-0" },
+                          _c(
+                            "v-list",
+                            { staticClass: "pa-0 ma-0" },
                             [
                               _c(
-                                "v-list-item-avatar",
-                                { attrs: { color: "secondary" } },
-                                [
-                                  _c("v-img", {
-                                    attrs: {
-                                      src:
-                                        item.profile_pic == null ||
-                                        item.profile_pic == ""
-                                          ? "https://ui-avatars.com/api/?background=random&color=fff&name=" +
-                                            item.name
-                                          : "/storage/" + item.profile_pic
-                                    }
-                                  })
-                                ],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "v-list-item-content",
-                                [
-                                  _c("v-list-item-title", {
-                                    domProps: { innerHTML: _vm._s(item.name) }
-                                  }),
-                                  _vm._v(" "),
-                                  _c("v-list-item-subtitle", {
-                                    domProps: {
-                                      innerHTML: _vm._s(item.content)
-                                    }
-                                  })
-                                ],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "v-list-item-action",
+                                "v-list-item",
+                                { staticClass: "ma-0 pa-0" },
                                 [
                                   _c(
-                                    "v-btn",
-                                    { attrs: { icon: "" } },
+                                    "v-list-item-avatar",
+                                    { attrs: { color: "secondary" } },
+                                    [
+                                      _c("v-img", {
+                                        attrs: {
+                                          alt: "Profile",
+                                          src:
+                                            _vm.ViewDetails.profile_pic ==
+                                              null ||
+                                            _vm.ViewDetails.profile_pic == ""
+                                              ? "https://ui-avatars.com/api/?background=random&color=fff&name=" +
+                                                _vm.ViewDetails.firstName +
+                                                " " +
+                                                _vm.ViewDetails.lastName
+                                              : "/storage/" +
+                                                _vm.ViewDetails.profile_pic
+                                        }
+                                      })
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-list-item-content",
                                     [
                                       _c(
-                                        "v-icon",
-                                        {
-                                          attrs: {
-                                            small: "",
-                                            color: "grey lighten-1"
-                                          }
+                                        "v-list-item-title",
+                                        { staticClass: "font-weight-medium" },
+                                        [
+                                          _vm._v(
+                                            _vm._s(
+                                              _vm.ViewDetails.firstName +
+                                                " " +
+                                                _vm.ViewDetails.lastName
+                                            )
+                                          )
+                                        ]
+                                      ),
+                                      _vm._v(" "),
+                                      _vm.ViewDetails.Submitted_Answers !=
+                                        null &&
+                                      _vm.ViewDetails.Submitted_Answers != ""
+                                        ? _c("v-list-item-subtitle", [
+                                            _vm._v(
+                                              "Submitted: " +
+                                                _vm._s(
+                                                  _vm.format_date(
+                                                    _vm.ViewDetails.updated_at
+                                                  )
+                                                )
+                                            )
+                                          ])
+                                        : _vm._e()
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-list-item-action",
+                                    { staticClass: "mt-8" },
+                                    [
+                                      _c("v-text-field", {
+                                        attrs: {
+                                          dense: "",
+                                          outlined: "",
+                                          label: "Score",
+                                          type: "number",
+                                          suffix:
+                                            "/" + _vm.classworkDetails.points,
+                                          max: _vm.classworkDetails.points,
+                                          min: "0"
                                         },
-                                        [_vm._v("mdi-dots-vertical")]
-                                      )
+                                        model: {
+                                          value: _vm.ViewDetails.points,
+                                          callback: function($$v) {
+                                            _vm.$set(
+                                              _vm.ViewDetails,
+                                              "points",
+                                              $$v
+                                            )
+                                          },
+                                          expression: "ViewDetails.points"
+                                        }
+                                      })
                                     ],
                                     1
                                   )
@@ -22294,94 +22317,226 @@ var render = function() {
                               )
                             ],
                             1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-col",
+                            {
+                              staticClass: "ma-0 pa-0 pb-4",
+                              attrs: { cols: "12" }
+                            },
+                            [
+                              _c(
+                                "v-btn",
+                                {
+                                  attrs: { rounded: "", color: "primary" },
+                                  on: {
+                                    click: function($event) {
+                                      _vm.dialog = !_vm.dialog
+                                    }
+                                  }
+                                },
+                                [
+                                  _c("v-icon", { attrs: { left: "" } }, [
+                                    _vm._v("mdi-restart")
+                                  ]),
+                                  _vm._v(" Reset Submission")
+                                ],
+                                1
+                              )
+                            ],
+                            1
                           )
-                        }),
+                        ],
                         1
                       ),
                       _vm._v(" "),
-                      _c("v-divider"),
-                      _vm._v(" "),
                       _c(
-                        "v-list",
-                        { staticClass: "mb-0 pb-0 mt-0 pt-0" },
+                        "v-card",
+                        {
+                          staticClass: "mt-2 ",
+                          attrs: { elevation: "1", outlined: "" }
+                        },
                         [
                           _c(
-                            "v-list-item",
-                            { staticClass: "mb-0 pb-0" },
+                            "div",
+                            { staticClass: "pt-3 pl-4 pr-4 pb-2" },
                             [
-                              _c(
-                                "v-list-item-avatar",
-                                { attrs: { color: "secondary" } },
-                                [
-                                  _c("v-img", {
-                                    attrs: {
-                                      src:
-                                        _vm.get_CurrentUser.profile_pic ==
-                                          null ||
-                                        _vm.get_CurrentUser.profile_pic == ""
-                                          ? "https://ui-avatars.com/api/?background=random&color=fff&name=" +
-                                            _vm.get_CurrentUser.firstName +
-                                            " " +
-                                            _vm.get_CurrentUser.lastName
-                                          : _vm.get_CurrentUser.profile_pic
-                                    }
-                                  })
-                                ],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "v-list-item-content",
-                                { staticClass: "ma-0 pa-0" },
-                                [
-                                  _c("v-textarea", {
-                                    staticClass: "pa-0 mt-7",
-                                    attrs: {
-                                      loading: _vm.isCommenting,
-                                      "prepend-avatar": "mdi-emoticon-dead",
-                                      filled: "",
-                                      rounded: "",
-                                      dense: "",
-                                      "auto-grow": "",
-                                      rows: "1",
-                                      "clear-icon": "mdi-close-circle",
-                                      clearable: "",
-                                      placeholder: "Comment",
-                                      type: "text"
-                                    },
-                                    model: {
-                                      value: _vm.comment,
-                                      callback: function($$v) {
-                                        _vm.comment = $$v
-                                      },
-                                      expression: "comment"
-                                    }
-                                  })
-                                ],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "v-list-item-action",
+                              _c("v-icon", { attrs: { left: "" } }, [
+                                _vm._v("mdi-comment")
+                              ]),
+                              _vm._v(
+                                "Private Comments\r\n                                    "
+                              )
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c("v-divider"),
+                          _vm._v(" "),
+                          _c(
+                            "v-list",
+                            { staticClass: "mb-0 pb-0" },
+                            _vm._l(_vm.ViewDetails.comments, function(item, i) {
+                              return _c(
+                                "v-list-item",
+                                { key: i, staticClass: "mb-0 pb-0" },
                                 [
                                   _c(
-                                    "v-btn",
-                                    {
-                                      attrs: {
-                                        loading: _vm.isCommenting,
-                                        icon: ""
-                                      },
-                                      on: {
-                                        click: function($event) {
-                                          return _vm.addComment(_vm.ViewDetails)
+                                    "v-list-item-avatar",
+                                    { attrs: { color: "secondary" } },
+                                    [
+                                      _c("v-img", {
+                                        attrs: {
+                                          src:
+                                            item.profile_pic == null ||
+                                            item.profile_pic == ""
+                                              ? "https://ui-avatars.com/api/?background=random&color=fff&name=" +
+                                                item.name
+                                              : "/storage/" + item.profile_pic
                                         }
-                                      }
-                                    },
+                                      })
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-list-item-content",
+                                    [
+                                      _c("v-list-item-title", {
+                                        domProps: {
+                                          innerHTML: _vm._s(item.name)
+                                        }
+                                      }),
+                                      _vm._v(" "),
+                                      _c("v-list-item-subtitle", {
+                                        domProps: {
+                                          innerHTML: _vm._s(item.content)
+                                        }
+                                      })
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-list-item-action",
                                     [
                                       _c(
-                                        "v-icon",
-                                        { attrs: { color: "primary" } },
-                                        [_vm._v("mdi-send")]
+                                        "v-btn",
+                                        { attrs: { icon: "" } },
+                                        [
+                                          _c(
+                                            "v-icon",
+                                            {
+                                              attrs: {
+                                                small: "",
+                                                color: "grey lighten-1"
+                                              }
+                                            },
+                                            [_vm._v("mdi-dots-vertical")]
+                                          )
+                                        ],
+                                        1
+                                      )
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              )
+                            }),
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c("v-divider"),
+                          _vm._v(" "),
+                          _c(
+                            "v-list",
+                            { staticClass: "mb-0 pb-0 mt-0 pt-0" },
+                            [
+                              _c(
+                                "v-list-item",
+                                { staticClass: "mb-0 pb-0" },
+                                [
+                                  _c(
+                                    "v-list-item-avatar",
+                                    { attrs: { color: "secondary" } },
+                                    [
+                                      _c("v-img", {
+                                        attrs: {
+                                          src:
+                                            _vm.get_CurrentUser.profile_pic ==
+                                              null ||
+                                            _vm.get_CurrentUser.profile_pic ==
+                                              ""
+                                              ? "https://ui-avatars.com/api/?background=random&color=fff&name=" +
+                                                _vm.get_CurrentUser.firstName +
+                                                " " +
+                                                _vm.get_CurrentUser.lastName
+                                              : _vm.get_CurrentUser.profile_pic
+                                        }
+                                      })
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-list-item-content",
+                                    { staticClass: "ma-0 pa-0" },
+                                    [
+                                      _c("v-textarea", {
+                                        staticClass: "pa-0 mt-7",
+                                        attrs: {
+                                          loading: _vm.isCommenting,
+                                          "prepend-avatar": "mdi-emoticon-dead",
+                                          filled: "",
+                                          rounded: "",
+                                          dense: "",
+                                          "auto-grow": "",
+                                          rows: "1",
+                                          "clear-icon": "mdi-close-circle",
+                                          clearable: "",
+                                          placeholder: "Comment",
+                                          type: "text"
+                                        },
+                                        model: {
+                                          value: _vm.comment,
+                                          callback: function($$v) {
+                                            _vm.comment = $$v
+                                          },
+                                          expression: "comment"
+                                        }
+                                      })
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-list-item-action",
+                                    [
+                                      _c(
+                                        "v-btn",
+                                        {
+                                          attrs: {
+                                            loading: _vm.isCommenting,
+                                            icon: ""
+                                          },
+                                          on: {
+                                            click: function($event) {
+                                              return _vm.addComment(
+                                                _vm.ViewDetails
+                                              )
+                                            }
+                                          }
+                                        },
+                                        [
+                                          _c(
+                                            "v-icon",
+                                            { attrs: { color: "primary" } },
+                                            [_vm._v("mdi-send")]
+                                          )
+                                        ],
+                                        1
                                       )
                                     ],
                                     1
@@ -22404,184 +22559,24 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "v-col",
-                { attrs: { cols: "12", md: "8", lg: "8" } },
+                {
+                  staticClass: "pt-2",
+                  attrs: { cols: "12", md: "8", lg: "8" }
+                },
                 [
-                  _c(
-                    "v-row",
-                    { staticClass: "mb-0 pb-0 pa-3" },
-                    [
-                      _c(
-                        "v-card",
-                        {
-                          staticClass: "pa-2",
-                          attrs: { outlined: "", width: "100%" }
-                        },
-                        [
-                          _c(
-                            "v-col",
-                            { staticClass: "mb-0 pb-0", attrs: { cols: "12" } },
-                            [
-                              _c(
-                                "v-list",
-                                { staticClass: "pa-0 ma-0" },
-                                [
-                                  _c(
-                                    "v-list-item",
-                                    [
-                                      _c(
-                                        "v-list-item-avatar",
-                                        { attrs: { color: "secondary" } },
-                                        [
-                                          _c("v-img", {
-                                            attrs: {
-                                              alt: "Profile",
-                                              src:
-                                                _vm.ViewDetails.profile_pic ==
-                                                  null ||
-                                                _vm.ViewDetails.profile_pic ==
-                                                  ""
-                                                  ? "https://ui-avatars.com/api/?background=random&color=fff&name=" +
-                                                    _vm.ViewDetails.firstName +
-                                                    " " +
-                                                    _vm.ViewDetails.lastName
-                                                  : "/storage/" +
-                                                    _vm.ViewDetails.profile_pic
-                                            }
-                                          })
-                                        ],
-                                        1
-                                      ),
-                                      _vm._v(" "),
-                                      _c(
-                                        "v-list-item-content",
-                                        [
-                                          _c(
-                                            "v-list-item-title",
-                                            {
-                                              staticClass: "font-weight-medium"
-                                            },
-                                            [
-                                              _vm._v(
-                                                _vm._s(
-                                                  _vm.ViewDetails.firstName +
-                                                    " " +
-                                                    _vm.ViewDetails.lastName
-                                                )
-                                              )
-                                            ]
-                                          ),
-                                          _vm._v(" "),
-                                          _vm.ViewDetails.Submitted_Answers !=
-                                            null &&
-                                          _vm.ViewDetails.Submitted_Answers !=
-                                            ""
-                                            ? _c("v-list-item-subtitle", [
-                                                _vm._v(
-                                                  "Submitted: " +
-                                                    _vm._s(
-                                                      _vm.format_date(
-                                                        _vm.ViewDetails
-                                                          .updated_at
-                                                      )
-                                                    )
-                                                )
-                                              ])
-                                            : _vm._e()
-                                        ],
-                                        1
-                                      ),
-                                      _vm._v(" "),
-                                      _c(
-                                        "v-list-item-action",
-                                        [
-                                          _c("v-text-field", {
-                                            staticClass: "mt-",
-                                            attrs: {
-                                              dense: "",
-                                              outlined: "",
-                                              label: "Score",
-                                              type: "number",
-                                              suffix:
-                                                "/" +
-                                                _vm.classworkDetails.points,
-                                              max: _vm.classworkDetails.points,
-                                              min: "0"
-                                            },
-                                            model: {
-                                              value: _vm.ViewDetails.points,
-                                              callback: function($$v) {
-                                                _vm.$set(
-                                                  _vm.ViewDetails,
-                                                  "points",
-                                                  $$v
-                                                )
-                                              },
-                                              expression: "ViewDetails.points"
-                                            }
-                                          })
-                                        ],
-                                        1
-                                      )
-                                    ],
-                                    1
-                                  )
-                                ],
-                                1
-                              )
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _vm.ViewDetails.Submitted_Answers != null &&
-                          _vm.ViewDetails.Submitted_Answers != ""
-                            ? _c(
-                                "v-col",
-                                {
-                                  staticClass: "ma-0 pa-0 pb-4",
-                                  attrs: { cols: "12" }
-                                },
-                                [
-                                  _c(
-                                    "v-btn",
-                                    {
-                                      attrs: { rounded: "", color: "primary" },
-                                      on: {
-                                        click: function($event) {
-                                          _vm.dialog = !_vm.dialog
-                                        }
-                                      }
-                                    },
-                                    [
-                                      _c("v-icon", { attrs: { left: "" } }, [
-                                        _vm._v("mdi-restart")
-                                      ]),
-                                      _vm._v(" Reset Submission")
-                                    ],
-                                    1
-                                  )
-                                ],
-                                1
-                              )
-                            : _vm._e()
-                        ],
-                        1
-                      )
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c("v-divider"),
-                  _vm._v(" "),
                   _vm.ViewDetails.Submitted_Answers == null ||
                   _vm.ViewDetails.Submitted_Answers == ""
                     ? _c(
                         "v-card",
-                        { staticClass: "mt-3 pa-4 ", attrs: { outlined: "" } },
+                        {
+                          staticClass: " pa-4 ",
+                          attrs: { outlined: "", elevation: "1" }
+                        },
                         [
                           _c(
                             "v-row",
                             {
-                              staticClass: "mt-12",
+                              staticClass: "mt-12 pt-12",
                               attrs: {
                                 justify: "center",
                                 "align-content": "center"
@@ -22591,7 +22586,7 @@ var render = function() {
                               _c(
                                 "v-col",
                                 {
-                                  staticClass: "text-center pb-10",
+                                  staticClass: "text-center pb-12 mb-12",
                                   attrs: { cols: "12", sm: "8", md: "4" }
                                 },
                                 [
@@ -22600,7 +22595,7 @@ var render = function() {
                                     { staticStyle: { "font-size": "7rem" } },
                                     [
                                       _vm._v(
-                                        "\r\n                        mdi-notebook-remove-outline\r\n                    "
+                                        "\r\n                            mdi-notebook-remove-outline\r\n                        "
                                       )
                                     ]
                                   ),
@@ -22649,7 +22644,10 @@ var render = function() {
                   _vm.ViewDetails.Submitted_Answers != ""
                     ? _c(
                         "v-card",
-                        { staticClass: "mt-3 pa-4", attrs: { outlined: "" } },
+                        {
+                          staticClass: "mt-3 pa-4",
+                          attrs: { elevation: "1", outlined: "" }
+                        },
                         _vm._l(_vm.Details.Question, function(item, index) {
                           return _c(
                             "v-container",
@@ -22906,9 +22904,9 @@ var render = function() {
                                             { staticClass: "Subtitle 1" },
                                             [
                                               _vm._v(
-                                                "\r\n                                " +
+                                                "\r\n                                    " +
                                                   _vm._s(_vm.inputCheck[n]) +
-                                                  " \r\n                                "
+                                                  " \r\n                                    "
                                               ),
                                               _vm.inputCheck[n] ==
                                               _vm.SubmittedAnswer[index].Answer
@@ -22989,7 +22987,7 @@ var render = function() {
                                                             },
                                                             [
                                                               _vm._v(
-                                                                "\r\n                                                    Column A\r\n                                                "
+                                                                "\r\n                                                        Column A\r\n                                                    "
                                                               )
                                                             ]
                                                           ),
@@ -23005,7 +23003,7 @@ var render = function() {
                                                             },
                                                             [
                                                               _vm._v(
-                                                                "\r\n                                                    Column B\r\n                                                "
+                                                                "\r\n                                                        Column B\r\n                                                    "
                                                               )
                                                             ]
                                                           )

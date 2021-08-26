@@ -1,14 +1,16 @@
 <template>
     <v-card>
         <v-card-title class="text-h5">
-          Delete<span class="primary--text ml-1"> "{{ DeleteDetails.title}}"</span> 
+          Archive<span class="primary--text ml-1"> "{{ ArchiveDetails.title}}"</span> 
         </v-card-title>
         <v-card-text>
-             <p>This will permanently remove the classwork and all data related to it.</p>
+             <p>This will put the classwork in archive classworks.</p>
             </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn
+        
+        
             text
             @click="$emit('toggleDialog')"
           >
@@ -16,6 +18,7 @@
           </v-btn>
           <v-btn
             color="primary"
+   
             text
             @click="RemoveClasswork()"
           >
@@ -26,7 +29,7 @@
 </template>
 <script>
 export default {
-    props:['DeleteDetails'],
+    props:['ArchiveDetails'],
     methods:{
          toastSuccess() {
             return this.$toasted.success("Classwork Removed", {
@@ -37,11 +40,11 @@ export default {
             });
         },
          async RemoveClasswork(){
-            axios.delete('/api/classwork/remove/'+this.DeleteDetails.id)
+            /* axios.delete('/api/classwork/remove/'+this.ArchiveDetails.id)
             .then(res=>{
                 this.$emit("ToggleRefresh");
                 this.toastSuccess();
-            })
+            }) */
         }
     },
  

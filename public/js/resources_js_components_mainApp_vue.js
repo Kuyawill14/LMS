@@ -432,6 +432,35 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     ShowLess: function ShowLess() {
       this.$store.dispatch("ShowLess", this.ShowPage);
     },
+    GotoThisNotification: function GotoThisNotification(data) {
+      if (data.status == null || data.status == 0) {
+        this.markAsread(data.n_id);
+      }
+
+      if (data.notification_type == 4) {
+        var startPath = '/classwork/' + data.c_id + '/classwork-details';
+
+        if (this.$route.path != startPath) {
+          this.$router.push({
+            path: '/classwork/' + data.c_id + '/classwork-details?clwk=' + data.notification_attachments
+          });
+        } else {
+          if (this.$route.query.clwk != data.notification_attachments) {
+            this.$router.push({
+              path: '/classwork/' + data.c_id + '/classwork-details?clwk=' + data.notification_attachments
+            });
+          }
+        }
+      } else if (data.notification_type == 1) {
+        var path = '/course/' + data.c_id + '/announcement';
+
+        if (this.$route.path != path) {
+          this.$router.push({
+            path: path
+          });
+        }
+      }
+    },
     fetchNotificationall: function fetchNotificationall(on) {
       var _this5 = this;
 
@@ -805,7 +834,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n    /* width */\n[data-v-79f6cf96]::-webkit-scrollbar {\n  width: 5px;\n}\n\n/* Track */\n[data-v-79f6cf96]::-webkit-scrollbar-track {\n  background: #f1f1f1;\n}\n \n/* Handle */\n[data-v-79f6cf96]::-webkit-scrollbar-thumb {\n  background: #888; \n   border-radius: 3px\n}\n\n/* Handle on hover */\n[data-v-79f6cf96]::-webkit-scrollbar-thumb:hover {\n  background: #555;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n    /* width */\n[data-v-79f6cf96]::-webkit-scrollbar {\n  width: 5px;\n}\n\n/* Track */\n[data-v-79f6cf96]::-webkit-scrollbar-track {\n  background: #f1f1f1;\n}\n \n/* Handle */\n[data-v-79f6cf96]::-webkit-scrollbar-thumb {\n  background: #888; \n   border-radius: 3px\n}\n\n/* Handle on hover */\n[data-v-79f6cf96]::-webkit-scrollbar-thumb:hover {\n  background: #555;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -23139,11 +23168,19 @@ var render = function() {
                                       "item.hide_notif == 0 || item.hide_notif == null"
                                   }
                                 ],
-                                key: index
+                                key: index,
+                                attrs: { link: "" }
                               },
                               [
                                 _c(
                                   "v-list-item-avatar",
+                                  {
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.GotoThisNotification(item)
+                                      }
+                                    }
+                                  },
                                   [
                                     item.notification_type == 3 ||
                                     item.notification_type == 2
@@ -23181,6 +23218,13 @@ var render = function() {
                                 _vm._v(" "),
                                 _c(
                                   "v-list-item-content",
+                                  {
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.GotoThisNotification(item)
+                                      }
+                                    }
+                                  },
                                   [
                                     _c(
                                       "v-list-item-title",
@@ -23264,75 +23308,6 @@ var render = function() {
                                 _c(
                                   "v-list-item-action",
                                   [
-                                    item.status == null || item.status == 0
-                                      ? _c(
-                                          "v-tooltip",
-                                          {
-                                            attrs: { left: "" },
-                                            scopedSlots: _vm._u(
-                                              [
-                                                {
-                                                  key: "activator",
-                                                  fn: function(ref) {
-                                                    var on = ref.on
-                                                    var attrs = ref.attrs
-                                                    return [
-                                                      item.status == null ||
-                                                      item.status == 0
-                                                        ? _c(
-                                                            "v-btn",
-                                                            _vm._g(
-                                                              _vm._b(
-                                                                {
-                                                                  staticStyle: {
-                                                                    "z-index":
-                                                                      "50"
-                                                                  },
-                                                                  attrs: {
-                                                                    icon: ""
-                                                                  },
-                                                                  on: {
-                                                                    click: function(
-                                                                      $event
-                                                                    ) {
-                                                                      _vm.markAsread(
-                                                                        item.n_id
-                                                                      ),
-                                                                        (_vm.closing = false)
-                                                                    }
-                                                                  }
-                                                                },
-                                                                "v-btn",
-                                                                attrs,
-                                                                false
-                                                              ),
-                                                              on
-                                                            ),
-                                                            [
-                                                              _c("v-icon", [
-                                                                _vm._v(
-                                                                  "mdi-check"
-                                                                )
-                                                              ])
-                                                            ],
-                                                            1
-                                                          )
-                                                        : _vm._e()
-                                                    ]
-                                                  }
-                                                }
-                                              ],
-                                              null,
-                                              true
-                                            )
-                                          },
-                                          [
-                                            _vm._v(" "),
-                                            _c("span", [_vm._v("Mark as read")])
-                                          ]
-                                        )
-                                      : _vm._e(),
-                                    _vm._v(" "),
                                     item.status == 1
                                       ? _c(
                                           "v-tooltip",
@@ -23629,7 +23604,12 @@ var render = function() {
                                 [
                                   _c(
                                     "v-avatar",
-                                    { attrs: { color: "brown", size: "40" } },
+                                    {
+                                      staticStyle: {
+                                        border: "2px solid #FAFAFA"
+                                      },
+                                      attrs: { color: "brown", size: "40" }
+                                    },
                                     [
                                       _c("v-img", {
                                         attrs: {
@@ -23638,7 +23618,7 @@ var render = function() {
                                             _vm.UserDetails.profile_pic ==
                                               null ||
                                             _vm.UserDetails.profile_pic == ""
-                                              ? "https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=" +
+                                              ? "https://ui-avatars.com/api/?background=random&color=fff&name=" +
                                                 (_vm.UserDetails.firstName +
                                                   " " +
                                                   _vm.UserDetails.lastName)
@@ -23682,7 +23662,7 @@ var render = function() {
                                       src:
                                         _vm.UserDetails.profile_pic == null ||
                                         _vm.UserDetails.profile_pic == ""
-                                          ? "https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=" +
+                                          ? "https://ui-avatars.com/api/?background=random&color=fff&name=" +
                                             (_vm.UserDetails.firstName +
                                               " " +
                                               _vm.UserDetails.lastName)
