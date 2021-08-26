@@ -1998,10 +1998,14 @@ window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/d
 window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_1__.default({
   broadcaster: 'pusher',
 <<<<<<< HEAD
+<<<<<<< HEAD
   key: "05597b24c42e8d5d33ef",
 =======
   key: "b3ecbaa590cb9ca65930",
 >>>>>>> 1b8c1c190bbbdb49bd62cb28b7197f842095798e
+=======
+  key: "05597b24c42e8d5d33ef",
+>>>>>>> d2c495664d374238ffa9478d100d10e645069776
   cluster: "ap1",
   forceTLS: true
 });
