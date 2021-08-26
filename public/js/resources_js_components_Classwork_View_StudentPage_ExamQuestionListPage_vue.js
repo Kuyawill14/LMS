@@ -355,7 +355,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       Submitted_Answers: null,
       submission_id: null,
       isSavingAnswer: false,
-      oldAnswer: null
+      oldAnswer: null,
+      QuestionList: []
     };
   },
   computed: (0,vuex__WEBPACK_IMPORTED_MODULE_4__.mapGetters)(["getAll_questions"]),
@@ -526,32 +527,33 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     fetchQuestions: function fetchQuestions() {
       var _this5 = this;
 
-      this.$store.dispatch('fetchQuestions', this.$route.query.clwk).then(function (res) {
-        _this5.Qlength = res[1];
-        _this5.isLoading = false;
-        var name = btoa('CurrentAnswers'); //let AnswersList = JSON.parse(localStorage.getItem(name));
+      this.$store.dispatch('fetchQuestions', this.$route.query.clwk).then(function () {
+        _this5.Qlength = _this5.getAll_questions.Question.length;
+        _this5.isLoading = false; //let AnswersList = JSON.parse(localStorage.getItem(name));
 
         var AnswersList = _this5.Submitted_Answers;
 
         if (AnswersList == null) {
-          for (var index = 0; index < res[0].Question.length; index++) {
-            if (res[0].Question[index].type == 'Identification' || res[0].Question[index].type == 'Multiple Choice' || res[0].Question[index].type == 'True or False') {
+          for (var index = 0; index < _this5.getAll_questions.Question.length; index++) {
+            if (_this5.getAll_questions.Question[index].type == 'Identification' || _this5.getAll_questions.Question[index].type == 'Multiple Choice' || _this5.getAll_questions.Question[index].type == 'True or False') {
               _this5.FinalAnswers.push({
                 Answer: '',
-                Question_id: res[0].Question[index].id,
-                type: res[0].Question[index].type,
+                Question_id: _this5.getAll_questions.Question[index].id,
+                type: _this5.getAll_questions.Question[index].type,
                 timeConsume: null
               });
-            } else if (res[0].Question[index].type == 'Matching type') {
+            } else if (_this5.getAll_questions.Question[index].type == 'Matching type') {
               (function () {
                 var Ans = new Array();
                 var Choices_id = new Array();
-                res[0].Answer[index].SubAnswer.forEach(function (item) {
+
+                _this5.getAll_questions.Answer[index].SubAnswer.forEach(function (item) {
                   Choices_id.push({
                     choice_id: item.id
                   });
                 });
-                res[0].Answer[index].SubQuestion.forEach(function (item) {
+
+                _this5.getAll_questions.Answer[index].SubQuestion.forEach(function (item) {
                   Ans.push({
                     Ans_letter: '',
                     Ans_id: null,
@@ -563,8 +565,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _this5.FinalAnswers.push({
                   Answer: Ans,
                   Choices_id: Choices_id,
-                  Question_id: res[0].Question[index].id,
-                  type: res[0].Question[index].type,
+                  Question_id: _this5.getAll_questions.Question[index].id,
+                  type: _this5.getAll_questions.Question[index].type,
                   timeConsume: null
                 });
               })();
@@ -577,7 +579,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           }); //localStorage.setItem(name, JSON.stringify(this.FinalAnswers));
         } else {
           var Submitted_length = AnswersList.length;
-          var Question_length = res[0].Question.length;
+          var Question_length = _this5.getAll_questions.Question.length;
           var diff = Question_length - Submitted_length;
 
           for (var i = 0; i < diff; i++) {
@@ -591,25 +593,27 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             } else if (_this5.QuestionAndAnswer.Question[i].type == 'Matching type') {}
           }
 
-          for (var x = 0; x < res[0].Question.length; x++) {
+          for (var x = 0; x < _this5.getAll_questions.Question.length; x++) {
             for (var j = 0; j < AnswersList.length; j++) {
-              if (res[0].Question[x].id == AnswersList[j].Question_id) {
-                if (res[0].Question[x].type == 'Identification' || res[0].Question[x].type == 'Multiple Choice' || res[0].Question[x].type == 'True or False') {
+              if (_this5.getAll_questions.Question[x].id == AnswersList[j].Question_id) {
+                if (_this5.getAll_questions.Question[x].type == 'Identification' || _this5.getAll_questions.Question[x].type == 'Multiple Choice' || _this5.getAll_questions.Question[x].type == 'True or False') {
                   _this5.FinalAnswers.push({
                     Answer: AnswersList[j].Answer,
                     Question_id: AnswersList[j].Question_id,
                     type: AnswersList[j].type,
                     timeConsume: AnswersList[j].timeConsume
                   });
-                } else if (res[0].Question[x].type == 'Matching type') {
+                } else if (_this5.getAll_questions.Question[x].type == 'Matching type') {
                   (function () {
                     var Ans = new Array();
                     var Choices_id = new Array();
-                    res[0].Answer[x].SubAnswer.forEach(function (item) {
+
+                    _this5.getAll_questions.Answer[x].SubAnswer.forEach(function (item) {
                       Choices_id.push({
                         choice_id: item.id
                       });
                     });
+
                     AnswersList[j].Answer.forEach(function (item) {
                       Ans.push({
                         //Ans_letter: item.Ans_letter,
@@ -718,17 +722,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }
   },
   beforeMount: function beforeMount() {
-    var _this8 = this;
-
     window.addEventListener("beforeunload", this.preventNav);
     var self = this;
     $(window).blur(function () {
       self.triggerWarning();
     });
     window.addEventListener("beforeunload", this.preventNav);
-    this.$once("hook:beforeDestroy", function () {
-      window.removeEventListener("beforeunload", _this8.preventNav);
-    });
+    /*  this.$once("hook:beforeDestroy", () => {
+     window.removeEventListener("beforeunload", this.preventNav);
+    }) */
   },
   beforeRouteLeave: function beforeRouteLeave(to, from, next) {
     if (this.isExamStart) {

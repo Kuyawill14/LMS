@@ -308,7 +308,7 @@ Route::prefix('/admin')->group(function () {
     Route::get('/teachers/all/progress', [AdminController::class, 'getAllTeacherProgress']);
     Route::post('/teachers/update/{id}', [AdminController::class, 'update']);
     Route::post('/teachers/reset-password/{id}', [AdminController::class, 'resetTeacherPassword']);
-    Route::delete('/remove/{id}', [AdminController::class, 'removeUser']);
+    Route::delete('/teachers/remove/{id}', [AdminController::class, 'removeUser']);
 
     Route::get('/teachers/all/summarry', [MonitorTeacherController::class, 'getAllTeacherSummarryData']);
     Route::get('/teachers/profile/{id}', [TeacherProfileController::class, 'teacherProfile']);

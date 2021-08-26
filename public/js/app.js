@@ -4853,7 +4853,7 @@ var getters = {
 var actions = {
   fetchQuestions: function fetchQuestions(_ref, id) {
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
-      var commit, res, data;
+      var commit, res;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
@@ -4864,9 +4864,9 @@ var actions = {
 
             case 3:
               res = _context.sent;
-              data = res;
+              console.log(res);
               commit('FETCH_QUESTIONS', res.data);
-              return _context.abrupt("return", data);
+              return _context.abrupt("return", res);
 
             case 7:
             case "end":

@@ -301,6 +301,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 
 
 var resetConfirmation = function resetConfirmation() {
@@ -326,10 +327,11 @@ var resetConfirmation = function resetConfirmation() {
       Alphabet: null,
       isCommenting: false,
       comment: null,
-      isAlerting: false
+      isAlerting: false,
+      isReseting: false
     };
   },
-  computed: (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(['get_CurrentUser']),
+  computed: (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(['get_CurrentUser', 'getAll_questions']),
   methods: {
     format_date: function format_date(value) {
       if (value) {
@@ -340,9 +342,9 @@ var resetConfirmation = function resetConfirmation() {
       var _this = this;
 
       this.$store.dispatch('fetchQuestions', this.$route.query.clwk).then(function (res) {
-        _this.Details = res[0];
+        _this.Details = _this.getAll_questions;
         var Submitted_length = _this.ViewDetails.Submitted_Answers.length;
-        var Question_length = _this.Details.Question.length;
+        var Question_length = _this.getAll_questions.Question.length;
         var diff = Question_length - Submitted_length;
 
         for (var i = 0; i < diff; i++) {
@@ -421,7 +423,7 @@ var resetConfirmation = function resetConfirmation() {
           }
         };
 
-        for (var _i = 0; _i < _this.Details.Question.length; _i++) {
+        for (var _i = 0; _i < _this.getAll_questions.Question.length; _i++) {
           _loop(_i);
         } //console.log(this.ViewDetails.Submitted_Answers);
 
@@ -470,15 +472,20 @@ var resetConfirmation = function resetConfirmation() {
             switch (_context2.prev = _context2.next) {
               case 0:
                 //console.log(this.ListData[this.resetIndex].points)
-                axios.put('/api/teacher/reset-obj/' + _this3.ViewDetails.id).then(function (res) {
-                  if (res.status == 200) {
-                    _this3.dialog = !_this3.dialog;
+                _this3.isReseting = true;
 
-                    _this3.$emit('RestSubmission');
-                  }
-                });
+                if (_this3.ViewDetails.status != null && _this3.ViewDetails.status != '') {
+                  axios.put('/api/teacher/reset-obj/' + _this3.ViewDetails.id).then(function (res) {
+                    if (res.status == 200) {
+                      _this3.dialog = !_this3.dialog;
+                      ths.isReseting = false;
 
-              case 1:
+                      _this3.$emit('RestSubmission');
+                    }
+                  });
+                }
+
+              case 2:
               case "end":
                 return _context2.stop();
             }
@@ -558,7 +565,7 @@ var resetConfirmation = function resetConfirmation() {
     }
   },
   beforeMount: function beforeMount() {
-    if (this.ViewDetails.Submitted_Answers != null) {
+    if (this.ViewDetails.Submitted_Answers != null && this.ViewDetails.Submitted_Answers != '') {
       this.fetchQuestions();
     } else {
       this.$emit('isMounted');
@@ -591,7 +598,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n    /* width */\n[data-v-6ded7147]::-webkit-scrollbar {\n  width: 5px;\n}\n\n/* Track */\n[data-v-6ded7147]::-webkit-scrollbar-track {\n  background: #f1f1f1;\n}\n \n/* Handle */\n[data-v-6ded7147]::-webkit-scrollbar-thumb {\n  background: #888; \n   border-radius: 3px\n}\n\n/* Handle on hover */\n[data-v-6ded7147]::-webkit-scrollbar-thumb:hover {\n  background: #555;\n}\n.centered-input[data-v-6ded7147] input {\n      text-align: center\n}\n.post-content img[data-v-6ded7147]{\n        \n     max-height: 8rem !important;\n}\n.centered-input input[data-v-6ded7147] {\n  text-align: center\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n    /* width */\n[data-v-6ded7147]::-webkit-scrollbar {\n  width: 5px;\n}\n\n/* Track */\n[data-v-6ded7147]::-webkit-scrollbar-track {\n  background: #f1f1f1;\n}\n \n/* Handle */\n[data-v-6ded7147]::-webkit-scrollbar-thumb {\n  background: #888; \n   border-radius: 3px\n}\n\n/* Handle on hover */\n[data-v-6ded7147]::-webkit-scrollbar-thumb:hover {\n  background: #555;\n}\n.centered-input[data-v-6ded7147] input {\n      text-align: center\n}\n.post-content img[data-v-6ded7147]{\n        \n     max-height: 8rem !important;\n}\n.centered-input input[data-v-6ded7147] {\n  text-align: center\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -22264,9 +22271,9 @@ var render = function() {
                                         ]
                                       ),
                                       _vm._v(" "),
-                                      _vm.ViewDetails.Submitted_Answers !=
-                                        null &&
-                                      _vm.ViewDetails.Submitted_Answers != ""
+                                      _vm.ViewDetails.status != null &&
+                                      _vm.ViewDetails.status != "" &&
+                                      _vm.ViewDetails.status != "Taking"
                                         ? _c("v-list-item-subtitle", [
                                             _vm._v(
                                               "Submitted: " +
@@ -22326,24 +22333,31 @@ var render = function() {
                               attrs: { cols: "12" }
                             },
                             [
-                              _c(
-                                "v-btn",
-                                {
-                                  attrs: { rounded: "", color: "primary" },
-                                  on: {
-                                    click: function($event) {
-                                      _vm.dialog = !_vm.dialog
-                                    }
-                                  }
-                                },
-                                [
-                                  _c("v-icon", { attrs: { left: "" } }, [
-                                    _vm._v("mdi-restart")
-                                  ]),
-                                  _vm._v(" Reset Submission")
-                                ],
-                                1
-                              )
+                              this.ViewDetails.status != null &&
+                              this.ViewDetails.status != ""
+                                ? _c(
+                                    "v-btn",
+                                    {
+                                      attrs: {
+                                        rounded: "",
+                                        loading: _vm.isReseting,
+                                        color: "primary"
+                                      },
+                                      on: {
+                                        click: function($event) {
+                                          _vm.dialog = !_vm.dialog
+                                        }
+                                      }
+                                    },
+                                    [
+                                      _c("v-icon", { attrs: { left: "" } }, [
+                                        _vm._v("mdi-restart")
+                                      ]),
+                                      _vm._v(" Reset Submission")
+                                    ],
+                                    1
+                                  )
+                                : _vm._e()
                             ],
                             1
                           )
@@ -22645,7 +22659,7 @@ var render = function() {
                     ? _c(
                         "v-card",
                         {
-                          staticClass: "mt-3 pa-4",
+                          staticClass: "pa-4",
                           attrs: { elevation: "1", outlined: "" }
                         },
                         _vm._l(_vm.Details.Question, function(item, index) {

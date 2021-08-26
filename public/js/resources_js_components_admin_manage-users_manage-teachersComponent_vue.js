@@ -198,6 +198,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       IsAddUpdating: false,
       IsResetting: false,
       IsResetting_id: null,
+      deleteIndex: null,
       type: '',
       search: "",
       valid: true,
@@ -250,14 +251,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.type = 'edit';
       this.dialog = true;
       var currentTeacher = this.filterTeacher(user_id);
-      console.log(currentTeacher);
       this.form.user_id = currentTeacher.user_id;
       this.form.firstName = currentTeacher.firstName;
       this.form.middleName = currentTeacher.middleName;
       this.form.lastName = currentTeacher.lastName;
       this.form.email = currentTeacher.email;
     },
-    openDelete: function openDelete(id) {
+    openDelete: function openDelete(id, index) {
+      this.deleteIndex = index;
       this.delId = id;
       this.Deldialog = true;
     },
@@ -278,6 +279,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.IsDeleting = true;
       axios__WEBPACK_IMPORTED_MODULE_0___default().delete('/api/admin/teachers/remove/' + this.delId).then(function (res) {
         if (res.status == 200) {
+          _this2.getTeachers.splice(_this2.deleteIndex, 1);
+
           _this2.toastSuccess('User Successfully removed!');
 
           _this2.IsDeleting = false;
@@ -313,8 +316,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
         if (this.type == 'edit') {
           this.form.post('/api/admin/teachers/update/' + this.form.user_id).then(function () {
-            console.log("Success");
-
             _this3.$refs.RegisterForm.reset();
 
             _this3.valid = true;
@@ -662,7 +663,8 @@ var render = function() {
                                             on: {
                                               click: function($event) {
                                                 return _vm.openDelete(
-                                                  item.user_id
+                                                  item.user_id,
+                                                  index
                                                 )
                                               }
                                             }

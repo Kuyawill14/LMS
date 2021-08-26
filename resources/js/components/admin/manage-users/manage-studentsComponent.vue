@@ -52,13 +52,13 @@
                                     </td>
                                     <td>
 
-                                    <v-btn icon color="success" @click="openEdit(item)">
+                                    <v-btn icon color="success" @click="openEdit(item, index)">
                                         <v-icon>
                                             mdi-pencil
                                         </v-icon>
 
                                     </v-btn>
-                                    <v-btn icon color="red" @click="openDelete(item.user_id)">
+                                    <v-btn icon color="red" @click="openDelete(item.user_id, index)">
                                         <v-icon>
                                             mdi-delete
                                         </v-icon>
@@ -93,7 +93,7 @@
                         <v-row class="pa-5">
                             <v-col class="ma-0 pa-0 mb-1" cols="12" md="12">
                                 <HasError class="error--text" :form="form" field="student_id" />
-                                <v-text-field  :rules="nameRules" label="Student ID Number" name="student_id"
+                                <v-text-field :rules="studenIdRule" label="Student ID Number" name="student_id"
                                     v-model="form.student_id" type="text" color="primary"  outlined />
                             </v-col>
                             <v-col class="ma-0 pa-0 mb-1" cols="12" md="12">
@@ -141,8 +141,8 @@
                 <v-card-actions>
 
                     <v-spacer></v-spacer>
-                    <v-btn text color="primary" @click="dialog = false;$refs.RegisterForm.reset()">Cancel</v-btn>
-                    <v-btn text @click="validate()" :loading="IsAddUpdating">
+                    <v-btn text  @click="dialog = false;$refs.RegisterForm.reset()">Cancel</v-btn>
+                    <v-btn text color="primary" @click="validate()" :loading="IsAddUpdating">
                         {{this.type == "add" ? 'Add' :  'Update'}}</v-btn>
                 </v-card-actions>
             </v-card>
@@ -198,6 +198,8 @@
                 search: "",
                 valid: true,
                 role: ['Teacher', 'Student'],
+                updateIndex: null,
+                deleteIndex: null,
                 form: new Form({
                     firstName: "",
                     middleName: "",
@@ -207,7 +209,9 @@
                     password_confirmation: "",
                     student_id: ""
                 }),
-
+                studenIdRule: [
+                    v => !!v || 'Student Id is required',
+                ],
                 nameRules: [
                     v => !!v || 'Field is required',
                     v => (v && v.length <= 20) || 'Name must be less than 20 characters',
@@ -248,20 +252,22 @@
                 this.type = 'add'
                 this.dialog = true;
             },
-            openEdit(details) {
-                 
+            openEdit(details, index) {
+                this.updateIndex = index;
                 this.type = 'edit'
                 this.dialog = true;
                 this.form.user_id = details.user_id;
                 this.form.firstName = details.firstName;
                 this.form.middleName = details.middleName;
                 this.form.lastName = details.lastName;
-                this.form.phone = details.cp_no;
                 this.form.email = details.email;
                 this.form.student_id = details.student_id;
-                this.$refs.RegisterForm.resetValidation();
+                if(!this.valid){
+                    this.$refs.RegisterForm.resetValidation();
+                }
             },
-            openDelete(id) {
+            openDelete(id, index) {
+                this.deleteIndex = index;
                 this.delId = id;
                 this.Deldialog = true;
             },
@@ -279,8 +285,10 @@
                 axios.delete('/api/admin/teachers/remove/' + this.delId)
                     .then((res) => {
                         if (res.status == 200) {
+                            this.StudentList.splice(this.deleteIndex, 1);
                             this.toastSuccess('User Successfully removed!')
                             this.IsDeleting = false;
+                           
                         } else {
                             this.toastError('Something went wrong!')
                             this.IsDeleting = false;
@@ -306,27 +314,19 @@
                                 this.IsAddUpdating = false;
                                 this.StudentList.push(res.data);
                             })
-
                     }
-
-
                     if (this.type == 'edit') {
                         this.form.post('/api/admin/teachers/update/' + this.form.user_id)
                             .then(() => {
-                                console.log("Success");
-                                this.$refs.RegisterForm.reset()
+                                //console.log(this.StudentList[this.updateIndex])
+                                this.updateDataInfrontEnd(this.form)
                                 this.valid = true;
                                 this.dialog = false;
                                 this.IsAddUpdating = false;
+                                //
                             })
-                        this.toastSuccess('User Successfully Updated!')
+                        this.toastSuccess('User Successfully Updated!');
                     }
-                    //this.$store.dispatch('fetchAllTeachers');
-
-                   
-
-
-
                 } else {
                     this.IsAddUpdating = false;
 
@@ -339,6 +339,17 @@
                 .then(res=>{
                     this.StudentList = res.data;
                 })
+            },
+            updateDataInfrontEnd(data){
+        
+                this.StudentList[this.updateIndex].user_id = data.user_id;
+                this.StudentList[this.updateIndex].firstName = data.firstName;
+                this.StudentList[this.updateIndex].middleName = data.middleName;
+                this.StudentList[this.updateIndex].lastName = data.lastName;
+                this.StudentList[this.updateIndex].email = data.email;
+                this.StudentList[this.updateIndex].student_id = data.student_id;
+            
+                 this.$refs.RegisterForm.reset();
             }
         },
 

@@ -335,6 +335,7 @@ export default {
             submission_id: null,
             isSavingAnswer: false,
             oldAnswer: null,
+            QuestionList:[]
         }
     },
     computed: 
@@ -470,33 +471,32 @@ export default {
             })
         },
         fetchQuestions(){
-            this.$store.dispatch('fetchQuestions', this.$route.query.clwk).then(res=>{
-                this.Qlength = res[1];
+            this.$store.dispatch('fetchQuestions', this.$route.query.clwk).then(()=>{
+                this.Qlength = this.getAll_questions.Question.length;
                 this.isLoading = false;
-                let name = btoa('CurrentAnswers');
-                
+               
                 //let AnswersList = JSON.parse(localStorage.getItem(name));
                 let AnswersList = this.Submitted_Answers;
                 if(AnswersList == null){
-                    for (let index = 0; index < res[0].Question.length; index++) {
-                        if(res[0].Question[index].type == 'Identification' || res[0].Question[index].type == 'Multiple Choice' || res[0].Question[index].type == 'True or False' ){
+                    for (let index = 0; index < this.getAll_questions.Question.length; index++) {
+                        if(this.getAll_questions.Question[index].type == 'Identification' || this.getAll_questions.Question[index].type == 'Multiple Choice' || this.getAll_questions.Question[index].type == 'True or False' ){
                             this.FinalAnswers.push({
                                 Answer: '',
-                                Question_id: res[0].Question[index].id,
-                                type:res[0].Question[index].type,
+                                Question_id: this.getAll_questions.Question[index].id,
+                                type:this.getAll_questions.Question[index].type,
                                 timeConsume: null
                             });
                         }
-                         else if(res[0].Question[index].type == 'Matching type'){
+                         else if(this.getAll_questions.Question[index].type == 'Matching type'){
                             let Ans = new Array();
                             let Choices_id = new Array();
-                             res[0].Answer[index].SubAnswer.forEach(item => {
+                             this.getAll_questions.Answer[index].SubAnswer.forEach(item => {
                                 Choices_id.push({
                                    choice_id: item.id
                                 })
                             });
                             
-                            res[0].Answer[index].SubQuestion.forEach(item => {
+                            this.getAll_questions.Answer[index].SubQuestion.forEach(item => {
                                 Ans.push({
                                     Ans_letter: '',
                                     Ans_id: null,
@@ -509,8 +509,8 @@ export default {
                                 this.FinalAnswers.push({
                                 Answer: Ans,
                                 Choices_id: Choices_id,
-                                Question_id: res[0].Question[index].id,
-                                type: res[0].Question[index].type,
+                                Question_id: this.getAll_questions.Question[index].id,
+                                type: this.getAll_questions.Question[index].type,
                                 timeConsume: null
                             });
                         }                      
@@ -523,7 +523,7 @@ export default {
                 }else{
 
                     let Submitted_length = AnswersList.length;
-                    let Question_length = res[0].Question.length;
+                    let Question_length = this.getAll_questions.Question.length;
                     let diff = Question_length  - Submitted_length;
                     for (let i = 0; i < diff; i++) {
                         if(this.QuestionAndAnswer.Question[i].type == 'Multiple Choice' || this.QuestionAndAnswer.Question[i].type == 'Identification' || this.QuestionAndAnswer.Question[i].type == 'True or False'){
@@ -540,10 +540,10 @@ export default {
     
                     }
                     
-                     for (let x = 0; x < res[0].Question.length; x++) {
+                     for (let x = 0; x < this.getAll_questions.Question.length; x++) {
                          for (let j = 0; j < AnswersList.length; j++) {
-                            if(res[0].Question[x].id == AnswersList[j].Question_id){
-                                if(res[0].Question[x].type == 'Identification' || res[0].Question[x].type == 'Multiple Choice' || res[0].Question[x].type == 'True or False' ){
+                            if(this.getAll_questions.Question[x].id == AnswersList[j].Question_id){
+                                if(this.getAll_questions.Question[x].type == 'Identification' || this.getAll_questions.Question[x].type == 'Multiple Choice' || this.getAll_questions.Question[x].type == 'True or False' ){
                                     this.FinalAnswers.push({
                                         Answer: AnswersList[j].Answer,
                                         Question_id: AnswersList[j].Question_id,
@@ -551,11 +551,11 @@ export default {
                                         timeConsume: AnswersList[j].timeConsume
                                     });
                                  }
-                                 else if(res[0].Question[x].type == 'Matching type'){
+                                 else if(this.getAll_questions.Question[x].type == 'Matching type'){
                                      let Ans = new Array();
                                     let Choices_id = new Array();
 
-                                    res[0].Answer[x].SubAnswer.forEach(item => {
+                                    this.getAll_questions.Answer[x].SubAnswer.forEach(item => {
                                         Choices_id.push({
                                             choice_id: item.id
                                         })
@@ -615,9 +615,7 @@ export default {
                 for (let x = 0; x < this.getAll_questions.Answer[this.questionIndex].SubAnswer.length; x++) {
                     if(this.Alphabet[x].toUpperCase() == Answer.toUpperCase()){
                         this.FinalAnswers[main_index].Answer[second_index].Answers = this.getAll_questions.Answer[this.questionIndex].SubAnswer[x].Choice;
-                        this.FinalAnswers[main_index].Answer[second_index].Ans_id = this.getAll_questions.Answer[this.questionIndex].SubAnswer[x].id;
-
-                        
+                        this.FinalAnswers[main_index].Answer[second_index].Ans_id = this.getAll_questions.Answer[this.questionIndex].SubAnswer[x].id; 
                     }
                         
                 }   
@@ -684,9 +682,9 @@ export default {
         });
 
          window.addEventListener("beforeunload", this.preventNav)
-            this.$once("hook:beforeDestroy", () => {
+           /*  this.$once("hook:beforeDestroy", () => {
             window.removeEventListener("beforeunload", this.preventNav);
-        })
+        }) */
     },
      beforeRouteLeave(to, from, next) {
         if (this.isExamStart) {
