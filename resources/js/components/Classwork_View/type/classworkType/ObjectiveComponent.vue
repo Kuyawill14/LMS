@@ -140,12 +140,12 @@
 
                     <v-col cols="12" class="pl-10 pr-5 pb-10 text-right">
                          <v-btn
-                         v-if="status != null || status != ''"
+                         v-if="(status == null || status == '') && status != 'Submitted'"
                             rounded
                             color="primary"
                             :dark="totalQuestion != 0"
                             :disabled="totalQuestion == 0"
-                            @click="status == null  ? start(): ''">Take Quiz<v-icon right dark>mdi-book-arrow-right-outline</v-icon>
+                            @click="(status == null || status == '') && status != 'Submitted' ? start(): ''">Take Quiz<v-icon right dark>mdi-book-arrow-right-outline</v-icon>
                         </v-btn>
 
                         <v-btn
@@ -192,7 +192,7 @@ export default {
         },
         start(){
           
-          if(this.totalQuestion != 0 && this.status == null){
+          if(this.totalQuestion != 0 && (this.status == null || this.status == '')){
               this.UpdateStatus( this.classworkDetails.id);
             localStorage.removeItem(btoa('timer_time'));
             localStorage.removeItem(btoa('CurrentAnswers'));
@@ -204,7 +204,6 @@ export default {
             .then(res=>{
                 this.status = res.data.status;
                 this.statusDetails = res.data;
-                console.log(res.data.status);
                 this.isLoaded = false
             })
         },

@@ -12,10 +12,10 @@ const actions = {
         const res = await axios.get(
             `/api/question/all/${id}`
         );
-        let data = res;
+        console.log(res);
        
         commit('FETCH_QUESTIONS', res.data);
-        return data;
+        return res;
     },
 
     async addQuestions({ commit }, data) {

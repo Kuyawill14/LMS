@@ -216,7 +216,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
     },
     start: function start() {
-      if (this.totalQuestion != 0 && this.status == null) {
+      if (this.totalQuestion != 0 && (this.status == null || this.status == '')) {
         this.UpdateStatus(this.classworkDetails.id);
         localStorage.removeItem(btoa('timer_time'));
         localStorage.removeItem(btoa('CurrentAnswers'));
@@ -242,7 +242,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 axios.get('/api/student/check-status/' + _this.classworkDetails.id).then(function (res) {
                   _this.status = res.data.status;
                   _this.statusDetails = res.data;
-                  console.log(res.data.status);
                   _this.isLoaded = false;
                 });
 
@@ -912,7 +911,8 @@ var render = function() {
                           attrs: { cols: "12" }
                         },
                         [
-                          _vm.status != null || _vm.status != ""
+                          (_vm.status == null || _vm.status == "") &&
+                          _vm.status != "Submitted"
                             ? _c(
                                 "v-btn",
                                 {
@@ -924,7 +924,11 @@ var render = function() {
                                   },
                                   on: {
                                     click: function($event) {
-                                      _vm.status == null ? _vm.start() : ""
+                                      ;(_vm.status == null ||
+                                        _vm.status == "") &&
+                                      _vm.status != "Submitted"
+                                        ? _vm.start()
+                                        : ""
                                     }
                                   }
                                 },

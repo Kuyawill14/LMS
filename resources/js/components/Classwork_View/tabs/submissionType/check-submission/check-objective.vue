@@ -55,7 +55,7 @@
                                         
                                             <v-list-item-content>
                                                 <v-list-item-title class="font-weight-medium">{{ViewDetails.firstName +' '+ViewDetails.lastName }}</v-list-item-title>
-                                                <v-list-item-subtitle v-if="ViewDetails.Submitted_Answers != null && ViewDetails.Submitted_Answers != ''">Submitted: {{format_date(ViewDetails.updated_at)}}</v-list-item-subtitle>
+                                                <v-list-item-subtitle v-if="ViewDetails.status != null && ViewDetails.status != ''&&  ViewDetails.status != 'Taking'">Submitted: {{format_date(ViewDetails.updated_at)}}</v-list-item-subtitle>
                                             </v-list-item-content>
                                             <v-list-item-action class="mt-8">
                                                     <v-text-field  
@@ -66,7 +66,8 @@
                                     </v-list>
                             
                                     <v-col  cols="12" class="ma-0 pa-0 pb-4">
-                                    <v-btn rounded @click="dialog = !dialog" color="primary" ><v-icon left>mdi-restart</v-icon> Reset Submission</v-btn>
+                                    <v-btn rounded v-if="this.ViewDetails.status != null && this.ViewDetails.status != ''"
+                                     :loading="isReseting" @click="dialog = !dialog" color="primary" ><v-icon left>mdi-restart</v-icon> Reset Submission</v-btn>
                                     </v-col>
                                 </v-card>
 
@@ -147,7 +148,7 @@
                     </v-col>
                 </v-row>
                 </v-card>
-                <v-card elevation="1" outlined class="mt-3 pa-4" v-if="ViewDetails.Submitted_Answers != null && ViewDetails.Submitted_Answers != ''">
+                <v-card elevation="1" outlined class="pa-4" v-if="ViewDetails.Submitted_Answers != null && ViewDetails.Submitted_Answers != ''">
                         <v-container ma-0 pa-0 v-for="(item, index) in Details.Question" :key="index">
                             <v-container ma-0 pa-0 class="ma-0 pa-0">
                                 <div :style="$vuetify.breakpoint.xs ? 'line-height:1.1': ''" class="subtitle-1 d-flex"> 
@@ -300,10 +301,11 @@ const resetConfirmation = () => import('../../dialogs/resetConfirmation')
             Alphabet: null,
             isCommenting:false,
             comment: null,
-            isAlerting: false
+            isAlerting: false,
+            isReseting: false
           }
       },
-      computed:mapGetters(['get_CurrentUser']),
+      computed:mapGetters(['get_CurrentUser','getAll_questions']),
       methods:{
            format_date(value) {
             if (value) {
@@ -313,9 +315,9 @@ const resetConfirmation = () => import('../../dialogs/resetConfirmation')
           fetchQuestions(){
             this.$store.dispatch('fetchQuestions', this.$route.query.clwk).then(res=>{
         
-                this.Details = res[0];
+                this.Details = this.getAll_questions;
                 let Submitted_length = this.ViewDetails.Submitted_Answers.length;
-                let Question_length = this.Details.Question.length;
+                let Question_length = this.getAll_questions.Question.length;
                 let diff = Question_length  - Submitted_length;
                 for (let i = 0; i < diff; i++) {
                     if(this.Details.Question[i].type == 'Multiple Choice' || this.Details.Question[i].type == 'Identification' || this.Details.Question[i].type == 'True or False'){
@@ -332,7 +334,7 @@ const resetConfirmation = () => import('../../dialogs/resetConfirmation')
  
                 }
                 //console.log(this.Details.Question)
-                for (let i = 0; i < this.Details.Question.length; i++) {
+                for (let i = 0; i < this.getAll_questions.Question.length; i++) {
                     for (let j = 0; j < this.ViewDetails.Submitted_Answers.length; j++) {
                         if(this.Details.Question[i].id == this.ViewDetails.Submitted_Answers[j].Question_id){
                             if(this.Details.Question[i].type == 'Multiple Choice' || this.Details.Question[i].type == 'Identification' || this.Details.Question[i].type == 'True or False'){
@@ -425,15 +427,19 @@ const resetConfirmation = () => import('../../dialogs/resetConfirmation')
         },
          async ResetSubmission(){
             //console.log(this.ListData[this.resetIndex].points)
-            axios.put('/api/teacher/reset-obj/'+this.ViewDetails.id)
-            .then(res=>{
-                if(res.status == 200){
-                    this.dialog = !this.dialog;
-                    this.$emit('RestSubmission')
-                }
-               
-
-            })
+            this.isReseting = true;
+            if(this.ViewDetails.status != null && this.ViewDetails.status != ''){
+                axios.put('/api/teacher/reset-obj/'+this.ViewDetails.id)
+                .then(res=>{
+                    if(res.status == 200){
+                        this.dialog = !this.dialog;
+                        ths.isReseting = false;
+                        this.$emit('RestSubmission')
+                    }
+            
+                })
+            }
+            
         },
            async addComment(details){
               let data = {};
@@ -480,7 +486,7 @@ const resetConfirmation = () => import('../../dialogs/resetConfirmation')
     
       beforeMount(){
       
-            if(this.ViewDetails.Submitted_Answers != null){
+            if(this.ViewDetails.Submitted_Answers != null && this.ViewDetails.Submitted_Answers != ''){
                 this.fetchQuestions();
             }
             else{
