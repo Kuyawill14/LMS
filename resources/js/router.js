@@ -315,14 +315,8 @@ const router = new Router({
                             path: "announcement",
                             component: announcement_tab,
                             beforeEnter: (to, form, next) => {
-<<<<<<< HEAD
                                 store.dispatch('fetchMyCoursesStatus').then((res)=>{
                                     if(res.status == 200){                                
-=======
-                                store.dispatch('fetchMyCoursesStatus').then((res) => {
-                                    console.log(res.status);
-                                    if (res.status == 200) {
->>>>>>> 85857322dac3461a8a55e7c3b6ba6c5fecdcf440
                                         store.dispatch('CheckMyCourse', to.params.id).then(response => {
                                      
                                             if (response.exist == true) {
@@ -350,14 +344,8 @@ const router = new Router({
                             path: "classwork",
                             component: classwork_tab,
                             beforeEnter: (to, form, next) => {
-<<<<<<< HEAD
                                 store.dispatch('fetchMyCoursesStatus').then((res)=>{
                                     if(res.status == 200){                                
-=======
-                                store.dispatch('fetchMyCoursesStatus').then((res) => {
-                                    console.log(res.status);
-                                    if (res.status == 200) {
->>>>>>> 85857322dac3461a8a55e7c3b6ba6c5fecdcf440
                                         store.dispatch('CheckMyCourse', to.params.id).then(response => {
                                             if (response.exist == true) {
                                                 if (response.status == 1) {
