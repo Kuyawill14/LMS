@@ -244,7 +244,7 @@
                 <v-list-item class="mb-0 pb-0" v-for="(item, i) in classworkDetails.comments" :key="i">
                   <v-list-item-avatar>
                       <v-img 
-                      :src="item.profile_pic == null || item.profile_pic == ''? 'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=' +  item.name : '/storage/'+item.profile_pic">
+                      :src="item.profile_pic == null || item.profile_pic == ''? 'https://ui-avatars.com/api/?background=random&color=fff&name=' +  item.name : '/storage/'+item.profile_pic">
                       </v-img>
                   </v-list-item-avatar>
                   <v-list-item-content>
@@ -264,7 +264,7 @@
                     <v-list-item class="mb-0 pb-0">
                       <v-list-item-avatar>
                           <v-img 
-                          :src="get_CurrentUser.profile_pic == null || get_CurrentUser.profile_pic == ''? 'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=' +  get_CurrentUser.firstName+' '+get_CurrentUser.lastName : '/storage/'+get_CurrentUser.profile_pic">
+                          :src="get_CurrentUser.profile_pic == null || get_CurrentUser.profile_pic == ''? 'https://ui-avatars.com/api/?background=random&color=fff&name=' +  get_CurrentUser.firstName+' '+get_CurrentUser.lastName : '/storage/'+get_CurrentUser.profile_pic">
                           </v-img>
                       </v-list-item-avatar>
                       <v-list-item-content class="ma-0 pa-0">
@@ -566,6 +566,7 @@ export default {
               this.isCommenting = true;
               data.classwork_id = details.id;
               data.to_user = details.user_id;
+              data.type = 'Private';
               data.course_id = this.$route.params.id;
               data.comment = this.comment;
               axios.post('/api/post/classwork/comment/insert', data)

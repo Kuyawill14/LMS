@@ -171,8 +171,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var deleteDialog = function deleteDialog() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_tabs_classwork-tab_dialogs_deleteDiaglog_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../dialogs/deleteDiaglog */ "./resources/js/components/course-view/tabs/classwork-tab/dialogs/deleteDiaglog.vue"));
+};
+
+var archiveClassworkDialog = function archiveClassworkDialog() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_tabs_classwork-tab_dialogs_archiveClassworkDialog_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../dialogs/archiveClassworkDialog */ "./resources/js/components/course-view/tabs/classwork-tab/dialogs/archiveClassworkDialog.vue"));
 };
 
 var newClassworkModal = function newClassworkModal() {
@@ -184,7 +198,8 @@ var newClassworkModal = function newClassworkModal() {
   props: ['classworks'],
   components: {
     deleteDialog: deleteDialog,
-    newClassworkModal: newClassworkModal
+    newClassworkModal: newClassworkModal,
+    archiveClassworkDialog: archiveClassworkDialog
   },
   data: function data() {
     return {
@@ -198,7 +213,9 @@ var newClassworkModal = function newClassworkModal() {
       clicked: false,
       ClassworkLength: null,
       FilterItems: ['All', 'Objective Type', 'Subjective Type'],
-      SelectedFilter: 'All'
+      SelectedFilter: 'All',
+      archiveDialog: false,
+      ArchiveDetails: []
     };
   },
   methods: {
@@ -231,11 +248,30 @@ var newClassworkModal = function newClassworkModal() {
         }, _callee);
       }))();
     },
-    CheckClassworkCount: function CheckClassworkCount() {
+    ArchiveClasswork: function ArchiveClasswork(details) {
       var _this2 = this;
 
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _this2.ArchiveDetails = details;
+                _this2.archiveDialog = !_this2.archiveDialog;
+
+              case 2:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }))();
+    },
+    CheckClassworkCount: function CheckClassworkCount() {
+      var _this3 = this;
+
       this.classworks.forEach(function (element) {
-        _this2.ClassworkLength += element.length;
+        _this3.ClassworkLength += element.length;
       });
     }
   },
@@ -562,6 +598,33 @@ var render = function() {
               ),
               _vm._v(" "),
               _c(
+                "v-dialog",
+                {
+                  attrs: { persistent: "", "max-width": "400" },
+                  model: {
+                    value: _vm.archiveDialog,
+                    callback: function($$v) {
+                      _vm.archiveDialog = $$v
+                    },
+                    expression: "archiveDialog"
+                  }
+                },
+                [
+                  _vm.archiveDialog
+                    ? _c("archiveClassworkDialog", {
+                        attrs: { ArchiveDetails: _vm.ArchiveDetails },
+                        on: {
+                          toggleDialog: function($event) {
+                            _vm.archiveDialog = !_vm.archiveDialog
+                          }
+                        }
+                      })
+                    : _vm._e()
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
                 "v-row",
                 _vm._l(_vm.classworks, function(item, i) {
                   return _c(
@@ -877,7 +940,7 @@ var render = function() {
                                                                 click: function(
                                                                   $event
                                                                 ) {
-                                                                  return _vm.RemoveCLasswork(
+                                                                  return _vm.ArchiveClasswork(
                                                                     item
                                                                   )
                                                                 }

@@ -104,6 +104,8 @@ class CommentController extends Controller
         ->orderBy("tbl_comments.created_at", "ASC")
         ->get();
 
+
+
         return $PrivateComment;
 
         
@@ -124,18 +126,27 @@ class CommentController extends Controller
         if(auth('sanctum')->user()->role != 'Student'){
             $NewComment = new tbl_comment;
             $NewComment->classwork_id = $request->classwork_id;
-            $NewComment->user_id = $request->to_user;
+
+            $NewComment->user_id = $userId;
+            $NewComment->from_user =  $request->to_user;
             $NewComment->to_user = $userId;
+            $NewComment->type = $request->type;
             $NewComment->course_id =  $request->course_id;
             $NewComment->content = $request->comment;
+            $NewComment->type = $request->type;
             $NewComment->save();
         }else{
             $NewComment = new tbl_comment;
             $NewComment->classwork_id = $request->classwork_id;
+
             $NewComment->user_id = $userId;
+            $NewComment->from_user = $userId;
             $NewComment->to_user = $request->to_user;
+            $NewComment->type = $request->type;
+
             $NewComment->course_id =  $request->course_id;
             $NewComment->content = $request->comment;
+            $NewComment->type = $request->type;
             $NewComment->save();
         }
       

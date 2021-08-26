@@ -137,8 +137,9 @@ export default {
                     this.$store.dispatch('createClassPost', this.announcement)
                     .then(res=>{
                         if(res.status == 200){
+               
                             this.isloading = false;
-                            this.newNotification();
+                            this.newNotification(res.data.announcement_id);
                         }else{
                              this.isloading = false;
                         }
@@ -174,9 +175,10 @@ export default {
             testing(){
                 console.log(this.class_id);
             },
-           async newNotification(){
+           async newNotification(announcement_id){
                 this.notifyDetails.class_id = this.class_id;
                 this.notifyDetails.course_id = this.$route.params.id;
+                 this.notifyDetails.announcement_id = announcement_id;
                 this.notifyDetails.type = 'announcement';
                 axios.post('/api/notification/new', this.notifyDetails);
             }

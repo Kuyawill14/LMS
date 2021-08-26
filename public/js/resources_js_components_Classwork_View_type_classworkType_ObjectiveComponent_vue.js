@@ -188,6 +188,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -282,6 +284,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 _this3.isCommenting = true;
                 data.classwork_id = details.id;
                 data.to_user = details.user_id;
+                data.type = 'Private';
                 data.course_id = _this3.$route.params.id;
                 data.comment = _this3.comment;
                 axios.post('/api/post/classwork/comment/insert', data).then(function (res) {
@@ -300,7 +303,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 });
                 _this3.isCommenting = false;
 
-              case 8:
+              case 9:
               case "end":
                 return _context3.stop();
             }
@@ -530,7 +533,7 @@ var render = function() {
                                           src:
                                             item.profile_pic == null ||
                                             item.profile_pic == ""
-                                              ? "https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=" +
+                                              ? "https://ui-avatars.com/api/?background=random&color=fff&name=" +
                                                 item.name
                                               : "/storage/" + item.profile_pic
                                         }
@@ -607,7 +610,7 @@ var render = function() {
                                               null ||
                                             _vm.get_CurrentUser.profile_pic ==
                                               ""
-                                              ? "https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=" +
+                                              ? "https://ui-avatars.com/api/?background=random&color=fff&name=" +
                                                 _vm.get_CurrentUser.firstName +
                                                 " " +
                                                 _vm.get_CurrentUser.lastName

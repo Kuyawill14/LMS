@@ -18,6 +18,8 @@ class CreateTblCommentsTable extends Migration
             $table->integer('post_id')->nullable();
             $table->integer('classwork_id')->nullable();
             $table->integer('user_id');
+            $table->integer('from_user')->nullable();
+            $table->string('type')->nullable();
             $table->integer('to_user')->nullable();
             $table->integer('course_id');
             $table->mediumText('content');

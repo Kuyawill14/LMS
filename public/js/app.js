@@ -1997,7 +1997,7 @@ axios.defaults.withCredentials = true;
 window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/dist/web/pusher.js");
 window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_1__.default({
   broadcaster: 'pusher',
-  key: "05597b24c42e8d5d33ef",
+  key: "b3ecbaa590cb9ca65930",
   cluster: "ap1",
   forceTLS: true
 });

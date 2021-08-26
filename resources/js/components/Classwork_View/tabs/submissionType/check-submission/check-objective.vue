@@ -38,231 +38,231 @@
                     </v-col>
                 </v-row>
             </v-container> -->
-        <div  class="ma-0 pa-0 pa-2">
+        <v-card-text  class="ma-0 pa-0 pa-2">
         
           
-               <v-row no-gutters class="pa-2"> 
-                   <v-col cols="12" md="4" lg="4" :class="$vuetify.breakpoint.xs ? 'pt-2 mb-0' : ' pr-3'">
-                       <v-card outlined elevation="1">
-                            <div class="pt-3 pl-4 pr-4 pb-2">
-                                <v-icon left>mdi-comment</v-icon>Private Comments
-                            </div>
-                            <v-divider></v-divider>
-                             <v-list class="mb-0 pb-0">
-                        
-                                    <v-list-item class="mb-0 pb-0" v-for="(item, i) in ViewDetails.comments" :key="i">
-                                    <v-list-item-avatar color="secondary">
-                                        <v-img 
-                                        :src="item.profile_pic == null || item.profile_pic == ''? 'https://ui-avatars.com/api/?background=random&color=fff&name=' +  item.name : '/storage/'+item.profile_pic">
-                                        </v-img>
-                                    </v-list-item-avatar>
-                                    <v-list-item-content>
-                                        <v-list-item-title v-html="item.name"></v-list-item-title>
-                                        <v-list-item-subtitle v-html="item.content"></v-list-item-subtitle>
-                                    </v-list-item-content>
-                                    <v-list-item-action>
-                                        <v-btn icon>
-                                        <v-icon small color="grey lighten-1">mdi-dots-vertical</v-icon>
-                                        </v-btn>
-                                    </v-list-item-action>
-                                    </v-list-item>
+               <v-row no-gutters> 
+                   <v-col cols="12" md="4" lg="4" :class="$vuetify.breakpoint.xs ? 'pt-2' : 'pt-2 pr-3'">
+                       <v-container fluid ma-0 pa-0>
+                            <v-card class="pt-3 pl-4 pr-4 pb-2">
+                                    <v-list class="pa-0 ma-0">
+                                        <v-list-item class="ma-0 pa-0">
+                                            <v-list-item-avatar color="secondary">
+                                                <v-img alt="Profile"
+                                                    :src="ViewDetails.profile_pic == null || ViewDetails.profile_pic == '' ? 'https://ui-avatars.com/api/?background=random&color=fff&name=' + ViewDetails.firstName +' '+ViewDetails.lastName : '/storage/'+ViewDetails.profile_pic">
+                                                </v-img>
+                                            </v-list-item-avatar>
+                                        
+                                            <v-list-item-content>
+                                                <v-list-item-title class="font-weight-medium">{{ViewDetails.firstName +' '+ViewDetails.lastName }}</v-list-item-title>
+                                                <v-list-item-subtitle v-if="ViewDetails.Submitted_Answers != null && ViewDetails.Submitted_Answers != ''">Submitted: {{format_date(ViewDetails.updated_at)}}</v-list-item-subtitle>
+                                            </v-list-item-content>
+                                            <v-list-item-action class="mt-8">
+                                                    <v-text-field  
+                                                    v-model="ViewDetails.points" 
+                                                    dense outlined label="Score" type="number" :suffix="'/' +classworkDetails.points" :max="classworkDetails.points"  min="0"></v-text-field>
+                                            </v-list-item-action>
+                                        </v-list-item>
+                                    </v-list>
                             
-                                </v-list>
-                               <v-divider></v-divider>
-                                <v-list class="mb-0 pb-0 mt-0 pt-0">
-                                    <v-list-item class="mb-0 pb-0">
-                                    <v-list-item-avatar color="secondary">
-                                        <v-img 
-                                        :src="get_CurrentUser.profile_pic == null || get_CurrentUser.profile_pic == ''? 'https://ui-avatars.com/api/?background=random&color=fff&name=' +  get_CurrentUser.firstName+' '+get_CurrentUser.lastName : get_CurrentUser.profile_pic">
-                                        </v-img>
-                                    </v-list-item-avatar>
-                                    <v-list-item-content class="ma-0 pa-0">
-                                        <v-textarea
-                                            :loading="isCommenting"
-                                            v-model="comment"
-                                            prepend-avatar="mdi-emoticon-dead"
-                                            filled
-                                            rounded
-                                            dense
-                                            auto-grow
-                                            rows="1"
-                                            clear-icon="mdi-close-circle"
-                                            clearable
-                                            placeholder="Comment"
-                                            class="pa-0 mt-7"
-                                            type="text"
-                                            >
-                                            </v-textarea>
-                                    </v-list-item-content>
-                                    <v-list-item-action>
-                                        <v-btn :loading="isCommenting" @click="addComment(ViewDetails)" icon>
-                                        <v-icon  color="primary">mdi-send</v-icon>
-                                        </v-btn>
-                                    </v-list-item-action>
-                                    </v-list-item>
-                                </v-list>
-                       </v-card>
-                   </v-col>
-                <v-col cols="12" md="8" lg="8" >
-           
-                <v-row class="mb-0 pb-0 pa-3"> 
-                    <v-card outlined width="100%" class="pa-2">
-                    <v-col cols="12" class="mb-0 pb-0" >
-                        <v-list class="pa-0 ma-0">
-                                <v-list-item>
-                                <v-list-item-avatar color="secondary">
-                                    <v-img alt="Profile"
-                                        :src="ViewDetails.profile_pic == null || ViewDetails.profile_pic == '' ? 'https://ui-avatars.com/api/?background=random&color=fff&name=' + ViewDetails.firstName +' '+ViewDetails.lastName : '/storage/'+ViewDetails.profile_pic">
-                                    </v-img>
-                                </v-list-item-avatar>
-                            
-                                <v-list-item-content>
-                                    <v-list-item-title class="font-weight-medium">{{ViewDetails.firstName +' '+ViewDetails.lastName }}</v-list-item-title>
-                                    <v-list-item-subtitle v-if="ViewDetails.Submitted_Answers != null && ViewDetails.Submitted_Answers != ''">Submitted: {{format_date(ViewDetails.updated_at)}}</v-list-item-subtitle>
-                                </v-list-item-content>
-                                <v-list-item-action >
-                                        <v-text-field  
-                                        class="mt-" v-model="ViewDetails.points" 
-                                        dense outlined label="Score" type="number" :suffix="'/' +classworkDetails.points" :max="classworkDetails.points"  min="0"></v-text-field>
-                                </v-list-item-action>
-                                </v-list-item>
-                            </v-list>
-                    </v-col>
-                    <v-col v-if="ViewDetails.Submitted_Answers != null && ViewDetails.Submitted_Answers != ''" cols="12" class="ma-0 pa-0 pb-4">
-                        <v-btn rounded @click="dialog = !dialog" color="primary" ><v-icon left>mdi-restart</v-icon> Reset Submission</v-btn>
-                    </v-col>
-                    </v-card>
-                </v-row>
-            <v-divider></v-divider>
+                                    <v-col  cols="12" class="ma-0 pa-0 pb-4">
+                                    <v-btn rounded @click="dialog = !dialog" color="primary" ><v-icon left>mdi-restart</v-icon> Reset Submission</v-btn>
+                                    </v-col>
+                                </v-card>
 
-             <v-card outlined class="mt-3 pa-4 " v-if="ViewDetails.Submitted_Answers == null || ViewDetails.Submitted_Answers == ''">
-             <v-row class="mt-12"  justify="center" align-content="center" >
-                <v-col cols="12" sm="8" md="4" class="text-center pb-10">
-                    <v-icon style="font-size:7rem">
-                        mdi-notebook-remove-outline
-                    </v-icon>
-                    <h1> Empty Submission </h1>
-                    <p> This student did not take the classwork yet!</p>
-                     <v-btn @click="alertStudent()" :loading="isAlerting" color="primary">Alert Student <v-icon right>mdi-account-alert</v-icon> </v-btn>
-                </v-col>
-            </v-row>
-             </v-card>
-            <v-card outlined class="mt-3 pa-4" v-if="ViewDetails.Submitted_Answers != null && ViewDetails.Submitted_Answers != ''">
-                    <v-container ma-0 pa-0 v-for="(item, index) in Details.Question" :key="index">
-                        <v-container ma-0 pa-0 class="ma-0 pa-0">
-                            <div :style="$vuetify.breakpoint.xs ? 'line-height:1.1': ''" class="subtitle-1 d-flex"> 
-                                <v-checkbox
-                                @click="UpdateScore(item.id, Check[index], item.points, index,item.answer)"
-                                class="mt-0 pt-0"
-                                color="success"
-                                v-model="Check[index]"
-                                ></v-checkbox>
-                                
-                                <!--  <v-btn class="mt-0 pt-0" v-if="Check[index] == true" icon text>
-                                    <v-icon  color="success">mdi-checkbox-marked</v-icon>
-                                </v-btn>
-                                <v-btn  class="mt-0 pt-0" v-else icon text>
-                                    <v-icon color="red">mdi-close-box</v-icon>
-                                </v-btn> -->
-                                
-                                <h3 class="font-weight-bold">{{index+1}}.</h3>
-                                    <span style="width:90%" v-html="item.question" class="post-content ml-1"></span>
-                                    <small class="primary--text ml-1">({{item.points+' points'}})</small>
+                            <v-card class="mt-2 " elevation="1" outlined>
+                                    <div class="pt-3 pl-4 pr-4 pb-2">
+                                        <v-icon left>mdi-comment</v-icon>Private Comments
                                     </div>
-                        </v-container> 
-                    
-                        <v-container ml-0 pl-0 v-if="item.type == 'Multiple Choice'">
-                            <v-container :class="!$vuetify.breakpoint.xs ? 'd-flex flex-row ma-0 pa-0 mb-1 ml-8': 'd-flex flex-row ma-0 pa-0'" 
-                            v-for="(Ans, i) in Details.Answer[index]" :key="i">
-                            <v-radio-group :name="'option'+index"  class="ma-0 pa-0" v-model="SubmittedAnswer[index].Answer">
-                                <v-radio
-                                color="primary"
-                                :key="index"
-                                :value="Ans.Choice">
-                                </v-radio>
-                                </v-radio-group>
-                                <div style="line-height:1.4" class="Subtitle-1 ma-0 pa-0 d-flex">
-                                    <span v-html="Ans.Choice" class="post-content"></span>
-                                    <span class="caption primary--text ml-1 mt-1" v-if="item.Answer == Ans.Choice">(correct answer)</span>
+                                    <v-divider></v-divider>
+                                    <v-list class="mb-0 pb-0">
+                                
+                                            <v-list-item class="mb-0 pb-0" v-for="(item, i) in ViewDetails.comments" :key="i">
+                                            <v-list-item-avatar color="secondary">
+                                                <v-img 
+                                                :src="item.profile_pic == null || item.profile_pic == ''? 'https://ui-avatars.com/api/?background=random&color=fff&name=' +  item.name : '/storage/'+item.profile_pic">
+                                                </v-img>
+                                            </v-list-item-avatar>
+                                            <v-list-item-content>
+                                                <v-list-item-title v-html="item.name"></v-list-item-title>
+                                                <v-list-item-subtitle v-html="item.content"></v-list-item-subtitle>
+                                            </v-list-item-content>
+                                            <v-list-item-action>
+                                                <v-btn icon>
+                                                <v-icon small color="grey lighten-1">mdi-dots-vertical</v-icon>
+                                                </v-btn>
+                                            </v-list-item-action>
+                                            </v-list-item>
+                                    
+                                        </v-list>
+                                    <v-divider></v-divider>
+                                        <v-list class="mb-0 pb-0 mt-0 pt-0">
+                                            <v-list-item class="mb-0 pb-0">
+                                            <v-list-item-avatar color="secondary">
+                                                <v-img 
+                                                :src="get_CurrentUser.profile_pic == null || get_CurrentUser.profile_pic == ''? 'https://ui-avatars.com/api/?background=random&color=fff&name=' +  get_CurrentUser.firstName+' '+get_CurrentUser.lastName : get_CurrentUser.profile_pic">
+                                                </v-img>
+                                            </v-list-item-avatar>
+                                            <v-list-item-content class="ma-0 pa-0">
+                                                <v-textarea
+                                                    :loading="isCommenting"
+                                                    v-model="comment"
+                                                    prepend-avatar="mdi-emoticon-dead"
+                                                    filled
+                                                    rounded
+                                                    dense
+                                                    auto-grow
+                                                    rows="1"
+                                                    clear-icon="mdi-close-circle"
+                                                    clearable
+                                                    placeholder="Comment"
+                                                    class="pa-0 mt-7"
+                                                    type="text"
+                                                    >
+                                                    </v-textarea>
+                                            </v-list-item-content>
+                                            <v-list-item-action>
+                                                <v-btn :loading="isCommenting" @click="addComment(ViewDetails)" icon>
+                                                <v-icon  color="primary">mdi-send</v-icon>
+                                                </v-btn>
+                                            </v-list-item-action>
+                                            </v-list-item>
+                                        </v-list>
+                            </v-card>
+                        </v-container>
+                   </v-col>
+                <v-col cols="12" md="8" lg="8" class="pt-2">
+           
+        
+
+                <v-card outlined elevation="1" class=" pa-4 " v-if="ViewDetails.Submitted_Answers == null || ViewDetails.Submitted_Answers == ''">
+                <v-row class="mt-12 pt-12"  justify="center" align-content="center" >
+                    <v-col cols="12" sm="8" md="4" class="text-center pb-12 mb-12">
+                        <v-icon style="font-size:7rem">
+                            mdi-notebook-remove-outline
+                        </v-icon>
+                        <h1> Empty Submission </h1>
+                        <p> This student did not take the classwork yet!</p>
+                        <v-btn @click="alertStudent()" :loading="isAlerting" color="primary">Alert Student <v-icon right>mdi-account-alert</v-icon> </v-btn>
+                    </v-col>
+                </v-row>
+                </v-card>
+                <v-card elevation="1" outlined class="mt-3 pa-4" v-if="ViewDetails.Submitted_Answers != null && ViewDetails.Submitted_Answers != ''">
+                        <v-container ma-0 pa-0 v-for="(item, index) in Details.Question" :key="index">
+                            <v-container ma-0 pa-0 class="ma-0 pa-0">
+                                <div :style="$vuetify.breakpoint.xs ? 'line-height:1.1': ''" class="subtitle-1 d-flex"> 
+                                    <v-checkbox
+                                    @click="UpdateScore(item.id, Check[index], item.points, index,item.answer)"
+                                    class="mt-0 pt-0"
+                                    color="success"
+                                    v-model="Check[index]"
+                                    ></v-checkbox>
+                                    
+                                    <!--  <v-btn class="mt-0 pt-0" v-if="Check[index] == true" icon text>
+                                        <v-icon  color="success">mdi-checkbox-marked</v-icon>
+                                    </v-btn>
+                                    <v-btn  class="mt-0 pt-0" v-else icon text>
+                                        <v-icon color="red">mdi-close-box</v-icon>
+                                    </v-btn> -->
+                                    
+                                    <h3 class="font-weight-bold">{{index+1}}.</h3>
+                                        <span style="width:90%" v-html="item.question" class="post-content ml-1"></span>
+                                        <small class="primary--text ml-1">({{item.points+' points'}})</small>
+                                        </div>
+                            </v-container> 
+                        
+                            <v-container ml-0 pl-0 v-if="item.type == 'Multiple Choice'">
+                                <v-container :class="!$vuetify.breakpoint.xs ? 'd-flex flex-row ma-0 pa-0 mb-1 ml-8': 'd-flex flex-row ma-0 pa-0'" 
+                                v-for="(Ans, i) in Details.Answer[index]" :key="i">
+                                <v-radio-group :name="'option'+index"  class="ma-0 pa-0" v-model="SubmittedAnswer[index].Answer">
+                                    <v-radio
+                                    color="primary"
+                                    :key="index"
+                                    :value="Ans.Choice">
+                                    </v-radio>
+                                    </v-radio-group>
+                                    <div style="line-height:1.4" class="Subtitle-1 ma-0 pa-0 d-flex">
+                                        <span v-html="Ans.Choice" class="post-content"></span>
+                                        <span class="caption primary--text ml-1 mt-1" v-if="item.Answer == Ans.Choice">(correct answer)</span>
+                                    </div>
+                                </v-container>
+                            </v-container>
+
+                            <v-container v-if="item.type == 'Identification'">
+                                <v-container ma-0 pa-0 class="ml-7">
+                                <div class="subtitle-2 font-weight-bold">Answer</div>
+                                <div class="subtitle-1 d-flex item ml-4">
+                                    <span v-html="SubmittedAnswer[index].Answer" class="post-content"></span>
                                 </div>
                             </v-container>
-                        </v-container>
-
-                        <v-container v-if="item.type == 'Identification'">
-                            <v-container ma-0 pa-0 class="ml-7">
-                            <div class="subtitle-2 font-weight-bold">Answer</div>
-                            <div class="subtitle-1 d-flex item ml-4">
-                                <span v-html="SubmittedAnswer[index].Answer" class="post-content"></span>
-                            </div>
-                        </v-container>
-                        </v-container>
+                            </v-container>
 
 
-                        <v-container v-if="item.type == 'True or False'">
-                            <v-container :class="!$vuetify.breakpoint.xs ? 'd-flex flex-row ma-0 pa-0 mb-1 ml-8': 'd-flex flex-row ma-0 pa-0'" 
-                            v-for="(x, n) in inputCheck" :key="n">
-                            <v-radio-group :name="'option'+index"   class="ma-0 pa-0"  v-model="SubmittedAnswer[index].Answer">
-                                <v-radio
-                                color="primary"
-                                :key="index"
-                                :value="inputCheck[n]">
-                                </v-radio>
-                            </v-radio-group>
-                            <div class="Subtitle 1">
-                                {{inputCheck[n]}} 
-                                <span class="caption primary--text ml-1 mt-1" v-if="inputCheck[n] == SubmittedAnswer[index].Answer">(correct answer)</span>
-                            </div>
-                        </v-container>
-                        </v-container>
+                            <v-container v-if="item.type == 'True or False'">
+                                <v-container :class="!$vuetify.breakpoint.xs ? 'd-flex flex-row ma-0 pa-0 mb-1 ml-8': 'd-flex flex-row ma-0 pa-0'" 
+                                v-for="(x, n) in inputCheck" :key="n">
+                                <v-radio-group :name="'option'+index"   class="ma-0 pa-0"  v-model="SubmittedAnswer[index].Answer">
+                                    <v-radio
+                                    color="primary"
+                                    :key="index"
+                                    :value="inputCheck[n]">
+                                    </v-radio>
+                                </v-radio-group>
+                                <div class="Subtitle 1">
+                                    {{inputCheck[n]}} 
+                                    <span class="caption primary--text ml-1 mt-1" v-if="inputCheck[n] == SubmittedAnswer[index].Answer">(correct answer)</span>
+                                </div>
+                            </v-container>
+                            </v-container>
 
 
-                        <v-container ma-0 pa-0 class="mb-3"  v-if="item.type == 'Matching type'">
-                            <v-row no-gutters>
-                                <v-col ma-0 pa-0 class="ma-0 pa-0" cols="12" lg="10" md="12" >
-                                    <v-container class="ma-0 pa-0">
-                                        <v-container>
-                                            <v-row>
-                                                <v-col class="font-weight-bold" cols="2" md="2" lg="2">
-                                                    
-                                                </v-col>
-                                                <v-col class="font-weight-bold" cols="5" md="5" lg="5">
-                                                    Column A
-                                                </v-col>
-                                                <v-col class="font-weight-bold" cols="5">
-                                                    Column B
-                                                </v-col>
-                                            </v-row>
+                            <v-container ma-0 pa-0 class="mb-3"  v-if="item.type == 'Matching type'">
+                                <v-row no-gutters>
+                                    <v-col ma-0 pa-0 class="ma-0 pa-0" cols="12" lg="10" md="12" >
+                                        <v-container class="ma-0 pa-0">
+                                            <v-container>
+                                                <v-row>
+                                                    <v-col class="font-weight-bold" cols="2" md="2" lg="2">
+                                                        
+                                                    </v-col>
+                                                    <v-col class="font-weight-bold" cols="5" md="5" lg="5">
+                                                        Column A
+                                                    </v-col>
+                                                    <v-col class="font-weight-bold" cols="5">
+                                                        Column B
+                                                    </v-col>
+                                                </v-row>
+                                            </v-container>
+                                            <v-divider></v-divider>
+                                            <v-container class="mb-0 pb-0" v-for="(item, i) in SubmittedAnswer[index]" :key="item.id">
+                                                
+                                                <v-row>
+                                                    <v-col class="mb-1 pb-0 pt-0 mt-0 mr-0 pr-0" cols="2" md="1" lg="1">
+                                                        <v-checkbox
+                                                            class="mt-4 pr-0 mr-0"
+                                                            color="success"
+                                                            v-model="Check[index][i]"
+                                                            ></v-checkbox>
+                                                    </v-col>
+                                                    <v-col class="ml-0 pl-0 mb-1 pb-0 pt-0 mt-0" cols="2" md="1" lg="1">
+                                                        <v-text-field  readonly class="ml-0 pl-0 centered-input" v-model="item.Ans_Letter">
+                                                        </v-text-field>
+                                                    </v-col>
+                                                    <v-col class="mb-1 pb-0 pt-0 mt-0" cols="4" md="5" lg="5">
+                                                        <div class="d-flex mt-7">
+                                                            <span class="font-weight-medium mr-1">{{(i+1+'. ')}}</span>
+                                                            <span :style="$vuetify.breakpoint.xs ? 'line-height:1.1':'line-height:1.5'" v-html="item.SubQuestion" class="subquestion-content"></span>
+                                                        </div>
+                                                    </v-col>
+                                                    <v-col class="mb-1 pb-0 pt-0 mt-0"  cols="4" md="4" lg="5">
+                                                        <div class="d-flex mt-7"> 
+                                                            <span class="font-weight-medium mr-1">{{(Alphabet[i]+'. ')}}</span>
+                                                            <span :style="$vuetify.breakpoint.xs ? 'line-height:1.1':'line-height:1.5'" v-html="item.SubChoice" class="subchoices-content"></span>
+                                                        </div>
+                                                    </v-col>
+                                                </v-row>
+                                            </v-container>
                                         </v-container>
-                                        <v-divider></v-divider>
-                                        <v-container class="mb-0 pb-0" v-for="(item, i) in SubmittedAnswer[index]" :key="item.id">
-                                            
-                                            <v-row>
-                                                <v-col class="mb-1 pb-0 pt-0 mt-0 mr-0 pr-0" cols="2" md="1" lg="1">
-                                                    <v-checkbox
-                                                        class="mt-4 pr-0 mr-0"
-                                                        color="success"
-                                                        v-model="Check[index][i]"
-                                                        ></v-checkbox>
-                                                </v-col>
-                                                <v-col class="ml-0 pl-0 mb-1 pb-0 pt-0 mt-0" cols="2" md="1" lg="1">
-                                                    <v-text-field  readonly class="ml-0 pl-0 centered-input" v-model="item.Ans_Letter">
-                                                    </v-text-field>
-                                                </v-col>
-                                                <v-col class="mb-1 pb-0 pt-0 mt-0" cols="4" md="5" lg="5">
-                                                    <div class="d-flex mt-7">
-                                                        <span class="font-weight-medium mr-1">{{(i+1+'. ')}}</span>
-                                                        <span :style="$vuetify.breakpoint.xs ? 'line-height:1.1':'line-height:1.5'" v-html="item.SubQuestion" class="subquestion-content"></span>
-                                                    </div>
-                                                </v-col>
-                                                <v-col class="mb-1 pb-0 pt-0 mt-0"  cols="4" md="4" lg="5">
-                                                    <div class="d-flex mt-7"> 
-                                                        <span class="font-weight-medium mr-1">{{(Alphabet[i]+'. ')}}</span>
-                                                        <span :style="$vuetify.breakpoint.xs ? 'line-height:1.1':'line-height:1.5'" v-html="item.SubChoice" class="subchoices-content"></span>
-                                                    </div>
-                                                </v-col>
-                                            </v-row>
-                                        </v-container>
-                                    </v-container>
                                 </v-col>
                             </v-row>
                         </v-container>
@@ -272,7 +272,7 @@
         </v-col>
         
     </v-row>
-    </div>
+    </v-card-text>
  
 </v-card>
 
@@ -441,16 +441,17 @@ const resetConfirmation = () => import('../../dialogs/resetConfirmation')
               data.classwork_id = details.classwork_id;
               data.course_id = this.$route.params.id;
               data.to_user = details.user_id;
+              data.type = 'Private';
               data.comment = this.comment;
               axios.post('/api/post/classwork/comment/insert', data)
               .then((res)=>{
                   if(res.status == 200 ){
-                    this.CheckData.comments.push({
-                      content : res.data.comment,
-                      id : res.data.id,
-                      name : res.data.name,
-                      profile_pic : res.data.profile_pic
-                    })
+                    this.ViewDetails.comments.push({
+                        content : res.data.comment,
+                        id : res.data.id,
+                        name : this.get_CurrentUser.firstName+' '+this.get_CurrentUser.lastName,
+                        profile_pic : this.profile_pic
+                        })
                     this.comment = null;
                   }
                   
