@@ -63,15 +63,15 @@
                                         <span
                                             style="display:inline-block; vertical-align:middle; margin:29px 0 26px; border-bottom:1px solid #cecece; width:100px;"></span>
                                         <p style="color:#455056; font-size:15px;line-height:24px; margin:0;">
-                                            You have been invited by {{$name}} to join the class <strong>{{$course_name}} {{$class_name}} </strong>. 
-                                            <br>
+                                            You have been invited by {{$name}} to join the class <br><strong>{{$course_name}} {{$class_name}} </strong>. 
+                                            <br><br>
                                             Use this class code to join the class:
                                         
                                         </p>
-                                        {{-- <input class="input_text" type="text" value="{{$class_code}}" id="class_code"> --}}
-                                        <p style="font-size: 35px;margin-top: 0px;margin-bottom: 0px;">    <strong>{{$class_code}}</strong> 
-                                          {{--   <button class="copy_button" onclick="copyFunction()"> copy <i  class="far fa-copy"></i></button>
-                                        </p > --}}
+                                        <input class="input_text" type="text" value="{{$class_code}}" id="class_code">
+                                        <p style="font-size: 35px;margin-top: 0px;margin-bottom: 0px;text-decoration:underline">    <strong>{{$class_code}}</strong> 
+                                            {{-- <button class="copy_button" onclick="copyFunction()"> copy <i class="far fa-copy"></i></button> --}}
+                                        </p >
                                         <br>
                                         <a href="javascript:void(0);"
                                             style="background:#FF5400;text-decoration:none !important; font-weight:500; margin-top:35px; color:#fff;text-transform:uppercase; font-size:14px;padding:10px 24px;display:inline-block;border-radius:50px;">Accept Invite</a>
@@ -101,11 +101,18 @@
 
     <script>
         function copyFunction() {
-          var copyText = document.getElementById("class_code");
-          copyText.select();
-          copyText.setSelectionRange(0, 99999)
-          document.execCommand("copy");
-          alert("Class Code copied ");
+          /* Get the text field */
+            var copyText = document.getElementById("class_code");
+
+            /* Select the text field */
+            copyText.select();
+            copyText.setSelectionRange(0, 99999); /* For mobile devices */
+
+            /* Copy the text inside the text field */
+            navigator.clipboard.writeText(copyText.value);
+
+            /* Alert the copied text */
+            alert("Copied the text: " + copyText.value);
         }
         </script>
 </body>

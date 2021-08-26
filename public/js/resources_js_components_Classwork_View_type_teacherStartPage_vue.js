@@ -100,7 +100,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['classworkDetails'],
+  props: ['classworkDetails', 'totalPoints', 'totalQuestion'],
   data: function data() {
     return {
       activeTab: "",
@@ -487,7 +487,11 @@ var render = function() {
                   { staticClass: "mt-3" },
                   [
                     _c("router-view", {
-                      attrs: { classworkDetails: _vm.classworkDetails }
+                      attrs: {
+                        totalPoints: _vm.totalPoints,
+                        totalQuestion: _vm.totalQuestion,
+                        classworkDetails: _vm.classworkDetails
+                      }
                     })
                   ],
                   1

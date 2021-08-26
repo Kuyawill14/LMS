@@ -70,7 +70,7 @@
                        <v-divider></v-divider>
                         <v-tabs-items :value="activeTab">
                         <div class="mt-3" >
-                            <router-view :classworkDetails="classworkDetails"></router-view>
+                            <router-view :totalPoints="totalPoints" :totalQuestion="totalQuestion" :classworkDetails="classworkDetails"></router-view>
                         </div>
                     </v-tabs-items>
                   </v-col>
@@ -88,7 +88,7 @@
 
 <script>
 export default {
-    props:['classworkDetails'],
+    props:['classworkDetails','totalPoints','totalQuestion'],
     data(){
         return{
             activeTab: "",

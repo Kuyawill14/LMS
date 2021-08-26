@@ -154,6 +154,7 @@ Route::prefix('/teacher')->group(function () {
     Route::put('/reset-obj/{id}', [TeacherController::class, 'resetStudentObjSubmission']);
     Route::post('/invite-student', [TeacherController::class, 'InviteStudent']);
     Route::post('/invite-instructor', [TeacherController::class, 'InviteInstructor']);
+    Route::post('/alert-student', [TeacherController::class, 'AlertStudent']);
     Route::get('/student-classGrades/{id}', [TeacherController::class, 'getStudentGradesInClass']);
     
 });

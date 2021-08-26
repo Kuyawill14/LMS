@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::get('/test123', function () {
-    return view('VerifyEmail');
+    return view('AlertStudent');
 });
 
 

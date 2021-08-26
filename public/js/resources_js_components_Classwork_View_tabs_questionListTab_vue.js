@@ -1302,8 +1302,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['DeleteDetails'],
   data: function data() {
@@ -1332,7 +1330,6 @@ __webpack_require__.r(__webpack_exports__);
   },
   mounted: function mounted() {
     this.DeleteData = this.DeleteDetails;
-    console.log(this.DeleteDetails);
   }
 });
 
@@ -1475,6 +1472,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -1482,6 +1487,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  props: ['classworkDetails', 'totalQuestion', 'totalPoints'],
   components: {
     deleteDialog: _dialogs_deleteDialog__WEBPACK_IMPORTED_MODULE_5__.default,
     multipleChoiceList: _List_types_MultipleChoiceList__WEBPACK_IMPORTED_MODULE_2__.default,
@@ -1544,7 +1550,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _this2 = this;
 
       this.$store.dispatch('fetchQuestions', this.$route.query.clwk).then(function (res) {
-        _this2.Qlength = res[1];
+        console.log(res);
+        _this2.Qlength = res.data.Question.length;
         _this2.QuestionsList = res[0];
         _this2.isloading = false;
         _this2.isFetching = false;
@@ -5392,20 +5399,20 @@ var render = function() {
         )
       ]),
       _vm._v(" "),
-      _c("v-card-text", [
+      _c("v-card-text", { staticClass: "pb-0 mb-0" }, [
         _c("p", [_vm._v("This will permanently remove the question.")])
       ]),
       _vm._v(" "),
       _c(
         "v-card-actions",
-        { staticClass: "pb-5" },
+        { staticClass: "pb-2" },
         [
           _c("v-spacer"),
           _vm._v(" "),
           _c(
             "v-btn",
             {
-              attrs: { color: "primary", rounded: "", outlined: "" },
+              attrs: { text: "" },
               on: {
                 click: function($event) {
                   return _vm.$emit("toggleDialog")
@@ -5418,7 +5425,7 @@ var render = function() {
           _c(
             "v-btn",
             {
-              attrs: { color: "primary", rounded: "" },
+              attrs: { color: "primary", text: "" },
               on: {
                 click: function($event) {
                   return _vm.RemoveQuestion(_vm.DeleteDetails.id)
@@ -5603,7 +5610,7 @@ var render = function() {
                                 ? _c(
                                     "v-col",
                                     {
-                                      staticClass: "pl-8 pr-8 pt-10 pb-4 mb-0",
+                                      staticClass: "pl-8 pr-8 pt-10  mb-0",
                                       attrs: { cols: "12", md: "12" }
                                     },
                                     [
@@ -5676,6 +5683,45 @@ var render = function() {
                                     1
                                   )
                                 : _vm._e(),
+                              _vm._v(" "),
+                              _c(
+                                "v-col",
+                                {
+                                  staticClass: "pl-8 pr-8",
+                                  attrs: { cols: "12" }
+                                },
+                                [
+                                  _c("div", { staticClass: "text--body-1 " }, [
+                                    _vm._v("Total Points: "),
+                                    _c(
+                                      "span",
+                                      { staticClass: "primary--text" },
+                                      [
+                                        _vm._v(_vm._s(_vm.totalPoints)),
+                                        _c(
+                                          "small",
+                                          {
+                                            staticClass: " font-weight-regular"
+                                          },
+                                          [_vm._v(" points")]
+                                        )
+                                      ]
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "text--body-1" }, [
+                                    _vm._v("Total Question: "),
+                                    _c(
+                                      "span",
+                                      { staticClass: "primary--text" },
+                                      [_vm._v(_vm._s(_vm.totalQuestion))]
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("v-divider")
+                                ],
+                                1
+                              ),
                               _vm._v(" "),
                               _vm.Show && _vm.Qlength != 0
                                 ? _c(
