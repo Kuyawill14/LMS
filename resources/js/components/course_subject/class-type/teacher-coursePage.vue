@@ -20,7 +20,7 @@
                 </v-icon>
 
                 <h1> Create your first Course </h1>
-                <p> Creating Module, you'll be able to upload and share it with your class. </p>
+                <p> Creating Course, you'll be able to Create Classes, manage Learning Materials, Create Quiz and Assignment and etc. </p>
                 <v-btn color="primary" @click="openAddmodal()"> CREATE COURSE </v-btn>
             </v-col>
         </v-row>

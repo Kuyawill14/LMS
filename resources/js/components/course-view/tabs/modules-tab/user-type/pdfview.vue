@@ -27,7 +27,6 @@
         },
 
         mounted() {
-            vm.$forceUpdate();
         var host = window.location.protocol + "//" + window.location.host;
         this.pdf_path = host+ this.pdf_file;
 
