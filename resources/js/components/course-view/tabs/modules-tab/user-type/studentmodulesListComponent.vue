@@ -49,6 +49,7 @@
                         setTimeSpent(itemModule.id,itemSubModule.id,studentSubModuleProgress); 
                         passToMainComponent(getSub_module(itemModule.id),itemSubModule.id);
                         addSubStudentProgress(itemModule.id,itemSubModule.id,itemSubModule.type,studentSubModuleProgress);
+                        reRender();
                          ">
 
                         <!--  -->
@@ -131,6 +132,9 @@
             ...mapGetters(["getmain_module", "getSub_module", "getAll_sub_module", "getStudentModuleProgress"])
         },
         methods: {
+                    reRender(){
+        this.index++
+     },
             start() {
                 this.$confetti.start();
             },

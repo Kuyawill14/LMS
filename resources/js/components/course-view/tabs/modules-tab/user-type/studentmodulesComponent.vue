@@ -144,6 +144,7 @@
         },
         data() {
             return {
+                 index: 1,
                 pdfdialog: false,
                 config: {
                     toolbar: {
@@ -169,6 +170,9 @@
             }
         },
         methods: {
+             reRender(){
+        this.index++
+     },
             getMainModulebyId(id) {
                 for (var i = 0; this.getmain_module.length; i++) {
                     if (this.getmain_module[i].id == id) {
