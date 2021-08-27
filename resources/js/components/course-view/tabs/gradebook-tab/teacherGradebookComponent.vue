@@ -495,6 +495,7 @@
                 this.headers = [];
                 this.loading = true;
                 var total = 0;
+                
                 this.getStudentList();
 
                 this.headers.push({
