@@ -38,15 +38,4 @@ class Handler extends ExceptionHandler
             //
         });
     }
-
-    public function render($request, Exception $exception)
-    {
-        if ($exception instanceof MaintenanceModeException) {
-            return response()->view('maintenance', [
-                'message' => $exception->getMessage(), 
-                'retry' => $exception->retryAfter
-            ], 503);
-        }
-        return parent::render($request, $exception);
-    }
 }
