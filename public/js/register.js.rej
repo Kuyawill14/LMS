@@ -1,0 +1,10 @@
+diff a/public/js/register.js b/public/js/register.js	(rejected hunks)
+@@ -613,7 +613,7 @@ var render = function() {
+                           _c("vue-element-loading", {
+                             attrs: {
+                               active: _vm.isRegistering,
+-                              text: "Signing up...",
++                              text: "Registering...",
+                               spinner: "bar-fade-scale",
+                               color: "#EF6C00"
+                             }
