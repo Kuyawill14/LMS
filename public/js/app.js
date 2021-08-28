@@ -2015,7 +2015,7 @@ axios.defaults.withCredentials = true;
 window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/dist/web/pusher.js");
 window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_1__.default({
   broadcaster: 'pusher',
-  key: "b3ecbaa590cb9ca65930",
+  key: "05597b24c42e8d5d33ef",
   cluster: "ap1",
   forceTLS: true
 });
@@ -2884,60 +2884,7 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_6__.default({
       component: ClassNotFound,
       name: "course-not-found"
     }]
-<<<<<<< HEAD
-  },
-  /* {
-      path: "/classwork/:id",
-      component: classworkView,
-      beforeEnter: (to, form, next) => {
-          axios
-              .get("/api/authenticated")
-              .then(() => {
-                  next();
-              })
-              .catch(() => {
-                  return next({
-                      path: "/login"
-                  });
-              });
-      },
-      props: true,
-      children: [{
-              name: "clwk",
-              path: "classwork-details",
-              component: classworkDetailsTab
-          },
-          {
-              name: "add-question",
-              path: "add-question",
-              component: addQuestionTab
-          },
-          {
-              name: "question-list",
-              path: "question-list",
-              component: questionList
-          },
-          {
-              name: "submission-list",
-              path: "submission-list",
-              component: submissionListTab
-          },
-          {
-              name: "question-analytics",
-              path: "question-analytics",
-              component: questionnAnalyticstab
-          },
-          {
-              name: "publish-to",
-              path: "publish-to",
-              component: publishClassworkTab
-          },
-       ]
-  }, */
-  {
-=======
   }, {
->>>>>>> c458396157594decfda5bf2753d23e88afbe3fe8
     path: "/quiz/:id",
     component: QuizPage,
     name: "quizstart",
