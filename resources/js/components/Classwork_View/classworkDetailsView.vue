@@ -21,8 +21,31 @@
                 </v-col>
             </v-row>
         </v-container> -->
+       <!--  <v-row v-if="!isloading && classworkDetails.success == false" align="center" justify="center"> -->
+           <!--  <v-col align="center" justify="center">
+                <h1>Classwork Not Found</h1>
+            </v-col> -->
 
-        <v-row v-if="!isloading">
+            <v-row style="height:75vh" align="center" justify="center" v-if="!isloading && classworkDetails.success == false" >
+                <v-col  cols="12" md="4" lg="3" xl="3">
+                    <v-card outlined class="pa-5">
+                       <v-row>
+                           <v-col cols="12">
+                               <h2 class="font-weight-regular">Classwork not found!</h2>
+                               <div>Check you classwork list.</div>
+                           </v-col>
+                           <v-col class="text-right" cols="12">
+                               <v-btn @click="$router.push({name: 'classwork', params: $route.params.id})" color="primary">
+                                   Back to Class
+                               </v-btn>
+                           </v-col>
+                       </v-row>
+                    </v-card>
+                </v-col>
+            </v-row>
+     <!--    </v-row> -->
+
+        <v-row v-if="!isloading && classworkDetails.success == true">
             <v-col v-if="role == 'Teacher'" cols="12" class="ma-0 pa-0 pa-2">
                    <!--  <v-row >
                         <v-col cols="12" >
@@ -36,12 +59,12 @@
                  <teacherStartPage v-if="role == 'Teacher'" 
                   :totalPoints="totalPoints"
                   :totalQuestion="totalQuestion"
-                  :classworkDetails="classworkDetails"
+                  :classworkDetails="classworkDetails.Details"
                 ></teacherStartPage>
             </v-col>
             <v-col v-if="role == 'Student'" cols="12" class="ma-0 pa-0 ">
                  <studentStartPage v-if="role == 'Student'" 
-                :classworkDetails="classworkDetails"
+                :classworkDetails="classworkDetails.Details"
                 :totalPoints="totalPoints"
                 :totalQuestion="totalQuestion"
                 ></studentStartPage>
@@ -68,7 +91,7 @@ export default {
     data(){
         return{
             isloading:true,
-            classworkDetails:[],
+            classworkDetails:{},
             totalPoints:null,
             totalQuestion:null,
             CurrentUser:[]
@@ -78,7 +101,7 @@ export default {
        async getClassworkDetails(){
             axios.get('/api/classwork/showDetails/'+ this.$route.query.clwk+'/'+this.$route.params.id)
             .then(res=>{
-               this.classworkDetails = res.data.Details;
+               this.classworkDetails = res.data;
                 this.totalPoints = res.data.totalpoints;
                 this.totalQuestion = res.data.ItemsCount;
                 this.isloading = !this.isloading;

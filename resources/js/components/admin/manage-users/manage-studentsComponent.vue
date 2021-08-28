@@ -341,15 +341,13 @@
                 })
             },
             updateDataInfrontEnd(data){
-        
                 this.StudentList[this.updateIndex].user_id = data.user_id;
                 this.StudentList[this.updateIndex].firstName = data.firstName;
                 this.StudentList[this.updateIndex].middleName = data.middleName;
                 this.StudentList[this.updateIndex].lastName = data.lastName;
                 this.StudentList[this.updateIndex].email = data.email;
                 this.StudentList[this.updateIndex].student_id = data.student_id;
-            
-                 this.$refs.RegisterForm.reset();
+                this.$refs.RegisterForm.reset();
             }
         },
 

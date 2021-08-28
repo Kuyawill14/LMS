@@ -223,8 +223,9 @@ var archiveClass = function archiveClass() {
     },
     CopyClassCode: function CopyClassCode(code) {
       var CodeText = code;
-      navigator.clipboard.writeText(CodeText);
-      this.copied = true;
+      navigator.clipboard.writeText(CodeText); //this.copied = true;
+
+      this.toastNormal('Class code copied');
     }
   }),
   computed: (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)(['allClass']),

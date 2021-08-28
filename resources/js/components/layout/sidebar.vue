@@ -39,6 +39,7 @@
                                     :src="UserDetails.profile_pic == null || UserDetails.profile_pic == '' ? 'https://ui-avatars.com/api/?background=random&color=fff&name=' + (UserDetails.firstName+' '+UserDetails.lastName) : UserDetails.profile_pic">
                                 </v-img>
                             </v-avatar>
+
                             <h4>{{ UserDetails.firstName+' '+UserDetails.lastName }}</h4>
                             <p class="text-caption mt-1">
                                 {{ UserDetails.email }}

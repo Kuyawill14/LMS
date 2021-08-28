@@ -15,6 +15,12 @@
         </v-col>
 
     <v-col v-if="!isloading">
+      <v-col cols="12" class="mb-0 pb-0">
+           <h3>MY CALENDAR</h3> 
+        </v-col>
+          <v-col cols="12" class="mb-0 pb-0">
+            <v-divider></v-divider>
+        </v-col>
       <v-sheet height="64">
         <v-toolbar
           flat

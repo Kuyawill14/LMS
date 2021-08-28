@@ -412,7 +412,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "pt-5" },
+    { staticClass: "pt-7" },
     [
       _c(
         "v-row",
@@ -509,7 +509,7 @@ var render = function() {
                                 _vm._v("mdi-comment")
                               ]),
                               _vm._v(
-                                "Private Comments\r\n                        "
+                                "Private Comments\n                        "
                               )
                             ],
                             1
@@ -763,7 +763,7 @@ var render = function() {
                           _vm._v(" "),
                           _c("v-row", { staticStyle: { height: "4vh" } }),
                           _vm._v(" "),
-                          _c("v-divider")
+                          _vm.status == "Submitted" ? _c("v-divider") : _vm._e()
                         ],
                         1
                       ),
@@ -789,7 +789,7 @@ var render = function() {
                                 [
                                   _c("v-icon", { attrs: { "x-large": "" } }, [
                                     _vm._v(
-                                      "\r\n                        mdi-book-open-variant\r\n                        "
+                                      "\n                        mdi-book-open-variant\n                        "
                                     )
                                   ])
                                 ],

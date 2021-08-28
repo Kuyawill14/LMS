@@ -987,11 +987,11 @@ var render = function() {
                                 },
                                 [
                                   _vm._v(
-                                    "\r\n                         Graded: " +
+                                    "\n                         Graded: " +
                                       _vm._s(_vm.StatusDetails.score) +
                                       " /" +
                                       _vm._s(_vm.StatusDetails.totalPoints) +
-                                      "\r\n                        "
+                                      "\n                        "
                                   )
                                 ]
                               )
@@ -1035,7 +1035,7 @@ var render = function() {
                                             },
                                             [
                                               _vm._v(
-                                                "\r\n                                Loading\r\n                            "
+                                                "\n                                Loading\n                            "
                                               )
                                             ]
                                           ),
@@ -1705,11 +1705,11 @@ var render = function() {
                                                       ),
                                                       [
                                                         _vm._v(
-                                                          "\r\n                                  " +
+                                                          "\n                                  " +
                                                             _vm._s(
                                                               attrs.expanded
                                                             ) +
-                                                            "\r\n                                    Add "
+                                                            "\n                                    Add "
                                                         ),
                                                         _c(
                                                           "v-icon",
@@ -1727,7 +1727,7 @@ var render = function() {
                                             ],
                                             null,
                                             false,
-                                            857056327
+                                            2745953415
                                           )
                                         },
                                         [
@@ -1760,7 +1760,7 @@ var render = function() {
                                                     ]
                                                   ),
                                                   _vm._v(
-                                                    " Upload File\r\n                                  "
+                                                    " Upload File\n                                  "
                                                   )
                                                 ],
                                                 1
@@ -1783,7 +1783,7 @@ var render = function() {
                                                     [_vm._v("mdi-link-variant")]
                                                   ),
                                                   _vm._v(
-                                                    "Attach Link\r\n                                  "
+                                                    "Attach Link\n                                  "
                                                   )
                                                 ],
                                                 1
@@ -1837,7 +1837,7 @@ var render = function() {
                                           )
                                         : _vm._e(),
                                       _vm._v(
-                                        "\r\n                                " +
+                                        "\n                                " +
                                           _vm._s(
                                             _vm.StatusDetails.status ==
                                               "Submitted" && !_vm.isResubmit
@@ -1876,7 +1876,7 @@ var render = function() {
                       _c("v-icon", { attrs: { left: "" } }, [
                         _vm._v("mdi-comment")
                       ]),
-                      _vm._v("Private Comments\r\n            ")
+                      _vm._v("Private Comments\n            ")
                     ],
                     1
                   ),
@@ -2112,7 +2112,7 @@ var render = function() {
                                         [
                                           _c("v-icon", [
                                             _vm._v(
-                                              "\r\n                                    mdi-book-open-variant\r\n                                    "
+                                              "\n                                    mdi-book-open-variant\n                                    "
                                             )
                                           ])
                                         ],
@@ -2356,7 +2356,7 @@ var render = function() {
                                                                                 ),
                                                                                 [
                                                                                   _vm._v(
-                                                                                    "\r\n                                                         " +
+                                                                                    "\n                                                         " +
                                                                                       _vm._s(
                                                                                         _vm
                                                                                           .classworkDetails
@@ -2413,7 +2413,7 @@ var render = function() {
                                                                           .classworkDetails
                                                                           .attachment_size
                                                                       ) +
-                                                                        "\r\n\r\n                                                  "
+                                                                        "\n\n                                                  "
                                                                     ),
                                                                     _c(
                                                                       "v-icon",

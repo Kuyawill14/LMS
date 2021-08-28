@@ -65,7 +65,7 @@
                     </v-col>
                     <v-col :class="$vuetify.breakpoint.xs ? 'ma-0 pa-3' :'ma-0 pa-0'" cols="12" md="8">
                     
-                       <vue-element-loading :active="isLoggin" text="Please wait..." spinner="bar-fade-scale" color="#EF6C00" />
+                       <vue-element-loading :active="isLoggin" spinner="bar-fade-scale" color="#EF6C00" />
                       <v-row align="center" justify="center">
                         <v-col class="text-left" cols="12" md="8" lg="6" sm="7">
                           <v-card-text>
@@ -196,6 +196,7 @@ export default {
         min: v => (v && v.length >= 6) || "Min 6 characters"
       },
       ToManyAttepmtError: null,
+      
     }
   },
   computed: {
@@ -234,6 +235,7 @@ export default {
                     if(res.data.success == true) {
                         this.toastSuccess(res.data.message);
                         this.$store.dispatch('clear_current_user');
+                        window.localStorage.setItem('personal_access_token', res.data.token);
                         this.$router.push({ path: "/" })
                     }
                     else{

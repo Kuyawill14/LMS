@@ -173,7 +173,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 var previewClassworkModal = function previewClassworkModal() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_tabs_classwork-tab_dialogs_previewClassworkModal_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../dialogs/previewClassworkModal */ "./resources/js/components/course-view/tabs/classwork-tab/dialogs/previewClassworkModal.vue"));
 };
@@ -389,7 +388,7 @@ var render = function() {
                 [
                   _c("v-icon", { staticStyle: { "font-size": "10rem" } }, [
                     _vm._v(
-                      "\r\n                    mdi-book-open-variant\r\n                "
+                      "\n                    mdi-book-open-variant\n                "
                     )
                   ]),
                   _vm._v(" "),
@@ -558,16 +557,6 @@ var render = function() {
                                     attrs: { cols: "12", md: "4" }
                                   },
                                   [
-                                    _c("vue-element-loading", {
-                                      attrs: {
-                                        active:
-                                          _vm.isLoading &&
-                                          _vm.Preview_id == item.classwork_id,
-                                        text: "Loading...",
-                                        spinner: "bar-fade-scale"
-                                      }
-                                    }),
-                                    _vm._v(" "),
                                     _c("v-hover", {
                                       scopedSlots: _vm._u(
                                         [
@@ -580,6 +569,7 @@ var render = function() {
                                                   "v-card",
                                                   {
                                                     attrs: {
+                                                      outlined: "",
                                                       link: "",
                                                       elevation: hover ? 1 : 0
                                                     },
@@ -595,11 +585,23 @@ var render = function() {
                                                     }
                                                   },
                                                   [
+                                                    _c("vue-element-loading", {
+                                                      attrs: {
+                                                        active:
+                                                          _vm.isLoading &&
+                                                          _vm.Preview_id ==
+                                                            item.classwork_id,
+                                                        text: "Loading...",
+                                                        spinner:
+                                                          "bar-fade-scale"
+                                                      }
+                                                    }),
+                                                    _vm._v(" "),
                                                     _c(
                                                       "v-container",
                                                       {
                                                         staticClass:
-                                                          "pl-2 pr-5 pt-5 pb-5 d-flex flex-row justify-space-between"
+                                                          "pl-4 pr-5 pt-5 pb-5 d-flex flex-row justify-space-between"
                                                       },
                                                       [
                                                         _c(
@@ -648,14 +650,14 @@ var render = function() {
                                                                   },
                                                                   [
                                                                     _vm._v(
-                                                                      "\r\n                                        " +
+                                                                      "\n                                        " +
                                                                         _vm._s(
                                                                           item.status ==
                                                                             "Submitted"
                                                                             ? "mdi-check"
                                                                             : "mdi-book-open-variant"
                                                                         ) +
-                                                                        "\r\n                                    "
+                                                                        "\n                                    "
                                                                     )
                                                                   ]
                                                                 )
@@ -824,7 +826,7 @@ var render = function() {
                                                                           ]
                                                                         ),
                                                                         _vm._v(
-                                                                          " \r\n                                            " +
+                                                                          " \n                                            " +
                                                                             _vm._s(
                                                                               item.availability !=
                                                                                 0
@@ -836,14 +838,14 @@ var render = function() {
                                                                                   : "Late"
                                                                                 : ""
                                                                             ) +
-                                                                            "\r\n                                            " +
+                                                                            "\n                                            " +
                                                                             _vm._s(
                                                                               item.availability !=
                                                                                 0
                                                                                 ? " Due Date:"
                                                                                 : "No Due Date"
                                                                             ) +
-                                                                            "\r\n                                            " +
+                                                                            "\n                                            " +
                                                                             _vm._s(
                                                                               item.availability !=
                                                                                 0
@@ -852,7 +854,7 @@ var render = function() {
                                                                                   )
                                                                                 : ""
                                                                             ) +
-                                                                            " \r\n                                        "
+                                                                            " \n                                        "
                                                                         )
                                                                       ],
                                                                       1
@@ -891,13 +893,13 @@ var render = function() {
                                                                           ]
                                                                         ),
                                                                         _vm._v(
-                                                                          " \r\n                                            Submitted: " +
+                                                                          " \n                                            Submitted: " +
                                                                             _vm._s(
                                                                               _vm.format_date(
                                                                                 item.Sub_date
                                                                               )
                                                                             ) +
-                                                                            " \r\n                                        "
+                                                                            " \n                                        "
                                                                         )
                                                                       ],
                                                                       1
@@ -999,7 +1001,7 @@ var render = function() {
                                                                             ),
                                                                             [
                                                                               _vm._v(
-                                                                                "\r\n                                            Continue\r\n                                        "
+                                                                                "\n                                            Continue\n                                        "
                                                                               )
                                                                             ]
                                                                           )
@@ -1034,9 +1036,7 @@ var render = function() {
                                         null,
                                         true
                                       )
-                                    }),
-                                    _vm._v(" "),
-                                    _c("v-divider")
+                                    })
                                   ],
                                   1
                                 )

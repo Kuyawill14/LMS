@@ -43,19 +43,30 @@ import router from "./router";
 Vue.component('main-component', require('./components/app.vue').default);
 Vue.mixin({
     methods: {
+        toastNormal(message) {
+            return this.$toasted.show(message, {
+                theme: "toasted-primary",
+                position: "bottom-left",
+                duration: 3000,
+                action:{
+                    icon:'close'
+                }
+            });
+        },
+
         toastSuccess(message) {
             return this.$toasted.success(message, {
                 theme: "toasted-primary",
-                position: "top-center",
-                icon: "done",
-                duration: 3000
+                position: "top-right",
+                icon: "check",
+                duration: 2000
             });
         },
 
         toastError(message) {
             return this.$toasted.error(message, {
                 theme: "toasted-primary",
-                position: "top-center",
+                position: "top-right",
                 icon: "warning",
                 duration: 3000
             });

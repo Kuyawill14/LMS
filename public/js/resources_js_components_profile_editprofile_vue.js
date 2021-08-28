@@ -235,6 +235,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['UserDetails'],
   data: function data() {
@@ -252,29 +254,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       FieldRules: [function (v) {
         return !!v || 'Field is required';
       }],
-      message: null,
-      type: null,
       isloading: true
     };
   },
   methods: {
-    toastSuccess: function toastSuccess() {
-      if (this.type == "success") {
-        return this.$toasted.success(this.message, {
-          theme: "toasted-primary",
-          position: "top-center",
-          icon: "done",
-          duration: 3000
-        });
-      } else if (this.type == 'error') {
-        return this.$toasted.error(this.message, {
-          theme: "toasted-primary",
-          position: "top-center",
-          icon: "error",
-          duration: 3000
-        });
-      }
-    },
     validate: function validate() {
       if (this.$refs.form.validate()) {
         this.UpdateDetails();
@@ -292,17 +275,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _this.isSaving = !_this.isSaving;
                 test = btoa('test123');
                 axios.post('/api/profile/updateDetails', _this.UserDetails).then(function (res) {
-                  _this.type = 'success';
-                  _this.message = 'Profile Successfully Updated';
-
-                  _this.toastSuccess();
+                  _this.toastSuccess('Profile Successfully Updated');
 
                   _this.isSaving = !_this.isSaving;
                 })["catch"](function (e) {
-                  _this.type = 'error';
-                  _this.message = 'This a problem in updating your profile!';
-
-                  _this.toastSuccess();
+                  _this.toastError('Something went wrong in updating your profile!');
 
                   _this.isSaving = !_this.isSaving;
                 });
@@ -513,6 +490,14 @@ var render = function() {
                 "v-col",
                 { staticClass: "ma-0 pa-0", attrs: { cols: "12" } },
                 [
+                  _c("vue-element-loading", {
+                    attrs: {
+                      active: _vm.isSaving,
+                      spinner: "bar-fade-scale",
+                      color: "#EF6C00"
+                    }
+                  }),
+                  _vm._v(" "),
                   _c(
                     "v-col",
                     { attrs: { cols: "12" } },
@@ -522,11 +507,18 @@ var render = function() {
                         [
                           _c("v-col", { attrs: { cols: "12", md: "2" } }),
                           _vm._v(" "),
-                          _c("v-col", { attrs: { cols: "12", md: "10" } }, [
-                            _c("h4", { staticClass: "mt-5" }, [
-                              _vm._v("1. Personal Details")
-                            ])
-                          ])
+                          _c(
+                            "v-col",
+                            {
+                              staticClass: "mb-0 pb-0",
+                              attrs: { cols: "12", md: "10" }
+                            },
+                            [
+                              _c("h4", { staticClass: "mt-5" }, [
+                                _vm._v("1. Personal Details")
+                              ])
+                            ]
+                          )
                         ],
                         1
                       )
@@ -652,6 +644,7 @@ var render = function() {
                     [
                       _c(
                         "v-row",
+                        { staticClass: "mb-0 pb-0" },
                         [
                           _c(
                             "v-col",
@@ -676,6 +669,7 @@ var render = function() {
                             },
                             [
                               _c("v-text-field", {
+                                staticClass: "mb-0 pb-0",
                                 attrs: {
                                   dense: "",
                                   outlined: "",
@@ -709,7 +703,7 @@ var render = function() {
                           _c("v-col", { attrs: { cols: "12", md: "2" } }),
                           _vm._v(" "),
                           _c("v-col", { attrs: { cols: "12", md: "10" } }, [
-                            _c("h4", { staticClass: "mt-5" }, [
+                            _c("h4", { staticClass: "mt-2" }, [
                               _vm._v("2. Contact")
                             ])
                           ])
@@ -1036,19 +1030,15 @@ var render = function() {
                                     }
                                   }
                                 },
-                                [_vm._v("Save Changes")]
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "v-btn",
-                                {
-                                  attrs: {
-                                    color: "secondary",
-                                    rounded: "",
-                                    dark: ""
-                                  }
-                                },
-                                [_vm._v("Cancel")]
+                                [
+                                  _vm._v(
+                                    _vm._s(
+                                      _vm.isSaving
+                                        ? "Saving..."
+                                        : "Save Changes"
+                                    )
+                                  )
+                                ]
                               )
                             ],
                             1

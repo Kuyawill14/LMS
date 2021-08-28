@@ -97,16 +97,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
+      valid: false,
       showCurrent: false,
       showNew: false,
       ShowNewRetype: false,
+      isChanging: false,
       data: {},
       form: {
         current_password: null,
@@ -124,8 +122,19 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
+    validate: function validate() {
+      if (this.$refs.form.validate()) {
+        this.changepassword();
+      }
+    },
     changepassword: function changepassword() {
-      axios.post('/api/change-password', this.form).then(function (res) {});
+      var _this = this;
+
+      axios.post('/api/change-password', this.form).then(function (res) {
+        _this.toastSuccess('Password Successfully Changed');
+      })["catch"](function (e) {
+        _this.toastError('Something went wrong in changing your password!');
+      });
     }
   }
 });
@@ -230,231 +239,299 @@ var render = function() {
       _vm._v(" "),
       _c(
         "v-col",
+        { staticClass: "mb-0 pb-0", attrs: { cols: "12" } },
+        [_c("v-divider")],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-col",
         { attrs: { cols: "12" } },
         [
-          _c("v-divider"),
+          _c("vue-element-loading", {
+            attrs: {
+              active: _vm.isChanging,
+              spinner: "bar-fade-scale",
+              color: "#EF6C00"
+            }
+          }),
           _vm._v(" "),
           _c(
-            "v-row",
-            [
-              _c("v-col", { attrs: { cols: "12", md: "3" } }),
-              _vm._v(" "),
-              _c("v-col", { attrs: { cols: "12", md: "9" } }, [
-                _c("h4", { staticClass: "mt-5" }, [_vm._v("Password")])
-              ])
-            ],
-            1
-          )
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "v-col",
-        { staticClass: "mb-0 pb-0", attrs: { cols: "12" } },
-        [
-          _c(
-            "v-row",
-            [
-              _c(
-                "v-col",
-                {
-                  class: _vm.$vuetify.breakpoint.xs ? "mb-0 pb-0" : "mt-2",
-                  attrs: { cols: "12", md: "3" }
+            "v-form",
+            {
+              ref: "form",
+              attrs: { "lazy-validation": "" },
+              model: {
+                value: _vm.valid,
+                callback: function($$v) {
+                  _vm.valid = $$v
                 },
-                [_vm._v("\n                 Current Password\n            ")]
-              ),
-              _vm._v(" "),
-              _c(
-                "v-col",
-                { attrs: { cols: "12", md: "5" } },
-                [
-                  _c(
-                    "v-text-field",
-                    {
-                      attrs: {
-                        "append-icon": _vm.showCurrent
-                          ? "mdi-eye"
-                          : "mdi-eye-off",
-                        dense: "",
-                        rules: [_vm.rules.required, _vm.rules.min],
-                        outlined: "",
-                        type: _vm.showCurrent ? "text" : "password"
-                      },
-                      on: {
-                        "click:append": function($event) {
-                          _vm.showCurrent = !_vm.showCurrent
-                        }
-                      },
-                      model: {
-                        value: _vm.form.current_password,
-                        callback: function($$v) {
-                          _vm.$set(_vm.form, "current_password", $$v)
-                        },
-                        expression: "form.current_password"
-                      }
-                    },
-                    [_vm._v("\n                    >")]
-                  )
-                ],
-                1
-              )
-            ],
-            1
-          )
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "v-col",
-        { staticClass: "mt-0 pt-0 mb-0 pb-0", attrs: { cols: "12" } },
-        [
-          _c(
-            "v-row",
+                expression: "valid"
+              }
+            },
             [
               _c(
-                "v-col",
-                {
-                  class: _vm.$vuetify.breakpoint.xs ? "mb-0 pb-0" : "mt-2",
-                  attrs: { cols: "12", md: "3" }
-                },
-                [_vm._v("\n                 New Password\n            ")]
-              ),
-              _vm._v(" "),
-              _c(
-                "v-col",
-                { attrs: { cols: "12", md: "5" } },
+                "v-row",
                 [
                   _c(
-                    "v-text-field",
-                    {
-                      attrs: {
-                        "append-icon": _vm.showNew ? "mdi-eye" : "mdi-eye-off",
-                        dense: "",
-                        rules: [_vm.rules.required, _vm.rules.min],
-                        outlined: "",
-                        type: _vm.showNew ? "text" : "password"
-                      },
-                      on: {
-                        "click:append": function($event) {
-                          _vm.showNew = !_vm.showNew
-                        }
-                      },
-                      model: {
-                        value: _vm.form.new_password,
-                        callback: function($$v) {
-                          _vm.$set(_vm.form, "new_password", $$v)
-                        },
-                        expression: "form.new_password"
-                      }
-                    },
-                    [_vm._v("\n                    >")]
-                  )
-                ],
-                1
-              )
-            ],
-            1
-          )
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "v-col",
-        { staticClass: "mt-0 pt-0 mb-0 pb-0", attrs: { cols: "12" } },
-        [
-          _c(
-            "v-row",
-            [
-              _c(
-                "v-col",
-                {
-                  class: _vm.$vuetify.breakpoint.xs ? "mb-0 pb-0" : "mt-2",
-                  attrs: { cols: "12", md: "3" }
-                },
-                [
-                  _vm._v(
-                    "\n                 Re Type New Password\n            "
-                  )
-                ]
-              ),
-              _vm._v(" "),
-              _c(
-                "v-col",
-                { attrs: { cols: "12", md: "5" } },
-                [
-                  _c(
-                    "v-text-field",
-                    {
-                      attrs: {
-                        "append-icon": _vm.ShowNewRetype
-                          ? "mdi-eye"
-                          : "mdi-eye-off",
-                        dense: "",
-                        outlined: "",
-                        rules: [_vm.rules.required, _vm.rules.min],
-                        type: _vm.ShowNewRetype ? "text" : "password"
-                      },
-                      on: {
-                        "click:append": function($event) {
-                          _vm.ShowNewRetype = !_vm.ShowNewRetype
-                        }
-                      },
-                      model: {
-                        value: _vm.form.confirm_password,
-                        callback: function($$v) {
-                          _vm.$set(_vm.form, "confirm_password", $$v)
-                        },
-                        expression: "form.confirm_password"
-                      }
-                    },
-                    [_vm._v("\n                    >")]
-                  )
-                ],
-                1
-              )
-            ],
-            1
-          )
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "v-col",
-        { staticClass: "mt-0 pt-0 mb-0 pb-0", attrs: { cols: "12" } },
-        [
-          _c(
-            "v-row",
-            [
-              _c("v-col", {
-                class: _vm.$vuetify.breakpoint.xs ? "mb-0 pb-0" : "mt-2",
-                attrs: { cols: "12", md: "3" }
-              }),
-              _vm._v(" "),
-              _c(
-                "v-col",
-                { attrs: { cols: "12", md: "5" } },
-                [
-                  _c(
-                    "v-btn",
-                    {
-                      attrs: { rounded: "", color: "primary", dark: "" },
-                      on: {
-                        click: function($event) {
-                          return _vm.changepassword()
-                        }
-                      }
-                    },
-                    [_vm._v("Save Changes")]
+                    "v-col",
+                    { staticClass: "mb-0 pb-0", attrs: { cols: "12" } },
+                    [
+                      _c(
+                        "v-row",
+                        [
+                          _c(
+                            "v-col",
+                            {
+                              class: _vm.$vuetify.breakpoint.xs
+                                ? "mb-0 pb-0"
+                                : "mt-2",
+                              attrs: { cols: "12", md: "3" }
+                            },
+                            [
+                              _vm._v(
+                                "\n                 Current Password\n            "
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-col",
+                            { attrs: { cols: "12", md: "5" } },
+                            [
+                              _c(
+                                "v-text-field",
+                                {
+                                  attrs: {
+                                    "append-icon": _vm.showCurrent
+                                      ? "mdi-eye"
+                                      : "mdi-eye-off",
+                                    dense: "",
+                                    rules: [_vm.rules.required, _vm.rules.min],
+                                    outlined: "",
+                                    type: _vm.showCurrent ? "text" : "password"
+                                  },
+                                  on: {
+                                    "click:append": function($event) {
+                                      _vm.showCurrent = !_vm.showCurrent
+                                    }
+                                  },
+                                  model: {
+                                    value: _vm.form.current_password,
+                                    callback: function($$v) {
+                                      _vm.$set(
+                                        _vm.form,
+                                        "current_password",
+                                        $$v
+                                      )
+                                    },
+                                    expression: "form.current_password"
+                                  }
+                                },
+                                [_vm._v("\n                    >")]
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
                   ),
                   _vm._v(" "),
                   _c(
-                    "v-btn",
-                    { attrs: { rounded: "", color: "secondary", dark: "" } },
-                    [_vm._v("Cancel")]
+                    "v-col",
+                    {
+                      staticClass: "mt-0 pt-0 mb-0 pb-0",
+                      attrs: { cols: "12" }
+                    },
+                    [
+                      _c(
+                        "v-row",
+                        [
+                          _c(
+                            "v-col",
+                            {
+                              class: _vm.$vuetify.breakpoint.xs
+                                ? "mb-0 pb-0"
+                                : "mt-2",
+                              attrs: { cols: "12", md: "3" }
+                            },
+                            [
+                              _vm._v(
+                                "\n                 New Password\n            "
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-col",
+                            { attrs: { cols: "12", md: "5" } },
+                            [
+                              _c(
+                                "v-text-field",
+                                {
+                                  attrs: {
+                                    "append-icon": _vm.showNew
+                                      ? "mdi-eye"
+                                      : "mdi-eye-off",
+                                    dense: "",
+                                    rules: [_vm.rules.required, _vm.rules.min],
+                                    outlined: "",
+                                    type: _vm.showNew ? "text" : "password"
+                                  },
+                                  on: {
+                                    "click:append": function($event) {
+                                      _vm.showNew = !_vm.showNew
+                                    }
+                                  },
+                                  model: {
+                                    value: _vm.form.new_password,
+                                    callback: function($$v) {
+                                      _vm.$set(_vm.form, "new_password", $$v)
+                                    },
+                                    expression: "form.new_password"
+                                  }
+                                },
+                                [_vm._v("\n                    >")]
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-col",
+                    {
+                      staticClass: "mt-0 pt-0 mb-0 pb-0",
+                      attrs: { cols: "12" }
+                    },
+                    [
+                      _c(
+                        "v-row",
+                        [
+                          _c(
+                            "v-col",
+                            {
+                              class: _vm.$vuetify.breakpoint.xs
+                                ? "mb-0 pb-0"
+                                : "mt-2",
+                              attrs: { cols: "12", md: "3" }
+                            },
+                            [
+                              _vm._v(
+                                "\n                 Re Type New Password\n            "
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-col",
+                            { attrs: { cols: "12", md: "5" } },
+                            [
+                              _c(
+                                "v-text-field",
+                                {
+                                  attrs: {
+                                    "append-icon": _vm.ShowNewRetype
+                                      ? "mdi-eye"
+                                      : "mdi-eye-off",
+                                    dense: "",
+                                    outlined: "",
+                                    rules: [_vm.rules.required, _vm.rules.min],
+                                    type: _vm.ShowNewRetype
+                                      ? "text"
+                                      : "password"
+                                  },
+                                  on: {
+                                    "click:append": function($event) {
+                                      _vm.ShowNewRetype = !_vm.ShowNewRetype
+                                    }
+                                  },
+                                  model: {
+                                    value: _vm.form.confirm_password,
+                                    callback: function($$v) {
+                                      _vm.$set(
+                                        _vm.form,
+                                        "confirm_password",
+                                        $$v
+                                      )
+                                    },
+                                    expression: "form.confirm_password"
+                                  }
+                                },
+                                [_vm._v("\n                    >")]
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-col",
+                    {
+                      staticClass: "mt-0 pt-0 mb-0 pb-0",
+                      attrs: { cols: "12" }
+                    },
+                    [
+                      _c(
+                        "v-row",
+                        [
+                          _c("v-col", {
+                            class: _vm.$vuetify.breakpoint.xs
+                              ? "mb-0 pb-0"
+                              : "mt-2",
+                            attrs: { cols: "12", md: "3" }
+                          }),
+                          _vm._v(" "),
+                          _c(
+                            "v-col",
+                            { attrs: { cols: "12", md: "5" } },
+                            [
+                              _c(
+                                "v-btn",
+                                {
+                                  attrs: {
+                                    ":disabled": _vm.isChanging,
+                                    rounded: "",
+                                    color: "primary",
+                                    dark: ""
+                                  },
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.validate()
+                                    }
+                                  }
+                                },
+                                [
+                                  _vm._v(
+                                    _vm._s(
+                                      _vm.isChanging
+                                        ? "Saving..."
+                                        : "Save Changes"
+                                    )
+                                  )
+                                ]
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
                   )
                 ],
                 1

@@ -5,7 +5,8 @@ const state = {
     UserRole: null,
     MyCourses: [],
     CurrentStatus: {},
-    IsAuthenticated: window.localStorage.getItem('IsAuthenticated')
+    IsAuthenticated: window.localStorage.getItem('IsAuthenticated'),
+    AccessToken: window.localStorage.getItem('personal_access_token'),
 
 };
 const getters = {
@@ -19,6 +20,7 @@ const actions = {
         .catch((e)=>{
             commit('SET_AUTHENTICATED', false);
             window.localStorage.removeItem('IsAuthenticated');
+            window.localStorage.removeItem('personal_access_token');
         })
         if(res.data == true){
             commit('SET_AUTHENTICATED', true);
@@ -44,7 +46,9 @@ const actions = {
         state.UserRole = null;
         state.MyCourses = [];
         state.IsAuthenticated = false;
+        state.AccessToken = null
         window.localStorage.removeItem('IsAuthenticated');
+        window.localStorage.removeItem('personal_access_token');
     },
     async fetchMyCoursesStatus({ commit }){
         if(state.MyCourses.length == 0){

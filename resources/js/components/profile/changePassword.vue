@@ -3,19 +3,15 @@
         <v-col cols="12" class="mb-0 pb-0">
            <h3>CHANGE PASSWORD</h3> 
         </v-col>
-        
-        <v-col cols="12">
+          <v-col cols="12" class="mb-0 pb-0">
             <v-divider></v-divider>
-            <v-row>
-                <v-col cols="12" md="3">
-                     
-                </v-col>
-                  <v-col cols="12" md="9">
-                        <h4 class="mt-5">Password</h4> 
-                </v-col>
-            </v-row>
         </v-col>
 
+    <v-col cols="12" >
+
+        <vue-element-loading :active="isChanging" spinner="bar-fade-scale" color="#EF6C00" />
+    <v-form ref="form" v-model="valid" lazy-validation>
+        <v-row>
          <v-col cols="12" class="mb-0 pb-0">
             <v-row>
                 <v-col cols="12" md="3" :class="$vuetify.breakpoint.xs ? 'mb-0 pb-0': 'mt-2'">
@@ -79,22 +75,24 @@
                      
                 </v-col>
                   <v-col cols="12" md="5">
-                      <v-btn rounded @click="changepassword()" color="primary" dark>Save Changes</v-btn>
-                      <v-btn rounded color="secondary" dark>Cancel</v-btn>
+                      <v-btn ::disabled="isChanging" rounded @click="validate()" color="primary" dark>{{isChanging ? 'Saving...' : 'Save Changes'}}</v-btn>
                 </v-col>
             </v-row>
         </v-col>
-
-     
+        </v-row>
+    </v-form>
+    </v-col>
     </v-row>
 </template>
 <script>
 export default {
     data(){
         return{
+            valid:false,
             showCurrent: false,
             showNew: false,
             ShowNewRetype: false,
+            isChanging: false,
             data:{},
             form:{
                 current_password: null,
@@ -108,10 +106,18 @@ export default {
         }
     },
     methods:{
+        validate () {
+            if(this.$refs.form.validate()){
+                this.changepassword();
+            }
+        },
          changepassword(){
              axios.post('/api/change-password', this.form)
             .then(res=>{
-
+                this.toastSuccess('Password Successfully Changed');
+            })
+            .catch((e)=>{
+                this.toastError('Something went wrong in changing your password!');
             })
         }
     }

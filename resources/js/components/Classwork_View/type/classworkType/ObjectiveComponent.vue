@@ -1,6 +1,6 @@
 <template>
 
-<div class="pt-5">
+<div class="pt-7">
 
 
      
@@ -99,7 +99,7 @@
                             <v-chip v-if="status == 'Submitted'" color="success"> <v-icon left>mdi-check</v-icon> Score: {{statusDetails.score+'/'+statusDetails.totalPoints}}</v-chip>
                         </div>
                         <v-row style="height:4vh"></v-row>
-                        <v-divider></v-divider>
+                        <v-divider v-if="status == 'Submitted'"></v-divider>
                     </v-col>
                     <v-col cols="12">
                         <v-container ma-0 pa-0 class="d-flex flex-row justify-space-between">

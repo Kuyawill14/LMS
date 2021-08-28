@@ -312,10 +312,11 @@ var updatePublishDialog = function updatePublishDialog() {
                 _this5.notifyDetails.classwork_id = data.classwork_id;
                 _this5.notifyDetails.class_id = data.class_id;
                 _this5.notifyDetails.course_id = _this5.$route.params.id;
+                _this5.notifyDetails.due = data.to_date;
                 _this5.notifyDetails.type = 'classwork';
                 axios.post('/api/notification/new', _this5.notifyDetails).then(function (res) {});
 
-              case 6:
+              case 7:
               case "end":
                 return _context4.stop();
             }
@@ -644,18 +645,18 @@ var render = function() {
                                                     },
                                                     [
                                                       _vm._v(
-                                                        "\r\n                                                    " +
+                                                        "\n                                                    " +
                                                           _vm._s(
                                                             _vm.$vuetify
                                                               .breakpoint.xs
                                                               ? ""
                                                               : "Publish"
                                                           ) +
-                                                          "\r\n                                                "
+                                                          "\n                                                "
                                                       ),
                                                       _c("v-icon", [
                                                         _vm._v(
-                                                          "\r\n                                                    mdi-share\r\n                                                "
+                                                          "\n                                                    mdi-share\n                                                "
                                                         )
                                                       ])
                                                     ],
@@ -769,7 +770,7 @@ var render = function() {
                                                                     ]
                                                                   ),
                                                                   _vm._v(
-                                                                    " Edit Publication\r\n                                                        "
+                                                                    " Edit Publication\n                                                        "
                                                                   )
                                                                 ],
                                                                 1
@@ -818,7 +819,7 @@ var render = function() {
                                                                     ]
                                                                   ),
                                                                   _vm._v(
-                                                                    " Unpublish\r\n                                                            "
+                                                                    " Unpublish\n                                                            "
                                                                   )
                                                                 ],
                                                                 1

@@ -90,7 +90,7 @@
                            <v-list-item>
                         <v-list-item-content>
                             <div class="text-center overline">
-                            {{UserDetails.role != 'Teacher' ? 'Rank 1':'Classworks '+item.classwork_count}}
+                            {{UserDetails.role != 'Teacher' ? '':'Classworks '+item.classwork_count}}
                             </div>
                         </v-list-item-content>
                         </v-list-item>

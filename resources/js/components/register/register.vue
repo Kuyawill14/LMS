@@ -61,13 +61,11 @@
                             </v-col>
 
                             <v-col :class="$vuetify.breakpoint.xs ? 'ma-0 pa-3' :'ma-0 pa-0'" cols="12" md="8">
-                                <vue-element-loading :active="isRegistering" text="Signing up..." spinner="bar-fade-scale" color="#EF6C00" />
+                                <vue-element-loading :active="isRegistering" spinner="bar-fade-scale" color="#EF6C00" />
                                 <v-row align="center" justify="center">
                                     <v-col class="text-left" cols="12" md="8" lg="6" sm="7">
                                          
                                           <v-card-text >
-                                           
-
                                             <v-form autocomplete="off"  class="text-center " ref="RegisterForm"
                                                 v-model="valid" lazy-validation>
                                                  <v-row align="center" justify="center">
@@ -75,7 +73,6 @@
                                                         <div class="text-md-h5 text-xs-h5 text-sm-h6 font-weight-bold">Sign Up <span class="font-weight-regular">Now</span></div>
                                                         <p class="mt-2">Login Your Account <router-link class="blue--text" :to="{name: 'login'}">Click here</router-link></p>
                                                     </v-col>
-
 
                                                      <v-col class="ma-0 pa-0 mt-2 " cols="12" md="8">
                                                          <HasError class="error--text" :form="form" field="student_id" />
