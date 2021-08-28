@@ -8,7 +8,7 @@
                     </v-text-field>
                 </v-col>
                 <v-col lg="3" class="float-right">
-                    <v-text-field v-model="new_grading_criteria_form.percentage" class="centered-input" outlined
+                    <v-text-field type="number" v-model="new_grading_criteria_form.percentage" class="centered-input" outlined
                         color="primary" label="Percentage" suffix="%"></v-text-field>
                 </v-col>
 
@@ -40,7 +40,7 @@
                         </v-text-field>
                     </v-col>
                     <v-col lg="2">
-                        <v-text-field v-model="gradeCriteria.percentage" outlined color="primary" suffix="%"
+                        <v-text-field type="number" v-model="gradeCriteria.percentage" outlined color="primary" suffix="%"
                             class="text-center centered-input" style="text-align:center !important"
                             @change="updateGradeCriteria(gradeCriteria.name, gradeCriteria.percentage, gradeCriteria.id)">
                         </v-text-field>
@@ -221,6 +221,7 @@
 
                 } else {
                     this.toastError('Please fill up all the field to add criteria');
+                      this.isAdding = false;
                 }
 
             },

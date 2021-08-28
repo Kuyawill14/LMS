@@ -61,7 +61,7 @@
                             </v-col>
 
                             <v-col :class="$vuetify.breakpoint.xs ? 'ma-0 pa-3' :'ma-0 pa-0'" cols="12" md="8">
-                                <vue-element-loading :active="isRegistering" text="Registering..." spinner="bar-fade-scale" color="#EF6C00" />
+                                <vue-element-loading :active="isRegistering" text="Signing up..." spinner="bar-fade-scale" color="#EF6C00" />
                                 <v-row align="center" justify="center">
                                     <v-col class="text-left" cols="12" md="8" lg="6" sm="7">
                                          

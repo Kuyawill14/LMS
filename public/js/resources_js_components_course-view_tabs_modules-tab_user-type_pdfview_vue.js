@@ -35,7 +35,7 @@ __webpack_require__.r(__webpack_exports__);
       pdf_path: null
     };
   },
-  created: function created() {
+  mounted: function mounted() {
     var host = window.location.protocol + "//" + window.location.host;
     this.pdf_path = host + this.pdf_file;
   }

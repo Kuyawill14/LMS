@@ -306,7 +306,7 @@ var render = function() {
             attrs: {
               outlined: "",
               color: "primary",
-              label: "Google Meet Link"
+              label: "Video Conference Link"
             },
             model: {
               value: _vm.getcourseInfo.v_classroom_link,
@@ -314,31 +314,6 @@ var render = function() {
                 _vm.$set(_vm.getcourseInfo, "v_classroom_link", $$v)
               },
               expression: "getcourseInfo.v_classroom_link"
-            }
-          })
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "v-col",
-        { staticClass: "pa-0 ", attrs: { cols: "12" } },
-        [
-          _c("v-select", {
-            staticClass: "mr-2",
-            attrs: {
-              items: _vm.departmentsList,
-              "item-text": "name",
-              "item-value": "id",
-              label: "Department",
-              outlined: ""
-            },
-            model: {
-              value: _vm.getcourseInfo.department,
-              callback: function($$v) {
-                _vm.$set(_vm.getcourseInfo, "department", $$v)
-              },
-              expression: "getcourseInfo.department"
             }
           })
         ],

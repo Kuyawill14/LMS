@@ -1929,7 +1929,7 @@ Vue.mixin({
         theme: "toasted-primary",
         position: "top-center",
         icon: "done",
-        duration: 2000
+        duration: 3000
       });
     },
     toastError: function toastError(message) {
@@ -1937,7 +1937,15 @@ Vue.mixin({
         theme: "toasted-primary",
         position: "top-center",
         icon: "warning",
-        duration: 2000
+        duration: 3000
+      });
+    },
+    toastInfo: function toastInfo(message) {
+      return this.$toasted.show(message, {
+        theme: "toasted-primary",
+        position: "top-center",
+        icon: "info",
+        duration: 3000
       });
     }
   }

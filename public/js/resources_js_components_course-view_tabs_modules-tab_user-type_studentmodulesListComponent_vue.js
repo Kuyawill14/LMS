@@ -121,6 +121,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 Vue.use((vue_confetti__WEBPACK_IMPORTED_MODULE_1___default()));
 
@@ -148,11 +149,14 @@ Vue.use((vue_confetti__WEBPACK_IMPORTED_MODULE_1___default()));
   },
   computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(["getmain_module", "getSub_module", "getAll_sub_module", "getStudentModuleProgress"])),
   methods: {
-    start: function start() {
-      this.$confetti.start();
-    },
-    stop: function stop() {
-      this.$confetti.stop();
+    subModuleClick: function subModuleClick(isPublished, itemModule_id, itemSubModule_id, itemSubModule_type, studentSubModuleProgress) {
+      if (isPublished || this.role == 'Teacher') {
+        this.setTimeSpent(itemModule_id, itemSubModule_id, studentSubModuleProgress);
+        this.passToMainComponent(this.getSub_module(itemModule_id), itemSubModule_id);
+        this.addSubStudentProgress(itemModule_id, itemSubModule_id, itemSubModule_type, studentSubModuleProgress);
+      } else {
+        this.toastInfo('Module not available, The instructor still not yet publish this module.');
+      }
     },
     passToMainComponent: function passToMainComponent(sub_module, id) {
       var _sub_module = sub_module.find(function (item) {
@@ -671,16 +675,8 @@ var render = function() {
                       attrs: { link: "" },
                       on: {
                         click: function($event) {
-                          _vm.setTimeSpent(
-                            itemModule.id,
-                            itemSubModule.id,
-                            _vm.studentSubModuleProgress
-                          )
-                          _vm.passToMainComponent(
-                            _vm.getSub_module(itemModule.id),
-                            itemSubModule.id
-                          )
-                          _vm.addSubStudentProgress(
+                          return _vm.subModuleClick(
+                            itemModule.isPublished,
                             itemModule.id,
                             itemSubModule.id,
                             itemSubModule.type,
@@ -701,7 +697,7 @@ var render = function() {
                             },
                             [
                               _vm._v(
-                                "\n                            mdi-folder\n                        "
+                                "\n                                mdi-folder\n                            "
                               )
                             ]
                           )
@@ -722,22 +718,22 @@ var render = function() {
                           _vm._v(" "),
                           _c("v-list-item-subtitle", [
                             _vm._v(
-                              " Time spent:\n                            " +
+                              " Time spent:\n                                " +
                                 _vm._s(_vm.convertTime(itemSubModule.id, -1)) +
-                                "\n\n                        "
+                                "\n\n                            "
                             )
                           ]),
                           _vm._v(" "),
                           _c("v-list-item-subtitle", [
                             _vm._v(
-                              " Required time:\n                            " +
+                              " Required time:\n                                " +
                                 _vm._s(
                                   _vm.convertTime(
                                     -1,
                                     itemSubModule.required_time
                                   )
                                 ) +
-                                "\n\n                        "
+                                "\n\n                            "
                             )
                           ])
                         ],
@@ -760,7 +756,11 @@ var render = function() {
                                   : "lighten"
                               }
                             },
-                            [_vm._v("\n                            mdi-check")]
+                            [
+                              _vm._v(
+                                "\n                                mdi-check"
+                              )
+                            ]
                           )
                         ],
                         1

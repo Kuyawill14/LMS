@@ -72,6 +72,15 @@ class MainModuleController extends Controller
 
     }
 
+    public function publishModule(Request $request, $id) {
+        $mainModule = tbl_main_modules::find($id);
+        if($mainModule){
+     
+            $mainModule->isPublished = $request->isPublished;
+            $mainModule->save();
+            return 'success';
+        }
+    }
     /**
      * Display the specified resource.
      *

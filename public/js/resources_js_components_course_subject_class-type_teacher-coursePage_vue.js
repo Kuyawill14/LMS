@@ -530,7 +530,7 @@ var render = function() {
                   _vm._v(" "),
                   _c("p", [
                     _vm._v(
-                      " Creating Module, you'll be able to upload and share it with your class. "
+                      " Creating Course, you'll be able to Create Classes, manage Learning Materials, Create Quiz and Assignment and etc. "
                     )
                   ]),
                   _vm._v(" "),

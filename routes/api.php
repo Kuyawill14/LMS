@@ -186,6 +186,9 @@ Route::prefix('/main_module')->group(function () {
     Route::post('/update/{id}', [MainModuleController::class, 'update']);
     Route::delete('/delete/{id}', [MainModuleController::class, 'deleteModule']);
     Route::post('/arrange', [MainModuleController::class, 'newArrangement']);
+    Route::post('/publish/{id}', [MainModuleController::class, 'publishModule']);
+
+
     
 });
 

@@ -627,6 +627,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -646,6 +660,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   data: function data() {
     return {
+      isPublishing: false,
+      isPublishing_id: null,
       moduleName: '',
       isEdit: false,
       itemType: '',
@@ -674,14 +690,33 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
   }),
   methods: (_methods = {
-    onEnd: function onEnd() {
+    publishModule: function publishModule(module_name, id, isPublished) {
       var _this = this;
+
+      this.isPublishing = true;
+      isPublished = isPublished ? 1 : 0;
+      axios.post("/api/main_module/publish/".concat(id), {
+        isPublished: isPublished
+      }).then(function (res) {
+        if (isPublished == 1) {
+          _this.toastSuccess(module_name + ' Successfully Published');
+
+          _this.isPublishing = false;
+        } else {
+          _this.toastSuccess(module_name + ' Successfully Unpublished');
+
+          _this.isPublishing = false;
+        }
+      });
+    },
+    onEnd: function onEnd() {
+      var _this2 = this;
 
       this.isDrag = true;
       axios.post("/api/main_module/arrange", {
         mainModules: this.mainModule
       }).then(function (res) {
-        _this.isDrag = false;
+        _this2.isDrag = false;
       });
     },
     getdata: function getdata() {
@@ -738,7 +773,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
     return count;
   }), _defineProperty(_methods, "addSubStudentProgress", function addSubStudentProgress(mainModule_id, subModule_id, type) {
-    var _this2 = this;
+    var _this3 = this;
 
     this.tempSubId = subModule_id;
     this.studentSubModuleProgressForm.main_module_id = mainModule_id;
@@ -748,7 +783,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     axios.post("/api/student_sub_module/insert", {
       studentProgress: this.studentSubModuleProgressForm
     }).then(function (res) {
-      _this2.studentSubModuleProgress.push(res.data);
+      _this3.studentSubModuleProgress.push(res.data);
     });
   }), _defineProperty(_methods, "checkSubModule", function checkSubModule(arr, sub_module_id) {
     var check = false; //console.log(arr);
@@ -762,14 +797,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     return check;
   }), _methods),
   mounted: function mounted() {
-    var _this3 = this;
+    var _this4 = this;
 
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              _this3.getdata(); // axios.get(
+              _this4.getdata(); // axios.get(
               //     `/api/student_sub_module/all/${this.$route.params.id}`
               // ).then((res) => {
               //     this.studentSubModuleProgress = res.data;
@@ -811,7 +846,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".flip-list-move {\n  transition: transform 0.5s !important;\n}\n.no-move {\n  transition: transform 0s !important;\n}\n.pannel-btn {\n  position: absolute;\n  top: 15px;\n  right: 47px;\n  z-index: 100;\n}\n.v-expansion-panel-content__wrap {\n  padding: 0 !important;\n}\n.ghost {\n  border-left: 10px solid #FF5400 !important;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".flip-list-move {\n  transition: transform 0.5s !important;\n}\n.no-move {\n  transition: transform 0s !important;\n}\n.pannel-btn {\n  position: absolute;\n  top: 15px;\n  right: 47px;\n  z-index: 100;\n}\n.v-expansion-panel-content__wrap {\n  padding: 0 !important;\n}\n.ghost {\n  border-left: 10px solid #FF5400 !important;\n}\n.module-switch {\n  position: absolute;\n  right: 125px;\n  top: 2px;\n  z-index: 999;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -5785,6 +5820,111 @@ var render = function() {
                           "span",
                           { staticStyle: { "font-size": "1.5rem" } },
                           [
+                            _c(
+                              "v-tooltip",
+                              {
+                                attrs: { top: "", color: "black" },
+                                scopedSlots: _vm._u(
+                                  [
+                                    {
+                                      key: "activator",
+                                      fn: function(ref) {
+                                        var on = ref.on
+                                        var attrs = ref.attrs
+                                        return [
+                                          _c(
+                                            "div",
+                                            _vm._g(
+                                              _vm._b(
+                                                {
+                                                  staticClass: "module-switch",
+                                                  staticStyle: {
+                                                    width: "min-content"
+                                                  }
+                                                },
+                                                "div",
+                                                attrs,
+                                                false
+                                              ),
+                                              on
+                                            ),
+                                            [
+                                              _c(
+                                                "v-switch",
+                                                _vm._g(
+                                                  _vm._b(
+                                                    {
+                                                      attrs: {
+                                                        inset: "",
+                                                        loading:
+                                                          _vm.isPublishing &&
+                                                          _vm.isPublishing_id ==
+                                                            itemModule.id,
+                                                        color: "success",
+                                                        disabled:
+                                                          _vm.isPublishing
+                                                      },
+                                                      on: {
+                                                        click: function(
+                                                          $event
+                                                        ) {
+                                                          ;(_vm.isPublishing_id =
+                                                            itemModule.id),
+                                                            _vm.publishModule(
+                                                              itemModule.module_name,
+                                                              itemModule.id,
+                                                              itemModule.isPublished
+                                                            )
+                                                        }
+                                                      },
+                                                      model: {
+                                                        value:
+                                                          itemModule.isPublished,
+                                                        callback: function(
+                                                          $$v
+                                                        ) {
+                                                          _vm.$set(
+                                                            itemModule,
+                                                            "isPublished",
+                                                            $$v
+                                                          )
+                                                        },
+                                                        expression:
+                                                          "itemModule.isPublished"
+                                                      }
+                                                    },
+                                                    "v-switch",
+                                                    attrs,
+                                                    false
+                                                  ),
+                                                  on
+                                                )
+                                              )
+                                            ],
+                                            1
+                                          )
+                                        ]
+                                      }
+                                    }
+                                  ],
+                                  null,
+                                  true
+                                )
+                              },
+                              [
+                                _vm._v(" "),
+                                _c("span", [
+                                  _vm._v(
+                                    _vm._s(
+                                      itemModule.isPublished
+                                        ? "Unpublished"
+                                        : "Publish"
+                                    )
+                                  )
+                                ])
+                              ]
+                            ),
+                            _vm._v(" "),
                             _c(
                               "v-icon",
                               { staticStyle: { "font-size": "2.25rem" } },

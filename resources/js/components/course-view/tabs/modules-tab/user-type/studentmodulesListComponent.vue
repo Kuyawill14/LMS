@@ -46,41 +46,42 @@
                 <v-expansion-panel-content class="pa-0">
                     <v-list-item v-for="(itemSubModule, i) in getSub_module(itemModule.id)" :key="'Submodule'+i" link
                         class="pl-8" @click="
-                        setTimeSpent(itemModule.id,itemSubModule.id,studentSubModuleProgress); 
-                        passToMainComponent(getSub_module(itemModule.id),itemSubModule.id);
-                        addSubStudentProgress(itemModule.id,itemSubModule.id,itemSubModule.type,studentSubModuleProgress);
+                            subModuleClick(itemModule.isPublished,itemModule.id,itemSubModule.id,itemSubModule.type,studentSubModuleProgress) 
                          ">
+                      
 
-                        <!--  -->
 
-                        <v-list-item-avatar>
+                            <!--  -->
 
-                            <v-icon class="grey lighten-1" dark>
-                                mdi-folder
-                            </v-icon>
-                        </v-list-item-avatar>
+                            <v-list-item-avatar>
 
-                        <v-list-item-content>
-                            <v-list-item-title> {{itemSubModule.sub_module_name}}</v-list-item-title>
+                                <v-icon class="grey lighten-1" dark>
+                                    mdi-folder
+                                </v-icon>
+                            </v-list-item-avatar>
 
-                            <v-list-item-subtitle> {{itemSubModule.type}}</v-list-item-subtitle>
-                            <v-list-item-subtitle> Time spent:
-                                {{ convertTime(itemSubModule.id, -1)}}
+                            <v-list-item-content>
+                                <v-list-item-title> {{itemSubModule.sub_module_name}}</v-list-item-title>
 
-                            </v-list-item-subtitle>
-                            <v-list-item-subtitle> Required time:
-                                {{ convertTime(-1,itemSubModule.required_time)}}
+                                <v-list-item-subtitle> {{itemSubModule.type}}</v-list-item-subtitle>
+                                <v-list-item-subtitle> Time spent:
+                                    {{ convertTime(itemSubModule.id, -1)}}
 
-                            </v-list-item-subtitle>
-                        </v-list-item-content>
+                                </v-list-item-subtitle>
+                                <v-list-item-subtitle> Required time:
+                                    {{ convertTime(-1,itemSubModule.required_time)}}
 
-                        <v-list-item-action>
+                                </v-list-item-subtitle>
+                            </v-list-item-content>
 
-                            <v-icon
-                                :color="checkTimeSpent(studentSubModuleProgress,itemSubModule,itemSubModule.required_time) ? 'success' : 'lighten'">
-                                mdi-check</v-icon>
+                            <v-list-item-action>
 
-                        </v-list-item-action>
+                                <v-icon
+                                    :color="checkTimeSpent(studentSubModuleProgress,itemSubModule,itemSubModule.required_time) ? 'success' : 'lighten'">
+                                    mdi-check</v-icon>
+
+                            </v-list-item-action>
+                    
                     </v-list-item>
 
                 </v-expansion-panel-content>
@@ -92,10 +93,9 @@
 
 
 <script>
+    import VueConfetti from 'vue-confetti'
 
-  import VueConfetti from 'vue-confetti'
-
-  Vue.use(VueConfetti)
+    Vue.use(VueConfetti)
 
 
     import {
@@ -131,12 +131,18 @@
             ...mapGetters(["getmain_module", "getSub_module", "getAll_sub_module", "getStudentModuleProgress"])
         },
         methods: {
-            start() {
-                this.$confetti.start();
-            },
+            subModuleClick(isPublished, itemModule_id, itemSubModule_id, itemSubModule_type, studentSubModuleProgress) {
+          
+               if (isPublished || this.role == 'Teacher') {
+                    this.setTimeSpent(itemModule_id, itemSubModule_id, studentSubModuleProgress);
+                    this.passToMainComponent(this.getSub_module(itemModule_id), itemSubModule_id);
+                    this.addSubStudentProgress(itemModule_id, itemSubModule_id, itemSubModule_type,
+                        studentSubModuleProgress);
+                } else {
+                    this.toastInfo ('Module not available, The instructor still not yet publish this module.')
+                }
 
-            stop() {
-                this.$confetti.stop();
+
             },
 
 
@@ -161,7 +167,7 @@
                                 if (arr[j].time_spent >= subModules_arr[i].required_time) {
 
                                     count++;
-                                  
+
                                 }
                             }
                         }
@@ -208,7 +214,7 @@
                 for (var i = 0; i < arr.length; i++) {
                     if (arr[i].sub_module_id == sub_module.id) {
                         if (arr[i].time_spent >= time_spent) {
-                            
+
                             // this.$store.dispatch('studentmodule_progress', this.$route.params.id);
                             // this.$store.dispatch('fetchClassList')
                             check = true;
@@ -329,9 +335,9 @@
             this.$store.dispatch('studentmodule_progress', this.$route.params.id);
             this.loading = false;
             setTimeout(() => {
-                    this.firstLoad = false;
+                this.firstLoad = false;
             }, 5000);
-        
+
 
         },
         created() {

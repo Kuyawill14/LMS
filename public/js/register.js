@@ -613,7 +613,7 @@ var render = function() {
                           _c("vue-element-loading", {
                             attrs: {
                               active: _vm.isRegistering,
-                              text: "Registering...",
+                              text: "Signing up...",
                               spinner: "bar-fade-scale",
                               color: "#EF6C00"
                             }

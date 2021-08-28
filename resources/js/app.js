@@ -48,15 +48,25 @@ Vue.mixin({
                 theme: "toasted-primary",
                 position: "top-center",
                 icon: "done",
-                duration: 2000
+                duration: 3000
             });
         },
+
         toastError(message) {
             return this.$toasted.error(message, {
                 theme: "toasted-primary",
                 position: "top-center",
                 icon: "warning",
-                duration: 2000
+                duration: 3000
+            });
+        },
+        toastInfo(message) {
+            return this.$toasted.show(message, {
+                theme: "toasted-primary",
+
+                position: "top-center",
+                icon: "info",
+                duration: 3000
             });
         },
     }
