@@ -301,7 +301,7 @@ var render = function() {
                                 },
                                 [
                                   _vm._v(
-                                    "\n                    Loading\n                "
+                                    "\r\n                    Loading\r\n                "
                                   )
                                 ]
                               ),
@@ -399,13 +399,13 @@ var render = function() {
                                                       ),
                                                       [
                                                         _vm._v(
-                                                          "\n                                        " +
+                                                          "\r\n                                        " +
                                                             _vm._s(
                                                               item.course_code +
                                                                 " - " +
                                                                 item.course_name
                                                             ) +
-                                                            "\n                                    "
+                                                            "\r\n                                    "
                                                         )
                                                       ]
                                                     )
@@ -454,14 +454,14 @@ var render = function() {
                                         { staticClass: "text-center" },
                                         [
                                           _vm._v(
-                                            "\n                                " +
+                                            "\r\n                                " +
                                               _vm._s(
                                                 _vm.UserDetails.role !=
                                                   "Teacher"
                                                   ? item.progress + "%"
                                                   : item.student_count
                                               ) +
-                                              "\n                                "
+                                              "\r\n                                "
                                           )
                                         ]
                                       ),
@@ -493,14 +493,14 @@ var render = function() {
                                         { staticClass: "text-center" },
                                         [
                                           _vm._v(
-                                            "\n                                " +
+                                            "\r\n                                " +
                                               _vm._s(
                                                 _vm.UserDetails.role !=
                                                   "Teacher"
                                                   ? "Progress"
                                                   : "Students"
                                               ) +
-                                              "\n                                "
+                                              "\r\n                                "
                                           )
                                         ]
                                       )
@@ -526,14 +526,14 @@ var render = function() {
                                       { staticClass: "text-center overline" },
                                       [
                                         _vm._v(
-                                          "\n                            " +
+                                          "\r\n                            " +
                                             _vm._s(
                                               _vm.UserDetails.role != "Teacher"
                                                 ? ""
                                                 : "Classworks " +
                                                     item.classwork_count
                                             ) +
-                                            "\n                            "
+                                            "\r\n                            "
                                         )
                                       ]
                                     )

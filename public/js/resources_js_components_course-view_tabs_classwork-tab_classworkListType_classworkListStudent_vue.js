@@ -388,7 +388,7 @@ var render = function() {
                 [
                   _c("v-icon", { staticStyle: { "font-size": "10rem" } }, [
                     _vm._v(
-                      "\n                    mdi-book-open-variant\n                "
+                      "\r\n                    mdi-book-open-variant\r\n                "
                     )
                   ]),
                   _vm._v(" "),
@@ -650,14 +650,14 @@ var render = function() {
                                                                   },
                                                                   [
                                                                     _vm._v(
-                                                                      "\n                                        " +
+                                                                      "\r\n                                        " +
                                                                         _vm._s(
                                                                           item.status ==
                                                                             "Submitted"
                                                                             ? "mdi-check"
                                                                             : "mdi-book-open-variant"
                                                                         ) +
-                                                                        "\n                                    "
+                                                                        "\r\n                                    "
                                                                     )
                                                                   ]
                                                                 )
@@ -826,7 +826,7 @@ var render = function() {
                                                                           ]
                                                                         ),
                                                                         _vm._v(
-                                                                          " \n                                            " +
+                                                                          " \r\n                                            " +
                                                                             _vm._s(
                                                                               item.availability !=
                                                                                 0
@@ -838,14 +838,14 @@ var render = function() {
                                                                                   : "Late"
                                                                                 : ""
                                                                             ) +
-                                                                            "\n                                            " +
+                                                                            "\r\n                                            " +
                                                                             _vm._s(
                                                                               item.availability !=
                                                                                 0
                                                                                 ? " Due Date:"
                                                                                 : "No Due Date"
                                                                             ) +
-                                                                            "\n                                            " +
+                                                                            "\r\n                                            " +
                                                                             _vm._s(
                                                                               item.availability !=
                                                                                 0
@@ -854,7 +854,7 @@ var render = function() {
                                                                                   )
                                                                                 : ""
                                                                             ) +
-                                                                            " \n                                        "
+                                                                            " \r\n                                        "
                                                                         )
                                                                       ],
                                                                       1
@@ -893,13 +893,13 @@ var render = function() {
                                                                           ]
                                                                         ),
                                                                         _vm._v(
-                                                                          " \n                                            Submitted: " +
+                                                                          " \r\n                                            Submitted: " +
                                                                             _vm._s(
                                                                               _vm.format_date(
                                                                                 item.Sub_date
                                                                               )
                                                                             ) +
-                                                                            " \n                                        "
+                                                                            " \r\n                                        "
                                                                         )
                                                                       ],
                                                                       1
@@ -1001,7 +1001,7 @@ var render = function() {
                                                                             ),
                                                                             [
                                                                               _vm._v(
-                                                                                "\n                                            Continue\n                                        "
+                                                                                "\r\n                                            Continue\r\n                                        "
                                                                               )
                                                                             ]
                                                                           )
