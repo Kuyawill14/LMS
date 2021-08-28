@@ -756,7 +756,7 @@ var render = function() {
                       staticClass: "text-subtitle-1 text-center",
                       attrs: { cols: "12" }
                     },
-                    [_vm._v("\r\n            Loading\r\n        ")]
+                    [_vm._v("\n            Loading\n        ")]
                   ),
                   _vm._v(" "),
                   _c(
@@ -1378,7 +1378,7 @@ var render = function() {
                                                                         ]
                                                                       ),
                                                                       _vm._v(
-                                                                        "\r\n                                            Add Choice\r\n                                            "
+                                                                        "\n                                            Add Choice\n                                            "
                                                                       )
                                                                     ],
                                                                     1
@@ -2007,7 +2007,7 @@ var render = function() {
                                                         },
                                                         [
                                                           _vm._v(
-                                                            "\r\n                                        Add Question"
+                                                            "\n                                        Add Question"
                                                           ),
                                                           _c(
                                                             "v-icon",
