@@ -49,6 +49,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['propModule', 'type'],
@@ -553,10 +565,14 @@ var render = function() {
                     [
                       _c(
                         "v-col",
-                        { attrs: { cols: "12" } },
+                        { staticClass: "py-0 my-0", attrs: { cols: "12" } },
                         [
                           _c("v-text-field", {
-                            attrs: { label: "Module Name*", required: "" },
+                            attrs: {
+                              label: "Module Name*",
+                              outlined: "",
+                              required: ""
+                            },
                             model: {
                               value: _vm.moduleForm.module_name,
                               callback: function($$v) {
@@ -571,14 +587,13 @@ var render = function() {
                       _vm._v(" "),
                       _c(
                         "v-col",
-                        { attrs: { cols: "12 pb-0" } },
+                        { staticClass: "py-0 my-0", attrs: { cols: "12 " } },
                         [
-                          _c("editor", {
-                            staticStyle: { outline: "none" },
+                          _c("v-textarea", {
                             attrs: {
-                              placeholder: "Description",
-                              theme: "snow",
-                              options: _vm.options
+                              outlined: "",
+                              label: "Instruction",
+                              "auto-grow": ""
                             },
                             model: {
                               value: _vm.moduleForm.description,
@@ -609,21 +624,21 @@ var render = function() {
               _c(
                 "v-btn",
                 {
-                  attrs: { color: "blue darken-1", text: "" },
+                  attrs: { text: "" },
                   on: {
                     click: function($event) {
                       return _vm.$emit("closeModal")
                     }
                   }
                 },
-                [_vm._v("\n                Close\n            ")]
+                [_vm._v("\n                  Close\n              ")]
               ),
               _vm._v(" "),
               _c(
                 "v-btn",
                 {
                   attrs: {
-                    color: "blue darken-1",
+                    color: "primary",
                     text: "",
                     loading: _vm.isSubmitting
                   },
@@ -635,7 +650,7 @@ var render = function() {
                     }
                   }
                 },
-                [_vm._v("\n                Save\n            ")]
+                [_vm._v("\n                  Save\n              ")]
               )
             ],
             1

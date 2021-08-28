@@ -7,13 +7,25 @@
             <v-card-text>
                 <v-container>
                     <v-row>
-                        <v-col cols="12">
-                            <v-text-field label="Module Name*" v-model="moduleForm.module_name" required>
+                        <v-col cols="12" class="py-0 my-0">
+                            <v-text-field label="Module Name*" outlined v-model="moduleForm.module_name" required>
                             </v-text-field>
                         </v-col>
-                        <v-col cols="12 pb-0">
-                            <editor style="outline:none;" placeholder="Description" v-model="moduleForm.description"
+                        <v-col cols="12 " class="py-0 my-0">
+                        
+                             <!-- <editor style="outline:none;" placeholder="Description" v-model="moduleForm.description"
                                 theme="snow" :options="options"></editor>
+  -->
+
+                         
+                             <v-textarea
+                                outlined
+                              
+                                v-model="moduleForm.description"
+                                label="Instruction"
+                                auto-grow
+                                >
+                            </v-textarea>
 
                         </v-col>
 
@@ -22,10 +34,10 @@
             </v-card-text>
             <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color="blue darken-1" text @click="$emit('closeModal');">
+                <v-btn text @click="$emit('closeModal');">
                     Close
                 </v-btn>
-                <v-btn color="blue darken-1" text @click="type == 'edit' ? updateModule() : createModule()"
+                <v-btn  color="primary" text @click="type == 'edit' ? updateModule() : createModule()"
                     :loading="isSubmitting">
                     Save
                 </v-btn>
