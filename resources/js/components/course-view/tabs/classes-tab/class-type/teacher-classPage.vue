@@ -185,8 +185,6 @@
                             this.isGetting = false;
                             this.classLength = this.allClass.length;
                         //}, 1000);
-
-
                     })
             },
             archiveClass(data,index){
@@ -202,7 +200,8 @@
             CopyClassCode(code){
                 let CodeText = code;
                 navigator.clipboard.writeText(CodeText);
-                this.copied = true;
+                //this.copied = true;
+                this.toastNormal('Class code copied');
             }
         },
         computed: mapGetters(['allClass']),

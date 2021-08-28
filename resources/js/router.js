@@ -679,7 +679,7 @@ const router = new Router({
                     name: "classwork-preview",
                     component: classworkView,
                     beforeEnter: (to, form, next) => {
-                        axios
+                        /* axios
                             .get("/api/authenticated")
                             .then(() => {
                                 next();
@@ -688,7 +688,31 @@ const router = new Router({
                                 return next({
                                     path: "/login"
                                 });
-                            });
+                            }); */
+                            store.dispatch('IsAuthenticated').then(() => {
+                            store.dispatch('fetchMyCoursesStatus').then((res)=>{
+                                if(res.status == 200){                                
+                                    store.dispatch('CheckMyCourse', to.params.id).then(response => {
+                                        if (response.exist == true) {
+                                            if (response.status == 1) {
+                                                next();
+                                            } 
+                                        } else {
+                                            return next({
+                                                name: "course-not-found",
+                                                params: { id: to.params.id }
+                                            })
+                                        }
+                                    })
+                                }
+                            })
+                            .catch(() => {
+                                store.state.CurrentUser.IsAuthenticated = false;
+                                return next({
+                                    path: "/login"
+                                });
+                            })
+                        })
                     },
                     props: true,
                     children: [{
@@ -724,7 +748,6 @@ const router = new Router({
 
                     ]
                 },
-
                 {
                     path: "/course-not-found/:id",
                     component: ClassNotFound,
@@ -732,57 +755,8 @@ const router = new Router({
                 },
 
             ],
-
         },
-        /* {
-            path: "/classwork/:id",
-            component: classworkView,
-            beforeEnter: (to, form, next) => {
-                axios
-                    .get("/api/authenticated")
-                    .then(() => {
-                        next();
-                    })
-                    .catch(() => {
-                        return next({
-                            path: "/login"
-                        });
-                    });
-            },
-            props: true,
-            children: [{
-                    name: "clwk",
-                    path: "classwork-details",
-                    component: classworkDetailsTab
-                },
-                {
-                    name: "add-question",
-                    path: "add-question",
-                    component: addQuestionTab
-                },
-                {
-                    name: "question-list",
-                    path: "question-list",
-                    component: questionList
-                },
-                {
-                    name: "submission-list",
-                    path: "submission-list",
-                    component: submissionListTab
-                },
-                {
-                    name: "question-analytics",
-                    path: "question-analytics",
-                    component: questionnAnalyticstab
-                },
-                {
-                    name: "publish-to",
-                    path: "publish-to",
-                    component: publishClassworkTab
-                },
-
-            ]
-        }, */
+        
 
         {
             path: "/quiz/:id",
@@ -850,10 +824,6 @@ const router = new Router({
 
     ]
 })
-
-
-
-
 
 router.beforeEach((to, from, next) => {
     if (to.name) {

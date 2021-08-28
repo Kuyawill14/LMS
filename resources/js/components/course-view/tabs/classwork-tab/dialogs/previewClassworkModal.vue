@@ -4,7 +4,7 @@
  
     
     <v-card outlined >
-            <v-card-title class="ma-0 pa-0 float-right mr-3">
+            <v-card-title class="ma-0 pa-0 float-right mr-2 mt-1">
                 <v-btn @click="$emit('toggleCloseDialog')" icon>
                     <v-icon>mdi-window-close</v-icon>
                 </v-btn>
@@ -85,39 +85,71 @@
                             </v-hover>
                         </v-col>
 
-                        <v-col cols="12" class="pl-10 pr-5 pb-5 text-right">
+                        <v-col v-if="Details.availability == 0" cols="12" class="pl-10 pr-5 pb-5 text-right">
                             <v-btn
-                            v-if="Details.type == 'Objective Type'"
-                            rounded
-                            color="primary"
-                            :dark="totalQuestion != 0"
-                          
-                             @click="$emit('OpenClasswork')"
-                        >
-                            View Quiz<v-icon right dark>mdi-book-arrow-right-outline</v-icon>
-                        </v-btn>
+                                v-if="Details.type == 'Objective Type'"
+                                rounded
+                                color="primary"
+                                :dark="totalQuestion != 0"
+                                @click="$emit('OpenClasswork')">
+                                View Quiz<v-icon right dark>mdi-book-arrow-right-outline</v-icon>
+                            </v-btn>
+                            <v-btn
+                                v-if="Details.type == 'Subjective Type'"
+                                    rounded
+                                    color="primary"
+                                    dark
+                                    @click="$emit('OpenClasswork')" >
+                                    Submit Work<v-icon right dark>mdi-book-arrow-right-outline</v-icon>
+                            </v-btn>
+                        </v-col>
 
-                          <v-btn
-                          v-if="Details.type == 'Subjective Type'"
-                            rounded
-                            color="primary"
-                            dark
-                
-                             @click="$emit('OpenClasswork')"
-                        >
-                            Submit Work<v-icon right dark>mdi-book-arrow-right-outline</v-icon>
-                        </v-btn>
-                        
-                          
+                        <v-col v-else cols="12" class="pl-10 pr-5 pb-5 text-right">
+                            <div v-if="Details.type == 'Objective Type'" class="ma-0 pa-0">
+                                <v-btn
+                                    v-if="DateToday > Details.from_date"
+                                    rounded
+                                    color="primary"
+                                    :dark="totalQuestion != 0"
+                                    @click="$emit('OpenClasswork')">
+                                    View Quiz<v-icon right dark>mdi-book-arrow-right-outline</v-icon>
+                                </v-btn>
 
-                        
+                                 <v-btn
+                                    v-else
+                                    rounded
+                                    disabled
+                                    color="primary">
+                                    Not Yet Available<!-- <v-icon right dark>mdi-book-arrow-right-outline</v-icon> -->
+                                </v-btn>
+                            </div>
+                            
+                            <div v-if="Details.type == 'Subjective Type'" class="ma-0 pa-0">
+                                <v-btn
+                                    v-if="DateToday > Details.from_date"
+                                    rounded
+                                    color="primary"
+                                    dark
+                                    @click="$emit('OpenClasswork')" >
+                                    Submit Work<v-icon right dark>mdi-book-arrow-right-outline</v-icon>
+                                </v-btn>
+                                <v-btn
+                                    v-else
+                                    rounded
+                                    color="primary"
+                                    disabled
+                                    dark>
+                                    Not Yet Available<v-icon right dark>mdi-book-arrow-right-outline</v-icon>
+                                </v-btn>
+                            </div>
+                            
+
+                            
                         </v-col>
                     </v-row>
                  <v-row style="height:2vh"></v-row> 
             </v-card-text>
-    
     </v-card>
-  
 
 </template>
 
@@ -130,7 +162,8 @@ export default {
             isloading:true,
             totalPoints:null,
             totalQuestion:null,
-            Details:{}
+            Details:{},
+            DateToday: '',
         }
     },
     computed:{
@@ -144,6 +177,7 @@ export default {
             axios.get('/api/classwork/showDetails/'+ this.Preview_id+'/'+this.$route.params.id)
             .then(res=>{
                 this.Details = res.data.Details;
+                this.Details.from_date = moment(this.Details.from_date).format("YYYY-MM-DDTHH:mm:ss")
                 this.isloading = !this.isloading;
                 this.totalPoints = res.data.totalpoints;
                 this.totalQuestion = res.data.ItemsCount;
@@ -158,9 +192,10 @@ export default {
             window.location = "/storage/"+file;
         }
     },
-    beforeMount(){
+    mounted(){
         this.getClassworkDetails();
-        //this.Details = this.Preview_Details;
+        let newDate = new Date();
+        this.DateToday = moment(newDate).format("YYYY-MM-DDTHH:mm:ss");
     },
     created(){
         this.$emit('isMounted');

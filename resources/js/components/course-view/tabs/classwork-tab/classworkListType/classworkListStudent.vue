@@ -9,8 +9,6 @@
                 </v-icon>
                 <h1> Empty Classwork </h1>
                 <p>No, Assign Classwork Yet!</p>
-               
-               
             </v-col>
         </v-row>
 
@@ -80,11 +78,12 @@
             <v-row v-if="classworks.ClassworksList[i].length != 0 && (SelectedFilter == 'All' || SelectedFilter == data.title)" >
                 <v-col cols="12"  class="ma-0 pa-0 "><h2 class="font-weight-regular">{{data.title}} <small class="font-weight-medium">({{data.percent}}%)</small> </h2></v-col>
                 <v-col cols="12" md="4" class="pb-0 mb-0" v-for="(item, index) in classworks.ClassworksList[i]" :key="index">
-                    <vue-element-loading  :active="isLoading && Preview_id == item.classwork_id " text="Loading..." spinner="bar-fade-scale" />
+                   
                     <v-hover v-slot="{ hover }">
-                        <v-card  @click="OpenClaswork(item.type,item.status,item.score,item.classwork_id)" 
-                            link :elevation="hover ? 1 :0"  >
-                            <v-container class="pl-2 pr-5 pt-5 pb-5 d-flex flex-row justify-space-between">
+                        <v-card  outlined @click="OpenClaswork(item.type,item.status,item.score,item.classwork_id)" 
+                            link :elevation="hover ? 1 : 0"  >
+                             <vue-element-loading  :active="isLoading && Preview_id == item.classwork_id " text="Loading..." spinner="bar-fade-scale" />
+                            <v-container class="pl-4 pr-5 pt-5 pb-5 d-flex flex-row justify-space-between">
                                 <div class="d-flex flex-row">
                                     <v-avatar size="40"
                                     :color="item.availability == 0 ?  item.status == 'Submitted' ?  'success' : 'blue'  : 
@@ -147,7 +146,7 @@
                              </v-container>
                         </v-card>
                     </v-hover>
-                 <v-divider></v-divider>
+               
                 </v-col>
                
             </v-row>

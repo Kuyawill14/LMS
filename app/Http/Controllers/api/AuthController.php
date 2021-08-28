@@ -8,10 +8,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use App\Models\tbl_userDetails;
-use App\Models\Tbl_class;
-use App\Models\tbl_userclass;
-use App\Models\tbl_notification;
-use App\Events\NewNotification;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidatationException;
 use Illuminate\Auth\Events\Registered;
@@ -60,10 +56,14 @@ class AuthController extends Controller
         if(Auth::attempt($request->only('email', 'password'))){
 
             //$authToken = $user->createToken('auth-token')->plainTextToken;
+            $token = $request->user()->createToken('auth-token');          
+            $token = '12313';
             $request->session()->regenerate();
             //Auth::logoutOtherDevices($request->password);
             return response()->json([
                 "message" => "Login Success",
+                //'token'=> $token->plainTextToken,
+                'token'=> $token,
                 "success" => true
             ]);            
         }
@@ -148,6 +148,7 @@ class AuthController extends Controller
      */
     public function logout(Request $request) {
         $session = DB::table('sessions')->where('id', \Session::getId())->delete();
+        request()->user()->tokens()->delete();
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();

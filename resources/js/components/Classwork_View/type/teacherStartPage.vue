@@ -54,18 +54,14 @@
                         <v-tabs-slider color="primary"></v-tabs-slider>  
                         <v-tab class="d-flex justify-center" v-for="(item,index) in SubjectiveTabs" :key="index"
                         :to="{name: item.name, query: {clwk: $route.query.clwk}}">
-                         <div :style="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm ? 'line-height: 1.2' : ''" :class="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm ? 'text-caption' : ''">{{item.text}}</div>
-                         <v-icon :right="!$vuetify.breakpoint.xs || !$vuetify.breakpoint.sm ">
+                        <div :style="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm ? 'line-height: 1.2' : ''" :class="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm ? 'text-caption' : ''">{{item.text}}</div>
+                        <v-icon :right="!$vuetify.breakpoint.xs || !$vuetify.breakpoint.sm ">
                             {{item.icon}}
                         </v-icon>
                     
                         </v-tab>  
-                 </v-tabs>
-
-             
-               
+                </v-tabs>
                   </v-col>
-                 
                   <v-col class="ma-0" cols="12">
                        <v-divider></v-divider>
                         <v-tabs-items :value="activeTab">
@@ -75,15 +71,7 @@
                     </v-tabs-items>
                   </v-col>
             </v-row>
-               
-                  
-               
-                
-           
-               
-           
        </v-container>
- 
 </template>
 
 <script>

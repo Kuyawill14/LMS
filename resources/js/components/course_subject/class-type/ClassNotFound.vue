@@ -2,9 +2,8 @@
 
     <v-container style="height:75vh" class="fill-height" fluid>
             <v-row align="center" justify="center">
-                <v-col cols="4">
+                <v-col cols="12" md="4" lg="3" xl="3">
                     <v-card outlined class="pa-5">
-            
                        <v-row>
                            <v-col cols="12">
                                <h2 class="font-weight-regular">Course Not Found</h2>

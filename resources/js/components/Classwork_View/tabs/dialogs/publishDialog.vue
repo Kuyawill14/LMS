@@ -262,13 +262,14 @@ export default {
             fd.append("showAnswer", this.showAns);
             fd.append("showAnswerType", this.showAnsType);
             fd.append("showAnswerDateFrom", ShowAnswerDateFrom);
-             fd.append("showAnswerDateTo", ShowAnswerDateTo);
+            fd.append("showAnswerDateTo", ShowAnswerDateTo);
             fd.append("response_late", this.response_late);
             fd.append("grading_id", this.GradingCriteria_id);
-            console.log(from_date)
             axios.post('/api/classwork/share', fd)
                 .then(res => {
                     if(res.dat != 'Unshare'){
+                        let tmpDue = res.data.availability == 1 ? 'Due '+moment(this.to_date).format("MMMM D")+' at '+moment(this.to_date).format("h:mm a") : '';
+                        res.data.to_date = tmpDue;
                         this.$emit('successPublish', res.data)
                          this.toastSuccess("Classwork Successfully publish");
                          this.isPublishing = !this.isPublishing;

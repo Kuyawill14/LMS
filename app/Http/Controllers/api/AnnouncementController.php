@@ -71,12 +71,10 @@ class AnnouncementController extends Controller
                 ->orderBy("tbl_classposts.created_at", "DESC")
                 ->groupBy("tbl_classposts.id","tbl_class_announcements.id","tbl_class_announcements.content","tbl_class_announcements.file","tbl_class_announcements.created_at","tbl_class_announcements.updated_at","tbl_user_details.profile_pic","tbl_user_details.firstName","tbl_user_details.lastName")
                 ->paginate(8);
-                //return $allClassPost->toArray();
+      
 
             }
-        }
-
-        
+        }        
         foreach ($allClassPost as $post) {
             $Comment = tbl_comment::where("tbl_comments.post_id", $post->post_id)
             ->select("tbl_comments.id","tbl_comments.post_id","tbl_comments.content","tbl_comments.created_at",
@@ -95,12 +93,7 @@ class AnnouncementController extends Controller
 
             
         }
-        
-        return $allClassPost;
-
-
-
-       
+        return $allClassPost;       
     }
 
 
