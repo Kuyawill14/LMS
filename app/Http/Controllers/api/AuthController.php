@@ -54,16 +54,14 @@ class AuthController extends Controller
 
         
         if(Auth::attempt($request->only('email', 'password'))){
-
             //$authToken = $user->createToken('auth-token')->plainTextToken;
             $token = $request->user()->createToken('auth-token');          
-            $token = '12313';
             $request->session()->regenerate();
             //Auth::logoutOtherDevices($request->password);
             return response()->json([
                 "message" => "Login Success",
                 //'token'=> $token->plainTextToken,
-                'token'=> $token,
+                'token'=> $token->plainTextToken,
                 "success" => true
             ]);            
         }
