@@ -1947,7 +1947,15 @@ Vue.mixin({
         theme: "toasted-primary",
         position: "top-right",
         icon: "warning",
-        duration: 2000
+        duration: 3000
+      });
+    },
+    toastInfo: function toastInfo(message) {
+      return this.$toasted.show(message, {
+        theme: "toasted-primary",
+        position: "top-center",
+        icon: "info",
+        duration: 3000
       });
     }
   }
@@ -4974,6 +4982,13 @@ var getters = {
     return function (grading_criteria_id) {
       return state.classworks_grades.filter(function (classworks_grades) {
         return classworks_grades.grading_criteria_id == grading_criteria_id;
+      });
+    };
+  },
+  AllStudentClassworkGradesFortable: function AllStudentClassworkGradesFortable(state) {
+    return function (student_id) {
+      return state.classworks_grades.filter(function (classworks_grades) {
+        return classworks_grades.student_id == student_id;
       });
     };
   }

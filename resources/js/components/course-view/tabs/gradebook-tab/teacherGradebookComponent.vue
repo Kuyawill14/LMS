@@ -11,17 +11,13 @@
             <v-col cols="12">
                 <div class="downloads float-right">
 
-                    <export-excel class="btn btn-default" :data="json_data" :fields="json_fields"
-                        worksheet="My Worksheet"
-                        :name="getcourseInfo.course_code + ' - ' + getcourseInfo.course_name + '-' + selectedClassName">
-                        <v-btn @click="get_AllFinalGrades_s()">
+                        <v-btn @click="test('testTable')">
                             <v-icon color="grey lighten-1" left>
                                 download
                             </v-icon>
                             ALl Grades
                         </v-btn>
 
-                    </export-excel>
 
                 </div>
             </v-col>
@@ -83,8 +79,7 @@
                                         {{ gradingCriteria.name}} ({{gradingCriteria.percentage}}%)</th>
                                     <th class="text-center">
                                         Final Grades</th>
-                                    <!-- <th class="text-center">
-                                        Transmuted <br> Grades</th> -->
+
                                 </tr>
                             </thead>
                             <tbody v-if="loading == false">
@@ -202,6 +197,109 @@
                 </v-tab-item>
             </v-tabs>
         </v-card>
+
+        
+        <table id="testTable">
+            <tr>
+                <th>Name</th>
+                <th class="text-center" :colspan="classworkData(classworkList,gradingCriteria.id).length"
+                    v-for="(gradingCriteria, index) in get_gradingCriteria" :key="index">
+                    {{ gradingCriteria.name}} ({{gradingCriteria.percentage}}%)
+
+                    <table >
+                        <tr>
+                            <th v-for="(classwork, index) in classworkData(classworkList,gradingCriteria.id) "
+                                :key="index">
+                                {{classwork.title}}
+                            </th>
+                            <th>
+                                Total Points
+                            </th>
+                            <th>
+                                Percent
+                            </th>
+
+
+                        </tr>
+
+                        <tr>
+                            <th v-for="(classwork, index) in classworkData(classworkList,gradingCriteria.id) "
+                                :key="index">
+                                {{classwork.points}}
+                            </th>
+                            <th>
+                                {{classworkTotalPoints}}
+                            </th>
+                            <th>
+                                {{gradingCriteria.percentage}}%
+                            </th>
+
+
+                        </tr>
+                    </table>
+
+
+                </th>
+                <th rowspan="1" class="text-center">
+                    Raw Grade</th>
+                <th rowspan="1" class="text-center">
+                    Transmuted Grade</th>
+                <th rowspan="1" class="text-center">
+                    Final Grade</th>
+            </tr>
+
+            <tr v-for="student in students" :key="student.id">
+                <td class="text-left">{{student.lastName + ', ' + student.firstName }} </td>
+
+
+                <td class="text-center" :colspan="classworkData(classworkList,gradingCriteria.id).length"
+                    v-for="(gradingCriteria, index) in get_gradingCriteria" :key="index">
+                    <table>
+                        <tr>
+                            <td v-for="(classwork, index) in AllStudentClassworkGrades(student.id,gradingCriteria.id)"
+                                :key="index">
+                                {{classwork.points == null ? 0 : classwork.points}}
+                            </td>
+
+                            <th>
+                                {{totalPoints(AllStudentClassworkGrades(student.id,gradingCriteria.id))}}
+
+                            </th>
+                            <th>
+                                {{totalPercentage(AllStudentClassworkGrades(student.id,gradingCriteria.id),gradingCriteria.percentage)}}%
+                            </th>
+                        </tr>
+
+
+
+                    </table>
+
+
+                </td>
+
+                <td class="text-center">
+                    {{sumPercentage(allStudentFinalGrades(student.id))}}
+                </td>
+
+                <td class="text-center">
+                    {{sumTransmutedGrade(allStudentFinalGrades(student.id))}}
+
+                </td>
+
+
+                <td class="text-center">
+                    {{ transmuteFinalGrade(sumTransmutedGrade(allStudentFinalGrades(student.id)))}}
+
+                </td>
+
+
+            </tr>
+            <tr v-if="students.length == 0">
+                <td class="text-center" colspan="100">
+                    No data available, please add or invite students.
+                </td>
+            </tr>
+        </table>
     </div>
 </template>
 
@@ -266,10 +364,59 @@
         },
         computed: {
             ...mapGetters(["getcourseInfo"]),
-            ...mapGetters(["get_gradingCriteria", "allClass", "AllStudentClassworkGrades", "allStudentFinalGrades"])
+            ...mapGetters(["get_gradingCriteria", "allClass", "AllStudentClassworkGrades", "allStudentFinalGrades",
+                "AllStudentClassworkGradesFortable"
+            ])
         },
 
         methods: {
+            transmuteFinalGrade(grade) {
+                // 1.0 98-100
+                // 1.25 95-97
+                // 1.5 92-94
+                // 1.75 89-91
+                // 2.0 86-88
+                // 2.25 83-85
+                // 2.5 80-82
+                // 2.75 77-79
+                // 3.0 75-76
+                // 5.0 below 75 (Failure)
+
+                let eq = "5.0";
+                if (grade >= 98) {
+                    eq = "1.0";
+                } else if (grade >= 95) {
+                    eq = "1.25";
+                } else if (grade >= 92) {
+                    eq = "1.5";
+                } else if (grade >= 89) {
+                    eq = "1.75";
+                } else if (grade >= 86) {
+                    eq = "2.0";
+                } else if (grade >= 83) {
+                    eq = "2.25";
+                } else if (grade >= 80) {
+                    eq = "2.5";
+                } else if (grade >= 77) {
+                    eq =" 2.75";
+                } else if (grade >= 75) {
+                    eq = "3.0";
+                } else {
+                    eq = "5.0";
+                }
+                return eq.toString();
+
+            },
+            classworkData(arr, id) {
+                var tmp_arr = [];
+                for (var i = 0; i < arr.length; i++) {
+                    if (arr[i].grading_criteria_id == id) {
+                        tmp_arr.push(arr[i]);
+                    }
+                }
+                return tmp_arr;
+
+            },
             transmutedGrade(total_score, percentage) {
                 if (this.classworkTotalPoints) {
                     return (((((total_score / this.classworkTotalPoints) * 100) / 2) + 50) * percentage / 100).toFixed(
@@ -348,6 +495,7 @@
                 this.headers = [];
                 this.loading = true;
                 var total = 0;
+                
                 this.getStudentList();
 
                 this.headers.push({
@@ -357,7 +505,7 @@
 
                 axios.get('/api/grade-book/classworks/' + this.selectedClass).then(res => {
                     this.classworkList = res.data;
-                 
+
                     for (var i = 0; i < this.classworkList.length; i++) {
                         // this.headers[i+1] = {text: this.classworkList[i]['title'], value: this.classworkList[i]['title']};
                         if (this.classworkList[i]['grading_criteria_id'] == this.get_gradingCriteria[0].id) {
@@ -407,7 +555,7 @@
 
                     axios.get('/api/grade-book/classworks/' + this.selectedClass).then(res => {
                         this.classworkList = res.data;
-            
+
 
                         for (var i = 0; i < this.classworkList.length; i++) {
                             // this.headers[i+1] = {text: this.classworkList[i]['title'], value: this.classworkList[i]['title']};
@@ -433,7 +581,7 @@
             getStudentClassworksGrades(grading_criteria_id) {
                 axios.get('/api/grade-book/classworkGrades/' + this.selectedClass).then(res => {
                     this.classworkList = res.data;
-              
+
 
                     for (var i = 0; i < this.classworkList.length; i++) {
 
@@ -451,7 +599,7 @@
                 percentage_data.forEach(function (val) {
 
                     total += parseFloat(val.percentage);
-                   
+
 
                 })
                 return total;
@@ -466,8 +614,8 @@
                     this.getStudentList();
 
 
-                 
-                 
+
+
                     var data = {
                         course_id: this.$route.params.id,
                         class_id: this.selectedClass
@@ -497,8 +645,8 @@
                 for (var i = 0; i < this.students.length; i++) {
 
                     var student_final = this.allStudentFinalGrades(this.students[i].id);
-                 
-                 
+
+
 
                     dataFields['name'] = this.students[i].lastName + ', ' + this.students[i].firstName;
 
@@ -511,7 +659,7 @@
                     var transmuted_grade = this.sumTransmutedGrade(this.allStudentFinalGrades(this.students[i].id));
                     dataFields['raw_grade'] = raw_grade;
                     dataFields['transmuted_grade'] = transmuted_grade;
-                  
+
                     this.json_data.push(dataFields);
 
                 }
@@ -523,25 +671,25 @@
 
                 var grade = null;
                 var header = [];
-                var classworks ={};
+                var classworks = {};
                 this.students.sort();
                 for (var i = 0; i < this.get_gradingCriteria.length; i++) {
                     // var classworkGrades =  this.AllStudentClassworkGrades(this.students[i].id, student_final[i].grade_category_id);
-                     this.json_fields['|'+(i+1) +'|'] =''  ;
-                    this.json_fields[this.get_gradingCriteria[i].name] = this.get_gradingCriteria[i].name;
-     
-                   for (var x = 0; x < this.classworkList.length; x++) {
 
-                            if( this.get_gradingCriteria[i].id ==this.classworkList[x].grading_criteria_id) {
-                                    this.json_fields[this.classworkList[x].title] = this.classworkList[x].title;
-                            }
-                        
+                    this.json_fields[this.get_gradingCriteria[i].name] = this.get_gradingCriteria[i].name;
+
+                    for (var x = 0; x < this.classworkList.length; x++) {
+
+                        if (this.get_gradingCriteria[i].id == this.classworkList[x].grading_criteria_id) {
+                            this.json_fields[this.classworkList[x].title] = this.classworkList[x].title;
+                        }
+
                     }
-                  
+
                 }
                 this.json_fields['Raw Grade'] = 'raw_grade';
                 this.json_fields['Transmuted Grade'] = 'transmuted_grade';
-                console.log('json_fields    ' , this.json_fields);
+                console.log('json_fields    ', this.json_fields);
 
 
                 var dataFields = {};
@@ -566,7 +714,7 @@
                     dataFields['raw_grade'] = raw_grade;
                     dataFields['transmuted_grade'] = transmuted_grade;
                     console.log(dataFields, 'dataFields')
-                    this.json_data.push(dataFields); 
+                    this.json_data.push(dataFields);
 
 
 
@@ -576,6 +724,29 @@
 
 
                 console.log('json_data ', this.json_data);
+            },
+            test(table) {
+                (function () {
+                    var uri = 'data:application/vnd.ms-excel;base64,',
+                        template =
+                        '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--><meta http-equiv="content-type" content="text/plain; charset=UTF-8"/></head><body><table>{table}</table></body></html>',
+                        base64 = function (s) {
+                            return window.btoa(unescape(encodeURIComponent(s)))
+                        },
+                        format = function (s, c) {
+                            return s.replace(/{(\w+)}/g, function (m, p) {
+                                return c[p];
+                            })
+                        }
+
+                    if (!table.nodeType) table = document.getElementById(table)
+                    var ctx = {
+                        worksheet: name || 'Worksheet',
+                        table: table.innerHTML
+                    }
+                    window.location.href = uri + base64(format(template, ctx))
+
+                })()
             }
         },
 
@@ -590,7 +761,8 @@
             var students = this.students;
             this.loading = false;
 
-        }
+        },
+
 
 
 

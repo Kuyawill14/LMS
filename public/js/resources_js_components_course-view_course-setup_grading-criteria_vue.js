@@ -221,6 +221,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         }, 1000);
       } else {
         this.toastError('Please fill up all the field to add criteria');
+        this.isAdding = false;
       }
     },
     updateGradeCriteria: function updateGradeCriteria(name, percentage, id) {
@@ -498,6 +499,7 @@ var render = function() {
                   _c("v-text-field", {
                     staticClass: "centered-input",
                     attrs: {
+                      type: "number",
                       outlined: "",
                       color: "primary",
                       label: "Percentage",
@@ -615,6 +617,7 @@ var render = function() {
                           staticClass: "text-center centered-input",
                           staticStyle: { "text-align": "center !important" },
                           attrs: {
+                            type: "number",
                             outlined: "",
                             color: "primary",
                             suffix: "%"

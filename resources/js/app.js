@@ -53,7 +53,7 @@ Vue.mixin({
                 }
             });
         },
-        
+
         toastSuccess(message) {
             return this.$toasted.success(message, {
                 theme: "toasted-primary",
@@ -62,12 +62,22 @@ Vue.mixin({
                 duration: 2000
             });
         },
+
         toastError(message) {
             return this.$toasted.error(message, {
                 theme: "toasted-primary",
                 position: "top-right",
                 icon: "warning",
-                duration: 2000
+                duration: 3000
+            });
+        },
+        toastInfo(message) {
+            return this.$toasted.show(message, {
+                theme: "toasted-primary",
+
+                position: "top-center",
+                icon: "info",
+                duration: 3000
             });
         },
     }

@@ -227,6 +227,104 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 Vue.use(vue_excel_export__WEBPACK_IMPORTED_MODULE_0__.default);
 
@@ -274,8 +372,56 @@ Vue.use(vue_excel_export__WEBPACK_IMPORTED_MODULE_0__.default);
       }]
     };
   },
-  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(["getcourseInfo"])), (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(["get_gradingCriteria", "allClass", "AllStudentClassworkGrades", "allStudentFinalGrades"])),
+  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(["getcourseInfo"])), (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(["get_gradingCriteria", "allClass", "AllStudentClassworkGrades", "allStudentFinalGrades", "AllStudentClassworkGradesFortable"])),
   methods: {
+    transmuteFinalGrade: function transmuteFinalGrade(grade) {
+      // 1.0 98-100
+      // 1.25 95-97
+      // 1.5 92-94
+      // 1.75 89-91
+      // 2.0 86-88
+      // 2.25 83-85
+      // 2.5 80-82
+      // 2.75 77-79
+      // 3.0 75-76
+      // 5.0 below 75 (Failure)
+      var eq = "5.0";
+
+      if (grade >= 98) {
+        eq = "1.0";
+      } else if (grade >= 95) {
+        eq = "1.25";
+      } else if (grade >= 92) {
+        eq = "1.5";
+      } else if (grade >= 89) {
+        eq = "1.75";
+      } else if (grade >= 86) {
+        eq = "2.0";
+      } else if (grade >= 83) {
+        eq = "2.25";
+      } else if (grade >= 80) {
+        eq = "2.5";
+      } else if (grade >= 77) {
+        eq = " 2.75";
+      } else if (grade >= 75) {
+        eq = "3.0";
+      } else {
+        eq = "5.0";
+      }
+
+      return eq.toString();
+    },
+    classworkData: function classworkData(arr, id) {
+      var tmp_arr = [];
+
+      for (var i = 0; i < arr.length; i++) {
+        if (arr[i].grading_criteria_id == id) {
+          tmp_arr.push(arr[i]);
+        }
+      }
+
+      return tmp_arr;
+    },
     transmutedGrade: function transmutedGrade(total_score, percentage) {
       if (this.classworkTotalPoints) {
         return ((total_score / this.classworkTotalPoints * 100 / 2 + 50) * percentage / 100).toFixed(2);
@@ -503,7 +649,6 @@ Vue.use(vue_excel_export__WEBPACK_IMPORTED_MODULE_0__.default);
 
       for (var i = 0; i < this.get_gradingCriteria.length; i++) {
         // var classworkGrades =  this.AllStudentClassworkGrades(this.students[i].id, student_final[i].grade_category_id);
-        this.json_fields['|' + (i + 1) + '|'] = '';
         this.json_fields[this.get_gradingCriteria[i].name] = this.get_gradingCriteria[i].name;
 
         for (var x = 0; x < this.classworkList.length; x++) {
@@ -541,6 +686,27 @@ Vue.use(vue_excel_export__WEBPACK_IMPORTED_MODULE_0__.default);
       }
 
       console.log('json_data ', this.json_data);
+    },
+    test: function test(table) {
+      (function () {
+        var uri = 'data:application/vnd.ms-excel;base64,',
+            template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--><meta http-equiv="content-type" content="text/plain; charset=UTF-8"/></head><body><table>{table}</table></body></html>',
+            base64 = function base64(s) {
+          return window.btoa(unescape(encodeURIComponent(s)));
+        },
+            format = function format(s, c) {
+          return s.replace(/{(\w+)}/g, function (m, p) {
+            return c[p];
+          });
+        };
+
+        if (!table.nodeType) table = document.getElementById(table);
+        var ctx = {
+          worksheet: name || 'Worksheet',
+          table: table.innerHTML
+        };
+        window.location.href = uri + base64(format(template, ctx));
+      })();
     }
   },
   mounted: function mounted() {
@@ -1384,46 +1550,26 @@ var render = function() {
               { staticClass: "downloads float-right" },
               [
                 _c(
-                  "export-excel",
+                  "v-btn",
                   {
-                    staticClass: "btn btn-default",
-                    attrs: {
-                      data: _vm.json_data,
-                      fields: _vm.json_fields,
-                      worksheet: "My Worksheet",
-                      name:
-                        _vm.getcourseInfo.course_code +
-                        " - " +
-                        _vm.getcourseInfo.course_name +
-                        "-" +
-                        _vm.selectedClassName
+                    on: {
+                      click: function($event) {
+                        return _vm.test("testTable")
+                      }
                     }
                   },
                   [
                     _c(
-                      "v-btn",
-                      {
-                        on: {
-                          click: function($event) {
-                            return _vm.get_AllFinalGrades_s()
-                          }
-                        }
-                      },
+                      "v-icon",
+                      { attrs: { color: "grey lighten-1", left: "" } },
                       [
-                        _c(
-                          "v-icon",
-                          { attrs: { color: "grey lighten-1", left: "" } },
-                          [
-                            _vm._v(
-                              "\n                            download\n                        "
-                            )
-                          ]
-                        ),
                         _vm._v(
-                          "\n                        ALl Grades\n                    "
+                          "\n                            download\n                        "
                         )
-                      ],
-                      1
+                      ]
+                    ),
+                    _vm._v(
+                      "\n                        ALl Grades\n                    "
                     )
                   ],
                   1
@@ -2134,6 +2280,281 @@ var render = function() {
           )
         ],
         1
+      ),
+      _vm._v(" "),
+      _c(
+        "table",
+        { attrs: { id: "testTable" } },
+        [
+          _c(
+            "tr",
+            [
+              _c("th", [_vm._v("Name")]),
+              _vm._v(" "),
+              _vm._l(_vm.get_gradingCriteria, function(gradingCriteria, index) {
+                return _c(
+                  "th",
+                  {
+                    key: index,
+                    staticClass: "text-center",
+                    attrs: {
+                      colspan: _vm.classworkData(
+                        _vm.classworkList,
+                        gradingCriteria.id
+                      ).length
+                    }
+                  },
+                  [
+                    _vm._v(
+                      "\n                " +
+                        _vm._s(gradingCriteria.name) +
+                        " (" +
+                        _vm._s(gradingCriteria.percentage) +
+                        "%)\n\n                "
+                    ),
+                    _c("table", [
+                      _c(
+                        "tr",
+                        [
+                          _vm._l(
+                            _vm.classworkData(
+                              _vm.classworkList,
+                              gradingCriteria.id
+                            ),
+                            function(classwork, index) {
+                              return _c("th", { key: index }, [
+                                _vm._v(
+                                  "\n                            " +
+                                    _vm._s(classwork.title) +
+                                    "\n                        "
+                                )
+                              ])
+                            }
+                          ),
+                          _vm._v(" "),
+                          _c("th", [
+                            _vm._v(
+                              "\n                            Total Points\n                        "
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("th", [
+                            _vm._v(
+                              "\n                            Percent\n                        "
+                            )
+                          ])
+                        ],
+                        2
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "tr",
+                        [
+                          _vm._l(
+                            _vm.classworkData(
+                              _vm.classworkList,
+                              gradingCriteria.id
+                            ),
+                            function(classwork, index) {
+                              return _c("th", { key: index }, [
+                                _vm._v(
+                                  "\n                            " +
+                                    _vm._s(classwork.points) +
+                                    "\n                        "
+                                )
+                              ])
+                            }
+                          ),
+                          _vm._v(" "),
+                          _c("th", [
+                            _vm._v(
+                              "\n                            " +
+                                _vm._s(_vm.classworkTotalPoints) +
+                                "\n                        "
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("th", [
+                            _vm._v(
+                              "\n                            " +
+                                _vm._s(gradingCriteria.percentage) +
+                                "%\n                        "
+                            )
+                          ])
+                        ],
+                        2
+                      )
+                    ])
+                  ]
+                )
+              }),
+              _vm._v(" "),
+              _c(
+                "th",
+                { staticClass: "text-center", attrs: { rowspan: "1" } },
+                [_vm._v("\n                Raw Grade")]
+              ),
+              _vm._v(" "),
+              _c(
+                "th",
+                { staticClass: "text-center", attrs: { rowspan: "1" } },
+                [_vm._v("\n                Transmuted Grade")]
+              ),
+              _vm._v(" "),
+              _c(
+                "th",
+                { staticClass: "text-center", attrs: { rowspan: "1" } },
+                [_vm._v("\n                Final Grade")]
+              )
+            ],
+            2
+          ),
+          _vm._v(" "),
+          _vm._l(_vm.students, function(student) {
+            return _c(
+              "tr",
+              { key: student.id },
+              [
+                _c("td", { staticClass: "text-left" }, [
+                  _vm._v(
+                    _vm._s(student.lastName + ", " + student.firstName) + " "
+                  )
+                ]),
+                _vm._v(" "),
+                _vm._l(_vm.get_gradingCriteria, function(
+                  gradingCriteria,
+                  index
+                ) {
+                  return _c(
+                    "td",
+                    {
+                      key: index,
+                      staticClass: "text-center",
+                      attrs: {
+                        colspan: _vm.classworkData(
+                          _vm.classworkList,
+                          gradingCriteria.id
+                        ).length
+                      }
+                    },
+                    [
+                      _c("table", [
+                        _c(
+                          "tr",
+                          [
+                            _vm._l(
+                              _vm.AllStudentClassworkGrades(
+                                student.id,
+                                gradingCriteria.id
+                              ),
+                              function(classwork, index) {
+                                return _c("td", { key: index }, [
+                                  _vm._v(
+                                    "\n                            " +
+                                      _vm._s(
+                                        classwork.points == null
+                                          ? 0
+                                          : classwork.points
+                                      ) +
+                                      "\n                        "
+                                  )
+                                ])
+                              }
+                            ),
+                            _vm._v(" "),
+                            _c("th", [
+                              _vm._v(
+                                "\n                            " +
+                                  _vm._s(
+                                    _vm.totalPoints(
+                                      _vm.AllStudentClassworkGrades(
+                                        student.id,
+                                        gradingCriteria.id
+                                      )
+                                    )
+                                  ) +
+                                  "\n\n                        "
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("th", [
+                              _vm._v(
+                                "\n                            " +
+                                  _vm._s(
+                                    _vm.totalPercentage(
+                                      _vm.AllStudentClassworkGrades(
+                                        student.id,
+                                        gradingCriteria.id
+                                      ),
+                                      gradingCriteria.percentage
+                                    )
+                                  ) +
+                                  "%\n                        "
+                              )
+                            ])
+                          ],
+                          2
+                        )
+                      ])
+                    ]
+                  )
+                }),
+                _vm._v(" "),
+                _c("td", { staticClass: "text-center" }, [
+                  _vm._v(
+                    "\n                " +
+                      _vm._s(
+                        _vm.sumPercentage(_vm.allStudentFinalGrades(student.id))
+                      ) +
+                      "\n            "
+                  )
+                ]),
+                _vm._v(" "),
+                _c("td", { staticClass: "text-center" }, [
+                  _vm._v(
+                    "\n                " +
+                      _vm._s(
+                        _vm.sumTransmutedGrade(
+                          _vm.allStudentFinalGrades(student.id)
+                        )
+                      ) +
+                      "\n\n            "
+                  )
+                ]),
+                _vm._v(" "),
+                _c("td", { staticClass: "text-center" }, [
+                  _vm._v(
+                    "\n                " +
+                      _vm._s(
+                        _vm.transmuteFinalGrade(
+                          _vm.sumTransmutedGrade(
+                            _vm.allStudentFinalGrades(student.id)
+                          )
+                        )
+                      ) +
+                      "\n\n            "
+                  )
+                ])
+              ],
+              2
+            )
+          }),
+          _vm._v(" "),
+          _vm.students.length == 0
+            ? _c("tr", [
+                _c(
+                  "td",
+                  { staticClass: "text-center", attrs: { colspan: "100" } },
+                  [
+                    _vm._v(
+                      "\n                No data available, please add or invite students.\n            "
+                    )
+                  ]
+                )
+              ])
+            : _vm._e()
+        ],
+        2
       )
     ],
     1

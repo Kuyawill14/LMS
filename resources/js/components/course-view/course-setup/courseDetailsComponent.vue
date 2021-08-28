@@ -14,13 +14,13 @@
         <v-col cols="12" class="pa-0 ">
                   <small class="text-caption">Generate google meet here: <a href="https://meet.google.com/" target="_blank">meet.google.com </a>  </small>
   
-            <v-text-field v-model="getcourseInfo.v_classroom_link" outlined color="primary" label="Google Meet Link">
+            <v-text-field v-model="getcourseInfo.v_classroom_link" outlined color="primary" label="Video Conference Link">
                     
             </v-text-field>
        
         </v-col>
 
-         <v-col cols="12" class="pa-0 ">
+         <!-- <v-col cols="12" class="pa-0 ">
                  <v-select
                 class="mr-2"
                  :items="departmentsList"
@@ -30,7 +30,7 @@
                   v-model="getcourseInfo.department"
                 outlined
                 ></v-select>
-        </v-col>
+        </v-col> -->
 
         
         <v-col cols="12" class="pa-0 ">
@@ -148,3 +148,4 @@
     }
 
 </script>
+ 
