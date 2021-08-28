@@ -22,12 +22,13 @@
         </v-col>
 
         <v-col v-if="!isloading" cols="12" class="ma-0 pa-0">
+            <vue-element-loading :active="isSaving" spinner="bar-fade-scale" color="#EF6C00" />
             <v-col cols="12">
                 <v-row>
                     <v-col cols="12" md="2" >
                         
                     </v-col>
-                    <v-col cols="12" md="10">
+                    <v-col cols="12" md="10" class="mb-0 pb-0">
                             <h4 class="mt-5">1. Personal Details</h4> 
                     </v-col>
                 </v-row>
@@ -66,7 +67,7 @@
             </v-col>
 
             <v-col cols="12" class="mt-0 pt-0 mb-0 pb-0">
-                <v-row>
+                <v-row class="mb-0 pb-0">
                     <v-col cols="12" md="2" :class="$vuetify.breakpoint.xs ? 'mb-0 pb-0': 'mt-2'">
                         Last Name
                     </v-col>
@@ -76,6 +77,7 @@
                             outlined
                             :rules="FieldRules"
                             v-model="UserDetails.lastName"
+                            class="mb-0 pb-0"
                             ></v-text-field>
                     </v-col>
                 </v-row>
@@ -87,7 +89,7 @@
                         
                     </v-col>
                     <v-col cols="12" md="10">
-                            <h4 class="mt-5">2. Contact</h4> 
+                            <h4 class="mt-2">2. Contact</h4> 
                     </v-col>
                 </v-row>
             </v-col>
@@ -186,8 +188,8 @@
                         
                     </v-col>
                     <v-col cols="12" md="6">
-                        <v-btn color="primary" rounded :loading="isSaving" @click="validate()" dark>Save Changes</v-btn>
-                        <v-btn color="secondary" rounded dark>Cancel</v-btn>
+                        <v-btn color="primary" rounded :loading="isSaving" @click="validate()" dark>{{isSaving ? 'Saving...' : 'Save Changes'}}</v-btn>
+               
                     </v-col>
                 </v-row>
             </v-col>
@@ -231,30 +233,10 @@ export default {
             FieldRules: [
                 v => !!v || 'Field is required',
             ],
-             message:null,
-            type:null,
-            isloading: true
+            isloading: true,
         }
     },
     methods:{
-          toastSuccess() {
-              if(this.type == "success"){
-                    return this.$toasted.success(this.message, {
-                        theme: "toasted-primary",
-                        position: "top-center",
-                        icon: "done",
-                        duration: 3000
-                    });
-                }
-                else if(this.type == 'error'){
-                     return this.$toasted.error(this.message, {
-                        theme: "toasted-primary",
-                        position: "top-center",
-                        icon: "error",
-                        duration: 3000
-                    });
-                }
-            },
             validate () {
                 if(this.$refs.form.validate()){
                     this.UpdateDetails();
@@ -265,15 +247,11 @@ export default {
             let test = btoa('test123')
             axios.post('/api/profile/updateDetails',this.UserDetails)
             .then(res=>{
-                this.type = 'success';
-                this.message = 'Profile Successfully Updated';
-                this.toastSuccess();
+                this.toastSuccess('Profile Successfully Updated');
                 this.isSaving = !this.isSaving;
             })
             .catch(e=>{
-                 this.type = 'error';
-                this.message = 'This a problem in updating your profile!';
-                this.toastSuccess();
+                this.toastError('Something went wrong in updating your profile!');
                 this.isSaving = !this.isSaving;
             })
 

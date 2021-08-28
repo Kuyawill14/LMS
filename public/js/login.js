@@ -260,6 +260,8 @@ __webpack_require__.r(__webpack_exports__);
 
             _this2.$store.dispatch('clear_current_user');
 
+            window.localStorage.setItem('personal_access_token', res.data.token);
+
             _this2.$router.push({
               path: "/"
             });
@@ -595,7 +597,6 @@ var render = function() {
                           _c("vue-element-loading", {
                             attrs: {
                               active: _vm.isLoggin,
-                              text: "Please wait...",
                               spinner: "bar-fade-scale",
                               color: "#EF6C00"
                             }

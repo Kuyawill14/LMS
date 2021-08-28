@@ -17,6 +17,9 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SendInviteMail;
 use App\Mail\AlertStudentMail;
+use App\Jobs\ProcessEmails;
+
+
 
 
 class TeacherController extends Controller
@@ -106,7 +109,8 @@ class TeacherController extends Controller
         $course = tbl_subject_course::find($request->course_id);
         //return $request;
         //return $user->email;
-        Mail::to($user->email)->send(new AlertStudentMail($request->classwork_id, $request->classwork_name, $request->course_id, $course->course_name, $request->firstName));
+        //Mail::to($user->email)->send(new AlertStudentMail($request->classwork_id, $request->classwork_name, $request->course_id, $course->course_name, $request->firstName));
+        ProcessEmails::dispatch($user->email,$request->classwork_id, $request->classwork_name, $request->course_id, $course->course_name, $request->firstName);
         return response()->json([
             "message" => "Alert message has been send successfully.",
             "success" => true

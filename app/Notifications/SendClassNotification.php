@@ -6,9 +6,8 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
-use App\Models\tbl_userDetails;
 
-class VerifyNotification extends Notification implements ShouldQueue
+class SendClassNotification extends Notification
 {
     use Queueable;
 
@@ -41,26 +40,10 @@ class VerifyNotification extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        $params =  [
-            'id' => $notifiable->getKey(),
-            'hash' => sha1($notifiable->getEmailForVerification()),
-        ];
-
-        $url = "/verify-email?";
-        $url = $url.'id='.$params['id'].'&hash='.$params['hash'];
-
-        $user = tbl_userDetails::where('user_id', $params['id'])->first();
-        
-      /*   return (new MailMessage)
-                ->greeting('Hello '.$user->firstName)
-                ->line('Please click the button below to verify your email address.')
-                ->action('Verify Email Address', $url)
-                ->line('Thank you for using '.config('app.name')); */
-            return (new MailMessage)->view('VerifyEmail', 
-                    ['firstName' => $user->firstName,
-                     'url'=> $url,
-                    ]
-                );
+        return (new MailMessage)
+                    ->line('The introduction to the notification.')
+                    ->action('Notification Action', url('/'))
+                    ->line('Thank you for using our application!');
     }
 
     /**

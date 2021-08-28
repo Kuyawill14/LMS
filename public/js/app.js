@@ -1924,18 +1924,28 @@ Vue.component("VueElementLoading", (vue_element_loading__WEBPACK_IMPORTED_MODULE
 Vue.component('main-component', __webpack_require__(/*! ./components/app.vue */ "./resources/js/components/app.vue").default);
 Vue.mixin({
   methods: {
+    toastNormal: function toastNormal(message) {
+      return this.$toasted.show(message, {
+        theme: "toasted-primary",
+        position: "bottom-left",
+        duration: 3000,
+        action: {
+          icon: 'close'
+        }
+      });
+    },
     toastSuccess: function toastSuccess(message) {
       return this.$toasted.success(message, {
         theme: "toasted-primary",
-        position: "top-center",
-        icon: "done",
-        duration: 3000
+        position: "top-right",
+        icon: "check",
+        duration: 2000
       });
     },
     toastError: function toastError(message) {
       return this.$toasted.error(message, {
         theme: "toasted-primary",
-        position: "top-center",
+        position: "top-right",
         icon: "warning",
         duration: 3000
       });
@@ -2005,7 +2015,7 @@ axios.defaults.withCredentials = true;
 window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/dist/web/pusher.js");
 window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_1__.default({
   broadcaster: 'pusher',
-  key: "05597b24c42e8d5d33ef",
+  key: "b3ecbaa590cb9ca65930",
   cluster: "ap1",
   forceTLS: true
 });
@@ -2807,11 +2817,39 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_6__.default({
       name: "classwork-preview",
       component: classworkView,
       beforeEnter: function beforeEnter(to, form, next) {
-        axios__WEBPACK_IMPORTED_MODULE_4___default().get("/api/authenticated").then(function () {
-          next();
-        })["catch"](function () {
-          return next({
-            path: "/login"
+        /* axios
+            .get("/api/authenticated")
+            .then(() => {
+                next();
+            })
+            .catch(() => {
+                return next({
+                    path: "/login"
+                });
+            }); */
+        _store_store__WEBPACK_IMPORTED_MODULE_2__.default.dispatch('IsAuthenticated').then(function () {
+          _store_store__WEBPACK_IMPORTED_MODULE_2__.default.dispatch('fetchMyCoursesStatus').then(function (res) {
+            if (res.status == 200) {
+              _store_store__WEBPACK_IMPORTED_MODULE_2__.default.dispatch('CheckMyCourse', to.params.id).then(function (response) {
+                if (response.exist == true) {
+                  if (response.status == 1) {
+                    next();
+                  }
+                } else {
+                  return next({
+                    name: "course-not-found",
+                    params: {
+                      id: to.params.id
+                    }
+                  });
+                }
+              });
+            }
+          })["catch"](function () {
+            _store_store__WEBPACK_IMPORTED_MODULE_2__.default.state.CurrentUser.IsAuthenticated = false;
+            return next({
+              path: "/login"
+            });
           });
         });
       },
@@ -2846,6 +2884,7 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_6__.default({
       component: ClassNotFound,
       name: "course-not-found"
     }]
+<<<<<<< HEAD
   },
   /* {
       path: "/classwork/:id",
@@ -2896,6 +2935,9 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_6__.default({
        ]
   }, */
   {
+=======
+  }, {
+>>>>>>> c458396157594decfda5bf2753d23e88afbe3fe8
     path: "/quiz/:id",
     component: QuizPage,
     name: "quizstart",
@@ -3000,7 +3042,8 @@ var state = {
   UserRole: null,
   MyCourses: [],
   CurrentStatus: {},
-  IsAuthenticated: window.localStorage.getItem('IsAuthenticated')
+  IsAuthenticated: window.localStorage.getItem('IsAuthenticated'),
+  AccessToken: window.localStorage.getItem('personal_access_token')
 };
 var getters = {
   get_CurrentUser: function get_CurrentUser(state) {
@@ -3023,6 +3066,7 @@ var actions = {
               return axios__WEBPACK_IMPORTED_MODULE_1___default().get("/api/authenticated")["catch"](function (e) {
                 commit('SET_AUTHENTICATED', false);
                 window.localStorage.removeItem('IsAuthenticated');
+                window.localStorage.removeItem('personal_access_token');
               });
 
             case 3:
@@ -3078,7 +3122,9 @@ var actions = {
     state.UserRole = null;
     state.MyCourses = [];
     state.IsAuthenticated = false;
+    state.AccessToken = null;
     window.localStorage.removeItem('IsAuthenticated');
+    window.localStorage.removeItem('personal_access_token');
   },
   fetchMyCoursesStatus: function fetchMyCoursesStatus(_ref4) {
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {

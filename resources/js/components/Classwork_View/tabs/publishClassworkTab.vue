@@ -234,6 +234,7 @@ export default {
             this.notifyDetails.classwork_id = data.classwork_id;
             this.notifyDetails.class_id = data.class_id;
             this.notifyDetails.course_id = this.$route.params.id;
+            this.notifyDetails.due = data.to_date;
             this.notifyDetails.type = 'classwork';
             axios.post('/api/notification/new', this.notifyDetails)
             .then(res=>{

@@ -1,52 +1,45 @@
 <template>
-
-        <v-row >
-
-          <v-col v-if="classworkDetails.availability == 0" cols="12" >
-            <v-row align="center" justify="center">
-              <v-col v-if="classworkDetails.type == 'Objective Type'" cols="12" sm="12" md="12" lg="10" xl="10">
-                    <objectiveType v-if="classworkDetails.type == 'Objective Type'" :classworkDetails="classworkDetails"
-                    :totalPoints="totalPoints" :totalQuestion="totalQuestion"
-                    ></objectiveType>  
-              </v-col>
-              <v-col v-if="classworkDetails.type == 'Subjective Type'" cols="12" sm="12" md="12" lg="10" xl="10">
-                  <subjectiveType v-if="classworkDetails.type == 'Subjective Type'" :classworkDetails="classworkDetails"
-                  :totalPoints="totalPoints" :totalQuestion="totalQuestion"
-                  ></subjectiveType>  
-              </v-col>
-            </v-row> 
+<div>
+    <v-row >
+      <v-col v-if="classworkDetails.availability == 0" cols="12" >
+        <v-row align="center" justify="center">
+          <v-col v-if="classworkDetails.type == 'Objective Type'" cols="12" sm="12" md="12" lg="10" xl="10">
+                <objectiveType v-if="classworkDetails.type == 'Objective Type'" :classworkDetails="classworkDetails"
+                :totalPoints="totalPoints" :totalQuestion="totalQuestion"
+                ></objectiveType>  
           </v-col>
-          
-          <v-col v-else cols="12" sm="12"   justify="center" class="ma-0 pa-0">
-            <v-row align="center" justify="center">
-              <v-col  v-if="classworkDetails.response_late == 0 && CheckFormatDue(classworkDetails.to_date) < DateToday" cols="12" md="7" lg="6" xl="6">
-               
-                     <responseLatePageWarning ></responseLatePageWarning>
-              
-                 
-              </v-col>
-               <v-col v-else cols="12" >
-                 <v-row align="center" justify="center">
-                   <v-col v-if="classworkDetails.type == 'Objective Type'" sm="12" md="12" lg="10" xl="10" cols="12">
-                     <objectiveType v-if="classworkDetails.type == 'Objective Type'" :classworkDetails="classworkDetails"
-                    :totalPoints="totalPoints" :totalQuestion="totalQuestion"
-                    ></objectiveType>  
-                   </v-col>
-                   <v-col v-if="classworkDetails.type == 'Subjective Type'" cols="12" sm="12" md="12" lg="10" xl="10">
-                        <subjectiveType v-if="classworkDetails.type == 'Subjective Type'" :classworkDetails="classworkDetails"
-                      :totalPoints="totalPoints" :totalQuestion="totalQuestion"
-                      ></subjectiveType> 
-                   </v-col>
-                 </v-row>
-                  
-
-
-               
-              </v-col>
-            </v-row>
+          <v-col v-if="classworkDetails.type == 'Subjective Type'" cols="12" sm="12" md="12" lg="10" xl="10">
+              <subjectiveType v-if="classworkDetails.type == 'Subjective Type'" :classworkDetails="classworkDetails"
+              :totalPoints="totalPoints" :totalQuestion="totalQuestion"
+              ></subjectiveType>  
+          </v-col>
+        </v-row> 
+      </v-col>
+      
+      <v-col v-else cols="12" sm="12"   justify="center" class="ma-0 pa-0">
+        <v-row align="center" justify="center">
+          <v-col  v-if="classworkDetails.response_late == 0 && CheckFormatDue(classworkDetails.to_date) < DateToday" cols="12" md="7" lg="6" xl="6">
+                  <responseLatePageWarning ></responseLatePageWarning>
+          </v-col>
+            <v-col v-else cols="12" >
+              <v-row align="center" justify="center">
+                <v-col v-if="classworkDetails.type == 'Objective Type'" sm="12" md="12" lg="10" xl="10" cols="12">
+                  <objectiveType v-if="classworkDetails.type == 'Objective Type'" :classworkDetails="classworkDetails"
+                :totalPoints="totalPoints" :totalQuestion="totalQuestion"
+                ></objectiveType>  
+                </v-col>
+                <v-col v-if="classworkDetails.type == 'Subjective Type'" cols="12" sm="12" md="12" lg="10" xl="10">
+                    <subjectiveType v-if="classworkDetails.type == 'Subjective Type'" :classworkDetails="classworkDetails"
+                  :totalPoints="totalPoints" :totalQuestion="totalQuestion"
+                  ></subjectiveType> 
+                </v-col>
+              </v-row>
+            
           </v-col>
         </v-row>
-
+      </v-col>
+    </v-row>
+</div>
 </template>
 
 <script>

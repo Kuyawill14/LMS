@@ -2,17 +2,21 @@
 
 namespace App\Http\Controllers\api;
 
+
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Notification;
 use App\Models\tbl_userclass;
 use App\Models\tbl_classwork;
+use App\Models\Tbl_class;
 use App\Models\tbl_notification;
 use App\Models\UserNotification;
 use App\Models\tbl_teacher_course;
 use App\Events\NewPost;
 use App\Events\NewNotification;
 use App\Models\tbl_subject_course;
+use App\Jobs\SendNotificationMailToClass;
 
 class NotificationController extends Controller
 {
@@ -24,9 +28,15 @@ class NotificationController extends Controller
 
         if($request->type == "classwork"){
             $clsssworkTitle = tbl_classwork::where("tbl_classworks.id", $request->classwork_id)
-            ->select("tbl_classworks.title", "tbl_subject_courses.course_name")
+            ->select("tbl_classworks.title","tbl_classworks.instruction", "tbl_subject_courses.course_name","tbl_user_details.lastName")
             ->leftJoin("tbl_subject_courses", "tbl_subject_courses.id","=","tbl_classworks.course_id")
+            ->leftJoin("tbl_teacher_courses", "tbl_teacher_courses.course_id","=","tbl_subject_courses.id")
+            ->leftJoin("tbl_user_details", "tbl_user_details.user_id","=","tbl_teacher_courses.user_id")
             ->first();
+            
+            
+
+
             $newNotification = new tbl_notification;
             $newNotification->course_id = $request->course_id;
             $newNotification->class_id = $request->class_id;
@@ -35,7 +45,11 @@ class NotificationController extends Controller
             $newNotification->message = $clsssworkTitle->title." assigned in your ".$clsssworkTitle->course_name;
             $newNotification->notification_type = 4;
             $newNotification->save();
-            //broadcast(new NewNotification($newNotification))->toOthers();
+
+            $ClassName = Tbl_class::where('tbl_classes.id',$request->class_id)->first();
+            $url = '/classwork'.'/'.$request->course_id.'/classwork-details?clwk='.$request->classwork_id;
+            $CourseClassName = $ClassName->class_name.' '.$clsssworkTitle->course_name;
+            SendNotificationMailToClass::dispatch($request->class_id, $clsssworkTitle->title, $clsssworkTitle->instruction, $request->due, $CourseClassName, $clsssworkTitle->lastName, $url);
             return;
         }
         elseif($request->type == "announcement"){
@@ -53,7 +67,7 @@ class NotificationController extends Controller
             return;
         }
        
-       
+        
 
 
     }

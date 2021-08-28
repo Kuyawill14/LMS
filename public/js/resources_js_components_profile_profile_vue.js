@@ -205,6 +205,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var editProfile = function editProfile() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_profile_editprofile_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./editprofile */ "./resources/js/components/profile/editprofile.vue"));
 };
@@ -237,7 +247,16 @@ var myCalendar = function myCalendar() {
       loading: false,
       isloading: true,
       message: null,
-      type: null
+      type: null,
+      items: [{
+        text: 'Dashboard',
+        disabled: false,
+        link: 'courses'
+      }, {
+        text: 'profile Details',
+        disabled: true,
+        link: 'profile_page'
+      }]
     };
   },
   methods: {
@@ -406,6 +425,34 @@ var render = function() {
   return _c(
     "div",
     [
+      _c("v-breadcrumbs", {
+        staticClass: "ma-0 pa-0 mt-1 mb-2",
+        attrs: { items: _vm.items },
+        scopedSlots: _vm._u([
+          {
+            key: "item",
+            fn: function(ref) {
+              var item = ref.item
+              return [
+                _c(
+                  "v-breadcrumbs-item",
+                  {
+                    attrs: { to: { name: item.link }, disabled: item.disabled }
+                  },
+                  [
+                    _vm._v(
+                      "\n            " +
+                        _vm._s(item.text.toUpperCase()) +
+                        "\n        "
+                    )
+                  ]
+                )
+              ]
+            }
+          }
+        ])
+      }),
+      _vm._v(" "),
       _vm.isloading
         ? _c(
             "v-container",
@@ -454,12 +501,10 @@ var render = function() {
           )
         : _vm._e(),
       _vm._v(" "),
-      !_vm.isloading ? _c("h2", [_vm._v("USER PROFILE")]) : _vm._e(),
-      _vm._v(" "),
       !_vm.isloading
         ? _c(
             "v-row",
-            {},
+            { attrs: { "no-gutters": "" } },
             [
               _c(
                 "v-col",
@@ -722,6 +767,11 @@ var render = function() {
                                 {
                                   staticClass: "mt-2",
                                   attrs: { vertical: "" },
+                                  on: {
+                                    click: function($event) {
+                                      _vm.items[1].text = "Profile Details"
+                                    }
+                                  },
                                   model: {
                                     value: _vm.tab,
                                     callback: function($$v) {
@@ -749,7 +799,14 @@ var render = function() {
                                   _vm._v(" "),
                                   _c(
                                     "v-tab",
-                                    { staticClass: "d-flex justify-start" },
+                                    {
+                                      staticClass: "d-flex justify-start",
+                                      on: {
+                                        click: function($event) {
+                                          _vm.items[1].text = "Courses"
+                                        }
+                                      }
+                                    },
                                     [
                                       _c("v-icon", { attrs: { left: "" } }, [
                                         _vm._v(
@@ -765,7 +822,14 @@ var render = function() {
                                   _vm._v(" "),
                                   _c(
                                     "v-tab",
-                                    { staticClass: "d-flex justify-start" },
+                                    {
+                                      staticClass: "d-flex justify-start",
+                                      on: {
+                                        click: function($event) {
+                                          _vm.items[1].text = "My Calendar"
+                                        }
+                                      }
+                                    },
                                     [
                                       _c("v-icon", { attrs: { left: "" } }, [
                                         _vm._v(
@@ -781,7 +845,14 @@ var render = function() {
                                   _vm._v(" "),
                                   _c(
                                     "v-tab",
-                                    { staticClass: "d-flex justify-start" },
+                                    {
+                                      staticClass: "d-flex justify-start",
+                                      on: {
+                                        click: function($event) {
+                                          _vm.items[1].text = "Change Password"
+                                        }
+                                      }
+                                    },
                                     [
                                       _c("v-icon", { attrs: { left: "" } }, [
                                         _vm._v(
@@ -817,8 +888,8 @@ var render = function() {
                   _c(
                     "v-card",
                     {
-                      staticClass: "pt-3 pb-3 pl-5 pr-5",
-                      attrs: { elevation: "1", outlined: "" }
+                      staticClass: " pb-3 pl-5 pr-5",
+                      attrs: { elevation: "0" }
                     },
                     [
                       _c(

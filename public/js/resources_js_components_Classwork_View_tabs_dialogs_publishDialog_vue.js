@@ -295,9 +295,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 fd.append("showAnswerDateTo", ShowAnswerDateTo);
                 fd.append("response_late", _this2.response_late);
                 fd.append("grading_id", _this2.GradingCriteria_id);
-                console.log(from_date);
                 axios.post('/api/classwork/share', fd).then(function (res) {
                   if (res.dat != 'Unshare') {
+                    var tmpDue = res.data.availability == 1 ? 'Due ' + moment__WEBPACK_IMPORTED_MODULE_1___default()(_this2.to_date).format("MMMM D") + ' at ' + moment__WEBPACK_IMPORTED_MODULE_1___default()(_this2.to_date).format("h:mm a") : '';
+                    res.data.to_date = tmpDue;
+
                     _this2.$emit('successPublish', res.data);
 
                     _this2.toastSuccess("Classwork Successfully publish");
@@ -310,7 +312,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   console.log(e);
                 });
 
-              case 18:
+              case 17:
               case "end":
                 return _context.stop();
             }

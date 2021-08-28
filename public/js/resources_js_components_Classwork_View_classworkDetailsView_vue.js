@@ -78,6 +78,29 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var studentStartPage = function studentStartPage() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_type_studentStartPage_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./type/studentStartPage */ "./resources/js/components/Classwork_View/type/studentStartPage.vue"));
 };
@@ -96,7 +119,7 @@ var teacherStartPage = function teacherStartPage() {
   data: function data() {
     return {
       isloading: true,
-      classworkDetails: [],
+      classworkDetails: {},
       totalPoints: null,
       totalQuestion: null,
       CurrentUser: []
@@ -112,7 +135,7 @@ var teacherStartPage = function teacherStartPage() {
             switch (_context.prev = _context.next) {
               case 0:
                 axios.get('/api/classwork/showDetails/' + _this.$route.query.clwk + '/' + _this.$route.params.id).then(function (res) {
-                  _this.classworkDetails = res.data.Details;
+                  _this.classworkDetails = res.data;
                   _this.totalPoints = res.data.totalpoints;
                   _this.totalQuestion = res.data.ItemsCount;
                   _this.isloading = !_this.isloading;
@@ -21666,7 +21689,77 @@ var render = function() {
   return _c(
     "div",
     [
-      !_vm.isloading
+      !_vm.isloading && _vm.classworkDetails.success == false
+        ? _c(
+            "v-row",
+            {
+              staticStyle: { height: "75vh" },
+              attrs: { align: "center", justify: "center" }
+            },
+            [
+              _c(
+                "v-col",
+                { attrs: { cols: "12", md: "4", lg: "3", xl: "3" } },
+                [
+                  _c(
+                    "v-card",
+                    { staticClass: "pa-5", attrs: { outlined: "" } },
+                    [
+                      _c(
+                        "v-row",
+                        [
+                          _c("v-col", { attrs: { cols: "12" } }, [
+                            _c("h2", { staticClass: "font-weight-regular" }, [
+                              _vm._v("Classwork not found!")
+                            ]),
+                            _vm._v(" "),
+                            _c("div", [_vm._v("Check you classwork list.")])
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "v-col",
+                            {
+                              staticClass: "text-right",
+                              attrs: { cols: "12" }
+                            },
+                            [
+                              _c(
+                                "v-btn",
+                                {
+                                  attrs: { color: "primary" },
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.$router.push({
+                                        name: "classwork",
+                                        params: _vm.$route.params.id
+                                      })
+                                    }
+                                  }
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                                 Back to Class\n                             "
+                                  )
+                                ]
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      !_vm.isloading && _vm.classworkDetails.success == true
         ? _c(
             "v-row",
             [
@@ -21680,7 +21773,7 @@ var render = function() {
                             attrs: {
                               totalPoints: _vm.totalPoints,
                               totalQuestion: _vm.totalQuestion,
-                              classworkDetails: _vm.classworkDetails
+                              classworkDetails: _vm.classworkDetails.Details
                             }
                           })
                         : _vm._e()
@@ -21697,7 +21790,7 @@ var render = function() {
                       _vm.role == "Student"
                         ? _c("studentStartPage", {
                             attrs: {
-                              classworkDetails: _vm.classworkDetails,
+                              classworkDetails: _vm.classworkDetails.Details,
                               totalPoints: _vm.totalPoints,
                               totalQuestion: _vm.totalQuestion
                             }

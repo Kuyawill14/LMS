@@ -3,7 +3,7 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
+//use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
@@ -11,7 +11,7 @@ class AlertStudentMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $classwork_id, $classwork_name, $course_id,  $course_name,$firstName;
+    protected $classwork_id, $classwork_name, $course_id,  $course_name,$firstName;
     /**
      * Create a new message instance.
      *

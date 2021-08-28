@@ -59,13 +59,9 @@ Route::middleware('auth:sanctum')->get('/authenticated', function () {
 
 
 
-/* Rou
-/* Route::get('/classlist',function () {
-     return Tbl_class::all();
-    }); */
 
 //Class
-Route::prefix('/class')->group(function () {
+Route::middleware('auth:sanctum')->prefix('/class')->group(function () {
     Route::get('/all', [ClassController::class, 'index']);
     Route::post('/insert', [ClassController::class, 'store']);
     Route::post('/update/{id}', [ClassController::class, 'update']);
@@ -79,7 +75,7 @@ Route::prefix('/class')->group(function () {
     
 });
 //course
-Route::prefix('/course')->group(function () {
+Route::middleware('auth:sanctum')->prefix('/course')->group(function () {
     Route::get('/all', [SubjectCourseController::class, 'index']);
     Route::post('/insert', [SubjectCourseController::class, 'store']);
     Route::post('/update/{id}', [SubjectCourseController::class, 'update']);
@@ -92,14 +88,14 @@ Route::prefix('/course')->group(function () {
 
 
 //Announcement
-Route::prefix('/announcement')->group(function () {
+Route::middleware('auth:sanctum')->prefix('/announcement')->group(function () {
     Route::post('/insert', [AnnouncementController::class, 'store']);
     Route::get('/allpost/{id}', [AnnouncementController::class, 'allClassPost']);
     
 });
 
 //CommentLike
-Route::prefix('/post')->group(function () {
+Route::middleware('auth:sanctum')->prefix('/post')->group(function () {
     Route::get('/allcomment/{id}', [CommentController::class, 'index']);
     Route::get('/commentCount/{id}', [CommentController::class, 'TotalComment']);
     Route::get('/classwork/comment/{id}', [CommentController::class, 'FetchClassworkPrivateComment']);
@@ -118,8 +114,8 @@ Route::prefix('/post')->group(function () {
 
 
 //classwork
-Route::prefix('/classwork')->group(function () {
-    Route::get('/all', [ClassworkController::class, 'index']);
+Route::middleware('auth:sanctum')->prefix('/classwork')->group(function () {
+    //Route::get('/all', [ClassworkController::class, 'index']);
     Route::get('/all/{id}', [ClassworkController::class, 'index']);
     Route::get('/showDetails/{id}/{courseId}', [ClassworkController::class, 'show']);
     Route::get('/student-classworks/{id}', [ClassworkController::class, 'getIndividualClassClassworks']);
@@ -135,7 +131,7 @@ Route::prefix('/classwork')->group(function () {
 });
 
 //Student
-Route::prefix('/student')->group(function () {
+Route::middleware('auth:sanctum')->prefix('/student')->group(function () {
     Route::get('/all/{id}', [StudentController::class, 'getStudentList']);
     Route::get('/all_by_class/{id}', [StudentController::class, 'getStudentListbyClass']);
     Route::get('/check-status/{id}', [StudentController::class, 'checkSubmissionStatus']);
@@ -149,7 +145,7 @@ Route::prefix('/student')->group(function () {
 });
 
 //Teacher
-Route::prefix('/teacher')->group(function () {
+Route::middleware('auth:sanctum')->prefix('/teacher')->group(function () {
     Route::put('/update-score/{id}', [TeacherController::class, 'updateScoreObj']);
     Route::put('/reset-obj/{id}', [TeacherController::class, 'resetStudentObjSubmission']);
     Route::post('/invite-student', [TeacherController::class, 'InviteStudent']);
@@ -162,7 +158,7 @@ Route::prefix('/teacher')->group(function () {
 
 
 //notification
-Route::prefix('/notification')->group(function () {
+Route::middleware('auth:sanctum')->prefix('/notification')->group(function () {
     Route::get('/all', [NotificationController::class, 'getNotification']);
     Route::get('/notifCount', [NotificationController::class, 'getNotificationCount']);
     Route::post('/new', [NotificationController::class, 'NewNotification']);
@@ -180,7 +176,7 @@ Route::prefix('/notification')->group(function () {
 });
 
 //main modules
-Route::prefix('/main_module')->group(function () {
+Route::middleware('auth:sanctum')->prefix('/main_module')->group(function () {
     Route::get('/all/{id}', [MainModuleController::class, 'index']);
     Route::post('/insert', [MainModuleController::class, 'store']);
     Route::post('/update/{id}', [MainModuleController::class, 'update']);
@@ -193,14 +189,14 @@ Route::prefix('/main_module')->group(function () {
 });
 
 //sub  modules
-Route::prefix('/sub_module')->group(function () {
+Route::middleware('auth:sanctum')->prefix('/sub_module')->group(function () {
     Route::get('/all/{id}', [SubModuleController::class, 'index']);
     Route::post('/insert', [SubModuleController::class, 'store']);
     
 });
 
 //student sub  modules progress
-Route::prefix('/student_sub_module')->group(function () {
+Route::middleware('auth:sanctum')->prefix('/student_sub_module')->group(function () {
     Route::get('/all/{id}', [StudentSubModuleProgressController::class, 'index']);
     Route::post('/insert', [StudentSubModuleProgressController::class, 'store']);
     Route::post('/updatetime', [StudentSubModuleProgressController::class, 'updateTimespent']);
@@ -212,7 +208,7 @@ Route::prefix('/student_sub_module')->group(function () {
 
 
 //Objective Questions
-Route::prefix('/question')->group(function () {
+Route::middleware('auth:sanctum')->prefix('/question')->group(function () {
     Route::get('/all/{id}', [ObjectiveController::class, 'index']);
     Route::get('/question-answer/{id}/{class_clwk_Id}', [ObjectiveController::class, 'fetchQuestionAnswerForViewSubmision']);
     Route::post('/insert', [ObjectiveController::class, 'store']);
@@ -233,7 +229,7 @@ Route::prefix('/question')->group(function () {
 
 
 //Grading Criteria
-Route::prefix('/grading-criteria')->group(function () {
+Route::middleware('auth:sanctum')->prefix('/grading-criteria')->group(function () {
     Route::get('/all/{id}', [GradingCriteriaController::class, 'index']);
     Route::post('/insert', [GradingCriteriaController::class, 'store']);
     Route::delete('/remove/{id}', [GradingCriteriaController::class, 'deleteCriteria']);
@@ -243,7 +239,7 @@ Route::prefix('/grading-criteria')->group(function () {
 
 
 //Grading book
-Route::prefix('/grade-book')->group(function () {
+Route::middleware('auth:sanctum')->prefix('/grade-book')->group(function () {
     Route::get('/classworks/{id}', [GradebookController::class, 'fetchClassworks']);
     Route::get('/classworkGrades/{id}', [GradebookController::class, 'fetchClassworkGrades']);
     Route::get('/student-classworkGrades/{id}', [GradebookController::class, 'fetchStudentClassworkGrades']);
@@ -253,13 +249,13 @@ Route::prefix('/grade-book')->group(function () {
 
 
 //Question Analytics
-Route::prefix('/QAnalytics')->group(function () {
+Route::middleware('auth:sanctum')->prefix('/QAnalytics')->group(function () {
     Route::get('/all/{id}', [AnalyticsController::class, 'index']);
     
 });
 
 //Submission List
-Route::prefix('/submission')->group(function () {
+Route::middleware('auth:sanctum')->prefix('/submission')->group(function () {
     Route::get('/all/{id}', [SubmissionController::class, 'index']);
     Route::get('/check-sbj/{id}', [SubmissionController::class, 'checkSubjectiveSubmission']);
     Route::put('/file-remove/{id}', [SubmissionController::class, 'RemoveUploadedFile']);
@@ -269,7 +265,7 @@ Route::prefix('/submission')->group(function () {
 
 //User Profile 
 /* middleware('auth:sanctum')-> */
-Route::prefix('/profile')->group(function () {
+Route::middleware('auth:sanctum')->prefix('/profile')->group(function () {
     Route::get('/details', [UserProfileController::class, 'index']);
     Route::post('/profile_picture', [UserProfileController::class, 'updatePicture']);
     Route::post('/updateDetails', [UserProfileController::class, 'updateDetails']);
@@ -280,7 +276,7 @@ Route::prefix('/profile')->group(function () {
 
 
 //User Archive 
-Route::prefix('/archive')->group(function () {
+Route::middleware('auth:sanctum')->prefix('/archive')->group(function () {
     Route::get('/courses', [ArchiveController::class, 'index']);
     Route::put('/restore/{id}', [ArchiveController::class, 'restoreArchive']);
     Route::get('/classes', [ArchiveController::class, 'showArchiveClasses']);
@@ -291,14 +287,14 @@ Route::prefix('/archive')->group(function () {
 
 
 //UserCourseFinal Grades
-Route::prefix('/student-course')->group(function () {
+Route::middleware('auth:sanctum')->prefix('/student-course')->group(function () {
     Route::get('/gradeAll', [StudentCourseFinalGrades::class, 'index']);
    
     
 });
 
 //Get all teachers
-Route::prefix('/admin')->group(function () {
+Route::middleware('auth:sanctum')->prefix('/admin')->group(function () {
     Route::get('teachers/all', [AdminController::class, 'getAllTeacher']);
     Route::get('/students/all', [AdminController::class, 'getAllStudent']);
     Route::get('/studentAndteacher/count', [AdminController::class, 'getAllStudentAndTeacherCount']);
@@ -323,7 +319,7 @@ Route::prefix('/admin')->group(function () {
 });
 
 //semesters 
-Route::prefix('/admin/schoolyears_semesters')->group(function() {
+Route::middleware('auth:sanctum')->prefix('/admin/schoolyears_semesters')->group(function() {
     Route::get('/all', [SchoolyearSemesterController::class, 'fetchAllSchoolyear_Semester']);
     Route::post('/upsert', [SchoolyearSemesterController::class, 'addUpdateSchoolyear_semester']);
     Route::post('/delete', [SchoolyearSemesterController::class, 'deleteSchoolyear_semester']);
@@ -332,29 +328,20 @@ Route::prefix('/admin/schoolyears_semesters')->group(function() {
 });
 
 //schoolyear
-Route::prefix('/admin/schoolyears')->group(function() {
+Route::middleware('auth:sanctum')->prefix('/admin/schoolyears')->group(function() {
     Route::get('/all', [SchoolyearSemesterController::class, 'fetchAllSchoolyear']);
 });
 
 //department
-Route::prefix('/admin/department')->group(function() {
+Route::middleware('auth:sanctum')->prefix('/admin/department')->group(function() {
     Route::get('/all', [DepartmentController::class, 'index']);
 });
-
-
 
 
 /* Route::group([
     'prefix'=> 'course',
     'middleware' =>['auth:sanctum'],
 ] */
-
-
-
-
-
-
-
 
 
 //Route::get('/GetDetails', [AuthController::class, 'GetDetails']);

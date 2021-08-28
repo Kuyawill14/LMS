@@ -529,7 +529,7 @@ var render = function() {
                                           "\n                            " +
                                             _vm._s(
                                               _vm.UserDetails.role != "Teacher"
-                                                ? "Rank 1"
+                                                ? ""
                                                 : "Classworks " +
                                                     item.classwork_count
                                             ) +

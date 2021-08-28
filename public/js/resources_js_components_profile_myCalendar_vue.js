@@ -172,6 +172,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['role'],
@@ -21920,6 +21926,17 @@ var render = function() {
         ? _c(
             "v-col",
             [
+              _c("v-col", { staticClass: "mb-0 pb-0", attrs: { cols: "12" } }, [
+                _c("h3", [_vm._v("MY CALENDAR")])
+              ]),
+              _vm._v(" "),
+              _c(
+                "v-col",
+                { staticClass: "mb-0 pb-0", attrs: { cols: "12" } },
+                [_c("v-divider")],
+                1
+              ),
+              _vm._v(" "),
               _c(
                 "v-sheet",
                 { attrs: { height: "64" } },

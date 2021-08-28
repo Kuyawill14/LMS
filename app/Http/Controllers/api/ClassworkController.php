@@ -29,7 +29,18 @@ class ClassworkController extends Controller
         
         $userId = auth('sanctum')->id();
         if(auth('sanctum')->user()->role != 'Student'){
-            $classwork = tbl_classwork::where('course_id',  $id)
+            $CheckCourse = tbl_teacher_course::where('tbl_teacher_courses.course_id',$id)
+            ->where('tbl_teacher_courses.user_id',   $userId)
+            ->first();
+
+            if(!$CheckCourse ){
+                return response()->json([
+                    "message" => "Access Denied!",
+                    "success" => false
+                ]); 
+            }
+
+            $classwork = tbl_classwork::where('tbl_classworks.course_id',  $id)
             ->select('tbl_classworks.id', 'tbl_classworks.course_id','tbl_classworks.module_id','tbl_classworks.type',
             'tbl_classworks.title','tbl_classworks.instruction','tbl_classworks.duration','tbl_classworks.points','tbl_classworks.created_at')
             ->selectRaw('count(tbl_submissions.classwork_id ) as submittion_count')
@@ -37,6 +48,7 @@ class ClassworkController extends Controller
             ->orderBy('created_at', 'DESC')
             ->groupBy('tbl_classworks.id','tbl_classworks.course_id','tbl_classworks.module_id','tbl_classworks.type',
             'tbl_classworks.title','tbl_classworks.duration','tbl_classworks.points','tbl_classworks.created_at')
+            ->where('tbl_classworks.user_id',  $userId)
             ->get();
 
             $ClassworksListObjective = array();
@@ -55,12 +67,21 @@ class ClassworkController extends Controller
             return $classworkList;
         }
         else{
-            $GradingCategory = tbl_main_gradeCategory::where('tbl_main_grade_categories.course_id', $id)
-        ->get();
+        $CheckClass = tbl_userclass::where('tbl_userclasses.course_id',$id)
+        ->where('tbl_userclasses.user_id',  $userId)
+        ->first();
+        if(!$CheckClass ){
+            return response()->json([
+                "message" => "Access Denied!",
+                "success" => false
+            ]); 
+        }
+
+        $GradingCategory = tbl_main_gradeCategory::where('tbl_main_grade_categories.course_id', $id)->get();
         $ClassworksList = array();
         $ClassworkTitle = array();
-        foreach($GradingCategory as $item){
 
+        foreach($GradingCategory as $item){
             $classworkAll = tbl_classClassworks::where('tbl_userclasses.course_id','=', $id)
             ->select('tbl_class_classworks.*', 'tbl_classworks.type', 'tbl_classworks.title', 'tbl_classworks.points'
             ,'tbl_classworks.instruction')
@@ -80,7 +101,6 @@ class ClassworkController extends Controller
                     $classW->score = null;
                     $classW->graded = 0;
                     $classW->Sub_date = null;
-            
                 }
                 
             }
@@ -115,9 +135,8 @@ class ClassworkController extends Controller
             $ClassworkTitle[] = ['title'=>$item->name, 'percent'=>$item->percentage];
             $ClassworksList[] = $classworkAll;
         }
-        //return $ClassworksList;
-        return ["ClassworkTitle"=>$ClassworkTitle, "ClassworksList"=>$ClassworksList];
-            
+            return ["ClassworkTitle"=>$ClassworkTitle, "ClassworksList"=>$ClassworksList];
+
         }
         
     }
@@ -278,20 +297,25 @@ class ClassworkController extends Controller
     {
         $userId = auth('sanctum')->id();
 
-        $class_id = tbl_userclass::where('tbl_userclasses.user_id', $userId)
-        ->select('tbl_userclasses.class_id')
-        ->where('tbl_userclasses.course_id', $courseId)
-        ->first();
-
-       
-    
-
         $classworkDetails;
         if(auth('sanctum')->user()->role != 'Student'){
             $classworkDetails = tbl_classwork::where('tbl_classworks.id','=', $id)
+            ->where('tbl_classworks.user_id', $userId)
             ->first();
+
+            if(!$classworkDetails){
+                return response()->json([
+                    "message" => "Classwork not found!",
+                    "success" => false
+                ]);
+            }
         }
         else{
+            $class_id = tbl_userclass::where('tbl_userclasses.user_id', $userId)
+            ->select('tbl_userclasses.class_id')
+            ->where('tbl_userclasses.course_id', $courseId)
+            ->first();
+
             $classworkDetails = tbl_classwork::where('tbl_classworks.id','=', $id)
             ->select('tbl_classworks.*', 'tbl_class_classworks.id as class_classwork_id',
             'tbl_class_classworks.availability','tbl_class_classworks.from_date','tbl_class_classworks.to_date','tbl_class_classworks.showAnswer',
@@ -302,6 +326,13 @@ class ClassworkController extends Controller
             ->leftJoin('tbl_userclasses', 'tbl_userclasses.user_id','=', 'tbl_classworks.user_id')
             ->where('tbl_class_classworks.class_id', $class_id->class_id)
             ->first();
+
+            if(!$classworkDetails){
+                return response()->json([
+                    "message" => "Classwork not found!",
+                    "success" => false
+                ]);
+            }
 
             $teacher_id = tbl_teacher_course::where('course_id', $courseId)->first();
             $PrivateComment = tbl_comment::where("tbl_comments.classwork_id",  $classworkDetails ->id)
@@ -326,10 +357,19 @@ class ClassworkController extends Controller
                 $count++;
                 $points+= $i->points;
             }
-            return ['Details'=>$classworkDetails,'ItemsCount'=>$count,'totalpoints'=>$points];
+            return response()->json([
+                "Details"=>$classworkDetails,
+                "ItemsCount"=>$count,
+                "success" => true
+            ]);
+            //return ['Details'=>$classworkDetails,'ItemsCount'=>$count,'totalpoints'=>$points];
         }
         else if($classworkDetails->type == 'Subjective Type'){
-            return ['Details'=>$classworkDetails];
+            //return ['Details'=>$classworkDetails];
+            return response()->json([
+                'Details'=>$classworkDetails,
+                "success" => true
+            ]);
         }
         
         

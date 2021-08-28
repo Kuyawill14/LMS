@@ -1,6 +1,18 @@
 <template>
     <div>
 
+         <v-breadcrumbs class="ma-0 pa-0 mt-1 mb-2" :items="items">
+            <template v-slot:item="{ item }">
+            <v-breadcrumbs-item
+                :to="{name: item.link}"
+                :disabled="item.disabled"
+            >
+                {{ item.text.toUpperCase() }}
+            </v-breadcrumbs-item>
+            </template>
+        </v-breadcrumbs>
+
+
         <v-container v-if="isloading" style="height: 400px;">
             <v-row class="fill-height" align-content="center" justify="center">
                  <v-icon style="font-size:10rem">
@@ -37,9 +49,7 @@
                 </v-card>
             </v-col>
         </v-row> -->
-
-        <h2 v-if="!isloading">USER PROFILE</h2>
-        <v-row v-if="!isloading" class="">
+        <v-row no-gutters v-if="!isloading" class="">
             <v-col cols="12" md="3" lg="3" xl="2" >
               <v-card
                 elevation="1"
@@ -120,27 +130,27 @@
                                 <v-icon left>mdi-account-edit-outline</v-icon>
                                 Edit Profile
                             </v-btn> -->
-                            <v-tabs v-model="tab" vertical class="mt-2">
+                            <v-tabs @click="items[1].text = 'Profile Details'" v-model="tab" vertical class="mt-2">
                                  <v-tab class="d-flex justify-start">
                                     <v-icon left>
                                     mdi-account
                                     </v-icon>
                                     Profile
                                 </v-tab>
-                                <v-tab class="d-flex justify-start">
+                                <v-tab @click="items[1].text = 'Courses'" class="d-flex justify-start">
                                     <v-icon left>
                                     mdi-google-classroom
                                     </v-icon>
                                     Courses
                                 </v-tab>
-                                <v-tab class="d-flex justify-start">
+                                <v-tab @click="items[1].text = 'My Calendar'" class="d-flex justify-start">
                                     <v-icon left>
                                     mdi-calendar
                                     </v-icon>
                                     My Calendar
                                 </v-tab>
                                
-                                 <v-tab class="d-flex justify-start">
+                                 <v-tab  @click="items[1].text = 'Change Password'" class="d-flex justify-start">
                                     <v-icon left>
                                     mdi-lock
                                     </v-icon>
@@ -157,8 +167,8 @@
             </v-col>
             <v-col cols="12" md="9" lg="9" xl="10">
                   <v-card
-                  class="pt-3 pb-3 pl-5 pr-5"
-                elevation="1" outlined>
+                  class=" pb-3 pl-5 pr-5"
+                elevation="0"  >
                <v-row>
                    <v-col cols="12">
                        
@@ -206,7 +216,19 @@
                 loading: false,
                 isloading: true,
                 message:null,
-                type:null
+                type:null,
+                items: [
+                    {
+                    text: 'Dashboard',
+                    disabled: false,
+                    link: 'courses',
+                    },
+                    {
+                    text: 'profile Details',
+                    disabled: true,
+                    link: 'profile_page',
+                    },
+                ],
             }
         },
         methods: {
