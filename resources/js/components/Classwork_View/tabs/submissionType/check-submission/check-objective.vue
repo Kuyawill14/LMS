@@ -279,7 +279,7 @@
 
 </template>
 <script>
-import moment from 'moment';
+import moment from 'moment/src/moment';
 const resetConfirmation = () => import('../../dialogs/resetConfirmation')
  import {mapGetters, mapActions } from "vuex";
  
@@ -333,7 +333,7 @@ const resetConfirmation = () => import('../../dialogs/resetConfirmation')
                     }
  
                 }
-                //console.log(this.Details.Question)
+                ////console.log(this.Details.Question)
                 for (let i = 0; i < this.getAll_questions.Question.length; i++) {
                     for (let j = 0; j < this.ViewDetails.Submitted_Answers.length; j++) {
                         if(this.Details.Question[i].id == this.ViewDetails.Submitted_Answers[j].Question_id){
@@ -393,7 +393,7 @@ const resetConfirmation = () => import('../../dialogs/resetConfirmation')
                                     this.SubmittedAnswer[i] = Ans;
                                    
                                     this.Check[i] = match_check;
-                                     console.log(this.Check);
+                                     //console.log(this.Check);
                                 }
                         }
                         
@@ -402,7 +402,7 @@ const resetConfirmation = () => import('../../dialogs/resetConfirmation')
                 }
                  
                  
-                //console.log(this.ViewDetails.Submitted_Answers);
+                ////console.log(this.ViewDetails.Submitted_Answers);
                 this.$emit('isMounted');
             });
 
@@ -426,7 +426,7 @@ const resetConfirmation = () => import('../../dialogs/resetConfirmation')
             })
         },
          async ResetSubmission(){
-            //console.log(this.ListData[this.resetIndex].points)
+            ////console.log(this.ListData[this.resetIndex].points)
             this.isReseting = true;
             if(this.ViewDetails.status != null && this.ViewDetails.status != ''){
                 axios.put('/api/teacher/reset-obj/'+this.ViewDetails.id)

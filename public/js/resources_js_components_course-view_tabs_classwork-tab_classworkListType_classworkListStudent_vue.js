@@ -1,3 +1,4 @@
+"use strict";
 (self["webpackChunk"] = self["webpackChunk"] || []).push([["resources_js_components_course-view_tabs_classwork-tab_classworkListType_classworkListStudent_vue"],{
 
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/classwork-tab/classworkListType/classworkListStudent.vue?vue&type=script&lang=js&":
@@ -6,13 +7,11 @@
   \****************************************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var moment_src_moment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! moment/src/moment */ "./node_modules/moment/src/moment.js");
 //
 //
 //
@@ -199,12 +198,12 @@ var previewClassworkModal = function previewClassworkModal() {
   methods: {
     format_date: function format_date(value) {
       if (value) {
-        return moment__WEBPACK_IMPORTED_MODULE_0___default()(String(value)).format('MMMM DD YYYY, hh:mm A');
+        return (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_0__.default)(String(value)).format('MMMM DD YYYY, hh:mm A');
       }
     },
     CheckFormatDue: function CheckFormatDue(value) {
       if (value) {
-        return moment__WEBPACK_IMPORTED_MODULE_0___default()(String(value)).format("YYYY-MM-DDTHH:mm:ss");
+        return (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_0__.default)(String(value)).format("YYYY-MM-DDTHH:mm:ss");
       }
     },
     continueClasswork: function continueClasswork(classwork_id) {
@@ -274,7 +273,7 @@ var previewClassworkModal = function previewClassworkModal() {
     this.CheckClassworkCount();
     this.setFilterItems();
     var newDate = new Date();
-    this.DateToday = moment__WEBPACK_IMPORTED_MODULE_0___default()(newDate).format("YYYY-MM-DDTHH:mm:ss");
+    this.DateToday = (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_0__.default)(newDate).format("YYYY-MM-DDTHH:mm:ss");
   }
 });
 
@@ -286,7 +285,6 @@ var previewClassworkModal = function previewClassworkModal() {
   \***********************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -325,7 +323,6 @@ component.options.__file = "resources/js/components/course-view/tabs/classwork-t
   \************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -341,7 +338,6 @@ __webpack_require__.r(__webpack_exports__);
   \******************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_classworkListStudent_vue_vue_type_template_id_a8d81244___WEBPACK_IMPORTED_MODULE_0__.render),
@@ -358,7 +354,6 @@ __webpack_require__.r(__webpack_exports__);
   \*********************************************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "render": () => (/* binding */ render),
@@ -388,7 +383,7 @@ var render = function() {
                 [
                   _c("v-icon", { staticStyle: { "font-size": "10rem" } }, [
                     _vm._v(
-                      "\n                    mdi-book-open-variant\n                "
+                      "\r\n                    mdi-book-open-variant\r\n                "
                     )
                   ]),
                   _vm._v(" "),
@@ -650,14 +645,14 @@ var render = function() {
                                                                   },
                                                                   [
                                                                     _vm._v(
-                                                                      "\n                                        " +
+                                                                      "\r\n                                        " +
                                                                         _vm._s(
                                                                           item.status ==
                                                                             "Submitted"
                                                                             ? "mdi-check"
                                                                             : "mdi-book-open-variant"
                                                                         ) +
-                                                                        "\n                                    "
+                                                                        "\r\n                                    "
                                                                     )
                                                                   ]
                                                                 )
@@ -826,7 +821,7 @@ var render = function() {
                                                                           ]
                                                                         ),
                                                                         _vm._v(
-                                                                          " \n                                            " +
+                                                                          " \r\n                                            " +
                                                                             _vm._s(
                                                                               item.availability !=
                                                                                 0
@@ -838,14 +833,14 @@ var render = function() {
                                                                                   : "Late"
                                                                                 : ""
                                                                             ) +
-                                                                            "\n                                            " +
+                                                                            "\r\n                                            " +
                                                                             _vm._s(
                                                                               item.availability !=
                                                                                 0
                                                                                 ? " Due Date:"
                                                                                 : "No Due Date"
                                                                             ) +
-                                                                            "\n                                            " +
+                                                                            "\r\n                                            " +
                                                                             _vm._s(
                                                                               item.availability !=
                                                                                 0
@@ -854,7 +849,7 @@ var render = function() {
                                                                                   )
                                                                                 : ""
                                                                             ) +
-                                                                            " \n                                        "
+                                                                            " \r\n                                        "
                                                                         )
                                                                       ],
                                                                       1
@@ -893,13 +888,13 @@ var render = function() {
                                                                           ]
                                                                         ),
                                                                         _vm._v(
-                                                                          " \n                                            Submitted: " +
+                                                                          " \r\n                                            Submitted: " +
                                                                             _vm._s(
                                                                               _vm.format_date(
                                                                                 item.Sub_date
                                                                               )
                                                                             ) +
-                                                                            " \n                                        "
+                                                                            " \r\n                                        "
                                                                         )
                                                                       ],
                                                                       1
@@ -1001,7 +996,7 @@ var render = function() {
                                                                             ),
                                                                             [
                                                                               _vm._v(
-                                                                                "\n                                            Continue\n                                        "
+                                                                                "\r\n                                            Continue\r\n                                        "
                                                                               )
                                                                             ]
                                                                           )

@@ -151,7 +151,7 @@
                         })
                     })
                     .catch((e) => {
-                        console.log(e);
+                        //console.log(e);
                     })
             },
         },
@@ -162,7 +162,7 @@
 
         // watch: {
         //     $route(to, from) {
-        //         console.log(this.$route.matched);
+        //         //console.log(this.$route.matched);
         //         this.navBarType = this.$route.matched[1].name;
 
         //     }

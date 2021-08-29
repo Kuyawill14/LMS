@@ -9,7 +9,7 @@
 <script>
 const adminNotification = () => import("./adminNotification")
 const teacherstudentNotification = () => import("./teacher-studentNotification")
-import moment from 'moment'
+import moment from 'moment/src/moment'
 import { mapGetters,mapActions } from "vuex";
 export default {
   components:{

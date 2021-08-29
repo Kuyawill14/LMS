@@ -282,7 +282,7 @@
                 this.type = 'edit'
                 this.dialog = true;
                 var currentTeacher = this.filterTeacher(user_id);
-                console.log(currentTeacher);
+                //console.log(currentTeacher);
                 this.form.user_id = currentTeacher.user_id;
                 this.form.firstName = currentTeacher.firstName;
                 this.form.middleName = currentTeacher.middleName;
@@ -348,7 +348,7 @@
                     if (this.type == 'edit') {
                         this.form.post('/api/admin/teachers/update/' + this.form.user_id)
                             .then(() => {
-                                console.log("Success");
+                                //console.log("Success");
                                 this.$refs.RegisterForm.reset()
                                 this.valid = true;
                                 this.dialog = false;

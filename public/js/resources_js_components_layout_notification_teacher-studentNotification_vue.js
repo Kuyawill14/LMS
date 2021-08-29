@@ -1,3 +1,4 @@
+"use strict";
 (self["webpackChunk"] = self["webpackChunk"] || []).push([["resources_js_components_layout_notification_teacher-studentNotification_vue"],{
 
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/layout/notification/teacher-studentNotification.vue?vue&type=script&lang=js&":
@@ -6,15 +7,13 @@
   \******************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var moment_src_moment__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! moment/src/moment */ "./node_modules/moment/src/moment.js");
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 
 
@@ -261,7 +260,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     format_date: function format_date(value) {
       if (value) {
-        return moment__WEBPACK_IMPORTED_MODULE_1___default()(String(value)).format("MMMM DD, h:mm a");
+        return (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_1__.default)(String(value)).format("MMMM DD, h:mm a");
       }
     },
     ShowMore: function ShowMore() {
@@ -317,8 +316,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.AttachData.id = id;
       this.AttachData.accepted = this.isAccepted;
       this.$store.dispatch("markAsReadNotification", this.AttachData).then(function (res) {
-        console.log(res);
-
+        //console.log(res);
         if (res == 200) {
           _this3.get_notification.forEach(function (item) {
             if (item.n_id == id) {
@@ -368,7 +366,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   \*************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -407,7 +404,6 @@ component.options.__file = "resources/js/components/layout/notification/teacher-
   \**************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -423,7 +419,6 @@ __webpack_require__.r(__webpack_exports__);
   \********************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_teacher_studentNotification_vue_vue_type_template_id_0474ed01___WEBPACK_IMPORTED_MODULE_0__.render),
@@ -440,7 +435,6 @@ __webpack_require__.r(__webpack_exports__);
   \***********************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "render": () => (/* binding */ render),
@@ -462,9 +456,9 @@ var render = function() {
               "span",
               { staticClass: "text-h6" },
               [
-                _vm._v("Notifications \n        "),
+                _vm._v("Notifications \r\n        "),
                 _c("v-icon", { attrs: { right: "" } }, [
-                  _vm._v("\n            mdi-bell\n        ")
+                  _vm._v("\r\n            mdi-bell\r\n        ")
                 ])
               ],
               1
@@ -535,19 +529,19 @@ var render = function() {
                                 },
                                 [
                                   _vm._v(
-                                    "\n                 mdi-bell\n                "
+                                    "\r\n                 mdi-bell\r\n                "
                                   )
                                 ]
                               ),
                               _vm._v(
-                                "\n                " +
+                                "\r\n                " +
                                   _vm._s(
                                     !_vm.$vuetify.breakpoint.xs &&
                                       !_vm.$vuetify.breakpoint.sm
                                       ? "All"
                                       : ""
                                   ) +
-                                  "\n                \n            "
+                                  "\r\n                \r\n            "
                               )
                             ],
                             1
@@ -581,19 +575,19 @@ var render = function() {
                                 },
                                 [
                                   _vm._v(
-                                    "\n                mdi-bullhorn-outline\n              "
+                                    "\r\n                mdi-bullhorn-outline\r\n              "
                                   )
                                 ]
                               ),
                               _vm._v(
-                                "\n              \n              " +
+                                "\r\n              \r\n              " +
                                   _vm._s(
                                     !_vm.$vuetify.breakpoint.xs &&
                                       !_vm.$vuetify.breakpoint.sm
                                       ? "Announcement"
                                       : ""
                                   ) +
-                                  "\n            "
+                                  "\r\n            "
                               )
                             ],
                             1
@@ -627,19 +621,19 @@ var render = function() {
                                 },
                                 [
                                   _vm._v(
-                                    "\n                mdi-book-open-variant\n              "
+                                    "\r\n                mdi-book-open-variant\r\n              "
                                   )
                                 ]
                               ),
                               _vm._v(
-                                "\n              \n              " +
+                                "\r\n              \r\n              " +
                                   _vm._s(
                                     !_vm.$vuetify.breakpoint.xs &&
                                       !_vm.$vuetify.breakpoint.sm
                                       ? "Classwork"
                                       : ""
                                   ) +
-                                  "\n            "
+                                  "\r\n            "
                               )
                             ],
                             1
@@ -673,19 +667,19 @@ var render = function() {
                                 },
                                 [
                                   _vm._v(
-                                    "\n                mdi-eye-off\n              "
+                                    "\r\n                mdi-eye-off\r\n              "
                                   )
                                 ]
                               ),
                               _vm._v(
-                                "\n              " +
+                                "\r\n              " +
                                   _vm._s(
                                     !_vm.$vuetify.breakpoint.xs &&
                                       !_vm.$vuetify.breakpoint.sm
                                       ? "Hidden"
                                       : ""
                                   ) +
-                                  "\n            "
+                                  "\r\n            "
                               )
                             ],
                             1
@@ -729,7 +723,7 @@ var render = function() {
                                             },
                                             [
                                               _vm._v(
-                                                "\n                                    Loading\n                                "
+                                                "\r\n                                    Loading\r\n                                "
                                               )
                                             ]
                                           ),
@@ -808,7 +802,7 @@ var render = function() {
                                                       },
                                                       [
                                                         _vm._v(
-                                                          "\n                                Mark all as read\n                                "
+                                                          "\r\n                                Mark all as read\r\n                                "
                                                         ),
                                                         _c(
                                                           "v-icon",
@@ -864,7 +858,7 @@ var render = function() {
                                                         },
                                                         [
                                                           _vm._v(
-                                                            "\n                                        mdi-bell-off\n                                    "
+                                                            "\r\n                                        mdi-bell-off\r\n                                    "
                                                           )
                                                         ]
                                                       ),
@@ -1004,9 +998,9 @@ var render = function() {
                                                   },
                                                   [
                                                     _vm._v(
-                                                      "\n                                " +
+                                                      "\r\n                                " +
                                                         _vm._s(item.name) +
-                                                        "   \n                                "
+                                                        "   \r\n                                "
                                                     )
                                                   ]
                                                 )
@@ -1019,9 +1013,9 @@ var render = function() {
                                               { staticClass: "body-2" },
                                               [
                                                 _vm._v(
-                                                  "\n                                " +
+                                                  "\r\n                                " +
                                                     _vm._s(item.message) +
-                                                    "\n                                 "
+                                                    "\r\n                                 "
                                                 ),
                                                 item.notification_type == 3 &&
                                                 item.notification_accepted == 0
@@ -1048,7 +1042,7 @@ var render = function() {
                                                       },
                                                       [
                                                         _vm._v(
-                                                          "\n                                Accept invite"
+                                                          "\r\n                                Accept invite"
                                                         )
                                                       ]
                                                     )

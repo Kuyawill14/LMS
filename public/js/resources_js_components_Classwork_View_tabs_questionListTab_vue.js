@@ -1,3 +1,4 @@
+"use strict";
 (self["webpackChunk"] = self["webpackChunk"] || []).push([["resources_js_components_Classwork_View_tabs_questionListTab_vue"],{
 
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/List-types/IndentificationList.vue?vue&type=script&lang=js&":
@@ -6,7 +7,6 @@
   \*********************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -249,7 +249,6 @@ var deleteDialog = function deleteDialog() {
   \********************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -643,7 +642,6 @@ var optionRemoveDialog = function optionRemoveDialog() {
   \**************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -1020,7 +1018,6 @@ var optionRemoveDialog = function optionRemoveDialog() {
   \*****************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -1271,7 +1268,6 @@ var deleteDialog = function deleteDialog() {
   \***********************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -1341,7 +1337,6 @@ __webpack_require__.r(__webpack_exports__);
   \******************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -1550,7 +1545,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _this2 = this;
 
       this.$store.dispatch('fetchQuestions', this.$route.query.clwk).then(function (res) {
-        console.log(res);
+        //console.log(res);
         _this2.Qlength = res.data.Question.length;
         _this2.QuestionsList = res[0];
         _this2.isloading = false;
@@ -1600,27 +1595,55 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 /***/ }),
 
-/***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/List-types/MultipleChoiceList.vue?vue&type=style&index=0&id=78dce45c&scoped=true&lang=css&":
-/*!****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/List-types/MultipleChoiceList.vue?vue&type=style&index=0&id=78dce45c&scoped=true&lang=css& ***!
-  \****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/List-types/MultipleChoiceList.vue?vue&type=style&index=0&id=78dce45c&scoped=true&lang=css&":
+/*!*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/List-types/MultipleChoiceList.vue?vue&type=style&index=0&id=78dce45c&scoped=true&lang=css& ***!
+  \*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /***/ ((module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
-/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../../../node_modules/laravel-mix/node_modules/css-loader/dist/runtime/api.js */ "./node_modules/laravel-mix/node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
 // Imports
 
-var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
 ___CSS_LOADER_EXPORT___.push([module.id, "\n#QuestionList[data-v-78dce45c]{\n    scroll-behavior:smooth !important;\n}\n      \n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
+
+/***/ }),
+
+/***/ "./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/List-types/MultipleChoiceList.vue?vue&type=style&index=0&id=78dce45c&scoped=true&lang=css&":
+/*!**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/List-types/MultipleChoiceList.vue?vue&type=style&index=0&id=78dce45c&scoped=true&lang=css& ***!
+  \**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../../../node_modules/laravel-mix/node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/laravel-mix/node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_MultipleChoiceList_vue_vue_type_style_index_0_id_78dce45c_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./MultipleChoiceList.vue?vue&type=style&index=0&id=78dce45c&scoped=true&lang=css& */ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/List-types/MultipleChoiceList.vue?vue&type=style&index=0&id=78dce45c&scoped=true&lang=css&");
+
+            
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_MultipleChoiceList_vue_vue_type_style_index_0_id_78dce45c_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_1__.default, options);
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_MultipleChoiceList_vue_vue_type_style_index_0_id_78dce45c_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_1__.default.locals || {});
 
 /***/ }),
 
@@ -1630,7 +1653,6 @@ ___CSS_LOADER_EXPORT___.push([module.id, "\n#QuestionList[data-v-78dce45c]{\n   
   \****************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -1669,7 +1691,6 @@ component.options.__file = "resources/js/components/Classwork_View/tabs/List-typ
   \***************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -1710,7 +1731,6 @@ component.options.__file = "resources/js/components/Classwork_View/tabs/List-typ
   \*********************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -1749,7 +1769,6 @@ component.options.__file = "resources/js/components/Classwork_View/tabs/List-typ
   \************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -1788,7 +1807,6 @@ component.options.__file = "resources/js/components/Classwork_View/tabs/List-typ
   \******************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -1827,7 +1845,6 @@ component.options.__file = "resources/js/components/Classwork_View/tabs/dialogs/
   \*************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -1866,7 +1883,6 @@ component.options.__file = "resources/js/components/Classwork_View/tabs/question
   \*****************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -1882,7 +1898,6 @@ __webpack_require__.r(__webpack_exports__);
   \****************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -1898,7 +1913,6 @@ __webpack_require__.r(__webpack_exports__);
   \**********************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -1914,7 +1928,6 @@ __webpack_require__.r(__webpack_exports__);
   \*************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -1930,7 +1943,6 @@ __webpack_require__.r(__webpack_exports__);
   \*******************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -1946,7 +1958,6 @@ __webpack_require__.r(__webpack_exports__);
   \**************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -1956,13 +1967,24 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/Classwork_View/tabs/List-types/MultipleChoiceList.vue?vue&type=style&index=0&id=78dce45c&scoped=true&lang=css&":
+/*!************************************************************************************************************************************************!*\
+  !*** ./resources/js/components/Classwork_View/tabs/List-types/MultipleChoiceList.vue?vue&type=style&index=0&id=78dce45c&scoped=true&lang=css& ***!
+  \************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_laravel_mix_node_modules_style_loader_dist_cjs_js_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_MultipleChoiceList_vue_vue_type_style_index_0_id_78dce45c_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!../../../../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./MultipleChoiceList.vue?vue&type=style&index=0&id=78dce45c&scoped=true&lang=css& */ "./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/List-types/MultipleChoiceList.vue?vue&type=style&index=0&id=78dce45c&scoped=true&lang=css&");
+
+
+/***/ }),
+
 /***/ "./resources/js/components/Classwork_View/tabs/List-types/IndentificationList.vue?vue&type=template&id=106fea1a&":
 /*!***********************************************************************************************************************!*\
   !*** ./resources/js/components/Classwork_View/tabs/List-types/IndentificationList.vue?vue&type=template&id=106fea1a& ***!
   \***********************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_IndentificationList_vue_vue_type_template_id_106fea1a___WEBPACK_IMPORTED_MODULE_0__.render),
@@ -1979,7 +2001,6 @@ __webpack_require__.r(__webpack_exports__);
   \**********************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_MultipleChoiceList_vue_vue_type_template_id_78dce45c_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render),
@@ -1996,7 +2017,6 @@ __webpack_require__.r(__webpack_exports__);
   \****************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_matchingType_vue_vue_type_template_id_2e0bb8c4___WEBPACK_IMPORTED_MODULE_0__.render),
@@ -2013,7 +2033,6 @@ __webpack_require__.r(__webpack_exports__);
   \*******************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_trueOrfalseList_vue_vue_type_template_id_da29ddda___WEBPACK_IMPORTED_MODULE_0__.render),
@@ -2030,7 +2049,6 @@ __webpack_require__.r(__webpack_exports__);
   \*************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_deleteDialog_vue_vue_type_template_id_43071f3f___WEBPACK_IMPORTED_MODULE_0__.render),
@@ -2047,7 +2065,6 @@ __webpack_require__.r(__webpack_exports__);
   \********************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_questionListTab_vue_vue_type_template_id_cd0ead0e___WEBPACK_IMPORTED_MODULE_0__.render),
@@ -2058,30 +2075,12 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/Classwork_View/tabs/List-types/MultipleChoiceList.vue?vue&type=style&index=0&id=78dce45c&scoped=true&lang=css&":
-/*!************************************************************************************************************************************************!*\
-  !*** ./resources/js/components/Classwork_View/tabs/List-types/MultipleChoiceList.vue?vue&type=style&index=0&id=78dce45c&scoped=true&lang=css& ***!
-  \************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_MultipleChoiceList_vue_vue_type_style_index_0_id_78dce45c_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../node_modules/vue-style-loader/index.js!../../../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./MultipleChoiceList.vue?vue&type=style&index=0&id=78dce45c&scoped=true&lang=css& */ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/List-types/MultipleChoiceList.vue?vue&type=style&index=0&id=78dce45c&scoped=true&lang=css&");
-/* harmony import */ var _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_MultipleChoiceList_vue_vue_type_style_index_0_id_78dce45c_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_MultipleChoiceList_vue_vue_type_style_index_0_id_78dce45c_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__);
-/* harmony reexport (unknown) */ var __WEBPACK_REEXPORT_OBJECT__ = {};
-/* harmony reexport (unknown) */ for(const __WEBPACK_IMPORT_KEY__ in _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_MultipleChoiceList_vue_vue_type_style_index_0_id_78dce45c_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== "default") __WEBPACK_REEXPORT_OBJECT__[__WEBPACK_IMPORT_KEY__] = () => _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_MultipleChoiceList_vue_vue_type_style_index_0_id_78dce45c_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__[__WEBPACK_IMPORT_KEY__]
-/* harmony reexport (unknown) */ __webpack_require__.d(__webpack_exports__, __WEBPACK_REEXPORT_OBJECT__);
-
-
-/***/ }),
-
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/List-types/IndentificationList.vue?vue&type=template&id=106fea1a&":
 /*!**************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/List-types/IndentificationList.vue?vue&type=template&id=106fea1a& ***!
   \**************************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "render": () => (/* binding */ render),
@@ -2224,7 +2223,7 @@ var render = function() {
                                               },
                                               [
                                                 _vm._v(
-                                                  "\n                                    " +
+                                                  "\r\n                                    " +
                                                     _vm._s(
                                                       _vm.$vuetify.breakpoint
                                                         .xs ||
@@ -2233,7 +2232,7 @@ var render = function() {
                                                         ? ""
                                                         : "Delete"
                                                     ) +
-                                                    "\n                                    "
+                                                    "\r\n                                    "
                                                 ),
                                                 _c("v-icon", [
                                                   _vm._v("mdi-delete-outline")
@@ -2258,7 +2257,7 @@ var render = function() {
                                               },
                                               [
                                                 _vm._v(
-                                                  "\n                                    \n                                    " +
+                                                  "\r\n                                    \r\n                                    " +
                                                     _vm._s(
                                                       _vm.$vuetify.breakpoint
                                                         .xs ||
@@ -2267,7 +2266,7 @@ var render = function() {
                                                         ? ""
                                                         : "Update"
                                                     ) +
-                                                    "\n                                    "
+                                                    "\r\n                                    "
                                                 ),
                                                 _c("v-icon", [
                                                   _vm._v("mdi-check")
@@ -2292,7 +2291,7 @@ var render = function() {
                                               },
                                               [
                                                 _vm._v(
-                                                  "\n                                    " +
+                                                  "\r\n                                    " +
                                                     _vm._s(
                                                       _vm.$vuetify.breakpoint
                                                         .xs ||
@@ -2301,7 +2300,7 @@ var render = function() {
                                                         ? ""
                                                         : "Cancel"
                                                     ) +
-                                                    "\n                                    "
+                                                    "\r\n                                    "
                                                 ),
                                                 _c("v-icon", [
                                                   _vm._v("mdi-close")
@@ -2336,13 +2335,13 @@ var render = function() {
                                               },
                                               [
                                                 _vm._v(
-                                                  "\n                                " +
+                                                  "\r\n                                " +
                                                     _vm._s(
                                                       _vm.$vuetify.breakpoint.xs
                                                         ? ""
                                                         : "Edit"
                                                     ) +
-                                                    "\n                                "
+                                                    "\r\n                                "
                                                 ),
                                                 _c(
                                                   "v-icon",
@@ -2751,7 +2750,6 @@ render._withStripped = true
   \*************************************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "render": () => (/* binding */ render),
@@ -2913,7 +2911,7 @@ var render = function() {
                                               },
                                               [
                                                 _vm._v(
-                                                  "\n                                    " +
+                                                  "\r\n                                    " +
                                                     _vm._s(
                                                       _vm.$vuetify.breakpoint
                                                         .xs ||
@@ -2922,7 +2920,7 @@ var render = function() {
                                                         ? ""
                                                         : "Delete"
                                                     ) +
-                                                    "\n                                    "
+                                                    "\r\n                                    "
                                                 ),
                                                 _c("v-icon", [
                                                   _vm._v("mdi-delete-outline")
@@ -2947,7 +2945,7 @@ var render = function() {
                                               },
                                               [
                                                 _vm._v(
-                                                  "\n                                    \n                                    " +
+                                                  "\r\n                                    \r\n                                    " +
                                                     _vm._s(
                                                       _vm.$vuetify.breakpoint
                                                         .xs ||
@@ -2956,7 +2954,7 @@ var render = function() {
                                                         ? ""
                                                         : "Update"
                                                     ) +
-                                                    "\n                                    "
+                                                    "\r\n                                    "
                                                 ),
                                                 _c("v-icon", [
                                                   _vm._v("mdi-check")
@@ -2981,7 +2979,7 @@ var render = function() {
                                               },
                                               [
                                                 _vm._v(
-                                                  "\n                                    " +
+                                                  "\r\n                                    " +
                                                     _vm._s(
                                                       _vm.$vuetify.breakpoint
                                                         .xs ||
@@ -2990,7 +2988,7 @@ var render = function() {
                                                         ? ""
                                                         : "Cancel"
                                                     ) +
-                                                    "\n                                    "
+                                                    "\r\n                                    "
                                                 ),
                                                 _c("v-icon", [
                                                   _vm._v("mdi-close")
@@ -3025,13 +3023,13 @@ var render = function() {
                                               },
                                               [
                                                 _vm._v(
-                                                  "\n                                " +
+                                                  "\r\n                                " +
                                                     _vm._s(
                                                       _vm.$vuetify.breakpoint.xs
                                                         ? ""
                                                         : "Edit"
                                                     ) +
-                                                    "\n                                "
+                                                    "\r\n                                "
                                                 ),
                                                 _c(
                                                   "v-icon",
@@ -3660,7 +3658,6 @@ render._withStripped = true
   \*******************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "render": () => (/* binding */ render),
@@ -3825,14 +3822,14 @@ var render = function() {
                                           },
                                           [
                                             _vm._v(
-                                              "\n                                    " +
+                                              "\r\n                                    " +
                                                 _vm._s(
                                                   _vm.$vuetify.breakpoint.xs ||
                                                     _vm.$vuetify.breakpoint.sm
                                                     ? ""
                                                     : "Delete"
                                                 ) +
-                                                "\n                                    "
+                                                "\r\n                                    "
                                             ),
                                             _c("v-icon", [
                                               _vm._v("mdi-delete-outline")
@@ -3857,14 +3854,14 @@ var render = function() {
                                           },
                                           [
                                             _vm._v(
-                                              "\n                                    \n                                    " +
+                                              "\r\n                                    \r\n                                    " +
                                                 _vm._s(
                                                   _vm.$vuetify.breakpoint.xs ||
                                                     _vm.$vuetify.breakpoint.sm
                                                     ? ""
                                                     : "Update"
                                                 ) +
-                                                "\n                                    "
+                                                "\r\n                                    "
                                             ),
                                             _c("v-icon", [_vm._v("mdi-check")])
                                           ],
@@ -3884,14 +3881,14 @@ var render = function() {
                                           },
                                           [
                                             _vm._v(
-                                              "\n                                    " +
+                                              "\r\n                                    " +
                                                 _vm._s(
                                                   _vm.$vuetify.breakpoint.xs ||
                                                     _vm.$vuetify.breakpoint.sm
                                                     ? ""
                                                     : "Cancel"
                                                 ) +
-                                                "\n                                    "
+                                                "\r\n                                    "
                                             ),
                                             _c("v-icon", [_vm._v("mdi-close")])
                                           ],
@@ -3924,13 +3921,13 @@ var render = function() {
                                           },
                                           [
                                             _vm._v(
-                                              "\n                                " +
+                                              "\r\n                                " +
                                                 _vm._s(
                                                   _vm.$vuetify.breakpoint.xs
                                                     ? ""
                                                     : "Edit"
                                                 ) +
-                                                "\n                                "
+                                                "\r\n                                "
                                             ),
                                             _c(
                                               "v-icon",
@@ -4518,7 +4515,7 @@ var render = function() {
                                               },
                                               [
                                                 _vm._v(
-                                                  "\n                                        Column A"
+                                                  "\r\n                                        Column A"
                                                 ),
                                                 _c("small", [
                                                   _vm._v("(question)")
@@ -4534,7 +4531,7 @@ var render = function() {
                                               },
                                               [
                                                 _vm._v(
-                                                  "\n                                        Column B"
+                                                  "\r\n                                        Column B"
                                                 ),
                                                 _c("small", [
                                                   _vm._v("(answers)")
@@ -4692,7 +4689,6 @@ render._withStripped = true
   \**********************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "render": () => (/* binding */ render),
@@ -4826,14 +4822,14 @@ var render = function() {
                                           },
                                           [
                                             _vm._v(
-                                              "\n                                    " +
+                                              "\r\n                                    " +
                                                 _vm._s(
                                                   _vm.$vuetify.breakpoint.xs ||
                                                     _vm.$vuetify.breakpoint.sm
                                                     ? ""
                                                     : "Delete"
                                                 ) +
-                                                "\n                                    "
+                                                "\r\n                                    "
                                             ),
                                             _c("v-icon", [
                                               _vm._v("mdi-delete-outline")
@@ -4858,14 +4854,14 @@ var render = function() {
                                           },
                                           [
                                             _vm._v(
-                                              "\n                                    \n                                    " +
+                                              "\r\n                                    \r\n                                    " +
                                                 _vm._s(
                                                   _vm.$vuetify.breakpoint.xs ||
                                                     _vm.$vuetify.breakpoint.sm
                                                     ? ""
                                                     : "Update"
                                                 ) +
-                                                "\n                                    "
+                                                "\r\n                                    "
                                             ),
                                             _c("v-icon", [_vm._v("mdi-check")])
                                           ],
@@ -4885,14 +4881,14 @@ var render = function() {
                                           },
                                           [
                                             _vm._v(
-                                              "\n                                    " +
+                                              "\r\n                                    " +
                                                 _vm._s(
                                                   _vm.$vuetify.breakpoint.xs ||
                                                     _vm.$vuetify.breakpoint.sm
                                                     ? ""
                                                     : "Cancel"
                                                 ) +
-                                                "\n                                    "
+                                                "\r\n                                    "
                                             ),
                                             _c("v-icon", [_vm._v("mdi-close")])
                                           ],
@@ -4925,13 +4921,13 @@ var render = function() {
                                           },
                                           [
                                             _vm._v(
-                                              "\n                                " +
+                                              "\r\n                                " +
                                                 _vm._s(
                                                   _vm.$vuetify.breakpoint.xs
                                                     ? ""
                                                     : "Edit"
                                                 ) +
-                                                "\n                                "
+                                                "\r\n                                "
                                             ),
                                             _c(
                                               "v-icon",
@@ -5324,7 +5320,7 @@ var render = function() {
                                           { staticClass: "Subtitle 1" },
                                           [
                                             _vm._v(
-                                              "\n                                    " +
+                                              "\r\n                                    " +
                                                 _vm._s(_vm.inputCheck[n])
                                             ),
                                             _vm.Question.answer ==
@@ -5378,7 +5374,6 @@ render._withStripped = true
   \****************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "render": () => (/* binding */ render),
@@ -5454,7 +5449,6 @@ render._withStripped = true
   \***********************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "render": () => (/* binding */ render),
@@ -5551,7 +5545,7 @@ var render = function() {
                 },
                 [
                   _c("v-icon", { staticStyle: { "font-size": "10rem" } }, [
-                    _vm._v("\n            mdi-book-open-variant\n        ")
+                    _vm._v("\r\n            mdi-book-open-variant\r\n        ")
                   ]),
                   _vm._v(" "),
                   _c("h1", [_vm._v(" Empty Question ")]),
@@ -5915,27 +5909,6 @@ var staticRenderFns = []
 render._withStripped = true
 
 
-
-/***/ }),
-
-/***/ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/List-types/MultipleChoiceList.vue?vue&type=style&index=0&id=78dce45c&scoped=true&lang=css&":
-/*!*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-style-loader/index.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/List-types/MultipleChoiceList.vue?vue&type=style&index=0&id=78dce45c&scoped=true&lang=css& ***!
-  \*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(/*! !!../../../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./MultipleChoiceList.vue?vue&type=style&index=0&id=78dce45c&scoped=true&lang=css& */ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/List-types/MultipleChoiceList.vue?vue&type=style&index=0&id=78dce45c&scoped=true&lang=css&");
-if(content.__esModule) content = content.default;
-if(typeof content === 'string') content = [[module.id, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var add = __webpack_require__(/*! !../../../../../../node_modules/vue-style-loader/lib/addStylesClient.js */ "./node_modules/vue-style-loader/lib/addStylesClient.js").default
-var update = add("3c5a05f1", content, false, {});
-// Hot Module Replacement
-if(false) {}
 
 /***/ })
 

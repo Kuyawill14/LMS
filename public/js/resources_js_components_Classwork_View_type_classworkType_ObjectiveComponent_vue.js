@@ -1,3 +1,4 @@
+"use strict";
 (self["webpackChunk"] = self["webpackChunk"] || []).push([["resources_js_components_Classwork_View_type_classworkType_ObjectiveComponent_vue"],{
 
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/type/classworkType/ObjectiveComponent.vue?vue&type=script&lang=js&":
@@ -6,15 +7,13 @@
   \***********************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var moment_src_moment__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! moment/src/moment */ "./node_modules/moment/src/moment.js");
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 
 
@@ -212,7 +211,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   methods: {
     format_date: function format_date(value) {
       if (value) {
-        return moment__WEBPACK_IMPORTED_MODULE_1___default()(String(value)).format('dddd, h:mm a');
+        return (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_1__.default)(String(value)).format('dddd, h:mm a');
       }
     },
     start: function start() {
@@ -291,8 +290,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 data.course_id = _this3.$route.params.id;
                 data.comment = _this3.comment;
                 axios.post('/api/post/classwork/comment/insert', data).then(function (res) {
-                  console.log(res.data);
-
+                  //console.log(res.data);
                   if (res.status == 200) {
                     _this3.classworkDetails.comments.push({
                       content: res.data.comment,
@@ -328,7 +326,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   \******************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -367,7 +364,6 @@ component.options.__file = "resources/js/components/Classwork_View/type/classwor
   \*******************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -383,7 +379,6 @@ __webpack_require__.r(__webpack_exports__);
   \*************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ObjectiveComponent_vue_vue_type_template_id_1835845c___WEBPACK_IMPORTED_MODULE_0__.render),
@@ -400,7 +395,6 @@ __webpack_require__.r(__webpack_exports__);
   \****************************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "render": () => (/* binding */ render),
@@ -509,7 +503,7 @@ var render = function() {
                                 _vm._v("mdi-comment")
                               ]),
                               _vm._v(
-                                "Private Comments\n                        "
+                                "Private Comments\r\n                        "
                               )
                             ],
                             1
@@ -789,7 +783,7 @@ var render = function() {
                                 [
                                   _c("v-icon", { attrs: { "x-large": "" } }, [
                                     _vm._v(
-                                      "\n                        mdi-book-open-variant\n                        "
+                                      "\r\n                        mdi-book-open-variant\r\n                        "
                                     )
                                   ])
                                 ],

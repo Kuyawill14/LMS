@@ -322,7 +322,7 @@
                 };
                 axios.post('/api/admin/schoolyears_semesters/upsert', data)
                     .then((res) => {
-                        console.log(res.data);
+                        //console.log(res.data);
                         this.fetchAllSchoolyear_semester();
                         this.semesterModal = false;
                         this.syModal = false;
@@ -340,7 +340,7 @@
                 };
                 axios.post('/api/admin/schoolyears_semesters/delete', data)
                     .then((res) => {
-                        console.log(res.data);
+                        //console.log(res.data);
                         this.fetchAllSchoolyear_semester();
                         this.deleteModal = false;
                       

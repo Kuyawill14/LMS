@@ -260,7 +260,7 @@ export default {
 
            /*  this.$https.post('/api/profile/updateDetails', this.UserDetails)
             .then((response) => {
-                console.log(response.data);
+                //console.log(response.data);
                 this.isSaving = !this.isSaving;
             }); */
         }

@@ -168,7 +168,7 @@
 
 </template>
 <script>
-import moment from 'moment';
+import moment from 'moment/src/moment';
  import {mapGetters, mapActions } from "vuex";
  
   export default {
@@ -198,7 +198,7 @@ import moment from 'moment';
                this.ViewSubmiisionConditions.showAnswerType = this.details.showAnswerType;
               axios.get('/api/question/question-answer/'+this.$route.params.id+'/'+this.details.class_classwork_id)
               .then(res=>{
-                  //console.log(res.data)
+                  ////console.log(res.data)
                    this.QuestionAndAnswer = res.data;
 
                     let Submitted_length = this.details.Submitted_Answers.length;
@@ -261,7 +261,7 @@ import moment from 'moment';
 
                                     for (let a = 0; a < Ans.length; a++) {
                                         Ans[a].SubChoice = tmpChoices[a].choice
-                                        console.log(tmpChoices[a].choice);
+                                        //console.log(tmpChoices[a].choice);
                                     }
                                     this.SubmittedAnswer[i] = Ans;
                                 }
@@ -274,7 +274,7 @@ import moment from 'moment';
               })
 
             /* this.$store.dispatch('fetchQuestions', this.$route.params.id).then(res=>{
-                //console.log(res);
+                ////console.log(res);
                 this.Details = res[0];
                 for (let i = 0; i < this.Details.Question.length; i++) {
                     for (let j = 0; j < this.details.Submitted_Answers.length; j++) {
@@ -292,7 +292,7 @@ import moment from 'moment';
                     }
                     
                 }
-                //console.log(this.details.Submitted_Answers);
+                ////console.log(this.details.Submitted_Answers);
                 this.isLoading = false;
             });
  */
@@ -331,9 +331,9 @@ import moment from 'moment';
                 "z"
             ];
             this.Alphabet = alphabet;
-          //console.log(this.details);
-          //console.log(this.classworkDetails);
-          //console.log(this.details)
+          ////console.log(this.details);
+          ////console.log(this.classworkDetails);
+          ////console.log(this.details)
       }
   }
 </script>

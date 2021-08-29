@@ -210,7 +210,7 @@ export default {
         this.login();
          /* this.$store.dispatch('login', this.form)
          .then(res=>{
-           console.log(res);
+           //console.log(res);
             if(res == 200){
                 this.toastSuccess("Login success");
             }

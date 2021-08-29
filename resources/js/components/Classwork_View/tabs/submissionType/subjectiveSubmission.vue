@@ -170,7 +170,7 @@
 </div>
 </template>
 <script>
-import moment from 'moment';
+import moment from 'moment/src/moment';
 const checksubjective = () => import('./check-submission/check-subjective')
 export default {
     props:["ListData","classworkDetails","Submitted", "Graded","ClassList"],

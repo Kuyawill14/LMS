@@ -115,7 +115,7 @@
             },
             updateClass() {
                      this.isUpdating = true;
-                console.log(this.getcourseInfo.semester_id);
+                //console.log(this.getcourseInfo.semester_id);
                 if (this.getcourseInfo.course_description.trim() == '' || this.getcourseInfo.course_name == '' || this
                     .course_code == '' || this.getcourseInfo.semester_id === undefined || this.getcourseInfo
                     .school_year_id === undefined) {

@@ -488,7 +488,7 @@
                 return total;
             },
             totalPercentage(arr, grading_percentage, totalPoints) {
-                // console.log(totalPoints, 'this.classworkTotalPointsthis.classworkTotalPoints')
+                // //console.log(totalPoints, 'this.classworkTotalPointsthis.classworkTotalPoints')
                 var total = 0;
                 let result;
                 for (var i = 0; i < arr.length; i++) {
@@ -508,7 +508,7 @@
                         this.students = res.data
 
                     }).catch((error) => {
-                        console.log(error)
+                        //console.log(error)
                     })
             },
             getAllGradeCriteria() {
@@ -532,7 +532,7 @@
                         this.allclasswork = res.data;
                     }
 
-                    console.log(this.allclasswork, 'sadfasdfasdfasdfasd fallclasswork');
+                    //console.log(this.allclasswork, 'sadfasdfasdfasdfasd fallclasswork');
                     for (var i = 0; i < this.classworkList.length; i++) {
                         
                         // this.headers[i+1] = {text: this.classworkList[i]['title'], value: this.classworkList[i]['title']};
@@ -549,7 +549,7 @@
 
                     }
 
-                    //    console.log(grading_criteria_id)
+                    //    //console.log(grading_criteria_id)
              
 
 
@@ -695,7 +695,7 @@
                 }
 
 
-                console.log('json_data ', this.json_data);
+                //console.log('json_data ', this.json_data);
             },
             get_AllFinalGrades_s() {
 
@@ -719,14 +719,14 @@
                 }
                 this.json_fields['Raw Grade'] = 'raw_grade';
                 this.json_fields['Transmuted Grade'] = 'transmuted_grade';
-                console.log('json_fields    ', this.json_fields);
+                //console.log('json_fields    ', this.json_fields);
 
 
                 var dataFields = {};
                 for (var i = 0; i < this.students.length; i++) {
 
                     var student_final = this.allStudentFinalGrades(this.students[i].id);
-                    console.log(student_final);
+                    //console.log(student_final);
                     dataFields['name'] = this.students[i].lastName + ', ' + this.students[i].firstName;
 
                     for (var j = 0; j < student_final.length; j++) {
@@ -743,17 +743,17 @@
                     var transmuted_grade = this.sumTransmutedGrade(this.allStudentFinalGrades(this.students[i].id));
                     dataFields['raw_grade'] = raw_grade;
                     dataFields['transmuted_grade'] = transmuted_grade;
-                    console.log(dataFields, 'dataFields')
+                    //console.log(dataFields, 'dataFields')
                     this.json_data.push(dataFields);
 
 
 
-                    console.log(i)
+                    //console.log(i)
 
                 }
 
 
-                console.log('json_data ', this.json_data);
+                //console.log('json_data ', this.json_data);
             },
             test(table) {
                 (function () {

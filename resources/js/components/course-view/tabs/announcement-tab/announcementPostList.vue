@@ -79,7 +79,7 @@
 
 
 <script>
-    import moment from 'moment';
+    import moment from 'moment/src/moment';
     const announcementList = () => import('./PostListType/AnnouncementList');
     const commentList = () => import('./actions/commentList');
      import {mapGetters, mapActions} from "vuex";
@@ -114,7 +114,7 @@
         methods: {
             test() {
                 $('.img-fluid').click(function () {
-                    console.log($('.img-fluid').attr('src'))
+                    //console.log($('.img-fluid').attr('src'))
                 })
             },
             format_date(value){

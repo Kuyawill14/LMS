@@ -1,3 +1,4 @@
+"use strict";
 (self["webpackChunk"] = self["webpackChunk"] || []).push([["resources_js_components_profile_profile_vue"],{
 
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/profile/profile.vue?vue&type=script&lang=js&":
@@ -6,7 +7,6 @@
   \**********************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -275,10 +275,8 @@ var myCalendar = function myCalendar() {
         _this.UserDetails = res.data[0];
         _this.UserDetails.profile_pic = '/storage/' + _this.UserDetails.profile_pic;
         _this.isloading = !_this.isloading;
-      })["catch"](function (e) {
-        console.log(e);
-      });
-      console.log(this.UserDetails.profile_pic);
+      })["catch"](function (e) {//console.log(e);
+      }); //console.log(this.UserDetails.profile_pic);
     },
     TestUpload: function TestUpload() {
       this.$refs.fileInput.click();
@@ -293,8 +291,8 @@ var myCalendar = function myCalendar() {
           testFile = reader.result;
           this.UpdateProfile();
       } */
-      this.imageFile = element.target.files[0];
-      console.log(this.imageFile); //this.file_name = element.target.files[0].name;
+      this.imageFile = element.target.files[0]; //console.log(this.imageFile);
+      //this.file_name = element.target.files[0].name;
 
       if (this.imageFile.size <= 500000) {
         this.UpdateProfile();
@@ -340,7 +338,6 @@ var myCalendar = function myCalendar() {
   \*****************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -379,7 +376,6 @@ component.options.__file = "resources/js/components/profile/profile.vue"
   \******************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -395,7 +391,6 @@ __webpack_require__.r(__webpack_exports__);
   \************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_profile_vue_vue_type_template_id_747d8248___WEBPACK_IMPORTED_MODULE_0__.render),
@@ -412,7 +407,6 @@ __webpack_require__.r(__webpack_exports__);
   \***************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "render": () => (/* binding */ render),

@@ -48,8 +48,8 @@ Vue.mixin({
                 theme: "toasted-primary",
                 position: "bottom-left",
                 duration: 3000,
-                action:{
-                    icon:'close'
+                action: {
+                    icon: 'close'
                 }
             });
         },

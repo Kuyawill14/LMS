@@ -97,13 +97,13 @@
 
             },
             onFileChange(file) {
-                console.log('selected file', file.name);
+                //console.log('selected file', file.name);
 
                 this.ext = this.getFileExt(file.name);
 
                 this.allowedExt.forEach(_ext => {
                     if (_ext != this.ext) {
-                        console.log('Invalid File type');
+                        //console.log('Invalid File type');
                     } else {
 
                         if (this.ext == 'mp4') {

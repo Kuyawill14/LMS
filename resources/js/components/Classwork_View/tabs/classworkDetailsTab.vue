@@ -190,7 +190,7 @@ export default {
          async UpdateClasswork(){
              this.isUpdatingSnackBar = true;
              this.isUpdating = true;
-            console.log(this.Details);
+            //console.log(this.Details);
              let fd = new FormData;
              fd.append('attachment', this.Details.attachment);
              fd.append('attachment_name', this.Details.attachment_name);

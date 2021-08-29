@@ -1,3 +1,4 @@
+"use strict";
 (self["webpackChunk"] = self["webpackChunk"] || []).push([["resources_js_components_Classwork_View_tabs_publishClassworkTab_vue"],{
 
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/publishClassworkTab.vue?vue&type=script&lang=js&":
@@ -6,7 +7,6 @@
   \**********************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -223,8 +223,7 @@ var updatePublishDialog = function updatePublishDialog() {
         _this.toastSuccess(class_name);
 
         _this.fetchClassnames();
-      })["catch"](function (e) {
-        console.log(e);
+      })["catch"](function (e) {//console.log(e);
       });
     },
     closeDiaglog: function closeDiaglog() {
@@ -242,8 +241,7 @@ var updatePublishDialog = function updatePublishDialog() {
                 axios.get('/api/class/allnames/' + _this2.$route.params.id + '/' + _this2.$route.query.clwk).then(function (res) {
                   _this2.classNames = res.data;
                   _this2.isloading = false;
-                })["catch"](function (e) {
-                  console.log(e);
+                })["catch"](function (e) {//console.log(e)
                 });
 
               case 1:
@@ -270,8 +268,7 @@ var updatePublishDialog = function updatePublishDialog() {
                   _this3.isloading = false;
 
                   _this3.NewNotification(data);
-                })["catch"](function (e) {
-                  console.log(e);
+                })["catch"](function (e) {//console.log(e)
                 });
 
               case 4:
@@ -308,7 +305,7 @@ var updatePublishDialog = function updatePublishDialog() {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
-                console.log(data);
+                //console.log(data);
                 _this5.notifyDetails.classwork_id = data.classwork_id;
                 _this5.notifyDetails.class_id = data.class_id;
                 _this5.notifyDetails.course_id = _this5.$route.params.id;
@@ -316,7 +313,7 @@ var updatePublishDialog = function updatePublishDialog() {
                 _this5.notifyDetails.type = 'classwork';
                 axios.post('/api/notification/new', _this5.notifyDetails).then(function (res) {});
 
-              case 7:
+              case 6:
               case "end":
                 return _context4.stop();
             }
@@ -342,7 +339,6 @@ var updatePublishDialog = function updatePublishDialog() {
   \*****************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -381,7 +377,6 @@ component.options.__file = "resources/js/components/Classwork_View/tabs/publishC
   \******************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -397,7 +392,6 @@ __webpack_require__.r(__webpack_exports__);
   \************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_publishClassworkTab_vue_vue_type_template_id_23b37223_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render),
@@ -414,7 +408,6 @@ __webpack_require__.r(__webpack_exports__);
   \***************************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "render": () => (/* binding */ render),
@@ -645,18 +638,18 @@ var render = function() {
                                                     },
                                                     [
                                                       _vm._v(
-                                                        "\n                                                    " +
+                                                        "\r\n                                                    " +
                                                           _vm._s(
                                                             _vm.$vuetify
                                                               .breakpoint.xs
                                                               ? ""
                                                               : "Publish"
                                                           ) +
-                                                          "\n                                                "
+                                                          "\r\n                                                "
                                                       ),
                                                       _c("v-icon", [
                                                         _vm._v(
-                                                          "\n                                                    mdi-share\n                                                "
+                                                          "\r\n                                                    mdi-share\r\n                                                "
                                                         )
                                                       ])
                                                     ],
@@ -770,7 +763,7 @@ var render = function() {
                                                                     ]
                                                                   ),
                                                                   _vm._v(
-                                                                    " Edit Publication\n                                                        "
+                                                                    " Edit Publication\r\n                                                        "
                                                                   )
                                                                 ],
                                                                 1
@@ -819,7 +812,7 @@ var render = function() {
                                                                     ]
                                                                   ),
                                                                   _vm._v(
-                                                                    " Unpublish\n                                                            "
+                                                                    " Unpublish\r\n                                                            "
                                                                   )
                                                                 ],
                                                                 1

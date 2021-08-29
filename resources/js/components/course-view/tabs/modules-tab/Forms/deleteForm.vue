@@ -64,7 +64,7 @@
 
                 this.$store.dispatch('deleteMainModule', this.id)
                     .then((res) => {
-                        console.log(res);
+                        //console.log(res);
 
 
                         this.loading = false;

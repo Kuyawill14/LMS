@@ -158,7 +158,7 @@
 
                 var count = 0;
                 var subModules_arr = this.getSub_module(mainModule_id);
-                //   console.log(subModules_arr);
+                //   //console.log(subModules_arr);
                 for (var i = 0; i < subModules_arr.length; i++) {
                     for (var j = 0; j < arr.length; j++) {
 
@@ -235,7 +235,7 @@
 
             fetchClass() {
                 this.$store.dispatch('fetchClassList').then(() => {
-                    console.log('fetching class');
+                    //console.log('fetching class');
                 });
             },
             getTimeSpent(arr, sub_module_id) {

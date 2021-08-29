@@ -210,8 +210,8 @@
                 for (var i = 0; i < arr.length; i++) {
                     total += arr[i]['points'];
                 }
-               /*  console.log('tota;', total);
-                console.log('classworktoal', this.classworkTotalPoints) */
+               /*  //console.log('tota;', total);
+                //console.log('classworktoal', this.classworkTotalPoints) */
                 let result = (total / this.classworkTotalPoints) * total_percent;
                 return isNaN(result) == true ? 0 : result.toFixed(2);
             },
@@ -221,7 +221,7 @@
                         this.students = res.data
 
                     }).catch((error) => {
-                        console.log(error)
+                        //console.log(error)
                     })
             },
             getAllGradeCriteria() {
@@ -235,7 +235,7 @@
 
                 axios.get('/api/grade-book/classworks/' + this.selectedClass).then(res => {
                     this.classworkList = res.data;
-                    console.log(res.data);
+                    //console.log(res.data);
 
                     for (var i = 0; i < this.classworkList.length; i++) {
                         // this.headers[i+1] = {text: this.classworkList[i]['title'], value: this.classworkList[i]['title']};
@@ -252,7 +252,7 @@
 
                     }
 
-                    //    console.log(grading_criteria_id)
+                    //    //console.log(grading_criteria_id)
                     this.classworkTotalPoints = total;
                     this.totalPercentHeader();
                 })
@@ -266,7 +266,7 @@
 
                 axios.get('/api/grade-book/classworks/' + this.selectedClass).then(res => {
                     this.classworkList = res.data;
-                    console.log(res.data);
+                    //console.log(res.data);
 
                     for (var i = 0; i < this.classworkList.length; i++) {
                         // this.headers[i+1] = {text: this.classworkList[i]['title'], value: this.classworkList[i]['title']};
@@ -290,7 +290,7 @@
             getStudentClassworksGrades(grading_criteria_id) {
                 axios.get('/api/grade-book/classworkGrades/' + this.selectedClass).then(res => {
                     this.classworkList = res.data;
-                    /* console.log(res.data); */
+                    /* //console.log(res.data); */
 
                     for (var i = 0; i < this.classworkList.length; i++) {
 
@@ -308,7 +308,7 @@
                 percentage_data.forEach(function (val) {
 
                     total += parseFloat(val.percentage);
-                    /* console.log(total); */
+                    /* //console.log(total); */
 
                 })
                 return total;
@@ -321,7 +321,7 @@
                     this.getClassworkList();
                     this.getStudentList();
                     this.getfinalGrades();
-                    console.log('class Liost: ', this.classList);
+                    //console.log('class Liost: ', this.classList);
                 });
             },
             getfinalGrades() {

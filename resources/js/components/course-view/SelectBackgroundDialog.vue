@@ -65,7 +65,7 @@ export default {
         }
     },
     mounted(){
-        console.log(this.imageList);
+        //console.log(this.imageList);
         this.imagelenght = this.imageList.length;
 
     }

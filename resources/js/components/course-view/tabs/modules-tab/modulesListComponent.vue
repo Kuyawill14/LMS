@@ -237,7 +237,7 @@
 
                 this.itemDialog = !this.itemDialog;
                 this.propModule = itemModule;
-                console.log(this.propModule);
+                //console.log(this.propModule);
                 this.mainModule_id = module_id;
                 this.itemType = 'edit_module';
             },
@@ -293,7 +293,7 @@
             },
             checkSubModule(arr, sub_module_id) {
                 var check = false;
-                //console.log(arr);
+                ////console.log(arr);
                 for (var i = 0; i < arr.length; i++) {
                     if (arr[i].sub_module_id == sub_module_id) {
                         check = true;
@@ -315,7 +315,7 @@
             //     this.$store.dispatch('fetchMainModule', this.$route.params.id);
             //     this.$store.dispatch('fetchSubModule', this.$route.params.id);
             // }).catch((error) => {
-            //     console.log(error)
+            //     //console.log(error)
             // })
 
 

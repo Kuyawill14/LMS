@@ -106,7 +106,7 @@
                 if (this.moduleForm.module_name.trim().length > 0 && this.moduleForm.description.trim().length > 0) {
                     this.$store.dispatch('createMainModule', this.moduleForm)
                         .then((res) => {
-                            // console.log(res);
+                            // //console.log(res);
 
 
                             this.isSubmitting = false;
@@ -130,7 +130,7 @@
                 if (this.moduleForm.module_name.trim().length > 0 && this.moduleForm.description.trim().length > 0) {
                     this.$store.dispatch('updateMainModule', this.moduleForm)
                         .then((res) => {
-                            // console.log(res);
+                            // //console.log(res);
 
 
                             this.isSubmitting = false;

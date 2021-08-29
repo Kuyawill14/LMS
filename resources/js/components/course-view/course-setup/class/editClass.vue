@@ -94,10 +94,10 @@
             },
         },
         mounted() {
-            console.log(this.form);
+            //console.log(this.form);
             this.className = this.getClassName;
         
-              console.log(this.form);
+              //console.log(this.form);
           
         }
     }

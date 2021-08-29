@@ -53,7 +53,7 @@
 
 
 <script>
-    import moment from 'moment';
+    import moment from 'moment/src/moment';
 
     const commentList = () => import('../actions/commentList')
     export default {
@@ -79,7 +79,7 @@
         methods: {
             test() {
                 $('.img-fluid').click(function () {
-                    console.log($('.img-fluid').attr('src'))
+                    //console.log($('.img-fluid').attr('src'))
                 })
             },
             format_date(value){

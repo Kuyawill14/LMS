@@ -12,33 +12,33 @@ const state = {
 const getters = {
     get_CurrentUser: (state) => state.CurrentUser,
     get_UserRole: (state) => state.UserRole,
-  
+
 };
 const actions = {
-    async IsAuthenticated({commit, actions}){
+    async IsAuthenticated({ commit, actions }) {
         const res = await axios.get(`/api/authenticated`)
-        .catch((e)=>{
-            commit('SET_AUTHENTICATED', false);
-            window.localStorage.removeItem('IsAuthenticated');
-            window.localStorage.removeItem('personal_access_token');
-        })
-        if(res.data == true){
+            .catch((e) => {
+                commit('SET_AUTHENTICATED', false);
+                window.localStorage.removeItem('IsAuthenticated');
+                window.localStorage.removeItem('personal_access_token');
+            })
+        if (res.data == true) {
             commit('SET_AUTHENTICATED', true);
             window.localStorage.setItem('IsAuthenticated', true);
         }
     },
     async fetchCurrentUser({ commit }) {
-        if(state.CurrentUser.length == 0){
+        if (state.CurrentUser.length == 0) {
             const res = await axios.get(
                 `/api/profile/details`
             );
-            
+
             state.CurrentUser = res.data;
             state.UserRole = res.data.role
             return res.status;
-          /*   commit('FETCH_USER', res.data);
-            commit('SET_USER_ROLE', res.data.role); */
-     
+            /*   commit('FETCH_USER', res.data);
+              commit('SET_USER_ROLE', res.data.role); */
+
         }
     },
     clear_current_user({ commit }) {
@@ -50,40 +50,39 @@ const actions = {
         window.localStorage.removeItem('IsAuthenticated');
         window.localStorage.removeItem('personal_access_token');
     },
-    async fetchMyCoursesStatus({ commit }){
-        if(state.MyCourses.length == 0){
+    async fetchMyCoursesStatus({ commit }) {
+        if (state.MyCourses.length == 0) {
             const res = await axios.get(`/api/course/status`);
             state.MyCourses = res.data;
             return res;
-        }
-        else{
-            return {'status': 200};
+        } else {
+            return { 'status': 200 };
         }
     },
-    setCourseStatus({ commit }, id){
-        console.log(id);
+    setCourseStatus({ commit }, id) {
+        //console.log(id);
         state.MyCourses.forEach(item => {
-            if(item.id == id){
+            if (item.id == id) {
                 item.status = 1;
             }
         });
     },
-    CheckMyCourse({ commit }, course_id){
-        //console.log(course_id);
+    CheckMyCourse({ commit }, course_id) {
+        ////console.log(course_id);
         let exist = false;
         let status = 0;
         state.MyCourses.forEach(item => {
-            if(item.id == course_id){
+            if (item.id == course_id) {
                 exist = true;
-                if(item.status == 1){
+                if (item.status == 1) {
                     status = item.status;
                 }
             }
         });
-       
+
         state.CurrentStatus.exist = exist;
         state.CurrentStatus.status = status;
-        return {'exist' : exist, 'status': status };
+        return { 'exist': exist, 'status': status };
     },
 
 };

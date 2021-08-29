@@ -144,7 +144,7 @@
 <script>
 
     //const seeAllNotification = () => import("./SeeAllNotification")
-    import moment from 'moment'
+    import moment from 'moment/src/moment'
     import {
         mapGetters,
         mapActions

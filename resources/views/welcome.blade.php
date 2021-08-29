@@ -22,7 +22,10 @@
           <link rel="stylesheet" type="text/css" href="{{asset('css/app.css')}}">
             <link href="https://cdn.jsdelivr.net/npm/@morioh/v-quill-editor/dist/editor.css" rel="stylesheet">
             <link href="https://cdn.quilljs.com/1.0.0/quill.snow.css" rel="stylesheet">
-        </head>
+       
+       
+       
+          </head>
         <body class="antialiased">
           
             <div id="app">
@@ -39,6 +42,8 @@
             <script src="{{mix('js/vendor~utils-6.js')}}"></script>
             <script src="{{mix('js/app.js')}}"> </script>
             <script src="https://cdn.quilljs.com/1.0.0/quill.js"></script>
+            <script src="  https://cdn.jsdelivr.net/npm/vue-pdf-cdn@1.0.10/dist/vue-pdf-cdn.umd.min.js"></script>
+          
             <script src="https://cdn.jsdelivr.net/npm/@morioh/v-quill-editor/dist/editor.min.js" type="text/javascript"></script>
     {{--         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
             <script src="https://unpkg.com/vue-chartjs/dist/vue-chartjs.min.js"></script> --}}

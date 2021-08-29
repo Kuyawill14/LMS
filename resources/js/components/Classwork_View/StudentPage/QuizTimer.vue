@@ -58,7 +58,7 @@
 </div>
 </template>
 <script>
-import moment from 'moment';
+import moment from 'moment/src/moment';
 export default {
     props:['duration','StopTimer','StartTime'],
     data: ()=> ({
@@ -97,7 +97,7 @@ export default {
 
          
 
-            console.log(this.StartTime);
+            //console.log(this.StartTime);
             
             //this.Startdate = new Date(this.StartTime).getTime();
             let due;
@@ -141,7 +141,7 @@ export default {
             let due = (this.duration*60) * 1000;
               if(this.StopTimer != true){
                    
-                   console.log(this.StopTimer)
+                   //console.log(this.StopTimer)
               }
               else{
                   
@@ -153,7 +153,7 @@ export default {
             
         },
         EndTimer(){
-                console.log('test 123');
+                //console.log('test 123');
                 clearInterval(this.NewTimer);
                 localStorage.removeItem(name);
                 this.$emit('TimesUp');
@@ -173,16 +173,16 @@ export default {
                 let minutes = Math.floor((remainingtime - (hours * 3600)) / 60); // get minutes
                 let seconds =  Math.floor(remainingtime - (hours * 3600) - (minutes * 60));
                 
-               /*  console.log('diff' , (Math.abs(StartTime - DateNow)/1000));
-                console.log('remain ',remainingtime); */
+               /*  //console.log('diff' , (Math.abs(StartTime - DateNow)/1000));
+                //console.log('remain ',remainingtime); */
                 
                 this.displayMinutes = minutes;
                 this.displayHours = hours < 10 ?"0" + hours :hours;
                 this.displayMinutes = minutes < 10 ?"0" + minutes :minutes;
                 this.displaySeconds = seconds < 10 ? "0" + seconds :seconds;
-                //console.log(minutes+':'+seconds);
+                ////console.log(minutes+':'+seconds);
             },1000)
-            //console.log(this.StartTime);
+            ////console.log(this.StartTime);
             
 
         }

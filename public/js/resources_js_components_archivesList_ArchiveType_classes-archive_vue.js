@@ -1,3 +1,4 @@
+"use strict";
 (self["webpackChunk"] = self["webpackChunk"] || []).push([["resources_js_components_archivesList_ArchiveType_classes-archive_vue"],{
 
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/archivesList/ArchiveType/classes-archive.vue?vue&type=script&lang=js&":
@@ -6,7 +7,6 @@
   \***********************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -109,17 +109,19 @@ var studentClassArchive = function studentClassArchive() {
                 _context2.next = 3;
                 return axios.get('/api/archive/classes').then(function (res) {
                   _this2.ArchiveClasses = res.data;
-                  _this2.classLength = res.data.length;
-                  console.log(res.data); //console.log( this.$store.state.CurrentUser.MyCourses)
+                  _this2.classLength = res.data.length; //console.log(res.data);
+                  ////console.log( this.$store.state.CurrentUser.MyCourses)
 
-                  //console.log( this.$store.state.CurrentUser.MyCourses)
+                  //console.log(res.data);
+                  ////console.log( this.$store.state.CurrentUser.MyCourses)
                   res.data.forEach(function (item) {
                     _this2.$store.state.CurrentUser.MyCourses.push({
                       id: item.course_id,
                       status: item.status
                     });
-                  });
-                  console.log(_this2.$store.state.CurrentUser.MyCourses);
+                  }); //console.log( this.$store.state.CurrentUser.MyCourses)
+
+                  //console.log( this.$store.state.CurrentUser.MyCourses)
                   _this2.isGetting = false;
                 });
 
@@ -145,7 +147,6 @@ var studentClassArchive = function studentClassArchive() {
   \******************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -184,7 +185,6 @@ component.options.__file = "resources/js/components/archivesList/ArchiveType/cla
   \*******************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -200,7 +200,6 @@ __webpack_require__.r(__webpack_exports__);
   \*************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_classes_archive_vue_vue_type_template_id_1ccbc073___WEBPACK_IMPORTED_MODULE_0__.render),
@@ -217,7 +216,6 @@ __webpack_require__.r(__webpack_exports__);
   \****************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "render": () => (/* binding */ render),

@@ -1,3 +1,4 @@
+"use strict";
 (self["webpackChunk"] = self["webpackChunk"] || []).push([["resources_js_components_Classwork_View_tabs_classworkDetailsTab_vue"],{
 
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/classworkDetailsTab.vue?vue&type=script&lang=js&":
@@ -6,7 +7,6 @@
   \**********************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -216,8 +216,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context.prev = _context.next) {
               case 0:
                 _this.isUpdatingSnackBar = true;
-                _this.isUpdating = true;
-                console.log(_this.Details);
+                _this.isUpdating = true; //console.log(this.Details);
+
                 fd = new FormData();
                 fd.append('attachment', _this.Details.attachment);
                 fd.append('attachment_name', _this.Details.attachment_name);
@@ -233,14 +233,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 fd.append('user_id', _this.Details.user_id);
                 fd.append('OldName', _this.Details.OldName);
                 fd.append('file', _this.file);
-                _context.next = 20;
+                _context.next = 19;
                 return axios.post('/api/classwork/update', fd).then(function (res) {
                   setTimeout(function () {
                     return _this.isUpdating = false, _this.toastSuccess("Classwork successfully updated");
                   }, 1000);
                 })["catch"](function (e) {});
 
-              case 20:
+              case 19:
               case "end":
                 return _context.stop();
             }
@@ -294,7 +294,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   \*****************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -333,7 +332,6 @@ component.options.__file = "resources/js/components/Classwork_View/tabs/classwor
   \******************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -349,7 +347,6 @@ __webpack_require__.r(__webpack_exports__);
   \************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_classworkDetailsTab_vue_vue_type_template_id_197407f8_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render),
@@ -366,7 +363,6 @@ __webpack_require__.r(__webpack_exports__);
   \***************************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "render": () => (/* binding */ render),
@@ -648,9 +644,9 @@ var render = function() {
                                                         },
                                                         [
                                                           _vm._v(
-                                                            "\n                                                " +
+                                                            "\r\n                                                " +
                                                               _vm._s(text) +
-                                                              "\n                                            "
+                                                              "\r\n                                            "
                                                           )
                                                         ]
                                                       )
@@ -660,7 +656,7 @@ var render = function() {
                                               ],
                                               null,
                                               false,
-                                              1193889600
+                                              3880112256
                                             )
                                           })
                                         ],
@@ -724,14 +720,14 @@ var render = function() {
                                         },
                                         [
                                           _vm._v(
-                                            "\n                                            Update\n                                            "
+                                            "\r\n                                            Update\r\n                                            "
                                           ),
                                           _c(
                                             "v-icon",
                                             { attrs: { right: "", dark: "" } },
                                             [
                                               _vm._v(
-                                                "\n                                                mdi-update\n                                            "
+                                                "\r\n                                                mdi-update\r\n                                            "
                                               )
                                             ]
                                           )

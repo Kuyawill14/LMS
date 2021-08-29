@@ -172,7 +172,7 @@
 
 </template>
 <script>
-import moment from 'moment';
+import moment from 'moment/src/moment';
 export default {
     props:['Details'],
     data(){
@@ -247,7 +247,7 @@ export default {
                     }
                     
                 }).catch(e => {
-                    console.log(e);
+                    //console.log(e);
                 })
         },
         async UpdateShareClassworkDetails(){
@@ -271,7 +271,7 @@ export default {
         async getPublishDetails(){
             axios.get('/api/classwork/publishClassworkDetails/'+this.Details.classwork_id)
             .then(res=>{
-                console.log(res.data);
+                //console.log(res.data);
                 this.PublishDetails = res.data;
                 this.availability = this.PublishDetails.availability ? 'Set Date' : 'Always Available';
                 this.showAnsType = this.PublishDetails.showAnswerType != null ? 

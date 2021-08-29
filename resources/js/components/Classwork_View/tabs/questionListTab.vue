@@ -187,7 +187,7 @@ export default {
         },
         fetchQuestionsList(){
             this.$store.dispatch('fetchQuestions', this.$route.query.clwk).then(res=>{
-                console.log(res);
+                //console.log(res);
                 this.Qlength = res.data.Question.length;
                 this.QuestionsList = res[0];
                 this.isloading = false;

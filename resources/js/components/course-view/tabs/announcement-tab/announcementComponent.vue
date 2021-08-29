@@ -41,7 +41,7 @@
 <script>
     const announcementCreate = () => import('./announcementCreate')
     const announcementPostList = () => import('./announcementPostList')
-    import moment from 'moment'
+    import moment from 'moment/src/moment'
     import {
         mapGetters,
         mapActions

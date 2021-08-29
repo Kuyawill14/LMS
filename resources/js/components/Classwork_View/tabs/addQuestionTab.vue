@@ -431,7 +431,7 @@ export default {
             let baseData;
             reader.onloadend = (res)=>{
                 this.form[this.inputIndex].answer = '<div>'+'<img src="'+reader.result+'">'+'</div>';
-                //console.log('Result', reader.result);
+                ////console.log('Result', reader.result);
             }
             reader.readAsDataURL(file);
             this.checker = "Success";

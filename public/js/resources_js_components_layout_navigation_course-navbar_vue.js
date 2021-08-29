@@ -1,3 +1,4 @@
+"use strict";
 (self["webpackChunk"] = self["webpackChunk"] || []).push([["resources_js_components_layout_navigation_course-navbar_vue"],{
 
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/layout/navigation/course-navbar.vue?vue&type=script&lang=js&":
@@ -6,7 +7,6 @@
   \**************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -253,7 +253,6 @@ __webpack_require__.r(__webpack_exports__);
   \*********************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -292,7 +291,6 @@ component.options.__file = "resources/js/components/layout/navigation/course-nav
   \**********************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -308,7 +306,6 @@ __webpack_require__.r(__webpack_exports__);
   \****************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_course_navbar_vue_vue_type_template_id_6b4be5de___WEBPACK_IMPORTED_MODULE_0__.render),
@@ -325,7 +322,6 @@ __webpack_require__.r(__webpack_exports__);
   \*******************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "render": () => (/* binding */ render),
@@ -353,7 +349,7 @@ var render = function() {
             [
               _c("v-list-item-title", [
                 _vm._v(
-                  "\n                    Back to My Course\n                "
+                  "\r\n                    Back to My Course\r\n                "
                 )
               ])
             ],
@@ -396,7 +392,7 @@ var render = function() {
                               { staticClass: "font-weight-medium" },
                               [
                                 _vm._v(
-                                  "\n                        Classes\n                    "
+                                  "\r\n                        Classes\r\n                    "
                                 )
                               ]
                             )
@@ -428,7 +424,7 @@ var render = function() {
                           { staticClass: "font-weight-medium" },
                           [
                             _vm._v(
-                              "\n                        Announcement\n                    "
+                              "\r\n                        Announcement\r\n                    "
                             )
                           ]
                         )
@@ -456,7 +452,7 @@ var render = function() {
                           "v-list-item-title",
                           { staticClass: "font-weight-medium" },
                           [
-                            _vm._v("\n                        Classwork"),
+                            _vm._v("\r\n                        Classwork"),
                             _c("br"),
                             _vm._v(" "),
                             _c(
@@ -494,7 +490,7 @@ var render = function() {
                               { staticClass: "font-weight-medium" },
                               [
                                 _vm._v(
-                                  "\n                        Modules\n                    "
+                                  "\r\n                        Modules\r\n                    "
                                 )
                               ]
                             )
@@ -531,7 +527,7 @@ var render = function() {
                               { staticClass: "font-weight-medium" },
                               [
                                 _vm._v(
-                                  "\n                        Student's Progress\n                    "
+                                  "\r\n                        Student's Progress\r\n                    "
                                 )
                               ]
                             )
@@ -568,7 +564,7 @@ var render = function() {
                               { staticClass: "font-weight-medium" },
                               [
                                 _vm._v(
-                                  "\n                        Modules\n                    "
+                                  "\r\n                        Modules\r\n                    "
                                 )
                               ]
                             )
@@ -605,7 +601,7 @@ var render = function() {
                               { staticClass: "font-weight-medium" },
                               [
                                 _vm._v(
-                                  "\n                        My Progress\n                    "
+                                  "\r\n                        My Progress\r\n                    "
                                 )
                               ]
                             )
@@ -642,7 +638,7 @@ var render = function() {
                               { staticClass: "font-weight-medium" },
                               [
                                 _vm._v(
-                                  "\n                        My Grades\n                    "
+                                  "\r\n                        My Grades\r\n                    "
                                 )
                               ]
                             )
@@ -673,7 +669,7 @@ var render = function() {
                           "v-list-item-title",
                           { staticClass: "font-weight-medium" },
                           [
-                            _vm._v("\n                        People"),
+                            _vm._v("\r\n                        People"),
                             _c("br"),
                             _vm._v(" "),
                             _c(
@@ -715,7 +711,7 @@ var render = function() {
                               { staticClass: "font-weight-medium" },
                               [
                                 _vm._v(
-                                  "\n                        Grade Book\n                    "
+                                  "\r\n                        Grade Book\r\n                    "
                                 )
                               ]
                             )
@@ -743,7 +739,7 @@ var render = function() {
                           [
                             _c("v-icon", [
                               _vm._v(
-                                "mdi-chart-timeline-variant-shimmer\n                    "
+                                "mdi-chart-timeline-variant-shimmer\r\n                    "
                               )
                             ])
                           ],
@@ -758,7 +754,7 @@ var render = function() {
                               { staticClass: "font-weight-medium" },
                               [
                                 _vm._v(
-                                  "\n                        Grading Criteria\n                    "
+                                  "\r\n                        Grading Criteria\r\n                    "
                                 )
                               ]
                             )
@@ -788,7 +784,7 @@ var render = function() {
                           { staticClass: "font-weight-medium" },
                           [
                             _vm._v(
-                              "\n                        About\n                    "
+                              "\r\n                        About\r\n                    "
                             )
                           ]
                         )
@@ -820,7 +816,7 @@ var render = function() {
                               { staticClass: "font-weight-medium" },
                               [
                                 _vm._v(
-                                  "\n                        Settings\n                    "
+                                  "\r\n                        Settings\r\n                    "
                                 )
                               ]
                             )

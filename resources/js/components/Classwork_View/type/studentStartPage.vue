@@ -47,7 +47,7 @@ const objectiveType = () => import('./classworkType/ObjectiveComponent')
 const subjectiveType = () => import('./classworkType/SubjectiveComponent')
 const responseLatePageWarning = () => import('./classworkType/responseLateComponent')
 
-import moment from 'moment';
+import moment from 'moment/src/moment';
 export default {
     props:['classworkDetails','totalPoints','totalQuestion'],
     components:{
