@@ -428,6 +428,17 @@ Vue.use(vue_excel_export__WEBPACK_IMPORTED_MODULE_0__.default);
 
       return tmp_arr;
     },
+    gettableTotalPoints: function gettableTotalPoints(classworkList, grading_id) {
+      var total = 0;
+
+      for (var i = 0; i < classworkList.length; i++) {
+        if (classworkList[i].grading_criteria_id == grading_id) {
+          total += classworkList[i]['points'];
+        }
+      }
+
+      return total;
+    },
     transmutedGrade: function transmutedGrade(total_score, percentage) {
       if (this.classworkTotalPoints) {
         return ((total_score / this.classworkTotalPoints * 100 / 2 + 50) * percentage / 100).toFixed(2);
@@ -540,8 +551,6 @@ Vue.use(vue_excel_export__WEBPACK_IMPORTED_MODULE_0__.default);
           }
         } //    console.log(grading_criteria_id)
 
-
-        _this2.classworkTotalPointsTable = total;
 
         _this2.totalPercentHeader();
       });
@@ -2301,7 +2310,7 @@ var render = function() {
       _vm.loading == false
         ? _c(
             "table",
-            { staticClass: "tableExp", attrs: { id: "testTable", hidden: "" } },
+            { staticClass: "tableExp", attrs: { id: "testTable" } },
             [
               _c(
                 "tr",
@@ -2391,7 +2400,12 @@ var render = function() {
                               _c("th", [
                                 _vm._v(
                                   "\n                            " +
-                                    _vm._s(_vm.classworkTotalPointsTable) +
+                                    _vm._s(
+                                      _vm.gettableTotalPoints(
+                                        _vm.allclasswork,
+                                        gradingCriteria.id
+                                      )
+                                    ) +
                                     "\n                        "
                                 )
                               ]),
@@ -2498,7 +2512,10 @@ var render = function() {
                                             student.id,
                                             gradingCriteria.id
                                           ),
-                                          _vm.classworkTotalPointsTable
+                                          _vm.gettableTotalPoints(
+                                            _vm.allclasswork,
+                                            gradingCriteria.id
+                                          )
                                         )
                                       ) +
                                       "\n\n                        "
@@ -2515,7 +2532,10 @@ var render = function() {
                                             gradingCriteria.id
                                           ),
                                           gradingCriteria.percentage,
-                                          _vm.classworkTotalPointsTable
+                                          _vm.gettableTotalPoints(
+                                            _vm.allclasswork,
+                                            gradingCriteria.id
+                                          )
                                         )
                                       ) +
                                       "%\n                        "

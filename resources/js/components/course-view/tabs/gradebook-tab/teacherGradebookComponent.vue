@@ -199,7 +199,7 @@
         </v-card>
 
 
-        <table id="testTable" v-if="loading == false"  class="tableExp" hidden>
+        <table id="testTable" v-if="loading == false"  class="tableExp" >
             <tr>
                     <th>Student ID</th>
                 <th>Name</th>
@@ -229,7 +229,7 @@
                                 {{classwork.points}}
                             </th>
                             <th>
-                                {{classworkTotalPointsTable}}
+                                {{ gettableTotalPoints( allclasswork, gradingCriteria.id)}}
                             </th>
                             <th>
                                 {{gradingCriteria.percentage}}%
@@ -264,11 +264,11 @@
                             </td>
 
                             <th>
-                                {{totalPoints(AllStudentClassworkGrades(student.id,gradingCriteria.id),classworkTotalPointsTable)}}
+                                {{totalPoints(AllStudentClassworkGrades(student.id,gradingCriteria.id),gettableTotalPoints( allclasswork, gradingCriteria.id))}}
 
                             </th>
                             <th>
-                                {{totalPercentage(AllStudentClassworkGrades(student.id,gradingCriteria.id),gradingCriteria.percentage,classworkTotalPointsTable)}}%
+                                {{totalPercentage(AllStudentClassworkGrades(student.id,gradingCriteria.id),gradingCriteria.percentage,gettableTotalPoints( allclasswork, gradingCriteria.id))}}%
                             </th>
                         </tr>
 
@@ -425,6 +425,16 @@
                 return tmp_arr;
 
             },
+            gettableTotalPoints( classworkList, grading_id) {
+                 var total = 0;
+                for (var i = 0; i < classworkList.length; i++) {
+                    if(classworkList[i].grading_criteria_id == grading_id) {
+  total += classworkList[i]['points'];
+                    }
+                  
+                }
+                return total;
+            },
             transmutedGrade(total_score, percentage) {
                 if (this.classworkTotalPoints) {
                     return (((((total_score / this.classworkTotalPoints) * 100) / 2) + 50) * percentage / 100).toFixed(
@@ -524,6 +534,7 @@
 
                     console.log(this.allclasswork, 'sadfasdfasdfasdfasd fallclasswork');
                     for (var i = 0; i < this.classworkList.length; i++) {
+                        
                         // this.headers[i+1] = {text: this.classworkList[i]['title'], value: this.classworkList[i]['title']};
                         if (this.classworkList[i]['grading_criteria_id'] == this.get_gradingCriteria[0].id) {
                             this.headers.push({
@@ -539,7 +550,7 @@
                     }
 
                     //    console.log(grading_criteria_id)
-                    this.classworkTotalPointsTable = total;
+             
 
 
                     this.totalPercentHeader();
