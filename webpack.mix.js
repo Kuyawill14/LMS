@@ -36,6 +36,7 @@ module.exports = {
 
 
 
+
 mix.js('resources/js/app.js', 'public/js')
     .vue()
     .sass('resources/sass/app.scss', 'public/css')
@@ -46,36 +47,8 @@ mix.js('resources/js/app.js', 'public/js')
     .extract(['lodash'], 'public/js/vendor~utils-4.js')
     .extract(['pusher.js'], 'public/js/vendor~utils-5.js')
     .extract(['vue'], 'public/js/vendor~utils-6.js')
-    .version();
 
 
-module.exports = {
-    //...
-    optimization: {
-        minimize: true
-    }
-};
-
-module.exports = {
-    configureWebpack: {
-        optimization: {
-            splitChunks: {
-                chunks: 'all',
-                maxInitialRequests: Infinity,
-                minSize: 0,
-                cacheGroups: {
-                    vuetify: {
-                        // regex to compare against build resource by path name (e.g., `/node_modules/vuetify`)
-                        test: /vuetify/,
-
-                        // basename of output file
-                        name: 'chunk-vendors-vuetify'
-                    }
-                },
-            },
-        },
-    }
-}
 
 
 /* if (mix.inProduction()) {
