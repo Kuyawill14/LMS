@@ -717,10 +717,12 @@ Vue.use(vue_excel_export__WEBPACK_IMPORTED_MODULE_0__.default);
         };
 
         if (!table.nodeType) table = document.getElementById(table);
-        var ctx = {
+
+        var ctx = _defineProperty({
           worksheet: name || 'Worksheet',
           table: table.innerHTML
-        };
+        }, "table", table.innerHTML);
+
         window.location.href = uri + base64(format(template, ctx));
       })();
     }

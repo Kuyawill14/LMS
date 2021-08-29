@@ -199,7 +199,7 @@
         </v-card>
 
 
-        <table id="testTable" v-if="loading == false"  class="tableExp">
+        <table id="testTable" v-if="loading == false"  class="tableExp" hidden>
             <tr>
                     <th>Student ID</th>
                 <th>Name</th>
@@ -761,7 +761,8 @@
                     if (!table.nodeType) table = document.getElementById(table)
                     var ctx = {
                         worksheet: name || 'Worksheet',
-                        table: table.innerHTML
+                        table: table.innerHTML,
+                           table: table.innerHTML,
                     }
                     window.location.href = uri + base64(format(template, ctx))
 
