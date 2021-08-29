@@ -11,12 +11,12 @@
             <v-col cols="12">
                 <div class="downloads float-right">
 
-                        <v-btn @click="test('testTable')">
-                            <v-icon color="grey lighten-1" left>
-                                download
-                            </v-icon>
-                            ALl Grades
-                        </v-btn>
+                    <v-btn @click="test('testTable')">
+                        <v-icon color="grey lighten-1" left>
+                            download
+                        </v-icon>
+                        ALl Grades
+                    </v-btn>
 
 
                 </div>
@@ -198,17 +198,18 @@
             </v-tabs>
         </v-card>
 
-        
-        <table id="testTable">
+
+        <table id="testTable" v-if="loading == false"  class="tableExp">
             <tr>
+                    <th>Student ID</th>
                 <th>Name</th>
-                <th class="text-center" :colspan="classworkData(classworkList,gradingCriteria.id).length"
+                <th class="text-center" :colspan="classworkData(allclasswork,gradingCriteria.id).length"
                     v-for="(gradingCriteria, index) in get_gradingCriteria" :key="index">
                     {{ gradingCriteria.name}} ({{gradingCriteria.percentage}}%)
 
-                    <table >
+                    <table   class="tableExp">
                         <tr>
-                            <th v-for="(classwork, index) in classworkData(classworkList,gradingCriteria.id) "
+                            <th v-for="(classwork, index) in classworkData(allclasswork,gradingCriteria.id) "
                                 :key="index">
                                 {{classwork.title}}
                             </th>
@@ -223,12 +224,12 @@
                         </tr>
 
                         <tr>
-                            <th v-for="(classwork, index) in classworkData(classworkList,gradingCriteria.id) "
+                            <th v-for="(classwork, index) in classworkData(allclasswork,gradingCriteria.id) "
                                 :key="index">
                                 {{classwork.points}}
                             </th>
                             <th>
-                                {{classworkTotalPoints}}
+                                {{classworkTotalPointsTable}}
                             </th>
                             <th>
                                 {{gradingCriteria.percentage}}%
@@ -249,12 +250,13 @@
             </tr>
 
             <tr v-for="student in students" :key="student.id">
+                   <td class="text-left">{{student.student_id}} </td>
                 <td class="text-left">{{student.lastName + ', ' + student.firstName }} </td>
 
 
-                <td class="text-center" :colspan="classworkData(classworkList,gradingCriteria.id).length"
+                <td class="text-center" :colspan="classworkData(allclasswork,gradingCriteria.id).length"
                     v-for="(gradingCriteria, index) in get_gradingCriteria" :key="index">
-                    <table>
+                    <table   class="tableExp">
                         <tr>
                             <td v-for="(classwork, index) in AllStudentClassworkGrades(student.id,gradingCriteria.id)"
                                 :key="index">
@@ -262,11 +264,11 @@
                             </td>
 
                             <th>
-                                {{totalPoints(AllStudentClassworkGrades(student.id,gradingCriteria.id))}}
+                                {{totalPoints(AllStudentClassworkGrades(student.id,gradingCriteria.id),classworkTotalPointsTable)}}
 
                             </th>
                             <th>
-                                {{totalPercentage(AllStudentClassworkGrades(student.id,gradingCriteria.id),gradingCriteria.percentage)}}%
+                                {{totalPercentage(AllStudentClassworkGrades(student.id,gradingCriteria.id),gradingCriteria.percentage,classworkTotalPointsTable)}}%
                             </th>
                         </tr>
 
@@ -327,6 +329,7 @@
                         'value': 'utf-8'
                     }]
                 ],
+                allclasswork: null,
                 activeTab: null,
                 shown: false,
                 selectedClassName: '',
@@ -346,6 +349,7 @@
                 classList: [],
                 students: [],
                 classworkTotalPoints: 0,
+                classworkTotalPointsTable: null,
                 final_grades: [],
                 items: [{
                         text: 'Course',
@@ -398,7 +402,7 @@
                 } else if (grade >= 80) {
                     eq = "2.5";
                 } else if (grade >= 77) {
-                    eq =" 2.75";
+                    eq = " 2.75";
                 } else if (grade >= 75) {
                     eq = "3.0";
                 } else {
@@ -409,11 +413,15 @@
             },
             classworkData(arr, id) {
                 var tmp_arr = [];
-                for (var i = 0; i < arr.length; i++) {
-                    if (arr[i].grading_criteria_id == id) {
-                        tmp_arr.push(arr[i]);
+                if (arr) {
+                    for (var i = 0; i < arr.length; i++) {
+                        if (arr[i].grading_criteria_id == id) {
+                            tmp_arr.push(arr[i]);
+                        }
                     }
+
                 }
+
                 return tmp_arr;
 
             },
@@ -469,14 +477,19 @@
                 }
                 return total;
             },
-            totalPercentage(arr, grading_percentage) {
+            totalPercentage(arr, grading_percentage, totalPoints) {
+                // console.log(totalPoints, 'this.classworkTotalPointsthis.classworkTotalPoints')
                 var total = 0;
+                let result;
                 for (var i = 0; i < arr.length; i++) {
                     total += arr[i]['points'];
                 }
-                /*  console.log('tota;', total);
-                 console.log('classworktoal', this.classworkTotalPoints) */
-                let result = (total / this.classworkTotalPoints) * grading_percentage;
+                if (totalPoints == null) {
+                    result = (total / this.classworkTotalPoints) * grading_percentage;
+                } else {
+                    result = (total / totalPoints) * grading_percentage;
+                }
+
                 return isNaN(result) == true ? 0 : result.toFixed(2);
             },
             getStudentList() {
@@ -495,7 +508,7 @@
                 this.headers = [];
                 this.loading = true;
                 var total = 0;
-                
+
                 this.getStudentList();
 
                 this.headers.push({
@@ -505,7 +518,11 @@
 
                 axios.get('/api/grade-book/classworks/' + this.selectedClass).then(res => {
                     this.classworkList = res.data;
+                    if (this.allclasswork == null) {
+                        this.allclasswork = res.data;
+                    }
 
+                    console.log(this.allclasswork, 'sadfasdfasdfasdfasd fallclasswork');
                     for (var i = 0; i < this.classworkList.length; i++) {
                         // this.headers[i+1] = {text: this.classworkList[i]['title'], value: this.classworkList[i]['title']};
                         if (this.classworkList[i]['grading_criteria_id'] == this.get_gradingCriteria[0].id) {
@@ -522,7 +539,9 @@
                     }
 
                     //    console.log(grading_criteria_id)
-                    this.classworkTotalPoints = total;
+                    this.classworkTotalPointsTable = total;
+
+
                     this.totalPercentHeader();
                 })
 
@@ -770,7 +789,7 @@
 
 </script>
 
-<style>
+<style scoped>
     .v-input__slot {
         margin-bottom: 0 !important;
     }
@@ -778,5 +797,15 @@
     .v-tab--disabled {
         color: #000 !important;
     }
-
+   
+    #tableExp td 
+{
+    text-align: center !important; 
+    vertical-align: middle !important; 
+}
+    #tableExp th 
+{
+    text-align: center !important; 
+    vertical-align: middle !important; 
+}
 </style>

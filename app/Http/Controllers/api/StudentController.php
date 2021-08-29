@@ -40,7 +40,7 @@ class StudentController extends Controller
         
         if(auth('sanctum')->user()->role == 'Teacher') {
         $StudentList = tbl_userclass::whereNull('tbl_userclasses.deleted_at')
-        ->select('tbl_userclasses.class_id as class_id','tbl_classes.class_name'
+        ->select('tbl_userclasses.class_id as class_id','tbl_classes.class_name', 'tbl_user_details.student_id'
         ,'users.id as user_id','tbl_user_details.firstName','users.email','tbl_user_details.lastName','users.role','tbl_user_details.profile_pic' )
         ->leftJoin('tbl_classes', 'tbl_classes.id', '=', 'tbl_userclasses.class_id', )
         ->leftJoin('users', 'tbl_userclasses.user_id', '=', 'users.id', )
@@ -73,7 +73,7 @@ class StudentController extends Controller
 
 
             $StudentList = tbl_userclass::where('tbl_userclasses.class_id', $Class->class_id)
-            ->select('tbl_user_details.firstName','tbl_user_details.lastName','tbl_user_details.profile_pic' )
+            ->select('tbl_user_details.firstName','tbl_user_details.lastName','tbl_user_details.profile_pic' ,'tbl_user_details.student_id')
             ->leftJoin('users', 'tbl_userclasses.user_id', '=', 'users.id', )
             ->leftJoin('tbl_user_details', 'tbl_user_details.user_id', '=', 'users.id', )
             ->where('users.role', 'Student')
@@ -100,8 +100,8 @@ class StudentController extends Controller
 
     public function getStudentListbyClass($class_id) {
         $StudentList = DB::table('tbl_userclasses')
-        ->select('tbl_userclasses.id as uc_id','users.id','tbl_user_details.firstName','users.email','tbl_user_details.lastName','users.role' )
-        ->leftJoin('users', 'tbl_userclasses.user_id', '=', 'users.id', )
+        ->select('tbl_userclasses.id as uc_id','users.id','tbl_user_details.firstName','users.email','tbl_user_details.lastName','users.role','tbl_user_details.student_id' )
+        ->leftJoin('users', 'tbl_userclasses.user_id', '=', 'users.id')
         ->leftJoin('tbl_user_details', 'tbl_user_details.user_id', '=', 'users.id', )
         ->where('tbl_userclasses.class_id', $class_id)
         ->where('role', 'Student')
