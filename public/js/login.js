@@ -256,8 +256,7 @@ __webpack_require__.r(__webpack_exports__);
           console;
 
           if (res.data.success == true) {
-            _this2.toastSuccess(res.data.message);
-
+            // this.toastSuccess(res.data.message);
             _this2.$store.dispatch('clear_current_user');
 
             window.localStorage.setItem('personal_access_token', res.data.token);

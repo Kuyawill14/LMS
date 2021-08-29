@@ -94,7 +94,7 @@
                             <v-col class="ma-0 pa-0 mb-1" cols="12" md="12">
                                 <HasError class="error--text" :form="form" field="student_id" />
                                 <v-text-field :rules="studenIdRule" label="Student ID Number" name="student_id"
-                                    v-model="form.student_id" type="text" color="primary"  outlined />
+                                    v-model="form.student_id" type="number" color="primary"  outlined />
                             </v-col>
                             <v-col class="ma-0 pa-0 mb-1" cols="12" md="12">
                                  <HasError class="error--text" :form="form" field="firstName" />

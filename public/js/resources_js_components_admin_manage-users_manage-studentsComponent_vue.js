@@ -839,7 +839,7 @@ var render = function() {
                                   rules: _vm.studenIdRule,
                                   label: "Student ID Number",
                                   name: "student_id",
-                                  type: "text",
+                                  type: "number",
                                   color: "primary",
                                   outlined: ""
                                 },

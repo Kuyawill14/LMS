@@ -233,7 +233,7 @@ export default {
                 .then((res) => {
                   console
                     if(res.data.success == true) {
-                        this.toastSuccess(res.data.message);
+                        // this.toastSuccess(res.data.message);
                         this.$store.dispatch('clear_current_user');
                         window.localStorage.setItem('personal_access_token', res.data.token);
                         this.$router.push({ path: "/" })
