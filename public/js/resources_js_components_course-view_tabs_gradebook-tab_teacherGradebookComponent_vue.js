@@ -2310,7 +2310,7 @@ var render = function() {
       _vm.loading == false
         ? _c(
             "table",
-            { staticClass: "tableExp", attrs: { id: "testTable" } },
+            { staticClass: "tableExp", attrs: { id: "testTable", hidden: "" } },
             [
               _c(
                 "tr",

@@ -199,7 +199,7 @@
         </v-card>
 
 
-        <table id="testTable" v-if="loading == false"  class="tableExp" >
+        <table id="testTable" v-if="loading == false"  class="tableExp" hidden >
             <tr>
                     <th>Student ID</th>
                 <th>Name</th>
