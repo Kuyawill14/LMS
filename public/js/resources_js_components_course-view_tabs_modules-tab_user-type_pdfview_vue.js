@@ -196,6 +196,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("v-card", { staticStyle: { height: "620px" } }, [
     _c("iframe", {
+      staticClass: "pdf-viewer",
       attrs: { height: "100%", width: "100%", src: "" + _vm.pdf_path }
     })
   ])
