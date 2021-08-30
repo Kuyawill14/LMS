@@ -18,7 +18,7 @@ const actions = {
         const res = await axios.get(
             `/api/main_module/all/${id}`
         );
-        //console.log(res.data);
+        ////console.log(res.data);
         commit('FETCH_MAIN_MODULE', res.data);
 
     },

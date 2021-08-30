@@ -249,8 +249,7 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
-    Test: function Test() {
-      console.log(this.form);
+    Test: function Test() {//console.log(this.form);
     },
     validate: function validate() {
       var _this2 = this;

@@ -240,6 +240,7 @@ class GradebookController extends Controller
              
                 for($z=0; $z < count($classworks); $z++)
                 if(  $classworks[$z]['grading_criteria'] == $gradingCategory[$i]['grade_category_id']) {
+                    $classworks[$z]['total_points'] = $classworks[$z]['total_points'] ==0 ? 1 : $classworks[$z]['total_points'];
                     $gradingCategory[$i]['grade_percentage'] = ($gradingCategory[$i]['points'] / $classworks[$z]['total_points']) * $gradingCategory[$i]['percentage'];
                     $gradingCategory[$i]['transmuted_grade_percentage'] = (((($gradingCategory[$i]['points'] /  $classworks[$z]['total_points'])*100) /2) +50 ) * ($gradingCategory[$i]['percentage'] / 100) ;
                     $gradingCategory[$i]['total_points'] =  $classworks[$z]['total_points'];

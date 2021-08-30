@@ -141,7 +141,7 @@ export default {
             },
 
             onChange(html, text) {
-                console.log(html.length, text.length);
+                //console.log(html.length, text.length);
             },
              createPost() {
                 if (this.announcement.content != '') {
@@ -189,7 +189,7 @@ export default {
                 }
             },
             testing(){
-                console.log(this.class_id);
+                //console.log(this.class_id);
             },
            async newNotification(announcement_id){
                 this.notifyDetails.class_id = this.class_id;

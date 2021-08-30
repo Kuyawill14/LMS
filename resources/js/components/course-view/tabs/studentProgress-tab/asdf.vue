@@ -190,7 +190,7 @@
 
                 var count = 0;
                 var subModules_arr = this.getSub_module(mainModule_id);
-                console.log(subModules_arr);
+                //console.log(subModules_arr);
                 for (var i = 0; i < subModules_arr.length; i++) {
                     for (var j = 0; j < arr.length; j++) {
 
@@ -216,7 +216,7 @@
                 data.forEach(function (val) {
 
                     total += parseFloat(val.time_spent);
-                    console.log(total);
+                    //console.log(total);
 
                 })
                 return total;
@@ -227,7 +227,7 @@
                 data.forEach(function (val) {
 
                     total += parseFloat(val.required_time);
-                    console.log(total);
+                    //console.log(total);
 
                 })
                 return total;
@@ -260,7 +260,7 @@
                     }, 1000);
 
                 }).catch((error)=>{
-                    console.log(error)
+                    //console.log(error)
                 })
             },
         },
@@ -268,20 +268,20 @@
         async mounted () {
             this.getStudentList();
             await this.fetchStudentModuleProgress();
-            //       console.log('sub', this.getSub_module(2));
-            // console.log('prog', this.SubModuleProgress(2 ,1));
+            //       //console.log('sub', this.getSub_module(2));
+            // //console.log('prog', this.SubModuleProgress(2 ,1));
         
             // for(var i = 0; i < this.students.length; i++) {
              
             //    for(var j =0; j < this.getSub_module(2).length; j++){
-            //        console.log(i);
+            //        //console.log(i);
             //            var  tmp = this.students[i].id;
             //             this.getSub_module(2)[j].student_id = tmp;
-            //                console.log('studet',   this.getSub_module(2)[j].student_id);
+            //                //console.log('studet',   this.getSub_module(2)[j].student_id);
             //            this.studentsProgressData.push(this.getSub_module(2)[j])
                    
             //    }
-            //      console.log(this.studentsProgressData);
+            //      //console.log(this.studentsProgressData);
             // }
           
         }

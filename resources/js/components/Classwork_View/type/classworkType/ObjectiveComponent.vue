@@ -197,7 +197,7 @@
 
 <script>
 
-import moment from 'moment';
+import moment from 'moment/src/moment';
 import {mapGetters} from "vuex";
 export default {
     props:['classworkDetails','totalPoints','totalQuestion'],
@@ -258,7 +258,7 @@ export default {
               data.comment = this.comment;
               axios.post('/api/post/classwork/comment/insert', data)
               .then((res)=>{
-                console.log(res.data);
+                //console.log(res.data);
                   if(res.status == 200 ){
                     this.classworkDetails.comments.push({
                       content : res.data.comment,

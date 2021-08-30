@@ -38,6 +38,7 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     var host = window.location.protocol + "//" + window.location.host;
     this.pdf_path = host + this.pdf_file;
+    this.pdf_path = window.location.origin + '/lib/web/viewer.html?file=' + this.pdf_path;
   }
 });
 
@@ -177,18 +178,7 @@ var render = function() {
   return _c("v-card", { staticStyle: { height: "620px" } }, [
     _c("iframe", {
       staticClass: "pdf-viewer",
-      staticStyle: {
-        position: "absolute",
-        top: "0px",
-        left: "0px",
-        width: "100% !important",
-        height: "100%"
-      },
-      attrs: {
-        title: "google pdf viewer",
-        src: "https://docs.google.com/viewer?embedded=true&url=" + _vm.pdf_path,
-        sandbox: "allow-same-origin allow-scripts allow-popups allow-forms"
-      }
+      attrs: { height: "100%", width: "100%", src: "" + _vm.pdf_path }
     })
   ])
 }

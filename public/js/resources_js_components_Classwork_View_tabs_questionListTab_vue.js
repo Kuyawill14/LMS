@@ -1550,7 +1550,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _this2 = this;
 
       this.$store.dispatch('fetchQuestions', this.$route.query.clwk).then(function (res) {
-        console.log(res);
+        //console.log(res);
         _this2.Qlength = res.data.Question.length;
         _this2.QuestionsList = res[0];
         _this2.isloading = false;

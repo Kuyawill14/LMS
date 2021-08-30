@@ -232,8 +232,7 @@ var addStudentDialog = function addStudentDialog() {
               case 0:
                 axios.get('/api/student/all/' + _this3.$route.params.id).then(function (res) {
                   _this3.students = res.data.StudentList;
-                })["catch"](function (error) {
-                  console.log(error);
+                })["catch"](function (error) {//console.log(error)
                 });
 
               case 1:

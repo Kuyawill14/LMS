@@ -2,7 +2,7 @@ import axios from 'axios'
 
 const state = {
     class_post: [],
-    lastPage:null,
+    lastPage: null,
     currentPage: null,
 };
 const getters = {
@@ -34,19 +34,19 @@ const actions = {
 
 
     },
-    async loadMore({ commit }, id){
-        if(state.currentPage != state.lastPage){
-            let nextpage = state.currentPage+1;
+    async loadMore({ commit }, id) {
+        if (state.currentPage != state.lastPage) {
+            let nextpage = state.currentPage + 1;
             const res = await axios.get(
-               `/api/announcement/allpost/${id}?page=${nextpage}`
-           );
-           state.currentPage =    state.currentPage+1;
-           res.data.data.forEach(item => {
-               state.class_post.push(item);
-           });
-           return res.status;
+                `/api/announcement/allpost/${id}?page=${nextpage}`
+            );
+            state.currentPage = state.currentPage + 1;
+            res.data.data.forEach(item => {
+                state.class_post.push(item);
+            });
+            return res.status;
         }
-     
+
     },
     async createClassPost({ commit }, postItem) {
 
@@ -54,7 +54,7 @@ const actions = {
 
         let newCLassPost = res.data;
         // commit('ADD_CLASSPOST', newCLassPost);
-        console.log(state.class_post);
+        //console.log(state.class_post);
         state.class_post.push({...newCLassPost });
         return res;
     },

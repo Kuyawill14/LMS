@@ -109,7 +109,7 @@
 
 
 <script>
-    import moment from 'moment'
+    import moment from 'moment/src/moment'
     import {
         mapGetters,
         mapActions

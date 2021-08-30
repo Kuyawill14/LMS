@@ -326,8 +326,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         type: type
       };
       axios__WEBPACK_IMPORTED_MODULE_0___default().post('/api/admin/schoolyears_semesters/upsert', data).then(function (res) {
-        console.log(res.data);
-
+        //console.log(res.data);
         _this2.fetchAllSchoolyear_semester();
 
         _this2.semesterModal = false;
@@ -347,8 +346,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         type: this.type
       };
       axios__WEBPACK_IMPORTED_MODULE_0___default().post('/api/admin/schoolyears_semesters/delete', data).then(function (res) {
-        console.log(res.data);
-
+        //console.log(res.data);
         _this3.fetchAllSchoolyear_semester();
 
         _this3.deleteModal = false;

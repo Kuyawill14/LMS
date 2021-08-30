@@ -224,7 +224,7 @@
         },
         methods: {
             Test() {
-                console.log(this.form);
+                //console.log(this.form);
             },
             validate() {
                 if (this.$refs.RegisterForm.validate()) {

@@ -11,8 +11,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var moment_src_moment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! moment/src/moment */ "./node_modules/moment/src/moment.js");
 //
 //
 //
@@ -192,7 +191,7 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.get('/api/classwork/showDetails/' + this.Preview_id + '/' + this.$route.params.id).then(function (res) {
         _this.Details = res.data.Details;
-        _this.Details.from_date = moment__WEBPACK_IMPORTED_MODULE_0___default()(_this.Details.from_date).format("YYYY-MM-DDTHH:mm:ss");
+        _this.Details.from_date = (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_0__.default)(_this.Details.from_date).format("YYYY-MM-DDTHH:mm:ss");
         _this.isloading = !_this.isloading;
         _this.totalPoints = res.data.totalpoints;
         _this.totalQuestion = res.data.ItemsCount;
@@ -200,7 +199,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     format_date: function format_date(value) {
       if (value) {
-        return moment__WEBPACK_IMPORTED_MODULE_0___default()(String(value)).format('dddd, h:mm a');
+        return (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_0__.default)(String(value)).format('dddd, h:mm a');
       }
     },
     DownLoadFile: function DownLoadFile(file) {
@@ -210,7 +209,7 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     this.getClassworkDetails();
     var newDate = new Date();
-    this.DateToday = moment__WEBPACK_IMPORTED_MODULE_0___default()(newDate).format("YYYY-MM-DDTHH:mm:ss");
+    this.DateToday = (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_0__.default)(newDate).format("YYYY-MM-DDTHH:mm:ss");
   },
   created: function created() {
     this.$emit('isMounted');

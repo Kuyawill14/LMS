@@ -34,10 +34,10 @@ export default {
   },
    methods: {
     startCallBack: function(x) {
-      console.log(x);
+      //console.log(x);
     },
     endCallBack: function(x) {
-      console.log(x);
+      //console.log(x);
     },
   },
 }

@@ -299,8 +299,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       if (this.form.class_name != "") {
         this.toastSuccess();
-        this.form.course_id = this.$route.params.id;
-        console.log(this.form);
+        this.form.course_id = this.$route.params.id; //console.log(this.form);
+
         this.$store.dispatch('createClass', this.form);
         this.fetchSubjectCourseClassList(this.$route.params.id);
         this.sending = false;
@@ -411,9 +411,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
   }),
   mounted: function mounted() {
-    console.log(this.form);
-    this.className = this.getClassName;
-    console.log(this.form);
+    //console.log(this.form);
+    this.className = this.getClassName; //console.log(this.form);
   }
 });
 

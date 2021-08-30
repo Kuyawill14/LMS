@@ -207,8 +207,7 @@ var removeConfirmDialog = function removeConfirmDialog() {
         _this3.students = res.data.InstructorList; //setTimeout(() => {
 
         _this3.isGetting = false; //}, 1000);
-      })["catch"](function (error) {
-        console.log(error);
+      })["catch"](function (error) {//console.log(error)
       });
     },
     fetchClassnames: function fetchClassnames() {

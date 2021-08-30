@@ -433,7 +433,7 @@ __webpack_require__.r(__webpack_exports__);
         var baseData;
 
         reader.onloadend = function (res) {
-          _this.form[_this.inputIndex].answer = '<div>' + '<img src="' + reader.result + '">' + '</div>'; //console.log('Result', reader.result);
+          _this.form[_this.inputIndex].answer = '<div>' + '<img src="' + reader.result + '">' + '</div>'; ////console.log('Result', reader.result);
         };
 
         reader.readAsDataURL(file);

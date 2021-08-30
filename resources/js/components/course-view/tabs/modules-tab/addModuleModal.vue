@@ -19,7 +19,8 @@
                     <v-container>
                         <v-row>
                             <v-col cols="12">
-                                <v-text-field label="Module Name*" v-model="moduleForm.module_name" required>
+                                <v-text-field
+                                 outlined label="Module Name*" v-model="moduleForm.module_name" required>
                                 </v-text-field>
                             </v-col>
                             <v-col cols="12">
@@ -80,7 +81,7 @@
                 if (this.moduleForm.module_name.trim().length > 0 && this.moduleForm.description.trim().length > 0) {
                     this.$store.dispatch('createMainModule', this.moduleForm)
                         .then((res) => {
-                            console.log(res);
+                            //console.log(res);
                             if (res.status == 201) {
                                 this.moduleForm.reset()
                                 this.isSubmitting = false;

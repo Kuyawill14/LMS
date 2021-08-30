@@ -382,7 +382,7 @@
 
 <script>
 const attachlinkDiaglog = () => import('./attachLinkDialog')
-import moment from 'moment';
+import moment from 'moment/src/moment';
 
 import {mapGetters} from "vuex";
 export default {
@@ -460,7 +460,7 @@ export default {
               let IndexFile = this.file.length;
               this.isUploading[IndexFile] = true;
               this.fileIndex = IndexFile;
-              //console.log(this.file.length)
+              ////console.log(this.file.length)
               this.tempFile = file;
              
               let tempSize = file.size;
@@ -486,7 +486,7 @@ export default {
               }
                this.fileIndex = this.file.length;
                 this.isUpIndex = this.file.length-1
-                //console.log(this.fileIndex);
+                ////console.log(this.fileIndex);
                 this.UpdateSubmission(this.file.length-1);
             },
             removeFile(index) {
@@ -500,7 +500,7 @@ export default {
             },
             test(){
               let data = '<iframe class="ql-video" frameborder="0" allowfullscreen="true" src="'+this.link+'"></iframe><div><br></div>'
-              console.log(data);
+              //console.log(data);
             },
             async checkStatus(type){
               axios.get('/api/submission/check-sbj/'+this.classworkDetails.id)
@@ -564,7 +564,7 @@ export default {
               data.comment = this.comment;
               axios.post('/api/post/classwork/comment/insert', data)
               .then((res)=>{
-                console.log(res.data);
+                //console.log(res.data);
                   if(res.status == 200 ){
                     this.classworkDetails.comments.push({
                       content : res.data.comment,

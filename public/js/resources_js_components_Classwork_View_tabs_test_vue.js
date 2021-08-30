@@ -44,11 +44,9 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
-    startCallBack: function startCallBack(x) {
-      console.log(x);
+    startCallBack: function startCallBack(x) {//console.log(x);
     },
-    endCallBack: function endCallBack(x) {
-      console.log(x);
+    endCallBack: function endCallBack(x) {//console.log(x);
     }
   }
 });

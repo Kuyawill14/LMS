@@ -187,7 +187,7 @@
     </v-card>
 </template>
 <script>
-import moment from 'moment';
+import moment from 'moment/src/moment';
 export default {
     props:['Details'],
   
@@ -279,7 +279,7 @@ export default {
                     }
                     
                 }).catch(e => {
-                    console.log(e);
+                    //console.log(e);
                 })
         },
         async getPublishDetails(){

@@ -226,8 +226,7 @@ var modulesListComponent = function modulesListComponent() {
   created: function created() {
     var _this = this;
 
-    console.log(this.role);
-
+    //console.log(this.role);
     if (this.subModuleData) {
       this.loading = true;
     }
@@ -451,7 +450,7 @@ var render = function() {
             {
               staticClass: "pa-0",
               attrs: {
-                lg: _vm.isExpand == true ? 12 : 8,
+                lg: _vm.isExpand == true ? 12 : 9,
                 sm: "12",
                 md: "12",
                 cols: "12"
@@ -744,7 +743,7 @@ var render = function() {
                 "v-col",
                 {
                   staticClass: "pa-0 border",
-                  attrs: { lg: "4", cols: "12", sm: "12", md: "12" }
+                  attrs: { lg: "3", cols: "12", sm: "12", md: "12" }
                 },
                 [
                   _c("modulesListComponent", {

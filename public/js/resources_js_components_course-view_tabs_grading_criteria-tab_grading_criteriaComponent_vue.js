@@ -222,8 +222,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.$store.dispatch('updateGradingCriteria', this.grading_criteria_form).then(function (data) {
         if (data[0] == 'error') {
           for (var i = 1; i < data.length; i++) {
-            errors = data[i] + "<br>" + errors;
-            console.log(data[i]);
+            errors = data[i] + "<br>" + errors; //console.log(data[i]);
           }
 
           _this2.loading = false;

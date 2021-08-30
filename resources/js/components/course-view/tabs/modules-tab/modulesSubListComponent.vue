@@ -52,7 +52,7 @@
            
             changeLec() {
          
-               console.log(this.lectureList)
+               //console.log(this.lectureList)
                 // axios.post(`/api/main_module/arrange`, {
                 //         lectureList: this.lectureList
                 //     })

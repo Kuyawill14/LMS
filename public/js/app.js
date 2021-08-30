@@ -3116,7 +3116,7 @@ var actions = {
   },
   setCourseStatus: function setCourseStatus(_ref5, id) {
     var commit = _ref5.commit;
-    console.log(id);
+    //console.log(id);
     state.MyCourses.forEach(function (item) {
       if (item.id == id) {
         item.status = 1;
@@ -3125,7 +3125,7 @@ var actions = {
   },
   CheckMyCourse: function CheckMyCourse(_ref6, course_id) {
     var commit = _ref6.commit;
-    //console.log(course_id);
+    ////console.log(course_id);
     var exist = false;
     var status = 0;
     state.MyCourses.forEach(function (item) {
@@ -3216,7 +3216,7 @@ var actions = {
 
             case 3:
               res = _context.sent;
-              //console.log(res.data);
+              ////console.log(res.data);
               commit('FETCH_TEACHERS', res.data);
 
             case 5:
@@ -3230,7 +3230,7 @@ var actions = {
   //     let res = await axios.post(`/api/announcement/insert`, { announcement: postItem });
   //     let newCLassPost = res.data;
   //     // commit('ADD_CLASSPOST', newCLassPost);
-  //     console.log(state.class_post);
+  //     //console.log(state.class_post);
   //     state.class_post.push({...newCLassPost });
   //     return res;
   // },
@@ -3373,12 +3373,12 @@ var actions = {
             case 3:
               res = _context3.sent;
               newCLassPost = res.data; // commit('ADD_CLASSPOST', newCLassPost);
+              //console.log(state.class_post);
 
-              console.log(state.class_post);
               state.class_post.push(_objectSpread({}, newCLassPost));
               return _context3.abrupt("return", res);
 
-            case 8:
+            case 7:
             case "end":
               return _context3.stop();
           }
@@ -3521,8 +3521,7 @@ var actions = {
               commit = _ref.commit;
               _context.next = 3;
               return axios__WEBPACK_IMPORTED_MODULE_1___default().get("/api/class/ShowClass/".concat(id)).then(function (res) {
-                commit('setClassInfo', res.data[0]);
-                console.log(res.data);
+                commit('setClassInfo', res.data[0]); //console.log(res.data);
               });
 
             case 3:
@@ -4054,8 +4053,7 @@ var actions = {
           switch (_context3.prev = _context3.next) {
             case 0:
               commit = _ref3.commit;
-              console.log('course_item', courseItem);
-              _context3.next = 4;
+              _context3.next = 3;
               return axios__WEBPACK_IMPORTED_MODULE_1___default().post("/api/course/update/".concat(courseItem.id), {
                 courseItem: courseItem
               }).then(function (res) {
@@ -4066,11 +4064,11 @@ var actions = {
                 return e.response;
               });
 
-            case 4:
+            case 3:
               response = _context3.sent;
               return _context3.abrupt("return", response);
 
-            case 6:
+            case 5:
             case "end":
               return _context3.stop();
           }
@@ -4345,7 +4343,7 @@ var actions = {
 
             case 3:
               res = _context.sent;
-              //console.log(res.data);
+              ////console.log(res.data);
               commit('FETCH_MAIN_MODULE', res.data);
 
             case 5:
@@ -4583,8 +4581,9 @@ var actions = {
               return axios__WEBPACK_IMPORTED_MODULE_1___default().get('/api/notification/all/' + data.type + '?page=' + nextPage).then(function (response) {
                 status = response.status;
                 state.beforeLastPageCount = state.lastPageCount;
-                state.lastPageCount = response.data.data.length;
-                console.log(state.beforeLastPageCount);
+                state.lastPageCount = response.data.data.length; //console.log(state.beforeLastPageCount);
+
+                //console.log(state.beforeLastPageCount);
                 response.data.data.forEach(function (data) {
                   state.class_notification.push(data);
                 });
@@ -4625,9 +4624,8 @@ var actions = {
 
               for (j = 0; j < count; j++) {
                 state.class_notification.splice(state.class_notification.length - 1, 1);
-              }
+              } //console.log(nextpage);
 
-              console.log(nextpage);
 
               if (nextpage != state.lastPage) {
                 state.loadMore = true;
@@ -4637,7 +4635,7 @@ var actions = {
                 state.loadMore = false;
               }
 
-            case 6:
+            case 5:
             case "end":
               return _context3.stop();
           }
@@ -4865,11 +4863,11 @@ var actions = {
 
             case 3:
               res = _context.sent;
-              console.log(res);
+              //console.log(res);
               commit('FETCH_QUESTIONS', res.data);
               return _context.abrupt("return", res);
 
-            case 7:
+            case 6:
             case "end":
               return _context.stop();
           }
@@ -5101,16 +5099,15 @@ var actions = {
           switch (_context.prev = _context.next) {
             case 0:
               commit = _ref.commit;
-              console.log('ffffck', data);
-              _context.next = 4;
+              _context.next = 3;
               return axios__WEBPACK_IMPORTED_MODULE_1___default().get("/api/grade-book/all-student-finalgrade/".concat(data.course_id, "/").concat(data.class_id));
 
-            case 4:
+            case 3:
               res = _context.sent;
               commit('FETCH_STUDENT_FINAL_GRADES', res.data);
               return _context.abrupt("return");
 
-            case 7:
+            case 6:
             case "end":
               return _context.stop();
           }
@@ -5191,10 +5188,10 @@ var actions = {
 
             case 3:
               res = _context.sent;
-              console.log(res.data);
+              //console.log(res.data);
               commit('FETCH_STUDENT_MAIN_PROGRESS', res.data);
 
-            case 6:
+            case 5:
             case "end":
               return _context.stop();
           }
@@ -5215,7 +5212,7 @@ var actions = {
 
             case 3:
               res = _context2.sent;
-              //console.log(res.data);
+              ////console.log(res.data);
               commit('FETCH_STUDENT_SUB_PROGRESS', res.data);
 
             case 5:
@@ -5305,7 +5302,7 @@ var actions = {
 
             case 3:
               res = _context.sent;
-              //console.log(res.data);
+              ////console.log(res.data);
               commit('FETCH_SUB_MODULE', res.data);
 
             case 5:
@@ -5434,7 +5431,7 @@ var actions = {
 
             case 3:
               res = _context.sent;
-              //console.log(res.data);
+              ////console.log(res.data);
               commit('SET_STUDENT_PROGRESS', res.data);
 
             case 5:
@@ -5540,7 +5537,7 @@ var actions = {
 
             case 3:
               res = _context.sent;
-              //console.log(res.data);
+              ////console.log(res.data);
               commit('FETCH_TEACHERS', res.data);
 
             case 5:
@@ -5564,10 +5561,10 @@ var actions = {
 
             case 3:
               res = _context2.sent;
-              console.log(res.data);
+              //console.log(res.data);
               commit('FETCH_TEACHERS', res.data);
 
-            case 6:
+            case 5:
             case "end":
               return _context2.stop();
           }

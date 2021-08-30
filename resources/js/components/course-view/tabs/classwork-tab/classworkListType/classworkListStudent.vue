@@ -160,7 +160,7 @@
 
 <script>
     const previewClassworkModal = () => import('../dialogs/previewClassworkModal');
-    import moment from 'moment';
+    import moment from 'moment/src/moment';
     export default {
         props: ['classworks'],
         components: {

@@ -240,7 +240,8 @@ var removeAttachment = function removeAttachment() {
             switch (_context.prev = _context.next) {
               case 0:
                 _this.isUpdatingSnackBar = true;
-                _this.isUpdating = true;
+                _this.isUpdating = true; //console.log(this.Details);
+
                 fd = new FormData();
                 fd.append('course_id', _this.Details.course_id);
                 fd.append('duration', _this.Details.duration);

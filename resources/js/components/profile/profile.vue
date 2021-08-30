@@ -247,9 +247,9 @@
                     this.isloading = !this.isloading;
 
                 }).catch((e) => {
-                    console.log(e);
+                    //console.log(e);
                 })
-                console.log(this.UserDetails.profile_pic);
+                //console.log(this.UserDetails.profile_pic);
             },
             TestUpload(){
              this.$refs.fileInput.click();
@@ -267,7 +267,7 @@
               
           
                 this.imageFile = element.target.files[0];
-                console.log(this.imageFile);
+                //console.log(this.imageFile);
                 //this.file_name = element.target.files[0].name;
                 if( this.imageFile.size <= 500000){
                     this.UpdateProfile();

@@ -162,8 +162,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     val: function val() {
       this.value = "This's new value";
     },
-    onChange: function onChange(html, text) {
-      console.log(html.length, text.length);
+    onChange: function onChange(html, text) {//console.log(html.length, text.length);
     },
     createPost: function createPost() {
       var _this = this;
@@ -218,8 +217,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         });
       }
     },
-    testing: function testing() {
-      console.log(this.class_id);
+    testing: function testing() {//console.log(this.class_id);
     },
     newNotification: function newNotification(announcement_id) {
       var _this4 = this;

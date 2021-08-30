@@ -170,7 +170,7 @@ Vue.use((vue_confetti__WEBPACK_IMPORTED_MODULE_1___default()));
     },
     getCount: function getCount(arr, mainModule_id) {
       var count = 0;
-      var subModules_arr = this.getSub_module(mainModule_id); //   console.log(subModules_arr);
+      var subModules_arr = this.getSub_module(mainModule_id); //   //console.log(subModules_arr);
 
       for (var i = 0; i < subModules_arr.length; i++) {
         for (var j = 0; j < arr.length; j++) {
@@ -234,8 +234,7 @@ Vue.use((vue_confetti__WEBPACK_IMPORTED_MODULE_1___default()));
       return check;
     },
     fetchClass: function fetchClass() {
-      this.$store.dispatch('fetchClassList').then(function () {
-        console.log('fetching class');
+      this.$store.dispatch('fetchClassList').then(function () {//console.log('fetching class');
       });
     },
     getTimeSpent: function getTimeSpent(arr, sub_module_id) {

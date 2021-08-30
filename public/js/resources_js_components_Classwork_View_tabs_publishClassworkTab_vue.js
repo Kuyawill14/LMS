@@ -223,8 +223,7 @@ var updatePublishDialog = function updatePublishDialog() {
         _this.toastSuccess(class_name);
 
         _this.fetchClassnames();
-      })["catch"](function (e) {
-        console.log(e);
+      })["catch"](function (e) {//console.log(e);
       });
     },
     closeDiaglog: function closeDiaglog() {
@@ -242,8 +241,7 @@ var updatePublishDialog = function updatePublishDialog() {
                 axios.get('/api/class/allnames/' + _this2.$route.params.id + '/' + _this2.$route.query.clwk).then(function (res) {
                   _this2.classNames = res.data;
                   _this2.isloading = false;
-                })["catch"](function (e) {
-                  console.log(e);
+                })["catch"](function (e) {//console.log(e)
                 });
 
               case 1:
@@ -270,8 +268,7 @@ var updatePublishDialog = function updatePublishDialog() {
                   _this3.isloading = false;
 
                   _this3.NewNotification(data);
-                })["catch"](function (e) {
-                  console.log(e);
+                })["catch"](function (e) {//console.log(e)
                 });
 
               case 4:
@@ -308,7 +305,7 @@ var updatePublishDialog = function updatePublishDialog() {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
-                console.log(data);
+                //console.log(data);
                 _this5.notifyDetails.classwork_id = data.classwork_id;
                 _this5.notifyDetails.class_id = data.class_id;
                 _this5.notifyDetails.course_id = _this5.$route.params.id;
@@ -316,7 +313,7 @@ var updatePublishDialog = function updatePublishDialog() {
                 _this5.notifyDetails.type = 'classwork';
                 axios.post('/api/notification/new', _this5.notifyDetails).then(function (res) {});
 
-              case 7:
+              case 6:
               case "end":
                 return _context4.stop();
             }

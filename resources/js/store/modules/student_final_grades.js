@@ -19,7 +19,7 @@ const getters = {
 const actions = {
 
     async fetchAllStudentFinalGrades({ commit }, data) {
-        console.log('ffffck', data);
+        //console.log('ffffck', data);
         const res = await axios.get(
             `/api/grade-book/all-student-finalgrade/${data.course_id}/${data.class_id}`
         );

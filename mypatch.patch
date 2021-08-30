@@ -1,0 +1,13 @@
+diff --git a/public/js/register.js b/public/js/register.js
+index 095d6fa..dc05c21 100755
+--- a/public/js/register.js
++++ b/public/js/register.js
+@@ -613,7 +613,7 @@ var render = function() {
+                           _c("vue-element-loading", {
+                             attrs: {
+                               active: _vm.isRegistering,
+-                              text: "Signing up...",
++                              text: "Registering...",
+                               spinner: "bar-fade-scale",
+                               color: "#EF6C00"
+                             }

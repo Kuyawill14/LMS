@@ -2,42 +2,25 @@
 [2021-08-28 17:32:13][86] Processed:  App\Mail\SendNewPassword
 1-08-28 17:16:51][85] Processing: App\Jobs\ProcessEmails
 [2021-08-28 17:16:55][85] Processed:  App\Jobs\ProcessEmails
-[2021-08-29 04:32:33][87] Processing: App\Mail\SendNewPassword
-[2021-08-29 04:32:39][87] Processed:  App\Mail\SendNewPassword
-[2021-08-29 05:50:19][88] Processing: App\Notifications\VerifyNotification
-[2021-08-29 05:50:19][88] Failed:     App\Notifications\VerifyNotification
-
-   Symfony\Component\Process\Exception\ProcessTimedOutException 
-
-  The process "C:\xampp\php\php.exe artisan queue:work --once --name=default --queue=default --backoff=0 --memory=128 --sleep=3 --tries=1" exceeded the timeout of 60 seconds.
-
-  at C:\xampp\htdocs\LMS-Vue\vendor\symfony\process\Process.php:1213
-    1209▕ 
-    1210▕         if (null !== $this->timeout && $this->timeout < microtime(true) - $this->starttime) {
-    1211▕             $this->stop(0);
-    1212▕ 
-  ➜ 1213▕             throw new ProcessTimedOutException($this, ProcessTimedOutException::TYPE_GENERAL);
-    1214▕         }
-    1215▕ 
-    1216▕         if (null !== $this->idleTimeout && $this->idleTimeout < microtime(true) - $this->lastOutputTime) {
-    1217▕             $this->stop(0);
-
-  1   C:\xampp\htdocs\LMS-Vue\vendor\symfony\process\Process.php:425
-      Symfony\Component\Process\Process::checkTimeout()
-
-  2   C:\xampp\htdocs\LMS-Vue\vendor\symfony\process\Process.php:249
-      Symfony\Component\Process\Process::wait()
-[2021-08-29 09:18:42][89] Processing: App\Notifications\VerifyNotification
-[2021-08-29 09:18:42][89] Processed:  App\Notifications\VerifyNotification
-[2021-08-29 09:21:50][92] Processing: App\Jobs\ProcessEmails
-[2021-08-29 09:21:57][92] Processed:  App\Jobs\ProcessEmails
-[2021-08-29 09:22:40][93] Processing: App\Jobs\ProcessEmails
-[2021-08-29 09:22:49][93] Processed:  App\Jobs\ProcessEmails
-[2021-08-29 12:17:27][94] Proces[2021-08-29 12:26:00][98] Processing: App\Mail\SendInviteMail
-[2021-08-29 12:26:00][98] Failed:     App\Mail\SendInviteMail
-[2021-08-29 18:21:08][99] Processing: App\Events\NewNotification
-[2021-08-29 18:21:09][99] Processed:  App\Events\NewNotification
-[2021-08-29 18:21:09][100] Processing: App\Jobs\SendNotificationMailToClass
-[2021-08-29 18:21:16][100] Processed:  App\Jobs\SendNotificationMailToClass
-iteMail
-[2021-08-29 12:25:28][97] Failed:     App\Mail\SendInviteMail
+[2021-08-29 04:24:21][11] Processing: App\Mail\SendNewPassword
+[2021-08-29 04:24:23][11] Processed:  App\Mail\SendNewPassword
+[2021-08-29 04:25:20][12] Processing: App\Mail\SendNewPassword
+[2021-08-29 04:25:22][12] Processed:  App\Mail\SendNewPassword
+[2021-08-29 09:24:57][1] Processing: App\Notifications\VerifyNotification
+[2021-08-29 09:25:00][1] Processed:  App\Notifications\VerifyNotification
+[2021-08-29 09:28:51][2] Processing: App\Events\NewNotification
+[2021-08-29 09:28:51][2] Processed:  App\Events\NewNotification
+[2021-08-29 09:30:12][5] Processing: App\Events\NewNotification
+[2021-08-29 09:30:12][5] Processed:  App\Events\NewNotification
+[2021-08-29 09:30:12][6] Processing: App\Jobs\SendNotificationMailToClass
+[2021-08-29 09:30:14][6] Processed:  App\Jobs\SendNotificationMailToClass
+[2021-08-29 09:30:23][7] Processing: App\Events\NewNotification
+[2021-08-29 09:30:23][7] Processed:  App\Events\NewNotification
+[2021-08-29 09:30:23][8] Processing: App\Jobs\SendNotificationMailToClass
+[2021-08-29 09:30:23][8] Processed:  App\Jobs\SendNotificationMailToClass
+[2021-08-29 09:31:23][9] Processing: App\Notifications\VerifyNotification
+[2021-08-29 09:31:25][9] Processed:  App\Notifications\VerifyNotification
+[2021-08-29 09:32:53][10] Processing: App\Events\NewNotification
+[2021-08-29 09:32:53][10] Processed:  App\Events\NewNotification
+[2021-08-29 09:32:53][11] Processing: App\Events\NewNotification
+[2021-08-29 09:32:53][11] Processed:  App\Events\NewNotification

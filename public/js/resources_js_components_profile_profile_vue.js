@@ -275,10 +275,8 @@ var myCalendar = function myCalendar() {
         _this.UserDetails = res.data[0];
         _this.UserDetails.profile_pic = '/storage/' + _this.UserDetails.profile_pic;
         _this.isloading = !_this.isloading;
-      })["catch"](function (e) {
-        console.log(e);
-      });
-      console.log(this.UserDetails.profile_pic);
+      })["catch"](function (e) {//console.log(e);
+      }); //console.log(this.UserDetails.profile_pic);
     },
     TestUpload: function TestUpload() {
       this.$refs.fileInput.click();
@@ -293,8 +291,8 @@ var myCalendar = function myCalendar() {
           testFile = reader.result;
           this.UpdateProfile();
       } */
-      this.imageFile = element.target.files[0];
-      console.log(this.imageFile); //this.file_name = element.target.files[0].name;
+      this.imageFile = element.target.files[0]; //console.log(this.imageFile);
+      //this.file_name = element.target.files[0].name;
 
       if (this.imageFile.size <= 500000) {
         this.UpdateProfile();

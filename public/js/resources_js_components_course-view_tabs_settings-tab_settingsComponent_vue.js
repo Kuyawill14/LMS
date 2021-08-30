@@ -129,8 +129,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     updateClass: function updateClass() {
       var _this2 = this;
 
-      this.isUpdating = true;
-      console.log(this.getcourseInfo.semester_id);
+      this.isUpdating = true; //console.log(this.getcourseInfo.semester_id);
 
       if (this.getcourseInfo.course_description.trim() == '' || this.getcourseInfo.course_name == '' || this.course_code == '' || this.getcourseInfo.semester_id === undefined || this.getcourseInfo.school_year_id === undefined) {
         this.toastError('Please complete all the field to proceed to the next step');

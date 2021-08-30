@@ -162,7 +162,7 @@
     const deleteDialog = () => import('../dialogs/deleteDiaglog');
     const archiveClassworkDialog = () => import('../dialogs/archiveClassworkDialog');
     const newClassworkModal = () => import('../newClassworkModal')
-    import moment from 'moment';
+    import moment from 'moment/src/moment';
     export default {
         props: ['classworks'],
         components: {

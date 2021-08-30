@@ -11,8 +11,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var moment_src_moment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! moment/src/moment */ "./node_modules/moment/src/moment.js");
 //
 //
 //
@@ -85,7 +84,7 @@ var responseLatePageWarning = function responseLatePageWarning() {
   methods: {
     format_date: function format_date(value) {
       if (value) {
-        return moment__WEBPACK_IMPORTED_MODULE_0___default()(String(value)).format('dddd, h:mm a');
+        return (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_0__.default)(String(value)).format('dddd, h:mm a');
       }
     },
     start: function start() {
@@ -104,7 +103,7 @@ var responseLatePageWarning = function responseLatePageWarning() {
     },
     CheckFormatDue: function CheckFormatDue(value) {
       if (value) {
-        return moment__WEBPACK_IMPORTED_MODULE_0___default()(String(value)).format("YYYY-MM-DDTHH:mm:ss");
+        return (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_0__.default)(String(value)).format("YYYY-MM-DDTHH:mm:ss");
       }
     }
   },
@@ -113,7 +112,7 @@ var responseLatePageWarning = function responseLatePageWarning() {
   },
   mounted: function mounted() {
     var newDate = new Date();
-    this.DateToday = moment__WEBPACK_IMPORTED_MODULE_0___default()(newDate).format("YYYY-MM-DDTHH:mm:ss");
+    this.DateToday = (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_0__.default)(newDate).format("YYYY-MM-DDTHH:mm:ss");
   }
 });
 

@@ -344,7 +344,7 @@ export default {
         CountTime(){
             this.timeCount = setInterval(()=>{
                 this.tempCounter = this.tempCounter +1
-                /* console.log(this.tempCounter); */
+                /* //console.log(this.tempCounter); */
             },1000)
         },
         SubmitPromp(){
@@ -402,7 +402,7 @@ export default {
                 this.updateAnswer();
 
 
-              console.log(this.FinalAnswers);
+              //console.log(this.FinalAnswers);
 
                this.Questype = "";
                 this.PickAnswers.ans = "";
@@ -620,7 +620,7 @@ export default {
                         
                 }   
             }
-            console.log(this.FinalAnswers[main_index])
+            //console.log(this.FinalAnswers[main_index])
         },
         StartQuiz(){
             this.isStart = true;
@@ -663,7 +663,7 @@ export default {
             this.CountTime();
         },
         triggerWarning(){
-            //console.log("test 123");
+            ////console.log("test 123");
             this.leaveStrike += 1;
           /*   if(this.leaveStrike == 3){
                 this.SubmitAnswer();

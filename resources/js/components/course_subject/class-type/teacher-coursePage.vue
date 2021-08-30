@@ -265,7 +265,7 @@
             },
             schoolYearFilter() {
                 var data = [];
-                console.log(this.semester_id.length);
+                //console.log(this.semester_id.length);
                 for (var key in this.allCourse) {
                     if (this.semester_id != '') {
                         if (this.allCourse[key].school_year_id == this.school_year_id && this.allCourse[key]
@@ -279,7 +279,7 @@
                     }
 
                 }
-                console.log(data);
+                //console.log(data);
                 this.allCoursesData = data;
 
 
@@ -293,7 +293,7 @@
                         data.push(this.allCourse[key]);
                     }
                 }
-                console.log(data);
+                //console.log(data);
                 this.allCoursesData = data;
 
 

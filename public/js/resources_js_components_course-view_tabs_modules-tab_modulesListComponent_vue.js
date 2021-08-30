@@ -100,11 +100,10 @@ __webpack_require__.r(__webpack_exports__);
     onFileChange: function onFileChange(file) {
       var _this = this;
 
-      console.log('selected file', file.name);
+      //console.log('selected file', file.name);
       this.ext = this.getFileExt(file.name);
       this.allowedExt.forEach(function (_ext) {
-        if (_ext != _this.ext) {
-          console.log('Invalid File type');
+        if (_ext != _this.ext) {//console.log('Invalid File type');
         } else {
           if (_this.ext == 'mp4') {
             _this.type = 'Video';
@@ -235,7 +234,7 @@ __webpack_require__.r(__webpack_exports__);
   computed: (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)(["getmain_module", "getSub_module", "getAll_sub_module"]),
   methods: {
     onFileChange: function onFileChange(file) {
-      console.log('selected file', file);
+      //console.log('selected file', file);
       this.file = file;
     },
     toastSuccess: function toastSuccess() {
@@ -366,8 +365,7 @@ __webpack_require__.r(__webpack_exports__);
             timer: 1500
           });
         }
-      })["catch"](function (e) {
-        console.log(e);
+      })["catch"](function (e) {//console.log(e);
       });
       this.isSaving = false;
     }
@@ -447,7 +445,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       this.$store.dispatch('deleteMainModule', this.id).then(function (res) {
-        console.log(res);
+        //console.log(res);
         _this.loading = false;
 
         _this.$emit('closeModal');
@@ -729,8 +727,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     editModuleBtn: function editModuleBtn(module_id, itemModule) {
       this.itemDialog = !this.itemDialog;
-      this.propModule = itemModule;
-      console.log(this.propModule);
+      this.propModule = itemModule; //console.log(this.propModule);
+
       this.mainModule_id = module_id;
       this.itemType = 'edit_module';
     },
@@ -786,7 +784,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       _this3.studentSubModuleProgress.push(res.data);
     });
   }), _defineProperty(_methods, "checkSubModule", function checkSubModule(arr, sub_module_id) {
-    var check = false; //console.log(arr);
+    var check = false; ////console.log(arr);
 
     for (var i = 0; i < arr.length; i++) {
       if (arr[i].sub_module_id == sub_module_id) {
@@ -812,7 +810,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               //     this.$store.dispatch('fetchMainModule', this.$route.params.id);
               //     this.$store.dispatch('fetchSubModule', this.$route.params.id);
               // }).catch((error) => {
-              //     console.log(error)
+              //     //console.log(error)
               // })
 
 

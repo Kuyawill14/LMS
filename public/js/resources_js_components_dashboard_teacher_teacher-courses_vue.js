@@ -158,8 +158,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
     },
     schoolYearFilter: function schoolYearFilter() {
-      var data = [];
-      console.log(this.semester_id.length);
+      var data = []; //console.log(this.semester_id.length);
 
       for (var key in this.allCourse) {
         if (this.semester_id != '') {
@@ -171,9 +170,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             data.push(this.allCourse[key]);
           }
         }
-      }
+      } //console.log(data);
 
-      console.log(data);
+
       this.allCourse = data;
     },
     semesterFilter: function semesterFilter() {
@@ -183,9 +182,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         if (this.allCourse[key].school_year_id == this.school_year_id && this.allCourse[key].semester_id == this.semester_id) {
           data.push(this.allCourse[key]);
         }
-      }
+      } //console.log(data);
 
-      console.log(data);
+
       this.allCourse = data;
     },
     goToclass: function goToclass(course_id, class_id) {

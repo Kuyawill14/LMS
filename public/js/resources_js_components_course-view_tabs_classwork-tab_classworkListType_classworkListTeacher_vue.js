@@ -13,8 +13,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var moment_src_moment__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! moment/src/moment */ "./node_modules/moment/src/moment.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -221,12 +220,12 @@ var newClassworkModal = function newClassworkModal() {
   methods: {
     format_date: function format_date(value) {
       if (value) {
-        return moment__WEBPACK_IMPORTED_MODULE_1___default()(String(value)).format('MMMM Do YYYY, hh:mm A');
+        return (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_1__.default)(String(value)).format('MMMM Do YYYY, hh:mm A');
       }
     },
     CheckFormatDue: function CheckFormatDue(value) {
       if (value) {
-        return moment__WEBPACK_IMPORTED_MODULE_1___default()(String(value)).format("YYYY-MM-DDTHH:mm:ss");
+        return (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_1__.default)(String(value)).format("YYYY-MM-DDTHH:mm:ss");
       }
     },
     RemoveCLasswork: function RemoveCLasswork(details) {
@@ -278,7 +277,7 @@ var newClassworkModal = function newClassworkModal() {
   mounted: function mounted() {
     this.CheckClassworkCount();
     var newDate = new Date();
-    this.DateToday = moment__WEBPACK_IMPORTED_MODULE_1___default()(newDate).format("YYYY-MM-DDTHH:mm:ss");
+    this.DateToday = (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_1__.default)(newDate).format("YYYY-MM-DDTHH:mm:ss");
   }
 });
 

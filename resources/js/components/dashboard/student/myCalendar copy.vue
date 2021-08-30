@@ -142,7 +142,7 @@
   </v-row>
 </template>
 <script>
-import moment from 'moment';
+import moment from 'moment/src/moment';
   export default {
     props:['role'],
     data: () => ({
@@ -239,7 +239,7 @@ import moment from 'moment';
       showEvent ({ nativeEvent, event }) {
         const open = () => {
           this.selectedEvent = event
-          console.log(event);
+          //console.log(event);
           this.selectedElement = nativeEvent.target
           requestAnimationFrame(() => requestAnimationFrame(() => this.selectedOpen = true))
         }

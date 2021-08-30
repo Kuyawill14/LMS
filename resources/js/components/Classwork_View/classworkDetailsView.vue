@@ -80,7 +80,7 @@
 <script>
 const studentStartPage = () => import('./type/studentStartPage')
 const teacherStartPage = () => import('./type/teacherStartPage')
-import moment from 'moment';
+import moment from 'moment/src/moment';
 export default {
     props:['role','UserDetails'],
   components:{

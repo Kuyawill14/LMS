@@ -353,7 +353,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
         if (this.type == 'edit') {
           this.form.post('/api/admin/teachers/update/' + this.form.user_id).then(function () {
-            //console.log(this.StudentList[this.updateIndex])
+            ////console.log(this.StudentList[this.updateIndex])
             _this3.updateDataInfrontEnd(_this3.form);
 
             _this3.valid = true;
@@ -839,7 +839,7 @@ var render = function() {
                                   rules: _vm.studenIdRule,
                                   label: "Student ID Number",
                                   name: "student_id",
-                                  type: "text",
+                                  type: "number",
                                   color: "primary",
                                   outlined: ""
                                 },

@@ -1,7 +1,7 @@
 <template>
     <div>
         <v-row>
-            <v-col :lg="isExpand == true ? 12 : 8" sm="12" md="12" cols="12" class="pa-0">
+            <v-col :lg="isExpand == true ? 12 : 9" sm="12" md="12" cols="12" class="pa-0">
                 <v-row>
 
                     <v-col>
@@ -95,7 +95,7 @@
                 </v-row>
             </v-col>
 
-            <v-col lg="4" cols="12" sm="12" md="12" class="pa-0 border"
+            <v-col lg="3" cols="12" sm="12" md="12" class="pa-0 border"
                 v-if="isExpand == false && isChangeSize == false">
                 <modulesListComponent v-on:subModule="getsubModuleData" :role="role" v-on:listClose="expandContent"
                     :expand="removeX" style="height:100vh;" />
@@ -219,7 +219,7 @@
             },
         },
         created() {
-            console.log(this.role);
+            //console.log(this.role);
             if (this.subModuleData) {
                 this.loading = true;
             }

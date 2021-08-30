@@ -13,8 +13,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var moment_src_moment__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! moment/src/moment */ "./node_modules/moment/src/moment.js");
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 
 
@@ -465,7 +464,7 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
     },
     format_date: function format_date(value) {
       if (value) {
-        return moment__WEBPACK_IMPORTED_MODULE_1___default()(String(value)).format('dddd, h:mm a');
+        return (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_1__.default)(String(value)).format('dddd, h:mm a');
       }
     },
     DownLoadFile: function DownLoadFile(file) {
@@ -483,7 +482,7 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
     createFile: function createFile(file) {
       var IndexFile = this.file.length;
       this.isUploading[IndexFile] = true;
-      this.fileIndex = IndexFile; //console.log(this.file.length)
+      this.fileIndex = IndexFile; ////console.log(this.file.length)
 
       this.tempFile = file;
       var tempSize = file.size;
@@ -525,7 +524,7 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
       }
 
       this.fileIndex = this.file.length;
-      this.isUpIndex = this.file.length - 1; //console.log(this.fileIndex);
+      this.isUpIndex = this.file.length - 1; ////console.log(this.fileIndex);
 
       this.UpdateSubmission(this.file.length - 1);
     },
@@ -542,8 +541,7 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
       });
     },
     test: function test() {
-      var data = '<iframe class="ql-video" frameborder="0" allowfullscreen="true" src="' + this.link + '"></iframe><div><br></div>';
-      console.log(data);
+      var data = '<iframe class="ql-video" frameborder="0" allowfullscreen="true" src="' + this.link + '"></iframe><div><br></div>'; //console.log(data);
     },
     checkStatus: function checkStatus(type) {
       var _this2 = this;
@@ -652,8 +650,7 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
                 data.course_id = _this6.$route.params.id;
                 data.comment = _this6.comment;
                 axios.post('/api/post/classwork/comment/insert', data).then(function (res) {
-                  console.log(res.data);
-
+                  //console.log(res.data);
                   if (res.status == 200) {
                     _this6.classworkDetails.comments.push({
                       content: res.data.comment,

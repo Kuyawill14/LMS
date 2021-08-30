@@ -325,6 +325,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
 
 Vue.use(vue_excel_export__WEBPACK_IMPORTED_MODULE_0__.default);
 
@@ -341,6 +343,7 @@ Vue.use(vue_excel_export__WEBPACK_IMPORTED_MODULE_0__.default);
         'key': 'charset',
         'value': 'utf-8'
       }]],
+      allclasswork: null,
       activeTab: null,
       shown: false,
       selectedClassName: '',
@@ -360,6 +363,7 @@ Vue.use(vue_excel_export__WEBPACK_IMPORTED_MODULE_0__.default);
       classList: [],
       students: [],
       classworkTotalPoints: 0,
+      classworkTotalPointsTable: null,
       final_grades: [],
       items: [{
         text: 'Course',
@@ -414,13 +418,26 @@ Vue.use(vue_excel_export__WEBPACK_IMPORTED_MODULE_0__.default);
     classworkData: function classworkData(arr, id) {
       var tmp_arr = [];
 
-      for (var i = 0; i < arr.length; i++) {
-        if (arr[i].grading_criteria_id == id) {
-          tmp_arr.push(arr[i]);
+      if (arr) {
+        for (var i = 0; i < arr.length; i++) {
+          if (arr[i].grading_criteria_id == id) {
+            tmp_arr.push(arr[i]);
+          }
         }
       }
 
       return tmp_arr;
+    },
+    gettableTotalPoints: function gettableTotalPoints(classworkList, grading_id) {
+      var total = 0;
+
+      for (var i = 0; i < classworkList.length; i++) {
+        if (classworkList[i].grading_criteria_id == grading_id) {
+          total += classworkList[i]['points'];
+        }
+      }
+
+      return total;
     },
     transmutedGrade: function transmutedGrade(total_score, percentage) {
       if (this.classworkTotalPoints) {
@@ -472,17 +489,21 @@ Vue.use(vue_excel_export__WEBPACK_IMPORTED_MODULE_0__.default);
 
       return total;
     },
-    totalPercentage: function totalPercentage(arr, grading_percentage) {
+    totalPercentage: function totalPercentage(arr, grading_percentage, totalPoints) {
+      // //console.log(totalPoints, 'this.classworkTotalPointsthis.classworkTotalPoints')
       var total = 0;
+      var result;
 
       for (var i = 0; i < arr.length; i++) {
         total += arr[i]['points'];
       }
-      /*  console.log('tota;', total);
-       console.log('classworktoal', this.classworkTotalPoints) */
 
+      if (totalPoints == null) {
+        result = total / this.classworkTotalPoints * grading_percentage;
+      } else {
+        result = total / totalPoints * grading_percentage;
+      }
 
-      var result = total / this.classworkTotalPoints * grading_percentage;
       return isNaN(result) == true ? 0 : result.toFixed(2);
     },
     getStudentList: function getStudentList() {
@@ -490,8 +511,7 @@ Vue.use(vue_excel_export__WEBPACK_IMPORTED_MODULE_0__.default);
 
       axios.get('/api/student/all_by_class/' + this.selectedClass).then(function (res) {
         _this.students = res.data;
-      })["catch"](function (error) {
-        console.log(error);
+      })["catch"](function (error) {//console.log(error)
       });
     },
     getAllGradeCriteria: function getAllGradeCriteria() {
@@ -511,6 +531,11 @@ Vue.use(vue_excel_export__WEBPACK_IMPORTED_MODULE_0__.default);
       axios.get('/api/grade-book/classworks/' + this.selectedClass).then(function (res) {
         _this2.classworkList = res.data;
 
+        if (_this2.allclasswork == null) {
+          _this2.allclasswork = res.data;
+        } //console.log(this.allclasswork, 'sadfasdfasdfasdfasd fallclasswork');
+
+
         for (var i = 0; i < _this2.classworkList.length; i++) {
           // this.headers[i+1] = {text: this.classworkList[i]['title'], value: this.classworkList[i]['title']};
           if (_this2.classworkList[i]['grading_criteria_id'] == _this2.get_gradingCriteria[0].id) {
@@ -522,10 +547,8 @@ Vue.use(vue_excel_export__WEBPACK_IMPORTED_MODULE_0__.default);
 
             total += _this2.classworkList[i]['points'];
           }
-        } //    console.log(grading_criteria_id)
+        } //    //console.log(grading_criteria_id)
 
-
-        _this2.classworkTotalPoints = total;
 
         _this2.totalPercentHeader();
       });
@@ -637,9 +660,8 @@ Vue.use(vue_excel_export__WEBPACK_IMPORTED_MODULE_0__.default);
         dataFields['raw_grade'] = raw_grade;
         dataFields['transmuted_grade'] = transmuted_grade;
         this.json_data.push(dataFields);
-      }
+      } //console.log('json_data ', this.json_data);
 
-      console.log('json_data ', this.json_data);
     },
     get_AllFinalGrades_s: function get_AllFinalGrades_s() {
       var grade = null;
@@ -659,13 +681,13 @@ Vue.use(vue_excel_export__WEBPACK_IMPORTED_MODULE_0__.default);
       }
 
       this.json_fields['Raw Grade'] = 'raw_grade';
-      this.json_fields['Transmuted Grade'] = 'transmuted_grade';
-      console.log('json_fields    ', this.json_fields);
+      this.json_fields['Transmuted Grade'] = 'transmuted_grade'; //console.log('json_fields    ', this.json_fields);
+
       var dataFields = {};
 
       for (var i = 0; i < this.students.length; i++) {
-        var student_final = this.allStudentFinalGrades(this.students[i].id);
-        console.log(student_final);
+        var student_final = this.allStudentFinalGrades(this.students[i].id); //console.log(student_final);
+
         dataFields['name'] = this.students[i].lastName + ', ' + this.students[i].firstName;
 
         for (var j = 0; j < student_final.length; j++) {
@@ -679,13 +701,11 @@ Vue.use(vue_excel_export__WEBPACK_IMPORTED_MODULE_0__.default);
         var raw_grade = this.sumPercentage(this.allStudentFinalGrades(this.students[i].id));
         var transmuted_grade = this.sumTransmutedGrade(this.allStudentFinalGrades(this.students[i].id));
         dataFields['raw_grade'] = raw_grade;
-        dataFields['transmuted_grade'] = transmuted_grade;
-        console.log(dataFields, 'dataFields');
-        this.json_data.push(dataFields);
-        console.log(i);
-      }
+        dataFields['transmuted_grade'] = transmuted_grade; //console.log(dataFields, 'dataFields')
 
-      console.log('json_data ', this.json_data);
+        this.json_data.push(dataFields); //console.log(i)
+      } //console.log('json_data ', this.json_data);
+
     },
     test: function test(table) {
       (function () {
@@ -701,10 +721,12 @@ Vue.use(vue_excel_export__WEBPACK_IMPORTED_MODULE_0__.default);
         };
 
         if (!table.nodeType) table = document.getElementById(table);
-        var ctx = {
+
+        var ctx = _defineProperty({
           worksheet: name || 'Worksheet',
           table: table.innerHTML
-        };
+        }, "table", table.innerHTML);
+
         window.location.href = uri + base64(format(template, ctx));
       })();
     }
@@ -897,10 +919,10 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 /***/ }),
 
-/***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/gradebook-tab/teacherGradebookComponent.vue?vue&type=style&index=0&lang=css&":
-/*!***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/gradebook-tab/teacherGradebookComponent.vue?vue&type=style&index=0&lang=css& ***!
-  \***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/gradebook-tab/teacherGradebookComponent.vue?vue&type=style&index=0&id=315884ec&scoped=true&lang=css&":
+/*!***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/gradebook-tab/teacherGradebookComponent.vue?vue&type=style&index=0&id=315884ec&scoped=true&lang=css& ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /***/ ((module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -914,7 +936,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.v-input__slot {\n    margin-bottom: 0 !important;\n}\n.v-tab--disabled {\n    color: #000 !important;\n}\n\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.v-input__slot[data-v-315884ec] {\n        margin-bottom: 0 !important;\n}\n.v-tab--disabled[data-v-315884ec] {\n        color: #000 !important;\n}\n#tableExp td[data-v-315884ec] \n{\n    text-align: center !important; \n    vertical-align: middle !important;\n}\n#tableExp th[data-v-315884ec] \n{\n    text-align: center !important; \n    vertical-align: middle !important;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -1347,9 +1369,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _teacherGradebookComponent_vue_vue_type_template_id_315884ec___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./teacherGradebookComponent.vue?vue&type=template&id=315884ec& */ "./resources/js/components/course-view/tabs/gradebook-tab/teacherGradebookComponent.vue?vue&type=template&id=315884ec&");
+/* harmony import */ var _teacherGradebookComponent_vue_vue_type_template_id_315884ec_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./teacherGradebookComponent.vue?vue&type=template&id=315884ec&scoped=true& */ "./resources/js/components/course-view/tabs/gradebook-tab/teacherGradebookComponent.vue?vue&type=template&id=315884ec&scoped=true&");
 /* harmony import */ var _teacherGradebookComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./teacherGradebookComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/course-view/tabs/gradebook-tab/teacherGradebookComponent.vue?vue&type=script&lang=js&");
-/* harmony import */ var _teacherGradebookComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./teacherGradebookComponent.vue?vue&type=style&index=0&lang=css& */ "./resources/js/components/course-view/tabs/gradebook-tab/teacherGradebookComponent.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _teacherGradebookComponent_vue_vue_type_style_index_0_id_315884ec_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./teacherGradebookComponent.vue?vue&type=style&index=0&id=315884ec&scoped=true&lang=css& */ "./resources/js/components/course-view/tabs/gradebook-tab/teacherGradebookComponent.vue?vue&type=style&index=0&id=315884ec&scoped=true&lang=css&");
 /* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -1361,11 +1383,11 @@ __webpack_require__.r(__webpack_exports__);
 
 var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__.default)(
   _teacherGradebookComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
-  _teacherGradebookComponent_vue_vue_type_template_id_315884ec___WEBPACK_IMPORTED_MODULE_0__.render,
-  _teacherGradebookComponent_vue_vue_type_template_id_315884ec___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  _teacherGradebookComponent_vue_vue_type_template_id_315884ec_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render,
+  _teacherGradebookComponent_vue_vue_type_template_id_315884ec_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
   false,
   null,
-  null,
+  "315884ec",
   null
   
 )
@@ -1426,35 +1448,35 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/course-view/tabs/gradebook-tab/teacherGradebookComponent.vue?vue&type=template&id=315884ec&":
-/*!*****************************************************************************************************************************!*\
-  !*** ./resources/js/components/course-view/tabs/gradebook-tab/teacherGradebookComponent.vue?vue&type=template&id=315884ec& ***!
-  \*****************************************************************************************************************************/
+/***/ "./resources/js/components/course-view/tabs/gradebook-tab/teacherGradebookComponent.vue?vue&type=template&id=315884ec&scoped=true&":
+/*!*****************************************************************************************************************************************!*\
+  !*** ./resources/js/components/course-view/tabs/gradebook-tab/teacherGradebookComponent.vue?vue&type=template&id=315884ec&scoped=true& ***!
+  \*****************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_teacherGradebookComponent_vue_vue_type_template_id_315884ec___WEBPACK_IMPORTED_MODULE_0__.render),
-/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_teacherGradebookComponent_vue_vue_type_template_id_315884ec___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_teacherGradebookComponent_vue_vue_type_template_id_315884ec_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_teacherGradebookComponent_vue_vue_type_template_id_315884ec_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_teacherGradebookComponent_vue_vue_type_template_id_315884ec___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./teacherGradebookComponent.vue?vue&type=template&id=315884ec& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/gradebook-tab/teacherGradebookComponent.vue?vue&type=template&id=315884ec&");
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_teacherGradebookComponent_vue_vue_type_template_id_315884ec_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./teacherGradebookComponent.vue?vue&type=template&id=315884ec&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/gradebook-tab/teacherGradebookComponent.vue?vue&type=template&id=315884ec&scoped=true&");
 
 
 /***/ }),
 
-/***/ "./resources/js/components/course-view/tabs/gradebook-tab/teacherGradebookComponent.vue?vue&type=style&index=0&lang=css&":
-/*!*******************************************************************************************************************************!*\
-  !*** ./resources/js/components/course-view/tabs/gradebook-tab/teacherGradebookComponent.vue?vue&type=style&index=0&lang=css& ***!
-  \*******************************************************************************************************************************/
+/***/ "./resources/js/components/course-view/tabs/gradebook-tab/teacherGradebookComponent.vue?vue&type=style&index=0&id=315884ec&scoped=true&lang=css&":
+/*!*******************************************************************************************************************************************************!*\
+  !*** ./resources/js/components/course-view/tabs/gradebook-tab/teacherGradebookComponent.vue?vue&type=style&index=0&id=315884ec&scoped=true&lang=css& ***!
+  \*******************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_teacherGradebookComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../node_modules/vue-style-loader/index.js!../../../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./teacherGradebookComponent.vue?vue&type=style&index=0&lang=css& */ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/gradebook-tab/teacherGradebookComponent.vue?vue&type=style&index=0&lang=css&");
-/* harmony import */ var _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_teacherGradebookComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_teacherGradebookComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_teacherGradebookComponent_vue_vue_type_style_index_0_id_315884ec_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../node_modules/vue-style-loader/index.js!../../../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./teacherGradebookComponent.vue?vue&type=style&index=0&id=315884ec&scoped=true&lang=css& */ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/gradebook-tab/teacherGradebookComponent.vue?vue&type=style&index=0&id=315884ec&scoped=true&lang=css&");
+/* harmony import */ var _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_teacherGradebookComponent_vue_vue_type_style_index_0_id_315884ec_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_teacherGradebookComponent_vue_vue_type_style_index_0_id_315884ec_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__);
 /* harmony reexport (unknown) */ var __WEBPACK_REEXPORT_OBJECT__ = {};
-/* harmony reexport (unknown) */ for(const __WEBPACK_IMPORT_KEY__ in _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_teacherGradebookComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== "default") __WEBPACK_REEXPORT_OBJECT__[__WEBPACK_IMPORT_KEY__] = () => _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_teacherGradebookComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__[__WEBPACK_IMPORT_KEY__]
+/* harmony reexport (unknown) */ for(const __WEBPACK_IMPORT_KEY__ in _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_teacherGradebookComponent_vue_vue_type_style_index_0_id_315884ec_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== "default") __WEBPACK_REEXPORT_OBJECT__[__WEBPACK_IMPORT_KEY__] = () => _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_teacherGradebookComponent_vue_vue_type_style_index_0_id_315884ec_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__[__WEBPACK_IMPORT_KEY__]
 /* harmony reexport (unknown) */ __webpack_require__.d(__webpack_exports__, __WEBPACK_REEXPORT_OBJECT__);
 
 
@@ -1494,10 +1516,10 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/gradebook-tab/teacherGradebookComponent.vue?vue&type=template&id=315884ec&":
-/*!********************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/gradebook-tab/teacherGradebookComponent.vue?vue&type=template&id=315884ec& ***!
-  \********************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/gradebook-tab/teacherGradebookComponent.vue?vue&type=template&id=315884ec&scoped=true&":
+/*!********************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/gradebook-tab/teacherGradebookComponent.vue?vue&type=template&id=315884ec&scoped=true& ***!
+  \********************************************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -1564,13 +1586,11 @@ var render = function() {
                       { attrs: { color: "grey lighten-1", left: "" } },
                       [
                         _vm._v(
-                          "\n                            download\n                        "
+                          "\n                        download\n                    "
                         )
                       ]
                     ),
-                    _vm._v(
-                      "\n                        ALl Grades\n                    "
-                    )
+                    _vm._v("\n                    ALl Grades\n                ")
                   ],
                   1
                 )
@@ -2282,280 +2302,307 @@ var render = function() {
         1
       ),
       _vm._v(" "),
-      _c(
-        "table",
-        { attrs: { id: "testTable" } },
-        [
-          _c(
-            "tr",
+      _vm.loading == false
+        ? _c(
+            "table",
+            { staticClass: "tableExp", attrs: { id: "testTable", hidden: "" } },
             [
-              _c("th", [_vm._v("Name")]),
-              _vm._v(" "),
-              _vm._l(_vm.get_gradingCriteria, function(gradingCriteria, index) {
-                return _c(
-                  "th",
-                  {
-                    key: index,
-                    staticClass: "text-center",
-                    attrs: {
-                      colspan: _vm.classworkData(
-                        _vm.classworkList,
-                        gradingCriteria.id
-                      ).length
-                    }
-                  },
-                  [
-                    _vm._v(
-                      "\n                " +
-                        _vm._s(gradingCriteria.name) +
-                        " (" +
-                        _vm._s(gradingCriteria.percentage) +
-                        "%)\n\n                "
-                    ),
-                    _c("table", [
-                      _c(
-                        "tr",
-                        [
-                          _vm._l(
-                            _vm.classworkData(
-                              _vm.classworkList,
-                              gradingCriteria.id
-                            ),
-                            function(classwork, index) {
-                              return _c("th", { key: index }, [
-                                _vm._v(
-                                  "\n                            " +
-                                    _vm._s(classwork.title) +
-                                    "\n                        "
-                                )
-                              ])
-                            }
-                          ),
-                          _vm._v(" "),
-                          _c("th", [
-                            _vm._v(
-                              "\n                            Total Points\n                        "
-                            )
-                          ]),
-                          _vm._v(" "),
-                          _c("th", [
-                            _vm._v(
-                              "\n                            Percent\n                        "
-                            )
-                          ])
-                        ],
-                        2
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "tr",
-                        [
-                          _vm._l(
-                            _vm.classworkData(
-                              _vm.classworkList,
-                              gradingCriteria.id
-                            ),
-                            function(classwork, index) {
-                              return _c("th", { key: index }, [
-                                _vm._v(
-                                  "\n                            " +
-                                    _vm._s(classwork.points) +
-                                    "\n                        "
-                                )
-                              ])
-                            }
-                          ),
-                          _vm._v(" "),
-                          _c("th", [
-                            _vm._v(
-                              "\n                            " +
-                                _vm._s(_vm.classworkTotalPoints) +
-                                "\n                        "
-                            )
-                          ]),
-                          _vm._v(" "),
-                          _c("th", [
-                            _vm._v(
-                              "\n                            " +
-                                _vm._s(gradingCriteria.percentage) +
-                                "%\n                        "
-                            )
-                          ])
-                        ],
-                        2
-                      )
-                    ])
-                  ]
-                )
-              }),
-              _vm._v(" "),
               _c(
-                "th",
-                { staticClass: "text-center", attrs: { rowspan: "1" } },
-                [_vm._v("\n                Raw Grade")]
-              ),
-              _vm._v(" "),
-              _c(
-                "th",
-                { staticClass: "text-center", attrs: { rowspan: "1" } },
-                [_vm._v("\n                Transmuted Grade")]
-              ),
-              _vm._v(" "),
-              _c(
-                "th",
-                { staticClass: "text-center", attrs: { rowspan: "1" } },
-                [_vm._v("\n                Final Grade")]
-              )
-            ],
-            2
-          ),
-          _vm._v(" "),
-          _vm._l(_vm.students, function(student) {
-            return _c(
-              "tr",
-              { key: student.id },
-              [
-                _c("td", { staticClass: "text-left" }, [
-                  _vm._v(
-                    _vm._s(student.lastName + ", " + student.firstName) + " "
-                  )
-                ]),
-                _vm._v(" "),
-                _vm._l(_vm.get_gradingCriteria, function(
-                  gradingCriteria,
-                  index
-                ) {
-                  return _c(
-                    "td",
-                    {
-                      key: index,
-                      staticClass: "text-center",
-                      attrs: {
-                        colspan: _vm.classworkData(
-                          _vm.classworkList,
-                          gradingCriteria.id
-                        ).length
-                      }
-                    },
-                    [
-                      _c("table", [
-                        _c(
-                          "tr",
-                          [
-                            _vm._l(
-                              _vm.AllStudentClassworkGrades(
-                                student.id,
-                                gradingCriteria.id
+                "tr",
+                [
+                  _c("th", [_vm._v("Student ID")]),
+                  _vm._v(" "),
+                  _c("th", [_vm._v("Name")]),
+                  _vm._v(" "),
+                  _vm._l(_vm.get_gradingCriteria, function(
+                    gradingCriteria,
+                    index
+                  ) {
+                    return _c(
+                      "th",
+                      {
+                        key: index,
+                        staticClass: "text-center",
+                        attrs: {
+                          colspan: _vm.classworkData(
+                            _vm.allclasswork,
+                            gradingCriteria.id
+                          ).length
+                        }
+                      },
+                      [
+                        _vm._v(
+                          "\n                " +
+                            _vm._s(gradingCriteria.name) +
+                            " (" +
+                            _vm._s(gradingCriteria.percentage) +
+                            "%)\n\n                "
+                        ),
+                        _c("table", { staticClass: "tableExp" }, [
+                          _c(
+                            "tr",
+                            [
+                              _vm._l(
+                                _vm.classworkData(
+                                  _vm.allclasswork,
+                                  gradingCriteria.id
+                                ),
+                                function(classwork, index) {
+                                  return _c("th", { key: index }, [
+                                    _vm._v(
+                                      "\n                            " +
+                                        _vm._s(classwork.title) +
+                                        "\n                        "
+                                    )
+                                  ])
+                                }
                               ),
-                              function(classwork, index) {
-                                return _c("td", { key: index }, [
+                              _vm._v(" "),
+                              _c("th", [
+                                _vm._v(
+                                  "\n                            Total Points\n                        "
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("th", [
+                                _vm._v(
+                                  "\n                            Percent\n                        "
+                                )
+                              ])
+                            ],
+                            2
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "tr",
+                            [
+                              _vm._l(
+                                _vm.classworkData(
+                                  _vm.allclasswork,
+                                  gradingCriteria.id
+                                ),
+                                function(classwork, index) {
+                                  return _c("th", { key: index }, [
+                                    _vm._v(
+                                      "\n                            " +
+                                        _vm._s(classwork.points) +
+                                        "\n                        "
+                                    )
+                                  ])
+                                }
+                              ),
+                              _vm._v(" "),
+                              _c("th", [
+                                _vm._v(
+                                  "\n                            " +
+                                    _vm._s(
+                                      _vm.gettableTotalPoints(
+                                        _vm.allclasswork,
+                                        gradingCriteria.id
+                                      )
+                                    ) +
+                                    "\n                        "
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("th", [
+                                _vm._v(
+                                  "\n                            " +
+                                    _vm._s(gradingCriteria.percentage) +
+                                    "%\n                        "
+                                )
+                              ])
+                            ],
+                            2
+                          )
+                        ])
+                      ]
+                    )
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "th",
+                    { staticClass: "text-center", attrs: { rowspan: "1" } },
+                    [_vm._v("\n                Raw Grade")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "th",
+                    { staticClass: "text-center", attrs: { rowspan: "1" } },
+                    [_vm._v("\n                Transmuted Grade")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "th",
+                    { staticClass: "text-center", attrs: { rowspan: "1" } },
+                    [_vm._v("\n                Final Grade")]
+                  )
+                ],
+                2
+              ),
+              _vm._v(" "),
+              _vm._l(_vm.students, function(student) {
+                return _c(
+                  "tr",
+                  { key: student.id },
+                  [
+                    _c("td", { staticClass: "text-left" }, [
+                      _vm._v(_vm._s(student.student_id) + " ")
+                    ]),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "text-left" }, [
+                      _vm._v(
+                        _vm._s(student.lastName + ", " + student.firstName) +
+                          " "
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _vm._l(_vm.get_gradingCriteria, function(
+                      gradingCriteria,
+                      index
+                    ) {
+                      return _c(
+                        "td",
+                        {
+                          key: index,
+                          staticClass: "text-center",
+                          attrs: {
+                            colspan: _vm.classworkData(
+                              _vm.allclasswork,
+                              gradingCriteria.id
+                            ).length
+                          }
+                        },
+                        [
+                          _c("table", { staticClass: "tableExp" }, [
+                            _c(
+                              "tr",
+                              [
+                                _vm._l(
+                                  _vm.AllStudentClassworkGrades(
+                                    student.id,
+                                    gradingCriteria.id
+                                  ),
+                                  function(classwork, index) {
+                                    return _c("td", { key: index }, [
+                                      _vm._v(
+                                        "\n                            " +
+                                          _vm._s(
+                                            classwork.points == null
+                                              ? 0
+                                              : classwork.points
+                                          ) +
+                                          "\n                        "
+                                      )
+                                    ])
+                                  }
+                                ),
+                                _vm._v(" "),
+                                _c("th", [
                                   _vm._v(
                                     "\n                            " +
                                       _vm._s(
-                                        classwork.points == null
-                                          ? 0
-                                          : classwork.points
+                                        _vm.totalPoints(
+                                          _vm.AllStudentClassworkGrades(
+                                            student.id,
+                                            gradingCriteria.id
+                                          ),
+                                          _vm.gettableTotalPoints(
+                                            _vm.allclasswork,
+                                            gradingCriteria.id
+                                          )
+                                        )
                                       ) +
-                                      "\n                        "
+                                      "\n\n                        "
+                                  )
+                                ]),
+                                _vm._v(" "),
+                                _c("th", [
+                                  _vm._v(
+                                    "\n                            " +
+                                      _vm._s(
+                                        _vm.totalPercentage(
+                                          _vm.AllStudentClassworkGrades(
+                                            student.id,
+                                            gradingCriteria.id
+                                          ),
+                                          gradingCriteria.percentage,
+                                          _vm.gettableTotalPoints(
+                                            _vm.allclasswork,
+                                            gradingCriteria.id
+                                          )
+                                        )
+                                      ) +
+                                      "%\n                        "
                                   )
                                 ])
-                              }
-                            ),
-                            _vm._v(" "),
-                            _c("th", [
-                              _vm._v(
-                                "\n                            " +
-                                  _vm._s(
-                                    _vm.totalPoints(
-                                      _vm.AllStudentClassworkGrades(
-                                        student.id,
-                                        gradingCriteria.id
-                                      )
-                                    )
-                                  ) +
-                                  "\n\n                        "
+                              ],
+                              2
+                            )
+                          ])
+                        ]
+                      )
+                    }),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "text-center" }, [
+                      _vm._v(
+                        "\n                " +
+                          _vm._s(
+                            _vm.sumPercentage(
+                              _vm.allStudentFinalGrades(student.id)
+                            )
+                          ) +
+                          "\n            "
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "text-center" }, [
+                      _vm._v(
+                        "\n                " +
+                          _vm._s(
+                            _vm.sumTransmutedGrade(
+                              _vm.allStudentFinalGrades(student.id)
+                            )
+                          ) +
+                          "\n\n            "
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "text-center" }, [
+                      _vm._v(
+                        "\n                " +
+                          _vm._s(
+                            _vm.transmuteFinalGrade(
+                              _vm.sumTransmutedGrade(
+                                _vm.allStudentFinalGrades(student.id)
                               )
-                            ]),
-                            _vm._v(" "),
-                            _c("th", [
-                              _vm._v(
-                                "\n                            " +
-                                  _vm._s(
-                                    _vm.totalPercentage(
-                                      _vm.AllStudentClassworkGrades(
-                                        student.id,
-                                        gradingCriteria.id
-                                      ),
-                                      gradingCriteria.percentage
-                                    )
-                                  ) +
-                                  "%\n                        "
-                              )
-                            ])
-                          ],
-                          2
-                        )
-                      ])
-                    ]
-                  )
-                }),
-                _vm._v(" "),
-                _c("td", { staticClass: "text-center" }, [
-                  _vm._v(
-                    "\n                " +
-                      _vm._s(
-                        _vm.sumPercentage(_vm.allStudentFinalGrades(student.id))
-                      ) +
-                      "\n            "
-                  )
-                ]),
-                _vm._v(" "),
-                _c("td", { staticClass: "text-center" }, [
-                  _vm._v(
-                    "\n                " +
-                      _vm._s(
-                        _vm.sumTransmutedGrade(
-                          _vm.allStudentFinalGrades(student.id)
-                        )
-                      ) +
-                      "\n\n            "
-                  )
-                ]),
-                _vm._v(" "),
-                _c("td", { staticClass: "text-center" }, [
-                  _vm._v(
-                    "\n                " +
-                      _vm._s(
-                        _vm.transmuteFinalGrade(
-                          _vm.sumTransmutedGrade(
-                            _vm.allStudentFinalGrades(student.id)
-                          )
-                        )
-                      ) +
-                      "\n\n            "
-                  )
-                ])
-              ],
-              2
-            )
-          }),
-          _vm._v(" "),
-          _vm.students.length == 0
-            ? _c("tr", [
-                _c(
-                  "td",
-                  { staticClass: "text-center", attrs: { colspan: "100" } },
-                  [
-                    _vm._v(
-                      "\n                No data available, please add or invite students.\n            "
-                    )
-                  ]
+                            )
+                          ) +
+                          "\n\n            "
+                      )
+                    ])
+                  ],
+                  2
                 )
-              ])
-            : _vm._e()
-        ],
-        2
-      )
+              }),
+              _vm._v(" "),
+              _vm.students.length == 0
+                ? _c("tr", [
+                    _c(
+                      "td",
+                      { staticClass: "text-center", attrs: { colspan: "100" } },
+                      [
+                        _vm._v(
+                          "\n                No data available, please add or invite students.\n            "
+                        )
+                      ]
+                    )
+                  ])
+                : _vm._e()
+            ],
+            2
+          )
+        : _vm._e()
     ],
     1
   )
@@ -2567,22 +2614,22 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/gradebook-tab/teacherGradebookComponent.vue?vue&type=style&index=0&lang=css&":
-/*!****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-style-loader/index.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/gradebook-tab/teacherGradebookComponent.vue?vue&type=style&index=0&lang=css& ***!
-  \****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/gradebook-tab/teacherGradebookComponent.vue?vue&type=style&index=0&id=315884ec&scoped=true&lang=css&":
+/*!****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-style-loader/index.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/gradebook-tab/teacherGradebookComponent.vue?vue&type=style&index=0&id=315884ec&scoped=true&lang=css& ***!
+  \****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(/*! !!../../../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./teacherGradebookComponent.vue?vue&type=style&index=0&lang=css& */ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/gradebook-tab/teacherGradebookComponent.vue?vue&type=style&index=0&lang=css&");
+var content = __webpack_require__(/*! !!../../../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./teacherGradebookComponent.vue?vue&type=style&index=0&id=315884ec&scoped=true&lang=css& */ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/gradebook-tab/teacherGradebookComponent.vue?vue&type=style&index=0&id=315884ec&scoped=true&lang=css&");
 if(content.__esModule) content = content.default;
 if(typeof content === 'string') content = [[module.id, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
 var add = __webpack_require__(/*! !../../../../../../node_modules/vue-style-loader/lib/addStylesClient.js */ "./node_modules/vue-style-loader/lib/addStylesClient.js").default
-var update = add("2a7fc497", content, false, {});
+var update = add("719386ea", content, false, {});
 // Hot Module Replacement
 if(false) {}
 

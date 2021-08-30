@@ -211,6 +211,7 @@ export default {
          async UpdateClasswork(){
              this.isUpdatingSnackBar = true;
              this.isUpdating = true;
+            //console.log(this.Details);
              let fd = new FormData;
              fd.append('course_id', this.Details.course_id);
              fd.append('duration', this.Details.duration);

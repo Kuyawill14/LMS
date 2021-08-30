@@ -1,6 +1,5 @@
-require('dotenv').config();
 const mix = require('laravel-mix');
-
+require('dotenv').config();
 
 /*
  |--------------------------------------------------------------------------
@@ -19,6 +18,25 @@ if (mix.isWatching()) {
     mix.bundleAnalyzer();
 }
  */
+// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+
+
+
+// module.exports = {
+//     configureWebpack: {
+//         plugins: [new BundleAnalyzerPlugin()],
+//         resolve: {
+//             alias: {
+//                 moment: 'moment/src/moment'
+//             }
+//         }
+//     }
+// }
+
+
+
+
+
 mix.js('resources/js/app.js', 'public/js')
     .vue()
     .sass('resources/sass/app.scss', 'public/css')
@@ -30,11 +48,10 @@ mix.js('resources/js/app.js', 'public/js')
     .extract(['pusher.js'], 'public/js/vendor~utils-5.js')
     .extract(['vue'], 'public/js/vendor~utils-6.js')
 
-    
-    
-    
+
+
+
 /* if (mix.inProduction()) {
         mix.version();
     }
      */
-
