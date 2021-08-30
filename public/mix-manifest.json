@@ -1,14 +1,14 @@
 {
-    "/js/app.js": "/js/app.js?id=e26da9be0261569e2534",
-    "/js/manifest.js": "/js/manifest.js?id=ec93d75f2c9d52813c53",
-    "/js/login.js": "/js/login.js?id=a9f02fc5bd2ceb3f2b0b",
-    "/js/register.js": "/js/register.js?id=1721095cb52c910841d2",
-    "/js/verifyEmail.js": "/js/verifyEmail.js?id=7d1d167d75bd81db215d",
-    "/js/vendor~utils-0.js": "/js/vendor~utils-0.js?id=8cfa2bc5e87367d6b2bf",
-    "/css/app.css": "/css/app.css?id=f2217793268394d0d36b",
-    "/js/vendor~utils-4.js": "/js/vendor~utils-4.js?id=c53d07112eb38600bb5f",
-    "/js/vendor~utils-6.js": "/js/vendor~utils-6.js?id=3c81dd85db9516ae631e",
-    "/js/vendor~utils-1.js": "/js/vendor~utils-1.js?id=5f3a62ae0371e7613d5b",
-    "/js/vendor~utils-5.js": "/js/vendor~utils-5.js?id=2cbd915273a881de9f97",
-    "/js/vendor~utils-3.js": "/js/vendor~utils-3.js?id=28c6ba50dbcabdef905f"
+    "/js/app.js": "/js/app.js",
+    "/js/manifest.js": "/js/manifest.js",
+    "/js/login.js": "/js/login.js",
+    "/js/register.js": "/js/register.js",
+    "/js/verifyEmail.js": "/js/verifyEmail.js",
+    "/js/vendor~utils-0.js": "/js/vendor~utils-0.js",
+    "/css/app.css": "/css/app.css",
+    "/js/vendor~utils-4.js": "/js/vendor~utils-4.js",
+    "/js/vendor~utils-6.js": "/js/vendor~utils-6.js",
+    "/js/vendor~utils-1.js": "/js/vendor~utils-1.js",
+    "/js/vendor~utils-5.js": "/js/vendor~utils-5.js",
+    "/js/vendor~utils-3.js": "/js/vendor~utils-3.js"
 }
