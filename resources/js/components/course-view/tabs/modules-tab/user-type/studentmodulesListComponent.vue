@@ -283,7 +283,7 @@
                     }, 1000);
                     this.updateTime = setInterval(() => {
                         this.updateStudentTimeProgress(mainModule_id, subModule_id, this.timespent);
-                    }, 30000);
+                    }, 5000);
                 }
             },
             updateStudentTimeProgress(main_module_id, subModule_id, time_spent) {
