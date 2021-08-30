@@ -134,9 +134,40 @@
                     <v-divider></v-divider>
                 </v-col>
 
-                    <v-col cols="12" class="pl-10 pr-5 pb-10">
-                    <div class="text-sm-body-2"> {{classworkDetails.instruction}}</div>
-                </v-col>
+                    <v-col cols="12" class="pl-10 pr-5 pb-5">
+                    <div class="text-body-1" style="max-width:98%"> {{classworkDetails.instruction}}</div>
+                    </v-col>
+                     <v-col  cols="12" class=" pb-5 pl-5 pr-5">
+                        <div class="overline" v-if="classworkDetails.attachment != null">Attachments</div>
+                        <v-list  class="ma-0 pa-0">
+                            <v-list-item v-for="(item, i) in classworkDetails.attachment" :key="i" class="ma-0 pa-0">
+                                <v-list-item-avatar >
+                                        <v-icon large
+                                        :color="item.extension == 'docx' ? 'blue' : 'red'">
+                                        {{item.extension == 'docx' ? 'mdi-file-word' : 'mdi-file-pdf'}}
+                                        </v-icon>
+                                </v-list-item-avatar>
+                                <v-list-item-content >
+                                    <v-hover v-slot="{ hover }">
+                                    <v-list-item-title :class="hover ? 'blue--text' : ''" style="cursor:pointer" @click="DownLoadFile(item.attachment)">{{item.name}}</v-list-item-title>
+                                    </v-hover>
+                                        
+                                </v-list-item-content>
+                                <v-list-item-action>
+                                        <v-tooltip top>
+                                        <template v-slot:activator="{ on, attrs }">
+                                            <v-btn icon v-bind="attrs"  v-on="on" @click="removeDialog = true, removeIndex = i">
+                                                <v-icon>
+                                                mdi-close
+                                                </v-icon>
+                                            </v-btn>
+                                        </template>
+                                        <span>Remove file</span>
+                                    </v-tooltip>
+                                </v-list-item-action>
+                            </v-list-item>
+                        </v-list>
+                    </v-col>
 
                     <v-col cols="12" class="pl-10 pr-5 pb-10 text-right">
                          <v-btn
@@ -155,7 +186,7 @@
                         </v-btn>
                 </v-col>
                 </v-row>   
-                <v-row style="height:5vh"></v-row> 
+                <v-row style="height:1vh"></v-row> 
             </v-card> 
         </v-col>
     </v-row>

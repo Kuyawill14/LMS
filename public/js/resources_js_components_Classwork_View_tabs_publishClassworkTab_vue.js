@@ -645,18 +645,18 @@ var render = function() {
                                                     },
                                                     [
                                                       _vm._v(
-                                                        "\n                                                    " +
+                                                        "\r\n                                                    " +
                                                           _vm._s(
                                                             _vm.$vuetify
                                                               .breakpoint.xs
                                                               ? ""
                                                               : "Publish"
                                                           ) +
-                                                          "\n                                                "
+                                                          "\r\n                                                "
                                                       ),
                                                       _c("v-icon", [
                                                         _vm._v(
-                                                          "\n                                                    mdi-share\n                                                "
+                                                          "\r\n                                                    mdi-share\r\n                                                "
                                                         )
                                                       ])
                                                     ],
@@ -770,7 +770,7 @@ var render = function() {
                                                                     ]
                                                                   ),
                                                                   _vm._v(
-                                                                    " Edit Publication\n                                                        "
+                                                                    " Edit Publication\r\n                                                        "
                                                                   )
                                                                 ],
                                                                 1
@@ -819,7 +819,7 @@ var render = function() {
                                                                     ]
                                                                   ),
                                                                   _vm._v(
-                                                                    " Unpublish\n                                                            "
+                                                                    " Unpublish\r\n                                                            "
                                                                   )
                                                                 ],
                                                                 1

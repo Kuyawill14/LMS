@@ -31,7 +31,7 @@
                         <v-list-item class="mb-0 pb-0" v-for="item in instructor" :key="item.user_id">
                             <v-list-item-avatar color="secondary" >
                                  <v-img 
-                                    :src="item.profile_pic == null || item.profile_pic == '' ? 'https://ui-avatars.com/api/?background=random&color=white&name=' + (item.firstName+' '+item.lastName) : '/storage/'+item.profile_pic">
+                                    :src="item.profile_pic == null || item.profile_pic == '' ? 'https://ui-avatars.com/api/?background=random&color=white&name=' + (item.firstName+' '+item.lastName) : item.profile_pic">
                                 </v-img>
                             </v-list-item-avatar>
                             <v-list-item-content>
@@ -55,7 +55,7 @@
                         <v-list-item class="mb-0 pb-0" v-for="item in students" :key="item.user_id">
                             <v-list-item-avatar color="secondary" >
                                  <v-img 
-                                    :src="item.profile_pic == null || item.profile_pic == '' ? 'https://ui-avatars.com/api/?background=random&color=white&name=' + (item.firstName+' '+item.lastName) : '/storage/'+item.profile_pic">
+                                    :src="item.profile_pic == null || item.profile_pic == '' ? 'https://ui-avatars.com/api/?background=random&color=white&name=' + (item.firstName+' '+item.lastName) : item.profile_pic">
                                 </v-img>
                             </v-list-item-avatar>
                             <v-list-item-content>

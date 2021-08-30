@@ -194,6 +194,37 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -509,7 +540,7 @@ var render = function() {
                                 _vm._v("mdi-comment")
                               ]),
                               _vm._v(
-                                "Private Comments\n                        "
+                                "Private Comments\r\n                        "
                               )
                             ],
                             1
@@ -789,7 +820,7 @@ var render = function() {
                                 [
                                   _c("v-icon", { attrs: { "x-large": "" } }, [
                                     _vm._v(
-                                      "\n                        mdi-book-open-variant\n                        "
+                                      "\r\n                        mdi-book-open-variant\r\n                        "
                                     )
                                   ])
                                 ],
@@ -892,16 +923,192 @@ var render = function() {
                       _c(
                         "v-col",
                         {
-                          staticClass: "pl-10 pr-5 pb-10",
+                          staticClass: "pl-10 pr-5 pb-5",
                           attrs: { cols: "12" }
                         },
                         [
-                          _c("div", { staticClass: "text-sm-body-2" }, [
-                            _vm._v(
-                              " " + _vm._s(_vm.classworkDetails.instruction)
-                            )
-                          ])
+                          _c(
+                            "div",
+                            {
+                              staticClass: "text-body-1",
+                              staticStyle: { "max-width": "98%" }
+                            },
+                            [
+                              _vm._v(
+                                " " + _vm._s(_vm.classworkDetails.instruction)
+                              )
+                            ]
+                          )
                         ]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-col",
+                        {
+                          staticClass: " pb-5 pl-5 pr-5",
+                          attrs: { cols: "12" }
+                        },
+                        [
+                          _vm.classworkDetails.attachment != null
+                            ? _c("div", { staticClass: "overline" }, [
+                                _vm._v("Attachments")
+                              ])
+                            : _vm._e(),
+                          _vm._v(" "),
+                          _c(
+                            "v-list",
+                            { staticClass: "ma-0 pa-0" },
+                            _vm._l(_vm.classworkDetails.attachment, function(
+                              item,
+                              i
+                            ) {
+                              return _c(
+                                "v-list-item",
+                                { key: i, staticClass: "ma-0 pa-0" },
+                                [
+                                  _c(
+                                    "v-list-item-avatar",
+                                    [
+                                      _c(
+                                        "v-icon",
+                                        {
+                                          attrs: {
+                                            large: "",
+                                            color:
+                                              item.extension == "docx"
+                                                ? "blue"
+                                                : "red"
+                                          }
+                                        },
+                                        [
+                                          _vm._v(
+                                            "\r\n                                        " +
+                                              _vm._s(
+                                                item.extension == "docx"
+                                                  ? "mdi-file-word"
+                                                  : "mdi-file-pdf"
+                                              ) +
+                                              "\r\n                                        "
+                                          )
+                                        ]
+                                      )
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-list-item-content",
+                                    [
+                                      _c("v-hover", {
+                                        scopedSlots: _vm._u(
+                                          [
+                                            {
+                                              key: "default",
+                                              fn: function(ref) {
+                                                var hover = ref.hover
+                                                return [
+                                                  _c(
+                                                    "v-list-item-title",
+                                                    {
+                                                      class: hover
+                                                        ? "blue--text"
+                                                        : "",
+                                                      staticStyle: {
+                                                        cursor: "pointer"
+                                                      },
+                                                      on: {
+                                                        click: function(
+                                                          $event
+                                                        ) {
+                                                          return _vm.DownLoadFile(
+                                                            item.attachment
+                                                          )
+                                                        }
+                                                      }
+                                                    },
+                                                    [_vm._v(_vm._s(item.name))]
+                                                  )
+                                                ]
+                                              }
+                                            }
+                                          ],
+                                          null,
+                                          true
+                                        )
+                                      })
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-list-item-action",
+                                    [
+                                      _c(
+                                        "v-tooltip",
+                                        {
+                                          attrs: { top: "" },
+                                          scopedSlots: _vm._u(
+                                            [
+                                              {
+                                                key: "activator",
+                                                fn: function(ref) {
+                                                  var on = ref.on
+                                                  var attrs = ref.attrs
+                                                  return [
+                                                    _c(
+                                                      "v-btn",
+                                                      _vm._g(
+                                                        _vm._b(
+                                                          {
+                                                            attrs: { icon: "" },
+                                                            on: {
+                                                              click: function(
+                                                                $event
+                                                              ) {
+                                                                ;(_vm.removeDialog = true),
+                                                                  (_vm.removeIndex = i)
+                                                              }
+                                                            }
+                                                          },
+                                                          "v-btn",
+                                                          attrs,
+                                                          false
+                                                        ),
+                                                        on
+                                                      ),
+                                                      [
+                                                        _c("v-icon", [
+                                                          _vm._v(
+                                                            "\r\n                                                mdi-close\r\n                                                "
+                                                          )
+                                                        ])
+                                                      ],
+                                                      1
+                                                    )
+                                                  ]
+                                                }
+                                              }
+                                            ],
+                                            null,
+                                            true
+                                          )
+                                        },
+                                        [
+                                          _vm._v(" "),
+                                          _c("span", [_vm._v("Remove file")])
+                                        ]
+                                      )
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              )
+                            }),
+                            1
+                          )
+                        ],
+                        1
                       ),
                       _vm._v(" "),
                       _c(
@@ -962,7 +1169,7 @@ var render = function() {
                     1
                   ),
                   _vm._v(" "),
-                  _c("v-row", { staticStyle: { height: "5vh" } })
+                  _c("v-row", { staticStyle: { height: "1vh" } })
                 ],
                 1
               )

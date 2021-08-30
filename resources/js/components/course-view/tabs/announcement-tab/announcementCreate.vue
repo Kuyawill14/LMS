@@ -1,12 +1,28 @@
 <template>
 <div>
-
-    
     <vue-element-loading :active="isloading" spinner="bar-fade-scale" />
+    <!--  <v-textarea
+        clearable
+        clear-icon="mdi-close-circle"
+        name="anouuncement"
+        outlined
+        class="ma-0 pa-0"
+        auto-grow
+        
+        
+        value="The Woodman set to work at once, and so sharp was his axe that the tree was soon chopped nearly through."
+        >
+    </v-textarea>
+    <v-btn depressed color="primary" class="mt-0">Post</v-btn> -->
+    
+   <!--  <div contentEditable="true">Type here. You can insert images too
+        <img src="http://t2.gstatic.com/images?q=tbn:ANd9GcQCze-mfukcuvzKk7Ilj2zQ0CS6PbOkq7ZhRInnNd1Yz3TQzU4e&t=1" />
+    </div> -->
+    
      <editor style="outline:none;"  placeholder="Announce something in your class!" 
       v-model="announcement.content" @change="isEditing = true, fetchClassnames" theme="snow" :options="options"></editor>
-    <v-expand-transition>
-        <v-row v-if="announcement.content.length != 0" class="pl-3 pr-3 pb-1"><!-- v-if="announcement.content.length != 0" -->
+  <!--   <v-expand-transition> -->
+        <v-row  class="pl-3 pr-3">
             <v-col cols="6" md="8" lg="8">
                <v-container ma-0 pa-0 class="ma-0 pa-0 d-flex flex-row">
                     <v-btn 
@@ -31,7 +47,7 @@
                 </v-container>
             </v-col>
 
-            <v-col cols="6" md="4" lg="4" class="text-right">
+            <v-col cols="6" md="4" lg="4" class="text-rigth mb-0 pb-0">
                 <v-container ma-0 pa-0 :class="UserDetails.role != 'Student' ? 'ma-0 pa-0 d-flex flex-row' :'ma-0 pa-0'">
                 <v-select
           
@@ -76,7 +92,7 @@
             </v-col>
 
         </v-row>
-    </v-expand-transition>
+<!--     </v-expand-transition> -->
 </div>
 </template>
 <script>

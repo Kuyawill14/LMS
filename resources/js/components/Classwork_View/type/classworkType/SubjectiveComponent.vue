@@ -340,42 +340,34 @@
 
                                  <v-col  cols="12" class=" pb-5 pl-4 pr-4">
                                    <div class="overline">Attachments</div>
-                                   <v-row>
-                                     <v-col cols="12" >
-                                       <v-hover v-slot="{ hover }">
-                                          <v-alert
-                                       
-                                           style="cursor:pointer"
-                                            :class="hover ? 'grey lighten-2 pa-3' :'pa-3'"
-                                              outlined
-                                              :icon="Fileextension == 'pdf' ? 'mdi-file-pdf': Fileextension == 'docx'? 'mdi-file-word':''"
-                                            :color="Fileextension == 'pdf' ? 'red' : Fileextension == 'docx'? 'blue':''"
-                                          >
-                                            <v-row >
-                                              <v-col style="overflow:hidden" cols="9" class=" text-left">
-                                                <v-tooltip top>
+                                   <v-list dense class="ma-0 pa-0">
+                                        <v-list-item v-for="(item, i) in classworkDetails.attachment" :key="i" class="ma-0 pa-0">
+                                            <v-list-item-avatar >
+                                                    <v-icon large
+                                                    :color="item.extension == 'docx' ? 'blue' : 'red'">
+                                                    {{item.extension == 'docx' ? 'mdi-file-word' : 'mdi-file-pdf'}}
+                                                    </v-icon>
+                                            </v-list-item-avatar>
+                                            <v-list-item-content >
+                                                <v-hover v-slot="{ hover }">
+                                                <v-list-item-title :class="hover ? 'blue--text' : ''" style="cursor:pointer" @click="DownLoadFile(item.attachment)">{{item.name}}</v-list-item-title>
+                                                </v-hover>
+                                                  
+                                            </v-list-item-content>
+                                            <v-list-item-action>
+                                                  <v-tooltip top>
                                                     <template v-slot:activator="{ on, attrs }">
-                                                     
-                                                        <div  v-bind="attrs"  v-on="on"  
-                                                        style="line-height:1.2;height:20px;overflow:hidden" 
-                                                        :class="hover ? 'text-decoration-underline ':''"
-                                                        @click="DownLoadFile(classworkDetails.attachment)" >
-                                                         {{classworkDetails.attachment_name}}</div>
+                                                        <v-btn icon v-bind="attrs"  v-on="on" @click="removeDialog = true, removeIndex = i">
+                                                            <v-icon>
+                                                            mdi-close
+                                                            </v-icon>
+                                                        </v-btn>
                                                     </template>
-                                                    <span>{{classworkDetails.attachment_name}}</span>
-                                                  </v-tooltip>
-                                              </v-col>
-                                              <v-col cols="3" class="text-right">
-                                                <div class="black--text">{{classworkDetails.attachment_size}}
-
-                                                  <v-icon>mdi-downoad</v-icon>
-                                                </div>
-                                              </v-col>
-                                            </v-row>
-                                          </v-alert>
-                                       </v-hover>
-                                     </v-col>
-                                   </v-row>
+                                                    <span>Remove file</span>
+                                                </v-tooltip>
+                                            </v-list-item-action>
+                                        </v-list-item>
+                                    </v-list>
                                 </v-col>
                             </v-row>   
                     </v-col>
@@ -434,6 +426,7 @@ export default {
     },
     methods:{
         UploadFile(){
+          
           this.$refs.UploadAttachFile.click();
         },
          UploadMoreFile(){
@@ -450,7 +443,7 @@ export default {
                 return moment(String(value)).format('dddd, h:mm a')
             }
         },
-          DownLoadFile(file){
+        DownLoadFile(file){
             window.location = "/storage/"+file;
         },
         onChange(e) {

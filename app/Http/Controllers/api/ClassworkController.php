@@ -149,9 +149,9 @@ class ClassworkController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
+    {   
+       
         $userId = auth('sanctum')->id();
-
         $newClasswork = new tbl_classwork;
         $newClasswork->course_id = $request->course_id;
         $newClasswork->module_id = 1;
@@ -159,15 +159,24 @@ class ClassworkController extends Controller
         $newClasswork->type =  $request->type;
         $newClasswork->title =  $request->title;
         $newClasswork->instruction =  $request->instruction;
-        if($request->type == "Subjective Type"){
-            $newClasswork->attachment_name =  $request->attachment_name;
-            $newClasswork->attachment_size =  $request->attachment_size;
-    
-            $file = $request->file('file');
-            if($file != ""){
-                $newFile = $file->store('public/upload/classworkAttachments/'.$userId);
-                $newClasswork->attachment = preg_replace('/\bpublic\/\b/', '', $newFile);
+        $files = $request->file;
+        if($files != null && $files != ''){
+            $counter = 0;
+            $attachments = array();
+            $tmpdata;
+            foreach($files as $file){
+               /*  $newFile = $file->store('public/upload/classworkAttachments/'.$request->course_id.'/'.$newClasswork->id.'/'.$userId);
+                $tmpdata = ['name'=> $request->attachment_name[$counter], 'size'=> $request->attachment_size[$counter],
+                'attachment'=> preg_replace('/\bpublic\/\b/', '', $newFile), 'extension'=> $request->attachment_extension[$counter]];
+                array_push($attachments, $tmpdata); */
+                $upload_file = Storage::disk('DO_spaces')->putFile('classworkAttachments/'.$newClasswork->id.'/'.$userId, $file, 'public');
+                $path = \Config::get('app.do_url').'/'. $upload_file;
+                $tmpdata = ['name'=> $request->attachment_name[$counter], 'size'=> $request->attachment_size[$counter],
+                'attachment'=> $path, 'extension'=> $request->attachment_extension[$counter]];
+                array_push($attachments, $tmpdata);
+                $counter++;
             }
+            $newClasswork->attachment = serialize($attachments);
         }
         $newClasswork->duration =  $request->duration;
         $newClasswork->points =  $request->points;
@@ -302,6 +311,8 @@ class ClassworkController extends Controller
             $classworkDetails = tbl_classwork::where('tbl_classworks.id','=', $id)
             ->where('tbl_classworks.user_id', $userId)
             ->first();
+      
+            $classworkDetails->attachment = $classworkDetails->attachment != null ? unserialize($classworkDetails->attachment) : [];
 
             if(!$classworkDetails){
                 return response()->json([
@@ -333,7 +344,7 @@ class ClassworkController extends Controller
                     "success" => false
                 ]);
             }
-
+            $classworkDetails->attachment = $classworkDetails->attachment != null ? unserialize($classworkDetails->attachment) : null;
             $teacher_id = tbl_teacher_course::where('course_id', $courseId)->first();
             $PrivateComment = tbl_comment::where("tbl_comments.classwork_id",  $classworkDetails ->id)
             ->select("tbl_comments.id","tbl_comments.content",DB::raw("CONCAT(tbl_user_details.firstName,' ',tbl_user_details.lastName) as name"),"tbl_user_details.profile_pic")
@@ -372,8 +383,6 @@ class ClassworkController extends Controller
             ]);
         }
         
-        
-       
     }
 
     /**
@@ -384,77 +393,45 @@ class ClassworkController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request)
-    {
+    {   
         $userId = auth('sanctum')->id();
-      
         $UpdateClasswork = tbl_classwork::find($request->id);
-        if($UpdateClasswork){
-            if($UpdateClasswork->type == 'Subjective Type'){
-                if($UpdateClasswork->type == $request->type){
-                    if($UpdateClasswork->attachment_name == $request->attachment_name){
-                        $UpdateClasswork->title =  $request->title;
-                        $UpdateClasswork->instruction =  $request->instruction;
-                        $UpdateClasswork->points =  $request->points;
-                    }
-                    else{
-                        Storage::delete('public/'.$UpdateClasswork->attachment);
-                        $UpdateClasswork->attachment_name = $request->attachment_name;
-                        $UpdateClasswork->attachment_size =  $request->attachment_size;
-                        $UpdateClasswork->points =  $request->points;
-                        $file = $request->file('file');
-                        if($file != ""){
-                            $newFile = $file->store('public/upload/classworkAttachments/'.$userId);
-                            $UpdateClasswork->attachment = preg_replace('/\bpublic\/\b/', '', $newFile);
-                        }
-                    }
-                    $UpdateClasswork->save();
-                }
-                else{
-                    
-                    Storage::delete('public/'.$UpdateClasswork->attachment);
-                    $UpdateClasswork->type =  $request->type;
-                    $UpdateClasswork->title =  $request->title;
-                    $UpdateClasswork->instruction =  $request->instruction;
-                    $UpdateClasswork->duration =  $request->duration;
-                    $UpdateClasswork->attachment_name = null;
-                    $UpdateClasswork->attachment_size =  null;
-                    $UpdateClasswork->attachment = null;
-                    $UpdateClasswork->points =  0;
-                    $UpdateClasswork->save();
-                }
-            }
-            elseif($UpdateClasswork->type == 'Objective Type'){
-                if($UpdateClasswork->type == $request->type){
-                    $UpdateClasswork->title =  $request->title;
-                    $UpdateClasswork->instruction =  $request->instruction;
-                    $UpdateClasswork->duration =  $request->duration;
-                }
-                else{
-                    $UpdateClasswork->type =  $request->type;
-                    $UpdateClasswork->title =  $request->title;
-                    $UpdateClasswork->instruction =  $request->instruction;
-                    $UpdateClasswork->attachment_name = $request->attachment_name;
-                    $UpdateClasswork->attachment_size =  $request->attachment_size;
-                    $UpdateClasswork->points =  $request->points;
-                    $file = $request->file('file');
-                    if($file != ""){
-                        $newFile = $file->store('public/upload/classworkAttachments/'.$userId);
-                        $UpdateClasswork->attachment = preg_replace('/\bpublic\/\b/', '', $newFile);
-                    }
-                }
-                $UpdateClasswork->save();
-            }
-            return "Classwork Updated!";
-
-           /*  $UpdateClasswork->type =  $request->type;
-            $UpdateClasswork->title =  $request->title;
-            $UpdateClasswork->instruction =  $request->instruction;
-            $UpdateClasswork->type == "Subjective Type" ? $UpdateClasswork->points =  $request->points : '';
-            $UpdateClasswork->duration =  $request->duration;
-            $UpdateClasswork->save();
-            return $UpdateClasswork; */
+        if(!$UpdateClasswork){
+            return "Classwork not found";
         }
-        return "Classwork not found";
+
+        if($UpdateClasswork->type != "Objective Type"){
+            if($request->type == "Objective Type"){
+                $tmpPoint = 0;
+                $points = tbl_Questions::where('classwork_id',   $UpdateClasswork->id)->get();
+                if(count($points) != 0){
+                    foreach($points as $item){
+                        $tmpPoint += $item->points;
+                    }
+                    $UpdateClasswork->points = $tmpPoint;
+                }
+                $UpdateClasswork->points = 0;
+                
+            }
+            else{
+                $UpdateClasswork->points = 0;
+            }
+        }
+        else{
+            $UpdateClasswork->points  = $request->points;
+        }
+        $UpdateClasswork->type =  $request->type;
+        $UpdateClasswork->points = $request->type == "Objective Type" ? $UpdateClasswork->points : $request->points;
+        $UpdateClasswork->title =  $request->title;
+        $UpdateClasswork->instruction =  $request->instruction;
+        $UpdateClasswork->duration =  $request->type == "Objective Type" ? $request->duration : null;
+        $UpdateClasswork->save();
+        return $UpdateClasswork;
+      
+        
+
+      
+        
     }
 
     /**
@@ -486,4 +463,83 @@ class ClassworkController extends Controller
             return "Successfully Remove";
         }
     }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function RemoveAttachment(Request $request , $id){
+     
+        $UpdateClasswork = tbl_classwork::find($id);
+        if(!$UpdateClasswork ){
+            return response()->json([
+                "message" => "File not found!",
+                "success" => false
+            ]);
+        }
+        $data = unserialize($UpdateClasswork->attachment);
+        $counter = 0;
+        foreach($data as $item){
+            if($request->attachment == $item['attachment']){
+
+                $path =  str_replace(\Config::get('app.do_url').'/', "", $item['attachment']);
+                Storage::disk('DO_spaces')->delete($path);
+
+               /*  Storage::delete('public/'.$item['attachment']);
+                array_splice($data, $counter,1); */
+            }
+            $counter++;
+        }
+        $UpdateClasswork->attachment = count($data) != 0 ? serialize($data) : null;
+        $UpdateClasswork->save();
+        return response()->json([
+            "message" => "File successfully remove",
+            "success" => true
+        ]);
+        
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+
+     public function AddAttachment(Request $request){
+       
+        $userId = auth('sanctum')->id();
+        $UpdateClasswork = tbl_classwork::find($request->id);
+        if(!$UpdateClasswork){
+            return response()->json([
+                "message" => "File not found!",
+                "success" => false
+            ]);
+        }
+        $data = $UpdateClasswork->attachment != null ? unserialize($UpdateClasswork->attachment) : array();
+        $file = $request->file;
+        if($file != null){
+            $counter = 0;
+            $tmpdata;
+            //$newFile = $file->store('public/upload/classworkAttachments/'.$UpdateClasswork->course_id.'/'.$UpdateClasswork->id.'/'.$userId);
+            //$test = Storage::disk('DO')->putFileAs('classworkAttachments', $file);
+            /*  $tmpdata = ['name'=> $request->name, 'size'=> $request->size,
+            'attachment'=> preg_replace('/\bpublic\/\b/', '', $newFile), 'extension'=> $request->extension]; */
+
+
+            $upload_file = Storage::disk('DO_spaces')->putFile('classworkAttachments/'.$UpdateClasswork->id.'/'.$userId, $file, 'public');
+            $path = \Config::get('app.do_url').'/'. $upload_file;
+            $tmpdata = ['name'=> $request->name, 'size'=> $request->size,
+            'attachment'=> $path , 'extension'=> $request->extension]; 
+            array_push($data, $tmpdata);
+            $UpdateClasswork->attachment = serialize($data);
+        }
+        $UpdateClasswork->save();
+        return;
+     }
+
 }

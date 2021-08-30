@@ -732,7 +732,7 @@ var render = function() {
                                                 (item.firstName +
                                                   " " +
                                                   item.lastName)
-                                              : "/storage/" + item.profile_pic
+                                              : item.profile_pic
                                         }
                                       })
                                     ],

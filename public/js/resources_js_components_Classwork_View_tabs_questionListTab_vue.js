@@ -2224,7 +2224,7 @@ var render = function() {
                                               },
                                               [
                                                 _vm._v(
-                                                  "\n                                    " +
+                                                  "\r\n                                    " +
                                                     _vm._s(
                                                       _vm.$vuetify.breakpoint
                                                         .xs ||
@@ -2233,7 +2233,7 @@ var render = function() {
                                                         ? ""
                                                         : "Delete"
                                                     ) +
-                                                    "\n                                    "
+                                                    "\r\n                                    "
                                                 ),
                                                 _c("v-icon", [
                                                   _vm._v("mdi-delete-outline")
@@ -2258,7 +2258,7 @@ var render = function() {
                                               },
                                               [
                                                 _vm._v(
-                                                  "\n                                    \n                                    " +
+                                                  "\r\n                                    \r\n                                    " +
                                                     _vm._s(
                                                       _vm.$vuetify.breakpoint
                                                         .xs ||
@@ -2267,7 +2267,7 @@ var render = function() {
                                                         ? ""
                                                         : "Update"
                                                     ) +
-                                                    "\n                                    "
+                                                    "\r\n                                    "
                                                 ),
                                                 _c("v-icon", [
                                                   _vm._v("mdi-check")
@@ -2292,7 +2292,7 @@ var render = function() {
                                               },
                                               [
                                                 _vm._v(
-                                                  "\n                                    " +
+                                                  "\r\n                                    " +
                                                     _vm._s(
                                                       _vm.$vuetify.breakpoint
                                                         .xs ||
@@ -2301,7 +2301,7 @@ var render = function() {
                                                         ? ""
                                                         : "Cancel"
                                                     ) +
-                                                    "\n                                    "
+                                                    "\r\n                                    "
                                                 ),
                                                 _c("v-icon", [
                                                   _vm._v("mdi-close")
@@ -2336,13 +2336,13 @@ var render = function() {
                                               },
                                               [
                                                 _vm._v(
-                                                  "\n                                " +
+                                                  "\r\n                                " +
                                                     _vm._s(
                                                       _vm.$vuetify.breakpoint.xs
                                                         ? ""
                                                         : "Edit"
                                                     ) +
-                                                    "\n                                "
+                                                    "\r\n                                "
                                                 ),
                                                 _c(
                                                   "v-icon",
@@ -2913,7 +2913,7 @@ var render = function() {
                                               },
                                               [
                                                 _vm._v(
-                                                  "\n                                    " +
+                                                  "\r\n                                    " +
                                                     _vm._s(
                                                       _vm.$vuetify.breakpoint
                                                         .xs ||
@@ -2922,7 +2922,7 @@ var render = function() {
                                                         ? ""
                                                         : "Delete"
                                                     ) +
-                                                    "\n                                    "
+                                                    "\r\n                                    "
                                                 ),
                                                 _c("v-icon", [
                                                   _vm._v("mdi-delete-outline")
@@ -2947,7 +2947,7 @@ var render = function() {
                                               },
                                               [
                                                 _vm._v(
-                                                  "\n                                    \n                                    " +
+                                                  "\r\n                                    \r\n                                    " +
                                                     _vm._s(
                                                       _vm.$vuetify.breakpoint
                                                         .xs ||
@@ -2956,7 +2956,7 @@ var render = function() {
                                                         ? ""
                                                         : "Update"
                                                     ) +
-                                                    "\n                                    "
+                                                    "\r\n                                    "
                                                 ),
                                                 _c("v-icon", [
                                                   _vm._v("mdi-check")
@@ -2981,7 +2981,7 @@ var render = function() {
                                               },
                                               [
                                                 _vm._v(
-                                                  "\n                                    " +
+                                                  "\r\n                                    " +
                                                     _vm._s(
                                                       _vm.$vuetify.breakpoint
                                                         .xs ||
@@ -2990,7 +2990,7 @@ var render = function() {
                                                         ? ""
                                                         : "Cancel"
                                                     ) +
-                                                    "\n                                    "
+                                                    "\r\n                                    "
                                                 ),
                                                 _c("v-icon", [
                                                   _vm._v("mdi-close")
@@ -3025,13 +3025,13 @@ var render = function() {
                                               },
                                               [
                                                 _vm._v(
-                                                  "\n                                " +
+                                                  "\r\n                                " +
                                                     _vm._s(
                                                       _vm.$vuetify.breakpoint.xs
                                                         ? ""
                                                         : "Edit"
                                                     ) +
-                                                    "\n                                "
+                                                    "\r\n                                "
                                                 ),
                                                 _c(
                                                   "v-icon",
@@ -3825,14 +3825,14 @@ var render = function() {
                                           },
                                           [
                                             _vm._v(
-                                              "\n                                    " +
+                                              "\r\n                                    " +
                                                 _vm._s(
                                                   _vm.$vuetify.breakpoint.xs ||
                                                     _vm.$vuetify.breakpoint.sm
                                                     ? ""
                                                     : "Delete"
                                                 ) +
-                                                "\n                                    "
+                                                "\r\n                                    "
                                             ),
                                             _c("v-icon", [
                                               _vm._v("mdi-delete-outline")
@@ -3857,14 +3857,14 @@ var render = function() {
                                           },
                                           [
                                             _vm._v(
-                                              "\n                                    \n                                    " +
+                                              "\r\n                                    \r\n                                    " +
                                                 _vm._s(
                                                   _vm.$vuetify.breakpoint.xs ||
                                                     _vm.$vuetify.breakpoint.sm
                                                     ? ""
                                                     : "Update"
                                                 ) +
-                                                "\n                                    "
+                                                "\r\n                                    "
                                             ),
                                             _c("v-icon", [_vm._v("mdi-check")])
                                           ],
@@ -3884,14 +3884,14 @@ var render = function() {
                                           },
                                           [
                                             _vm._v(
-                                              "\n                                    " +
+                                              "\r\n                                    " +
                                                 _vm._s(
                                                   _vm.$vuetify.breakpoint.xs ||
                                                     _vm.$vuetify.breakpoint.sm
                                                     ? ""
                                                     : "Cancel"
                                                 ) +
-                                                "\n                                    "
+                                                "\r\n                                    "
                                             ),
                                             _c("v-icon", [_vm._v("mdi-close")])
                                           ],
@@ -3924,13 +3924,13 @@ var render = function() {
                                           },
                                           [
                                             _vm._v(
-                                              "\n                                " +
+                                              "\r\n                                " +
                                                 _vm._s(
                                                   _vm.$vuetify.breakpoint.xs
                                                     ? ""
                                                     : "Edit"
                                                 ) +
-                                                "\n                                "
+                                                "\r\n                                "
                                             ),
                                             _c(
                                               "v-icon",
@@ -4518,7 +4518,7 @@ var render = function() {
                                               },
                                               [
                                                 _vm._v(
-                                                  "\n                                        Column A"
+                                                  "\r\n                                        Column A"
                                                 ),
                                                 _c("small", [
                                                   _vm._v("(question)")
@@ -4534,7 +4534,7 @@ var render = function() {
                                               },
                                               [
                                                 _vm._v(
-                                                  "\n                                        Column B"
+                                                  "\r\n                                        Column B"
                                                 ),
                                                 _c("small", [
                                                   _vm._v("(answers)")
@@ -4826,14 +4826,14 @@ var render = function() {
                                           },
                                           [
                                             _vm._v(
-                                              "\n                                    " +
+                                              "\r\n                                    " +
                                                 _vm._s(
                                                   _vm.$vuetify.breakpoint.xs ||
                                                     _vm.$vuetify.breakpoint.sm
                                                     ? ""
                                                     : "Delete"
                                                 ) +
-                                                "\n                                    "
+                                                "\r\n                                    "
                                             ),
                                             _c("v-icon", [
                                               _vm._v("mdi-delete-outline")
@@ -4858,14 +4858,14 @@ var render = function() {
                                           },
                                           [
                                             _vm._v(
-                                              "\n                                    \n                                    " +
+                                              "\r\n                                    \r\n                                    " +
                                                 _vm._s(
                                                   _vm.$vuetify.breakpoint.xs ||
                                                     _vm.$vuetify.breakpoint.sm
                                                     ? ""
                                                     : "Update"
                                                 ) +
-                                                "\n                                    "
+                                                "\r\n                                    "
                                             ),
                                             _c("v-icon", [_vm._v("mdi-check")])
                                           ],
@@ -4885,14 +4885,14 @@ var render = function() {
                                           },
                                           [
                                             _vm._v(
-                                              "\n                                    " +
+                                              "\r\n                                    " +
                                                 _vm._s(
                                                   _vm.$vuetify.breakpoint.xs ||
                                                     _vm.$vuetify.breakpoint.sm
                                                     ? ""
                                                     : "Cancel"
                                                 ) +
-                                                "\n                                    "
+                                                "\r\n                                    "
                                             ),
                                             _c("v-icon", [_vm._v("mdi-close")])
                                           ],
@@ -4925,13 +4925,13 @@ var render = function() {
                                           },
                                           [
                                             _vm._v(
-                                              "\n                                " +
+                                              "\r\n                                " +
                                                 _vm._s(
                                                   _vm.$vuetify.breakpoint.xs
                                                     ? ""
                                                     : "Edit"
                                                 ) +
-                                                "\n                                "
+                                                "\r\n                                "
                                             ),
                                             _c(
                                               "v-icon",
@@ -5324,7 +5324,7 @@ var render = function() {
                                           { staticClass: "Subtitle 1" },
                                           [
                                             _vm._v(
-                                              "\n                                    " +
+                                              "\r\n                                    " +
                                                 _vm._s(_vm.inputCheck[n])
                                             ),
                                             _vm.Question.answer ==
@@ -5551,7 +5551,7 @@ var render = function() {
                 },
                 [
                   _c("v-icon", { staticStyle: { "font-size": "10rem" } }, [
-                    _vm._v("\n            mdi-book-open-variant\n        ")
+                    _vm._v("\r\n            mdi-book-open-variant\r\n        ")
                   ]),
                   _vm._v(" "),
                   _c("h1", [_vm._v(" Empty Question ")]),

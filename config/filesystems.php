@@ -51,6 +51,16 @@ return [
             'url' => env('AWS_URL'),
             'endpoint' => env('AWS_ENDPOINT'),
         ],
+        
+        'DO_spaces' => [
+            'driver' => 's3',
+            'key' => env('DIGITALOCEAN_ACCESS_KEY_ID'),
+            'secret' => env('DIGITALOCEAN_SECRET_ACCESS_KEY'),
+            'region' => env('DIGITALOCEAN_DEFAULT_REGION'),
+            'bucket' => env('DIGITALOCEAN_BUCKET'),
+            'url' => env('MIX_DIGITALOCEAN_URL'),
+            'endpoint' => env('DIGITALOCEAN_ENDPOINT'),
+        ],
 
     ],
 

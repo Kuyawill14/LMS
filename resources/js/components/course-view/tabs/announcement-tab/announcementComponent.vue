@@ -13,7 +13,13 @@
 
             <v-row class="mt-3 mb-5" >
                 <v-col md="12" lg="8" class="ma-auto">
-                    <v-card>
+
+                   <!--   <v-expand-transition>
+                        <v-card class="pa-2 mb-2">
+                           
+                        </v-card>
+                    </v-expand-transition> -->
+                    <v-card class="pa-2">
                         <announcementCreate :classNames="classNames" :UserDetails='UserDetails' v-on:ReloadData="connect"> </announcementCreate>
                     </v-card>
                 </v-col>

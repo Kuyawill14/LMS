@@ -123,8 +123,10 @@ Route::middleware('auth:sanctum')->prefix('/classwork')->group(function () {
     Route::post('/share', [ClassworkController::class, 'ShareClasswork']);
     Route::post('/unshare', [ClassworkController::class, 'UnshareClasswork']);
     Route::post('/update', [ClassworkController::class, 'update']);
+    Route::post('/addAttachment', [ClassworkController::class, 'AddAttachment']);
     Route::delete('/remove/{id}', [ClassworkController::class, 'destroy']);
-
+    Route::put('/deleteAttachment/{id}', [ClassworkController::class, 'RemoveAttachment']);
+    
     Route::get('/publishClassworkDetails/{id}', [ClassworkController::class, 'PublishClassworkDetails']);
     Route::put('/UpdatePublish/{id}', [ClassworkController::class, 'UpdatePublishClassworkDetails']);
     

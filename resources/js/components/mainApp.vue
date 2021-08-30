@@ -10,6 +10,7 @@
         <v-main>
 
             <v-container fluid>
+     
                 <router-view :UserDetails='get_CurrentUser' :role='get_UserRole'></router-view>
             </v-container>
     
@@ -46,7 +47,8 @@ import
             UserDetails: [],
             drawer: null,
             menuVisible: false,
-            role: ''
+            role: '',
+   
         }),
         components: {
             topHeader,
@@ -65,11 +67,6 @@ import
                 
                 });
             }
-        },
-        created() {
-            //this.getUserDetails();
-           
-             
         },
     }
 

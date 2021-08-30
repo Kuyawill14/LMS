@@ -20,7 +20,7 @@ const actions = {
     async createClasswork({ commit }, details) {
         const res = await axios.post(`/api/classwork/insert`, details);
         let newClasswork = res.data;
-        state.Classworks.push({...newClasswork })
+        //state.Classworks.push({ })
         return res;
     },
 };

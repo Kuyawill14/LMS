@@ -1,7 +1,7 @@
 <template>
   <div>
-   
-      <router-view></router-view>
+ 
+      <router-view ></router-view>
   </div>
 </template>
 <script>
@@ -15,6 +15,13 @@ export default {
       e.preventDefault(); 
     }, false);
   } */
+  data(){
+    return{
+      url: process.env
+    }
+  }
+  
+      
 }
 </script>
 <style >

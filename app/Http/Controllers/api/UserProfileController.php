@@ -28,6 +28,8 @@ class UserProfileController extends Controller
      */
     public function index()
     {
+   
+        //return \Config::get('app.do_url');
         $userId = auth('sanctum')->id();
         
         $userDetails = User::where('users.id' ,$userId)
@@ -36,8 +38,9 @@ class UserProfileController extends Controller
         ->leftJoin('tbl_user_details', 'tbl_user_details.user_id', '=', 'users.id')
         ->first();
         
-        $path = '/'.'storage'.'/';
-        $userDetails->profile_pic = $userDetails->profile_pic != null && $userDetails->profile_pic != '' ? $path.$userDetails->profile_pic : null;
+
+       /*  $userDetails->profile_pic =  str_replace(return \Config::get('app.do_url');.'/', "",$userDetails->profile_pic);
+        return $userDetails->profile_pic; */
         return $userDetails;
     }
 
@@ -170,18 +173,24 @@ class UserProfileController extends Controller
      */
     public function updatePicture(Request $request)
     {
-        //return $request;
+       
        
         $userId = auth('sanctum')->id();
         $UpdatePicture = tbl_userDetails::where("tbl_user_details.user_id",$userId)->first();
         if($UpdatePicture){
-           // $UpdatePicture->profile_pic = $request->data;
             $file = $request->file('file');
             if($file != ""){
-
-                Storage::delete('public/'.$UpdatePicture->profile_pic);
+            
+                 $path =  str_replace(\Config::get('app.do_url').'/', "", $UpdatePicture->profile_pic);
+                if($UpdatePicture->profile_pic != null){
+                    Storage::disk('DO_spaces')->delete($path);
+                }
+                            
+                /* Storage::delete('public/'.$UpdatePicture->profile_pic);
                 $newFile = $file->store('public/upload/profile_picture/'.$userId);
-                $UpdatePicture->profile_pic = preg_replace('/\bpublic\/\b/', '', $newFile);
+                $UpdatePicture->profile_pic = preg_replace('/\bpublic\/\b/', '', $newFile); */
+                $upload_file = Storage::disk('DO_spaces')->putFile('ProfilePicture/'.$userId , $file, 'public');
+                $UpdatePicture->profile_pic = \Config::get('app.do_url').'/'.$upload_file;
             }
             $UpdatePicture->save();
             return "Profile Picture Updated";

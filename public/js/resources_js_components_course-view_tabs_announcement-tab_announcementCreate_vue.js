@@ -100,6 +100,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['UserDetails', 'classNames'],
   data: function data() {
@@ -392,136 +408,119 @@ var render = function() {
       }),
       _vm._v(" "),
       _c(
-        "v-expand-transition",
+        "v-row",
+        { staticClass: "pl-3 pr-3" },
         [
-          _vm.announcement.content.length != 0
-            ? _c(
-                "v-row",
-                { staticClass: "pl-3 pr-3 pb-1" },
+          _c(
+            "v-col",
+            { attrs: { cols: "6", md: "8", lg: "8" } },
+            [
+              _c(
+                "v-container",
+                {
+                  staticClass: "ma-0 pa-0 d-flex flex-row",
+                  attrs: { "ma-0": "", "pa-0": "" }
+                },
                 [
                   _c(
-                    "v-col",
-                    { attrs: { cols: "6", md: "8", lg: "8" } },
+                    "v-btn",
+                    {
+                      staticClass: "text-none",
+                      attrs: { depressed: "", loading: _vm.isSelecting },
+                      on: { click: _vm.onButtonClick }
+                    },
                     [
-                      _c(
-                        "v-container",
-                        {
-                          staticClass: "ma-0 pa-0 d-flex flex-row",
-                          attrs: { "ma-0": "", "pa-0": "" }
-                        },
-                        [
-                          _c(
-                            "v-btn",
-                            {
-                              staticClass: "text-none",
-                              attrs: {
-                                depressed: "",
-                                loading: _vm.isSelecting
-                              },
-                              on: { click: _vm.onButtonClick }
-                            },
-                            [
-                              _c("v-icon", { attrs: { left: "" } }, [
-                                _vm._v(
-                                  "\n                        cloud_upload\n                        "
-                                )
-                              ]),
-                              _vm._v(
-                                "\n                        " +
-                                  _vm._s(
-                                    _vm.$vuetify.breakpoint.xs
-                                      ? ""
-                                      : "Upload file"
-                                  ) +
-                                  "\n                    "
-                              )
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c("input", {
-                            ref: "uploader",
-                            staticClass: "d-none",
-                            attrs: {
-                              name: "file",
-                              type: "file",
-                              accept: "image/*"
-                            },
-                            on: { change: _vm.onFileChanged }
-                          })
-                        ],
-                        1
+                      _c("v-icon", { attrs: { left: "" } }, [
+                        _vm._v(
+                          "\r\n                        cloud_upload\r\n                        "
+                        )
+                      ]),
+                      _vm._v(
+                        "\r\n                        " +
+                          _vm._s(
+                            _vm.$vuetify.breakpoint.xs ? "" : "Upload file"
+                          ) +
+                          "\r\n                    "
                       )
                     ],
                     1
                   ),
                   _vm._v(" "),
-                  _c(
-                    "v-col",
-                    {
-                      staticClass: "text-right",
-                      attrs: { cols: "6", md: "4", lg: "4" }
-                    },
-                    [
-                      _c(
-                        "v-container",
-                        {
-                          class:
-                            _vm.UserDetails.role != "Student"
-                              ? "ma-0 pa-0 d-flex flex-row"
-                              : "ma-0 pa-0",
-                          attrs: { "ma-0": "", "pa-0": "" }
+                  _c("input", {
+                    ref: "uploader",
+                    staticClass: "d-none",
+                    attrs: { name: "file", type: "file", accept: "image/*" },
+                    on: { change: _vm.onFileChanged }
+                  })
+                ],
+                1
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-col",
+            {
+              staticClass: "text-rigth mb-0 pb-0",
+              attrs: { cols: "6", md: "4", lg: "4" }
+            },
+            [
+              _c(
+                "v-container",
+                {
+                  class:
+                    _vm.UserDetails.role != "Student"
+                      ? "ma-0 pa-0 d-flex flex-row"
+                      : "ma-0 pa-0",
+                  attrs: { "ma-0": "", "pa-0": "" }
+                },
+                [
+                  _vm.UserDetails.role != "Student"
+                    ? _c("v-select", {
+                        staticClass: "mr-2",
+                        attrs: {
+                          items: _vm.classNames,
+                          "item-text": "class_name",
+                          "item-value": "class_id",
+                          label: "All Class",
+                          dense: "",
+                          solo: ""
                         },
-                        [
-                          _vm.UserDetails.role != "Student"
-                            ? _c("v-select", {
-                                staticClass: "mr-2",
-                                attrs: {
-                                  items: _vm.classNames,
-                                  "item-text": "class_name",
-                                  "item-value": "class_id",
-                                  label: "All Class",
-                                  dense: "",
-                                  solo: ""
-                                },
-                                on: {
-                                  change: function($event) {
-                                    return _vm.testing()
-                                  }
-                                },
-                                model: {
-                                  value: _vm.class_id,
-                                  callback: function($$v) {
-                                    _vm.class_id = $$v
-                                  },
-                                  expression: "class_id"
-                                }
-                              })
-                            : _vm._e(),
-                          _vm._v(" "),
-                          _c(
-                            "v-btn",
-                            {
-                              attrs: {
-                                depressed: "",
-                                type: "submit",
-                                name: "create_post",
-                                color: "primary"
-                              },
-                              on: { click: _vm.createPost }
-                            },
-                            [_vm._v("Post")]
-                          )
-                        ],
-                        1
-                      )
-                    ],
-                    1
+                        on: {
+                          change: function($event) {
+                            return _vm.testing()
+                          }
+                        },
+                        model: {
+                          value: _vm.class_id,
+                          callback: function($$v) {
+                            _vm.class_id = $$v
+                          },
+                          expression: "class_id"
+                        }
+                      })
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: {
+                        depressed: "",
+                        type: "submit",
+                        name: "create_post",
+                        color: "primary"
+                      },
+                      on: { click: _vm.createPost }
+                    },
+                    [_vm._v("Post")]
                   )
                 ],
                 1
               )
-            : _vm._e()
+            ],
+            1
+          )
         ],
         1
       )

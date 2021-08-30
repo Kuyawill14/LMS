@@ -55,32 +55,7 @@
                             </v-text-field>
                         </v-col>
                         
-                        <v-col v-if="form.type == 'Subjective Type'" class="mb-0 pb-0 pt-0 mt-0" cols="12">
-                             <v-file-input
-               
-                                @change="onFileChange" ref="inputFile"
-                                v-if="form.type == 'Subjective Type'"
-                                placeholder="Upload your documents"
-                                label="File input"
-                                outlined
-                                show-size
-                                counter
-                                multiple
-                                prepend-icon=""
-                                prepend-inner-icon="mdi-paperclip"
-                            >
-                                <template v-slot:selection="{ text }">
-                                <v-chip
-                                    small
-                                    label
-                                    color="primary"
-                                >
-                                    {{ text }}
-                                </v-chip>
-                                </template>
-                            </v-file-input>
-                        </v-col>
-
+                      
 
                           <v-col v-if="form.type == 'Subjective Type'" class="mb-0 pb-0 pt-0 mt-0" cols="12">
                             <v-text-field
@@ -88,10 +63,48 @@
                                 v-if="form.type == 'Subjective Type'"
                                 outlined
                                 min="0"
+                                class="mb-0 pb-0"
                                 v-model="form.points"
                                 label="Points" 
                                 type="number">
                                 </v-text-field>
+                        </v-col>
+
+                          <v-col  class="mb-0 pb-0 pt-0 mt-0" cols="12">
+                              <v-btn color="primary" class="mb-2" @click="$refs.inputFile.$refs.input.click()" text rounded>
+                                  <v-icon left>
+                                      mdi-attachment
+                                  </v-icon>
+                                  Attach file
+                              </v-btn>
+                             <v-file-input
+                                multiple
+                                @change="onFileChange" ref="inputFile"
+                                class="d-none">
+                            </v-file-input>
+
+                            <v-list dense class="ma-0 pa-0">
+                                <v-list-item v-for="(item, index) in file_name" :key="index" class="ma-0 pa-0">
+                                    <v-list-item-avatar >
+                                            <v-icon large
+                                            :color="item.extesion == 'docx' ? 'blue' : 'red'"
+                                            >
+                                                {{item.extesion == 'docx' ? 'mdi-file-word' : 'mdi-file-pdf'}}
+                                            </v-icon>
+                                    </v-list-item-avatar>
+                                    <v-list-item-content>
+                                        <v-list-item-title>{{item.name}}</v-list-item-title>
+                                         <v-list-item-subtitle> <v-progress-linear v-if="uploadIndex == index && uploadPercentage != 100"  rounded :value="uploadPercentage"></v-progress-linear></v-list-item-subtitle>
+                                    </v-list-item-content>
+                                    <v-list-item-action>
+                                        <v-btn icon @click="RemoveFile(index)">
+                                            <v-icon>
+                                            mdi-close
+                                            </v-icon>
+                                        </v-btn>
+                                    </v-list-item-action>
+                                </v-list-item>
+                            </v-list>
                         </v-col>
                     </v-row>
                 </v-container>
@@ -120,8 +133,8 @@ export default {
         return{
             valid:false,
             isTimer: false,
-            file:null,
-            fileSize: null,
+            file:[],
+            fileSize: [],
             loading: false,
             dialog: false,
             form:new Form({}),
@@ -142,10 +155,28 @@ export default {
             FieldRules: [
                 v => !!v || 'Field is required',
             ],
+            file_name: [],
+            counter: 0,
+            tmpName:[],
+            uploadPercentage: 0,
+            uploadIndex: null
+            
+            
           
         }
     },
+    computed:{
+         extension() {
+            return (this.file[this.counter]) ? this.file[this.counter].name.split('.').pop() : '';
+        },
+    },
     methods:{
+        RemoveFile(index){
+            this.file_name.splice(index,1);
+            this.file.splice(index,1);
+            console.log(this.file);
+
+        },
          validate() {
             this.loading = !this.loading;
             if (this.$refs.NewClassworkForm.validate()) {
@@ -166,6 +197,7 @@ export default {
                 });
             },
          async SaveClasswork(){
+           
             let fd = new FormData;
             fd.append('course_id', this.$route.params.id);
             fd.append('type', this.form.type);
@@ -179,10 +211,12 @@ export default {
             }
             fd.append('points', this.form.points);
             fd.append('duration', this.form.duration);
-            fd.append('attachment_name',  this.file_name);
-            fd.append('attachment_size',  this.fileSize);
-            fd.append('file', this.file);
-            
+            for (let index = 0; index < this.file.length; index++) {
+                fd.append('file['+index+']', this.file[index]); 
+                fd.append('attachment_name['+index+']',  this.file_name[index].name);
+                fd.append('attachment_size['+index+']',  this.file_name[index].size);
+                fd.append('attachment_extension['+index+']',  this.file_name[index].extesion);
+            } 
              //this.form.course_id = this.$route.params.id;
             this.$store.dispatch('createClasswork', fd)
             .then(res=>{
@@ -195,31 +229,60 @@ export default {
                     this.$router.push({name: 'clwk',params: {id: res.data.course_id},query: {clwk: res.data.id}})
                 }
                 
-                this.$refs.NewClassworkForm.reset()
-                this.loading = !this.loading;
-                //this.$emit('realodClassworks');
+                //this.$refs.NewClassworkForm.reset()
+                //this.loading = !this.loading;
+                this.$emit('realodClassworks');
               }
                
 
               
             })
         },
+        addFile(){
+           
+            let fd = new FormData;
+            fd.append('file', this.file[this.counter]);
+            axios.post('/api/classwork/addAttachment',fd,
+            {
+            onUploadProgress:(progressEvent)=>{
+                const total = progressEvent.total;
+                const totalLength = progressEvent.lengthComputable ? total : null;
+                if(totalLength != null){
+                    this.uploadPercentage = Math.round((progressEvent.loaded*100)/totalLength);
+                }
+                }
+            })
+            .then((res)=>{
+                this.counter++;
+            })
+        },
 
         onFileChange(element) {
-                this.file = element[0];
-                this.file_name = element[0].name;
+                 this.uploadIndex = this.counter;
+                //this.file[this.counter] = element[0];
+                this.file.push(element[0]);
+                //this.tmpName[this.counter] = element[0].name;
                 if(element[0].size > 1000000){
                     let kbsize = element[0].size * 0.001;
                     let mbsize = kbsize * 0.001;
                     let finalSize = parseInt(mbsize);
-                    this.fileSize = finalSize+'mb';
+                    this.fileSize[this.counter] = finalSize+'mb';
                 }
                 else{
                     let sizeFile = element[0].size * 0.001;
                     let finalSize = parseInt(sizeFile);
-                     this.fileSize =finalSize+'kb';
+                     this.fileSize[this.counter] =finalSize+'kb';
                 }
-                
+
+        
+                this.file_name.push({
+                    name: element[0].name,
+                    size: this.fileSize[this.counter],
+                    extesion: this.extension
+                });
+                this.addFile();
+                //this.counter++;
+             
                
 
                 //this.ext = this.getFileExt(file.name);

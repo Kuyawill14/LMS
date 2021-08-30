@@ -439,7 +439,7 @@ var render = function() {
                                 post.profile_pic == ""
                                   ? "https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=" +
                                     post.name
-                                  : "/storage/" + post.profile_pic
+                                  : post.profile_pic
                             }
                           })
                         ],
