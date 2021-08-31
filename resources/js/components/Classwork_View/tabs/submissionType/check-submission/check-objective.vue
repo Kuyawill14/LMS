@@ -49,7 +49,7 @@
                                         <v-list-item class="ma-0 pa-0">
                                             <v-list-item-avatar color="secondary">
                                                 <v-img alt="Profile"
-                                                    :src="ViewDetails.profile_pic == null || ViewDetails.profile_pic == '' ? 'https://ui-avatars.com/api/?background=random&color=fff&name=' + ViewDetails.firstName +' '+ViewDetails.lastName : '/storage/'+ViewDetails.profile_pic">
+                                                    :src="ViewDetails.profile_pic == null || ViewDetails.profile_pic == '' ? 'https://ui-avatars.com/api/?background=random&color=fff&name=' + ViewDetails.firstName +' '+ViewDetails.lastName : ViewDetails.profile_pic">
                                                 </v-img>
                                             </v-list-item-avatar>
                                         
@@ -81,7 +81,7 @@
                                             <v-list-item class="mb-0 pb-0" v-for="(item, i) in ViewDetails.comments" :key="i">
                                             <v-list-item-avatar color="secondary">
                                                 <v-img 
-                                                :src="item.profile_pic == null || item.profile_pic == ''? 'https://ui-avatars.com/api/?background=random&color=fff&name=' +  item.name : '/storage/'+item.profile_pic">
+                                                :src="item.profile_pic == null || item.profile_pic == ''? 'https://ui-avatars.com/api/?background=random&color=fff&name=' +  item.name : item.profile_pic">
                                                 </v-img>
                                             </v-list-item-avatar>
                                             <v-list-item-content>
@@ -456,7 +456,7 @@ const resetConfirmation = () => import('../../dialogs/resetConfirmation')
                         content : res.data.comment,
                         id : res.data.id,
                         name : this.get_CurrentUser.firstName+' '+this.get_CurrentUser.lastName,
-                        profile_pic : this.profile_pic
+                        profile_pic : this.get_CurrentUser.profile_pic
                         })
                     this.comment = null;
                   }

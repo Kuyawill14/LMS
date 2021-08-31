@@ -114,19 +114,16 @@
                                         
                                             </template>
                                         
-                                            <v-list  >
+                                            <v-list rounded >
                                                 <v-list-item link :to="{name: 'clwk',params: {id: $route.params.id},query: {clwk: item.id}}" ma-0 pa-0>
-                                                    <v-list-item-title> <v-icon left>mdi-notebook-edit-outline</v-icon>Edit Classwork</v-list-item-title>
+                                                    <v-list-item-title> <v-icon left>mdi-notebook-edit-outline</v-icon>Edit classwork</v-list-item-title>
                                                 </v-list-item>
-                                               
                                                 <v-list-item link @click="ArchiveClasswork(item)" ma-0 pa-0>
                                                     <v-list-item-title><v-icon left>mdi-archive</v-icon>Archive</v-list-item-title>
                                                 </v-list-item>
-
-                                                   <v-list-item v-if="item.submittion_count == 0" link @click="RemoveCLasswork(item)" ma-0 pa-0>
+                                                <v-list-item v-if="item.submittion_count == 0" link @click="RemoveCLasswork(item)" ma-0 pa-0>
                                                     <v-list-item-title><v-icon left>mdi-delete</v-icon>Delete</v-list-item-title>
                                                 </v-list-item>
-                                              
                                             </v-list>
                                         </v-menu>
                                     </div>

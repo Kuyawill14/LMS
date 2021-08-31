@@ -13,6 +13,8 @@ export default new Vuetify({
                 secondary: '#696969',
                 accent: '#8c9eff',
                 error: '#b71c1c',
+                grey_active: '#F5F5F5',
+               
             },
         },
     },

@@ -1,8 +1,5 @@
 <template>
-
-
     <v-card>
-
         <form class="" @submit.prevent="addFile">
             <v-card-title>
                 <span class="headline">Add File</span>
@@ -14,25 +11,19 @@
                             <v-text-field label="Title" required v-model="subModuleForm.sub_module_name">
                             </v-text-field>
                         </v-col>
-
                         <v-col cols="12 pb-0">
                             <editor style="outline:none;" placeholder="Description" v-model="subModuleForm.description"
                                 theme="snow" :options="options"></editor>
-                           
                         </v-col>
                         <v-col cols="12 pb-0">
                             <v-text-field label="Required time spent for Completion (minutes)" type="number" required
                                 v-model="subModuleForm.required_time">
                             </v-text-field>
                         </v-col>
-
                         <v-file-input show-size label="Attach File" @change="onFileChange" ref="inputFile">
                         </v-file-input>
-
-
                     </v-row>
                 </v-container>
-
             </v-card-text>
             <v-card-actions>
                 <v-spacer></v-spacer>

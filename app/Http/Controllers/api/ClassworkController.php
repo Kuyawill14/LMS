@@ -347,7 +347,7 @@ class ClassworkController extends Controller
             $classworkDetails->attachment = $classworkDetails->attachment != null ? unserialize($classworkDetails->attachment) : null;
             $teacher_id = tbl_teacher_course::where('course_id', $courseId)->first();
             $PrivateComment = tbl_comment::where("tbl_comments.classwork_id",  $classworkDetails ->id)
-            ->select("tbl_comments.id","tbl_comments.content",DB::raw("CONCAT(tbl_user_details.firstName,' ',tbl_user_details.lastName) as name"),"tbl_user_details.profile_pic")
+            ->select("tbl_comments.id","tbl_comments.user_id as u_id","tbl_comments.content",DB::raw("CONCAT(tbl_user_details.firstName,' ',tbl_user_details.lastName) as name"),"tbl_user_details.profile_pic")
             ->leftJoin("tbl_user_details", "tbl_user_details.user_id","=","tbl_comments.user_id")
             ->where('tbl_comments.from_user',  $userId)
             ->Where('tbl_comments.to_user',$teacher_id->user_id )
@@ -371,6 +371,7 @@ class ClassworkController extends Controller
             return response()->json([
                 "Details"=>$classworkDetails,
                 "ItemsCount"=>$count,
+                'totalpoints'=>$points,
                 "success" => true
             ]);
             //return ['Details'=>$classworkDetails,'ItemsCount'=>$count,'totalpoints'=>$points];

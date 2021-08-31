@@ -1,12 +1,12 @@
-"use strict";
-(self["webpackChunk"] = self["webpackChunk"] || []).push([["resources_js_components_course-view_tabs_classwork-tab_newClassworkModal_vue-_69320"],{
+(self["webpackChunk"] = self["webpackChunk"] || []).push([["resources_js_components_layout_notification_invites_vue"],{
 
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/classwork-tab/newClassworkModal.vue?vue&type=script&lang=js&":
-/*!*******************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/classwork-tab/newClassworkModal.vue?vue&type=script&lang=js& ***!
-  \*******************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/layout/notification/invites.vue?vue&type=script&lang=js&":
+/*!**********************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/layout/notification/invites.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -14,13 +14,112 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var moment_src_moment__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! moment/src/moment */ "./node_modules/moment/src/moment.js");
-/* harmony import */ var vform__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vform */ "./node_modules/vform/dist/vform.es.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+var _objectSpread2;
+
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -153,134 +252,43 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
-      valid: false,
-      isTimer: false,
-      file: [],
-      fileSize: [],
-      loading: false,
-      dialog: false,
-      form: new vform__WEBPACK_IMPORTED_MODULE_2__.default({}),
-      nullDatetime: null,
-      datetime: new Date(),
-      datetimeString: '2019-01-01 12:00',
-      formattedDatetime: '09/01/2019 12:00',
-      textFieldProps: {
-        appendIcon: 'event'
-      },
-      dateProps: {
-        headerColor: 'primary'
-      },
-      timeProps: {
-        useSeconds: true,
-        ampmInTitle: true
-      },
-      FieldRules: [function (v) {
-        return !!v || 'Field is required';
-      }],
-      file_name: [],
-      counter: 0,
-      tmpName: [],
-      uploadPercentage: 0,
-      uploadIndex: null
+      notificationType: 'all',
+      notifTypeName: 'all',
+      notificationList: {},
+      notifLength: null,
+      isSelected: null,
+      currentSelectedType: null,
+      AttachData: {},
+      isAccepted: false,
+      form: new Form({
+        class_code: ""
+      })
     };
   },
-  computed: {
-    extension: function extension() {
-      return this.file[this.counter] ? this.file[this.counter].name.split('.').pop() : '';
-    }
-  },
-  methods: {
-    RemoveFile: function RemoveFile(index) {
-      this.file_name.splice(index, 1);
-      this.file.splice(index, 1);
-      console.log(this.file);
+  computed: (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(["get_invites"]),
+  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapActions)(['fetchClassInvites', 'LessInviteCount'])), {}, (_objectSpread2 = {
+    test: function test(data) {
+      this.testdata = data;
     },
-    validate: function validate() {
-      var _this = this;
-
-      this.loading = !this.loading;
-
-      if (this.$refs.NewClassworkForm.validate()) {
-        this.SaveClasswork();
-      } else {
-        setTimeout(function () {
-          _this.loading = !_this.loading;
-        }, 1000);
+    format_date: function format_date(value) {
+      if (value) {
+        return (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_1__.default)(String(value)).format("MMMM DD, h:mm a");
       }
     },
-    toastSuccess: function toastSuccess() {
-      return this.$toasted.success("Classwork Successfully added", {
-        theme: "toasted-primary",
-        position: "top-center",
-        icon: "done",
-        duration: 3000
-      });
+    ShowMore: function ShowMore() {
+      this.$store.dispatch("ShowMore", this.ShowPage);
     },
-    SaveClasswork: function SaveClasswork() {
-      var _this2 = this;
+    getNotificationList: function getNotificationList() {
+      var _this = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
-        var fd, index;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                fd = new FormData();
-                fd.append('course_id', _this2.$route.params.id);
-                fd.append('type', _this2.form.type);
-                fd.append('title', _this2.form.title);
-                fd.append('instruction', _this2.form.instruction);
+                _this.$store.dispatch("fetchClassInvites", 3);
 
-                if (_this2.form.type == 'Objective Type') {
-                  _this2.form.points = '';
-                } else if (_this2.form.type == 'Subjective Type') {
-                  _this2.form.duration = '';
-                }
-
-                fd.append('points', _this2.form.points);
-                fd.append('duration', _this2.form.duration);
-
-                for (index = 0; index < _this2.file.length; index++) {
-                  fd.append('file[' + index + ']', _this2.file[index]);
-                  fd.append('attachment_name[' + index + ']', _this2.file_name[index].name);
-                  fd.append('attachment_size[' + index + ']', _this2.file_name[index].size);
-                  fd.append('attachment_extension[' + index + ']', _this2.file_name[index].extesion);
-                } //this.form.course_id = this.$route.params.id;
-
-
-                _this2.$store.dispatch('createClasswork', fd).then(function (res) {
-                  if (res.status == 201) {
-                    _this2.toastSuccess();
-
-                    if (_this2.form.type == 'Objective Type') {
-                      _this2.$router.push({
-                        name: 'add-question',
-                        params: {
-                          id: res.data.course_id
-                        },
-                        query: {
-                          clwk: res.data.id
-                        }
-                      });
-                    } else if (_this2.form.type == 'Subjective Type') {
-                      _this2.$router.push({
-                        name: 'clwk',
-                        params: {
-                          id: res.data.course_id
-                        },
-                        query: {
-                          clwk: res.data.id
-                        }
-                      });
-                    } //this.$refs.NewClassworkForm.reset()
-                    //this.loading = !this.loading;
-
-
-                    _this2.$emit('realodClassworks');
-                  }
-                });
-
-              case 10:
+              case 1:
               case "end":
                 return _context.stop();
             }
@@ -288,54 +296,110 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee);
       }))();
     },
-    addFile: function addFile() {
-      var _this3 = this;
+    NotificationHide: function NotificationHide(id) {
+      var _this2 = this;
 
-      var fd = new FormData();
-      fd.append('file', this.file[this.counter]);
-      axios.post('/api/classwork/addAttachment', fd, {
-        onUploadProgress: function onUploadProgress(progressEvent) {
-          var total = progressEvent.total;
-          var totalLength = progressEvent.lengthComputable ? total : null;
-
-          if (totalLength != null) {
-            _this3.uploadPercentage = Math.round(progressEvent.loaded * 100 / totalLength);
-          }
+      this.$store.dispatch("HideNotification", id).then(function (res) {
+        if (res == 200) {
+          _this2.get_notification.forEach(function (item) {
+            if (item.n_id == id) {
+              item.hide_notif = 1;
+            }
+          });
         }
-      }).then(function (res) {
-        _this3.counter++;
       });
     },
-    onFileChange: function onFileChange(element) {
-      this.uploadIndex = this.counter; //this.file[this.counter] = element[0];
+    markAsread: function markAsread(id) {
+      var _this3 = this;
 
-      this.file.push(element[0]); //this.tmpName[this.counter] = element[0].name;
+      this.AttachData.id = id;
+      this.AttachData.accepted = this.isAccepted;
+      this.$store.dispatch("markAsReadNotification", this.AttachData).then(function (res) {
+        //console.log(res);
+        if (res == 200) {
+          _this3.get_notification.forEach(function (item) {
+            if (item.n_id == id) {
+              item.status = 1;
 
-      if (element[0].size > 1000000) {
-        var kbsize = element[0].size * 0.001;
-        var mbsize = kbsize * 0.001;
-        var finalSize = parseInt(mbsize);
-        this.fileSize[this.counter] = finalSize + 'mb';
-      } else {
-        var sizeFile = element[0].size * 0.001;
+              if (_this3.isAccepted) {
+                item.notification_accepted = 1;
+              }
+            }
+          });
 
-        var _finalSize = parseInt(sizeFile);
-
-        this.fileSize[this.counter] = _finalSize + 'kb';
-      }
-
-      this.file_name.push({
-        name: element[0].name,
-        size: this.fileSize[this.counter],
-        extesion: this.extension
+          _this3.$store.dispatch("LessNotificationCount");
+        }
       });
-      this.addFile(); //this.counter++;
-      //this.ext = this.getFileExt(file.name);
-      //this.file = file;
+    },
+    markAllasRead: function markAllasRead() {
+      var _this4 = this;
+
+      axios.post('/api/notification/mark-all').then(function (res) {
+        _this4.get_notification.forEach(function (item) {
+          if (item.status == null) {
+            item.status = 1;
+          }
+        });
+
+        for (var i = 0; i < res.data; i++) {
+          _this4.$store.dispatch("LessNotificationCount");
+        }
+      });
     }
-  },
-  beforeMount: function beforeMount() {
-    /* this.form.type = 'Objective Type'; */
+  }, _defineProperty(_objectSpread2, "ShowMore", function ShowMore() {
+    this.AttachData.type = this.notificationType;
+    this.AttachData.page = this.ShowPage;
+    this.$store.dispatch("ShowMore", this.AttachData);
+  }), _defineProperty(_objectSpread2, "acceptJoin", function acceptJoin(class_code, id, index) {
+    var _this5 = this;
+
+    this.form.class_code = class_code;
+    this.$store.dispatch("joinClass", this.form).then(function (res) {
+      if (res.status == 200) {
+        _this5.isAccepted = true;
+
+        _this5.toastSuccess(res.data.message);
+
+        _this5.AttachData.id = id;
+        _this5.AttachData.accepted = _this5.isAccepted;
+
+        _this5.$store.dispatch("markAsReadNotification", _this5.AttachData);
+
+        _this5.$store.dispatch("LessInviteCount");
+
+        _this5.$router.push({
+          name: 'announcement',
+          params: {
+            id: res.data.course_id
+          }
+        });
+      } else if (res.status == 202) {
+        _this5.isAccepted = true;
+
+        _this5.toastError(res.data.message);
+
+        _this5.AttachData.id = id;
+        _this5.AttachData.accepted = _this5.isAccepted;
+
+        _this5.$store.dispatch("markAsReadNotification", _this5.AttachData);
+
+        _this5.$store.dispatch("LessInviteCount");
+
+        _this5.$router.push({
+          name: 'announcement',
+          params: {
+            id: res.data.course_id
+          }
+        });
+      } else {
+        _this5.toastError('Something went wrong while joining the class!');
+      } //this.get_notification.splice(index, 1);
+
+    });
+  }), _objectSpread2)),
+  mounted: function mounted() {
+    //this.fetchNotification();
+    this.getNotificationList();
   }
 });
 
@@ -347,6 +411,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   \**************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ checkOverflow)
@@ -411,6 +476,7 @@ function checkOverflow(m) {
   \***************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "createDate": () => (/* binding */ createDate),
@@ -461,6 +527,7 @@ function createUTCDate(y) {
   \*************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "prepareConfig": () => (/* binding */ prepareConfig),
@@ -610,6 +677,7 @@ function createLocalOrUTC(input, format, locale, strict, isUTC) {
   \**********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "configFromArray": () => (/* binding */ configFromArray)
@@ -807,6 +875,7 @@ function dayOfYearFromWeekInfo(config) {
   \***********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "configFromObject": () => (/* binding */ configFromObject)
@@ -844,6 +913,7 @@ function configFromObject(config) {
   \*********************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "configFromStringAndArray": () => (/* binding */ configFromStringAndArray)
@@ -929,6 +999,7 @@ function configFromStringAndArray(config) {
   \**********************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "configFromStringAndFormat": () => (/* binding */ configFromStringAndFormat)
@@ -1082,6 +1153,7 @@ function meridiemFixWrap(locale, hour, meridiem) {
   \***********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "configFromISO": () => (/* binding */ configFromISO),
@@ -1359,6 +1431,7 @@ _utils_hooks__WEBPACK_IMPORTED_MODULE_2__.hooks.createFromInputFallback = (0,_ut
   \*****************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "createLocal": () => (/* binding */ createLocal)
@@ -1379,6 +1452,7 @@ function createLocal(input, format, locale, strict) {
   \*************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ getParsingFlags)
@@ -1421,6 +1495,7 @@ function getParsingFlags(m) {
   \***************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "createUTC": () => (/* binding */ createUTC)
@@ -1441,6 +1516,7 @@ function createUTC(input, format, locale, strict) {
   \*****************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "isValid": () => (/* binding */ isValid),
@@ -1511,6 +1587,7 @@ function createInvalid(flags) {
   \*****************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "abs": () => (/* binding */ abs)
@@ -1543,6 +1620,7 @@ function abs() {
   \**************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "add": () => (/* binding */ add),
@@ -1580,6 +1658,7 @@ function subtract(input, value) {
   \****************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "as": () => (/* binding */ as),
@@ -1685,6 +1764,7 @@ var asMilliseconds = makeAs('ms'),
   \********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "bubble": () => (/* binding */ bubble),
@@ -1771,6 +1851,7 @@ function monthsToDays(months) {
   \*******************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "clone": () => (/* binding */ clone)
@@ -1791,6 +1872,7 @@ function clone() {
   \*************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "Duration": () => (/* binding */ Duration),
@@ -1851,6 +1933,7 @@ function isDuration(obj) {
   \********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "createDuration": () => (/* binding */ createDuration)
@@ -2006,6 +2089,7 @@ function momentsDifference(base, other) {
   \**********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "createDuration": () => (/* reexport safe */ _create__WEBPACK_IMPORTED_MODULE_1__.createDuration),
@@ -2035,6 +2119,7 @@ __webpack_require__.r(__webpack_exports__);
   \*****************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "get": () => (/* binding */ get),
@@ -2086,6 +2171,7 @@ function weeks() {
   \**********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "getSetRelativeTimeRounding": () => (/* binding */ getSetRelativeTimeRounding),
@@ -2217,6 +2303,7 @@ function humanize(argWithSuffix, argThresholds) {
   \************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "toISOString": () => (/* binding */ toISOString)
@@ -2300,6 +2387,7 @@ function toISOString() {
   \***********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _constructor__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./constructor */ "./node_modules/moment/src/lib/duration/constructor.js");
 /* harmony import */ var _abs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./abs */ "./node_modules/moment/src/lib/duration/abs.js");
@@ -2379,6 +2467,7 @@ proto.lang = _moment_locale__WEBPACK_IMPORTED_MODULE_9__.lang;
   \*******************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ isDurationValid),
@@ -2453,6 +2542,7 @@ function createInvalid() {
   \******************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "formattingTokens": () => (/* binding */ formattingTokens),
@@ -2576,6 +2666,7 @@ function expandFormat(format, locale) {
   \***********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "baseConfig": () => (/* binding */ baseConfig)
@@ -2636,6 +2727,7 @@ var baseConfig = {
   \********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "defaultCalendar": () => (/* binding */ defaultCalendar),
@@ -2667,6 +2759,7 @@ function calendar(key, mom, now) {
   \***********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "Locale": () => (/* binding */ Locale)
@@ -2686,6 +2779,7 @@ function Locale(config) {
   \**************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _prototype__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./prototype */ "./node_modules/moment/src/lib/locale/prototype.js");
 /* harmony import */ var _locales__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./locales */ "./node_modules/moment/src/lib/locale/locales.js");
@@ -2739,6 +2833,7 @@ __webpack_require__.r(__webpack_exports__);
   \*******************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "defaultLongDateFormat": () => (/* binding */ defaultLongDateFormat),
@@ -2791,6 +2886,7 @@ function longDateFormat(key) {
   \*******************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "defaultInvalidDate": () => (/* binding */ defaultInvalidDate),
@@ -2811,6 +2907,7 @@ function invalidDate() {
   \*****************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "listMonths": () => (/* binding */ listMonths),
@@ -2925,6 +3022,7 @@ function listWeekdaysMin(localeSorted, format, index) {
   \******************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "getSetGlobalLocale": () => (/* reexport safe */ _locales__WEBPACK_IMPORTED_MODULE_1__.getSetGlobalLocale),
@@ -2976,6 +3074,7 @@ _utils_hooks__WEBPACK_IMPORTED_MODULE_4__.hooks.langData = (0,_utils_deprecate__
   \*******************************************************/
 /***/ ((module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "getSetGlobalLocale": () => (/* binding */ getSetGlobalLocale),
@@ -3244,6 +3343,7 @@ function listLocales() {
   \*******************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "defaultOrdinal": () => (/* binding */ defaultOrdinal),
@@ -3268,6 +3368,7 @@ function ordinal(number) {
   \***************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "preParsePostFormat": () => (/* binding */ preParsePostFormat)
@@ -3285,6 +3386,7 @@ function preParsePostFormat(string) {
   \*********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _constructor__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./constructor */ "./node_modules/moment/src/lib/locale/constructor.js");
 /* harmony import */ var _calendar__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./calendar */ "./node_modules/moment/src/lib/locale/calendar.js");
@@ -3372,6 +3474,7 @@ proto.meridiem = _units_hour__WEBPACK_IMPORTED_MODULE_12__.localeMeridiem;
   \********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "defaultRelativeTime": () => (/* binding */ defaultRelativeTime),
@@ -3421,6 +3524,7 @@ function pastFuture(diff, output) {
   \***************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "set": () => (/* binding */ set),
@@ -3496,6 +3600,7 @@ function mergeConfigs(parentConfig, childConfig) {
   \************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "addSubtract": () => (/* binding */ addSubtract),
@@ -3579,6 +3684,7 @@ var add = createAdder(1, 'add'),
   \********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "getCalendarFormat": () => (/* binding */ getCalendarFormat),
@@ -3653,6 +3759,7 @@ function calendar(time, formats) {
   \*****************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "clone": () => (/* binding */ clone)
@@ -3673,6 +3780,7 @@ function clone() {
   \*******************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "isAfter": () => (/* binding */ isAfter),
@@ -3767,6 +3875,7 @@ function isSameOrBefore(input, units) {
   \***********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "copyConfig": () => (/* binding */ copyConfig),
@@ -3863,6 +3972,7 @@ function isMoment(obj) {
   \*************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "creationData": () => (/* binding */ creationData)
@@ -3886,6 +3996,7 @@ function creationData() {
   \****************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "diff": () => (/* binding */ diff)
@@ -3982,6 +4093,7 @@ function monthDiff(a, b) {
   \******************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "toString": () => (/* binding */ toString),
@@ -4080,6 +4192,7 @@ function format(inputString) {
   \****************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "from": () => (/* binding */ from),
@@ -4118,6 +4231,7 @@ function fromNow(withoutSuffix) {
   \*******************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "makeGetSet": () => (/* binding */ makeGetSet),
@@ -4215,6 +4329,7 @@ function stringSet(units, value) {
   \******************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "locale": () => (/* binding */ locale),
@@ -4267,6 +4382,7 @@ function localeData() {
   \*******************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "prototypeMin": () => (/* binding */ prototypeMin),
@@ -4350,6 +4466,7 @@ function max() {
   \******************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "now": () => (/* reexport safe */ _now__WEBPACK_IMPORTED_MODULE_5__.now),
@@ -4397,6 +4514,7 @@ function createInZone() {
   \***************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "now": () => (/* binding */ now)
@@ -4414,6 +4532,7 @@ var now = function () {
   \*********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -4627,6 +4746,7 @@ proto.isDSTShifted = (0,_utils_deprecate__WEBPACK_IMPORTED_MODULE_31__.deprecate
   \************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "startOf": () => (/* binding */ startOf),
@@ -4808,6 +4928,7 @@ function endOf(units) {
   \*******************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "valueOf": () => (/* binding */ valueOf),
@@ -4869,6 +4990,7 @@ function toJSON() {
   \**************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "to": () => (/* binding */ to),
@@ -4907,6 +5029,7 @@ function toNow(withoutSuffix) {
   \*****************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "isValid": () => (/* binding */ isValid),
@@ -4941,6 +5064,7 @@ function invalidAt() {
   \****************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "match1": () => (/* binding */ match1),
@@ -5040,6 +5164,7 @@ function regexEscape(s) {
   \****************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "addParseToken": () => (/* binding */ addParseToken),
@@ -5093,6 +5218,7 @@ function addTimeToArrayFromToken(token, input, config) {
   \******************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "addUnitAlias": () => (/* binding */ addUnitAlias),
@@ -5141,6 +5267,7 @@ function normalizeObjectUnits(inputObject) {
   \********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "YEAR": () => (/* binding */ YEAR),
@@ -5172,6 +5299,7 @@ var YEAR = 0,
   \***********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "getSetDayOfMonth": () => (/* binding */ getSetDayOfMonth)
@@ -5233,6 +5361,7 @@ var getSetDayOfMonth = (0,_moment_get_set__WEBPACK_IMPORTED_MODULE_0__.makeGetSe
   \**********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "defaultLocaleWeekdays": () => (/* binding */ defaultLocaleWeekdays),
@@ -5705,6 +5834,7 @@ function computeWeekdaysParse() {
   \**********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "getSetDayOfYear": () => (/* binding */ getSetDayOfYear)
@@ -5762,6 +5892,7 @@ function getSetDayOfYear(input) {
   \**************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "localeEras": () => (/* binding */ localeEras),
@@ -6082,6 +6213,7 @@ function computeErasParse() {
   \***************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "localeIsPM": () => (/* binding */ localeIsPM),
@@ -6262,6 +6394,7 @@ function localeMeridiem(hours, minutes, isLower) {
   \**********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "getSetMillisecond": () => (/* binding */ getSetMillisecond)
@@ -6353,6 +6486,7 @@ getSetMillisecond = (0,_moment_get_set__WEBPACK_IMPORTED_MODULE_0__.makeGetSet)(
   \*****************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "getSetMinute": () => (/* binding */ getSetMinute)
@@ -6403,6 +6537,7 @@ var getSetMinute = (0,_moment_get_set__WEBPACK_IMPORTED_MODULE_0__.makeGetSet)('
   \****************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "daysInMonth": () => (/* binding */ daysInMonth),
@@ -6787,6 +6922,7 @@ function computeMonthsParse() {
   \*****************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "cloneWithOffset": () => (/* binding */ cloneWithOffset),
@@ -7076,6 +7212,7 @@ function isUtc() {
   \*********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "addUnitPriority": () => (/* binding */ addUnitPriority),
@@ -7113,6 +7250,7 @@ function getPrioritizedUnits(unitsObj) {
   \******************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "getSetQuarter": () => (/* binding */ getSetQuarter)
@@ -7168,6 +7306,7 @@ function getSetQuarter(input) {
   \*****************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "getSetSecond": () => (/* binding */ getSetSecond)
@@ -7218,6 +7357,7 @@ var getSetSecond = (0,_moment_get_set__WEBPACK_IMPORTED_MODULE_0__.makeGetSet)('
   \********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _format_format__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../format/format */ "./node_modules/moment/src/lib/format/format.js");
 /* harmony import */ var _parse_regex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../parse/regex */ "./node_modules/moment/src/lib/parse/regex.js");
@@ -7253,6 +7393,7 @@ __webpack_require__.r(__webpack_exports__);
   \*******************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "getZoneAbbr": () => (/* binding */ getZoneAbbr),
@@ -7285,6 +7426,7 @@ function getZoneName() {
   \****************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "normalizeUnits": () => (/* reexport safe */ _aliases__WEBPACK_IMPORTED_MODULE_15__.normalizeUnits)
@@ -7335,6 +7477,7 @@ __webpack_require__.r(__webpack_exports__);
   \******************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "dayOfYearFromWeeks": () => (/* binding */ dayOfYearFromWeeks),
@@ -7419,6 +7562,7 @@ function weeksInYear(year, dow, doy) {
   \********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "getSetWeekYear": () => (/* binding */ getSetWeekYear),
@@ -7574,6 +7718,7 @@ function setWeekAll(weekYear, week, weekday, dow, doy) {
   \***************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "localeWeek": () => (/* binding */ localeWeek),
@@ -7671,6 +7816,7 @@ function getSetISOWeek(input) {
   \***************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "daysInYear": () => (/* binding */ daysInYear),
@@ -7775,6 +7921,7 @@ function getIsLeapYear() {
   \*******************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ absCeil)
@@ -7796,6 +7943,7 @@ function absCeil(number) {
   \********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ absFloor)
@@ -7818,6 +7966,7 @@ function absFloor(number) {
   \********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ absRound)
@@ -7839,6 +7988,7 @@ function absRound(number) {
   \*************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ compareArrays)
@@ -7872,6 +8022,7 @@ function compareArrays(array1, array2, dontConvert) {
   \*******************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ defaults)
@@ -7896,6 +8047,7 @@ function defaults(a, b, c) {
   \********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "deprecate": () => (/* binding */ deprecate),
@@ -7982,6 +8134,7 @@ _hooks__WEBPACK_IMPORTED_MODULE_1__.hooks.deprecationHandler = null;
   \*****************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ extend)
@@ -8016,6 +8169,7 @@ function extend(a, b) {
   \***********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ hasOwnProp)
@@ -8033,6 +8187,7 @@ function hasOwnProp(a, b) {
   \****************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "hooks": () => (/* binding */ hooks),
@@ -8061,6 +8216,7 @@ function setHookCallback(callback) {
   \*******************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ indexOf)
@@ -8093,6 +8249,7 @@ if (Array.prototype.indexOf) {
   \*******************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ isArray)
@@ -8113,6 +8270,7 @@ function isArray(input) {
   \***************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ isCalendarSpec)
@@ -8155,6 +8313,7 @@ function isCalendarSpec(input) {
   \******************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ isDate)
@@ -8175,6 +8334,7 @@ function isDate(input) {
   \**********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ isFunction)
@@ -8195,6 +8355,7 @@ function isFunction(input) {
   \***********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "isLeapYear": () => (/* binding */ isLeapYear)
@@ -8212,6 +8373,7 @@ function isLeapYear(year) {
   \**************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "isMomentInput": () => (/* binding */ isMomentInput),
@@ -8309,6 +8471,7 @@ function isNumberOrStringArray(input) {
   \********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ isNumber)
@@ -8329,6 +8492,7 @@ function isNumber(input) {
   \**************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ isObjectEmpty)
@@ -8359,6 +8523,7 @@ function isObjectEmpty(obj) {
   \********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ isObject)
@@ -8381,6 +8546,7 @@ function isObject(input) {
   \********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ isString)
@@ -8398,6 +8564,7 @@ function isString(input) {
   \***********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ isUndefined)
@@ -8415,6 +8582,7 @@ function isUndefined(input) {
   \***************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ keys)
@@ -8450,6 +8618,7 @@ if (Object.keys) {
   \**************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ map)
@@ -8472,6 +8641,7 @@ function map(arr, fn) {
   \**************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ mod)
@@ -8489,6 +8659,7 @@ function mod(n, x) {
   \***************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ some)
@@ -8523,6 +8694,7 @@ if (Array.prototype.some) {
   \*****************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ toInt)
@@ -8550,6 +8722,7 @@ function toInt(argumentForCoercion) {
   \********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ zeroFill)
@@ -8574,6 +8747,7 @@ function zeroFill(number, targetLength, forceSign) {
   \*******************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -8655,19 +8829,20 @@ _lib_utils_hooks__WEBPACK_IMPORTED_MODULE_0__.hooks.HTML5_FMT = {
 
 /***/ }),
 
-/***/ "./resources/js/components/course-view/tabs/classwork-tab/newClassworkModal.vue":
-/*!**************************************************************************************!*\
-  !*** ./resources/js/components/course-view/tabs/classwork-tab/newClassworkModal.vue ***!
-  \**************************************************************************************/
+/***/ "./resources/js/components/layout/notification/invites.vue":
+/*!*****************************************************************!*\
+  !*** ./resources/js/components/layout/notification/invites.vue ***!
+  \*****************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _newClassworkModal_vue_vue_type_template_id_753c8b50___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./newClassworkModal.vue?vue&type=template&id=753c8b50& */ "./resources/js/components/course-view/tabs/classwork-tab/newClassworkModal.vue?vue&type=template&id=753c8b50&");
-/* harmony import */ var _newClassworkModal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./newClassworkModal.vue?vue&type=script&lang=js& */ "./resources/js/components/course-view/tabs/classwork-tab/newClassworkModal.vue?vue&type=script&lang=js&");
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* harmony import */ var _invites_vue_vue_type_template_id_66e52eb0___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./invites.vue?vue&type=template&id=66e52eb0& */ "./resources/js/components/layout/notification/invites.vue?vue&type=template&id=66e52eb0&");
+/* harmony import */ var _invites_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./invites.vue?vue&type=script&lang=js& */ "./resources/js/components/layout/notification/invites.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
@@ -8676,9 +8851,9 @@ __webpack_require__.r(__webpack_exports__);
 /* normalize component */
 ;
 var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__.default)(
-  _newClassworkModal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
-  _newClassworkModal_vue_vue_type_template_id_753c8b50___WEBPACK_IMPORTED_MODULE_0__.render,
-  _newClassworkModal_vue_vue_type_template_id_753c8b50___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  _invites_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
+  _invites_vue_vue_type_template_id_66e52eb0___WEBPACK_IMPORTED_MODULE_0__.render,
+  _invites_vue_vue_type_template_id_66e52eb0___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
   false,
   null,
   null,
@@ -8688,48 +8863,51 @@ var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__
 
 /* hot reload */
 if (false) { var api; }
-component.options.__file = "resources/js/components/course-view/tabs/classwork-tab/newClassworkModal.vue"
+component.options.__file = "resources/js/components/layout/notification/invites.vue"
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
 
 /***/ }),
 
-/***/ "./resources/js/components/course-view/tabs/classwork-tab/newClassworkModal.vue?vue&type=script&lang=js&":
-/*!***************************************************************************************************************!*\
-  !*** ./resources/js/components/course-view/tabs/classwork-tab/newClassworkModal.vue?vue&type=script&lang=js& ***!
-  \***************************************************************************************************************/
+/***/ "./resources/js/components/layout/notification/invites.vue?vue&type=script&lang=js&":
+/*!******************************************************************************************!*\
+  !*** ./resources/js/components/layout/notification/invites.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_newClassworkModal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./newClassworkModal.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/classwork-tab/newClassworkModal.vue?vue&type=script&lang=js&");
- /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_newClassworkModal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_invites_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./invites.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/layout/notification/invites.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_invites_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
 
 /***/ }),
 
-/***/ "./resources/js/components/course-view/tabs/classwork-tab/newClassworkModal.vue?vue&type=template&id=753c8b50&":
-/*!*********************************************************************************************************************!*\
-  !*** ./resources/js/components/course-view/tabs/classwork-tab/newClassworkModal.vue?vue&type=template&id=753c8b50& ***!
-  \*********************************************************************************************************************/
+/***/ "./resources/js/components/layout/notification/invites.vue?vue&type=template&id=66e52eb0&":
+/*!************************************************************************************************!*\
+  !*** ./resources/js/components/layout/notification/invites.vue?vue&type=template&id=66e52eb0& ***!
+  \************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_newClassworkModal_vue_vue_type_template_id_753c8b50___WEBPACK_IMPORTED_MODULE_0__.render),
-/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_newClassworkModal_vue_vue_type_template_id_753c8b50___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_invites_vue_vue_type_template_id_66e52eb0___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_invites_vue_vue_type_template_id_66e52eb0___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_newClassworkModal_vue_vue_type_template_id_753c8b50___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./newClassworkModal.vue?vue&type=template&id=753c8b50& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/classwork-tab/newClassworkModal.vue?vue&type=template&id=753c8b50&");
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_invites_vue_vue_type_template_id_66e52eb0___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./invites.vue?vue&type=template&id=66e52eb0& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/layout/notification/invites.vue?vue&type=template&id=66e52eb0&");
 
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/classwork-tab/newClassworkModal.vue?vue&type=template&id=753c8b50&":
-/*!************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/classwork-tab/newClassworkModal.vue?vue&type=template&id=753c8b50& ***!
-  \************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/layout/notification/invites.vue?vue&type=template&id=66e52eb0&":
+/*!***************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/layout/notification/invites.vue?vue&type=template&id=66e52eb0& ***!
+  \***************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "render": () => (/* binding */ render),
@@ -8740,263 +8918,223 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "v-card",
+    "div",
     [
-      _c("vue-element-loading", {
-        attrs: { active: _vm.loading, spinner: "bar-fade-scale" }
-      }),
-      _vm._v(" "),
       _c(
-        "v-form",
-        {
-          ref: "NewClassworkForm",
-          attrs: { "lazy-validation": "" },
-          model: {
-            value: _vm.valid,
-            callback: function($$v) {
-              _vm.valid = $$v
-            },
-            expression: "valid"
-          }
-        },
+        "v-card",
+        { staticClass: "pa-0 ma-0", attrs: { flat: "", "max-height": "600" } },
         [
           _c("v-card-title", [
-            _c("span", { staticClass: "headline" }, [_vm._v("Add Classwork")])
+            _c(
+              "span",
+              { staticClass: "text-h6" },
+              [
+                _vm._v("Invites \r\n        "),
+                _c("v-icon", { attrs: { right: "" } }, [
+                  _vm._v("\r\n            mdi-account-plus\r\n        ")
+                ])
+              ],
+              1
+            )
           ]),
           _vm._v(" "),
           _c(
-            "v-card-text",
+            "div",
+            { staticClass: "pl-2 pr-2" },
             [
               _c(
-                "v-container",
+                "v-row",
+                { attrs: { "no-gutters": "" } },
                 [
                   _c(
-                    "v-row",
+                    "v-col",
+                    { staticClass: "pa-0 ma-0 mb-2", attrs: { cols: "12" } },
+                    [_c("v-divider")],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-col",
+                    { attrs: { cols: "12", md: "1" } },
                     [
                       _c(
-                        "v-col",
+                        "v-tabs",
                         {
-                          staticClass: "mb-0 pb-0 pt-0 mt-0",
-                          attrs: { cols: "12" }
-                        },
-                        [
-                          _c("v-select", {
-                            attrs: {
-                              outlined: "",
-                              rules: _vm.FieldRules,
-                              items: ["Objective Type", "Subjective Type"],
-                              label: "Type"
-                            },
-                            model: {
-                              value: _vm.form.type,
-                              callback: function($$v) {
-                                _vm.$set(_vm.form, "type", $$v)
-                              },
-                              expression: "form.type"
-                            }
-                          })
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "v-col",
-                        {
-                          staticClass: "mb-0 pb-0 pt-0 mt-0",
-                          attrs: { cols: "12" }
-                        },
-                        [
-                          _c("v-textarea", {
-                            attrs: {
-                              rows: "1",
-                              outlined: "",
-                              rules: _vm.FieldRules,
-                              label: "Title",
-                              "auto-grow": ""
-                            },
-                            model: {
-                              value: _vm.form.title,
-                              callback: function($$v) {
-                                _vm.$set(_vm.form, "title", $$v)
-                              },
-                              expression: "form.title"
-                            }
-                          })
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "v-col",
-                        {
-                          staticClass: "mb-0 pb-0 pt-0 mt-0",
-                          attrs: { cols: "12" }
-                        },
-                        [
-                          _c("v-textarea", {
-                            attrs: {
-                              outlined: "",
-                              rules: _vm.FieldRules,
-                              label: "Instruction",
-                              "auto-grow": ""
-                            },
-                            model: {
-                              value: _vm.form.instruction,
-                              callback: function($$v) {
-                                _vm.$set(_vm.form, "instruction", $$v)
-                              },
-                              expression: "form.instruction"
-                            }
-                          })
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _vm.form.type == "Objective Type"
-                        ? _c(
-                            "v-col",
-                            {
-                              staticClass: "mb-0 pb-0 pt-0 mt-0",
-                              attrs: { cols: "12" }
-                            },
-                            [
-                              _c("v-text-field", {
-                                attrs: {
-                                  rules: _vm.FieldRules,
-                                  "append-icon":
-                                    "mdi-" +
-                                    (_vm.isTimer ? "timer" : "timer-off"),
-                                  outlined: "",
-                                  min: "0",
-                                  hint: "mins",
-                                  label: "Time Limit",
-                                  type: "number"
-                                },
-                                on: {
-                                  click: function($event) {
-                                    _vm.isTimer = !_vm.isTimer
-                                  }
-                                },
-                                model: {
-                                  value: _vm.form.duration,
-                                  callback: function($$v) {
-                                    _vm.$set(_vm.form, "duration", $$v)
-                                  },
-                                  expression: "form.duration"
-                                }
-                              })
-                            ],
-                            1
-                          )
-                        : _vm._e(),
-                      _vm._v(" "),
-                      _vm.form.type == "Subjective Type"
-                        ? _c(
-                            "v-col",
-                            {
-                              staticClass: "mb-0 pb-0 pt-0 mt-0",
-                              attrs: { cols: "12" }
-                            },
-                            [
-                              _vm.form.type == "Subjective Type"
-                                ? _c("v-text-field", {
-                                    staticClass: "mb-0 pb-0",
-                                    attrs: {
-                                      rules: _vm.FieldRules,
-                                      outlined: "",
-                                      min: "0",
-                                      label: "Points",
-                                      type: "number"
-                                    },
-                                    model: {
-                                      value: _vm.form.points,
-                                      callback: function($$v) {
-                                        _vm.$set(_vm.form, "points", $$v)
-                                      },
-                                      expression: "form.points"
-                                    }
-                                  })
-                                : _vm._e()
-                            ],
-                            1
-                          )
-                        : _vm._e(),
-                      _vm._v(" "),
-                      _c(
-                        "v-col",
-                        {
-                          staticClass: "mb-0 pb-0 pt-0 mt-0",
-                          attrs: { cols: "12" }
+                          attrs: {
+                            "active-class": "",
+                            "next-icon": "mdi-arrow-right-bold-box-outline",
+                            "prev-icon": "mdi-arrow-left-bold-box-outline",
+                            "show-arrows": "",
+                            vertical:
+                              !_vm.$vuetify.breakpoint.xs &&
+                              !_vm.$vuetify.breakpoint.sm,
+                            centered:
+                              _vm.$vuetify.breakpoint.xs &&
+                              _vm.$vuetify.breakpoint.sm
+                          }
                         },
                         [
                           _c(
-                            "v-btn",
+                            "v-tab",
                             {
-                              staticClass: "mb-2",
-                              attrs: {
-                                color: "primary",
-                                text: "",
-                                rounded: ""
-                              },
-                              on: {
-                                click: function($event) {
-                                  return _vm.$refs.inputFile.$refs.input.click()
-                                }
-                              }
+                              class:
+                                !_vm.$vuetify.breakpoint.xs &&
+                                !_vm.$vuetify.breakpoint.sm
+                                  ? "d-flex justify-start"
+                                  : ""
                             },
                             [
-                              _c("v-icon", { attrs: { left: "" } }, [
-                                _vm._v(
-                                  "\n                                  mdi-attachment\n                              "
-                                )
-                              ]),
+                              _c(
+                                "v-icon",
+                                {
+                                  attrs: {
+                                    left:
+                                      !_vm.$vuetify.breakpoint.xs &&
+                                      !_vm.$vuetify.breakpoint.sm
+                                  }
+                                },
+                                [
+                                  _vm._v(
+                                    "\r\n                 mdi-bell\r\n                "
+                                  )
+                                ]
+                              ),
                               _vm._v(
-                                "\n                              Attach file\n                          "
+                                "\r\n                " +
+                                  _vm._s(
+                                    !_vm.$vuetify.breakpoint.xs &&
+                                      !_vm.$vuetify.breakpoint.sm
+                                      ? "Invite"
+                                      : ""
+                                  ) +
+                                  "\r\n                \r\n            "
                               )
                             ],
                             1
                           ),
                           _vm._v(" "),
-                          _c("v-file-input", {
-                            ref: "inputFile",
-                            staticClass: "d-none",
-                            attrs: { multiple: "" },
-                            on: { change: _vm.onFileChange }
-                          }),
-                          _vm._v(" "),
                           _c(
-                            "v-list",
-                            { staticClass: "ma-0 pa-0", attrs: { dense: "" } },
-                            _vm._l(_vm.file_name, function(item, index) {
+                            "v-tab",
+                            {
+                              class:
+                                !_vm.$vuetify.breakpoint.xs &&
+                                !_vm.$vuetify.breakpoint.sm
+                                  ? "d-flex justify-start"
+                                  : ""
+                            },
+                            [
+                              _c(
+                                "v-icon",
+                                {
+                                  attrs: {
+                                    left:
+                                      !_vm.$vuetify.breakpoint.xs &&
+                                      !_vm.$vuetify.breakpoint.sm
+                                  }
+                                },
+                                [
+                                  _vm._v(
+                                    "\r\n                 mdi-bell\r\n                "
+                                  )
+                                ]
+                              ),
+                              _vm._v(
+                                "\r\n                " +
+                                  _vm._s(
+                                    !_vm.$vuetify.breakpoint.xs &&
+                                      !_vm.$vuetify.breakpoint.sm
+                                      ? "Request"
+                                      : ""
+                                  ) +
+                                  "\r\n            "
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-col",
+                    { attrs: { cols: "12", md: "9" } },
+                    [
+                      _c("v-list", [
+                        _c(
+                          "div",
+                          [
+                            _vm.notifLength == 0
+                              ? _c(
+                                  "v-list-item",
+                                  [
+                                    _c(
+                                      "v-list-item-content",
+                                      [
+                                        _c(
+                                          "v-row",
+                                          {
+                                            staticClass: "mt-3",
+                                            attrs: {
+                                              align: "center",
+                                              justify: "center"
+                                            }
+                                          },
+                                          [
+                                            _c(
+                                              "v-col",
+                                              {
+                                                staticClass: "text-center",
+                                                attrs: { cols: "12" }
+                                              },
+                                              [
+                                                _c(
+                                                  "v-icon",
+                                                  {
+                                                    staticStyle: {
+                                                      "font-size": "2rem"
+                                                    }
+                                                  },
+                                                  [
+                                                    _vm._v(
+                                                      "\r\n                                        mdi-bell-off\r\n                                    "
+                                                    )
+                                                  ]
+                                                ),
+                                                _vm._v(" "),
+                                                _c("p", [
+                                                  _vm._v(
+                                                    " Empty Notification  "
+                                                  )
+                                                ])
+                                              ],
+                                              1
+                                            )
+                                          ],
+                                          1
+                                        )
+                                      ],
+                                      1
+                                    )
+                                  ],
+                                  1
+                                )
+                              : _vm._e(),
+                            _vm._v(" "),
+                            _vm._l(_vm.get_invites, function(item, index) {
                               return _c(
                                 "v-list-item",
-                                { key: index, staticClass: "ma-0 pa-0" },
+                                { key: index },
                                 [
                                   _c(
                                     "v-list-item-avatar",
                                     [
                                       _c(
                                         "v-icon",
-                                        {
-                                          attrs: {
-                                            large: "",
-                                            color:
-                                              item.extesion == "docx"
-                                                ? "blue"
-                                                : "red"
-                                          }
-                                        },
-                                        [
-                                          _vm._v(
-                                            "\n                                            " +
-                                              _vm._s(
-                                                item.extesion == "docx"
-                                                  ? "mdi-file-word"
-                                                  : "mdi-file-pdf"
-                                              ) +
-                                              "\n                                        "
-                                          )
-                                        ]
+                                        { attrs: { color: "blue", large: "" } },
+                                        [_vm._v("mdi-account-plus")]
                                       )
                                     ],
                                     1
@@ -9005,107 +9143,248 @@ var render = function() {
                                   _c(
                                     "v-list-item-content",
                                     [
-                                      _c("v-list-item-title", [
-                                        _vm._v(_vm._s(item.name))
-                                      ]),
-                                      _vm._v(" "),
                                       _c(
-                                        "v-list-item-subtitle",
+                                        "v-list-item-title",
+                                        { staticClass: "font-weight-medium" },
                                         [
-                                          _vm.uploadIndex == index &&
-                                          _vm.uploadPercentage != 100
-                                            ? _c("v-progress-linear", {
-                                                attrs: {
-                                                  rounded: "",
-                                                  value: _vm.uploadPercentage
-                                                }
-                                              })
-                                            : _vm._e()
+                                          _c(
+                                            "v-badge",
+                                            {
+                                              attrs: {
+                                                content:
+                                                  item.status == 1 ? "" : "new",
+                                                value:
+                                                  item.status == 1 ? "" : "new",
+                                                color:
+                                                  item.notification_type == 1
+                                                    ? "red"
+                                                    : item.notification_type ==
+                                                        3 ||
+                                                      item.notification_type ==
+                                                        2
+                                                    ? "blue"
+                                                    : item.notification_type ==
+                                                      4
+                                                    ? "green"
+                                                    : ""
+                                              }
+                                            },
+                                            [
+                                              _vm._v(
+                                                "\r\n                                " +
+                                                  _vm._s(item.name) +
+                                                  "   \r\n                                "
+                                              )
+                                            ]
+                                          )
                                         ],
                                         1
-                                      )
+                                      ),
+                                      _vm._v(" "),
+                                      _c("div", { staticClass: "body-2" }, [
+                                        _vm._v(
+                                          "\r\n                                " +
+                                            _vm._s(item.message) +
+                                            "\r\n                                 "
+                                        ),
+                                        item.notification_type == 3 &&
+                                        item.notification_accepted == 0
+                                          ? _c(
+                                              "a",
+                                              {
+                                                staticClass: "blue--text",
+                                                attrs: { href: "", link: "" },
+                                                on: {
+                                                  click: function($event) {
+                                                    $event.preventDefault()
+                                                    return _vm.acceptJoin(
+                                                      item.notification_attachments,
+                                                      item.n_id,
+                                                      index
+                                                    )
+                                                  }
+                                                }
+                                              },
+                                              [
+                                                _vm._v(
+                                                  "\r\n                                Accept invite"
+                                                )
+                                              ]
+                                            )
+                                          : _vm._e()
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("small", [
+                                        _vm._v(
+                                          _vm._s(
+                                            _vm.format_date(item.created_at)
+                                          )
+                                        )
+                                      ])
                                     ],
                                     1
                                   ),
                                   _vm._v(" "),
                                   _c(
                                     "v-list-item-action",
+                                    { staticStyle: { "z-index": "1" } },
                                     [
-                                      _c(
-                                        "v-btn",
-                                        {
-                                          attrs: { icon: "" },
-                                          on: {
-                                            click: function($event) {
-                                              return _vm.RemoveFile(index)
-                                            }
-                                          }
-                                        },
-                                        [
-                                          _c("v-icon", [
-                                            _vm._v(
-                                              "\n                                        mdi-close\n                                        "
-                                            )
-                                          ])
-                                        ],
-                                        1
-                                      )
+                                      item.status == null || item.status == 0
+                                        ? _c(
+                                            "v-tooltip",
+                                            {
+                                              attrs: { top: "" },
+                                              scopedSlots: _vm._u(
+                                                [
+                                                  {
+                                                    key: "activator",
+                                                    fn: function(ref) {
+                                                      var on = ref.on
+                                                      var attrs = ref.attrs
+                                                      return [
+                                                        item.status == null ||
+                                                        item.status == 0
+                                                          ? _c(
+                                                              "v-btn",
+                                                              _vm._g(
+                                                                _vm._b(
+                                                                  {
+                                                                    staticStyle: {
+                                                                      "z-index":
+                                                                        "50"
+                                                                    },
+                                                                    attrs: {
+                                                                      text: "",
+                                                                      icon: ""
+                                                                    },
+                                                                    on: {
+                                                                      click: function(
+                                                                        $event
+                                                                      ) {
+                                                                        return _vm.markAsread(
+                                                                          item.n_id
+                                                                        )
+                                                                      }
+                                                                    }
+                                                                  },
+                                                                  "v-btn",
+                                                                  attrs,
+                                                                  false
+                                                                ),
+                                                                on
+                                                              ),
+                                                              [
+                                                                _c("v-icon", [
+                                                                  _vm._v(
+                                                                    "mdi-check"
+                                                                  )
+                                                                ])
+                                                              ],
+                                                              1
+                                                            )
+                                                          : _vm._e()
+                                                      ]
+                                                    }
+                                                  }
+                                                ],
+                                                null,
+                                                true
+                                              )
+                                            },
+                                            [
+                                              _vm._v(" "),
+                                              _c("span", [
+                                                _vm._v("Mark as read")
+                                              ])
+                                            ]
+                                          )
+                                        : _vm._e(),
+                                      _vm._v(" "),
+                                      item.status == 1
+                                        ? _c(
+                                            "v-tooltip",
+                                            {
+                                              attrs: { top: "" },
+                                              scopedSlots: _vm._u(
+                                                [
+                                                  {
+                                                    key: "activator",
+                                                    fn: function(ref) {
+                                                      var on = ref.on
+                                                      var attrs = ref.attrs
+                                                      return [
+                                                        item.status == 1
+                                                          ? _c(
+                                                              "v-btn",
+                                                              _vm._g(
+                                                                _vm._b(
+                                                                  {
+                                                                    staticStyle: {
+                                                                      "z-index":
+                                                                        "50"
+                                                                    },
+                                                                    attrs: {
+                                                                      text: "",
+                                                                      icon: ""
+                                                                    },
+                                                                    on: {
+                                                                      click: function(
+                                                                        $event
+                                                                      ) {
+                                                                        return _vm.NotificationHide(
+                                                                          item.n_id
+                                                                        )
+                                                                      }
+                                                                    }
+                                                                  },
+                                                                  "v-btn",
+                                                                  attrs,
+                                                                  false
+                                                                ),
+                                                                on
+                                                              ),
+                                                              [
+                                                                _c("v-icon", [
+                                                                  _vm._v(
+                                                                    "mdi-close"
+                                                                  )
+                                                                ])
+                                                              ],
+                                                              1
+                                                            )
+                                                          : _vm._e()
+                                                      ]
+                                                    }
+                                                  }
+                                                ],
+                                                null,
+                                                true
+                                              )
+                                            },
+                                            [
+                                              _vm._v(" "),
+                                              _c("span", [
+                                                _vm._v("Hide notification")
+                                              ])
+                                            ]
+                                          )
+                                        : _vm._e()
                                     ],
                                     1
                                   )
                                 ],
                                 1
                               )
-                            }),
-                            1
-                          )
-                        ],
-                        1
-                      )
+                            })
+                          ],
+                          2
+                        )
+                      ])
                     ],
                     1
                   )
                 ],
                 1
-              )
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "v-card-actions",
-            [
-              _c("v-spacer"),
-              _vm._v(" "),
-              _c(
-                "v-btn",
-                {
-                  attrs: { text: "", disabled: _vm.loading },
-                  on: {
-                    click: function($event) {
-                      return _vm.$emit("CloseDialog")
-                    }
-                  }
-                },
-                [_vm._v("\n                Close\n            ")]
-              ),
-              _vm._v(" "),
-              _c(
-                "v-btn",
-                {
-                  attrs: {
-                    color: "primary",
-                    text: "",
-                    disabled: _vm.loading,
-                    loading: _vm.loading
-                  },
-                  on: {
-                    click: function($event) {
-                      return _vm.validate()
-                    }
-                  }
-                },
-                [_vm._v("\n                Save\n            ")]
               )
             ],
             1

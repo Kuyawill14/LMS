@@ -9,19 +9,7 @@
 
 export default {
 
- /*  beforeMount(){
-    window.addEventListener('contextmenu', function (e) { 
-      // do something here... 
-      e.preventDefault(); 
-    }, false);
-  } */
-  data(){
-    return{
-      url: process.env
-    }
-  }
-  
-      
+ 
 }
 </script>
 <style >

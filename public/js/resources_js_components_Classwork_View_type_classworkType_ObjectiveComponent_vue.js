@@ -1,3 +1,4 @@
+"use strict";
 (self["webpackChunk"] = self["webpackChunk"] || []).push([["resources_js_components_Classwork_View_type_classworkType_ObjectiveComponent_vue"],{
 
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/type/classworkType/ObjectiveComponent.vue?vue&type=script&lang=js&":
@@ -6,7 +7,6 @@
   \***********************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -27,6 +27,10 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
+//
+//
+//
 //
 //
 //
@@ -342,6 +346,31 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           }
         }, _callee3);
       }))();
+    },
+    DeleteComment: function DeleteComment(id, index) {
+      var _this4 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                axios["delete"]('/api/post/classwork/comment/delete/' + id).then(function (res) {
+                  if (res.data.success == true) {
+                    _this4.classworkDetails.comments.splice(index, 1);
+                  }
+                });
+
+              case 1:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4);
+      }))();
+    },
+    DownLoadFile: function DownLoadFile(file) {
+      window.open(file, '_blank');
     }
   },
   mounted: function mounted() {
@@ -357,7 +386,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   \******************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -396,7 +424,6 @@ component.options.__file = "resources/js/components/Classwork_View/type/classwor
   \*******************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -412,7 +439,6 @@ __webpack_require__.r(__webpack_exports__);
   \*************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ObjectiveComponent_vue_vue_type_template_id_1835845c___WEBPACK_IMPORTED_MODULE_0__.render),
@@ -429,7 +455,6 @@ __webpack_require__.r(__webpack_exports__);
   \****************************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "render": () => (/* binding */ render),
@@ -567,7 +592,7 @@ var render = function() {
                                             item.profile_pic == ""
                                               ? "https://ui-avatars.com/api/?background=random&color=fff&name=" +
                                                 item.name
-                                              : "/storage/" + item.profile_pic
+                                              : item.profile_pic
                                         }
                                       })
                                     ],
@@ -596,18 +621,84 @@ var render = function() {
                                     "v-list-item-action",
                                     [
                                       _c(
-                                        "v-btn",
-                                        { attrs: { icon: "" } },
-                                        [
-                                          _c(
-                                            "v-icon",
-                                            {
-                                              attrs: {
-                                                small: "",
-                                                color: "grey lighten-1"
+                                        "v-menu",
+                                        {
+                                          attrs: { "offset-x": "" },
+                                          scopedSlots: _vm._u(
+                                            [
+                                              {
+                                                key: "activator",
+                                                fn: function(ref) {
+                                                  var on = ref.on
+                                                  var attrs = ref.attrs
+                                                  return [
+                                                    _c(
+                                                      "v-btn",
+                                                      _vm._g(
+                                                        _vm._b(
+                                                          {
+                                                            attrs: { icon: "" }
+                                                          },
+                                                          "v-btn",
+                                                          attrs,
+                                                          false
+                                                        ),
+                                                        on
+                                                      ),
+                                                      [
+                                                        _c(
+                                                          "v-icon",
+                                                          {
+                                                            attrs: {
+                                                              small: "",
+                                                              color:
+                                                                "grey lighten-1"
+                                                            }
+                                                          },
+                                                          [
+                                                            _vm._v(
+                                                              "mdi-dots-vertical"
+                                                            )
+                                                          ]
+                                                        )
+                                                      ],
+                                                      1
+                                                    )
+                                                  ]
+                                                }
                                               }
-                                            },
-                                            [_vm._v("mdi-dots-vertical")]
+                                            ],
+                                            null,
+                                            true
+                                          )
+                                        },
+                                        [
+                                          _vm._v(" "),
+                                          _c(
+                                            "v-list",
+                                            { attrs: { dense: "", nav: "" } },
+                                            [
+                                              _c(
+                                                "v-list-item",
+                                                {
+                                                  on: {
+                                                    click: function($event) {
+                                                      return _vm.DeleteComment(
+                                                        item.id,
+                                                        i
+                                                      )
+                                                    }
+                                                  }
+                                                },
+                                                [
+                                                  _c("v-list-item-title", [
+                                                    _vm._v("Remove")
+                                                  ])
+                                                ],
+                                                1
+                                              )
+                                            ],
+                                            1
                                           )
                                         ],
                                         1
@@ -646,8 +737,7 @@ var render = function() {
                                                 _vm.get_CurrentUser.firstName +
                                                 " " +
                                                 _vm.get_CurrentUser.lastName
-                                              : "/storage/" +
-                                                _vm.get_CurrentUser.profile_pic
+                                              : _vm.get_CurrentUser.profile_pic
                                         }
                                       })
                                     ],
@@ -1034,68 +1124,6 @@ var render = function() {
                                           true
                                         )
                                       })
-                                    ],
-                                    1
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "v-list-item-action",
-                                    [
-                                      _c(
-                                        "v-tooltip",
-                                        {
-                                          attrs: { top: "" },
-                                          scopedSlots: _vm._u(
-                                            [
-                                              {
-                                                key: "activator",
-                                                fn: function(ref) {
-                                                  var on = ref.on
-                                                  var attrs = ref.attrs
-                                                  return [
-                                                    _c(
-                                                      "v-btn",
-                                                      _vm._g(
-                                                        _vm._b(
-                                                          {
-                                                            attrs: { icon: "" },
-                                                            on: {
-                                                              click: function(
-                                                                $event
-                                                              ) {
-                                                                ;(_vm.removeDialog = true),
-                                                                  (_vm.removeIndex = i)
-                                                              }
-                                                            }
-                                                          },
-                                                          "v-btn",
-                                                          attrs,
-                                                          false
-                                                        ),
-                                                        on
-                                                      ),
-                                                      [
-                                                        _c("v-icon", [
-                                                          _vm._v(
-                                                            "\r\n                                                mdi-close\r\n                                                "
-                                                          )
-                                                        ])
-                                                      ],
-                                                      1
-                                                    )
-                                                  ]
-                                                }
-                                              }
-                                            ],
-                                            null,
-                                            true
-                                          )
-                                        },
-                                        [
-                                          _vm._v(" "),
-                                          _c("span", [_vm._v("Remove file")])
-                                        ]
-                                      )
                                     ],
                                     1
                                   )

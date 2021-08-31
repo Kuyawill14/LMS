@@ -279,7 +279,7 @@ export default {
             
         },
         DownLoadFile(file){
-            window.location = file;
+            window.open(file,'_blank');
         },
         addFile(){
             console.log(this.Details.attachment.length);

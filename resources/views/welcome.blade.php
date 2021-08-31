@@ -16,13 +16,15 @@
             <title>{{config('app.name')}}</title>
 
             <!-- Fonts -->
-            <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:400,500,700,400italic|Material+Icons">
-          <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+            <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Montserrat:400,500,700,400italic|Material+Icons">
+ 
+          <link href="https://fonts.googleapis.com/css?family=Montserrat:100,300,400,500,700,900" rel="stylesheet">
           <link href="https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css" rel="stylesheet">
           <link rel="stylesheet" type="text/css" href="{{asset('css/app.css')}}">
             <link href="https://cdn.jsdelivr.net/npm/@morioh/v-quill-editor/dist/editor.css" rel="stylesheet">
             <link href="https://cdn.quilljs.com/1.0.0/quill.snow.css" rel="stylesheet">
-       
+
+            
        
        
           </head>

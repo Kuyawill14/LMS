@@ -1,29 +1,26 @@
 <template>
     <v-card class="pa-2">
         <v-card-title class="text-h5 mb-3">
-          Submit Answers
+          Submit Answer
         </v-card-title>
         <v-card-text class="font-weight-bold">
              <div class="subtitle-1 " style="line-height:1.3">Clicking submit will end this quiz. 
                  You will no longer be able to make changes 
-                 to your answers unless allowed by the instructor. Continue?</div>
+                 to your answers unless allowed by the instructor.</div>
             </v-card-text>
         <v-card-actions >
           <v-spacer></v-spacer>
           <v-btn
-          
             rounded
             text
-            @click="$emit('toggleCancelDialog')"
-          >
+            @click="$emit('toggleCancelDialog')">
             Cancel
           </v-btn>
           <v-btn
             color="primary"
             text
             rounded
-            @click="$emit('toggleSubmit')"
-          >
+            @click="$emit('toggleSubmit')">
             Confirm
           </v-btn>
         </v-card-actions>

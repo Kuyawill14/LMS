@@ -31,8 +31,8 @@
                         </div>
                     </div>
                 </v-col>
-                 <v-col cols="4" class="text-right">
-                    <v-btn icon="">
+                 <v-col v-if="post.u_id == UserDetails.id || UserDetails.role == 'Teacher'" cols="4"  class="text-right">
+                    <v-btn icon>
                         <v-icon >mdi-dots-vertical</v-icon>
                     </v-btn>
                  </v-col>
@@ -44,10 +44,8 @@
                         <div class="pa-5 " >
                             <span v-html="post.content" class="post-content"></span>
                         </div>
-                        
                     </v-col>
                 </v-row>
-            
             </v-container>
           
             <!--Divider -->

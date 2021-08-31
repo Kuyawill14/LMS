@@ -1,3 +1,4 @@
+"use strict";
 (self["webpackChunk"] = self["webpackChunk"] || []).push([["resources_js_components_Classwork_View_StudentPage_ExamQuestionListPage_vue"],{
 
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/StudentPage/ExamQuestionListPage.vue?vue&type=script&lang=js&":
@@ -6,7 +7,6 @@
   \******************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -290,16 +290,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -313,25 +303,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   data: function data() {
     return {
       StopTimer: false,
-      valid: false,
-      checker: [],
       dialog: false,
       warningDialog: false,
       inputCheck: ['True', 'False'],
       isSubmitting: false,
       Qlength: '',
       isStart: false,
-      isEditing_Id: '',
       isLoading: true,
-      Show: true,
-      DeleteDetails: {},
-      IdentificationAns: [],
       PickAnswers: {},
       PickAnswers_id: {},
       FinalAnswers: [],
-      SubAnswers: [],
-      quesNumber: [],
-      AnswerRadio: [],
       Questype: "",
       questionIndex: 0,
       duration: '',
@@ -347,7 +328,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       tempCounter: 0,
       timeCount: null,
       classworkDetails: [],
-      confirmLeave: false,
       leaveStrike: 0,
       preventWarning: false,
       isExamStart: false,
@@ -355,8 +335,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       Submitted_Answers: null,
       submission_id: null,
       isSavingAnswer: false,
-      oldAnswer: null,
-      QuestionList: []
+      bus: "testing"
     };
   },
   computed: (0,vuex__WEBPACK_IMPORTED_MODULE_4__.mapGetters)(["getAll_questions"]),
@@ -366,7 +345,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
       this.timeCount = setInterval(function () {
         _this.tempCounter = _this.tempCounter + 1;
-        /* //console.log(this.tempCounter); */
       }, 1000);
     },
     SubmitPromp: function SubmitPromp() {
@@ -382,14 +360,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           item.Ans_letter = '', item.Answers = '';
         });
       }
-    },
-    removePropt: function removePropt(num, id) {
-      this.DeleteDetails.number = num;
-      this.DeleteDetails.id = id;
-      this.isRemoving = true;
-      this.isRemoving_id = id;
-      this.dialog = true;
-      ;
     },
     SelectAnswer: function SelectAnswer() {
       var name = btoa('CurrentAnswers');
@@ -409,6 +379,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.preventWarning = !this.preventWarning;
     },
     next: function next() {
+      var _this2 = this;
+
       /*  let name = btoa('CurrentAnswers');
         localStorage.setItem(name, JSON.stringify(this.FinalAnswers));
        if(this.FinalAnswers[this.questionIndex].timeConsume != null || ''){
@@ -430,25 +402,26 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       if (this.questionIndex != this.Qlength - 1) {
         this.questionIndex++;
       }
+
+      setTimeout(function () {
+        return _this2.isSavingAnswer = false;
+      }, 500);
     },
     updateAnswer: function updateAnswer() {
-      var _this2 = this;
+      var _this3 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                axios.put('/api/question/store-answer/' + _this2.submission_id, {
+                axios.put('/api/question/store-answer/' + _this3.submission_id, {
                   type: "multiple",
-                  data: _this2.FinalAnswers
+                  data: _this3.FinalAnswers
                 }); //this.isSavingAnswer = false;
+                //setTimeout(() => (this.isSavingAnswer = false), 500);
 
-                setTimeout(function () {
-                  return _this2.isSavingAnswer = false;
-                }, 500);
-
-              case 2:
+              case 1:
               case "end":
                 return _context.stop();
             }
@@ -469,8 +442,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.CountTime();
       this.questionIndex--;
     },
-    SubmitAnswer: function SubmitAnswer() {
-      var _this3 = this;
+    SubmitAnswer: function SubmitAnswer(time) {
+      var _this4 = this;
 
       this.isExamStart = false;
       this.isLoading = !this.isLoading;
@@ -481,23 +454,24 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       axios.post('/api/question/check/' + this.$route.query.clwk, {
         item: this.FinalAnswers,
         AnsLength: this.questionIndex,
-        timerCount: this.TimerCount
+        timerCount: this.TimerCount,
+        timeSpent: time
       }).then(function () {
         setTimeout(function () {
-          _this3.isLoading = !_this3.isLoading;
-          _this3.isSubmitting = !_this3.isSubmitting;
+          _this4.isLoading = !_this4.isLoading;
+          _this4.isSubmitting = !_this4.isSubmitting;
         }, 2000);
 
-        _this3.$router.push({
+        _this4.$router.push({
           name: 'result-page',
           params: {
-            id: _this3.$route.query.clwk
+            id: _this4.$route.query.clwk
           }
         });
       });
     },
     TimesUpSubmit: function TimesUpSubmit() {
-      var _this4 = this;
+      var _this5 = this;
 
       this.isExamStart = false;
       this.isLoading = !this.isLoading;
@@ -510,50 +484,48 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         timerCount: this.TimerCount
       }).then(function () {
         setTimeout(function () {
-          _this4.isLoading = !_this4.isLoading;
-          _this4.isSubmitting = !_this4.isSubmitting;
+          _this5.isLoading = !_this5.isLoading;
+          _this5.isSubmitting = !_this5.isSubmitting;
         }, 2000);
-        localStorage.removeItem(btoa('timer_time'));
-        localStorage.removeItem(btoa('CurrentAnswers'));
 
-        _this4.$router.push({
+        _this5.$router.push({
           name: 'result-page',
           params: {
-            id: _this4.$route.query.clwk
+            id: _this5.$route.query.clwk
           }
         });
       });
     },
     fetchQuestions: function fetchQuestions() {
-      var _this5 = this;
+      var _this6 = this;
 
       this.$store.dispatch('fetchQuestions', this.$route.query.clwk).then(function () {
-        _this5.Qlength = _this5.getAll_questions.Question.length;
-        _this5.isLoading = false; //let AnswersList = JSON.parse(localStorage.getItem(name));
+        _this6.Qlength = _this6.getAll_questions.Question.length;
+        _this6.isLoading = false; //let AnswersList = JSON.parse(localStorage.getItem(name));
 
-        var AnswersList = _this5.Submitted_Answers;
+        var AnswersList = _this6.Submitted_Answers;
 
         if (AnswersList == null) {
-          for (var index = 0; index < _this5.getAll_questions.Question.length; index++) {
-            if (_this5.getAll_questions.Question[index].type == 'Identification' || _this5.getAll_questions.Question[index].type == 'Multiple Choice' || _this5.getAll_questions.Question[index].type == 'True or False') {
-              _this5.FinalAnswers.push({
+          for (var index = 0; index < _this6.getAll_questions.Question.length; index++) {
+            if (_this6.getAll_questions.Question[index].type == 'Identification' || _this6.getAll_questions.Question[index].type == 'Multiple Choice' || _this6.getAll_questions.Question[index].type == 'True or False') {
+              _this6.FinalAnswers.push({
                 Answer: '',
-                Question_id: _this5.getAll_questions.Question[index].id,
-                type: _this5.getAll_questions.Question[index].type,
+                Question_id: _this6.getAll_questions.Question[index].id,
+                type: _this6.getAll_questions.Question[index].type,
                 timeConsume: null
               });
-            } else if (_this5.getAll_questions.Question[index].type == 'Matching type') {
+            } else if (_this6.getAll_questions.Question[index].type == 'Matching type') {
               (function () {
                 var Ans = new Array();
                 var Choices_id = new Array();
 
-                _this5.getAll_questions.Answer[index].SubAnswer.forEach(function (item) {
+                _this6.getAll_questions.Answer[index].SubAnswer.forEach(function (item) {
                   Choices_id.push({
                     choice_id: item.id
                   });
                 });
 
-                _this5.getAll_questions.Answer[index].SubQuestion.forEach(function (item) {
+                _this6.getAll_questions.Answer[index].SubQuestion.forEach(function (item) {
                   Ans.push({
                     Ans_letter: '',
                     Ans_id: null,
@@ -562,53 +534,53 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   });
                 });
 
-                _this5.FinalAnswers.push({
+                _this6.FinalAnswers.push({
                   Answer: Ans,
                   Choices_id: Choices_id,
-                  Question_id: _this5.getAll_questions.Question[index].id,
-                  type: _this5.getAll_questions.Question[index].type,
+                  Question_id: _this6.getAll_questions.Question[index].id,
+                  type: _this6.getAll_questions.Question[index].type,
                   timeConsume: null
                 });
               })();
             }
           }
 
-          axios.put('/api/question/store-answer/' + _this5.submission_id, {
+          axios.put('/api/question/store-answer/' + _this6.submission_id, {
             type: "multiple",
-            data: _this5.FinalAnswers
-          }); //localStorage.setItem(name, JSON.stringify(this.FinalAnswers));
+            data: _this6.FinalAnswers
+          });
         } else {
           var Submitted_length = AnswersList.length;
-          var Question_length = _this5.getAll_questions.Question.length;
+          var Question_length = _this6.getAll_questions.Question.length;
           var diff = Question_length - Submitted_length;
 
           for (var i = 0; i < diff; i++) {
-            if (_this5.QuestionAndAnswer.Question[i].type == 'Multiple Choice' || _this5.QuestionAndAnswer.Question[i].type == 'Identification' || _this5.QuestionAndAnswer.Question[i].type == 'True or False') {
-              _this5.details.Submitted_Answers.push({
+            if (_this6.QuestionAndAnswer.Question[i].type == 'Multiple Choice' || _this6.QuestionAndAnswer.Question[i].type == 'Identification' || _this6.QuestionAndAnswer.Question[i].type == 'True or False') {
+              _this6.details.Submitted_Answers.push({
                 Answer: null,
-                Question_id: _this5.QuestionAndAnswer.Question[i].id,
+                Question_id: _this6.QuestionAndAnswer.Question[i].id,
                 timeConsume: null,
-                type: _this5.QuestionAndAnswer.Question[i].type
+                type: _this6.QuestionAndAnswer.Question[i].type
               });
-            } else if (_this5.QuestionAndAnswer.Question[i].type == 'Matching type') {}
+            } else if (_this6.QuestionAndAnswer.Question[i].type == 'Matching type') {}
           }
 
-          for (var x = 0; x < _this5.getAll_questions.Question.length; x++) {
+          for (var x = 0; x < _this6.getAll_questions.Question.length; x++) {
             for (var j = 0; j < AnswersList.length; j++) {
-              if (_this5.getAll_questions.Question[x].id == AnswersList[j].Question_id) {
-                if (_this5.getAll_questions.Question[x].type == 'Identification' || _this5.getAll_questions.Question[x].type == 'Multiple Choice' || _this5.getAll_questions.Question[x].type == 'True or False') {
-                  _this5.FinalAnswers.push({
+              if (_this6.getAll_questions.Question[x].id == AnswersList[j].Question_id) {
+                if (_this6.getAll_questions.Question[x].type == 'Identification' || _this6.getAll_questions.Question[x].type == 'Multiple Choice' || _this6.getAll_questions.Question[x].type == 'True or False') {
+                  _this6.FinalAnswers.push({
                     Answer: AnswersList[j].Answer,
                     Question_id: AnswersList[j].Question_id,
                     type: AnswersList[j].type,
                     timeConsume: AnswersList[j].timeConsume
                   });
-                } else if (_this5.getAll_questions.Question[x].type == 'Matching type') {
+                } else if (_this6.getAll_questions.Question[x].type == 'Matching type') {
                   (function () {
                     var Ans = new Array();
                     var Choices_id = new Array();
 
-                    _this5.getAll_questions.Answer[x].SubAnswer.forEach(function (item) {
+                    _this6.getAll_questions.Answer[x].SubAnswer.forEach(function (item) {
                       Choices_id.push({
                         choice_id: item.id
                       });
@@ -616,14 +588,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                     AnswersList[j].Answer.forEach(function (item) {
                       Ans.push({
-                        //Ans_letter: item.Ans_letter,
+                        Ans_letter: item.Ans_letter,
                         Ans_id: item.Ans_id,
                         subquestion_id: item.subquestion_id,
                         Answers: item.Answers
                       });
                     });
 
-                    _this5.FinalAnswers.push({
+                    _this6.FinalAnswers.push({
                       Answer: Ans,
                       Choices_id: Choices_id,
                       Question_id: AnswersList[j].Question_id,
@@ -645,29 +617,29 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       event.returnValue = "";
     },
     CheckStatus: function CheckStatus() {
-      var _this6 = this;
+      var _this7 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                axios.get('/api/student/checking/' + _this6.$route.query.clwk).then(function (res) {
-                  _this6.Submitted_Answers = res.data.Submitted_Answers;
-                  _this6.StartTime = res.data.startTime;
-                  _this6.submission_id = res.data.submission_id;
+                axios.get('/api/student/checking/' + _this7.$route.query.clwk).then(function (res) {
+                  _this7.Submitted_Answers = res.data.Submitted_Answers;
+                  _this7.StartTime = res.data.startTime;
+                  _this7.submission_id = res.data.submission_id;
 
                   if (res.data.status == 'Taking' || res.data.status == '') {
-                    _this6.StartQuiz();
+                    _this7.StartQuiz();
 
-                    _this6.preventNav = !_this6.preventNav;
+                    _this7.preventNav = !_this7.preventNav;
                   } else {
-                    _this6.isLoading = false;
+                    _this7.isLoading = false;
 
-                    _this6.$router.push({
+                    _this7.$router.push({
                       name: 'result-page',
                       params: {
-                        id: _this6.$route.query.clwk
+                        id: _this7.$route.query.clwk
                       }
                     });
                   }
@@ -691,29 +663,28 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             this.FinalAnswers[main_index].Answer[second_index].Ans_id = this.getAll_questions.Answer[this.questionIndex].SubAnswer[x].id;
           }
         }
-      } //console.log(this.FinalAnswers[main_index])
-
+      }
     },
     StartQuiz: function StartQuiz() {
-      var _this7 = this;
+      var _this8 = this;
 
       this.isStart = true;
       var alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
       this.Alphabet = alphabet;
       axios.get('/api/classwork/showDetails/' + this.$route.query.clwk + '/' + this.$route.params.id).then(function (res) {
-        _this7.duration = res.data.Details.duration;
-        _this7.classworkDetails = res.data.Details;
+        _this8.duration = res.data.Details.duration;
+        _this8.classworkDetails = res.data.Details;
 
-        _this7.fetchQuestions();
+        _this8.fetchQuestions();
       });
       this.CountTime();
     },
     triggerWarning: function triggerWarning() {
       ////console.log("test 123");
       this.leaveStrike += 1;
-      /*   if(this.leaveStrike == 3){
-            this.SubmitAnswer();
-        } */
+      /*  if(this.leaveStrike == 5){
+           this.SubmitAnswer();
+       } */
 
       if (!this.preventWarning) {
         this.warningDialog = true;
@@ -725,8 +696,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     var self = this;
     $(window).blur(function () {
       self.triggerWarning();
-    });
-    window.addEventListener("beforeunload", this.preventNav);
+    }); //window.addEventListener("beforeunload", this.preventNav)
+
     /*  this.$once("hook:beforeDestroy", () => {
      window.removeEventListener("beforeunload", this.preventNav);
     }) */
@@ -740,9 +711,24 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
     next();
   },
-  mounted: function mounted() {
-    this.isExamStart = true;
-    this.CheckStatus();
+  beforeRouteEnter: function beforeRouteEnter(to, from, next) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              next(function (vm) {
+                vm.isExamStart = true;
+                vm.CheckStatus();
+              });
+
+            case 1:
+            case "end":
+              return _context3.stop();
+          }
+        }
+      }, _callee3);
+    }))();
   }
 });
 
@@ -754,40 +740,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   \*******************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var moment_src_moment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! moment/src/moment */ "./node_modules/moment/src/moment.js");
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -833,112 +790,32 @@ __webpack_require__.r(__webpack_exports__);
       displaySeconds: 0,
       SecondProgress: 1000,
       isLoaded: false,
-      endAt: new Date().getTime() + 5000
+      endAt: new Date().getTime() + 5000,
+      timeSpent: null
     };
   },
-  computed: {
-    _seconds: function _seconds() {
-      return 1000;
-    },
-    _minutes: function _minutes() {
-      return this._seconds * 60;
-    },
-    _hour: function _hour() {
-      return this._minutes * 60;
-    },
-    _day: function _day() {
-      return this._hour * 24;
+  watch: {
+    'StopTimer': function StopTimer(arMsg) {
+      if (arMsg == true) {
+        this.$emit('TimerStop', this.timeSpent);
+      }
     }
   },
   methods: {
-    format_date: function format_date(value) {
-      if (value) {
-        return (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_0__.default)(String(value)).format('YYYY M D');
-      }
-    },
     startTimer: function startTimer() {
-      var _this = this;
-
-      //console.log(this.StartTime);
-      //this.Startdate = new Date(this.StartTime).getTime();
-      var due;
-      var name = btoa('timer_time');
-      var timer_time = localStorage.getItem(name);
-
-      if (timer_time == null) {
-        due = this.duration * 60 * 1000;
-        localStorage.setItem(name, due);
-      } else {
-        var data = timer_time.split("|");
-        var r_time = data[1];
-        due = parseInt(r_time);
-      }
-
-      var _final = '';
-      this.NewTimer = setInterval(function () {
-        if (_this.StopTimer != true) {
-          if (_final == '') {
-            _final = due - 1000;
-            var finalData = name + '|' + _final + '|' + name;
-            localStorage.setItem(name, finalData);
-          } else {
-            _final = _final - 1000;
-
-            var _finalData = name + '|' + _final + '|' + name;
-
-            localStorage.setItem(name, _finalData);
-          }
-        } else {
-          clearInterval(_this.NewTimer);
-          localStorage.removeItem(name);
-
-          _this.$emit('TimerStop');
-        }
-      }, 1000);
-      this.EndDate = new Date().getTime() + due;
-    },
-    ShowTimer: function ShowTimer() {
       var due = this.duration * 60 * 1000;
-
-      if (this.StopTimer != true) {//console.log(this.StopTimer)
-      } else {
-        this.$emit('TimerStop');
-      }
-
       this.EndDate = new Date(this.StartTime).getTime() + due;
+      var timeConsumed = this.Startdate - new Date(this.StartTime).getTime();
+      this.timeSpent = Math.floor(timeConsumed / 1000 / 60);
     },
     EndTimer: function EndTimer() {
-      //console.log('test 123');
       clearInterval(this.NewTimer);
       localStorage.removeItem(name);
       this.$emit('TimesUp');
-    },
-    newTimer: function newTimer() {
-      var _this2 = this;
-
-      var ExamTime = this.duration * 1000;
-      setInterval(function () {
-        var StartTime = new Date(_this2.StartTime);
-        var DateNow = new Date();
-        var remainingtime = ExamTime - Math.abs(StartTime - DateNow) / 1000;
-        var hours = Math.floor(remainingtime / 3600); // get hours
-
-        var minutes = Math.floor((remainingtime - hours * 3600) / 60); // get minutes
-
-        var seconds = Math.floor(remainingtime - hours * 3600 - minutes * 60);
-        /*  //console.log('diff' , (Math.abs(StartTime - DateNow)/1000));
-         //console.log('remain ',remainingtime); */
-
-        _this2.displayMinutes = minutes;
-        _this2.displayHours = hours < 10 ? "0" + hours : hours;
-        _this2.displayMinutes = minutes < 10 ? "0" + minutes : minutes;
-        _this2.displaySeconds = seconds < 10 ? "0" + seconds : seconds; ////console.log(minutes+':'+seconds);
-      }, 1000); ////console.log(this.StartTime);
     }
   },
-  mounted: function mounted() {
-    this.ShowTimer(); //this.newTimer();
-    //this.startTimer();
+  beforeMount: function beforeMount() {
+    this.startTimer();
   }
 });
 
@@ -950,14 +827,10 @@ __webpack_require__.r(__webpack_exports__);
   \***********************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-//
-//
-//
 //
 //
 //
@@ -996,11 +869,12 @@ __webpack_require__.r(__webpack_exports__);
   \***********************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+//
+//
 //
 //
 //
@@ -1033,27 +907,55 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/StudentPage/ExamQuestionListPage.vue?vue&type=style&index=0&lang=css&":
-/*!**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/StudentPage/ExamQuestionListPage.vue?vue&type=style&index=0&lang=css& ***!
-  \**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/StudentPage/ExamQuestionListPage.vue?vue&type=style&index=0&lang=css&":
+/*!***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/StudentPage/ExamQuestionListPage.vue?vue&type=style&index=0&lang=css& ***!
+  \***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /***/ ((module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
-/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../../node_modules/laravel-mix/node_modules/css-loader/dist/runtime/api.js */ "./node_modules/laravel-mix/node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
 // Imports
 
-var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
 ___CSS_LOADER_EXPORT___.push([module.id, "\n.centered-input >>> input {\n      text-align: center\n}\n.post-content img{\n        \n     max-height: 8rem !important;\n}\n.centered-input input {\n  text-align: center\n}\n\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
+
+/***/ }),
+
+/***/ "./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/StudentPage/ExamQuestionListPage.vue?vue&type=style&index=0&lang=css&":
+/*!********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/StudentPage/ExamQuestionListPage.vue?vue&type=style&index=0&lang=css& ***!
+  \********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../../node_modules/laravel-mix/node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/laravel-mix/node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ExamQuestionListPage_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ExamQuestionListPage.vue?vue&type=style&index=0&lang=css& */ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/StudentPage/ExamQuestionListPage.vue?vue&type=style&index=0&lang=css&");
+
+            
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ExamQuestionListPage_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_1__.default, options);
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ExamQuestionListPage_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_1__.default.locals || {});
 
 /***/ }),
 
@@ -1063,7 +965,6 @@ ___CSS_LOADER_EXPORT___.push([module.id, "\n.centered-input >>> input {\n      t
   \**************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ checkOverflow)
@@ -1128,7 +1029,6 @@ function checkOverflow(m) {
   \***************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "createDate": () => (/* binding */ createDate),
@@ -1179,7 +1079,6 @@ function createUTCDate(y) {
   \*************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "prepareConfig": () => (/* binding */ prepareConfig),
@@ -1329,7 +1228,6 @@ function createLocalOrUTC(input, format, locale, strict, isUTC) {
   \**********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "configFromArray": () => (/* binding */ configFromArray)
@@ -1527,7 +1425,6 @@ function dayOfYearFromWeekInfo(config) {
   \***********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "configFromObject": () => (/* binding */ configFromObject)
@@ -1565,7 +1462,6 @@ function configFromObject(config) {
   \*********************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "configFromStringAndArray": () => (/* binding */ configFromStringAndArray)
@@ -1651,7 +1547,6 @@ function configFromStringAndArray(config) {
   \**********************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "configFromStringAndFormat": () => (/* binding */ configFromStringAndFormat)
@@ -1805,7 +1700,6 @@ function meridiemFixWrap(locale, hour, meridiem) {
   \***********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "configFromISO": () => (/* binding */ configFromISO),
@@ -2083,7 +1977,6 @@ _utils_hooks__WEBPACK_IMPORTED_MODULE_2__.hooks.createFromInputFallback = (0,_ut
   \*****************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "createLocal": () => (/* binding */ createLocal)
@@ -2104,7 +1997,6 @@ function createLocal(input, format, locale, strict) {
   \*************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ getParsingFlags)
@@ -2147,7 +2039,6 @@ function getParsingFlags(m) {
   \***************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "createUTC": () => (/* binding */ createUTC)
@@ -2168,7 +2059,6 @@ function createUTC(input, format, locale, strict) {
   \*****************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "isValid": () => (/* binding */ isValid),
@@ -2239,7 +2129,6 @@ function createInvalid(flags) {
   \*****************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "abs": () => (/* binding */ abs)
@@ -2272,7 +2161,6 @@ function abs() {
   \**************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "add": () => (/* binding */ add),
@@ -2310,7 +2198,6 @@ function subtract(input, value) {
   \****************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "as": () => (/* binding */ as),
@@ -2416,7 +2303,6 @@ var asMilliseconds = makeAs('ms'),
   \********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "bubble": () => (/* binding */ bubble),
@@ -2503,7 +2389,6 @@ function monthsToDays(months) {
   \*******************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "clone": () => (/* binding */ clone)
@@ -2524,7 +2409,6 @@ function clone() {
   \*************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "Duration": () => (/* binding */ Duration),
@@ -2585,7 +2469,6 @@ function isDuration(obj) {
   \********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "createDuration": () => (/* binding */ createDuration)
@@ -2741,7 +2624,6 @@ function momentsDifference(base, other) {
   \**********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "createDuration": () => (/* reexport safe */ _create__WEBPACK_IMPORTED_MODULE_1__.createDuration),
@@ -2771,7 +2653,6 @@ __webpack_require__.r(__webpack_exports__);
   \*****************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "get": () => (/* binding */ get),
@@ -2823,7 +2704,6 @@ function weeks() {
   \**********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "getSetRelativeTimeRounding": () => (/* binding */ getSetRelativeTimeRounding),
@@ -2955,7 +2835,6 @@ function humanize(argWithSuffix, argThresholds) {
   \************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "toISOString": () => (/* binding */ toISOString)
@@ -3039,7 +2918,6 @@ function toISOString() {
   \***********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _constructor__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./constructor */ "./node_modules/moment/src/lib/duration/constructor.js");
 /* harmony import */ var _abs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./abs */ "./node_modules/moment/src/lib/duration/abs.js");
@@ -3119,7 +2997,6 @@ proto.lang = _moment_locale__WEBPACK_IMPORTED_MODULE_9__.lang;
   \*******************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ isDurationValid),
@@ -3194,7 +3071,6 @@ function createInvalid() {
   \******************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "formattingTokens": () => (/* binding */ formattingTokens),
@@ -3318,7 +3194,6 @@ function expandFormat(format, locale) {
   \***********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "baseConfig": () => (/* binding */ baseConfig)
@@ -3379,7 +3254,6 @@ var baseConfig = {
   \********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "defaultCalendar": () => (/* binding */ defaultCalendar),
@@ -3411,7 +3285,6 @@ function calendar(key, mom, now) {
   \***********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "Locale": () => (/* binding */ Locale)
@@ -3431,7 +3304,6 @@ function Locale(config) {
   \**************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _prototype__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./prototype */ "./node_modules/moment/src/lib/locale/prototype.js");
 /* harmony import */ var _locales__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./locales */ "./node_modules/moment/src/lib/locale/locales.js");
@@ -3485,7 +3357,6 @@ __webpack_require__.r(__webpack_exports__);
   \*******************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "defaultLongDateFormat": () => (/* binding */ defaultLongDateFormat),
@@ -3538,7 +3409,6 @@ function longDateFormat(key) {
   \*******************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "defaultInvalidDate": () => (/* binding */ defaultInvalidDate),
@@ -3559,7 +3429,6 @@ function invalidDate() {
   \*****************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "listMonths": () => (/* binding */ listMonths),
@@ -3674,7 +3543,6 @@ function listWeekdaysMin(localeSorted, format, index) {
   \******************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "getSetGlobalLocale": () => (/* reexport safe */ _locales__WEBPACK_IMPORTED_MODULE_1__.getSetGlobalLocale),
@@ -3726,7 +3594,6 @@ _utils_hooks__WEBPACK_IMPORTED_MODULE_4__.hooks.langData = (0,_utils_deprecate__
   \*******************************************************/
 /***/ ((module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "getSetGlobalLocale": () => (/* binding */ getSetGlobalLocale),
@@ -3995,7 +3862,6 @@ function listLocales() {
   \*******************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "defaultOrdinal": () => (/* binding */ defaultOrdinal),
@@ -4020,7 +3886,6 @@ function ordinal(number) {
   \***************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "preParsePostFormat": () => (/* binding */ preParsePostFormat)
@@ -4038,7 +3903,6 @@ function preParsePostFormat(string) {
   \*********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _constructor__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./constructor */ "./node_modules/moment/src/lib/locale/constructor.js");
 /* harmony import */ var _calendar__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./calendar */ "./node_modules/moment/src/lib/locale/calendar.js");
@@ -4126,7 +3990,6 @@ proto.meridiem = _units_hour__WEBPACK_IMPORTED_MODULE_12__.localeMeridiem;
   \********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "defaultRelativeTime": () => (/* binding */ defaultRelativeTime),
@@ -4176,7 +4039,6 @@ function pastFuture(diff, output) {
   \***************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "set": () => (/* binding */ set),
@@ -4252,7 +4114,6 @@ function mergeConfigs(parentConfig, childConfig) {
   \************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "addSubtract": () => (/* binding */ addSubtract),
@@ -4336,7 +4197,6 @@ var add = createAdder(1, 'add'),
   \********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "getCalendarFormat": () => (/* binding */ getCalendarFormat),
@@ -4411,7 +4271,6 @@ function calendar(time, formats) {
   \*****************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "clone": () => (/* binding */ clone)
@@ -4432,7 +4291,6 @@ function clone() {
   \*******************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "isAfter": () => (/* binding */ isAfter),
@@ -4527,7 +4385,6 @@ function isSameOrBefore(input, units) {
   \***********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "copyConfig": () => (/* binding */ copyConfig),
@@ -4624,7 +4481,6 @@ function isMoment(obj) {
   \*************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "creationData": () => (/* binding */ creationData)
@@ -4648,7 +4504,6 @@ function creationData() {
   \****************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "diff": () => (/* binding */ diff)
@@ -4745,7 +4600,6 @@ function monthDiff(a, b) {
   \******************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "toString": () => (/* binding */ toString),
@@ -4844,7 +4698,6 @@ function format(inputString) {
   \****************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "from": () => (/* binding */ from),
@@ -4883,7 +4736,6 @@ function fromNow(withoutSuffix) {
   \*******************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "makeGetSet": () => (/* binding */ makeGetSet),
@@ -4981,7 +4833,6 @@ function stringSet(units, value) {
   \******************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "locale": () => (/* binding */ locale),
@@ -5034,7 +4885,6 @@ function localeData() {
   \*******************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "prototypeMin": () => (/* binding */ prototypeMin),
@@ -5118,7 +4968,6 @@ function max() {
   \******************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "now": () => (/* reexport safe */ _now__WEBPACK_IMPORTED_MODULE_5__.now),
@@ -5166,7 +5015,6 @@ function createInZone() {
   \***************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "now": () => (/* binding */ now)
@@ -5184,7 +5032,6 @@ var now = function () {
   \*********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -5398,7 +5245,6 @@ proto.isDSTShifted = (0,_utils_deprecate__WEBPACK_IMPORTED_MODULE_31__.deprecate
   \************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "startOf": () => (/* binding */ startOf),
@@ -5580,7 +5426,6 @@ function endOf(units) {
   \*******************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "valueOf": () => (/* binding */ valueOf),
@@ -5642,7 +5487,6 @@ function toJSON() {
   \**************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "to": () => (/* binding */ to),
@@ -5681,7 +5525,6 @@ function toNow(withoutSuffix) {
   \*****************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "isValid": () => (/* binding */ isValid),
@@ -5716,7 +5559,6 @@ function invalidAt() {
   \****************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "match1": () => (/* binding */ match1),
@@ -5816,7 +5658,6 @@ function regexEscape(s) {
   \****************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "addParseToken": () => (/* binding */ addParseToken),
@@ -5870,7 +5711,6 @@ function addTimeToArrayFromToken(token, input, config) {
   \******************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "addUnitAlias": () => (/* binding */ addUnitAlias),
@@ -5919,7 +5759,6 @@ function normalizeObjectUnits(inputObject) {
   \********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "YEAR": () => (/* binding */ YEAR),
@@ -5951,7 +5790,6 @@ var YEAR = 0,
   \***********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "getSetDayOfMonth": () => (/* binding */ getSetDayOfMonth)
@@ -6013,7 +5851,6 @@ var getSetDayOfMonth = (0,_moment_get_set__WEBPACK_IMPORTED_MODULE_0__.makeGetSe
   \**********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "defaultLocaleWeekdays": () => (/* binding */ defaultLocaleWeekdays),
@@ -6486,7 +6323,6 @@ function computeWeekdaysParse() {
   \**********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "getSetDayOfYear": () => (/* binding */ getSetDayOfYear)
@@ -6544,7 +6380,6 @@ function getSetDayOfYear(input) {
   \**************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "localeEras": () => (/* binding */ localeEras),
@@ -6865,7 +6700,6 @@ function computeErasParse() {
   \***************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "localeIsPM": () => (/* binding */ localeIsPM),
@@ -7046,7 +6880,6 @@ function localeMeridiem(hours, minutes, isLower) {
   \**********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "getSetMillisecond": () => (/* binding */ getSetMillisecond)
@@ -7138,7 +6971,6 @@ getSetMillisecond = (0,_moment_get_set__WEBPACK_IMPORTED_MODULE_0__.makeGetSet)(
   \*****************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "getSetMinute": () => (/* binding */ getSetMinute)
@@ -7189,7 +7021,6 @@ var getSetMinute = (0,_moment_get_set__WEBPACK_IMPORTED_MODULE_0__.makeGetSet)('
   \****************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "daysInMonth": () => (/* binding */ daysInMonth),
@@ -7574,7 +7405,6 @@ function computeMonthsParse() {
   \*****************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "cloneWithOffset": () => (/* binding */ cloneWithOffset),
@@ -7864,7 +7694,6 @@ function isUtc() {
   \*********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "addUnitPriority": () => (/* binding */ addUnitPriority),
@@ -7902,7 +7731,6 @@ function getPrioritizedUnits(unitsObj) {
   \******************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "getSetQuarter": () => (/* binding */ getSetQuarter)
@@ -7958,7 +7786,6 @@ function getSetQuarter(input) {
   \*****************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "getSetSecond": () => (/* binding */ getSetSecond)
@@ -8009,7 +7836,6 @@ var getSetSecond = (0,_moment_get_set__WEBPACK_IMPORTED_MODULE_0__.makeGetSet)('
   \********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _format_format__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../format/format */ "./node_modules/moment/src/lib/format/format.js");
 /* harmony import */ var _parse_regex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../parse/regex */ "./node_modules/moment/src/lib/parse/regex.js");
@@ -8045,7 +7871,6 @@ __webpack_require__.r(__webpack_exports__);
   \*******************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "getZoneAbbr": () => (/* binding */ getZoneAbbr),
@@ -8078,7 +7903,6 @@ function getZoneName() {
   \****************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "normalizeUnits": () => (/* reexport safe */ _aliases__WEBPACK_IMPORTED_MODULE_15__.normalizeUnits)
@@ -8129,7 +7953,6 @@ __webpack_require__.r(__webpack_exports__);
   \******************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "dayOfYearFromWeeks": () => (/* binding */ dayOfYearFromWeeks),
@@ -8214,7 +8037,6 @@ function weeksInYear(year, dow, doy) {
   \********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "getSetWeekYear": () => (/* binding */ getSetWeekYear),
@@ -8370,7 +8192,6 @@ function setWeekAll(weekYear, week, weekday, dow, doy) {
   \***************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "localeWeek": () => (/* binding */ localeWeek),
@@ -8468,7 +8289,6 @@ function getSetISOWeek(input) {
   \***************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "daysInYear": () => (/* binding */ daysInYear),
@@ -8573,7 +8393,6 @@ function getIsLeapYear() {
   \*******************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ absCeil)
@@ -8595,7 +8414,6 @@ function absCeil(number) {
   \********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ absFloor)
@@ -8618,7 +8436,6 @@ function absFloor(number) {
   \********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ absRound)
@@ -8640,7 +8457,6 @@ function absRound(number) {
   \*************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ compareArrays)
@@ -8674,7 +8490,6 @@ function compareArrays(array1, array2, dontConvert) {
   \*******************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ defaults)
@@ -8699,7 +8514,6 @@ function defaults(a, b, c) {
   \********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "deprecate": () => (/* binding */ deprecate),
@@ -8786,7 +8600,6 @@ _hooks__WEBPACK_IMPORTED_MODULE_1__.hooks.deprecationHandler = null;
   \*****************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ extend)
@@ -8821,7 +8634,6 @@ function extend(a, b) {
   \***********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ hasOwnProp)
@@ -8839,7 +8651,6 @@ function hasOwnProp(a, b) {
   \****************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "hooks": () => (/* binding */ hooks),
@@ -8868,7 +8679,6 @@ function setHookCallback(callback) {
   \*******************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ indexOf)
@@ -8901,7 +8711,6 @@ if (Array.prototype.indexOf) {
   \*******************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ isArray)
@@ -8922,7 +8731,6 @@ function isArray(input) {
   \***************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ isCalendarSpec)
@@ -8965,7 +8773,6 @@ function isCalendarSpec(input) {
   \******************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ isDate)
@@ -8986,7 +8793,6 @@ function isDate(input) {
   \**********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ isFunction)
@@ -9007,7 +8813,6 @@ function isFunction(input) {
   \***********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "isLeapYear": () => (/* binding */ isLeapYear)
@@ -9025,7 +8830,6 @@ function isLeapYear(year) {
   \**************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "isMomentInput": () => (/* binding */ isMomentInput),
@@ -9123,7 +8927,6 @@ function isNumberOrStringArray(input) {
   \********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ isNumber)
@@ -9144,7 +8947,6 @@ function isNumber(input) {
   \**************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ isObjectEmpty)
@@ -9175,7 +8977,6 @@ function isObjectEmpty(obj) {
   \********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ isObject)
@@ -9198,7 +8999,6 @@ function isObject(input) {
   \********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ isString)
@@ -9216,7 +9016,6 @@ function isString(input) {
   \***********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ isUndefined)
@@ -9234,7 +9033,6 @@ function isUndefined(input) {
   \***************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ keys)
@@ -9270,7 +9068,6 @@ if (Object.keys) {
   \**************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ map)
@@ -9293,7 +9090,6 @@ function map(arr, fn) {
   \**************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ mod)
@@ -9311,7 +9107,6 @@ function mod(n, x) {
   \***************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ some)
@@ -9346,7 +9141,6 @@ if (Array.prototype.some) {
   \*****************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ toInt)
@@ -9374,7 +9168,6 @@ function toInt(argumentForCoercion) {
   \********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ zeroFill)
@@ -9399,7 +9192,6 @@ function zeroFill(number, targetLength, forceSign) {
   \*******************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -9487,7 +9279,6 @@ _lib_utils_hooks__WEBPACK_IMPORTED_MODULE_0__.hooks.HTML5_FMT = {
   \*************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -9528,7 +9319,6 @@ component.options.__file = "resources/js/components/Classwork_View/StudentPage/E
   \**************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -9567,7 +9357,6 @@ component.options.__file = "resources/js/components/Classwork_View/StudentPage/Q
   \******************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -9606,7 +9395,6 @@ component.options.__file = "resources/js/components/Classwork_View/StudentPage/c
   \******************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -9645,7 +9433,6 @@ component.options.__file = "resources/js/components/Classwork_View/StudentPage/w
   \**************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -9661,7 +9448,6 @@ __webpack_require__.r(__webpack_exports__);
   \***************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -9677,7 +9463,6 @@ __webpack_require__.r(__webpack_exports__);
   \*******************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -9693,7 +9478,6 @@ __webpack_require__.r(__webpack_exports__);
   \*******************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -9703,13 +9487,24 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/Classwork_View/StudentPage/ExamQuestionListPage.vue?vue&type=style&index=0&lang=css&":
+/*!**********************************************************************************************************************!*\
+  !*** ./resources/js/components/Classwork_View/StudentPage/ExamQuestionListPage.vue?vue&type=style&index=0&lang=css& ***!
+  \**********************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_laravel_mix_node_modules_style_loader_dist_cjs_js_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ExamQuestionListPage_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!../../../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ExamQuestionListPage.vue?vue&type=style&index=0&lang=css& */ "./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/StudentPage/ExamQuestionListPage.vue?vue&type=style&index=0&lang=css&");
+
+
+/***/ }),
+
 /***/ "./resources/js/components/Classwork_View/StudentPage/ExamQuestionListPage.vue?vue&type=template&id=38e5e010&":
 /*!********************************************************************************************************************!*\
   !*** ./resources/js/components/Classwork_View/StudentPage/ExamQuestionListPage.vue?vue&type=template&id=38e5e010& ***!
   \********************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ExamQuestionListPage_vue_vue_type_template_id_38e5e010___WEBPACK_IMPORTED_MODULE_0__.render),
@@ -9726,7 +9521,6 @@ __webpack_require__.r(__webpack_exports__);
   \*********************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_QuizTimer_vue_vue_type_template_id_48ea8a62___WEBPACK_IMPORTED_MODULE_0__.render),
@@ -9743,7 +9537,6 @@ __webpack_require__.r(__webpack_exports__);
   \*************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_confirmDialog_vue_vue_type_template_id_cd2ee08c___WEBPACK_IMPORTED_MODULE_0__.render),
@@ -9760,7 +9553,6 @@ __webpack_require__.r(__webpack_exports__);
   \*************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_warningDialog_vue_vue_type_template_id_6aecf596___WEBPACK_IMPORTED_MODULE_0__.render),
@@ -9771,30 +9563,12 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/Classwork_View/StudentPage/ExamQuestionListPage.vue?vue&type=style&index=0&lang=css&":
-/*!**********************************************************************************************************************!*\
-  !*** ./resources/js/components/Classwork_View/StudentPage/ExamQuestionListPage.vue?vue&type=style&index=0&lang=css& ***!
-  \**********************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ExamQuestionListPage_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-style-loader/index.js!../../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ExamQuestionListPage.vue?vue&type=style&index=0&lang=css& */ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/StudentPage/ExamQuestionListPage.vue?vue&type=style&index=0&lang=css&");
-/* harmony import */ var _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ExamQuestionListPage_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ExamQuestionListPage_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__);
-/* harmony reexport (unknown) */ var __WEBPACK_REEXPORT_OBJECT__ = {};
-/* harmony reexport (unknown) */ for(const __WEBPACK_IMPORT_KEY__ in _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ExamQuestionListPage_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== "default") __WEBPACK_REEXPORT_OBJECT__[__WEBPACK_IMPORT_KEY__] = () => _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ExamQuestionListPage_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__[__WEBPACK_IMPORT_KEY__]
-/* harmony reexport (unknown) */ __webpack_require__.d(__webpack_exports__, __WEBPACK_REEXPORT_OBJECT__);
-
-
-/***/ }),
-
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/StudentPage/ExamQuestionListPage.vue?vue&type=template&id=38e5e010&":
 /*!***********************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/StudentPage/ExamQuestionListPage.vue?vue&type=template&id=38e5e010& ***!
   \***********************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "render": () => (/* binding */ render),
@@ -9827,7 +9601,7 @@ var render = function() {
                     _vm.dialog = !_vm.dialog
                   },
                   toggleSubmit: function($event) {
-                    ;(_vm.StopTimer = true), _vm.SubmitAnswer()
+                    _vm.StopTimer = true
                   }
                 }
               })
@@ -9915,12 +9689,13 @@ var render = function() {
       _vm._v(" "),
       !_vm.isLoading
         ? _c(
-            "div",
+            "v-container",
             {
               class:
                 _vm.$vuetify.breakpoint.xs || _vm.$vuetify.breakpoint.sm
-                  ? "pa-2 mt-1"
-                  : "pa-2 mt-10"
+                  ? "pa-2 "
+                  : "pa-2",
+              attrs: { fluid: "" }
             },
             [
               _c(
@@ -9929,7 +9704,7 @@ var render = function() {
                 [
                   _c(
                     "v-col",
-                    { attrs: { cols: "12", md: "10", xl: "7", lg: "8" } },
+                    { attrs: { cols: "12" } },
                     [
                       _c(
                         "v-card",
@@ -9954,66 +9729,75 @@ var render = function() {
                                     },
                                     [
                                       _c(
-                                        "div",
-                                        { staticClass: "mt-3 d-flex" },
+                                        "v-list",
                                         [
                                           _c(
-                                            "v-avatar",
-                                            {
-                                              staticClass: "mr-2",
-                                              attrs: {
-                                                size:
-                                                  !_vm.$vuetify.breakpoint.xs &&
-                                                  !_vm.$vuetify.breakpoint.sm
-                                                    ? "50"
-                                                    : "40",
-                                                color: "primary"
-                                              }
-                                            },
+                                            "v-list-item",
                                             [
                                               _c(
-                                                "v-icon",
-                                                {
-                                                  attrs: {
-                                                    dark: "",
-                                                    large:
-                                                      !_vm.$vuetify.breakpoint
-                                                        .xs &&
-                                                      !_vm.$vuetify.breakpoint
-                                                        .sm
-                                                  }
-                                                },
+                                                "v-list-item-avatar",
                                                 [
-                                                  _vm._v(
-                                                    "\r\n                            mdi-book-open-variant\r\n                            "
+                                                  _c(
+                                                    "v-avatar",
+                                                    {
+                                                      attrs: { color: "blue" }
+                                                    },
+                                                    [
+                                                      _c(
+                                                        "v-icon",
+                                                        { attrs: { dark: "" } },
+                                                        [
+                                                          _vm._v(
+                                                            "\r\n                                mdi-book-open-variant\r\n                                "
+                                                          )
+                                                        ]
+                                                      )
+                                                    ],
+                                                    1
                                                   )
-                                                ]
+                                                ],
+                                                1
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "v-list-item-content",
+                                                [
+                                                  _c(
+                                                    "v-list-item-title",
+                                                    {
+                                                      staticClass:
+                                                        "font-weight-bold"
+                                                    },
+                                                    [
+                                                      _vm._v(
+                                                        _vm._s(
+                                                          _vm.classworkDetails
+                                                            .title
+                                                        )
+                                                      )
+                                                    ]
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _c("v-list-item-subtitle", [
+                                                    _vm._v(
+                                                      "Total Points: " +
+                                                        _vm._s(
+                                                          _vm.classworkDetails
+                                                            .points
+                                                        )
+                                                    )
+                                                  ])
+                                                ],
+                                                1
                                               )
                                             ],
                                             1
-                                          ),
-                                          _vm._v(" "),
-                                          _c(
-                                            "div",
-                                            {
-                                              class:
-                                                !_vm.$vuetify.breakpoint.xs &&
-                                                !_vm.$vuetify.breakpoint.sm
-                                                  ? "font-weight-bold mt-4"
-                                                  : "mt-2"
-                                            },
-                                            [
-                                              _vm._v(
-                                                _vm._s(
-                                                  _vm.classworkDetails.title
-                                                )
-                                              )
-                                            ]
                                           )
                                         ],
                                         1
                                       )
-                                    ]
+                                    ],
+                                    1
                                   ),
                                   _vm._v(" "),
                                   _c(
@@ -10100,7 +9884,7 @@ var render = function() {
                                                                   item.type ==
                                                                     "Multiple Choice" ||
                                                                   item.type ==
-                                                                    "Indentification" ||
+                                                                    "Identification" ||
                                                                   item.type ==
                                                                     "True or False"
                                                                     ? _c(
@@ -10116,7 +9900,8 @@ var render = function() {
                                                                             click: function(
                                                                               $event
                                                                             ) {
-                                                                              _vm.questionIndex = index
+                                                                              _vm.updateAnswer(),
+                                                                                (_vm.questionIndex = index)
                                                                             }
                                                                           }
                                                                         },
@@ -10188,6 +9973,14 @@ var render = function() {
                                                                               "",
                                                                             rounded:
                                                                               ""
+                                                                          },
+                                                                          on: {
+                                                                            click: function(
+                                                                              $event
+                                                                            ) {
+                                                                              _vm.updateAnswer(),
+                                                                                (_vm.questionIndex = index)
+                                                                            }
                                                                           }
                                                                         },
                                                                         [
@@ -10269,19 +10062,16 @@ var render = function() {
                                               1
                                             ),
                                             _vm._v(" "),
-                                            !_vm.isLoading && !_vm.StopTimer
+                                            !_vm.isLoading
                                               ? _c("quizTimer", {
                                                   attrs: {
+                                                    bus: _vm.bus,
                                                     StartTime: _vm.StartTime,
                                                     StopTimer: _vm.StopTimer,
                                                     duration: _vm.duration
                                                   },
                                                   on: {
-                                                    TimerStop: function(
-                                                      $event
-                                                    ) {
-                                                      return _vm.SubmitAnswer()
-                                                    },
+                                                    TimerStop: _vm.SubmitAnswer,
                                                     TimesUp: function($event) {
                                                       return _vm.TimesUpSubmit()
                                                     }
@@ -11512,7 +11302,6 @@ render._withStripped = true
   \************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "render": () => (/* binding */ render),
@@ -11555,7 +11344,9 @@ var render = function() {
                     ])
                   ]),
                   _vm._v(" "),
-                  _c("span", [_vm._v(":")]),
+                  _c("span", { staticClass: "font-weight-bold mt-1" }, [
+                    _vm._v(":")
+                  ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "text-center" }, [
                     _c("div", { staticClass: "text-md-h6" }, [
@@ -11567,7 +11358,9 @@ var render = function() {
                     ])
                   ]),
                   _vm._v(" "),
-                  _c("span", [_vm._v(":")]),
+                  _c("span", { staticClass: "font-weight-bold mt-1" }, [
+                    _vm._v(":")
+                  ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "text-center" }, [
                     _c("div", { staticClass: "text-md-h6" }, [
@@ -11601,7 +11394,6 @@ render._withStripped = true
   \****************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "render": () => (/* binding */ render),
@@ -11616,7 +11408,7 @@ var render = function() {
     { staticClass: "pa-2" },
     [
       _c("v-card-title", { staticClass: "text-h5 mb-3" }, [
-        _vm._v("\n      Submit Answers\n    ")
+        _vm._v("\n      Submit Answer\n    ")
       ]),
       _vm._v(" "),
       _c("v-card-text", { staticClass: "font-weight-bold" }, [
@@ -11625,7 +11417,7 @@ var render = function() {
           { staticClass: "subtitle-1 ", staticStyle: { "line-height": "1.3" } },
           [
             _vm._v(
-              "Clicking submit will end this quiz. \n             You will no longer be able to make changes \n             to your answers unless allowed by the instructor. Continue?"
+              "Clicking submit will end this quiz. \n             You will no longer be able to make changes \n             to your answers unless allowed by the instructor."
             )
           ]
         )
@@ -11681,7 +11473,6 @@ render._withStripped = true
   \****************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "render": () => (/* binding */ render),
@@ -11693,7 +11484,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "v-card",
-    { staticClass: "pa-2" },
+    { staticClass: "pa-3" },
     [
       _c(
         "div",
@@ -11708,16 +11499,17 @@ var render = function() {
                 { staticClass: "text-center mb-0 pb-0", attrs: { cols: "12" } },
                 [
                   _c(
-                    "v-icon",
-                    {
-                      staticStyle: { "font-size": "7rem" },
-                      attrs: { color: "error" }
-                    },
+                    "v-avatar",
+                    { attrs: { tile: "", size: "120" } },
                     [
-                      _vm._v(
-                        "\n                  mdi-alert-circle-outline\n              "
-                      )
-                    ]
+                      _c("v-img", {
+                        attrs: {
+                          src:
+                            "https://c.tenor.com/jFesPO4xs8kAAAAM/cat-watching-you.gif"
+                        }
+                      })
+                    ],
+                    1
                   )
                 ],
                 1
@@ -11727,7 +11519,7 @@ var render = function() {
                 "v-col",
                 { staticClass: "text-center mt-0 pt-0", attrs: { cols: "12" } },
                 [
-                  _c("div", { staticClass: "error--text display-1" }, [
+                  _c("div", { staticClass: "primary--text display-1" }, [
                     _vm._v("Oops...")
                   ])
                 ]
@@ -11749,7 +11541,7 @@ var render = function() {
                 "v-col",
                 { staticClass: "text-center" },
                 [
-                  _c("div", { staticClass: "body-1" }, [
+                  _c("p", { staticClass: "body-1" }, [
                     _vm._v(
                       "\n                 Please refrain from leaving the examination page while it's ongoing or else it will be submitted automatically!\n              "
                     )
@@ -11785,27 +11577,6 @@ var staticRenderFns = []
 render._withStripped = true
 
 
-
-/***/ }),
-
-/***/ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/StudentPage/ExamQuestionListPage.vue?vue&type=style&index=0&lang=css&":
-/*!*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-style-loader/index.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/StudentPage/ExamQuestionListPage.vue?vue&type=style&index=0&lang=css& ***!
-  \*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(/*! !!../../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ExamQuestionListPage.vue?vue&type=style&index=0&lang=css& */ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/StudentPage/ExamQuestionListPage.vue?vue&type=style&index=0&lang=css&");
-if(content.__esModule) content = content.default;
-if(typeof content === 'string') content = [[module.id, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var add = __webpack_require__(/*! !../../../../../node_modules/vue-style-loader/lib/addStylesClient.js */ "./node_modules/vue-style-loader/lib/addStylesClient.js").default
-var update = add("08734392", content, false, {});
-// Hot Module Replacement
-if(false) {}
 
 /***/ })
 

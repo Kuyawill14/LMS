@@ -36,7 +36,7 @@
             size="36"
             :class="isEditing && idEditing_id == item.id ? 'mt-1': ''">
             <v-img class="rounded-circle"  
-                :src="item.profile_pic == null || item.profile_pic == ''? 'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=' + item.name : '/storage/'+item.profile_pic"></v-img> 
+                :src="item.profile_pic == null || item.profile_pic == ''? 'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=' + item.name : item.profile_pic"></v-img> 
             </v-avatar>
             <v-container class="d-flex flex-row ml-1 mt-1" ma-0 pa-0>
                 <v-container  class="d-flex flex-column ml-1 pr-10" ma-0 pa-0>
@@ -61,10 +61,10 @@
                 ></v-text-field>
                 
                 </v-container>
-                 <v-menu offset-y >
+                 <v-menu v-if="item.u_id == UserDetails.id || UserDetails.role == 'Teacher'" offset-y >
                     <template v-slot:activator="{ on, attrs }">
                         <v-btn icon v-bind="attrs" v-on="on">
-                            <v-icon >mdi-dots-horizontal</v-icon>
+                            <v-icon >mdi-dots-vertical</v-icon>
                         </v-btn> 
                     </template>
                     <v-list pa-0 ma-0>

@@ -57,7 +57,7 @@
                 </v-col>
                 <v-col v-if="!preview" cols="12" md="12" class="pa-5 mt-0 pt-0">
                     <vue-element-loading :active="isUpdating" spinner="bar-fade-scale" />
-                    <v-container class="mb-1">
+                    <v-container class="mb-0 pb-0">
                            
                                  
                             <v-row class="pa-0 ma-0">
@@ -132,6 +132,15 @@
                                 </v-row>
                             </v-container>
                     </v-container>
+
+                    <div class="text-right">
+                         <v-switch
+                     
+                        v-model="QuetionsList.sensitivity"
+                        class="float-right"
+                        label="Case Sensitive">
+                    </v-switch>
+                    </div>
                 </v-col>
 
                 <v-col @dblclick="preview = !preview, isEditing = true"  v-if="preview || previewAll" cols="12" md="12" class="pl-4 pr-4 pt-2">

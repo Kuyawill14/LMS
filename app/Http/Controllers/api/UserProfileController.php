@@ -180,8 +180,8 @@ class UserProfileController extends Controller
         if($UpdatePicture){
             $file = $request->file('file');
             if($file != ""){
-            
-                 $path =  str_replace(\Config::get('app.do_url').'/', "", $UpdatePicture->profile_pic);
+                
+                $path =  str_replace(\Config::get('app.do_url').'/', "", $UpdatePicture->profile_pic);
                 if($UpdatePicture->profile_pic != null){
                     Storage::disk('DO_spaces')->delete($path);
                 }

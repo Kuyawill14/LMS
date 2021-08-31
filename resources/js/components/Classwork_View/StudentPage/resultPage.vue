@@ -85,9 +85,6 @@
                                         <v-btn @click="Viewdialog = !Viewdialog" rounded text color="primary" >
                                             View Submission
                                         </v-btn>
-                                        <v-btn @click="Viewdialog = !Viewdialog" rounded text >
-                                            CLose
-                                        </v-btn>
                                     </v-col>
                                 </v-row>
                                
