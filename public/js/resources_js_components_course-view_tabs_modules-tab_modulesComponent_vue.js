@@ -605,7 +605,7 @@ var render = function() {
                           _c("v-textarea", {
                             attrs: {
                               outlined: "",
-                              label: "Instruction",
+                              label: "Description",
                               "auto-grow": ""
                             },
                             model: {

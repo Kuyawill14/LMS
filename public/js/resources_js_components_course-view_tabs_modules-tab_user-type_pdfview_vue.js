@@ -60,7 +60,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.toolbar {\n    z-index: 1 !important;\n}\n.pdf-viewer {\n    height: 100% !important;\n    width: 100% !important;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.holds-the-iframe {\r\n  background:url('https://orangestr.sgp1.digitaloceanspaces.com/loading/loading/Infinity-1.5s-200px.gif') center center no-repeat;\n}\n.toolbar {\r\n        z-index: 1 !important;\n}\n.pdf-viewer {\r\n        height: 100% !important;\r\n        width: 100% !important;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -196,7 +196,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("v-card", { staticStyle: { height: "620px" } }, [
     _c("iframe", {
-      staticClass: "pdf-viewer",
+      staticClass: "pdf-viewer holds-the-iframe",
       attrs: { height: "100%", width: "100%", src: "" + _vm.pdf_path }
     })
   ])

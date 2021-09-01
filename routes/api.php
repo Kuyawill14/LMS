@@ -192,6 +192,11 @@ Route::middleware('auth:sanctum')->prefix('/main_module')->group(function () {
 Route::middleware('auth:sanctum')->prefix('/sub_module')->group(function () {
     Route::get('/all/{id}', [SubModuleController::class, 'index']);
     Route::post('/insert', [SubModuleController::class, 'store']);
+    Route::put('/file-remove/{id}', [SubModuleController::class, 'RemoveUploadedFile']);
+    Route::delete('/delete/{id}', [SubModuleController::class, 'deleteSubmodule']);
+  
+  
+    //
     
 });
 

@@ -22,7 +22,7 @@
                                 outlined
                               
                                 v-model="moduleForm.description"
-                                label="Instruction"
+                                label="Description"
                                 auto-grow
                                 >
                             </v-textarea>

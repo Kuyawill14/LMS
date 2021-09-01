@@ -5,11 +5,11 @@
                 <span class="headline">Confirmation</span>
             </v-card-title>
             <v-card-text>
-                 Are you sure you want to delete this module?
+                Are you sure you want to delete this module?
             </v-card-text>
             <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn text @click="$emit('closeModal');" >
+                <v-btn text @click="$emit('closeModal');">
                     Cancel
                 </v-btn>
                 <v-btn color="red" text @click="deleteModule()" :loading="loading">
@@ -28,7 +28,7 @@
         mapActions
     } from "vuex";
     export default {
-        props: ['type', 'moduleId'],
+        props: ['type', 'sub_module_id'],
 
         data() {
             return {
@@ -52,21 +52,21 @@
                     duration: 5000
                 });
             },
+
             deleteModule() {
 
-
-                this.$store.dispatch('deleteMainModule', this.id)
+                axios.delete(`/api/sub_module/delete/${this.sub_module_id}`)
                     .then((res) => {
                         this.loading = false;
                         this.$emit('closeModal');
-                        this.toastSuccess("Module Successfully Deleted");
-                    })
+                        // this.toastSuccess("Module Successfully Deleted");
+                           this.$store.dispatch('fetchSubModule', this.$route.params.id);
+                    });
+
             },
         },
         mounted() {
-            if (this.type == 'delete_module') {
-                this.id = this.moduleId;
-            }
+           
         }
 
     }

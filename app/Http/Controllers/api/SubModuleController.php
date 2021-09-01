@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\tbl_sub_modules;
 use Illuminate\Support\Facades\DB;
 use Validator,Redirect,Response,File;
+use Illuminate\Support\Facades\Storage;
 
 
 class SubModuleController extends Controller
@@ -45,11 +46,134 @@ class SubModuleController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
+
+    public function RemoveUploadedFile(Request $request, $id)
+    {
+
+        // return $request;
+        $removeUpload =  tbl_sub_modules::find($id);
+        if($removeUpload){
+            Storage::delete('public/'.$request->file);
+                $removeUpload->file_attachment = -1;
+                $removeUpload->save();
+        }
+    }
+
+
+    public function deleteSubmodule( $id) {
+        $submodule =  tbl_sub_modules::find($id);
+
+        if($submodule) {
+            $submodule->delete();
+            return array( 
+                'message' => 'Successfully Deleted'
+            );
+    
+        }
+
+    
+    }
+
+
     public function store(Request $request)
     {
-       
 
-   if($request->type == 'Video' || $request->type == 'Document') {
+
+        $file = null;
+       $itemType = $request->type == 'Video' || $request->type == 'Document';
+        $id = $request->submodule_id;
+
+            $subModule =  tbl_sub_modules::find($id);
+            
+            if($subModule) {
+                if( $itemType) {
+                    
+                    if($request->file != 'null') {
+                        $file = $request->file->store('public/upload/courses/' .$request->main_module_id);
+                        $subModule->file_attachment = preg_replace('/\bpublic\/\b/', '', $file);;
+                    }
+                  
+                    $subModule->sub_module_name = $request->sub_module_name;
+                    $subModule->type = $request->type;
+                    $subModule->description = $request->description;
+                    $subModule->required_time = $request->required_time  * 60;
+     
+                    $subModule->save();
+                    return $subModule;
+                } else {
+                    $subModule->sub_module_name = $request->sub_module_name;
+                    $subModule->type = $request->type;
+                    // $subModule->main_module_id = $request->main_module_id;
+                    $subModule->description = $request->description;
+                    $subModule->required_time = $request->required_time  * 60;
+                    $subModule->link =  $request->link;
+                    $subModule->save();
+                    return $subModule;  
+                }
+
+           
+            } else {
+                if( $itemType) { 
+                    if ($files = $request->file('file')) { 
+                        $file = $request->file->store('public/upload/courses/' .$request->main_module_id);
+                        $subModule = new tbl_sub_modules;
+                        $subModule->sub_module_name = $request->sub_module_name;
+                        $subModule->type = $request->type;
+                        $subModule->main_module_id = $request->main_module_id;
+                        $subModule->description = $request->description;
+                        $subModule->required_time = $request->required_time * 60;
+                        $subModule->file_attachment = preg_replace('/\bpublic\/\b/', '', $file);;
+                        $subModule->save();
+                        return $subModule;
+                         }
+                } else {
+                    $subModule  = new tbl_sub_modules;
+                    $subModule->sub_module_name = $request->sub_module_name;
+                    $subModule->type = $request->type;
+                    $subModule->main_module_id = $request->main_module_id;
+                    $subModule->description = $request->description;
+                    $subModule->required_time = $request->required_time * 60;
+                    $subModule->link =  $request->link;
+                    $subModule->save();
+                    return $subModule;
+                }
+              
+
+            }
+        
+            return array(
+                status => 'error',
+                message => 'Something Went Wrong'
+            );
+          
+
+        
+ 
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+            
+        
+    if($request->type == 'Video' || $request->type == 'Document') {
         //     $validator = Validator::make($request->sub_module['file_attachment']->all(), 
             //     [ 
                 
@@ -60,6 +184,7 @@ class SubModuleController extends Controller
             //         return response()->json(['error'=>$validator->errors()], 401);                        
             //     }  
 
+        
             if ($files = $request->file('file')) {
                         
                 //store file into document folder
@@ -96,30 +221,8 @@ class SubModuleController extends Controller
         }
         
 
-        
- 
-    }
+    
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
     }
 
     /**

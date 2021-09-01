@@ -140,6 +140,28 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var pdfviewer = function pdfviewer() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_tabs_modules-tab_user-type_pdfview_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./pdfview */ "./resources/js/components/course-view/tabs/modules-tab/user-type/pdfview.vue"));
 };
@@ -161,6 +183,7 @@ var modulesListComponent = function modulesListComponent() {
   computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(["getmain_module"])),
   data: function data() {
     return {
+      docpath: window.location.origin + '/storage/',
       pdfdialog: false,
       config: {
         toolbar: {
@@ -186,6 +209,11 @@ var modulesListComponent = function modulesListComponent() {
     };
   },
   methods: {
+    scrapeDocID: function scrapeDocID(link) {
+      var d = link.replace(/.*\/d\//, '').replace(/\/.*/, '');
+      var path = "https://drive.google.com/file/d/" + d + "/preview";
+      return path;
+    },
     getMainModulebyId: function getMainModulebyId(id) {
       for (var i = 0; this.getmain_module.length; i++) {
         if (this.getmain_module[i].id == id) {
@@ -509,106 +537,177 @@ var render = function() {
               }
             },
             [
-              _c(
-                "v-row",
-                [
-                  _c(
-                    "v-col",
+              _vm.subModuleData != null
+                ? _c(
+                    "v-row",
                     [
                       _c(
-                        "v-container",
-                        {
-                          staticClass: "pa-0",
-                          attrs: { fluid: "" },
-                          on: {
-                            mouseover: function($event) {
-                              _vm.contentHover = true
-                            },
-                            mouseleave: function($event) {
-                              _vm.contentHover = false
-                            }
-                          }
-                        },
+                        "v-col",
                         [
-                          _vm.isExpand && _vm.contentHover
-                            ? _c(
-                                "v-btn",
-                                {
-                                  staticClass: "exitFullscreen",
-                                  attrs: {
-                                    bottom: "",
-                                    color: "secondary",
-                                    dark: "",
-                                    right: ""
-                                  },
-                                  on: {
-                                    click: function($event) {
-                                      _vm.isExpand = false
-                                    }
-                                  }
-                                },
-                                [_c("v-icon", [_vm._v("mdi-arrow-left")])],
-                                1
-                              )
-                            : _vm._e(),
-                          _vm._v(" "),
-                          _vm.type == "Link"
-                            ? _c("LazyYoutube", {
-                                ref: "youtubeLazyVideo",
-                                staticStyle: {
-                                  width: "100% !important",
-                                  height: "100%"
-                                },
-                                attrs: {
-                                  src: _vm.subModuleData.link,
-                                  "aspect-ratio": "16:9",
-                                  "thumbnail-quality": "standard"
-                                }
-                              })
-                            : _vm._e(),
-                          _vm._v(" "),
                           _c(
-                            "div",
-                            { staticClass: "player-container" },
+                            "v-container",
+                            {
+                              staticClass: "pa-0",
+                              attrs: { fluid: "" },
+                              on: {
+                                mouseover: function($event) {
+                                  _vm.contentHover = true
+                                },
+                                mouseleave: function($event) {
+                                  _vm.contentHover = false
+                                }
+                              }
+                            },
                             [
-                              _vm.ext == "mp4" && _vm.type == "Video"
-                                ? _c("vue-core-video-player", {
+                              _vm.isExpand && _vm.contentHover
+                                ? _c(
+                                    "v-btn",
+                                    {
+                                      staticClass: "exitFullscreen",
+                                      attrs: {
+                                        bottom: "",
+                                        color: "secondary",
+                                        dark: "",
+                                        right: ""
+                                      },
+                                      on: {
+                                        click: function($event) {
+                                          _vm.isExpand = false
+                                        }
+                                      }
+                                    },
+                                    [_c("v-icon", [_vm._v("mdi-arrow-left")])],
+                                    1
+                                  )
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _vm.type == "Link" &&
+                              _vm.subModuleData.link.search("youtube") != -1
+                                ? _c(
+                                    "v-card",
+                                    { staticStyle: { height: "620px" } },
+                                    [
+                                      _c("LazyYoutube", {
+                                        ref: "youtubeLazyVideo",
+                                        staticStyle: {
+                                          width: "100% !important",
+                                          height: "100%",
+                                          position: "relative",
+                                          "z-index": "0"
+                                        },
+                                        attrs: {
+                                          src: _vm.subModuleData.link,
+                                          "aspect-ratio": "16:9",
+                                          "thumbnail-quality": "standard"
+                                        }
+                                      })
+                                    ],
+                                    1
+                                  )
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _vm.type == "Link" &&
+                              _vm.subModuleData.link.search("youtube") == -1
+                                ? _c(
+                                    "v-card",
+                                    { staticStyle: { height: "620px" } },
+                                    [
+                                      _c("iframe", {
+                                        staticClass: "holds-the-iframe",
+                                        staticStyle: {
+                                          width: "100% !important",
+                                          height: "620px"
+                                        },
+                                        attrs: {
+                                          title: "google drive viewer",
+                                          id: "pdf-iframe",
+                                          src:
+                                            _vm.subModuleData.link != null
+                                              ? _vm.scrapeDocID(
+                                                  _vm.subModuleData.link
+                                                )
+                                              : "",
+                                          sandbox:
+                                            "allow-same-origin allow-scripts allow-popups allow-forms"
+                                        }
+                                      })
+                                    ]
+                                  )
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _vm.ext != "mp4" &&
+                              _vm.ext != "pdf" &&
+                              _vm.type == "Document"
+                                ? _c(
+                                    "v-card",
+                                    { staticStyle: { height: "620px" } },
+                                    [
+                                      _c("iframe", {
+                                        staticClass: "holds-the-iframe",
+                                        staticStyle: {
+                                          width: "100% !important",
+                                          height: "620px"
+                                        },
+                                        attrs: {
+                                          title: "google drive viewer",
+                                          id: "pdf-iframe",
+                                          src:
+                                            "https://view.officeapps.live.com/op/view.aspx?src=" +
+                                            _vm.docpath +
+                                            _vm.subModuleData.file_attachment,
+                                          sandbox:
+                                            "allow-same-origin allow-scripts allow-popups allow-forms"
+                                        }
+                                      })
+                                    ]
+                                  )
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                { staticClass: "player-container" },
+                                [
+                                  _vm.ext == "mp4" && _vm.type == "Video"
+                                    ? _c("vue-core-video-player", {
+                                        attrs: {
+                                          src:
+                                            "/storage/" +
+                                            _vm.subModuleData.file_attachment
+                                        }
+                                      })
+                                    : _vm._e()
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _vm.type == "Document" &&
+                              _vm.ext == "pdf" &&
+                              _vm.isSelectedModule
+                                ? _c("pdfviewer", {
+                                    key: _vm.subModuleData.sub_module_name + 1,
                                     attrs: {
-                                      src:
+                                      title: _vm.subModuleData.sub_module_name,
+                                      pdf_file:
                                         "/storage/" +
                                         _vm.subModuleData.file_attachment
+                                    },
+                                    on: {
+                                      closePdf: function($event) {
+                                        _vm.pdfdialog = false
+                                      }
                                     }
                                   })
                                 : _vm._e()
                             ],
                             1
-                          ),
-                          _vm._v(" "),
-                          _vm.type == "Document" && _vm.isSelectedModule
-                            ? _c("pdfviewer", {
-                                key: _vm.subModuleData.sub_module_name + 1,
-                                attrs: {
-                                  title: _vm.subModuleData.sub_module_name,
-                                  pdf_file:
-                                    "/storage/" +
-                                    _vm.subModuleData.file_attachment
-                                },
-                                on: {
-                                  closePdf: function($event) {
-                                    _vm.pdfdialog = false
-                                  }
-                                }
-                              })
-                            : _vm._e()
+                          )
                         ],
                         1
                       )
                     ],
                     1
                   )
-                ],
-                1
-              ),
+                : _vm._e(),
               _vm._v(" "),
               _vm.isSelectedModule
                 ? _c(
@@ -825,15 +924,13 @@ var render = function() {
               }
             },
             [
-              _vm.listDialaog
-                ? _c("modulesListComponent", {
-                    attrs: { expand: !_vm.removeX },
-                    on: {
-                      subModule: _vm.getsubModuleData,
-                      listClose: _vm.expandContent
-                    }
-                  })
-                : _vm._e()
+              _c("modulesListComponent", {
+                attrs: { role: _vm.role, expand: !_vm.removeX },
+                on: {
+                  subModule: _vm.getsubModuleData,
+                  listClose: _vm.expandContent
+                }
+              })
             ],
             1
           )

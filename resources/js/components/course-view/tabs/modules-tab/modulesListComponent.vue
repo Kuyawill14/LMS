@@ -24,7 +24,8 @@
                                     <template v-slot:activator="{ on, attrs }">
                                         <div v-bind="attrs" v-on="on" style="width:min-content;" class="module-switch">
                                             <v-switch v-model="itemModule.isPublished" inset v-bind="attrs" v-on="on"
-                                                :loading="isPublishing && isPublishing_id == itemModule.id" color="success" :disabled="isPublishing"
+                                                :loading="isPublishing && isPublishing_id == itemModule.id"
+                                                color="success" :disabled="isPublishing"
                                                 @click="isPublishing_id =itemModule.id, publishModule(itemModule.module_name,itemModule.id,itemModule.isPublished)">
                                             </v-switch>
                                         </div>
@@ -64,11 +65,12 @@
                                             </v-btn>
                                         </template>
                                         <v-list>
-                                            <v-list-item link @click="editFileBtn(itemModule.id)">
+                                            <v-list-item link
+                                                @click="editItemBtn(itemSubModule,itemSubModule.id, itemSubModule.type)">
                                                 <v-list-item-title>Edit</v-list-item-title>
 
                                             </v-list-item>
-                                            <v-list-item link @click="editLinkBtn(itemModule.id)">
+                                            <v-list-item link @click="deleteItemModuleBtn(itemSubModule.id)">
                                                 <v-list-item-title>Delete</v-list-item-title>
 
                                             </v-list-item>
@@ -126,11 +128,15 @@
             <moduleFormEdit v-on:closeModal="itemDialog = false; itemType = ''" :propModule="propModule" :type="'edit'"
                 v-if="itemType == 'edit_module'" />
             <fileForm v-on:CloseLecture="itemDialog = false ; itemType = ''" :moduleId="mainModule_id"
-                v-if="itemType == 'add_file'" />
-            <linkForm v-on:CloseLecture="itemDialog = false; itemType = ''" :moduleId="mainModule_id"
-                v-if="itemType == 'add_link'" />
+                v-if="itemType == 'add_file' || itemType == 'edit_file'" :submodule="pass_submodule"
+                :type_action="itemType" />
+            <linkForm v-on:CloseLecture="itemDialog = false; itemType = ''" :submodule="pass_submodule"
+                :sub_module_id="sub_module_id" :moduleId="mainModule_id"
+                v-if="itemType == 'add_link'|| itemType == 'edit_link'" :type_action="itemType" />
             <deleteForm v-on:closeModal="itemDialog = false; itemType = ''" :moduleId="mainModule_id"
                 :type="'delete_module'" v-if="itemType == 'delete_module'" />
+            <deleteItemForm v-on:closeModal="itemDialog = false; itemType = ''" :sub_module_id="sub_module_id"
+                :type="'delete_module'" v-if="itemType == 'delete_item_module'" />
         </v-dialog>
 
 
@@ -146,6 +152,7 @@
     import moduleFormEdit from './Forms/ModuleForm'
     import deleteForm from './Forms/deleteForm'
     import newClassworkForm from './Forms/NewClassworkForm'
+    import deleteItemForm from './Forms/deleteItemForm'
     import {
         mapGetters,
         mapActions
@@ -159,12 +166,14 @@
             newClassworkForm,
             draggable,
             moduleFormEdit,
-            deleteForm
+            deleteForm,
+            deleteItemForm
         },
         data() {
             return {
+                pass_submodule: null,
                 isPublishing: false,
-     isPublishing_id: null,
+                isPublishing_id: null,
                 moduleName: '',
                 isEdit: false,
                 itemType: '',
@@ -176,6 +185,7 @@
                 showClasswork: false,
                 subModuleForm: {},
                 mainModule_id: '',
+                sub_module_id: null,
                 mainModule: [],
                 propModule: [],
                 studentSubModuleProgress: [],
@@ -200,16 +210,16 @@
                 isPublished = isPublished ? 1 : 0;
 
                 axios.post(`/api/main_module/publish/${id}`, {
-               
+
                         isPublished: isPublished
                     })
                     .then((res) => {
                         if (isPublished == 1) {
                             this.toastSuccess(module_name + ' Successfully Published')
-                           this. isPublishing = false;
+                            this.isPublishing = false;
                         } else {
                             this.toastSuccess(module_name + ' Successfully Unpublished')
-                           this. isPublishing = false;
+                            this.isPublishing = false;
                         }
 
 
@@ -233,6 +243,11 @@
                 this.itemType = 'delete_module';
                 this.mainModule_id = module_id;
             },
+            deleteItemModuleBtn(sub_module_id) {
+                this.itemDialog = !this.itemDialog;
+                this.itemType = 'delete_item_module';
+                this.sub_module_id = sub_module_id;
+            },
             editModuleBtn(module_id, itemModule) {
 
                 this.itemDialog = !this.itemDialog;
@@ -251,7 +266,14 @@
                 this.mainModule_id = module_id;
                 this.itemType = 'add_link';
             },
+            editItemBtn(itemModule, sub_module_id, type) {
+                this.pass_submodule = itemModule;
+                this.itemDialog = !this.itemDialog;
 
+                this.sub_module_id = sub_module_id;
+                
+                this.itemType = type == 'Link' ? 'edit_link' : 'edit_file';
+            },
             classworkBtn() {
                 $('#itemTypeModal').modal('hide');
                 $('#Classworkmodal').modal('show');
@@ -278,19 +300,6 @@
                 }
                 return count;
             },
-            addSubStudentProgress(mainModule_id, subModule_id, type) {
-                this.tempSubId = subModule_id;
-                this.studentSubModuleProgressForm.main_module_id = mainModule_id;
-                this.studentSubModuleProgressForm.sub_module_id = subModule_id;
-                this.studentSubModuleProgressForm.type = type;
-                this.studentSubModuleProgressForm.course_id = this.$route.params.id;
-                axios.post(`/api/student_sub_module/insert`, {
-                        studentProgress: this.studentSubModuleProgressForm
-                    })
-                    .then((res) => {
-                        this.studentSubModuleProgress.push(res.data);
-                    });
-            },
             checkSubModule(arr, sub_module_id) {
                 var check = false;
                 ////console.log(arr);
@@ -300,29 +309,14 @@
                     }
                 }
                 return check;
-            }
+            },
+
+
 
 
         },
         async mounted() {
             this.getdata();
-            // axios.get(
-            //     `/api/student_sub_module/all/${this.$route.params.id}`
-            // ).then((res) => {
-            //     this.studentSubModuleProgress = res.data;
-
-            //     this.getCount(this.studentSubModuleProgress, 23);
-            //     this.$store.dispatch('fetchMainModule', this.$route.params.id);
-            //     this.$store.dispatch('fetchSubModule', this.$route.params.id);
-            // }).catch((error) => {
-            //     //console.log(error)
-            // })
-
-
-
-
-
-
         },
         created() {
 
