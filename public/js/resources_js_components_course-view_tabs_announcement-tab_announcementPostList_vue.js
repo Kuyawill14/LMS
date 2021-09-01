@@ -97,8 +97,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
 
 
 var announcementList = function announcementList() {
@@ -456,7 +454,7 @@ var render = function() {
                                 post.profile_pic == ""
                                   ? "https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=" +
                                     post.name
-                                  : "/storage/" + post.profile_pic
+                                  : post.profile_pic
                             }
                           })
                         ],
@@ -486,19 +484,22 @@ var render = function() {
                   )
                 ]),
                 _vm._v(" "),
-                _c(
-                  "v-col",
-                  { staticClass: "text-right", attrs: { cols: "4" } },
-                  [
-                    _c(
-                      "v-btn",
-                      { attrs: { icon: "" } },
-                      [_c("v-icon", [_vm._v("mdi-dots-vertical")])],
+                post.u_id == _vm.UserDetails.id ||
+                _vm.UserDetails.role == "Teacher"
+                  ? _c(
+                      "v-col",
+                      { staticClass: "text-right", attrs: { cols: "4" } },
+                      [
+                        _c(
+                          "v-btn",
+                          { attrs: { icon: "" } },
+                          [_c("v-icon", [_vm._v("mdi-dots-vertical")])],
+                          1
+                        )
+                      ],
                       1
                     )
-                  ],
-                  1
-                )
+                  : _vm._e()
               ],
               1
             ),

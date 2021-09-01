@@ -19,7 +19,7 @@ class CommentController extends Controller
     public function index($id)
     {
         $Comment = tbl_comment::where("tbl_comments.post_id", $id)
-        ->select("tbl_comments.id","tbl_comments.post_id","tbl_comments.content","tbl_comments.created_at",
+        ->select("tbl_comments.id","tbl_comments.post_id","tbl_comments.user_id as u_id","tbl_comments.content","tbl_comments.created_at",
         DB::raw("CONCAT(tbl_user_details.firstName,' ',tbl_user_details.lastName) as name"),"tbl_user_details.profile_pic", "tbl_comments.id")
         ->leftJoin("tbl_user_details", "tbl_user_details.user_id","=","tbl_comments.user_id")
         ->orderBy("tbl_comments.created_at", "ASC")
@@ -103,11 +103,7 @@ class CommentController extends Controller
         ->leftJoin("tbl_user_details", "tbl_user_details.user_id","=","tbl_comments.user_id")
         ->orderBy("tbl_comments.created_at", "ASC")
         ->get();
-
-
-
         return $PrivateComment;
-
         
     }
 
@@ -159,6 +155,29 @@ class CommentController extends Controller
             "profile_pic"=>$details->profile_pic
         ]);
     }
+    
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function deletePrivateComment($id)
+    { 
+        $DelComment = tbl_comment::find($id);
+        if($DelComment){
+            $DelComment->delete();
+            return response()->json([
+                "message" => 'Comment successfully remove!', 
+                "success" => true
+            ]);
+        }
+        return response()->json([
+            "message" => 'Comment not found!', 
+            "success" => false
+        ]);
+    }
+
 
     /**
      * Update the specified resource in storage.

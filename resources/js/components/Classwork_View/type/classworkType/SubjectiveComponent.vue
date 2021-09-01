@@ -244,7 +244,7 @@
                 <v-list-item class="mb-0 pb-0" v-for="(item, i) in classworkDetails.comments" :key="i">
                   <v-list-item-avatar>
                       <v-img 
-                      :src="item.profile_pic == null || item.profile_pic == ''? 'https://ui-avatars.com/api/?background=random&color=fff&name=' +  item.name : '/storage/'+item.profile_pic">
+                      :src="item.profile_pic == null || item.profile_pic == ''? 'https://ui-avatars.com/api/?background=random&color=fff&name=' +  item.name : item.profile_pic">
                       </v-img>
                   </v-list-item-avatar>
                   <v-list-item-content>
@@ -252,9 +252,25 @@
                       <v-list-item-subtitle v-html="item.content"></v-list-item-subtitle>
                   </v-list-item-content>
                    <v-list-item-action>
-                    <v-btn icon>
-                      <v-icon small color="grey lighten-1">mdi-dots-vertical</v-icon>
-                    </v-btn>
+                     <!-- v-if="get_CurrentUser.id == item.u_id" -->
+                      <v-menu offset-x >
+                        <template v-slot:activator="{ on, attrs }">
+                            <v-btn icon v-bind="attrs" v-on="on">
+                                <v-icon small color="grey lighten-1">mdi-dots-vertical</v-icon>
+                            </v-btn> 
+                        </template>
+                        <v-list dense nav>
+                          <!--    <v-list-item >
+                                <v-list-item-title><v-btn @click="UpdateComment = item.content,isEditing = true, idEditing_id = item.id" text>Edit</v-btn></v-list-item-title>
+                                </v-list-item> -->
+                            <v-list-item  @click="DeleteComment(item.id, i)">
+                                <v-list-item-title>Remove</v-list-item-title>
+                            </v-list-item>
+                              <!--    <v-list-item>
+                                <v-list-item-title><v-btn text>Hide</v-btn></v-list-item-title>
+                            </v-list-item> -->
+                        </v-list>
+                        </v-menu>
                   </v-list-item-action>
                 </v-list-item>
           
@@ -264,7 +280,7 @@
                     <v-list-item class="mb-0 pb-0">
                       <v-list-item-avatar>
                           <v-img 
-                          :src="get_CurrentUser.profile_pic == null || get_CurrentUser.profile_pic == ''? 'https://ui-avatars.com/api/?background=random&color=fff&name=' +  get_CurrentUser.firstName+' '+get_CurrentUser.lastName : '/storage/'+get_CurrentUser.profile_pic">
+                          :src="get_CurrentUser.profile_pic == null || get_CurrentUser.profile_pic == ''? 'https://ui-avatars.com/api/?background=random&color=fff&name=' +  get_CurrentUser.firstName+' '+get_CurrentUser.lastName : get_CurrentUser.profile_pic">
                           </v-img>
                       </v-list-item-avatar>
                       <v-list-item-content class="ma-0 pa-0">
@@ -340,42 +356,21 @@
 
                                  <v-col  cols="12" class=" pb-5 pl-4 pr-4">
                                    <div class="overline">Attachments</div>
-                                   <v-row>
-                                     <v-col cols="12" >
-                                       <v-hover v-slot="{ hover }">
-                                          <v-alert
-                                       
-                                           style="cursor:pointer"
-                                            :class="hover ? 'grey lighten-2 pa-3' :'pa-3'"
-                                              outlined
-                                              :icon="Fileextension == 'pdf' ? 'mdi-file-pdf': Fileextension == 'docx'? 'mdi-file-word':''"
-                                            :color="Fileextension == 'pdf' ? 'red' : Fileextension == 'docx'? 'blue':''"
-                                          >
-                                            <v-row >
-                                              <v-col style="overflow:hidden" cols="9" class=" text-left">
-                                                <v-tooltip top>
-                                                    <template v-slot:activator="{ on, attrs }">
-                                                     
-                                                        <div  v-bind="attrs"  v-on="on"  
-                                                        style="line-height:1.2;height:20px;overflow:hidden" 
-                                                        :class="hover ? 'text-decoration-underline ':''"
-                                                        @click="DownLoadFile(classworkDetails.attachment)" >
-                                                         {{classworkDetails.attachment_name}}</div>
-                                                    </template>
-                                                    <span>{{classworkDetails.attachment_name}}</span>
-                                                  </v-tooltip>
-                                              </v-col>
-                                              <v-col cols="3" class="text-right">
-                                                <div class="black--text">{{classworkDetails.attachment_size}}
-
-                                                  <v-icon>mdi-downoad</v-icon>
-                                                </div>
-                                              </v-col>
-                                            </v-row>
-                                          </v-alert>
-                                       </v-hover>
-                                     </v-col>
-                                   </v-row>
+                                   <v-list dense class="ma-0 pa-0">
+                                        <v-list-item v-for="(item, i) in classworkDetails.attachment" :key="i" class="ma-0 pa-0">
+                                            <v-list-item-avatar >
+                                                    <v-icon large
+                                                    :color="item.extension == 'docx' ? 'blue' : 'red'">
+                                                    {{item.extension == 'docx' ? 'mdi-file-word' : 'mdi-file-pdf'}}
+                                                    </v-icon>
+                                            </v-list-item-avatar>
+                                            <v-list-item-content >
+                                                <v-hover v-slot="{ hover }">
+                                                <v-list-item-title :class="hover ? 'blue--text' : ''" style="cursor:pointer" @click="DownLoadFile(item.attachment)">{{item.name}}</v-list-item-title>
+                                                </v-hover>
+                                            </v-list-item-content>
+                                        </v-list-item>
+                                    </v-list>
                                 </v-col>
                             </v-row>   
                     </v-col>
@@ -434,6 +429,7 @@ export default {
     },
     methods:{
         UploadFile(){
+          
           this.$refs.UploadAttachFile.click();
         },
          UploadMoreFile(){
@@ -450,8 +446,9 @@ export default {
                 return moment(String(value)).format('dddd, h:mm a')
             }
         },
-          DownLoadFile(file){
-            window.location = "/storage/"+file;
+        DownLoadFile(file){
+            //window.location = file;
+            window.open(file,'_blank');
         },
         onChange(e) {
             var files = e.target.files || e.dataTransfer.files;
@@ -584,6 +581,14 @@ export default {
                   
               })
                this.isCommenting = false;
+          },
+          async DeleteComment(id, index){
+              axios.delete('/api/post/classwork/comment/delete/'+id)
+              .then(res=>{
+                  if(res.data.success == true){
+                      this.classworkDetails.comments.splice(index, 1);
+                  }
+              })
           },
         
 

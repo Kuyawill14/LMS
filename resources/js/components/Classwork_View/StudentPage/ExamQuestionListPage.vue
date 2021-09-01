@@ -1,11 +1,10 @@
 
 <template>
-<v-app>
-
+<v-app >
 <v-dialog v-model="dialog" persistent max-width="550">
     <confirmDialog
     v-on:toggleCancelDialog="dialog = !dialog"
-    v-on:toggleSubmit="StopTimer = true,SubmitAnswer()"
+    v-on:toggleSubmit="StopTimer = true"
      v-if="dialog"></confirmDialog>
 </v-dialog>
 
@@ -27,23 +26,28 @@
     </v-row>
 </v-container>
 
-<div :class="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm ? 'pa-2 mt-1' : 'pa-2 mt-10'" v-if="!isLoading" >
+<v-container fluid :class="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm ? 'pa-2 ' : 'pa-2'" v-if="!isLoading" >
       <v-row justify="center" >
-          <v-col cols="12" md="10" xl="7" lg="8">
+          <v-col cols="12" >
                <v-card elevation="2" outlined class="pa-2">
                <v-row v-if="!isLoading">
                 <v-col cols="8" style="overflow:hidden;white-space: nowrap;text-overflow: ellipsis;">
-                    <div class="mt-3 d-flex">
-                        <v-avatar :size="!$vuetify.breakpoint.xs && !$vuetify.breakpoint.sm ? '50' : '40'" class="mr-2" color="primary">
-                             <v-icon dark :large="!$vuetify.breakpoint.xs && !$vuetify.breakpoint.sm ">
-                            mdi-book-open-variant
-                            </v-icon>
-                        </v-avatar>
-                        
-                        <div 
-                        
-                        :class="!$vuetify.breakpoint.xs && !$vuetify.breakpoint.sm ? 'font-weight-bold mt-4': 'mt-2'">{{classworkDetails.title}}</div>
-                        </div>
+                    <v-list>
+
+                        <v-list-item>
+                        <v-list-item-avatar>
+                             <v-avatar color="blue">
+                                <v-icon dark >
+                                mdi-book-open-variant
+                                </v-icon>
+                            </v-avatar>
+                        </v-list-item-avatar>
+                        <v-list-item-content>
+                            <v-list-item-title class="font-weight-bold">{{classworkDetails.title}}</v-list-item-title>
+                            <v-list-item-subtitle>Total Points: {{classworkDetails.points}}</v-list-item-subtitle>
+                        </v-list-item-content>
+                        </v-list-item>
+                    </v-list>
                 </v-col>
                 <v-col cols="4" class="d-flex justify-end">
                     <div>
@@ -59,32 +63,30 @@
                                 <v-list>
                                     <v-list-item v-for="(item, index) in getAll_questions.Question" :key="index">
                                     <v-list-item-title>  
-                                        <v-btn v-if="item.type == 'Multiple Choice' || item.type == 'Indentification' || item.type == 'True or False'" 
-                                        text rounded @click="questionIndex = index">
+                                        <v-btn v-if="item.type == 'Multiple Choice' || item.type == 'Identification' || item.type == 'True or False'" 
+                                        text rounded @click="updateAnswer(), questionIndex = index">
                                         <v-icon :color="FinalAnswers[index].Answer == null || FinalAnswers[index].Answer == ''  ? '' : 'primary'" left>{{FinalAnswers[index].Answer == null || FinalAnswers[index].Answer == '' ? 'mdi-checkbox-blank-outline':'mdi-checkbox-marked'}}</v-icon>
                                         {{index+1}}
                                        </v-btn>
-                                       <v-btn text rounded v-if="item.type == 'Matching type'">
+                                       <v-btn @click="updateAnswer(), questionIndex = index" text rounded v-if="item.type == 'Matching type'">
                                             <v-icon :color="FinalAnswers[index].Answer[0].Ans_letter == null || FinalAnswers[index].Answer[0].Ans_letter == ''  ? '' : 'primary'" left>
                                                 {{FinalAnswers[index].Answer[0].Ans_letter == null || FinalAnswers[index].Answer[0].Ans_letter == '' ? 'mdi-checkbox-blank-outline':'mdi-checkbox-marked'}}</v-icon>
                                             {{index+1}}
                                        </v-btn>
-
                                        </v-list-item-title>
                                     </v-list-item>
                                 </v-list>
                                 </v-menu>
                             </div>
-                             <quizTimer :StartTime="StartTime"  :StopTimer="StopTimer" v-on:TimerStop="SubmitAnswer()" v-on:TimesUp="TimesUpSubmit()" :duration="duration" v-if="!isLoading && !StopTimer"></quizTimer>
+                             <quizTimer :bus="bus" :StartTime="StartTime"  :StopTimer="StopTimer" v-on:TimerStop="SubmitAnswer" v-on:TimesUp="TimesUpSubmit()" :duration="duration" v-if="!isLoading"></quizTimer>
                         </div>
-                       
                     </div>
                 </v-col>
             </v-row>
             </v-card>
           </v-col>
       </v-row>
-</div>
+</v-container>
 
   <div v-if="!isLoading" class="mt-2 ma-2"  >
         <v-row  justify="center">
@@ -93,9 +95,7 @@
                     <v-row>
                         <v-row>
                             <v-col cols="12" md="12" lg="12"  class="text-right pa-5" >
-                                    <div class="mb-4">
-
-                                  
+                                <div class="mb-4">
                                     <v-btn rounded color="primary" class="mr-2" outlined="" @click="prev" 
                                     :disabled="questionIndex <= 0">
                                         <v-icon left>mdi-arrow-left</v-icon>
@@ -115,7 +115,7 @@
                                         Submit
                                         <v-icon right>mdi-lock</v-icon>
                                         </v-btn>
-                                      </div>
+                                    </div>
                                 <v-divider></v-divider>
                             </v-col>
                             <v-col  cols="12" md="12" lg="12" class="pa-9 pt-0 mt-0">
@@ -128,14 +128,11 @@
                                                     <p class="mr-5 primary--text">({{item.points}} Points)</p>
                                                 </v-container>
                                             </v-col>
-                                    
-                                
                                             <v-col class=" mt-0 pt-1" cols="12" md="11" lg="11">
                                                 <v-container ma-0 pa-0 class="ma-0 pa-0">
                                                     <div :style="$vuetify.breakpoint.xs ? 'line-height:1.1': ''" class="subtitle-1"><span v-html="item.question" class="post-content"></span><!-- {{item.question}} --></div>
                                                 </v-container> 
                                             </v-col>
-                                
                                         </v-row>
                                         
                                         <v-container v-if="item.type == 'Multiple Choice'">
@@ -188,7 +185,6 @@
                                                 <v-container class="d-flex flex-row ma-0 pa-0" v-for="(x, n) in inputCheck" :key="n">
                                                 <v-radio-group :name="'option'+index"   class="ma-0 pa-0"  v-model="FinalAnswers[index].Answer">
                                                     <v-radio
-            
                                                     color="primary"
                                                     @click="SelectAnswer()"
                                                     :key="index"
@@ -230,7 +226,6 @@
                                                                 <v-row>
                                                                     <v-col class="mb-1 pb-0 pt-0 mt-0" cols="2" md="1" lg="1">
                                                                         <v-text-field 
-                                                                       
                                                                         v-model="FinalAnswers[index].Answer[i].Ans_letter"
                                                                         @change="SelectMatch(item.id, index, i)"
                                                                         class="centered-input"
@@ -246,24 +241,20 @@
                                                                     <v-col class="mb-1 pb-0 pt-0 mt-0"  cols="5" md="5" lg="5">
                                                                         <div class="d-flex mt-7"> 
                                                                             <span class="font-weight-medium mr-1">{{(Alphabet[i]+'. ')}}</span>
-                                                                            
                                                                             <span :style="$vuetify.breakpoint.xs ? 'line-height:1.1':'line-height:1.5'" v-html="getAll_questions.Answer[index].SubAnswer[i].Choice" class="subchoices-content"></span>
                                                                         </div>
                                                                     </v-col>
                                                                 </v-row>
                                                             </v-container>
-                                                            
                                                         </v-container>
                                                         <v-container class="mb-0 pb-0 d-flex flex-row-reverse">
-                                                                <v-btn @click="reset(index, item.type)" text rounded small>Reset Answer</v-btn>
-                                                            </v-container>
-                                                        
+                                                            <v-btn @click="reset(index, item.type)" text rounded small>Reset Answer</v-btn>
+                                                        </v-container>
                                                     </v-col>
                                                 </v-row>
                                         </v-container>
-                                </div>
-                            </v-container>
-                                
+                                    </div>
+                                </v-container>
                             </v-col>
                         </v-row>
                     </v-row>
@@ -271,7 +262,6 @@
             </v-col>
         </v-row>
     </div>
-
 </v-app>
 
 </template>
@@ -289,25 +279,16 @@ export default {
     data(){
         return{
             StopTimer: false,
-            valid: false,
-            checker:[],
             dialog:false,
             warningDialog: false,
             inputCheck:['True','False'],
             isSubmitting:false,
             Qlength:'',
             isStart: false,
-            isEditing_Id:'',
             isLoading: true,
-            Show: true,
-            DeleteDetails:{},
-            IdentificationAns: [],
             PickAnswers: {},
             PickAnswers_id: {},
             FinalAnswers: [],
-            SubAnswers: [],
-            quesNumber: [],
-            AnswerRadio:[],
             Questype: "",
             questionIndex: 0,
             duration:'',
@@ -326,7 +307,6 @@ export default {
             tempCounter:0,
             timeCount:null,
             classworkDetails:[],
-            confirmLeave: false,
             leaveStrike: 0,
             preventWarning: false,
             isExamStart: false,
@@ -334,8 +314,7 @@ export default {
             Submitted_Answers: null,
             submission_id: null,
             isSavingAnswer: false,
-            oldAnswer: null,
-            QuestionList:[]
+            bus: "testing",
         }
     },
     computed: 
@@ -344,7 +323,6 @@ export default {
         CountTime(){
             this.timeCount = setInterval(()=>{
                 this.tempCounter = this.tempCounter +1
-                /* //console.log(this.tempCounter); */
             },1000)
         },
         SubmitPromp(){
@@ -361,13 +339,6 @@ export default {
                     item.Answers = ''
                 });
             }
-        },
-        removePropt(num, id){
-            this.DeleteDetails.number = num;
-            this.DeleteDetails.id = id;
-            this.isRemoving = true;
-            this.isRemoving_id = id;
-            this.dialog = true;;
         },
         SelectAnswer(){
             let name = btoa('CurrentAnswers');
@@ -386,6 +357,7 @@ export default {
             this.preventWarning = !this.preventWarning;
         },
         next: function() {
+           
            /*  let name = btoa('CurrentAnswers');
              localStorage.setItem(name, JSON.stringify(this.FinalAnswers));
             if(this.FinalAnswers[this.questionIndex].timeConsume != null || ''){
@@ -410,6 +382,7 @@ export default {
                 if(this.questionIndex != this.Qlength-1){
                     this.questionIndex++;
                 }
+                setTimeout(() => (this.isSavingAnswer = false), 500);
             
         },
         async updateAnswer(){
@@ -418,7 +391,7 @@ export default {
                 data: this.FinalAnswers
             })
             //this.isSavingAnswer = false;
-             setTimeout(() => (this.isSavingAnswer = false), 500);
+             //setTimeout(() => (this.isSavingAnswer = false), 500);
         },
         // Go to previous question
         prev: function() {
@@ -434,21 +407,20 @@ export default {
             this.questionIndex--;
             
         },
-         SubmitAnswer(){
+         SubmitAnswer(time){
             this.isExamStart = false;
             this.isLoading = !this.isLoading;
             this.isSubmitting = !this.isSubmitting;
             this.dialog = !this.dialog;
             this.isStart = !this.isStart;
             this.warningDialog = false;
-            axios.post('/api/question/check/'+this.$route.query.clwk, {item: this.FinalAnswers, AnsLength:this.questionIndex, timerCount: this.TimerCount})
+            axios.post('/api/question/check/'+this.$route.query.clwk, {item: this.FinalAnswers, AnsLength:this.questionIndex, timerCount: this.TimerCount, timeSpent: time})
             .then(()=>{
                  setTimeout(() => {
                     this.isLoading = !this.isLoading;
                     this.isSubmitting = !this.isSubmitting;
                 }, 2000);
                 this.$router.push({name: 'result-page', params:{id: this.$route.query.clwk}})
-                  
             })              
         },
         TimesUpSubmit(){
@@ -463,11 +435,7 @@ export default {
                     this.isLoading = !this.isLoading;
                     this.isSubmitting = !this.isSubmitting;
                 }, 2000);
-                localStorage.removeItem(btoa('timer_time'));
-                 localStorage.removeItem(btoa('CurrentAnswers'));
                  this.$router.push({name: 'result-page', params:{id: this.$route.query.clwk}})
-                 
-                  
             })
         },
         fetchQuestions(){
@@ -505,8 +473,7 @@ export default {
                                 })
                             });
 
-
-                                this.FinalAnswers.push({
+                            this.FinalAnswers.push({
                                 Answer: Ans,
                                 Choices_id: Choices_id,
                                 Question_id: this.getAll_questions.Question[index].id,
@@ -519,7 +486,6 @@ export default {
                         type: "multiple",
                         data: this.FinalAnswers
                     })
-                   //localStorage.setItem(name, JSON.stringify(this.FinalAnswers));
                 }else{
 
                     let Submitted_length = AnswersList.length;
@@ -539,7 +505,7 @@ export default {
                         }
     
                     }
-                    
+
                      for (let x = 0; x < this.getAll_questions.Question.length; x++) {
                          for (let j = 0; j < AnswersList.length; j++) {
                             if(this.getAll_questions.Question[x].id == AnswersList[j].Question_id){
@@ -560,10 +526,9 @@ export default {
                                             choice_id: item.id
                                         })
                                     });
-
                                      AnswersList[j].Answer.forEach(item => {
                                         Ans.push({
-                                            //Ans_letter: item.Ans_letter,
+                                            Ans_letter: item.Ans_letter,
                                             Ans_id: item.Ans_id,
                                             subquestion_id: item.subquestion_id,
                                             Answers: item.Answers
@@ -617,10 +582,8 @@ export default {
                         this.FinalAnswers[main_index].Answer[second_index].Answers = this.getAll_questions.Answer[this.questionIndex].SubAnswer[x].Choice;
                         this.FinalAnswers[main_index].Answer[second_index].Ans_id = this.getAll_questions.Answer[this.questionIndex].SubAnswer[x].id; 
                     }
-                        
                 }   
             }
-            //console.log(this.FinalAnswers[main_index])
         },
         StartQuiz(){
             this.isStart = true;
@@ -658,30 +621,28 @@ export default {
                 this.duration = res.data.Details.duration;
                 this.classworkDetails = res.data.Details;
                 this.fetchQuestions();
-
             })
             this.CountTime();
         },
         triggerWarning(){
             ////console.log("test 123");
             this.leaveStrike += 1;
-          /*   if(this.leaveStrike == 3){
+           /*  if(this.leaveStrike == 5){
                 this.SubmitAnswer();
             } */
             if(!this.preventWarning){
                 this.warningDialog = true;
             }
-            
         },
     },
     beforeMount() {
         window.addEventListener("beforeunload", this.preventNav);
+        
         let self = this;
         $(window).blur(function(){
             self.triggerWarning()
         });
-
-         window.addEventListener("beforeunload", this.preventNav)
+        //window.addEventListener("beforeunload", this.preventNav)
            /*  this.$once("hook:beforeDestroy", () => {
             window.removeEventListener("beforeunload", this.preventNav);
         }) */
@@ -694,12 +655,13 @@ export default {
         }
         next();
     },
-    mounted(){
-        this.isExamStart = true
-        this.CheckStatus();
-
+    async beforeRouteEnter(to, from, next) {
+        next(vm => {
+            vm.isExamStart = true
+            vm.CheckStatus();
+        });
     },
-   
+    
 }
 </script>
 

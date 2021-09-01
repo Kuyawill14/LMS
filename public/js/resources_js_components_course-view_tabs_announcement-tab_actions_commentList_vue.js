@@ -541,7 +541,7 @@ var render = function() {
                               item.profile_pic == null || item.profile_pic == ""
                                 ? "https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=" +
                                   item.name
-                                : "/storage/" + item.profile_pic
+                                : item.profile_pic
                           }
                         })
                       ],
@@ -614,117 +614,125 @@ var render = function() {
                           1
                         ),
                         _vm._v(" "),
-                        _c(
-                          "v-menu",
-                          {
-                            attrs: { "offset-y": "" },
-                            scopedSlots: _vm._u(
-                              [
-                                {
-                                  key: "activator",
-                                  fn: function(ref) {
-                                    var on = ref.on
-                                    var attrs = ref.attrs
-                                    return [
-                                      _c(
-                                        "v-btn",
-                                        _vm._g(
-                                          _vm._b(
-                                            { attrs: { icon: "" } },
+                        item.u_id == _vm.UserDetails.id ||
+                        _vm.UserDetails.role == "Teacher"
+                          ? _c(
+                              "v-menu",
+                              {
+                                attrs: { "offset-y": "" },
+                                scopedSlots: _vm._u(
+                                  [
+                                    {
+                                      key: "activator",
+                                      fn: function(ref) {
+                                        var on = ref.on
+                                        var attrs = ref.attrs
+                                        return [
+                                          _c(
                                             "v-btn",
-                                            attrs,
-                                            false
-                                          ),
-                                          on
-                                        ),
-                                        [
-                                          _c("v-icon", [
-                                            _vm._v("mdi-dots-horizontal")
-                                          ])
-                                        ],
-                                        1
-                                      )
-                                    ]
-                                  }
-                                }
-                              ],
-                              null,
-                              true
-                            )
-                          },
-                          [
-                            _vm._v(" "),
-                            _c(
-                              "v-list",
-                              { attrs: { "pa-0": "", "ma-0": "" } },
+                                            _vm._g(
+                                              _vm._b(
+                                                { attrs: { icon: "" } },
+                                                "v-btn",
+                                                attrs,
+                                                false
+                                              ),
+                                              on
+                                            ),
+                                            [
+                                              _c("v-icon", [
+                                                _vm._v("mdi-dots-vertical")
+                                              ])
+                                            ],
+                                            1
+                                          )
+                                        ]
+                                      }
+                                    }
+                                  ],
+                                  null,
+                                  true
+                                )
+                              },
                               [
+                                _vm._v(" "),
                                 _c(
-                                  "v-list-item",
-                                  { attrs: { "ma-0": "", "pa-0": "" } },
+                                  "v-list",
+                                  { attrs: { "pa-0": "", "ma-0": "" } },
                                   [
                                     _c(
-                                      "v-list-item-title",
+                                      "v-list-item",
+                                      { attrs: { "ma-0": "", "pa-0": "" } },
                                       [
                                         _c(
-                                          "v-btn",
-                                          {
-                                            attrs: { text: "" },
-                                            on: {
-                                              click: function($event) {
-                                                ;(_vm.UpdateComment =
-                                                  item.content),
-                                                  (_vm.isEditing = true),
-                                                  (_vm.idEditing_id = item.id)
-                                              }
-                                            }
-                                          },
-                                          [_vm._v("Edit")]
+                                          "v-list-item-title",
+                                          [
+                                            _c(
+                                              "v-btn",
+                                              {
+                                                attrs: { text: "" },
+                                                on: {
+                                                  click: function($event) {
+                                                    ;(_vm.UpdateComment =
+                                                      item.content),
+                                                      (_vm.isEditing = true),
+                                                      (_vm.idEditing_id =
+                                                        item.id)
+                                                  }
+                                                }
+                                              },
+                                              [_vm._v("Edit")]
+                                            )
+                                          ],
+                                          1
                                         )
                                       ],
                                       1
-                                    )
-                                  ],
-                                  1
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "v-list-item",
-                                  { attrs: { "ma-0": "", "pa-0": "" } },
-                                  [
+                                    ),
+                                    _vm._v(" "),
                                     _c(
-                                      "v-list-item-title",
+                                      "v-list-item",
+                                      { attrs: { "ma-0": "", "pa-0": "" } },
                                       [
                                         _c(
-                                          "v-btn",
-                                          {
-                                            attrs: { text: "" },
-                                            on: {
-                                              click: function($event) {
-                                                return _vm.RemoveComment(
-                                                  item.id
-                                                )
-                                              }
-                                            }
-                                          },
-                                          [_vm._v("Remove")]
+                                          "v-list-item-title",
+                                          [
+                                            _c(
+                                              "v-btn",
+                                              {
+                                                attrs: { text: "" },
+                                                on: {
+                                                  click: function($event) {
+                                                    return _vm.RemoveComment(
+                                                      item.id
+                                                    )
+                                                  }
+                                                }
+                                              },
+                                              [_vm._v("Remove")]
+                                            )
+                                          ],
+                                          1
                                         )
                                       ],
                                       1
-                                    )
-                                  ],
-                                  1
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "v-list-item",
-                                  { attrs: { "ma-0": "", "pa-0": "" } },
-                                  [
+                                    ),
+                                    _vm._v(" "),
                                     _c(
-                                      "v-list-item-title",
+                                      "v-list-item",
+                                      { attrs: { "ma-0": "", "pa-0": "" } },
                                       [
-                                        _c("v-btn", { attrs: { text: "" } }, [
-                                          _vm._v("Hide")
-                                        ])
+                                        _c(
+                                          "v-list-item-title",
+                                          [
+                                            _c(
+                                              "v-btn",
+                                              { attrs: { text: "" } },
+                                              [_vm._v("Hide")]
+                                            )
+                                          ],
+                                          1
+                                        )
                                       ],
                                       1
                                     )
@@ -734,9 +742,7 @@ var render = function() {
                               ],
                               1
                             )
-                          ],
-                          1
-                        )
+                          : _vm._e()
                       ],
                       1
                     )

@@ -16,11 +16,11 @@
             color="primary"
             >
            <v-btn
-             text
+             icon
             rounded
             @click="$emit('closeDialog')">
             <v-icon left>mdi-close</v-icon>
-            Close
+            
           </v-btn>
         </v-toolbar>
           

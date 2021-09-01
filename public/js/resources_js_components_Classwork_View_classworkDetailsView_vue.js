@@ -99,7 +99,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
 var studentStartPage = function studentStartPage() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_type_studentStartPage_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./type/studentStartPage */ "./resources/js/components/Classwork_View/type/studentStartPage.vue"));
 };

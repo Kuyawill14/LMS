@@ -61,19 +61,68 @@
                             </v-list-item-content>
                         </v-list-item>
                         
+                        <template v-for="(item, index) in get_notification">
+                            <v-list-item  :class="item.status == null ? 'grey_active' : ''" link v-show="item.hide_notif == 0 || item.hide_notif == null" :key="item.id">
+                                <v-list-item-avatar @click="GotoThisNotification(item)">
+                                    <v-icon color="blue" v-if="item.notification_type == 3 || item.notification_type == 2" large>mdi-account-plus</v-icon>
+                                    <v-icon color="red" v-if="item.notification_type == 1" large>mdi-bullhorn-outline</v-icon>
+                                    <v-icon color="green" v-if="item.notification_type == 4" large> mdi-book-open-variant</v-icon>
+                                
+                                </v-list-item-avatar>
+                                <v-list-item-content @click="GotoThisNotification(item)" >
+                                    
+                                    <v-list-item-title  class="font-weight-medium">
+                                        <v-badge :content="item.status == 1 ? '' :'new'" :value="item.status == 1 ? '' :'new'" 
+                                        :color="item.notification_type == 1  ? 'red' : item.notification_type == 3 || item.notification_type == 2 ? 'blue' : 
+                                        item.notification_type == 4 ? 'green' : ''" >
+                                        {{item.name}}   
+                                        </v-badge>
+                                        </v-list-item-title>
+                                
+                                    <div class="body-2">
+                                        {{item.message}}
+                                        <a class="blue--text" @click.prevent="acceptJoin(item.notification_attachments,item.n_id, index),isClose = true" href="" v-if="item.notification_type == 3 && item.notification_accepted == 0" link>
+                                        Accept invite</a>
+                                    </div>
+                                    <small>{{format_date(item.created_at)}}</small>
+                                        
+                                </v-list-item-content>
+                    
+                                <v-list-item-action>
+                                    <v-list-item-action-text >
+                                        <v-tooltip  top>
+                                            <template v-slot:activator="{ on, attrs }">
+                                                <v-btn small style="z-index:50" icon v-bind="attrs" v-on="on"
+                                                    @click="NotificationHide(item.n_id),closing = false">
+                                                    <v-icon small>mdi-close</v-icon>
+                                                </v-btn>
+                                            </template>
+                                            <span>Hide notification</span>
+                                        </v-tooltip>
+                                    </v-list-item-action-text>
+                                    <v-spacer></v-spacer>
+                                </v-list-item-action>
+                            
+                            </v-list-item>
+
+                            <v-divider
+                                v-if="index < get_notification.length "
+                                :key="index">
+                                </v-divider>
+                        </template>
 
                     
 
 
                     
-                        <v-list-item  link v-show="item.hide_notif == 0 || item.hide_notif == null" v-for="(item, index) in get_notification" :key="index">
+                        <!-- <v-list-item style="border-bottom: 1px solid red" :class="item.status == null ? 'grey_active' : ''" link v-show="item.hide_notif == 0 || item.hide_notif == null" v-for="(item, index) in get_notification" :key="index">
                             <v-list-item-avatar @click="GotoThisNotification(item)">
                                 <v-icon color="blue" v-if="item.notification_type == 3 || item.notification_type == 2" large>mdi-account-plus</v-icon>
                                 <v-icon color="red" v-if="item.notification_type == 1" large>mdi-bullhorn-outline</v-icon>
                                 <v-icon color="green" v-if="item.notification_type == 4" large> mdi-book-open-variant</v-icon>
                                
                             </v-list-item-avatar>
-                            <v-list-item-content @click="GotoThisNotification(item)">
+                            <v-list-item-content @click="GotoThisNotification(item)" >
                                 
                                 <v-list-item-title  class="font-weight-medium">
                                     <v-badge :content="item.status == 1 ? '' :'new'" :value="item.status == 1 ? '' :'new'" 
@@ -93,33 +142,22 @@
                             </v-list-item-content>
                 
                             <v-list-item-action>
-                            
-
-                              <!--   <v-tooltip v-if="item.status == null || item.status == 0"  left>
-                                    <template v-slot:activator="{ on, attrs }">
-                                        <v-btn style="z-index:50" icon v-bind="attrs" v-on="on"
-                                            v-if="item.status == null || item.status == 0" @click="markAsread(item.n_id),closing = false">
-                                            <v-icon>mdi-check</v-icon>
-                                        </v-btn>
-                                    </template>
-                            
-                                    <span>Mark as read</span>
-                                </v-tooltip> -->
-
-                                <v-tooltip v-if="item.status == 1" left>
-                                    <template v-slot:activator="{ on, attrs }">
-                                        <v-btn style="z-index:50" icon v-bind="attrs" v-on="on"
-                                            v-if="item.status == 1" @click="NotificationHide(item.n_id),closing = false">
-                                            <v-icon>mdi-close</v-icon>
-                                        </v-btn>
-                                    </template>
-                                    <span>Hide notification</span>
-                                </v-tooltip>
-                            
+                                <v-list-item-action-text >
+                                      <v-tooltip v-if="item.status == 1" top>
+                                        <template v-slot:activator="{ on, attrs }">
+                                            <v-btn small style="z-index:50" icon v-bind="attrs" v-on="on"
+                                                v-if="item.status == 1" @click="NotificationHide(item.n_id),closing = false">
+                                                <v-icon small>mdi-close</v-icon>
+                                            </v-btn>
+                                        </template>
+                                        <span>Hide notification</span>
+                                    </v-tooltip>
+                                </v-list-item-action-text>
+                                <v-spacer></v-spacer>
                             </v-list-item-action>
-                    
-                        </v-list-item>
-                    
+                          
+                        </v-list-item> -->
+                          
 
                         <v-list-item v-if="LastPage != 1" >
                             <v-list-item-content>
@@ -167,7 +205,8 @@
             //isGetting: true,
             notifType: 'all',
             AttachData: {},
-            isClose: false
+            isClose: false,
+            divider:[]
      
         }),
         components:{
@@ -323,8 +362,27 @@
                         }
                     })
                 }
-            
-            }
+                else{
+                    if(this.get_notification_count != 0){
+                        this.markAllasRead();
+                    }
+                    
+                }            
+            },
+            async markAllasRead(){
+                axios.post('/api/notification/mark-all')
+                .then((res)=>{
+                    this.get_notification.forEach(item => {
+                            if(item.status== null){
+                                item.status = 1;
+                            }
+                        });
+                    for (let i = 0; i < res.data; i++) {
+                        this.$store.dispatch("LessNotificationCount");
+                    }
+                })
+            },
+          
         },
         mounted() {
             this.connect();

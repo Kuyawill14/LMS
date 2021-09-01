@@ -187,8 +187,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+var removeAttachment = function removeAttachment() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_tabs_dialogs_removeAttachment_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./dialogs/removeAttachment */ "./resources/js/components/Classwork_View/tabs/dialogs/removeAttachment.vue"));
+};
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['classworkDetails'],
+  components: {
+    removeAttachment: removeAttachment
+  },
   data: function data() {
     return {
       valid: false,
@@ -196,14 +209,25 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       isUpdating: false,
       isUpdatingSnackBar: false,
       isloading: true,
-      file: null,
+      file: [],
       FieldRules: [function (v) {
         return !!v || 'Field is required';
       }],
       isCheckingFile: false,
       isUploading: false,
-      isLeaving: false
+      isLeaving: false,
+      file_name: [],
+      counter: 0,
+      removeDialog: null,
+      removeIndex: null,
+      uploadPercentage: 0,
+      uploadIndex: null
     };
+  },
+  computed: {
+    extension: function extension() {
+      return this.file[this.counter] ? this.file[this.counter].name.split('.').pop() : '';
+    }
   },
   methods: {
     UpdateClasswork: function UpdateClasswork() {
@@ -219,9 +243,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _this.isUpdating = true; //console.log(this.Details);
 
                 fd = new FormData();
-                fd.append('attachment', _this.Details.attachment);
-                fd.append('attachment_name', _this.Details.attachment_name);
-                fd.append('attachment_size', _this.Details.attachment_size);
                 fd.append('course_id', _this.Details.course_id);
                 fd.append('duration', _this.Details.duration);
                 fd.append('instruction', _this.Details.instruction);
@@ -230,17 +251,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 fd.append('points', _this.Details.points);
                 fd.append('title', _this.Details.title);
                 fd.append('type', _this.Details.type);
-                fd.append('user_id', _this.Details.user_id);
-                fd.append('OldName', _this.Details.OldName);
-                fd.append('file', _this.file);
-                _context.next = 19;
+                /*  for (let index = 0; index < this.file.length; index++) {
+                    fd.append('file['+index+']', this.file[index]); 
+                    fd.append('attachment_name['+index+']',  this.file_name[index].name);
+                    fd.append('attachment_size['+index+']',  this.file_name[index].size);
+                    fd.append('attachment_extension['+index+']',  this.file_name[index].extension);
+                }  */
+
+                _context.next = 13;
                 return axios.post('/api/classwork/update', fd).then(function (res) {
                   setTimeout(function () {
                     return _this.isUpdating = false, _this.toastSuccess("Classwork successfully updated");
                   }, 1000);
                 })["catch"](function (e) {});
 
-              case 19:
+              case 13:
               case "end":
                 return _context.stop();
             }
@@ -254,27 +279,78 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.isUploading = true;
     },
     onFileChange: function onFileChange(element) {
-      this.file = element[0];
-
-      if (this.isCheckingFile == false) {
-        this.Details.OldName = this.classworkDetails.attachment_name;
-      }
-
-      this.isCheckingFile = true;
-      this.Details.attachment_name = element[0].name;
+      this.file[this.counter] = element[0];
+      var size;
 
       if (element[0].size > 1000000) {
         var kbsize = element[0].size * 0.001;
         var mbsize = kbsize * 0.001;
         var finalSize = parseInt(mbsize);
-        this.classworkDetails.attachment_size = finalSize + 'mb';
+        size = finalSize + 'mb'; //this.classworkDetails.attachment_size = finalSize+'mb';
       } else {
         var sizeFile = element[0].size * 0.001;
 
         var _finalSize = parseInt(sizeFile);
 
-        this.classworkDetails.attachment_size = _finalSize + 'kb';
+        size = _finalSize + 'kb'; //this.classworkDetails.attachment_size = finalSize+'kb';
       }
+
+      this.file_name.push({
+        name: element[0].name,
+        size: size,
+        extension: this.extension
+      });
+      this.Details.attachment.push({
+        name: element[0].name,
+        size: size,
+        attachment: null,
+        extension: this.extension
+      });
+      this.addFile();
+    },
+    DownLoadFile: function DownLoadFile(file) {
+      window.open(file, '_blank');
+    },
+    addFile: function addFile() {
+      var _this2 = this;
+
+      console.log(this.Details.attachment.length);
+      this.uploadIndex = this.Details.attachment.length - 1;
+      var fd = new FormData();
+      fd.append('file', this.file[this.counter]);
+      fd.append('id', this.Details.id);
+      fd.append('name', this.file_name[this.counter].name);
+      fd.append('size', this.file_name[this.counter].size);
+      fd.append('extension', this.file_name[this.counter].extension);
+      axios.post('/api/classwork/addAttachment', fd, {
+        onUploadProgress: function onUploadProgress(progressEvent) {
+          var total = progressEvent.total;
+          var totalLength = progressEvent.lengthComputable ? total : null;
+
+          if (totalLength != null) {
+            _this2.uploadPercentage = Math.round(progressEvent.loaded * 100 / totalLength);
+          }
+        }
+      }).then(function (res) {
+        _this2.counter++;
+      });
+    },
+    RemoveFile: function RemoveFile(index) {
+      var _this3 = this;
+
+      if (this.Details.attachment[index].attachment != null) {
+        axios.put('/api/classwork/deleteAttachment/' + this.Details.id, {
+          attachment: this.Details.attachment[index].attachment
+        }).then(function (res) {
+          if (res.data.success == true) {
+            _this3.Details.attachment.splice(index, 1);
+          }
+        });
+      } else {
+        this.Details.attachment.splice(index, 1);
+      }
+
+      this.removeDialog = false;
     }
   },
   beforeMount: function beforeMount() {
@@ -382,6 +458,33 @@ var render = function() {
         [
           _c("v-progress-circular", {
             attrs: { indeterminate: "", size: "64" }
+          })
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-dialog",
+        {
+          attrs: { persistent: "", "max-width": "370" },
+          model: {
+            value: _vm.removeDialog,
+            callback: function($$v) {
+              _vm.removeDialog = $$v
+            },
+            expression: "removeDialog"
+          }
+        },
+        [
+          _c("removeAttachment", {
+            on: {
+              toggleCancelDialog: function($event) {
+                _vm.removeDialog = false
+              },
+              toggleconfirm: function($event) {
+                return _vm.RemoveFile(_vm.removeIndex)
+              }
+            }
           })
         ],
         1
@@ -562,112 +665,6 @@ var render = function() {
                                     ? _c(
                                         "v-col",
                                         {
-                                          class: !_vm.isUploading
-                                            ? "b-0 pb-0 pt-0 mt-0"
-                                            : "b-0 pb-0 pt-0 mt-0 d-none",
-                                          attrs: { cols: "12" }
-                                        },
-                                        [
-                                          _vm.Details.type == "Subjective Type"
-                                            ? _c("v-text-field", {
-                                                staticClass:
-                                                  "mb-0 pb-0 pt-0 mt-0",
-                                                attrs: {
-                                                  "prepend-inner-icon":
-                                                    "mdi-paperclip",
-                                                  rules: _vm.FieldRules,
-                                                  label: "File input",
-                                                  "show-size": "",
-                                                  outlined: "",
-                                                  multiple: "",
-                                                  chips: ""
-                                                },
-                                                on: { click: _vm.TestUpload },
-                                                model: {
-                                                  value:
-                                                    _vm.Details.attachment_name,
-                                                  callback: function($$v) {
-                                                    _vm.$set(
-                                                      _vm.Details,
-                                                      "attachment_name",
-                                                      $$v
-                                                    )
-                                                  },
-                                                  expression:
-                                                    "Details.attachment_name"
-                                                }
-                                              })
-                                            : _vm._e()
-                                        ],
-                                        1
-                                      )
-                                    : _vm._e(),
-                                  _vm._v(" "),
-                                  _vm.Details.type == "Subjective Type"
-                                    ? _c(
-                                        "v-col",
-                                        {
-                                          class: _vm.isUploading
-                                            ? "b-0 pb-0 pt-0 mt-0"
-                                            : "b-0 pb-0 pt-0 mt-0 d-none",
-                                          attrs: { cols: "12" }
-                                        },
-                                        [
-                                          _c("v-file-input", {
-                                            ref: "fileInput",
-                                            attrs: {
-                                              label: "File input",
-                                              outlined: "",
-                                              "show-size": "",
-                                              counter: "",
-                                              multiple: "",
-                                              "prepend-icon": "",
-                                              "prepend-inner-icon":
-                                                "mdi-paperclip"
-                                            },
-                                            on: { change: _vm.onFileChange },
-                                            scopedSlots: _vm._u(
-                                              [
-                                                {
-                                                  key: "selection",
-                                                  fn: function(ref) {
-                                                    var text = ref.text
-                                                    return [
-                                                      _c(
-                                                        "v-chip",
-                                                        {
-                                                          attrs: {
-                                                            small: "",
-                                                            label: "",
-                                                            color: "primary"
-                                                          }
-                                                        },
-                                                        [
-                                                          _vm._v(
-                                                            "\r\n                                                " +
-                                                              _vm._s(text) +
-                                                              "\r\n                                            "
-                                                          )
-                                                        ]
-                                                      )
-                                                    ]
-                                                  }
-                                                }
-                                              ],
-                                              null,
-                                              false,
-                                              3880112256
-                                            )
-                                          })
-                                        ],
-                                        1
-                                      )
-                                    : _vm._e(),
-                                  _vm._v(" "),
-                                  _vm.Details.type == "Subjective Type"
-                                    ? _c(
-                                        "v-col",
-                                        {
                                           staticClass: "mb-0 pb-0 pt-0 mt-0",
                                           attrs: { cols: "12" }
                                         },
@@ -698,6 +695,253 @@ var render = function() {
                                         1
                                       )
                                     : _vm._e(),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-col",
+                                    {
+                                      class: _vm.isUploading
+                                        ? "b-0 pb-0 pt-0 mt-0"
+                                        : "b-0 pb-0 pt-0 mt-0 ",
+                                      attrs: { cols: "12" }
+                                    },
+                                    [
+                                      _c(
+                                        "v-btn",
+                                        {
+                                          staticClass: "mb-2",
+                                          attrs: {
+                                            color: "primary",
+                                            text: "",
+                                            rounded: ""
+                                          },
+                                          on: {
+                                            click: function($event) {
+                                              return _vm.$refs.inputFile.$refs.input.click()
+                                            }
+                                          }
+                                        },
+                                        [
+                                          _c(
+                                            "v-icon",
+                                            { attrs: { left: "" } },
+                                            [
+                                              _vm._v(
+                                                "\r\n                                                    mdi-attachment\r\n                                                "
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(
+                                            "\r\n                                                Attach file\r\n                                            "
+                                          )
+                                        ],
+                                        1
+                                      ),
+                                      _vm._v(" "),
+                                      _c("v-file-input", {
+                                        ref: "inputFile",
+                                        staticClass: "d-none",
+                                        attrs: { multiple: "" },
+                                        on: { change: _vm.onFileChange }
+                                      }),
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-list",
+                                        { staticClass: "ma-0 pa-0" },
+                                        _vm._l(_vm.Details.attachment, function(
+                                          item,
+                                          i
+                                        ) {
+                                          return _c(
+                                            "v-list-item",
+                                            {
+                                              key: i,
+                                              staticClass: "ma-0 pa-0"
+                                            },
+                                            [
+                                              _c(
+                                                "v-list-item-avatar",
+                                                [
+                                                  _c(
+                                                    "v-icon",
+                                                    {
+                                                      attrs: {
+                                                        large: "",
+                                                        color:
+                                                          item.extension ==
+                                                          "docx"
+                                                            ? "blue"
+                                                            : "red"
+                                                      }
+                                                    },
+                                                    [
+                                                      _vm._v(
+                                                        "\r\n                                                            " +
+                                                          _vm._s(
+                                                            item.extension ==
+                                                              "docx"
+                                                              ? "mdi-file-word"
+                                                              : "mdi-file-pdf"
+                                                          ) +
+                                                          "\r\n                                                            "
+                                                      )
+                                                    ]
+                                                  )
+                                                ],
+                                                1
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "v-list-item-content",
+                                                [
+                                                  _c("v-hover", {
+                                                    scopedSlots: _vm._u(
+                                                      [
+                                                        {
+                                                          key: "default",
+                                                          fn: function(ref) {
+                                                            var hover =
+                                                              ref.hover
+                                                            return [
+                                                              _c(
+                                                                "v-list-item-title",
+                                                                {
+                                                                  class: hover
+                                                                    ? "blue--text"
+                                                                    : "",
+                                                                  staticStyle: {
+                                                                    cursor:
+                                                                      "pointer"
+                                                                  },
+                                                                  on: {
+                                                                    click: function(
+                                                                      $event
+                                                                    ) {
+                                                                      return _vm.DownLoadFile(
+                                                                        item.attachment
+                                                                      )
+                                                                    }
+                                                                  }
+                                                                },
+                                                                [
+                                                                  _vm._v(
+                                                                    _vm._s(
+                                                                      item.name
+                                                                    )
+                                                                  )
+                                                                ]
+                                                              )
+                                                            ]
+                                                          }
+                                                        }
+                                                      ],
+                                                      null,
+                                                      true
+                                                    )
+                                                  }),
+                                                  _vm._v(" "),
+                                                  _c(
+                                                    "v-list-item-subtitle",
+                                                    [
+                                                      _vm.uploadIndex == i &&
+                                                      _vm.uploadPercentage !=
+                                                        100
+                                                        ? _c(
+                                                            "v-progress-linear",
+                                                            {
+                                                              attrs: {
+                                                                rounded: "",
+                                                                value:
+                                                                  _vm.uploadPercentage
+                                                              }
+                                                            }
+                                                          )
+                                                        : _vm._e()
+                                                    ],
+                                                    1
+                                                  )
+                                                ],
+                                                1
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "v-list-item-action",
+                                                [
+                                                  _c(
+                                                    "v-tooltip",
+                                                    {
+                                                      attrs: { top: "" },
+                                                      scopedSlots: _vm._u(
+                                                        [
+                                                          {
+                                                            key: "activator",
+                                                            fn: function(ref) {
+                                                              var on = ref.on
+                                                              var attrs =
+                                                                ref.attrs
+                                                              return [
+                                                                _c(
+                                                                  "v-btn",
+                                                                  _vm._g(
+                                                                    _vm._b(
+                                                                      {
+                                                                        attrs: {
+                                                                          icon:
+                                                                            ""
+                                                                        },
+                                                                        on: {
+                                                                          click: function(
+                                                                            $event
+                                                                          ) {
+                                                                            ;(_vm.removeDialog = true),
+                                                                              (_vm.removeIndex = i)
+                                                                          }
+                                                                        }
+                                                                      },
+                                                                      "v-btn",
+                                                                      attrs,
+                                                                      false
+                                                                    ),
+                                                                    on
+                                                                  ),
+                                                                  [
+                                                                    _c(
+                                                                      "v-icon",
+                                                                      [
+                                                                        _vm._v(
+                                                                          "\r\n                                                                    mdi-close\r\n                                                                    "
+                                                                        )
+                                                                      ]
+                                                                    )
+                                                                  ],
+                                                                  1
+                                                                )
+                                                              ]
+                                                            }
+                                                          }
+                                                        ],
+                                                        null,
+                                                        true
+                                                      )
+                                                    },
+                                                    [
+                                                      _vm._v(" "),
+                                                      _c("span", [
+                                                        _vm._v("Remove file")
+                                                      ])
+                                                    ]
+                                                  )
+                                                ],
+                                                1
+                                              )
+                                            ],
+                                            1
+                                          )
+                                        }),
+                                        1
+                                      )
+                                    ],
+                                    1
+                                  ),
                                   _vm._v(" "),
                                   _c(
                                     "v-col",

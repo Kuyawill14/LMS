@@ -39,7 +39,7 @@ class ObjectiveController extends Controller
         else{
             $Questions = tbl_Questions::where('tbl_questions.classwork_id', $id)
             ->Select('tbl_questions.id', 'tbl_questions.question', 'tbl_questions.type',
-            'tbl_questions.answer','tbl_questions.points')
+            'tbl_questions.answer','tbl_questions.points','tbl_questions.sensitivity')
             ->orderBy('created_at','DESC')
             ->get();
             $temQuest = $Questions;
@@ -637,6 +637,7 @@ class ObjectiveController extends Controller
         if($UpdateStatus){
             $UpdateStatus->status = 'Submitted';
             $UpdateStatus->points = $score;
+            $UpdateStatus->timeSpent = $request->timeSpent;
             $UpdateStatus->Submitted_Answers = serialize($request->item);
             $UpdateStatus->update();
 

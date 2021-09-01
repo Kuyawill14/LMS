@@ -172,6 +172,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var deleteDialog = function deleteDialog() {
   return Promise.resolve(/*! import() */).then(__webpack_require__.bind(__webpack_require__, /*! ../dialogs/deleteDialog */ "./resources/js/components/Classwork_View/tabs/dialogs/deleteDialog.vue"));
 };
@@ -2385,7 +2394,7 @@ var render = function() {
                                     _vm._v(" "),
                                     _c(
                                       "v-container",
-                                      { staticClass: "mb-1" },
+                                      { staticClass: "mb-0 pb-0" },
                                       [
                                         _c(
                                           "v-row",
@@ -2639,6 +2648,30 @@ var render = function() {
                                           ],
                                           1
                                         )
+                                      ],
+                                      1
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "div",
+                                      { staticClass: "text-right" },
+                                      [
+                                        _c("v-switch", {
+                                          staticClass: "float-right",
+                                          attrs: { label: "Case Sensitive" },
+                                          model: {
+                                            value: _vm.QuetionsList.sensitivity,
+                                            callback: function($$v) {
+                                              _vm.$set(
+                                                _vm.QuetionsList,
+                                                "sensitivity",
+                                                $$v
+                                              )
+                                            },
+                                            expression:
+                                              "QuetionsList.sensitivity"
+                                          }
+                                        })
                                       ],
                                       1
                                     )

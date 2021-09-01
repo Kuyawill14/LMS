@@ -513,7 +513,7 @@ var resetConfirmation = function resetConfirmation() {
                       content: res.data.comment,
                       id: res.data.id,
                       name: _this4.get_CurrentUser.firstName + ' ' + _this4.get_CurrentUser.lastName,
-                      profile_pic: _this4.profile_pic
+                      profile_pic: _this4.get_CurrentUser.profile_pic
                     });
 
                     _this4.comment = null;
@@ -9141,8 +9141,7 @@ var render = function() {
                                                 _vm.ViewDetails.firstName +
                                                 " " +
                                                 _vm.ViewDetails.lastName
-                                              : "/storage/" +
-                                                _vm.ViewDetails.profile_pic
+                                              : _vm.ViewDetails.profile_pic
                                         }
                                       })
                                     ],
@@ -9302,7 +9301,7 @@ var render = function() {
                                             item.profile_pic == ""
                                               ? "https://ui-avatars.com/api/?background=random&color=fff&name=" +
                                                 item.name
-                                              : "/storage/" + item.profile_pic
+                                              : item.profile_pic
                                         }
                                       })
                                     ],

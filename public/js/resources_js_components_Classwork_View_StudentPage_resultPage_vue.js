@@ -119,9 +119,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
 var submittedView = function submittedView() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_StudentPage_viewSubmittedPage_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./viewSubmittedPage */ "./resources/js/components/Classwork_View/StudentPage/viewSubmittedPage.vue"));
 };
@@ -630,28 +627,6 @@ var render = function() {
                                                     [
                                                       _vm._v(
                                                         "\r\n                                            View Submission\r\n                                        "
-                                                      )
-                                                    ]
-                                                  ),
-                                                  _vm._v(" "),
-                                                  _c(
-                                                    "v-btn",
-                                                    {
-                                                      attrs: {
-                                                        rounded: "",
-                                                        text: ""
-                                                      },
-                                                      on: {
-                                                        click: function(
-                                                          $event
-                                                        ) {
-                                                          _vm.Viewdialog = !_vm.Viewdialog
-                                                        }
-                                                      }
-                                                    },
-                                                    [
-                                                      _vm._v(
-                                                        "\r\n                                            CLose\r\n                                        "
                                                       )
                                                     ]
                                                   )

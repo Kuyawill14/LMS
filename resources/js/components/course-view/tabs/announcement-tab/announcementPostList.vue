@@ -23,7 +23,7 @@
                     <div class="d-flex flex-row user-info">
                         <v-avatar color="grey" :size="!$vuetify.breakpoint.xs  && !$vuetify.breakpoint.sm ? 45 : 40">
                             <v-img class="rounded-circle"  
-                            :src="post.profile_pic == null || post.profile_pic == ''? 'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=' + post.name : '/storage/'+post.profile_pic"></v-img> 
+                            :src="post.profile_pic == null || post.profile_pic == ''? 'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=' + post.name : post.profile_pic"></v-img> 
                         </v-avatar>
                         <div class="d-flex flex-column justify-content-start ml-2 mt-1">
                             <span class="d-block font-weight-bold name">{{post.name}}</span>
@@ -31,8 +31,8 @@
                         </div>
                     </div>
                 </v-col>
-                 <v-col cols="4" class="text-right">
-                    <v-btn icon="">
+                 <v-col v-if="post.u_id == UserDetails.id || UserDetails.role == 'Teacher'" cols="4"  class="text-right">
+                    <v-btn icon>
                         <v-icon >mdi-dots-vertical</v-icon>
                     </v-btn>
                  </v-col>
@@ -44,10 +44,8 @@
                         <div class="pa-5 " >
                             <span v-html="post.content" class="post-content"></span>
                         </div>
-                        
                     </v-col>
                 </v-row>
-            
             </v-container>
           
             <!--Divider -->

@@ -120,14 +120,60 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var moment_src_moment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! moment/src/moment */ "./node_modules/moment/src/moment.js");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var moment_src_moment__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! moment/src/moment */ "./node_modules/moment/src/moment.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -292,13 +338,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       //isGetting: true,
       notifType: 'all',
       AttachData: {},
-      isClose: false
+      isClose: false,
+      divider: []
     };
   },
   components: {//seeAllNotification
   },
-  computed: (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(["get_notification", "get_notification_count", "ShowPage", "ShowLoadMore", "LastPage", "isGetting"]),
-  methods: _objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapActions)(['fetchNotification'])), (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapActions)(['fetchNotificationCount'])), (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapActions)(['ShowMore'])), (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapActions)(['ShowLess'])), (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapActions)(['LessNotificationCount'])), (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapActions)(['UnreadMessage'])), {}, {
+  computed: (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(["get_notification", "get_notification_count", "ShowPage", "ShowLoadMore", "LastPage", "isGetting"]),
+  methods: _objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapActions)(['fetchNotification'])), (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapActions)(['fetchNotificationCount'])), (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapActions)(['ShowMore'])), (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapActions)(['ShowLess'])), (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapActions)(['LessNotificationCount'])), (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapActions)(['UnreadMessage'])), {}, {
     connect: function connect() {
       var _this = this;
 
@@ -418,7 +465,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     format_date: function format_date(value) {
       if (value) {
-        return (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_0__.default)(String(value)).format("MMMM DD, h:mm a");
+        return (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_1__.default)(String(value)).format("MMMM DD, h:mm a");
       }
     },
     ShowMore: function ShowMore() {
@@ -471,7 +518,39 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             _this5.toastError('Something went wrong while loading notifications!');
           }
         });
+      } else {
+        if (this.get_notification_count != 0) {
+          this.markAllasRead();
+        }
       }
+    },
+    markAllasRead: function markAllasRead() {
+      var _this6 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                axios.post('/api/notification/mark-all').then(function (res) {
+                  _this6.get_notification.forEach(function (item) {
+                    if (item.status == null) {
+                      item.status = 1;
+                    }
+                  });
+
+                  for (var i = 0; i < res.data; i++) {
+                    _this6.$store.dispatch("LessNotificationCount");
+                  }
+                });
+
+              case 1:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
     }
   }),
   mounted: function mounted() {
@@ -729,6 +808,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 
 
@@ -738,7 +818,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       UserDetails: [],
       drawer: null,
       menuVisible: false,
-      role: ''
+      role: '',
+      ipAdd: null
     };
   },
   components: {
@@ -756,9 +837,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
         _this.UserDetails = res.data;
       })["catch"](function (error) {});
+    },
+    getIp: function getIp() {
+      /*  fetch('https://api.ipify.org?format=json')
+       .then(x => x.json())
+       .then(({ ip }) => {
+           this.ipAdd = ip;
+           console.log(this.ipAdd);
+       }); */
     }
   }),
-  created: function created() {//this.getUserDetails();
+  mounted: function mounted() {
+    this.getIp();
   }
 });
 
@@ -826,7 +916,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n    /* width */\n[data-v-79f6cf96]::-webkit-scrollbar {\n  width: 5px;\n}\n\n/* Track */\n[data-v-79f6cf96]::-webkit-scrollbar-track {\n  background: #f1f1f1;\n}\n \n/* Handle */\n[data-v-79f6cf96]::-webkit-scrollbar-thumb {\n  background: #888; \n   border-radius: 3px\n}\n\n/* Handle on hover */\n[data-v-79f6cf96]::-webkit-scrollbar-thumb:hover {\n  background: #555;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n    /* width */\n[data-v-79f6cf96]::-webkit-scrollbar {\n  width: 5px;\n}\n\n/* Track */\n[data-v-79f6cf96]::-webkit-scrollbar-track {\n  background: #f1f1f1;\n}\n \n/* Handle */\n[data-v-79f6cf96]::-webkit-scrollbar-thumb {\n  background: #888; \n   border-radius: 3px\n}\n\n/* Handle on hover */\n[data-v-79f6cf96]::-webkit-scrollbar-thumb:hover {\n  background: #555;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -10082,235 +10172,266 @@ var render = function() {
                             : _vm._e(),
                           _vm._v(" "),
                           _vm._l(_vm.get_notification, function(item, index) {
-                            return _c(
-                              "v-list-item",
-                              {
-                                directives: [
-                                  {
-                                    name: "show",
-                                    rawName: "v-show",
-                                    value:
-                                      item.hide_notif == 0 ||
-                                      item.hide_notif == null,
-                                    expression:
-                                      "item.hide_notif == 0 || item.hide_notif == null"
-                                  }
-                                ],
-                                key: index,
-                                attrs: { link: "" }
-                              },
-                              [
-                                _c(
-                                  "v-list-item-avatar",
-                                  {
-                                    on: {
-                                      click: function($event) {
-                                        return _vm.GotoThisNotification(item)
-                                      }
+                            return [
+                              _c(
+                                "v-list-item",
+                                {
+                                  directives: [
+                                    {
+                                      name: "show",
+                                      rawName: "v-show",
+                                      value:
+                                        item.hide_notif == 0 ||
+                                        item.hide_notif == null,
+                                      expression:
+                                        "item.hide_notif == 0 || item.hide_notif == null"
                                     }
-                                  },
-                                  [
-                                    item.notification_type == 3 ||
-                                    item.notification_type == 2
-                                      ? _c(
-                                          "v-icon",
-                                          {
-                                            attrs: { color: "blue", large: "" }
-                                          },
-                                          [_vm._v("mdi-account-plus")]
-                                        )
-                                      : _vm._e(),
-                                    _vm._v(" "),
-                                    item.notification_type == 1
-                                      ? _c(
-                                          "v-icon",
-                                          {
-                                            attrs: { color: "red", large: "" }
-                                          },
-                                          [_vm._v("mdi-bullhorn-outline")]
-                                        )
-                                      : _vm._e(),
-                                    _vm._v(" "),
-                                    item.notification_type == 4
-                                      ? _c(
-                                          "v-icon",
-                                          {
-                                            attrs: { color: "green", large: "" }
-                                          },
-                                          [_vm._v(" mdi-book-open-variant")]
-                                        )
-                                      : _vm._e()
                                   ],
-                                  1
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "v-list-item-content",
-                                  {
-                                    on: {
-                                      click: function($event) {
-                                        return _vm.GotoThisNotification(item)
+                                  key: item.id,
+                                  class:
+                                    item.status == null ? "grey_active" : "",
+                                  attrs: { link: "" }
+                                },
+                                [
+                                  _c(
+                                    "v-list-item-avatar",
+                                    {
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.GotoThisNotification(item)
+                                        }
                                       }
-                                    }
-                                  },
-                                  [
-                                    _c(
-                                      "v-list-item-title",
-                                      { staticClass: "font-weight-medium" },
-                                      [
-                                        _c(
-                                          "v-badge",
-                                          {
-                                            attrs: {
-                                              content:
-                                                item.status == 1 ? "" : "new",
-                                              value:
-                                                item.status == 1 ? "" : "new",
-                                              color:
-                                                item.notification_type == 1
-                                                  ? "red"
-                                                  : item.notification_type ==
-                                                      3 ||
-                                                    item.notification_type == 2
-                                                  ? "blue"
-                                                  : item.notification_type == 4
-                                                  ? "green"
-                                                  : ""
-                                            }
-                                          },
-                                          [
-                                            _vm._v(
-                                              "\n                                " +
-                                                _vm._s(item.name) +
-                                                "   \n                                "
-                                            )
-                                          ]
-                                        )
-                                      ],
-                                      1
-                                    ),
-                                    _vm._v(" "),
-                                    _c("div", { staticClass: "body-2" }, [
-                                      _vm._v(
-                                        "\n                                " +
-                                          _vm._s(item.message) +
-                                          "\n                                "
-                                      ),
-                                      item.notification_type == 3 &&
-                                      item.notification_accepted == 0
+                                    },
+                                    [
+                                      item.notification_type == 3 ||
+                                      item.notification_type == 2
                                         ? _c(
-                                            "a",
+                                            "v-icon",
                                             {
-                                              staticClass: "blue--text",
-                                              attrs: { href: "", link: "" },
-                                              on: {
-                                                click: function($event) {
-                                                  $event.preventDefault()
-                                                  _vm.acceptJoin(
-                                                    item.notification_attachments,
-                                                    item.n_id,
-                                                    index
-                                                  ),
-                                                    (_vm.isClose = true)
-                                                }
+                                              attrs: {
+                                                color: "blue",
+                                                large: ""
+                                              }
+                                            },
+                                            [_vm._v("mdi-account-plus")]
+                                          )
+                                        : _vm._e(),
+                                      _vm._v(" "),
+                                      item.notification_type == 1
+                                        ? _c(
+                                            "v-icon",
+                                            {
+                                              attrs: { color: "red", large: "" }
+                                            },
+                                            [_vm._v("mdi-bullhorn-outline")]
+                                          )
+                                        : _vm._e(),
+                                      _vm._v(" "),
+                                      item.notification_type == 4
+                                        ? _c(
+                                            "v-icon",
+                                            {
+                                              attrs: {
+                                                color: "green",
+                                                large: ""
+                                              }
+                                            },
+                                            [_vm._v(" mdi-book-open-variant")]
+                                          )
+                                        : _vm._e()
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-list-item-content",
+                                    {
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.GotoThisNotification(item)
+                                        }
+                                      }
+                                    },
+                                    [
+                                      _c(
+                                        "v-list-item-title",
+                                        { staticClass: "font-weight-medium" },
+                                        [
+                                          _c(
+                                            "v-badge",
+                                            {
+                                              attrs: {
+                                                content:
+                                                  item.status == 1 ? "" : "new",
+                                                value:
+                                                  item.status == 1 ? "" : "new",
+                                                color:
+                                                  item.notification_type == 1
+                                                    ? "red"
+                                                    : item.notification_type ==
+                                                        3 ||
+                                                      item.notification_type ==
+                                                        2
+                                                    ? "blue"
+                                                    : item.notification_type ==
+                                                      4
+                                                    ? "green"
+                                                    : ""
                                               }
                                             },
                                             [
                                               _vm._v(
-                                                "\n                                Accept invite"
+                                                "\n                                    " +
+                                                  _vm._s(item.name) +
+                                                  "   \n                                    "
                                               )
                                             ]
                                           )
-                                        : _vm._e()
-                                    ]),
-                                    _vm._v(" "),
-                                    _c("small", [
-                                      _vm._v(
-                                        _vm._s(_vm.format_date(item.created_at))
-                                      )
-                                    ])
-                                  ],
-                                  1
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "v-list-item-action",
-                                  [
-                                    item.status == 1
-                                      ? _c(
-                                          "v-tooltip",
-                                          {
-                                            attrs: { left: "" },
-                                            scopedSlots: _vm._u(
+                                        ],
+                                        1
+                                      ),
+                                      _vm._v(" "),
+                                      _c("div", { staticClass: "body-2" }, [
+                                        _vm._v(
+                                          "\n                                    " +
+                                            _vm._s(item.message) +
+                                            "\n                                    "
+                                        ),
+                                        item.notification_type == 3 &&
+                                        item.notification_accepted == 0
+                                          ? _c(
+                                              "a",
+                                              {
+                                                staticClass: "blue--text",
+                                                attrs: { href: "", link: "" },
+                                                on: {
+                                                  click: function($event) {
+                                                    $event.preventDefault()
+                                                    _vm.acceptJoin(
+                                                      item.notification_attachments,
+                                                      item.n_id,
+                                                      index
+                                                    ),
+                                                      (_vm.isClose = true)
+                                                  }
+                                                }
+                                              },
                                               [
-                                                {
-                                                  key: "activator",
-                                                  fn: function(ref) {
-                                                    var on = ref.on
-                                                    var attrs = ref.attrs
-                                                    return [
-                                                      item.status == 1
-                                                        ? _c(
-                                                            "v-btn",
-                                                            _vm._g(
-                                                              _vm._b(
-                                                                {
-                                                                  staticStyle: {
-                                                                    "z-index":
-                                                                      "50"
-                                                                  },
-                                                                  attrs: {
-                                                                    icon: ""
-                                                                  },
-                                                                  on: {
-                                                                    click: function(
-                                                                      $event
-                                                                    ) {
-                                                                      _vm.NotificationHide(
-                                                                        item.n_id
-                                                                      ),
-                                                                        (_vm.closing = false)
-                                                                    }
-                                                                  }
+                                                _vm._v(
+                                                  "\n                                    Accept invite"
+                                                )
+                                              ]
+                                            )
+                                          : _vm._e()
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("small", [
+                                        _vm._v(
+                                          _vm._s(
+                                            _vm.format_date(item.created_at)
+                                          )
+                                        )
+                                      ])
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-list-item-action",
+                                    [
+                                      _c(
+                                        "v-list-item-action-text",
+                                        [
+                                          _c(
+                                            "v-tooltip",
+                                            {
+                                              attrs: { top: "" },
+                                              scopedSlots: _vm._u(
+                                                [
+                                                  {
+                                                    key: "activator",
+                                                    fn: function(ref) {
+                                                      var on = ref.on
+                                                      var attrs = ref.attrs
+                                                      return [
+                                                        _c(
+                                                          "v-btn",
+                                                          _vm._g(
+                                                            _vm._b(
+                                                              {
+                                                                staticStyle: {
+                                                                  "z-index":
+                                                                    "50"
                                                                 },
-                                                                "v-btn",
-                                                                attrs,
-                                                                false
-                                                              ),
-                                                              on
+                                                                attrs: {
+                                                                  small: "",
+                                                                  icon: ""
+                                                                },
+                                                                on: {
+                                                                  click: function(
+                                                                    $event
+                                                                  ) {
+                                                                    _vm.NotificationHide(
+                                                                      item.n_id
+                                                                    ),
+                                                                      (_vm.closing = false)
+                                                                  }
+                                                                }
+                                                              },
+                                                              "v-btn",
+                                                              attrs,
+                                                              false
                                                             ),
-                                                            [
-                                                              _c("v-icon", [
+                                                            on
+                                                          ),
+                                                          [
+                                                            _c(
+                                                              "v-icon",
+                                                              {
+                                                                attrs: {
+                                                                  small: ""
+                                                                }
+                                                              },
+                                                              [
                                                                 _vm._v(
                                                                   "mdi-close"
                                                                 )
-                                                              ])
-                                                            ],
-                                                            1
-                                                          )
-                                                        : _vm._e()
-                                                    ]
+                                                              ]
+                                                            )
+                                                          ],
+                                                          1
+                                                        )
+                                                      ]
+                                                    }
                                                   }
-                                                }
-                                              ],
-                                              null,
-                                              true
-                                            )
-                                          },
-                                          [
-                                            _vm._v(" "),
-                                            _c("span", [
-                                              _vm._v("Hide notification")
-                                            ])
-                                          ]
-                                        )
-                                      : _vm._e()
-                                  ],
-                                  1
-                                )
-                              ],
-                              1
-                            )
+                                                ],
+                                                null,
+                                                true
+                                              )
+                                            },
+                                            [
+                                              _vm._v(" "),
+                                              _c("span", [
+                                                _vm._v("Hide notification")
+                                              ])
+                                            ]
+                                          )
+                                        ],
+                                        1
+                                      ),
+                                      _vm._v(" "),
+                                      _c("v-spacer")
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              index < _vm.get_notification.length
+                                ? _c("v-divider", { key: index })
+                                : _vm._e()
+                            ]
                           }),
                           _vm._v(" "),
                           _vm.LastPage != 1

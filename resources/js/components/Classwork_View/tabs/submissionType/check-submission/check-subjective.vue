@@ -34,7 +34,7 @@
                                                 <v-list-item  class="ma-0 pa-0">
                                                     <v-list-item-avatar color="secondary">
                                                         <v-img alt="Profile"
-                                                            :src="CheckData.profile_pic == null || CheckData.profile_pic == '' ? 'https://ui-avatars.com/api/?background=random&color=fff&name=' + (CheckData.firstName+' '+CheckData.lastName) : '/storage/'+CheckData.profile_pic">
+                                                            :src="CheckData.profile_pic == null || CheckData.profile_pic == '' ? 'https://ui-avatars.com/api/?background=random&color=fff&name=' + (CheckData.firstName+' '+CheckData.lastName) : CheckData.profile_pic">
                                                         </v-img>
                                                     </v-list-item-avatar>
                                                 
@@ -121,7 +121,7 @@
                                     <v-list-item class="mb-0 pb-0" v-for="(item, i) in CheckData.comments" :key="i">
                                     <v-list-item-avatar>
                                         <v-img 
-                                        :src="item.profile_pic == null || item.profile_pic == ''? 'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=' +  item.name : '/storage/'+item.profile_pic">
+                                        :src="item.profile_pic == null || item.profile_pic == ''? 'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=' +  item.name : item.profile_pic">
                                         </v-img>
                                     </v-list-item-avatar>
                                     <v-list-item-content>
@@ -182,7 +182,7 @@
                                         </v-icon>
                                         <h2> Empty Submission </h2>
                                         <p class="mb-0 pb-0"> This student did not submit yet!</p>
-                                        <v-btn color="primary">Alert Student <v-icon right>mdi-account-alert</v-icon> </v-btn>
+                                        <v-btn @click="alertStudent()" color="primary">Alert Student <v-icon right>mdi-account-alert</v-icon> </v-btn>
                                     </v-col>
                                 </v-row>
                             </v-card>
@@ -275,6 +275,22 @@ import {mapGetters} from "vuex";
             }
             
         },
+          async alertStudent(){
+              let data = {};
+              this.isAlerting = true;
+              data.user_id = this.CheckData.user_id;
+              data.classwork_name = this.classworkDetails.title;
+              data.classwork_id = this.classworkDetails.id;
+              data.course_id = this.classworkDetails.course_id;
+              data.firstName = this.CheckData.firstName;
+              axios.post('/api/teacher/alert-student',data)
+              .then((res)=>{
+                  if(res.data.success == true){
+                      this.toastSuccess(res.data.message);
+                      this.isAlerting = false;
+                  }
+              })
+          },
          async addComment(details){
               let data = {};
               this.isCommenting = true;

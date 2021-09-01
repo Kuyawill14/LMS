@@ -193,6 +193,41 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -311,6 +346,31 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           }
         }, _callee3);
       }))();
+    },
+    DeleteComment: function DeleteComment(id, index) {
+      var _this4 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                axios["delete"]('/api/post/classwork/comment/delete/' + id).then(function (res) {
+                  if (res.data.success == true) {
+                    _this4.classworkDetails.comments.splice(index, 1);
+                  }
+                });
+
+              case 1:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4);
+      }))();
+    },
+    DownLoadFile: function DownLoadFile(file) {
+      window.open(file, '_blank');
     }
   },
   mounted: function mounted() {
@@ -532,7 +592,7 @@ var render = function() {
                                             item.profile_pic == ""
                                               ? "https://ui-avatars.com/api/?background=random&color=fff&name=" +
                                                 item.name
-                                              : "/storage/" + item.profile_pic
+                                              : item.profile_pic
                                         }
                                       })
                                     ],
@@ -561,18 +621,84 @@ var render = function() {
                                     "v-list-item-action",
                                     [
                                       _c(
-                                        "v-btn",
-                                        { attrs: { icon: "" } },
-                                        [
-                                          _c(
-                                            "v-icon",
-                                            {
-                                              attrs: {
-                                                small: "",
-                                                color: "grey lighten-1"
+                                        "v-menu",
+                                        {
+                                          attrs: { "offset-x": "" },
+                                          scopedSlots: _vm._u(
+                                            [
+                                              {
+                                                key: "activator",
+                                                fn: function(ref) {
+                                                  var on = ref.on
+                                                  var attrs = ref.attrs
+                                                  return [
+                                                    _c(
+                                                      "v-btn",
+                                                      _vm._g(
+                                                        _vm._b(
+                                                          {
+                                                            attrs: { icon: "" }
+                                                          },
+                                                          "v-btn",
+                                                          attrs,
+                                                          false
+                                                        ),
+                                                        on
+                                                      ),
+                                                      [
+                                                        _c(
+                                                          "v-icon",
+                                                          {
+                                                            attrs: {
+                                                              small: "",
+                                                              color:
+                                                                "grey lighten-1"
+                                                            }
+                                                          },
+                                                          [
+                                                            _vm._v(
+                                                              "mdi-dots-vertical"
+                                                            )
+                                                          ]
+                                                        )
+                                                      ],
+                                                      1
+                                                    )
+                                                  ]
+                                                }
                                               }
-                                            },
-                                            [_vm._v("mdi-dots-vertical")]
+                                            ],
+                                            null,
+                                            true
+                                          )
+                                        },
+                                        [
+                                          _vm._v(" "),
+                                          _c(
+                                            "v-list",
+                                            { attrs: { dense: "", nav: "" } },
+                                            [
+                                              _c(
+                                                "v-list-item",
+                                                {
+                                                  on: {
+                                                    click: function($event) {
+                                                      return _vm.DeleteComment(
+                                                        item.id,
+                                                        i
+                                                      )
+                                                    }
+                                                  }
+                                                },
+                                                [
+                                                  _c("v-list-item-title", [
+                                                    _vm._v("Remove")
+                                                  ])
+                                                ],
+                                                1
+                                              )
+                                            ],
+                                            1
                                           )
                                         ],
                                         1
@@ -611,8 +737,7 @@ var render = function() {
                                                 _vm.get_CurrentUser.firstName +
                                                 " " +
                                                 _vm.get_CurrentUser.lastName
-                                              : "/storage/" +
-                                                _vm.get_CurrentUser.profile_pic
+                                              : _vm.get_CurrentUser.profile_pic
                                         }
                                       })
                                     ],
@@ -886,16 +1011,130 @@ var render = function() {
                       _c(
                         "v-col",
                         {
-                          staticClass: "pl-10 pr-5 pb-10",
+                          staticClass: "pl-10 pr-5 pb-5",
                           attrs: { cols: "12" }
                         },
                         [
-                          _c("div", { staticClass: "text-sm-body-2" }, [
-                            _vm._v(
-                              " " + _vm._s(_vm.classworkDetails.instruction)
-                            )
-                          ])
+                          _c(
+                            "div",
+                            {
+                              staticClass: "text-body-1",
+                              staticStyle: { "max-width": "98%" }
+                            },
+                            [
+                              _vm._v(
+                                " " + _vm._s(_vm.classworkDetails.instruction)
+                              )
+                            ]
+                          )
                         ]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-col",
+                        {
+                          staticClass: " pb-5 pl-5 pr-5",
+                          attrs: { cols: "12" }
+                        },
+                        [
+                          _vm.classworkDetails.attachment != null
+                            ? _c("div", { staticClass: "overline" }, [
+                                _vm._v("Attachments")
+                              ])
+                            : _vm._e(),
+                          _vm._v(" "),
+                          _c(
+                            "v-list",
+                            { staticClass: "ma-0 pa-0" },
+                            _vm._l(_vm.classworkDetails.attachment, function(
+                              item,
+                              i
+                            ) {
+                              return _c(
+                                "v-list-item",
+                                { key: i, staticClass: "ma-0 pa-0" },
+                                [
+                                  _c(
+                                    "v-list-item-avatar",
+                                    [
+                                      _c(
+                                        "v-icon",
+                                        {
+                                          attrs: {
+                                            large: "",
+                                            color:
+                                              item.extension == "docx"
+                                                ? "blue"
+                                                : "red"
+                                          }
+                                        },
+                                        [
+                                          _vm._v(
+                                            "\r\n                                        " +
+                                              _vm._s(
+                                                item.extension == "docx"
+                                                  ? "mdi-file-word"
+                                                  : "mdi-file-pdf"
+                                              ) +
+                                              "\r\n                                        "
+                                          )
+                                        ]
+                                      )
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-list-item-content",
+                                    [
+                                      _c("v-hover", {
+                                        scopedSlots: _vm._u(
+                                          [
+                                            {
+                                              key: "default",
+                                              fn: function(ref) {
+                                                var hover = ref.hover
+                                                return [
+                                                  _c(
+                                                    "v-list-item-title",
+                                                    {
+                                                      class: hover
+                                                        ? "blue--text"
+                                                        : "",
+                                                      staticStyle: {
+                                                        cursor: "pointer"
+                                                      },
+                                                      on: {
+                                                        click: function(
+                                                          $event
+                                                        ) {
+                                                          return _vm.DownLoadFile(
+                                                            item.attachment
+                                                          )
+                                                        }
+                                                      }
+                                                    },
+                                                    [_vm._v(_vm._s(item.name))]
+                                                  )
+                                                ]
+                                              }
+                                            }
+                                          ],
+                                          null,
+                                          true
+                                        )
+                                      })
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              )
+                            }),
+                            1
+                          )
+                        ],
+                        1
                       ),
                       _vm._v(" "),
                       _c(
@@ -956,7 +1195,7 @@ var render = function() {
                     1
                   ),
                   _vm._v(" "),
-                  _c("v-row", { staticStyle: { height: "5vh" } })
+                  _c("v-row", { staticStyle: { height: "1vh" } })
                 ],
                 1
               )

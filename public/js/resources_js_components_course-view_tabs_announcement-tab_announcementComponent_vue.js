@@ -59,6 +59,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
 var announcementCreate = function announcementCreate() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_tabs_announcement-tab_announcementCreate_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./announcementCreate */ "./resources/js/components/course-view/tabs/announcement-tab/announcementCreate.vue"));
 };
@@ -8644,6 +8650,7 @@ var render = function() {
             [
               _c(
                 "v-card",
+                { staticClass: "pa-2" },
                 [
                   _c("announcementCreate", {
                     attrs: {

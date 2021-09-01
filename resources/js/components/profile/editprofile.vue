@@ -237,11 +237,11 @@ export default {
         }
     },
     methods:{
-            validate () {
-                if(this.$refs.form.validate()){
-                    this.UpdateDetails();
-                }
-            },
+        validate () {
+            if(this.$refs.form.validate()){
+                this.UpdateDetails();
+            }
+        },
         async UpdateDetails(){
             this.isSaving = !this.isSaving;
             let test = btoa('test123')

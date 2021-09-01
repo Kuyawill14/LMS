@@ -11,6 +11,7 @@
         <v-dialog v-model="dialog" persistent max-width="600">
             <publishDialog 
             :Details="Details"
+            :datetoday="datetoday"
             v-on:toggleDialog="dialog = !dialog, isPublishing = !isPublishing, isAdding= !isAdding"
             v-on:successPublish="SuccessPublishNotify"
             v-on:UnPublish="closeDiaglog()"
@@ -150,7 +151,8 @@ export default {
             isAdding: false,
             isUpdate: false,
             notifyDetails:{},
-            isLeaving: false
+            isLeaving: false,
+            datetoday: new Date()
         }
     },
     methods:{

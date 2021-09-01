@@ -306,7 +306,7 @@ var render = function() {
       _c(
         "v-dialog",
         {
-          attrs: { persistent: "", "max-width": "800" },
+          attrs: { scrollable: "", persistent: "", "max-width": "800" },
           model: {
             value: _vm.dialog,
             callback: function($$v) {
@@ -447,7 +447,7 @@ var render = function() {
                     : _vm._e(),
                   _vm._v(" "),
                   _c("v-card-title", {
-                    staticClass: "text-h5",
+                    staticClass: "text-lg-h5",
                     domProps: {
                       textContent: _vm._s(
                         _vm.getcourseInfo.course_code +

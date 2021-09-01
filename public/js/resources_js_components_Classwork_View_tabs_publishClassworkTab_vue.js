@@ -147,6 +147,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 var publishDialog = function publishDialog() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_tabs_dialogs_publishDialog_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./dialogs/publishDialog */ "./resources/js/components/Classwork_View/tabs/dialogs/publishDialog.vue"));
 };
@@ -178,7 +179,8 @@ var updatePublishDialog = function updatePublishDialog() {
       isAdding: false,
       isUpdate: false,
       notifyDetails: {},
-      isLeaving: false
+      isLeaving: false,
+      datetoday: new Date()
     };
   },
   methods: {
@@ -447,7 +449,7 @@ var render = function() {
         [
           _vm.isAdding
             ? _c("publishDialog", {
-                attrs: { Details: _vm.Details },
+                attrs: { Details: _vm.Details, datetoday: _vm.datetoday },
                 on: {
                   toggleDialog: function($event) {
                     ;(_vm.dialog = !_vm.dialog),

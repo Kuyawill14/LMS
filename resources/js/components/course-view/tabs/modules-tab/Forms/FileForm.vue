@@ -1,6 +1,4 @@
 <template>
-
-
     <v-card>
         <vue-element-loading :active="isSaving" spinner="bar-fade-scale" />
         <form class="" @submit.prevent="addFile">
@@ -115,7 +113,6 @@
                         </v-col>
                     </v-row>
                 </v-container>
-
             </v-card-text>
             <v-card-actions>
                 <v-spacer></v-spacer>

@@ -36,7 +36,7 @@
                                 <v-img 
                                 :src="item.profile_pic == null || item.profile_pic == ''? 
 
-                                'https://ui-avatars.com/api/?background=random&color=fff&name=' +  item.name : '/storage/'+item.profile_pic">
+                                'https://ui-avatars.com/api/?background=random&color=fff&name=' +  item.name : item.profile_pic">
                                 </v-img>
                             </v-list-item-avatar>
                             <v-list-item-content>
@@ -44,9 +44,26 @@
                                 <v-list-item-subtitle v-html="item.content"></v-list-item-subtitle>
                             </v-list-item-content>
                             <v-list-item-action>
-                                <v-btn icon>
-                                <v-icon small color="grey lighten-1">mdi-dots-vertical</v-icon>
-                                </v-btn>
+    
+<!-- v-if="get_CurrentUser.id == item.u_id" -->
+                                  <v-menu offset-x >
+                                    <template v-slot:activator="{ on, attrs }">
+                                        <v-btn icon v-bind="attrs" v-on="on">
+                                            <v-icon small color="grey lighten-1">mdi-dots-vertical</v-icon>
+                                        </v-btn> 
+                                    </template>
+                                    <v-list dense nav>
+                                     <!--    <v-list-item >
+                                            <v-list-item-title><v-btn @click="UpdateComment = item.content,isEditing = true, idEditing_id = item.id" text>Edit</v-btn></v-list-item-title>
+                                            </v-list-item> -->
+                                        <v-list-item  @click="DeleteComment(item.id, i)">
+                                            <v-list-item-title>Remove</v-list-item-title>
+                                        </v-list-item>
+                                         <!--    <v-list-item>
+                                            <v-list-item-title><v-btn text>Hide</v-btn></v-list-item-title>
+                                        </v-list-item> -->
+                                    </v-list>
+                                    </v-menu>
                             </v-list-item-action>
                         </v-list-item>
           
@@ -56,7 +73,7 @@
                             <v-list-item class="mb-0 pb-0">
                             <v-list-item-avatar>
                                 <v-img 
-                                :src="get_CurrentUser.profile_pic == null || get_CurrentUser.profile_pic == ''? 'https://ui-avatars.com/api/?background=random&color=fff&name=' +  get_CurrentUser.firstName+' '+get_CurrentUser.lastName : '/storage/'+get_CurrentUser.profile_pic">
+                                :src="get_CurrentUser.profile_pic == null || get_CurrentUser.profile_pic == ''? 'https://ui-avatars.com/api/?background=random&color=fff&name=' +  get_CurrentUser.firstName+' '+get_CurrentUser.lastName : get_CurrentUser.profile_pic">
                                 </v-img>
                             </v-list-item-avatar>
                             <v-list-item-content class="ma-0 pa-0">
@@ -134,9 +151,27 @@
                     <v-divider></v-divider>
                 </v-col>
 
-                    <v-col cols="12" class="pl-10 pr-5 pb-10">
-                    <div class="text-sm-body-2"> {{classworkDetails.instruction}}</div>
-                </v-col>
+                    <v-col cols="12" class="pl-10 pr-5 pb-5">
+                    <div class="text-body-1" style="max-width:98%"> {{classworkDetails.instruction}}</div>
+                    </v-col>
+                     <v-col  cols="12" class=" pb-5 pl-5 pr-5">
+                        <div class="overline" v-if="classworkDetails.attachment != null">Attachments</div>
+                        <v-list  class="ma-0 pa-0">
+                            <v-list-item v-for="(item, i) in classworkDetails.attachment" :key="i" class="ma-0 pa-0">
+                                <v-list-item-avatar >
+                                        <v-icon large
+                                        :color="item.extension == 'docx' ? 'blue' : 'red'">
+                                        {{item.extension == 'docx' ? 'mdi-file-word' : 'mdi-file-pdf'}}
+                                        </v-icon>
+                                </v-list-item-avatar>
+                                <v-list-item-content >
+                                    <v-hover v-slot="{ hover }">
+                                        <v-list-item-title :class="hover ? 'blue--text' : ''" style="cursor:pointer" @click="DownLoadFile(item.attachment)">{{item.name}}</v-list-item-title>
+                                    </v-hover> 
+                                </v-list-item-content>
+                            </v-list-item>
+                        </v-list>
+                    </v-col>
 
                     <v-col cols="12" class="pl-10 pr-5 pb-10 text-right">
                          <v-btn
@@ -155,7 +190,7 @@
                         </v-btn>
                 </v-col>
                 </v-row>   
-                <v-row style="height:5vh"></v-row> 
+                <v-row style="height:1vh"></v-row> 
             </v-card> 
         </v-col>
     </v-row>
@@ -241,6 +276,17 @@ export default {
               })
                this.isCommenting = false;
           },
+          async DeleteComment(id, index){
+              axios.delete('/api/post/classwork/comment/delete/'+id)
+              .then(res=>{
+                  if(res.data.success == true){
+                      this.classworkDetails.comments.splice(index, 1);
+                  }
+              })
+          },
+          DownLoadFile(file){
+            window.open(file,'_blank');
+        },
     },
     mounted(){
         this.checkStatus();

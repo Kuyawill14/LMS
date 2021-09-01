@@ -208,9 +208,28 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['Details'],
+  props: ['Details', 'datetoday'],
   data: function data() {
     return {
       InputAvailability: ['Always Available', 'Set Date'],
@@ -219,12 +238,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       ClassDetails: {},
       loading: false,
       duedate: null,
-      ShowAnswerDateFrom: new Date(),
-      ShowAnswerDateTo: new Date(),
-      from_date: new Date(),
-      to_date: new Date(),
-      datetimeString: '2019-01-01 12:00',
-      formattedDatetime: '09/01/2019 12:00',
+      ShowAnswerDateFrom: this.datetoday,
+      ShowAnswerDateTo: this.datetoday,
+      from_date: this.datetoday,
+      to_date: this.datetoday,
+      datetimeString: '2021-08-31 12:00',
+      formattedDatetime: '08/31/2021 12:00',
       textFieldProps: {
         appendIcon: 'event'
       },
@@ -268,33 +287,37 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _this2 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
-        var from_date, to_date, ShowAnswerDateFrom, ShowAnswerDateTo, fd;
+        var fd, form;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                from_date = (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_1__.default)(_this2.from_date).format("YYYY-MM-DD HH:MM:SS");
-                to_date = (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_1__.default)(_this2.to_date).format("YYYY-MM-DD HH:MM:SS");
-                ShowAnswerDateFrom = (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_1__.default)(_this2.ShowAnswerDateFrom).format("YYYY-MM-DD HH:MM:SS");
-                ShowAnswerDateTo = (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_1__.default)(_this2.ShowAnswerDateTo).format("YYYY-MM-DD HH:MM:SS");
-                /* this.from_date = moment(this.from_date).format("YYYY-MM-DD HH:MM:SS");
-                this.to_date = moment(this.to_date).format("YYYY-MM-DD HH:MM:SS");
-                this.ShowAnswerDateFrom = moment(this.ShowAnswerDateFrom).format("YYYY-MM-DD HH:MM:SS");
-                this.ShowAnswerDateTo = moment(this.ShowAnswerDateTo).format("YYYY-MM-DD HH:MM:SS"); */
-
                 fd = new FormData();
-                fd.append("classwork_id", _this2.ClassDetails.id);
-                fd.append("class_id", _this2.ClassDetails.class_id);
-                fd.append("availability", _this2.availability);
-                fd.append("from_date", from_date);
-                fd.append("to_date", to_date);
-                fd.append("showAnswer", _this2.showAns);
-                fd.append("showAnswerType", _this2.showAnsType);
-                fd.append("showAnswerDateFrom", ShowAnswerDateFrom);
-                fd.append("showAnswerDateTo", ShowAnswerDateTo);
-                fd.append("response_late", _this2.response_late);
-                fd.append("grading_id", _this2.GradingCriteria_id);
-                axios.post('/api/classwork/share', fd).then(function (res) {
+                form = {};
+                form.classwork_id = _this2.ClassDetails.id;
+                form.class_id = _this2.ClassDetails.class_id;
+                form.availability = _this2.availability;
+                form.from_date = (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_1__.default)(_this2.from_date).format("YYYY-MM-DD HH:MM:SS");
+                form.to_date = (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_1__.default)(_this2.to_date).format("YYYY-MM-DD HH:MM:SS");
+                form.showAnswer = _this2.showAns;
+                form.showAnswerType = _this2.showAnsType;
+                form.showAnswerDateFrom = (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_1__.default)(_this2.ShowAnswerDateFrom).format("YYYY-MM-DD HH:MM:SS");
+                form.showAnswerDateTo = (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_1__.default)(_this2.ShowAnswerDateTo).format("YYYY-MM-DD HH:MM:SS");
+                form.response_late = _this2.response_late;
+                form.grading_id = _this2.GradingCriteria_id;
+                /* fd.append("classwork_id", this.ClassDetails.id);
+                fd.append("class_id", this.ClassDetails.class_id);
+                fd.append("availability", this.availability);
+                fd.append("from_date", moment(this.from_date).format("YYYY-MM-DD HH:MM:SS"));
+                fd.append("to_date", moment(this.to_date).format("YYYY-MM-DD HH:MM:SS"));
+                fd.append("showAnswer", this.showAns);
+                fd.append("showAnswerType", this.showAnsType);
+                fd.append("showAnswerDateFrom", moment(this.ShowAnswerDateFrom).format("YYYY-MM-DD HH:MM:SS"));
+                fd.append("showAnswerDateTo", moment(this.ShowAnswerDateTo).format("YYYY-MM-DD HH:MM:SS"));
+                fd.append("response_late", this.response_late);
+                fd.append("grading_id", this.GradingCriteria_id); */
+
+                axios.post('/api/classwork/share', form).then(function (res) {
                   if (res.dat != 'Unshare') {
                     var tmpDue = res.data.availability == 1 ? 'Due ' + (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_1__.default)(_this2.to_date).format("MMMM D") + ' at ' + (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_1__.default)(_this2.to_date).format("h:mm a") : '';
                     res.data.to_date = tmpDue;
@@ -310,7 +333,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 })["catch"](function (e) {//console.log(e);
                 });
 
-              case 17:
+              case 14:
               case "end":
                 return _context.stop();
             }
@@ -8989,25 +9012,49 @@ var render = function() {
                                       attrs: { cols: "6" }
                                     },
                                     [
-                                      _c("v-datetime-picker", {
-                                        staticClass: "mt-0 pt-0",
-                                        attrs: {
-                                          label: "From",
-                                          "text-field-props":
-                                            _vm.textFieldProps,
-                                          "date-picker-props": _vm.dateProps,
-                                          "time-picker-props": _vm.timeProps,
-                                          "time-format": "HH:mm",
-                                          color: "primary"
-                                        },
-                                        model: {
-                                          value: _vm.from_date,
-                                          callback: function($$v) {
-                                            _vm.from_date = $$v
+                                      _c(
+                                        "v-datetime-picker",
+                                        {
+                                          staticClass: "mt-0 pt-0",
+                                          attrs: {
+                                            label: "From",
+                                            "date-format": "MM/dd/yyyy",
+                                            "time-format": "HH:mm",
+                                            color: "primary"
                                           },
-                                          expression: "from_date"
-                                        }
-                                      })
+                                          model: {
+                                            value: _vm.from_date,
+                                            callback: function($$v) {
+                                              _vm.from_date = $$v
+                                            },
+                                            expression: "from_date"
+                                          }
+                                        },
+                                        [
+                                          _c(
+                                            "template",
+                                            { slot: "dateIcon" },
+                                            [
+                                              _c("v-icon", [
+                                                _vm._v("mdi-calendar")
+                                              ])
+                                            ],
+                                            1
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "template",
+                                            { slot: "timeIcon" },
+                                            [
+                                              _c("v-icon", [
+                                                _vm._v("mdi-clock")
+                                              ])
+                                            ],
+                                            1
+                                          )
+                                        ],
+                                        2
+                                      )
                                     ],
                                     1
                                   ),
@@ -9019,25 +9066,49 @@ var render = function() {
                                       attrs: { cols: "6" }
                                     },
                                     [
-                                      _c("v-datetime-picker", {
-                                        staticClass: "Datetimepicker",
-                                        attrs: {
-                                          label: "To",
-                                          "text-field-props":
-                                            _vm.textFieldProps,
-                                          "date-picker-props": _vm.dateProps,
-                                          "time-picker-props": _vm.timeProps,
-                                          "time-format": "HH:mm",
-                                          color: "primary"
-                                        },
-                                        model: {
-                                          value: _vm.to_date,
-                                          callback: function($$v) {
-                                            _vm.to_date = $$v
+                                      _c(
+                                        "v-datetime-picker",
+                                        {
+                                          staticClass: "Datetimepicker",
+                                          attrs: {
+                                            label: "To",
+                                            "date-format": "MM/dd/yyyy",
+                                            "time-format": "HH:mm",
+                                            color: "primary"
                                           },
-                                          expression: "to_date"
-                                        }
-                                      })
+                                          model: {
+                                            value: _vm.to_date,
+                                            callback: function($$v) {
+                                              _vm.to_date = $$v
+                                            },
+                                            expression: "to_date"
+                                          }
+                                        },
+                                        [
+                                          _c(
+                                            "template",
+                                            { slot: "dateIcon" },
+                                            [
+                                              _c("v-icon", [
+                                                _vm._v("mdi-calendar")
+                                              ])
+                                            ],
+                                            1
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "template",
+                                            { slot: "timeIcon" },
+                                            [
+                                              _c("v-icon", [
+                                                _vm._v("mdi-clock")
+                                              ])
+                                            ],
+                                            1
+                                          )
+                                        ],
+                                        2
+                                      )
                                     ],
                                     1
                                   ),
@@ -9146,25 +9217,49 @@ var render = function() {
                                     "v-col",
                                     { attrs: { cols: "6" } },
                                     [
-                                      _c("v-datetime-picker", {
-                                        staticClass: "mt-0 pt-0",
-                                        attrs: {
-                                          label: "From",
-                                          "text-field-props":
-                                            _vm.textFieldProps,
-                                          "date-picker-props": _vm.dateProps,
-                                          "time-picker-props": _vm.timeProps,
-                                          "time-format": "HH:mm",
-                                          color: "primary"
-                                        },
-                                        model: {
-                                          value: _vm.ShowAnswerDateFrom,
-                                          callback: function($$v) {
-                                            _vm.ShowAnswerDateFrom = $$v
+                                      _c(
+                                        "v-datetime-picker",
+                                        {
+                                          staticClass: "mt-0 pt-0",
+                                          attrs: {
+                                            label: "From",
+                                            "date-format": "MM/dd/yyyy",
+                                            "time-format": "HH:mm",
+                                            color: "primary"
                                           },
-                                          expression: "ShowAnswerDateFrom"
-                                        }
-                                      })
+                                          model: {
+                                            value: _vm.ShowAnswerDateFrom,
+                                            callback: function($$v) {
+                                              _vm.ShowAnswerDateFrom = $$v
+                                            },
+                                            expression: "ShowAnswerDateFrom"
+                                          }
+                                        },
+                                        [
+                                          _c(
+                                            "template",
+                                            { slot: "dateIcon" },
+                                            [
+                                              _c("v-icon", [
+                                                _vm._v("mdi-calendar")
+                                              ])
+                                            ],
+                                            1
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "template",
+                                            { slot: "timeIcon" },
+                                            [
+                                              _c("v-icon", [
+                                                _vm._v("mdi-clock")
+                                              ])
+                                            ],
+                                            1
+                                          )
+                                        ],
+                                        2
+                                      )
                                     ],
                                     1
                                   ),
@@ -9173,25 +9268,49 @@ var render = function() {
                                     "v-col",
                                     { attrs: { cols: "6" } },
                                     [
-                                      _c("v-datetime-picker", {
-                                        staticClass: "mt-0 pt-0",
-                                        attrs: {
-                                          label: "To",
-                                          "text-field-props":
-                                            _vm.textFieldProps,
-                                          "date-picker-props": _vm.dateProps,
-                                          "time-picker-props": _vm.timeProps,
-                                          "time-format": "HH:mm",
-                                          color: "primary"
-                                        },
-                                        model: {
-                                          value: _vm.ShowAnswerDateTo,
-                                          callback: function($$v) {
-                                            _vm.ShowAnswerDateTo = $$v
+                                      _c(
+                                        "v-datetime-picker",
+                                        {
+                                          staticClass: "mt-0 pt-0",
+                                          attrs: {
+                                            label: "To",
+                                            "date-format": "MM/dd/yyyy",
+                                            "time-format": "HH:mm",
+                                            color: "primary"
                                           },
-                                          expression: "ShowAnswerDateTo"
-                                        }
-                                      })
+                                          model: {
+                                            value: _vm.ShowAnswerDateTo,
+                                            callback: function($$v) {
+                                              _vm.ShowAnswerDateTo = $$v
+                                            },
+                                            expression: "ShowAnswerDateTo"
+                                          }
+                                        },
+                                        [
+                                          _c(
+                                            "template",
+                                            { slot: "dateIcon" },
+                                            [
+                                              _c("v-icon", [
+                                                _vm._v("mdi-calendar")
+                                              ])
+                                            ],
+                                            1
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "template",
+                                            { slot: "timeIcon" },
+                                            [
+                                              _c("v-icon", [
+                                                _vm._v("mdi-clock")
+                                              ])
+                                            ],
+                                            1
+                                          )
+                                        ],
+                                        2
+                                      )
                                     ],
                                     1
                                   )

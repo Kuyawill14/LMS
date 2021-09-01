@@ -135,6 +135,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -142,8 +155,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     return {
       valid: false,
       isTimer: false,
-      file: null,
-      fileSize: null,
+      file: [],
+      fileSize: [],
       loading: false,
       dialog: false,
       form: new vform__WEBPACK_IMPORTED_MODULE_2__.default({}),
@@ -163,10 +176,25 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       },
       FieldRules: [function (v) {
         return !!v || 'Field is required';
-      }]
+      }],
+      file_name: [],
+      counter: 0,
+      tmpName: [],
+      uploadPercentage: 0,
+      uploadIndex: null
     };
   },
+  computed: {
+    extension: function extension() {
+      return this.file[this.counter] ? this.file[this.counter].name.split('.').pop() : '';
+    }
+  },
   methods: {
+    RemoveFile: function RemoveFile(index) {
+      this.file_name.splice(index, 1);
+      this.file.splice(index, 1);
+      console.log(this.file);
+    },
     validate: function validate() {
       var _this = this;
 
@@ -192,7 +220,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _this2 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
-        var fd;
+        var fd, index;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -211,9 +239,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                 fd.append('points', _this2.form.points);
                 fd.append('duration', _this2.form.duration);
-                fd.append('attachment_name', _this2.file_name);
-                fd.append('attachment_size', _this2.fileSize);
-                fd.append('file', _this2.file); //this.form.course_id = this.$route.params.id;
+
+                for (index = 0; index < _this2.file.length; index++) {
+                  fd.append('file[' + index + ']', _this2.file[index]);
+                  fd.append('attachment_name[' + index + ']', _this2.file_name[index].name);
+                  fd.append('attachment_size[' + index + ']', _this2.file_name[index].size);
+                  fd.append('attachment_extension[' + index + ']', _this2.file_name[index].extesion);
+                } //this.form.course_id = this.$route.params.id;
+
 
                 _this2.$store.dispatch('createClasswork', fd).then(function (res) {
                   if (res.status == 201) {
@@ -239,15 +272,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                           clwk: res.data.id
                         }
                       });
-                    }
+                    } //this.$refs.NewClassworkForm.reset()
+                    //this.loading = !this.loading;
 
-                    _this2.$refs.NewClassworkForm.reset();
 
-                    _this2.loading = !_this2.loading; //this.$emit('realodClassworks');
+                    _this2.$emit('realodClassworks');
                   }
                 });
 
-              case 12:
+              case 10:
               case "end":
                 return _context.stop();
             }
@@ -255,24 +288,50 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee);
       }))();
     },
+    addFile: function addFile() {
+      var _this3 = this;
+
+      var fd = new FormData();
+      fd.append('file', this.file[this.counter]);
+      axios.post('/api/classwork/addAttachment', fd, {
+        onUploadProgress: function onUploadProgress(progressEvent) {
+          var total = progressEvent.total;
+          var totalLength = progressEvent.lengthComputable ? total : null;
+
+          if (totalLength != null) {
+            _this3.uploadPercentage = Math.round(progressEvent.loaded * 100 / totalLength);
+          }
+        }
+      }).then(function (res) {
+        _this3.counter++;
+      });
+    },
     onFileChange: function onFileChange(element) {
-      this.file = element[0];
-      this.file_name = element[0].name;
+      this.uploadIndex = this.counter; //this.file[this.counter] = element[0];
+
+      this.file.push(element[0]); //this.tmpName[this.counter] = element[0].name;
 
       if (element[0].size > 1000000) {
         var kbsize = element[0].size * 0.001;
         var mbsize = kbsize * 0.001;
         var finalSize = parseInt(mbsize);
-        this.fileSize = finalSize + 'mb';
+        this.fileSize[this.counter] = finalSize + 'mb';
       } else {
         var sizeFile = element[0].size * 0.001;
 
         var _finalSize = parseInt(sizeFile);
 
-        this.fileSize = _finalSize + 'kb';
-      } //this.ext = this.getFileExt(file.name);
-      //this.file = file;
+        this.fileSize[this.counter] = _finalSize + 'kb';
+      }
 
+      this.file_name.push({
+        name: element[0].name,
+        size: this.fileSize[this.counter],
+        extesion: this.extension
+      });
+      this.addFile(); //this.counter++;
+      //this.ext = this.getFileExt(file.name);
+      //this.file = file;
     }
   },
   beforeMount: function beforeMount() {
@@ -526,68 +585,8 @@ var render = function() {
                             },
                             [
                               _vm.form.type == "Subjective Type"
-                                ? _c("v-file-input", {
-                                    ref: "inputFile",
-                                    attrs: {
-                                      placeholder: "Upload your documents",
-                                      label: "File input",
-                                      outlined: "",
-                                      "show-size": "",
-                                      counter: "",
-                                      multiple: "",
-                                      "prepend-icon": "",
-                                      "prepend-inner-icon": "mdi-paperclip"
-                                    },
-                                    on: { change: _vm.onFileChange },
-                                    scopedSlots: _vm._u(
-                                      [
-                                        {
-                                          key: "selection",
-                                          fn: function(ref) {
-                                            var text = ref.text
-                                            return [
-                                              _c(
-                                                "v-chip",
-                                                {
-                                                  attrs: {
-                                                    small: "",
-                                                    label: "",
-                                                    color: "primary"
-                                                  }
-                                                },
-                                                [
-                                                  _vm._v(
-                                                    "\n                                " +
-                                                      _vm._s(text) +
-                                                      "\n                            "
-                                                  )
-                                                ]
-                                              )
-                                            ]
-                                          }
-                                        }
-                                      ],
-                                      null,
-                                      false,
-                                      1221588800
-                                    )
-                                  })
-                                : _vm._e()
-                            ],
-                            1
-                          )
-                        : _vm._e(),
-                      _vm._v(" "),
-                      _vm.form.type == "Subjective Type"
-                        ? _c(
-                            "v-col",
-                            {
-                              staticClass: "mb-0 pb-0 pt-0 mt-0",
-                              attrs: { cols: "12" }
-                            },
-                            [
-                              _vm.form.type == "Subjective Type"
                                 ? _c("v-text-field", {
+                                    staticClass: "mb-0 pb-0",
                                     attrs: {
                                       rules: _vm.FieldRules,
                                       outlined: "",
@@ -607,7 +606,148 @@ var render = function() {
                             ],
                             1
                           )
-                        : _vm._e()
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _c(
+                        "v-col",
+                        {
+                          staticClass: "mb-0 pb-0 pt-0 mt-0",
+                          attrs: { cols: "12" }
+                        },
+                        [
+                          _c(
+                            "v-btn",
+                            {
+                              staticClass: "mb-2",
+                              attrs: {
+                                color: "primary",
+                                text: "",
+                                rounded: ""
+                              },
+                              on: {
+                                click: function($event) {
+                                  return _vm.$refs.inputFile.$refs.input.click()
+                                }
+                              }
+                            },
+                            [
+                              _c("v-icon", { attrs: { left: "" } }, [
+                                _vm._v(
+                                  "\n                                  mdi-attachment\n                              "
+                                )
+                              ]),
+                              _vm._v(
+                                "\n                              Attach file\n                          "
+                              )
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c("v-file-input", {
+                            ref: "inputFile",
+                            staticClass: "d-none",
+                            attrs: { multiple: "" },
+                            on: { change: _vm.onFileChange }
+                          }),
+                          _vm._v(" "),
+                          _c(
+                            "v-list",
+                            { staticClass: "ma-0 pa-0", attrs: { dense: "" } },
+                            _vm._l(_vm.file_name, function(item, index) {
+                              return _c(
+                                "v-list-item",
+                                { key: index, staticClass: "ma-0 pa-0" },
+                                [
+                                  _c(
+                                    "v-list-item-avatar",
+                                    [
+                                      _c(
+                                        "v-icon",
+                                        {
+                                          attrs: {
+                                            large: "",
+                                            color:
+                                              item.extesion == "docx"
+                                                ? "blue"
+                                                : "red"
+                                          }
+                                        },
+                                        [
+                                          _vm._v(
+                                            "\n                                            " +
+                                              _vm._s(
+                                                item.extesion == "docx"
+                                                  ? "mdi-file-word"
+                                                  : "mdi-file-pdf"
+                                              ) +
+                                              "\n                                        "
+                                          )
+                                        ]
+                                      )
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-list-item-content",
+                                    [
+                                      _c("v-list-item-title", [
+                                        _vm._v(_vm._s(item.name))
+                                      ]),
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-list-item-subtitle",
+                                        [
+                                          _vm.uploadIndex == index &&
+                                          _vm.uploadPercentage != 100
+                                            ? _c("v-progress-linear", {
+                                                attrs: {
+                                                  rounded: "",
+                                                  value: _vm.uploadPercentage
+                                                }
+                                              })
+                                            : _vm._e()
+                                        ],
+                                        1
+                                      )
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-list-item-action",
+                                    [
+                                      _c(
+                                        "v-btn",
+                                        {
+                                          attrs: { icon: "" },
+                                          on: {
+                                            click: function($event) {
+                                              return _vm.RemoveFile(index)
+                                            }
+                                          }
+                                        },
+                                        [
+                                          _c("v-icon", [
+                                            _vm._v(
+                                              "\n                                        mdi-close\n                                        "
+                                            )
+                                          ])
+                                        ],
+                                        1
+                                      )
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              )
+                            }),
+                            1
+                          )
+                        ],
+                        1
+                      )
                     ],
                     1
                   )

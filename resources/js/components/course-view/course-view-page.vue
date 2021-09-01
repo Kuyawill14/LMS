@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-dialog v-model="dialog" persistent max-width="800" >
+        <v-dialog scrollable v-model="dialog" persistent max-width="800" >
             <selectBackgroundDialog v-on:SaveSelected="UpdateImage" v-on:CloseDialog="dialog = !dialog" v-if="dialog">
             </selectBackgroundDialog>
         </v-dialog>
@@ -29,7 +29,7 @@
                     </v-menu>
                 </v-app-bar>
            
-                <v-card-title class="text-h5" v-text="getcourseInfo.course_code + ' - ' + getcourseInfo.course_name">
+                <v-card-title class="text-lg-h5" v-text="getcourseInfo.course_code + ' - ' + getcourseInfo.course_name">
                 </v-card-title>
                 <v-card-subtitle class="white--text">Instructor: {{getcourseInfo.name}}
 

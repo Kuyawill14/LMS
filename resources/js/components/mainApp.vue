@@ -10,6 +10,7 @@
         <v-main>
 
             <v-container fluid>
+                
                 <router-view :UserDetails='get_CurrentUser' :role='get_UserRole'></router-view>
             </v-container>
     
@@ -46,7 +47,10 @@ import
             UserDetails: [],
             drawer: null,
             menuVisible: false,
-            role: ''
+            role: '',
+            ipAdd: null,
+            
+   
         }),
         components: {
             topHeader,
@@ -64,13 +68,25 @@ import
                 }).catch((error) => {
                 
                 });
+            },
+            getIp(){
+               /*  fetch('https://api.ipify.org?format=json')
+                .then(x => x.json())
+                .then(({ ip }) => {
+                    this.ipAdd = ip;
+                    console.log(this.ipAdd);
+                }); */
+
+                  
+
+                   
+                    
+         
             }
         },
-        created() {
-            //this.getUserDetails();
-           
-             
-        },
+        mounted(){
+            this.getIp();
+        }
     }
 
 </script>

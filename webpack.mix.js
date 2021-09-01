@@ -12,12 +12,12 @@ require('dotenv').config();
  |
  */
 
-require('laravel-mix-bundle-analyzer');
+/* require('laravel-mix-bundle-analyzer');
 
 if (mix.isWatching()) {
     mix.bundleAnalyzer();
 }
-
+ */
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 

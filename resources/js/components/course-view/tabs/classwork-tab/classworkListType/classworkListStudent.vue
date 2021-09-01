@@ -77,13 +77,79 @@
             <v-col cols="12" class="mt-1 ml-0  mr-0" v-for="(data, i) in classworks.ClassworkTitle" :key="i">
             <v-row v-if="classworks.ClassworksList[i].length != 0 && (SelectedFilter == 'All' || SelectedFilter == data.title)" >
                 <v-col cols="12"  class="ma-0 pa-0 "><h2 class="font-weight-regular">{{data.title}} <small class="font-weight-medium">({{data.percent}}%)</small> </h2></v-col>
-                <v-col cols="12" md="4" class="pb-0 mb-0" v-for="(item, index) in classworks.ClassworksList[i]" :key="index">
+                <v-col cols="12" md="6" lg="4" xl="4" class="pb-0 mb-0" v-for="(item, index) in classworks.ClassworksList[i]" :key="index">
                    
                     <v-hover v-slot="{ hover }">
                         <v-card  outlined @click="OpenClaswork(item.type,item.status,item.score,item.classwork_id)" 
                             link :elevation="hover ? 1 : 0"  >
                              <vue-element-loading  :active="isLoading && Preview_id == item.classwork_id " text="Loading..." spinner="bar-fade-scale" />
-                            <v-container class="pl-4 pr-5 pt-5 pb-5 d-flex flex-row justify-space-between">
+                            
+                                <v-list>
+                                    <v-list-item>
+                                        <v-list-item-avatar>
+                                            <v-avatar size="40"
+                                                :color="item.availability == 0 ?  item.status == 'Submitted' ?  'success' : 'blue'  : 
+                                                CheckFormatDue(item.to_date) > DateToday ? item.status == 'Submitted' ? 'success' :'blue'
+                                                : item.status == 'Submitted' ? 'success': 'red darken-4'" >
+                                                    <v-icon 
+                                                class="pl-2 pr-2" color="white" >
+                                                    {{item.status == 'Submitted' ? 'mdi-check':'mdi-book-open-variant'}}
+                                                </v-icon>
+                                            </v-avatar>
+                                        </v-list-item-avatar>
+                                        <v-list-item-content>
+                                            <v-list-item-title>
+                                                <v-tooltip top>
+                                                    <template v-slot:activator="{ on, attrs }">
+                                                    <div v-bind="attrs" v-on="on"  ma-0 pa-0 class="h1 ml-1"> 
+                                                        <span class="font-weight-bold">{{item.title}} <small class="primary--text font-weight-regular" v-if="item.points != null">({{item.points}} points)</small></span> 
+                                                    </div> 
+                                                </template>
+                                                    <span>{{item.title}}</span>
+                                                </v-tooltip>
+
+                                            </v-list-item-title>
+                                            <v-list-item-subtitle>
+                                                 <small
+                                                    v-if="item.status == null || item.status == 'Submitting'|| item.status == 'Taking'" :class="item.availability != 0 ? CheckFormatDue(item.to_date) > DateToday ? 'card-subtitle text-50': item.status == 'Submitted' ? 'card-subtitle text-50':'card-subtitle text-50 red--text':'card-subtitle text-50'">
+                                                    <v-icon :color="item.availability != 0 ? CheckFormatDue(item.to_date) > DateToday ? '': item.status == 'Submitted' ? '':'red darken-4':''" small>mdi-clock</v-icon> 
+                                                    {{item.availability != 0 ? CheckFormatDue(item.to_date) > DateToday ? '' : "Late" :''}}
+                                                    {{item.availability != 0 ? ' Due Date:' : 'No Due Date'}}
+                                                    {{item.availability != 0 ? format_date(item.to_date) : ''}} 
+                                                </small>
+                                                    
+                                                <small v-if="item.status == 'Submitted'" class="card-subtitle text-50 success--text">
+                                                    <v-icon color="" small>mdi-clock</v-icon> 
+                                                    Submitted: {{format_date(item.Sub_date)}} 
+                                                </small>
+                                            </v-list-item-subtitle>
+                                        </v-list-item-content>
+                                        <v-list-item-action>
+                                             <v-chip color="green" class="mt-1 " outlined v-if="item.status == 'Submitted' && item.score != null">
+                                                <span class="success--text" >{{item.score}} <span class="black--text">/ </span>{{item.points}}</span>
+                                                </v-chip>
+                                                <v-tooltip top>
+                                                    <template v-slot:activator="{ on, attrs }">
+                                                        <v-btn
+                                                            v-if="item.status == 'Taking' && item.status != null"
+                                                            @click="continueClasswork(item.classwork_id)"
+                                                            class="mt-1 mr-5 pa-2 blue--text" 
+                                                            text
+                                                            v-bind="attrs"
+                                                            v-on="on"
+                                                            rounded>
+                                                            Continue
+                                                        </v-btn>
+                                                    </template>
+                                                    <span>Continue Classwork</span>
+                                                </v-tooltip>
+                                        </v-list-item-action>
+                                    </v-list-item>
+                                </v-list>
+
+
+
+                            <!-- <v-container class="pl-4 pr-5 pt-5 pb-5 d-flex flex-row justify-space-between">
                                 <div class="d-flex flex-row">
                                     <v-avatar size="40"
                                     :color="item.availability == 0 ?  item.status == 'Submitted' ?  'success' : 'blue'  : 
@@ -143,7 +209,7 @@
                                     </template>
                                     <span>Continue Classwork</span>
                                 </v-tooltip>
-                             </v-container>
+                             </v-container> -->
                         </v-card>
                     </v-hover>
                

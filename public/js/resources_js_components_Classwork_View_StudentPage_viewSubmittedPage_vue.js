@@ -8796,17 +8796,14 @@ var render = function() {
           _c(
             "v-btn",
             {
-              attrs: { text: "", rounded: "" },
+              attrs: { icon: "", rounded: "" },
               on: {
                 click: function($event) {
                   return _vm.$emit("closeDialog")
                 }
               }
             },
-            [
-              _c("v-icon", { attrs: { left: "" } }, [_vm._v("mdi-close")]),
-              _vm._v("\n      Close\n    ")
-            ],
+            [_c("v-icon", { attrs: { left: "" } }, [_vm._v("mdi-close")])],
             1
           )
         ],

@@ -317,7 +317,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         }, _callee);
       }))();
     },
-    addComment: function addComment(details) {
+    alertStudent: function alertStudent() {
       var _this2 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
@@ -327,24 +327,19 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             switch (_context2.prev = _context2.next) {
               case 0:
                 data = {};
-                _this2.isCommenting = true;
-                data.classwork_id = details.classwork_id;
-                data.course_id = _this2.$route.params.id;
-                data.to_user = details.user_id;
-                data.comment = _this2.comment;
-                axios.post('/api/post/classwork/comment/insert', data).then(function (res) {
-                  if (res.status == 200) {
-                    _this2.CheckData.comments.push({
-                      content: res.data.comment,
-                      id: res.data.id,
-                      name: res.data.name,
-                      profile_pic: res.data.profile_pic
-                    });
+                _this2.isAlerting = true;
+                data.user_id = _this2.CheckData.user_id;
+                data.classwork_name = _this2.classworkDetails.title;
+                data.classwork_id = _this2.classworkDetails.id;
+                data.course_id = _this2.classworkDetails.course_id;
+                data.firstName = _this2.CheckData.firstName;
+                axios.post('/api/teacher/alert-student', data).then(function (res) {
+                  if (res.data.success == true) {
+                    _this2.toastSuccess(res.data.message);
 
-                    _this2.comment = null;
+                    _this2.isAlerting = false;
                   }
                 });
-                _this2.isCommenting = false;
 
               case 8:
               case "end":
@@ -352,6 +347,43 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             }
           }
         }, _callee2);
+      }))();
+    },
+    addComment: function addComment(details) {
+      var _this3 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
+        var data;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                data = {};
+                _this3.isCommenting = true;
+                data.classwork_id = details.classwork_id;
+                data.course_id = _this3.$route.params.id;
+                data.to_user = details.user_id;
+                data.comment = _this3.comment;
+                axios.post('/api/post/classwork/comment/insert', data).then(function (res) {
+                  if (res.status == 200) {
+                    _this3.CheckData.comments.push({
+                      content: res.data.comment,
+                      id: res.data.id,
+                      name: res.data.name,
+                      profile_pic: res.data.profile_pic
+                    });
+
+                    _this3.comment = null;
+                  }
+                });
+                _this3.isCommenting = false;
+
+              case 8:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3);
       }))();
     }
   },
@@ -668,8 +700,7 @@ var render = function() {
                                                           " " +
                                                           _vm.CheckData
                                                             .lastName)
-                                                      : "/storage/" +
-                                                        _vm.CheckData
+                                                      : _vm.CheckData
                                                           .profile_pic
                                                 }
                                               })
@@ -1137,7 +1168,7 @@ var render = function() {
                                             item.profile_pic == ""
                                               ? "https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=" +
                                                 item.name
-                                              : "/storage/" + item.profile_pic
+                                              : item.profile_pic
                                         }
                                       })
                                     ],
@@ -1363,7 +1394,14 @@ var render = function() {
                                       _vm._v(" "),
                                       _c(
                                         "v-btn",
-                                        { attrs: { color: "primary" } },
+                                        {
+                                          attrs: { color: "primary" },
+                                          on: {
+                                            click: function($event) {
+                                              return _vm.alertStudent()
+                                            }
+                                          }
+                                        },
                                         [
                                           _vm._v("Alert Student "),
                                           _c(

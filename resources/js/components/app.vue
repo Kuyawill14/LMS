@@ -1,7 +1,7 @@
 <template>
   <div>
-   
-      <router-view></router-view>
+ 
+      <router-view ></router-view>
   </div>
 </template>
 <script>
@@ -9,12 +9,7 @@
 
 export default {
 
- /*  beforeMount(){
-    window.addEventListener('contextmenu', function (e) { 
-      // do something here... 
-      e.preventDefault(); 
-    }, false);
-  } */
+ 
 }
 </script>
 <style >

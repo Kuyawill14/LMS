@@ -177,9 +177,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
 var deleteDialog = function deleteDialog() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_tabs_classwork-tab_dialogs_deleteDiaglog_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../dialogs/deleteDiaglog */ "./resources/js/components/course-view/tabs/classwork-tab/dialogs/deleteDiaglog.vue"));
 };
@@ -896,6 +893,9 @@ var render = function() {
                                                       _vm._v(" "),
                                                       _c(
                                                         "v-list",
+                                                        {
+                                                          attrs: { rounded: "" }
+                                                        },
                                                         [
                                                           _c(
                                                             "v-list-item",
@@ -937,7 +937,7 @@ var render = function() {
                                                                     ]
                                                                   ),
                                                                   _vm._v(
-                                                                    "Edit Classwork"
+                                                                    "Edit classwork"
                                                                   )
                                                                 ],
                                                                 1

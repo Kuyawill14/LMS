@@ -54,6 +54,9 @@ return [
 
     'url' => env('APP_URL', 'http://188.166.248.37'),
 
+    'do_url' => 'https://orangestr.sgp1.cdn.digitaloceanspaces.com',
+
+
     'asset_url' => env('ASSET_URL', null),
 
     /*

@@ -45,7 +45,7 @@
                         <v-list-item @click="CheckData = item ,dialog = !dialog, isStarting = true" v-show="Class == $route.params.id || Class == item.class_id" v-for="(item,i) in ListData" :key="i">
                         <v-list-item-avatar color="secondary">
                             <v-img alt="Profile"
-                                :src="item.profile_pic == null || item.profile_pic == '' ? 'https://ui-avatars.com/api/?background=random&color=fff&name=' + item.firstName +' '+item.lastName : '/storage/'+item.profile_pic">
+                                :src="item.profile_pic == null || item.profile_pic == '' ? 'https://ui-avatars.com/api/?background=random&color=fff&name=' + item.firstName +' '+item.lastName : item.profile_pic">
                             </v-img>
                         </v-list-item-avatar>
                       

@@ -65,12 +65,17 @@
                                       <v-datetime-picker label="From"
                                         v-model="from_date"
                                         class="mt-0 pt-0"
-                                        :text-field-props="textFieldProps"
-                                        :date-picker-props="dateProps"
-                                        :time-picker-props="timeProps"
+                                        date-format="MM/dd/yyyy"
                                         time-format="HH:mm"
                                         color="primary"
                                         > 
+
+                                        <template slot="dateIcon">
+                                            <v-icon>mdi-calendar</v-icon>
+                                        </template>
+                                        <template slot="timeIcon">
+                                            <v-icon>mdi-clock</v-icon>
+                                        </template>
                                     </v-datetime-picker>
                                    
 
@@ -87,12 +92,17 @@
                                      <v-datetime-picker label="To"
                                         v-model="to_date"
                                         class="Datetimepicker"
-                                        :text-field-props="textFieldProps"
-                                        :date-picker-props="dateProps"
-                                        :time-picker-props="timeProps"
+                                        date-format="MM/dd/yyyy"
+                                     
                                         time-format="HH:mm"
                                         color="primary"
-                                        > 
+                                        >
+                                        <template slot="dateIcon">
+                                            <v-icon>mdi-calendar</v-icon>
+                                        </template>
+                                        <template slot="timeIcon">
+                                            <v-icon>mdi-clock</v-icon>
+                                        </template>
                                     </v-datetime-picker>
                                    <!--  <v-text-field
                                     :rules="FieldRules"
@@ -141,14 +151,19 @@
                                 <v-row>
                                     <v-col cols="6">
                                          <v-datetime-picker label="From"
+                                            
                                             v-model="ShowAnswerDateFrom"
                                             class="mt-0 pt-0"
-                                            :text-field-props="textFieldProps"
-                                            :date-picker-props="dateProps"
-                                            :time-picker-props="timeProps"
+                                            date-format="MM/dd/yyyy"
                                             time-format="HH:mm"
                                             color="primary"
                                             > 
+                                             <template slot="dateIcon">
+                                            <v-icon>mdi-calendar</v-icon>
+                                            </template>
+                                            <template slot="timeIcon">
+                                                <v-icon>mdi-clock</v-icon>
+                                            </template>
                                         </v-datetime-picker>
                                     </v-col>
 
@@ -156,12 +171,16 @@
                                         <v-datetime-picker label="To"
                                         v-model="ShowAnswerDateTo"
                                         class="mt-0 pt-0"
-                                        :text-field-props="textFieldProps"
-                                        :date-picker-props="dateProps"
-                                        :time-picker-props="timeProps"
+                                        date-format="MM/dd/yyyy"
                                         time-format="HH:mm"
                                         color="primary"
                                         > 
+                                         <template slot="dateIcon">
+                                            <v-icon>mdi-calendar</v-icon>
+                                        </template>
+                                        <template slot="timeIcon">
+                                            <v-icon>mdi-clock</v-icon>
+                                        </template>
                                         </v-datetime-picker>
                                     </v-col>
                                 </v-row>
@@ -189,7 +208,7 @@
 <script>
 import moment from 'moment/src/moment';
 export default {
-    props:['Details'],
+    props:['Details', 'datetoday'],
   
     data(){
         return{
@@ -199,12 +218,12 @@ export default {
             ClassDetails:{},
             loading:false,
             duedate:null,
-            ShowAnswerDateFrom: new Date(),
-            ShowAnswerDateTo:new Date(),
-            from_date: new Date(),
-            to_date: new Date(),
-            datetimeString: '2019-01-01 12:00',
-            formattedDatetime: '09/01/2019 12:00',
+            ShowAnswerDateFrom: this.datetoday,
+            ShowAnswerDateTo:this.datetoday,
+            from_date: this.datetoday,
+            to_date: this.datetoday,
+            datetimeString: '2021-08-31 12:00',
+            formattedDatetime: '08/31/2021 12:00',
             textFieldProps: {
                 appendIcon: 'event'
             },
@@ -245,27 +264,32 @@ export default {
             }
         },
         async shareClasswork() {
-            let from_date = moment(this.from_date).format("YYYY-MM-DD HH:MM:SS");
-            let to_date = moment(this.to_date).format("YYYY-MM-DD HH:MM:SS");
-            let ShowAnswerDateFrom = moment(this.ShowAnswerDateFrom).format("YYYY-MM-DD HH:MM:SS");
-            let ShowAnswerDateTo = moment(this.ShowAnswerDateTo).format("YYYY-MM-DD HH:MM:SS");
-            /* this.from_date = moment(this.from_date).format("YYYY-MM-DD HH:MM:SS");
-            this.to_date = moment(this.to_date).format("YYYY-MM-DD HH:MM:SS");
-            this.ShowAnswerDateFrom = moment(this.ShowAnswerDateFrom).format("YYYY-MM-DD HH:MM:SS");
-            this.ShowAnswerDateTo = moment(this.ShowAnswerDateTo).format("YYYY-MM-DD HH:MM:SS"); */
             const fd = new FormData();
-            fd.append("classwork_id", this.ClassDetails.id);
+            let form = {};
+            form.classwork_id = this.ClassDetails.id;
+            form.class_id = this.ClassDetails.class_id;
+            form.availability = this.availability;
+            form.from_date = moment(this.from_date).format("YYYY-MM-DD HH:MM:SS");
+            form.to_date = moment(this.to_date).format("YYYY-MM-DD HH:MM:SS");
+            form.showAnswer = this.showAns;
+            form.showAnswerType = this.showAnsType;
+            form.showAnswerDateFrom = moment(this.ShowAnswerDateFrom).format("YYYY-MM-DD HH:MM:SS");
+            form.showAnswerDateTo = moment(this.ShowAnswerDateTo).format("YYYY-MM-DD HH:MM:SS");
+            form.response_late = this.response_late;
+            form.grading_id = this.GradingCriteria_id;
+
+            /* fd.append("classwork_id", this.ClassDetails.id);
             fd.append("class_id", this.ClassDetails.class_id);
             fd.append("availability", this.availability);
-            fd.append("from_date", from_date);
-            fd.append("to_date", to_date);
+            fd.append("from_date", moment(this.from_date).format("YYYY-MM-DD HH:MM:SS"));
+            fd.append("to_date", moment(this.to_date).format("YYYY-MM-DD HH:MM:SS"));
             fd.append("showAnswer", this.showAns);
             fd.append("showAnswerType", this.showAnsType);
-            fd.append("showAnswerDateFrom", ShowAnswerDateFrom);
-            fd.append("showAnswerDateTo", ShowAnswerDateTo);
+            fd.append("showAnswerDateFrom", moment(this.ShowAnswerDateFrom).format("YYYY-MM-DD HH:MM:SS"));
+            fd.append("showAnswerDateTo", moment(this.ShowAnswerDateTo).format("YYYY-MM-DD HH:MM:SS"));
             fd.append("response_late", this.response_late);
-            fd.append("grading_id", this.GradingCriteria_id);
-            axios.post('/api/classwork/share', fd)
+            fd.append("grading_id", this.GradingCriteria_id); */
+            axios.post('/api/classwork/share', form)
                 .then(res => {
                     if(res.dat != 'Unshare'){
                         let tmpDue = res.data.availability == 1 ? 'Due '+moment(this.to_date).format("MMMM D")+' at '+moment(this.to_date).format("h:mm a") : '';

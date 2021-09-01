@@ -5441,10 +5441,13 @@ var render = function() {
   return _c(
     "v-card",
     [
+      _vm._v("\n<<<<<<< HEAD\n        "),
       _c("vue-element-loading", {
         attrs: { active: _vm.isSaving, spinner: "bar-fade-scale" }
       }),
-      _vm._v(" "),
+      _vm._v(
+        "\n=======\n>>>>>>> 7c5d19282d1aaa4b04af6366bc3168e0d06b5992\n        "
+      ),
       _c(
         "form",
         {
@@ -5608,7 +5611,7 @@ var render = function() {
                                                       ]
                                                     ),
                                                     _vm._v(
-                                                      "\n                                        Supported files\n                                    "
+                                                      "\n                                            Supported files\n                                        "
                                                     )
                                                   ],
                                                   1
@@ -5619,14 +5622,14 @@ var render = function() {
                                         ],
                                         null,
                                         false,
-                                        2546136041
+                                        4287181289
                                       )
                                     },
                                     [
                                       _vm._v(" "),
                                       _c("span", [
                                         _vm._v(
-                                          "\n                                    Supported files:\n                                    "
+                                          "\n                                        Supported files:\n                                        "
                                         ),
                                         _c("ul", [
                                           _c("li", [_vm._v(".pdf")]),
@@ -5802,7 +5805,7 @@ var render = function() {
                                                       ]
                                                     ),
                                                     _vm._v(
-                                                      "\n                                        Supported files\n                                    "
+                                                      "\n                                            Supported files\n                                        "
                                                     )
                                                   ],
                                                   1
@@ -5813,14 +5816,14 @@ var render = function() {
                                         ],
                                         null,
                                         false,
-                                        2546136041
+                                        4287181289
                                       )
                                     },
                                     [
                                       _vm._v(" "),
                                       _c("span", [
                                         _vm._v(
-                                          "\n                                    Supported files:\n                                    "
+                                          "\n                                        Supported files:\n                                        "
                                         ),
                                         _c("ul", [
                                           _c("li", [_vm._v(".pdf")]),
@@ -5901,7 +5904,7 @@ var render = function() {
                     }
                   }
                 },
-                [_vm._v("\n                Close\n            ")]
+                [_vm._v("\n                    Close\n                ")]
               ),
               _vm._v(" "),
               _c(
@@ -5919,7 +5922,7 @@ var render = function() {
                     }
                   }
                 },
-                [_vm._v("\n                Save\n            ")]
+                [_vm._v("\n                    Save\n                ")]
               )
             ],
             1
