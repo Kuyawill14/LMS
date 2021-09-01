@@ -45,7 +45,7 @@
                                             <li>.pdf</li>
                                             <li>.doc .docx</li>
                                             <li>.pptx .ppt</li>
-                                             <li>File must be less than 10 mb</li>
+                                            <li>File must be less than 10 mb</li>
                                         </ul>
                                     </span>
                                 </v-tooltip>
@@ -57,7 +57,7 @@
 
                         <vue-element-loading :active="isDeleting" spinner="bar-fade-scale" />
                         <v-col cols="12 py-0 my-0" v-if="oldFileInput == true ">
-                          
+
                             <v-row align="center" justify="center"
                                 style="height: 55px; border: 1px solid; border-radius: 4px; width: 100%; margin: auto;">
                                 <v-col class="grow text-left py-0 pr-0 col-1">
@@ -82,7 +82,7 @@
                                 </v-col>
 
                             </v-row>
-                             <div style="margin-top: 10px;position: relative;z-index: 90999;">
+                            <div style="margin-top: 10px;position: relative;z-index: 90999;">
                                 <v-tooltip right="">
                                     <template v-slot:activator="{ on, attrs }">
                                         <span v-bind="attrs" v-on="on">
@@ -96,7 +96,7 @@
                                             <li>.pdf</li>
                                             <li>.doc .docx</li>
                                             <li>.pptx .ppt</li>
-                                             <li>File must be less than 10 mb</li>
+                                            <li>File must be less than 10 mb</li>
                                         </ul>
                                     </span>
                                 </v-tooltip>
@@ -186,7 +186,8 @@
                     if (this.ext == 'mp4') {
                         this.type = 'Video';
 
-                    } else if (this.ext == 'pdf' || this.ext == 'docx') {
+                    } else if (this.ext == 'pdf' || this.ext == 'docx' || this.ext == 'doc' || this.ext == 'pptx' ||
+                        this.ext == 'ppt') {
                         this.type = 'Document';
 
                     } else {
@@ -301,7 +302,7 @@
                     type = 'Video';
 
                 }
-                if (ext == 'pdf' || ext == 'docx') {
+                if (ext == 'pdf' || ext == 'docx' || ext == 'doc' || ext == 'pptx' || ext == 'ppt') {
                     type = 'Document';
 
                 }
