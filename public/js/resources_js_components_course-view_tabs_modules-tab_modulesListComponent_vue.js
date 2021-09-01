@@ -4,9 +4,362 @@
 /*!**************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/modules-tab/Forms/FileForm.vue?vue&type=script&lang=js& ***!
   \**************************************************************************************************************************************************************************************************************************************************/
-/***/ (() => {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nSyntaxError: D:\\laravel_capstone\\Capstone\\LMS-VUE-Materialize\\LMS-VUE-Materialize\\resources\\js\\components\\course-view\\tabs\\modules-tab\\Forms\\FileForm.vue: Missing semicolon. (189:148)\n\n\u001b[0m \u001b[90m 187 |\u001b[39m                     \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39mtype \u001b[33m=\u001b[39m \u001b[32m'Video'\u001b[39m\u001b[33m;\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 188 |\u001b[39m\u001b[0m\n\u001b[0m\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 189 |\u001b[39m                 } \u001b[36melse\u001b[39m \u001b[36mif\u001b[39m (\u001b[36mthis\u001b[39m\u001b[33m.\u001b[39mext \u001b[33m==\u001b[39m \u001b[32m'pdf'\u001b[39m \u001b[33m||\u001b[39m \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39mext \u001b[33m==\u001b[39m \u001b[32m'docx'\u001b[39m)  (ext \u001b[33m==\u001b[39m \u001b[32m'pdf'\u001b[39m \u001b[33m||\u001b[39m ext \u001b[33m==\u001b[39m \u001b[32m'docx'\u001b[39m \u001b[33m||\u001b[39m ext \u001b[33m==\u001b[39m \u001b[32m'doc'\u001b[39m\u001b[33m||\u001b[39m ext \u001b[33m==\u001b[39m \u001b[32m'pptx'\u001b[39m \u001b[33m||\u001b[39m ext \u001b[33m==\u001b[39m \u001b[32m'ppt'\u001b[39m){\u001b[0m\n\u001b[0m \u001b[90m     |\u001b[39m                                                                                                                                                     \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 190 |\u001b[39m                     \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39mtype \u001b[33m=\u001b[39m \u001b[32m'Document'\u001b[39m\u001b[33m;\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 191 |\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 192 |\u001b[39m                 } \u001b[36melse\u001b[39m {\u001b[0m\n    at Parser._raise (D:\\laravel_capstone\\Capstone\\LMS-VUE-Materialize\\LMS-VUE-Materialize\\node_modules\\@babel\\parser\\lib\\index.js:798:17)\n    at Parser.raiseWithData (D:\\laravel_capstone\\Capstone\\LMS-VUE-Materialize\\LMS-VUE-Materialize\\node_modules\\@babel\\parser\\lib\\index.js:791:17)\n    at Parser.raise (D:\\laravel_capstone\\Capstone\\LMS-VUE-Materialize\\LMS-VUE-Materialize\\node_modules\\@babel\\parser\\lib\\index.js:752:17)\n    at Parser.semicolon (D:\\laravel_capstone\\Capstone\\LMS-VUE-Materialize\\LMS-VUE-Materialize\\node_modules\\@babel\\parser\\lib\\index.js:3227:10)\n    at Parser.parseExpressionStatement (D:\\laravel_capstone\\Capstone\\LMS-VUE-Materialize\\LMS-VUE-Materialize\\node_modules\\@babel\\parser\\lib\\index.js:13343:10)\n    at Parser.parseStatementContent (D:\\laravel_capstone\\Capstone\\LMS-VUE-Materialize\\LMS-VUE-Materialize\\node_modules\\@babel\\parser\\lib\\index.js:12932:19)\n    at Parser.parseStatement (D:\\laravel_capstone\\Capstone\\LMS-VUE-Materialize\\LMS-VUE-Materialize\\node_modules\\@babel\\parser\\lib\\index.js:12796:17)\n    at Parser.parseIfStatement (D:\\laravel_capstone\\Capstone\\LMS-VUE-Materialize\\LMS-VUE-Materialize\\node_modules\\@babel\\parser\\lib\\index.js:13159:28)\n    at Parser.parseStatementContent (D:\\laravel_capstone\\Capstone\\LMS-VUE-Materialize\\LMS-VUE-Materialize\\node_modules\\@babel\\parser\\lib\\index.js:12841:21)\n    at Parser.parseStatement (D:\\laravel_capstone\\Capstone\\LMS-VUE-Materialize\\LMS-VUE-Materialize\\node_modules\\@babel\\parser\\lib\\index.js:12796:17)\n    at Parser.parseIfStatement (D:\\laravel_capstone\\Capstone\\LMS-VUE-Materialize\\LMS-VUE-Materialize\\node_modules\\@babel\\parser\\lib\\index.js:13160:53)\n    at Parser.parseStatementContent (D:\\laravel_capstone\\Capstone\\LMS-VUE-Materialize\\LMS-VUE-Materialize\\node_modules\\@babel\\parser\\lib\\index.js:12841:21)\n    at Parser.parseStatement (D:\\laravel_capstone\\Capstone\\LMS-VUE-Materialize\\LMS-VUE-Materialize\\node_modules\\@babel\\parser\\lib\\index.js:12796:17)\n    at Parser.parseBlockOrModuleBlockBody (D:\\laravel_capstone\\Capstone\\LMS-VUE-Materialize\\LMS-VUE-Materialize\\node_modules\\@babel\\parser\\lib\\index.js:13385:25)\n    at Parser.parseBlockBody (D:\\laravel_capstone\\Capstone\\LMS-VUE-Materialize\\LMS-VUE-Materialize\\node_modules\\@babel\\parser\\lib\\index.js:13376:10)\n    at Parser.parseBlock (D:\\laravel_capstone\\Capstone\\LMS-VUE-Materialize\\LMS-VUE-Materialize\\node_modules\\@babel\\parser\\lib\\index.js:13360:10)");
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  props: ['moduleId', 'submodule', 'type_action'],
+  data: function data() {
+    return {
+      isSaving: false,
+      isDeleting: false,
+      oldFIle: {},
+      oldFileInput: false,
+      isRemove: false,
+      uploadPercentage: 0,
+      progress: false,
+      sending: false,
+      loading: '',
+      addLink: false,
+      showClasswork: false,
+      subModuleForm: {},
+      ext: '',
+      file: null,
+      allowedExt: ['pdf', 'pptx', 'ppt', 'xls', 'xlsx', 'doc', 'docx', 'mp4'],
+      isInvalidFileType: false,
+      isFileSize: null,
+      main_module_id: null,
+      type: ''
+    };
+  },
+  computed: (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)(["getmain_module", "getSub_module", "getAll_sub_module"]),
+  methods: {
+    getFileExt: function getFileExt(filename) {
+      var split = filename.split('.');
+      return split[split.length - 1];
+    },
+    onFileChange: function onFileChange(file) {
+      console.log('selected file', file);
+
+      if (file != null) {
+        this.ext = this.getFileExt(file.name);
+        console.log(this.ext);
+        this.isInvalidFileSize = false;
+        this.isInvalidFileType = false;
+
+        if (file.size >= 10000000) {
+          this.isInvalidFileSize = true;
+          this.$refs.inputFile.value = null;
+          this.toastError('File size must be less than 10MB');
+        }
+
+        if (this.ext == 'mp4') {
+          this.type = 'Video';
+        } else if (this.ext == 'pdf' || this.ext == 'docx' || this.ext == 'doc' || this.ext == 'pptx' || this.ext == 'ppt') {
+          this.type = 'Document';
+        } else {
+          this.isInvalidFileType = true;
+          this.toastError('Invalid File Type, (.pdf , .docx and .mp4 are allowed)');
+          this.$refs.inputFile.value = null;
+        }
+      }
+
+      this.file = file;
+    },
+    removeFile: function removeFile(id) {
+      var _this = this;
+
+      this.isDeleting = true;
+      axios.put('/api/sub_module/file-remove/' + id, {
+        file: this.submodule.file_attachment
+      }).then(function (res) {
+        _this.oldFileInput = false;
+        console.log(res);
+        _this.isDeleting = false;
+        _this.isRemove = true;
+      });
+    },
+    toastSuccess: function toastSuccess() {
+      return this.$toasted.success("Lecture Successfully Created", {
+        theme: "toasted-primary",
+        position: "top-center",
+        icon: "done",
+        duration: 5000
+      });
+    },
+    addFile: function addFile() {
+      console.log(this.file);
+      console.log('this.isInvalidFileType', this.isInvalidFileType);
+
+      if (this.type_action == 'edit_file') {
+        if (this.subModuleForm.sub_module_name == '' || this.subModuleForm.description == '' || this.subModuleForm.required_time == '') {
+          this.toastError('Please Complete all the fields');
+        } else if (this.file != null) {
+          var good = true;
+
+          if (this.isInvalidFileSize) {
+            this.toastError('File must be less than 10mb');
+            good = false;
+          }
+
+          if (this.isInvalidFileType == null || this.isInvalidFileType == true) {
+            this.toastError('something went wrong, refresh the page and try again');
+            good = false;
+          }
+
+          if (good) {
+            this.addUpdate();
+          }
+        } else {
+          if (this.isRemove) {
+            this.toastError('Please Complete all the fields');
+          } else {
+            this.addUpdate();
+          }
+        }
+      } else {
+        if (this.subModuleForm.sub_module_name == '' || this.subModuleForm.description == '' || this.subModuleForm.required_time == '' || this.file == null) {
+          this.toastError('Please Complete all the fields');
+        } else if (this.file != null) {
+          var good = true;
+
+          if (this.isInvalidFileSize) {
+            this.toastError('File must be less than 10mb');
+            good = false;
+          }
+
+          if (this.isInvalidFileType == null || this.isInvalidFileType == true) {
+            this.toastError('something went wrong, refresh the page and try again');
+            good = false;
+          }
+
+          if (good) {
+            this.addUpdate();
+          }
+        }
+      }
+    },
+    detectExt: function detectExt(ext) {
+      var type = '';
+
+      if (ext == 'mp4') {
+        type = 'Video';
+      }
+
+      if (ext == 'pdf' || ext == 'docx' || ext == 'doc' || ext == 'pptx' || ext == 'ppt') {
+        type = 'Document';
+      }
+
+      return type;
+    },
+    addUpdate: function addUpdate() {
+      var _this2 = this;
+
+      var tmp, edit_ext_type;
+      this.main_module_id = this.moduleId;
+
+      if (this.type_action == 'edit_file') {
+        tmp = this.oldFIle.file_name.split('.');
+        edit_ext_type = tmp[tmp.length - 1];
+        this.main_module_id = this.subModuleForm.main_module_id;
+        this.type = this.type == '' ? this.detectExt(edit_ext_type) : this.type;
+      }
+
+      this.isSaving = true;
+      var fd = new FormData();
+      fd.append('file', this.file);
+      fd.append('submodule_id', this.subModuleForm.id);
+      fd.append('main_module_id', this.main_module_id);
+      fd.append('description', this.subModuleForm.description);
+      fd.append('required_time', this.subModuleForm.required_time);
+      fd.append('type', this.type);
+      fd.append('sub_module_name', this.subModuleForm.sub_module_name);
+      this.sending = true;
+      axios.post("/api/sub_module/insert", fd, {
+        onUploadProgress: function onUploadProgress(progressEvent) {
+          var total = progressEvent.total;
+          var totalLength = progressEvent.lengthComputable ? total : null;
+
+          if (totalLength != null) {
+            _this2.uploadPercentage = Math.round(progressEvent.loaded * 100 / totalLength);
+          }
+        }
+      }).then(function (res) {
+        _this2.isSaving = false;
+
+        _this2.$store.dispatch('fetchSubModule', _this2.$route.params.id);
+
+        _this2.subModuleForm.sub_module_name = '';
+        _this2.subModuleForm.description = '';
+
+        if (_this2.$refs.inputFile != null) {
+          _this2.$refs.inputFile.reset();
+        }
+
+        _this2.$emit('CloseLecture'); // this.toastSuccess();
+
+
+        setTimeout(function () {
+          _this2.sending = false;
+        }, 1000);
+      });
+    }
+  },
+  created: function created() {
+    if (this.type_action == 'edit_file') {
+      this.submodule['required_time'] = this.submodule['required_time'] / 60;
+      this.subModuleForm = this.submodule;
+      var newfile = new File([""], window.location.origin + '/' + this.submodule.file_attachment);
+      ;
+      var name = newfile.name.split('/');
+      this.oldFIle.file_name = name[name.length - 1];
+      console.log(this.oldFIle.file_name);
+
+      if (this.oldFIle.file_name == -1) {
+        this.oldFileInput = false;
+      } else {
+        this.oldFileInput = true;
+      }
+    } else {
+      this.subModuleForm = {};
+    }
+  }
+});
 
 /***/ }),
 

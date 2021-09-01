@@ -2,12 +2,9 @@
     <div>
         <v-breadcrumbs class="ma-0 pa-0 mt-3" :items="items">
             <template v-slot:item="{ item }">
-            <v-breadcrumbs-item
-                :to="{name: item.link}"
-                :disabled="item.disabled"
-            >
-                {{ item.text.toUpperCase() }}
-            </v-breadcrumbs-item>
+                <v-breadcrumbs-item :to="{name: item.link}" :disabled="item.disabled">
+                    {{ item.text.toUpperCase() }}
+                </v-breadcrumbs-item>
             </template>
         </v-breadcrumbs>
         <v-row align="center" justify="center" class="pt-10" v-if="moduleLength == 0">
@@ -46,21 +43,30 @@
 
 
         <div v-if="moduleLength > 0">
-            <v-row class="pt-3">
-                <v-col>
+            <v-row class="pt-3" justify="center" align="center">
+                <v-col cols="1">
                     <h2 class="pb-0"> Materials</h2>
                 </v-col>
-                  <v-col class="text-right">
-                     <v-btn bottom color="secondary" @click="preview()">
-                    <v-icon left>mdi-eye</v-icon>
-                    Preview
-                </v-btn>
+                 <v-col class="text-left">
+                    <v-btn bottom color="secondary" small @click="preview()">
+                        <v-icon left>mdi-eye</v-icon>
+                        Preview
+                    </v-btn>
 
                 </v-col>
+                <v-col class="text-right">
+                    <v-btn bottom color="primary" @click="openModal()">
+                        <v-icon left>mdi-plus</v-icon>
+                        Create Module
+                    </v-btn>
+                    
 
-                <v-btn bottom color="primary" dark fab fixed right @click="openModal()">
+                </v-col>
+               
+
+                <!-- <v-btn bottom color="primary" dark fab fixed right @click="openModal()">
                     <v-icon>mdi-plus</v-icon>
-                </v-btn>
+                </v-btn> -->
 
 
                 <v-dialog v-model="moduleDialog" persistent max-width="600px">
@@ -103,16 +109,15 @@
                 loading: false,
                 isGetting: false,
                 moduleLength: null,
-                items: [
-                    {
-                    text: 'Course',
-                    disabled: false,
-                    link: 'courses',
+                items: [{
+                        text: 'Course',
+                        disabled: false,
+                        link: 'courses',
                     },
                     {
-                    text: 'Modules',
-                    disabled: true,
-                    link: 'modules',
+                        text: 'Modules',
+                        disabled: true,
+                        link: 'modules',
                     },
                 ],
             }
@@ -126,7 +131,12 @@
             },
             preview() {
                 var id = this.$route.params.id;
-            this.$router.push({ name: 'modules-preview', params: {id:id}});
+                this.$router.push({
+                    name: 'modules-preview',
+                    params: {
+                        id: id
+                    }
+                });
             },
             fetchAllModule() {
                 this.isGetting = true;
@@ -135,10 +145,10 @@
                 ).then((res) => {
                     this.studentSubModuleProgress = res.data;
                     this.$store.dispatch('fetchMainModule', this.$route.params.id).then(() => {
-                      
+
                         this.isGetting = false;
                         this.moduleLength = this.getmain_module.length;
-                        
+
                     });
                     this.$store.dispatch('fetchSubModule', this.$route.params.id);
 
@@ -164,7 +174,7 @@
         },
         mounted() {
             this.fetchAllModule();
-       
+
         },
 
     }
