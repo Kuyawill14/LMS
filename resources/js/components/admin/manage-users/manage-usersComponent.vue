@@ -333,8 +333,6 @@
 
                         this.form.post('/api/register')
                             .then((res) => {
-
-
                                 this.$refs.RegisterForm.reset()
                                 this.valid = true;
                                 this.dialog = false;

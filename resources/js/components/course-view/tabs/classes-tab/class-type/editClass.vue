@@ -80,16 +80,18 @@
                 this.form.class_id = this.class_id;
                 this.form.course_id = this.$route.params.id;
                 this.form.class_name = this.$refs._classname.value;
-                this.$store.dispatch('updateClass', this.form);
-                this.fetchSubjectCourseClassList(this.$route.params.id);
+                this.$store.dispatch('updateClass', this.form).then(()=>{
+  this.fetchSubjectCourseClassList(this.$route.params.id);
                 this.toastSuccess()
-                setTimeout(() => {
+        
                     this.isloading = false;
                     this.sending = false;
 
-                }, 1000);
 
 
+
+                });
+              
 
             },
         },

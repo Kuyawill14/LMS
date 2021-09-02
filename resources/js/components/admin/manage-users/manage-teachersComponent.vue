@@ -48,7 +48,8 @@
 
 
                                     <td>
-                                        <v-btn color="primary" :disabled="IsResetting && IsResetting_id == item.user_id" @click="updatePass(item.user_id)">
+                                        <v-btn color="primary" :disabled="IsResetting && IsResetting_id == item.user_id"
+                                            @click="updatePass(item.user_id)">
                                             {{IsResetting && IsResetting_id == item.user_id ? 'Reseting...' : ' Reset Password'}}
                                         </v-btn>
                                     </td>
@@ -92,7 +93,7 @@
                     <v-form class="text-center " ref="RegisterForm" v-model="valid" lazy-validation>
                         <v-row class="pa-5">
                             <v-col class="ma-0 pa-0 mb-1" cols="12" md="12">
-                                  <HasError class="error--text" :form="form" field="firstName" />
+                                <HasError class="error--text" :form="form" field="firstName" />
                                 <v-text-field :rules="nameRules" label="First Name" name="firstName"
                                     v-model="form.firstName" type="text" color="primary" outlined />
                             </v-col>
@@ -109,15 +110,15 @@
                                     v-model="form.lastName" type="text" color="primary" outlined
                                     @keyup="SetPassword(form.lastName)" />
                             </v-col>
-                         
+
                             <v-col class="ma-0 pa-0 mb-1" cols="12" md="12">
                                 <HasError class="error--text" :form="form" field="email" />
-                                <v-text-field autocomplete="false" label="Email" name="Email" :rules="loginEmailRules" v-model="form.email"
-                                    type="email" color="primary" outlined />
+                                <v-text-field autocomplete="false" label="Email" name="Email" :rules="loginEmailRules"
+                                    v-model="form.email" type="email" color="primary" outlined />
                             </v-col>
                             <v-col class="ma-0 pa-0 mb-1" cols="12" md="12" v-if="type== 'add'">
                                 <HasError class="error--text" :form="form" field="password" />
-                                <v-text-field autocomplete="off" :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'" 
+                                <v-text-field autocomplete="off" :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
                                     label="Password" name="password" v-model="form.password"
                                     :type="show ? 'text' : 'password'" color="primary"
                                     :rules="[rules.required, rules.min]" counter @click:append="show = !show"
@@ -130,7 +131,7 @@
 
                     <v-spacer></v-spacer>
                     <v-btn text color="primary" @click="dialog = false;$refs.RegisterForm.reset()">Cancel</v-btn>
-                    <v-btn text @click="validate()" :loading="IsAddUpdating">
+                    <v-btn text @click="validate()" :loading="IsAddUpdating"  :disabled="IsAddUpdating">
                         {{this.type == "add" ? 'Add' :  'Update'}}</v-btn>
                 </v-card-actions>
             </v-card>
@@ -165,7 +166,6 @@
 </style>
 
 <script>
-
     import {
         mapGetters,
         mapActions
@@ -235,7 +235,7 @@
                 this.dialog = true;
             },
             openEdit(user_id) {
-               
+
                 this.type = 'edit'
                 this.dialog = true;
                 var currentTeacher = this.filterTeacher(user_id);
@@ -264,7 +264,7 @@
                 axios.delete('/api/admin/teachers/remove/' + this.delId)
                     .then((res) => {
                         if (res.status == 200) {
-                             this.getTeachers.splice(this.deleteIndex, 1);
+                            this.getTeachers.splice(this.deleteIndex, 1);
                             this.toastSuccess('User Successfully removed!')
                             this.IsDeleting = false;
                         } else {
@@ -277,21 +277,35 @@
             },
             updateTeacherDetails() {
                 this.$store.dispatch('updateTeacher', this.form);
-               
-       
+
+
             },
             validate() {
-                this.IsAddUpdating = true;
+           
                 if (this.$refs.RegisterForm.validate()) {
+                         this.IsAddUpdating = true;
                     if (this.type == 'add') {
                         this.form.password_confirmation = this.form.password
 
 
                         this.form.post('/api/admin/add/teacher')
                             .then((res) => {
-                                this.$refs.RegisterForm.reset()
-                                this.valid = true;
-                                this.dialog = false;
+                        
+                                if (res.status == 200) {
+                                    this.$refs.RegisterForm.reset()
+                                    this.valid = true;
+                                    this.dialog = false;
+                                    this.$store.dispatch('fetchAllTeachers');
+                                    this.toastSuccess('User Successfully Added!')
+                                    this.IsAddUpdating = false;
+                                } else {
+                                     this.IsAddUpdating = false;
+                                    this.toastError('Something went wrong!')
+
+                                }
+                            }).catch((err) => {
+                                   this.IsAddUpdating = false;
+                                    this.toastError('Something went wrong!')
                             })
 
                     }
@@ -299,25 +313,39 @@
 
                     if (this.type == 'edit') {
                         this.form.post('/api/admin/teachers/update/' + this.form.user_id)
-                            .then(() => {
-                                this.$refs.RegisterForm.reset()
-                                this.valid = true;
-                                this.dialog = false;
-                                this.IsAddUpdating = false;
+                            .then((res) => {
+
+
+                                if (res.status == 200) {
+                                    this.$refs.RegisterForm.reset()
+                                    this.valid = true;
+                                    this.dialog = false;
+                                    this.IsAddUpdating = false;
+                                    this.$store.dispatch('fetchAllTeachers');
+                                    this.toastSuccess('User Successfully Updated!')
+
+                                } else {
+                                     this.IsAddUpdating = false;
+                                    this.toastError('Something went wrong!')
+
+                                }
+                            }).catch((err) => {
+                                   this.IsAddUpdating = false;
+                                    this.toastError('Something went wrong!')
                             })
-                        this.toastSuccess('User Successfully Updated!')
+
                     }
-                    this.$store.dispatch('fetchAllTeachers');
+
 
 
 
 
                 } else {
                     this.IsAddUpdating = false;
-
+          this.valid = false;
                 }
-                    this.valid = false;
-                      this.IsAddUpdating = false;
+      
+               
             },
         },
 

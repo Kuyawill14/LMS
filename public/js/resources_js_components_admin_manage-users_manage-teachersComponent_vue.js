@@ -186,6 +186,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -301,37 +302,62 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     validate: function validate() {
       var _this3 = this;
 
-      this.IsAddUpdating = true;
-
       if (this.$refs.RegisterForm.validate()) {
+        this.IsAddUpdating = true;
+
         if (this.type == 'add') {
           this.form.password_confirmation = this.form.password;
           this.form.post('/api/admin/add/teacher').then(function (res) {
-            _this3.$refs.RegisterForm.reset();
+            if (res.status == 200) {
+              _this3.$refs.RegisterForm.reset();
 
-            _this3.valid = true;
-            _this3.dialog = false;
+              _this3.valid = true;
+              _this3.dialog = false;
+
+              _this3.$store.dispatch('fetchAllTeachers');
+
+              _this3.toastSuccess('User Successfully Added!');
+
+              _this3.IsAddUpdating = false;
+            } else {
+              _this3.IsAddUpdating = false;
+
+              _this3.toastError('Something went wrong!');
+            }
+          })["catch"](function (err) {
+            _this3.IsAddUpdating = false;
+
+            _this3.toastError('Something went wrong!');
           });
         }
 
         if (this.type == 'edit') {
-          this.form.post('/api/admin/teachers/update/' + this.form.user_id).then(function () {
-            _this3.$refs.RegisterForm.reset();
+          this.form.post('/api/admin/teachers/update/' + this.form.user_id).then(function (res) {
+            if (res.status == 200) {
+              _this3.$refs.RegisterForm.reset();
 
-            _this3.valid = true;
-            _this3.dialog = false;
+              _this3.valid = true;
+              _this3.dialog = false;
+              _this3.IsAddUpdating = false;
+
+              _this3.$store.dispatch('fetchAllTeachers');
+
+              _this3.toastSuccess('User Successfully Updated!');
+            } else {
+              _this3.IsAddUpdating = false;
+
+              _this3.toastError('Something went wrong!');
+            }
+          })["catch"](function (err) {
             _this3.IsAddUpdating = false;
-          });
-          this.toastSuccess('User Successfully Updated!');
-        }
 
-        this.$store.dispatch('fetchAllTeachers');
+            _this3.toastError('Something went wrong!');
+          });
+        }
       } else {
         this.IsAddUpdating = false;
+        this.valid = false;
       }
-
-      this.valid = false;
-      this.IsAddUpdating = false;
     }
   },
   mounted: function mounted() {
@@ -1001,7 +1027,11 @@ var render = function() {
                   _c(
                     "v-btn",
                     {
-                      attrs: { text: "", loading: _vm.IsAddUpdating },
+                      attrs: {
+                        text: "",
+                        loading: _vm.IsAddUpdating,
+                        disabled: _vm.IsAddUpdating
+                      },
                       on: {
                         click: function($event) {
                           return _vm.validate()
