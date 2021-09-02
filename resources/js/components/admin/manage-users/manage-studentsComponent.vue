@@ -7,64 +7,47 @@
             <v-icon>mdi-plus</v-icon>
         </v-btn>
         <v-row class="pt-2">
-
-
             <v-col>
                 <v-card elevation="2">
-                    <v-simple-table>
-                        <template v-slot:default>
-                            <thead>
-                                <tr>
-                                    <th>
-                                        STUDENT ID
-                                    </th>
-                                    <th>
-                                        Last Name
-                                    </th>
-                                    <th>
-                                        First Name
-                                    </th>
-                                    <th>
-                                        Middle Name
-                                    </th>
-                                    <th>
-                                        Email
-                                    </th>
-                                    <th>
-                                        Password Reset
-                                    </th>
-                                    <th>
-                                        Action
-                                    </th>
-                                </tr>
-                            </thead>
+                    <v-card-title>
+                        Students
+
+                        <v-spacer></v-spacer>
+                        <v-text-field v-model="search" append-icon="mdi-magnify" label="Search" single-line
+                            hide-details>
+                        </v-text-field>
+                    </v-card-title>
+
+                    <v-data-table :headers="headers" :items="filteredItems" :items-per-page="10" class="elevation-1">
+                        <template v-slot:body="{ items }">
                             <tbody>
-                                <tr v-for="(item, index) in StudentList" :key="index">
+                                <tr v-for="(item, index) in items" :key="index">
                                     <td> {{item.student_id}} </td>
                                     <td> {{item.lastName }} </td>
                                     <td> {{item.firstName}} </td>
                                     <td> {{item.middleName}} </td>
                                     <td> {{item.email}} </td>
                                     <td>
-                                        <v-btn color="primary" :loading="IsResetting && IsResetting_id == item.user_id" @click="updatePass(item.user_id)">
+                                        <v-btn color="primary" :loading="IsResetting && IsResetting_id == item.user_id"
+                                            @click="updatePass(item.user_id)">
                                             Reset Password
                                         </v-btn>
                                     </td>
                                     <td>
 
-                                    <v-btn icon color="success" @click="openEdit(item, index)">
-                                        <v-icon>
-                                            mdi-pencil
-                                        </v-icon>
+                                        <v-btn icon color="success" @click="openEdit(item, index)">
+                                            <v-icon>
+                                                mdi-pencil
+                                            </v-icon>
 
-                                    </v-btn>
-                                    <v-btn icon color="red" @click="openDelete(item.user_id, index)">
-                                        <v-icon>
-                                            mdi-delete
-                                        </v-icon>
+                                        </v-btn>
+                                        <v-btn icon color="red" @click="openDelete(item.user_id, index)">
+                                            <v-icon>
+                                                mdi-delete
+                                            </v-icon>
 
-                                    </v-btn>
-                                </td>
+                                        </v-btn>
+                                    </td>
 
                                 </tr>
                                 <tr v-if="StudentList.length == 0">
@@ -72,10 +55,16 @@
                                 </tr>
 
 
+
                             </tbody>
                         </template>
-                    </v-simple-table>
+                    </v-data-table>
+
                 </v-card>
+
+
+
+
             </v-col>
         </v-row>
 
@@ -87,17 +76,17 @@
                 <v-divider></v-divider>
                 <v-container>
 
-                    <v-form autocomplete="off"  class="text-center " ref="RegisterForm" v-model="valid" lazy-validation>
+                    <v-form autocomplete="off" class="text-center " ref="RegisterForm" v-model="valid" lazy-validation>
 
 
                         <v-row class="pa-5">
                             <v-col class="ma-0 pa-0 mb-1" cols="12" md="12">
                                 <HasError class="error--text" :form="form" field="student_id" />
                                 <v-text-field :rules="studenIdRule" label="Student ID Number" name="student_id"
-                                    v-model="form.student_id" type="number" color="primary"  outlined />
+                                    v-model="form.student_id" type="number" color="primary" outlined />
                             </v-col>
                             <v-col class="ma-0 pa-0 mb-1" cols="12" md="12">
-                                 <HasError class="error--text" :form="form" field="firstName" />
+                                <HasError class="error--text" :form="form" field="firstName" />
                                 <v-text-field :rules="nameRules" label="First Name" name="firstName"
                                     v-model="form.firstName" type="text" color="primary" outlined />
                             </v-col>
@@ -114,7 +103,7 @@
                                     v-model="form.lastName" type="text" color="primary" outlined
                                     @keyup="SetPassword(form.lastName)" />
                             </v-col>
-                          
+
                             <v-col class="ma-0 pa-0 mb-1" cols="12" md="12">
                                 <HasError class="error--text" :form="form" field="email" />
                                 <v-text-field label="Email" name="Email" :rules="loginEmailRules" v-model="form.email"
@@ -141,7 +130,7 @@
                 <v-card-actions>
 
                     <v-spacer></v-spacer>
-                    <v-btn text  @click="dialog = false;$refs.RegisterForm.reset()">Cancel</v-btn>
+                    <v-btn text @click="dialog = false;$refs.RegisterForm.reset()">Cancel</v-btn>
                     <v-btn text color="primary" @click="validate()" :loading="IsAddUpdating">
                         {{this.type == "add" ? 'Add' :  'Update'}}</v-btn>
                 </v-card-actions>
@@ -231,6 +220,44 @@
                     min: v => (v && v.length >= 6) || "min 6 characters"
                 },
                 StudentList: [],
+                headers: [
+
+                    {
+                        text: 'Student ID',
+                        value: 'student_id',
+                        align: 'start',
+                    },
+                    {
+                        text: 'Last Name',
+                        value: 'lastName',
+                        align: 'center',
+                    },
+                    {
+                        text: 'First Name',
+                        value: 'firstName',
+                        align: 'center',
+                    },
+                    {
+                        text: 'Middle Name',
+                        value: 'middleName',
+                        align: 'center',
+                    },
+                    {
+                        text: 'Email',
+                        value: 'email',
+                        align: 'center',
+                    },
+
+                    {
+                        text: 'Password Reset',
+                        sortable: false
+                    },
+
+                    {
+                        text: 'Actions',
+                        sortable: false
+                    },
+                ],
 
 
 
@@ -238,7 +265,21 @@
 
         },
         computed: {
-            ...mapGetters(["getTeachers", "filterTeacher"])
+            filteredItems() {
+                if (this.search) {
+                    return this.StudentList.filter((item) => {
+                        return this.search.toLowerCase().split(' ').every(v => item.firstName.toLowerCase()
+                            .includes(v) || item.lastName.toLowerCase()
+                            .includes(v) || item.middleName.toLowerCase()
+                            .includes(v) || item.user_id.toString()
+                            .includes(v))
+                    })
+                } else {
+                    return this.StudentList;
+                }
+
+            }
+
         },
 
         methods: {
@@ -262,7 +303,7 @@
                 this.form.lastName = details.lastName;
                 this.form.email = details.email;
                 this.form.student_id = details.student_id;
-                if(!this.valid){
+                if (!this.valid) {
                     this.$refs.RegisterForm.resetValidation();
                 }
             },
@@ -288,7 +329,7 @@
                             this.StudentList.splice(this.deleteIndex, 1);
                             this.toastSuccess('User Successfully removed!')
                             this.IsDeleting = false;
-                           
+
                         } else {
                             this.toastError('Something went wrong!')
                             this.IsDeleting = false;
@@ -331,16 +372,16 @@
                     this.IsAddUpdating = false;
 
                 }
-                    this.valid = false;
-                      this.IsAddUpdating = false;
+                this.valid = false;
+                this.IsAddUpdating = false;
             },
-            async getStudent(){
+            async getStudent() {
                 axios.get('/api/admin/students/all')
-                .then(res=>{
-                    this.StudentList = res.data;
-                })
+                    .then(res => {
+                        this.StudentList = res.data;
+                    })
             },
-            updateDataInfrontEnd(data){
+            updateDataInfrontEnd(data) {
                 this.StudentList[this.updateIndex].user_id = data.user_id;
                 this.StudentList[this.updateIndex].firstName = data.firstName;
                 this.StudentList[this.updateIndex].middleName = data.middleName;

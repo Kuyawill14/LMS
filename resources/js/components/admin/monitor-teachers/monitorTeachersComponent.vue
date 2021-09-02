@@ -1,47 +1,28 @@
 <template>
     <div class="pt-4">
         <h2>
-            Manage users
+            Monitor Teachers
         </h2>
-        <v-btn bottom color="primary" dark fab fixed right @click="openAdd()">
-            <v-icon>mdi-plus</v-icon>
-        </v-btn>
+
         <v-row class="pt-2">
 
 
             <v-col>
                 <v-card elevation="2">
-                    <v-simple-table>
-                        <template v-slot:default>
-                            <thead>
-                                <tr>
-                                    <th>
-                                        ID
-                                    </th>
-                                    <th>
-                                        Name
-                                    </th>
-                                    <th class="text-center">
-                                        Total Courses
-                                    </th >
-                                    <th class="text-center">
-                                        Total Classes
-                                    </th>
-                                    <th class="text-center">
-                                        Total Modules Created
-                                    </th>
-                                    <th class="text-center">
-                                        Total Lesson Created
-                                    </th>
+                    <v-card-title>
+                        Teachers
 
-                                    <th class="text-center">
-                                        Action
-                                    </th>
+                        <v-spacer></v-spacer>
+                        <v-text-field v-model="search" append-icon="mdi-magnify" label="Search" single-line
+                            hide-details>
+                        </v-text-field>
+                    </v-card-title>
 
-                                </tr>
-                            </thead>
+                    <v-data-table :headers="headers" :items="filteredItems" :items-per-page="10" class="elevation-1">
+                        <template v-slot:body="{ items }">
                             <tbody>
-                                <tr v-for="(item, index) in getTeachersSumarry" :key="index">
+                                <tr v-for="item in items" :key="item.id">
+
                                     <td> {{item.user_id}} </td>
                                     <td> {{item.lastName + ', ' + item.firstName + ' ' + item.middleName }} </td>
                                     <td class="text-center"> {{item.course_count}}</td>
@@ -49,21 +30,23 @@
                                     <td class="text-center"> {{item.classwork_count}} </td>
                                     <td class="text-center"> {{item.sub_modules_count}} </td>
                                     <td class="text-center">
-                                        <v-btn icon color="success" link  :to="{name: 'teacherProfile', params: {id: item.user_id}}">
+                                        <v-btn icon color="success" link
+                                            :to="{name: 'teacherProfile', params: {id: item.user_id}}">
                                             <v-icon>
                                                 mdi-eye
                                             </v-icon>
                                         </v-btn>
                                     </td>
                                 </tr>
-                                <tr v-if="getTeachersSumarry.length == 0">
+                                <tr v-if="items.length == 0">
                                     <td colspan="42" class="text-center"> No data available</td>
                                 </tr>
 
 
                             </tbody>
                         </template>
-                    </v-simple-table>
+                    </v-data-table>
+
                 </v-card>
             </v-col>
         </v-row>
@@ -96,21 +79,81 @@
                 type: '',
                 search: "",
                 valid: true,
-              }
-               
+                headers: [
+
+                    {
+                        text: 'ID',
+                        value: 'user_id',
+                        align: 'start',
+                    },
+                    {
+                        text: 'Name',
+                        value: 'firstName',
+                        align: 'start',
+                    },
+                    {
+                        text: 'Total Courses',
+                        value: 'course_count',
+                        align: 'center',
+                    },
+                    {
+                        text: 'Total Classes',
+                        value: 'total_classes',
+                        align: 'center',
+                    },
+
+                    {
+                        text: ' Total Lesson Created',
+                        value: 'sub_modules_count',
+                        align: 'center',
+                    },
+                    {
+                        text: 'Total Classwork Created',
+                        value: 'classwork_count',
+                        align: 'center',
+                    },
+
+
+
+                    {
+                        text: 'Actions',
+                        sortable: false
+                    },
+                ],
+                teacherSummary: [],
+            }
+
 
         },
         computed: {
-            ...mapGetters(["getTeachersSumarry"])
+            ...mapGetters(["getTeachersSumarry"]),
+            filteredItems() {
+                if (this.search) {
+                  return this.teacherSummary.filter((item) => {
+                        return this.search.toLowerCase().split(' ').every(v => item.firstName.toLowerCase()
+                            .includes(v) || item.lastName.toLowerCase()
+                            .includes(v)|| item.middleName.toLowerCase()
+                            .includes(v)|| item.user_id.toString()
+                            .includes(v))
+                    })
+                } else {
+                    return this.teacherSummary;
+                }
+
+            }
+
         },
 
         methods: {
-       
+
         },
 
         mounted() {
 
-            this.$store.dispatch('teacherSummarryData');
+            this.$store.dispatch('teacherSummarryData').then(() => {
+                this.teacherSummary = this.getTeachersSumarry;
+            });
+
 
 
 

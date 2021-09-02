@@ -181,12 +181,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -234,10 +228,52 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         min: function min(v) {
           return v && v.length >= 6 || "min 6 characters";
         }
-      }
+      },
+      headers: [{
+        text: 'Student ID',
+        value: 'student_id',
+        align: 'start'
+      }, {
+        text: 'Last Name',
+        value: 'lastName',
+        align: 'center'
+      }, {
+        text: 'First Name',
+        value: 'firstName',
+        align: 'center'
+      }, {
+        text: 'Middle Name',
+        value: 'middleName',
+        align: 'center'
+      }, {
+        text: 'Email',
+        value: 'email',
+        align: 'center'
+      }, {
+        text: 'Password Reset',
+        sortable: false
+      }, {
+        text: 'Actions',
+        sortable: false
+      }],
+      teacherList: []
     };
   },
-  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(["getTeachers", "filterTeacher"])),
+  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(["getTeachers", "filterTeacher"])), {}, {
+    filteredItems: function filteredItems() {
+      var _this = this;
+
+      if (this.search) {
+        return this.teacherList.filter(function (item) {
+          return _this.search.toLowerCase().split(' ').every(function (v) {
+            return item.firstName.toLowerCase().includes(v) || item.lastName.toLowerCase().includes(v) || item.middleName.toLowerCase().includes(v) || item.user_id.toString().includes(v);
+          });
+        });
+      } else {
+        return this.teacherList;
+      }
+    }
+  }),
   methods: {
     SetPassword: function SetPassword(lastname) {
       var tmpLastname = lastname.replace(/\s+/g, '-').toLowerCase();
@@ -264,43 +300,43 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.Deldialog = true;
     },
     updatePass: function updatePass(id) {
-      var _this = this;
+      var _this2 = this;
 
       this.IsResetting_id = id;
       this.IsResetting = true;
       axios__WEBPACK_IMPORTED_MODULE_0___default().post('/api/admin/teachers/reset-password/' + id).then(function (res) {
-        _this.toastSuccess(res.data);
+        _this2.toastSuccess(res.data);
 
-        _this.IsResetting = false;
+        _this2.IsResetting = false;
       });
     },
     deleteUser: function deleteUser() {
-      var _this2 = this;
+      var _this3 = this;
 
       this.IsDeleting = true;
       axios__WEBPACK_IMPORTED_MODULE_0___default().delete('/api/admin/teachers/remove/' + this.delId).then(function (res) {
         if (res.status == 200) {
-          _this2.getTeachers.splice(_this2.deleteIndex, 1);
+          _this3.getTeachers.splice(_this3.deleteIndex, 1);
 
-          _this2.toastSuccess('User Successfully removed!');
+          _this3.toastSuccess('User Successfully removed!');
 
-          _this2.IsDeleting = false;
+          _this3.IsDeleting = false;
         } else {
-          _this2.toastError('Something went wrong!');
+          _this3.toastError('Something went wrong!');
 
-          _this2.IsDeleting = false;
+          _this3.IsDeleting = false;
         }
 
-        _this2.Deldialog = false;
+        _this3.Deldialog = false;
 
-        _this2.$store.dispatch('fetchAllTeachers');
+        _this3.$store.dispatch('fetchAllTeachers');
       });
     },
     updateTeacherDetails: function updateTeacherDetails() {
       this.$store.dispatch('updateTeacher', this.form);
     },
     validate: function validate() {
-      var _this3 = this;
+      var _this4 = this;
 
       if (this.$refs.RegisterForm.validate()) {
         this.IsAddUpdating = true;
@@ -309,49 +345,49 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           this.form.password_confirmation = this.form.password;
           this.form.post('/api/admin/add/teacher').then(function (res) {
             if (res.status == 200) {
-              _this3.$refs.RegisterForm.reset();
+              _this4.$refs.RegisterForm.reset();
 
-              _this3.valid = true;
-              _this3.dialog = false;
+              _this4.valid = true;
+              _this4.dialog = false;
 
-              _this3.$store.dispatch('fetchAllTeachers');
+              _this4.$store.dispatch('fetchAllTeachers');
 
-              _this3.toastSuccess('User Successfully Added!');
+              _this4.toastSuccess('User Successfully Added!');
 
-              _this3.IsAddUpdating = false;
+              _this4.IsAddUpdating = false;
             } else {
-              _this3.IsAddUpdating = false;
+              _this4.IsAddUpdating = false;
 
-              _this3.toastError('Something went wrong!');
+              _this4.toastError('Something went wrong!');
             }
           })["catch"](function (err) {
-            _this3.IsAddUpdating = false;
+            _this4.IsAddUpdating = false;
 
-            _this3.toastError('Something went wrong!');
+            _this4.toastError('Something went wrong!');
           });
         }
 
         if (this.type == 'edit') {
           this.form.post('/api/admin/teachers/update/' + this.form.user_id).then(function (res) {
             if (res.status == 200) {
-              _this3.$refs.RegisterForm.reset();
+              _this4.$refs.RegisterForm.reset();
 
-              _this3.valid = true;
-              _this3.dialog = false;
-              _this3.IsAddUpdating = false;
+              _this4.valid = true;
+              _this4.dialog = false;
+              _this4.IsAddUpdating = false;
 
-              _this3.$store.dispatch('fetchAllTeachers');
+              _this4.$store.dispatch('fetchAllTeachers');
 
-              _this3.toastSuccess('User Successfully Updated!');
+              _this4.toastSuccess('User Successfully Updated!');
             } else {
-              _this3.IsAddUpdating = false;
+              _this4.IsAddUpdating = false;
 
-              _this3.toastError('Something went wrong!');
+              _this4.toastError('Something went wrong!');
             }
           })["catch"](function (err) {
-            _this3.IsAddUpdating = false;
+            _this4.IsAddUpdating = false;
 
-            _this3.toastError('Something went wrong!');
+            _this4.toastError('Something went wrong!');
           });
         }
       } else {
@@ -361,7 +397,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
   },
   mounted: function mounted() {
-    this.$store.dispatch('fetchAllTeachers');
+    var _this5 = this;
+
+    this.$store.dispatch('fetchAllTeachers').then(function () {
+      _this5.teacherList = _this5.getTeachers;
+    });
   }
 });
 
@@ -521,7 +561,7 @@ var render = function() {
     "div",
     { staticClass: "pt-4" },
     [
-      _c("h2", [_vm._v("\n        Manage Instructors\n    ")]),
+      _c("h2", [_vm._v("\n         Manage Instructors\n     ")]),
       _vm._v(" "),
       _c(
         "v-btn",
@@ -555,62 +595,57 @@ var render = function() {
                 "v-card",
                 { attrs: { elevation: "2" } },
                 [
-                  _c("v-simple-table", {
+                  _c(
+                    "v-card-title",
+                    [
+                      _vm._v(
+                        "\n                     Instructors\n\n                     "
+                      ),
+                      _c("v-spacer"),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        { attrs: { width: "30%" } },
+                        [
+                          _c("v-text-field", {
+                            attrs: {
+                              "append-icon": "mdi-magnify",
+                              label: "Search",
+                              "single-line": "",
+                              "hide-details": ""
+                            },
+                            model: {
+                              value: _vm.search,
+                              callback: function($$v) {
+                                _vm.search = $$v
+                              },
+                              expression: "search"
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c("v-data-table", {
+                    staticClass: "elevation-1",
+                    attrs: {
+                      headers: _vm.headers,
+                      items: _vm.filteredItems,
+                      "items-per-page": 10
+                    },
                     scopedSlots: _vm._u([
                       {
-                        key: "default",
-                        fn: function() {
+                        key: "body",
+                        fn: function(ref) {
+                          var items = ref.items
                           return [
-                            _c("thead", [
-                              _c("tr", [
-                                _c("th", [
-                                  _vm._v(
-                                    "\n                                    ID\n                                "
-                                  )
-                                ]),
-                                _vm._v(" "),
-                                _c("th", [
-                                  _vm._v(
-                                    "\n                                    Last Name\n                                "
-                                  )
-                                ]),
-                                _vm._v(" "),
-                                _c("th", [
-                                  _vm._v(
-                                    "\n                                    First Name\n                                "
-                                  )
-                                ]),
-                                _vm._v(" "),
-                                _c("th", [
-                                  _vm._v(
-                                    "\n                                    Middle Name\n                                "
-                                  )
-                                ]),
-                                _vm._v(" "),
-                                _c("th", [
-                                  _vm._v(
-                                    "\n                                    Email\n                                "
-                                  )
-                                ]),
-                                _vm._v(" "),
-                                _c("th", [
-                                  _vm._v(
-                                    "\n                                    Password Reset\n                                "
-                                  )
-                                ]),
-                                _vm._v(" "),
-                                _c("th", [
-                                  _vm._v(
-                                    "\n                                    Action\n                                "
-                                  )
-                                ])
-                              ])
-                            ]),
-                            _vm._v(" "),
                             _c(
                               "tbody",
                               [
-                                _vm._l(_vm.getTeachers, function(item, index) {
+                                _vm._l(items, function(item, index) {
                                   return _c("tr", { key: index }, [
                                     _c("td", [
                                       _vm._v(" " + _vm._s(item.user_id) + " ")
@@ -657,7 +692,7 @@ var render = function() {
                                           },
                                           [
                                             _vm._v(
-                                              "\n                                        " +
+                                              "\n                                         " +
                                                 _vm._s(
                                                   _vm.IsResetting &&
                                                     _vm.IsResetting_id ==
@@ -665,7 +700,7 @@ var render = function() {
                                                     ? "Reseting..."
                                                     : " Reset Password"
                                                 ) +
-                                                "\n                                    "
+                                                "\n                                     "
                                             )
                                           ]
                                         )
@@ -694,7 +729,7 @@ var render = function() {
                                           [
                                             _c("v-icon", [
                                               _vm._v(
-                                                "\n                                            mdi-pencil\n                                        "
+                                                "\n                                             mdi-pencil\n                                         "
                                               )
                                             ])
                                           ],
@@ -717,7 +752,7 @@ var render = function() {
                                           [
                                             _c("v-icon", [
                                               _vm._v(
-                                                "\n                                            mdi-delete\n                                        "
+                                                "\n                                             mdi-delete\n                                         "
                                               )
                                             ])
                                           ],
@@ -729,7 +764,7 @@ var render = function() {
                                   ])
                                 }),
                                 _vm._v(" "),
-                                _vm.getTeachers.length == 0
+                                items.length == 0
                                   ? _c("tr", [
                                       _c(
                                         "td",
@@ -745,8 +780,7 @@ var render = function() {
                               2
                             )
                           ]
-                        },
-                        proxy: true
+                        }
                       }
                     ])
                   })
@@ -778,11 +812,11 @@ var render = function() {
             [
               _c("v-card-title", {}, [
                 _vm._v(
-                  "\n                " +
+                  "\n                 " +
                     _vm._s(
                       this.type == "add" ? "Add Teacher" : "Update Teacher"
                     ) +
-                    "\n            "
+                    "\n             "
                 )
               ]),
               _vm._v(" "),
@@ -1040,7 +1074,7 @@ var render = function() {
                     },
                     [
                       _vm._v(
-                        "\n                    " +
+                        "\n                     " +
                           _vm._s(this.type == "add" ? "Add" : "Update")
                       )
                     ]
@@ -1073,7 +1107,7 @@ var render = function() {
             [
               _c("v-card-title", { staticClass: "headline" }, [
                 _vm._v(
-                  "\n                Are you sure you want to delete this?\n            "
+                  "\n                 Are you sure you want to delete this?\n             "
                 )
               ]),
               _vm._v(" "),
@@ -1093,7 +1127,7 @@ var render = function() {
                         }
                       }
                     },
-                    [_vm._v("\n                    No\n                ")]
+                    [_vm._v("\n                     No\n                 ")]
                   ),
                   _vm._v(" "),
                   _c(
@@ -1110,7 +1144,7 @@ var render = function() {
                         }
                       }
                     },
-                    [_vm._v("\n                    Yes\n                ")]
+                    [_vm._v("\n                     Yes\n                 ")]
                   )
                 ],
                 1

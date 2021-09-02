@@ -7,39 +7,24 @@
             <v-icon>mdi-plus</v-icon>
         </v-btn>
         <v-row class="pt-2">
-
-
             <v-col>
                 <v-card elevation="2">
-                    <v-simple-table>
-                        <template v-slot:default>
-                            <thead>
-                                <tr>
-                                    <th>
-                                        ID
-                                    </th>
-                                    <th>
-                                        Last Name
-                                    </th>
-                                    <th>
-                                        First Name
-                                    </th>
-                                    <th>
-                                        Middle Name
-                                    </th>
-                                    <th>
-                                        Email
-                                    </th>
-                                    <th>
-                                        Password Reset
-                                    </th>
-                                    <th>
-                                        Action
-                                    </th>
-                                </tr>
-                            </thead>
+                    <v-card-title>
+                        Instructors
+
+                        <v-spacer></v-spacer>
+                        <div width="30%">
+   <v-text-field  v-model="search" append-icon="mdi-magnify" label="Search" single-line
+                            hide-details>
+                        </v-text-field>
+                        </div>
+                     
+                    </v-card-title>
+
+                    <v-data-table :headers="headers" :items="filteredItems" :items-per-page="10" class="elevation-1">
+                        <template v-slot:body="{ items }">
                             <tbody>
-                                <tr v-for="(item, index) in getTeachers" :key="index">
+                                <tr v-for="(item, index) in items" :key="index">
                                     <td> {{item.user_id}} </td>
                                     <td> {{item.lastName }} </td>
                                     <td> {{item.firstName}} </td>
@@ -70,16 +55,25 @@
                                     </td>
 
                                 </tr>
-                                <tr v-if="getTeachers.length == 0">
+                                <tr v-if="items.length == 0">
                                     <td colspan="42" class="text-center"> No data available</td>
                                 </tr>
 
 
+
+
                             </tbody>
                         </template>
-                    </v-simple-table>
+                    </v-data-table>
+
                 </v-card>
+
+
+
+
             </v-col>
+
+
         </v-row>
 
         <v-dialog v-model="dialog" width="500">
@@ -131,7 +125,7 @@
 
                     <v-spacer></v-spacer>
                     <v-btn text color="primary" @click="dialog = false;$refs.RegisterForm.reset()">Cancel</v-btn>
-                    <v-btn text @click="validate()" :loading="IsAddUpdating"  :disabled="IsAddUpdating">
+                    <v-btn text @click="validate()" :loading="IsAddUpdating" :disabled="IsAddUpdating">
                         {{this.type == "add" ? 'Add' :  'Update'}}</v-btn>
                 </v-card-actions>
             </v-card>
@@ -174,6 +168,7 @@
     export default {
         data: function () {
             return {
+
                 Deldialog: false,
                 dialog: false,
                 temp_id: '',
@@ -212,7 +207,48 @@
                 rules: {
                     required: value => !!value || "Field is required.",
                     min: v => (v && v.length >= 6) || "min 6 characters"
-                }
+                },
+                headers: [
+
+                    {
+                        text: 'Student ID',
+                        value: 'student_id',
+                        align: 'start',
+                    },
+                    {
+                        text: 'Last Name',
+                        value: 'lastName',
+                        align: 'center',
+                    },
+                    {
+                        text: 'First Name',
+                        value: 'firstName',
+                        align: 'center',
+                    },
+                    {
+                        text: 'Middle Name',
+                        value: 'middleName',
+                        align: 'center',
+                    },
+                    {
+                        text: 'Email',
+                        value: 'email',
+                        align: 'center',
+                    },
+
+                    {
+                        text: 'Password Reset',
+                        sortable: false
+                    },
+
+                    {
+                        text: 'Actions',
+                        sortable: false
+                    },
+                ],
+                teacherList: [],
+
+
 
 
 
@@ -220,7 +256,21 @@
 
         },
         computed: {
-            ...mapGetters(["getTeachers", "filterTeacher"])
+            ...mapGetters(["getTeachers", "filterTeacher"]),
+            filteredItems() {
+                if (this.search) {
+                    return this.teacherList.filter((item) => {
+                        return this.search.toLowerCase().split(' ').every(v => item.firstName.toLowerCase()
+                            .includes(v) || item.lastName.toLowerCase()
+                            .includes(v) || item.middleName.toLowerCase()
+                            .includes(v) || item.user_id.toString()
+                            .includes(v))
+                    })
+                } else {
+                    return this.teacherList;
+                }
+
+            }
         },
 
         methods: {
@@ -281,16 +331,16 @@
 
             },
             validate() {
-           
+
                 if (this.$refs.RegisterForm.validate()) {
-                         this.IsAddUpdating = true;
+                    this.IsAddUpdating = true;
                     if (this.type == 'add') {
                         this.form.password_confirmation = this.form.password
 
 
                         this.form.post('/api/admin/add/teacher')
                             .then((res) => {
-                        
+
                                 if (res.status == 200) {
                                     this.$refs.RegisterForm.reset()
                                     this.valid = true;
@@ -299,13 +349,13 @@
                                     this.toastSuccess('User Successfully Added!')
                                     this.IsAddUpdating = false;
                                 } else {
-                                     this.IsAddUpdating = false;
+                                    this.IsAddUpdating = false;
                                     this.toastError('Something went wrong!')
 
                                 }
                             }).catch((err) => {
-                                   this.IsAddUpdating = false;
-                                    this.toastError('Something went wrong!')
+                                this.IsAddUpdating = false;
+                                this.toastError('Something went wrong!')
                             })
 
                     }
@@ -325,13 +375,13 @@
                                     this.toastSuccess('User Successfully Updated!')
 
                                 } else {
-                                     this.IsAddUpdating = false;
+                                    this.IsAddUpdating = false;
                                     this.toastError('Something went wrong!')
 
                                 }
                             }).catch((err) => {
-                                   this.IsAddUpdating = false;
-                                    this.toastError('Something went wrong!')
+                                this.IsAddUpdating = false;
+                                this.toastError('Something went wrong!')
                             })
 
                     }
@@ -342,16 +392,18 @@
 
                 } else {
                     this.IsAddUpdating = false;
-          this.valid = false;
+                    this.valid = false;
                 }
-      
-               
+
+
             },
         },
 
         mounted() {
 
-            this.$store.dispatch('fetchAllTeachers');
+            this.$store.dispatch('fetchAllTeachers').then(() => {
+                this.teacherList = this.getTeachers;
+            });
         }
     }
 
