@@ -236,19 +236,19 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }, {
         text: 'Last Name',
         value: 'lastName',
-        align: 'center'
+        align: 'start'
       }, {
         text: 'First Name',
         value: 'firstName',
-        align: 'center'
+        align: 'start'
       }, {
         text: 'Middle Name',
         value: 'middleName',
-        align: 'center'
+        align: 'start'
       }, {
         text: 'Email',
         value: 'email',
-        align: 'center'
+        align: 'start'
       }, {
         text: 'Password Reset',
         sortable: false
