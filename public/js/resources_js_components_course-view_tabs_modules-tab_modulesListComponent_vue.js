@@ -6500,52 +6500,45 @@ var render = function() {
   return _c(
     "v-card",
     [
+      _c("v-card-title", [
+        _c("span", { staticClass: "headline" }, [_vm._v("Confirmation")])
+      ]),
+      _vm._v(" "),
+      _c("v-card-text", [
+        _vm._v(
+          "\n             Are you sure you want to delete this module?\n        "
+        )
+      ]),
+      _vm._v(" "),
       _c(
-        "v-form",
-        { ref: "registerForm" },
+        "v-card-actions",
         [
-          _c("v-card-title", [
-            _c("span", { staticClass: "headline" }, [_vm._v("Confirmation")])
-          ]),
-          _vm._v(" "),
-          _c("v-card-text", [
-            _vm._v(
-              "\n             Are you sure you want to delete this module?\n        "
-            )
-          ]),
+          _c("v-spacer"),
           _vm._v(" "),
           _c(
-            "v-card-actions",
-            [
-              _c("v-spacer"),
-              _vm._v(" "),
-              _c(
-                "v-btn",
-                {
-                  attrs: { text: "" },
-                  on: {
-                    click: function($event) {
-                      return _vm.$emit("closeModal")
-                    }
-                  }
-                },
-                [_vm._v("\n                Cancel\n            ")]
-              ),
-              _vm._v(" "),
-              _c(
-                "v-btn",
-                {
-                  attrs: { color: "red", text: "", loading: _vm.loading },
-                  on: {
-                    click: function($event) {
-                      return _vm.deleteModule()
-                    }
-                  }
-                },
-                [_vm._v("\n                Delete\n            ")]
-              )
-            ],
-            1
+            "v-btn",
+            {
+              attrs: { text: "" },
+              on: {
+                click: function($event) {
+                  return _vm.$emit("closeModal")
+                }
+              }
+            },
+            [_vm._v("\n                Cancel\n            ")]
+          ),
+          _vm._v(" "),
+          _c(
+            "v-btn",
+            {
+              attrs: { color: "red", text: "", loading: _vm.loading },
+              on: {
+                click: function($event) {
+                  return _vm.deleteModule()
+                }
+              }
+            },
+            [_vm._v("\n                Delete\n            ")]
           )
         ],
         1

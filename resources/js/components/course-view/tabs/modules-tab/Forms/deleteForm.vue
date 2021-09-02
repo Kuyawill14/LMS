@@ -1,6 +1,6 @@
 <template>
     <v-card>
-        <v-form ref="registerForm">
+
             <v-card-title>
                 <span class="headline">Confirmation</span>
             </v-card-title>
@@ -16,7 +16,7 @@
                     Delete
                 </v-btn>
             </v-card-actions>
-        </v-form>
+       
     </v-card>
 </template>
 
