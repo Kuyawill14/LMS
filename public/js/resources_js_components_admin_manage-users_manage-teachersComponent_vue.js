@@ -230,8 +230,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         }
       },
       headers: [{
-        text: 'Student ID',
-        value: 'student_id',
+        text: 'ID',
+        value: 'user_id',
         align: 'start'
       }, {
         text: 'Last Name',

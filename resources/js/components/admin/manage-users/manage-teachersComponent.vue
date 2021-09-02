@@ -211,8 +211,8 @@
                 headers: [
 
                     {
-                        text: 'Student ID',
-                        value: 'student_id',
+                        text: 'ID',
+                        value: 'user_id',
                         align: 'start',
                     },
                     {
