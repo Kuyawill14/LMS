@@ -67,8 +67,9 @@
                                             <td class="text-center"
                                                 v-for="(main, i) in getStudentMainModuleProgress(student.id)"
                                                 :key="''+i">
-                                                {{  student['id' + main.module_id] = main.completed }} /
+                                                {{  student['id' + main.main_module_id] = main.completed }} /
                                                 {{main.sub_module_length}}
+                                              
                                             </td>
                                             <td class="text-center">
                                                 {{student['total_completed'] = getTotalCompleted(getStudentMainModuleProgress(student.id))}}
