@@ -29,6 +29,9 @@ use App\Http\Controllers\api\teacherProfileController;
 use App\Http\Controllers\api\SchoolyearSemesterController;
 use App\Http\Controllers\api\DepartmentController;
 use App\Http\Controllers\api\VerificationController;
+use App\Models\tbl_subjective_rubrics;
+use App\Http\Controllers\api\SubjectiveTypeRubrics;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -135,6 +138,12 @@ Route::middleware('auth:sanctum')->prefix('/classwork')->group(function () {
     Route::get('/publishClassworkDetails/{id}', [ClassworkController::class, 'PublishClassworkDetails']);
     Route::put('/UpdatePublish/{id}', [ClassworkController::class, 'UpdatePublishClassworkDetails']);
     
+
+    //rubrics
+    Route::post('/rubrics-save/{id}', [SubjectiveTypeRubrics::class, 'saveRubrics']);
+    Route::get('/rubric/all/{id}', [SubjectiveTypeRubrics::class, 'fetchRubrics']);
+    Route::delete('/rubric/delete/{classwork_id}/{rubrics_id}', [SubjectiveTypeRubrics::class, 'deleteRubrics']);
+    
 });
 
 //Student
@@ -201,6 +210,11 @@ Route::middleware('auth:sanctum')->prefix('/main_module')->group(function () {
 Route::middleware('auth:sanctum')->prefix('/sub_module')->group(function () {
     Route::get('/all/{id}', [SubModuleController::class, 'index']);
     Route::post('/insert', [SubModuleController::class, 'store']);
+    Route::put('/file-remove/{id}', [SubModuleController::class, 'RemoveUploadedFile']);
+    Route::delete('/delete/{id}', [SubModuleController::class, 'deleteSubmodule']);
+  
+  
+    //
     
 });
 

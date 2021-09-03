@@ -1,29 +1,22 @@
 <template>
     <v-card>
-        <v-form ref="registerForm">
+
             <v-card-title>
                 <span class="headline">Confirmation</span>
             </v-card-title>
             <v-card-text>
-                <v-container>
-
-                    <v-col cols="12">
-                        Are you sure you want to delete this item?
-                    </v-col>
-
-
-                </v-container>
+                 Are you sure you want to delete this module?
             </v-card-text>
             <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color="blue darken-1" text @click="$emit('closeModal');" >
+                <v-btn text @click="$emit('closeModal');" >
                     Cancel
                 </v-btn>
-                <v-btn color="blue darken-1" text @click="deleteModule()" :loading="loading">
+                <v-btn color="red" text @click="deleteModule()" :loading="loading">
                     Delete
                 </v-btn>
             </v-card-actions>
-        </v-form>
+       
     </v-card>
 </template>
 
@@ -64,24 +57,13 @@
 
                 this.$store.dispatch('deleteMainModule', this.id)
                     .then((res) => {
-                        //console.log(res);
-
-
                         this.loading = false;
                         this.$emit('closeModal');
-
                         this.toastSuccess("Module Successfully Deleted");
-
-
-
                     })
             },
-
-
         },
         mounted() {
-
-
             if (this.type == 'delete_module') {
                 this.id = this.moduleId;
             }

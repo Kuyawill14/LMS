@@ -13,7 +13,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
 
@@ -22,23 +21,6 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -261,10 +243,51 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           return v && v.length >= 6 || "min 6 characters";
         }
       },
-      StudentList: []
+      StudentList: [],
+      headers: [{
+        text: 'Student ID',
+        value: 'student_id',
+        align: 'start'
+      }, {
+        text: 'Last Name',
+        value: 'lastName',
+        align: 'start'
+      }, {
+        text: 'First Name',
+        value: 'firstName',
+        align: 'start'
+      }, {
+        text: 'Middle Name',
+        value: 'middleName',
+        align: 'start'
+      }, {
+        text: 'Email',
+        value: 'email',
+        align: 'start'
+      }, {
+        text: 'Password Reset',
+        sortable: false
+      }, {
+        text: 'Actions',
+        sortable: false
+      }]
     };
   },
-  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(["getTeachers", "filterTeacher"])),
+  computed: {
+    filteredItems: function filteredItems() {
+      var _this = this;
+
+      if (this.search) {
+        return this.StudentList.filter(function (item) {
+          return _this.search.toLowerCase().split(' ').every(function (v) {
+            return item.firstName.toLowerCase().includes(v) || item.lastName.toLowerCase().includes(v) || item.middleName.toLowerCase().includes(v) || item.user_id.toString().includes(v);
+          });
+        });
+      } else {
+        return this.StudentList;
+      }
+    }
+  },
   methods: {
     SetPassword: function SetPassword(lastname) {
       var tmpLastname = lastname.replace(/\s+/g, '-').toLowerCase();
@@ -296,43 +319,43 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.Deldialog = true;
     },
     updatePass: function updatePass(id) {
-      var _this = this;
+      var _this2 = this;
 
       this.IsResetting_id = id;
       this.IsResetting = true;
       axios__WEBPACK_IMPORTED_MODULE_1___default().post('/api/admin/teachers/reset-password/' + id).then(function (res) {
-        _this.toastSuccess(res.data);
+        _this2.toastSuccess(res.data);
 
-        _this.IsResetting = false;
+        _this2.IsResetting = false;
       });
     },
     deleteUser: function deleteUser() {
-      var _this2 = this;
+      var _this3 = this;
 
       this.IsDeleting = true;
       axios__WEBPACK_IMPORTED_MODULE_1___default().delete('/api/admin/teachers/remove/' + this.delId).then(function (res) {
         if (res.status == 200) {
-          _this2.StudentList.splice(_this2.deleteIndex, 1);
+          _this3.StudentList.splice(_this3.deleteIndex, 1);
 
-          _this2.toastSuccess('User Successfully removed!');
+          _this3.toastSuccess('User Successfully removed!');
 
-          _this2.IsDeleting = false;
+          _this3.IsDeleting = false;
         } else {
-          _this2.toastError('Something went wrong!');
+          _this3.toastError('Something went wrong!');
 
-          _this2.IsDeleting = false;
+          _this3.IsDeleting = false;
         }
 
-        _this2.Deldialog = false;
+        _this3.Deldialog = false;
 
-        _this2.$store.dispatch('fetchAllTeachers');
+        _this3.$store.dispatch('fetchAllTeachers');
       });
     },
     updateTeacherDetails: function updateTeacherDetails() {
       this.$store.dispatch('updateTeacher', this.form);
     },
     validate: function validate() {
-      var _this3 = this;
+      var _this4 = this;
 
       this.IsAddUpdating = true;
 
@@ -341,24 +364,24 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           this.form.role = 'Student';
           this.form.password_confirmation = this.form.password;
           this.form.post('/api/admin/add/student').then(function (res) {
-            _this3.$refs.RegisterForm.reset();
+            _this4.$refs.RegisterForm.reset();
 
-            _this3.valid = true;
-            _this3.dialog = false;
-            _this3.IsAddUpdating = false;
+            _this4.valid = true;
+            _this4.dialog = false;
+            _this4.IsAddUpdating = false;
 
-            _this3.StudentList.push(res.data);
+            _this4.StudentList.push(res.data);
           });
         }
 
         if (this.type == 'edit') {
           this.form.post('/api/admin/teachers/update/' + this.form.user_id).then(function () {
             ////console.log(this.StudentList[this.updateIndex])
-            _this3.updateDataInfrontEnd(_this3.form);
+            _this4.updateDataInfrontEnd(_this4.form);
 
-            _this3.valid = true;
-            _this3.dialog = false;
-            _this3.IsAddUpdating = false; //
+            _this4.valid = true;
+            _this4.dialog = false;
+            _this4.IsAddUpdating = false; //
           });
           this.toastSuccess('User Successfully Updated!');
         }
@@ -370,7 +393,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.IsAddUpdating = false;
     },
     getStudent: function getStudent() {
-      var _this4 = this;
+      var _this5 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
@@ -378,7 +401,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             switch (_context.prev = _context.next) {
               case 0:
                 axios__WEBPACK_IMPORTED_MODULE_1___default().get('/api/admin/students/all').then(function (res) {
-                  _this4.StudentList = res.data;
+                  _this5.StudentList = res.data;
                 });
 
               case 1:
@@ -594,62 +617,50 @@ var render = function() {
                 "v-card",
                 { attrs: { elevation: "2" } },
                 [
-                  _c("v-simple-table", {
+                  _c(
+                    "v-card-title",
+                    [
+                      _vm._v(
+                        "\n                    Students\n\n                    "
+                      ),
+                      _c("v-spacer"),
+                      _vm._v(" "),
+                      _c("v-text-field", {
+                        attrs: {
+                          "append-icon": "mdi-magnify",
+                          label: "Search",
+                          "single-line": "",
+                          "hide-details": ""
+                        },
+                        model: {
+                          value: _vm.search,
+                          callback: function($$v) {
+                            _vm.search = $$v
+                          },
+                          expression: "search"
+                        }
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c("v-data-table", {
+                    staticClass: "elevation-1",
+                    attrs: {
+                      headers: _vm.headers,
+                      items: _vm.filteredItems,
+                      "items-per-page": 10
+                    },
                     scopedSlots: _vm._u([
                       {
-                        key: "default",
-                        fn: function() {
+                        key: "body",
+                        fn: function(ref) {
+                          var items = ref.items
                           return [
-                            _c("thead", [
-                              _c("tr", [
-                                _c("th", [
-                                  _vm._v(
-                                    "\n                                    STUDENT ID\n                                "
-                                  )
-                                ]),
-                                _vm._v(" "),
-                                _c("th", [
-                                  _vm._v(
-                                    "\n                                    Last Name\n                                "
-                                  )
-                                ]),
-                                _vm._v(" "),
-                                _c("th", [
-                                  _vm._v(
-                                    "\n                                    First Name\n                                "
-                                  )
-                                ]),
-                                _vm._v(" "),
-                                _c("th", [
-                                  _vm._v(
-                                    "\n                                    Middle Name\n                                "
-                                  )
-                                ]),
-                                _vm._v(" "),
-                                _c("th", [
-                                  _vm._v(
-                                    "\n                                    Email\n                                "
-                                  )
-                                ]),
-                                _vm._v(" "),
-                                _c("th", [
-                                  _vm._v(
-                                    "\n                                    Password Reset\n                                "
-                                  )
-                                ]),
-                                _vm._v(" "),
-                                _c("th", [
-                                  _vm._v(
-                                    "\n                                    Action\n                                "
-                                  )
-                                ])
-                              ])
-                            ]),
-                            _vm._v(" "),
                             _c(
                               "tbody",
                               [
-                                _vm._l(_vm.StudentList, function(item, index) {
+                                _vm._l(items, function(item, index) {
                                   return _c("tr", { key: index }, [
                                     _c("td", [
                                       _vm._v(
@@ -725,7 +736,7 @@ var render = function() {
                                           [
                                             _c("v-icon", [
                                               _vm._v(
-                                                "\n                                        mdi-pencil\n                                    "
+                                                "\n                                            mdi-pencil\n                                        "
                                               )
                                             ])
                                           ],
@@ -748,7 +759,7 @@ var render = function() {
                                           [
                                             _c("v-icon", [
                                               _vm._v(
-                                                "\n                                        mdi-delete\n                                    "
+                                                "\n                                            mdi-delete\n                                        "
                                               )
                                             ])
                                           ],
@@ -776,8 +787,7 @@ var render = function() {
                               2
                             )
                           ]
-                        },
-                        proxy: true
+                        }
                       }
                     ])
                   })

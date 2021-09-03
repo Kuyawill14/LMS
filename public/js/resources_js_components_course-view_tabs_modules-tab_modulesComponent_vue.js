@@ -256,6 +256,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
 //import modulesListComponent from './modulesListComponent'
 
 
@@ -605,7 +611,7 @@ var render = function() {
                           _c("v-textarea", {
                             attrs: {
                               outlined: "",
-                              label: "Instruction",
+                              label: "Description",
                               "auto-grow": ""
                             },
                             model: {
@@ -716,9 +722,9 @@ var render = function() {
                   },
                   [
                     _vm._v(
-                      "\n            " +
+                      "\n                " +
                         _vm._s(item.text.toUpperCase()) +
-                        "\n        "
+                        "\n            "
                     )
                   ]
                 )
@@ -860,20 +866,23 @@ var render = function() {
             [
               _c(
                 "v-row",
-                { staticClass: "pt-3" },
+                {
+                  staticClass: "pt-3",
+                  attrs: { justify: "center", align: "center" }
+                },
                 [
-                  _c("v-col", [
+                  _c("v-col", { attrs: { cols: "1" } }, [
                     _c("h2", { staticClass: "pb-0" }, [_vm._v(" Materials")])
                   ]),
                   _vm._v(" "),
                   _c(
                     "v-col",
-                    { staticClass: "text-right" },
+                    { staticClass: "text-left" },
                     [
                       _c(
                         "v-btn",
                         {
-                          attrs: { bottom: "", color: "secondary" },
+                          attrs: { bottom: "", color: "secondary", small: "" },
                           on: {
                             click: function($event) {
                               return _vm.preview()
@@ -884,7 +893,9 @@ var render = function() {
                           _c("v-icon", { attrs: { left: "" } }, [
                             _vm._v("mdi-eye")
                           ]),
-                          _vm._v("\n                Preview\n            ")
+                          _vm._v(
+                            "\n                    Preview\n                "
+                          )
                         ],
                         1
                       )
@@ -893,23 +904,30 @@ var render = function() {
                   ),
                   _vm._v(" "),
                   _c(
-                    "v-btn",
-                    {
-                      attrs: {
-                        bottom: "",
-                        color: "primary",
-                        dark: "",
-                        fab: "",
-                        fixed: "",
-                        right: ""
-                      },
-                      on: {
-                        click: function($event) {
-                          return _vm.openModal()
-                        }
-                      }
-                    },
-                    [_c("v-icon", [_vm._v("mdi-plus")])],
+                    "v-col",
+                    { staticClass: "text-right" },
+                    [
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: { bottom: "", color: "primary" },
+                          on: {
+                            click: function($event) {
+                              return _vm.openModal()
+                            }
+                          }
+                        },
+                        [
+                          _c("v-icon", { attrs: { left: "" } }, [
+                            _vm._v("mdi-plus")
+                          ]),
+                          _vm._v(
+                            "\n                    Create Module\n                "
+                          )
+                        ],
+                        1
+                      )
+                    ],
                     1
                   ),
                   _vm._v(" "),

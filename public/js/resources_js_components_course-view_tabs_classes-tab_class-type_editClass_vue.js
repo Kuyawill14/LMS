@@ -88,13 +88,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.form.class_id = this.class_id;
       this.form.course_id = this.$route.params.id;
       this.form.class_name = this.$refs._classname.value;
-      this.$store.dispatch('updateClass', this.form);
-      this.fetchSubjectCourseClassList(this.$route.params.id);
-      this.toastSuccess();
-      setTimeout(function () {
+      this.$store.dispatch('updateClass', this.form).then(function () {
+        _this.fetchSubjectCourseClassList(_this.$route.params.id);
+
+        _this.toastSuccess();
+
         _this.isloading = false;
         _this.sending = false;
-      }, 1000);
+      });
     }
   }),
   mounted: function mounted() {

@@ -2,7 +2,7 @@
     <div>
         <v-row>
             <v-col :lg="isExpand == true ? 12 : 9" sm="12" md="12" cols="12" class="pa-0">
-                <v-row>
+                <v-row v-if="subModuleData != null">
 
                     <v-col>
                         <v-container fluid class="pa-0" @mouseover="contentHover=true"
@@ -11,11 +11,33 @@
                                 v-if="isExpand && contentHover" @click="isExpand =false ">
                                 <v-icon>mdi-arrow-left</v-icon>
                             </v-btn>
+                            <v-card style="height: 620px;"
+                                v-if="type=='Link' && subModuleData.link.search('youtube') != -1">
+                                <LazyYoutube ref="youtubeLazyVideo" :src="subModuleData.link"
+                                    style="width: 100% !important;height: 100%;position:relative;z-index: 0"
+                                    aspect-ratio="16:9" thumbnail-quality="standard" />
 
+                            </v-card>
 
-                            <LazyYoutube ref="youtubeLazyVideo" :src="subModuleData.link" v-if="type=='Link'"
-                                style="width: 100% !important;height: 100%" aspect-ratio="16:9"
-                                thumbnail-quality="standard" />
+                        
+                            <v-card style="height: 620px;"
+                                v-if="type=='Link'  &&  subModuleData.link.search('youtube') == -1">
+                                <iframe title="google drive viewer" id="pdf-iframe" class="holds-the-iframe"
+                                    :src="  subModuleData.link != null ? scrapeDocID(subModuleData.link) : ''"
+                                    sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
+                                    style="width: 100% !important;height: 620px"></iframe>
+
+                            </v-card>
+
+                            
+                            <v-card style="height: 620px;"
+                               v-if="(ext != 'mp4' && ext != 'pdf')   && type=='Document'">
+                                <iframe title="google drive viewer" id="pdf-iframe" class="holds-the-iframe"
+                                    :src="'https://view.officeapps.live.com/op/view.aspx?src=' +docpath + subModuleData.file_attachment"
+                                    sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
+                                    style="width: 100% !important;height: 620px"></iframe>
+
+                            </v-card>
 
 
                             <div class="player-container">
@@ -26,7 +48,7 @@
 
                             <!-- <v-dialog v-model="pdfdialog" v-if="type=='Document' " fullscreen hide-overlay transition="dialog-bottom-transition"> -->
                             <pdfviewer :key="subModuleData.sub_module_name + 1"
-                                v-if="type=='Document'  && isSelectedModule " :title="subModuleData.sub_module_name"
+                                v-if="type=='Document' && ext == 'pdf'  && isSelectedModule " :title="subModuleData.sub_module_name"
                                 :pdf_file="'/storage/' + subModuleData.file_attachment"
                                 v-on:closePdf="pdfdialog = false" />
                             <!-- </v-dialog> -->
@@ -102,8 +124,8 @@
             </v-col>
 
             <v-dialog v-model="listDialaog" max-width="600px" class="list_modal">
-                <modulesListComponent v-on:subModule="getsubModuleData" v-on:listClose="expandContent"
-                    :expand="!removeX" v-if="listDialaog" />
+                <modulesListComponent v-on:subModule="getsubModuleData" :role="role" v-on:listClose="expandContent"
+                    :expand="!removeX" />
             </v-dialog>
         </v-row>
 
@@ -144,6 +166,7 @@
         },
         data() {
             return {
+                docpath: window.location.origin + '/storage/',
                 pdfdialog: false,
                 config: {
                     toolbar: {
@@ -169,6 +192,16 @@
             }
         },
         methods: {
+
+
+            scrapeDocID(link) {
+
+                var d = link.replace(/.*\/d\//, '').replace(/\/.*/, '');
+
+                var path =
+                    "https://drive.google.com/file/d/" + d + "/preview";
+                return path;
+            },
             getMainModulebyId(id) {
                 for (var i = 0; this.getmain_module.length; i++) {
                     if (this.getmain_module[i].id == id) {

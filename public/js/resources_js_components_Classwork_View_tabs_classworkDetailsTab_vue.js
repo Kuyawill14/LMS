@@ -188,19 +188,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
 var removeAttachment = function removeAttachment() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_tabs_dialogs_removeAttachment_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./dialogs/removeAttachment */ "./resources/js/components/Classwork_View/tabs/dialogs/removeAttachment.vue"));
+};
+
+var rubrics = function rubrics() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_tabs_rubrics_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./rubrics */ "./resources/js/components/Classwork_View/tabs/rubrics.vue"));
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['classworkDetails'],
   components: {
-    removeAttachment: removeAttachment
+    removeAttachment: removeAttachment,
+    rubrics: rubrics
   },
   data: function data() {
     return {
@@ -221,7 +221,8 @@ var removeAttachment = function removeAttachment() {
       removeDialog: null,
       removeIndex: null,
       uploadPercentage: 0,
-      uploadIndex: null
+      uploadIndex: null,
+      rubricsDialog: false
     };
   },
   computed: {
@@ -230,7 +231,7 @@ var removeAttachment = function removeAttachment() {
     }
   },
   methods: {
-    UpdateClasswork: function UpdateClasswork() {
+    UpdateClasswork: function UpdateClasswork(rubrics) {
       var _this = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
@@ -260,9 +261,8 @@ var removeAttachment = function removeAttachment() {
 
                 _context.next = 13;
                 return axios.post('/api/classwork/update', fd).then(function (res) {
-                  setTimeout(function () {
-                    return _this.isUpdating = false, _this.toastSuccess("Classwork successfully updated");
-                  }, 1000);
+                  _this.rubricsDialog = rubrics ? true : false;
+                  _this.isUpdating = false, _this.toastSuccess("Classwork successfully updated");
                 })["catch"](function (e) {});
 
               case 13:
@@ -665,32 +665,103 @@ var render = function() {
                                     ? _c(
                                         "v-col",
                                         {
-                                          staticClass: "mb-0 pb-0 pt-0 mt-0",
+                                          staticClass: "mb-0 pb-2 pt-0 mt-0",
                                           attrs: { cols: "12" }
                                         },
                                         [
-                                          _vm.Details.type == "Subjective Type"
-                                            ? _c("v-text-field", {
-                                                attrs: {
-                                                  rules: _vm.FieldRules,
-                                                  outlined: "",
-                                                  min: "0",
-                                                  label: "Points",
-                                                  type: "number"
-                                                },
-                                                model: {
-                                                  value: _vm.Details.points,
-                                                  callback: function($$v) {
-                                                    _vm.$set(
-                                                      _vm.Details,
-                                                      "points",
-                                                      $$v
-                                                    )
+                                          _c(
+                                            "v-row",
+                                            {
+                                              attrs: {
+                                                justify: "center",
+                                                align: "center"
+                                              }
+                                            },
+                                            [
+                                              _c(
+                                                "v-col",
+                                                { attrs: { cols: "10" } },
+                                                [
+                                                  _vm.Details.type ==
+                                                  "Subjective Type"
+                                                    ? _c("v-text-field", {
+                                                        attrs: {
+                                                          rules: _vm.FieldRules,
+                                                          outlined: "",
+                                                          min: "0",
+                                                          label: "Points",
+                                                          type: "number"
+                                                        },
+                                                        model: {
+                                                          value:
+                                                            _vm.Details.points,
+                                                          callback: function(
+                                                            $$v
+                                                          ) {
+                                                            _vm.$set(
+                                                              _vm.Details,
+                                                              "points",
+                                                              $$v
+                                                            )
+                                                          },
+                                                          expression:
+                                                            "Details.points"
+                                                        }
+                                                      })
+                                                    : _vm._e()
+                                                ],
+                                                1
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "v-col",
+                                                {
+                                                  staticStyle: {
+                                                    "margin-top": "-30px",
+                                                    "text-align": "right"
                                                   },
-                                                  expression: "Details.points"
-                                                }
-                                              })
-                                            : _vm._e()
+                                                  attrs: {
+                                                    cols: "2",
+                                                    clss: "pl-0"
+                                                  }
+                                                },
+                                                [
+                                                  _c(
+                                                    "v-btn",
+                                                    {
+                                                      attrs: {
+                                                        color: "primary",
+                                                        "x-large": "",
+                                                        dark: ""
+                                                      },
+                                                      on: {
+                                                        click: function(
+                                                          $event
+                                                        ) {
+                                                          return _vm.UpdateClasswork(
+                                                            true
+                                                          )
+                                                        }
+                                                      }
+                                                    },
+                                                    [
+                                                      _c(
+                                                        "v-icon",
+                                                        { attrs: { left: "" } },
+                                                        [_vm._v(" mdi-plus ")]
+                                                      ),
+                                                      _vm._v(
+                                                        "\n                                                Rubrics\n                                            "
+                                                      )
+                                                    ],
+                                                    1
+                                                  )
+                                                ],
+                                                1
+                                              )
+                                            ],
+                                            1
+                                          )
                                         ],
                                         1
                                       )
@@ -726,12 +797,12 @@ var render = function() {
                                             { attrs: { left: "" } },
                                             [
                                               _vm._v(
-                                                "\r\n                                                    mdi-attachment\r\n                                                "
+                                                "\n                                            mdi-attachment\n                                        "
                                               )
                                             ]
                                           ),
                                           _vm._v(
-                                            "\r\n                                                Attach file\r\n                                            "
+                                            "\n                                        Attach file\n                                    "
                                           )
                                         ],
                                         1
@@ -775,14 +846,14 @@ var render = function() {
                                                     },
                                                     [
                                                       _vm._v(
-                                                        "\r\n                                                            " +
+                                                        "\n                                                    " +
                                                           _vm._s(
                                                             item.extension ==
                                                               "docx"
                                                               ? "mdi-file-word"
                                                               : "mdi-file-pdf"
                                                           ) +
-                                                          "\r\n                                                            "
+                                                          "\n                                                "
                                                       )
                                                     ]
                                                   )
@@ -824,9 +895,10 @@ var render = function() {
                                                                 },
                                                                 [
                                                                   _vm._v(
-                                                                    _vm._s(
-                                                                      item.name
-                                                                    )
+                                                                    "\n                                                        " +
+                                                                      _vm._s(
+                                                                        item.name
+                                                                      )
                                                                   )
                                                                 ]
                                                               )
@@ -908,7 +980,7 @@ var render = function() {
                                                                       "v-icon",
                                                                       [
                                                                         _vm._v(
-                                                                          "\r\n                                                                    mdi-close\r\n                                                                    "
+                                                                          "\n                                                                mdi-close\n                                                            "
                                                                         )
                                                                       ]
                                                                     )
@@ -964,14 +1036,14 @@ var render = function() {
                                         },
                                         [
                                           _vm._v(
-                                            "\r\n                                            Update\r\n                                            "
+                                            "\n                                        Update\n                                        "
                                           ),
                                           _c(
                                             "v-icon",
                                             { attrs: { right: "", dark: "" } },
                                             [
                                               _vm._v(
-                                                "\r\n                                                mdi-update\r\n                                            "
+                                                "\n                                            mdi-update\n                                        "
                                               )
                                             ]
                                           )
@@ -990,6 +1062,45 @@ var render = function() {
                         ],
                         1
                       )
+                    ],
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-row",
+                { attrs: { justify: "center" } },
+                [
+                  _c(
+                    "v-dialog",
+                    {
+                      attrs: {
+                        fullscreen: "",
+                        "hide-overlay": "",
+                        transition: "dialog-bottom-transition"
+                      },
+                      model: {
+                        value: _vm.rubricsDialog,
+                        callback: function($$v) {
+                          _vm.rubricsDialog = $$v
+                        },
+                        expression: "rubricsDialog"
+                      }
+                    },
+                    [
+                      _c("rubrics", {
+                        attrs: {
+                          total_points: _vm.Details.points,
+                          title: _vm.Details.title
+                        },
+                        on: {
+                          closeModal: function($event) {
+                            _vm.rubricsDialog = false
+                          }
+                        }
+                      })
                     ],
                     1
                   )

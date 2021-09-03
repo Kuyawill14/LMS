@@ -7,39 +7,24 @@
             <v-icon>mdi-plus</v-icon>
         </v-btn>
         <v-row class="pt-2">
-
-
             <v-col>
                 <v-card elevation="2">
-                    <v-simple-table>
-                        <template v-slot:default>
-                            <thead>
-                                <tr>
-                                    <th>
-                                        ID
-                                    </th>
-                                    <th>
-                                        Last Name
-                                    </th>
-                                    <th>
-                                        First Name
-                                    </th>
-                                    <th>
-                                        Middle Name
-                                    </th>
-                                    <th>
-                                        Email
-                                    </th>
-                                    <th>
-                                        Password Reset
-                                    </th>
-                                    <th>
-                                        Action
-                                    </th>
-                                </tr>
-                            </thead>
+                    <v-card-title>
+                        Instructors
+
+                        <v-spacer></v-spacer>
+                        <div width="30%">
+   <v-text-field  v-model="search" append-icon="mdi-magnify" label="Search" single-line
+                            hide-details>
+                        </v-text-field>
+                        </div>
+                     
+                    </v-card-title>
+
+                    <v-data-table :headers="headers" :items="filteredItems" :items-per-page="10" class="elevation-1">
+                        <template v-slot:body="{ items }">
                             <tbody>
-                                <tr v-for="(item, index) in getTeachers" :key="index">
+                                <tr v-for="(item, index) in items" :key="index">
                                     <td> {{item.user_id}} </td>
                                     <td> {{item.lastName }} </td>
                                     <td> {{item.firstName}} </td>
@@ -48,7 +33,8 @@
 
 
                                     <td>
-                                        <v-btn color="primary" :disabled="IsResetting && IsResetting_id == item.user_id" @click="updatePass(item.user_id)">
+                                        <v-btn color="primary" :disabled="IsResetting && IsResetting_id == item.user_id"
+                                            @click="updatePass(item.user_id)">
                                             {{IsResetting && IsResetting_id == item.user_id ? 'Reseting...' : ' Reset Password'}}
                                         </v-btn>
                                     </td>
@@ -69,16 +55,25 @@
                                     </td>
 
                                 </tr>
-                                <tr v-if="getTeachers.length == 0">
+                                <tr v-if="items.length == 0">
                                     <td colspan="42" class="text-center"> No data available</td>
                                 </tr>
 
 
+
+
                             </tbody>
                         </template>
-                    </v-simple-table>
+                    </v-data-table>
+
                 </v-card>
+
+
+
+
             </v-col>
+
+
         </v-row>
 
         <v-dialog v-model="dialog" width="500">
@@ -92,7 +87,7 @@
                     <v-form class="text-center " ref="RegisterForm" v-model="valid" lazy-validation>
                         <v-row class="pa-5">
                             <v-col class="ma-0 pa-0 mb-1" cols="12" md="12">
-                                  <HasError class="error--text" :form="form" field="firstName" />
+                                <HasError class="error--text" :form="form" field="firstName" />
                                 <v-text-field :rules="nameRules" label="First Name" name="firstName"
                                     v-model="form.firstName" type="text" color="primary" outlined />
                             </v-col>
@@ -109,15 +104,15 @@
                                     v-model="form.lastName" type="text" color="primary" outlined
                                     @keyup="SetPassword(form.lastName)" />
                             </v-col>
-                         
+
                             <v-col class="ma-0 pa-0 mb-1" cols="12" md="12">
                                 <HasError class="error--text" :form="form" field="email" />
-                                <v-text-field autocomplete="false" label="Email" name="Email" :rules="loginEmailRules" v-model="form.email"
-                                    type="email" color="primary" outlined />
+                                <v-text-field autocomplete="false" label="Email" name="Email" :rules="loginEmailRules"
+                                    v-model="form.email" type="email" color="primary" outlined />
                             </v-col>
                             <v-col class="ma-0 pa-0 mb-1" cols="12" md="12" v-if="type== 'add'">
                                 <HasError class="error--text" :form="form" field="password" />
-                                <v-text-field autocomplete="off" :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'" 
+                                <v-text-field autocomplete="off" :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
                                     label="Password" name="password" v-model="form.password"
                                     :type="show ? 'text' : 'password'" color="primary"
                                     :rules="[rules.required, rules.min]" counter @click:append="show = !show"
@@ -130,7 +125,7 @@
 
                     <v-spacer></v-spacer>
                     <v-btn text color="primary" @click="dialog = false;$refs.RegisterForm.reset()">Cancel</v-btn>
-                    <v-btn text @click="validate()" :loading="IsAddUpdating">
+                    <v-btn text @click="validate()" :loading="IsAddUpdating" :disabled="IsAddUpdating">
                         {{this.type == "add" ? 'Add' :  'Update'}}</v-btn>
                 </v-card-actions>
             </v-card>
@@ -165,7 +160,6 @@
 </style>
 
 <script>
-
     import {
         mapGetters,
         mapActions
@@ -174,6 +168,7 @@
     export default {
         data: function () {
             return {
+
                 Deldialog: false,
                 dialog: false,
                 temp_id: '',
@@ -212,7 +207,48 @@
                 rules: {
                     required: value => !!value || "Field is required.",
                     min: v => (v && v.length >= 6) || "min 6 characters"
-                }
+                },
+                headers: [
+
+                    {
+                        text: 'ID',
+                        value: 'user_id',
+                        align: 'start',
+                    },
+                    {
+                        text: 'Last Name',
+                        value: 'lastName',
+                        align: 'start',
+                    },
+                    {
+                        text: 'First Name',
+                        value: 'firstName',
+                        align: 'start',
+                    },
+                    {
+                        text: 'Middle Name',
+                        value: 'middleName',
+                        align: 'start',
+                    },
+                    {
+                        text: 'Email',
+                        value: 'email',
+                        align: 'start',
+                    },
+
+                    {
+                        text: 'Password Reset',
+                        sortable: false
+                    },
+
+                    {
+                        text: 'Actions',
+                        sortable: false
+                    },
+                ],
+                teacherList: [],
+
+
 
 
 
@@ -220,7 +256,21 @@
 
         },
         computed: {
-            ...mapGetters(["getTeachers", "filterTeacher"])
+            ...mapGetters(["getTeachers", "filterTeacher"]),
+            filteredItems() {
+                if (this.search) {
+                    return this.teacherList.filter((item) => {
+                        return this.search.toLowerCase().split(' ').every(v => item.firstName.toLowerCase()
+                            .includes(v) || item.lastName.toLowerCase()
+                            .includes(v) || item.middleName.toLowerCase()
+                            .includes(v) || item.user_id.toString()
+                            .includes(v))
+                    })
+                } else {
+                    return this.teacherList;
+                }
+
+            }
         },
 
         methods: {
@@ -235,7 +285,7 @@
                 this.dialog = true;
             },
             openEdit(user_id) {
-               
+
                 this.type = 'edit'
                 this.dialog = true;
                 var currentTeacher = this.filterTeacher(user_id);
@@ -264,7 +314,7 @@
                 axios.delete('/api/admin/teachers/remove/' + this.delId)
                     .then((res) => {
                         if (res.status == 200) {
-                             this.getTeachers.splice(this.deleteIndex, 1);
+                            this.getTeachers.splice(this.deleteIndex, 1);
                             this.toastSuccess('User Successfully removed!')
                             this.IsDeleting = false;
                         } else {
@@ -277,21 +327,35 @@
             },
             updateTeacherDetails() {
                 this.$store.dispatch('updateTeacher', this.form);
-               
-       
+
+
             },
             validate() {
-                this.IsAddUpdating = true;
+
                 if (this.$refs.RegisterForm.validate()) {
+                    this.IsAddUpdating = true;
                     if (this.type == 'add') {
                         this.form.password_confirmation = this.form.password
 
 
                         this.form.post('/api/admin/add/teacher')
                             .then((res) => {
-                                this.$refs.RegisterForm.reset()
-                                this.valid = true;
-                                this.dialog = false;
+
+                                if (res.status == 200) {
+                                    this.$refs.RegisterForm.reset()
+                                    this.valid = true;
+                                    this.dialog = false;
+                                    this.$store.dispatch('fetchAllTeachers');
+                                    this.toastSuccess('User Successfully Added!')
+                                    this.IsAddUpdating = false;
+                                } else {
+                                    this.IsAddUpdating = false;
+                                    this.toastError('Something went wrong!')
+
+                                }
+                            }).catch((err) => {
+                                this.IsAddUpdating = false;
+                                this.toastError('Something went wrong!')
                             })
 
                     }
@@ -299,31 +363,47 @@
 
                     if (this.type == 'edit') {
                         this.form.post('/api/admin/teachers/update/' + this.form.user_id)
-                            .then(() => {
-                                this.$refs.RegisterForm.reset()
-                                this.valid = true;
-                                this.dialog = false;
+                            .then((res) => {
+
+
+                                if (res.status == 200) {
+                                    this.$refs.RegisterForm.reset()
+                                    this.valid = true;
+                                    this.dialog = false;
+                                    this.IsAddUpdating = false;
+                                    this.$store.dispatch('fetchAllTeachers');
+                                    this.toastSuccess('User Successfully Updated!')
+
+                                } else {
+                                    this.IsAddUpdating = false;
+                                    this.toastError('Something went wrong!')
+
+                                }
+                            }).catch((err) => {
                                 this.IsAddUpdating = false;
+                                this.toastError('Something went wrong!')
                             })
-                        this.toastSuccess('User Successfully Updated!')
+
                     }
-                    this.$store.dispatch('fetchAllTeachers');
+
 
 
 
 
                 } else {
                     this.IsAddUpdating = false;
-
-                }
                     this.valid = false;
-                      this.IsAddUpdating = false;
+                }
+
+
             },
         },
 
         mounted() {
 
-            this.$store.dispatch('fetchAllTeachers');
+            this.$store.dispatch('fetchAllTeachers').then(() => {
+                this.teacherList = this.getTeachers;
+            });
         }
     }
 

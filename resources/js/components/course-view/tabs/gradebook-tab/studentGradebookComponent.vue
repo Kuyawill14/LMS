@@ -15,7 +15,7 @@
             <v-col cols="6">
 
                 <h2>
-                    Student Grades
+                    My Grades
                 </h2>
             </v-col>
 

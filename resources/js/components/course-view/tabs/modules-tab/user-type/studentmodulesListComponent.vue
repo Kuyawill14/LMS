@@ -44,44 +44,40 @@
                     </span>
                 </v-expansion-panel-header>
                 <v-expansion-panel-content class="pa-0">
-                    <v-list-item v-for="(itemSubModule, i) in getSub_module(itemModule.id)" :key="'Submodule'+i" link
-                        class="pl-8" @click="
+                    <v-list-item v-for="(itemSubModule, i) in getSub_module(itemModule.id)" :key="'Submodule'+i" link :disabled="click_id == itemSubModule.id"
+                        class="pl-8" @click="click_id=itemSubModule.id,
                             subModuleClick(itemModule.isPublished,itemModule.id,itemSubModule.id,itemSubModule.type,studentSubModuleProgress) 
                          ">
-                      
 
+                        <v-list-item-avatar>
 
-                            <!--  -->
+                            <v-icon class="grey lighten-1" dark>
+                                mdi-folder
+                            </v-icon>
+                        </v-list-item-avatar>
 
-                            <v-list-item-avatar>
+                        <v-list-item-content>
+                            <v-list-item-title> {{itemSubModule.sub_module_name}}</v-list-item-title>
 
-                                <v-icon class="grey lighten-1" dark>
-                                    mdi-folder
-                                </v-icon>
-                            </v-list-item-avatar>
+                            <v-list-item-subtitle> {{itemSubModule.type}}</v-list-item-subtitle>
+                            <v-list-item-subtitle> Time spent:
+                                {{ convertTime(itemSubModule.id, -1)}}
 
-                            <v-list-item-content>
-                                <v-list-item-title> {{itemSubModule.sub_module_name}}</v-list-item-title>
+                            </v-list-item-subtitle>
+                            <v-list-item-subtitle> Required time:
+                                {{ convertTime(-1,itemSubModule.required_time)}}
 
-                                <v-list-item-subtitle> {{itemSubModule.type}}</v-list-item-subtitle>
-                                <v-list-item-subtitle> Time spent:
-                                    {{ convertTime(itemSubModule.id, -1)}}
+                            </v-list-item-subtitle>
+                        </v-list-item-content>
 
-                                </v-list-item-subtitle>
-                                <v-list-item-subtitle> Required time:
-                                    {{ convertTime(-1,itemSubModule.required_time)}}
+                        <v-list-item-action>
 
-                                </v-list-item-subtitle>
-                            </v-list-item-content>
+                            <v-icon
+                                :color="checkTimeSpent(studentSubModuleProgress,itemSubModule,itemSubModule.required_time) ? 'success' : 'lighten'">
+                                mdi-check</v-icon>
 
-                            <v-list-item-action>
+                        </v-list-item-action>
 
-                                <v-icon
-                                    :color="checkTimeSpent(studentSubModuleProgress,itemSubModule,itemSubModule.required_time) ? 'success' : 'lighten'">
-                                    mdi-check</v-icon>
-
-                            </v-list-item-action>
-                    
                     </v-list-item>
 
                 </v-expansion-panel-content>
@@ -93,11 +89,6 @@
 
 
 <script>
-    import VueConfetti from 'vue-confetti'
-
-    Vue.use(VueConfetti)
-
-
     import {
         mapGetters,
         mapActions
@@ -110,6 +101,7 @@
         },
         data() {
             return {
+                click_id: null,
                 loading: true,
                 temp_id: null,
                 showLecture: false,
@@ -132,14 +124,19 @@
         },
         methods: {
             subModuleClick(isPublished, itemModule_id, itemSubModule_id, itemSubModule_type, studentSubModuleProgress) {
-          
-               if (isPublished || this.role == 'Teacher') {
-                    this.setTimeSpent(itemModule_id, itemSubModule_id, studentSubModuleProgress);
-                    this.passToMainComponent(this.getSub_module(itemModule_id), itemSubModule_id);
-                    this.addSubStudentProgress(itemModule_id, itemSubModule_id, itemSubModule_type,
-                        studentSubModuleProgress);
+               
+
+                if (isPublished || this.role == 'Teacher') {
+                
+                        this.setTimeSpent(itemModule_id, itemSubModule_id, studentSubModuleProgress);
+                        this.passToMainComponent(this.getSub_module(itemModule_id), itemSubModule_id);
+                        this.addSubStudentProgress(itemModule_id, itemSubModule_id, itemSubModule_type,
+                            studentSubModuleProgress);
+                      
+                    
+
                 } else {
-                    this.toastInfo ('Module not available, The instructor still not yet publish this module.')
+                    this.toastInfo('Module not available, The instructor still not yet publish this module.')
                 }
 
 
@@ -219,14 +216,6 @@
                             // this.$store.dispatch('fetchClassList')
                             check = true;
 
-                            //   if(this.firstLoad == false) {
-                            //               this.$confetti.start();
-
-                            //               setTimeout(() => {
-                            //                     this.$confetti.stop();
-                            //               }, 3000);
-                            //         }
-
                         }
                     }
                 }
@@ -283,7 +272,7 @@
                     }, 1000);
                     this.updateTime = setInterval(() => {
                         this.updateStudentTimeProgress(mainModule_id, subModule_id, this.timespent);
-                    }, 5000);
+                    }, 3000);
                 }
             },
             updateStudentTimeProgress(main_module_id, subModule_id, time_spent) {
@@ -344,8 +333,8 @@
             this.firstLoad = true;
         },
         beforeDestroy() {
-            clearInterval(this.ctrTime);
-            clearInterval(this.updateTime);
+            // clearInterval(this.ctrTime);
+            // clearInterval(this.updateTime);
         }
 
 
@@ -369,4 +358,10 @@
         align-items: center;
     }
 
+</style>
+
+<style scoped>
+.v-list-item--disabled {
+        background: #F6F6F6;
+}
 </style>

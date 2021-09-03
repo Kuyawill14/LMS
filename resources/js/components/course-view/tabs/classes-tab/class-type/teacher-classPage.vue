@@ -86,10 +86,10 @@
                                     <v-list-item-title>Edit</v-list-item-title>
 
                                 </v-list-item>
-                                <v-list-item link>
+                                <!-- <v-list-item link>
                                     <v-list-item-title>Remove</v-list-item-title>
 
-                                </v-list-item>
+                                </v-list-item> -->
                             </v-list>
                         </v-menu>
                     </v-list-item-action>

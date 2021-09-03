@@ -262,87 +262,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+
+
+var finalGradesGrades = function finalGradesGrades() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_tabs_gradebook-tab_final-grades-teacherGradebook_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./final-grades-teacherGradebook.vue */ "./resources/js/components/course-view/tabs/gradebook-tab/final-grades-teacherGradebook.vue"));
+};
 
 Vue.use(vue_excel_export__WEBPACK_IMPORTED_MODULE_0__.default);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
-      json_fields: {
-        'Full Name': 'name' // 'Raw Grade': 'raw_grade',
-        // 'Transmuted': 'transmuted_grade',
-
-      },
-      json_data: [],
-      json_meta: [[{
-        'key': 'charset',
-        'value': 'utf-8'
-      }]],
+      grading_criteria_data: [],
       allclasswork: null,
       activeTab: null,
       shown: false,
@@ -365,6 +296,7 @@ Vue.use(vue_excel_export__WEBPACK_IMPORTED_MODULE_0__.default);
       classworkTotalPoints: 0,
       classworkTotalPointsTable: null,
       final_grades: [],
+      final_grades_headers: [],
       items: [{
         text: 'Course',
         disabled: false,
@@ -373,22 +305,20 @@ Vue.use(vue_excel_export__WEBPACK_IMPORTED_MODULE_0__.default);
         text: 'Grade Book',
         disabled: true,
         link: 'gradebook'
-      }]
+      }],
+      sortDesc: false
     };
   },
   computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(["getcourseInfo"])), (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(["get_gradingCriteria", "allClass", "AllStudentClassworkGrades", "allStudentFinalGrades", "AllStudentClassworkGradesFortable"])),
+  components: {
+    finalGradesGrades: finalGradesGrades
+  },
   methods: {
+    f_grades_headers: function f_grades_headers() {},
+    sortPoints: function sortPoints() {
+      this.sortDesc = !this.sortDesc;
+    },
     transmuteFinalGrade: function transmuteFinalGrade(grade) {
-      // 1.0 98-100
-      // 1.25 95-97
-      // 1.5 92-94
-      // 1.75 89-91
-      // 2.0 86-88
-      // 2.25 83-85
-      // 2.5 80-82
-      // 2.75 77-79
-      // 3.0 75-76
-      // 5.0 below 75 (Failure)
       var eq = "5.0";
 
       if (grade >= 98) {
@@ -431,9 +361,11 @@ Vue.use(vue_excel_export__WEBPACK_IMPORTED_MODULE_0__.default);
     gettableTotalPoints: function gettableTotalPoints(classworkList, grading_id) {
       var total = 0;
 
-      for (var i = 0; i < classworkList.length; i++) {
-        if (classworkList[i].grading_criteria_id == grading_id) {
-          total += classworkList[i]['points'];
+      if (classworkList != null) {
+        for (var i = 0; i < classworkList.length; i++) {
+          if (classworkList[i].grading_criteria_id == grading_id) {
+            total += classworkList[i]['points'];
+          }
         }
       }
 
@@ -473,11 +405,12 @@ Vue.use(vue_excel_export__WEBPACK_IMPORTED_MODULE_0__.default);
         text: 'I. Percentage',
         align: 'center',
         value: 'Initial Percentage'
-      }, {
-        text: 'T. Percentage',
-        align: 'center',
-        value: 'Transmuted Percentage'
-      });
+      } //  {
+      //     text: 'T. Percentage',
+      //     align: 'center',
+      //     value: 'Transmuted Percentage',
+      // }
+      );
     },
     classworkTotalPoins: function classworkTotalPoins() {},
     totalPoints: function totalPoints(arr) {
@@ -514,9 +447,6 @@ Vue.use(vue_excel_export__WEBPACK_IMPORTED_MODULE_0__.default);
       })["catch"](function (error) {//console.log(error)
       });
     },
-    getAllGradeCriteria: function getAllGradeCriteria() {
-      this.$store.dispatch('fetchGradingCriteria', this.$route.params.id);
-    },
     getClassworkList: function getClassworkList() {
       var _this2 = this;
 
@@ -526,7 +456,7 @@ Vue.use(vue_excel_export__WEBPACK_IMPORTED_MODULE_0__.default);
       this.getStudentList();
       this.headers.push({
         text: 'Name',
-        value: 'name'
+        value: 'lastName'
       });
       axios.get('/api/grade-book/classworks/' + this.selectedClass).then(function (res) {
         _this2.classworkList = res.data;
@@ -542,7 +472,7 @@ Vue.use(vue_excel_export__WEBPACK_IMPORTED_MODULE_0__.default);
             _this2.headers.push({
               text: _this2.classworkList[i]['title'] + ' (' + _this2.classworkList[i]['points'] + 'pts)',
               align: 'center',
-              value: _this2.classworkList[i]['title']
+              value: 'points' + _this2.classworkList[i]['classwork_id']
             });
 
             total += _this2.classworkList[i]['points'];
@@ -574,7 +504,7 @@ Vue.use(vue_excel_export__WEBPACK_IMPORTED_MODULE_0__.default);
         var total = 0;
         this.headers.push({
           text: 'Name',
-          value: 'name'
+          value: 'lastName'
         });
         axios.get('/api/grade-book/classworks/' + this.selectedClass).then(function (res) {
           _this3.classworkList = res.data;
@@ -585,7 +515,7 @@ Vue.use(vue_excel_export__WEBPACK_IMPORTED_MODULE_0__.default);
               _this3.headers.push({
                 text: _this3.classworkList[i]['title'] + ' (' + _this3.classworkList[i]['points'] + 'pts)',
                 align: 'center',
-                value: _this3.classworkList[i]['title']
+                value: 'points' + _this3.classworkList[i]['classwork_id']
               });
 
               total += _this3.classworkList[i]['points'];
@@ -638,75 +568,6 @@ Vue.use(vue_excel_export__WEBPACK_IMPORTED_MODULE_0__.default);
         });
       });
     },
-    getFinalGrades: function getFinalGrades() {
-      var grade = null;
-      var header = [];
-      this.students.sort(); // for (var i = 0; i < this.get_gradingCriteria.length; i++) {
-      //     this.json_fields[this.get_gradingCriteria[i].name] = this.get_gradingCriteria[i].name;
-      // }
-
-      this.json_fields['Raw Grade'] = 'raw_grade';
-      this.json_fields['Transmuted Grade'] = 'transmuted_grade';
-      var dataFields = {};
-
-      for (var i = 0; i < this.students.length; i++) {
-        var student_final = this.allStudentFinalGrades(this.students[i].id);
-        dataFields['name'] = this.students[i].lastName + ', ' + this.students[i].firstName; // for (var j = 0; j < student_final.length; j++) {
-        //     dataFields[student_final[j].name] = student_final[j].grade_percentage;
-        // }
-
-        var raw_grade = this.sumPercentage(this.allStudentFinalGrades(this.students[i].id));
-        var transmuted_grade = this.sumTransmutedGrade(this.allStudentFinalGrades(this.students[i].id));
-        dataFields['raw_grade'] = raw_grade;
-        dataFields['transmuted_grade'] = transmuted_grade;
-        this.json_data.push(dataFields);
-      } //console.log('json_data ', this.json_data);
-
-    },
-    get_AllFinalGrades_s: function get_AllFinalGrades_s() {
-      var grade = null;
-      var header = [];
-      var classworks = {};
-      this.students.sort();
-
-      for (var i = 0; i < this.get_gradingCriteria.length; i++) {
-        // var classworkGrades =  this.AllStudentClassworkGrades(this.students[i].id, student_final[i].grade_category_id);
-        this.json_fields[this.get_gradingCriteria[i].name] = this.get_gradingCriteria[i].name;
-
-        for (var x = 0; x < this.classworkList.length; x++) {
-          if (this.get_gradingCriteria[i].id == this.classworkList[x].grading_criteria_id) {
-            this.json_fields[this.classworkList[x].title] = this.classworkList[x].title;
-          }
-        }
-      }
-
-      this.json_fields['Raw Grade'] = 'raw_grade';
-      this.json_fields['Transmuted Grade'] = 'transmuted_grade'; //console.log('json_fields    ', this.json_fields);
-
-      var dataFields = {};
-
-      for (var i = 0; i < this.students.length; i++) {
-        var student_final = this.allStudentFinalGrades(this.students[i].id); //console.log(student_final);
-
-        dataFields['name'] = this.students[i].lastName + ', ' + this.students[i].firstName;
-
-        for (var j = 0; j < student_final.length; j++) {
-          for (var x = 0; x < student_final.length; x++) {
-            this.AllStudentClassworkGrades(this.students[i].id, student_final[i].grade_category_id);
-          }
-
-          dataFields[student_final[j].name] = student_final[j].grade_percentage;
-        }
-
-        var raw_grade = this.sumPercentage(this.allStudentFinalGrades(this.students[i].id));
-        var transmuted_grade = this.sumTransmutedGrade(this.allStudentFinalGrades(this.students[i].id));
-        dataFields['raw_grade'] = raw_grade;
-        dataFields['transmuted_grade'] = transmuted_grade; //console.log(dataFields, 'dataFields')
-
-        this.json_data.push(dataFields); //console.log(i)
-      } //console.log('json_data ', this.json_data);
-
-    },
     test: function test(table) {
       (function () {
         var uri = 'data:application/vnd.ms-excel;base64,',
@@ -732,10 +593,13 @@ Vue.use(vue_excel_export__WEBPACK_IMPORTED_MODULE_0__.default);
     }
   },
   mounted: function mounted() {
+    var _this6 = this;
+
     this.loading = true;
-    this.getAllGradeCriteria();
+    this.$store.dispatch('fetchGradingCriteria', this.$route.params.id).then(function () {
+      _this6.grading_criteria_data = _this6.get_gradingCriteria;
+    });
     this.getClassList();
-    this.loading = false;
     var students = this.students;
     this.loading = false;
   }
@@ -936,7 +800,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.v-input__slot[data-v-315884ec] {\n        margin-bottom: 0 !important;\n}\n.v-tab--disabled[data-v-315884ec] {\n        color: #000 !important;\n}\n#tableExp td[data-v-315884ec] \n{\n    text-align: center !important; \n    vertical-align: middle !important;\n}\n#tableExp th[data-v-315884ec] \n{\n    text-align: center !important; \n    vertical-align: middle !important;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.v-input__slot[data-v-315884ec] {\n    margin-bottom: 0 !important;\n}\n.v-tab--disabled[data-v-315884ec] {\n    color: #000 !important;\n}\n#tableExp td[data-v-315884ec] {\n    text-align: center !important;\n    vertical-align: middle !important;\n}\n#tableExp th[data-v-315884ec] {\n    text-align: center !important;\n    vertical-align: middle !important;\n}\n\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -1713,222 +1577,14 @@ var render = function() {
                 "v-tab-item",
                 { attrs: { id: "final_grades" } },
                 [
-                  _c(
-                    "v-card-title",
-                    [
-                      _vm._v(
-                        "\n                    Final Grades\n\n                    "
-                      ),
-                      _c(
-                        "export-excel",
-                        {
-                          staticClass: "btn btn-default ml-2",
-                          attrs: {
-                            data: _vm.json_data,
-                            fields: _vm.json_fields,
-                            worksheet: "My Worksheet",
-                            name:
-                              _vm.getcourseInfo.course_code +
-                              " - " +
-                              _vm.getcourseInfo.course_name +
-                              "-" +
-                              _vm.selectedClassName
-                          }
-                        },
-                        [
-                          _c(
-                            "v-btn",
-                            {
-                              attrs: { small: "" },
-                              on: {
-                                click: function($event) {
-                                  return _vm.getFinalGrades()
-                                }
-                              }
-                            },
-                            [
-                              _c(
-                                "v-icon",
-                                { attrs: { color: "grey lighten-1" } },
-                                [
-                                  _vm._v(
-                                    "\n                                download\n                            "
-                                  )
-                                ]
-                              )
-                            ],
-                            1
-                          )
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c("v-spacer"),
-                      _vm._v(" "),
-                      _c("v-text-field", {
+                  _vm.loading == false
+                    ? _c("finalGradesGrades", {
                         attrs: {
-                          "append-icon": "mdi-magnify",
-                          label: "Search",
-                          "single-line": "",
-                          "hide-details": ""
-                        },
-                        model: {
-                          value: _vm.search,
-                          callback: function($$v) {
-                            _vm.search = $$v
-                          },
-                          expression: "search"
+                          grading_criteria: _vm.get_gradingCriteria,
+                          students: _vm.students
                         }
                       })
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c("v-simple-table", {
-                    scopedSlots: _vm._u([
-                      {
-                        key: "default",
-                        fn: function() {
-                          return [
-                            _c("thead", [
-                              _c(
-                                "tr",
-                                [
-                                  _c("th", { staticClass: "text-left" }, [
-                                    _vm._v(
-                                      "\n                                    Name"
-                                    )
-                                  ]),
-                                  _vm._v(" "),
-                                  _vm._l(_vm.get_gradingCriteria, function(
-                                    gradingCriteria,
-                                    index
-                                  ) {
-                                    return _c(
-                                      "th",
-                                      {
-                                        key: index,
-                                        staticClass: "text-center"
-                                      },
-                                      [
-                                        _vm._v(
-                                          "\n                                    " +
-                                            _vm._s(gradingCriteria.name) +
-                                            " (" +
-                                            _vm._s(gradingCriteria.percentage) +
-                                            "%)"
-                                        )
-                                      ]
-                                    )
-                                  }),
-                                  _vm._v(" "),
-                                  _c("th", { staticClass: "text-center" }, [
-                                    _vm._v(
-                                      "\n                                    Final Grades"
-                                    )
-                                  ])
-                                ],
-                                2
-                              )
-                            ]),
-                            _vm._v(" "),
-                            _vm.loading == false
-                              ? _c(
-                                  "tbody",
-                                  [
-                                    _vm._l(_vm.students, function(student) {
-                                      return _c(
-                                        "tr",
-                                        { key: student.id },
-                                        [
-                                          _c(
-                                            "td",
-                                            { staticClass: "text-left" },
-                                            [
-                                              _vm._v(
-                                                _vm._s(
-                                                  student.lastName +
-                                                    ", " +
-                                                    student.firstName
-                                                ) + " "
-                                              )
-                                            ]
-                                          ),
-                                          _vm._v(" "),
-                                          _vm._l(
-                                            _vm.allStudentFinalGrades(
-                                              student.id
-                                            ),
-                                            function(student_final, index) {
-                                              return _c(
-                                                "td",
-                                                {
-                                                  key: index,
-                                                  staticClass: "text-center"
-                                                },
-                                                [
-                                                  _vm._v(
-                                                    "\n\n                                    " +
-                                                      _vm._s(
-                                                        student_final.transmuted_grade_percentage.toFixed(
-                                                          2
-                                                        )
-                                                      ) +
-                                                      "\n                                    "
-                                                  )
-                                                ]
-                                              )
-                                            }
-                                          ),
-                                          _vm._v(" "),
-                                          _c(
-                                            "td",
-                                            { staticClass: "text-center" },
-                                            [
-                                              _vm._v(
-                                                "\n                                    " +
-                                                  _vm._s(
-                                                    _vm.sumTransmutedGrade(
-                                                      _vm.allStudentFinalGrades(
-                                                        student.id
-                                                      )
-                                                    )
-                                                  ) +
-                                                  "\n\n                                "
-                                              )
-                                            ]
-                                          )
-                                        ],
-                                        2
-                                      )
-                                    }),
-                                    _vm._v(" "),
-                                    _vm.students.length == 0
-                                      ? _c("tr", [
-                                          _c(
-                                            "td",
-                                            {
-                                              staticClass: "text-center",
-                                              attrs: { colspan: "100" }
-                                            },
-                                            [
-                                              _vm._v(
-                                                "\n                                    No data available, please add or invite students.\n                                "
-                                              )
-                                            ]
-                                          )
-                                        ])
-                                      : _vm._e()
-                                  ],
-                                  2
-                                )
-                              : _vm._e()
-                          ]
-                        },
-                        proxy: true
-                      }
-                    ])
-                  })
+                    : _vm._e()
                 ],
                 1
               ),
@@ -1946,52 +1602,8 @@ var render = function() {
                             _vm._s(gradingCriteria.name) +
                             " - " +
                             _vm._s(gradingCriteria.percentage) +
-                            "%\n\n                    "
+                            "%\n\n\n\n                    "
                         ),
-                        _c(
-                          "export-excel",
-                          {
-                            staticClass: "btn btn-default ml-2",
-                            attrs: {
-                              data: _vm.json_data,
-                              fields: _vm.json_fields,
-                              worksheet: "My Worksheet",
-                              name:
-                                _vm.getcourseInfo.course_code +
-                                " - " +
-                                _vm.getcourseInfo.course_name +
-                                "-" +
-                                gradingCriteria.name
-                            }
-                          },
-                          [
-                            _c(
-                              "v-btn",
-                              {
-                                attrs: { small: "" },
-                                on: {
-                                  click: function($event) {
-                                    return _vm.getFinalGrades()
-                                  }
-                                }
-                              },
-                              [
-                                _c(
-                                  "v-icon",
-                                  { attrs: { color: "grey lighten-1" } },
-                                  [
-                                    _vm._v(
-                                      "\n                                download\n                            "
-                                    )
-                                  ]
-                                )
-                              ],
-                              1
-                            )
-                          ],
-                          1
-                        ),
-                        _vm._v(" "),
                         _c("v-spacer"),
                         _vm._v(" "),
                         _c("v-text-field", {
@@ -2015,7 +1627,20 @@ var render = function() {
                     _vm._v(" "),
                     _vm.headers.length != 0
                       ? _c("v-data-table", {
-                          attrs: { headers: _vm.headers, items: _vm.students },
+                          attrs: {
+                            headers: _vm.headers,
+                            items: _vm.students,
+                            "sort-desc": _vm.sortDesc,
+                            sortBy: "points"
+                          },
+                          on: {
+                            "update:sortDesc": function($event) {
+                              _vm.sortDesc = $event
+                            },
+                            "update:sort-desc": function($event) {
+                              _vm.sortDesc = $event
+                            }
+                          },
                           scopedSlots: _vm._u(
                             [
                               _vm._l(_vm.headers, function(h) {
@@ -2058,7 +1683,7 @@ var render = function() {
                                         },
                                         [
                                           _vm._v(" "),
-                                          _c("span", [_vm._v(_vm._s(h.value))])
+                                          _c("span", [_vm._v(_vm._s(h.text))])
                                         ]
                                       )
                                     ]
@@ -2105,11 +1730,15 @@ var render = function() {
                                                     },
                                                     [
                                                       _vm._v(
-                                                        "\n\n                                    " +
+                                                        "\n                                    \n                                    " +
                                                           _vm._s(
-                                                            classworkGrades.points
+                                                            (student[
+                                                              "points" +
+                                                                classworkGrades.classwork_id
+                                                            ] =
+                                                              classworkGrades.points)
                                                           ) +
-                                                          " "
+                                                          "\n                                  \n                                    "
                                                       ),
                                                       classworkGrades.points !=
                                                       null
@@ -2124,7 +1753,7 @@ var render = function() {
                                                             },
                                                             [
                                                               _vm._v(
-                                                                " / " +
+                                                                " /\n                                        " +
                                                                   _vm._s(
                                                                     classworkGrades.hp_points
                                                                   ) +
@@ -2231,12 +1860,14 @@ var render = function() {
                                                   _vm._v(
                                                     "\n                                    " +
                                                       _vm._s(
-                                                        _vm.totalPoints(
+                                                        (student[
+                                                          "total"
+                                                        ] = _vm.totalPoints(
                                                           _vm.AllStudentClassworkGrades(
                                                             student.id,
                                                             gradingCriteria.id
                                                           )
-                                                        )
+                                                        ))
                                                       ) +
                                                       "\n                                "
                                                   )
@@ -2250,35 +1881,15 @@ var render = function() {
                                                   _vm._v(
                                                     "\n                                    " +
                                                       _vm._s(
-                                                        _vm.totalPercentage(
+                                                        (student[
+                                                          "Initial Percentage"
+                                                        ] = _vm.totalPercentage(
                                                           _vm.AllStudentClassworkGrades(
                                                             student.id,
                                                             gradingCriteria.id
                                                           ),
                                                           gradingCriteria.percentage
-                                                        )
-                                                      ) +
-                                                      "%\n                                "
-                                                  )
-                                                ]
-                                              ),
-                                              _vm._v(" "),
-                                              _c(
-                                                "td",
-                                                { staticClass: "text-center" },
-                                                [
-                                                  _vm._v(
-                                                    "\n                                    " +
-                                                      _vm._s(
-                                                        _vm.transmutedGrade(
-                                                          _vm.totalPoints(
-                                                            _vm.AllStudentClassworkGrades(
-                                                              student.id,
-                                                              gradingCriteria.id
-                                                            )
-                                                          ),
-                                                          gradingCriteria.percentage
-                                                        )
+                                                        ))
                                                       ) +
                                                       "%\n                                "
                                                   )

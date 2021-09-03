@@ -52,11 +52,107 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['moduleId'],
+  props: ['moduleId', 'submodule', 'type_action'],
   data: function data() {
     return {
+      isSaving: false,
+      isDeleting: false,
+      oldFIle: {},
+      oldFileInput: false,
+      isRemove: false,
+      uploadPercentage: 0,
+      progress: false,
       sending: false,
       loading: '',
       addLink: false,
@@ -65,21 +161,10 @@ __webpack_require__.r(__webpack_exports__);
       ext: '',
       file: null,
       allowedExt: ['pdf', 'pptx', 'ppt', 'xls', 'xlsx', 'doc', 'docx', 'mp4'],
-      options: {
-        modules: {
-          'toolbar': [['bold', 'italic', 'underline', 'strike'], [{
-            'header': [1, 2, 3, 4, 5, false]
-          }], [{
-            'align': []
-          }], [{
-            'color': []
-          }], [{
-            'list': 'ordered'
-          }, {
-            'list': 'bullet'
-          }], ['link', 'image', 'video']]
-        }
-      }
+      isInvalidFileType: false,
+      isFileSize: null,
+      main_module_id: null,
+      type: ''
     };
   },
   computed: (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)(["getmain_module", "getSub_module", "getAll_sub_module"]),
@@ -89,25 +174,45 @@ __webpack_require__.r(__webpack_exports__);
       return split[split.length - 1];
     },
     onFileChange: function onFileChange(file) {
+      console.log('selected file', file);
+
+      if (file != null) {
+        this.ext = this.getFileExt(file.name);
+        console.log(this.ext);
+        this.isInvalidFileSize = false;
+        this.isInvalidFileType = false;
+
+        if (file.size >= 10000000) {
+          this.isInvalidFileSize = true;
+          this.$refs.inputFile.value = null;
+          this.toastError('File size must be less than 10MB');
+        }
+
+        if (this.ext == 'mp4') {
+          this.type = 'Video';
+        } else if (this.ext == 'pdf' || this.ext == 'docx' || this.ext == 'doc' || this.ext == 'pptx' || this.ext == 'ppt') {
+          this.type = 'Document';
+        } else {
+          this.isInvalidFileType = true;
+          this.toastError('Invalid File Type, (.pdf , .docx and .mp4 are allowed)');
+          this.$refs.inputFile.value = null;
+        }
+      }
+
+      this.file = file;
+    },
+    removeFile: function removeFile(id) {
       var _this = this;
 
-      //console.log('selected file', file.name);
-      this.ext = this.getFileExt(file.name);
-      this.allowedExt.forEach(function (_ext) {
-        if (_ext != _this.ext) {//console.log('Invalid File type');
-        } else {
-          if (_this.ext == 'mp4') {
-            _this.type = 'Video';
-          } else {
-            _this.type = 'Document';
-
-            if (_this.ext != 'pdf') {
-              alert('Invalid File Type, Convert file document to pdf!');
-            }
-          }
-        }
+      this.isDeleting = true;
+      axios.put('/api/sub_module/file-remove/' + id, {
+        file: this.submodule.file_attachment
+      }).then(function (res) {
+        _this.oldFileInput = false;
+        console.log(res);
+        _this.isDeleting = false;
+        _this.isRemove = true;
       });
-      this.file = file;
     },
     toastSuccess: function toastSuccess() {
       return this.$toasted.success("Lecture Successfully Created", {
@@ -118,30 +223,140 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     addFile: function addFile() {
+      console.log(this.file);
+      console.log('this.isInvalidFileType', this.isInvalidFileType);
+
+      if (this.type_action == 'edit_file') {
+        if (this.subModuleForm.sub_module_name == '' || this.subModuleForm.description == '' || this.subModuleForm.required_time == '') {
+          this.toastError('Please Complete all the fields');
+        } else if (this.file != null) {
+          var good = true;
+
+          if (this.isInvalidFileSize) {
+            this.toastError('File must be less than 10mb');
+            good = false;
+          }
+
+          if (this.isInvalidFileType == null || this.isInvalidFileType == true) {
+            this.toastError('something went wrong, refresh the page and try again');
+            good = false;
+          }
+
+          if (good) {
+            this.addUpdate();
+          }
+        } else {
+          if (this.isRemove) {
+            this.toastError('Please Complete all the fields');
+          } else {
+            this.addUpdate();
+          }
+        }
+      } else {
+        if (this.subModuleForm.sub_module_name == '' || this.subModuleForm.description == '' || this.subModuleForm.required_time == '' || this.file == null) {
+          this.toastError('Please Complete all the fields');
+        } else if (this.file != null) {
+          var good = true;
+
+          if (this.isInvalidFileSize) {
+            this.toastError('File must be less than 10mb');
+            good = false;
+          }
+
+          if (this.isInvalidFileType == null || this.isInvalidFileType == true) {
+            this.toastError('something went wrong, refresh the page and try again');
+            good = false;
+          }
+
+          if (good) {
+            this.addUpdate();
+          }
+        }
+      }
+    },
+    detectExt: function detectExt(ext) {
+      var type = '';
+
+      if (ext == 'mp4') {
+        type = 'Video';
+      }
+
+      if (ext == 'pdf' || ext == 'docx' || ext == 'doc' || ext == 'pptx' || ext == 'ppt') {
+        type = 'Document';
+      }
+
+      return type;
+    },
+    addUpdate: function addUpdate() {
       var _this2 = this;
 
+      var tmp, edit_ext_type;
+      this.main_module_id = this.moduleId;
+
+      if (this.type_action == 'edit_file') {
+        tmp = this.oldFIle.file_name.split('.');
+        edit_ext_type = tmp[tmp.length - 1];
+        this.main_module_id = this.subModuleForm.main_module_id;
+        this.type = this.type == '' ? this.detectExt(edit_ext_type) : this.type;
+      }
+
+      this.isSaving = true;
       var fd = new FormData();
       fd.append('file', this.file);
-      fd.append('main_module_id', this.moduleId);
+      fd.append('submodule_id', this.subModuleForm.id);
+      fd.append('main_module_id', this.main_module_id);
       fd.append('description', this.subModuleForm.description);
-      fd.append('required_time', this.subModuleForm.required_time * 60);
+      fd.append('required_time', this.subModuleForm.required_time);
       fd.append('type', this.type);
       fd.append('sub_module_name', this.subModuleForm.sub_module_name);
       this.sending = true;
-      this.$store.dispatch('createSubModule', fd).then(function (res) {
+      axios.post("/api/sub_module/insert", fd, {
+        onUploadProgress: function onUploadProgress(progressEvent) {
+          var total = progressEvent.total;
+          var totalLength = progressEvent.lengthComputable ? total : null;
+
+          if (totalLength != null) {
+            _this2.uploadPercentage = Math.round(progressEvent.loaded * 100 / totalLength);
+          }
+        }
+      }).then(function (res) {
+        _this2.isSaving = false;
+
+        _this2.$store.dispatch('fetchSubModule', _this2.$route.params.id);
+
         _this2.subModuleForm.sub_module_name = '';
         _this2.subModuleForm.description = '';
 
-        _this2.$refs.inputFile.reset();
+        if (_this2.$refs.inputFile != null) {
+          _this2.$refs.inputFile.reset();
+        }
 
-        _this2.$emit('CloseLecture');
+        _this2.$emit('CloseLecture'); // this.toastSuccess();
 
-        _this2.toastSuccess();
 
         setTimeout(function () {
           _this2.sending = false;
         }, 1000);
       });
+    }
+  },
+  created: function created() {
+    if (this.type_action == 'edit_file') {
+      this.submodule['required_time'] = this.submodule['required_time'];
+      this.subModuleForm = this.submodule;
+      var newfile = new File([""], window.location.origin + '/' + this.submodule.file_attachment);
+      ;
+      var name = newfile.name.split('/');
+      this.oldFIle.file_name = name[name.length - 1];
+      console.log(this.oldFIle.file_name);
+
+      if (this.oldFIle.file_name == -1) {
+        this.oldFileInput = false;
+      } else {
+        this.oldFileInput = true;
+      }
+    } else {
+      this.subModuleForm = {};
     }
   }
 });
@@ -209,11 +424,30 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['moduleId'],
+  props: ['submodule', 'moduleId', 'sub_module_id', 'type_action'],
   data: function data() {
     return {
+      isAdding: false,
       sending: false,
       loading: '',
       addLink: false,
@@ -239,9 +473,13 @@ __webpack_require__.r(__webpack_exports__);
     addLecture: function addLecture() {
       var _this = this;
 
+      this.isAdding = true;
       this.linkForm.type = 'Link';
       this.linkForm.main_module_id = this.moduleId;
+      this.linkForm.submodule_id = this.type_action == 'edit_link' ? this.sub_module_id : '';
       this.$store.dispatch('createSubModule', this.linkForm).then(function (res) {
+        _this.$store.dispatch('fetchSubModule', _this.$route.params.id);
+
         _this.linkForm.sub_module_name = '';
         _this.linkForm.link = '';
         _this.linkForm.type = '';
@@ -252,8 +490,15 @@ __webpack_require__.r(__webpack_exports__);
 
         setTimeout(function () {
           _this.sending = false;
+          _this.isAdding = false;
         }, 1000);
       });
+    }
+  },
+  mounted: function mounted() {
+    if (this.type_action == 'edit_link') {
+      this.linkForm.required_time = this.submodule.required_time / 60;
+      this.linkForm = this.submodule;
     }
   }
 });
@@ -400,13 +645,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['type', 'moduleId'],
@@ -436,7 +674,6 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       this.$store.dispatch('deleteMainModule', this.id).then(function (res) {
-        //console.log(res);
         _this.loading = false;
 
         _this.$emit('closeModal');
@@ -450,6 +687,84 @@ __webpack_require__.r(__webpack_exports__);
       this.id = this.moduleId;
     }
   }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/modules-tab/Forms/deleteItemForm.vue?vue&type=script&lang=js&":
+/*!********************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/modules-tab/Forms/deleteItemForm.vue?vue&type=script&lang=js& ***!
+  \********************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  props: ['type', 'sub_module_id'],
+  data: function data() {
+    return {
+      loading: false,
+      dialog: false,
+      moduleForm: new Form({
+        module_name: '',
+        description: '',
+        course_id: ''
+      }),
+      class_details: '',
+      id: ''
+    };
+  },
+  methods: {
+    toastSuccess: function toastSuccess(message) {
+      return this.$toasted.success(message, {
+        theme: "toasted-primary",
+        position: "top-center",
+        icon: "done",
+        duration: 5000
+      });
+    },
+    deleteModule: function deleteModule() {
+      var _this = this;
+
+      axios["delete"]("/api/sub_module/delete/".concat(this.sub_module_id)).then(function (res) {
+        _this.loading = false;
+
+        _this.$emit('closeModal'); // this.toastSuccess("Module Successfully Deleted");
+
+
+        _this.$store.dispatch('fetchSubModule', _this.$route.params.id);
+      });
+    }
+  },
+  mounted: function mounted() {}
 });
 
 /***/ }),
@@ -474,7 +789,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Forms_ModuleForm__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Forms/ModuleForm */ "./resources/js/components/course-view/tabs/modules-tab/Forms/ModuleForm.vue");
 /* harmony import */ var _Forms_deleteForm__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Forms/deleteForm */ "./resources/js/components/course-view/tabs/modules-tab/Forms/deleteForm.vue");
 /* harmony import */ var _Forms_NewClassworkForm__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Forms/NewClassworkForm */ "./resources/js/components/course-view/tabs/modules-tab/Forms/NewClassworkForm.vue");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _Forms_deleteItemForm__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./Forms/deleteItemForm */ "./resources/js/components/course-view/tabs/modules-tab/Forms/deleteItemForm.vue");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 var _methods;
 
 
@@ -630,6 +946,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+
 
 
 
@@ -645,10 +968,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     newClassworkForm: _Forms_NewClassworkForm__WEBPACK_IMPORTED_MODULE_6__.default,
     draggable: (vuedraggable__WEBPACK_IMPORTED_MODULE_1___default()),
     moduleFormEdit: _Forms_ModuleForm__WEBPACK_IMPORTED_MODULE_4__.default,
-    deleteForm: _Forms_deleteForm__WEBPACK_IMPORTED_MODULE_5__.default
+    deleteForm: _Forms_deleteForm__WEBPACK_IMPORTED_MODULE_5__.default,
+    deleteItemForm: _Forms_deleteItemForm__WEBPACK_IMPORTED_MODULE_7__.default
   },
   data: function data() {
     return {
+      pass_submodule: null,
       isPublishing: false,
       isPublishing_id: null,
       moduleName: '',
@@ -662,13 +987,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       showClasswork: false,
       subModuleForm: {},
       mainModule_id: '',
+      sub_module_id: null,
       mainModule: [],
       propModule: [],
       studentSubModuleProgress: [],
       studentSubModuleProgressForm: {}
     };
   },
-  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_7__.mapGetters)(["getmain_module", "getSub_module", "getAll_sub_module"])), {}, {
+  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_8__.mapGetters)(["getmain_module", "getSub_module", "getAll_sub_module"])), {}, {
     dragOptions: function dragOptions() {
       return {
         animation: 0,
@@ -716,6 +1042,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.itemType = 'delete_module';
       this.mainModule_id = module_id;
     },
+    deleteItemModuleBtn: function deleteItemModuleBtn(sub_module_id) {
+      this.itemDialog = !this.itemDialog;
+      this.itemType = 'delete_item_module';
+      this.sub_module_id = sub_module_id;
+    },
     editModuleBtn: function editModuleBtn(module_id, itemModule) {
       this.itemDialog = !this.itemDialog;
       this.propModule = itemModule; //console.log(this.propModule);
@@ -732,6 +1063,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.itemDialog = !this.itemDialog;
       this.mainModule_id = module_id;
       this.itemType = 'add_link';
+    },
+    editItemBtn: function editItemBtn(itemModule, sub_module_id, type) {
+      this.pass_submodule = itemModule;
+      this.itemDialog = !this.itemDialog;
+      this.sub_module_id = sub_module_id;
+      this.itemType = type == 'Link' ? 'edit_link' : 'edit_file';
     },
     classworkBtn: function classworkBtn() {
       $('#itemTypeModal').modal('hide');
@@ -761,19 +1098,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
 
     return count;
-  }), _defineProperty(_methods, "addSubStudentProgress", function addSubStudentProgress(mainModule_id, subModule_id, type) {
-    var _this3 = this;
-
-    this.tempSubId = subModule_id;
-    this.studentSubModuleProgressForm.main_module_id = mainModule_id;
-    this.studentSubModuleProgressForm.sub_module_id = subModule_id;
-    this.studentSubModuleProgressForm.type = type;
-    this.studentSubModuleProgressForm.course_id = this.$route.params.id;
-    axios.post("/api/student_sub_module/insert", {
-      studentProgress: this.studentSubModuleProgressForm
-    }).then(function (res) {
-      _this3.studentSubModuleProgress.push(res.data);
-    });
   }), _defineProperty(_methods, "checkSubModule", function checkSubModule(arr, sub_module_id) {
     var check = false; ////console.log(arr);
 
@@ -786,24 +1110,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     return check;
   }), _methods),
   mounted: function mounted() {
-    var _this4 = this;
+    var _this3 = this;
 
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              _this4.getdata(); // axios.get(
-              //     `/api/student_sub_module/all/${this.$route.params.id}`
-              // ).then((res) => {
-              //     this.studentSubModuleProgress = res.data;
-              //     this.getCount(this.studentSubModuleProgress, 23);
-              //     this.$store.dispatch('fetchMainModule', this.$route.params.id);
-              //     this.$store.dispatch('fetchSubModule', this.$route.params.id);
-              // }).catch((error) => {
-              //     //console.log(error)
-              // })
-
+              _this3.getdata();
 
             case 1:
             case "end":
@@ -4801,6 +5115,45 @@ component.options.__file = "resources/js/components/course-view/tabs/modules-tab
 
 /***/ }),
 
+/***/ "./resources/js/components/course-view/tabs/modules-tab/Forms/deleteItemForm.vue":
+/*!***************************************************************************************!*\
+  !*** ./resources/js/components/course-view/tabs/modules-tab/Forms/deleteItemForm.vue ***!
+  \***************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _deleteItemForm_vue_vue_type_template_id_da4c9b80___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./deleteItemForm.vue?vue&type=template&id=da4c9b80& */ "./resources/js/components/course-view/tabs/modules-tab/Forms/deleteItemForm.vue?vue&type=template&id=da4c9b80&");
+/* harmony import */ var _deleteItemForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./deleteItemForm.vue?vue&type=script&lang=js& */ "./resources/js/components/course-view/tabs/modules-tab/Forms/deleteItemForm.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__.default)(
+  _deleteItemForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
+  _deleteItemForm_vue_vue_type_template_id_da4c9b80___WEBPACK_IMPORTED_MODULE_0__.render,
+  _deleteItemForm_vue_vue_type_template_id_da4c9b80___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/course-view/tabs/modules-tab/Forms/deleteItemForm.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
 /***/ "./resources/js/components/course-view/tabs/modules-tab/modulesListComponent.vue":
 /*!***************************************************************************************!*\
   !*** ./resources/js/components/course-view/tabs/modules-tab/modulesListComponent.vue ***!
@@ -4903,6 +5256,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_deleteForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./deleteForm.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/modules-tab/Forms/deleteForm.vue?vue&type=script&lang=js&");
  /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_deleteForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
+
+/***/ }),
+
+/***/ "./resources/js/components/course-view/tabs/modules-tab/Forms/deleteItemForm.vue?vue&type=script&lang=js&":
+/*!****************************************************************************************************************!*\
+  !*** ./resources/js/components/course-view/tabs/modules-tab/Forms/deleteItemForm.vue?vue&type=script&lang=js& ***!
+  \****************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_deleteItemForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./deleteItemForm.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/modules-tab/Forms/deleteItemForm.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_deleteItemForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
 
 /***/ }),
 
@@ -5016,6 +5385,23 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/course-view/tabs/modules-tab/Forms/deleteItemForm.vue?vue&type=template&id=da4c9b80&":
+/*!**********************************************************************************************************************!*\
+  !*** ./resources/js/components/course-view/tabs/modules-tab/Forms/deleteItemForm.vue?vue&type=template&id=da4c9b80& ***!
+  \**********************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_deleteItemForm_vue_vue_type_template_id_da4c9b80___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_deleteItemForm_vue_vue_type_template_id_da4c9b80___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_deleteItemForm_vue_vue_type_template_id_da4c9b80___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./deleteItemForm.vue?vue&type=template&id=da4c9b80& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/modules-tab/Forms/deleteItemForm.vue?vue&type=template&id=da4c9b80&");
+
+
+/***/ }),
+
 /***/ "./resources/js/components/course-view/tabs/modules-tab/modulesListComponent.vue?vue&type=template&id=2678f1b6&":
 /*!**********************************************************************************************************************!*\
   !*** ./resources/js/components/course-view/tabs/modules-tab/modulesListComponent.vue?vue&type=template&id=2678f1b6& ***!
@@ -5049,155 +5435,498 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("v-card", [
-    _c(
-      "form",
-      {
-        on: {
-          submit: function($event) {
-            $event.preventDefault()
-            return _vm.addFile.apply(null, arguments)
+  return _c(
+    "v-card",
+    [
+      _c("vue-element-loading", {
+        attrs: { active: _vm.isSaving, spinner: "bar-fade-scale" }
+      }),
+      _vm._v(" "),
+      _c(
+        "form",
+        {
+          on: {
+            submit: function($event) {
+              $event.preventDefault()
+              return _vm.addFile.apply(null, arguments)
+            }
           }
-        }
-      },
-      [
-        _c("v-card-title", [
-          _c("span", { staticClass: "headline" }, [_vm._v("Add File")])
-        ]),
-        _vm._v(" "),
-        _c(
-          "v-card-text",
-          [
-            _c(
-              "v-container",
-              [
-                _c(
-                  "v-row",
-                  [
-                    _c(
-                      "v-col",
-                      { attrs: { cols: "12 pb-0" } },
-                      [
-                        _c("v-text-field", {
-                          attrs: { label: "Title", required: "" },
-                          model: {
-                            value: _vm.subModuleForm.sub_module_name,
-                            callback: function($$v) {
-                              _vm.$set(
-                                _vm.subModuleForm,
-                                "sub_module_name",
-                                $$v
+        },
+        [
+          _c("v-card-title", [
+            _c("span", { staticClass: "headline" }, [_vm._v("Add File")])
+          ]),
+          _vm._v(" "),
+          _c(
+            "v-card-text",
+            [
+              _c(
+                "v-container",
+                [
+                  _c(
+                    "v-row",
+                    [
+                      _c(
+                        "v-col",
+                        { staticClass: "py-0 my-0", attrs: { cols: "12" } },
+                        [
+                          _c("v-text-field", {
+                            attrs: {
+                              label: "Title",
+                              required: "",
+                              outlined: ""
+                            },
+                            model: {
+                              value: _vm.subModuleForm.sub_module_name,
+                              callback: function($$v) {
+                                _vm.$set(
+                                  _vm.subModuleForm,
+                                  "sub_module_name",
+                                  $$v
+                                )
+                              },
+                              expression: "subModuleForm.sub_module_name"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-col",
+                        { staticClass: "py-0 my-0", attrs: { cols: "12" } },
+                        [
+                          _c("v-textarea", {
+                            attrs: {
+                              outlined: "",
+                              label: "Description",
+                              "auto-grow": ""
+                            },
+                            model: {
+                              value: _vm.subModuleForm.description,
+                              callback: function($$v) {
+                                _vm.$set(_vm.subModuleForm, "description", $$v)
+                              },
+                              expression: "subModuleForm.description"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-col",
+                        { staticClass: "py-0 my-0", attrs: { cols: "12" } },
+                        [
+                          _c("v-text-field", {
+                            attrs: {
+                              label:
+                                "Required time spent for Completion (minutes)",
+                              outlined: "",
+                              type: "number",
+                              required: ""
+                            },
+                            model: {
+                              value: _vm.subModuleForm.required_time,
+                              callback: function($$v) {
+                                _vm.$set(
+                                  _vm.subModuleForm,
+                                  "required_time",
+                                  $$v
+                                )
+                              },
+                              expression: "subModuleForm.required_time"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _vm.oldFileInput == false
+                        ? _c(
+                            "v-col",
+                            { staticClass: "py-0 my-0", attrs: { cols: "12" } },
+                            [
+                              _c("v-file-input", {
+                                ref: "inputFile",
+                                attrs: {
+                                  "show-size": "",
+                                  outlined: "",
+                                  label: "Attach File",
+                                  "prepend-inner-icon": "mdi-file",
+                                  "prepend-icon": ""
+                                },
+                                on: { change: _vm.onFileChange }
+                              }),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                {
+                                  staticStyle: {
+                                    "margin-top": "-20px",
+                                    position: "relative",
+                                    "z-index": "90999"
+                                  }
+                                },
+                                [
+                                  _c(
+                                    "v-tooltip",
+                                    {
+                                      attrs: { right: "" },
+                                      scopedSlots: _vm._u(
+                                        [
+                                          {
+                                            key: "activator",
+                                            fn: function(ref) {
+                                              var on = ref.on
+                                              var attrs = ref.attrs
+                                              return [
+                                                _c(
+                                                  "span",
+                                                  _vm._g(
+                                                    _vm._b(
+                                                      {},
+                                                      "span",
+                                                      attrs,
+                                                      false
+                                                    ),
+                                                    on
+                                                  ),
+                                                  [
+                                                    _c(
+                                                      "v-icon",
+                                                      {
+                                                        attrs: { color: "info" }
+                                                      },
+                                                      [
+                                                        _vm._v(
+                                                          "mdi-information-outline"
+                                                        )
+                                                      ]
+                                                    ),
+                                                    _vm._v(
+                                                      "\n                                        Supported files\n                                    "
+                                                    )
+                                                  ],
+                                                  1
+                                                )
+                                              ]
+                                            }
+                                          }
+                                        ],
+                                        null,
+                                        false,
+                                        2546136041
+                                      )
+                                    },
+                                    [
+                                      _vm._v(" "),
+                                      _c("span", [
+                                        _vm._v(
+                                          "\n                                    Supported files:\n                                    "
+                                        ),
+                                        _c("ul", [
+                                          _c("li", [_vm._v(".pdf")]),
+                                          _vm._v(" "),
+                                          _c("li", [_vm._v(".doc .docx")]),
+                                          _vm._v(" "),
+                                          _c("li", [_vm._v(".pptx .ppt")]),
+                                          _vm._v(" "),
+                                          _c("li", [
+                                            _vm._v(
+                                              "File must be less than 10 mb"
+                                            )
+                                          ])
+                                        ])
+                                      ])
+                                    ]
+                                  )
+                                ],
+                                1
                               )
-                            },
-                            expression: "subModuleForm.sub_module_name"
-                          }
-                        })
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "v-col",
-                      { attrs: { cols: "12 pb-0" } },
-                      [
-                        _c("editor", {
-                          staticStyle: { outline: "none" },
-                          attrs: {
-                            placeholder: "Description",
-                            theme: "snow",
-                            options: _vm.options
-                          },
-                          model: {
-                            value: _vm.subModuleForm.description,
-                            callback: function($$v) {
-                              _vm.$set(_vm.subModuleForm, "description", $$v)
-                            },
-                            expression: "subModuleForm.description"
-                          }
-                        })
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "v-col",
-                      { attrs: { cols: "12 pb-0" } },
-                      [
-                        _c("v-text-field", {
-                          attrs: {
-                            label:
-                              "Required time spent for Completion (minutes)",
-                            type: "number",
-                            required: ""
-                          },
-                          model: {
-                            value: _vm.subModuleForm.required_time,
-                            callback: function($$v) {
-                              _vm.$set(_vm.subModuleForm, "required_time", $$v)
-                            },
-                            expression: "subModuleForm.required_time"
-                          }
-                        })
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c("v-file-input", {
-                      ref: "inputFile",
-                      attrs: { "show-size": "", label: "Attach File" },
-                      on: { change: _vm.onFileChange }
-                    })
-                  ],
-                  1
-                )
-              ],
-              1
-            )
-          ],
-          1
-        ),
-        _vm._v(" "),
-        _c(
-          "v-card-actions",
-          [
-            _c("v-spacer"),
-            _vm._v(" "),
-            _c(
-              "v-btn",
-              {
-                attrs: { color: "blue darken-1", text: "" },
-                on: {
-                  click: function($event) {
-                    return _vm.$emit("CloseLecture")
+                            ],
+                            1
+                          )
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _c("vue-element-loading", {
+                        attrs: {
+                          active: _vm.isDeleting,
+                          spinner: "bar-fade-scale"
+                        }
+                      }),
+                      _vm._v(" "),
+                      _vm.oldFileInput == true
+                        ? _c(
+                            "v-col",
+                            { attrs: { cols: "12 py-0 my-0" } },
+                            [
+                              _c(
+                                "v-row",
+                                {
+                                  staticStyle: {
+                                    height: "55px",
+                                    border: "1px solid",
+                                    "border-radius": "4px",
+                                    width: "100%",
+                                    margin: "auto"
+                                  },
+                                  attrs: { align: "center", justify: "center" }
+                                },
+                                [
+                                  _c(
+                                    "v-col",
+                                    {
+                                      staticClass:
+                                        "grow text-left py-0 pr-0 col-1"
+                                    },
+                                    [_c("v-icon", [_vm._v("mdi-file")])],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-col",
+                                    {
+                                      staticClass: "grow text-left py-0  pl-0"
+                                    },
+                                    [
+                                      _c(
+                                        "div",
+                                        {
+                                          staticClass:
+                                            "text-decoration-underline':''"
+                                        },
+                                        [
+                                          _vm._v(
+                                            " " + _vm._s(_vm.oldFIle.file_name)
+                                          )
+                                        ]
+                                      )
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-col",
+                                    {
+                                      staticClass:
+                                        "shrink d-flex py-0 shrink d-flex"
+                                    },
+                                    [
+                                      _c("div", {
+                                        staticClass: "black--text mt-1 mr-2"
+                                      }),
+                                      _vm._v(" "),
+                                      _c(
+                                        "div",
+                                        { staticClass: "py-0" },
+                                        [
+                                          _c(
+                                            "v-btn",
+                                            {
+                                              attrs: {
+                                                rounded: "",
+                                                small: "",
+                                                icon: "",
+                                                text: ""
+                                              },
+                                              on: {
+                                                click: function($event) {
+                                                  return _vm.removeFile(
+                                                    _vm.submodule.id
+                                                  )
+                                                }
+                                              }
+                                            },
+                                            [
+                                              _c("v-icon", [
+                                                _vm._v("mdi-close")
+                                              ])
+                                            ],
+                                            1
+                                          )
+                                        ],
+                                        1
+                                      )
+                                    ]
+                                  )
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                {
+                                  staticStyle: {
+                                    "margin-top": "10px",
+                                    position: "relative",
+                                    "z-index": "90999"
+                                  }
+                                },
+                                [
+                                  _c(
+                                    "v-tooltip",
+                                    {
+                                      attrs: { right: "" },
+                                      scopedSlots: _vm._u(
+                                        [
+                                          {
+                                            key: "activator",
+                                            fn: function(ref) {
+                                              var on = ref.on
+                                              var attrs = ref.attrs
+                                              return [
+                                                _c(
+                                                  "span",
+                                                  _vm._g(
+                                                    _vm._b(
+                                                      {},
+                                                      "span",
+                                                      attrs,
+                                                      false
+                                                    ),
+                                                    on
+                                                  ),
+                                                  [
+                                                    _c(
+                                                      "v-icon",
+                                                      {
+                                                        attrs: { color: "info" }
+                                                      },
+                                                      [
+                                                        _vm._v(
+                                                          "mdi-information-outline"
+                                                        )
+                                                      ]
+                                                    ),
+                                                    _vm._v(
+                                                      "\n                                        Supported files\n                                    "
+                                                    )
+                                                  ],
+                                                  1
+                                                )
+                                              ]
+                                            }
+                                          }
+                                        ],
+                                        null,
+                                        false,
+                                        2546136041
+                                      )
+                                    },
+                                    [
+                                      _vm._v(" "),
+                                      _c("span", [
+                                        _vm._v(
+                                          "\n                                    Supported files:\n                                    "
+                                        ),
+                                        _c("ul", [
+                                          _c("li", [_vm._v(".pdf")]),
+                                          _vm._v(" "),
+                                          _c("li", [_vm._v(".doc .docx")]),
+                                          _vm._v(" "),
+                                          _c("li", [_vm._v(".pptx .ppt")]),
+                                          _vm._v(" "),
+                                          _c("li", [
+                                            _vm._v(
+                                              "File must be less than 10 mb"
+                                            )
+                                          ])
+                                        ])
+                                      ])
+                                    ]
+                                  )
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _c(
+                        "v-col",
+                        { attrs: { cols: "12 py-0 my-0" } },
+                        [
+                          _vm.uploadPercentage != 0
+                            ? _c(
+                                "v-progress-linear",
+                                {
+                                  attrs: {
+                                    rounded: "",
+                                    value: _vm.uploadPercentage,
+                                    height: "14px"
+                                  }
+                                },
+                                [
+                                  _c(
+                                    "span",
+                                    { staticStyle: { color: "#fff" } },
+                                    [
+                                      _vm._v(
+                                        _vm._s(_vm.uploadPercentage + "%") + " "
+                                      )
+                                    ]
+                                  )
+                                ]
+                              )
+                            : _vm._e()
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-card-actions",
+            [
+              _c("v-spacer"),
+              _vm._v(" "),
+              _c(
+                "v-btn",
+                {
+                  attrs: { text: "" },
+                  on: {
+                    click: function($event) {
+                      return _vm.$emit("CloseLecture")
+                    }
                   }
-                }
-              },
-              [_vm._v("\n                Close\n            ")]
-            ),
-            _vm._v(" "),
-            _c(
-              "v-btn",
-              {
-                attrs: {
-                  color: "blue darken-1",
-                  text: "",
-                  loading: _vm.sending
                 },
-                on: {
-                  click: function($event) {
-                    return _vm.addFile()
+                [_vm._v("\n                Close\n            ")]
+              ),
+              _vm._v(" "),
+              _c(
+                "v-btn",
+                {
+                  attrs: {
+                    color: "primary",
+                    text: "",
+                    loading: _vm.sending,
+                    disabled: _vm.sending
+                  },
+                  on: {
+                    click: function($event) {
+                      return _vm.addFile()
+                    }
                   }
-                }
-              },
-              [_vm._v("\n                Add\n            ")]
-            )
-          ],
-          1
-        )
-      ],
-      1
-    )
-  ])
+                },
+                [_vm._v("\n                Save\n            ")]
+              )
+            ],
+            1
+          )
+        ],
+        1
+      )
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -5222,165 +5951,261 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("v-card", [
-    _c(
-      "form",
-      {
-        on: {
-          submit: function($event) {
-            $event.preventDefault()
-            return _vm.addLecture.apply(null, arguments)
+  return _c(
+    "v-card",
+    [
+      _c("vue-element-loading", {
+        attrs: { active: _vm.isAdding, spinner: "bar-fade-scale" }
+      }),
+      _vm._v(" "),
+      _c(
+        "form",
+        {
+          on: {
+            submit: function($event) {
+              $event.preventDefault()
+              return _vm.addLecture.apply(null, arguments)
+            }
           }
-        }
-      },
-      [
-        _c("v-card-title", [
-          _c("span", { staticClass: "headline" }, [_vm._v("Add Link")])
-        ]),
-        _vm._v(" "),
-        _c(
-          "v-card-text",
-          [
-            _c(
-              "v-container",
-              [
-                _c(
-                  "v-row",
-                  [
-                    _c(
-                      "v-col",
-                      { attrs: { cols: "12 pb-0" } },
-                      [
-                        _c("v-text-field", {
-                          attrs: { label: "Title", required: "" },
-                          model: {
-                            value: _vm.linkForm.sub_module_name,
-                            callback: function($$v) {
-                              _vm.$set(_vm.linkForm, "sub_module_name", $$v)
+        },
+        [
+          _c("v-card-title", [
+            _c("span", { staticClass: "headline" }, [_vm._v("Add Link")])
+          ]),
+          _vm._v(" "),
+          _c(
+            "v-card-text",
+            [
+              _c(
+                "v-container",
+                [
+                  _c(
+                    "v-row",
+                    [
+                      _c(
+                        "v-col",
+                        { attrs: { cols: "12  py-0 my-0" } },
+                        [
+                          _c("v-text-field", {
+                            attrs: {
+                              label: "Title",
+                              outlined: "",
+                              required: ""
                             },
-                            expression: "linkForm.sub_module_name"
-                          }
-                        })
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "v-col",
-                      { attrs: { cols: "12 pb-0" } },
-                      [
-                        _c("v-text-field", {
-                          attrs: { label: "Link", type: "url", required: "" },
-                          model: {
-                            value: _vm.linkForm.link,
-                            callback: function($$v) {
-                              _vm.$set(_vm.linkForm, "link", $$v)
+                            model: {
+                              value: _vm.linkForm.sub_module_name,
+                              callback: function($$v) {
+                                _vm.$set(_vm.linkForm, "sub_module_name", $$v)
+                              },
+                              expression: "linkForm.sub_module_name"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-col",
+                        { attrs: { cols: "12  py-0 my-0" } },
+                        [
+                          _c("v-text-field", {
+                            attrs: {
+                              label: "Link",
+                              type: "url",
+                              outlined: "",
+                              required: ""
                             },
-                            expression: "linkForm.link"
-                          }
-                        })
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "v-col",
-                      { attrs: { cols: "12 pb-0" } },
-                      [
-                        _c("label", [_vm._v(" Description ")]),
-                        _vm._v(" "),
-                        _c("v-textarea", {
-                          attrs: {
-                            label: "Description",
-                            counter: "",
-                            "full-width": "",
-                            "single-line": ""
-                          },
-                          model: {
-                            value: _vm.linkForm.description,
-                            callback: function($$v) {
-                              _vm.$set(_vm.linkForm, "description", $$v)
+                            model: {
+                              value: _vm.linkForm.link,
+                              callback: function($$v) {
+                                _vm.$set(_vm.linkForm, "link", $$v)
+                              },
+                              expression: "linkForm.link"
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            {
+                              staticStyle: {
+                                "margin-top": "-25px",
+                                position: "relative",
+                                "z-index": "90999"
+                              }
                             },
-                            expression: " linkForm.description"
-                          }
-                        })
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "v-col",
-                      { attrs: { cols: "12 pb-0" } },
-                      [
-                        _c("v-text-field", {
-                          attrs: {
-                            label:
-                              "Required time spent for Completion (minutes)",
-                            type: "number",
-                            required: ""
-                          },
-                          model: {
-                            value: _vm.linkForm.required_time,
-                            callback: function($$v) {
-                              _vm.$set(_vm.linkForm, "required_time", $$v)
+                            [
+                              _c(
+                                "v-tooltip",
+                                {
+                                  attrs: { right: "" },
+                                  scopedSlots: _vm._u([
+                                    {
+                                      key: "activator",
+                                      fn: function(ref) {
+                                        var on = ref.on
+                                        var attrs = ref.attrs
+                                        return [
+                                          _c(
+                                            "span",
+                                            _vm._g(
+                                              _vm._b({}, "span", attrs, false),
+                                              on
+                                            ),
+                                            [
+                                              _c(
+                                                "v-icon",
+                                                { attrs: { color: "info" } },
+                                                [
+                                                  _vm._v(
+                                                    "mdi-information-outline"
+                                                  )
+                                                ]
+                                              ),
+                                              _vm._v(
+                                                "\n                                        Supported Links, click here for tutorial\n                                    "
+                                              )
+                                            ],
+                                            1
+                                          )
+                                        ]
+                                      }
+                                    }
+                                  ])
+                                },
+                                [
+                                  _vm._v(" "),
+                                  _c("span", [
+                                    _vm._v(
+                                      "\n                                    Supported Links:\n                                    "
+                                    ),
+                                    _c("ul", [
+                                      _c("li", [
+                                        _vm._v(
+                                          "https://docs.google.com/presentation/d/[document-id]"
+                                        )
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("li", [
+                                        _vm._v(
+                                          "https://docs.google.com/document/d/[document-id]"
+                                        )
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("li", [
+                                        _vm._v("https://www.youtube.com")
+                                      ])
+                                    ])
+                                  ])
+                                ]
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-col",
+                        { attrs: { cols: "12  col-12  pb-0 my-0" } },
+                        [
+                          _c("v-textarea", {
+                            attrs: {
+                              label: "Description",
+                              counter: "",
+                              outlined: "",
+                              "full-width": "",
+                              "single-line": ""
                             },
-                            expression: "linkForm.required_time"
-                          }
-                        })
-                      ],
-                      1
-                    )
-                  ],
-                  1
-                )
-              ],
-              1
-            )
-          ],
-          1
-        ),
-        _vm._v(" "),
-        _c(
-          "v-card-actions",
-          [
-            _c("v-spacer"),
-            _vm._v(" "),
-            _c(
-              "v-btn",
-              {
-                attrs: { color: "blue darken-1", text: "" },
-                on: {
-                  click: function($event) {
-                    return _vm.$emit("CloseLecture")
+                            model: {
+                              value: _vm.linkForm.description,
+                              callback: function($$v) {
+                                _vm.$set(_vm.linkForm, "description", $$v)
+                              },
+                              expression: " linkForm.description"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-col",
+                        { attrs: { cols: "12  py-0 my-0" } },
+                        [
+                          _c("v-text-field", {
+                            attrs: {
+                              outlined: "",
+                              label:
+                                "Required time spent for Completion (minutes)",
+                              type: "number",
+                              required: ""
+                            },
+                            model: {
+                              value: _vm.linkForm.required_time,
+                              callback: function($$v) {
+                                _vm.$set(_vm.linkForm, "required_time", $$v)
+                              },
+                              expression: "linkForm.required_time"
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-card-actions",
+            [
+              _c("v-spacer"),
+              _vm._v(" "),
+              _c(
+                "v-btn",
+                {
+                  attrs: { text: "" },
+                  on: {
+                    click: function($event) {
+                      return _vm.$emit("CloseLecture")
+                    }
                   }
-                }
-              },
-              [_vm._v("\n                Close\n            ")]
-            ),
-            _vm._v(" "),
-            _c(
-              "v-btn",
-              {
-                attrs: {
-                  color: "blue darken-1",
-                  text: "",
-                  loading: _vm.sending
                 },
-                on: {
-                  click: function($event) {
-                    return _vm.addLecture()
+                [_vm._v("\n                Close\n            ")]
+              ),
+              _vm._v(" "),
+              _c(
+                "v-btn",
+                {
+                  attrs: {
+                    color: "primary",
+                    text: "",
+                    loading: _vm.sending,
+                    disabled: _vm.sending
+                  },
+                  on: {
+                    click: function($event) {
+                      return _vm.addLecture()
+                    }
                   }
-                }
-              },
-              [_vm._v("\n                Save\n            ")]
-            )
-          ],
-          1
-        )
-      ],
-      1
-    )
-  ])
+                },
+                [_vm._v("\n                Save\n            ")]
+              )
+            ],
+            1
+          )
+        ],
+        1
+      )
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -5675,6 +6500,79 @@ var render = function() {
   return _c(
     "v-card",
     [
+      _c("v-card-title", [
+        _c("span", { staticClass: "headline" }, [_vm._v("Confirmation")])
+      ]),
+      _vm._v(" "),
+      _c("v-card-text", [
+        _vm._v(
+          "\n             Are you sure you want to delete this module?\n        "
+        )
+      ]),
+      _vm._v(" "),
+      _c(
+        "v-card-actions",
+        [
+          _c("v-spacer"),
+          _vm._v(" "),
+          _c(
+            "v-btn",
+            {
+              attrs: { text: "" },
+              on: {
+                click: function($event) {
+                  return _vm.$emit("closeModal")
+                }
+              }
+            },
+            [_vm._v("\n                Cancel\n            ")]
+          ),
+          _vm._v(" "),
+          _c(
+            "v-btn",
+            {
+              attrs: { color: "red", text: "", loading: _vm.loading },
+              on: {
+                click: function($event) {
+                  return _vm.deleteModule()
+                }
+              }
+            },
+            [_vm._v("\n                Delete\n            ")]
+          )
+        ],
+        1
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/modules-tab/Forms/deleteItemForm.vue?vue&type=template&id=da4c9b80&":
+/*!*************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/modules-tab/Forms/deleteItemForm.vue?vue&type=template&id=da4c9b80& ***!
+  \*************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "v-card",
+    [
       _c(
         "v-form",
         { ref: "registerForm" },
@@ -5683,23 +6581,11 @@ var render = function() {
             _c("span", { staticClass: "headline" }, [_vm._v("Confirmation")])
           ]),
           _vm._v(" "),
-          _c(
-            "v-card-text",
-            [
-              _c(
-                "v-container",
-                [
-                  _c("v-col", { attrs: { cols: "12" } }, [
-                    _vm._v(
-                      "\n                    Are you sure you want to delete this item?\n                "
-                    )
-                  ])
-                ],
-                1
-              )
-            ],
-            1
-          ),
+          _c("v-card-text", [
+            _vm._v(
+              "\n            Are you sure you want to delete this module?\n        "
+            )
+          ]),
           _vm._v(" "),
           _c(
             "v-card-actions",
@@ -5709,7 +6595,7 @@ var render = function() {
               _c(
                 "v-btn",
                 {
-                  attrs: { color: "blue darken-1", text: "" },
+                  attrs: { text: "" },
                   on: {
                     click: function($event) {
                       return _vm.$emit("closeModal")
@@ -5722,11 +6608,7 @@ var render = function() {
               _c(
                 "v-btn",
                 {
-                  attrs: {
-                    color: "blue darken-1",
-                    text: "",
-                    loading: _vm.loading
-                  },
+                  attrs: { color: "red", text: "", loading: _vm.loading },
                   on: {
                     click: function($event) {
                       return _vm.deleteModule()
@@ -6102,8 +6984,10 @@ var render = function() {
                                                 attrs: { link: "" },
                                                 on: {
                                                   click: function($event) {
-                                                    return _vm.editFileBtn(
-                                                      itemModule.id
+                                                    return _vm.editItemBtn(
+                                                      itemSubModule,
+                                                      itemSubModule.id,
+                                                      itemSubModule.type
                                                     )
                                                   }
                                                 }
@@ -6122,8 +7006,8 @@ var render = function() {
                                                 attrs: { link: "" },
                                                 on: {
                                                   click: function($event) {
-                                                    return _vm.editLinkBtn(
-                                                      itemModule.id
+                                                    return _vm.deleteItemModuleBtn(
+                                                      itemSubModule.id
                                                     )
                                                   }
                                                 }
@@ -6342,9 +7226,13 @@ var render = function() {
               })
             : _vm._e(),
           _vm._v(" "),
-          _vm.itemType == "add_file"
+          _vm.itemType == "add_file" || _vm.itemType == "edit_file"
             ? _c("fileForm", {
-                attrs: { moduleId: _vm.mainModule_id },
+                attrs: {
+                  moduleId: _vm.mainModule_id,
+                  submodule: _vm.pass_submodule,
+                  type_action: _vm.itemType
+                },
                 on: {
                   CloseLecture: function($event) {
                     _vm.itemDialog = false
@@ -6354,9 +7242,14 @@ var render = function() {
               })
             : _vm._e(),
           _vm._v(" "),
-          _vm.itemType == "add_link"
+          _vm.itemType == "add_link" || _vm.itemType == "edit_link"
             ? _c("linkForm", {
-                attrs: { moduleId: _vm.mainModule_id },
+                attrs: {
+                  submodule: _vm.pass_submodule,
+                  sub_module_id: _vm.sub_module_id,
+                  moduleId: _vm.mainModule_id,
+                  type_action: _vm.itemType
+                },
                 on: {
                   CloseLecture: function($event) {
                     _vm.itemDialog = false
@@ -6369,6 +7262,21 @@ var render = function() {
           _vm.itemType == "delete_module"
             ? _c("deleteForm", {
                 attrs: { moduleId: _vm.mainModule_id, type: "delete_module" },
+                on: {
+                  closeModal: function($event) {
+                    _vm.itemDialog = false
+                    _vm.itemType = ""
+                  }
+                }
+              })
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.itemType == "delete_item_module"
+            ? _c("deleteItemForm", {
+                attrs: {
+                  sub_module_id: _vm.sub_module_id,
+                  type: "delete_module"
+                },
                 on: {
                   closeModal: function($event) {
                     _vm.itemDialog = false

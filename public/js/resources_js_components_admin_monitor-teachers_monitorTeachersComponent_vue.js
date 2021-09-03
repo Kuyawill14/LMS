@@ -83,23 +83,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -113,13 +96,60 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       IsResetting: false,
       type: '',
       search: "",
-      valid: true
+      valid: true,
+      headers: [{
+        text: 'ID',
+        value: 'user_id',
+        align: 'start'
+      }, {
+        text: 'Name',
+        value: 'firstName',
+        align: 'start'
+      }, {
+        text: 'Total Courses',
+        value: 'course_count',
+        align: 'center'
+      }, {
+        text: 'Total Classes',
+        value: 'total_classes',
+        align: 'center'
+      }, {
+        text: ' Total Lesson Created',
+        value: 'sub_modules_count',
+        align: 'center'
+      }, {
+        text: 'Total Classwork Created',
+        value: 'classwork_count',
+        align: 'center'
+      }, {
+        text: 'Actions',
+        sortable: false
+      }],
+      teacherSummary: []
     };
   },
-  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(["getTeachersSumarry"])),
+  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(["getTeachersSumarry"])), {}, {
+    filteredItems: function filteredItems() {
+      var _this = this;
+
+      if (this.search) {
+        return this.teacherSummary.filter(function (item) {
+          return _this.search.toLowerCase().split(' ').every(function (v) {
+            return item.firstName.toLowerCase().includes(v) || item.lastName.toLowerCase().includes(v) || item.middleName.toLowerCase().includes(v) || item.user_id.toString().includes(v);
+          });
+        });
+      } else {
+        return this.teacherSummary;
+      }
+    }
+  }),
   methods: {},
   mounted: function mounted() {
-    this.$store.dispatch('teacherSummarryData');
+    var _this2 = this;
+
+    this.$store.dispatch('teacherSummarryData').then(function () {
+      _this2.teacherSummary = _this2.getTeachersSumarry;
+    });
   }
 });
 
@@ -279,28 +309,7 @@ var render = function() {
     "div",
     { staticClass: "pt-4" },
     [
-      _c("h2", [_vm._v("\n        Manage users\n    ")]),
-      _vm._v(" "),
-      _c(
-        "v-btn",
-        {
-          attrs: {
-            bottom: "",
-            color: "primary",
-            dark: "",
-            fab: "",
-            fixed: "",
-            right: ""
-          },
-          on: {
-            click: function($event) {
-              return _vm.openAdd()
-            }
-          }
-        },
-        [_c("v-icon", [_vm._v("mdi-plus")])],
-        1
-      ),
+      _c("h2", [_vm._v("\n        Monitor Teachers\n    ")]),
       _vm._v(" "),
       _c(
         "v-row",
@@ -313,66 +322,51 @@ var render = function() {
                 "v-card",
                 { attrs: { elevation: "2" } },
                 [
-                  _c("v-simple-table", {
+                  _c(
+                    "v-card-title",
+                    [
+                      _vm._v(
+                        "\n                    Teachers\n\n                    "
+                      ),
+                      _c("v-spacer"),
+                      _vm._v(" "),
+                      _c("v-text-field", {
+                        attrs: {
+                          "append-icon": "mdi-magnify",
+                          label: "Search",
+                          "single-line": "",
+                          "hide-details": ""
+                        },
+                        model: {
+                          value: _vm.search,
+                          callback: function($$v) {
+                            _vm.search = $$v
+                          },
+                          expression: "search"
+                        }
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c("v-data-table", {
+                    staticClass: "elevation-1",
+                    attrs: {
+                      headers: _vm.headers,
+                      items: _vm.filteredItems,
+                      "items-per-page": 10
+                    },
                     scopedSlots: _vm._u([
                       {
-                        key: "default",
-                        fn: function() {
+                        key: "body",
+                        fn: function(ref) {
+                          var items = ref.items
                           return [
-                            _c("thead", [
-                              _c("tr", [
-                                _c("th", [
-                                  _vm._v(
-                                    "\n                                    ID\n                                "
-                                  )
-                                ]),
-                                _vm._v(" "),
-                                _c("th", [
-                                  _vm._v(
-                                    "\n                                    Name\n                                "
-                                  )
-                                ]),
-                                _vm._v(" "),
-                                _c("th", { staticClass: "text-center" }, [
-                                  _vm._v(
-                                    "\n                                    Total Courses\n                                "
-                                  )
-                                ]),
-                                _vm._v(" "),
-                                _c("th", { staticClass: "text-center" }, [
-                                  _vm._v(
-                                    "\n                                    Total Classes\n                                "
-                                  )
-                                ]),
-                                _vm._v(" "),
-                                _c("th", { staticClass: "text-center" }, [
-                                  _vm._v(
-                                    "\n                                    Total Modules Created\n                                "
-                                  )
-                                ]),
-                                _vm._v(" "),
-                                _c("th", { staticClass: "text-center" }, [
-                                  _vm._v(
-                                    "\n                                    Total Lesson Created\n                                "
-                                  )
-                                ]),
-                                _vm._v(" "),
-                                _c("th", { staticClass: "text-center" }, [
-                                  _vm._v(
-                                    "\n                                    Action\n                                "
-                                  )
-                                ])
-                              ])
-                            ]),
-                            _vm._v(" "),
                             _c(
                               "tbody",
                               [
-                                _vm._l(_vm.getTeachersSumarry, function(
-                                  item,
-                                  index
-                                ) {
-                                  return _c("tr", { key: index }, [
+                                _vm._l(items, function(item) {
+                                  return _c("tr", { key: item.id }, [
                                     _c("td", [
                                       _vm._v(" " + _vm._s(item.user_id) + " ")
                                     ]),
@@ -447,7 +441,7 @@ var render = function() {
                                   ])
                                 }),
                                 _vm._v(" "),
-                                _vm.getTeachersSumarry.length == 0
+                                items.length == 0
                                   ? _c("tr", [
                                       _c(
                                         "td",
@@ -463,8 +457,7 @@ var render = function() {
                               2
                             )
                           ]
-                        },
-                        proxy: true
+                        }
                       }
                     ])
                   })
