@@ -847,9 +847,7 @@ var render = function() {
                                                                   _vm._s(
                                                                     main.sub_module_length
                                                                   ) +
-                                                                  "\n                                            " +
-                                                                  _vm._s(main) +
-                                                                  "\n                                        "
+                                                                  "\n                                          \n                                        "
                                                               )
                                                             ]
                                                           )
