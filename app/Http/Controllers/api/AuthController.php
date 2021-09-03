@@ -119,22 +119,24 @@ class AuthController extends Controller
     
     }
 
-
+// '$2y$10$cRl5lx14qOBXEh5tzJZZn.ajz5YzZCWE1si3ao7g7aCiIexktqlRG'
     public function ChangePassword(Request $request){
         
         $validated = $request->validate([
             'new_password' => ['required', 'min:6'],
         ]);
 
-        if(Hash::check($request->current_password, auth()->user()->password)){
-            //return $request;
+        if(Hash::check(strval($request->current_password), auth()->user()->password)){
+           
             auth()->user()->password = Hash::make($request->new_password);
             auth()->user()->save();
 
-            auth()->user();
+            // auth()->user();
+            
+            return 1;
         }
         else{
-            return 'Change password failed!';
+            return 0;
         } 
     }
 

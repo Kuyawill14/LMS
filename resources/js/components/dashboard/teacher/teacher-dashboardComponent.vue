@@ -30,12 +30,12 @@
                     </v-col>
                 </v-row>
 
-                 <v-row>
+                <v-row>
                     <v-col cols="12">
                         <progressChart :allCourse="allCourse"> </progressChart>
                     </v-col>
                     <v-col>
-                       
+
                     </v-col>
                 </v-row>
 
@@ -48,10 +48,24 @@
 
             </v-col>
 
-            <v-col lg="4">
+            <v-col lg="4" >
                 <v-row>
                     <v-col class="pt-0">
-                        <v-card>
+                        <v-card @click="calendarDialog = true">
+
+                            <v-dialog transition="dialog-bottom-transition" max-width="1000px"  v-model="calendarDialog" id="calendar_modal">
+
+                                <v-card class="pt-3">
+
+                                    <myCalendar :role="role"></myCalendar>
+                                    <br> 
+                                    <v-card-actions class="justify-end">
+                                        <v-btn text @click="calendarDialog = false">Close</v-btn>
+                                    </v-card-actions>
+                                </v-card>
+
+                            </v-dialog>
+
                             <myCalendar :role="role"></myCalendar>
                         </v-card>
                     </v-col>
@@ -87,7 +101,7 @@
         mapGetters,
         mapActions
     } from "vuex";
-    
+
 
     export default {
         props: ['role'],
@@ -100,7 +114,7 @@
         data() {
             return {
                 class_count: 0,
-             
+                calendarDialog: false,
             };
         },
         computed: mapGetters(['allCourse']),
@@ -126,6 +140,13 @@
 <style scoped>
     .chart {
         height: 355px;
+    }
+
+</style>
+<style>
+
+    .v-dialog--active {
+        overflow-x: hidden;
     }
 
 </style>

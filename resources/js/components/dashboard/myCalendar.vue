@@ -14,7 +14,7 @@
             </v-container>
         </v-col>
 
-    <v-col v-if="!isloading">
+    <v-col v-if="!isloading" class="py-0">
       <v-sheet height="64">
         <v-toolbar
           flat
@@ -87,7 +87,7 @@
           </v-menu>
         </v-toolbar>
       </v-sheet>
-      <v-sheet height="280">
+      <v-sheet height="350">
         <v-calendar
           ref="calendar"
           v-model="focus"

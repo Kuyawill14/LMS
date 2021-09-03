@@ -7161,17 +7161,6 @@ var render = function() {
                                               ])
                                             ],
                                             1
-                                          ),
-                                          _vm._v(" "),
-                                          _c(
-                                            "v-list-item",
-                                            { attrs: { link: "" } },
-                                            [
-                                              _c("v-list-item-title", [
-                                                _vm._v("Classwork")
-                                              ])
-                                            ],
-                                            1
                                           )
                                         ],
                                         1

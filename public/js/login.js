@@ -170,20 +170,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -451,10 +437,51 @@ var render = function() {
                               )
                             : _vm._e(),
                           _vm._v(" "),
+                          !_vm.$vuetify.breakpoint.xs &&
+                          !_vm.$vuetify.breakpoint.sm
+                            ? _c(
+                                "v-container",
+                                {
+                                  staticClass:
+                                    "pt-10 mb-0 pl-5 d-flex justify-center"
+                                },
+                                [
+                                  _c(
+                                    "div",
+                                    { staticStyle: { width: "250px" } },
+                                    [
+                                      _c("v-img", {
+                                        staticClass: "float-right",
+                                        attrs: {
+                                          height: "100",
+                                          width: "100",
+                                          "max-height": "100",
+                                          "max-width": "100",
+                                          src: "../images/isu_logo1.png"
+                                        }
+                                      }),
+                                      _vm._v(" "),
+                                      _c("v-img", {
+                                        attrs: {
+                                          height: "100",
+                                          width: "100",
+                                          "max-height": "100",
+                                          "max-width": "100",
+                                          src: "../images/ccsict_logo_2.png"
+                                        }
+                                      })
+                                    ],
+                                    1
+                                  )
+                                ]
+                              )
+                            : _vm._e(),
+                          _vm._v(" "),
                           _c(
                             "v-container",
                             {
-                              staticClass: "fill-height",
+                              staticClass: "fill-height ",
+                              staticStyle: { "padding-top": "35px" },
                               attrs: { fluid: "" }
                             },
                             [
@@ -508,7 +535,9 @@ var render = function() {
                                                     { staticClass: "text-h6" },
                                                     [_vm._v("A")]
                                                   ),
-                                                  _vm._v("pp for a "),
+                                                  _vm._v(
+                                                    "pp for a\n                                                "
+                                                  ),
                                                   _c(
                                                     "b",
                                                     { staticClass: "text-h6" },
@@ -544,38 +573,46 @@ var render = function() {
                             1
                           ),
                           _vm._v(" "),
-                          !_vm.$vuetify.breakpoint.xs &&
-                          !_vm.$vuetify.breakpoint.sm
-                            ? _c(
-                                "v-container",
+                          _c(
+                            "v-container",
+                            {
+                              staticClass: "fill-height",
+                              attrs: { fluid: "" }
+                            },
+                            [
+                              _c(
+                                "v-row",
                                 {
-                                  staticClass:
-                                    "pb-0 mb-0 pl-5 d-flex justify-center"
+                                  attrs: { align: "center", justify: "center" }
                                 },
                                 [
-                                  _c("v-img", {
-                                    attrs: {
-                                      height: "70",
-                                      width: "70",
-                                      "max-height": "70",
-                                      "max-width": "70",
-                                      src: "../images/isu_logo1.png"
-                                    }
-                                  }),
-                                  _vm._v(" "),
-                                  _c("v-img", {
-                                    attrs: {
-                                      height: "70",
-                                      width: "70",
-                                      "max-height": "70",
-                                      "max-width": "70",
-                                      src: "../images/ccsict_logo_2.png"
-                                    }
-                                  })
+                                  _c(
+                                    "v-col",
+                                    {
+                                      staticClass: "text-center",
+                                      attrs: { cols: "12" }
+                                    },
+                                    [
+                                      _c("iframe", {
+                                        attrs: {
+                                          src:
+                                            "https://player.vimeo.com/video/597374601?h=d67ddce656&muted=1&autoplay=1&loop=1&title=0&byline=0&portrait=0&muted=0&#t=150s",
+                                          width: "440",
+                                          height: "250",
+                                          frameborder: "0",
+                                          allow:
+                                            "autoplay; fullscreen; picture-in-picture",
+                                          allowfullscreen: ""
+                                        }
+                                      })
+                                    ]
+                                  )
                                 ],
                                 1
                               )
-                            : _vm._e()
+                            ],
+                            1
+                          )
                         ],
                         1
                       ),
@@ -656,7 +693,7 @@ var render = function() {
                                                     },
                                                     [
                                                       _vm._v(
-                                                        "\n                                      Login to your "
+                                                        "\n                                                    Login to your "
                                                       ),
                                                       _c(
                                                         "span",
@@ -689,7 +726,7 @@ var render = function() {
                                                         },
                                                         [
                                                           _vm._v(
-                                                            "Create one here"
+                                                            "Create one here\n                                                    "
                                                           )
                                                         ]
                                                       )
@@ -846,7 +883,7 @@ var render = function() {
                                                             },
                                                             [
                                                               _vm._v(
-                                                                "Forgot Password?"
+                                                                "Forgot\n                                                            Password?"
                                                               )
                                                             ]
                                                           )
@@ -887,7 +924,7 @@ var render = function() {
                                                         [_vm._v("mdi-login")]
                                                       ),
                                                       _vm._v(
-                                                        "\n                                    Login\n                                  "
+                                                        "\n                                                    Login\n                                                "
                                                       )
                                                     ],
                                                     1

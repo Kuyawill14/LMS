@@ -107,7 +107,7 @@
                     <span class="headline">Confirmation</span>
                 </v-card-title>
                 <v-card-text>
-                    Are you sure you want to delete this module?
+                    Are you sure you want to delete this Item?
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer></v-spacer>
