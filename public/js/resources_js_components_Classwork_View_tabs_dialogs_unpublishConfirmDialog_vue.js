@@ -162,14 +162,33 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "v-card",
-    { staticClass: "pa-2" },
     [
-      _c("v-card-title", { staticClass: "text-h5 mb-3" }, [
-        _vm._v("\n      Unpublish from "),
-        _c("span", { staticClass: "primary--text ml-2" }, [
-          _vm._v('"' + _vm._s(_vm.UnpublishDetails.class_name) + '"')
-        ])
-      ]),
+      _c(
+        "v-card-title",
+        [
+          _c(
+            "v-btn",
+            {
+              attrs: { large: "", icon: "" },
+              on: {
+                click: function($event) {
+                  return _vm.$emit("toggleCancelDialog")
+                }
+              }
+            },
+            [_c("v-icon", [_vm._v("mdi-close")])],
+            1
+          ),
+          _vm._v(" "),
+          _c("span", { staticClass: "h6" }, [
+            _vm._v(" Unpublish from "),
+            _c("span", { staticClass: "primary--text ml-2" }, [
+              _vm._v('"' + _vm._s(_vm.UnpublishDetails.class_name) + '"')
+            ])
+          ])
+        ],
+        1
+      ),
       _vm._v(" "),
       _c("v-card-text", { staticClass: "font-weight-bold" }, [
         _c("div", { staticClass: "subtitle-1 " }, [
@@ -181,27 +200,12 @@ var render = function() {
       _vm._v(" "),
       _c(
         "v-card-actions",
-        { staticClass: "pb-5" },
+        { staticClass: "pb-2 pl-5 pr-5" },
         [
-          _c("v-spacer"),
-          _vm._v(" "),
           _c(
             "v-btn",
             {
-              attrs: { color: "primary", rounded: "", outlined: "" },
-              on: {
-                click: function($event) {
-                  return _vm.$emit("toggleCancelDialog")
-                }
-              }
-            },
-            [_vm._v("\n        Cancel\n      ")]
-          ),
-          _vm._v(" "),
-          _c(
-            "v-btn",
-            {
-              attrs: { color: "primary", rounded: "" },
+              attrs: { color: "primary", block: "", rounded: "" },
               on: {
                 click: function($event) {
                   return _vm.UnpublishClasswork()

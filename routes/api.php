@@ -91,6 +91,7 @@ Route::middleware('auth:sanctum')->prefix('/course')->group(function () {
 Route::middleware('auth:sanctum')->prefix('/announcement')->group(function () {
     Route::post('/insert', [AnnouncementController::class, 'store']);
     Route::get('/allpost/{id}', [AnnouncementController::class, 'allClassPost']);
+    Route::post('/upload/image', [AnnouncementController::class, 'ImageUploader']);
     
 });
 
@@ -126,6 +127,8 @@ Route::middleware('auth:sanctum')->prefix('/classwork')->group(function () {
     Route::post('/unshare', [ClassworkController::class, 'UnshareClasswork']);
     Route::post('/update', [ClassworkController::class, 'update']);
     Route::post('/addAttachment', [ClassworkController::class, 'AddAttachment']);
+    Route::post('/newAttachment', [ClassworkController::class, 'NewAttachment']);
+    
     Route::delete('/remove/{id}', [ClassworkController::class, 'destroy']);
     Route::put('/deleteAttachment/{id}', [ClassworkController::class, 'RemoveAttachment']);
     
@@ -142,6 +145,8 @@ Route::middleware('auth:sanctum')->prefix('/student')->group(function () {
     Route::get('/checking/{id}', [StudentController::class, 'CheckStatus']);
     Route::post('/join/{id}', [StudentController::class, 'JoinClass']);
     Route::post('/update-status', [StudentController::class, 'UpdateStatus']);
+    Route::post('/linkAndstatus', [StudentController::class, 'AddLinkToSubmittedAnswer']);
+    
     Route::delete('/{id}', [StudentController::class, 'Unenroll']);
     Route::put('/submit-classwork/{id}', [StudentController::class, 'SubmitClassworkSubj']);
     Route::delete('/removeFromClass/{class_id}/{user_id}', [StudentController::class, 'removeFromClass']);

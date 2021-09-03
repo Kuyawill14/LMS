@@ -82,11 +82,22 @@ class SubmissionController extends Controller
             
             $Ans = unserialize($RemoveSubmissionFile->Submitted_Answers);
             if(count($Ans) == 1){
-                Storage::delete('public/'.$Ans[$request->Fileindex]['link']);
+                //Storage::delete('public/'.$Ans[$request->Fileindex]['link']);
+                if($Ans[$request->Fileindex]['fileExte'] != 'link'){
+                    $path =  str_replace(\Config::get('app.do_url').'/', "", $Ans[$request->Fileindex]['link']);
+                    Storage::disk('DO_spaces')->delete($path);
+                }
+                
                 $RemoveSubmissionFile->delete();
             }
             else{
-                Storage::delete('public/'.$Ans[$request->Fileindex]['link']);
+                //Storage::disk('DO_spaces')->delete($path);
+               /*  Storage::delete('public/'.$Ans[$request->Fileindex]['link']);
+                $path =  str_replace(\Config::get('app.do_url').'/', "", $Ans[$request->Fileindex]['link']); */
+                if($Ans[$request->Fileindex]['fileExte'] != 'link'){
+                    $path =  str_replace(\Config::get('app.do_url').'/', "", $Ans[$request->Fileindex]['link']);
+                    Storage::disk('DO_spaces')->delete($path);
+                }
                 array_splice($Ans, $request->Fileindex, 1);
                 $RemoveSubmissionFile->Submitted_Answers = serialize($Ans);
                 $RemoveSubmissionFile->save();

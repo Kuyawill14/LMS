@@ -70,7 +70,7 @@
                                 <v-col cols="6" md="4" lg="4" class="text-right pb-0 mb-0">
                                     <v-select
                                             v-model="ListType"
-                                        :items="['All','Multiple Choice', 'Identification', 'True or False', 'Matching type']"
+                                        :items="['All','Multiple Choice', 'Identification', 'True or False', 'Matching type','Essay']"
                                         class=""
                                         label="Type"
                                         outlined
@@ -108,6 +108,11 @@
                                             :Answers="getAll_questions.Answer[index].SubAnswer"
                                             ></matchingType>
                                     </div>
+                                     <div v-if="item.type == 'Essay'" class="mb-2">
+                                            <essayType v-on:updateQuestion="updateQuestion" :previewAll="previewAll" v-on:reloadList="fetchQuestionsList()" v-if="item.type == 'Essay'" :number="index+1" :Question="item"></essayType>
+                                    </div>
+
+                                    
                             </v-container>
                         </v-col>
                     </v-row>
@@ -123,6 +128,7 @@ import indentificationList from './List-types/IndentificationList'
 import multipleChoiceList from './List-types/MultipleChoiceList'
 import trueOrfalseList from './List-types/trueOrfalseList'
 import matchingType from './List-types/matchingType'
+import essayType from './List-types/EssayType'
 import deleteDialog from './dialogs/deleteDialog';
  import {mapGetters, mapActions } from "vuex";
 export default {
@@ -132,7 +138,8 @@ export default {
         multipleChoiceList,
         indentificationList,
         trueOrfalseList,
-        matchingType
+        matchingType,
+        essayType
     },
     data(){
         return{

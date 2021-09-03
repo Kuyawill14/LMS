@@ -1,13 +1,16 @@
 <template>
   
-    <v-card >
+    <v-card class="ma-0 pa-0">
         <vue-element-loading :active="loading" spinner="bar-fade-scale" />
         <v-form ref="NewClassworkForm" v-model="valid" lazy-validation>
             <v-card-title>
-                <span class="headline">Add Classwork</span>
+                <v-btn large icon @click="$emit('CloseDialog')" :disabled="loading">
+                    <v-icon>mdi-close</v-icon>
+                </v-btn>
+                <span class="h6">New Classwork</span>
             </v-card-title>
             <v-card-text>
-                <v-container>
+                <v-container mb-0 pb-0 >
                     <v-row>
                         <v-col class="mb-0 pb-0 pt-0 mt-0" cols="12"> 
                             <v-select
@@ -18,8 +21,6 @@
                             label="Type"
                             ></v-select>
                         </v-col>
-
-                      
                         <v-col class="mb-0 pb-0 pt-0 mt-0" cols="12">
                              <v-textarea
                                 rows="1"
@@ -109,12 +110,15 @@
                     </v-row>
                 </v-container>
             </v-card-text>
-            <v-card-actions>
-                <v-spacer></v-spacer>
+            <v-card-actions class="pl-5 pr-5">
+                <!-- <v-spacer></v-spacer>
                 <v-btn  text @click="$emit('CloseDialog')" :disabled="loading">
                     Close
-                </v-btn>
-                <v-btn color="primary" text @click="validate()" :disabled="loading" :loading="loading">
+                </v-btn> -->
+               
+                <v-btn block="" :disabled="form.type == 'Subjective Type' ? 
+                (form.title == null || form.title == '') || (form.type == null || form.type == '') || (form.instruction == null || form.instruction == '') || (form.points == null || form.points == '') : 
+                (form.title == null || form.title == '') || (form.type == null || form.type == '') || (form.instruction == null || form.instruction == '') || (form.duration == null || form.duration == '')" color="primary" rounded @click="validate()" :loading="loading">
                     Save
                 </v-btn>
             </v-card-actions>
@@ -161,8 +165,6 @@ export default {
             uploadPercentage: 0,
             uploadIndex: null
             
-            
-          
         }
     },
     computed:{
@@ -241,8 +243,9 @@ export default {
         addFile(){
            
             let fd = new FormData;
+            fd.append('type', "Classwork");
             fd.append('file', this.file[this.counter]);
-            axios.post('/api/classwork/addAttachment',fd,
+                axios.post('/api/classwork/newAttachment',fd,
             {
             onUploadProgress:(progressEvent)=>{
                 const total = progressEvent.total;

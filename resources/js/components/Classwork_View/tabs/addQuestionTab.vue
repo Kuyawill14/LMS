@@ -55,7 +55,7 @@
                                          <v-select
                                             v-model="quesForm.type"
                                             class="pa-0 ma-0 float-right"
-                                            :items="['Multiple Choice', 'Identification', 'True or False', 'Matching type']"
+                                            :items="Question_type"
                                             outlined
                                             label="Question Type"
                                             ></v-select> 
@@ -67,18 +67,34 @@
                                     <v-row class="pa-0 ma-0">
                                         
                                         <v-col class="pa-0 ma-0 mt-2 mb-2" cols="12">
-                                            <!-- <v-container  class="d-flex flex-row ma-0 pa-0">
-                                            <v-textarea
-                                            rows="1"
-                                            v-model="quesForm.question"
-                                            outlined
-                                            :rules="rules"
-                                            class="pa-0 ma-0"
-                                            label="Question"
-                                            auto-grow
-                                            required
-                                   
-                                            ></v-textarea> -->
+                                            <!-- <v-list class="ma-0 pa-0">
+                                                <v-list-item>
+                                                    <v-list-item-content class="mb-0 pb-0">
+                                                        <v-textarea
+                                                        rows="3"
+                                                        
+                                                        v-model="quesForm.question"
+                                                        outlined
+                                                        :rules="rules"
+                                                        class="pa-0 ma-0"
+                                                        label="Question"
+                                                        required >
+                                                        </v-textarea>
+                                                    </v-list-item-content>
+                                                    <v-list-item-icon>
+                                                        <v-tooltip top>
+                                                        <template v-slot:activator="{ on, attrs }">
+                                                        <v-btn icon  v-bind="attrs"
+                                                            v-on="on" 
+                                                            text class="mt-2 pl-2 pr-2"> <v-icon>mdi-image</v-icon> </v-btn>
+                                                        </template>
+                                                        <span>Add Image</span>
+                                                        </v-tooltip>
+                                                    </v-list-item-icon>
+                                                </v-list-item>
+                                            </v-list> -->
+                                           <!--  <v-container  class="d-flex flex-row ma-0 pa-0"> -->
+                                           
                                             <div style="width:100%" class="mb-3">
 
                                            
@@ -154,7 +170,7 @@
                                                             <v-btn
                                                             @click="item.answer == quesForm.answer ? (remove(i), quesForm.answer = '') : (remove(i),quesForm.answer = tempAnswer) "
                                                             icon class="mt-2 pl-2 pr-2">
-                                                                <v-icon>mdi-delete</v-icon>
+                                                                <v-icon>mdi-close</v-icon>
                                                             </v-btn>
                                                         </v-container>
                                                     </v-col>
@@ -177,7 +193,7 @@
                                 
                                 </v-container>
 
-                                <v-container  v-if="quesForm.type == 'Identification'">
+                                <v-container mb-0 pb-0 v-if="quesForm.type == 'Identification'">
                                     <v-row ma-0 pa-0>
                                         <div class="font-weight-medium">Answer</div>
                                         <v-col  ma-0 pa-0 class="ma-0 pa-0 mt-2" cols="12">
@@ -276,7 +292,7 @@
                                                         
                                                         @click="removeMatch(i)"
                                                         icon class="mt-12 pl-2 pr-2">
-                                                        <v-icon>mdi-delete</v-icon>
+                                                        <v-icon>mdi-close</v-icon>
                                                     </v-btn>
                                                     </v-container>
                                                </v-col>
@@ -315,6 +331,21 @@
                                         </v-col>
                                         
 
+                                    </v-row>
+                                </v-container>
+
+                                 <v-container mb-0 pb-0  v-if="quesForm.type == 'Essay'">
+                                    <v-row ma-0 pa-0>
+                                      <!--   <div class="font-weight-medium">Answer</div>
+                                        <v-col  ma-0 pa-0 class="ma-0 pa-0 mt-2" cols="12">
+                                              <div style="width:100%" class="mb-3">
+                                                <editor :rules="rules"
+                                                    v-model="quesForm.answer" 
+                                                    id="editor-container" placeholder="Answer" 
+                                                    theme="snow" :options="options">
+                                                </editor>
+                                            </div>
+                                        </v-col> -->
                                     </v-row>
                                 </v-container>
                                 <v-container class="pt-0 mt-0">
@@ -359,6 +390,7 @@ import {mapGetters, mapActions} from "vuex";
 export default {
     data(){
         return{
+            Question_type:['Multiple Choice', 'Identification', 'True or False', 'Matching type','Essay'],
             isloading: true,
             isAdding: false,
             isLeaving: false,
@@ -410,8 +442,7 @@ export default {
             options:{
             modules: {
                     'toolbar': [
-                        ['bold', 'italic', 'underline', 'strike'],
-                
+                        ['bold', 'italic', 'underline'],
                         [{ 'list': 'bullet' }],
                         ['image'],
                     ],
@@ -511,6 +542,24 @@ export default {
                     this.toastError('You must atleast enter two choices');
                     this.isAdding = false;
                 }
+            }
+            else if(this.quesForm.type == 'Essay'){
+                    this.finalData.ansLength = this.form.length;
+                    this.finalData.clw = this.$route.query.clwk;
+                    this.finalData.questions = this.quesForm;
+                    this.finalData.answers = this.form;
+                    this.$store.dispatch('addQuestions', this.finalData)
+                    .then((response)  => {
+                        if(response.data.success == true){
+                            this.toastSuccess(response.data.message);
+                            this.CallReset();
+                            this.isAdding = false
+                         }
+                         else{
+                             this.toastError(response.data.message);
+                             this.isAdding = false
+                         }
+                    })
             }
             else if(this.quesForm.type == 'Identification' || this.quesForm.type == 'True or False'){
                 if(this.quesForm.answer != '' && this.quesForm.points != 0 || ''){

@@ -85,7 +85,7 @@
                                                     mdi-share
                                                 </v-icon>
                                             </v-btn>
-                                            <v-menu v-if="details.status == 1"  offset-y>
+                                            <v-menu  v-if="details.status == 1"  offset-y>
                                                 <template v-slot:activator="{ on, attrs }">
                                                     <v-btn
                                                     v-if="details.status == 1"
@@ -99,7 +99,7 @@
                                                     <v-icon>mdi-dots-vertical</v-icon>
                                                     </v-btn>
                                                 </template>
-                                                <v-list class="pa-1">
+                                                <v-list rounded class="pa-1">
                                                     <v-list-item class="rounded" link 
                                                     @click="OpenEditPublish($route.query.clwk, details.class_id, details.class_name, details.Class_classwork_id)" >
                                                         <v-list-item-title> 

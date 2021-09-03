@@ -16,13 +16,17 @@
   
          <v-form v-if="!isLoading" ref="publishForm" v-model="valid" lazy-validation>
             <v-card-title>
-                <span class="headline">Publish to <span class="primary--text">"{{Details.class_name}}"</span></span>
+                  <v-btn icon large color="secondary" @click="$emit('toggleDialog')" :disabled="loading">
+                    <v-icon>mdi-close</v-icon>
+                </v-btn>
+                <span class="h6">Publish to <span class="primary--text">"{{Details.class_name}}"</span></span>
             </v-card-title>
             <v-card-text>
                 <v-container >
                     <v-row>
-                        <v-col  ma-0 pa-0 class="pa-0 ma-0" cols="12">
+                        <v-col class="mb-0 pb-0 pt-0 mt-0" cols="12">
                             <v-select
+                                dense
                                 :rules="FieldRules"
                                 :items="GradingItems"
                                 item-text="value"
@@ -40,11 +44,11 @@
                             </v-select>
                        </v-col>
 
-                        <v-col  ma-0 pa-0 class="text-left pa-0 ma-0" cols="12">
+                        <v-col  ma-0 pa-0 class="text-left mb-0 pb-0 " cols="12">
                                <div class="subtitle-1 mb-1">Availability:</div>
                         </v-col>
 
-                        <v-col  ma-0 pa-0 class="text-left pa-0 ma-0" cols="12">
+                        <v-col  ma-0 pa-0 class="text-left mb-0 pb-0" cols="12">
                                 <v-radio-group class="ml-3 mt-0 pt-0 mb-0 pb-0" v-model="availability">
                                 <v-radio
                                     v-for="(n, index) in InputAvailability"
@@ -55,9 +59,9 @@
                                 </v-radio-group>
                         </v-col>
 
-                         <v-col v-if="availability == 'Set Date'"  class="pa-0 ma-0"  cols="12">
+                         <v-col v-if="availability == 'Set Date'"  class="mb-0 pb-0 "  cols="12">
                              <v-row class="mt-0 pt-0">
-                                 <v-col cols="6" class="mt-0 pt-0">
+                                 <v-col cols="6" class="mt-0 pt-0 mb-0 pb-0">
                                       <v-datetime-picker label="From"
                                         v-model="PublishDetails.from_date"
                                         class="mt-0 pt-0"
@@ -70,7 +74,7 @@
                                     </v-datetime-picker>
                                 
                                  </v-col>
-                                 <v-col cols="6" class="mt-0 pt-0">
+                                 <v-col cols="6" class="mt-0 pt-0 mb-0 pb-0">
                                      <v-datetime-picker label="To"
                                         v-model="PublishDetails.to_date"
                                         class="Datetimepicker"
@@ -82,12 +86,19 @@
                                         > 
                                     </v-datetime-picker>
                                  </v-col>
+                                <v-col class="text-left pb-0 mb-0 mt-0 pt-0" cols="12">
+                                    <v-checkbox
+                                    class="pa-0 ma-0"
+                                    v-model="PublishDetails.response_late"
+                                    label="Accept late response"
+                                    ></v-checkbox>    
+                                </v-col>
                              </v-row>
                            
                             </v-col>
 
                             
-                            <v-col  ma-0 pa-0 class="text-left pa-0 ma-0" cols="12">
+                            <v-col  ma-0 pa-0 class="text-left mb-0 pb-0 " cols="12">
                                 <v-checkbox
                                     class="pa-0 ma-0"
                                     v-model="PublishDetails.showAnswer"
@@ -95,7 +106,7 @@
                                     ></v-checkbox>
                                 </v-col>
 
-                             <v-col v-if="PublishDetails.showAnswer"  ma-0 pa-0 class="text-left pa-0 ma-0" cols="12">
+                             <v-col v-if="PublishDetails.showAnswer"  ma-0 pa-0 class="text-left mb-0 pb-0 " cols="12">
                                
 
                                 <v-radio-group class="ml-3 mt-0 pt-0 mb-0 pb-0" v-model="showAnsType">
@@ -108,7 +119,7 @@
                                 </v-radio-group>
                             </v-col>
 
-                            <v-col v-if="showAnsType == 'Set Date'"  ma-0 pa-0 class="text-left pa-0 ma-0" cols="12">
+                            <v-col v-if="showAnsType == 'Set Date'"  ma-0 pa-0 class="text-left mb-0 pb-0" cols="12">
                                 <v-row>
                                     <v-col cols="6">
                                          <v-datetime-picker label="From"
@@ -138,33 +149,19 @@
                                         </v-datetime-picker>
                                     </v-col>
                                 </v-row>
-                               
-
-
-
-
+                            
                             </v-col>
-                             <v-col  ma-0 pa-0 class="text-left pa-0 ma-0" cols="12">
-                                <v-checkbox
-                                class="pa-0 ma-0"
-                                v-model="PublishDetails.response_late"
-                                label="Accept late response"
-                                ></v-checkbox>    
-                        </v-col>
+                            
 
                            
                     </v-row>
                 </v-container>
             </v-card-text>
-            <v-card-actions class="pb-5">
-                <v-spacer></v-spacer>
-               
-                <v-btn rounded  color="primary" :loading="isPublishing" text  @click="validate()" :disabled="loading">
+            <v-card-actions class="pb-5 pl-5 pr-5">
+                  <v-btn rounded block color="primary" :loading="isPublishing"  @click="validate()" :disabled="loading">
                     Update
                 </v-btn>
-                 <v-btn  rounded color="secondary" text @click="$emit('toggleDialog')" :disabled="loading">
-                    Cancel
-                </v-btn>
+               
             </v-card-actions>
         </v-form> 
 
@@ -177,7 +174,7 @@ export default {
     props:['Details'],
     data(){
         return{
-            InputAvailability:['Always Available', 'Set Date'],
+            InputAvailability:['Always Available', 'Set Date','Unavailable'],
             InputShowAnswer:['After Classwork Done', 'Set Date'],
             valid: false,
             ClassDetails:{},

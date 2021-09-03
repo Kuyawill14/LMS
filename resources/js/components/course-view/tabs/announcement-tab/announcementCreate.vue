@@ -50,10 +50,7 @@
     </v-container> -->
    
     
-      
-        
-
-
+    
     <!-- <v-row  class="pl-3 pr-3 mt-2">
             <v-col cols="5" md="8" lg="8">
                 <v-btn icon  class="mt-0 pt-0"><v-icon>mdi-link-variant-plus</v-icon></v-btn>
@@ -84,9 +81,12 @@
 
     
   
-    
-     <editor style="outline:none;"  placeholder="Announce something in your class!" 
-      v-model="announcement.content" @change="isEditing = true, fetchClassnames" theme="snow" :options="options"></editor>
+    <vue-element-loading :active="isloading" spinner="bar-fade-scale" />
+     <editor style="outline:none;" @blur="onEditorBlur($event)" @focus="onEditorFocus($event)"  @ready="onEditorReady($event)" :paste-as-text="pasteText"  placeholder="Announce something in your class!" 
+      v-model="announcement.content" @change="onChange" theme="snow" :options="options"></editor>
+
+        <!-- <editor style="outline:none;"  :paste-as-text="pasteText"  placeholder="Announce something in your class!" 
+      v-model="announcement.content" @change="onChange" theme="snow" :options="options"></editor> -->
  <!--   <v-expand-transition> -->
         <v-row  class="pl-3 pr-3">
             <v-col cols="5" md="8" lg="8">
@@ -127,7 +127,6 @@ export default {
             notifyDetails: {},
             selectedFile: null,
             isSelecting: false,
-            isEditing: false,
             isloading: false,
             value: '',
             content: '',
@@ -139,16 +138,25 @@ export default {
                 },
             options:{
                 modules: {
-                        'toolbar': [
-                            ['bold', 'italic', 'underline', 'strike'],
-                            [{ 'header': [1, 2, 3, 4, 5, false] }],
-                            [{ 'align': [] }],
-                            [{ 'color': [] }],
-                            [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-                            ['link', 'image', 'video'],
-                        ],
-                    }
-                }
+                        toolbar: {
+                            container:[
+                                ['bold', 'italic', 'underline'],
+                                [{ 'header': [1, 2, 3, 4, 5, false] }],
+                                [{ 'color': [] }],
+                                [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                                ['link', 'image', 'video'],
+                            ],
+                            handlers: {
+                                image: this.imageHandler
+                            }
+                        },
+                       
+                                        
+                    },
+                    
+                },
+                pasteText: true,
+                editorData:null,
             }
         },
         computed: {
@@ -162,7 +170,7 @@ export default {
             },
 
             onChange(html, text) {
-                //console.log(html.length, text.length);
+                //console.log(html);
             },
              createPost() {
                 if (this.announcement.content != '') {
@@ -196,8 +204,49 @@ export default {
             },
              onFileChanged(e) {
                 this.selectedFile = e.target.files[0]
-                
-                // do something
+            },
+             onEditorBlur(editor) {
+                this.editorData = editor;
+            },
+            onEditorFocus(editor) {
+                 this.editorData = editor;
+            },
+            onEditorReady(editor) {
+                this.editorData = editor;
+            },
+            imageHandler() {
+                const editor = this.editorData;
+                const input = document.createElement('input');
+
+                input.setAttribute('type', 'file');
+                input.setAttribute('accept', 'image/*');
+                input.click();
+
+                input.onchange = async () => {
+                    const file = input.files[0];
+                    const formData = new FormData();
+
+                    formData.append('file', file);
+                    formData.append('type', 'Announcement');
+                    // Save current cursor state
+                    const range = editor.getSelection(true);
+
+                     //editor.insertEmbed(range.index, 'image', 'https://cdn.dribbble.com/users/1341307/screenshots/5377324/morph_dribbble.gif'); 
+
+    // Move cursor to right side of image (easier to continue typing)
+                    editor.setSelection(range.index + 1);
+                    await axios.post('/api/classwork/newAttachment', formData)
+                        .then(async ({data}) => {
+                            // Insert uploaded image
+                            await editor.insertEmbed(range.index, 'image', data.link);
+                        })
+                        .catch(({response}) => {
+                            alert('error');
+                        })
+                }
+            },
+            onChange(quill,html, text){
+                console.log(this.announcement.content);
             },
              fetchClassnames() {
                 if(this.UserDetails.role == 'Teacher'){
@@ -209,9 +258,6 @@ export default {
                     })
                 }
             },
-            testing(){
-                //console.log(this.class_id);
-            },
            async newNotification(announcement_id){
                 this.notifyDetails.class_id = this.class_id;
                 this.notifyDetails.course_id = this.$route.params.id;
@@ -219,9 +265,6 @@ export default {
                 this.notifyDetails.type = 'announcement';
                 axios.post('/api/notification/new', this.notifyDetails);
             },
-            onInput(e){
-                console.log(e.target.innerText);
-            }
         },
 }
 </script>

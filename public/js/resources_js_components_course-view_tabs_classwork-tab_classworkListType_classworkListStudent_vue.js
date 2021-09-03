@@ -518,16 +518,7 @@ var render = function() {
               _c(
                 "v-row",
                 [
-                  _c("v-col", { staticClass: "text-left mb-0 pb-0" }, [
-                    _c(
-                      "div",
-                      {
-                        staticClass:
-                          "text-lg-h5 font-weight-medium text-sm-h6 mt-1"
-                      },
-                      [_vm._v("Classworks")]
-                    )
-                  ]),
+                  _c("v-col", { staticClass: "text-left mb-0 pb-0" }),
                   _vm._v(" "),
                   _c(
                     "v-col",

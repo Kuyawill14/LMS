@@ -26,14 +26,13 @@
     </v-row>
 </v-container>
 
-<v-container fluid :class="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm ? 'pa-2 ' : 'pa-2'" v-if="!isLoading" >
+<v-container  fluid :class="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm ? 'pa-2 ' : 'pa-2'" v-if="!isLoading" >
       <v-row justify="center" >
           <v-col cols="12" >
                <v-card elevation="2" outlined class="pa-2">
                <v-row v-if="!isLoading">
-                <v-col cols="8" style="overflow:hidden;white-space: nowrap;text-overflow: ellipsis;">
+                <v-col cols="8" >
                     <v-list>
-
                         <v-list-item>
                         <v-list-item-avatar>
                              <v-avatar color="blue">
@@ -63,7 +62,7 @@
                                 <v-list>
                                     <v-list-item v-for="(item, index) in getAll_questions.Question" :key="index">
                                     <v-list-item-title>  
-                                        <v-btn v-if="item.type == 'Multiple Choice' || item.type == 'Identification' || item.type == 'True or False'" 
+                                        <v-btn v-if="item.type == 'Multiple Choice' || item.type == 'Identification' || item.type == 'True or False'|| item.type == 'Essay'" 
                                         text rounded @click="updateAnswer(), questionIndex = index">
                                         <v-icon :color="FinalAnswers[index].Answer == null || FinalAnswers[index].Answer == ''  ? '' : 'primary'" left>{{FinalAnswers[index].Answer == null || FinalAnswers[index].Answer == '' ? 'mdi-checkbox-blank-outline':'mdi-checkbox-marked'}}</v-icon>
                                         {{index+1}}
@@ -130,7 +129,8 @@
                                             </v-col>
                                             <v-col class=" mt-0 pt-1" cols="12" md="11" lg="11">
                                                 <v-container ma-0 pa-0 class="ma-0 pa-0">
-                                                    <div :style="$vuetify.breakpoint.xs ? 'line-height:1.1': ''" class="subtitle-1"><span v-html="item.question" class="post-content"></span><!-- {{item.question}} --></div>
+                                                 
+                                                    <div :style="$vuetify.breakpoint.xs ? 'line-height:1.1;user-select: none': 'user-select: none'" class="subtitle-1"><span v-html="item.question" class="post-content"></span><!-- {{item.question}} --></div>
                                                 </v-container> 
                                             </v-col>
                                         </v-row>
@@ -150,7 +150,7 @@
                                                         </v-radio-group>
                                                         <div style="line-height:1.4" class="Subtitle-1 ma-0 pa-0">
                                                             <!--   {{Ans.Choice}} -->
-                                                            <span v-html="Ans.Choice" class="post-content"></span>
+                                                            <span style="user-select: none" v-html="Ans.Choice" class="post-content"></span>
                                                         </div>
                                                         </v-container>
                                                         <v-container class="mb-0 pb-0 d-flex flex-row-reverse">
@@ -235,13 +235,13 @@
                                                                     <v-col class="mb-1 pb-0 pt-0 mt-0" cols="5" md="6" lg="6">
                                                                         <div class="d-flex mt-7">
                                                                             <span class="font-weight-medium mr-1">{{(i+1+'. ')}}</span>
-                                                                            <span :style="$vuetify.breakpoint.xs ? 'line-height:1.1':'line-height:1.5'" v-html="List.sub_question" class="subquestion-content"></span>
+                                                                            <span :style="$vuetify.breakpoint.xs ? 'line-height:1.1;user-select: none':'line-height:1.5;user-select: none'" v-html="List.sub_question" class="subquestion-content"></span>
                                                                         </div>
                                                                     </v-col>
                                                                     <v-col class="mb-1 pb-0 pt-0 mt-0"  cols="5" md="5" lg="5">
                                                                         <div class="d-flex mt-7"> 
                                                                             <span class="font-weight-medium mr-1">{{(Alphabet[i]+'. ')}}</span>
-                                                                            <span :style="$vuetify.breakpoint.xs ? 'line-height:1.1':'line-height:1.5'" v-html="getAll_questions.Answer[index].SubAnswer[i].Choice" class="subchoices-content"></span>
+                                                                            <span :style="$vuetify.breakpoint.xs ? 'line-height:1.1;user-select: none':'line-height:1.5;user-select: none'" v-html="getAll_questions.Answer[index].SubAnswer[i].Choice" class="subchoices-content"></span>
                                                                         </div>
                                                                     </v-col>
                                                                 </v-row>
@@ -252,6 +252,26 @@
                                                         </v-container>
                                                     </v-col>
                                                 </v-row>
+                                        </v-container>
+
+                                        <v-container v-if="item.type == 'Essay'">
+                                            <v-row ma-0 pa-0>
+                                                <v-col  ma-0 pa-0 class="ma-0 pa-0 mt-5" cols="12">
+                                                 <!--    <v-card style="width:100%;min-height:200px" class="mb-3"> -->
+                                                        <editor
+                                                            style="height:220px" 
+                                                            @focus="SetWarning()"
+                                                             @blur="SetWarning()"
+                                                            @change="SelectAnswer()"
+                                                            v-model="FinalAnswers[index].Answer" 
+                                                            id="editor-container" placeholder="Essay" 
+                                                            theme="snow" :options="Essayoptions"></editor>
+                                                      <!--   </v-card> -->
+                                                    <v-container class="mb-0 pb-0 d-flex flex-row-reverse mt-10">
+                                                        <v-btn @click="reset(index,item.type)" text rounded small>Clear Answer</v-btn>
+                                                    </v-container>
+                                                </v-col>
+                                            </v-row>
                                         </v-container>
                                     </div>
                                 </v-container>
@@ -303,6 +323,14 @@ export default {
                     ],
                 }
             },
+            Essayoptions:{
+            modules: {
+                    'toolbar': [
+                        ['bold', 'italic', 'underline', 'strike'],
+                        [{ 'list': 'bullet' }],
+                    ],
+                }
+            },
             TimerCount:[],
             tempCounter:0,
             timeCount:null,
@@ -330,7 +358,7 @@ export default {
             this.dialog = true;;
         },
         reset (index, type) {
-            if(type == 'Multiple Choice' || type == 'Identification' || type == 'True or False'){
+            if(type == 'Multiple Choice' || type == 'Identification' || type == 'True or False' || type == 'Essay'){
                  this.FinalAnswers[index].Answer = '';
             }
             else if(type == 'Matching type'){
@@ -341,8 +369,6 @@ export default {
             }
         },
         SelectAnswer(){
-            let name = btoa('CurrentAnswers');
-            localStorage.setItem(name, JSON.stringify(this.FinalAnswers));
             if(this.FinalAnswers[this.questionIndex].timeConsume != null || ''){
                 this.FinalAnswers[this.questionIndex].timeConsume += this.tempCounter
             }
@@ -447,7 +473,7 @@ export default {
                 let AnswersList = this.Submitted_Answers;
                 if(AnswersList == null){
                     for (let index = 0; index < this.getAll_questions.Question.length; index++) {
-                        if(this.getAll_questions.Question[index].type == 'Identification' || this.getAll_questions.Question[index].type == 'Multiple Choice' || this.getAll_questions.Question[index].type == 'True or False' ){
+                        if(this.getAll_questions.Question[index].type == 'Identification' || this.getAll_questions.Question[index].type == 'Multiple Choice' || this.getAll_questions.Question[index].type == 'True or False' || this.getAll_questions.Question[index].type == 'Essay' ){
                             this.FinalAnswers.push({
                                 Answer: '',
                                 Question_id: this.getAll_questions.Question[index].id,
@@ -492,7 +518,7 @@ export default {
                     let Question_length = this.getAll_questions.Question.length;
                     let diff = Question_length  - Submitted_length;
                     for (let i = 0; i < diff; i++) {
-                        if(this.QuestionAndAnswer.Question[i].type == 'Multiple Choice' || this.QuestionAndAnswer.Question[i].type == 'Identification' || this.QuestionAndAnswer.Question[i].type == 'True or False'){
+                        if(this.QuestionAndAnswer.Question[i].type == 'Multiple Choice' || this.QuestionAndAnswer.Question[i].type == 'Identification' || this.QuestionAndAnswer.Question[i].type == 'True or False' || this.getAll_questions.Question[x].type == 'Essay'){
                             this.details.Submitted_Answers.push({
                                 Answer: null,
                                 Question_id: this.QuestionAndAnswer.Question[i].id,
@@ -509,7 +535,7 @@ export default {
                      for (let x = 0; x < this.getAll_questions.Question.length; x++) {
                          for (let j = 0; j < AnswersList.length; j++) {
                             if(this.getAll_questions.Question[x].id == AnswersList[j].Question_id){
-                                if(this.getAll_questions.Question[x].type == 'Identification' || this.getAll_questions.Question[x].type == 'Multiple Choice' || this.getAll_questions.Question[x].type == 'True or False' ){
+                                if(this.getAll_questions.Question[x].type == 'Identification' || this.getAll_questions.Question[x].type == 'Multiple Choice' || this.getAll_questions.Question[x].type == 'True or False' || this.getAll_questions.Question[x].type == 'Essay'  ){
                                     this.FinalAnswers.push({
                                         Answer: AnswersList[j].Answer,
                                         Question_id: AnswersList[j].Question_id,
@@ -636,12 +662,19 @@ export default {
         },
     },
     beforeMount() {
-        window.addEventListener("beforeunload", this.preventNav);
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
+        window.addEventListener("onbeforeunload", this.preventNav);
         
         let self = this;
         $(window).blur(function(){
             self.triggerWarning()
         });
+
+        
+
+       
         //window.addEventListener("beforeunload", this.preventNav)
            /*  this.$once("hook:beforeDestroy", () => {
             window.removeEventListener("beforeunload", this.preventNav);
@@ -676,5 +709,7 @@ export default {
  .centered-input input {
   text-align: center
  }
+
+ 
 
 </style>

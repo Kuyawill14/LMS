@@ -722,7 +722,10 @@ var render = function() {
                                                       _vm._v(" "),
                                                       _c(
                                                         "v-list",
-                                                        { staticClass: "pa-1" },
+                                                        {
+                                                          staticClass: "pa-1",
+                                                          attrs: { rounded: "" }
+                                                        },
                                                         [
                                                           _c(
                                                             "v-list-item",

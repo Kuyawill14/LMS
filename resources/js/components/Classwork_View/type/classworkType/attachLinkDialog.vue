@@ -1,18 +1,21 @@
 <template>
-    <v-card class="pa-2">
-        <v-card-title class="text-h5">
-          Attach Link
+    <v-card >
+        <v-card-title >
+          <v-btn
+          
+            icon
+            @click="$emit('toggleCancelDialog')">
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+          <span class="text-h6"> Attach Link</span>
+      
         </v-card-title>
-        <div class="pl-2 pr-2 mb-2">
-          <v-divider></v-divider>
-        </div>
-        
-          <v-container>
-
-        
-            <v-row>
+        <v-card-text >
+           <v-row>
                 <v-col cols="12" class="mb-0 pb-0">
                   <v-textarea
+                  v-model="title"
+                  class="mb-0 pb-0"
                    outlined
                    dense
                    rows="1"
@@ -24,6 +27,8 @@
                  <v-col cols="12" class="mb-0 pb-0 mt-0 pt-0">
         
                   <v-textarea
+                  v-model="link"
+                  class="mb-0 pb-0"
                    outlined
                    dense
                    rows="1"
@@ -32,24 +37,39 @@
                 ></v-textarea>
                 </v-col>
             </v-row>
-         </v-container>
-        <v-card-actions class="pb-5">
+       
+        </v-card-text>
+      
+        <v-card-actions class="pb-2 pl-5 pr-5">
           <v-spacer></v-spacer>
+            <!--  @click="$emit('toggleSubmit')" -->
           <v-btn
             color="primary"
+            block
             rounded
-            outlined
-            @click="$emit('toggleCancelDialog')"
-          >
-            Cancel
-          </v-btn>
-          <v-btn
-            color="primary"
-            rounded
-            @click="$emit('toggleSubmit')"
+            @click="scrapeDocID"
           >
             Confirm
           </v-btn>
         </v-card-actions>
       </v-card>
 </template>
+<script>
+export default {
+  data(){
+    return{
+      title: null,
+      link: null,
+    }
+  },
+  methods:{
+    scrapeDocID() {
+              var d = this.link.replace(/.*\/d\//, '').replace(/\/.*/, '');
+              console.log(this.link);
+              var path = "https://drive.google.com/file/d/" + d + "/preview";
+             
+              //window.open(path,'_blank');
+          }
+  }
+}
+</script>

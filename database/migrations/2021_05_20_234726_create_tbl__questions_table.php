@@ -17,7 +17,7 @@ class CreateTblQuestionsTable extends Migration
             $table->id();
             $table->integer('classwork_id');
             $table->mediumText('question');
-            $table->mediumText('answer');
+            $table->mediumText('answer')->nullable();
             $table->string('type');
             $table->integer('points');
             $table->boolean('sensitivity')->default(0);

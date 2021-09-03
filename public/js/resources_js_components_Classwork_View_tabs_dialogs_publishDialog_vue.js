@@ -227,12 +227,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['Details', 'datetoday'],
   data: function data() {
     return {
-      InputAvailability: ['Always Available', 'Set Date'],
+      InputAvailability: ['Always Available', 'Set Date', 'Unavailable'],
       InputShowAnswer: ['After Classwork Done', 'Set Date'],
       valid: false,
       ClassDetails: {},
@@ -8875,14 +8878,38 @@ var render = function() {
           }
         },
         [
-          _c("v-card-title", [
-            _c("span", { staticClass: "headline" }, [
-              _vm._v("Publish to "),
-              _c("span", { staticClass: "primary--text" }, [
-                _vm._v('"' + _vm._s(_vm.ClassDetails.class_name) + '"')
+          _c(
+            "v-card-title",
+            [
+              _c(
+                "v-btn",
+                {
+                  attrs: {
+                    large: "",
+                    icon: "",
+                    color: "secondary",
+                    text: "",
+                    disabled: _vm.loading
+                  },
+                  on: {
+                    click: function($event) {
+                      return _vm.$emit("toggleDialog")
+                    }
+                  }
+                },
+                [_c("v-icon", [_vm._v("mdi-close")])],
+                1
+              ),
+              _vm._v(" "),
+              _c("span", { staticClass: "h6" }, [
+                _vm._v("Publish to "),
+                _c("span", { staticClass: "primary--text" }, [
+                  _vm._v('"' + _vm._s(_vm.ClassDetails.class_name) + '"')
+                ])
               ])
-            ])
-          ]),
+            ],
+            1
+          ),
           _vm._v(" "),
           _c(
             "v-card-text",
@@ -8896,12 +8923,14 @@ var render = function() {
                       _c(
                         "v-col",
                         {
-                          staticClass: "pa-0 ma-0",
-                          attrs: { "ma-0": "", "pa-0": "", cols: "12" }
+                          staticClass: "pb-0 mb-0 mt-0 pt-0",
+                          attrs: { cols: "12" }
                         },
                         [
                           _c("v-select", {
+                            staticClass: "mb-0 pb-0",
                             attrs: {
+                              dense: "",
                               rules: _vm.FieldRules,
                               items: _vm.GradingItems,
                               "item-text": "value",
@@ -8954,7 +8983,7 @@ var render = function() {
                       _c(
                         "v-col",
                         {
-                          staticClass: "text-left pa-0 ma-0",
+                          staticClass: "text-left pb-0 mb-",
                           attrs: { "ma-0": "", "pa-0": "", cols: "12" }
                         },
                         [
@@ -8967,7 +8996,7 @@ var render = function() {
                       _c(
                         "v-col",
                         {
-                          staticClass: "text-left pa-0 ma-0",
+                          staticClass: "text-left pb-0 mb-",
                           attrs: { "ma-0": "", "pa-0": "", cols: "12" }
                         },
                         [
@@ -9001,7 +9030,7 @@ var render = function() {
                       _vm.availability == "Set Date"
                         ? _c(
                             "v-col",
-                            { staticClass: "pa-0 ma-0", attrs: { cols: "12" } },
+                            { staticClass: "pb-0 mb-", attrs: { cols: "12" } },
                             [
                               _c(
                                 "v-row",
@@ -9149,7 +9178,7 @@ var render = function() {
                       _c(
                         "v-col",
                         {
-                          staticClass: "text-left pa-0 ma-0",
+                          staticClass: "text-left pb-0 mb-0",
                           attrs: { "ma-0": "", "pa-0": "", cols: "12" }
                         },
                         [
@@ -9173,7 +9202,7 @@ var render = function() {
                             "v-col",
                             {
                               staticClass: "text-left pa-0 ma-0",
-                              attrs: { "ma-0": "", "pa-0": "", cols: "12" }
+                              attrs: { cols: "12" }
                             },
                             [
                               _c(
@@ -9335,18 +9364,16 @@ var render = function() {
           _vm._v(" "),
           _c(
             "v-card-actions",
-            { staticClass: "pb-5" },
+            { staticClass: "pb-2 pl-5 pr-5" },
             [
-              _c("v-spacer"),
-              _vm._v(" "),
               _c(
                 "v-btn",
                 {
                   attrs: {
                     rounded: "",
+                    block: "",
                     color: "primary",
                     loading: _vm.isPublishing,
-                    text: "",
                     disabled: _vm.loading
                   },
                   on: {
@@ -9356,24 +9383,6 @@ var render = function() {
                   }
                 },
                 [_vm._v("\n                 Publish\n             ")]
-              ),
-              _vm._v(" "),
-              _c(
-                "v-btn",
-                {
-                  attrs: {
-                    rounded: "",
-                    color: "secondary",
-                    text: "",
-                    disabled: _vm.loading
-                  },
-                  on: {
-                    click: function($event) {
-                      return _vm.$emit("toggleDialog")
-                    }
-                  }
-                },
-                [_vm._v("\n                 Cancel\n             ")]
               )
             ],
             1

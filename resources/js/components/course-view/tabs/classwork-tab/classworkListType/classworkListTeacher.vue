@@ -20,7 +20,7 @@
             <v-icon>mdi-plus</v-icon>
         </v-btn>
 
-    <v-dialog v-model="dialog" persistent max-width="650">
+    <v-dialog v-model="dialog"  persistent max-width="650">
             <newClassworkModal v-on:CloseDialog="dialog = !dialog" v-if="dialog"></newClassworkModal>
     </v-dialog>
 

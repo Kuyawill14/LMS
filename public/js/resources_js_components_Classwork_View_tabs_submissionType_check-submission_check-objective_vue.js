@@ -301,6 +301,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 var resetConfirmation = function resetConfirmation() {
@@ -347,7 +358,7 @@ var resetConfirmation = function resetConfirmation() {
         var diff = Question_length - Submitted_length;
 
         for (var i = 0; i < diff; i++) {
-          if (_this.Details.Question[i].type == 'Multiple Choice' || _this.Details.Question[i].type == 'Identification' || _this.Details.Question[i].type == 'True or False') {
+          if (_this.Details.Question[i].type == 'Multiple Choice' || _this.Details.Question[i].type == 'Identification' || _this.Details.Question[i].type == 'True or False' || _this.Details.Question[i].type == 'Essay') {
             _this.ViewDetails.Submitted_Answers.push({
               Answer: null,
               Question_id: _this.Details.Question[i].id,
@@ -369,6 +380,9 @@ var resetConfirmation = function resetConfirmation() {
                 } else {
                   _this.Check[_i] = false;
                 }
+              } else if (_this.Details.Question[_i].type == 'Essay') {
+                _this.SubmittedAnswer[_i] = _this.ViewDetails.Submitted_Answers[j];
+                _this.Check[_i] = false;
               } else if (_this.Details.Question[_i].type == 'Matching type') {
                 (function () {
                   var Ans = new Array();
@@ -429,7 +443,7 @@ var resetConfirmation = function resetConfirmation() {
         _this.$emit('isMounted');
       });
     },
-    UpdateScore: function UpdateScore(id, data, points, index, answer) {
+    UpdateScore: function UpdateScore(type, id, data, points, index, answer) {
       var _this2 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
@@ -443,12 +457,20 @@ var resetConfirmation = function resetConfirmation() {
                 _this2.UpdateDetails.answer = answer;
                 axios.put('/api/teacher/update-score/' + _this2.ViewDetails.id, _this2.UpdateDetails).then(function (res) {
                   if (res.status == 200) {
-                    if (data == true) {
-                      _this2.SubmittedAnswer[index] = answer;
-                      _this2.ViewDetails.points = _this2.ViewDetails.points + points;
+                    if (type == 'Essay') {
+                      if (data == true) {
+                        _this2.ViewDetails.points = _this2.ViewDetails.points + points;
+                      } else {
+                        _this2.ViewDetails.points = _this2.ViewDetails.points - points;
+                      }
                     } else {
-                      _this2.SubmittedAnswer[index] = "";
-                      _this2.ViewDetails.points = _this2.ViewDetails.points - points;
+                      if (data == true) {
+                        _this2.SubmittedAnswer[index] = answer;
+                        _this2.ViewDetails.points = _this2.ViewDetails.points + points;
+                      } else {
+                        _this2.SubmittedAnswer[index] = "";
+                        _this2.ViewDetails.points = _this2.ViewDetails.points - points;
+                      }
                     }
                   }
                 });
@@ -476,7 +498,7 @@ var resetConfirmation = function resetConfirmation() {
                   axios.put('/api/teacher/reset-obj/' + _this3.ViewDetails.id).then(function (res) {
                     if (res.status == 200) {
                       _this3.dialog = !_this3.dialog;
-                      ths.isReseting = false;
+                      _this3.isReseting = false;
 
                       _this3.$emit('RestSubmission');
                     }
@@ -595,7 +617,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n    /* width */\n[data-v-6ded7147]::-webkit-scrollbar {\n  width: 5px;\n}\n\n/* Track */\n[data-v-6ded7147]::-webkit-scrollbar-track {\n  background: #f1f1f1;\n}\n \n/* Handle */\n[data-v-6ded7147]::-webkit-scrollbar-thumb {\n  background: #888; \n   border-radius: 3px\n}\n\n/* Handle on hover */\n[data-v-6ded7147]::-webkit-scrollbar-thumb:hover {\n  background: #555;\n}\n.centered-input[data-v-6ded7147] input {\n      text-align: center\n}\n.post-content img[data-v-6ded7147]{\n        \n     max-height: 8rem !important;\n}\n.centered-input input[data-v-6ded7147] {\n  text-align: center\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n    /* width */\n[data-v-6ded7147]::-webkit-scrollbar {\n  width: 5px;\n}\n\n/* Track */\n[data-v-6ded7147]::-webkit-scrollbar-track {\n  background: #f1f1f1;\n}\n \n/* Handle */\n[data-v-6ded7147]::-webkit-scrollbar-thumb {\n  background: #888; \n   border-radius: 3px\n}\n\n/* Handle on hover */\n[data-v-6ded7147]::-webkit-scrollbar-thumb:hover {\n  background: #555;\n}\n.centered-input[data-v-6ded7147] input {\n      text-align: center\n}\n.post-content img[data-v-6ded7147]{\n        \n     max-height: 8rem !important;\n}\n.centered-input input[data-v-6ded7147] {\n  text-align: center\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -9585,6 +9607,7 @@ var render = function() {
                                         on: {
                                           click: function($event) {
                                             return _vm.UpdateScore(
+                                              item.type,
                                               item.id,
                                               _vm.Check[index],
                                               item.points,
@@ -9754,7 +9777,19 @@ var render = function() {
                                                       .Answer
                                                   )
                                                 }
-                                              })
+                                              }),
+                                              _vm._v(" "),
+                                              _vm.SubmittedAnswer[index]
+                                                .Answer == null
+                                                ? _c(
+                                                    "span",
+                                                    {
+                                                      staticClass:
+                                                        "post-content"
+                                                    },
+                                                    [_vm._v(" N/A")]
+                                                  )
+                                                : _vm._e()
                                             ]
                                           )
                                         ]
@@ -10169,6 +10204,63 @@ var render = function() {
                                           )
                                         ],
                                         1
+                                      )
+                                    ],
+                                    1
+                                  )
+                                : _vm._e(),
+                              _vm._v(" "),
+                              item.type == "Essay"
+                                ? _c(
+                                    "v-container",
+                                    [
+                                      _c(
+                                        "v-container",
+                                        {
+                                          staticClass: "ml-7",
+                                          attrs: { "ma-0": "", "pa-0": "" }
+                                        },
+                                        [
+                                          _c(
+                                            "div",
+                                            {
+                                              staticClass:
+                                                "subtitle-2 font-weight-bold"
+                                            },
+                                            [_vm._v("Answer")]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "div",
+                                            {
+                                              staticClass:
+                                                "subtitle-1 d-flex item pl-4 pr-4"
+                                            },
+                                            [
+                                              _c("span", {
+                                                staticClass: "post-content",
+                                                domProps: {
+                                                  innerHTML: _vm._s(
+                                                    _vm.SubmittedAnswer[index]
+                                                      .Answer
+                                                  )
+                                                }
+                                              }),
+                                              _vm._v(" "),
+                                              _vm.SubmittedAnswer[index]
+                                                .Answer == null
+                                                ? _c(
+                                                    "span",
+                                                    {
+                                                      staticClass:
+                                                        "post-content"
+                                                    },
+                                                    [_vm._v(" N/A")]
+                                                  )
+                                                : _vm._e()
+                                            ]
+                                          )
+                                        ]
                                       )
                                     ],
                                     1

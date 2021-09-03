@@ -1,11 +1,57 @@
 <template>
 <div class="pt-5">
   <v-dialog v-model="AttachLink" persistent max-width="400">
-            <attachlinkDiaglog 
+         <!--    <attachlinkDiaglog 
             v-on:toggleCancelDialog="AttachLink = !AttachLink"
             v-on:ToggleRefresh="$emit('ToggleRefresh'), AttachLink = !AttachLink"
-            v-if="AttachLink"></attachlinkDiaglog>
-        </v-dialog>
+            v-if="AttachLink"></attachlinkDiaglog> -->
+            <v-card >
+                <v-card-title >
+                  <v-btn icon  @click="AttachLink = false">
+                    <v-icon>mdi-close</v-icon>
+                  </v-btn>
+                  <span class="text-h6"> Attach Link</span>
+              
+                </v-card-title>
+                <v-card-text >
+                  <v-row>
+                      <v-col cols="12" class="mb-0 pb-0">
+                          <v-textarea
+                          v-model="linkName"
+                          class="mb-0 pb-0"
+                          outlined
+                          dense
+                          rows="1"
+                          label="Title"
+                          auto-grow
+                        ></v-textarea>
+                        </v-col>
+
+                      <v-col cols="12" class="mb-0 pb-0 mt-0 pt-0">
+                          <v-textarea
+                          v-model="linkFile"
+                          class="mb-0 pb-0"
+                          outlined
+                          dense
+                          rows="1"
+                          label="Link"
+                          auto-grow
+                        ></v-textarea>
+                        </v-col>
+                    </v-row>
+                </v-card-text>
+                <v-card-actions class="pb-2 pl-5 pr-5">
+                  <v-btn
+                    color="primary"
+                    block
+                    rounded
+                    @click="scrapeDocID"
+                  >
+                    Confirm
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+      </v-dialog>
 
 
     <v-row justify="center" no-gutters class="pa-2">
@@ -56,22 +102,23 @@
                         </v-row>
                    </v-container>
                    </v-col>
-                     <input ref="AttAchMoreFile" accept="application/pdf" type="file" class="d-none" @change="onChange">
-                       <input ref="UploadAttachFile" accept="application/pdf" class="d-none" type="file" @change="onChange">
+                     <input ref="AttAchMoreFile" accept="application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint,text/plain, application/pdf, image/*"
+                     type="file" class="d-none" @change="onChange">
+                       <input ref="UploadAttachFile" accept="application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint,text/plain, application/pdf, image/*" class="d-none" type="file" @change="onChange">
                    <v-col class="ma-0 pa-0" cols="12" v-if="!isloading">
                           <v-col cols="12" class="mb-0 pb-0" v-if="file[0] != '' || file[0] != null">
                               <v-row class="mb-5" v-if="StatusDetails.status != 'Submitting' && StatusDetails.status != 'Submitted' ">
                                 <v-col v-for="(item, index) in file" :key="index" class="ma-0 pa-0 " cols="12">
-                                  <v-hover v-slot="{ hover }">
+                                 <!--  <v-hover v-slot="{ hover }">
                                     <v-alert
                                     dense
                                         class=",b-1 pa-2"
                                         style="cursor:pointer"
                                           :class="hover ? 'grey lighten-2' :''"
                                           outlined
-                                          :icon="item.fileExte == 'pdf' ? 'mdi-file-pdf': item.fileExte  == 'docx'? 'mdi-file-word': 
-                                          item.fileExte  == 'jpg' ||  item.fileExte  == 'png' ||  item.fileExte  == 'bmp' ? 'mdi-folder-multiple-image' :''"
-                                        :color="item.fileExte  == 'pdf' ? 'red' : item.fileExte  == 'docx'? 'blue':
+                                          :icon="item.fileExte == 'pdf' ? 'mdi-file-pdf': item.fileExte  == 'docx'? 'mdi-file-word': item.fileExte == 'link'? 'mdi-file-link': 
+                                          item.fileExte  == 'jpg' ||  item.fileExte  == 'png' ||  item.fileExte  == 'bmp' ? 'mdi-image' :''"
+                                        :color="item.fileExte  == 'pdf' ? 'red' : item.fileExte  == 'docx'? 'blue': item.fileExte == 'link' ? 'green':
                                           item.fileExte  == 'jpg' ||  item.fileExte  == 'png' ||  item.fileExte  == 'bmp' ? 'info': ''"
                                       >
                                         <v-row align="center" >
@@ -97,28 +144,82 @@
                                           </v-col>
                                         </v-row>
                                       </v-alert>
-                                  </v-hover>
-                                </v-col>
+                                  </v-hover> -->
 
+                                   <v-list dense nav outlined>
+                                         <v-list-item link>
+                                           <v-list-item-avatar>
+                                              <v-icon  :color="item.fileExte == 'pdf' ? 'red' : item.fileExte == 'docx'? 'blue': item.fileExte == 'link' ? 'green':
+                                          item.fileExte == 'jpg' ||  item.fileExte == 'png' ||  item.fileExte == 'bmp' ? 'info': ''">
+                                                {{item.fileExte == 'pdf' ? 'mdi-file-pdf': item.fileExte == 'docx'? 'mdi-file-word': item.fileExte == 'link'? 'mdi-file-link': 
+                                          item.fileExte == 'jpg' ||  item.fileExte == 'png' ||  item.fileExte == 'bmp' ? 'mdi-folder-multiple-image' :''}}
+                                              </v-icon>
+                                           </v-list-item-avatar>
+                                            <v-list-item-content>
+                                                <v-list-item-title>
+                                                    {{item.fileName}}
+                                                </v-list-item-title>
+                                                <div v-if="isUploading[index] && uploadPercentage != 100">
+                                                   <v-progress-linear v-if="isUpIndex == index" rounded :value="uploadPercentage"></v-progress-linear>
+                                                </div>
+                                                
+                                            </v-list-item-content>
+                                            <v-list-item-action>
+                                                 <v-tooltip v-if="!isUploading[index] || uploadPercentage == 100" top>
+                                                  <template v-slot:activator="{ on, attrs }">
+                                                      <v-btn style="z-index:10" v-bind="attrs" v-on="on" 
+                                                      rounded small icon text @click="removeFile(index)"> <v-icon>mdi-close</v-icon></v-btn>
+                                                  </template>
+                                                  <span>Delete</span>
+                                                </v-tooltip>
+                                            </v-list-item-action>
+                                         </v-list-item>
+                                      </v-list>
+                                </v-col>
                               </v-row>
                            
 
                           
                                 <v-row v-else ma-0 pa-0 class="mb-2">
                                   <v-col v-for="(item, index) in StatusDetails.Submitted_Answers" :key="index" class="ma-0 pa-0" cols="12">
-                                    <v-hover  v-slot="{ hover }">
-                                    <v-alert
+                                    <!-- <v-hover  v-slot="{ hover }"> -->
+                                   <!--  <v-alert
                                     dense
                                         class="mb-1 pa-2"
                                         style="cursor:pointer"
                                           :class="hover ? 'grey lighten-2' :''"
                                           outlined
-                                          :icon="item.fileExte == 'pdf' ? 'mdi-file-pdf': item.fileExte == 'docx'? 'mdi-file-word': 
+                                          :icon="item.fileExte == 'pdf' ? 'mdi-file-pdf': item.fileExte == 'docx'? 'mdi-file-word': item.fileExte == 'link'? 'mdi-file-link': 
                                           item.fileExte == 'jpg' ||  item.fileExte == 'png' ||  item.fileExte == 'bmp' ? 'mdi-folder-multiple-image' :''"
-                                        :color="item.fileExte == 'pdf' ? 'red' : item.fileExte == 'docx'? 'blue':
+                                        :color="item.fileExte == 'pdf' ? 'red' : item.fileExte == 'docx'? 'blue': item.fileExte == 'link' ? 'green':
                                           item.fileExte == 'jpg' ||  item.fileExte == 'png' ||  item.fileExte == 'bmp' ? 'info': ''"
-                                      >
-                                        <v-row align="center" >
+                                      > -->
+                                      <v-list dense nav outlined>
+                                         <v-list-item link @click="OpenFile(item.link)">
+                                           <v-list-item-avatar>
+                                              <v-icon  :color="item.fileExte == 'pdf' ? 'red' : item.fileExte == 'docx'? 'blue': item.fileExte == 'link' ? 'green':
+                                          item.fileExte == 'jpg' ||  item.fileExte == 'png' ||  item.fileExte == 'bmp' ? 'info': ''">
+                                                {{item.fileExte == 'pdf' ? 'mdi-file-pdf': item.fileExte == 'docx'? 'mdi-file-word': item.fileExte == 'link'? 'mdi-file-link': 
+                                          item.fileExte == 'jpg' ||  item.fileExte == 'png' ||  item.fileExte == 'bmp' ? 'mdi-folder-multiple-image' :''}}
+                                              </v-icon>
+                                           </v-list-item-avatar>
+                                            <v-list-item-content>
+                                                <v-list-item-title>
+                                                    {{item.name}}
+                                                </v-list-item-title>
+                                            </v-list-item-content>
+                                            <v-list-item-action>
+                                                 <v-tooltip v-if="StatusDetails.status == 'Submitting' || isResubmit" top>
+                                                  <template v-slot:activator="{ on, attrs }">
+                                                      <v-btn style="z-index:10" v-bind="attrs" v-on="on" 
+                                                      rounded small icon text @click="DeleteUpload(index)"> <v-icon>mdi-close</v-icon></v-btn>
+                                                  </template>
+                                                  <span>Delete</span>
+                                                </v-tooltip>
+                                            </v-list-item-action>
+                                         </v-list-item>
+                                      </v-list>
+                                       <!--  <v-row align="center" >
                                           <v-col class="grow text-left">
                                             <div :class="hover ? 'text-decoration-underline':''"> {{item.name}}</div>
                                           </v-col>
@@ -134,9 +235,9 @@
                                                 </v-tooltip>
                                               </div>
                                           </v-col>
-                                        </v-row>
-                                      </v-alert>
-                                    </v-hover>
+                                        </v-row> -->
+                                     <!--  </v-alert>
+                                    </v-hover> -->
                                   </v-col>
                                 </v-row>
                      
@@ -160,7 +261,7 @@
                                     Add <v-icon right>mdi-plus</v-icon>
                                   </v-btn>
                                 </template>
-                                <v-list>
+                                <v-list nav dense>
                                   <v-list-item link  @click="file[fileIndex-1] || isResubmit ? UploadMoreFile() : UploadFile()">
                                         <v-icon left>mdi-cloud-upload-outline</v-icon> Upload File
                                   </v-list-item>
@@ -366,7 +467,7 @@
                                             </v-list-item-avatar>
                                             <v-list-item-content >
                                                 <v-hover v-slot="{ hover }">
-                                                <v-list-item-title :class="hover ? 'blue--text' : ''" style="cursor:pointer" @click="DownLoadFile(item.attachment)">{{item.name}}</v-list-item-title>
+                                                <v-list-item-title :class="hover ? 'blue--text' : ''" style="cursor:pointer" @click="DownLoadFile(item.attachment, item.extension)">{{item.name}}</v-list-item-title>
                                                 </v-hover>
                                             </v-list-item-content>
                                         </v-list-item>
@@ -411,6 +512,8 @@ export default {
             isUpIndex: null,
             comment: null,
             isCommenting: false,
+            linkName: null,
+            linkFile:null
         }
     },
      computed: {
@@ -428,6 +531,46 @@ export default {
         }
     },
     methods:{
+      OpenFile(file){
+        window.open(file,'_blank');
+      },
+      scrapeDocID() {
+
+              var d = this.linkFile.replace(/.*\/d\//, '').replace(/\/.*/, '');
+              var path = "https://drive.google.com/file/d/" + d + "/preview";
+
+              if(this.StatusDetails.length == 0){
+                this.file.push({ fileName: this.linkName, fileSize: '', fileExte: 'link', file: path});
+              }
+              else{
+                this.file.push({ fileName: this.linkName, fileSize: '', fileExte: 'link', file: path});
+                 this.StatusDetails.Submitted_Answers.push({ name: this.linkName, fileSize: '', fileExte: 'link', link: path});
+ 
+              }
+
+               this.AddLinkInSubmittedAnswer();
+              // this.AddLinkInSubmittedAnswer(index);
+            
+          },
+          AddLinkInSubmittedAnswer(){
+            let index = this.file.length-1;
+              let sub_id = this.tempId == null ? 'empty' : this.tempId;
+              let fd = new FormData;
+              fd.append('Submission_id', sub_id);
+              fd.append('id', this.classworkDetails.id);
+              fd.append('class_classwork_id', this.classworkDetails.class_classwork_id);
+              fd.append('type', this.classworkDetails.type);
+              fd.append('fileName', this.file[index].fileName);
+              fd.append('fileSize', this.file[index].fileSize);
+              fd.append('fileExte', this.file[index].fileExte);
+              fd.append('file', this.file[index].file);
+              axios.post('/api/student/linkAndstatus', fd)
+              .then(res=>{
+                    this.AttachLink = false;
+                    this.linkName = null;
+                    this.linkFile = null;
+              })
+          },
         UploadFile(){
           
           this.$refs.UploadAttachFile.click();
@@ -439,16 +582,22 @@ export default {
            else{
 
            }
-        
+
         },
          format_date(value) {
             if (value) {
                 return moment(String(value)).format('dddd, h:mm a')
             }
         },
-        DownLoadFile(file){
-            //window.location = file;
-            window.open(file,'_blank');
+        DownLoadFile(file, extension){
+            let link ;
+          if(extension == 'docx'){
+            link = 'https://view.officeapps.live.com/op/view.aspx?src='+file;
+          }
+          else{
+              link = file;
+          }
+          window.open(link,'_blank');
         },
         onChange(e) {
             var files = e.target.files || e.dataTransfer.files;

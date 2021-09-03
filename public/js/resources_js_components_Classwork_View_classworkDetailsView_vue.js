@@ -99,6 +99,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 var studentStartPage = function studentStartPage() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_type_studentStartPage_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./type/studentStartPage */ "./resources/js/components/Classwork_View/type/studentStartPage.vue"));
 };
@@ -120,8 +127,16 @@ var teacherStartPage = function teacherStartPage() {
       classworkDetails: {},
       totalPoints: null,
       totalQuestion: null,
-      CurrentUser: []
+      CurrentUser: [],
+      iChange: false
     };
+  },
+  watch: {
+    '$route.query.clwk': function $routeQueryClwk(newId, oldId) {
+      this.isloading = true;
+      this.iChange = true;
+      this.getClassworkDetails();
+    }
   },
   methods: {
     getClassworkDetails: function getClassworkDetails() {
@@ -136,9 +151,11 @@ var teacherStartPage = function teacherStartPage() {
                   _this.classworkDetails = res.data;
                   _this.totalPoints = res.data.totalpoints;
                   _this.totalQuestion = res.data.ItemsCount;
-                  _this.isloading = !_this.isloading;
+                  _this.iChange = false;
+                  _this.isloading = false;
                 })["catch"](function (e) {
-                  _this.isloading = !_this.isloading;
+                  _this.iChange = false;
+                  _this.isloading = false;
                 });
 
               case 1:
@@ -8563,6 +8580,17 @@ var render = function() {
   return _c(
     "div",
     [
+      _c(
+        "v-overlay",
+        { attrs: { value: _vm.iChange } },
+        [
+          _c("v-progress-circular", {
+            attrs: { indeterminate: "", size: "64" }
+          })
+        ],
+        1
+      ),
+      _vm._v(" "),
       !_vm.isloading && _vm.classworkDetails.success == false
         ? _c(
             "v-row",

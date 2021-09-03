@@ -182,6 +182,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -219,7 +229,7 @@ __webpack_require__.r(__webpack_exports__);
         var diff = Question_length - Submitted_length;
 
         for (var i = 0; i < diff; i++) {
-          if (_this.QuestionAndAnswer.Question[i].type == 'Multiple Choice' || _this.QuestionAndAnswer.Question[i].type == 'Identification' || _this.QuestionAndAnswer.Question[i].type == 'True or False') {
+          if (_this.QuestionAndAnswer.Question[i].type == 'Multiple Choice' || _this.QuestionAndAnswer.Question[i].type == 'Identification' || _this.QuestionAndAnswer.Question[i].type == 'True or False' || _this.QuestionAndAnswer.Question[i].type == 'Essay') {
             _this.details.Submitted_Answers.push({
               Answer: null,
               Question_id: _this.QuestionAndAnswer.Question[i].id,
@@ -232,7 +242,7 @@ __webpack_require__.r(__webpack_exports__);
         var _loop = function _loop(_i) {
           for (var j = 0; j < _this.details.Submitted_Answers.length; j++) {
             if (_this.QuestionAndAnswer.Question[_i].id == _this.details.Submitted_Answers[j].Question_id) {
-              if (_this.QuestionAndAnswer.Question[_i].type == 'Multiple Choice' || _this.QuestionAndAnswer.Question[_i].type == 'Identification' || _this.QuestionAndAnswer.Question[_i].type == 'True or False') {
+              if (_this.QuestionAndAnswer.Question[_i].type == 'Multiple Choice' || _this.QuestionAndAnswer.Question[_i].type == 'Identification' || _this.QuestionAndAnswer.Question[_i].type == 'True or False' || _this.QuestionAndAnswer.Question[_i].type == 'Essay') {
                 _this.SubmittedAnswer[_i] = _this.details.Submitted_Answers[j];
 
                 if (_this.QuestionAndAnswer.Question[_i].answer == _this.details.Submitted_Answers[j].Answer) {
@@ -9419,6 +9429,58 @@ var render = function() {
                                 )
                               ],
                               1
+                            )
+                          ],
+                          1
+                        )
+                      : _vm._e(),
+                    _vm._v(" "),
+                    item.type == "Essay"
+                      ? _c(
+                          "v-container",
+                          { attrs: { "ma-0": "", "pa-0": "" } },
+                          [
+                            _c(
+                              "v-container",
+                              {
+                                staticClass: "ml-7 mt-0 pt-0",
+                                attrs: { "ma-0": "", "pa-0": "" }
+                              },
+                              [
+                                _c(
+                                  "div",
+                                  {
+                                    staticClass: "subtitle-2 font-weight-bold"
+                                  },
+                                  [_vm._v("Answer")]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "div",
+                                  {
+                                    staticClass:
+                                      "subtitle-1 d-flex item ml-4 mt-0 pt-0"
+                                  },
+                                  [
+                                    _c("span", {
+                                      staticClass: "post-content",
+                                      domProps: {
+                                        innerHTML: _vm._s(
+                                          _vm.SubmittedAnswer[index].Answer
+                                        )
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _vm.SubmittedAnswer[index].Answer == null
+                                      ? _c(
+                                          "span",
+                                          { staticClass: "post-content" },
+                                          [_vm._v(" N/A")]
+                                        )
+                                      : _vm._e()
+                                  ]
+                                )
+                              ]
                             )
                           ],
                           1

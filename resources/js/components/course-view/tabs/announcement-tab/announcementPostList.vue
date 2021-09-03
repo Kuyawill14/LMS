@@ -38,7 +38,7 @@
                  </v-col>
             </v-row>
             <!--Post Content -->
-            <v-container class="pl-4 pr-4 pb-6">
+            <v-container fluid class="pl-4 pr-4 pb-6" style="mx-width:100%">
                 <v-row>
                     <v-col cols="12">
                         <div class="pa-5 " >

@@ -394,9 +394,17 @@ class ObjectiveController extends Controller
     public function update(Request $request, $id)
     {
         //return $request;
-        if($request->type== 'Multiple Choice'){
-            $UpdateQuestion = tbl_Questions::find($request->question['id']);
-            if($UpdateQuestion){
+        $UpdateQuestion = tbl_Questions::find($request->question['id']);
+        if(!$UpdateQuestion){
+            return response()->json([
+                "message" => "Question not found!",
+                "success" => false,
+            ]);
+        }
+
+        if($UpdateQuestion->type == $request->type){
+
+            if($request->type== 'Multiple Choice'){             
                 $UpdateQuestion->question = $request->question['question'];
                 $UpdateQuestion->answer = $request->question['answer'];
 
@@ -413,12 +421,10 @@ class ObjectiveController extends Controller
                     $UpdateChoices->save();
                 }
                 return 'Update Success!';
+            
             }
-            return 'Update Failed!';
-        }
-        elseif($request->type == 'Identification' || $request->type == 'True or False' ){
-            $UpdateQuestion = tbl_Questions::find($request->question['id']);
-            if($UpdateQuestion){
+            elseif($request->type == 'Identification' || $request->type == 'True or False' || $request->type == 'Essay' ){
+            
                 $UpdateQuestion->question = $request->question['question'];
                 $UpdateQuestion->answer = $request->question['answer'];
 
@@ -429,13 +435,10 @@ class ObjectiveController extends Controller
                 $UpdateQuestion->points = $request->question['points'];
                 $UpdateQuestion->save();
                 return 'Update Success!';
+            
             }
-            return 'Update Failed!';
-
-        }
-        elseif($request->type == 'Matching Type'){
-            $UpdateQuestion = tbl_Questions::find($request->details['id']);
-            if($UpdateQuestion){
+            elseif($request->type == 'Matching Type'){
+               
                 $UpdateQuestion->question = $request->details['question'];
                 $UpdateQuestion->points = $request->details['points'];
                 $UpdateQuestion->save();
@@ -445,7 +448,6 @@ class ObjectiveController extends Controller
                 $classworkTotalPoints->points = $tmpPoints +$request->details['points'];
                 $classworkTotalPoints->save();
                 
-
                 foreach($request->question as $question){
                     $UpdateSubQuestion = tbl_SubQuestion::find($question['id']);
                     $UpdateSubQuestion->sub_question = $question['sub_question'];
@@ -458,8 +460,85 @@ class ObjectiveController extends Controller
                     $UpdateAnswer->save();
                 }
                 return 'Update Success!';
+               
             }
-            return 'Update Failed!';
+
+        }
+        else{
+            $classworkTotalPoints = tbl_classwork::find($UpdateQuestion->classwork_id);
+            $classworkTotalPoints->points = $classworkTotalPoints->points - $UpdateQuestion->points;
+            $classworkTotalPoints->save();
+
+            if($UpdateQuestion->type == 'Multiple Choice'){
+                $DelAnswer = tbl_choice::where('question_id', $UpdateQuestion->id)->delete();
+            }
+            elseif($UpdateQuestion->type == 'Matching type'){
+                $DelAnswer = tbl_choice::where('question_id', $id)->delete();
+                $DelAnswerSubQuestion = tbl_SubQuestion::where('mainQuestion_id', $id)->delete();
+            }
+
+
+            if($request->type== 'Multiple Choice'){             
+                $UpdateQuestion->question = $request->question['question'];
+                $UpdateQuestion->answer = $request->question['answer'];
+
+                $classworkTotalPoints = tbl_classwork::find($UpdateQuestion->classwork_id);
+                $classworkTotalPoints->points = (($classworkTotalPoints->points - $UpdateQuestion->points)+$request->question['points']);
+                $classworkTotalPoints->save();
+
+                $UpdateQuestion->points = $request->question['points'];
+                $UpdateQuestion->save();
+
+                foreach($request->options as $options){
+                    $UpdateChoices = tbl_choice::find($options['id']);
+                    $UpdateChoices->Choice = $options['Choice'];
+                    $UpdateChoices->save();
+                }
+                return 'Update Success!';
+            
+            }
+            elseif($request->type == 'Identification' || $request->type == 'True or False' || $request->type == 'Essay' ){
+            
+                $UpdateQuestion->question = $request->question['question'];
+                $UpdateQuestion->answer = $request->question['answer'];
+
+                $classworkTotalPoints = tbl_classwork::find($UpdateQuestion->classwork_id);
+                $classworkTotalPoints->points = (($classworkTotalPoints->points - $UpdateQuestion->points) + $request->question['points']);
+                $classworkTotalPoints->save();
+
+                $UpdateQuestion->points = $request->question['points'];
+                $UpdateQuestion->save();
+                return 'Update Success!';
+            
+            }
+            elseif($request->type == 'Matching Type'){
+               
+                $UpdateQuestion->question = $request->details['question'];
+                $UpdateQuestion->points = $request->details['points'];
+                $UpdateQuestion->save();
+
+                $classworkTotalPoints = tbl_classwork::find($UpdateQuestion->classwork_id);
+                $tmpPoints = $classworkTotalPoints->points <= $UpdateQuestion->points ? 0 : $classworkTotalPoints->points - $UpdateQuestion->points;
+                $classworkTotalPoints->points = $tmpPoints +$request->details['points'];
+                $classworkTotalPoints->save();
+                
+                foreach($request->question as $question){
+                    $UpdateSubQuestion = tbl_SubQuestion::find($question['id']);
+                    $UpdateSubQuestion->sub_question = $question['sub_question'];
+                    $UpdateSubQuestion->save();
+                }
+
+                foreach($request->options as $option){
+                    $UpdateAnswer = tbl_choice::find($option['id']);
+                    $UpdateAnswer->Choice = $option['Choice'];
+                    $UpdateAnswer->save();
+                }
+                return 'Update Success!';
+               
+            }
+
+
+            
         }
        
 
@@ -555,7 +634,7 @@ class ObjectiveController extends Controller
            
                 foreach($Questions as $ques){
                     if($ques['id'] == $cl['Question_id']){
-                        if($cl['type'] == 'Multiple Choice' || $cl['type'] == 'Identification' || $cl['type'] == 'True or False'){
+                        if($cl['type'] == 'Multiple Choice' || $cl['type'] == 'Identification' || $cl['type'] == 'True or False' /* || $cl['type'] == 'Essay' */){
                             if($ques['answer'] == $cl['Answer']){
                                 $score += $ques['points'];
                                 $AnalyticsFind = tbl_questionAnalytic::where("tbl_question_analytics.question_id",$cl['Question_id'])->first();

@@ -29,7 +29,7 @@
             <v-row >
                   <v-col cols="12" classs="ma-0 pa-0">
                      <v-container ma-0 pa-0 class="mb-3 d-flex flex-row ">
-                        <v-container mb-0 pb-0 class="d-flex">  <h3>Question #{{number}}</h3><small class="primary--text mt-1 ml-1">({{QuetionsList.points}}points)</small> </v-container>
+                        <v-container mb-0 pb-0 class="d-flex">  <h3>Question #{{number}}</h3><small class="primary--text mt-1 ml-1">({{QuetionsList.type+' '}} {{QuetionsList.points}}points)</small> </v-container>
                             <v-container v-if="!preview" ma-0 pa-0 class="pa-0 ma-0 d-flex justify-end">
                                 <v-btn
                                 class="mr-2"
@@ -80,14 +80,14 @@
                                         <v-text-field min="0" :readonly="!isEditing" outlined type="number" v-model="QuetionsList.points" class="pa-0 ma-0"  label="Points"></v-text-field>
                                 </v-col>
                                 <v-col class="pa-0 ma-0 pl-2 pl-sm-0 text-right" cols="9" md="11" lg="11">
-                                        <v-select
+                                     <!--    <v-select
                                         :readonly="!isEditing"
                                         v-model="QuetionsList.type"
                                         class="float-right pa-0 ma-0"
-                                        :items="['Multiple Choice', 'Identification', 'True or False', 'Matching type']"
+                                        :items="['Multiple Choice', 'Identification', 'True or False', 'Matching type','Essay']"
                                         outlined
                                         label="Type"
-                                        ></v-select>
+                                        ></v-select> -->
                                 </v-col>
                             </v-row>
                             <v-container class="pa-0 ma-0" ma-0 pa-0> 
@@ -249,7 +249,7 @@ export default {
             options:{
             modules: {
                     'toolbar': [
-                        ['bold', 'italic', 'underline', 'strike'],
+                        ['bold', 'italic', 'underline'],
                 
                         [{ 'list': 'bullet' }],
                         ['image'],

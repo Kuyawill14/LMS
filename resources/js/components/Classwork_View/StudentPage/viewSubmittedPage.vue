@@ -160,6 +160,16 @@
                         </v-row>
                  </v-container>
 
+                 <v-container ma-0 pa-0 v-if="item.type == 'Essay'">
+                      <v-container ma-0 pa-0 class="ml-7 mt-0 pt-0">
+                        <div class="subtitle-2 font-weight-bold">Answer</div>
+                        <div class="subtitle-1 d-flex item ml-4 mt-0 pt-0">
+                            <span v-html="SubmittedAnswer[index].Answer" class="post-content"></span>
+                            <span v-if="SubmittedAnswer[index].Answer == null"  class="post-content"> N/A</span>
+                        </div>
+                    </v-container>
+                 </v-container>
+
 
                 </v-container>
            </v-container>
@@ -205,7 +215,7 @@ import moment from 'moment/src/moment';
                     let Question_length = this.QuestionAndAnswer.Question.length;
                     let diff = Question_length  - Submitted_length;
                     for (let i = 0; i < diff; i++) {
-                        if(this.QuestionAndAnswer.Question[i].type == 'Multiple Choice' || this.QuestionAndAnswer.Question[i].type == 'Identification' || this.QuestionAndAnswer.Question[i].type == 'True or False'){
+                        if(this.QuestionAndAnswer.Question[i].type == 'Multiple Choice' || this.QuestionAndAnswer.Question[i].type == 'Identification' || this.QuestionAndAnswer.Question[i].type == 'True or False' || this.QuestionAndAnswer.Question[i].type == 'Essay'){
                             this.details.Submitted_Answers.push({
                                 Answer: null,
                                 Question_id: this.QuestionAndAnswer.Question[i].id,
@@ -221,7 +231,7 @@ import moment from 'moment/src/moment';
                     for (let i = 0; i < this.QuestionAndAnswer.Question.length; i++) {
                         for (let j = 0; j < this.details.Submitted_Answers.length; j++) {
                             if(this.QuestionAndAnswer.Question[i].id == this.details.Submitted_Answers[j].Question_id){
-                                if(this.QuestionAndAnswer.Question[i].type == 'Multiple Choice' || this.QuestionAndAnswer.Question[i].type == 'Identification' || this.QuestionAndAnswer.Question[i].type == 'True or False'){
+                                if(this.QuestionAndAnswer.Question[i].type == 'Multiple Choice' || this.QuestionAndAnswer.Question[i].type == 'Identification' || this.QuestionAndAnswer.Question[i].type == 'True or False' || this.QuestionAndAnswer.Question[i].type == 'Essay'){
                                      this.SubmittedAnswer[i] =  this.details.Submitted_Answers[j];
                                     if(this.QuestionAndAnswer.Question[i].answer == this.details.Submitted_Answers[j].Answer){
                                         this.Check[i] = true;

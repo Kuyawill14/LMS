@@ -290,6 +290,26 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -324,6 +344,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           }], ['image']]
         }
       },
+      Essayoptions: {
+        modules: {
+          'toolbar': [['bold', 'italic', 'underline', 'strike'], [{
+            'list': 'bullet'
+          }]]
+        }
+      },
       TimerCount: [],
       tempCounter: 0,
       timeCount: null,
@@ -353,7 +380,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       ;
     },
     reset: function reset(index, type) {
-      if (type == 'Multiple Choice' || type == 'Identification' || type == 'True or False') {
+      if (type == 'Multiple Choice' || type == 'Identification' || type == 'True or False' || type == 'Essay') {
         this.FinalAnswers[index].Answer = '';
       } else if (type == 'Matching type') {
         this.FinalAnswers[index].Answer.forEach(function (item) {
@@ -362,9 +389,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }
     },
     SelectAnswer: function SelectAnswer() {
-      var name = btoa('CurrentAnswers');
-      localStorage.setItem(name, JSON.stringify(this.FinalAnswers));
-
       if (this.FinalAnswers[this.questionIndex].timeConsume != null || '') {
         this.FinalAnswers[this.questionIndex].timeConsume += this.tempCounter;
       } else {
@@ -507,7 +531,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
         if (AnswersList == null) {
           for (var index = 0; index < _this6.getAll_questions.Question.length; index++) {
-            if (_this6.getAll_questions.Question[index].type == 'Identification' || _this6.getAll_questions.Question[index].type == 'Multiple Choice' || _this6.getAll_questions.Question[index].type == 'True or False') {
+            if (_this6.getAll_questions.Question[index].type == 'Identification' || _this6.getAll_questions.Question[index].type == 'Multiple Choice' || _this6.getAll_questions.Question[index].type == 'True or False' || _this6.getAll_questions.Question[index].type == 'Essay') {
               _this6.FinalAnswers.push({
                 Answer: '',
                 Question_id: _this6.getAll_questions.Question[index].id,
@@ -555,7 +579,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           var diff = Question_length - Submitted_length;
 
           for (var i = 0; i < diff; i++) {
-            if (_this6.QuestionAndAnswer.Question[i].type == 'Multiple Choice' || _this6.QuestionAndAnswer.Question[i].type == 'Identification' || _this6.QuestionAndAnswer.Question[i].type == 'True or False') {
+            if (_this6.QuestionAndAnswer.Question[i].type == 'Multiple Choice' || _this6.QuestionAndAnswer.Question[i].type == 'Identification' || _this6.QuestionAndAnswer.Question[i].type == 'True or False' || _this6.getAll_questions.Question[x].type == 'Essay') {
               _this6.details.Submitted_Answers.push({
                 Answer: null,
                 Question_id: _this6.QuestionAndAnswer.Question[i].id,
@@ -565,22 +589,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             } else if (_this6.QuestionAndAnswer.Question[i].type == 'Matching type') {}
           }
 
-          for (var x = 0; x < _this6.getAll_questions.Question.length; x++) {
+          for (var _x = 0; _x < _this6.getAll_questions.Question.length; _x++) {
             for (var j = 0; j < AnswersList.length; j++) {
-              if (_this6.getAll_questions.Question[x].id == AnswersList[j].Question_id) {
-                if (_this6.getAll_questions.Question[x].type == 'Identification' || _this6.getAll_questions.Question[x].type == 'Multiple Choice' || _this6.getAll_questions.Question[x].type == 'True or False') {
+              if (_this6.getAll_questions.Question[_x].id == AnswersList[j].Question_id) {
+                if (_this6.getAll_questions.Question[_x].type == 'Identification' || _this6.getAll_questions.Question[_x].type == 'Multiple Choice' || _this6.getAll_questions.Question[_x].type == 'True or False' || _this6.getAll_questions.Question[_x].type == 'Essay') {
                   _this6.FinalAnswers.push({
                     Answer: AnswersList[j].Answer,
                     Question_id: AnswersList[j].Question_id,
                     type: AnswersList[j].type,
                     timeConsume: AnswersList[j].timeConsume
                   });
-                } else if (_this6.getAll_questions.Question[x].type == 'Matching type') {
+                } else if (_this6.getAll_questions.Question[_x].type == 'Matching type') {
                   (function () {
                     var Ans = new Array();
                     var Choices_id = new Array();
 
-                    _this6.getAll_questions.Answer[x].SubAnswer.forEach(function (item) {
+                    _this6.getAll_questions.Answer[_x].SubAnswer.forEach(function (item) {
                       Choices_id.push({
                         choice_id: item.id
                       });
@@ -657,10 +681,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var Answer = this.FinalAnswers[main_index].Answer[second_index].Ans_letter;
 
       for (var i = 0; i < this.getAll_questions.Answer[this.questionIndex].SubAnswer.length; i++) {
-        for (var x = 0; x < this.getAll_questions.Answer[this.questionIndex].SubAnswer.length; x++) {
-          if (this.Alphabet[x].toUpperCase() == Answer.toUpperCase()) {
-            this.FinalAnswers[main_index].Answer[second_index].Answers = this.getAll_questions.Answer[this.questionIndex].SubAnswer[x].Choice;
-            this.FinalAnswers[main_index].Answer[second_index].Ans_id = this.getAll_questions.Answer[this.questionIndex].SubAnswer[x].id;
+        for (var _x2 = 0; _x2 < this.getAll_questions.Answer[this.questionIndex].SubAnswer.length; _x2++) {
+          if (this.Alphabet[_x2].toUpperCase() == Answer.toUpperCase()) {
+            this.FinalAnswers[main_index].Answer[second_index].Answers = this.getAll_questions.Answer[this.questionIndex].SubAnswer[_x2].Choice;
+            this.FinalAnswers[main_index].Answer[second_index].Ans_id = this.getAll_questions.Answer[this.questionIndex].SubAnswer[_x2].id;
           }
         }
       }
@@ -692,7 +716,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }
   },
   beforeMount: function beforeMount() {
-    window.addEventListener("beforeunload", this.preventNav);
+    document.addEventListener('contextmenu', function (e) {
+      e.preventDefault();
+    });
+    window.addEventListener("onbeforeunload", this.preventNav);
     var self = this;
     $(window).blur(function () {
       self.triggerWarning();
@@ -923,7 +950,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.centered-input >>> input {\n      text-align: center\n}\n.post-content img{\n        \n     max-height: 8rem !important;\n}\n.centered-input input {\n  text-align: center\n}\n\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.centered-input >>> input {\n      text-align: center\n}\n.post-content img{\n        \n     max-height: 8rem !important;\n}\n.centered-input input {\n  text-align: center\n}\n\n \n\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -9719,14 +9746,7 @@ var render = function() {
                                 [
                                   _c(
                                     "v-col",
-                                    {
-                                      staticStyle: {
-                                        overflow: "hidden",
-                                        "white-space": "nowrap",
-                                        "text-overflow": "ellipsis"
-                                      },
-                                      attrs: { cols: "8" }
-                                    },
+                                    { attrs: { cols: "8" } },
                                     [
                                       _c(
                                         "v-list",
@@ -9886,7 +9906,9 @@ var render = function() {
                                                                   item.type ==
                                                                     "Identification" ||
                                                                   item.type ==
-                                                                    "True or False"
+                                                                    "True or False" ||
+                                                                  item.type ==
+                                                                    "Essay"
                                                                     ? _c(
                                                                         "v-btn",
                                                                         {
@@ -10365,8 +10387,8 @@ var render = function() {
                                                                 style: _vm
                                                                   .$vuetify
                                                                   .breakpoint.xs
-                                                                  ? "line-height:1.1"
-                                                                  : ""
+                                                                  ? "line-height:1.1;user-select: none"
+                                                                  : "user-select: none"
                                                               },
                                                               [
                                                                 _c("span", {
@@ -10502,6 +10524,10 @@ var render = function() {
                                                                                   {
                                                                                     staticClass:
                                                                                       "post-content",
+                                                                                    staticStyle: {
+                                                                                      "user-select":
+                                                                                        "none"
+                                                                                    },
                                                                                     domProps: {
                                                                                       innerHTML: _vm._s(
                                                                                         Ans.Choice
@@ -11108,8 +11134,8 @@ var render = function() {
                                                                                               .$vuetify
                                                                                               .breakpoint
                                                                                               .xs
-                                                                                              ? "line-height:1.1"
-                                                                                              : "line-height:1.5",
+                                                                                              ? "line-height:1.1;user-select: none"
+                                                                                              : "line-height:1.5;user-select: none",
                                                                                             domProps: {
                                                                                               innerHTML: _vm._s(
                                                                                                 List.sub_question
@@ -11176,8 +11202,8 @@ var render = function() {
                                                                                               .$vuetify
                                                                                               .breakpoint
                                                                                               .xs
-                                                                                              ? "line-height:1.1"
-                                                                                              : "line-height:1.5",
+                                                                                              ? "line-height:1.1;user-select: none"
+                                                                                              : "line-height:1.5;user-select: none",
                                                                                             domProps: {
                                                                                               innerHTML: _vm._s(
                                                                                                 _vm
@@ -11241,6 +11267,135 @@ var render = function() {
                                                                       [
                                                                         _vm._v(
                                                                           "Reset Answer"
+                                                                        )
+                                                                      ]
+                                                                    )
+                                                                  ],
+                                                                  1
+                                                                )
+                                                              ],
+                                                              1
+                                                            )
+                                                          ],
+                                                          1
+                                                        )
+                                                      ],
+                                                      1
+                                                    )
+                                                  : _vm._e(),
+                                                _vm._v(" "),
+                                                item.type == "Essay"
+                                                  ? _c(
+                                                      "v-container",
+                                                      [
+                                                        _c(
+                                                          "v-row",
+                                                          {
+                                                            attrs: {
+                                                              "ma-0": "",
+                                                              "pa-0": ""
+                                                            }
+                                                          },
+                                                          [
+                                                            _c(
+                                                              "v-col",
+                                                              {
+                                                                staticClass:
+                                                                  "ma-0 pa-0 mt-5",
+                                                                attrs: {
+                                                                  "ma-0": "",
+                                                                  "pa-0": "",
+                                                                  cols: "12"
+                                                                }
+                                                              },
+                                                              [
+                                                                _c("editor", {
+                                                                  staticStyle: {
+                                                                    height:
+                                                                      "220px"
+                                                                  },
+                                                                  attrs: {
+                                                                    id:
+                                                                      "editor-container",
+                                                                    placeholder:
+                                                                      "Essay",
+                                                                    theme:
+                                                                      "snow",
+                                                                    options:
+                                                                      _vm.Essayoptions
+                                                                  },
+                                                                  on: {
+                                                                    focus: function(
+                                                                      $event
+                                                                    ) {
+                                                                      return _vm.SetWarning()
+                                                                    },
+                                                                    blur: function(
+                                                                      $event
+                                                                    ) {
+                                                                      return _vm.SetWarning()
+                                                                    },
+                                                                    change: function(
+                                                                      $event
+                                                                    ) {
+                                                                      return _vm.SelectAnswer()
+                                                                    }
+                                                                  },
+                                                                  model: {
+                                                                    value:
+                                                                      _vm
+                                                                        .FinalAnswers[
+                                                                        index
+                                                                      ].Answer,
+                                                                    callback: function(
+                                                                      $$v
+                                                                    ) {
+                                                                      _vm.$set(
+                                                                        _vm
+                                                                          .FinalAnswers[
+                                                                          index
+                                                                        ],
+                                                                        "Answer",
+                                                                        $$v
+                                                                      )
+                                                                    },
+                                                                    expression:
+                                                                      "FinalAnswers[index].Answer"
+                                                                  }
+                                                                }),
+                                                                _vm._v(" "),
+                                                                _c(
+                                                                  "v-container",
+                                                                  {
+                                                                    staticClass:
+                                                                      "mb-0 pb-0 d-flex flex-row-reverse mt-10"
+                                                                  },
+                                                                  [
+                                                                    _c(
+                                                                      "v-btn",
+                                                                      {
+                                                                        attrs: {
+                                                                          text:
+                                                                            "",
+                                                                          rounded:
+                                                                            "",
+                                                                          small:
+                                                                            ""
+                                                                        },
+                                                                        on: {
+                                                                          click: function(
+                                                                            $event
+                                                                          ) {
+                                                                            return _vm.reset(
+                                                                              index,
+                                                                              item.type
+                                                                            )
+                                                                          }
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _vm._v(
+                                                                          "Clear Answer"
                                                                         )
                                                                       ]
                                                                     )

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use App\Models\tbl_userclass;
 use App\Models\User;
 use App\Models\Tbl_class;
@@ -165,8 +166,10 @@ class StudentController extends Controller
                 $StatusUpdate->status = "Submitting";
                 $file = $request->file('file');
                 if($file != ""){
-                    $newFile = $file->store('public/upload/classworkSubmission/'.$request->class_classwork_id.'/'.$userId);
-                    $tempAnswer[] = ["link"=> preg_replace('/\bpublic\/\b/', '', $newFile) , 
+                    //$newFile = $file->store('public/upload/classworkSubmission/'.$request->class_classwork_id.'/'.$userId);
+                    $upload_file = Storage::disk('DO_spaces')->putFile('classworkSubmission/'.$request->class_classwork_id.'/'.$userId, $file, 'public');
+                    $path = \Config::get('app.do_url').'/'. $upload_file;
+                    $tempAnswer[] = ["link"=> $path, 
                     "name"=> $request->fileName,"fileSize"=> $request->fileSize,"fileExte"=> $request->fileExte];
                     $StatusUpdate->Submitted_Answers = serialize($tempAnswer);
                 }
@@ -179,8 +182,10 @@ class StudentController extends Controller
             $TempOldAttach = $StatusUpdate->Submitted_Answers = unserialize($StatusUpdate->Submitted_Answers);
             $file = $request->file('file');
             if($file != ""){
-                $newFile = $file->store('public/upload/classworkSubmission/'.$userId);
-                $tempAnswer = ["link"=> preg_replace('/\bpublic\/\b/', '', $newFile) , 
+                //$newFile = $file->store('public/upload/classworkSubmission/'.$userId);
+                $upload_file = Storage::disk('DO_spaces')->putFile('classworkSubmission/'.$request->class_classwork_id.'/'.$userId, $file, 'public');
+                $path = \Config::get('app.do_url').'/'. $upload_file;
+                $tempAnswer = ["link"=> $path, 
                 "name"=> $request->fileName,"fileSize"=> $request->fileSize,"fileExte"=> $request->fileExte];
                 array_push($TempOldAttach, $tempAnswer);
                 $StatusUpdate->Submitted_Answers = serialize($TempOldAttach);
@@ -190,6 +195,39 @@ class StudentController extends Controller
            }
            
         }
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function AddLinkToSubmittedAnswer(Request $request){
+        if($request->Submission_id == 'empty'){
+            
+            $StatusUpdate = new tbl_Submission;
+            $StatusUpdate->classwork_id = $request->id;
+            $StatusUpdate->class_classwork_id = $request->class_classwork_id;
+            $StatusUpdate->user_id =  $userId;
+            $StatusUpdate->status = "Submitting";
+            $tempAnswer[] = ["link"=> $request->file, 
+            "name"=> $request->fileName,"fileSize"=> $request->fileSize,"fileExte"=> $request->fileExte];
+            $StatusUpdate->Submitted_Answers = serialize($tempAnswer);
+            $StatusUpdate->save();
+            return;
+       }
+       else{
+        
+        $StatusUpdate = tbl_Submission::find($request->Submission_id);
+        $TempOldAttach = $StatusUpdate->Submitted_Answers = unserialize($StatusUpdate->Submitted_Answers);
+        $tempAnswer = ["link"=> $request->file , 
+        "name"=> $request->fileName,"fileSize"=> $request->fileSize,"fileExte"=> $request->fileExte];
+        array_push($TempOldAttach, $tempAnswer);
+        $StatusUpdate->Submitted_Answers = serialize($TempOldAttach);
+        $StatusUpdate->save();
+        return;
+       }
     }
 
     /**

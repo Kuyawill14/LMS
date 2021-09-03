@@ -153,7 +153,7 @@
                             <v-container ma-0 pa-0 class="ma-0 pa-0">
                                 <div :style="$vuetify.breakpoint.xs ? 'line-height:1.1': ''" class="subtitle-1 d-flex"> 
                                     <v-checkbox
-                                    @click="UpdateScore(item.id, Check[index], item.points, index,item.answer)"
+                                    @click="UpdateScore(item.type ,item.id, Check[index], item.points, index,item.answer)"
                                     class="mt-0 pt-0"
                                     color="success"
                                     v-model="Check[index]"
@@ -194,6 +194,7 @@
                                 <div class="subtitle-2 font-weight-bold">Answer</div>
                                 <div class="subtitle-1 d-flex item ml-4">
                                     <span v-html="SubmittedAnswer[index].Answer" class="post-content"></span>
+                                    <span v-if="SubmittedAnswer[index].Answer == null"  class="post-content"> N/A</span>
                                 </div>
                             </v-container>
                             </v-container>
@@ -267,6 +268,16 @@
                                 </v-col>
                             </v-row>
                         </v-container>
+
+                          <v-container v-if="item.type == 'Essay'">
+                                <v-container ma-0 pa-0 class="ml-7">
+                                <div class="subtitle-2 font-weight-bold">Answer</div>
+                                <div  class="subtitle-1 d-flex item pl-4 pr-4">
+                                    <span v-html="SubmittedAnswer[index].Answer" class="post-content"></span>
+                                    <span v-if="SubmittedAnswer[index].Answer == null"  class="post-content"> N/A</span>
+                                </div>
+                            </v-container>
+                            </v-container>
                     </v-container>
                
             </v-card>
@@ -320,7 +331,7 @@ const resetConfirmation = () => import('../../dialogs/resetConfirmation')
                 let Question_length = this.getAll_questions.Question.length;
                 let diff = Question_length  - Submitted_length;
                 for (let i = 0; i < diff; i++) {
-                    if(this.Details.Question[i].type == 'Multiple Choice' || this.Details.Question[i].type == 'Identification' || this.Details.Question[i].type == 'True or False'){
+                    if(this.Details.Question[i].type == 'Multiple Choice' || this.Details.Question[i].type == 'Identification' || this.Details.Question[i].type == 'True or False' || this.Details.Question[i].type == 'Essay'){
                         this.ViewDetails.Submitted_Answers.push({
                             Answer: null,
                             Question_id: this.Details.Question[i].id,
@@ -345,6 +356,10 @@ const resetConfirmation = () => import('../../dialogs/resetConfirmation')
                                 else{
                                     this.Check[i] = false;
                                 }
+                            }
+                            else if(this.Details.Question[i].type == 'Essay'){
+                                this.SubmittedAnswer[i] =  this.ViewDetails.Submitted_Answers[j];
+                                this.Check[i] = false;
                             }
                             else if(this.Details.Question[i].type == 'Matching type'){
                                     let Ans = new Array();
@@ -407,7 +422,7 @@ const resetConfirmation = () => import('../../dialogs/resetConfirmation')
             });
 
         },
-        async UpdateScore(id, data, points,index,answer){
+        async UpdateScore(type, id, data, points,index,answer){
             this.UpdateDetails.check = data;
             this.UpdateDetails.points = points;
             this.UpdateDetails.question_id = id;
@@ -415,13 +430,23 @@ const resetConfirmation = () => import('../../dialogs/resetConfirmation')
             axios.put('/api/teacher/update-score/'+this.ViewDetails.id, this.UpdateDetails)
             .then(res=>{
                 if(res.status == 200){
-                    if(data == true){
-                        this.SubmittedAnswer[index] = answer;
-                        this.ViewDetails.points = this.ViewDetails.points + points;
-                    }else{
-                        this.SubmittedAnswer[index] = "";
-                        this.ViewDetails.points = this.ViewDetails.points - points;
+                    if(type == 'Essay'){
+                         if(data == true){
+                            this.ViewDetails.points = this.ViewDetails.points + points;
+                        }else{
+                            this.ViewDetails.points = this.ViewDetails.points - points;
+                        }
                     }
+                    else{
+                         if(data == true){
+                            this.SubmittedAnswer[index] = answer;
+                            this.ViewDetails.points = this.ViewDetails.points + points;
+                        }else{
+                            this.SubmittedAnswer[index] = "";
+                            this.ViewDetails.points = this.ViewDetails.points - points;
+                        }
+                    }
+                   
                 }
             })
         },
@@ -433,7 +458,7 @@ const resetConfirmation = () => import('../../dialogs/resetConfirmation')
                 .then(res=>{
                     if(res.status == 200){
                         this.dialog = !this.dialog;
-                        ths.isReseting = false;
+                        this.isReseting = false;
                         this.$emit('RestSubmission')
                     }
             

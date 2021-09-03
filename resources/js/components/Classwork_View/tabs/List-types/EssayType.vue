@@ -117,42 +117,13 @@
                                 </v-row>
                             </v-container>
                             
-                            <v-container>
-                                <v-row ma-0 pa-0>
-                                    <div class="font-weight-medium">  Answer</div>
-                                    <v-col  ma-0 pa-0 class="ma-0 pa-0 " cols="12">
-                                        <v-card style="width:100%" class="mb-3">
-                                            <editor
-                                            ref="Answer"
-                                                v-model="QuetionsList.answer"
-                                                id="editor-container"  placeholder="Question" 
-                                                :theme="!isEditing ? 'bubble' : 'snow'" :options="options"></editor>
-                                        </v-card>
-                                    </v-col>
-                                </v-row>
-                            </v-container>
                     </v-container>
-
-                    <div class="text-right">
-                         <v-switch
-                     
-                        v-model="QuetionsList.sensitivity"
-                        class="float-right"
-                        label="Case Sensitive">
-                    </v-switch>
-                    </div>
                 </v-col>
 
                 <v-col @dblclick="preview = !preview, isEditing = true"  v-if="preview || previewAll" cols="12" md="12" class="pl-4 pr-4 pt-2">
-                        <v-container>
-                            <div :style="$vuetify.breakpoint.xs ? 'line-height:1.1':'line-height:1.5'" class="subtitle-2"> <span v-html="QuetionsList.question" class="post-content"></span><!-- {{QuetionsList.question}} --></div>
-                        </v-container>
-                        <v-container class="pl-5 pr-5">
-                            <div class="subtitle-2 font-weight-bold">Answer</div>
-                            <div class="subtitle-1 d-flex item">
-                                <span v-html="QuetionsList.answer" class="post-content"></span>
-                            </div>
-                        </v-container>
+                    <v-container>
+                        <div :style="$vuetify.breakpoint.xs ? 'line-height:1.1':'line-height:1.5'" class="subtitle-2"> <span v-html="QuetionsList.question" class="post-content"></span><!-- {{QuetionsList.question}} --></div>
+                    </v-container>
                 </v-col>
             </v-row>
         </v-card>

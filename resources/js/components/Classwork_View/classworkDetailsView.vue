@@ -1,5 +1,12 @@
 <template>
   <div>
+    <v-overlay :value="iChange">
+        <v-progress-circular
+            indeterminate
+            size="64"
+        ></v-progress-circular>
+    </v-overlay>
+
   
          <!--   <v-row>
                 <v-col  cols="12" md="12" class="pl-5 pt-2">
@@ -93,9 +100,17 @@ export default {
             classworkDetails:{},
             totalPoints:null,
             totalQuestion:null,
-            CurrentUser:[]
+            CurrentUser:[],
+            iChange: false,
         }
     },
+    watch: {
+      '$route.query.clwk'(newId, oldId) {
+          this.isloading = true;
+          this.iChange = true;
+          this.getClassworkDetails()
+      }
+  },
     methods:{
        async getClassworkDetails(){
             axios.get('/api/classwork/showDetails/'+ this.$route.query.clwk+'/'+this.$route.params.id)
@@ -103,10 +118,12 @@ export default {
                this.classworkDetails = res.data;
                 this.totalPoints = res.data.totalpoints;
                 this.totalQuestion = res.data.ItemsCount;
-                this.isloading = !this.isloading;
+                this.iChange = false;
+                this.isloading = false;
             })
             .catch(e=>{
-                this.isloading = !this.isloading;
+                this.iChange = false;
+                this.isloading = false;
             })
         },
          format_date(value) {

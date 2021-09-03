@@ -13,6 +13,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+var _methods;
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -147,7 +151,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       notifyDetails: {},
       selectedFile: null,
       isSelecting: false,
-      isEditing: false,
       isloading: false,
       value: '',
       content: '',
@@ -159,19 +162,24 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       },
       options: {
         modules: {
-          'toolbar': [['bold', 'italic', 'underline', 'strike'], [{
-            'header': [1, 2, 3, 4, 5, false]
-          }], [{
-            'align': []
-          }], [{
-            'color': []
-          }], [{
-            'list': 'ordered'
-          }, {
-            'list': 'bullet'
-          }], ['link', 'image', 'video']]
+          toolbar: {
+            container: [['bold', 'italic', 'underline'], [{
+              'header': [1, 2, 3, 4, 5, false]
+            }], [{
+              'color': []
+            }], [{
+              'list': 'ordered'
+            }, {
+              'list': 'bullet'
+            }], ['link', 'image', 'video']],
+            handlers: {
+              image: this.imageHandler
+            }
+          }
         }
-      }
+      },
+      pasteText: true,
+      editorData: null
     };
   },
   computed: {
@@ -179,11 +187,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       return this.selectedFile ? this.selectedFile.name : this.defaultButtonText;
     }
   },
-  methods: {
+  methods: (_methods = {
     val: function val() {
       this.value = "This's new value";
     },
-    onChange: function onChange(html, text) {//console.log(html.length, text.length);
+    onChange: function onChange(html, text) {//console.log(html);
     },
     createPost: function createPost() {
       var _this = this;
@@ -219,53 +227,114 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.$refs.uploader.click();
     },
     onFileChanged: function onFileChanged(e) {
-      this.selectedFile = e.target.files[0]; // do something
+      this.selectedFile = e.target.files[0];
     },
-    fetchClassnames: function fetchClassnames() {
-      var _this3 = this;
-
-      if (this.UserDetails.role == 'Teacher') {
-        axios.get('/api/class/allnames/' + this.$route.params.id + '/' + 0).then(function (res) {
-          _this3.classNames = res.data;
-          _this3.isLoadingClassNames = false;
-          _this3.isLoaded = true;
-
-          _this3.classNames.push({
-            class_id: _this3.$route.params.id,
-            class_name: 'All Class',
-            id: _this3.$route.params.id
-          });
-        });
-      }
+    onEditorBlur: function onEditorBlur(editor) {
+      this.editorData = editor;
     },
-    testing: function testing() {//console.log(this.class_id);
+    onEditorFocus: function onEditorFocus(editor) {
+      this.editorData = editor;
     },
-    newNotification: function newNotification(announcement_id) {
-      var _this4 = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+    onEditorReady: function onEditorReady(editor) {
+      this.editorData = editor;
+    },
+    imageHandler: function imageHandler() {
+      var editor = this.editorData;
+      var input = document.createElement('input');
+      input.setAttribute('type', 'file');
+      input.setAttribute('accept', 'image/*');
+      input.click();
+      input.onchange = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+        var file, formData, range;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
           while (1) {
-            switch (_context.prev = _context.next) {
+            switch (_context2.prev = _context2.next) {
               case 0:
-                _this4.notifyDetails.class_id = _this4.class_id;
-                _this4.notifyDetails.course_id = _this4.$route.params.id;
-                _this4.notifyDetails.announcement_id = announcement_id;
-                _this4.notifyDetails.type = 'announcement';
-                axios.post('/api/notification/new', _this4.notifyDetails);
+                file = input.files[0];
+                formData = new FormData();
+                formData.append('file', file);
+                formData.append('type', 'Announcement'); // Save current cursor state
 
-              case 5:
+                range = editor.getSelection(true); //editor.insertEmbed(range.index, 'image', 'https://cdn.dribbble.com/users/1341307/screenshots/5377324/morph_dribbble.gif'); 
+                // Move cursor to right side of image (easier to continue typing)
+
+                editor.setSelection(range.index + 1);
+                _context2.next = 8;
+                return axios.post('/api/classwork/newAttachment', formData).then( /*#__PURE__*/function () {
+                  var _ref3 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee(_ref2) {
+                    var data;
+                    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+                      while (1) {
+                        switch (_context.prev = _context.next) {
+                          case 0:
+                            data = _ref2.data;
+                            _context.next = 3;
+                            return editor.insertEmbed(range.index, 'image', data.link);
+
+                          case 3:
+                          case "end":
+                            return _context.stop();
+                        }
+                      }
+                    }, _callee);
+                  }));
+
+                  return function (_x) {
+                    return _ref3.apply(this, arguments);
+                  };
+                }())["catch"](function (_ref4) {
+                  var response = _ref4.response;
+                  alert('error');
+                });
+
+              case 8:
               case "end":
-                return _context.stop();
+                return _context2.stop();
             }
           }
-        }, _callee);
-      }))();
-    },
-    onInput: function onInput(e) {
-      console.log(e.target.innerText);
+        }, _callee2);
+      }));
     }
-  }
+  }, _defineProperty(_methods, "onChange", function onChange(quill, html, text) {
+    console.log(this.announcement.content);
+  }), _defineProperty(_methods, "fetchClassnames", function fetchClassnames() {
+    var _this3 = this;
+
+    if (this.UserDetails.role == 'Teacher') {
+      axios.get('/api/class/allnames/' + this.$route.params.id + '/' + 0).then(function (res) {
+        _this3.classNames = res.data;
+        _this3.isLoadingClassNames = false;
+        _this3.isLoaded = true;
+
+        _this3.classNames.push({
+          class_id: _this3.$route.params.id,
+          class_name: 'All Class',
+          id: _this3.$route.params.id
+        });
+      });
+    }
+  }), _defineProperty(_methods, "newNotification", function newNotification(announcement_id) {
+    var _this4 = this;
+
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              _this4.notifyDetails.class_id = _this4.class_id;
+              _this4.notifyDetails.course_id = _this4.$route.params.id;
+              _this4.notifyDetails.announcement_id = announcement_id;
+              _this4.notifyDetails.type = 'announcement';
+              axios.post('/api/notification/new', _this4.notifyDetails);
+
+            case 5:
+            case "end":
+              return _context3.stop();
+          }
+        }
+      }, _callee3);
+    }))();
+  }), _methods)
 });
 
 /***/ }),
@@ -423,17 +492,29 @@ var render = function() {
   return _c(
     "div",
     [
+      _c("vue-element-loading", {
+        attrs: { active: _vm.isloading, spinner: "bar-fade-scale" }
+      }),
+      _vm._v(" "),
       _c("editor", {
         staticStyle: { outline: "none" },
         attrs: {
+          "paste-as-text": _vm.pasteText,
           placeholder: "Announce something in your class!",
           theme: "snow",
           options: _vm.options
         },
         on: {
-          change: function($event) {
-            ;(_vm.isEditing = true), _vm.fetchClassnames
-          }
+          blur: function($event) {
+            return _vm.onEditorBlur($event)
+          },
+          focus: function($event) {
+            return _vm.onEditorFocus($event)
+          },
+          ready: function($event) {
+            return _vm.onEditorReady($event)
+          },
+          change: _vm.onChange
         },
         model: {
           value: _vm.announcement.content,

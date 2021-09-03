@@ -506,7 +506,11 @@ var render = function() {
             _vm._v(" "),
             _c(
               "v-container",
-              { staticClass: "pl-4 pr-4 pb-6" },
+              {
+                staticClass: "pl-4 pr-4 pb-6",
+                staticStyle: { "mx-width": "100%" },
+                attrs: { fluid: "" }
+              },
               [
                 _c(
                   "v-row",

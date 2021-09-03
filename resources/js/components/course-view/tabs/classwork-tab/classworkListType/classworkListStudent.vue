@@ -24,7 +24,7 @@
 
         <v-row >
             <v-col class="text-left mb-0 pb-0">
-                <div class="text-lg-h5 font-weight-medium text-sm-h6 mt-1">Classworks</div>
+               <!--  <div class="text-lg-h5 font-weight-medium text-sm-h6 mt-1">Classworks</div> -->
                 <!--  <h2 class="mt-1">Classworks</h2> -->
             </v-col>
             <v-col cols="6" md="3" xl="3" lg="3" class="text-right mb-0 pb-0">

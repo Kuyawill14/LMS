@@ -2,13 +2,18 @@
    <v-card >
         <v-form ref="publishForm" v-model="valid" lazy-validation>
             <v-card-title>
-                <span class="headline">Publish to <span class="primary--text">"{{ClassDetails.class_name}}"</span></span>
+                <v-btn  large icon color="secondary" text @click="$emit('toggleDialog')" :disabled="loading">
+                    <v-icon>mdi-close</v-icon>
+                </v-btn>
+                <span class="h6">Publish to <span class="primary--text">"{{ClassDetails.class_name}}"</span></span>
             </v-card-title>
             <v-card-text>
                 <v-container >
                     <v-row>
-                        <v-col  ma-0 pa-0 class="pa-0 ma-0" cols="12">
+                        <v-col   class="pb-0 mb-0 mt-0 pt-0" cols="12">
                             <v-select
+                            class="mb-0 pb-0"
+                                dense
                                 :rules="FieldRules"
                                 :items="GradingItems"
                                 item-text="value"
@@ -26,11 +31,11 @@
                             </v-select>
                        </v-col>
 
-                        <v-col  ma-0 pa-0 class="text-left pa-0 ma-0" cols="12">
-                               <div class="subtitle-1 mb-1">Availability:</div>
+                        <v-col ma-0 pa-0 class="text-left pb-0 mb-" cols="12">
+                            <div class="subtitle-1 mb-1">Availability:</div>
                         </v-col>
 
-                        <v-col  ma-0 pa-0 class="text-left pa-0 ma-0" cols="12">
+                        <v-col  ma-0 pa-0 class="text-left pb-0 mb-" cols="12">
                                <!--  <v-container ma-0 pa-0 class="d-flex">
                                 <v-checkbox
                                 class="pa-0 ma-0"
@@ -59,7 +64,7 @@
                                 </v-container>
                         </v-col> -->
 
-                         <v-col v-if="availability == 'Set Date'"  class="pa-0 ma-0"  cols="12">
+                         <v-col v-if="availability == 'Set Date'"  class="pb-0 mb-"  cols="12">
                              <v-row class="mt-0 pt-0">
                                  <v-col cols="6" class="mt-0 pt-0 mb-0 pb-0">
                                       <v-datetime-picker label="From"
@@ -126,7 +131,7 @@
                             </v-col>
 
                             
-                            <v-col  ma-0 pa-0 class="text-left pa-0 ma-0" cols="12">
+                            <v-col  ma-0 pa-0 class="text-left pb-0 mb-0" cols="12">
                                 <v-checkbox
                                     class="pa-0 ma-0"
                                     v-model="showAns"
@@ -134,9 +139,7 @@
                                     ></v-checkbox>
                                 </v-col>
 
-                             <v-col v-if="showAns"  ma-0 pa-0 class="text-left pa-0 ma-0" cols="12">
-                               
-
+                             <v-col v-if="showAns"  class="text-left pa-0 ma-0" cols="12">
                                 <v-radio-group class="ml-3 mt-0 pt-0 mb-0 pb-0" v-model="showAnsType">
                                 <v-radio
                                     v-for="(n, index) in InputShowAnswer"
@@ -192,15 +195,15 @@
                     </v-row>
                 </v-container>
             </v-card-text>
-            <v-card-actions class="pb-5">
-                <v-spacer></v-spacer>
+            <v-card-actions class="pb-2 pl-5 pr-5">
                
-                <v-btn rounded  color="primary" :loading="isPublishing" text  @click="validate()" :disabled="loading">
+               
+                <v-btn rounded block color="primary" :loading="isPublishing"  @click="validate()" :disabled="loading">
                     Publish
                 </v-btn>
-                 <v-btn  rounded color="secondary" text @click="$emit('toggleDialog')" :disabled="loading">
+               <!--   <v-btn  rounded color="secondary" text @click="$emit('toggleDialog')" :disabled="loading">
                     Cancel
-                </v-btn>
+                </v-btn> -->
             </v-card-actions>
         </v-form>
     </v-card>
@@ -212,7 +215,7 @@ export default {
   
     data(){
         return{
-            InputAvailability:['Always Available', 'Set Date'],
+            InputAvailability:['Always Available', 'Set Date','Unavailable'],
             InputShowAnswer:['After Classwork Done', 'Set Date'],
             valid: false,
             ClassDetails:{},

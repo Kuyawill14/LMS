@@ -43,18 +43,24 @@ class ClassworkController extends Controller
             $classwork = tbl_classwork::where('tbl_classworks.course_id',  $id)
             ->select('tbl_classworks.id', 'tbl_classworks.course_id','tbl_classworks.module_id','tbl_classworks.type',
             'tbl_classworks.title','tbl_classworks.instruction','tbl_classworks.duration','tbl_classworks.points','tbl_classworks.created_at')
-            ->selectRaw('count(tbl_submissions.classwork_id ) as submittion_count')
+            /* ->selectRaw('count(tbl_submissions.classwork_id ) as submittion_count') */
             ->leftJoin('tbl_submissions', 'tbl_submissions.classwork_id', '=','tbl_classworks.id')
             ->orderBy('created_at', 'DESC')
-            ->groupBy('tbl_classworks.id','tbl_classworks.course_id','tbl_classworks.module_id','tbl_classworks.type',
-            'tbl_classworks.title','tbl_classworks.duration','tbl_classworks.points','tbl_classworks.created_at')
+          /*   ->groupBy('tbl_classworks.id','tbl_classworks.course_id','tbl_classworks.module_id','tbl_classworks.type',
+            'tbl_classworks.title','tbl_classworks.duration','tbl_classworks.points','tbl_classworks.created_at') */
             ->where('tbl_classworks.user_id',  $userId)
             ->get();
+
+         
 
             $ClassworksListObjective = array();
             $ClassworksListSubjective = array();
             $classworkList = array();
             foreach($classwork as $item){
+                $submissionCount = tbl_Submission::where('tbl_submissions.classwork_id', $item->id)
+                ->where('tbl_submissions.status', 'Submitted')->count();
+                $item->submittion_count =  $submissionCount;
+
                 if($item->type == 'Objective Type'){
                     $ClassworksListObjective[] = $item;
                 }
@@ -531,7 +537,6 @@ class ClassworkController extends Controller
             /*  $tmpdata = ['name'=> $request->name, 'size'=> $request->size,
             'attachment'=> preg_replace('/\bpublic\/\b/', '', $newFile), 'extension'=> $request->extension]; */
 
-
             $upload_file = Storage::disk('DO_spaces')->putFile('classworkAttachments/'.$UpdateClasswork->id.'/'.$userId, $file, 'public');
             $path = \Config::get('app.do_url').'/'. $upload_file;
             $tmpdata = ['name'=> $request->name, 'size'=> $request->size,
@@ -543,4 +548,44 @@ class ClassworkController extends Controller
         return;
      }
 
+     public function NewAttachment(Request $request){
+        if($request->type == "Announcement"){
+
+            $file = $request->file;
+            $upload_file = Storage::disk('DO_spaces')->putFile('Announcement', $file, 'public');
+            $path = \Config::get('app.do_url').'/'. $upload_file;
+            //return $path;
+            return response()->json([
+                "message" => "File Uploaded!",
+                "success" => true,
+                "link" => $path,
+            ]);
+        }
+      
+        /* $userId = auth('sanctum')->id();
+        $UpdateClasswork = tbl_classwork::find($request->id);
+        if(!$UpdateClasswork){
+            return response()->json([
+                "message" => "File not found!",
+                "success" => false
+            ]);
+        }
+        $data = $UpdateClasswork->attachment != null ? unserialize($UpdateClasswork->attachment) : array();
+        $file = $request->file;
+        if($file != null){
+            $counter = 0;
+            $tmpdata;
+            $upload_file = Storage::disk('DO_spaces')->putFile('classworkAttachments/'.$UpdateClasswork->id.'/'.$userId, $file, 'public');
+            $path = \Config::get('app.do_url').'/'. $upload_file;
+            $tmpdata = ['name'=> $request->name, 'size'=> $request->size,
+            'attachment'=> $path , 'extension'=> $request->extension]; 
+            array_push($data, $tmpdata);
+            $UpdateClasswork->attachment = serialize($data);
+        }
+        $UpdateClasswork->save(); */
+        return;
+     }
+
+
+     
 }

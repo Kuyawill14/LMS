@@ -148,6 +148,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -292,8 +296,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _this3 = this;
 
       var fd = new FormData();
+      fd.append('type', "Classwork");
       fd.append('file', this.file[this.counter]);
-      axios.post('/api/classwork/addAttachment', fd, {
+      axios.post('/api/classwork/newAttachment', fd, {
         onUploadProgress: function onUploadProgress(progressEvent) {
           var total = progressEvent.total;
           var totalLength = progressEvent.lengthComputable ? total : null;
@@ -427,6 +432,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "v-card",
+    { staticClass: "ma-0 pa-0" },
     [
       _c("vue-element-loading", {
         attrs: { active: _vm.loading, spinner: "bar-fade-scale" }
@@ -446,15 +452,34 @@ var render = function() {
           }
         },
         [
-          _c("v-card-title", [
-            _c("span", { staticClass: "headline" }, [_vm._v("Add Classwork")])
-          ]),
+          _c(
+            "v-card-title",
+            [
+              _c(
+                "v-btn",
+                {
+                  attrs: { large: "", icon: "", disabled: _vm.loading },
+                  on: {
+                    click: function($event) {
+                      return _vm.$emit("CloseDialog")
+                    }
+                  }
+                },
+                [_c("v-icon", [_vm._v("mdi-close")])],
+                1
+              ),
+              _vm._v(" "),
+              _c("span", { staticClass: "h6" }, [_vm._v("New Classwork")])
+            ],
+            1
+          ),
           _vm._v(" "),
           _c(
             "v-card-text",
             [
               _c(
                 "v-container",
+                { attrs: { "mb-0": "", "pb-0": "" } },
                 [
                   _c(
                     "v-row",
@@ -760,29 +785,29 @@ var render = function() {
           _vm._v(" "),
           _c(
             "v-card-actions",
+            { staticClass: "pl-5 pr-5" },
             [
-              _c("v-spacer"),
-              _vm._v(" "),
-              _c(
-                "v-btn",
-                {
-                  attrs: { text: "", disabled: _vm.loading },
-                  on: {
-                    click: function($event) {
-                      return _vm.$emit("CloseDialog")
-                    }
-                  }
-                },
-                [_vm._v("\n                Close\n            ")]
-              ),
-              _vm._v(" "),
               _c(
                 "v-btn",
                 {
                   attrs: {
+                    block: "",
+                    disabled:
+                      _vm.form.type == "Subjective Type"
+                        ? _vm.form.title == null ||
+                          _vm.form.title == "" ||
+                          _vm.form.type == null || _vm.form.type == "" ||
+                          _vm.form.instruction == null ||
+                            _vm.form.instruction == "" ||
+                          _vm.form.points == null || _vm.form.points == ""
+                        : _vm.form.title == null ||
+                          _vm.form.title == "" ||
+                          _vm.form.type == null || _vm.form.type == "" ||
+                          _vm.form.instruction == null ||
+                            _vm.form.instruction == "" ||
+                          _vm.form.duration == null || _vm.form.duration == "",
                     color: "primary",
-                    text: "",
-                    disabled: _vm.loading,
+                    rounded: "",
                     loading: _vm.loading
                   },
                   on: {

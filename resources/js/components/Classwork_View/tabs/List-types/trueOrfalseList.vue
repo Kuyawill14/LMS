@@ -14,7 +14,7 @@
             <v-row>
                  <v-col cols="12" classs="ma-0 pa-0">
                      <v-container ma-0 pa-0 class="mb-3 d-flex flex-row ">
-                        <v-container mb-0 pb-0 class="d-flex">  <h3>Question #{{number}}</h3><small class="primary--text mt-1 ml-1">({{Question.points}}points)</small> </v-container>
+                        <v-container mb-0 pb-0 class="d-flex">  <h3>Question #{{number}}</h3><small class="primary--text mt-1 ml-1">({{Question.type+' '}}{{Question.points}}points)</small> </v-container>
                             <v-container v-if="!preview" ma-0 pa-0 class="pa-0 ma-0 d-flex justify-end">
                                 <v-btn
                                 class="mr-2"
@@ -65,14 +65,14 @@
                                     <v-text-field min="0" :readonly="!isEditing" outlined type="number" v-model="Question.points" class="pa-0 ma-0"  label="Points"></v-text-field>
                                 </v-col>
                                 <v-col class="pa-0 ma-0 pl-2 pl-sm-0 text-right" cols="9" md="11" lg="11">
-                                        <v-select
+                                       <!--  <v-select
                                         :readonly="!isEditing"
                                         v-model="Question.type"
                                         class="float-right pa-0 ma-0"
-                                        :items="['Multiple Choice', 'Identification', 'True or False', 'Matching type']"
+                                        :items="['Multiple Choice', 'Identification', 'True or False', 'Matching type','Essay']"
                                         outlined
                                         label="Type"
-                                        ></v-select>
+                                        ></v-select> -->
                                 </v-col>
                             </v-row>
                             <v-container class="pa-0 ma-0" ma-0 pa-0> 
@@ -152,7 +152,6 @@
                                 :value="inputCheck[n]"
                                 ></v-radio>
                                 </v-radio-group>
-
                                 <div class="Subtitle 1">
                                     {{inputCheck[n]}}<span class="caption primary--text ml-1" v-if="Question.answer == inputCheck[n]">(correct answer)</span>
                                 </div>
@@ -184,7 +183,7 @@ export default {
             options:{
             modules: {
                     'toolbar': [
-                        ['bold', 'italic', 'underline', 'strike'],
+                        ['bold', 'italic', 'underline'],
                 
                         [{ 'list': 'bullet' }],
                         ['image'],
@@ -203,10 +202,10 @@ export default {
         },
 
          async updateQuestion(){
-            this.$emit('updateQuestion', this.Question)
             this.isUpdating = true;
             this.isEditing = !this.isEditing;
-            setTimeout(() => (this.isUpdating = false, this.preview = !this.preview), 1000);
+            this.$emit('updateQuestion', this.Question)
+            setTimeout(() => (this.isUpdating = false, this.preview = !this.preview), 500);
         }
     },
   

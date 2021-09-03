@@ -190,15 +190,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['Details'],
   data: function data() {
     return {
-      InputAvailability: ['Always Available', 'Set Date'],
+      InputAvailability: ['Always Available', 'Set Date', 'Unavailable'],
       InputShowAnswer: ['After Classwork Done', 'Set Date'],
       valid: false,
       ClassDetails: {},
@@ -8827,14 +8824,37 @@ var render = function() {
               }
             },
             [
-              _c("v-card-title", [
-                _c("span", { staticClass: "headline" }, [
-                  _vm._v("Publish to "),
-                  _c("span", { staticClass: "primary--text" }, [
-                    _vm._v('"' + _vm._s(_vm.Details.class_name) + '"')
+              _c(
+                "v-card-title",
+                [
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: {
+                        icon: "",
+                        large: "",
+                        color: "secondary",
+                        disabled: _vm.loading
+                      },
+                      on: {
+                        click: function($event) {
+                          return _vm.$emit("toggleDialog")
+                        }
+                      }
+                    },
+                    [_c("v-icon", [_vm._v("mdi-close")])],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "h6" }, [
+                    _vm._v("Publish to "),
+                    _c("span", { staticClass: "primary--text" }, [
+                      _vm._v('"' + _vm._s(_vm.Details.class_name) + '"')
+                    ])
                   ])
-                ])
-              ]),
+                ],
+                1
+              ),
               _vm._v(" "),
               _c(
                 "v-card-text",
@@ -8848,12 +8868,13 @@ var render = function() {
                           _c(
                             "v-col",
                             {
-                              staticClass: "pa-0 ma-0",
-                              attrs: { "ma-0": "", "pa-0": "", cols: "12" }
+                              staticClass: "mb-0 pb-0 pt-0 mt-0",
+                              attrs: { cols: "12" }
                             },
                             [
                               _c("v-select", {
                                 attrs: {
+                                  dense: "",
                                   rules: _vm.FieldRules,
                                   items: _vm.GradingItems,
                                   "item-text": "value",
@@ -8919,7 +8940,7 @@ var render = function() {
                           _c(
                             "v-col",
                             {
-                              staticClass: "text-left pa-0 ma-0",
+                              staticClass: "text-left mb-0 pb-0 ",
                               attrs: { "ma-0": "", "pa-0": "", cols: "12" }
                             },
                             [
@@ -8932,7 +8953,7 @@ var render = function() {
                           _c(
                             "v-col",
                             {
-                              staticClass: "text-left pa-0 ma-0",
+                              staticClass: "text-left mb-0 pb-0",
                               attrs: { "ma-0": "", "pa-0": "", cols: "12" }
                             },
                             [
@@ -8970,7 +8991,7 @@ var render = function() {
                             ? _c(
                                 "v-col",
                                 {
-                                  staticClass: "pa-0 ma-0",
+                                  staticClass: "mb-0 pb-0 ",
                                   attrs: { cols: "12" }
                                 },
                                 [
@@ -8981,7 +9002,7 @@ var render = function() {
                                       _c(
                                         "v-col",
                                         {
-                                          staticClass: "mt-0 pt-0",
+                                          staticClass: "mt-0 pt-0 mb-0 pb-0",
                                           attrs: { cols: "6" }
                                         },
                                         [
@@ -9019,7 +9040,7 @@ var render = function() {
                                       _c(
                                         "v-col",
                                         {
-                                          staticClass: "mt-0 pt-0",
+                                          staticClass: "mt-0 pt-0 mb-0 pb-0",
                                           attrs: { cols: "6" }
                                         },
                                         [
@@ -9051,6 +9072,38 @@ var render = function() {
                                           })
                                         ],
                                         1
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-col",
+                                        {
+                                          staticClass:
+                                            "text-left pb-0 mb-0 mt-0 pt-0",
+                                          attrs: { cols: "12" }
+                                        },
+                                        [
+                                          _c("v-checkbox", {
+                                            staticClass: "pa-0 ma-0",
+                                            attrs: {
+                                              label: "Accept late response"
+                                            },
+                                            model: {
+                                              value:
+                                                _vm.PublishDetails
+                                                  .response_late,
+                                              callback: function($$v) {
+                                                _vm.$set(
+                                                  _vm.PublishDetails,
+                                                  "response_late",
+                                                  $$v
+                                                )
+                                              },
+                                              expression:
+                                                "PublishDetails.response_late"
+                                            }
+                                          })
+                                        ],
+                                        1
                                       )
                                     ],
                                     1
@@ -9063,7 +9116,7 @@ var render = function() {
                           _c(
                             "v-col",
                             {
-                              staticClass: "text-left pa-0 ma-0",
+                              staticClass: "text-left mb-0 pb-0 ",
                               attrs: { "ma-0": "", "pa-0": "", cols: "12" }
                             },
                             [
@@ -9090,7 +9143,7 @@ var render = function() {
                             ? _c(
                                 "v-col",
                                 {
-                                  staticClass: "text-left pa-0 ma-0",
+                                  staticClass: "text-left mb-0 pb-0 ",
                                   attrs: { "ma-0": "", "pa-0": "", cols: "12" }
                                 },
                                 [
@@ -9129,7 +9182,7 @@ var render = function() {
                             ? _c(
                                 "v-col",
                                 {
-                                  staticClass: "text-left pa-0 ma-0",
+                                  staticClass: "text-left mb-0 pb-0",
                                   attrs: { "ma-0": "", "pa-0": "", cols: "12" }
                                 },
                                 [
@@ -9213,33 +9266,7 @@ var render = function() {
                                 ],
                                 1
                               )
-                            : _vm._e(),
-                          _vm._v(" "),
-                          _c(
-                            "v-col",
-                            {
-                              staticClass: "text-left pa-0 ma-0",
-                              attrs: { "ma-0": "", "pa-0": "", cols: "12" }
-                            },
-                            [
-                              _c("v-checkbox", {
-                                staticClass: "pa-0 ma-0",
-                                attrs: { label: "Accept late response" },
-                                model: {
-                                  value: _vm.PublishDetails.response_late,
-                                  callback: function($$v) {
-                                    _vm.$set(
-                                      _vm.PublishDetails,
-                                      "response_late",
-                                      $$v
-                                    )
-                                  },
-                                  expression: "PublishDetails.response_late"
-                                }
-                              })
-                            ],
-                            1
-                          )
+                            : _vm._e()
                         ],
                         1
                       )
@@ -9252,18 +9279,16 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "v-card-actions",
-                { staticClass: "pb-5" },
+                { staticClass: "pb-5 pl-5 pr-5" },
                 [
-                  _c("v-spacer"),
-                  _vm._v(" "),
                   _c(
                     "v-btn",
                     {
                       attrs: {
                         rounded: "",
+                        block: "",
                         color: "primary",
                         loading: _vm.isPublishing,
-                        text: "",
                         disabled: _vm.loading
                       },
                       on: {
@@ -9273,24 +9298,6 @@ var render = function() {
                       }
                     },
                     [_vm._v("\n                 Update\n             ")]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-btn",
-                    {
-                      attrs: {
-                        rounded: "",
-                        color: "secondary",
-                        text: "",
-                        disabled: _vm.loading
-                      },
-                      on: {
-                        click: function($event) {
-                          return _vm.$emit("toggleDialog")
-                        }
-                      }
-                    },
-                    [_vm._v("\n                 Cancel\n             ")]
                   )
                 ],
                 1
