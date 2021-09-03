@@ -1,18 +1,15 @@
-          <template>
+<template>
 
 
-    <div >
+    <div>
 
-    <v-breadcrumbs class="ma-0 pa-0 mt-3" :items="items">
-        <template v-slot:item="{ item }">
-        <v-breadcrumbs-item
-            :to="{name: item.link}"
-            :disabled="item.disabled"
-        >
-            {{ item.text.toUpperCase() }}
-        </v-breadcrumbs-item>
-        </template>
-    </v-breadcrumbs>
+        <v-breadcrumbs class="ma-0 pa-0 mt-3" :items="items">
+            <template v-slot:item="{ item }">
+                <v-breadcrumbs-item :to="{name: item.link}" :disabled="item.disabled">
+                    {{ item.text.toUpperCase() }}
+                </v-breadcrumbs-item>
+            </template>
+        </v-breadcrumbs>
 
         <v-row class="pt-1">
             <v-col cols="6">
@@ -32,72 +29,73 @@
 
             <v-col>
                 <v-card>
-                    <v-tabs color="deep-purple accent-4" right>
-                        <v-tab href="#all" v-if="role=='Teacher'">
+                    <v-tabs color="primary accent-4" right>
+                        <v-tab href="#all">
                             All
                         </v-tab>
-                        <v-tab v-for="(main_module, index) in getmain_module" :key="index">
+                        <v-tab v-for="(main_module, index) in getmain_module" :key="index"
+                            @click="changedTab(main_module.id);">
                             {{main_module.module_name}}
                         </v-tab>
-                        <v-tab-item id="all" v-if="role=='Teacher'">
-                            <v-simple-table>
-                                <template v-slot:default>
-                                    <thead>
-                                        <tr>
-                                            <th class="text-center" v-if="role=='Teacher'">
-                                                Student Name
-                                            </th>
+                        <v-tab-item id="all">
 
+                            <v-card-title>
+                                Summary
 
-                                            <th class="text-center" v-for="(main_module, index) in getmain_module"
-                                                :key="index">
-                                                {{main_module.module_name}} <br>
-                                                Completed
-                                            </th>
-                                            <th class="text-center">
-                                                Total Completed
-                                            </th>
+                                <v-spacer></v-spacer>
+                                <div width="50%">
+                                    <v-text-field v-model="search" append-icon="mdi-magnify" label="Search" single-line
+                                        hide-details>
+                                    </v-text-field>
+                                </div>
 
-                                            <th class="text-center">
-                                                Percentage
-                                            </th>
+                            </v-card-title>
 
-                                        </tr>
-                                    </thead>
-                                    <tbody v-if="loading == false">
-                                        <tr v-for="(student, i) in students" :key="''+i">
-                                            <td class="text-center" v-if="role=='Teacher'">{{student.firstName}}
-                                                {{student.lastName}}
+                            <v-data-table :headers="headers" :items="filteredItems" v-if="headers.length != 0"  :loading="loading">
+
+                                <template v-slot:body="{ items }"   v-if="students.length != 0">
+                                    <tbody>
+                                        <tr v-for="(student, i) in items" :key="''+i">
+                                            <td class="text-left">
+                                                {{student.student_id}}
+                                            </td>
+                                            <td class="text-left">
+                                                {{student.lastName + ', ' + student.firstName + ' ' + student.middleName}}
 
                                             </td>
 
                                             <td class="text-center"
                                                 v-for="(main, i) in getStudentMainModuleProgress(student.id)"
                                                 :key="''+i">
-                                                {{main.completed}} / {{main.sub_module_length}}
+                                                {{  student['id' + main.module_id] = main.completed }} /
+                                                {{main.sub_module_length}}
                                             </td>
                                             <td class="text-center">
-                                                {{getTotalCompleted(getStudentMainModuleProgress(student.id))}}</td>
+                                                {{student['total_completed'] = getTotalCompleted(getStudentMainModuleProgress(student.id))}}
+                                            </td>
 
 
                                             <td class="text-center">
-                                                {{getTotalPercent(getStudentMainModuleProgress(student.id))}}%</td>
+                                                {{student['total_percentage'] = getTotalPercent(getStudentMainModuleProgress(student.id))}}%
+                                            </td>
 
 
 
 
 
                                         </tr>
-                                        <tr v-if="students.length == 0">
+                                      
+
+
+                                    </tbody>
+                                      <tr v-if="students.length == 0">
                                             <td class="text-center" colspan="100">
                                                 No data available, please add or invite students.
                                             </td>
                                         </tr>
-
-
-                                    </tbody>
                                 </template>
-                            </v-simple-table>
+                            </v-data-table>
+
 
 
                         </v-tab-item>
@@ -111,42 +109,28 @@
                         <v-tab-item v-for="(main_module, index) in getmain_module" :key="index">
 
                             <v-card-title>
-                                {{main_module.module_name}}
+                                {{main_module.sub_module_name}}
 
                                 <v-spacer></v-spacer>
-                                <!-- <v-text-field v-model="search" append-icon="mdi-magnify" label="Search" single-line
+                                <v-text-field v-model="search" append-icon="mdi-magnify" label="Search" single-line
                                     hide-details>
-                                </v-text-field> -->
+                                </v-text-field>
                             </v-card-title>
-                            <v-simple-table>
-                                <template v-slot:default>
-                                    <thead>
-                                        <tr>
-                                            <th class="text-center" v-if="role=='Teacher'">
-                                                Student Name
-                                            </th>
 
-                                            <th class="text-center"
-                                                v-for="(sub_module, index) in  getSub_module(main_module.id)"
-                                                :key="index">
-                                                {{sub_module.sub_module_name}}
-                                                <br>({{ convertTime(sub_module.required_time)}})
-                                            </th>
+                            <v-data-table :headers="subModuleheaders" :items="filteredItems" v-if="headers.length != 0"
+                                :id="'changeThis' + main_module.id" :loading="loading">
 
-                                            <th class="text-center">
-                                                Total Time Spent <br>
-                                                ({{_totalRequiredTime(main_module.id)}})
-                                            </th>
+                                <template v-slot:body="{ items }">
 
-
-
-                                        </tr>
-                                    </thead>
                                     <tbody>
-                                        <tr v-for="(student, index) in students" :key="index">
+                                        <tr v-for="(student, index) in items" :key="index">
 
-                                            <td class="text-center" v-if="role=='Teacher'">
-                                                {{student.firstName}} {{student.lastName}}
+                                            <td class="text-left">
+                                                {{student.student_id}}
+                                            </td>
+                                            <td class="text-left">
+                                                {{student.lastName + ', ' + student.firstName + ' ' + student.middleName}}
+
                                             </td>
 
                                             <td class="text-center"
@@ -155,20 +139,25 @@
                                                 <v-chip
                                                     :color="checkTimeSpent(subModule.time_spent,subModule.required_time)"
                                                     text-color="white">
-                                                    {{  convertTime(subModule.time_spent)}}
+                                                    {{  student['id11'+ subModule.sub_module_id]  = convertTime(subModule.time_spent)}}
                                                 </v-chip>
+                                              
                                             </td>
 
                                             <td class="text-center">
-                                                {{ convertTime(_totalTimeSpent(SubModuleProgress(main_module.id ,student.id)))}}
+                                                {{ student['total_completed'] = convertTime(_totalTimeSpent(SubModuleProgress(main_module.id ,student.id)))}}
                                             </td>
 
                                         </tr>
-
+                                        <tr v-if="students.length == 0">
+                                            <td class="text-center" colspan="100">
+                                                No data available, please add or invite students.
+                                            </td>
+                                        </tr>
 
                                     </tbody>
                                 </template>
-                            </v-simple-table>
+                            </v-data-table>
 
                         </v-tab-item>
                     </v-tabs>
@@ -187,7 +176,6 @@
 </style>
 
 <script>
-
     import {
         mapGetters,
         mapActions
@@ -211,18 +199,37 @@
                 students: [],
                 classList: [],
                 selectedClass: [],
-                items: [
-                    {
-                    text: 'Course',
-                    disabled: false,
-                    link: 'courses',
+                items: [{
+                        text: 'Course',
+                        disabled: false,
+                        link: 'courses',
                     },
                     {
-                    text: this.role == "Teacher" ? 'Student Progress' : 'My Progress ',
-                    disabled: true,
-                    link: 'studentProgress',
+                        text: this.role == "Teacher" ? 'Student Progress' : 'My Progress ',
+                        disabled: true,
+                        link: 'studentProgress',
                     },
                 ],
+                headers: [
+
+                    {
+                        text: 'ID',
+                        value: 'student_id',
+                        align: 'start',
+                    },
+                    {
+                        text: 'Student Name',
+                        value: 'lastName',
+                        align: 'start',
+                    },
+
+                ],
+                subModuleheaders: [
+
+
+
+                ],
+                timerChange: null,
 
             }
 
@@ -230,10 +237,104 @@
         computed: {
             ...mapGetters(["getmain_module", "getSub_module", "getAll_sub_module", "getStudentMainModuleProgress",
                 "SubModuleProgress", 'allClass'
-            ])
+            ]),
+            filteredItems() {
+                if (this.search) {
+                    return this.students.filter((item) => {
+                        return this.search.toLowerCase().split(' ').every(v => item.firstName.toLowerCase()
+                            .includes(v) || item.lastName.toLowerCase()
+                            .includes(v) || item.middleName.toLowerCase()
+                            .includes(v) || item.student_id.toString()
+                            .includes(v))
+                    })
+                } else {
+                    return this.students;
+                }
+
+            }
         },
 
         methods: {
+            fixedHeader(main_module_id, sub_headers) {
+                clearInterval(this.timerChange);
+                this.timerChange = setInterval(() => {
+                
+                    let _headerNode = document.querySelectorAll(
+                        '#changeThis' + main_module_id + '> div >table > thead > tr> th > span')
+
+
+                    for (let i = 2; i < sub_headers.length; i++) {
+                        document.querySelectorAll('#changeThis' + main_module_id +
+                                ' > div >table > thead > tr> th ')[i].innerHTML =
+                            sub_headers[i].text;
+
+                    }
+                }, 100)
+
+            },
+            changedTab(main_module_id) {
+                this.subModuleHeaders(main_module_id);
+
+
+
+
+            },
+            subModuleHeaders(main_module_id) {
+                let submodule_header = [];
+                submodule_header.push({
+                    text: 'ID',
+                    value: 'student_id',
+                    align: 'start',
+                }, {
+                    text: 'Student Name',
+                    value: 'lastName',
+                    align: 'start',
+                }, )
+                let subModule = this.getSub_module(main_module_id);
+                console.log(subModule);
+                for (let i = 0; i < subModule.length; i++) {
+                    submodule_header.push({
+                        text: subModule[i].sub_module_name + '<br>(' + this.convertTime(subModule[i]
+                            .required_time) + ')',
+                        value: 'id11' + subModule[i].id,
+                        align: 'center',
+                    })
+
+
+                }
+                submodule_header.push({
+                    text: 'Total  Completed',
+                    value: 'total_completed',
+                    align: 'center',
+                })
+
+                this.subModuleheaders = submodule_header;
+                this.fixedHeader(main_module_id, submodule_header);
+
+
+            },
+            allHeaders() {
+
+                for (let i = 0; i < this.getmain_module.length; i++) {
+                    this.headers.push({
+                        text: this.getmain_module[i].module_name,
+                        value: 'id' + this.getmain_module[i].id,
+                        align: 'center',
+                    })
+
+                }
+                this.headers.push({
+                    text: 'Total  Completed',
+                    value: 'total_completed',
+                    align: 'center',
+                }, {
+                    text: 'Percentage',
+                    value: 'total_percentage',
+                    align: 'center',
+                }, )
+
+
+            },
             convertTime(time) {
                 return new Date(parseInt(time) * 1000).toISOString().substr(11, 8);
             },
@@ -266,7 +367,7 @@
                     length += arr[i].sub_module_length;
                 }
                 result = (total_complete / length) * 100;
-                if(isNaN(result)) {
+                if (isNaN(result)) {
                     result = 0;
                 }
                 //console.log('NAN bf' , result)
@@ -322,16 +423,20 @@
             },
 
             fetchStudentModuleProgress() {
+                this.loading = true;
                 axios.get(
                     `/api/student_sub_module/all/${this.$route.params.id}`
                 ).then((res) => {
                     this.studentSubModuleProgress = res.data;
 
                 });
-                this.$store.dispatch('fetchMainModule', this.$route.params.id);
+                this.$store.dispatch('fetchMainModule', this.$route.params.id).then(() => {
+                    this.allHeaders();
+                });
                 this.$store.dispatch('fetchSubModule', this.$route.params.id);
 
                 this.$store.dispatch('studentSubProgress', this.$route.params.id);
+
 
             },
             getStudentList() {
@@ -360,12 +465,17 @@
 
             },
         },
+        beforeDestroy() {
+clearInterval( this.timerChange);
+        },
 
         mounted() {
             this.loading = true;
             this.fetchStudentModuleProgress();
             this.getClassList();
             this.loading = false;
+
+
 
 
 

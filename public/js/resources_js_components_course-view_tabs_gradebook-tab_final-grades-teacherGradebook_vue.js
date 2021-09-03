@@ -68,9 +68,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['students', 'grading_criteria'],
+  props: ['students', 'grading_criteria', 'loader'],
   data: function data() {
     return {
       search: '',
@@ -87,7 +91,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       studentList: []
     };
   },
-  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)(["allStudentFinalGrades"])), {}, {
+  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)(["allStudentFinalGrades", "get_gradingCriteria"])), {}, {
     grading_criteria_data: function grading_criteria_data() {
       return this.grading_criteria;
     },
@@ -97,7 +101,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       if (this.search) {
         return this.students.filter(function (item) {
           return _this.search.toLowerCase().split(' ').every(function (v) {
-            return item.lastName.toLowerCase().includes(v) || item.student_id.toString().includes(v);
+            return item.lastName.toLowerCase().includes(v) || item.student_id.toString().includes(v) || item.middleName.toLowerCase().includes(v);
           });
         });
       } else {
@@ -134,6 +138,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       return eq.toString();
     },
     gradingCategoryHeader: function gradingCategoryHeader() {
+      if (this.loader) {}
+
       this.headers = [];
       this.headers.push({
         text: 'ID',
@@ -187,9 +193,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
   },
   mounted: function mounted() {
-    var grading_criteria = this.grading_criteria;
-    console.log(this.grading_criteria_data);
-    this.gradingCategoryHeader(grading_criteria);
+    var _this2 = this;
+
+    this.loader = true;
+    this.$store.dispatch('fetchGradingCriteria', this.$route.params.id).then(function () {
+      _this2.gradingCategoryHeader();
+
+      _this2.loader = false;
+    });
     this.studentList = this.students;
   }
 });
@@ -289,21 +300,28 @@ var render = function() {
           _vm._v("\n        Final Grades\n\n\n        "),
           _c("v-spacer"),
           _vm._v(" "),
-          _c("v-text-field", {
-            attrs: {
-              "append-icon": "mdi-magnify",
-              label: "Search",
-              "single-line": "",
-              "hide-details": ""
-            },
-            model: {
-              value: _vm.search,
-              callback: function($$v) {
-                _vm.search = $$v
-              },
-              expression: "search"
-            }
-          })
+          _c(
+            "div",
+            { attrs: { width: "50%" } },
+            [
+              _c("v-text-field", {
+                attrs: {
+                  "append-icon": "mdi-magnify",
+                  label: "Search",
+                  "single-line": "",
+                  "hide-details": ""
+                },
+                model: {
+                  value: _vm.search,
+                  callback: function($$v) {
+                    _vm.search = $$v
+                  },
+                  expression: "search"
+                }
+              })
+            ],
+            1
+          )
         ],
         1
       ),
@@ -313,7 +331,8 @@ var render = function() {
         attrs: {
           headers: _vm.headers,
           items: _vm.filteredItems,
-          "items-per-page": 10
+          "items-per-page": 10,
+          loading: _vm.loader
         },
         scopedSlots: _vm._u([
           {
@@ -358,7 +377,7 @@ var render = function() {
                                           2
                                         ))
                                       ) +
-                                      "\n                   \n                    "
+                                      "\n\n                    "
                                   )
                                 ]
                               )

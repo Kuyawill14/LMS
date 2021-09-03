@@ -315,10 +315,10 @@ const router = new Router({
                             path: "announcement",
                             component: announcement_tab,
                             beforeEnter: (to, form, next) => {
-                                store.dispatch('fetchMyCoursesStatus').then((res)=>{
-                                    if(res.status == 200){                                
+                                store.dispatch('fetchMyCoursesStatus').then((res) => {
+                                    if (res.status == 200) {
                                         store.dispatch('CheckMyCourse', to.params.id).then(response => {
-                                     
+
                                             if (response.exist == true) {
                                                 if (response.status == 1) {
                                                     next();
@@ -344,8 +344,8 @@ const router = new Router({
                             path: "classwork",
                             component: classwork_tab,
                             beforeEnter: (to, form, next) => {
-                                store.dispatch('fetchMyCoursesStatus').then((res)=>{
-                                    if(res.status == 200){                                
+                                store.dispatch('fetchMyCoursesStatus').then((res) => {
+                                    if (res.status == 200) {
                                         store.dispatch('CheckMyCourse', to.params.id).then(response => {
                                             if (response.exist == true) {
                                                 if (response.status == 1) {
@@ -568,7 +568,7 @@ const router = new Router({
                             }
                         },
                         {
-                            name: "my-studentProgress",
+                            name: "mystudentProgress",
                             path: "my-progress",
                             component: studentProgress_tab,
                             beforeEnter: (to, form, next) => {
@@ -689,29 +689,29 @@ const router = new Router({
                                     path: "/login"
                                 });
                             }); */
-                            store.dispatch('IsAuthenticated').then(() => {
-                            store.dispatch('fetchMyCoursesStatus').then((res)=>{
-                                if(res.status == 200){                                
-                                    store.dispatch('CheckMyCourse', to.params.id).then(response => {
-                                        if (response.exist == true) {
-                                            if (response.status == 1) {
-                                                next();
-                                            } 
-                                        } else {
-                                            return next({
-                                                name: "course-not-found",
-                                                params: { id: to.params.id }
-                                            })
-                                        }
-                                    })
-                                }
-                            })
-                            .catch(() => {
-                                store.state.CurrentUser.IsAuthenticated = false;
-                                return next({
-                                    path: "/login"
-                                });
-                            })
+                        store.dispatch('IsAuthenticated').then(() => {
+                            store.dispatch('fetchMyCoursesStatus').then((res) => {
+                                    if (res.status == 200) {
+                                        store.dispatch('CheckMyCourse', to.params.id).then(response => {
+                                            if (response.exist == true) {
+                                                if (response.status == 1) {
+                                                    next();
+                                                }
+                                            } else {
+                                                return next({
+                                                    name: "course-not-found",
+                                                    params: { id: to.params.id }
+                                                })
+                                            }
+                                        })
+                                    }
+                                })
+                                .catch(() => {
+                                    store.state.CurrentUser.IsAuthenticated = false;
+                                    return next({
+                                        path: "/login"
+                                    });
+                                })
                         })
                     },
                     props: true,
@@ -756,7 +756,7 @@ const router = new Router({
 
             ],
         },
-        
+
 
         {
             path: "/quiz/:id",

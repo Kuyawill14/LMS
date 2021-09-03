@@ -84,7 +84,7 @@
                 </v-list-item-content>
 
             </v-list-item>
-            <v-list-item link :to="{name: 'studentProgress'}" exact v-if="role == 'Student'">
+            <v-list-item link :to="{name: 'mystudentProgress'}" exact v-if="role == 'Student'">
                 <v-list-item-action>
                     <v-icon>mdi-chart-box-outline</v-icon>
                 </v-list-item-action>

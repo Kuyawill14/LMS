@@ -277,7 +277,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   methods: {
     SetPassword: function SetPassword(lastname) {
       var tmpLastname = lastname.replace(/\s+/g, '-').toLowerCase();
-      this.form.password = 'LMS-' + tmpLastname;
+      this.form.password = 'ISU-' + tmpLastname;
       this.show = true;
     },
     openAdd: function openAdd() {

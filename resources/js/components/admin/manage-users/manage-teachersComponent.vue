@@ -276,7 +276,7 @@
         methods: {
             SetPassword(lastname) {
                 var tmpLastname = lastname.replace(/\s+/g, '-').toLowerCase();
-                this.form.password = 'LMS-' + tmpLastname;
+                this.form.password = 'ISU-' + tmpLastname;
                 this.show = true;
             },
 

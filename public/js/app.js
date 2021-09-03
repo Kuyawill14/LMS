@@ -2698,7 +2698,7 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_6__.default({
           });
         }
       }, {
-        name: "my-studentProgress",
+        name: "mystudentProgress",
         path: "my-progress",
         component: studentProgress_tab,
         beforeEnter: function beforeEnter(to, form, next) {

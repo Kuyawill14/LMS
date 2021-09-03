@@ -18,7 +18,7 @@
                         ALl Grades
                     </v-btn>
 
-    
+
                 </div>
             </v-col>
 
@@ -38,18 +38,19 @@
             </v-col>
         </v-row>
         <v-card>
-            <v-tabs color="orange accent-4" right>
+            <v-tabs color="orange accent-4" right :disabled="loading">
                 <v-tab href="#final_grades" @click="_getFInalGradestTab()" active>
                     Final Grades
                 </v-tab>
                 <v-tab v-for="(gradingCriteria, index) in get_gradingCriteria" :key="index"
-                    @click="_getClassworkListbyTab(gradingCriteria.id)">
+                    @click="_getClassworkListbyTab(gradingCriteria.id);click_id =gradingCriteria.id"
+                    :disabled=" loading == true">
                     {{gradingCriteria.name}}
                 </v-tab>
                 <v-tab-item id="final_grades">
 
-            <!-- students -->
-            <finalGradesGrades v-if="loading ==false" :grading_criteria="get_gradingCriteria" :students="students"/>
+                    <!-- students -->
+                    <finalGradesGrades :loader="loading" :grading_criteria="get_gradingCriteria" :students="students" />
 
                 </v-tab-item>
 
@@ -61,12 +62,14 @@
 
 
                         <v-spacer></v-spacer>
-                        <v-text-field v-model="search" append-icon="mdi-magnify" label="Search" single-line
-                            hide-details>
-                        </v-text-field>
+                        <div width="50%">
+                            <v-text-field v-model="search" append-icon="mdi-magnify" label="Search" single-line
+                                hide-details>
+                            </v-text-field>
+                        </div>
                     </v-card-title>
-                    <v-data-table :headers="headers" :items="students" v-if="headers.length != 0"
-                        :sort-desc.sync="sortDesc" :sortBy="'points'">
+                    <v-data-table :headers="headers" :items="students" :sort-desc.sync="sortDesc" :sortBy="'points'"
+                        :loading="loading">
                         <template v-for="h in headers" v-slot:[`header.${h.value}`]="{  }">
                             <v-tooltip bottom>
                                 <template v-slot:activator="{ on, attrs }">
@@ -83,9 +86,9 @@
                                     <td class="text-center"
                                         v-for="(classworkGrades, index) in AllStudentClassworkGrades(student.id,gradingCriteria.id)"
                                         :key="index">
-                                        
+
                                         {{student['points'+classworkGrades.classwork_id] = classworkGrades.points}}
-                                      
+
                                         <span class="text-caption" color="grey" v-if="classworkGrades.points != null"> /
                                             {{classworkGrades.hp_points}}
                                         </span>
@@ -243,7 +246,7 @@
 
 <script>
     import excel from 'vue-excel-export'
-    const finalGradesGrades =() => import('./final-grades-teacherGradebook.vue')
+    const finalGradesGrades = () => import('./final-grades-teacherGradebook.vue')
     Vue.use(excel)
     import {
         mapGetters,
@@ -252,7 +255,8 @@
     export default {
         data: function () {
             return {
-              grading_criteria_data: [],
+                tab_id: null,
+                grading_criteria_data: [],
                 allclasswork: null,
                 activeTab: null,
                 shown: false,
@@ -296,7 +300,20 @@
             ...mapGetters(["getcourseInfo"]),
             ...mapGetters(["get_gradingCriteria", "allClass", "AllStudentClassworkGrades", "allStudentFinalGrades",
                 "AllStudentClassworkGradesFortable"
-            ])
+            ]),
+             filteredItems() {
+                if (this.search) {
+                    return this.students.filter((item) => {
+                        return this.search.toLowerCase().split(' ').every(v => item.lastName.toLowerCase()
+                            .includes(v) || item.student_id.toString().includes(v) ||
+                            item.middleName.toLowerCase().includes(v)  ||
+                            item.firstName.toLowerCase().includes(v))
+                    })
+                } else {
+                    return this.students;
+                }
+
+            }
         },
         components: {
             finalGradesGrades
@@ -304,7 +321,7 @@
 
         methods: {
             f_grades_headers() {
-                
+
             },
             sortPoints() {
                 this.sortDesc = !this.sortDesc;
@@ -352,18 +369,18 @@
 
             },
             gettableTotalPoints(classworkList, grading_id) {
-               var total = 0;
-               if(classworkList != null) {
-  
-                for (var i = 0; i < classworkList.length; i++) {
-                    if (classworkList[i].grading_criteria_id == grading_id) {
-                        total += classworkList[i]['points'];
+                var total = 0;
+                if (classworkList != null) {
+
+                    for (var i = 0; i < classworkList.length; i++) {
+                        if (classworkList[i].grading_criteria_id == grading_id) {
+                            total += classworkList[i]['points'];
+                        }
+
                     }
 
                 }
-               
-                } 
-               return total;
+                return total;
             },
             transmutedGrade(total_score, percentage) {
                 if (this.classworkTotalPoints) {
@@ -390,24 +407,24 @@
             },
             totalPercentHeader() {
                 this.headers.push({
-                    text: 'Total Points' + ' (' + this.classworkTotalPoints + 'pts)',
-                    align: 'center',
-                    value: 'total',
+                        text: 'Total Points' + ' (' + this.classworkTotalPoints + 'pts)',
+                        align: 'center',
+                        value: 'total',
 
-                }, {
-                    text: 'I. Percentage',
-                    align: 'center',
-                    value: 'Initial Percentage',
+                    }, {
+                        text: 'Percentage',
+                        align: 'center',
+                        value: 'Initial Percentage',
 
 
-                },
-                //  {
-                //     text: 'T. Percentage',
-                //     align: 'center',
-                //     value: 'Transmuted Percentage',
+                    },
+                    //  {
+                    //     text: 'T. Percentage',
+                    //     align: 'center',
+                    //     value: 'Transmuted Percentage',
 
-                // }
-                
+                    // }
+
                 );
             },
             classworkTotalPoins() {
@@ -444,7 +461,7 @@
                         //console.log(error)
                     })
             },
-          
+
             getClassworkList() {
                 this.headers = [];
                 this.loading = true;
@@ -484,7 +501,7 @@
 
 
 
-                    this.totalPercentHeader();
+                    // this.totalPercentHeader();
                 })
 
                 var data = {
@@ -514,6 +531,7 @@
                         value: 'lastName'
                     });
 
+                    this.loading = true;
                     axios.get('/api/grade-book/classworks/' + this.selectedClass).then(res => {
                         this.classworkList = res.data;
 
@@ -526,7 +544,7 @@
                                         'points'
                                     ] + 'pts)',
                                     align: 'center',
-                                      value:'points' + this.classworkList[i]['classwork_id']
+                                    value: 'points' + this.classworkList[i]['classwork_id']
                                 });
                                 total += this.classworkList[i]['points'];
                             }
@@ -534,6 +552,7 @@
                         }
                         this.classworkTotalPoints = total;
                         this.totalPercentHeader();
+                        this.loading = false;
 
                     })
                 }
@@ -588,7 +607,7 @@
 
 
             },
-    
+
             test(table) {
                 (function () {
                     var uri = 'data:application/vnd.ms-excel;base64,',
@@ -617,14 +636,13 @@
 
         mounted() {
             this.loading = true;
-            this.$store.dispatch('fetchGradingCriteria', this.$route.params.id).then(() =>
-            {
+            this.$store.dispatch('fetchGradingCriteria', this.$route.params.id).then(() => {
                 this.grading_criteria_data = this.get_gradingCriteria;
             });
 
             this.getClassList();
 
-       
+
 
             var students = this.students;
             this.loading = false;

@@ -96,66 +96,71 @@ class StudentSubModuleProgressController extends Controller
         ->get();
 
         $studentList = json_decode($studentList, true);
+        if(count($studentList) !=0) {
 
-
-
-        $main_modules = DB::table('tbl_main_modules') 
-        ->select('tbl_main_modules.id as main_module_id' ,'tbl_main_modules.module_name')
-        ->selectRaw('count(tbl_sub_modules.id) AS sub_module_length')
-        ->leftJoin('tbl_sub_modules' , 'tbl_sub_modules.main_module_id' , '=' , 'tbl_main_modules.id')
-        ->groupBy('tbl_main_modules.id')
-        
-        ->where('tbl_main_modules.course_id', $studentList[0]['course_id'] )
-        ->get();
-        $main_modules = json_decode($main_modules, true);
-
-        $allSubModulesProgress = DB::table('tbl_student_sub_module_progress')
-        ->select(
-        'tbl_student_sub_module_progress.id', 
-        'tbl_student_sub_module_progress.student_id', 
-        'tbl_student_sub_module_progress.sub_module_id', 
-        'tbl_student_sub_module_progress.main_module_id', 
-        'tbl_main_modules.module_name',
-        'tbl_user_details.firstName',
-        'tbl_user_details.middleName',
-        'tbl_user_details.lastName',
-      )
-      ->selectRaw('SUM(tbl_student_sub_module_progress.time_spent) AS total_time_spent')
-      ->selectRaw('SUM(case when tbl_student_sub_module_progress.completed = 1 then 1 else 0 end ) AS completed')
-        ->leftJoin('users', 'users.id', '=', 'tbl_student_sub_module_progress.student_id')
-        ->leftJoin('tbl_user_details','tbl_user_details.user_id' ,'=','users.id')
-        ->leftJoin('tbl_main_modules', 'tbl_main_modules.id', '=', 'tbl_student_sub_module_progress.main_module_id')
-        ->leftJoin('tbl_sub_modules', 'tbl_sub_modules.id', '=', 'tbl_student_sub_module_progress.sub_module_id')
-        ->where('tbl_student_sub_module_progress.course_id',$studentList[0]['course_id'] )
-        // ->where('tbl_student_sub_module_progress.student_id',1 )
-        ->groupBy('tbl_student_sub_module_progress.id','tbl_sub_modules.id')
-        ->orderBy('tbl_user_details.lastName', 'ASC')
-        ->get();
-        $allSubModulesProgress = json_decode($allSubModulesProgress, true);
-
-
-        for($x=0; $x < count($studentList); $x++) {
-
-            for($i=0; $i < count($main_modules); $i++) {
-                $main_modules[$i]['completed'] = 0 ;
-       
-                for($j=0; $j < count($allSubModulesProgress); $j++) {
-                    if($main_modules[$i]['main_module_id'] == $allSubModulesProgress[$j]['main_module_id'] && $allSubModulesProgress[$j]['student_id'] == $studentList[$x]['student_id']) {
-                        $main_modules[$i]['completed'] += $allSubModulesProgress[$j]['completed'];
-                        // $main_modules[$i]['sub_module_length'] +=  $allSubModulesProgress[$j]['sub_module_length'];
+            $main_modules = DB::table('tbl_main_modules') 
+            ->select('tbl_main_modules.id as main_module_id' ,'tbl_main_modules.module_name')
+            ->selectRaw('count(tbl_sub_modules.id) AS sub_module_length')
+            ->leftJoin('tbl_sub_modules' , 'tbl_sub_modules.main_module_id' , '=' , 'tbl_main_modules.id')
+            ->groupBy('tbl_main_modules.id')
+            
+            ->where('tbl_main_modules.course_id', $studentList[0]['course_id'] )
+            ->get();
+            $main_modules = json_decode($main_modules, true);
+    
+            $allSubModulesProgress = DB::table('tbl_student_sub_module_progress')
+            ->select(
+            'tbl_student_sub_module_progress.id', 
+            'tbl_student_sub_module_progress.student_id', 
+            'tbl_student_sub_module_progress.sub_module_id', 
+            'tbl_student_sub_module_progress.main_module_id', 
+            'tbl_main_modules.module_name',
+            'tbl_user_details.firstName',
+            'tbl_user_details.middleName',
+            'tbl_user_details.lastName',
+          )
+          ->selectRaw('SUM(tbl_student_sub_module_progress.time_spent) AS total_time_spent')
+          ->selectRaw('SUM(case when tbl_student_sub_module_progress.completed = 1 then 1 else 0 end ) AS completed')
+            ->leftJoin('users', 'users.id', '=', 'tbl_student_sub_module_progress.student_id')
+            ->leftJoin('tbl_user_details','tbl_user_details.user_id' ,'=','users.id')
+            ->leftJoin('tbl_main_modules', 'tbl_main_modules.id', '=', 'tbl_student_sub_module_progress.main_module_id')
+            ->leftJoin('tbl_sub_modules', 'tbl_sub_modules.id', '=', 'tbl_student_sub_module_progress.sub_module_id')
+            ->where('tbl_student_sub_module_progress.course_id',$studentList[0]['course_id'] )
+            // ->where('tbl_student_sub_module_progress.student_id',1 )
+            ->groupBy('tbl_student_sub_module_progress.id','tbl_sub_modules.id')
+            ->orderBy('tbl_user_details.lastName', 'ASC')
+            ->get();
+            $allSubModulesProgress = json_decode($allSubModulesProgress, true);
+    
+    
+            for($x=0; $x < count($studentList); $x++) {
+    
+                for($i=0; $i < count($main_modules); $i++) {
+                    $main_modules[$i]['completed'] = 0 ;
+           
+                    for($j=0; $j < count($allSubModulesProgress); $j++) {
+                        if($main_modules[$i]['main_module_id'] == $allSubModulesProgress[$j]['main_module_id'] && $allSubModulesProgress[$j]['student_id'] == $studentList[$x]['student_id']) {
+                            $main_modules[$i]['completed'] += $allSubModulesProgress[$j]['completed'];
+                            // $main_modules[$i]['sub_module_length'] +=  $allSubModulesProgress[$j]['sub_module_length'];
+                        }
                     }
+                 
+                    // for($z=0; $z < count($classworks); $z++)
+                    // if(  $classworks[$z]['grading_criteria'] == $gradingCategory[$i]['grade_category_id']) {
+                    //     $gradingCategory[$i]['grade_percentage'] = ($gradingCategory[$i]['points'] / $classworks[$z]['total_points']) * $gradingCategory[$i]['percentage'];
+                    //     $gradingCategory[$i]['total_points'] =  $classworks[$z]['total_points'];
+                    // }
+                
+                
                 }
-             
-                // for($z=0; $z < count($classworks); $z++)
-                // if(  $classworks[$z]['grading_criteria'] == $gradingCategory[$i]['grade_category_id']) {
-                //     $gradingCategory[$i]['grade_percentage'] = ($gradingCategory[$i]['points'] / $classworks[$z]['total_points']) * $gradingCategory[$i]['percentage'];
-                //     $gradingCategory[$i]['total_points'] =  $classworks[$z]['total_points'];
-                // }
-            
-            
+                $studentList[$x]['progress'] =  $main_modules;
             }
-            $studentList[$x]['progress'] =  $main_modules;
         }
+
+
+
+
+
         return $studentList;
     }
 

@@ -591,7 +591,7 @@ var render = function() {
                                         ref: "youtubeLazyVideo",
                                         staticStyle: {
                                           width: "100% !important",
-                                          height: "100%",
+                                          height: "620px !important",
                                           position: "relative",
                                           "z-index": "0"
                                         },
@@ -616,7 +616,7 @@ var render = function() {
                                         staticClass: "holds-the-iframe",
                                         staticStyle: {
                                           width: "100% !important",
-                                          height: "620px"
+                                          height: "620px !important"
                                         },
                                         attrs: {
                                           title: "google drive viewer",
@@ -646,7 +646,7 @@ var render = function() {
                                         staticClass: "holds-the-iframe",
                                         staticStyle: {
                                           width: "100% !important",
-                                          height: "620px"
+                                          height: "620px !important"
                                         },
                                         attrs: {
                                           title: "google drive viewer",
@@ -669,6 +669,10 @@ var render = function() {
                                 [
                                   _vm.ext == "mp4" && _vm.type == "Video"
                                     ? _c("vue-core-video-player", {
+                                        staticStyle: {
+                                          width: "100% !important",
+                                          height: "620px !important"
+                                        },
                                         attrs: {
                                           src:
                                             "/storage/" +
@@ -685,6 +689,10 @@ var render = function() {
                               _vm.isSelectedModule
                                 ? _c("pdfviewer", {
                                     key: _vm.subModuleData.sub_module_name + 1,
+                                    staticStyle: {
+                                      width: "100% !important",
+                                      height: "620px !important"
+                                    },
                                     attrs: {
                                       title: _vm.subModuleData.sub_module_name,
                                       pdf_file:

@@ -14,7 +14,7 @@
                             <v-card style="height: 620px;"
                                 v-if="type=='Link' && subModuleData.link.search('youtube') != -1">
                                 <LazyYoutube ref="youtubeLazyVideo" :src="subModuleData.link"
-                                    style="width: 100% !important;height: 100%;position:relative;z-index: 0"
+                                    style="width: 100% !important;height: 620px !important;position:relative;z-index: 0"
                                     aspect-ratio="16:9" thumbnail-quality="standard" />
 
                             </v-card>
@@ -25,7 +25,7 @@
                                 <iframe title="google drive viewer" id="pdf-iframe" class="holds-the-iframe"
                                     :src="  subModuleData.link != null ? scrapeDocID(subModuleData.link) : ''"
                                     sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
-                                    style="width: 100% !important;height: 620px"></iframe>
+                                    style="width: 100% !important;height: 620px !important"></iframe>
 
                             </v-card>
 
@@ -35,19 +35,19 @@
                                 <iframe title="google drive viewer" id="pdf-iframe" class="holds-the-iframe"
                                     :src="'https://view.officeapps.live.com/op/view.aspx?src=' +docpath + subModuleData.file_attachment"
                                     sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
-                                    style="width: 100% !important;height: 620px"></iframe>
+                                    style="width: 100% !important;height: 620px !important"></iframe>
 
                             </v-card>
 
 
                             <div class="player-container">
 
-                                <vue-core-video-player v-if="ext == 'mp4'  && type=='Video'"
+                                <vue-core-video-player v-if="ext == 'mp4'  && type=='Video'"   style="width: 100% !important;height: 620px !important"
                                     :src="'/storage/' + subModuleData.file_attachment"></vue-core-video-player>
                             </div>
 
                             <!-- <v-dialog v-model="pdfdialog" v-if="type=='Document' " fullscreen hide-overlay transition="dialog-bottom-transition"> -->
-                            <pdfviewer :key="subModuleData.sub_module_name + 1"
+                            <pdfviewer :key="subModuleData.sub_module_name + 1"   style="width: 100% !important;height: 620px !important"
                                 v-if="type=='Document' && ext == 'pdf'  && isSelectedModule " :title="subModuleData.sub_module_name"
                                 :pdf_file="'/storage/' + subModuleData.file_attachment"
                                 v-on:closePdf="pdfdialog = false" />

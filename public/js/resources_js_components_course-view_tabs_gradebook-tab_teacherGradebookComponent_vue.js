@@ -262,6 +262,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
 
 
 var finalGradesGrades = function finalGradesGrades() {
@@ -273,6 +276,7 @@ Vue.use(vue_excel_export__WEBPACK_IMPORTED_MODULE_0__.default);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
+      tab_id: null,
       grading_criteria_data: [],
       allclasswork: null,
       activeTab: null,
@@ -309,7 +313,21 @@ Vue.use(vue_excel_export__WEBPACK_IMPORTED_MODULE_0__.default);
       sortDesc: false
     };
   },
-  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(["getcourseInfo"])), (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(["get_gradingCriteria", "allClass", "AllStudentClassworkGrades", "allStudentFinalGrades", "AllStudentClassworkGradesFortable"])),
+  computed: _objectSpread(_objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(["getcourseInfo"])), (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(["get_gradingCriteria", "allClass", "AllStudentClassworkGrades", "allStudentFinalGrades", "AllStudentClassworkGradesFortable"])), {}, {
+    filteredItems: function filteredItems() {
+      var _this = this;
+
+      if (this.search) {
+        return this.students.filter(function (item) {
+          return _this.search.toLowerCase().split(' ').every(function (v) {
+            return item.lastName.toLowerCase().includes(v) || item.student_id.toString().includes(v) || item.middleName.toLowerCase().includes(v) || item.firstName.toLowerCase().includes(v);
+          });
+        });
+      } else {
+        return this.students;
+      }
+    }
+  }),
   components: {
     finalGradesGrades: finalGradesGrades
   },
@@ -402,7 +420,7 @@ Vue.use(vue_excel_export__WEBPACK_IMPORTED_MODULE_0__.default);
         align: 'center',
         value: 'total'
       }, {
-        text: 'I. Percentage',
+        text: 'Percentage',
         align: 'center',
         value: 'Initial Percentage'
       } //  {
@@ -440,15 +458,15 @@ Vue.use(vue_excel_export__WEBPACK_IMPORTED_MODULE_0__.default);
       return isNaN(result) == true ? 0 : result.toFixed(2);
     },
     getStudentList: function getStudentList() {
-      var _this = this;
+      var _this2 = this;
 
       axios.get('/api/student/all_by_class/' + this.selectedClass).then(function (res) {
-        _this.students = res.data;
+        _this2.students = res.data;
       })["catch"](function (error) {//console.log(error)
       });
     },
     getClassworkList: function getClassworkList() {
-      var _this2 = this;
+      var _this3 = this;
 
       this.headers = [];
       this.loading = true;
@@ -459,28 +477,27 @@ Vue.use(vue_excel_export__WEBPACK_IMPORTED_MODULE_0__.default);
         value: 'lastName'
       });
       axios.get('/api/grade-book/classworks/' + this.selectedClass).then(function (res) {
-        _this2.classworkList = res.data;
+        _this3.classworkList = res.data;
 
-        if (_this2.allclasswork == null) {
-          _this2.allclasswork = res.data;
+        if (_this3.allclasswork == null) {
+          _this3.allclasswork = res.data;
         } //console.log(this.allclasswork, 'sadfasdfasdfasdfasd fallclasswork');
 
 
-        for (var i = 0; i < _this2.classworkList.length; i++) {
+        for (var i = 0; i < _this3.classworkList.length; i++) {
           // this.headers[i+1] = {text: this.classworkList[i]['title'], value: this.classworkList[i]['title']};
-          if (_this2.classworkList[i]['grading_criteria_id'] == _this2.get_gradingCriteria[0].id) {
-            _this2.headers.push({
-              text: _this2.classworkList[i]['title'] + ' (' + _this2.classworkList[i]['points'] + 'pts)',
+          if (_this3.classworkList[i]['grading_criteria_id'] == _this3.get_gradingCriteria[0].id) {
+            _this3.headers.push({
+              text: _this3.classworkList[i]['title'] + ' (' + _this3.classworkList[i]['points'] + 'pts)',
               align: 'center',
-              value: 'points' + _this2.classworkList[i]['classwork_id']
+              value: 'points' + _this3.classworkList[i]['classwork_id']
             });
 
-            total += _this2.classworkList[i]['points'];
+            total += _this3.classworkList[i]['points'];
           }
         } //    //console.log(grading_criteria_id)
+        // this.totalPercentHeader();
 
-
-        _this2.totalPercentHeader();
       });
       var data = {
         course_id: this.$route.params.id,
@@ -488,14 +505,14 @@ Vue.use(vue_excel_export__WEBPACK_IMPORTED_MODULE_0__.default);
       };
       this.$store.dispatch('fetchAllStudentClassworkGrades', this.selectedClass);
       this.$store.dispatch('fetchAllStudentFinalGrades', data).then(function () {
-        _this2.loading = false;
+        _this3.loading = false;
       });
     },
     _getFInalGradestTab: function _getFInalGradestTab() {
       this.activeTab = 'finalgrades';
     },
     _getClassworkListbyTab: function _getClassworkListbyTab(grading_criteria_id, index) {
-      var _this3 = this;
+      var _this4 = this;
 
       if (this.activeTab != grading_criteria_id) {
         this.headers = [];
@@ -506,36 +523,39 @@ Vue.use(vue_excel_export__WEBPACK_IMPORTED_MODULE_0__.default);
           text: 'Name',
           value: 'lastName'
         });
+        this.loading = true;
         axios.get('/api/grade-book/classworks/' + this.selectedClass).then(function (res) {
-          _this3.classworkList = res.data;
+          _this4.classworkList = res.data;
 
-          for (var i = 0; i < _this3.classworkList.length; i++) {
+          for (var i = 0; i < _this4.classworkList.length; i++) {
             // this.headers[i+1] = {text: this.classworkList[i]['title'], value: this.classworkList[i]['title']};
-            if (_this3.classworkList[i]['grading_criteria_id'] == grading_criteria_id) {
-              _this3.headers.push({
-                text: _this3.classworkList[i]['title'] + ' (' + _this3.classworkList[i]['points'] + 'pts)',
+            if (_this4.classworkList[i]['grading_criteria_id'] == grading_criteria_id) {
+              _this4.headers.push({
+                text: _this4.classworkList[i]['title'] + ' (' + _this4.classworkList[i]['points'] + 'pts)',
                 align: 'center',
-                value: 'points' + _this3.classworkList[i]['classwork_id']
+                value: 'points' + _this4.classworkList[i]['classwork_id']
               });
 
-              total += _this3.classworkList[i]['points'];
+              total += _this4.classworkList[i]['points'];
             }
           }
 
-          _this3.classworkTotalPoints = total;
+          _this4.classworkTotalPoints = total;
 
-          _this3.totalPercentHeader();
+          _this4.totalPercentHeader();
+
+          _this4.loading = false;
         });
       }
     },
     getStudentClassworksGrades: function getStudentClassworksGrades(grading_criteria_id) {
-      var _this4 = this;
+      var _this5 = this;
 
       axios.get('/api/grade-book/classworkGrades/' + this.selectedClass).then(function (res) {
-        _this4.classworkList = res.data;
+        _this5.classworkList = res.data;
 
-        for (var i = 0; i < _this4.classworkList.length; i++) {
-          if (_this4.classworkList[i]['grading_criteria_id'] == grading_criteria_id) {}
+        for (var i = 0; i < _this5.classworkList.length; i++) {
+          if (_this5.classworkList[i]['grading_criteria_id'] == grading_criteria_id) {}
         }
       });
     },
@@ -547,24 +567,24 @@ Vue.use(vue_excel_export__WEBPACK_IMPORTED_MODULE_0__.default);
       return total;
     },
     getClassList: function getClassList() {
-      var _this5 = this;
+      var _this6 = this;
 
       this.$store.dispatch('fetchSubjectCourseClassList', this.$route.params.id).then(function () {
-        _this5.classList = _this5.allClass;
-        _this5.selectedClass = _this5.classList[0].class_id;
-        _this5.selectedClassName = _this5.classList[0].class_name;
+        _this6.classList = _this6.allClass;
+        _this6.selectedClass = _this6.classList[0].class_id;
+        _this6.selectedClassName = _this6.classList[0].class_name;
 
-        _this5.getClassworkList();
+        _this6.getClassworkList();
 
-        _this5.getStudentList();
+        _this6.getStudentList();
 
         var data = {
-          course_id: _this5.$route.params.id,
-          class_id: _this5.selectedClass
+          course_id: _this6.$route.params.id,
+          class_id: _this6.selectedClass
         };
 
-        _this5.$store.dispatch('fetchAllStudentFinalGrades', data).then(function () {
-          _this5.loading = false;
+        _this6.$store.dispatch('fetchAllStudentFinalGrades', data).then(function () {
+          _this6.loading = false;
         });
       });
     },
@@ -593,11 +613,11 @@ Vue.use(vue_excel_export__WEBPACK_IMPORTED_MODULE_0__.default);
     }
   },
   mounted: function mounted() {
-    var _this6 = this;
+    var _this7 = this;
 
     this.loading = true;
     this.$store.dispatch('fetchGradingCriteria', this.$route.params.id).then(function () {
-      _this6.grading_criteria_data = _this6.get_gradingCriteria;
+      _this7.grading_criteria_data = _this7.get_gradingCriteria;
     });
     this.getClassList();
     var students = this.students;
@@ -1537,7 +1557,13 @@ var render = function() {
         [
           _c(
             "v-tabs",
-            { attrs: { color: "orange accent-4", right: "" } },
+            {
+              attrs: {
+                color: "orange accent-4",
+                right: "",
+                disabled: _vm.loading
+              }
+            },
             [
               _c(
                 "v-tab",
@@ -1557,9 +1583,11 @@ var render = function() {
                   "v-tab",
                   {
                     key: index,
+                    attrs: { disabled: _vm.loading == true },
                     on: {
                       click: function($event) {
-                        return _vm._getClassworkListbyTab(gradingCriteria.id)
+                        _vm._getClassworkListbyTab(gradingCriteria.id)
+                        _vm.click_id = gradingCriteria.id
                       }
                     }
                   },
@@ -1577,14 +1605,13 @@ var render = function() {
                 "v-tab-item",
                 { attrs: { id: "final_grades" } },
                 [
-                  _vm.loading == false
-                    ? _c("finalGradesGrades", {
-                        attrs: {
-                          grading_criteria: _vm.get_gradingCriteria,
-                          students: _vm.students
-                        }
-                      })
-                    : _vm._e()
+                  _c("finalGradesGrades", {
+                    attrs: {
+                      loader: _vm.loading,
+                      grading_criteria: _vm.get_gradingCriteria,
+                      students: _vm.students
+                    }
+                  })
                 ],
                 1
               ),
@@ -1606,328 +1633,325 @@ var render = function() {
                         ),
                         _c("v-spacer"),
                         _vm._v(" "),
-                        _c("v-text-field", {
-                          attrs: {
-                            "append-icon": "mdi-magnify",
-                            label: "Search",
-                            "single-line": "",
-                            "hide-details": ""
-                          },
-                          model: {
-                            value: _vm.search,
-                            callback: function($$v) {
-                              _vm.search = $$v
-                            },
-                            expression: "search"
-                          }
-                        })
+                        _c(
+                          "div",
+                          { attrs: { width: "50%" } },
+                          [
+                            _c("v-text-field", {
+                              attrs: {
+                                "append-icon": "mdi-magnify",
+                                label: "Search",
+                                "single-line": "",
+                                "hide-details": ""
+                              },
+                              model: {
+                                value: _vm.search,
+                                callback: function($$v) {
+                                  _vm.search = $$v
+                                },
+                                expression: "search"
+                              }
+                            })
+                          ],
+                          1
+                        )
                       ],
                       1
                     ),
                     _vm._v(" "),
-                    _vm.headers.length != 0
-                      ? _c("v-data-table", {
-                          attrs: {
-                            headers: _vm.headers,
-                            items: _vm.students,
-                            "sort-desc": _vm.sortDesc,
-                            sortBy: "points"
-                          },
-                          on: {
-                            "update:sortDesc": function($event) {
-                              _vm.sortDesc = $event
-                            },
-                            "update:sort-desc": function($event) {
-                              _vm.sortDesc = $event
-                            }
-                          },
-                          scopedSlots: _vm._u(
-                            [
-                              _vm._l(_vm.headers, function(h) {
-                                return {
-                                  key: "header." + h.value,
-                                  fn: function(ref) {
-                                    return [
-                                      _c(
-                                        "v-tooltip",
-                                        {
-                                          attrs: { bottom: "" },
-                                          scopedSlots: _vm._u(
-                                            [
-                                              {
-                                                key: "activator",
-                                                fn: function(ref) {
-                                                  var on = ref.on
-                                                  var attrs = ref.attrs
-                                                  return [
-                                                    _c(
-                                                      "span",
-                                                      _vm._g(
-                                                        _vm._b(
-                                                          {},
-                                                          "span",
-                                                          attrs,
-                                                          false
-                                                        ),
-                                                        on
-                                                      ),
-                                                      [_vm._v(_vm._s(h.text))]
-                                                    )
-                                                  ]
-                                                }
-                                              }
-                                            ],
-                                            null,
-                                            true
-                                          )
-                                        },
+                    _c("v-data-table", {
+                      attrs: {
+                        headers: _vm.headers,
+                        items: _vm.students,
+                        "sort-desc": _vm.sortDesc,
+                        sortBy: "points",
+                        loading: _vm.loading
+                      },
+                      on: {
+                        "update:sortDesc": function($event) {
+                          _vm.sortDesc = $event
+                        },
+                        "update:sort-desc": function($event) {
+                          _vm.sortDesc = $event
+                        }
+                      },
+                      scopedSlots: _vm._u(
+                        [
+                          _vm._l(_vm.headers, function(h) {
+                            return {
+                              key: "header." + h.value,
+                              fn: function(ref) {
+                                return [
+                                  _c(
+                                    "v-tooltip",
+                                    {
+                                      attrs: { bottom: "" },
+                                      scopedSlots: _vm._u(
                                         [
-                                          _vm._v(" "),
-                                          _c("span", [_vm._v(_vm._s(h.text))])
-                                        ]
-                                      )
-                                    ]
-                                  }
-                                }
-                              }),
-                              {
-                                key: "body",
-                                fn: function(ref) {
-                                  var items = ref.items
-                                  return [
-                                    _c(
-                                      "tbody",
-                                      [
-                                        _vm._l(items, function(student) {
-                                          return _c(
-                                            "tr",
-                                            { key: student.id },
-                                            [
-                                              _c("td", [
-                                                _vm._v(
-                                                  _vm._s(
-                                                    student.lastName +
-                                                      ", " +
-                                                      student.firstName
-                                                  ) + " "
+                                          {
+                                            key: "activator",
+                                            fn: function(ref) {
+                                              var on = ref.on
+                                              var attrs = ref.attrs
+                                              return [
+                                                _c(
+                                                  "span",
+                                                  _vm._g(
+                                                    _vm._b(
+                                                      {},
+                                                      "span",
+                                                      attrs,
+                                                      false
+                                                    ),
+                                                    on
+                                                  ),
+                                                  [_vm._v(_vm._s(h.text))]
                                                 )
-                                              ]),
-                                              _vm._v(" "),
-                                              _vm._l(
-                                                _vm.AllStudentClassworkGrades(
-                                                  student.id,
-                                                  gradingCriteria.id
-                                                ),
-                                                function(
-                                                  classworkGrades,
-                                                  index
-                                                ) {
-                                                  return _c(
-                                                    "td",
-                                                    {
-                                                      key: index,
-                                                      staticClass: "text-center"
-                                                    },
-                                                    [
-                                                      _vm._v(
-                                                        "\n                                    \n                                    " +
-                                                          _vm._s(
-                                                            (student[
-                                                              "points" +
-                                                                classworkGrades.classwork_id
-                                                            ] =
-                                                              classworkGrades.points)
-                                                          ) +
-                                                          "\n                                  \n                                    "
-                                                      ),
-                                                      classworkGrades.points !=
-                                                      null
-                                                        ? _c(
-                                                            "span",
-                                                            {
-                                                              staticClass:
-                                                                "text-caption",
-                                                              attrs: {
-                                                                color: "grey"
-                                                              }
-                                                            },
-                                                            [
-                                                              _vm._v(
-                                                                " /\n                                        " +
-                                                                  _vm._s(
-                                                                    classworkGrades.hp_points
-                                                                  ) +
-                                                                  "\n                                    "
-                                                              )
-                                                            ]
-                                                          )
-                                                        : _vm._e(),
-                                                      _vm._v(" "),
-                                                      classworkGrades.points ==
-                                                      null
-                                                        ? _c(
-                                                            "v-tooltip",
-                                                            {
-                                                              attrs: {
-                                                                top: ""
-                                                              },
-                                                              scopedSlots: _vm._u(
-                                                                [
-                                                                  {
-                                                                    key:
-                                                                      "activator",
-                                                                    fn: function(
-                                                                      ref
-                                                                    ) {
-                                                                      var on =
-                                                                        ref.on
-                                                                      var attrs =
-                                                                        ref.attrs
-                                                                      return [
-                                                                        _c(
-                                                                          "v-btn",
-                                                                          _vm._g(
-                                                                            _vm._b(
-                                                                              {
-                                                                                attrs: {
-                                                                                  icon:
-                                                                                    ""
-                                                                                }
-                                                                              },
-                                                                              "v-btn",
-                                                                              attrs,
-                                                                              false
-                                                                            ),
-                                                                            on
-                                                                          ),
-                                                                          [
-                                                                            _c(
-                                                                              "v-icon",
-                                                                              {
-                                                                                attrs: {
-                                                                                  color:
-                                                                                    "grey lighten-1"
-                                                                                }
-                                                                              },
-                                                                              [
-                                                                                _vm._v(
-                                                                                  "\n                                                    mdi-close\n                                                "
-                                                                                )
-                                                                              ]
-                                                                            )
-                                                                          ],
-                                                                          1
-                                                                        )
-                                                                      ]
-                                                                    }
-                                                                  }
-                                                                ],
-                                                                null,
-                                                                true
-                                                              ),
-                                                              model: {
-                                                                value:
-                                                                  _vm.shown,
-                                                                callback: function(
-                                                                  $$v
-                                                                ) {
-                                                                  _vm.shown = $$v
-                                                                },
-                                                                expression:
-                                                                  "shown"
-                                                              }
-                                                            },
-                                                            [
-                                                              _vm._v(" "),
-                                                              _c("span", [
-                                                                _vm._v(
-                                                                  "No Submission"
-                                                                )
-                                                              ])
-                                                            ]
-                                                          )
-                                                        : _vm._e()
-                                                    ],
-                                                    1
-                                                  )
-                                                }
-                                              ),
-                                              _vm._v(" "),
-                                              _c(
-                                                "td",
-                                                { staticClass: "text-center" },
-                                                [
-                                                  _vm._v(
-                                                    "\n                                    " +
-                                                      _vm._s(
-                                                        (student[
-                                                          "total"
-                                                        ] = _vm.totalPoints(
-                                                          _vm.AllStudentClassworkGrades(
-                                                            student.id,
-                                                            gradingCriteria.id
-                                                          )
-                                                        ))
-                                                      ) +
-                                                      "\n                                "
-                                                  )
-                                                ]
-                                              ),
-                                              _vm._v(" "),
-                                              _c(
-                                                "td",
-                                                { staticClass: "text-center" },
-                                                [
-                                                  _vm._v(
-                                                    "\n                                    " +
-                                                      _vm._s(
-                                                        (student[
-                                                          "Initial Percentage"
-                                                        ] = _vm.totalPercentage(
-                                                          _vm.AllStudentClassworkGrades(
-                                                            student.id,
-                                                            gradingCriteria.id
-                                                          ),
-                                                          gradingCriteria.percentage
-                                                        ))
-                                                      ) +
-                                                      "%\n                                "
-                                                  )
-                                                ]
-                                              )
-                                            ],
-                                            2
-                                          )
-                                        }),
-                                        _vm._v(" "),
-                                        _vm.students.length == 0
-                                          ? _c("tr", [
-                                              _c(
+                                              ]
+                                            }
+                                          }
+                                        ],
+                                        null,
+                                        true
+                                      )
+                                    },
+                                    [
+                                      _vm._v(" "),
+                                      _c("span", [_vm._v(_vm._s(h.text))])
+                                    ]
+                                  )
+                                ]
+                              }
+                            }
+                          }),
+                          {
+                            key: "body",
+                            fn: function(ref) {
+                              var items = ref.items
+                              return [
+                                _c(
+                                  "tbody",
+                                  [
+                                    _vm._l(items, function(student) {
+                                      return _c(
+                                        "tr",
+                                        { key: student.id },
+                                        [
+                                          _c("td", [
+                                            _vm._v(
+                                              _vm._s(
+                                                student.lastName +
+                                                  ", " +
+                                                  student.firstName
+                                              ) + " "
+                                            )
+                                          ]),
+                                          _vm._v(" "),
+                                          _vm._l(
+                                            _vm.AllStudentClassworkGrades(
+                                              student.id,
+                                              gradingCriteria.id
+                                            ),
+                                            function(classworkGrades, index) {
+                                              return _c(
                                                 "td",
                                                 {
-                                                  staticClass: "text-center",
-                                                  attrs: { colspan: "100" }
+                                                  key: index,
+                                                  staticClass: "text-center"
                                                 },
                                                 [
                                                   _vm._v(
-                                                    "\n                                    No data available, please add or invite students.\n                                "
-                                                  )
-                                                ]
+                                                    "\n\n                                    " +
+                                                      _vm._s(
+                                                        (student[
+                                                          "points" +
+                                                            classworkGrades.classwork_id
+                                                        ] =
+                                                          classworkGrades.points)
+                                                      ) +
+                                                      "\n\n                                    "
+                                                  ),
+                                                  classworkGrades.points != null
+                                                    ? _c(
+                                                        "span",
+                                                        {
+                                                          staticClass:
+                                                            "text-caption",
+                                                          attrs: {
+                                                            color: "grey"
+                                                          }
+                                                        },
+                                                        [
+                                                          _vm._v(
+                                                            " /\n                                        " +
+                                                              _vm._s(
+                                                                classworkGrades.hp_points
+                                                              ) +
+                                                              "\n                                    "
+                                                          )
+                                                        ]
+                                                      )
+                                                    : _vm._e(),
+                                                  _vm._v(" "),
+                                                  classworkGrades.points == null
+                                                    ? _c(
+                                                        "v-tooltip",
+                                                        {
+                                                          attrs: { top: "" },
+                                                          scopedSlots: _vm._u(
+                                                            [
+                                                              {
+                                                                key:
+                                                                  "activator",
+                                                                fn: function(
+                                                                  ref
+                                                                ) {
+                                                                  var on =
+                                                                    ref.on
+                                                                  var attrs =
+                                                                    ref.attrs
+                                                                  return [
+                                                                    _c(
+                                                                      "v-btn",
+                                                                      _vm._g(
+                                                                        _vm._b(
+                                                                          {
+                                                                            attrs: {
+                                                                              icon:
+                                                                                ""
+                                                                            }
+                                                                          },
+                                                                          "v-btn",
+                                                                          attrs,
+                                                                          false
+                                                                        ),
+                                                                        on
+                                                                      ),
+                                                                      [
+                                                                        _c(
+                                                                          "v-icon",
+                                                                          {
+                                                                            attrs: {
+                                                                              color:
+                                                                                "grey lighten-1"
+                                                                            }
+                                                                          },
+                                                                          [
+                                                                            _vm._v(
+                                                                              "\n                                                    mdi-close\n                                                "
+                                                                            )
+                                                                          ]
+                                                                        )
+                                                                      ],
+                                                                      1
+                                                                    )
+                                                                  ]
+                                                                }
+                                                              }
+                                                            ],
+                                                            null,
+                                                            true
+                                                          ),
+                                                          model: {
+                                                            value: _vm.shown,
+                                                            callback: function(
+                                                              $$v
+                                                            ) {
+                                                              _vm.shown = $$v
+                                                            },
+                                                            expression: "shown"
+                                                          }
+                                                        },
+                                                        [
+                                                          _vm._v(" "),
+                                                          _c("span", [
+                                                            _vm._v(
+                                                              "No Submission"
+                                                            )
+                                                          ])
+                                                        ]
+                                                      )
+                                                    : _vm._e()
+                                                ],
+                                                1
                                               )
-                                            ])
-                                          : _vm._e()
-                                      ],
-                                      2
-                                    )
-                                  ]
-                                }
-                              }
-                            ],
-                            null,
-                            true
-                          )
-                        })
-                      : _vm._e()
+                                            }
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "td",
+                                            { staticClass: "text-center" },
+                                            [
+                                              _vm._v(
+                                                "\n                                    " +
+                                                  _vm._s(
+                                                    (student[
+                                                      "total"
+                                                    ] = _vm.totalPoints(
+                                                      _vm.AllStudentClassworkGrades(
+                                                        student.id,
+                                                        gradingCriteria.id
+                                                      )
+                                                    ))
+                                                  ) +
+                                                  "\n                                "
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "td",
+                                            { staticClass: "text-center" },
+                                            [
+                                              _vm._v(
+                                                "\n                                    " +
+                                                  _vm._s(
+                                                    (student[
+                                                      "Initial Percentage"
+                                                    ] = _vm.totalPercentage(
+                                                      _vm.AllStudentClassworkGrades(
+                                                        student.id,
+                                                        gradingCriteria.id
+                                                      ),
+                                                      gradingCriteria.percentage
+                                                    ))
+                                                  ) +
+                                                  "%\n                                "
+                                              )
+                                            ]
+                                          )
+                                        ],
+                                        2
+                                      )
+                                    }),
+                                    _vm._v(" "),
+                                    _vm.students.length == 0
+                                      ? _c("tr", [
+                                          _c(
+                                            "td",
+                                            {
+                                              staticClass: "text-center",
+                                              attrs: { colspan: "100" }
+                                            },
+                                            [
+                                              _vm._v(
+                                                "\n                                    No data available, please add or invite students.\n                                "
+                                              )
+                                            ]
+                                          )
+                                        ])
+                                      : _vm._e()
+                                  ],
+                                  2
+                                )
+                              ]
+                            }
+                          }
+                        ],
+                        null,
+                        true
+                      )
+                    })
                   ],
                   1
                 )

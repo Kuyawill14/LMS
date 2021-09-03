@@ -1,18 +1,13 @@
-          <template>
+<template>
+    <div>
 
-
-    <div >
-
-    <v-breadcrumbs class="ma-0 pa-0 mt-3" :items="items">
-        <template v-slot:item="{ item }">
-        <v-breadcrumbs-item
-            :to="{name: item.link}"
-            :disabled="item.disabled"
-        >
-            {{ item.text.toUpperCase() }}
-        </v-breadcrumbs-item>
-        </template>
-    </v-breadcrumbs>
+        <v-breadcrumbs class="ma-0 pa-0 mt-3" :items="items">
+            <template v-slot:item="{ item }">
+                <v-breadcrumbs-item :to="{name: item.link}" :disabled="item.disabled">
+                    {{ item.text.toUpperCase() }}
+                </v-breadcrumbs-item>
+            </template>
+        </v-breadcrumbs>
 
         <v-row class="pt-1">
             <v-col cols="6">
@@ -33,13 +28,66 @@
             <v-col>
                 <v-card>
                     <v-tabs color="deep-purple accent-4" right>
-                        <v-tab href="#all" v-if="role=='Teacher'">
+                        <v-tab href="#all">
                             All
                         </v-tab>
                         <v-tab v-for="(main_module, index) in getmain_module" :key="index">
                             {{main_module.module_name}}
                         </v-tab>
-            
+
+                        <v-tab-item id="all">
+                            <v-simple-table :loading="loading">
+                                <template v-slot:default>
+                                    <thead>
+                                        <tr>
+
+
+                                            <th class="text-center" v-for="(main_module, index) in getmain_module"
+                                                :key="index">
+                                                {{main_module.module_name}} <br>
+                                                Completed
+                                            </th>
+                                            <th class="text-center">
+                                                Total Completed
+                                            </th>
+
+                                            <th class="text-center">
+                                                Percentage
+                                            </th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody v-if="loading == false">
+                                        <tr >
+
+
+                                            <td class="text-center"
+                                                v-for="(main, i) in getStudentMainModuleProgress(UserDetails.id)"
+                                                :key="''+i">
+                                                {{main.completed}} / {{main.sub_module_length}}
+                                            </td>
+                                            <td class="text-center">
+                                                {{getTotalCompleted(getStudentMainModuleProgress(UserDetails.id))}}</td>
+
+
+                                            <td class="text-center">
+                                                {{getTotalPercent(getStudentMainModuleProgress(UserDetails.id))}}%</td>
+
+
+
+
+
+                                        </tr>
+                                   
+
+
+                                    </tbody>
+                                </template>
+                            </v-simple-table>
+
+
+                        </v-tab-item>
+
 
                         <v-tab-item v-for="(main_module, index) in getmain_module" :key="index">
 
@@ -51,13 +99,11 @@
                                     hide-details>
                                 </v-text-field> -->
                             </v-card-title>
-                            <v-simple-table>
+                            <v-simple-table :loading="loading">
                                 <template v-slot:default>
                                     <thead>
                                         <tr>
-                                            <th class="text-center" v-if="role=='Teacher'">
-                                                Student Name
-                                            </th>
+                                          
 
                                             <th class="text-center"
                                                 v-for="(sub_module, index) in  getSub_module(main_module.id)"
@@ -78,9 +124,9 @@
                                     <tbody>
                                         <tr>
                                             <td class="text-center"
-                                                v-for="(subModule, index) in SubModuleProgress(main_module.id,student.id )"
+                                                v-for="(subModule, index) in SubModuleProgress(main_module.id,UserDetails.id )"
                                                 :key="index">
-                                                {{SubModuleProgress(main_module.id,student.id )}}
+                                               
                                                 <v-chip
                                                     :color="checkTimeSpent(subModule.time_spent,subModule.required_time)"
                                                     text-color="white">
@@ -89,7 +135,7 @@
                                             </td>
 
                                             <td class="text-center">
-                                                {{ convertTime(_totalTimeSpent(SubModuleProgress(main_module.id ,student.id)))}}
+                                                {{ convertTime(_totalTimeSpent(SubModuleProgress(main_module.id ,UserDetails.id)))}}
                                             </td>
 
                                         </tr>
@@ -116,13 +162,12 @@
 </style>
 
 <script>
-
     import {
         mapGetters,
         mapActions
     } from "vuex";
     export default {
-        props: ['role'],
+        props: ['role','UserDetails'],
         data: function () {
             return {
                 Deldialog: false,
@@ -140,16 +185,15 @@
                 students: [],
                 classList: [],
                 selectedClass: [],
-                items: [
-                    {
-                    text: 'Course',
-                    disabled: false,
-                    link: 'courses',
+                items: [{
+                        text: 'Course',
+                        disabled: false,
+                        link: 'courses',
                     },
                     {
-                    text: this.role == "Teacher" ? 'Student Progress' : 'My Progress ',
-                    disabled: true,
-                    link: 'studentProgress',
+                        text: this.role == "Teacher" ? 'Student Progress' : 'My Progress ',
+                        disabled: true,
+                        link: 'studentProgress',
                     },
                 ],
 
@@ -195,7 +239,7 @@
                     length += arr[i].sub_module_length;
                 }
                 result = (total_complete / length) * 100;
-                if(isNaN(result)) {
+                if (isNaN(result)) {
                     result = 0;
                 }
                 //console.log('NAN bf' , result)
@@ -279,6 +323,7 @@
 
             },
             getClassList() {
+                this.loading = true;
                 this.$store.dispatch('fetchSubjectCourseClassList', this.$route.params.id).then(() => {
                     this.classList = this.allClass;
                     this.selectedClass = this.classList[0].class_id;
