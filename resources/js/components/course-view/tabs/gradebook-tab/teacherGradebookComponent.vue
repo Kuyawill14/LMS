@@ -173,8 +173,6 @@
 
                         </tr>
                     </table>
-
-
                 </th>
                 <th rowspan="1" class="text-center">
                     Raw Grade</th>
