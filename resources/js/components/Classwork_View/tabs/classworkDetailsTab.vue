@@ -56,7 +56,13 @@
                                     </v-text-field>
                                 </v-col>
 
+                                <v-col v-if="Details.type == 'Subjective Type'" class="mb-0 pb-2 pt-0 mt-0" cols="12">
 
+                                <v-text-field :rules="FieldRules" v-if="Details.type == 'Subjective Type'"
+                                    outlined min="0" v-model="Details.points" label="Points" type="number">
+                                </v-text-field>
+                            </v-col>
+                                
                                 <v-col v-if="Details.type == 'Subjective Type'" class="mb-0 pb-2 pt-0 mt-0" cols="12">
 
                                     <v-row>
@@ -89,7 +95,7 @@
                                             </v-list-item-content>
                                         </v-list-item>
                                     </v-list>
-                                   <!--  <v-row justify="center" align="center">
+                                  <!--   <v-row justify="center" align="center">
                                         <v-col cols="11">
 
                                             <v-text-field :rules="FieldRules" v-if="Details.type == 'Subjective Type'"

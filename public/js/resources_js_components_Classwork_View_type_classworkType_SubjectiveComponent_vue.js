@@ -1503,6 +1503,17 @@ var render = function() {
                                                           _vm._v(" "),
                                                           _c(
                                                             "v-list-item-content",
+                                                            {
+                                                              on: {
+                                                                click: function(
+                                                                  $event
+                                                                ) {
+                                                                  return _vm.OpenFile(
+                                                                    item.link
+                                                                  )
+                                                                }
+                                                              }
+                                                            },
                                                             [
                                                               _c(
                                                                 "v-list-item-title",
@@ -1690,16 +1701,7 @@ var render = function() {
                                                         _c(
                                                           "v-list-item",
                                                           {
-                                                            attrs: { link: "" },
-                                                            on: {
-                                                              click: function(
-                                                                $event
-                                                              ) {
-                                                                return _vm.OpenFile(
-                                                                  item.link
-                                                                )
-                                                              }
-                                                            }
+                                                            attrs: { link: "" }
                                                           },
                                                           [
                                                             _c(
@@ -1761,6 +1763,17 @@ var render = function() {
                                                             _vm._v(" "),
                                                             _c(
                                                               "v-list-item-content",
+                                                              {
+                                                                on: {
+                                                                  click: function(
+                                                                    $event
+                                                                  ) {
+                                                                    return _vm.OpenFile(
+                                                                      item.link
+                                                                    )
+                                                                  }
+                                                                }
+                                                              },
                                                               [
                                                                 _c(
                                                                   "v-list-item-title",

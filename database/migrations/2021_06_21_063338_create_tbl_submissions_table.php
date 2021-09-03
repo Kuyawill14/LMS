@@ -19,6 +19,7 @@ class CreateTblSubmissionsTable extends Migration
             $table->integer('class_classwork_id');
             $table->integer('user_id');
             $table->mediumText('Submitted_Answers')->nullable();
+            $table->mediumText('rubrics_score')->nullable();
             $table->integer('points')->default(0);
             $table->boolean("graded")->default(0);
             $table->string('status');

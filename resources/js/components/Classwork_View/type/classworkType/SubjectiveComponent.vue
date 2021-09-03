@@ -155,7 +155,7 @@
                                           item.fileExte == 'jpg' ||  item.fileExte == 'png' ||  item.fileExte == 'bmp' ? 'mdi-folder-multiple-image' :''}}
                                               </v-icon>
                                            </v-list-item-avatar>
-                                            <v-list-item-content>
+                                            <v-list-item-content @click="OpenFile(item.link)">
                                                 <v-list-item-title>
                                                     {{item.fileName}}
                                                 </v-list-item-title>
@@ -195,7 +195,7 @@
                                           item.fileExte == 'jpg' ||  item.fileExte == 'png' ||  item.fileExte == 'bmp' ? 'info': ''"
                                       > -->
                                       <v-list dense nav outlined>
-                                         <v-list-item link @click="OpenFile(item.link)">
+                                         <v-list-item link >
                                            <v-list-item-avatar>
                                               <v-icon  :color="item.fileExte == 'pdf' ? 'red' : item.fileExte == 'docx'? 'blue': item.fileExte == 'link' ? 'green':
                                           item.fileExte == 'jpg' ||  item.fileExte == 'png' ||  item.fileExte == 'bmp' ? 'info': ''">
@@ -203,7 +203,7 @@
                                           item.fileExte == 'jpg' ||  item.fileExte == 'png' ||  item.fileExte == 'bmp' ? 'mdi-folder-multiple-image' :''}}
                                               </v-icon>
                                            </v-list-item-avatar>
-                                            <v-list-item-content>
+                                            <v-list-item-content @click="OpenFile(item.link)">
                                                 <v-list-item-title>
                                                     {{item.name}}
                                                 </v-list-item-title>
