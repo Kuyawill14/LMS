@@ -215,6 +215,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
 var removeAttachment = function removeAttachment() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_tabs_dialogs_removeAttachment_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./dialogs/removeAttachment */ "./resources/js/components/Classwork_View/tabs/dialogs/removeAttachment.vue"));
 };
@@ -680,6 +686,41 @@ var render = function() {
                                                     )
                                                   },
                                                   expression: "Details.duration"
+                                                }
+                                              })
+                                            : _vm._e()
+                                        ],
+                                        1
+                                      )
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  _vm.Details.type == "Subjective Type"
+                                    ? _c(
+                                        "v-col",
+                                        {
+                                          staticClass: "mb-0 pb-2 pt-0 mt-0",
+                                          attrs: { cols: "12" }
+                                        },
+                                        [
+                                          _vm.Details.type == "Subjective Type"
+                                            ? _c("v-text-field", {
+                                                attrs: {
+                                                  rules: _vm.FieldRules,
+                                                  outlined: "",
+                                                  min: "0",
+                                                  label: "Points",
+                                                  type: "number"
+                                                },
+                                                model: {
+                                                  value: _vm.Details.points,
+                                                  callback: function($$v) {
+                                                    _vm.$set(
+                                                      _vm.Details,
+                                                      "points",
+                                                      $$v
+                                                    )
+                                                  },
+                                                  expression: "Details.points"
                                                 }
                                               })
                                             : _vm._e()

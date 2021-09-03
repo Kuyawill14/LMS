@@ -44,6 +44,7 @@ class SubmissionController extends Controller
                     $Sub->graded = null;
                     $Sub->updated_at = null;
                     $Sub->Submitted_Answers = null;
+                    $Sub->rubrics_score = null;
                     
                 }
                 else{
@@ -53,6 +54,7 @@ class SubmissionController extends Controller
                     $Sub->graded = $Submission->graded;
                     $Sub->updated_at = $Submission->updated_at;
                     $Sub->Submitted_Answers = unserialize($Submission->Submitted_Answers);
+                    $Sub->rubrics_score = unserialize($Submission->rubrics_score);
                 }
 
                 $PrivateComment = tbl_comment::where("tbl_comments.classwork_id",  $Sub->classwork_id)
@@ -162,8 +164,8 @@ class SubmissionController extends Controller
         if($UpdateScore){
             $UpdateScore->graded = 1;
             $UpdateScore->points = $request->score;
+            $UpdateScore->rubrics_score = serialize($request->data);
             $UpdateScore->save();
-
             $userId = $UpdateScore->user_id;
             $classwork_id = $UpdateScore->classwork_id;
             

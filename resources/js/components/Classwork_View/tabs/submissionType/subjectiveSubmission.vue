@@ -151,12 +151,12 @@
                         outlined>
                         <v-list-item link @click="CheckData = item ,dialog = !dialog, isStarting = true" >
                                 <v-list-item-content>
-                                    <div class="d-flex flex-column align-self-center">
+                                    <v-list-item-title  class="d-flex flex-column align-self-center">
                                         <div class="mb-2" style="max-height:30px;overflow:hidden">{{item.firstName +' '+item.lastName}}</div>
                                         <v-divider></v-divider>
                                         <v-icon color="red" x-large>mdi-file-pdf</v-icon>
-                                        <small style="max-height:15px;overflow:hidden;"> {{ item.Submitted_Answers != null ? item.Submitted_Answers[0].name : ''}}</small>
-                                    </div>
+                                        <small style="max-height:12px;overflow:hidden;"> {{ item.Submitted_Answers != null ? item.Submitted_Answers[0].name : ''}}</small>
+                                    </v-list-item-title>
                                 </v-list-item-content>
                         </v-list-item>
                       </v-card>

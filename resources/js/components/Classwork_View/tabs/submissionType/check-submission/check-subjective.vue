@@ -57,18 +57,18 @@
                                                 <!-- (<span class="primary--text">{{classworkDetails.points}} <small>points</small> </span>) -->
                                             </v-col>
 
-                                            <v-col cols="12" >
+                                            <v-col cols="12" v-if="CheckData.Submitted_Answers != null && CheckData.Submitted_Answers != ''" >
                                         
-                                            <v-row v-if="CheckData.Submitted_Answers != null && CheckData.Submitted_Answers != ''">
-                                                <v-col v-for="(item, index) in CheckData.Submitted_Answers" :key="index" class="mb-0 pb-0 mt-0 pt-0" cols="12" >
-                                                    <div class="d-flex">
-                                                        <div class="body-1 pr-2 pl-2 mt-2">
+                                           <!--  <v-row v-if="CheckData.Submitted_Answers != null && CheckData.Submitted_Answers != ''"> -->
+                                               <!--  <v-col v-for="(item, index) in CheckData.Submitted_Answers" :key="index" class="mb-0 pb-0 mt-0 pt-0" cols="12" > -->
+                                                    <!-- <div class="d-flex"> -->
+                                                       <!--  <div class="body-1 pr-2 pl-2 mt-2">
                                                             {{index+1}}.
-                                                        </div>
+                                                        </div> -->
 
-                                                            <div style="width:100%">
-                                                                <v-hover  v-slot="{ hover }">
-                                                                <v-alert
+                                                           <!--  <div style="width:100%"> -->
+                                                               <!--  <v-hover  v-slot="{ hover }"> -->
+                                                                <!-- <v-alert
                                                                     dense
                                                                     class="mb-1 pa-2"
                                                                     style="cursor:pointer"
@@ -96,18 +96,72 @@
                                                                         </div>
                                                                         </v-col>
                                                                     </v-row>
-                                                                    </v-alert>
-                                                                </v-hover>
-                                                            </div>
-                                                        </div>
-                                                    </v-col>
-                                                </v-row>
+                                                                    </v-alert> -->
+                                                                    
+                                                                    <v-list nav>
+                                                                        <v-list-item class="rounded"  link v-for="(item, index) in CheckData.Submitted_Answers" :key="index">
+                                                                            <v-list-item-icon class="pr-0 mr-0 mr-1">
+                                                                                    <v-icon large :color="item.fileExte == 'pdf' ? 'red' : item.fileExte == 'docx'? 'blue':
+                                                                        item.fileExte == 'jpg' ||  item.fileExte == 'png' ||  item.fileExte == 'bmp' ? 'info': ''" >
+                                                                                        {{item.fileExte == 'pdf' ? 'mdi-file-pdf': item.fileExte == 'docx'? 'mdi-file-word': 
+                                                                                     item.fileExte == 'jpg' ||  item.fileExte == 'png' ||  item.fileExte == 'bmp' ? 'mdi-folder-multiple-image' :''}}
+                                                                                    </v-icon>
+                                                                            </v-list-item-icon>
+                                                                            <v-list-item-content @click="OpenFile(item.fileExte, item.link)">
+                                                                                <v-list-item-title>
+                                                                                    {{item.name}}
+                                                                                </v-list-item-title>
+                                                                            </v-list-item-content>
+                                                                            <v-list-item-action>
+                                                                                    <v-tooltip top>
+                                                                                        <template v-slot:activator="{ on, attrs }">
+                                                                                            <v-btn  v-bind="attrs" v-on="on" 
+                                                                                            rounded small icon text @click="DownloadFile(item.link)"> <v-icon color="blue">mdi-download</v-icon></v-btn>
+                                                                                        </template>
+                                                                                        <span>Download</span>
+                                                                                    </v-tooltip>
+                                                                            </v-list-item-action>
+                                                                        </v-list-item>
+                                                                    </v-list>
+                                                         <!--        </v-hover> -->
+                                                         <!--    </div> -->
+                                                     <!--    </div> -->
+                                                   <!--  </v-col> -->
+                                               <!--  </v-row> -->
                                             </v-col>
-                                            
+                                        
+                                          
                                         </v-row>
+                                        
+                                               
 
                                     </v-col>
                                 </v-row>
+                                 <v-list>
+                                    <v-list-item v-for="(item, index) in classworkDetails.rubrics" :key="index" class="mb-0 pb-0">
+                                        <v-list-item-avatar tile>
+                                            <div class="font-weight-bold">{{item.points}}%</div>
+                                        </v-list-item-avatar>
+                                        <v-list-item-content>
+                                            <v-list-item-title class="font-weight-medium">
+                                                {{item.criteria_name}}
+                                            </v-list-item-title>
+                                            <v-list-item-subtitle>
+                                                {{item.description}}
+                                            </v-list-item-subtitle>
+                                        </v-list-item-content>
+                                           <v-list-item-action style="width:30%" >
+                                                <v-text-field v-model="CheckData.rubrics_score[index].points" type="number" :suffix="'/' +item.points" class="ma-0 pa-0" dense outlined :label="item.criteria_name" >
+                                                </v-text-field>
+                                            </v-list-item-action>
+                                    </v-list-item>
+                                </v-list>
+                                <div class="text-right">
+                                    <v-btn @click="SaveRubricsScore()" small class="primary" dark>
+                                        Save
+                                    </v-btn>
+                                </div>
+
                             </v-card>
 
                              <v-card class="mt-2 " elevation="1" outlined>
@@ -192,10 +246,10 @@
                         
                          <v-container v-if="CheckData.Submitted_Answers != null && CheckData.Submitted_Answers != ''" fluid ma-0 pa-0>
                             <v-card>
-                                <div class="pa-3">
+                               <!--  <div class="pa-3">
                                      <h3 class="font-weight-bold">Document Preview</h3>
                                      <v-divider></v-divider>
-                                </div>
+                                </div> -->
                               
                                 <div style="height:100vh;">
                                     <iframe title="google pdf viewer" id="pdf-iframe" 
@@ -232,7 +286,9 @@ import {mapGetters} from "vuex";
         pdf_path: null,
         isSavingScore: false,
         isCommenting: false,
-        comment: null
+        comment: null,
+        RubricsPoints:[],
+        SaveRubricsData: [],
       }
     },
     computed:{
@@ -258,9 +314,31 @@ import {mapGetters} from "vuex";
                 self.UpdateScore();
             }, 1000);
         },
+        SaveRubricsScore(){
+            let TotalRubics = 0;
+            let TotalPointsInRubrics = 0;
+            let ctr = 0;
+            
+            this.classworkDetails.rubrics.forEach(item => {
+                TotalRubics += item.points;
+                TotalPointsInRubrics += parseInt(this.CheckData.rubrics_score[ctr].points);
+                this.SaveRubricsData.push({
+                    id: item.id,
+                    points: this.RubricsPoints[ctr],
+                })
+                ctr++;
+            });
+
+            let score = (TotalPointsInRubrics / TotalRubics) * this.classworkDetails.points;
+            //alert(score);
+            this.CheckData.points = Math.round(score);
+            this.score = Math.round(this.CheckData.points);
+            this.isSavingScore = !this.isSavingScore;
+            this.UpdateScore();
+        },
         async UpdateScore(){
             if(this.score <= this.classworkDetails.points){
-                axios.put('/api/submission/update-score/'+this.CheckData.id,{score: this.score})
+                axios.put('/api/submission/update-score/'+this.CheckData.id,{score: this.score, data: this.CheckData.rubrics_score})
                 .then(res=>{
                     if(res.status == 200){
                         this.toastSuccess("Score Updated");
@@ -291,6 +369,10 @@ import {mapGetters} from "vuex";
                   }
               })
           },
+          OpenFile(extension, link){
+              console.log(link);
+              this.pdf_path = link;
+          },
          async addComment(details){
               let data = {};
               this.isCommenting = true;
@@ -316,9 +398,12 @@ import {mapGetters} from "vuex";
     },
     created(){
         if(this.CheckData.Submitted_Answers != null && this.CheckData.Submitted_Answers != ''){
-            let path = '/storage/'+this.CheckData.Submitted_Answers[0].link;
-            var host = window.location.protocol + "//" + window.location.host;
-            this.pdf_path = host+ path;
+            let path = this.CheckData.Submitted_Answers[0].link;
+         
+            //var host = window.location.protocol + "//" + window.location.host;
+               //console.log(host)
+            //let viewer ="https://docs.google.com/gview?url=https://path.com/to/your/pdf.pdf&embedded=true";
+            this.pdf_path = path;
         }
          this.$emit('isMounted');
     }
