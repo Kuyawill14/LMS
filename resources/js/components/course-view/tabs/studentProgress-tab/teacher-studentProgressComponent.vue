@@ -69,7 +69,7 @@
                                                 :key="''+i">
                                                 {{  student['id' + main.main_module_id] = main.completed }} /
                                                 {{main.sub_module_length}}
-                                              
+                                             
                                             </td>
                                             <td class="text-center">
                                                 {{student['total_completed'] = getTotalCompleted(getStudentMainModuleProgress(student.id))}}
@@ -79,9 +79,6 @@
                                             <td class="text-center">
                                                 {{student['total_percentage'] = getTotalPercent(getStudentMainModuleProgress(student.id))}}%
                                             </td>
-
-
-
 
 
                                         </tr>
@@ -322,6 +319,9 @@
                         value: 'id' + this.getmain_module[i].id,
                         align: 'center',
                     })
+
+
+                   
 
                 }
                 this.headers.push({
