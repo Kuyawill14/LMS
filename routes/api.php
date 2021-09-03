@@ -74,6 +74,7 @@ Route::middleware('auth:sanctum')->prefix('/class')->group(function () {
     Route::get('/subjectCourseClassList/all/{id}', [ClassController::class, 'subjectCourseClassList']);
     Route::get('/count', [ClassController::class, 'classCount']);
     Route::put('/archive-class/{id}', [ClassController::class, 'ArchiveClass']);
+    Route::delete('/delete/{id}', [ClassController::class, 'deleteClass']);
     
     
 });

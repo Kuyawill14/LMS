@@ -24,6 +24,7 @@ class ClassController extends Controller
         $totalProgress = 0;
         $userId = auth('sanctum')->id();
         $allClass = tbl_userclass::where('user_id',$userId)
+      
         ->select('tbl_userclasses.id as useClass_id',
         'tbl_classes.class_name',
         'tbl_classes.class_code',
@@ -106,6 +107,8 @@ class ClassController extends Controller
     public function subjectCourseClassList($course_id) {
         $userId = auth('sanctum')->id();
         $allClass = tbl_userclass::where('tbl_userclasses.course_id',$course_id)
+        ->whereNull('tbl_userclasses.deleted_at')
+        ->whereNull('tbl_classes.deleted_at')
         ->select('tbl_classes.class_name',
         'tbl_classes.class_code',
         'tbl_subject_courses.course_name',
@@ -224,7 +227,13 @@ class ClassController extends Controller
     }
 
    
-
+    public function deleteClass($class_id){
+        $class = Tbl_class::find($class_id);
+        if($class) {
+            $class->delete();
+            return 'Successfully Deleted';
+        }
+    }
 
     
 
