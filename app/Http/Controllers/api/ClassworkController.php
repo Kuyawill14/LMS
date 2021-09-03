@@ -12,8 +12,11 @@ use App\Models\tbl_userclass;
 use App\Models\tbl_comment;
 use App\Models\tbl_main_gradeCategory;
 use App\Models\tbl_teacher_course;
+use App\Models\tbl_subjective_rubrics;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
+
+
 
 class ClassworkController extends Controller
 {
@@ -43,11 +46,11 @@ class ClassworkController extends Controller
             $classwork = tbl_classwork::where('tbl_classworks.course_id',  $id)
             ->select('tbl_classworks.id', 'tbl_classworks.course_id','tbl_classworks.module_id','tbl_classworks.type',
             'tbl_classworks.title','tbl_classworks.instruction','tbl_classworks.duration','tbl_classworks.points','tbl_classworks.created_at')
-            /* ->selectRaw('count(tbl_submissions.classwork_id ) as submittion_count') */
+            ->selectRaw('count(tbl_submissions.classwork_id ) as submittion_count')
             ->leftJoin('tbl_submissions', 'tbl_submissions.classwork_id', '=','tbl_classworks.id')
             ->orderBy('created_at', 'DESC')
-          /*   ->groupBy('tbl_classworks.id','tbl_classworks.course_id','tbl_classworks.module_id','tbl_classworks.type',
-            'tbl_classworks.title','tbl_classworks.duration','tbl_classworks.points','tbl_classworks.created_at') */
+            ->groupBy('tbl_classworks.id','tbl_classworks.course_id','tbl_classworks.module_id','tbl_classworks.type',
+            'tbl_classworks.title','tbl_classworks.duration','tbl_classworks.points','tbl_classworks.created_at')
             ->where('tbl_classworks.user_id',  $userId)
             ->get();
 
@@ -320,6 +323,8 @@ class ClassworkController extends Controller
       
             $classworkDetails->attachment = $classworkDetails->attachment != null ? unserialize($classworkDetails->attachment) : [];
 
+
+
             if(!$classworkDetails){
                 return response()->json([
                     "message" => "Classwork not found!",
@@ -380,10 +385,10 @@ class ClassworkController extends Controller
                 'totalpoints'=>$points,
                 "success" => true
             ]);
-            //return ['Details'=>$classworkDetails,'ItemsCount'=>$count,'totalpoints'=>$points];
         }
         else if($classworkDetails->type == 'Subjective Type'){
-            //return ['Details'=>$classworkDetails];
+            $rubrics = tbl_subjective_rubrics::where('tbl_subjective_rubrics.classwork_id', $classworkDetails->id)->get();
+            $classworkDetails->rubrics = $rubrics;
             return response()->json([
                 'Details'=>$classworkDetails,
                 "success" => true

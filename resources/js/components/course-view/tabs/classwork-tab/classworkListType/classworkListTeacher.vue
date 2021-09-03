@@ -75,6 +75,7 @@
                         <v-expansion-panels focusable>
                             <v-expansion-panel  class="ma-0 pa-0">
                             <!--  <v-hover v-slot="{ hover }"> -->
+                            
                                 <v-expansion-panel-header  class="pa-5" disable-icon-rotate hide-actions>
                                         <div class="d-flex flex-row justify-space-between">
                                         <div class="d-flex flex-row">

@@ -188,6 +188,33 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var removeAttachment = function removeAttachment() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_tabs_dialogs_removeAttachment_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./dialogs/removeAttachment */ "./resources/js/components/Classwork_View/tabs/dialogs/removeAttachment.vue"));
 };
@@ -261,7 +288,7 @@ var rubrics = function rubrics() {
 
                 _context.next = 13;
                 return axios.post('/api/classwork/update', fd).then(function (res) {
-                  _this.rubricsDialog = rubrics ? true : false;
+                  //this.rubricsDialog= rubrics ? true : false;
                   _this.isUpdating = false, _this.toastSuccess("Classwork successfully updated");
                 })["catch"](function (e) {});
 
@@ -671,87 +698,44 @@ var render = function() {
                                         [
                                           _c(
                                             "v-row",
-                                            {
-                                              attrs: {
-                                                justify: "center",
-                                                align: "center"
-                                              }
-                                            },
                                             [
                                               _c(
                                                 "v-col",
-                                                { attrs: { cols: "10" } },
+                                                { staticClass: "text-left" },
                                                 [
-                                                  _vm.Details.type ==
-                                                  "Subjective Type"
-                                                    ? _c("v-text-field", {
-                                                        attrs: {
-                                                          rules: _vm.FieldRules,
-                                                          outlined: "",
-                                                          min: "0",
-                                                          label: "Points",
-                                                          type: "number"
-                                                        },
-                                                        model: {
-                                                          value:
-                                                            _vm.Details.points,
-                                                          callback: function(
-                                                            $$v
-                                                          ) {
-                                                            _vm.$set(
-                                                              _vm.Details,
-                                                              "points",
-                                                              $$v
-                                                            )
-                                                          },
-                                                          expression:
-                                                            "Details.points"
-                                                        }
-                                                      })
-                                                    : _vm._e()
-                                                ],
-                                                1
+                                                  _c(
+                                                    "div",
+                                                    { staticClass: "text-h5" },
+                                                    [_vm._v("Rubrics")]
+                                                  )
+                                                ]
                                               ),
                                               _vm._v(" "),
                                               _c(
                                                 "v-col",
-                                                {
-                                                  staticStyle: {
-                                                    "margin-top": "-30px",
-                                                    "text-align": "right"
-                                                  },
-                                                  attrs: {
-                                                    cols: "2",
-                                                    clss: "pl-0"
-                                                  }
-                                                },
+                                                { staticClass: "text-right" },
                                                 [
                                                   _c(
                                                     "v-btn",
                                                     {
                                                       attrs: {
                                                         color: "primary",
-                                                        "x-large": "",
                                                         dark: ""
                                                       },
                                                       on: {
                                                         click: function(
                                                           $event
                                                         ) {
-                                                          return _vm.UpdateClasswork(
-                                                            true
-                                                          )
+                                                          _vm.rubricsDialog = true
                                                         }
                                                       }
                                                     },
                                                     [
-                                                      _c(
-                                                        "v-icon",
-                                                        { attrs: { left: "" } },
-                                                        [_vm._v(" mdi-plus ")]
-                                                      ),
+                                                      _c("v-icon", [
+                                                        _vm._v(" mdi-plus ")
+                                                      ]),
                                                       _vm._v(
-                                                        "\n                                                Rubrics\n                                            "
+                                                        "\n                                            Add\n                                        "
                                                       )
                                                     ],
                                                     1
@@ -760,6 +744,77 @@ var render = function() {
                                                 1
                                               )
                                             ],
+                                            1
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "v-list",
+                                            _vm._l(
+                                              _vm.Details.rubrics,
+                                              function(item, index) {
+                                                return _c(
+                                                  "v-list-item",
+                                                  { key: index },
+                                                  [
+                                                    _c(
+                                                      "v-list-item-avatar",
+                                                      { attrs: { tile: "" } },
+                                                      [
+                                                        _c(
+                                                          "div",
+                                                          {
+                                                            staticClass:
+                                                              "font-weight-bold text-h6"
+                                                          },
+                                                          [
+                                                            _vm._v(
+                                                              "\n                                                    " +
+                                                                _vm._s(
+                                                                  item.points
+                                                                ) +
+                                                                "%\n                                                "
+                                                            )
+                                                          ]
+                                                        )
+                                                      ]
+                                                    ),
+                                                    _vm._v(" "),
+                                                    _c(
+                                                      "v-list-item-content",
+                                                      [
+                                                        _c(
+                                                          "v-list-item-title",
+                                                          {
+                                                            staticClass:
+                                                              "font-weight-medium"
+                                                          },
+                                                          [
+                                                            _vm._v(
+                                                              _vm._s(
+                                                                item.criteria_name
+                                                              )
+                                                            )
+                                                          ]
+                                                        ),
+                                                        _vm._v(" "),
+                                                        _c(
+                                                          "v-list-item-subtitle",
+                                                          [
+                                                            _vm._v(
+                                                              _vm._s(
+                                                                item.description
+                                                              )
+                                                            )
+                                                          ]
+                                                        )
+                                                      ],
+                                                      1
+                                                    )
+                                                  ],
+                                                  1
+                                                )
+                                              }
+                                            ),
                                             1
                                           )
                                         ],
@@ -1092,11 +1147,15 @@ var render = function() {
                     [
                       _c("rubrics", {
                         attrs: {
+                          rubrics: _vm.Details.rubrics,
                           total_points: _vm.Details.points,
                           title: _vm.Details.title
                         },
                         on: {
-                          closeModal: function($event) {
+                          CLoseRubricModal: function($event) {
+                            _vm.rubricsDialog = false
+                          },
+                          CriteriaSave: function($event) {
                             _vm.rubricsDialog = false
                           }
                         }

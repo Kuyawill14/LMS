@@ -146,15 +146,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['dialog', 'total_points', 'title'],
+  props: ['dialog', 'total_points', 'title', 'rubrics'],
   data: function data() {
     return {
       isSaved: true,
       loading: false,
       deleteDialog: false,
       rubrics_id: '',
+      deleteIndex: null,
       modal: this.dialog,
-      criteria: null,
+      criteria: this.rubrics,
       num: -999,
       criteria_form: {
         id: '',
@@ -165,8 +166,6 @@ __webpack_require__.r(__webpack_exports__);
       valid: true,
       nameRules: [function (v) {
         return !!v || ' required';
-      }, function (v) {
-        return v && v.length >= 5 || 'must be greater than 5 characters';
       }],
       pointsRules: [function (v) {
         return !!v || 'Points is required';
@@ -194,15 +193,13 @@ __webpack_require__.r(__webpack_exports__);
       axios__WEBPACK_IMPORTED_MODULE_0___default().post("/api/classwork/rubrics-save/".concat(this.$route.query.clwk), {
         rubrics: this.criteria
       }).then(function (res) {
-        console.log(res.data);
+        _this2.resetForm(); //this.fetchAllRubrics();
 
-        _this2.resetForm();
-
-        _this2.fetchAllRubrics();
 
         _this2.loading = false;
 
-        _this2.$refs.form.reset();
+        _this2.$emit('CriteriaSave'); //this.$refs.form.reset()
+
       })["catch"](function (err) {
         console.log(err);
 
@@ -228,13 +225,28 @@ __webpack_require__.r(__webpack_exports__);
         }
       }
     },
-    fetchAllRubrics: function fetchAllRubrics() {
+
+    /*  fetchAllRubrics() {
+         this.loading = true;
+         axios.get(`/api/classwork/rubric/all/${this.$route.query.clwk}`, this.criteria)
+             .then((res) => {
+                 this.criteria = res.data;
+                 this.loading = false;
+             }).catch((err) => {
+                 console.log(err);
+                 this.toastError('Something went wrong');
+                 this.loading = false;
+             })
+     }, */
+    deleteRubrics: function deleteRubrics(rubrics_id) {
       var _this3 = this;
 
       this.loading = true;
-      axios__WEBPACK_IMPORTED_MODULE_0___default().get("/api/classwork/rubric/all/".concat(this.$route.query.clwk), this.criteria).then(function (res) {
-        _this3.criteria = res.data;
+      axios__WEBPACK_IMPORTED_MODULE_0___default().delete("/api/classwork/rubric/delete/".concat(this.$route.query.clwk, "/").concat(this.rubrics_id)).then(function (res) {
         _this3.loading = false;
+        _this3.deleteDialog = false; //this.fetchAllRubrics();
+
+        _this3.criteria.splice(_this3.deleteIndex, 1);
       })["catch"](function (err) {
         console.log(err);
 
@@ -242,28 +254,9 @@ __webpack_require__.r(__webpack_exports__);
 
         _this3.loading = false;
       });
-    },
-    deleteRubrics: function deleteRubrics(rubrics_id) {
-      var _this4 = this;
-
-      this.loading = true;
-      axios__WEBPACK_IMPORTED_MODULE_0___default().delete("/api/classwork/rubric/delete/".concat(this.$route.query.clwk, "/").concat(this.rubrics_id)).then(function (res) {
-        _this4.loading = false;
-        _this4.deleteDialog = false;
-
-        _this4.fetchAllRubrics();
-      })["catch"](function (err) {
-        console.log(err);
-
-        _this4.toastError('Something went wrong');
-
-        _this4.loading = false;
-      });
     }
   },
-  mounted: function mounted() {
-    console.log();
-    this.fetchAllRubrics();
+  mounted: function mounted() {//this.fetchAllRubrics();
   }
 });
 
@@ -444,7 +437,11 @@ var render = function() {
                 "v-btn",
                 {
                   attrs: { icon: "", dark: "" },
-                  on: { click: _vm.closeModal }
+                  on: {
+                    click: function($event) {
+                      return _vm.$emit("CLoseRubricModal")
+                    }
+                  }
                 },
                 [_c("v-icon", [_vm._v("mdi-close")])],
                 1
@@ -471,8 +468,7 @@ var render = function() {
                       attrs: { dark: "", text: "" },
                       on: {
                         click: function($event) {
-                          _vm.saveAllCriteria()
-                          _vm.isSaved = true
+                          return _vm.saveAllCriteria()
                         }
                       }
                     },
@@ -528,8 +524,9 @@ var render = function() {
                                 },
                                 on: {
                                   click: function($event) {
-                                    _vm.deleteDialog = true
-                                    _vm.rubrics_id = item.id
+                                    ;(_vm.deleteDialog = true),
+                                      (_vm.rubrics_id = item.id),
+                                      (_vm.deleteIndex = index)
                                   }
                                 }
                               },
@@ -565,7 +562,7 @@ var render = function() {
                                       attrs: {
                                         outlined: "",
                                         label: "Points",
-                                        type: "text",
+                                        type: "number",
                                         rules: _vm.pointsRules,
                                         required: ""
                                       },

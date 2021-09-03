@@ -5,7 +5,7 @@
 
         <v-form ref="form" v-model="valid" lazy-validation>
             <v-toolbar dark color="primary">
-                <v-btn icon dark @click="closeModal">
+                <v-btn icon dark @click="$emit('CLoseRubricModal')">
                     <v-icon>mdi-close</v-icon>
                 </v-btn>
                 <v-toolbar-title>Rubcris</v-toolbar-title>
@@ -15,7 +15,7 @@
 
                 <v-spacer></v-spacer>
                 <v-toolbar-items>
-                    <v-btn dark text @click="saveAllCriteria(); isSaved = true;">
+                    <v-btn dark text @click="saveAllCriteria()">
                         Save
                     </v-btn>
                 </v-toolbar-items>
@@ -29,7 +29,7 @@
                     <v-col cols="3" v-for="(item, index) in criteria" :key="index">
                         <v-card class="pa-5">
                             <v-btn class="mx-2" fab dark x-small color="red"
-                                @click="deleteDialog = true; rubrics_id = item.id"
+                                @click="deleteDialog = true, rubrics_id = item.id,deleteIndex = index"
                                 style="position: absolute;right: -20px;top: -11px;height:20px !important;width:20px !important;">
                                 <v-icon dark style="font-size: 15px;">
                                     mdi-close
@@ -38,7 +38,7 @@
                             <v-row>
                                 <v-col cols="12" style="margin-bottom: -20px;">
                                     <v-text-field outlined label="Points" class="text-field" v-model="item.points"
-                                        type="text" :rules="pointsRules" required>
+                                        type="number" :rules="pointsRules" required>
                                     </v-text-field>
                                 </v-col>
                                 <v-col cols="12" class="py-0" style="margin-bottom: -20px;">
@@ -132,15 +132,16 @@
 <script>
     import axios from 'axios'
     export default {
-        props: ['dialog', 'total_points', 'title'],
+        props: ['dialog', 'total_points', 'title', 'rubrics'],
         data() {
             return {
                 isSaved: true,
                 loading: false,
                 deleteDialog: false,
                 rubrics_id: '',
+                deleteIndex: null,
                 modal: this.dialog,
-                criteria: null,
+                criteria: this.rubrics,
                 num: -999,
                 criteria_form: {
                     id: '',
@@ -151,7 +152,7 @@
                 valid: true,
                 nameRules: [
                     v => !!v || ' required',
-                    v => (v && v.length >= 5) || 'must be greater than 5 characters',
+
                 ],
                 pointsRules: [
                     v => !!v || 'Points is required'
@@ -163,7 +164,8 @@
         },
         methods: {
             closeModal() {
-                this.saveAllCriteria().then(() => {
+                this.saveAllCriteria()
+                .then(() => {
                     this.$emit('closeModal')
                 });
             },
@@ -180,11 +182,11 @@
                         rubrics: this.criteria
                     })
                     .then((res) => {
-                        console.log(res.data);
                         this.resetForm();
-                        this.fetchAllRubrics();
+                        //this.fetchAllRubrics();
                         this.loading = false;
-                        this.$refs.form.reset()
+                        this.$emit('CriteriaSave');
+                        //this.$refs.form.reset()
                     })
                     .catch((err) => {
                         console.log(err);
@@ -212,7 +214,7 @@
                 }
 
             },
-            fetchAllRubrics() {
+           /*  fetchAllRubrics() {
                 this.loading = true;
                 axios.get(`/api/classwork/rubric/all/${this.$route.query.clwk}`, this.criteria)
                     .then((res) => {
@@ -223,17 +225,16 @@
                         this.toastError('Something went wrong');
                         this.loading = false;
                     })
-            },
+            }, */
             deleteRubrics(rubrics_id) {
-
-
                 this.loading = true;
                 axios.delete(`/api/classwork/rubric/delete/${this.$route.query.clwk}/${this.rubrics_id}`)
                     .then((res) => {
-
+                        
                         this.loading = false;
                         this.deleteDialog = false;
-                        this.fetchAllRubrics();
+                        //this.fetchAllRubrics();
+                        this.criteria.splice(this.deleteIndex, 1);
                     }).catch((err) => {
                         console.log(err);
                         this.toastError('Something went wrong');
@@ -242,8 +243,7 @@
             }
         },
         mounted() {
-            console.log()
-            this.fetchAllRubrics();
+            //this.fetchAllRubrics();
         }
 
     }

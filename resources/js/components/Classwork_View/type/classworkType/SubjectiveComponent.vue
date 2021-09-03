@@ -454,7 +454,21 @@
                                 <v-col cols="12" class="pl-7 pr-5">
                                     <div class="text-sm-body-2"> {{classworkDetails.instruction}}</div>
                                 </v-col>
+                                <v-col cols="12" class=" pb-5 pl-4 pr-4">
+                                  <div  class="overline">Rubrics</div>
+                                  <v-list>
+                                      <v-list-item v-for="(item, index) in classworkDetails.rubrics" :key="index">
+                                          <v-list-item-avatar tile>
+                                              <div class="font-weight-bold">{{item.points}}%</div>
+                                          </v-list-item-avatar>
+                                          <v-list-item-content>
+                                            <v-list-item-title class="font-weight-medium">{{item.criteria_name}}</v-list-item-title>
+                                            <v-list-item-subtitle>{{item.description}}</v-list-item-subtitle>
+                                          </v-list-item-content>
+                                      </v-list-item>
 
+                                  </v-list>
+                                </v-col>
                                  <v-col  cols="12" class=" pb-5 pl-4 pr-4">
                                    <div class="overline">Attachments</div>
                                    <v-list dense class="ma-0 pa-0">

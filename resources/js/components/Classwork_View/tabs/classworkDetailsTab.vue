@@ -59,28 +59,55 @@
 
                                 <v-col v-if="Details.type == 'Subjective Type'" class="mb-0 pb-2 pt-0 mt-0" cols="12">
 
-                                    <v-row justify="center" align="center">
-                                        <v-col cols="10">
+                                    <v-row>
+                                        <v-col class="text-left">
+                                              <div class="text-h5">Rubrics</div>
+                                        </v-col>
+                                        <v-col class="text-right">
+                                            
+                                        <v-btn color="primary"  dark @click="rubricsDialog = true">
+                                            <v-icon > mdi-plus </v-icon>
+                                            Add
+                                        </v-btn>
+                                        </v-col>
+                                    </v-row>
+                                   
+
+
+
+                                    <v-list>
+                                        <v-list-item v-for="(item, index) in Details.rubrics" :key="index">
+                                            <v-list-item-avatar tile>
+                                                <div class="font-weight-bold text-h6">
+                                                    {{item.points}}%
+                                                </div>
+                                                
+                                            </v-list-item-avatar>
+                                            <v-list-item-content>
+                                                <v-list-item-title class="font-weight-medium">{{item.criteria_name}}</v-list-item-title>
+                                                <v-list-item-subtitle>{{item.description}}</v-list-item-subtitle>
+                                            </v-list-item-content>
+                                        </v-list-item>
+                                    </v-list>
+                                   <!--  <v-row justify="center" align="center">
+                                        <v-col cols="11">
+
                                             <v-text-field :rules="FieldRules" v-if="Details.type == 'Subjective Type'"
                                                 outlined min="0" v-model="Details.points" label="Points" type="number">
                                             </v-text-field>
                                         </v-col>
-                                        <v-col cols="2" clss="pl-0" style="margin-top: -30px;text-align:right">
+                                        <v-col cols="1" clss="pl-0" style="margin-top: -30px;text-align:right">
 
-                                            <v-btn color="primary" x-large dark @click="UpdateClasswork(true)">
-                                                <v-icon left> mdi-plus </v-icon>
-                                                Rubrics
+                                            <v-btn color="primary" x-large dark @click="rubricsDialog = true">
+                                                <v-icon > mdi-plus </v-icon>
+                                              
                                             </v-btn>
-
-
                                         </v-col>
-
-                                    </v-row>
-
-
+                                    </v-row> -->
                                 </v-col>
-                                <v-col :class="isUploading ? 'b-0 pb-0 pt-0 mt-0': 'b-0 pb-0 pt-0 mt-0 '" cols="12">
 
+
+                                <v-col :class="isUploading ? 'b-0 pb-0 pt-0 mt-0': 'b-0 pb-0 pt-0 mt-0 '" cols="12">
 
                                     <!-- <v-file-input
                                             @change="onFileChange" 
@@ -160,8 +187,8 @@
             <v-row justify="center">
                 <v-dialog v-model="rubricsDialog" fullscreen hide-overlay transition="dialog-bottom-transition">
 
-                    <rubrics @closeModal="rubricsDialog=false" :total_points="Details.points" :title="Details.title"/>
-
+                    <rubrics :rubrics="Details.rubrics" v-on:CLoseRubricModal="rubricsDialog = false" v-on:CriteriaSave="rubricsDialog = false" 
+                    :total_points="Details.points" :title="Details.title"/>
                 </v-dialog>
             </v-row>
         </v-container>
@@ -228,7 +255,7 @@
 
                 await axios.post('/api/classwork/update', fd)
                     .then(res => {
-                           this.rubricsDialog= rubrics ? true : false;
+                           //this.rubricsDialog= rubrics ? true : false;
                        
                             this.isUpdating = false,
                             this.toastSuccess("Classwork successfully updated")

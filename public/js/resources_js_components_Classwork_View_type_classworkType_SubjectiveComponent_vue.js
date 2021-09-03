@@ -513,6 +513,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var attachlinkDiaglog = function attachlinkDiaglog() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_type_classworkType_attachLinkDialog_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./attachLinkDialog */ "./resources/js/components/Classwork_View/type/classworkType/attachLinkDialog.vue"));
 };
@@ -2512,6 +2526,80 @@ var render = function() {
                                     )
                                   ])
                                 ]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-col",
+                                {
+                                  staticClass: " pb-5 pl-4 pr-4",
+                                  attrs: { cols: "12" }
+                                },
+                                [
+                                  _c("div", { staticClass: "overline" }, [
+                                    _vm._v("Rubrics")
+                                  ]),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-list",
+                                    _vm._l(
+                                      _vm.classworkDetails.rubrics,
+                                      function(item, index) {
+                                        return _c(
+                                          "v-list-item",
+                                          { key: index },
+                                          [
+                                            _c(
+                                              "v-list-item-avatar",
+                                              { attrs: { tile: "" } },
+                                              [
+                                                _c(
+                                                  "div",
+                                                  {
+                                                    staticClass:
+                                                      "font-weight-bold"
+                                                  },
+                                                  [
+                                                    _vm._v(
+                                                      _vm._s(item.points) + "%"
+                                                    )
+                                                  ]
+                                                )
+                                              ]
+                                            ),
+                                            _vm._v(" "),
+                                            _c(
+                                              "v-list-item-content",
+                                              [
+                                                _c(
+                                                  "v-list-item-title",
+                                                  {
+                                                    staticClass:
+                                                      "font-weight-medium"
+                                                  },
+                                                  [
+                                                    _vm._v(
+                                                      _vm._s(item.criteria_name)
+                                                    )
+                                                  ]
+                                                ),
+                                                _vm._v(" "),
+                                                _c("v-list-item-subtitle", [
+                                                  _vm._v(
+                                                    _vm._s(item.description)
+                                                  )
+                                                ])
+                                              ],
+                                              1
+                                            )
+                                          ],
+                                          1
+                                        )
+                                      }
+                                    ),
+                                    1
+                                  )
+                                ],
+                                1
                               ),
                               _vm._v(" "),
                               _c(
