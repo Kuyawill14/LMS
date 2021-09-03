@@ -379,7 +379,7 @@ var render = function() {
                     }
                   }
                 },
-                [_vm._v("\r\n            Cancel\r\n            ")]
+                [_vm._v("\n            Cancel\n            ")]
               ),
               _vm._v(" "),
               _c(
@@ -398,7 +398,7 @@ var render = function() {
                     }
                   }
                 },
-                [_vm._v("\r\n            Add\r\n            ")]
+                [_vm._v("\n            Add\n            ")]
               )
             ],
             1
