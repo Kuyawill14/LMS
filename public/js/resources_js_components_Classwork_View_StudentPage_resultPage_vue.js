@@ -472,7 +472,7 @@ var render = function() {
                                                                 },
                                                                 [
                                                                   _vm._v(
-                                                                    "\r\n                                                    mdi-book-open-variant\r\n                                                    "
+                                                                    "\n                                                    mdi-book-open-variant\n                                                    "
                                                                   )
                                                                 ]
                                                               )
@@ -521,7 +521,7 @@ var render = function() {
                                                     },
                                                     [
                                                       _vm._v(
-                                                        "\r\n                                            Score:\r\n                                        "
+                                                        "\n                                            Score:\n                                        "
                                                       )
                                                     ]
                                                   ),
@@ -542,12 +542,12 @@ var render = function() {
                                                         },
                                                         [
                                                           _vm._v(
-                                                            "\r\n                                                " +
+                                                            "\n                                                " +
                                                               _vm._s(
                                                                 _vm.details
                                                                   .score
                                                               ) +
-                                                              "\r\n                                            "
+                                                              "\n                                            "
                                                           )
                                                         ]
                                                       ),
@@ -573,12 +573,12 @@ var render = function() {
                                                         },
                                                         [
                                                           _vm._v(
-                                                            "\r\n                                                " +
+                                                            "\n                                                " +
                                                               _vm._s(
                                                                 _vm.details
                                                                   .totalPoints
                                                               ) +
-                                                              "\r\n                                            "
+                                                              "\n                                            "
                                                           )
                                                         ]
                                                       )
@@ -626,7 +626,7 @@ var render = function() {
                                                     },
                                                     [
                                                       _vm._v(
-                                                        "\r\n                                            View Submission\r\n                                        "
+                                                        "\n                                            View Submission\n                                        "
                                                       )
                                                     ]
                                                   )

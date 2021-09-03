@@ -76,7 +76,7 @@ var render = function() {
         { staticClass: "pa-2" },
         [
           _c("v-card-title", { staticClass: "text-h5 mb-3" }, [
-            _vm._v("\r\n          Remove Attachment\r\n        ")
+            _vm._v("\n          Remove Attachment\n        ")
           ]),
           _vm._v(" "),
           _c("v-card-text", { staticClass: "font-weight-bold" }, [
@@ -88,7 +88,7 @@ var render = function() {
               },
               [
                 _vm._v(
-                  "\r\n                 Are you sure to remove this file attachment?\r\n             "
+                  "\n                 Are you sure to remove this file attachment?\n             "
                 )
               ]
             )
@@ -109,7 +109,7 @@ var render = function() {
                     }
                   }
                 },
-                [_vm._v("\r\n            Cancel\r\n          ")]
+                [_vm._v("\n            Cancel\n          ")]
               ),
               _vm._v(" "),
               _c(
@@ -122,7 +122,7 @@ var render = function() {
                     }
                   }
                 },
-                [_vm._v("\r\n            Confirm\r\n          ")]
+                [_vm._v("\n            Confirm\n          ")]
               )
             ],
             1
