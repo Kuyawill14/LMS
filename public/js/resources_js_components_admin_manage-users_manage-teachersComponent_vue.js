@@ -563,7 +563,7 @@ var render = function() {
     "div",
     { staticClass: "pt-4" },
     [
-      _c("h2", [_vm._v("\n         Manage Instructors\n     ")]),
+      _c("h2", [_vm._v("\n        Manage Instructors\n    ")]),
       _vm._v(" "),
       _c(
         "v-btn",
@@ -601,7 +601,7 @@ var render = function() {
                     "v-card-title",
                     [
                       _vm._v(
-                        "\n                     Instructors\n\n                     "
+                        "\n                    Instructors\n\n                    "
                       ),
                       _c("v-spacer"),
                       _vm._v(" "),
@@ -694,7 +694,7 @@ var render = function() {
                                           },
                                           [
                                             _vm._v(
-                                              "\n                                         " +
+                                              "\n                                        " +
                                                 _vm._s(
                                                   _vm.IsResetting &&
                                                     _vm.IsResetting_id ==
@@ -702,7 +702,7 @@ var render = function() {
                                                     ? "Reseting..."
                                                     : " Reset Password"
                                                 ) +
-                                                "\n                                     "
+                                                "\n                                    "
                                             )
                                           ]
                                         )
@@ -731,7 +731,7 @@ var render = function() {
                                           [
                                             _c("v-icon", [
                                               _vm._v(
-                                                "\n                                             mdi-pencil\n                                         "
+                                                "\n                                            mdi-pencil\n                                        "
                                               )
                                             ])
                                           ],
@@ -754,7 +754,7 @@ var render = function() {
                                           [
                                             _c("v-icon", [
                                               _vm._v(
-                                                "\n                                             mdi-delete\n                                         "
+                                                "\n                                            mdi-delete\n                                        "
                                               )
                                             ])
                                           ],
@@ -814,11 +814,11 @@ var render = function() {
             [
               _c("v-card-title", {}, [
                 _vm._v(
-                  "\n                 " +
+                  "\n                " +
                     _vm._s(
                       this.type == "add" ? "Add Teacher" : "Update Teacher"
                     ) +
-                    "\n             "
+                    "\n            "
                 )
               ]),
               _vm._v(" "),
@@ -1076,7 +1076,7 @@ var render = function() {
                     },
                     [
                       _vm._v(
-                        "\n                     " +
+                        "\n                    " +
                           _vm._s(this.type == "add" ? "Add" : "Update")
                       )
                     ]
@@ -1109,7 +1109,7 @@ var render = function() {
             [
               _c("v-card-title", { staticClass: "headline" }, [
                 _vm._v(
-                  "\n                 Are you sure you want to delete this?\n             "
+                  "\n                Are you sure you want to delete this?\n            "
                 )
               ]),
               _vm._v(" "),
@@ -1129,7 +1129,7 @@ var render = function() {
                         }
                       }
                     },
-                    [_vm._v("\n                     No\n                 ")]
+                    [_vm._v("\n                    No\n                ")]
                   ),
                   _vm._v(" "),
                   _c(
@@ -1146,7 +1146,7 @@ var render = function() {
                         }
                       }
                     },
-                    [_vm._v("\n                     Yes\n                 ")]
+                    [_vm._v("\n                    Yes\n                ")]
                   )
                 ],
                 1
