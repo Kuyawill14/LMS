@@ -127,6 +127,8 @@ class TeacherProfileController extends Controller
             $allCourses = tbl_subject_course::select('tbl_subject_courses.course_name',
             'tbl_subject_courses.course_code',
             'tbl_subject_courses.id as course_id',
+            'tbl_subject_courses.school_year_id',
+            'tbl_subject_courses.semester_id'
             )
             ->selectRaw($class_count)
             ->selectRaw($classwork_count)

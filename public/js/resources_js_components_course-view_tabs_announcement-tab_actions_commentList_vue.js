@@ -461,9 +461,9 @@ var render = function() {
                 1
               ),
               _vm._v(
-                "\n            " +
+                "\r\n            " +
                   _vm._s(_vm.postDetails.liked ? "" : "like") +
-                  "\n        "
+                  "\r\n        "
               )
             ],
             1

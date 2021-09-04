@@ -349,7 +349,7 @@ var render = function() {
             [
               _c("v-list-item-title", [
                 _vm._v(
-                  "\n                    Back to My Course\n                "
+                  "\r\n                    Back to My Course\r\n                "
                 )
               ])
             ],
@@ -392,7 +392,7 @@ var render = function() {
                               { staticClass: "font-weight-medium" },
                               [
                                 _vm._v(
-                                  "\n                        Classes\n                    "
+                                  "\r\n                        Classes\r\n                    "
                                 )
                               ]
                             )
@@ -424,7 +424,7 @@ var render = function() {
                           { staticClass: "font-weight-medium" },
                           [
                             _vm._v(
-                              "\n                        Announcement\n                    "
+                              "\r\n                        Announcement\r\n                    "
                             )
                           ]
                         )
@@ -452,7 +452,7 @@ var render = function() {
                           "v-list-item-title",
                           { staticClass: "font-weight-medium" },
                           [
-                            _vm._v("\n                        Classwork"),
+                            _vm._v("\r\n                        Classwork"),
                             _c("br"),
                             _vm._v(" "),
                             _c(
@@ -490,7 +490,7 @@ var render = function() {
                               { staticClass: "font-weight-medium" },
                               [
                                 _vm._v(
-                                  "\n                        Modules\n                    "
+                                  "\r\n                        Modules\r\n                    "
                                 )
                               ]
                             )
@@ -527,7 +527,7 @@ var render = function() {
                               { staticClass: "font-weight-medium" },
                               [
                                 _vm._v(
-                                  "\n                        Student's Progress\n                    "
+                                  "\r\n                        Student's Progress\r\n                    "
                                 )
                               ]
                             )
@@ -564,7 +564,7 @@ var render = function() {
                               { staticClass: "font-weight-medium" },
                               [
                                 _vm._v(
-                                  "\n                        Modules\n                    "
+                                  "\r\n                        Modules\r\n                    "
                                 )
                               ]
                             )
@@ -601,7 +601,7 @@ var render = function() {
                               { staticClass: "font-weight-medium" },
                               [
                                 _vm._v(
-                                  "\n                        My Progress\n                    "
+                                  "\r\n                        My Progress\r\n                    "
                                 )
                               ]
                             )
@@ -638,7 +638,7 @@ var render = function() {
                               { staticClass: "font-weight-medium" },
                               [
                                 _vm._v(
-                                  "\n                        My Grades\n                    "
+                                  "\r\n                        My Grades\r\n                    "
                                 )
                               ]
                             )
@@ -669,7 +669,7 @@ var render = function() {
                           "v-list-item-title",
                           { staticClass: "font-weight-medium" },
                           [
-                            _vm._v("\n                        People"),
+                            _vm._v("\r\n                        People"),
                             _c("br"),
                             _vm._v(" "),
                             _c(
@@ -711,7 +711,7 @@ var render = function() {
                               { staticClass: "font-weight-medium" },
                               [
                                 _vm._v(
-                                  "\n                        Grade Book\n                    "
+                                  "\r\n                        Grade Book\r\n                    "
                                 )
                               ]
                             )
@@ -739,7 +739,7 @@ var render = function() {
                           [
                             _c("v-icon", [
                               _vm._v(
-                                "mdi-chart-timeline-variant-shimmer\n                    "
+                                "mdi-chart-timeline-variant-shimmer\r\n                    "
                               )
                             ])
                           ],
@@ -754,7 +754,7 @@ var render = function() {
                               { staticClass: "font-weight-medium" },
                               [
                                 _vm._v(
-                                  "\n                        Grading Criteria\n                    "
+                                  "\r\n                        Grading Criteria\r\n                    "
                                 )
                               ]
                             )
@@ -784,7 +784,7 @@ var render = function() {
                           { staticClass: "font-weight-medium" },
                           [
                             _vm._v(
-                              "\n                        About\n                    "
+                              "\r\n                        About\r\n                    "
                             )
                           ]
                         )
@@ -816,7 +816,7 @@ var render = function() {
                               { staticClass: "font-weight-medium" },
                               [
                                 _vm._v(
-                                  "\n                        Settings\n                    "
+                                  "\r\n                        Settings\r\n                    "
                                 )
                               ]
                             )

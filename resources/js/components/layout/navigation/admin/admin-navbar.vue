@@ -75,7 +75,7 @@
                 </v-list-item-content>
             </v-list-item>
 
-
+<!-- 
             <v-list-item link  :to="{name: 'department'}" exact>
                 <v-list-item-action>
                     <v-icon>mdi-account-group</v-icon>
@@ -85,7 +85,7 @@
                         Department
                     </v-list-item-title>
                 </v-list-item-content>
-            </v-list-item>
+            </v-list-item> -->
 
         </template>
     </v-list>

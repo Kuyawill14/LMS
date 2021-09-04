@@ -456,9 +456,9 @@ var render = function() {
               "span",
               { staticClass: "text-h6" },
               [
-                _vm._v("Notifications \n        "),
+                _vm._v("Notifications \r\n        "),
                 _c("v-icon", { attrs: { right: "" } }, [
-                  _vm._v("\n            mdi-bell\n        ")
+                  _vm._v("\r\n            mdi-bell\r\n        ")
                 ])
               ],
               1
@@ -529,19 +529,19 @@ var render = function() {
                                 },
                                 [
                                   _vm._v(
-                                    "\n                 mdi-bell\n                "
+                                    "\r\n                 mdi-bell\r\n                "
                                   )
                                 ]
                               ),
                               _vm._v(
-                                "\n                " +
+                                "\r\n                " +
                                   _vm._s(
                                     !_vm.$vuetify.breakpoint.xs &&
                                       !_vm.$vuetify.breakpoint.sm
                                       ? "All"
                                       : ""
                                   ) +
-                                  "\n                \n            "
+                                  "\r\n                \r\n            "
                               )
                             ],
                             1
@@ -575,19 +575,19 @@ var render = function() {
                                 },
                                 [
                                   _vm._v(
-                                    "\n                mdi-bullhorn-outline\n              "
+                                    "\r\n                mdi-bullhorn-outline\r\n              "
                                   )
                                 ]
                               ),
                               _vm._v(
-                                "\n              \n              " +
+                                "\r\n              \r\n              " +
                                   _vm._s(
                                     !_vm.$vuetify.breakpoint.xs &&
                                       !_vm.$vuetify.breakpoint.sm
                                       ? "Announcement"
                                       : ""
                                   ) +
-                                  "\n            "
+                                  "\r\n            "
                               )
                             ],
                             1
@@ -621,19 +621,19 @@ var render = function() {
                                 },
                                 [
                                   _vm._v(
-                                    "\n                mdi-book-open-variant\n              "
+                                    "\r\n                mdi-book-open-variant\r\n              "
                                   )
                                 ]
                               ),
                               _vm._v(
-                                "\n              \n              " +
+                                "\r\n              \r\n              " +
                                   _vm._s(
                                     !_vm.$vuetify.breakpoint.xs &&
                                       !_vm.$vuetify.breakpoint.sm
                                       ? "Classwork"
                                       : ""
                                   ) +
-                                  "\n            "
+                                  "\r\n            "
                               )
                             ],
                             1
@@ -667,19 +667,19 @@ var render = function() {
                                 },
                                 [
                                   _vm._v(
-                                    "\n                mdi-eye-off\n              "
+                                    "\r\n                mdi-eye-off\r\n              "
                                   )
                                 ]
                               ),
                               _vm._v(
-                                "\n              " +
+                                "\r\n              " +
                                   _vm._s(
                                     !_vm.$vuetify.breakpoint.xs &&
                                       !_vm.$vuetify.breakpoint.sm
                                       ? "Hidden"
                                       : ""
                                   ) +
-                                  "\n            "
+                                  "\r\n            "
                               )
                             ],
                             1
@@ -723,7 +723,7 @@ var render = function() {
                                             },
                                             [
                                               _vm._v(
-                                                "\n                                    Loading\n                                "
+                                                "\r\n                                    Loading\r\n                                "
                                               )
                                             ]
                                           ),
@@ -802,7 +802,7 @@ var render = function() {
                                                       },
                                                       [
                                                         _vm._v(
-                                                          "\n                                Mark all as read\n                                "
+                                                          "\r\n                                Mark all as read\r\n                                "
                                                         ),
                                                         _c(
                                                           "v-icon",
@@ -858,7 +858,7 @@ var render = function() {
                                                         },
                                                         [
                                                           _vm._v(
-                                                            "\n                                        mdi-bell-off\n                                    "
+                                                            "\r\n                                        mdi-bell-off\r\n                                    "
                                                           )
                                                         ]
                                                       ),
@@ -998,9 +998,9 @@ var render = function() {
                                                   },
                                                   [
                                                     _vm._v(
-                                                      "\n                                " +
+                                                      "\r\n                                " +
                                                         _vm._s(item.name) +
-                                                        "   \n                                "
+                                                        "   \r\n                                "
                                                     )
                                                   ]
                                                 )
@@ -1013,9 +1013,9 @@ var render = function() {
                                               { staticClass: "body-2" },
                                               [
                                                 _vm._v(
-                                                  "\n                                " +
+                                                  "\r\n                                " +
                                                     _vm._s(item.message) +
-                                                    "\n                                 "
+                                                    "\r\n                                 "
                                                 ),
                                                 item.notification_type == 3 &&
                                                 item.notification_accepted == 0
@@ -1042,7 +1042,7 @@ var render = function() {
                                                       },
                                                       [
                                                         _vm._v(
-                                                          "\n                                Accept invite"
+                                                          "\r\n                                Accept invite"
                                                         )
                                                       ]
                                                     )

@@ -113,7 +113,7 @@ var render = function() {
                                 [
                                   _c("v-icon", { attrs: { "x-large": "" } }, [
                                     _vm._v(
-                                      "\n                            mdi-lock\n                            "
+                                      "\r\n                            mdi-lock\r\n                            "
                                     )
                                   ])
                                 ],
@@ -129,7 +129,7 @@ var render = function() {
                       _c("v-col", { attrs: { cols: "12" } }, [
                         _c("div", { staticClass: "h1" }, [
                           _vm._v(
-                            "\n                                Classwork is Lock!\n                            "
+                            "\r\n                                Classwork is Lock!\r\n                            "
                           )
                         ])
                       ])

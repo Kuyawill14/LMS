@@ -1,10 +1,7 @@
 <template>
     <div>
         <v-overlay :value="isLeaving">
-            <v-progress-circular
-                indeterminate
-                size="64"
-            ></v-progress-circular>
+            <v-progress-circular indeterminate size="64"></v-progress-circular>
 
         </v-overlay>
         <v-dialog v-model="Archivedialog" persistent max-width="400">
@@ -20,7 +17,8 @@
                 </v-icon>
 
                 <h1> Create your first Course </h1>
-                <p> Creating Course, you'll be able to Create Classes, manage Learning Materials, Create Quiz and Assignment and etc. </p>
+                <p> Creating Course, you'll be able to Create Classes, manage Learning Materials, Create Quiz and
+                    Assignment and etc. </p>
                 <v-btn color="primary" @click="openAddmodal()"> CREATE COURSE </v-btn>
             </v-col>
         </v-row>
@@ -43,7 +41,7 @@
 
         <v-dialog v-model="dialog" width="400px">
             <v-card>
-                 <vue-element-loading :active="isloading" spinner="bar-fade-scale" />
+                <vue-element-loading :active="isloading" spinner="bar-fade-scale" />
                 <v-card-title class="">
                     {{modalType == 'add' ? 'Create Course' : 'Edit Course'}}
                 </v-card-title>
@@ -63,7 +61,8 @@
                 <v-card-actions>
                     <v-spacer></v-spacer>
                     <v-btn text color="secondary" @click="dialog = false">Cancel</v-btn>
-                    <v-btn text :disabled="isloading" color="primary" @click="modalType == 'add' ? createCourse() : updateCourse()">
+                    <v-btn text :disabled="isloading" color="primary"
+                        @click="modalType == 'add' ? createCourse() : updateCourse()">
                         {{isloading ? 'Saving...' : 'Save'}}</v-btn>
                 </v-card-actions>
             </v-card>
@@ -77,14 +76,22 @@
                 <v-col>
                     <h2>My Courses</h2>
                 </v-col>
+                <v-col lg="1" class="text-right mt-1">
+                    <v-btn icon @click="fetchCourses" v-if="school_year_id != 0 || semester_id !=0 ">
+                        <v-icon>
+                            mdi-close
+                        </v-icon>
+                    </v-btn>
+                </v-col>
                 <v-col lg="2" class="text-right">
                     <v-select class="mr-2 my-0" dense :items="school_year" item-text="schoolyear" item-value="id"
                         label="School Year" v-model="school_year_id" outlined small @change=" schoolYearFilter()">
                     </v-select>
                 </v-col>
                 <v-col class="text-right" lg="2">
-                    <v-select class="mr-2 my-0" dense :items="semester" item-text="semester" item-value="id" label="Semester"
-                        v-model="semester_id" outlined small @change="semesterFilter()"></v-select>
+                    <v-select class="mr-2 my-0" dense :items="semester" item-text="semester" item-value="id"
+                        label="Semester" v-model="semester_id" outlined small @change="semesterFilter()"
+                        :disabled="school_year_id == 0"></v-select>
 
 
                 </v-col>
@@ -93,34 +100,36 @@
                 <v-col lg="3" md="6" v-for="(item, i) in allCoursesData" :key="'course'+i">
                     <div class="card-expansion">
                         <v-card class="mx-auto">
-                            <v-img :src="'../images/'+item.course_picture" height="200px">
-                                <v-spacer></v-spacer>
-                                <v-menu transition="slide-y-transition" bottom>
-                                    <template v-slot:activator="{ on, attrs }">
-                                        <v-btn icon v-bind="attrs" v-on="on" class="float-right" color="white">
-                                            <v-icon>
-                                                mdi-dots-vertical
-                                            </v-icon>
+                            <router-link :to="{name: 'coursePage', params: {id: item.id}}">
+                                <v-img :src="'../images/'+item.course_picture" height="200px" link
+                                  >
+                                    <v-spacer></v-spacer>
+                                    <v-menu transition="slide-y-transition" bottom>
+                                        <template v-slot:activator="{ on, attrs }">
+                                            <v-btn icon v-bind="attrs" v-on="on" class="float-right" color="white">
+                                                <v-icon>
+                                                    mdi-dots-vertical
+                                                </v-icon>
 
-                                        </v-btn>
-                                    </template>
-                                    <v-list>
-                                        <v-list-item link :to="{name: 'settings', params: {id: item.id}}">
-                                            <v-list-item-title>Edit</v-list-item-title>
+                                            </v-btn>
+                                        </template>
+                                        <v-list>
+                                            <v-list-item link :to="{name: 'settings', params: {id: item.id}}">
+                                                <v-list-item-title>Edit</v-list-item-title>
 
-                                        </v-list-item>
-                                        <v-list-item link @click="archiveConfirm(item.course_name,item.id)">
-                                            <v-list-item-title>Archive</v-list-item-title>
+                                            </v-list-item>
+                                            <v-list-item link @click="archiveConfirm(item.course_name,item.id)">
+                                                <v-list-item-title>Archive</v-list-item-title>
 
-                                        </v-list-item>
-                                        <v-list-item v-if="item.student_count == 0" link>
-                                            <v-list-item-title>Delete</v-list-item-title>
+                                            </v-list-item>
+                                            <v-list-item v-if="item.student_count == 0" link>
+                                                <v-list-item-title>Delete</v-list-item-title>
 
-                                        </v-list-item>
-                                    </v-list>
-                                </v-menu>
-                            </v-img>
-
+                                            </v-list-item>
+                                        </v-list>
+                                    </v-menu>
+                                </v-img>
+                            </router-link>
                             <v-card-subtitle>
                                 <router-link :to="{name: 'coursePage', params: {id: item.id}}"
                                     style="text-decoration: none">
@@ -129,7 +138,7 @@
                                     </p>
                                 </router-link>
                                 <hr>
-                                {{item.student_count+' enrolled'}} <br>
+                                {{item.student_count+' students'}} <br>
                                 {{item.class_count+' class'}}
                             </v-card-subtitle>
 
@@ -143,7 +152,7 @@
         </div>
 
 
-      
+
     </div>
 
 
@@ -166,8 +175,8 @@
             return {
                 school_year: [],
                 semester: [],
-                school_year_id: '',
-                semester_id: '',
+                school_year_id: 0,
+                semester_id: 0,
                 coursesLength: null,
                 isGetting: false,
                 dialog: false,
@@ -187,7 +196,7 @@
                 ArchiveDetails: {},
                 allCoursesData: [],
                 isLeaving: false,
-     
+
             }
         },
         computed: mapGetters(['allCourse']),
@@ -246,9 +255,11 @@
 
                     });
                 }
-                
+
             },
             fetchCourses() {
+                this.school_year_id = 0;
+                this.semester_id = 0;
                 this.isGetting = true;
                 this.$store.dispatch('fetchCourseList').then(() => {
                     this.allCoursesData = this.allCourse;
@@ -273,9 +284,9 @@
                             data.push(this.allCourse[key]);
                         }
                     } else {
-                         if (this.allCourse[key].school_year_id == this.school_year_id ) {
+                        if (this.allCourse[key].school_year_id == this.school_year_id) {
                             data.push(this.allCourse[key]);
-                        } 
+                        }
                     }
 
                 }

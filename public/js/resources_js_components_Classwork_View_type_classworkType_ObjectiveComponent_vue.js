@@ -563,7 +563,7 @@ var render = function() {
                                 _vm._v("mdi-comment")
                               ]),
                               _vm._v(
-                                "Private Comments\n                        "
+                                "Private Comments\r\n                        "
                               )
                             ],
                             1
@@ -908,7 +908,7 @@ var render = function() {
                                 [
                                   _c("v-icon", { attrs: { "x-large": "" } }, [
                                     _vm._v(
-                                      "\n                        mdi-book-open-variant\n                        "
+                                      "\r\n                        mdi-book-open-variant\r\n                        "
                                     )
                                   ])
                                 ],
@@ -1070,13 +1070,13 @@ var render = function() {
                                         },
                                         [
                                           _vm._v(
-                                            "\n                                        " +
+                                            "\r\n                                        " +
                                               _vm._s(
                                                 item.extension == "docx"
                                                   ? "mdi-file-word"
                                                   : "mdi-file-pdf"
                                               ) +
-                                              "\n                                        "
+                                              "\r\n                                        "
                                           )
                                         ]
                                       )

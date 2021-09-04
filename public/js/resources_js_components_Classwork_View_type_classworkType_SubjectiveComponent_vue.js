@@ -1152,7 +1152,7 @@ var render = function() {
                     },
                     [
                       _vm._v(
-                        "\n                    Confirm\n                  "
+                        "\r\n                    Confirm\r\n                  "
                       )
                     ]
                   )
@@ -1297,11 +1297,11 @@ var render = function() {
                                 },
                                 [
                                   _vm._v(
-                                    "\n                         Graded: " +
+                                    "\r\n                         Graded: " +
                                       _vm._s(_vm.StatusDetails.score) +
                                       " /" +
                                       _vm._s(_vm.StatusDetails.totalPoints) +
-                                      "\n                        "
+                                      "\r\n                        "
                                   )
                                 ]
                               )
@@ -1345,7 +1345,7 @@ var render = function() {
                                             },
                                             [
                                               _vm._v(
-                                                "\n                                Loading\n                            "
+                                                "\r\n                                Loading\r\n                            "
                                               )
                                             ]
                                           ),
@@ -1473,7 +1473,7 @@ var render = function() {
                                                                 },
                                                                 [
                                                                   _vm._v(
-                                                                    "\n                                                " +
+                                                                    "\r\n                                                " +
                                                                       _vm._s(
                                                                         item.fileExte ==
                                                                           "pdf"
@@ -1493,7 +1493,7 @@ var render = function() {
                                                                           ? "mdi-folder-multiple-image"
                                                                           : ""
                                                                       ) +
-                                                                      "\n                                              "
+                                                                      "\r\n                                              "
                                                                   )
                                                                 ]
                                                               )
@@ -1519,11 +1519,11 @@ var render = function() {
                                                                 "v-list-item-title",
                                                                 [
                                                                   _vm._v(
-                                                                    "\n                                                    " +
+                                                                    "\r\n                                                    " +
                                                                       _vm._s(
                                                                         item.fileName
                                                                       ) +
-                                                                      "\n                                                "
+                                                                      "\r\n                                                "
                                                                   )
                                                                 ]
                                                               ),
@@ -1733,7 +1733,7 @@ var render = function() {
                                                                   },
                                                                   [
                                                                     _vm._v(
-                                                                      "\n                                                " +
+                                                                      "\r\n                                                " +
                                                                         _vm._s(
                                                                           item.fileExte ==
                                                                             "pdf"
@@ -1753,7 +1753,7 @@ var render = function() {
                                                                             ? "mdi-folder-multiple-image"
                                                                             : ""
                                                                         ) +
-                                                                        "\n                                              "
+                                                                        "\r\n                                              "
                                                                     )
                                                                   ]
                                                                 )
@@ -1779,11 +1779,11 @@ var render = function() {
                                                                   "v-list-item-title",
                                                                   [
                                                                     _vm._v(
-                                                                      "\n                                                    " +
+                                                                      "\r\n                                                    " +
                                                                         _vm._s(
                                                                           item.name
                                                                         ) +
-                                                                        "\n                                                "
+                                                                        "\r\n                                                "
                                                                     )
                                                                   ]
                                                                 )
@@ -1958,11 +1958,11 @@ var render = function() {
                                                       ),
                                                       [
                                                         _vm._v(
-                                                          "\n                                  " +
+                                                          "\r\n                                  " +
                                                             _vm._s(
                                                               attrs.expanded
                                                             ) +
-                                                            "\n                                    Add "
+                                                            "\r\n                                    Add "
                                                         ),
                                                         _c(
                                                           "v-icon",
@@ -1980,7 +1980,7 @@ var render = function() {
                                             ],
                                             null,
                                             false,
-                                            2745953415
+                                            857056327
                                           )
                                         },
                                         [
@@ -2014,7 +2014,7 @@ var render = function() {
                                                     ]
                                                   ),
                                                   _vm._v(
-                                                    " Upload File\n                                  "
+                                                    " Upload File\r\n                                  "
                                                   )
                                                 ],
                                                 1
@@ -2037,7 +2037,7 @@ var render = function() {
                                                     [_vm._v("mdi-link-variant")]
                                                   ),
                                                   _vm._v(
-                                                    "Attach Link\n                                  "
+                                                    "Attach Link\r\n                                  "
                                                   )
                                                 ],
                                                 1
@@ -2091,7 +2091,7 @@ var render = function() {
                                           )
                                         : _vm._e(),
                                       _vm._v(
-                                        "\n                                " +
+                                        "\r\n                                " +
                                           _vm._s(
                                             _vm.StatusDetails.status ==
                                               "Submitted" && !_vm.isResubmit
@@ -2130,7 +2130,7 @@ var render = function() {
                       _c("v-icon", { attrs: { left: "" } }, [
                         _vm._v("mdi-comment")
                       ]),
-                      _vm._v("Private Comments\n            ")
+                      _vm._v("Private Comments\r\n            ")
                     ],
                     1
                   ),
@@ -2424,7 +2424,7 @@ var render = function() {
                                         [
                                           _c("v-icon", [
                                             _vm._v(
-                                              "\n                                    mdi-book-open-variant\n                                    "
+                                              "\r\n                                    mdi-book-open-variant\r\n                                    "
                                             )
                                           ])
                                         ],
@@ -2655,14 +2655,14 @@ var render = function() {
                                                   },
                                                   [
                                                     _vm._v(
-                                                      "\n                                                    " +
+                                                      "\r\n                                                    " +
                                                         _vm._s(
                                                           item.extension ==
                                                             "docx"
                                                             ? "mdi-file-word"
                                                             : "mdi-file-pdf"
                                                         ) +
-                                                        "\n                                                    "
+                                                        "\r\n                                                    "
                                                     )
                                                   ]
                                                 )

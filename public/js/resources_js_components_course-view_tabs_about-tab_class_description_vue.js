@@ -134,7 +134,7 @@ var render = function() {
     "v-card",
     { attrs: { "min-height": "177" } },
     [
-      _c("v-card-title", [_vm._v("\n          ABOUT THIS COURSE\n    ")]),
+      _c("v-card-title", [_vm._v("\r\n          ABOUT THIS COURSE\r\n    ")]),
       _vm._v(" "),
       _c("v-card-text", [
         _c("div", {

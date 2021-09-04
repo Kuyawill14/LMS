@@ -3031,7 +3031,6 @@ _utils_hooks__WEBPACK_IMPORTED_MODULE_4__.hooks.langData = (0,_utils_deprecate__
 
 
 
-
 /***/ }),
 
 /***/ "./node_modules/moment/src/lib/locale/locales.js":
@@ -3181,9 +3180,9 @@ function defineLocale(name, config) {
             (0,_utils_deprecate__WEBPACK_IMPORTED_MODULE_2__.deprecateSimple)(
                 'defineLocaleOverride',
                 'use moment.updateLocale(localeName, config) to change ' +
-                    'an existing locale. moment.defineLocale(localeName, ' +
-                    'config) should only be used for creating a new locale ' +
-                    'See http://momentjs.com/guides/#/warnings/define-locale/ for more info.'
+                'an existing locale. moment.defineLocale(localeName, ' +
+                'config) should only be used for creating a new locale ' +
+                'See http://momentjs.com/guides/#/warnings/define-locale/ for more info.'
             );
             parentConfig = locales[name]._config;
         } else if (config.parentLocale != null) {
@@ -3208,7 +3207,7 @@ function defineLocale(name, config) {
         locales[name] = new _constructor__WEBPACK_IMPORTED_MODULE_4__.Locale((0,_set__WEBPACK_IMPORTED_MODULE_3__.mergeConfigs)(parentConfig, config));
 
         if (localeFamilies[name]) {
-            localeFamilies[name].forEach(function (x) {
+            localeFamilies[name].forEach(function(x) {
                 defineLocale(x.name, x.config);
             });
         }
@@ -3298,7 +3297,6 @@ function getLocale(key) {
 function listLocales() {
     return (0,_utils_keys__WEBPACK_IMPORTED_MODULE_5__.default)(locales);
 }
-
 
 /***/ }),
 
@@ -8815,9 +8813,9 @@ var render = function() {
               "span",
               { staticClass: "text-h6" },
               [
-                _vm._v("Invites \n        "),
+                _vm._v("Invites \r\n        "),
                 _c("v-icon", { attrs: { right: "" } }, [
-                  _vm._v("\n            mdi-account-plus\n        ")
+                  _vm._v("\r\n            mdi-account-plus\r\n        ")
                 ])
               ],
               1
@@ -8881,19 +8879,19 @@ var render = function() {
                                 },
                                 [
                                   _vm._v(
-                                    "\n                 mdi-bell\n                "
+                                    "\r\n                 mdi-bell\r\n                "
                                   )
                                 ]
                               ),
                               _vm._v(
-                                "\n                " +
+                                "\r\n                " +
                                   _vm._s(
                                     !_vm.$vuetify.breakpoint.xs &&
                                       !_vm.$vuetify.breakpoint.sm
                                       ? "Invite"
                                       : ""
                                   ) +
-                                  "\n                \n            "
+                                  "\r\n                \r\n            "
                               )
                             ],
                             1
@@ -8920,19 +8918,19 @@ var render = function() {
                                 },
                                 [
                                   _vm._v(
-                                    "\n                 mdi-bell\n                "
+                                    "\r\n                 mdi-bell\r\n                "
                                   )
                                 ]
                               ),
                               _vm._v(
-                                "\n                " +
+                                "\r\n                " +
                                   _vm._s(
                                     !_vm.$vuetify.breakpoint.xs &&
                                       !_vm.$vuetify.breakpoint.sm
                                       ? "Request"
                                       : ""
                                   ) +
-                                  "\n            "
+                                  "\r\n            "
                               )
                             ],
                             1
@@ -8985,7 +8983,7 @@ var render = function() {
                                                   },
                                                   [
                                                     _vm._v(
-                                                      "\n                                        mdi-bell-off\n                                    "
+                                                      "\r\n                                        mdi-bell-off\r\n                                    "
                                                     )
                                                   ]
                                                 ),
@@ -9057,9 +9055,9 @@ var render = function() {
                                             },
                                             [
                                               _vm._v(
-                                                "\n                                " +
+                                                "\r\n                                " +
                                                   _vm._s(item.name) +
-                                                  "   \n                                "
+                                                  "   \r\n                                "
                                               )
                                             ]
                                           )
@@ -9069,9 +9067,9 @@ var render = function() {
                                       _vm._v(" "),
                                       _c("div", { staticClass: "body-2" }, [
                                         _vm._v(
-                                          "\n                                " +
+                                          "\r\n                                " +
                                             _vm._s(item.message) +
-                                            "\n                                 "
+                                            "\r\n                                 "
                                         ),
                                         item.notification_type == 3 &&
                                         item.notification_accepted == 0
@@ -9093,7 +9091,7 @@ var render = function() {
                                               },
                                               [
                                                 _vm._v(
-                                                  "\n                                Accept invite"
+                                                  "\r\n                                Accept invite"
                                                 )
                                               ]
                                             )

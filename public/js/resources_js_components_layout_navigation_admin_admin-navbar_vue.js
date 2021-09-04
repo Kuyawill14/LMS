@@ -87,7 +87,9 @@ var render = function() {
               "v-list-item-content",
               [
                 _c("v-list-item-title", [
-                  _vm._v("\n                    Dashboard\n                ")
+                  _vm._v(
+                    "\n                        Dashboard\n                    "
+                  )
                 ])
               ],
               1
@@ -134,7 +136,7 @@ var render = function() {
                   [
                     _c("v-list-item-title", [
                       _vm._v(
-                        "\n                        Instructors\n                    "
+                        "\n                            Instructors\n                        "
                       )
                     ])
                   ],
@@ -161,7 +163,7 @@ var render = function() {
                   [
                     _c("v-list-item-title", [
                       _vm._v(
-                        "\n                        Students\n                    "
+                        "\n                            Students\n                        "
                       )
                     ])
                   ],
@@ -189,7 +191,7 @@ var render = function() {
               [
                 _c("v-list-item-title", [
                   _vm._v(
-                    "\n                    Monitor Teachers\n                "
+                    "\n                        Monitor Teachers\n                    "
                   )
                 ])
               ],
@@ -216,31 +218,8 @@ var render = function() {
               [
                 _c("v-list-item-title", [
                   _vm._v(
-                    "\n                    School Year / Semester\n                "
+                    "\n                        School Year / Semester\n                    "
                   )
-                ])
-              ],
-              1
-            )
-          ],
-          1
-        ),
-        _vm._v(" "),
-        _c(
-          "v-list-item",
-          { attrs: { link: "", to: { name: "department" }, exact: "" } },
-          [
-            _c(
-              "v-list-item-action",
-              [_c("v-icon", [_vm._v("mdi-account-group")])],
-              1
-            ),
-            _vm._v(" "),
-            _c(
-              "v-list-item-content",
-              [
-                _c("v-list-item-title", [
-                  _vm._v("\n                    Department\n                ")
                 ])
               ],
               1
