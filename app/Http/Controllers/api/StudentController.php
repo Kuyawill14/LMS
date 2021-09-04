@@ -230,19 +230,20 @@ class StudentController extends Controller
        }
     }
 
+
     /**
      * Display the specified resource.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function SubmitClassworkSubj($id)
+    public function SubmitClassworkSubj(Request $request, $id)
     {
-
         $userId = auth('sanctum')->id();
         $SubmitSubj = tbl_Submission::find($id);
         if($SubmitSubj){
             $SubmitSubj->status = "Submitted";
+            $SubmitSubj->rubrics_score = $request->data != null ? serialize($request->data) : null;
             $SubmitSubj->save();
         }
         return $SubmitSubj;

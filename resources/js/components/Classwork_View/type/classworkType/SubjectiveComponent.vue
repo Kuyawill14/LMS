@@ -168,7 +168,7 @@
                                                  <v-tooltip v-if="!isUploading[index] || uploadPercentage == 100" top>
                                                   <template v-slot:activator="{ on, attrs }">
                                                       <v-btn style="z-index:10" v-bind="attrs" v-on="on" 
-                                                      rounded small icon text @click="removeFile(index)"> <v-icon>mdi-close</v-icon></v-btn>
+                                                      rounded small :loading="isDeleting" icon text @click="removeFile(index)"> <v-icon>mdi-close</v-icon></v-btn>
                                                   </template>
                                                   <span>Delete</span>
                                                 </v-tooltip>
@@ -211,7 +211,9 @@
                                             <v-list-item-action>
                                                  <v-tooltip v-if="StatusDetails.status == 'Submitting' || isResubmit" top>
                                                   <template v-slot:activator="{ on, attrs }">
-                                                      <v-btn style="z-index:10" v-bind="attrs" v-on="on" 
+                                                      <v-btn style="z-index:10" 
+                                                      :loading="isDeleting"
+                                                      v-bind="attrs" v-on="on" 
                                                       rounded small icon text @click="DeleteUpload(index)"> <v-icon>mdi-close</v-icon></v-btn>
                                                   </template>
                                                   <span>Delete</span>
@@ -277,6 +279,7 @@
                               
                               block
                                class="pl-12 pr-12 pb-3 pt-3"
+                               :loading="IsSaving"
                                 @click="StatusDetails.status == 'Submitted' && !isResubmit ? '' :SubmitClasswork()"  
                                 :color="StatusDetails.status == 'Submitted' && !isResubmit  ? 'success': 'primary'">
                                 <v-icon left v-if="StatusDetails.status == 'Submitted' && !isResubmit ">mdi-check</v-icon>
@@ -527,7 +530,9 @@ export default {
             comment: null,
             isCommenting: false,
             linkName: null,
-            linkFile:null
+            linkFile:null,
+            IsSaving: false,
+            isDeleting: false,
         }
     },
      computed: {
@@ -657,11 +662,13 @@ export default {
                 this.UpdateSubmission(this.file.length-1);
             },
             removeFile(index) {
+              this.isDeleting = true;
                axios.put('/api/submission/file-remove/'+this.tempId,{Fileindex: index}).then(res=>{
                   this.uploadPercentage = 0;
                    this.file = ''; 
                    this.tempId = null;
                    this.isUploading[index] = false;
+                   this.isDeleting = false;
               })
 
             },
@@ -705,18 +712,35 @@ export default {
               })
           },
           DeleteUpload(index){
+            this.isDeleting = true;
               let type = 'submit';
               axios.put('/api/submission/file-remove/'+this.tempId,{Fileindex: index}).then(res=>{
                  this.checkStatus(type);
                   this.uploadPercentage = 0;
                    this.isUploading[index] = false;
+                    this.isDeleting = false;
               })
           },
           async SubmitClasswork(){
+          let rubrics = [];
+           if(this.classworkDetails.rubrics.length != 0){
+                this.classworkDetails.rubrics.forEach(item => {
+                  rubrics.push({
+                    id: item.id,
+                    points: null,
+                  })
+              });
+           }
+           else{
+             rubrics = null;
+           }
+           
+            this.IsSaving = true;
             let type = 'submit';
-            axios.put('/api/student/submit-classwork/'+this.tempId).then(res=>{
+            axios.put('/api/student/submit-classwork/'+this.tempId ,{data : rubrics}).then(res=>{
               if(res.status == 200){
                 this.checkStatus(type);
+                this.IsSaving = false;
                 this.isResubmit = false;
               }
             })

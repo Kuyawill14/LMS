@@ -527,6 +527,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
 var attachlinkDiaglog = function attachlinkDiaglog() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_type_classworkType_attachLinkDialog_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./attachLinkDialog */ "./resources/js/components/Classwork_View/type/classworkType/attachLinkDialog.vue"));
 };
@@ -557,7 +560,9 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
       comment: null,
       isCommenting: false,
       linkName: null,
-      linkFile: null
+      linkFile: null,
+      IsSaving: false,
+      isDeleting: false
     };
   },
   computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(['get_CurrentUser'])), {}, {
@@ -710,6 +715,7 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
     removeFile: function removeFile(index) {
       var _this2 = this;
 
+      this.isDeleting = true;
       axios.put('/api/submission/file-remove/' + this.tempId, {
         Fileindex: index
       }).then(function (res) {
@@ -717,6 +723,7 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
         _this2.file = '';
         _this2.tempId = null;
         _this2.isUploading[index] = false;
+        _this2.isDeleting = false;
       });
     },
     test: function test() {
@@ -776,6 +783,7 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
     DeleteUpload: function DeleteUpload(index) {
       var _this5 = this;
 
+      this.isDeleting = true;
       var type = 'submit';
       axios.put('/api/submission/file-remove/' + this.tempId, {
         Fileindex: index
@@ -784,27 +792,43 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
 
         _this5.uploadPercentage = 0;
         _this5.isUploading[index] = false;
+        _this5.isDeleting = false;
       });
     },
     SubmitClasswork: function SubmitClasswork() {
       var _this6 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
-        var type;
+        var rubrics, type;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
+                rubrics = [];
+
+                if (_this6.classworkDetails.rubrics.length != 0) {
+                  _this6.classworkDetails.rubrics.forEach(function (item) {
+                    rubrics.push({
+                      id: item.id,
+                      points: null
+                    });
+                  });
+                }
+
+                _this6.IsSaving = true;
                 type = 'submit';
-                axios.put('/api/student/submit-classwork/' + _this6.tempId).then(function (res) {
+                axios.put('/api/student/submit-classwork/' + _this6.tempId, {
+                  data: rubrics
+                }).then(function (res) {
                   if (res.status == 200) {
                     _this6.checkStatus(type);
 
+                    _this6.IsSaving = false;
                     _this6.isResubmit = false;
                   }
                 });
 
-              case 2:
+              case 5:
               case "end":
                 return _context2.stop();
             }
@@ -1599,6 +1623,8 @@ var render = function() {
                                                                                             "",
                                                                                           small:
                                                                                             "",
+                                                                                          loading:
+                                                                                            _vm.isDeleting,
                                                                                           icon:
                                                                                             "",
                                                                                           text:
@@ -1829,6 +1855,8 @@ var render = function() {
                                                                                               "10"
                                                                                           },
                                                                                           attrs: {
+                                                                                            loading:
+                                                                                              _vm.isDeleting,
                                                                                             rounded:
                                                                                               "",
                                                                                             small:
@@ -2066,6 +2094,7 @@ var render = function() {
                                       staticClass: "pl-12 pr-12 pb-3 pt-3",
                                       attrs: {
                                         block: "",
+                                        loading: _vm.IsSaving,
                                         color:
                                           _vm.StatusDetails.status ==
                                             "Submitted" && !_vm.isResubmit
