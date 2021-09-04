@@ -376,7 +376,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               _this4.dialog = false;
               _this4.IsAddUpdating = false;
 
-              _this4.$store.dispatch('fetchAllTeachers');
+              _this4.$store.dispatch('fetchAllTeachers').then(function () {
+                _this4.teacherList = _this4.getTeachers;
+              });
 
               _this4.toastSuccess('User Successfully Updated!');
             } else {

@@ -14,11 +14,11 @@
 
                         <v-spacer></v-spacer>
                         <div width="30%">
-   <v-text-field  v-model="search" append-icon="mdi-magnify" label="Search" single-line
-                            hide-details>
-                        </v-text-field>
+                            <v-text-field v-model="search" append-icon="mdi-magnify" label="Search" single-line
+                                hide-details>
+                            </v-text-field>
                         </div>
-                     
+
                     </v-card-title>
 
                     <v-data-table :headers="headers" :items="filteredItems" :items-per-page="10" class="elevation-1">
@@ -371,7 +371,9 @@
                                     this.valid = true;
                                     this.dialog = false;
                                     this.IsAddUpdating = false;
-                                    this.$store.dispatch('fetchAllTeachers');
+                                    this.$store.dispatch('fetchAllTeachers').then(() => {
+                                        this.teacherList = this.getTeachers;
+                                    });
                                     this.toastSuccess('User Successfully Updated!')
 
                                 } else {
