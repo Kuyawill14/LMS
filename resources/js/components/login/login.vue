@@ -51,7 +51,7 @@
 
                             </v-container>
 
-                            <v-container class="fill-height" fluid>
+                            <v-container :class="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm ? 'd-none' : ''" class="fill-height" fluid>
                                 <v-row align="center" justify="center">
                                     <v-col cols="12" class="text-center">
                                         <!-- <iframe width="440" height="250"

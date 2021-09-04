@@ -813,6 +813,8 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
                       points: null
                     });
                   });
+                } else {
+                  rubrics = null;
                 }
 
                 _this6.IsSaving = true;
