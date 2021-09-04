@@ -333,8 +333,8 @@
             this.firstLoad = true;
         },
         beforeDestroy() {
-            // clearInterval(this.ctrTime);
-            // clearInterval(this.updateTime);
+            clearInterval(this.ctrTime);
+            clearInterval(this.updateTime);
         }
 
 

@@ -7,9 +7,11 @@
                 </v-icon>
                 <h1> Create Class </h1>
                 <p> Creating Class, you'll be able to share class code to your students and let them join. </p>
-                <v-btn color="primary" @click="openAddmodal()" >   <v-icon left>
-                            mdi-plus
-                        </v-icon> Add CLASS </v-btn>
+                <v-btn color="primary" @click="openAddmodal()">
+                    <v-icon left>
+                        mdi-plus
+                    </v-icon> Add CLASS
+                </v-btn>
             </v-col>
         </v-row>
 
@@ -32,6 +34,8 @@
                 v-on:createclass="classLength++" />
             <editClassForm v-on:closeModal="closeModal()" :class_name="class_name" :class_id="class_id"
                 v-if="modalType == 'edit'" />
+
+            <deleteClass :class_id="class_id" v-on:closeModal="closeModal()" v-if="modalType == 'delete'" />
         </v-dialog>
         <div v-if="!isGetting && classLength > 0">
 
@@ -42,12 +46,12 @@
                 </v-col>
 
                 <v-col class="text-right">
-                    <v-btn color="primary"  class="ma-2" outlined @click="openAddmodal()">
+                    <v-btn color="primary" class="ma-2" outlined @click="openAddmodal()">
                         <v-icon left>
                             mdi-plus
                         </v-icon>
                         Add Class
-                        
+
                     </v-btn>
                 </v-col>
             </v-row>
@@ -70,16 +74,14 @@
                                 <v-icon color="secondary " v-bind="attrs" v-on="on">mdi-dots-vertical</v-icon>
                             </template>
                             <v-list>
-                                <v-list-item link>
-                                    <v-list-item-title>Archive</v-list-item-title>
-
-                                </v-list-item>
+                            
                                 <v-list-item link @click="openEditmodal(item.class_name, item.class_id)">
                                     <v-list-item-title>Edit</v-list-item-title>
 
                                 </v-list-item>
-                                <v-list-item link>
-                                    <v-list-item-title>Remove</v-list-item-title>
+                                <v-list-item link  @click="openDeleteModal( item.class_id)">
+                                    <v-list-item-title>Remove
+                                    </v-list-item-title>
 
                                 </v-list-item>
                             </v-list>
@@ -92,7 +94,7 @@
         <br> <br>
         <v-divider></v-divider>
         <br>
-        <v-row >
+        <v-row>
             <v-col>
 
                 <v-btn class="float-right" color="primary" @click="completed()" :disabled="allClass.length == 0">
@@ -106,15 +108,22 @@
 
         </v-row>
 
+
+
+
+
     </v-container>
+
 </template>
 
 
 <script>
     const VueElementLoading = () => import("vue-element-loading")
-    import createClassForm from './class/createClass';
+    const createClassForm = () => import('./class/createClass');
+    const editClassForm = () => import('./class/editClass');
+    const deleteClass = () => import('./class/deleteClass');
 
-    import editClassForm from './class/editClass'
+
     import {
         mapGetters,
         mapActions
@@ -123,11 +132,12 @@
         components: {
             VueElementLoading,
             createClassForm,
-            editClassForm
+            editClassForm,
+            deleteClass
 
         },
         data: () => ({
-            
+
             isGetting: false,
             showModal: false,
             isloading: true,
@@ -158,12 +168,14 @@
 
                 } else {
                     axios.post('/api/course/completed/' + this.$route.params.id)
-                    .then(res => {
-                       this.toastSuccess('Course setup completed!');
-                       this.$store.dispatch('setCourseStatus', this.$route.params.id);
-                       this.$router.push({name: "coursePage"})
-                       this.$store.dispatch('fetchScourse', this.$route.params.id);
-                    })
+                        .then(res => {
+                            this.toastSuccess('Course setup completed!');
+                            this.$store.dispatch('setCourseStatus', this.$route.params.id);
+                            this.$router.push({
+                                name: "coursePage"
+                            })
+                            this.$store.dispatch('fetchScourse', this.$route.params.id);
+                        })
                 }
 
             },
@@ -177,6 +189,13 @@
                 this.modalType = "edit";
                 this.class_id = class_id;
                 this.class_name = class_name;
+
+            },
+            openDeleteModal(class_id) {
+                this.showModal = true;
+                this.modalType = "delete";
+                this.class_id = class_id;
+
 
             },
             getTeacherClasses() {

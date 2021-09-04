@@ -6,10 +6,14 @@
 
 
             <v-spacer></v-spacer>
-            <v-text-field v-model="search" append-icon="mdi-magnify" label="Search" single-line hide-details>
-            </v-text-field>
+            <div width="50%">
+                            <v-text-field v-model="search" append-icon="mdi-magnify" label="Search" single-line
+                                hide-details>
+                            </v-text-field>
+                        </div>
         </v-card-title>
-        <v-data-table :headers="headers" :items="filteredItems" :items-per-page="10" class="elevation-1">
+        <v-data-table :headers="headers" :items="filteredItems" :items-per-page="10" class="elevation-1"
+            :loading="loader">
             <template v-slot:body="{ items }">
                 <tbody>
                     <tr v-for="student in items" :key="student.id">
@@ -18,7 +22,7 @@
                         <td class="text-center" v-for="(student_final, index) in allStudentFinalGrades(student.id)"
                             :key="index">
                             {{student['percent'+student_final.grade_category_id] =student_final.grade_percentage.toFixed(2) }}
-                       
+
                         </td>
                         <td class="text-center">
                             {{student['raw_grade'] = sumPercentage(allStudentFinalGrades(student.id))}}
@@ -28,7 +32,7 @@
                             {{student['transmuted_grade'] =sumTransmutedGrade(allStudentFinalGrades(student.id))}}
 
                         </td>
-                         <td class="text-center">
+                        <td class="text-center">
                             {{student['final_grade'] =transmuteFinalGrade(sumTransmutedGrade(allStudentFinalGrades(student.id)))}}
 
                         </td>
@@ -54,7 +58,7 @@
         mapActions
     } from "vuex";
     export default {
-        props: ['students', 'grading_criteria'],
+        props: ['students', 'grading_criteria', 'loader'],
         data() {
             return {
                 search: '',
@@ -77,17 +81,18 @@
             }
         },
         computed: {
-            ...mapGetters(["allStudentFinalGrades"]),
-      
-                grading_criteria_data() {
-                    return this.grading_criteria;
-                },
-            
-            filteredItems() {
+            ...mapGetters(["allStudentFinalGrades", "get_gradingCriteria"]),
+
+            grading_criteria_data() {
+                return this.grading_criteria;
+            },
+
+             filteredItems() {
                 if (this.search) {
                     return this.students.filter((item) => {
                         return this.search.toLowerCase().split(' ').every(v => item.lastName.toLowerCase()
-                            .includes(v) || item.student_id.toString().includes(v))
+                            .includes(v) || item.student_id.toString().includes(v)
+                            || item.middleName.toLowerCase().includes(v))
                     })
                 } else {
                     return this.students;
@@ -97,7 +102,7 @@
 
         },
         methods: {
-             transmuteFinalGrade(grade) {
+            transmuteFinalGrade(grade) {
 
 
                 let eq = "5.0";
@@ -126,6 +131,7 @@
 
             },
             gradingCategoryHeader() {
+                if (this.loader) {}
                 this.headers = [];
 
                 this.headers.push({
@@ -140,7 +146,7 @@
                 for (let i = 0; i < this.grading_criteria.length; i++) {
                     this.headers.push({
                         text: this.grading_criteria[i].name + ` (${this.grading_criteria[i].percentage})%`,
-                        value: 'percent'+ this.grading_criteria[i].id,
+                        value: 'percent' + this.grading_criteria[i].id,
                         align: 'center'
                     });
                 }
@@ -153,8 +159,7 @@
                     text: 'Transmuted Grade',
                     value: 'transmuted_grade',
                     align: 'center',
-                },
-                {
+                }, {
                     text: 'Final Grade',
                     value: 'final_grade',
                     align: 'center',
@@ -176,9 +181,14 @@
             },
         },
         mounted() {
-            var grading_criteria = this.grading_criteria;
-            console.log(this.grading_criteria_data);
-            this.gradingCategoryHeader(grading_criteria);
+    this.loader = true;
+            this.$store.dispatch('fetchGradingCriteria', this.$route.params.id).then(() => {
+            
+                this.gradingCategoryHeader();
+                this.loader = false;
+            });
+
+
             this.studentList = this.students;
 
         }

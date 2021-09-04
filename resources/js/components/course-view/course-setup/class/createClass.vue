@@ -77,8 +77,10 @@
 
                     this.form.course_id = this.$route.params.id;
                     //console.log(this.form);
-                    this.$store.dispatch('createClass', this.form);
-                    this.fetchSubjectCourseClassList(this.$route.params.id);
+                    this.$store.dispatch('createClass', this.form).then(()=> {
+                         this.fetchSubjectCourseClassList(this.$route.params.id);
+                    });
+                   
 
                     this.sending = false;
                 }

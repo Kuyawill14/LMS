@@ -124,8 +124,9 @@
 
         mounted() {
             if (this.type_action == 'edit_link') {
-                this.linkForm.required_time = this.submodule.required_time / 60;
-                this.linkForm = this.submodule;
+                   this.linkForm = this.submodule;
+                this.linkForm['required_time'] = this.submodule['required_time'] / 60;
+             
             }
 
         }

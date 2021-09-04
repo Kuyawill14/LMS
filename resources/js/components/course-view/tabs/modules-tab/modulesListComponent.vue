@@ -108,9 +108,9 @@
                                                 <v-list-item-title>Link</v-list-item-title>
 
                                             </v-list-item>
-                                            <v-list-item link>
+                                            <!-- <v-list-item link>
                                                 <v-list-item-title>Classwork</v-list-item-title>
-                                            </v-list-item>
+                                            </v-list-item> -->
                                         </v-list>
                                     </v-menu>
 

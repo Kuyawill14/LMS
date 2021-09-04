@@ -171,6 +171,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var confirmArchiveCourse = function confirmArchiveCourse() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_course_subject_class-type_dialog_confirmArchiveCourse_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./dialog/confirmArchiveCourse */ "./resources/js/components/course_subject/class-type/dialog/confirmArchiveCourse.vue"));
 };
@@ -185,8 +194,8 @@ var confirmArchiveCourse = function confirmArchiveCourse() {
     return {
       school_year: [],
       semester: [],
-      school_year_id: '',
-      semester_id: '',
+      school_year_id: 0,
+      semester_id: 0,
       coursesLength: null,
       isGetting: false,
       dialog: false,
@@ -275,6 +284,8 @@ var confirmArchiveCourse = function confirmArchiveCourse() {
     fetchCourses: function fetchCourses() {
       var _this3 = this;
 
+      this.school_year_id = 0;
+      this.semester_id = 0;
       this.isGetting = true;
       this.$store.dispatch('fetchCourseList').then(function () {
         _this3.allCoursesData = _this3.allCourse;
@@ -548,7 +559,7 @@ var render = function() {
                   _vm._v(" "),
                   _c("p", [
                     _vm._v(
-                      " Creating Course, you'll be able to Create Classes, manage Learning Materials, Create Quiz and Assignment and etc. "
+                      " Creating Course, you'll be able to Create Classes, manage Learning Materials, Create Quiz and\n                Assignment and etc. "
                     )
                   ]),
                   _vm._v(" "),
@@ -793,6 +804,31 @@ var render = function() {
                   _vm._v(" "),
                   _c(
                     "v-col",
+                    { staticClass: "text-right mt-1", attrs: { lg: "1" } },
+                    [
+                      _vm.school_year_id != 0 || _vm.semester_id != 0
+                        ? _c(
+                            "v-btn",
+                            {
+                              attrs: { icon: "" },
+                              on: { click: _vm.fetchCourses }
+                            },
+                            [
+                              _c("v-icon", [
+                                _vm._v(
+                                  "\n                        mdi-close\n                    "
+                                )
+                              ])
+                            ],
+                            1
+                          )
+                        : _vm._e()
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-col",
                     { staticClass: "text-right", attrs: { lg: "2" } },
                     [
                       _c("v-select", {
@@ -836,7 +872,8 @@ var render = function() {
                           "item-value": "id",
                           label: "Semester",
                           outlined: "",
-                          small: ""
+                          small: "",
+                          disabled: _vm.school_year_id == 0
                         },
                         on: {
                           change: function($event) {
@@ -875,123 +912,138 @@ var render = function() {
                             { staticClass: "mx-auto" },
                             [
                               _c(
-                                "v-img",
+                                "router-link",
                                 {
                                   attrs: {
-                                    src: "../images/" + item.course_picture,
-                                    height: "200px"
+                                    to: {
+                                      name: "coursePage",
+                                      params: { id: item.id }
+                                    }
                                   }
                                 },
                                 [
-                                  _c("v-spacer"),
-                                  _vm._v(" "),
                                   _c(
-                                    "v-menu",
+                                    "v-img",
                                     {
                                       attrs: {
-                                        transition: "slide-y-transition",
-                                        bottom: ""
-                                      },
-                                      scopedSlots: _vm._u(
-                                        [
-                                          {
-                                            key: "activator",
-                                            fn: function(ref) {
-                                              var on = ref.on
-                                              var attrs = ref.attrs
-                                              return [
-                                                _c(
-                                                  "v-btn",
-                                                  _vm._g(
-                                                    _vm._b(
-                                                      {
-                                                        staticClass:
-                                                          "float-right",
-                                                        attrs: {
-                                                          icon: "",
-                                                          color: "white"
-                                                        }
-                                                      },
-                                                      "v-btn",
-                                                      attrs,
-                                                      false
-                                                    ),
-                                                    on
-                                                  ),
-                                                  [
-                                                    _c("v-icon", [
-                                                      _vm._v(
-                                                        "\n                                            mdi-dots-vertical\n                                        "
-                                                      )
-                                                    ])
-                                                  ],
-                                                  1
-                                                )
-                                              ]
-                                            }
-                                          }
-                                        ],
-                                        null,
-                                        true
-                                      )
+                                        src: "../images/" + item.course_picture,
+                                        height: "200px",
+                                        link: ""
+                                      }
                                     },
                                     [
+                                      _c("v-spacer"),
                                       _vm._v(" "),
                                       _c(
-                                        "v-list",
+                                        "v-menu",
+                                        {
+                                          attrs: {
+                                            transition: "slide-y-transition",
+                                            bottom: ""
+                                          },
+                                          scopedSlots: _vm._u(
+                                            [
+                                              {
+                                                key: "activator",
+                                                fn: function(ref) {
+                                                  var on = ref.on
+                                                  var attrs = ref.attrs
+                                                  return [
+                                                    _c(
+                                                      "v-btn",
+                                                      _vm._g(
+                                                        _vm._b(
+                                                          {
+                                                            staticClass:
+                                                              "float-right",
+                                                            attrs: {
+                                                              icon: "",
+                                                              color: "white"
+                                                            }
+                                                          },
+                                                          "v-btn",
+                                                          attrs,
+                                                          false
+                                                        ),
+                                                        on
+                                                      ),
+                                                      [
+                                                        _c("v-icon", [
+                                                          _vm._v(
+                                                            "\n                                                mdi-dots-vertical\n                                            "
+                                                          )
+                                                        ])
+                                                      ],
+                                                      1
+                                                    )
+                                                  ]
+                                                }
+                                              }
+                                            ],
+                                            null,
+                                            true
+                                          )
+                                        },
                                         [
-                                          _c(
-                                            "v-list-item",
-                                            {
-                                              attrs: {
-                                                link: "",
-                                                to: {
-                                                  name: "settings",
-                                                  params: { id: item.id }
-                                                }
-                                              }
-                                            },
-                                            [
-                                              _c("v-list-item-title", [
-                                                _vm._v("Edit")
-                                              ])
-                                            ],
-                                            1
-                                          ),
                                           _vm._v(" "),
                                           _c(
-                                            "v-list-item",
-                                            {
-                                              attrs: { link: "" },
-                                              on: {
-                                                click: function($event) {
-                                                  return _vm.archiveConfirm(
-                                                    item.course_name,
-                                                    item.id
-                                                  )
-                                                }
-                                              }
-                                            },
+                                            "v-list",
                                             [
-                                              _c("v-list-item-title", [
-                                                _vm._v("Archive")
-                                              ])
-                                            ],
-                                            1
-                                          ),
-                                          _vm._v(" "),
-                                          item.student_count == 0
-                                            ? _c(
+                                              _c(
                                                 "v-list-item",
-                                                { attrs: { link: "" } },
+                                                {
+                                                  attrs: {
+                                                    link: "",
+                                                    to: {
+                                                      name: "settings",
+                                                      params: { id: item.id }
+                                                    }
+                                                  }
+                                                },
                                                 [
                                                   _c("v-list-item-title", [
-                                                    _vm._v("Delete")
+                                                    _vm._v("Edit")
                                                   ])
                                                 ],
                                                 1
-                                              )
-                                            : _vm._e()
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "v-list-item",
+                                                {
+                                                  attrs: { link: "" },
+                                                  on: {
+                                                    click: function($event) {
+                                                      return _vm.archiveConfirm(
+                                                        item.course_name,
+                                                        item.id
+                                                      )
+                                                    }
+                                                  }
+                                                },
+                                                [
+                                                  _c("v-list-item-title", [
+                                                    _vm._v("Archive")
+                                                  ])
+                                                ],
+                                                1
+                                              ),
+                                              _vm._v(" "),
+                                              item.student_count == 0
+                                                ? _c(
+                                                    "v-list-item",
+                                                    { attrs: { link: "" } },
+                                                    [
+                                                      _c("v-list-item-title", [
+                                                        _vm._v("Delete")
+                                                      ])
+                                                    ],
+                                                    1
+                                                  )
+                                                : _vm._e()
+                                            ],
+                                            1
+                                          )
                                         ],
                                         1
                                       )
@@ -1043,7 +1095,7 @@ var render = function() {
                                   _c("hr"),
                                   _vm._v(
                                     "\n                            " +
-                                      _vm._s(item.student_count + " enrolled") +
+                                      _vm._s(item.student_count + " students") +
                                       " "
                                   ),
                                   _c("br"),

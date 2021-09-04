@@ -85,18 +85,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -131,7 +119,11 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       axios.post('/api/change-password', this.form).then(function (res) {
-        _this.toastSuccess('Password Successfully Changed');
+        if (res.data == 1) {
+          _this.toastSuccess('Password Successfully Changed');
+        } else {
+          _this.toastError('Something went wrong in changing your password!');
+        }
       })["catch"](function (e) {
         _this.toastError('Something went wrong in changing your password!');
       });
@@ -286,7 +278,7 @@ var render = function() {
                             },
                             [
                               _vm._v(
-                                "\n                 Current Password\n            "
+                                "\n                            Current Password\n                        "
                               )
                             ]
                           ),
@@ -324,7 +316,7 @@ var render = function() {
                                     expression: "form.current_password"
                                   }
                                 },
-                                [_vm._v("\n                    >")]
+                                [_vm._v("\n                                >")]
                               )
                             ],
                             1
@@ -356,7 +348,7 @@ var render = function() {
                             },
                             [
                               _vm._v(
-                                "\n                 New Password\n            "
+                                "\n                            New Password\n                        "
                               )
                             ]
                           ),
@@ -390,7 +382,7 @@ var render = function() {
                                     expression: "form.new_password"
                                   }
                                 },
-                                [_vm._v("\n                    >")]
+                                [_vm._v("\n                                >")]
                               )
                             ],
                             1
@@ -422,7 +414,7 @@ var render = function() {
                             },
                             [
                               _vm._v(
-                                "\n                 Re Type New Password\n            "
+                                "\n                            Re Type New Password\n                        "
                               )
                             ]
                           ),
@@ -462,7 +454,7 @@ var render = function() {
                                     expression: "form.confirm_password"
                                   }
                                 },
-                                [_vm._v("\n                    >")]
+                                [_vm._v("\n                                >")]
                               )
                             ],
                             1
@@ -512,11 +504,12 @@ var render = function() {
                                 },
                                 [
                                   _vm._v(
-                                    _vm._s(
-                                      _vm.isChanging
-                                        ? "Saving..."
-                                        : "Save Changes"
-                                    )
+                                    "\n                                " +
+                                      _vm._s(
+                                        _vm.isChanging
+                                          ? "Saving..."
+                                          : "Save Changes"
+                                      )
                                   )
                                 ]
                               )

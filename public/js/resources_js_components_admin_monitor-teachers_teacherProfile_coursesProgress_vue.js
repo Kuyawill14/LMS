@@ -11,15 +11,32 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -143,6 +160,11 @@ var coursesummarypreview = function coursesummarypreview() {
   props: ['UserDetails'],
   data: function data() {
     return {
+      school_year: [],
+      semester: [],
+      school_year_id: 0,
+      semester_id: 0,
+      allCoursesData: [],
       dialog: false,
       moduledialog: false,
       Coursedialog: false,
@@ -150,6 +172,7 @@ var coursesummarypreview = function coursesummarypreview() {
       coursesLength: null,
       details: [],
       course_id: null,
+      allCourse: [],
       course_details: null,
       items: ['2020-2021', '2021-2022', '2022-2023', '2023-2024']
     };
@@ -158,32 +181,70 @@ var coursesummarypreview = function coursesummarypreview() {
     //modulesPublished,
     coursesummarypreview: coursesummarypreview
   },
-  computed: (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(['allCourse', 'allClass']),
-  methods: {
-    fetchCourses: function fetchCourses() {
+  computed: (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)(['allClass']),
+  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)(['fetchCourseList'])), {}, {
+    // async fetchCourses() {
+    //     axios.get('/api/admin/teachers/profile/ClassesList/' + this.UserDetails.user_id)
+    //         .then(res => {
+    //             this.allCourse = res.data;
+    //             this.isloading = false;
+    //         })
+    // },
+    fetchAllSchoolyear_semester: function fetchAllSchoolyear_semester() {
       var _this = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                axios.get('/api/admin/teachers/profile/ClassesList/' + _this.UserDetails.user_id).then(function (res) {
-                  _this.details = res.data;
-                  _this.isloading = false;
-                });
+      axios.get('/api/admin/schoolyears_semesters/all').then(function (res) {
+        _this.school_year = res.data.school_year;
+        _this.semester = res.data.semester;
+      });
+    },
+    semesterFilter: function semesterFilter() {
+      var data = [];
 
-              case 1:
-              case "end":
-                return _context.stop();
-            }
+      for (var key in this.allCourse) {
+        if (this.allCourse[key].school_year_id == this.school_year_id && this.allCourse[key].semester_id == this.semester_id) {
+          data.push(this.allCourse[key]);
+        }
+      } //console.log(data);
+
+
+      this.allCoursesData = data;
+    },
+    schoolYearFilter: function schoolYearFilter() {
+      var data = []; //console.log(this.semester_id.length);
+
+      for (var key in this.allCourse) {
+        if (this.semester_id != '') {
+          if (this.allCourse[key].school_year_id == this.school_year_id && this.allCourse[key].semester_id == this.semester_id) {
+            data.push(this.allCourse[key]);
           }
-        }, _callee);
-      }))();
+        } else {
+          if (this.allCourse[key].school_year_id == this.school_year_id) {
+            data.push(this.allCourse[key]);
+          }
+        }
+      }
+
+      console.log(data);
+      this.allCoursesData = data;
+    },
+    fetchCourses: function fetchCourses() {
+      var _this2 = this;
+
+      this.isloading = true;
+      this.school_year_id = 0;
+      this.semester_id = 0;
+      axios.get('/api/admin/teachers/profile/ClassesList/' + this.UserDetails.user_id).then(function (res) {
+        _this2.allCourse = res.data;
+        _this2.allCoursesData = res.data;
+        _this2.coursesLength = _this2.allCourse.length;
+        _this2.isloading = false;
+      });
     }
-  },
-  beforeMount: function beforeMount() {
+  }),
+  mounted: function mounted() {
     this.fetchCourses();
+    this.fetchAllSchoolyear_semester();
   }
 });
 
@@ -318,16 +379,92 @@ var render = function() {
         [
           _c(
             "v-col",
-            { staticClass: "mb-0 pb-0", attrs: { cols: "12", sm: "6" } },
+            { staticClass: "mb-0 pb-0", attrs: { cols: "12", lg: "5" } },
             [_c("h2", [_vm._v("Courses")])]
           ),
           _vm._v(" "),
           _c(
             "v-col",
-            { staticClass: "pt-4", attrs: { cols: "12", sm: "6" } },
+            { staticClass: "text-right mt-2", attrs: { lg: "1" } },
+            [
+              _vm.school_year_id != 0 || _vm.semester_id != 0
+                ? _c(
+                    "v-btn",
+                    { attrs: { icon: "" }, on: { click: _vm.fetchCourses } },
+                    [
+                      _c("v-icon", [
+                        _vm._v(
+                          "\n                    mdi-close\n                "
+                        )
+                      ])
+                    ],
+                    1
+                  )
+                : _vm._e()
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-col",
+            { staticClass: "text-right", attrs: { lg: "3" } },
             [
               _c("v-select", {
-                attrs: { items: _vm.items, label: "School Year", outlined: "" }
+                staticClass: "mr-2 my-1",
+                attrs: {
+                  dense: "",
+                  items: _vm.school_year,
+                  "item-text": "schoolyear",
+                  "item-value": "id",
+                  label: "School Year",
+                  outlined: "",
+                  small: ""
+                },
+                on: {
+                  change: function($event) {
+                    return _vm.schoolYearFilter()
+                  }
+                },
+                model: {
+                  value: _vm.school_year_id,
+                  callback: function($$v) {
+                    _vm.school_year_id = $$v
+                  },
+                  expression: "school_year_id"
+                }
+              })
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-col",
+            { staticClass: "text-right", attrs: { lg: "3" } },
+            [
+              _c("v-select", {
+                staticClass: "mr-2 my-1",
+                attrs: {
+                  dense: "",
+                  items: _vm.semester,
+                  "item-text": "semester",
+                  "item-value": "id",
+                  disabled: _vm.school_year_id == 0,
+                  label: "Semester",
+                  outlined: "",
+                  small: ""
+                },
+                on: {
+                  change: function($event) {
+                    return _vm.semesterFilter()
+                  }
+                },
+                model: {
+                  value: _vm.semester_id,
+                  callback: function($$v) {
+                    _vm.semester_id = $$v
+                  },
+                  expression: "semester_id"
+                }
               })
             ],
             1
@@ -409,7 +546,7 @@ var render = function() {
                 [
                   _c(
                     "v-row",
-                    _vm._l(_vm.details, function(item) {
+                    _vm._l(_vm.allCoursesData, function(item) {
                       return _c(
                         "v-col",
                         {

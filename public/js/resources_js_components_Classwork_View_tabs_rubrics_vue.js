@@ -810,7 +810,7 @@ var render = function() {
               _vm._v(" "),
               _c("v-card-text", [
                 _vm._v(
-                  "\n                Are you sure you want to delete this module?\n            "
+                  "\n                Are you sure you want to delete this Item?\n            "
                 )
               ]),
               _vm._v(" "),

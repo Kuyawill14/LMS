@@ -342,7 +342,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   created: function created() {
     if (this.type_action == 'edit_file') {
-      this.submodule['required_time'] = this.submodule['required_time'];
+      this.submodule['required_time'] = this.submodule['required_time'] / 60;
       this.subModuleForm = this.submodule;
       var newfile = new File([""], window.location.origin + '/' + this.submodule.file_attachment);
       ;
@@ -497,8 +497,8 @@ __webpack_require__.r(__webpack_exports__);
   },
   mounted: function mounted() {
     if (this.type_action == 'edit_link') {
-      this.linkForm.required_time = this.submodule.required_time / 60;
       this.linkForm = this.submodule;
+      this.linkForm['required_time'] = this.submodule['required_time'] / 60;
     }
   }
 });
@@ -7158,17 +7158,6 @@ var render = function() {
                                             [
                                               _c("v-list-item-title", [
                                                 _vm._v("Link")
-                                              ])
-                                            ],
-                                            1
-                                          ),
-                                          _vm._v(" "),
-                                          _c(
-                                            "v-list-item",
-                                            { attrs: { link: "" } },
-                                            [
-                                              _c("v-list-item-title", [
-                                                _vm._v("Classwork")
                                               ])
                                             ],
                                             1

@@ -582,7 +582,7 @@ var render = function() {
                       {
                         attrs: {
                           link: "",
-                          to: { name: "studentProgress" },
+                          to: { name: "mystudentProgress" },
                           exact: ""
                         }
                       },

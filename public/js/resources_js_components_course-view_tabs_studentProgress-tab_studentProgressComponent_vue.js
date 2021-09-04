@@ -135,9 +135,55 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['role'],
+  props: ['role', 'UserDetails'],
   data: function data() {
     return {
       Deldialog: false,
@@ -274,6 +320,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     getClassList: function getClassList() {
       var _this3 = this;
 
+      this.loading = true;
       this.$store.dispatch('fetchSubjectCourseClassList', this.$route.params.id).then(function () {
         _this3.classList = _this3.allClass;
         _this3.selectedClass = _this3.classList[0].class_id;
@@ -463,7 +510,9 @@ var render = function() {
                   },
                   [
                     _vm._v(
-                      "\n        " + _vm._s(item.text.toUpperCase()) + "\n    "
+                      "\n                " +
+                        _vm._s(item.text.toUpperCase()) +
+                        "\n            "
                     )
                   ]
                 )
@@ -537,13 +586,11 @@ var render = function() {
                     "v-tabs",
                     { attrs: { color: "deep-purple accent-4", right: "" } },
                     [
-                      _vm.role == "Teacher"
-                        ? _c("v-tab", { attrs: { href: "#all" } }, [
-                            _vm._v(
-                              "\n                        All\n                    "
-                            )
-                          ])
-                        : _vm._e(),
+                      _c("v-tab", { attrs: { href: "#all" } }, [
+                        _vm._v(
+                          "\n                        All\n                    "
+                        )
+                      ]),
                       _vm._v(" "),
                       _vm._l(_vm.getmain_module, function(main_module, index) {
                         return _c("v-tab", { key: index }, [
@@ -554,6 +601,153 @@ var render = function() {
                           )
                         ])
                       }),
+                      _vm._v(" "),
+                      _c(
+                        "v-tab-item",
+                        { attrs: { id: "all" } },
+                        [
+                          _c("v-simple-table", {
+                            attrs: { loading: _vm.loading },
+                            scopedSlots: _vm._u([
+                              {
+                                key: "default",
+                                fn: function() {
+                                  return [
+                                    _c("thead", [
+                                      _c(
+                                        "tr",
+                                        [
+                                          _vm._l(_vm.getmain_module, function(
+                                            main_module,
+                                            index
+                                          ) {
+                                            return _c(
+                                              "th",
+                                              {
+                                                key: index,
+                                                staticClass: "text-center"
+                                              },
+                                              [
+                                                _vm._v(
+                                                  "\n                                            " +
+                                                    _vm._s(
+                                                      main_module.module_name
+                                                    ) +
+                                                    " "
+                                                ),
+                                                _c("br"),
+                                                _vm._v(
+                                                  "\n                                            Completed\n                                        "
+                                                )
+                                              ]
+                                            )
+                                          }),
+                                          _vm._v(" "),
+                                          _c(
+                                            "th",
+                                            { staticClass: "text-center" },
+                                            [
+                                              _vm._v(
+                                                "\n                                            Total Completed\n                                        "
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "th",
+                                            { staticClass: "text-center" },
+                                            [
+                                              _vm._v(
+                                                "\n                                            Percentage\n                                        "
+                                              )
+                                            ]
+                                          )
+                                        ],
+                                        2
+                                      )
+                                    ]),
+                                    _vm._v(" "),
+                                    _vm.loading == false
+                                      ? _c("tbody", [
+                                          _c(
+                                            "tr",
+                                            [
+                                              _vm._l(
+                                                _vm.getStudentMainModuleProgress(
+                                                  _vm.UserDetails.id
+                                                ),
+                                                function(main, i) {
+                                                  return _c(
+                                                    "td",
+                                                    {
+                                                      key: "" + i,
+                                                      staticClass: "text-center"
+                                                    },
+                                                    [
+                                                      _vm._v(
+                                                        "\n                                            " +
+                                                          _vm._s(
+                                                            main.completed
+                                                          ) +
+                                                          " / " +
+                                                          _vm._s(
+                                                            main.sub_module_length
+                                                          ) +
+                                                          "\n                                        "
+                                                      )
+                                                    ]
+                                                  )
+                                                }
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "td",
+                                                { staticClass: "text-center" },
+                                                [
+                                                  _vm._v(
+                                                    "\n                                            " +
+                                                      _vm._s(
+                                                        _vm.getTotalCompleted(
+                                                          _vm.getStudentMainModuleProgress(
+                                                            _vm.UserDetails.id
+                                                          )
+                                                        )
+                                                      )
+                                                  )
+                                                ]
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "td",
+                                                { staticClass: "text-center" },
+                                                [
+                                                  _vm._v(
+                                                    "\n                                            " +
+                                                      _vm._s(
+                                                        _vm.getTotalPercent(
+                                                          _vm.getStudentMainModuleProgress(
+                                                            _vm.UserDetails.id
+                                                          )
+                                                        )
+                                                      ) +
+                                                      "%"
+                                                  )
+                                                ]
+                                              )
+                                            ],
+                                            2
+                                          )
+                                        ])
+                                      : _vm._e()
+                                  ]
+                                },
+                                proxy: true
+                              }
+                            ])
+                          })
+                        ],
+                        1
+                      ),
                       _vm._v(" "),
                       _vm._l(_vm.getmain_module, function(main_module, index) {
                         return _c(
@@ -574,6 +768,7 @@ var render = function() {
                             ),
                             _vm._v(" "),
                             _c("v-simple-table", {
+                              attrs: { loading: _vm.loading },
                               scopedSlots: _vm._u(
                                 [
                                   {
@@ -584,20 +779,6 @@ var render = function() {
                                           _c(
                                             "tr",
                                             [
-                                              _vm.role == "Teacher"
-                                                ? _c(
-                                                    "th",
-                                                    {
-                                                      staticClass: "text-center"
-                                                    },
-                                                    [
-                                                      _vm._v(
-                                                        "\n                                            Student Name\n                                        "
-                                                      )
-                                                    ]
-                                                  )
-                                                : _vm._e(),
-                                              _vm._v(" "),
                                               _vm._l(
                                                 _vm.getSub_module(
                                                   main_module.id
@@ -663,7 +844,7 @@ var render = function() {
                                               _vm._l(
                                                 _vm.SubModuleProgress(
                                                   main_module.id,
-                                                  _vm.student.id
+                                                  _vm.UserDetails.id
                                                 ),
                                                 function(subModule, index) {
                                                   return _c(
@@ -673,16 +854,6 @@ var render = function() {
                                                       staticClass: "text-center"
                                                     },
                                                     [
-                                                      _vm._v(
-                                                        "\n                                            " +
-                                                          _vm._s(
-                                                            _vm.SubModuleProgress(
-                                                              main_module.id,
-                                                              _vm.student.id
-                                                            )
-                                                          ) +
-                                                          "\n                                            "
-                                                      ),
                                                       _c(
                                                         "v-chip",
                                                         {
@@ -724,7 +895,7 @@ var render = function() {
                                                           _vm._totalTimeSpent(
                                                             _vm.SubModuleProgress(
                                                               main_module.id,
-                                                              _vm.student.id
+                                                              _vm.UserDetails.id
                                                             )
                                                           )
                                                         )
