@@ -52,7 +52,7 @@
                                         
                                         </p>
                                         <p style="font-size: 35px;margin-top: 0px;margin-bottom: 0px;">    <strong>{{$new_password}} </strong></p >
-                                        <a href="{{ url('/login') }}"
+                                        <a href="https://isu-orange.com/login"
                                             style="background:#FF5400;text-decoration:none !important; font-weight:500; margin-top:35px; color:#fff;text-transform:uppercase; font-size:14px;padding:10px 24px;display:inline-block;border-radius:50px;">Login</a>
                                     </td>
                                 </tr>
