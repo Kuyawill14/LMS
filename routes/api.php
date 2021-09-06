@@ -94,6 +94,7 @@ Route::middleware('auth:sanctum')->prefix('/course')->group(function () {
 //Announcement
 Route::middleware('auth:sanctum')->prefix('/announcement')->group(function () {
     Route::post('/insert', [AnnouncementController::class, 'store']);
+    Route::delete('/delete/{id}', [AnnouncementController::class, 'delete']);
     Route::get('/allpost/{id}', [AnnouncementController::class, 'allClassPost']);
     Route::post('/upload/image', [AnnouncementController::class, 'ImageUploader']);
     
@@ -110,7 +111,6 @@ Route::middleware('auth:sanctum')->prefix('/post')->group(function () {
     Route::post('/classwork/comment/insert', [CommentController::class, 'addClassworkPrivateComment']);
     Route::delete('/classwork/comment/delete/{id}', [CommentController::class, 'deletePrivateComment']);
 
-    
     Route::delete('/like/delete/{id}', [CommentController::class, 'RemoveLike']);
     Route::delete('/comment/remove/{id}', [CommentController::class, 'destroy']);
     

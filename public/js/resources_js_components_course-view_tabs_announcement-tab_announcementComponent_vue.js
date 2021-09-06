@@ -134,6 +134,9 @@ var announcementPostList = function announcementPostList() {
           });
         });
       }
+    },
+    SlicePostList: function SlicePostList(index) {
+      this.getclass_post.splice(index, 1);
     }
   }),
   mounted: function mounted() {
@@ -8724,6 +8727,7 @@ var render = function() {
                       PostList: _vm.getclass_post
                     },
                     on: {
+                      SlicePost: _vm.SlicePostList,
                       loadmore: function($event) {
                         return _vm.loadMore()
                       }

@@ -716,25 +716,6 @@ var render = function() {
                                         )
                                       ],
                                       1
-                                    ),
-                                    _vm._v(" "),
-                                    _c(
-                                      "v-list-item",
-                                      { attrs: { "ma-0": "", "pa-0": "" } },
-                                      [
-                                        _c(
-                                          "v-list-item-title",
-                                          [
-                                            _c(
-                                              "v-btn",
-                                              { attrs: { text: "" } },
-                                              [_vm._v("Hide")]
-                                            )
-                                          ],
-                                          1
-                                        )
-                                      ],
-                                      1
                                     )
                                   ],
                                   1

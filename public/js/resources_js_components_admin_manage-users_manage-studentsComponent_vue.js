@@ -1084,7 +1084,7 @@ var render = function() {
                             1
                           ),
                           _vm._v(" "),
-                          _vm.form.verified == null
+                          _vm.form.verified == null && _vm.type == "edit"
                             ? _c(
                                 "v-col",
                                 {

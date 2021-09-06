@@ -112,8 +112,8 @@
                                 <v-text-field label="Email" name="Email" :rules="loginEmailRules" v-model="form.email"
                                     type="email" color="primary" outlined />
                             </v-col>
-
-                            <v-col v-if="form.verified == null" class="ma-0 pa-0 mb-1" cols="12" md="12">
+                           
+                            <v-col v-if="form.verified == null && type == 'edit'" class="ma-0 pa-0 mb-1" cols="12" md="12">
                                 <v-btn block rounded large color="primary">
                                     <v-icon left>mdi-account-check-outline</v-icon>
                                     Verify user</v-btn>
