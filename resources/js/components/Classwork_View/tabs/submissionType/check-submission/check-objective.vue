@@ -331,12 +331,21 @@ const resetConfirmation = () => import('../../dialogs/resetConfirmation')
                 let Question_length = this.getAll_questions.Question.length;
                 let diff = Question_length  - Submitted_length;
                 for (let i = 0; i < diff; i++) {
-                    if(this.Details.Question[i].type == 'Multiple Choice' || this.Details.Question[i].type == 'Identification' || this.Details.Question[i].type == 'True or False' || this.Details.Question[i].type == 'Essay'){
+                    if(this.Details.Question[i].type == 'Multiple Choice' || this.Details.Question[i].type == 'Identification' || this.Details.Question[i].type == 'True or False'){
                         this.ViewDetails.Submitted_Answers.push({
                             Answer: null,
                             Question_id: this.Details.Question[i].id,
                             timeConsume: null,
                             type: this.Details.Question[i].type
+                        })
+                    }
+                    else if(this.Details.Question[i].type == 'Essay'){
+                         this.ViewDetails.Submitted_Answers.push({
+                            Answer: null,
+                            Question_id: this.Details.Question[i].id,
+                            timeConsume: null,
+                            type: this.Details.Question[i].type,
+                            check: false
                         })
                     }
                     else if(this.Details.Question[i].type == 'Matching type'){
@@ -359,7 +368,7 @@ const resetConfirmation = () => import('../../dialogs/resetConfirmation')
                             }
                             else if(this.Details.Question[i].type == 'Essay'){
                                 this.SubmittedAnswer[i] =  this.ViewDetails.Submitted_Answers[j];
-                                this.Check[i] = false;
+                                this.Check[i] = this.ViewDetails.Submitted_Answers[j].check;
                             }
                             else if(this.Details.Question[i].type == 'Matching type'){
                                     let Ans = new Array();
@@ -427,6 +436,7 @@ const resetConfirmation = () => import('../../dialogs/resetConfirmation')
             this.UpdateDetails.points = points;
             this.UpdateDetails.question_id = id;
             this.UpdateDetails.answer = answer;
+            //this.UpdateDetails.type = type;
             axios.put('/api/teacher/update-score/'+this.ViewDetails.id, this.UpdateDetails)
             .then(res=>{
                 if(res.status == 200){

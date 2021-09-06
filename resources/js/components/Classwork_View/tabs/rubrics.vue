@@ -8,7 +8,7 @@
                 <v-btn icon dark @click="$emit('CLoseRubricModal')">
                     <v-icon>mdi-close</v-icon>
                 </v-btn>
-                <v-toolbar-title>Rubcris</v-toolbar-title>
+                <v-toolbar-title>Rubrics</v-toolbar-title>
                 <v-spacer></v-spacer>
                 <v-toolbar-title>{{title}} ({{total_points}}pts)</v-toolbar-title>
 
@@ -42,7 +42,7 @@
                                     </v-text-field>
                                 </v-col>
                                 <v-col cols="12" class="py-0" style="margin-bottom: -20px;">
-                                    <v-text-field outlined label="Cirterion name" v-model="item.criteria_name"
+                                    <v-text-field outlined label="Criteria name" v-model="item.criteria_name"
                                         :rules="nameRules" type="text" class="text-field" required>
                                     </v-text-field>
                                 </v-col>
@@ -57,18 +57,18 @@
 
                     </v-col>
 
-                    <v-col cols="3">
+                   <!--  <v-col cols="3">
                         <v-card class="pa-5">
 
                             <v-row>
                                 <v-col cols="12" style="margin-bottom: -20px;">
-                                    <v-text-field outlined label="Points" v-model="criteria_form.points" type="text"
-                                        :rules="pointsRules" class="text-field" required>
+                                    <v-text-field type="number" outlined label="Points" v-model="criteria_form.points" 
+                                        :rules="pointsRules" class="text-field" >
                                     </v-text-field>
                                 </v-col>
                                 <v-col cols="12" class="py-0" style="margin-bottom: -20px;">
-                                    <v-text-field outlined label="Cirterion name" v-model="criteria_form.criteria_name"
-                                        :rules="nameRules" class="text-field" type="text" required>
+                                    <v-text-field  outlined label="Cirterion name" v-model="criteria_form.criteria_name"
+                                        :rules="nameRules" class="text-field"  >
                                     </v-text-field>
                                 </v-col>
                                 <v-col cols="12" class="py-0" style="margin-bottom: -20px;">
@@ -78,21 +78,15 @@
                                 </v-col>
                             </v-row>
                         </v-card>
+                    </v-col> -->
 
-                    </v-col>
 
-
-                    <v-btn color="primary" @click="addCriteria" class="ml-3">
+                    <v-btn color="primary"  @click="addCriteria" class="ml-3">
                         <v-icon>
                             mdi-plus
                         </v-icon>
-
                     </v-btn>
                 </v-row>
-
-
-
-
             </v-container>
         </v-form>
 
@@ -100,7 +94,7 @@
 
 
 
-        <v-dialog v-model="deleteDialog" persistent max-width="600px">
+        <v-dialog v-model="deleteDialog" persistent max-width="400">
             <v-card>
 
                 <v-card-title>
@@ -176,17 +170,14 @@
                 this.criteria_form.description = '';
             },
             saveAllCriteria() {
-                this.loading = true;
-                this.criteria.push(this.criteria_form);
+ 
+                this.loading = true;                
                 axios.post(`/api/classwork/rubrics-save/${this.$route.query.clwk}`, {
                         rubrics: this.criteria
                     })
                     .then((res) => {
-                        this.resetForm();
-                        //this.fetchAllRubrics();
                         this.loading = false;
                         this.$emit('CriteriaSave');
-                        //this.$refs.form.reset()
                     })
                     .catch((err) => {
                         console.log(err);
@@ -196,23 +187,16 @@
             },
             addCriteria() {
                 this.isSaved = false;
-                if (this.$refs.form.validate()) {
-                    if (this.criteria_form.points == '') {
-                        this.toastError('Please Complete the fields')
-                    } else {
-                        this.criteria.push({
-                            id: this.num - 1,
-                            points: this.criteria_form.points,
-                            criteria_name: this.criteria_form.criteria_name,
-                            description: this.criteria_form.description,
-                        })
-
-                        this.resetForm();
-                    }
-
-
+                if (!this.$refs.form.validate()) {
+                    this.toastError('Please Complete the fields')
+                }else{
+                     this.criteria.push({
+                        id: null,
+                        points: null,
+                        criteria_name: null,
+                        description: null,
+                    })
                 }
-
             },
            /*  fetchAllRubrics() {
                 this.loading = true;
@@ -230,20 +214,29 @@
                 this.loading = true;
                 axios.delete(`/api/classwork/rubric/delete/${this.$route.query.clwk}/${this.rubrics_id}`)
                     .then((res) => {
-                        
                         this.loading = false;
                         this.deleteDialog = false;
-                        //this.fetchAllRubrics();
                         this.criteria.splice(this.deleteIndex, 1);
                     }).catch((err) => {
                         console.log(err);
                         this.toastError('Something went wrong');
                         this.loading = false;
                     })
+            },
+            CheckCriteria(){
+                if(this.criteria.length == 0){
+                     this.criteria.push({
+                        id: null,
+                        points: null,
+                        criteria_name: null,
+                        description: null,
+                    })
+                }
             }
         },
+
         mounted() {
-            //this.fetchAllRubrics();
+            this.CheckCriteria();
         }
 
     }
