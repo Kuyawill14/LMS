@@ -222,11 +222,13 @@ __webpack_require__.r(__webpack_exports__);
       RoleRules: [function (v) {
         return !!v || "Field is required";
       }],
-      ClassCodeRules: {
-        required: function required(v) {
-          return !!v || "Class code is required";
-        }
-      },
+      StudentIdRules: [function (v) {
+        return !!v || 'Student code is required';
+      }, function (v) {
+        return v && v.length >= 6 || 'min 6 characters';
+      }, function (v) {
+        return v && v.length <= 10 || 'Max 10 characters';
+      }],
       show: false,
       show1: false,
       rules: {
@@ -426,7 +428,7 @@ var render = function() {
                           style:
                             _vm.$vuetify.breakpoint.xs ||
                             _vm.$vuetify.breakpoint.sm
-                              ? "height:30vh;"
+                              ? "height:35vh;"
                               : "height:100vh",
                           attrs: { cols: "12", md: "4" }
                         },
@@ -464,10 +466,51 @@ var render = function() {
                               )
                             : _vm._e(),
                           _vm._v(" "),
+                          !_vm.$vuetify.breakpoint.xs &&
+                          !_vm.$vuetify.breakpoint.sm
+                            ? _c(
+                                "v-container",
+                                {
+                                  staticClass:
+                                    "pt-10 mb-0 pl-5 d-flex justify-center"
+                                },
+                                [
+                                  _c(
+                                    "div",
+                                    { staticStyle: { width: "250px" } },
+                                    [
+                                      _c("v-img", {
+                                        staticClass: "float-right",
+                                        attrs: {
+                                          height: "100",
+                                          width: "100",
+                                          "max-height": "100",
+                                          "max-width": "100",
+                                          src: "../images/isu_logo1.png"
+                                        }
+                                      }),
+                                      _vm._v(" "),
+                                      _c("v-img", {
+                                        attrs: {
+                                          height: "100",
+                                          width: "100",
+                                          "max-height": "100",
+                                          "max-width": "100",
+                                          src: "../images/ccsict_logo_2.png"
+                                        }
+                                      })
+                                    ],
+                                    1
+                                  )
+                                ]
+                              )
+                            : _vm._e(),
+                          _vm._v(" "),
                           _c(
                             "v-container",
                             {
-                              staticClass: "fill-height",
+                              staticClass: "fill-height ",
+                              staticStyle: { "padding-top": "35px" },
                               attrs: { fluid: "" }
                             },
                             [
@@ -521,7 +564,9 @@ var render = function() {
                                                     { staticClass: "text-h6" },
                                                     [_vm._v("A")]
                                                   ),
-                                                  _vm._v("pp for a "),
+                                                  _vm._v(
+                                                    "pp for a\n                                                "
+                                                  ),
                                                   _c(
                                                     "b",
                                                     { staticClass: "text-h6" },
@@ -557,38 +602,51 @@ var render = function() {
                             1
                           ),
                           _vm._v(" "),
-                          !_vm.$vuetify.breakpoint.xs &&
-                          !_vm.$vuetify.breakpoint.sm
-                            ? _c(
-                                "v-container",
+                          _c(
+                            "v-container",
+                            {
+                              staticClass: "fill-height",
+                              class:
+                                _vm.$vuetify.breakpoint.xs ||
+                                _vm.$vuetify.breakpoint.sm
+                                  ? "d-none"
+                                  : "",
+                              attrs: { fluid: "" }
+                            },
+                            [
+                              _c(
+                                "v-row",
                                 {
-                                  staticClass:
-                                    "pb-0 mb-0 pl-5 d-flex justify-center"
+                                  attrs: { align: "center", justify: "center" }
                                 },
                                 [
-                                  _c("v-img", {
-                                    attrs: {
-                                      height: "70",
-                                      width: "70",
-                                      "max-height": "70",
-                                      "max-width": "70",
-                                      src: "../images/isu_logo1.png"
-                                    }
-                                  }),
-                                  _vm._v(" "),
-                                  _c("v-img", {
-                                    attrs: {
-                                      height: "70",
-                                      width: "70",
-                                      "max-height": "70",
-                                      "max-width": "70",
-                                      src: "../images/ccsict_logo_2.png"
-                                    }
-                                  })
+                                  _c(
+                                    "v-col",
+                                    {
+                                      staticClass: "text-center",
+                                      attrs: { cols: "12" }
+                                    },
+                                    [
+                                      _c("iframe", {
+                                        attrs: {
+                                          src:
+                                            "https://player.vimeo.com/video/597374601?h=d67ddce656&muted=1&autoplay=1&loop=1&title=0&byline=0&portrait=0&muted=0&#t=150s",
+                                          width: "440",
+                                          height: "250",
+                                          frameborder: "0",
+                                          allow:
+                                            "autoplay; fullscreen; picture-in-picture",
+                                          allowfullscreen: ""
+                                        }
+                                      })
+                                    ]
+                                  )
                                 ],
                                 1
                               )
-                            : _vm._e()
+                            ],
+                            1
+                          )
                         ],
                         1
                       ),
@@ -617,7 +675,7 @@ var render = function() {
                               _c(
                                 "v-col",
                                 {
-                                  staticClass: "text-left",
+                                  staticClass: "text-left ",
                                   attrs: {
                                     cols: "12",
                                     md: "8",
@@ -660,7 +718,7 @@ var render = function() {
                                                 "v-col",
                                                 {
                                                   staticClass:
-                                                    "ma-0 pa-0 text-left mt-5",
+                                                    " text-left mt-5",
                                                   attrs: { cols: "12", md: "8" }
                                                 },
                                                 [
@@ -713,7 +771,7 @@ var render = function() {
                                                 "v-col",
                                                 {
                                                   staticClass:
-                                                    "ma-0 pa-0 mt-2 ",
+                                                    "mb-0 pb-0 pt-0 mt-2 ",
                                                   attrs: { cols: "12", md: "8" }
                                                 },
                                                 [
@@ -729,7 +787,7 @@ var render = function() {
                                                     attrs: {
                                                       outlined: "",
                                                       dense: "",
-                                                      rules: _vm.nameRules,
+                                                      rules: _vm.StudentIdRules,
                                                       label:
                                                         "Student ID Number",
                                                       name: "student_id",
@@ -757,7 +815,8 @@ var render = function() {
                                               _c(
                                                 "v-col",
                                                 {
-                                                  staticClass: "ma-0 pa-0",
+                                                  staticClass:
+                                                    "mb-0 pb-0 pt-0 mt-0",
                                                   attrs: { cols: "12", md: "8" }
                                                 },
                                                 [
@@ -791,7 +850,8 @@ var render = function() {
                                               _c(
                                                 "v-col",
                                                 {
-                                                  staticClass: "ma-0 pa-0 ",
+                                                  staticClass:
+                                                    "mb-0 pb-0 pt-0 mt-0 ",
                                                   attrs: { cols: "12", md: "8" }
                                                 },
                                                 [
@@ -834,7 +894,8 @@ var render = function() {
                                               _c(
                                                 "v-col",
                                                 {
-                                                  staticClass: "ma-0 pa-0 ",
+                                                  staticClass:
+                                                    "mb-0 pb-0 pt-0 mt-0",
                                                   attrs: { cols: "12", md: "8" }
                                                 },
                                                 [
@@ -876,7 +937,8 @@ var render = function() {
                                               _c(
                                                 "v-col",
                                                 {
-                                                  staticClass: "ma-0 pa-0 ",
+                                                  staticClass:
+                                                    "mb-0 pb-0 pt-0 mt-0 ",
                                                   attrs: { cols: "12", md: "8" }
                                                 },
                                                 [
@@ -918,7 +980,8 @@ var render = function() {
                                               _c(
                                                 "v-col",
                                                 {
-                                                  staticClass: "ma-0 pa-0 ",
+                                                  staticClass:
+                                                    "mb-0 pb-0 pt-0 mt-0",
                                                   attrs: { cols: "12", md: "8" }
                                                 },
                                                 [
@@ -977,7 +1040,8 @@ var render = function() {
                                               _c(
                                                 "v-col",
                                                 {
-                                                  staticClass: "ma-0 pa-0 ",
+                                                  staticClass:
+                                                    "mb-0 pb-0 pt-0 mt-0 ",
                                                   attrs: { cols: "12", md: "8" }
                                                 },
                                                 [
@@ -1032,7 +1096,7 @@ var render = function() {
                                                 "v-col",
                                                 {
                                                   staticClass:
-                                                    "ma-0 pa-0 text-left mt-2",
+                                                    "mb-0 pb-0 pt-0  text-left mt-2",
                                                   attrs: { cols: "12", md: "8" }
                                                 },
                                                 [

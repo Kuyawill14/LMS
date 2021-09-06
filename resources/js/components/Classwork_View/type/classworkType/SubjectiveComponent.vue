@@ -457,7 +457,7 @@
                                 <v-col cols="12" class="pl-7 pr-5">
                                     <div class="text-sm-body-2"> {{classworkDetails.instruction}}</div>
                                 </v-col>
-                                <v-col cols="12" class=" pb-5 pl-4 pr-4">
+                                <v-col v-if="classworkDetails.rubrics.length != 0" cols="12" class=" pb-5 pl-4 pr-4">
                                   <div  class="overline">Rubrics</div>
                                   <v-list>
                                       <v-list-item v-for="(item, index) in classworkDetails.rubrics" :key="index">
@@ -472,7 +472,7 @@
 
                                   </v-list>
                                 </v-col>
-                                 <v-col  cols="12" class=" pb-5 pl-4 pr-4">
+                                 <v-col v-if="classworkDetails.attachment != null" cols="12" class=" pb-5 pl-4 pr-4">
                                    <div class="overline">Attachments</div>
                                    <v-list dense class="ma-0 pa-0">
                                         <v-list-item v-for="(item, i) in classworkDetails.attachment" :key="i" class="ma-0 pa-0">

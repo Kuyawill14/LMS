@@ -120,7 +120,7 @@ class TeacherProfileController extends Controller
             $classwork_count = '(SELECT COUNT(*) FROM tbl_classworks WHERE user_id = '.$userId.' AND course_id = tbl_teacher_courses.course_id) AS total_classworks';
             $sub_module_count = '(SELECT COUNT(*) FROM tbl_main_modules 
             LEFT JOIN tbl_sub_modules ON  tbl_main_modules.id = tbl_sub_modules.main_module_id WHERE tbl_main_modules.created_by = '.$userId.' AND course_id = tbl_teacher_courses.course_id ) AS sub_modules_count';
-            $student_count = '(SELECT COUNT(*) FROM tbl_userclasses WHERE  course_id = tbl_teacher_courses.course_id ) AS total_students';
+          /*   $student_count = '(SELECT COUNT(*) FROM tbl_userclasses WHERE  course_id = tbl_teacher_courses.course_id ) AS total_students'; */
 
            
      
@@ -133,11 +133,27 @@ class TeacherProfileController extends Controller
             ->selectRaw($class_count)
             ->selectRaw($classwork_count)
             ->selectRaw($sub_module_count)
-            ->selectRaw($student_count)
+           /*  ->selectRaw($student_count) */
             ->leftJoin('tbl_teacher_courses','tbl_teacher_courses.course_id','=','tbl_subject_courses.id')
             ->where('tbl_teacher_courses.user_id',$userId)
             ->get();
-            return $allCourses;       
+
+            foreach($allCourses as $item){
+               /*  $Classes = tbl_userclass::where('tbl_userclasses.course_id', $item->course_id) ->get();
+
+                foreach($Classes as $class){ */
+                    $StudentCount = tbl_userclass::where('tbl_userclasses.course_id', $item->course_id)
+                    ->leftJoin('users','users.id','=','tbl_userclasses.user_id')
+                    ->where('users.role','Student')
+                    ->count();
+                    
+                    $item->total_students = $StudentCount;
+                /* } */
+
+               
+            }
+
+            return $allCourses;      
     }
 
 
@@ -165,6 +181,7 @@ class TeacherProfileController extends Controller
             ->leftJoin('users','users.id','=','tbl_userclasses.user_id')
             ->where('users.role','Student')
             ->count();
+            
             $value->student_count = $StudentCount;
         }
 

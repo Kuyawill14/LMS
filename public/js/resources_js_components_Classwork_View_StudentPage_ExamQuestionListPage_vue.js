@@ -531,11 +531,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
         if (AnswersList == null) {
           for (var index = 0; index < _this6.getAll_questions.Question.length; index++) {
-            if (_this6.getAll_questions.Question[index].type == 'Identification' || _this6.getAll_questions.Question[index].type == 'Multiple Choice' || _this6.getAll_questions.Question[index].type == 'True or False' || _this6.getAll_questions.Question[index].type == 'Essay') {
+            if (_this6.getAll_questions.Question[index].type == 'Identification' || _this6.getAll_questions.Question[index].type == 'Multiple Choice' || _this6.getAll_questions.Question[index].type == 'True or False') {
               _this6.FinalAnswers.push({
                 Answer: '',
                 Question_id: _this6.getAll_questions.Question[index].id,
                 type: _this6.getAll_questions.Question[index].type,
+                timeConsume: null
+              });
+            } else if (_this6.getAll_questions.Question[index].type == 'Essay') {
+              _this6.FinalAnswers.push({
+                Answer: '',
+                Question_id: _this6.getAll_questions.Question[index].id,
+                type: _this6.getAll_questions.Question[index].type,
+                check: false,
                 timeConsume: null
               });
             } else if (_this6.getAll_questions.Question[index].type == 'Matching type') {
@@ -579,12 +587,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           var diff = Question_length - Submitted_length;
 
           for (var i = 0; i < diff; i++) {
-            if (_this6.QuestionAndAnswer.Question[i].type == 'Multiple Choice' || _this6.QuestionAndAnswer.Question[i].type == 'Identification' || _this6.QuestionAndAnswer.Question[i].type == 'True or False' || _this6.getAll_questions.Question[x].type == 'Essay') {
+            if (_this6.QuestionAndAnswer.Question[i].type == 'Multiple Choice' || _this6.QuestionAndAnswer.Question[i].type == 'Identification' || _this6.QuestionAndAnswer.Question[i].type == 'True or False') {
               _this6.details.Submitted_Answers.push({
                 Answer: null,
                 Question_id: _this6.QuestionAndAnswer.Question[i].id,
                 timeConsume: null,
                 type: _this6.QuestionAndAnswer.Question[i].type
+              });
+            } else if (_this6.getAll_questions.Question[x].type == 'Essay') {
+              _this6.details.Submitted_Answers.push({
+                Answer: null,
+                Question_id: _this6.QuestionAndAnswer.Question[i].id,
+                timeConsume: null,
+                type: _this6.QuestionAndAnswer.Question[i].type,
+                check: false
               });
             } else if (_this6.QuestionAndAnswer.Question[i].type == 'Matching type') {}
           }

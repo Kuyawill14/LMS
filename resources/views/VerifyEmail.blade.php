@@ -54,9 +54,7 @@
                                         <p style="font-size: 35px;margin-top: 0px;margin-bottom: 0px;">  </strong></p >
                                         <a href="{{ url($url) }}"
                                             style="background:#FF5400;text-decoration:none !important; font-weight:500; margin-top:35px; color:#fff;text-transform:uppercase; font-size:14px;padding:10px 24px;display:inline-block;border-radius:50px;">Verify Email Address</a>
-                                        
-
-
+                                    
                                         <p style="text-align:left ;color:#455056; font-size:15px;line-height:24px;  margin-top:15px;margin-bottom:0px">
                                             Regards,<br>
                                             {{config('app.name')}}
@@ -79,8 +77,12 @@
                     </tr>
                     <tr>
                         <td style="text-align:center;">
+<<<<<<< HEAD
                             <p style="font-size:14px; color:rgba(69, 80, 86, 0.7411764705882353); line-height:18px; margin:0 0 0;">&copy; <strong>{{config('app.name')}}</strong></p>
 
+=======
+                            <p style="font-size:14px; color:rgba(69, 80, 86, 0.7411764705882353); line-height:18px; margin:0 0 0;">&copy; <strong>ORANGE LMS</strong></p>
+>>>>>>> 8f542ea055248df06657b1096166b17b79b03cfe
                         </td>
                     </tr>
                     <tr>

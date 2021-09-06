@@ -22,11 +22,14 @@
                         <template v-slot:body="{ items }">
                             <tbody>
                                 <tr v-for="(item, index) in items" :key="index">
+                                     <td style="width:1%"> <v-icon :color="item.isActive != 0 ? 'success' : ''">mdi-circle-medium</v-icon> </td>
                                     <td> {{item.student_id}} </td>
                                     <td> {{item.lastName }} </td>
                                     <td> {{item.firstName}} </td>
                                     <td> {{item.middleName}} </td>
                                     <td> {{item.email}} </td>
+                                     <td> <v-icon :color="item.isVerified != null ? 'success' : ''">{{item.isVerified ? 'mdi-check' : ''}}</v-icon> </td>
+                                
                                     <td>
                                         <v-btn color="primary" :loading="IsResetting && IsResetting_id == item.user_id"
                                             @click="updatePass(item.user_id)">
@@ -108,6 +111,12 @@
                                 <HasError class="error--text" :form="form" field="email" />
                                 <v-text-field label="Email" name="Email" :rules="loginEmailRules" v-model="form.email"
                                     type="email" color="primary" outlined />
+                            </v-col>
+
+                            <v-col v-if="form.verified == null" class="ma-0 pa-0 mb-1" cols="12" md="12">
+                                <v-btn block rounded large color="primary">
+                                    <v-icon left>mdi-account-check-outline</v-icon>
+                                    Verify user</v-btn>
                             </v-col>
                             <v-col class="ma-0 pa-0 mb-1" cols="12" md="12" v-if="type== 'add'">
                                 <HasError class="error--text" :form="form" field="password" />
@@ -196,7 +205,8 @@
                     email: "",
                     password: "",
                     password_confirmation: "",
-                    student_id: ""
+                    student_id: "",
+                    verified: null
                 }),
                 studenIdRule: [
                     v => !!v || 'Student Id is required',
@@ -221,7 +231,10 @@
                 },
                 StudentList: [],
                 headers: [
-
+                     {
+                 
+                        sortable: false
+                    },
                     {
                         text: 'Student ID',
                         value: 'student_id',
@@ -245,6 +258,10 @@
                     {
                         text: 'Email',
                         value: 'email',
+                        align: 'start',
+                    },
+                     {
+                        text: 'Verified',
                         align: 'start',
                     },
 
@@ -303,6 +320,8 @@
                 this.form.lastName = details.lastName;
                 this.form.email = details.email;
                 this.form.student_id = details.student_id;
+                this.form.verified = details.isVerified;
+                
                 if (!this.valid) {
                     this.$refs.RegisterForm.resetValidation();
                 }

@@ -609,7 +609,7 @@ var render = function() {
                                                         _vm._b(
                                                           {
                                                             staticClass:
-                                                              "text-center "
+                                                              "text-center pl-2 pr-2"
                                                           },
                                                           "div",
                                                           attrs,

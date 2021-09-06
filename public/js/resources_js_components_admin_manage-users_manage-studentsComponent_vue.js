@@ -190,6 +190,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -215,7 +224,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         email: "",
         password: "",
         password_confirmation: "",
-        student_id: ""
+        student_id: "",
+        verified: null
       }),
       studenIdRule: [function (v) {
         return !!v || 'Student Id is required';
@@ -245,6 +255,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       },
       StudentList: [],
       headers: [{
+        sortable: false
+      }, {
         text: 'Student ID',
         value: 'student_id',
         align: 'start'
@@ -263,6 +275,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }, {
         text: 'Email',
         value: 'email',
+        align: 'start'
+      }, {
+        text: 'Verified',
         align: 'start'
       }, {
         text: 'Password Reset',
@@ -308,6 +323,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.form.lastName = details.lastName;
       this.form.email = details.email;
       this.form.student_id = details.student_id;
+      this.form.verified = details.isVerified;
 
       if (!this.valid) {
         this.$refs.RegisterForm.resetValidation();
@@ -662,6 +678,26 @@ var render = function() {
                               [
                                 _vm._l(items, function(item, index) {
                                   return _c("tr", { key: index }, [
+                                    _c(
+                                      "td",
+                                      { staticStyle: { width: "1%" } },
+                                      [
+                                        _c(
+                                          "v-icon",
+                                          {
+                                            attrs: {
+                                              color:
+                                                item.isActive != 0
+                                                  ? "success"
+                                                  : ""
+                                            }
+                                          },
+                                          [_vm._v("mdi-circle-medium")]
+                                        )
+                                      ],
+                                      1
+                                    ),
+                                    _vm._v(" "),
                                     _c("td", [
                                       _vm._v(
                                         " " + _vm._s(item.student_id) + " "
@@ -685,6 +721,33 @@ var render = function() {
                                     _c("td", [
                                       _vm._v(" " + _vm._s(item.email) + " ")
                                     ]),
+                                    _vm._v(" "),
+                                    _c(
+                                      "td",
+                                      [
+                                        _c(
+                                          "v-icon",
+                                          {
+                                            attrs: {
+                                              color:
+                                                item.isVerified != null
+                                                  ? "success"
+                                                  : ""
+                                            }
+                                          },
+                                          [
+                                            _vm._v(
+                                              _vm._s(
+                                                item.isVerified
+                                                  ? "mdi-check"
+                                                  : ""
+                                              )
+                                            )
+                                          ]
+                                        )
+                                      ],
+                                      1
+                                    ),
                                     _vm._v(" "),
                                     _c(
                                       "td",
@@ -1020,6 +1083,39 @@ var render = function() {
                             ],
                             1
                           ),
+                          _vm._v(" "),
+                          _vm.form.verified == null
+                            ? _c(
+                                "v-col",
+                                {
+                                  staticClass: "ma-0 pa-0 mb-1",
+                                  attrs: { cols: "12", md: "12" }
+                                },
+                                [
+                                  _c(
+                                    "v-btn",
+                                    {
+                                      attrs: {
+                                        block: "",
+                                        rounded: "",
+                                        large: "",
+                                        color: "primary"
+                                      }
+                                    },
+                                    [
+                                      _c("v-icon", { attrs: { left: "" } }, [
+                                        _vm._v("mdi-account-check-outline")
+                                      ]),
+                                      _vm._v(
+                                        "\n                                Verify user"
+                                      )
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              )
+                            : _vm._e(),
                           _vm._v(" "),
                           _vm.type == "add"
                             ? _c(

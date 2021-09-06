@@ -473,11 +473,20 @@ export default {
                 let AnswersList = this.Submitted_Answers;
                 if(AnswersList == null){
                     for (let index = 0; index < this.getAll_questions.Question.length; index++) {
-                        if(this.getAll_questions.Question[index].type == 'Identification' || this.getAll_questions.Question[index].type == 'Multiple Choice' || this.getAll_questions.Question[index].type == 'True or False' || this.getAll_questions.Question[index].type == 'Essay' ){
+                        if(this.getAll_questions.Question[index].type == 'Identification' || this.getAll_questions.Question[index].type == 'Multiple Choice' || this.getAll_questions.Question[index].type == 'True or False'){
                             this.FinalAnswers.push({
                                 Answer: '',
                                 Question_id: this.getAll_questions.Question[index].id,
                                 type:this.getAll_questions.Question[index].type,
+                                timeConsume: null
+                            });
+                        }
+                        else if(this.getAll_questions.Question[index].type == 'Essay'){
+                             this.FinalAnswers.push({
+                                Answer: '',
+                                Question_id: this.getAll_questions.Question[index].id,
+                                type:this.getAll_questions.Question[index].type,
+                                check: false,
                                 timeConsume: null
                             });
                         }
@@ -518,12 +527,21 @@ export default {
                     let Question_length = this.getAll_questions.Question.length;
                     let diff = Question_length  - Submitted_length;
                     for (let i = 0; i < diff; i++) {
-                        if(this.QuestionAndAnswer.Question[i].type == 'Multiple Choice' || this.QuestionAndAnswer.Question[i].type == 'Identification' || this.QuestionAndAnswer.Question[i].type == 'True or False' || this.getAll_questions.Question[x].type == 'Essay'){
+                        if(this.QuestionAndAnswer.Question[i].type == 'Multiple Choice' || this.QuestionAndAnswer.Question[i].type == 'Identification' || this.QuestionAndAnswer.Question[i].type == 'True or False'){
                             this.details.Submitted_Answers.push({
                                 Answer: null,
                                 Question_id: this.QuestionAndAnswer.Question[i].id,
                                 timeConsume: null,
                                 type: this.QuestionAndAnswer.Question[i].type
+                            })
+                        }
+                        else if(this.getAll_questions.Question[x].type == 'Essay'){
+                            this.details.Submitted_Answers.push({
+                                Answer: null,
+                                Question_id: this.QuestionAndAnswer.Question[i].id,
+                                timeConsume: null,
+                                type: this.QuestionAndAnswer.Question[i].type,
+                                check: false,
                             })
                         }
                         else if(this.QuestionAndAnswer.Question[i].type == 'Matching type'){

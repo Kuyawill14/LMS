@@ -3343,7 +3343,11 @@ exports.f = __nested_webpack_require_122444__("9e1e") ? Object.defineProperty : 
 /***/ "8bbf":
 /***/ (function(module, exports) {
 
+<<<<<<< HEAD
 module.exports = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
+=======
+module.exports = __webpack_require__(/*! vue */ "./node_modules/vue-core-video-player/node_modules/vue/dist/vue.esm.js");
+>>>>>>> 8f542ea055248df06657b1096166b17b79b03cfe
 
 /***/ }),
 

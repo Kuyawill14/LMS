@@ -71,16 +71,13 @@
                                         </v-col>
                                         <v-col class="text-right">
                                             
-                                        <v-btn color="primary"  dark @click="rubricsDialog = true">
+                                        <v-btn color="primary" rounded dark @click="rubricsDialog = true">
                                             <v-icon > mdi-plus </v-icon>
                                             Add
                                         </v-btn>
                                         </v-col>
                                     </v-row>
-                                   
-
-
-
+                                
                                     <v-list>
                                         <v-list-item v-for="(item, index) in Details.rubrics" :key="index">
                                             <v-list-item-avatar tile>
@@ -95,6 +92,8 @@
                                             </v-list-item-content>
                                         </v-list-item>
                                     </v-list>
+
+                                    
                                   <!--   <v-row justify="center" align="center">
                                         <v-col cols="11">
 

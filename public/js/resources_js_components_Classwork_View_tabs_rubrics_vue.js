@@ -138,12 +138,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['dialog', 'total_points', 'title', 'rubrics'],
@@ -189,17 +183,12 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       this.loading = true;
-      this.criteria.push(this.criteria_form);
       axios__WEBPACK_IMPORTED_MODULE_0___default().post("/api/classwork/rubrics-save/".concat(this.$route.query.clwk), {
         rubrics: this.criteria
       }).then(function (res) {
-        _this2.resetForm(); //this.fetchAllRubrics();
-
-
         _this2.loading = false;
 
-        _this2.$emit('CriteriaSave'); //this.$refs.form.reset()
-
+        _this2.$emit('CriteriaSave');
       })["catch"](function (err) {
         console.log(err);
 
@@ -211,18 +200,15 @@ __webpack_require__.r(__webpack_exports__);
     addCriteria: function addCriteria() {
       this.isSaved = false;
 
-      if (this.$refs.form.validate()) {
-        if (this.criteria_form.points == '') {
-          this.toastError('Please Complete the fields');
-        } else {
-          this.criteria.push({
-            id: this.num - 1,
-            points: this.criteria_form.points,
-            criteria_name: this.criteria_form.criteria_name,
-            description: this.criteria_form.description
-          });
-          this.resetForm();
-        }
+      if (!this.$refs.form.validate()) {
+        this.toastError('Please Complete the fields');
+      } else {
+        this.criteria.push({
+          id: null,
+          points: null,
+          criteria_name: null,
+          description: null
+        });
       }
     },
 
@@ -244,7 +230,7 @@ __webpack_require__.r(__webpack_exports__);
       this.loading = true;
       axios__WEBPACK_IMPORTED_MODULE_0___default().delete("/api/classwork/rubric/delete/".concat(this.$route.query.clwk, "/").concat(this.rubrics_id)).then(function (res) {
         _this3.loading = false;
-        _this3.deleteDialog = false; //this.fetchAllRubrics();
+        _this3.deleteDialog = false;
 
         _this3.criteria.splice(_this3.deleteIndex, 1);
       })["catch"](function (err) {
@@ -254,9 +240,20 @@ __webpack_require__.r(__webpack_exports__);
 
         _this3.loading = false;
       });
+    },
+    CheckCriteria: function CheckCriteria() {
+      if (this.criteria.length == 0) {
+        this.criteria.push({
+          id: null,
+          points: null,
+          criteria_name: null,
+          description: null
+        });
+      }
     }
   },
-  mounted: function mounted() {//this.fetchAllRubrics();
+  mounted: function mounted() {
+    this.CheckCriteria();
   }
 });
 
@@ -447,7 +444,7 @@ var render = function() {
                 1
               ),
               _vm._v(" "),
-              _c("v-toolbar-title", [_vm._v("Rubcris")]),
+              _c("v-toolbar-title", [_vm._v("Rubrics")]),
               _vm._v(" "),
               _c("v-spacer"),
               _vm._v(" "),
@@ -590,7 +587,7 @@ var render = function() {
                                       staticClass: "text-field",
                                       attrs: {
                                         outlined: "",
-                                        label: "Cirterion name",
+                                        label: "Criteria name",
                                         rules: _vm.nameRules,
                                         type: "text",
                                         required: ""
@@ -645,122 +642,6 @@ var render = function() {
                   }),
                   _vm._v(" "),
                   _c(
-                    "v-col",
-                    { attrs: { cols: "3" } },
-                    [
-                      _c(
-                        "v-card",
-                        { staticClass: "pa-5" },
-                        [
-                          _c(
-                            "v-row",
-                            [
-                              _c(
-                                "v-col",
-                                {
-                                  staticStyle: { "margin-bottom": "-20px" },
-                                  attrs: { cols: "12" }
-                                },
-                                [
-                                  _c("v-text-field", {
-                                    staticClass: "text-field",
-                                    attrs: {
-                                      outlined: "",
-                                      label: "Points",
-                                      type: "text",
-                                      rules: _vm.pointsRules,
-                                      required: ""
-                                    },
-                                    model: {
-                                      value: _vm.criteria_form.points,
-                                      callback: function($$v) {
-                                        _vm.$set(
-                                          _vm.criteria_form,
-                                          "points",
-                                          $$v
-                                        )
-                                      },
-                                      expression: "criteria_form.points"
-                                    }
-                                  })
-                                ],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "v-col",
-                                {
-                                  staticClass: "py-0",
-                                  staticStyle: { "margin-bottom": "-20px" },
-                                  attrs: { cols: "12" }
-                                },
-                                [
-                                  _c("v-text-field", {
-                                    staticClass: "text-field",
-                                    attrs: {
-                                      outlined: "",
-                                      label: "Cirterion name",
-                                      rules: _vm.nameRules,
-                                      type: "text",
-                                      required: ""
-                                    },
-                                    model: {
-                                      value: _vm.criteria_form.criteria_name,
-                                      callback: function($$v) {
-                                        _vm.$set(
-                                          _vm.criteria_form,
-                                          "criteria_name",
-                                          $$v
-                                        )
-                                      },
-                                      expression: "criteria_form.criteria_name"
-                                    }
-                                  })
-                                ],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "v-col",
-                                {
-                                  staticClass: "py-0",
-                                  staticStyle: { "margin-bottom": "-20px" },
-                                  attrs: { cols: "12" }
-                                },
-                                [
-                                  _c("v-textarea", {
-                                    staticClass: "text-field",
-                                    attrs: {
-                                      label: "Description",
-                                      outlined: "",
-                                      "auto-grow": ""
-                                    },
-                                    model: {
-                                      value: _vm.criteria_form.description,
-                                      callback: function($$v) {
-                                        _vm.$set(
-                                          _vm.criteria_form,
-                                          "description",
-                                          $$v
-                                        )
-                                      },
-                                      expression: "criteria_form.description"
-                                    }
-                                  })
-                                ],
-                                1
-                              )
-                            ],
-                            1
-                          )
-                        ],
-                        1
-                      )
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
                     "v-btn",
                     {
                       staticClass: "ml-3",
@@ -789,7 +670,7 @@ var render = function() {
       _c(
         "v-dialog",
         {
-          attrs: { persistent: "", "max-width": "600px" },
+          attrs: { persistent: "", "max-width": "400" },
           model: {
             value: _vm.deleteDialog,
             callback: function($$v) {

@@ -199,8 +199,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       if (this.announcement.content != '') {
         this.isloading = true;
         this.announcement.file = "sample";
-        this.announcement.course_id = this.$route.params.id;
-        this.announcement.class_id = this.class_id;
+        this.announcement.course_id = this.$route.params.id == this.class_id ? this.$route.params.id : null;
+        this.announcement.class_id = this.$route.params.id != this.class_id ? this.class_id : null;
+        ;
         this.announcement.content = this.announcement.content.replaceAll('p>', 'div>');
         this.$store.dispatch('createClassPost', this.announcement).then(function (res) {
           if (res.status == 200) {
@@ -295,8 +296,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee2);
       }));
     }
-  }, _defineProperty(_methods, "onChange", function onChange(quill, html, text) {
-    console.log(this.announcement.content);
+  }, _defineProperty(_methods, "onChange", function onChange(quill, html, text) {//console.log(this.announcement.content);
   }), _defineProperty(_methods, "fetchClassnames", function fetchClassnames() {
     var _this3 = this;
 
@@ -321,13 +321,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         while (1) {
           switch (_context3.prev = _context3.next) {
             case 0:
-              _this4.notifyDetails.class_id = _this4.class_id;
-              _this4.notifyDetails.course_id = _this4.$route.params.id;
+              _this4.notifyDetails.class_id = _this4.$route.params.id != _this4.class_id ? _this4.class_id : null;
+              _this4.notifyDetails.course_id = _this4.$route.params.id == _this4.class_id ? _this4.$route.params.id : null;
+              _this4.notifyDetails.course_find_id = _this4.$route.params.id;
               _this4.notifyDetails.announcement_id = announcement_id;
               _this4.notifyDetails.type = 'announcement';
               axios.post('/api/notification/new', _this4.notifyDetails);
 
-            case 5:
+            case 6:
             case "end":
               return _context3.stop();
           }
@@ -558,11 +559,6 @@ var render = function() {
                           label: "All Class",
                           dense: "",
                           solo: ""
-                        },
-                        on: {
-                          change: function($event) {
-                            return _vm.testing()
-                          }
                         },
                         model: {
                           value: _vm.class_id,

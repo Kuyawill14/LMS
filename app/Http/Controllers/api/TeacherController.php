@@ -160,6 +160,7 @@ class TeacherController extends Controller
      */
     public function updateScoreObj(Request $request, $id)
     {   
+        //return $request->type;
 
         $updateObj = tbl_Submission::where('id', $id)->first();
         if($updateObj){
@@ -170,7 +171,13 @@ class TeacherController extends Controller
                 $updateObj->points = ($updateObj->points - $request->points);
                 foreach($Tmp as $item){
                     if($item['Question_id'] == $request->question_id){
-                        $item['Answer'] = "";
+                        if($item['type'] == 'Essay'){
+                            $item['check'] = false;   
+                        }
+                        else{
+                            $item['Answer'] = null;
+                        }
+                      
                         array_push($TempAnswers, $item);
                     }
                     else{
@@ -184,7 +191,13 @@ class TeacherController extends Controller
             $updateObj->points = ($updateObj->points + $request->points);
             foreach($Tmp as $item){
                 if($item['Question_id'] == $request->question_id){
-                    $item['Answer'] =  $request->answer;
+                    //$item['Answer'] =  $request->answer;
+                    if($item['type'] == 'Essay'){
+                        $item['check'] = true;   
+                    }
+                    else{
+                        $item['Answer'] =  $request->answer;
+                    }
                     array_push($TempAnswers, $item);
                 }
                 else{

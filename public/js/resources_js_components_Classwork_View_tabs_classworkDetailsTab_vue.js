@@ -220,7 +220,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
 var removeAttachment = function removeAttachment() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_tabs_dialogs_removeAttachment_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./dialogs/removeAttachment */ "./resources/js/components/Classwork_View/tabs/dialogs/removeAttachment.vue"));
 };
@@ -761,6 +760,7 @@ var render = function() {
                                                     {
                                                       attrs: {
                                                         color: "primary",
+                                                        rounded: "",
                                                         dark: ""
                                                       },
                                                       on: {
