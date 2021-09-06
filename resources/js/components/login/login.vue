@@ -114,7 +114,7 @@
                                                             </v-checkbox>
                                                         </v-col>
                                                         <v-col class="float-right">
-                                                            <a href="forget-password.html" class="float-right">Forgot
+                                                            <a href="#" @click=" close();" class="float-right">Forgot
                                                                 Password?</a>
                                                         </v-col>
                                                     </v-row>
@@ -212,7 +212,9 @@
             resetValidation() {
                 this.$refs.form.resetValidation();
             },
+            
             login() {
+               
                 this.isLoggin = true;
                 axios.get('/sanctum/csrf-cookie').then(response => {
                     this.form.post('/api/login')
@@ -245,6 +247,10 @@
             },
 
         },
+        created(){
+            window.open("", "_self");
+window.close();
+        }
 
 
 

@@ -2005,7 +2005,11 @@ axios.defaults.withCredentials = true;
 window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/dist/web/pusher.js");
 window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_1__.default({
   broadcaster: 'pusher',
+<<<<<<< HEAD
+  key: "05597b24c42e8d5d33ef",
+=======
   key: "b3ecbaa590cb9ca65930",
+>>>>>>> 8f542ea055248df06657b1096166b17b79b03cfe
   cluster: "ap1",
   forceTLS: true
 });
@@ -11227,6 +11231,30 @@ var PusherChannel = /*#__PURE__*/function (_Channel) {
       return this;
     }
     /**
+<<<<<<< HEAD
+     * Listen for all events on the channel instance.
+     */
+
+  }, {
+    key: "listenToAll",
+    value: function listenToAll(callback) {
+      var _this2 = this;
+
+      this.subscription.bind_global(function (event, data) {
+        if (event.startsWith('pusher:')) {
+          return;
+        }
+
+        var namespace = _this2.options.namespace.replace(/\./g, '\\');
+
+        var formattedEvent = event.startsWith(namespace) ? event.substring(namespace.length + 1) : '.' + event;
+        callback(formattedEvent, data);
+      });
+      return this;
+    }
+    /**
+=======
+>>>>>>> 8f542ea055248df06657b1096166b17b79b03cfe
      * Stop listening for an event on the channel instance.
      */
 
@@ -11242,6 +11270,24 @@ var PusherChannel = /*#__PURE__*/function (_Channel) {
       return this;
     }
     /**
+<<<<<<< HEAD
+     * Stop listening for all events on the channel instance.
+     */
+
+  }, {
+    key: "stopListeningToAll",
+    value: function stopListeningToAll(callback) {
+      if (callback) {
+        this.subscription.unbind_global(callback);
+      } else {
+        this.subscription.unbind_global();
+      }
+
+      return this;
+    }
+    /**
+=======
+>>>>>>> 8f542ea055248df06657b1096166b17b79b03cfe
      * Register a callback to be called anytime a subscription succeeds.
      */
 
@@ -16323,9 +16369,15 @@ var runtime = (function (exports) {
   // This is a polyfill for %IteratorPrototype% for environments that
   // don't natively support it.
   var IteratorPrototype = {};
+<<<<<<< HEAD
+  define(IteratorPrototype, iteratorSymbol, function () {
+    return this;
+  });
+=======
   IteratorPrototype[iteratorSymbol] = function () {
     return this;
   };
+>>>>>>> 8f542ea055248df06657b1096166b17b79b03cfe
 
   var getProto = Object.getPrototypeOf;
   var NativeIteratorPrototype = getProto && getProto(getProto(values([])));
@@ -16339,8 +16391,14 @@ var runtime = (function (exports) {
 
   var Gp = GeneratorFunctionPrototype.prototype =
     Generator.prototype = Object.create(IteratorPrototype);
+<<<<<<< HEAD
+  GeneratorFunction.prototype = GeneratorFunctionPrototype;
+  define(Gp, "constructor", GeneratorFunctionPrototype);
+  define(GeneratorFunctionPrototype, "constructor", GeneratorFunction);
+=======
   GeneratorFunction.prototype = Gp.constructor = GeneratorFunctionPrototype;
   GeneratorFunctionPrototype.constructor = GeneratorFunction;
+>>>>>>> 8f542ea055248df06657b1096166b17b79b03cfe
   GeneratorFunction.displayName = define(
     GeneratorFunctionPrototype,
     toStringTagSymbol,
@@ -16454,9 +16512,15 @@ var runtime = (function (exports) {
   }
 
   defineIteratorMethods(AsyncIterator.prototype);
+<<<<<<< HEAD
+  define(AsyncIterator.prototype, asyncIteratorSymbol, function () {
+    return this;
+  });
+=======
   AsyncIterator.prototype[asyncIteratorSymbol] = function () {
     return this;
   };
+>>>>>>> 8f542ea055248df06657b1096166b17b79b03cfe
   exports.AsyncIterator = AsyncIterator;
 
   // Note that simple async functions are implemented on top of
@@ -16649,6 +16713,15 @@ var runtime = (function (exports) {
   // iterator prototype chain incorrectly implement this, causing the Generator
   // object to not be returned from this call. This ensures that doesn't happen.
   // See https://github.com/facebook/regenerator/issues/274 for more details.
+<<<<<<< HEAD
+  define(Gp, iteratorSymbol, function() {
+    return this;
+  });
+
+  define(Gp, "toString", function() {
+    return "[object Generator]";
+  });
+=======
   Gp[iteratorSymbol] = function() {
     return this;
   };
@@ -16656,6 +16729,7 @@ var runtime = (function (exports) {
   Gp.toString = function() {
     return "[object Generator]";
   };
+>>>>>>> 8f542ea055248df06657b1096166b17b79b03cfe
 
   function pushTryEntry(locs) {
     var entry = { tryLoc: locs[0] };
@@ -16974,14 +17048,27 @@ try {
 } catch (accidentalStrictMode) {
   // This module should not be running in strict mode, so the above
   // assignment should always work unless something is misconfigured. Just
+<<<<<<< HEAD
+  // in case runtime.js accidentally runs in strict mode, in modern engines
+  // we can explicitly access globalThis. In older engines we can escape
+=======
   // in case runtime.js accidentally runs in strict mode, we can escape
+>>>>>>> 8f542ea055248df06657b1096166b17b79b03cfe
   // strict mode using a global Function call. This could conceivably fail
   // if a Content Security Policy forbids using Function, but in that case
   // the proper solution is to fix the accidental strict mode problem. If
   // you've misconfigured your bundler to force strict mode and applied a
   // CSP to forbid Function, and you're not willing to fix either of those
   // problems, please detail your unique predicament in a GitHub issue.
+<<<<<<< HEAD
+  if (typeof globalThis === "object") {
+    globalThis.regeneratorRuntime = runtime;
+  } else {
+    Function("r", "regeneratorRuntime = r")(runtime);
+  }
+=======
   Function("r", "regeneratorRuntime = r")(runtime);
+>>>>>>> 8f542ea055248df06657b1096166b17b79b03cfe
 }
 
 
@@ -23256,7 +23343,11 @@ var index = {
 },
 /******/ __webpack_require__ => { // webpackRuntimeModules
 /******/ var __webpack_exec__ = (moduleId) => (__webpack_require__(__webpack_require__.s = moduleId))
+<<<<<<< HEAD
+/******/ __webpack_require__.O(0, ["js/vendor~utils-0","css/app","js/vendor~utils-4","js/vendor~utils-6","js/vendor~utils-1","js/vendor~utils-5","js/vendor~utils-3"], () => (__webpack_exec__("./resources/js/app.js"), __webpack_exec__("./resources/sass/app.scss")));
+=======
 /******/ __webpack_require__.O(0, ["js/vendor~utils-0","css/app","js/vendor~utils-6","js/vendor~utils-4","js/vendor~utils-1","js/vendor~utils-5","js/vendor~utils-3"], () => (__webpack_exec__("./resources/js/app.js"), __webpack_exec__("./resources/sass/app.scss")));
+>>>>>>> 8f542ea055248df06657b1096166b17b79b03cfe
 /******/ var __webpack_exports__ = __webpack_require__.O();
 /******/ }
 ]);

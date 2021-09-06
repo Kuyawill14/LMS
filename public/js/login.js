@@ -266,6 +266,13 @@ __webpack_require__.r(__webpack_exports__);
         });
       });
     }
+<<<<<<< HEAD
+  },
+  created: function created() {
+    window.open("", "_self");
+    window.close();
+=======
+>>>>>>> 8f542ea055248df06657b1096166b17b79b03cfe
   }
 });
 
@@ -882,8 +889,19 @@ var render = function() {
                                                               staticClass:
                                                                 "float-right",
                                                               attrs: {
+<<<<<<< HEAD
+                                                                href: "#"
+                                                              },
+                                                              on: {
+                                                                click: function(
+                                                                  $event
+                                                                ) {
+                                                                  return _vm.close()
+                                                                }
+=======
                                                                 href:
                                                                   "forget-password.html"
+>>>>>>> 8f542ea055248df06657b1096166b17b79b03cfe
                                                               }
                                                             },
                                                             [
