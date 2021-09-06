@@ -332,6 +332,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         _this2.semesterModal = false;
         _this2.syModal = false;
         _this2.isSubmitting = false;
+        _this2.id = null;
+        _this2.school_year = '';
+        _this2.semester = '';
       })["catch"](function (e) {
         alert(e.message);
         _this2.isSubmitting = false;

@@ -100,13 +100,13 @@
                 <v-col lg="3" md="6" v-for="(item, i) in allCoursesData" :key="'course'+i">
                     <div class="card-expansion">
                         <v-card class="mx-auto">
-                            <router-link :to="{name: 'coursePage', params: {id: item.id}}">
+                        
+                          
                                 <v-img :src="'../images/'+item.course_picture" height="200px" link
                                   >
-                                    <v-spacer></v-spacer>
-                                    <v-menu transition="slide-y-transition" bottom>
+                                       <v-menu transition="slide-y-transition" bottom >
                                         <template v-slot:activator="{ on, attrs }">
-                                            <v-btn icon v-bind="attrs" v-on="on" class="float-right" color="white">
+                                            <v-btn icon v-bind="attrs" v-on="on" class="float-right" color="white" >
                                                 <v-icon>
                                                     mdi-dots-vertical
                                                 </v-icon>
@@ -128,8 +128,10 @@
                                             </v-list-item>
                                         </v-list>
                                     </v-menu>
+                                    <v-spacer></v-spacer>
+                                   
                                 </v-img>
-                            </router-link>
+                    
                             <v-card-subtitle>
                                 <router-link :to="{name: 'coursePage', params: {id: item.id}}"
                                     style="text-decoration: none">

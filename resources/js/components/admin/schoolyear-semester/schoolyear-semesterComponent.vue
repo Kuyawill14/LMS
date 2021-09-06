@@ -327,6 +327,9 @@
                         this.semesterModal = false;
                         this.syModal = false;
                         this.isSubmitting = false;
+                        this.id = null;
+                        this.school_year = '';
+                        this.semester = '';
                     }).catch((e) => {
                         alert(e.message);
                         this.isSubmitting = false;
