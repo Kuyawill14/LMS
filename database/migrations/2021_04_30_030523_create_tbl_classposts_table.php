@@ -16,8 +16,8 @@ class CreateTblClasspostsTable extends Migration
         Schema::create('tbl_classposts', function (Blueprint $table) {
             $table->id();
             $table->integer("user_id");
-            $table->integer("course_id");
-            $table->integer("class_id");
+            $table->integer("course_id")->nullable();
+            $table->integer("class_id")->nullable();
             $table->integer("announcement_id");
             $table->integer("classwork_id");
             $table->timestamps();

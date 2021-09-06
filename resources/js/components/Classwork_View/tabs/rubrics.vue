@@ -150,11 +150,8 @@
                 ],
                 pointsRules: [
                     v => !!v || 'Points is required'
-
                 ],
-
             }
-
         },
         methods: {
             closeModal() {
@@ -170,20 +167,19 @@
                 this.criteria_form.description = '';
             },
             saveAllCriteria() {
- 
                 this.loading = true;                
                 axios.post(`/api/classwork/rubrics-save/${this.$route.query.clwk}`, {
-                        rubrics: this.criteria
-                    })
-                    .then((res) => {
-                        this.loading = false;
-                        this.$emit('CriteriaSave');
-                    })
-                    .catch((err) => {
-                        console.log(err);
-                        this.toastError('Something went wrong');
-                        this.loading = false;
-                    })
+                    rubrics: this.criteria
+                })
+                .then((res) => {
+                    this.loading = false;
+                    this.$emit('CriteriaSave');
+                })
+                .catch((err) => {
+                    console.log(err);
+                    this.toastError('Something went wrong');
+                    this.loading = false;
+                })
             },
             addCriteria() {
                 this.isSaved = false;
@@ -234,7 +230,6 @@
                 }
             }
         },
-
         mounted() {
             this.CheckCriteria();
         }

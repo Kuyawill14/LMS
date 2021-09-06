@@ -9,6 +9,7 @@ use App\Models\tbl_userDetails;
 use Illuminate\Support\Facades\Hash;
 use App\Mail\SendNewPassword;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\DB;
 class AdminController extends Controller
 {
     /**
@@ -21,22 +22,27 @@ class AdminController extends Controller
         //
     }
     public function getAllTeacher() {
+
+        $isActive = '(SELECT COUNT(*) FROM sessions WHERE user_id =  tbl_user_details.user_id) AS isActive';
         $teachers = tbl_userDetails::where("role","Teacher")
-        ->select("users.role","users.email",
+        ->select("users.role","users.email","users.email_verified_at as isVerified",
         "tbl_user_details.*")
+        ->selectRaw($isActive)
         ->leftJoin("users", "users.id", "=", "tbl_user_details.user_id")
         ->get();
-
+        
         return $teachers;
     }
 
     public function getAllStudent() {
+        $isActive = '(SELECT COUNT(*) FROM sessions WHERE user_id =  tbl_user_details.user_id) AS isActive';
         $student = tbl_userDetails::where("role","Student")
-        ->select("users.role","users.email",
+        ->select("users.role","users.email","users.email_verified_at as isVerified",
         "tbl_user_details.*")
+        ->selectRaw($isActive)
         ->leftJoin("users", "users.id", "=", "tbl_user_details.user_id")
         ->get();
-
+        
         return $student;
     }
 
@@ -120,6 +126,8 @@ class AdminController extends Controller
             "role"=>$request->role, 
             "email" => $New->email,
             "student_id" => $details->student_id,
+            "isVerified" => true,
+            "isActive" => 0,
         ]);
 
 
@@ -171,7 +179,9 @@ class AdminController extends Controller
             "lastName"=>$details->lastName, 
             "middleName"=>$details->middleName, 
             "role"=>$request->role, 
-            "email" => $New->email
+            "email" => $New->email,
+            "isVerified" => true,
+            "isActive" => 0,
         ]);
     }
 

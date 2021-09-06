@@ -25,12 +25,13 @@
                         <template v-slot:body="{ items }">
                             <tbody>
                                 <tr v-for="(item, index) in items" :key="index">
+                                    <td style="width:1%"> <v-icon :color="item.isActive != 0 ? 'success' : ''">mdi-circle-medium</v-icon> </td>
                                     <td> {{item.user_id}} </td>
                                     <td> {{item.lastName }} </td>
                                     <td> {{item.firstName}} </td>
                                     <td> {{item.middleName}} </td>
                                     <td> {{item.email}} </td>
-
+                                    <td> <v-icon :color="item.isVerified != null ? 'success' : ''">{{item.isVerified ? 'mdi-check' : ''}}</v-icon> </td>
 
                                     <td>
                                         <v-btn color="primary" :disabled="IsResetting && IsResetting_id == item.user_id"
@@ -110,6 +111,11 @@
                                 <v-text-field autocomplete="false" label="Email" name="Email" :rules="loginEmailRules"
                                     v-model="form.email" type="email" color="primary" outlined />
                             </v-col>
+                             <v-col v-if="form.verified == null && type == 'edit'" class="ma-0 pa-0 mb-1" cols="12" md="12">
+                                <v-btn block rounded large color="primary">
+                                    <v-icon left>mdi-account-check-outline</v-icon>
+                                    Verify user</v-btn>
+                            </v-col>
                             <v-col class="ma-0 pa-0 mb-1" cols="12" md="12" v-if="type== 'add'">
                                 <HasError class="error--text" :form="form" field="password" />
                                 <v-text-field autocomplete="off" :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
@@ -188,6 +194,7 @@
                     email: "",
                     password: "",
                     password_confirmation: "",
+                    verified: null
                 }),
 
                 nameRules: [
@@ -209,7 +216,9 @@
                     min: v => (v && v.length >= 6) || "min 6 characters"
                 },
                 headers: [
-
+                    {
+                        sortable: false
+                    },
                     {
                         text: 'ID',
                         value: 'user_id',
@@ -235,7 +244,10 @@
                         value: 'email',
                         align: 'start',
                     },
-
+                    {
+                        text: 'Verified',
+                        align: 'start',
+                    },
                     {
                         text: 'Password Reset',
                         sortable: false
@@ -294,6 +306,7 @@
                 this.form.middleName = currentTeacher.middleName;
                 this.form.lastName = currentTeacher.lastName;
                 this.form.email = currentTeacher.email;
+                this.form.verified = currentTeacher.isVerified;
             },
             openDelete(id, index) {
                 this.deleteIndex = index;
@@ -345,7 +358,8 @@
                                     this.$refs.RegisterForm.reset()
                                     this.valid = true;
                                     this.dialog = false;
-                                    this.$store.dispatch('fetchAllTeachers');
+                                    //this.$store.dispatch('fetchAllTeachers');
+                                    this.StudentList.push(res.data);
                                     this.toastSuccess('User Successfully Added!')
                                     this.IsAddUpdating = false;
                                 } else {

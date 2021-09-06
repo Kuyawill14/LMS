@@ -181,6 +181,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -204,7 +210,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         lastName: "",
         email: "",
         password: "",
-        password_confirmation: ""
+        password_confirmation: "",
+        verified: null
       }),
       nameRules: [function (v) {
         return !!v || 'Field is required';
@@ -230,6 +237,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         }
       },
       headers: [{
+        sortable: false
+      }, {
         text: 'ID',
         value: 'user_id',
         align: 'start'
@@ -248,6 +257,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }, {
         text: 'Email',
         value: 'email',
+        align: 'start'
+      }, {
+        text: 'Verified',
         align: 'start'
       }, {
         text: 'Password Reset',
@@ -293,6 +305,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.form.middleName = currentTeacher.middleName;
       this.form.lastName = currentTeacher.lastName;
       this.form.email = currentTeacher.email;
+      this.form.verified = currentTeacher.isVerified;
     },
     openDelete: function openDelete(id, index) {
       this.deleteIndex = index;
@@ -348,9 +361,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               _this4.$refs.RegisterForm.reset();
 
               _this4.valid = true;
-              _this4.dialog = false;
+              _this4.dialog = false; //this.$store.dispatch('fetchAllTeachers');
 
-              _this4.$store.dispatch('fetchAllTeachers');
+              _this4.StudentList.push(res.data);
 
               _this4.toastSuccess('User Successfully Added!');
 
@@ -649,6 +662,26 @@ var render = function() {
                               [
                                 _vm._l(items, function(item, index) {
                                   return _c("tr", { key: index }, [
+                                    _c(
+                                      "td",
+                                      { staticStyle: { width: "1%" } },
+                                      [
+                                        _c(
+                                          "v-icon",
+                                          {
+                                            attrs: {
+                                              color:
+                                                item.isActive != 0
+                                                  ? "success"
+                                                  : ""
+                                            }
+                                          },
+                                          [_vm._v("mdi-circle-medium")]
+                                        )
+                                      ],
+                                      1
+                                    ),
+                                    _vm._v(" "),
                                     _c("td", [
                                       _vm._v(" " + _vm._s(item.user_id) + " ")
                                     ]),
@@ -670,6 +703,33 @@ var render = function() {
                                     _c("td", [
                                       _vm._v(" " + _vm._s(item.email) + " ")
                                     ]),
+                                    _vm._v(" "),
+                                    _c(
+                                      "td",
+                                      [
+                                        _c(
+                                          "v-icon",
+                                          {
+                                            attrs: {
+                                              color:
+                                                item.isVerified != null
+                                                  ? "success"
+                                                  : ""
+                                            }
+                                          },
+                                          [
+                                            _vm._v(
+                                              _vm._s(
+                                                item.isVerified
+                                                  ? "mdi-check"
+                                                  : ""
+                                              )
+                                            )
+                                          ]
+                                        )
+                                      ],
+                                      1
+                                    ),
                                     _vm._v(" "),
                                     _c(
                                       "td",
@@ -983,6 +1043,39 @@ var render = function() {
                             ],
                             1
                           ),
+                          _vm._v(" "),
+                          _vm.form.verified == null && _vm.type == "edit"
+                            ? _c(
+                                "v-col",
+                                {
+                                  staticClass: "ma-0 pa-0 mb-1",
+                                  attrs: { cols: "12", md: "12" }
+                                },
+                                [
+                                  _c(
+                                    "v-btn",
+                                    {
+                                      attrs: {
+                                        block: "",
+                                        rounded: "",
+                                        large: "",
+                                        color: "primary"
+                                      }
+                                    },
+                                    [
+                                      _c("v-icon", { attrs: { left: "" } }, [
+                                        _vm._v("mdi-account-check-outline")
+                                      ]),
+                                      _vm._v(
+                                        "\n                                Verify user"
+                                      )
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              )
+                            : _vm._e(),
                           _vm._v(" "),
                           _vm.type == "add"
                             ? _c(

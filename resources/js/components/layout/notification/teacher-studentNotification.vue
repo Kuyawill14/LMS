@@ -118,19 +118,19 @@
                         </v-list-item-content>
                     </v-list-item>
                     
-
-                    <v-list-item link  v-show="notificationType == 'all' || item.notification_type == notificationType" v-for="(item, index) in get_notification" :key="index">
+                   <template v-for="(item, index) in get_notification">
+                    <v-list-item link :class="item.status == null ? 'grey_active' : ''"  v-show="notificationType == 'all' || item.notification_type == notificationType"  :key="item.id">
                         
 
                             
-                        <v-list-item-avatar >
+                        <v-list-item-avatar @click="GotoThisNotification(item)" >
                             <v-icon color="blue" v-if="item.notification_type == 3 || item.notification_type == 2" large>mdi-account-plus</v-icon>
                             <v-icon color="red" v-if="item.notification_type == 1" large>mdi-bullhorn-outline</v-icon>
                                 <v-icon color="green" v-if="item.notification_type == 4" large> mdi-book-open-variant</v-icon>
                         </v-list-item-avatar>
                       
                 
-                        <v-list-item-content>
+                        <v-list-item-content @click="GotoThisNotification(item)">
                             
                             <v-list-item-title  class="font-weight-medium">
                                 <v-badge :content="item.status == 1 ? '' :'new'" :value="item.status == 1 ? '' :'new'" 
@@ -156,7 +156,7 @@
                         <v-list-item-action style="z-index: 1">
                            
 
-                             <v-tooltip v-if="item.status == null || item.status == 0"  top>
+                             <!-- <v-tooltip v-if="item.status == null || item.status == 0"  top>
                                 <template v-slot:activator="{ on, attrs }">
                                     <v-btn style="z-index:50" text icon v-bind="attrs" v-on="on"
                                         v-if="item.status == null || item.status == 0" @click="markAsread(item.n_id)">
@@ -167,8 +167,8 @@
                           
                                 <span>Mark as read</span>
                             </v-tooltip>
-
-                            <v-tooltip v-if="item.status == 1" top>
+ -->
+                           <!--  <v-tooltip v-if="item.status == 1" top>
                                 <template v-slot:activator="{ on, attrs }">
                                     <v-btn style="z-index:50" text icon v-bind="attrs" v-on="on"
                                         v-if="item.status == 1" @click="NotificationHide(item.n_id)">
@@ -176,11 +176,29 @@
                                     </v-btn>
                                 </template>
                                 <span>Hide notification</span>
-                            </v-tooltip>
+                            </v-tooltip> -->
+
+
+                              <v-list-item-action-text >
+                                        <v-tooltip  top>
+                                            <template v-slot:activator="{ on, attrs }">
+                                                <v-btn small style="z-index:50" icon v-bind="attrs" v-on="on"
+                                                    @click="NotificationHide(item.n_id)">
+                                                    <v-icon small>mdi-close</v-icon>
+                                                </v-btn>
+                                            </template>
+                                            <span>Hide notification</span>
+                                        </v-tooltip>
+                                    </v-list-item-action-text>
+                                    <v-spacer></v-spacer>
                            
                         </v-list-item-action>
-                   
                     </v-list-item>
+                      <v-divider
+                              v-if="index < get_notification.length "
+                              :key="index">
+                              </v-divider>
+                   </template>
 
                     <v-list-item v-if="LastPage != 1" >
                         <v-list-item-content>
@@ -312,6 +330,29 @@ export default {
         this.AttachData.page = this.ShowPage;
         this.$store.dispatch("ShowMore", this.AttachData);
     },
+     GotoThisNotification(data){
+                if(data.status == null || data.status == 0){
+                    this.markAsread(data.n_id);
+                }
+
+                if(data.notification_type == 4){
+                    let startPath = '/classwork/'+data.c_id+'/classwork-details';
+                    if(this.$route.path != startPath){
+                        this.$router.push({path: '/classwork/'+data.c_id+'/classwork-details?clwk='+data.notification_attachments});
+                    }else{
+                        if(this.$route.query.clwk != data.notification_attachments){
+                            this.$router.push({path: '/classwork/'+data.c_id+'/classwork-details?clwk='+data.notification_attachments});
+                        }
+                    }
+                }
+                else if(data.notification_type == 1){
+                    let path = '/course/'+data.c_id+'/announcement';
+                    if(this.$route.path != path){
+                        this.$router.push({path: path});
+                    }
+                    
+                }
+            },
          
   },
   mounted(){

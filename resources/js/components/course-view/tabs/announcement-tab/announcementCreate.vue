@@ -99,7 +99,7 @@
           
                 v-if="UserDetails.role != 'Student'"
                 class="mr-2 ma-0 pa-0"
-                @change="testing()"
+             
                  :items="classNames"
                 item-text="class_name"
                 item-value="class_id"
@@ -176,8 +176,8 @@ export default {
                 if (this.announcement.content != '') {
                     this.isloading = true;
                     this.announcement.file = "sample"
-                    this.announcement.course_id = this.$route.params.id;
-                    this.announcement.class_id = this.class_id;
+                    this.announcement.course_id = this.$route.params.id == this.class_id ? this.$route.params.id : null;
+                    this.announcement.class_id = this.$route.params.id != this.class_id ? this.class_id  : null;;
                     this.announcement.content = this.announcement.content.replaceAll('p>', 'div>');
                     this.$store.dispatch('createClassPost', this.announcement)
                     .then(res=>{
@@ -246,7 +246,7 @@ export default {
                 }
             },
             onChange(quill,html, text){
-                console.log(this.announcement.content);
+                //console.log(this.announcement.content);
             },
              fetchClassnames() {
                 if(this.UserDetails.role == 'Teacher'){
@@ -259,9 +259,10 @@ export default {
                 }
             },
            async newNotification(announcement_id){
-                this.notifyDetails.class_id = this.class_id;
-                this.notifyDetails.course_id = this.$route.params.id;
-                 this.notifyDetails.announcement_id = announcement_id;
+                this.notifyDetails.class_id = this.$route.params.id != this.class_id ? this.class_id : null;
+                this.notifyDetails.course_id = this.$route.params.id == this.class_id ?  this.$route.params.id : null;
+                this.notifyDetails.course_find_id = this.$route.params.id;
+                this.notifyDetails.announcement_id = announcement_id;
                 this.notifyDetails.type = 'announcement';
                 axios.post('/api/notification/new', this.notifyDetails);
             },

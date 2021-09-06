@@ -83,7 +83,7 @@ class AuthController extends Controller
             'middleName' => ['required'],
             'lastName' => ['required'],
             'email' => ['required', 'email', 'unique:users'],
-            'student_id' => ['required', 'unique:tbl_user_details'],
+            'student_id' => ['required', 'min:6','max:10','unique:tbl_user_details'],
             'password' => ['required', 'min:6','max:15' ,'confirmed']
         ]);
 
