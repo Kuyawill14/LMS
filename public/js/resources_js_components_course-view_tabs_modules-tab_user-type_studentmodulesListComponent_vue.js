@@ -262,7 +262,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         }, 1000);
         this.updateTime = setInterval(function () {
           _this2.updateStudentTimeProgress(mainModule_id, subModule_id, _this2.timespent);
-        }, 3000);
+        }, 30000);
       }
     },
     updateStudentTimeProgress: function updateStudentTimeProgress(main_module_id, subModule_id, time_spent) {
