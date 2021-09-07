@@ -495,41 +495,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 var attachlinkDiaglog = function attachlinkDiaglog() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_type_classworkType_attachLinkDialog_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./attachLinkDialog */ "./resources/js/components/Classwork_View/type/classworkType/attachLinkDialog.vue"));
 };
@@ -562,7 +527,8 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
       linkName: null,
       linkFile: null,
       IsSaving: false,
-      isDeleting: false
+      isDeleting: false,
+      isDeleting_id: null
     };
   },
   computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(['get_CurrentUser'])), {}, {
@@ -715,15 +681,19 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
     removeFile: function removeFile(index) {
       var _this2 = this;
 
+      this.isDeleting_id = index;
       this.isDeleting = true;
       axios.put('/api/submission/file-remove/' + this.tempId, {
         Fileindex: index
       }).then(function (res) {
         _this2.uploadPercentage = 0;
-        _this2.file = '';
+
+        _this2.file.splice(index, 1);
+
         _this2.tempId = null;
         _this2.isUploading[index] = false;
         _this2.isDeleting = false;
+        _this2.isDeleting_id = null;
       });
     },
     test: function test() {
@@ -783,6 +753,7 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
     DeleteUpload: function DeleteUpload(index) {
       var _this5 = this;
 
+      this.isDeleting_id = index;
       this.isDeleting = true;
       var type = 'submit';
       axios.put('/api/submission/file-remove/' + this.tempId, {
@@ -793,6 +764,7 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
         _this5.uploadPercentage = 0;
         _this5.isUploading[index] = false;
         _this5.isDeleting = false;
+        _this5.isDeleting_id = null;
       });
     },
     SubmitClasswork: function SubmitClasswork() {
@@ -897,6 +869,22 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
             }
           }
         }, _callee4);
+      }))();
+    },
+    MarkAsSubmitting: function MarkAsSubmitting(id) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee5$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                axios.put('/api/student/markAsSubmitting/' + id).then(function () {});
+
+              case 1:
+              case "end":
+                return _context5.stop();
+            }
+          }
+        }, _callee5);
       }))();
     }
   },
@@ -1300,7 +1288,10 @@ var render = function() {
                                   attrs: { rounded: "", text: "" },
                                   on: {
                                     click: function($event) {
-                                      _vm.isResubmit = !_vm.isResubmit
+                                      ;(_vm.isResubmit = !_vm.isResubmit),
+                                        _vm.MarkAsSubmitting(
+                                          _vm.StatusDetails.Sub_id
+                                        )
                                     }
                                   }
                                 },
@@ -1626,7 +1617,9 @@ var render = function() {
                                                                                           small:
                                                                                             "",
                                                                                           loading:
-                                                                                            _vm.isDeleting,
+                                                                                            _vm.isDeleting &&
+                                                                                            _vm.isDeleting_id ==
+                                                                                              index,
                                                                                           icon:
                                                                                             "",
                                                                                           text:
@@ -1637,7 +1630,8 @@ var render = function() {
                                                                                             $event
                                                                                           ) {
                                                                                             return _vm.removeFile(
-                                                                                              index
+                                                                                              index,
+                                                                                              item
                                                                                             )
                                                                                           }
                                                                                         }
@@ -1852,13 +1846,11 @@ var render = function() {
                                                                                     _vm._g(
                                                                                       _vm._b(
                                                                                         {
-                                                                                          staticStyle: {
-                                                                                            "z-index":
-                                                                                              "10"
-                                                                                          },
                                                                                           attrs: {
                                                                                             loading:
-                                                                                              _vm.isDeleting,
+                                                                                              _vm.isDeleting &&
+                                                                                              _vm.isDeleting_id ==
+                                                                                                index,
                                                                                             rounded:
                                                                                               "",
                                                                                             small:

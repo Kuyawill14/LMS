@@ -76,7 +76,7 @@
                     </v-col>
                     <v-col  cols="12" class="pt-0 mt-0 pl-1 pr-1 pb-0 mb-0 d-flex justify-space-between">
                         <div class="font-weight-medium text-body-2 mt-3">Your Work</div>
-                        <v-btn v-if="StatusDetails.status == 'Submitted' && !StatusDetails.graded" @click="isResubmit = !isResubmit" rounded text class="blue--text">{{isResubmit ? 'Cancel': 'Resubmit'}}</v-btn>
+                        <v-btn v-if="StatusDetails.status == 'Submitted' && !StatusDetails.graded" @click="isResubmit = !isResubmit, MarkAsSubmitting(StatusDetails.Sub_id)" rounded text class="blue--text">{{isResubmit ? 'Cancel': 'Resubmit'}}</v-btn>
                         <v-chip v-if="StatusDetails.graded"
                           class="ma-2" color="green" outlined>
                          Graded: {{StatusDetails.score}} /{{StatusDetails.totalPoints}}
@@ -109,42 +109,7 @@
                           <v-col cols="12" class="mb-0 pb-0" v-if="file[0] != '' || file[0] != null">
                               <v-row class="mb-5" v-if="StatusDetails.status != 'Submitting' && StatusDetails.status != 'Submitted' ">
                                 <v-col v-for="(item, index) in file" :key="index" class="ma-0 pa-0 " cols="12">
-                                 <!--  <v-hover v-slot="{ hover }">
-                                    <v-alert
-                                    dense
-                                        class=",b-1 pa-2"
-                                        style="cursor:pointer"
-                                          :class="hover ? 'grey lighten-2' :''"
-                                          outlined
-                                          :icon="item.fileExte == 'pdf' ? 'mdi-file-pdf': item.fileExte  == 'docx'? 'mdi-file-word': item.fileExte == 'link'? 'mdi-file-link': 
-                                          item.fileExte  == 'jpg' ||  item.fileExte  == 'png' ||  item.fileExte  == 'bmp' ? 'mdi-image' :''"
-                                        :color="item.fileExte  == 'pdf' ? 'red' : item.fileExte  == 'docx'? 'blue': item.fileExte == 'link' ? 'green':
-                                          item.fileExte  == 'jpg' ||  item.fileExte  == 'png' ||  item.fileExte  == 'bmp' ? 'info': ''"
-                                      >
-                                        <v-row align="center" >
-                                          <v-col :class="uploadPercentage != 100 ? 'grow text-left mb-0 pb-0':'grow text-left'">
-                                            <div :class="hover ? 'text-decoration-underline':''"> {{item.fileName}}</div>
-                                          </v-col>
-                                          <v-col :class="uploadPercentage != 100 ? 'shrink d-flex mb-0 pb-0':'shrink d-flex'">
-                                            <div class="black--text mt-1 mr-2">{{item.fileSize}}</div>
-                                          
-                                            <div>
-                                                <v-tooltip v-if="!isUploading[index] || uploadPercentage == 100" top>
-                                                  <template v-slot:activator="{ on, attrs }">
-                                                      <v-btn v-bind="attrs" v-on="on" 
-                                                      rounded small icon text @click="removeFile(index)"> <v-icon>mdi-close</v-icon></v-btn>
-                                                  </template>
-                                                  <span>Delete</span>
-                                                </v-tooltip>
-                                              </div>
-                                            
-                                          </v-col>
-                                          <v-col class="pt-0 mt-0" v-if="isUploading[index] && uploadPercentage != 100" cols="12">
-                                              <v-progress-linear v-if="isUpIndex == index" rounded :value="uploadPercentage"></v-progress-linear>
-                                          </v-col>
-                                        </v-row>
-                                      </v-alert>
-                                  </v-hover> -->
+                                
 
                                    <v-list dense nav outlined>
                                          <v-list-item link>
@@ -168,7 +133,7 @@
                                                  <v-tooltip v-if="!isUploading[index] || uploadPercentage == 100" top>
                                                   <template v-slot:activator="{ on, attrs }">
                                                       <v-btn style="z-index:10" v-bind="attrs" v-on="on" 
-                                                      rounded small :loading="isDeleting" icon text @click="removeFile(index)"> <v-icon>mdi-close</v-icon></v-btn>
+                                                      rounded small :loading="isDeleting && isDeleting_id == index" icon text @click="removeFile(index, item)"> <v-icon>mdi-close</v-icon></v-btn>
                                                   </template>
                                                   <span>Delete</span>
                                                 </v-tooltip>
@@ -211,8 +176,8 @@
                                             <v-list-item-action>
                                                  <v-tooltip v-if="StatusDetails.status == 'Submitting' || isResubmit" top>
                                                   <template v-slot:activator="{ on, attrs }">
-                                                      <v-btn style="z-index:10" 
-                                                      :loading="isDeleting"
+                                                      <v-btn
+                                                      :loading="isDeleting && isDeleting_id == index"
                                                       v-bind="attrs" v-on="on" 
                                                       rounded small icon text @click="DeleteUpload(index)"> <v-icon>mdi-close</v-icon></v-btn>
                                                   </template>
@@ -533,6 +498,7 @@ export default {
             linkFile:null,
             IsSaving: false,
             isDeleting: false,
+            isDeleting_id: null
         }
     },
      computed: {
@@ -662,13 +628,15 @@ export default {
                 this.UpdateSubmission(this.file.length-1);
             },
             removeFile(index) {
+              this.isDeleting_id = index;
               this.isDeleting = true;
                axios.put('/api/submission/file-remove/'+this.tempId,{Fileindex: index}).then(res=>{
                   this.uploadPercentage = 0;
-                   this.file = ''; 
+                   this.file.splice(index, 1); 
                    this.tempId = null;
                    this.isUploading[index] = false;
                    this.isDeleting = false;
+                  this.isDeleting_id = null;
               })
 
             },
@@ -712,13 +680,15 @@ export default {
               })
           },
           DeleteUpload(index){
+            this.isDeleting_id = index;
             this.isDeleting = true;
               let type = 'submit';
               axios.put('/api/submission/file-remove/'+this.tempId,{Fileindex: index}).then(res=>{
-                 this.checkStatus(type);
+                  this.checkStatus(type);
                   this.uploadPercentage = 0;
-                   this.isUploading[index] = false;
-                    this.isDeleting = false;
+                  this.isUploading[index] = false;
+                  this.isDeleting = false;
+                  this.isDeleting_id = null;
               })
           },
           async SubmitClasswork(){
@@ -777,6 +747,13 @@ export default {
                   }
               })
           },
+
+         async MarkAsSubmitting(id){
+           axios.put('/api/student/markAsSubmitting/'+id)
+           .then(()=>{
+
+           })
+         }
         
 
             

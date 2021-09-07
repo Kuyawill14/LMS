@@ -78,19 +78,28 @@ class SubmissionController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function RemoveUploadedFile(Request $request, $id)
-    {
-        $RemoveSubmissionFile = tbl_Submission::find($id);
+    {   
+        //return $id;
+     
+        $RemoveSubmissionFile = tbl_Submission::where('id',$id)->first();
+        /* $Ans = unserialize($RemoveSubmissionFile->Submitted_Answers);
+        return count($Ans); */
         if($RemoveSubmissionFile){
             
             $Ans = unserialize($RemoveSubmissionFile->Submitted_Answers);
             if(count($Ans) == 1){
+              
                 //Storage::delete('public/'.$Ans[$request->Fileindex]['link']);
                 if($Ans[$request->Fileindex]['fileExte'] != 'link'){
                     $path =  str_replace(\Config::get('app.do_url').'/', "", $Ans[$request->Fileindex]['link']);
-                    Storage::disk('DO_spaces')->delete($path);
+                    try {
+                        Storage::disk('DO_spaces')->delete($path);
+                    } catch (\Throwable $th) {
+                        $RemoveSubmissionFile->forceDelete();
+                    }
                 }
-                
-                $RemoveSubmissionFile->delete();
+                $RemoveSubmissionFile->forceDelete();
+                return;
             }
             else{
                 //Storage::disk('DO_spaces')->delete($path);
@@ -98,11 +107,19 @@ class SubmissionController extends Controller
                 $path =  str_replace(\Config::get('app.do_url').'/', "", $Ans[$request->Fileindex]['link']); */
                 if($Ans[$request->Fileindex]['fileExte'] != 'link'){
                     $path =  str_replace(\Config::get('app.do_url').'/', "", $Ans[$request->Fileindex]['link']);
-                    Storage::disk('DO_spaces')->delete($path);
+                
+                    try {
+                        Storage::disk('DO_spaces')->delete($path);
+                    } catch (\Throwable $th) {
+                        array_splice($Ans, $request->Fileindex, 1);
+                        $RemoveSubmissionFile->Submitted_Answers = serialize($Ans);
+                        $RemoveSubmissionFile->save();
+                    }
                 }
                 array_splice($Ans, $request->Fileindex, 1);
                 $RemoveSubmissionFile->Submitted_Answers = serialize($Ans);
                 $RemoveSubmissionFile->save();
+                return;
             }
            
            
@@ -140,7 +157,8 @@ class SubmissionController extends Controller
         ->where('tbl_classworks.id',$id)
         ->first(); */
 
-        $CheckStatus = tbl_Submission::where('tbl_submissions.classwork_id', $id)
+        $CheckStatus = tbl_Submission::whereNull('tbl_submissions.deleted_at')
+        ->where('tbl_submissions.classwork_id', $id)
         ->select('tbl_submissions.status','tbl_submissions.points as score','tbl_submissions.Submitted_Answers','tbl_submissions.id as Sub_id','tbl_submissions.graded',
         'tbl_classworks.points as totalPoints','tbl_classworks.id as classwork_id','tbl_classworks.course_id')
         ->leftJoin('tbl_classworks', 'tbl_classworks.id','=','tbl_submissions.classwork_id')

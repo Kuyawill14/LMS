@@ -1,18 +1,26 @@
 <template>
 
     <v-card>
-        <v-toolbar  dark color="primary">
+        <v-toolbar flat dark color="primary">
             <v-btn icon dark @click="$emit('closeDialog')">
                 <v-icon>mdi-close</v-icon>
             </v-btn>
         <v-toolbar-title>{{course_details.course_name}}</v-toolbar-title>
 
          <template v-slot:extension>
-        <v-tabs class="pa-0 ma-0"  grow v-model="tab" >
+        <v-tabs class="pa-0 ma-0" background-color="transparent" grow v-model="tab" >
           <v-tabs-slider color="white"></v-tabs-slider>
           <v-tab>
             <v-icon left>mdi-google-classroom</v-icon> Classes 
           </v-tab>
+            <v-tab>
+            <v-icon left>mdi-account-group-outline</v-icon> Student 
+          </v-tab>
+
+          <v-tab>
+            <v-icon left>mdi-book-open-variant</v-icon> Classwork 
+          </v-tab>
+          
 
            <v-tab >
             <v-icon left>mdi-folder</v-icon>Modules 
@@ -33,6 +41,22 @@
                     </v-card>
                 </v-tab-item>
 
+                 <v-tab-item >
+                    <v-card color="basil" flat>
+                        <div class="pa-1">
+                          <student :course_details="course_details"></student>
+                        </div>
+                    </v-card>
+                </v-tab-item>
+
+                 <v-tab-item >
+                    <v-card color="basil" flat>
+                        <div class="pa-1">
+                         <classwork :course_details="course_details"></classwork>
+                        </div>
+                    </v-card>
+                </v-tab-item>
+
                 <v-tab-item class="pa-1" >
                     <div class="pl-1 pr-1">
                          <modules :course_details="course_details" ></modules>
@@ -46,6 +70,8 @@
 <script>
     const modules = () => import('./summary_content/modules')
     const classes = () => import('./summary_content/classes')
+    const student = () => import('./summary_content/student')
+    const classwork = () => import('./summary_content/classwork')
     import draggable from "vuedraggable";
     import {
         mapGetters,
@@ -56,7 +82,9 @@
         props: ['course_details'],
         components: {
             modules,
-            classes
+            classes,
+            student,
+            classwork
         },
         data() {
             return {
