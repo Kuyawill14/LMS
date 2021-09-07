@@ -134,6 +134,7 @@ Route::middleware('auth:sanctum')->prefix('/classwork')->group(function () {
     Route::post('/newAttachment', [ClassworkController::class, 'NewAttachment']);
     
     Route::delete('/remove/{id}', [ClassworkController::class, 'destroy']);
+    Route::delete('/archive/{id}', [ClassworkController::class, 'archiveClasswork']);
     Route::put('/deleteAttachment/{id}', [ClassworkController::class, 'RemoveAttachment']);
     
     Route::get('/publishClassworkDetails/{id}', [ClassworkController::class, 'PublishClassworkDetails']);
@@ -312,7 +313,7 @@ Route::middleware('auth:sanctum')->prefix('/archive')->group(function () {
     Route::put('/restore/{id}', [ArchiveController::class, 'restoreArchive']);
     Route::get('/classes', [ArchiveController::class, 'showArchiveClasses']);
     Route::put('/restore-class/{id}', [ArchiveController::class, 'restoreClass']);
-    
+    Route::get('/classwork/{id}', [ArchiveController::class, 'ShowArchiveClasswork']);
     
 });
 

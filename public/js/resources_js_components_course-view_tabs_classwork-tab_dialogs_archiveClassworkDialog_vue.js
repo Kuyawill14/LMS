@@ -48,6 +48,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['ArchiveDetails'],
   methods: {
@@ -59,18 +60,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         duration: 3000
       });
     },
-    RemoveClasswork: function RemoveClasswork() {
-      /* axios.delete('/api/classwork/remove/'+this.ArchiveDetails.id)
-      .then(res=>{
-          this.$emit("ToggleRefresh");
-          this.toastSuccess();
-      }) */
+    ArchiveClasswork: function ArchiveClasswork() {
+      var _this = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
+                axios["delete"]('/api/classwork/archive/' + _this.ArchiveDetails.id).then(function (res) {});
+                /* axios.delete('/api/classwork/remove/'+this.ArchiveDetails.id)
+                .then(res=>{
+                    this.$emit("ToggleRefresh");
+                    this.toastSuccess();
+                }) */
+
+              case 1:
               case "end":
                 return _context.stop();
             }
@@ -170,15 +175,10 @@ var render = function() {
   return _c(
     "v-card",
     [
-      _c("v-card-title", { staticClass: "text-h5" }, [
-        _vm._v("\n      Archive"),
-        _c("span", { staticClass: "primary--text ml-1" }, [
-          _vm._v(' "' + _vm._s(_vm.ArchiveDetails.title) + '"')
-        ])
-      ]),
+      _c("v-card-title", [_vm._v("\n \n      Archive CLasswork\n    ")]),
       _vm._v(" "),
       _c("v-card-text", [
-        _c("p", [_vm._v("This will put the classwork in archive classworks.")])
+        _c("p", [_vm._v("This will put the classwork in archives.")])
       ]),
       _vm._v(" "),
       _c(
@@ -205,7 +205,7 @@ var render = function() {
               attrs: { color: "primary", text: "" },
               on: {
                 click: function($event) {
-                  return _vm.RemoveClasswork()
+                  return _vm.ArchiveClasswork()
                 }
               }
             },

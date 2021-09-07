@@ -1,10 +1,11 @@
 <template>
     <v-card>
-        <v-card-title class="text-h5">
-          Archive<span class="primary--text ml-1"> "{{ ArchiveDetails.title}}"</span> 
+        <v-card-title >
+     
+          Archive CLasswork
         </v-card-title>
         <v-card-text>
-             <p>This will put the classwork in archive classworks.</p>
+             <p>This will put the classwork in archives.</p>
             </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -20,7 +21,7 @@
             color="primary"
    
             text
-            @click="RemoveClasswork()"
+            @click="ArchiveClasswork()"
           >
             Confirm
           </v-btn>
@@ -39,7 +40,11 @@ export default {
                 duration: 3000
             });
         },
-         async RemoveClasswork(){
+         async ArchiveClasswork(){
+           axios.delete('/api/classwork/archive/'+this.ArchiveDetails.id)
+           .then((res)=>{
+
+           })
             /* axios.delete('/api/classwork/remove/'+this.ArchiveDetails.id)
             .then(res=>{
                 this.$emit("ToggleRefresh");

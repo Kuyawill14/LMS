@@ -12,6 +12,7 @@ use App\Models\tbl_classwork;
 use App\Models\tbl_classClassworks;
 use App\Models\tbl_teacher_course;
 use App\Models\tbl_subject_course;
+use App\Models\tbl_Submission;
 
 class ArchiveController extends Controller
 {
@@ -68,8 +69,7 @@ class ArchiveController extends Controller
     {
         $CheckCourse = tbl_teacher_course::withTrashed()->where("course_id", $id)->first();
         if($CheckCourse){
-            $CheckClass = tbl_userclass::withTrashed()->where("course_id", $id)
-            ->restore();
+            $CheckClass = tbl_userclass::withTrashed()->where("course_id", $id)->restore();
             $CheckCourse->restore();
             return "Course Restored";
         }
@@ -207,9 +207,22 @@ class ArchiveController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function ShowArchiveClasswork($id)
     {
-        //
+        $userId = auth("sanctum")->id();
+
+        if(auth("sanctum")->user()->role != "Student"){
+            $classworks = tbl_classwork::where("user_id", $userId)->onlyTrashed()
+            ->get();
+
+            foreach($classworks as $item){
+                $submissionCount = tbl_Submission::where('tbl_submissions.classwork_id', $item->id)
+                ->where('tbl_submissions.status', 'Submitted')->count();
+                $item->submittion_count =  $submissionCount;
+            }
+            return $classworks;
+        }
+       
     }
 
     /**

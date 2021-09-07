@@ -43,7 +43,8 @@ class ClassworkController extends Controller
                 ]); 
             }
 
-            $classwork = tbl_classwork::where('tbl_classworks.course_id',  $id)
+            $classwork = tbl_classwork::whereNull('tbl_classworks.deleted_at')
+            ->where('tbl_classworks.course_id',  $id)
             ->select('tbl_classworks.id', 'tbl_classworks.course_id','tbl_classworks.module_id','tbl_classworks.type',
             'tbl_classworks.title','tbl_classworks.instruction','tbl_classworks.duration','tbl_classworks.points','tbl_classworks.created_at')
             ->selectRaw('count(tbl_submissions.classwork_id ) as submittion_count')
@@ -91,7 +92,8 @@ class ClassworkController extends Controller
         $ClassworkTitle = array();
 
         foreach($GradingCategory as $item){
-            $classworkAll = tbl_classClassworks::where('tbl_userclasses.course_id','=', $id)
+            $classworkAll = tbl_classClassworks::whereNull('tbl_class_classworks.deleted_at')
+            ->where('tbl_userclasses.course_id','=', $id)
             ->select('tbl_class_classworks.*', 'tbl_classworks.type', 'tbl_classworks.title', 'tbl_classworks.points'
             ,'tbl_classworks.instruction')
             ->leftJoin('tbl_classworks', 'tbl_classworks.id', '=', 'tbl_class_classworks.classwork_id')
@@ -463,6 +465,41 @@ class ClassworkController extends Controller
                 ->LeftJoin('tbl_choices', 'tbl_choices.question_id','=', 'tbl_questions.id')
                 ->LeftJoin('tbl_sub_questions', 'tbl_sub_questions.mainQuestion_id','=', 'tbl_questions.id')
                 ->LeftJoin('tbl_question_analytics', 'tbl_question_analytics.question_id','=', 'tbl_questions.id')
+                ->forceDelete();
+            }
+            elseif($DelCLasswork->type == "Subjective Type"){
+                $DelClass_Classwork = tbl_classClassworks::where('tbl_class_classworks.classwork_id', $id)
+                ->delete();
+                Storage::delete('public/'.$DelCLasswork->attachment);
+
+            }
+            $DelCLasswork->forceDelete();
+            return "Successfully Remove";
+        }
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function archiveClasswork($id)
+    {
+        $userId = auth('sanctum')->id();
+        $DelCLasswork = tbl_classwork::find($id);
+        if($DelCLasswork){
+
+            $class_classwork = tbl_classClassworks::where('classwork_id', $DelCLasswork->id)->delete();
+            $DelCLasswork->delete();
+
+
+           /*  if($DelCLasswork->type == "Objective Type"){
+                $DelClass_Classwork = tbl_classClassworks::where('tbl_class_classworks.classwork_id', $id)
+                ->leftJoin('tbl_questions', 'tbl_questions.classwork_id','=','tbl_class_classworks.classwork_id')
+                ->LeftJoin('tbl_choices', 'tbl_choices.question_id','=', 'tbl_questions.id')
+                ->LeftJoin('tbl_sub_questions', 'tbl_sub_questions.mainQuestion_id','=', 'tbl_questions.id')
+                ->LeftJoin('tbl_question_analytics', 'tbl_question_analytics.question_id','=', 'tbl_questions.id')
                 ->delete();
             }
             elseif($DelCLasswork->type == "Subjective Type"){
@@ -472,9 +509,12 @@ class ClassworkController extends Controller
 
             }
             $DelCLasswork->delete();
-            return "Successfully Remove";
+            return "Successfully Remove"; */
         }
     }
+
+
+    
 
     /**
      * Update the specified resource in storage.
