@@ -52,49 +52,28 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
 //const confirmArchiveCourse = () => import("./dialog/confirmArchiveCourse")
+var teacherClassworkArchive = function teacherClassworkArchive() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_archivesList_ArchiveType_archiveClassworkType_teacherClassworkArchive_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./archiveClassworkType/teacherClassworkArchive */ "./resources/js/components/archivesList/ArchiveType/archiveClassworkType/teacherClassworkArchive.vue"));
+};
+
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  components: {//    VueElementLoading,
-    //confirmArchiveCourse
+  props: ['role'],
+  components: {
+    teacherClassworkArchive: teacherClassworkArchive
   },
   data: function data() {
     return {
-      coursesLength: null,
       isGetting: false,
-      dialog: false,
-      isloading: true,
-      modalType: '',
-      isPageLoading: false,
-      class_code: null,
-      form: {
-        id: '',
-        course_name: '',
-        course_id: '',
-        class_description: '',
-        course_picture: '',
-        course_code: ''
-      },
-      Archivedialog: false,
-      ArchiveDetails: {},
-      ArchiveCourses: []
+      ArchiveClasswork: []
     };
   },
   methods: {
-    toastSuccess: function toastSuccess(message, icon) {
-      return this.$toasted.success(message, {
-        theme: "toasted-primary",
-        position: "top-center",
-        icon: "done",
-        duration: 5000
-      });
-    },
-    archiveConfirm: function archiveConfirm(name, id) {
-      this.ArchiveDetails.course_id = id;
-      this.ArchiveDetails.name = name;
-      this.Archivedialog = !this.Archivedialog;
-    },
-    restoreArchive: function restoreArchive(id) {
+    GetArchiveClasswork: function GetArchiveClasswork() {
       var _this = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
@@ -102,9 +81,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                axios.put('/api/archive/restore/' + id).then(function (res) {
-                  _this.fetchCourses(); ///this.Archivedialog = !this.Archivedialog;
-
+                axios.get('/api/archive/classwork/' + 'all').then(function (res) {
+                  _this.ArchiveClasswork = res.data;
                 });
 
               case 1:
@@ -114,17 +92,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           }
         }, _callee);
       }))();
-    },
-    fetchCourses: function fetchCourses() {
-      var _this2 = this;
-
-      this.isGetting = true;
-      axios.get('/api/archive/courses').then(function (res) {
-        _this2.ArchiveCourses = res.data;
-        _this2.coursesLength = res.data.length;
-        _this2.isGetting = false;
-      });
     }
+  },
+  beforeMount: function beforeMount() {
+    this.GetArchiveClasswork();
   }
 });
 
@@ -214,34 +185,19 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    [
-      _c(
-        "v-row",
-        { staticClass: "pt-10", attrs: { align: "center", justify: "center" } },
-        [
-          _c(
-            "v-col",
-            {
-              staticClass: "text-center",
-              attrs: { cols: "12", sm: "8", md: "4" }
-            },
-            [
-              _c("v-icon", { staticStyle: { "font-size": "8rem" } }, [
-                _vm._v("\n                mdi-book-open-variant\n            ")
-              ]),
-              _vm._v(" "),
-              _c("h2", [_vm._v(" Empty Archive Classworks ")])
-            ],
-            1
-          )
-        ],
-        1
-      )
-    ],
-    1
-  )
+  return _c("div", [
+    _c(
+      "div",
+      [
+        _vm.role == "Teacher"
+          ? _c("teacherClassworkArchive", {
+              attrs: { ArchiveClasswork: _vm.ArchiveClasswork }
+            })
+          : _vm._e()
+      ],
+      1
+    )
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true

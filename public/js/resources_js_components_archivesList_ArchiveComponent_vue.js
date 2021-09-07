@@ -437,7 +437,7 @@ var render = function() {
                                     "v-tab-item",
                                     [
                                       _c("archiveClasswork", {
-                                        attrs: { UserDetails: _vm.UserDetails }
+                                        attrs: { role: _vm.role }
                                       })
                                     ],
                                     1

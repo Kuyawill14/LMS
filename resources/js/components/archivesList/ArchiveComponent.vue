@@ -56,7 +56,7 @@
                                 <archiveClasses :role="role"></archiveClasses>
                             </v-tab-item>
                             <v-tab-item v-if="role == 'Teacher' || role == 'Student'">
-                                <archiveClasswork :UserDetails="UserDetails"></archiveClasswork>
+                                <archiveClasswork :role="role"></archiveClasswork>
                             </v-tab-item>
                        </v-tabs-items>
                    </v-col>
