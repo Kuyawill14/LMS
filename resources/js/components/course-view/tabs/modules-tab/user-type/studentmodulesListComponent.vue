@@ -254,9 +254,6 @@
             },
 
 
-
-
-
             setTimeSpent(mainModule_id, subModule_id, arr) {
                 if (this.role == 'Student') {
 

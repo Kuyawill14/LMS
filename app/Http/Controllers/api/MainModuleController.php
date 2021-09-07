@@ -17,7 +17,8 @@ class MainModuleController extends Controller
     {
      
         $allMainModules = DB::table('tbl_main_modules')
-        ->select('tbl_main_modules.*')
+        ->select('tbl_main_modules.*',DB::raw("(SELECT COUNT(*) FROM tbl_student_sub_module_progress WHERE tbl_student_sub_module_progress.main_module_id = tbl_main_modules.id) as student_progress_count"))
+
         ->leftJoin('tbl_subject_courses', 'tbl_main_modules.course_id', '=', 'tbl_subject_courses.id')
         ->where('tbl_main_modules.course_id', $id )
         ->orderBy('position')

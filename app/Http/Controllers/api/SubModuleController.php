@@ -8,7 +8,7 @@ use App\Models\tbl_sub_modules;
 use Illuminate\Support\Facades\DB;
 use Validator,Redirect,Response,File;
 use Illuminate\Support\Facades\Storage;
-
+use Carbon\Carbon;
 
 class SubModuleController extends Controller
 {
@@ -80,7 +80,7 @@ class SubModuleController extends Controller
     public function store(Request $request)
     {
 
-
+        $currentTime = Carbon::now()->format('YmdHs');
         $file = null;
        $itemType = $request->type == 'Video' || $request->type == 'Document';
         $id = $request->submodule_id;
@@ -91,7 +91,14 @@ class SubModuleController extends Controller
                 if( $itemType) {
                     
                     if($request->file != 'null') {
-                        $file = $request->file->store('public/upload/courses/' .$request->main_module_id);
+                        $file_extension = $request->file->extension();
+                        $file_mime_type = $request->file->getClientMimeType();
+                        $original_file_name = $request->file->getClientOriginalName();
+
+                        //name_time.extension
+                        $filename =  $request->sub_module_name . '_' . $currentTime . '.' .  $file_extension ;
+
+                        $file = $request->file->storeAs('public/upload/courses/' .$request->main_module_id,$filename );
                         $subModule->file_attachment = preg_replace('/\bpublic\/\b/', '', $file);;
                     }
                   
@@ -117,7 +124,14 @@ class SubModuleController extends Controller
             } else {
                 if( $itemType) { 
                     if ($files = $request->file('file')) { 
-                        $file = $request->file->store('public/upload/courses/' .$request->main_module_id);
+                        $file_extension = $request->file->extension();
+                        $file_mime_type = $request->file->getClientMimeType();
+                        $original_file_name = $request->file->getClientOriginalName();
+
+                         //name_time.extension
+                        $filename =  $request->sub_module_name . '_' . $currentTime . '.' .  $file_extension ;
+
+                        $file = $request->file->storeAs('public/upload/courses/' .$request->main_module_id,$filename );
                         $subModule = new tbl_sub_modules;
                         $subModule->sub_module_name = $request->sub_module_name;
                         $subModule->type = $request->type;

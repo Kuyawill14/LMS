@@ -288,7 +288,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.exitFullscreen[data-v-2a6a4450] {\n    position: absolute;\n    border-radius: 0;\n    right: 0;\n    top: 70px;\n    z-index: 99;\n}\n.bottom-content[data-v-2a6a4450] {\n\n    padding-left: 30px;\n}\n.video-c[data-v-2a6a4450] {\n    min-height: 470px;\n}\n.border[data-v-2a6a4450] {\n    border-left: 1px solid #e0e0e0;\n}\n.ipOhDr[data-v-2a6a4450] {\n    max-width: 100%;\n}\n\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.exitFullscreen[data-v-2a6a4450] {\n    position: absolute;\n    border-radius: 0;\n    right: 0;\n    top: 70px;\n    z-index: 99;\n}\n.bottom-content[data-v-2a6a4450] {\n\n    padding-left: 30px;\n}\n.video-c[data-v-2a6a4450] {\n    min-height: 470px;\n}\n.border[data-v-2a6a4450] {\n    border-left: 1px solid #e0e0e0;\n}\n.ipOhDr[data-v-2a6a4450] {\nmax-width: 100%;\n}\n\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -312,7 +312,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.v-dialog--active {\n    overflow: hidden;\n}\n\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.v-dialog--active {\n    overflow-x: hidden;\n}\n\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -922,6 +922,7 @@ var render = function() {
             "v-dialog",
             {
               staticClass: "list_modal",
+              staticStyle: { "overflow-y": "auto" },
               attrs: { "max-width": "600px" },
               model: {
                 value: _vm.listDialaog,

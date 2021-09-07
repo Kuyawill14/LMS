@@ -57,6 +57,57 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -310,6 +361,124 @@ var render = function() {
                   _vm._v(
                     "\n                    Total Students\n                "
                   )
+                ])
+              ])
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-row",
+        [
+          _c(
+            "v-col",
+            { staticClass: "pt-0", attrs: { lg: "3" } },
+            [
+              _c("v-card", [
+                _c(
+                  "div",
+                  {
+                    staticClass: "text-center",
+                    staticStyle: { "font-size": "3rem", color: "#FF5400" }
+                  },
+                  [
+                    _vm._v(
+                      "\n                   " +
+                        _vm._s(_vm.Count.teacher) +
+                        "\n                "
+                    )
+                  ]
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "text-center" }, [
+                  _vm._v("\n                   Online\n                ")
+                ])
+              ])
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-col",
+            { staticClass: "pt-0", attrs: { lg: "3" } },
+            [
+              _c("v-card", [
+                _c(
+                  "div",
+                  {
+                    staticClass: "text-center",
+                    staticStyle: { "font-size": "3rem", color: "#FF5400" }
+                  },
+                  [
+                    _vm._v(
+                      "\n                    " +
+                        _vm._s(_vm.Count.student) +
+                        "\n                "
+                    )
+                  ]
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "text-center" }, [
+                  _vm._v("\n                    offline\n                ")
+                ])
+              ])
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-col",
+            { staticClass: "pt-0", attrs: { lg: "3" } },
+            [
+              _c("v-card", [
+                _c(
+                  "div",
+                  {
+                    staticClass: "text-center",
+                    staticStyle: { "font-size": "3rem", color: "#FF5400" }
+                  },
+                  [
+                    _vm._v(
+                      "\n                   " +
+                        _vm._s(_vm.Count.teacher) +
+                        "\n                "
+                    )
+                  ]
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "text-center" }, [
+                  _vm._v("\n                   Online\n                ")
+                ])
+              ])
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-col",
+            { staticClass: "pt-0", attrs: { lg: "3" } },
+            [
+              _c("v-card", [
+                _c(
+                  "div",
+                  {
+                    staticClass: "text-center",
+                    staticStyle: { "font-size": "3rem", color: "#FF5400" }
+                  },
+                  [
+                    _vm._v(
+                      "\n                    " +
+                        _vm._s(_vm.Count.student) +
+                        "\n                "
+                    )
+                  ]
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "text-center" }, [
+                  _vm._v("\n                    offline\n                ")
                 ])
               ])
             ],

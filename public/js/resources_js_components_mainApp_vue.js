@@ -10599,7 +10599,7 @@ var render = function() {
             { attrs: { to: "/" } },
             [
               _c("v-toolbar-title", { staticClass: "ml-0 white--text" }, [
-                _c("span", { staticClass: "pointer" }, [_vm._v("ORANGE")])
+                _c("span", { staticClass: "pointer" }, [_vm._v("ISUE ORANGE")])
               ])
             ],
             1
