@@ -1,8 +1,6 @@
 "use strict";
 (self["webpackChunk"] = self["webpackChunk"] || []).push([["js/vendor~utils-6"],{
 
-<<<<<<< HEAD
-=======
 /***/ "./node_modules/vue-core-video-player/node_modules/vue/dist/vue.esm.js":
 /*!*****************************************************************************!*\
   !*** ./node_modules/vue-core-video-player/node_modules/vue/dist/vue.esm.js ***!
@@ -11997,7 +11995,6 @@ Vue.compile = compileToFunctions;
 
 /***/ }),
 
->>>>>>> 8f542ea055248df06657b1096166b17b79b03cfe
 /***/ "./node_modules/vue/dist/vue.esm.js":
 /*!******************************************!*\
   !*** ./node_modules/vue/dist/vue.esm.js ***!

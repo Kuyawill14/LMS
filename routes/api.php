@@ -325,6 +325,8 @@ Route::middleware('auth:sanctum')->prefix('/admin')->group(function () {
 
     Route::post('/add/teacher', [AdminController::class, 'AddTeacher']);
     Route::post('/add/student', [AdminController::class, 'AddStudent']);
+
+    Route::put('/verifyUser/{id}', [AdminController::class, 'ManualVerifyUser']);
     
     
     

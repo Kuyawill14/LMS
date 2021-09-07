@@ -204,6 +204,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
+      isVerifying: false,
       Deldialog: false,
       dialog: false,
       temp_id: '',
@@ -370,8 +371,43 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     updateTeacherDetails: function updateTeacherDetails() {
       this.$store.dispatch('updateTeacher', this.form);
     },
-    validate: function validate() {
+    VerifyUser: function VerifyUser(id) {
       var _this4 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _this4.isVerifying = true;
+                axios__WEBPACK_IMPORTED_MODULE_1___default().put('/api/admin/verifyUser/' + id).then(function (res) {
+                  if (res.data.success == true) {
+                    _this4.toastSuccess('User Successfully Updated!');
+
+                    _this4.isVerifying = false;
+                    _this4.form.verified = 'Verified';
+                    _this4.StudentList[_this4.updateIndex].isVerified = 'Verified';
+                  } else {
+                    _this4.toastError('Something went wrong!');
+
+                    _this4.isVerifying = false;
+                  }
+                })["catch"](function (e) {
+                  _this4.toastError('Something went wrong!');
+
+                  _this4.isVerifying = false;
+                });
+
+              case 2:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
+    },
+    validate: function validate() {
+      var _this5 = this;
 
       this.IsAddUpdating = true;
 
@@ -380,24 +416,24 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           this.form.role = 'Student';
           this.form.password_confirmation = this.form.password;
           this.form.post('/api/admin/add/student').then(function (res) {
-            _this4.$refs.RegisterForm.reset();
+            _this5.$refs.RegisterForm.reset();
 
-            _this4.valid = true;
-            _this4.dialog = false;
-            _this4.IsAddUpdating = false;
+            _this5.valid = true;
+            _this5.dialog = false;
+            _this5.IsAddUpdating = false;
 
-            _this4.StudentList.push(res.data);
+            _this5.StudentList.push(res.data);
           });
         }
 
         if (this.type == 'edit') {
           this.form.post('/api/admin/teachers/update/' + this.form.user_id).then(function () {
             ////console.log(this.StudentList[this.updateIndex])
-            _this4.updateDataInfrontEnd(_this4.form);
+            _this5.updateDataInfrontEnd(_this5.form);
 
-            _this4.valid = true;
-            _this4.dialog = false;
-            _this4.IsAddUpdating = false; //
+            _this5.valid = true;
+            _this5.dialog = false;
+            _this5.IsAddUpdating = false; //
           });
           this.toastSuccess('User Successfully Updated!');
         }
@@ -409,23 +445,23 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.IsAddUpdating = false;
     },
     getStudent: function getStudent() {
-      var _this5 = this;
+      var _this6 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
           while (1) {
-            switch (_context.prev = _context.next) {
+            switch (_context2.prev = _context2.next) {
               case 0:
                 axios__WEBPACK_IMPORTED_MODULE_1___default().get('/api/admin/students/all').then(function (res) {
-                  _this5.StudentList = res.data;
+                  _this6.StudentList = res.data;
                 });
 
               case 1:
               case "end":
-                return _context.stop();
+                return _context2.stop();
             }
           }
-        }, _callee);
+        }, _callee2);
       }))();
     },
     updateDataInfrontEnd: function updateDataInfrontEnd(data) {
@@ -1097,17 +1133,37 @@ var render = function() {
                                     {
                                       attrs: {
                                         block: "",
+                                        disabled: _vm.isVerifying,
                                         rounded: "",
                                         large: "",
                                         color: "primary"
+                                      },
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.VerifyUser(
+                                            _vm.form.user_id
+                                          )
+                                        }
                                       }
                                     },
                                     [
                                       _c("v-icon", { attrs: { left: "" } }, [
-                                        _vm._v("mdi-account-check-outline")
+                                        _vm._v(
+                                          _vm._s(
+                                            _vm.isVerifying
+                                              ? ""
+                                              : "mdi-account-check-outline"
+                                          )
+                                        )
                                       ]),
                                       _vm._v(
-                                        "\n                                Verify user"
+                                        "\n                                " +
+                                          _vm._s(
+                                            _vm.isVerifying
+                                              ? "Verifying..."
+                                              : "Verify user"
+                                          ) +
+                                          " "
                                       )
                                     ],
                                     1

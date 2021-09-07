@@ -35,7 +35,6 @@
                             <v-list-item-avatar>
                                 <v-img 
                                 :src="item.profile_pic == null || item.profile_pic == ''? 
-
                                 'https://ui-avatars.com/api/?background=random&color=fff&name=' +  item.name : item.profile_pic">
                                 </v-img>
                             </v-list-item-avatar>
@@ -120,25 +119,20 @@
                     </v-col>
                     <v-col cols="12">
                         <v-container ma-0 pa-0 class="d-flex flex-row justify-space-between">
-                        <v-btn
-                        class="mx-2"
-                        fab
-                        dark
-                        
-                        color="primary"
-                        >
-                        <v-icon x-large>
-                        mdi-book-open-variant
-                        </v-icon>
-                        </v-btn>
-                        <div
-                        class="float-right mt-3"
-                        fab
-                        >
-                        <div class="text-md-h5"> <v-icon large color="primary">mdi-book-clock-outline</v-icon> {{classworkDetails.duration}} mins</div>
-                        <div class="caption ml-2">Due {{ classworkDetails.availability ? format_date(classworkDetails.to_date) : 'always Available'}}</div>  
-                        </div>
-                    </v-container>
+                            <v-btn
+                            class="mx-2" fab dark
+                            color="primary">
+                                <v-icon x-large>
+                                mdi-book-open-variant
+                                </v-icon>
+                            </v-btn>
+                            <div
+                            class="float-right mt-3"
+                            fab>
+                                <div class="text-md-h5"> <v-icon large color="primary">mdi-book-clock-outline</v-icon> {{classworkDetails.duration}} mins</div>
+                                <div class="caption ml-2">Due {{ classworkDetails.availability ? format_date(classworkDetails.to_date) : 'always Available'}}</div>  
+                            </div>
+                        </v-container>
                     </v-col>
 
                 <v-col cols="12" class="pl-7 pr-5">

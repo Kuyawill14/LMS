@@ -112,7 +112,7 @@
                                     v-model="form.email" type="email" color="primary" outlined />
                             </v-col>
                              <v-col v-if="form.verified == null && type == 'edit'" class="ma-0 pa-0 mb-1" cols="12" md="12">
-                                <v-btn block rounded large color="primary">
+                                <v-btn @click="VerifyUser(form.user_id)" block rounded large color="primary">
                                     <v-icon left>mdi-account-check-outline</v-icon>
                                     Verify user</v-btn>
                             </v-col>
@@ -340,8 +340,11 @@
             },
             updateTeacherDetails() {
                 this.$store.dispatch('updateTeacher', this.form);
+            },
+            async VerifyUser(id){
+                axios.put('/api/admin/verifyUser/'+id).then((res)=>{
 
-
+                })
             },
             validate() {
 
