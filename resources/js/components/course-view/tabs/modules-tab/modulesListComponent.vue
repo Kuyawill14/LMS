@@ -10,10 +10,11 @@
                         <span class="text-right pannel-btn">
 
 
-                            <v-btn icon float-right @click="editModuleBtn(itemModule.id,itemModule)">
+                            <v-btn icon float-right @click="editModuleBtn(itemModule.id,itemModule,itemModule.isPublished)">
                                 <v-icon>mdi-pencil</v-icon>
                             </v-btn>
-                            <v-btn icon right @click="deleteMoudleBtn(itemModule.id)">
+                            <v-btn icon right
+                                @click="deleteMoudleBtn(itemModule.id,itemModule.isPublished,itemModule.student_progress_count)">
                                 <v-icon>mdi-delete</v-icon>
                             </v-btn>
 
@@ -70,13 +71,14 @@
                                                 <v-list-item-title>Edit</v-list-item-title>
 
                                             </v-list-item>
-                                            <v-list-item link @click="deleteItemModuleBtn(itemSubModule.id)">
+                                            <v-list-item link
+                                                @click="deleteItemModuleBtn(itemSubModule.id,itemModule.isPublished,itemModule.student_progress_count)">
                                                 <v-list-item-title>Delete</v-list-item-title>
 
                                             </v-list-item>
-                                            <v-list-item link>
+                                            <!-- <v-list-item link>
                                                 <v-list-item-title>Archive</v-list-item-title>
-                                            </v-list-item>
+                                            </v-list-item> -->
                                         </v-list>
                                     </v-menu>
                                 </v-list-item-action>
@@ -238,23 +240,53 @@
             getdata() {
                 this.mainModule = this.getmain_module;
             },
-            deleteMoudleBtn(module_id) {
-                this.itemDialog = !this.itemDialog;
-                this.itemType = 'delete_module';
-                this.mainModule_id = module_id;
-            },
-            deleteItemModuleBtn(sub_module_id) {
-                this.itemDialog = !this.itemDialog;
-                this.itemType = 'delete_item_module';
-                this.sub_module_id = sub_module_id;
-            },
-            editModuleBtn(module_id, itemModule) {
+            deleteMoudleBtn(module_id, isPublished, student_progress_count) {
+                if (isPublished == 1) {
+                    this.toastInfo("Unable to delete this module. Please unpublished the module to proceed");
+                } else {
+                    if (student_progress_count > 0) {
+                        this.toastInfo("Unable to delete this module. Students have already progress in this module");
+                    } else {
+                        this.itemDialog = !this.itemDialog;
+                        this.itemType = 'delete_module';
+                        this.mainModule_id = module_id;
+                    }
 
-                this.itemDialog = !this.itemDialog;
-                this.propModule = itemModule;
-                //console.log(this.propModule);
-                this.mainModule_id = module_id;
-                this.itemType = 'edit_module';
+                }
+
+            },
+
+            deleteItemModuleBtn(sub_module_id, isPublished, student_progress_count) {
+
+
+                if (isPublished == 1) {
+                    this.toastInfo("Unable to delete this item. Please unpublished the module to proceed");
+                } else {
+                    if (student_progress_count > 0) {
+                        this.toastInfo("Unable to delete this item. Students have already progress in this item");
+                    } else {
+                        this.itemDialog = !this.itemDialog;
+                        this.itemType = 'delete_item_module';
+                        this.sub_module_id = sub_module_id;
+                    }
+
+                }
+            },
+            editModuleBtn(module_id, itemModule,isPublished) {
+
+                if (isPublished == 1) {
+                    this.toastInfo("Unable to delete this module. Please unpublished the module to proceed");
+                } else {
+
+                    this.itemDialog = !this.itemDialog;
+                    this.propModule = itemModule;
+                    //console.log(this.propModule);
+                    this.mainModule_id = module_id;
+                    this.itemType = 'edit_module';
+
+
+                }
+
             },
             addFileBtn(module_id) {
                 this.itemDialog = !this.itemDialog;
@@ -267,12 +299,16 @@
                 this.itemType = 'add_link';
             },
             editItemBtn(itemModule, sub_module_id, type) {
+
                 this.pass_submodule = itemModule;
                 this.itemDialog = !this.itemDialog;
 
                 this.sub_module_id = sub_module_id;
-                
+
                 this.itemType = type == 'Link' ? 'edit_link' : 'edit_file';
+
+
+
             },
             classworkBtn() {
                 $('#itemTypeModal').modal('hide');

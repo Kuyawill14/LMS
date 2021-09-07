@@ -952,6 +952,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
 
 
 
@@ -1037,22 +1039,42 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     getdata: function getdata() {
       this.mainModule = this.getmain_module;
     },
-    deleteMoudleBtn: function deleteMoudleBtn(module_id) {
-      this.itemDialog = !this.itemDialog;
-      this.itemType = 'delete_module';
-      this.mainModule_id = module_id;
+    deleteMoudleBtn: function deleteMoudleBtn(module_id, isPublished, student_progress_count) {
+      if (isPublished == 1) {
+        this.toastInfo("Unable to delete this module. Please unpublished the module to proceed");
+      } else {
+        if (student_progress_count > 0) {
+          this.toastInfo("Unable to delete this module. Students have already progress in this module");
+        } else {
+          this.itemDialog = !this.itemDialog;
+          this.itemType = 'delete_module';
+          this.mainModule_id = module_id;
+        }
+      }
     },
-    deleteItemModuleBtn: function deleteItemModuleBtn(sub_module_id) {
-      this.itemDialog = !this.itemDialog;
-      this.itemType = 'delete_item_module';
-      this.sub_module_id = sub_module_id;
+    deleteItemModuleBtn: function deleteItemModuleBtn(sub_module_id, isPublished, student_progress_count) {
+      if (isPublished == 1) {
+        this.toastInfo("Unable to delete this item. Please unpublished the module to proceed");
+      } else {
+        if (student_progress_count > 0) {
+          this.toastInfo("Unable to delete this item. Students have already progress in this item");
+        } else {
+          this.itemDialog = !this.itemDialog;
+          this.itemType = 'delete_item_module';
+          this.sub_module_id = sub_module_id;
+        }
+      }
     },
-    editModuleBtn: function editModuleBtn(module_id, itemModule) {
-      this.itemDialog = !this.itemDialog;
-      this.propModule = itemModule; //console.log(this.propModule);
+    editModuleBtn: function editModuleBtn(module_id, itemModule, isPublished) {
+      if (isPublished == 1) {
+        this.toastInfo("Unable to delete this module. Please unpublished the module to proceed");
+      } else {
+        this.itemDialog = !this.itemDialog;
+        this.propModule = itemModule; //console.log(this.propModule);
 
-      this.mainModule_id = module_id;
-      this.itemType = 'edit_module';
+        this.mainModule_id = module_id;
+        this.itemType = 'edit_module';
+      }
     },
     addFileBtn: function addFileBtn(module_id) {
       this.itemDialog = !this.itemDialog;
@@ -6712,7 +6734,8 @@ var render = function() {
                                 click: function($event) {
                                   return _vm.editModuleBtn(
                                     itemModule.id,
-                                    itemModule
+                                    itemModule,
+                                    itemModule.isPublished
                                   )
                                 }
                               }
@@ -6727,7 +6750,11 @@ var render = function() {
                               attrs: { icon: "", right: "" },
                               on: {
                                 click: function($event) {
-                                  return _vm.deleteMoudleBtn(itemModule.id)
+                                  return _vm.deleteMoudleBtn(
+                                    itemModule.id,
+                                    itemModule.isPublished,
+                                    itemModule.student_progress_count
+                                  )
                                 }
                               }
                             },
@@ -7007,7 +7034,9 @@ var render = function() {
                                                 on: {
                                                   click: function($event) {
                                                     return _vm.deleteItemModuleBtn(
-                                                      itemSubModule.id
+                                                      itemSubModule.id,
+                                                      itemModule.isPublished,
+                                                      itemModule.student_progress_count
                                                     )
                                                   }
                                                 }
@@ -7015,17 +7044,6 @@ var render = function() {
                                               [
                                                 _c("v-list-item-title", [
                                                   _vm._v("Delete")
-                                                ])
-                                              ],
-                                              1
-                                            ),
-                                            _vm._v(" "),
-                                            _c(
-                                              "v-list-item",
-                                              { attrs: { link: "" } },
-                                              [
-                                                _c("v-list-item-title", [
-                                                  _vm._v("Archive")
                                                 ])
                                               ],
                                               1

@@ -238,7 +238,7 @@ __webpack_require__.r(__webpack_exports__);
         return !!v || "Field is required";
       }],
       StudentIdRules: [function (v) {
-        return !!v || 'Student code is required';
+        return !!v || 'Student ID is required';
       }, function (v) {
         return v && v.length >= 6 || 'min 6 characters';
       }, function (v) {

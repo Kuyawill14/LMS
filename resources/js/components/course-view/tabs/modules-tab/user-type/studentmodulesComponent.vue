@@ -123,7 +123,7 @@
                     :expand="removeX" style="height:100vh;" />
             </v-col>
 
-            <v-dialog v-model="listDialaog" max-width="600px" class="list_modal">
+            <v-dialog v-model="listDialaog" max-width="600px" class="list_modal" style="overflow-y:auto">
                 <modulesListComponent v-on:subModule="getsubModuleData" :role="role" v-on:listClose="expandContent"
                     :expand="!removeX" />
             </v-dialog>
@@ -302,7 +302,7 @@
 
 <style>
     .v-dialog--active {
-        overflow: hidden;
+        overflow-x: hidden;
     }
 
 </style>

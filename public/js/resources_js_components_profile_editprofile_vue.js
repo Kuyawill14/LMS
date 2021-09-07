@@ -271,7 +271,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         return !!v || 'Field is required';
       }],
       StudentIdRules: [function (v) {
-        return !!v || 'Student code is required';
+        return !!v || 'Student ID is required';
       }, function (v) {
         return v && v.length > 6 || 'min 6 characters';
       }, function (v) {
@@ -750,7 +750,7 @@ var render = function() {
                                 staticClass: "mb-0 pb-0",
                                 attrs: {
                                   dense: "",
-                                  type: "number",
+                                  type: "text",
                                   outlined: "",
                                   rules: _vm.FieldRules
                                 },

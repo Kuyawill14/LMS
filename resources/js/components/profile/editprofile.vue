@@ -89,7 +89,7 @@
                     <v-col cols="12" md="6" class="pb-0 mb-0">
                         <v-text-field
                             dense
-                            type="number"
+                            type="text"
                             outlined
                             :rules="FieldRules"
                             v-model="UserDetails.lastName"
@@ -250,7 +250,7 @@ export default {
                 v => !!v || 'Field is required',
             ],
             StudentIdRules: [
-                v => !!v || 'Student code is required',
+                v => !!v || 'Student ID is required',
                 v => (v && v.length > 6) || 'min 6 characters',
                  v => (v && v.length <= 6) || 'Max 6 characters',
             ],
