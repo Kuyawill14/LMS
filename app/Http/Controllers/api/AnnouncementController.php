@@ -178,7 +178,8 @@ class AnnouncementController extends Controller
             "name" => $username->firstName." ".$username->lastName,
             "profile_pic" => $username->profile_pic,
             "comment_count" => 0,
-            "likes_count" => 0
+            "likes_count" => 0,
+            "u_id"=> $userId
         ]);
      
     }
@@ -223,8 +224,11 @@ class AnnouncementController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function delete($id)
     {
-        //
+        $classpost = tbl_classpost::where('announcement_id', $id)->delete();
+        $announcement = tbl_classAnnouncement::where('id', $id)->delete();
+        $comment = tbl_comment::where('post_id', $id)->delete();
+        return "Deleted!";
     }
 }

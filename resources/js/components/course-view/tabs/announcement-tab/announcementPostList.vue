@@ -16,7 +16,7 @@
         </v-row>
        
      
-        <v-card v-show="post.class_id == class_id || class_id == $route.params.id" class="mb-10" v-for="(post) in PostList" :key="post.id">
+        <v-card v-show="post.class_id == class_id || class_id == $route.params.id" class="mb-10" v-for="(post, index) in PostList" :key="post.id">
            <!--Post Poser -->
             <v-row class="pl-5 pr-5 pt-2 mb-3 " >
                 <v-col cols="8">
@@ -32,9 +32,28 @@
                     </div>
                 </v-col>
                  <v-col v-if="post.u_id == UserDetails.id || UserDetails.role == 'Teacher'" cols="4"  class="text-right">
-                    <v-btn icon>
+                   <!--  <v-btn icon>
                         <v-icon >mdi-dots-vertical</v-icon>
-                    </v-btn>
+                    </v-btn> -->
+
+                     <v-menu  offset-y >
+                        <template v-slot:activator="{ on, attrs }">
+                            <v-btn icon v-bind="attrs" v-on="on">
+                                <v-icon >mdi-dots-vertical</v-icon>
+                            </v-btn> 
+                        </template>
+                        <v-list dense nav >
+                            <v-list-item link>
+                                <v-list-item-title>Edit</v-list-item-title>
+                            </v-list-item>
+                            <v-list-item link @click="deletePost(post.post_id, index)">
+                                <v-list-item-title>Delete</v-list-item-title>
+                            </v-list-item>
+                            <!--   <v-list-item ma-0 pa-0>
+                                <v-list-item-title><v-btn text>Hide</v-btn></v-list-item-title>
+                            </v-list-item> -->
+                        </v-list>
+                    </v-menu>
                  </v-col>
             </v-row>
             <!--Post Content -->
@@ -81,6 +100,7 @@
     const announcementList = () => import('./PostListType/AnnouncementList');
     const commentList = () => import('./actions/commentList');
      import {mapGetters, mapActions} from "vuex";
+import axios from 'axios';
     export default {
         props:['PostList','UserDetails','classNames'],
         components:{
@@ -169,6 +189,13 @@
                 }
                 
             },
+            async deletePost(id, index){
+                axios.delete('/api/announcement/delete/'+id).then(res=>{
+                    if(res.status == 200){
+                        this.$emit('SlicePost', index)
+                    }
+                })
+            }
         },
         beforeMount() {
             $(".post-content p").replaceWith(function () {

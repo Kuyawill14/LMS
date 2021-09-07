@@ -74,9 +74,9 @@
                         <v-list-item ma-0 pa-0>
                             <v-list-item-title><v-btn text @click="RemoveComment(item.id)">Remove</v-btn></v-list-item-title>
                         </v-list-item>
-                          <v-list-item ma-0 pa-0>
+                        <!--   <v-list-item ma-0 pa-0>
                             <v-list-item-title><v-btn text>Hide</v-btn></v-list-item-title>
-                        </v-list-item>
+                        </v-list-item> -->
                     </v-list>
                     </v-menu>
             </v-container>

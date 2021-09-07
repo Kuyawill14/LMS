@@ -191,9 +191,23 @@ class AdminController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function ManualVerifyUser($id)
     {
-        //
+        $verifyUser = User::find($id);
+        if($verifyUser){
+            $verifyUser->email_verified_at = date('Y-m-d H:i:s');
+            $verifyUser->save();
+
+            return response()->json([
+                'message'=> 'User Verified',
+                "success" => true
+            ]);
+        }
+
+        return response()->json([
+            'message'=> 'User id is invalid!',
+            "success" => false
+        ]);
     }
 
     /**

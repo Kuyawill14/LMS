@@ -33,7 +33,21 @@
                     </v-col>
                 </v-row>
             </v-col>
-
+              <v-col cols="12" class="mb-0 pb-0">
+                <v-row>
+                    <v-col cols="12" md="2" :class="$vuetify.breakpoint.xs ? 'mb-0 pb-0': 'mt-2'">
+                        Student ID
+                    </v-col>
+                    <v-col cols="12" md="2" class="pb-0 mb-0">
+                        <v-text-field
+                                dense
+                                :rules="StudentIdRules"
+                                outlined
+                                v-model="UserDetails.student_id"
+                            ></v-text-field>
+                    </v-col>
+                </v-row>
+            </v-col>
             <v-col cols="12" class="mb-0 pb-0">
                 <v-row>
                     <v-col cols="12" md="2" :class="$vuetify.breakpoint.xs ? 'mb-0 pb-0': 'mt-2'">
@@ -73,7 +87,8 @@
                     </v-col>
                     <v-col cols="12" md="6" class="pb-0 mb-0">
                         <v-text-field
-                        dense
+                            dense
+                            type="number"
                             outlined
                             :rules="FieldRules"
                             v-model="UserDetails.lastName"
@@ -232,6 +247,10 @@ export default {
             ],
             FieldRules: [
                 v => !!v || 'Field is required',
+            ],
+            StudentIdRules: [
+                v => !!v || 'Student code is required',
+                v => (v && v.length > 6) || 'min 6 characters',
             ],
             isloading: true,
         }

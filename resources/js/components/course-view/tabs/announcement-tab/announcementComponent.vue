@@ -38,7 +38,7 @@
 
             <v-row v-if="!isGetting"  class="mt-3">
             <v-col md="12" lg="8" class="ma-auto">
-                <announcementPostList v-on:loadmore="loadMore()" :classNames="classNames" :UserDetails="UserDetails" :PostList="getclass_post"> </announcementPostList>
+                <announcementPostList v-on:SlicePost="SlicePostList"  v-on:loadmore="loadMore()" :classNames="classNames" :UserDetails="UserDetails" :PostList="getclass_post"> </announcementPostList>
                
             </v-col>
         </v-row>
@@ -109,6 +109,10 @@
                     })
                 }
             },
+            SlicePostList(index){
+                this.getclass_post.splice(index, 1);
+           
+            }
           
         },
         mounted() {

@@ -237,6 +237,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['UserDetails'],
   data: function data() {
@@ -253,6 +268,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }],
       FieldRules: [function (v) {
         return !!v || 'Field is required';
+      }],
+      StudentIdRules: [function (v) {
+        return !!v || 'Student code is required';
+      }, function (v) {
+        return v && v.length > 6 || 'min 6 characters';
       }],
       isloading: true
     };
@@ -539,6 +559,59 @@ var render = function() {
                             },
                             [
                               _vm._v(
+                                "\n                       Student ID\n                   "
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-col",
+                            {
+                              staticClass: "pb-0 mb-0",
+                              attrs: { cols: "12", md: "2" }
+                            },
+                            [
+                              _c("v-text-field", {
+                                attrs: {
+                                  dense: "",
+                                  rules: _vm.StudentIdRules,
+                                  outlined: ""
+                                },
+                                model: {
+                                  value: _vm.UserDetails.student_id,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.UserDetails, "student_id", $$v)
+                                  },
+                                  expression: "UserDetails.student_id"
+                                }
+                              })
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-col",
+                    { staticClass: "mb-0 pb-0", attrs: { cols: "12" } },
+                    [
+                      _c(
+                        "v-row",
+                        [
+                          _c(
+                            "v-col",
+                            {
+                              class: _vm.$vuetify.breakpoint.xs
+                                ? "mb-0 pb-0"
+                                : "mt-2",
+                              attrs: { cols: "12", md: "2" }
+                            },
+                            [
+                              _vm._v(
                                 "\n                       First Name\n                   "
                               )
                             ]
@@ -668,6 +741,7 @@ var render = function() {
                                 staticClass: "mb-0 pb-0",
                                 attrs: {
                                   dense: "",
+                                  type: "number",
                                   outlined: "",
                                   rules: _vm.FieldRules
                                 },

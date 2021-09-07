@@ -112,11 +112,11 @@
                                 <v-text-field label="Email" name="Email" :rules="loginEmailRules" v-model="form.email"
                                     type="email" color="primary" outlined />
                             </v-col>
-
-                            <v-col v-if="form.verified == null" class="ma-0 pa-0 mb-1" cols="12" md="12">
-                                <v-btn block rounded large color="primary">
-                                    <v-icon left>mdi-account-check-outline</v-icon>
-                                    Verify user</v-btn>
+                           
+                            <v-col v-if="form.verified == null && type == 'edit'"  class="ma-0 pa-0 mb-1" cols="12" md="12">
+                                <v-btn @click="VerifyUser(form.user_id)" block :disabled="isVerifying" rounded large color="primary">
+                                    <v-icon left>{{isVerifying  ? '' : 'mdi-account-check-outline'}}</v-icon>
+                                    {{isVerifying ? 'Verifying...' : 'Verify user'}} </v-btn>
                             </v-col>
                             <v-col class="ma-0 pa-0 mb-1" cols="12" md="12" v-if="type== 'add'">
                                 <HasError class="error--text" :form="form" field="password" />
@@ -185,6 +185,7 @@
     export default {
         data: function () {
             return {
+                isVerifying: false,
                 Deldialog: false,
                 dialog: false,
                 temp_id: '',
@@ -348,6 +349,7 @@
                             this.StudentList.splice(this.deleteIndex, 1);
                             this.toastSuccess('User Successfully removed!')
                             this.IsDeleting = false;
+                            
 
                         } else {
                             this.toastError('Something went wrong!')
@@ -359,6 +361,26 @@
             },
             updateTeacherDetails() {
                 this.$store.dispatch('updateTeacher', this.form);
+            },
+            async VerifyUser(id){
+                this.isVerifying = true;
+                axios.put('/api/admin/verifyUser/'+id).then((res)=>{
+                    if(res.data.success == true){
+                        this.toastSuccess('User Successfully Updated!');
+                         this.isVerifying = false;
+                         this.form.verified = 'Verified';
+                        this.StudentList[this.updateIndex].isVerified = 'Verified';
+
+                    }
+                    else{
+                        this.toastError('Something went wrong!');
+                        this.isVerifying = false;
+                    }
+                })
+                .catch(e=>{
+                     this.toastError('Something went wrong!');
+                     this.isVerifying = false;
+                })
             },
             validate() {
                 this.IsAddUpdating = true;
