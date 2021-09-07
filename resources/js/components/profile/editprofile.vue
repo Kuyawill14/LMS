@@ -44,6 +44,7 @@
                                 :rules="StudentIdRules"
                                 outlined
                                 v-model="UserDetails.student_id"
+                                 @keypress="isNumber"
                             ></v-text-field>
                     </v-col>
                 </v-row>
@@ -251,11 +252,19 @@ export default {
             StudentIdRules: [
                 v => !!v || 'Student code is required',
                 v => (v && v.length > 6) || 'min 6 characters',
+                 v => (v && v.length <= 6) || 'Max 6 characters',
             ],
             isloading: true,
         }
     },
     methods:{
+        
+            isNumber(val) {
+                if (isNaN(Number(val.key)) ) {
+                    return val.preventDefault();
+                }
+               
+            },
         validate () {
             if(this.$refs.form.validate()){
                 this.UpdateDetails();
