@@ -25,9 +25,60 @@
                     </div>
                 </v-card>
             </v-col>
+            
+
+        </v-row>
+        
+        <v-row>
+
+            <v-col lg="3" class="pt-0">
+                <v-card>
+                    <div class="text-center" style="font-size: 3rem;color:#FF5400 ">
+                       {{Count.teacher}}
+                    </div>
+                    <div class="text-center">
+                       Online
+                    </div>
+                </v-card>
+            </v-col>
 
 
+            <v-col lg="3" class="pt-0">
+                <v-card>
+                    <div class="text-center" style="font-size: 3rem;color:#FF5400 ">
+                        {{Count.student}}
+                    </div>
+                    <div class="text-center">
+                        offline
+                    </div>
+                </v-card>
+            </v-col>
+            
 
+            
+            <v-col lg="3" class="pt-0">
+                <v-card>
+                    <div class="text-center" style="font-size: 3rem;color:#FF5400 ">
+                       {{Count.teacher}}
+                    </div>
+                    <div class="text-center">
+                       Online
+                    </div>
+                </v-card>
+            </v-col>
+
+
+            <v-col lg="3" class="pt-0">
+                <v-card>
+                    <div class="text-center" style="font-size: 3rem;color:#FF5400 ">
+                        {{Count.student}}
+                    </div>
+                    <div class="text-center">
+                        offline
+                    </div>
+                </v-card>
+            </v-col>
+            
 
         </v-row>
 
