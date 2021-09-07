@@ -366,10 +366,10 @@
                 this.isVerifying = true;
                 axios.put('/api/admin/verifyUser/'+id).then((res)=>{
                     if(res.data.success == true){
-                        this.toastSuccess('User Successfully Updated!');
-                         this.isVerifying = false;
-                         this.form.verified = 'Verified';
+                        this.form.verified = 'Verified';
                         this.StudentList[this.updateIndex].isVerified = 'Verified';
+                        this.toastSuccess('User Successfully Verified!');
+                        this.isVerifying = false;
 
                     }
                     else{

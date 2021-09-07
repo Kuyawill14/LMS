@@ -33,12 +33,9 @@
                         </div>
                         <div class="text-body-2">
                             <v-icon left>mdi-book-open-variant</v-icon>
-                            Classwork: {{item.classwork_count}}
+                            Publish Classwork: {{item.classwork_count}}
                         </div>
-                        <div class="text-body-2">
-                            <v-icon left>mdi-progress-check</v-icon>
-                            Progress: {{item.classwork_count+'%'}}
-                        </div>
+                       
                     </div>
                 </v-card>
             </v-col>

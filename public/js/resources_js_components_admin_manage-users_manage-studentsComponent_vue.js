@@ -382,11 +382,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _this4.isVerifying = true;
                 axios__WEBPACK_IMPORTED_MODULE_1___default().put('/api/admin/verifyUser/' + id).then(function (res) {
                   if (res.data.success == true) {
-                    _this4.toastSuccess('User Successfully Updated!');
-
-                    _this4.isVerifying = false;
                     _this4.form.verified = 'Verified';
                     _this4.StudentList[_this4.updateIndex].isVerified = 'Verified';
+
+                    _this4.toastSuccess('User Successfully Verified!');
+
+                    _this4.isVerifying = false;
                   } else {
                     _this4.toastError('Something went wrong!');
 

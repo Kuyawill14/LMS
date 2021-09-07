@@ -232,6 +232,79 @@ class StudentController extends Controller
 
 
     /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function AddFileToSubmittedAnswer(Request $request){
+        //return $request->file;
+
+        $userId = auth('sanctum')->id();
+        $Classwork = tbl_Submission::where('classwork_id', $request->id)->where('user_id',  $userId)->first();
+        $file = $request->file;
+        if($Classwork){
+
+            $TempOldAttach = $Classwork->Submitted_Answers = unserialize($Classwork->Submitted_Answers);
+            $upload_file = Storage::disk('DO_spaces')->putFile('classworkSubmission/'.$request->class_classwork_id.'/'.$userId, $file, 'public');
+            $path = \Config::get('app.do_url').'/'. $upload_file;
+            $tempAnswer = ["link"=> $path, 
+            "name"=> $request->name,"fileSize"=> $request->size,"fileExte"=> $request->extension];
+            array_push($TempOldAttach, $tempAnswer);
+            $Classwork->Submitted_Answers = serialize($TempOldAttach);
+            $Classwork->save();
+            return $path;
+        }
+        else{
+            $newSubmission = new tbl_Submission;
+            $newSubmission->classwork_id = $request->id;
+            $newSubmission->class_classwork_id = $request->class_classwork_id;
+            $newSubmission->user_id =  $userId;
+            $newSubmission->status = "Submitting";
+            $file = $request->file;
+            if($file != ""){
+                $upload_file = Storage::disk('DO_spaces')->putFile('classworkSubmission/'.$request->class_classwork_id.'/'.$userId, $file, 'public');
+                $path = \Config::get('app.do_url').'/'. $upload_file;
+                $tempAnswer[] = ["link"=> $path, 
+                "name"=> $request->name,"fileSize"=> $request->size,"fileExte"=> $request->extension];
+                $newSubmission->Submitted_Answers = serialize($tempAnswer);
+            }
+            $newSubmission->save();
+
+            $newSubmission->Submitted_Answers = uanserialize($newSubmission->Submitted_Answers);
+            return $newSubmission;
+        }
+       
+        
+
+    }
+
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function markAsSubmitting(Request $request, $id){
+        //return $request->file;
+        $Classwork = tbl_Submission::find($id);
+        if( $Classwork){
+            $Classwork->status = 'Submitting';
+            $Classwork->save();
+        }
+            
+    }
+
+    
+
+
+
+
+    
+
+
+    /**
      * Display the specified resource.
      *
      * @param  int  $id

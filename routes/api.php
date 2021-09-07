@@ -156,7 +156,14 @@ Route::middleware('auth:sanctum')->prefix('/student')->group(function () {
     Route::post('/join/{id}', [StudentController::class, 'JoinClass']);
     Route::post('/update-status', [StudentController::class, 'UpdateStatus']);
     Route::post('/linkAndstatus', [StudentController::class, 'AddLinkToSubmittedAnswer']);
+    Route::post('/add-file', [StudentController::class, 'AddFileToSubmittedAnswer']);
+
+
+    Route::put('/markAsSubmitting/{id}', [StudentController::class, 'markAsSubmitting']);
+
     
+   
+
     Route::delete('/{id}', [StudentController::class, 'Unenroll']);
     Route::put('/submit-classwork/{id}', [StudentController::class, 'SubmitClassworkSubj']);
     Route::delete('/removeFromClass/{class_id}/{user_id}', [StudentController::class, 'removeFromClass']);
@@ -339,7 +346,7 @@ Route::middleware('auth:sanctum')->prefix('/admin')->group(function () {
     Route::get('/teachers/profile/{id}', [TeacherProfileController::class, 'teacherProfile']);
     Route::get('/teachers/profile/ClassesList/{id}', [TeacherProfileController::class, 'getCourseAndClassesList']);
     Route::get('/teachers/classes/{id}/{user_id}', [TeacherProfileController::class, 'getCourseClassList']);
-
+    Route::get('/teachers/studentList/{id}', [TeacherProfileController::class, 'getCourseStudentList']);
     
     
 });

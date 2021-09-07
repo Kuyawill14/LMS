@@ -66,6 +66,30 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var modules = function modules() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_admin_monitor-teachers_teacherProfile_courses_summary_content_modules_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./summary_content/modules */ "./resources/js/components/admin/monitor-teachers/teacherProfile/courses/summary_content/modules.vue"));
 };
@@ -74,13 +98,23 @@ var classes = function classes() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_admin_monitor-teachers_teacherProfile_courses_summary_content_classes_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./summary_content/classes */ "./resources/js/components/admin/monitor-teachers/teacherProfile/courses/summary_content/classes.vue"));
 };
 
+var student = function student() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_admin_monitor-teachers_teacherProfile_courses_summary_content_student_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./summary_content/student */ "./resources/js/components/admin/monitor-teachers/teacherProfile/courses/summary_content/student.vue"));
+};
+
+var classwork = function classwork() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_admin_monitor-teachers_teacherProfile_courses_summary_content_classwork_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./summary_content/classwork */ "./resources/js/components/admin/monitor-teachers/teacherProfile/courses/summary_content/classwork.vue"));
+};
+
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['course_details'],
   components: {
     modules: modules,
-    classes: classes
+    classes: classes,
+    student: student,
+    classwork: classwork
   },
   data: function data() {
     return {
@@ -4001,7 +4035,7 @@ var render = function() {
       _c(
         "v-toolbar",
         {
-          attrs: { dark: "", color: "primary" },
+          attrs: { flat: "", dark: "", color: "primary" },
           scopedSlots: _vm._u([
             {
               key: "extension",
@@ -4011,7 +4045,7 @@ var render = function() {
                     "v-tabs",
                     {
                       staticClass: "pa-0 ma-0",
-                      attrs: { grow: "" },
+                      attrs: { "background-color": "transparent", grow: "" },
                       model: {
                         value: _vm.tab,
                         callback: function($$v) {
@@ -4030,6 +4064,28 @@ var render = function() {
                             _vm._v("mdi-google-classroom")
                           ]),
                           _vm._v(" Classes \n      ")
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-tab",
+                        [
+                          _c("v-icon", { attrs: { left: "" } }, [
+                            _vm._v("mdi-account-group-outline")
+                          ]),
+                          _vm._v(" Student \n      ")
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-tab",
+                        [
+                          _c("v-icon", { attrs: { left: "" } }, [
+                            _vm._v("mdi-book-open-variant")
+                          ]),
+                          _vm._v(" Classwork \n      ")
                         ],
                         1
                       ),
@@ -4108,6 +4164,44 @@ var render = function() {
                       { staticClass: "pa-1" },
                       [
                         _c("classes", {
+                          attrs: { course_details: _vm.course_details }
+                        })
+                      ],
+                      1
+                    )
+                  ])
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-tab-item",
+                [
+                  _c("v-card", { attrs: { color: "basil", flat: "" } }, [
+                    _c(
+                      "div",
+                      { staticClass: "pa-1" },
+                      [
+                        _c("student", {
+                          attrs: { course_details: _vm.course_details }
+                        })
+                      ],
+                      1
+                    )
+                  ])
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-tab-item",
+                [
+                  _c("v-card", { attrs: { color: "basil", flat: "" } }, [
+                    _c(
+                      "div",
+                      { staticClass: "pa-1" },
+                      [
+                        _c("classwork", {
                           attrs: { course_details: _vm.course_details }
                         })
                       ],

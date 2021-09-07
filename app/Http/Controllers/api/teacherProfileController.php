@@ -188,6 +188,20 @@ class TeacherProfileController extends Controller
         return $allClass;
     }
 
+    public function getCourseStudentList($id){
+
+        $allStudent = tbl_userclass::where('tbl_userclasses.course_id',$id)
+        ->select('tbl_user_details.user_id','tbl_user_details.student_id', 'tbl_user_details.firstName', 'tbl_user_details.lastName','tbl_user_details.profile_pic','tbl_classes.class_name')
+        ->leftjoin('users','users.id','=','tbl_userclasses.user_id')
+        ->leftjoin('tbl_user_details','tbl_user_details.user_id','=','users.id')
+        ->leftjoin('tbl_classes','tbl_classes.id','=','tbl_userclasses.class_id')
+        ->where('users.role', 'Student')
+        ->orderBy('tbl_user_details.lastName')
+        ->get();
+
+        return $allStudent;
+    }
+
 
     /**
      * Update the specified resource in storage.
