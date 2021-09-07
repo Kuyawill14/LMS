@@ -23,8 +23,9 @@ class SubModuleController extends Controller
         $allSubModules = DB::table('tbl_sub_modules')
         ->select('tbl_sub_modules.*', "course_id")
         ->leftJoin('tbl_main_modules', 'tbl_main_modules.id', '=', 'tbl_sub_modules.main_module_id')
-       
         ->where('tbl_main_modules.course_id', $id )
+        ->orderBy('tbl_sub_modules.id', 'ASC')
+        
         ->get();
         return $allSubModules;
     }

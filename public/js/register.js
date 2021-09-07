@@ -189,6 +189,21 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -227,7 +242,7 @@ __webpack_require__.r(__webpack_exports__);
       }, function (v) {
         return v && v.length >= 6 || 'min 6 characters';
       }, function (v) {
-        return v && v.length <= 10 || 'Max 10 characters';
+        return v && v.length <= 6 || 'Max 6 characters';
       }],
       show: false,
       show1: false,
@@ -251,7 +266,10 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
-    Test: function Test() {//console.log(this.form);
+    isNumber: function isNumber(val) {
+      if (isNaN(Number(val.key))) {
+        return val.preventDefault();
+      }
     },
     validate: function validate() {
       var _this2 = this;
@@ -729,7 +747,9 @@ var render = function() {
                                                         "text-md-h5 text-xs-h5 text-sm-h6 font-weight-bold"
                                                     },
                                                     [
-                                                      _vm._v("Sign Up "),
+                                                      _vm._v(
+                                                        "Sign\n                                                    Up "
+                                                      ),
                                                       _c(
                                                         "span",
                                                         {
@@ -791,8 +811,12 @@ var render = function() {
                                                       label:
                                                         "Student ID Number",
                                                       name: "student_id",
-                                                      type: "text",
-                                                      color: "primary"
+                                                      type: "number",
+                                                      color: "primary",
+                                                      maxlength: "6"
+                                                    },
+                                                    on: {
+                                                      keypress: _vm.isNumber
                                                     },
                                                     model: {
                                                       value:
@@ -1121,7 +1145,7 @@ var render = function() {
                                                         [_vm._v("mdi-login")]
                                                       ),
                                                       _vm._v(
-                                                        "\n                                                        Sign Up\n                                                    "
+                                                        "\n                                                    Sign Up\n                                                "
                                                       )
                                                     ],
                                                     1

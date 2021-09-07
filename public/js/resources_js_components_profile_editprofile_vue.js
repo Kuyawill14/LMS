@@ -252,6 +252,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['UserDetails'],
   data: function data() {
@@ -273,11 +274,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         return !!v || 'Student code is required';
       }, function (v) {
         return v && v.length > 6 || 'min 6 characters';
+      }, function (v) {
+        return v && v.length <= 6 || 'Max 6 characters';
       }],
       isloading: true
     };
   },
   methods: {
+    isNumber: function isNumber(val) {
+      if (isNaN(Number(val.key))) {
+        return val.preventDefault();
+      }
+    },
     validate: function validate() {
       if (this.$refs.form.validate()) {
         this.UpdateDetails();
@@ -577,6 +585,7 @@ var render = function() {
                                   rules: _vm.StudentIdRules,
                                   outlined: ""
                                 },
+                                on: { keypress: _vm.isNumber },
                                 model: {
                                   value: _vm.UserDetails.student_id,
                                   callback: function($$v) {

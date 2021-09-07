@@ -24,6 +24,7 @@ class StudentSubModuleProgressController extends Controller
           ->leftJoin('tbl_sub_modules', 'tbl_sub_modules.id', '=', 'tbl_student_sub_module_progress.sub_module_id')
           ->where('tbl_student_sub_module_progress.course_id', $id )
           ->where('tbl_student_sub_module_progress.student_id',  $userId )
+          ->orderBy('tbl_sub_modules.id', 'ASC')
           ->get();
           return $allSubModules;
     }
@@ -36,6 +37,7 @@ class StudentSubModuleProgressController extends Controller
         ->leftJoin('tbl_sub_modules', 'tbl_sub_modules.id', '=', 'tbl_student_sub_module_progress.sub_module_id')
         ->where('tbl_student_sub_module_progress.course_id', $id )
         ->where('tbl_student_sub_module_progress.student_id',  $userId )
+        ->orderBy('tbl_sub_modules.id', 'ASC')
         ->get();
         $allSubModulesProgress = json_decode($allSubModulesProgress, true);
 
@@ -43,6 +45,7 @@ class StudentSubModuleProgressController extends Controller
         ->select('tbl_sub_modules.*', "course_id")
         ->leftJoin('tbl_main_modules', 'tbl_main_modules.id', '=', 'tbl_sub_modules.main_module_id')
         ->where('tbl_main_modules.course_id', $id )
+        ->orderBy('tbl_sub_modules.id', 'ASC')
         ->get();
         $allSubModules = json_decode($allSubModules, true);
         $completed = 0;
@@ -105,6 +108,7 @@ class StudentSubModuleProgressController extends Controller
             ->groupBy('tbl_main_modules.id')
             
             ->where('tbl_main_modules.course_id', $studentList[0]['course_id'] )
+            ->orderBy('tbl_sub_modules.id', 'ASC')
             ->get();
             $main_modules = json_decode($main_modules, true);
     
@@ -129,6 +133,7 @@ class StudentSubModuleProgressController extends Controller
             // ->where('tbl_student_sub_module_progress.student_id',1 )
             ->groupBy('tbl_student_sub_module_progress.id','tbl_sub_modules.id')
             ->orderBy('tbl_user_details.lastName', 'ASC')
+            ->orderBy('tbl_sub_modules.id', 'ASC')
             ->get();
             $allSubModulesProgress = json_decode($allSubModulesProgress, true);
     
@@ -184,6 +189,8 @@ class StudentSubModuleProgressController extends Controller
                 ->leftJoin('tbl_sub_modules', 'tbl_sub_modules.main_module_id','=','tbl_main_modules.id')
                 ->where('users.role', 'Student')
                 ->where('tbl_userclasses.course_id', $id)
+
+                ->orderBy('tbl_sub_modules.id', 'ASC')
                 ->get();
       
                 $allSubModulesProgress = json_decode($allSubModulesProgress, true);
@@ -209,6 +216,7 @@ class StudentSubModuleProgressController extends Controller
                 ->where('users.role', 'Student')
                 ->where('tbl_userclasses.course_id', $id)
                 ->where('users.id', $userId)
+                ->orderBy('tbl_sub_modules.id', 'ASC')
                 ->get();
                
                 $allSubModulesProgress = json_decode($allSubModulesProgress, true);
