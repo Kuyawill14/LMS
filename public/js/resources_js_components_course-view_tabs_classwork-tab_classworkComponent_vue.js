@@ -274,26 +274,28 @@ var render = function() {
         ])
       }),
       _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "ml-0 mr-0" },
-        [
-          !_vm.isGetting && _vm.ClassworkLength != 0
-            ? _c("classworkList", {
-                attrs: { classworks: _vm.get_Classworks, role: _vm.role },
-                on: {
-                  ToggleRefresh: function($event) {
-                    return _vm.getGeneralClassworks()
-                  },
-                  reloadClassworks: function($event) {
-                    return _vm.getGeneralClassworks()
-                  }
-                }
-              })
-            : _vm._e()
-        ],
-        1
-      ),
+      !_vm.isGetting && _vm.ClassworkLength != 0
+        ? _c(
+            "div",
+            { staticClass: "ml-0 mr-0" },
+            [
+              !_vm.isGetting && _vm.ClassworkLength != 0
+                ? _c("classworkList", {
+                    attrs: { classworks: _vm.get_Classworks, role: _vm.role },
+                    on: {
+                      ToggleRefresh: function($event) {
+                        return _vm.getGeneralClassworks()
+                      },
+                      reloadClassworks: function($event) {
+                        return _vm.getGeneralClassworks()
+                      }
+                    }
+                  })
+                : _vm._e()
+            ],
+            1
+          )
+        : _vm._e(),
       _vm._v(" "),
       _vm.isGetting
         ? _c(

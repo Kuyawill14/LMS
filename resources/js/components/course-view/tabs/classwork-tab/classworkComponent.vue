@@ -44,7 +44,7 @@
             </template>
         </v-breadcrumbs>
 
-        <div class="ml-0 mr-0">
+        <div class="ml-0 mr-0"    v-if="!isGetting && ClassworkLength != 0" >
             <classworkList v-on:ToggleRefresh="getGeneralClassworks()" 
             v-if="!isGetting && ClassworkLength != 0" 
             v-on:reloadClassworks="getGeneralClassworks()"
