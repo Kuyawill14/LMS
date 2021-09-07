@@ -140,6 +140,9 @@
                     </v-col>
                     <v-col cols="10" md="6" class="pb-0 mb-0">
                         <v-text-field
+                        @keypress="isNumber"
+                        max-length="11"
+                           :rules="phoneNumberRules"
                         dense
                             outlined
                             :disabled="editPhone"
@@ -248,6 +251,10 @@ export default {
             ],
             FieldRules: [
                 v => !!v || 'Field is required',
+            ],
+            phoneNumberRules: [
+                v => (v && v.length > 6) || 'min 11 characters',
+                 v => (v && v.length <= 6) || 'Max 15 characters',
             ],
             StudentIdRules: [
                 v => !!v || 'Student ID is required',

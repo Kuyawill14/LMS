@@ -253,6 +253,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['UserDetails'],
   data: function data() {
@@ -269,6 +272,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }],
       FieldRules: [function (v) {
         return !!v || 'Field is required';
+      }],
+      phoneNumberRules: [function (v) {
+        return v && v.length > 6 || 'min 11 characters';
+      }, function (v) {
+        return v && v.length <= 6 || 'Max 15 characters';
       }],
       StudentIdRules: [function (v) {
         return !!v || 'Student ID is required';
@@ -930,6 +938,8 @@ var render = function() {
                             [
                               _c("v-text-field", {
                                 attrs: {
+                                  "max-length": "11",
+                                  rules: _vm.phoneNumberRules,
                                   dense: "",
                                   outlined: "",
                                   disabled: _vm.editPhone,
@@ -937,6 +947,7 @@ var render = function() {
                                     ? ""
                                     : "Please use an active phone number"
                                 },
+                                on: { keypress: _vm.isNumber },
                                 model: {
                                   value: _vm.UserDetails.cp_no,
                                   callback: function($$v) {

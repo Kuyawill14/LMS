@@ -5,7 +5,7 @@
         <v-app-bar-nav-icon @click.stop="navBarType != 'classwork-preview' || getcourseInfo.completed == 1 ? drawer = !drawer : ''"></v-app-bar-nav-icon>
         <router-link to="/">
          <v-toolbar-title class="ml-0 white--text" >
-            <span class="pointer" >ORANGE</span>
+            <span class="pointer" >ISUE ORANGE</span>
         </v-toolbar-title>
         </router-link>
        
