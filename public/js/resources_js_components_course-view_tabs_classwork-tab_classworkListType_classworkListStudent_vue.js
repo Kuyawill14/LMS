@@ -238,6 +238,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 var previewClassworkModal = function previewClassworkModal() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_tabs_classwork-tab_dialogs_previewClassworkModal_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../dialogs/previewClassworkModal */ "./resources/js/components/course-view/tabs/classwork-tab/dialogs/previewClassworkModal.vue"));
 };
@@ -552,14 +553,19 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "v-row",
-                {
-                  staticClass: "mt-5",
-                  attrs: { justify: "center", "align-content": "center" }
-                },
+                { attrs: { justify: "center", "align-content": "center" } },
                 _vm._l(_vm.classworks.ClassworkTitle, function(data, i) {
                   return _c(
                     "v-col",
                     {
+                      directives: [
+                        {
+                          name: "show",
+                          rawName: "v-show",
+                          value: _vm.classworks.ClassworksList[i].length != 0,
+                          expression: "classworks.ClassworksList[i].length != 0"
+                        }
+                      ],
                       key: i,
                       staticClass: "mt-1 ml-0  mr-0",
                       attrs: { cols: "12" }
@@ -571,31 +577,37 @@ var render = function() {
                         ? _c(
                             "v-row",
                             [
-                              _c(
-                                "v-col",
-                                {
-                                  staticClass: "ma-0 pa-0 ",
-                                  attrs: { cols: "12" }
-                                },
-                                [
-                                  _c(
-                                    "h2",
-                                    { staticClass: "font-weight-regular" },
+                              _vm.classworks.ClassworksList[i].length != 0
+                                ? _c(
+                                    "v-col",
+                                    {
+                                      staticClass: "ma-0 pa-0 ",
+                                      attrs: { cols: "12" }
+                                    },
                                     [
-                                      _vm._v(_vm._s(data.title) + " "),
                                       _c(
-                                        "small",
-                                        { staticClass: "font-weight-medium" },
+                                        "h2",
+                                        { staticClass: "font-weight-regular" },
                                         [
-                                          _vm._v(
-                                            "(" + _vm._s(data.percent) + "%)"
+                                          _vm._v(_vm._s(data.title) + " "),
+                                          _c(
+                                            "small",
+                                            {
+                                              staticClass: "font-weight-medium"
+                                            },
+                                            [
+                                              _vm._v(
+                                                "(" +
+                                                  _vm._s(data.percent) +
+                                                  "%)"
+                                              )
+                                            ]
                                           )
                                         ]
                                       )
                                     ]
                                   )
-                                ]
-                              ),
+                                : _vm._e(),
                               _vm._v(" "),
                               _vm._l(_vm.classworks.ClassworksList[i], function(
                                 item,
