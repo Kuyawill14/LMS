@@ -253,12 +253,12 @@ export default {
                 v => !!v || 'Field is required',
             ],
             phoneNumberRules: [
-                v => (v && v.length > 6) || 'min 11 characters',
+                v => (v && v.length >= 11) || 'min 11 characters',
                  v => (v && v.length <= 15) || 'Max 15 characters',
             ],
             StudentIdRules: [
                 v => !!v || 'Student ID is required',
-                v => (v && v.length > 6) || 'min 6 characters',
+                v => (v && v.length >= 6) || 'min 6 characters',
                  v => (v && v.length <= 6) || 'Max 6 characters',
             ],
             isloading: true,
