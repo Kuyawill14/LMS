@@ -33,7 +33,7 @@ class AuthController extends Controller
         ]);
 
     
-        if($request->email != "admin@gmail.com"){
+        /* if($request->email != "admin@gmail.com"){
             $user = User::where('email', $request->email)->whereNotNull('email_verified_at')->first();
 
             if(!$user){
@@ -42,7 +42,7 @@ class AuthController extends Controller
                     "success" => false
                 ]);
             }
-        }
+        } */
 
 
         if (method_exists($this, 'hasTooManyLoginAttempts') && $this->hasTooManyLoginAttempts($request)) {
