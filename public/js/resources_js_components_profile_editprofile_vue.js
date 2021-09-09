@@ -274,14 +274,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         return !!v || 'Field is required';
       }],
       phoneNumberRules: [function (v) {
-        return v && v.length > 6 || 'min 11 characters';
+        return v && v.length >= 11 || 'min 11 characters';
       }, function (v) {
         return v && v.length <= 15 || 'Max 15 characters';
       }],
       StudentIdRules: [function (v) {
         return !!v || 'Student ID is required';
       }, function (v) {
-        return v && v.length > 6 || 'min 6 characters';
+        return v && v.length >= 6 || 'min 6 characters';
       }, function (v) {
         return v && v.length <= 6 || 'Max 6 characters';
       }],
