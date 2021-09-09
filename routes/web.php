@@ -16,6 +16,10 @@ Route::get('/test123', function () {
     return view('EmailTemplates.NewClasswork');
 });
 
+Route::get('/tutorial', function () {
+    return view('tutorial');
+});
+
 
 
 Route::get('/{any}', function () {
