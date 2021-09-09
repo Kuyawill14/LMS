@@ -167,7 +167,10 @@ class StudentController extends Controller
                 $file = $request->file('file');
                 if($file != ""){
                     //$newFile = $file->store('public/upload/classworkSubmission/'.$request->class_classwork_id.'/'.$userId);
-                    $upload_file = Storage::disk('DO_spaces')->putFile('classworkSubmission/'.$request->class_classwork_id.'/'.$userId, $file, 'public');
+
+                    $original_file_name = preg_replace('/\\.[^.\\s]{3,4}$/', '', $request->fileName);
+                    $Uploadname = $original_file_name.'_'.time().'.'.$request->fileExte;
+                    $upload_file = Storage::disk('DO_spaces')->putFile('classworkSubmission/'.$request->class_classwork_id.'/'.$userId, $file, $Uploadname, 'public');
                     $path = \Config::get('app.do_url').'/'. $upload_file;
                     $tempAnswer[] = ["link"=> $path, 
                     "name"=> $request->fileName,"fileSize"=> $request->fileSize,"fileExte"=> $request->fileExte];
@@ -183,7 +186,10 @@ class StudentController extends Controller
             $file = $request->file('file');
             if($file != ""){
                 //$newFile = $file->store('public/upload/classworkSubmission/'.$userId);
-                $upload_file = Storage::disk('DO_spaces')->putFile('classworkSubmission/'.$request->class_classwork_id.'/'.$userId, $file, 'public');
+
+                $original_file_name = preg_replace('/\\.[^.\\s]{3,4}$/', '', $request->fileName);
+                $Uploadname = $original_file_name.'_'.time().'.'.$request->fileExte;
+                $upload_file = Storage::disk('DO_spaces')->putFile('classworkSubmission/'.$request->class_classwork_id.'/'.$userId, $file,  $Uploadname, 'public');
                 $path = \Config::get('app.do_url').'/'. $upload_file;
                 $tempAnswer = ["link"=> $path, 
                 "name"=> $request->fileName,"fileSize"=> $request->fileSize,"fileExte"=> $request->fileExte];
@@ -246,7 +252,10 @@ class StudentController extends Controller
         if($Classwork){
 
             $TempOldAttach = $Classwork->Submitted_Answers = unserialize($Classwork->Submitted_Answers);
-            $upload_file = Storage::disk('DO_spaces')->putFile('classworkSubmission/'.$request->class_classwork_id.'/'.$userId, $file, 'public');
+
+            $original_file_name = preg_replace('/\\.[^.\\s]{3,4}$/', '', $request->name);
+            $Uploadname = $original_file_name.'_'.time().'.'.$request->extension;
+            $upload_file = Storage::disk('DO_spaces')->putFile('classworkSubmission/'.$request->class_classwork_id.'/'.$userId, $file, $Uploadname, 'public');
             $path = \Config::get('app.do_url').'/'. $upload_file;
             $tempAnswer = ["link"=> $path, 
             "name"=> $request->name,"fileSize"=> $request->size,"fileExte"=> $request->extension];
@@ -263,7 +272,9 @@ class StudentController extends Controller
             $newSubmission->status = "Submitting";
             $file = $request->file;
             if($file != ""){
-                $upload_file = Storage::disk('DO_spaces')->putFile('classworkSubmission/'.$request->class_classwork_id.'/'.$userId, $file, 'public');
+                $original_file_name = preg_replace('/\\.[^.\\s]{3,4}$/', '', $request->name);
+                $Uploadname = $original_file_name.'_'.time().'.'.$request->extension;
+                $upload_file = Storage::disk('DO_spaces')->putFile('classworkSubmission/'.$request->class_classwork_id.'/'.$userId, $file,  $Uploadname , 'public');
                 $path = \Config::get('app.do_url').'/'. $upload_file;
                 $tempAnswer[] = ["link"=> $path, 
                 "name"=> $request->name,"fileSize"=> $request->size,"fileExte"=> $request->extension];

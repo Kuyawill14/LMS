@@ -581,8 +581,10 @@ class ClassworkController extends Controller
             //$test = Storage::disk('DO')->putFileAs('classworkAttachments', $file);
             /*  $tmpdata = ['name'=> $request->name, 'size'=> $request->size,
             'attachment'=> preg_replace('/\bpublic\/\b/', '', $newFile), 'extension'=> $request->extension]; */
-
-            $upload_file = Storage::disk('DO_spaces')->putFile('classworkAttachments/'.$UpdateClasswork->id.'/'.$userId, $file, 'public');
+            $original_file_name = preg_replace('/\\.[^.\\s]{3,4}$/', '', $request->name);
+            $Uploadname = $original_file_name.'_'.time().'.'.$request->extension;
+            $upload_file = Storage::disk('DO_spaces')->putFileAs('classworkAttachments/'.$UpdateClasswork->id.'/'.$userId, $file, $Uploadname ,'public');
+            
             $path = \Config::get('app.do_url').'/'. $upload_file;
             $tmpdata = ['name'=> $request->name, 'size'=> $request->size,
             'attachment'=> $path , 'extension'=> $request->extension]; 
@@ -590,7 +592,7 @@ class ClassworkController extends Controller
             $UpdateClasswork->attachment = serialize($data);
         }
         $UpdateClasswork->save();
-        return;
+        return $path;
      }
 
      public function NewAttachment(Request $request){
