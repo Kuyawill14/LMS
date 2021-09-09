@@ -123,7 +123,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context.prev = _context.next) {
               case 0:
                 //this.isEmailChange = !this.isEmailChange;
-                _this.ConfirmPassword = !_this.ConfirmPassword;
+                if (!_this.isEmailChange) {
+                  _this.ConfirmPassword = !_this.ConfirmPassword;
+                } else {
+                  _this.isEmailChange = !_this.isEmailChange;
+                }
 
               case 1:
               case "end":
@@ -155,6 +159,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     _this2.isResending = false;
                   }
                 })["catch"](function (err) {
+                  _this2.toastError(err.response.errors.email);
+
                   _this2.toastError(err.response.data.message);
 
                   _this2.isResending = false;
@@ -182,8 +188,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     _this3.ConfirmPassword = false;
                     _this3.isConfirming = false;
                     _this3.isEmailChange = true;
-
-                    _this3.toastSuccess(res.data.message);
                   } else if (res.data.success == false) {
                     _this3.isConfirming = false;
 
@@ -223,7 +227,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     _this4.toastError(res.data.message);
                   }
                 })["catch"](function (err) {
-                  _this4.toastError(err.response.data.message);
+                  _this4.toastError(err.response.data.errors.email[0]);
+
+                  console.log(err.response.data.errors.email[0]);
                 });
 
               case 1:

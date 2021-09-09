@@ -332,6 +332,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -479,7 +484,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         setTimeout(function () {
           return _this4.isOpening = false;
         }, 500);
-      } else if (extension == 'png' || extension == 'jpg' || extension == 'bmp') {
+      } else if (extension == 'png' || extension == 'jpg' || extension == 'jpeg' || extension == 'bmp') {
         this.OpenFileType = 'media';
         this.path = link;
         setTimeout(function () {
@@ -959,6 +964,39 @@ var render = function() {
                               _vm._v(" "),
                               _c(
                                 "v-col",
+                                {
+                                  staticClass: "ma-0 pa-0 pb-4",
+                                  attrs: { cols: "12" }
+                                },
+                                [
+                                  _vm.CheckData.status != null &&
+                                  _vm.CheckData.status != "" &&
+                                  _vm.CheckData.status != "Submitting"
+                                    ? _c(
+                                        "v-btn",
+                                        {
+                                          attrs: {
+                                            rounded: "",
+                                            color: "primary"
+                                          }
+                                        },
+                                        [
+                                          _c(
+                                            "v-icon",
+                                            { attrs: { left: "" } },
+                                            [_vm._v("mdi-restart")]
+                                          ),
+                                          _vm._v(" Reset Submission")
+                                        ],
+                                        1
+                                      )
+                                    : _vm._e()
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-col",
                                 { attrs: { cols: "12" } },
                                 [
                                   _c(
@@ -1022,6 +1060,12 @@ var render = function() {
                                                                       : item.fileExte ==
                                                                           "jpg" ||
                                                                         item.fileExte ==
+                                                                          "jpeg" ||
+                                                                        item.fileExte ==
+                                                                          "gif" ||
+                                                                        item.fileExte ==
+                                                                          "svg" ||
+                                                                        item.fileExte ==
                                                                           "png" ||
                                                                         item.fileExte ==
                                                                           "bmp"
@@ -1043,6 +1087,12 @@ var render = function() {
                                                                         ? "mdi-file-word"
                                                                         : item.fileExte ==
                                                                             "jpg" ||
+                                                                          item.fileExte ==
+                                                                            "jpeg" ||
+                                                                          item.fileExte ==
+                                                                            "gif" ||
+                                                                          item.fileExte ==
+                                                                            "svg" ||
                                                                           item.fileExte ==
                                                                             "png" ||
                                                                           item.fileExte ==
@@ -1683,15 +1733,13 @@ var render = function() {
                                 !_vm.isOpening && _vm.OpenFileType == "media"
                                   ? _c(
                                       "div",
-                                      { staticClass: "pa-5" },
                                       [
                                         _c("v-img", {
-                                          staticClass: "grey lighten-2",
                                           attrs: {
                                             src: _vm.path,
-                                            "aspect-ratio": "1",
                                             "max-width": "100%",
-                                            "max-height": "90vh"
+                                            "max-height": "90vh",
+                                            contain: ""
                                           },
                                           scopedSlots: _vm._u(
                                             [

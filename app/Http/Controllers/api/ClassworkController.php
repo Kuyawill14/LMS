@@ -73,7 +73,7 @@ class ClassworkController extends Controller
                 }
             }
            
-            $classworkList = [ 0 =>$ClassworksListObjective, 1 => $ClassworksListSubjective];
+            $classworkList = [ 0 => $ClassworksListObjective, 1 => $ClassworksListSubjective];
             return $classworkList;
         }
         else{
@@ -539,7 +539,7 @@ class ClassworkController extends Controller
 
                 $path =  str_replace(\Config::get('app.do_url').'/', "", $item['attachment']);
                 Storage::disk('DO_spaces')->delete($path);
-
+                array_splice($data, $counter,1);
                /*  Storage::delete('public/'.$item['attachment']);
                 array_splice($data, $counter,1); */
             }

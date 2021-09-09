@@ -18,7 +18,7 @@
 
 
         <v-dialog v-model="removeDialog" persistent max-width="370">
-            <removeAttachment v-on:toggleCancelDialog="removeDialog = false"
+            <removeAttachment v-on:toggleCancelDialog="removeDialog = false, isRemoving = false"
                 v-on:toggleconfirm="RemoveFile(removeIndex)"></removeAttachment>
         </v-dialog>
 
@@ -136,11 +136,13 @@
                                     <v-file-input multiple @change="onFileChange" ref="inputFile" class="d-none">
                                     </v-file-input>
 
-                                    <v-list class="ma-0 pa-0">
+                                    <v-list  class="ma-0 pa-0">
                                         <v-list-item v-for="(item, i) in Details.attachment" :key="i" class="ma-0 pa-0">
                                             <v-list-item-avatar>
-                                                <v-icon large :color="item.extension == 'docx' ? 'blue' : 'red'">
-                                                    {{item.extension == 'docx' ? 'mdi-file-word' : 'mdi-file-pdf'}}
+                                                <v-icon large :color="item.extension == 'pdf' ? 'red' : item.extension == 'docx'? 'blue': item.extension == 'link' ? 'green':
+                                          item.extension == 'jpg' ||  item.extension == 'jpeg' || item.extension == 'gif' ||  item.extension == 'svg' || item.extension == 'png' ||  item.extension == 'bmp' ? 'info': ''">
+                                                     {{item.extension == 'pdf' ? 'mdi-file-pdf': item.extension == 'docx'? 'mdi-file-word': item.extension == 'link'? 'mdi-file-link': 
+                                          item.extension == 'jpg' ||  item.extension == 'jpeg' || item.extension == 'gif' ||  item.extension == 'svg' || item.extension == 'png' ||  item.extension == 'bmp' ? 'mdi-image' :''}}
                                                 </v-icon>
                                             </v-list-item-avatar>
                                             <v-list-item-content>
@@ -150,16 +152,26 @@
                                                         {{item.name}}</v-list-item-title>
                                                 </v-hover>
                                                 <v-list-item-subtitle>
-                                                    <v-progress-linear
+                                                   <!--  <v-progress-linear
                                                         v-if="uploadIndex == i && uploadPercentage != 100" rounded
-                                                        :value="uploadPercentage"></v-progress-linear>
+                                                        :value="uploadPercentage"></v-progress-linear> -->
+                                                         <v-progress-linear
+                                                            v-if="uploadIndex == i"
+                                                              color="primary"
+                                                              indeterminate
+                                                              rounded
+                                                              height="5">
+                                                      </v-progress-linear>
                                                 </v-list-item-subtitle>
                                             </v-list-item-content>
                                             <v-list-item-action>
                                                 <v-tooltip top>
                                                     <template v-slot:activator="{ on, attrs }">
-                                                        <v-btn icon v-bind="attrs" v-on="on"
-                                                            @click="removeDialog = true, removeIndex = i">
+                                                        <v-btn icon 
+                                                       
+                                                        v-bind="attrs" v-on="on"
+                                                         :loading="removeIndex == i && isRemoving"
+                                                            @click="removeDialog = true, removeIndex = i,isRemoving = true">
                                                             <v-icon>
                                                                 mdi-close
                                                             </v-icon>
@@ -229,6 +241,7 @@
                 uploadPercentage: 0,
                 uploadIndex: null,
                 rubricsDialog: false,
+                isRemoving: false,
             }
         },
         computed: {
@@ -305,7 +318,7 @@
                     attachment: null,
                     extension: this.extension,
                 })
-
+                
                 this.addFile();
 
             },
@@ -332,6 +345,7 @@
                     })
                     .then((res) => {
                         this.counter++;
+                        this.uploadIndex = null;
                     })
             },
             RemoveFile(index) {
@@ -348,6 +362,7 @@
                     this.Details.attachment.splice(index, 1);
                 }
                 this.removeDialog = false;
+                 this.isRemoving = false;
             }
         },
         beforeMount() {

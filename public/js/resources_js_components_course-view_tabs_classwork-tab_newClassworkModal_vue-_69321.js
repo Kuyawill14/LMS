@@ -152,6 +152,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -692,18 +703,40 @@ var render = function() {
                                           attrs: {
                                             large: "",
                                             color:
-                                              item.extesion == "docx"
+                                              item.extension == "pdf"
+                                                ? "red"
+                                                : item.extension == "docx"
                                                 ? "blue"
-                                                : "red"
+                                                : item.extension == "link"
+                                                ? "green"
+                                                : item.extension == "jpg" ||
+                                                  item.extension == "jpeg" ||
+                                                  item.extension == "gif" ||
+                                                  item.extension == "svg" ||
+                                                  item.extension == "png" ||
+                                                  item.extension == "bmp"
+                                                ? "info"
+                                                : ""
                                           }
                                         },
                                         [
                                           _vm._v(
-                                            "\n                                            " +
+                                            "\n                                              " +
                                               _vm._s(
-                                                item.extesion == "docx"
+                                                item.extension == "pdf"
+                                                  ? "mdi-file-pdf"
+                                                  : item.extension == "docx"
                                                   ? "mdi-file-word"
-                                                  : "mdi-file-pdf"
+                                                  : item.extension == "link"
+                                                  ? "mdi-file-link"
+                                                  : item.extension == "jpg" ||
+                                                    item.extension == "jpeg" ||
+                                                    item.extension == "gif" ||
+                                                    item.extension == "svg" ||
+                                                    item.extension == "png" ||
+                                                    item.extension == "bmp"
+                                                  ? "mdi-image"
+                                                  : ""
                                               ) +
                                               "\n                                        "
                                           )
@@ -723,12 +756,13 @@ var render = function() {
                                       _c(
                                         "v-list-item-subtitle",
                                         [
-                                          _vm.uploadIndex == index &&
-                                          _vm.uploadPercentage != 100
+                                          _vm.uploadIndex == index
                                             ? _c("v-progress-linear", {
                                                 attrs: {
+                                                  color: "primary",
+                                                  indeterminate: "",
                                                   rounded: "",
-                                                  value: _vm.uploadPercentage
+                                                  height: "5"
                                                 }
                                               })
                                             : _vm._e()

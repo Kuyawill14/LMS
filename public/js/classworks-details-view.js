@@ -2601,6 +2601,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var removeAttachment = function removeAttachment() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_tabs_dialogs_removeAttachment_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./dialogs/removeAttachment */ "./resources/js/components/Classwork_View/tabs/dialogs/removeAttachment.vue"));
 };
@@ -2635,7 +2647,8 @@ var rubrics = function rubrics() {
       removeIndex: null,
       uploadPercentage: 0,
       uploadIndex: null,
-      rubricsDialog: false
+      rubricsDialog: false,
+      isRemoving: false
     };
   },
   computed: {
@@ -2746,6 +2759,7 @@ var rubrics = function rubrics() {
         }
       }).then(function (res) {
         _this2.counter++;
+        _this2.uploadIndex = null;
       });
     },
     RemoveFile: function RemoveFile(index) {
@@ -2764,6 +2778,7 @@ var rubrics = function rubrics() {
       }
 
       this.removeDialog = false;
+      this.isRemoving = false;
     }
   },
   beforeMount: function beforeMount() {
@@ -56927,7 +56942,7 @@ var render = function() {
           _c("removeAttachment", {
             on: {
               toggleCancelDialog: function($event) {
-                _vm.removeDialog = false
+                ;(_vm.removeDialog = false), (_vm.isRemoving = false)
               },
               toggleconfirm: function($event) {
                 return _vm.RemoveFile(_vm.removeIndex)
@@ -57351,19 +57366,57 @@ var render = function() {
                                                         large: "",
                                                         color:
                                                           item.extension ==
-                                                          "docx"
+                                                          "pdf"
+                                                            ? "red"
+                                                            : item.extension ==
+                                                              "docx"
                                                             ? "blue"
-                                                            : "red"
+                                                            : item.extension ==
+                                                              "link"
+                                                            ? "green"
+                                                            : item.extension ==
+                                                                "jpg" ||
+                                                              item.extension ==
+                                                                "jpeg" ||
+                                                              item.extension ==
+                                                                "gif" ||
+                                                              item.extension ==
+                                                                "svg" ||
+                                                              item.extension ==
+                                                                "png" ||
+                                                              item.extension ==
+                                                                "bmp"
+                                                            ? "info"
+                                                            : ""
                                                       }
                                                     },
                                                     [
                                                       _vm._v(
-                                                        "\n                                                    " +
+                                                        "\n                                                     " +
                                                           _vm._s(
                                                             item.extension ==
-                                                              "docx"
+                                                              "pdf"
+                                                              ? "mdi-file-pdf"
+                                                              : item.extension ==
+                                                                "docx"
                                                               ? "mdi-file-word"
-                                                              : "mdi-file-pdf"
+                                                              : item.extension ==
+                                                                "link"
+                                                              ? "mdi-file-link"
+                                                              : item.extension ==
+                                                                  "jpg" ||
+                                                                item.extension ==
+                                                                  "jpeg" ||
+                                                                item.extension ==
+                                                                  "gif" ||
+                                                                item.extension ==
+                                                                  "svg" ||
+                                                                item.extension ==
+                                                                  "png" ||
+                                                                item.extension ==
+                                                                  "bmp"
+                                                              ? "mdi-image"
+                                                              : ""
                                                           ) +
                                                           "\n                                                "
                                                       )
@@ -57426,16 +57479,17 @@ var render = function() {
                                                   _c(
                                                     "v-list-item-subtitle",
                                                     [
-                                                      _vm.uploadIndex == i &&
-                                                      _vm.uploadPercentage !=
-                                                        100
+                                                      _vm.uploadIndex == i
                                                         ? _c(
                                                             "v-progress-linear",
                                                             {
                                                               attrs: {
+                                                                color:
+                                                                  "primary",
+                                                                indeterminate:
+                                                                  "",
                                                                 rounded: "",
-                                                                value:
-                                                                  _vm.uploadPercentage
+                                                                height: "5"
                                                               }
                                                             }
                                                           )
@@ -57470,14 +57524,19 @@ var render = function() {
                                                                       {
                                                                         attrs: {
                                                                           icon:
-                                                                            ""
+                                                                            "",
+                                                                          loading:
+                                                                            _vm.removeIndex ==
+                                                                              i &&
+                                                                            _vm.isRemoving
                                                                         },
                                                                         on: {
                                                                           click: function(
                                                                             $event
                                                                           ) {
                                                                             ;(_vm.removeDialog = true),
-                                                                              (_vm.removeIndex = i)
+                                                                              (_vm.removeIndex = i),
+                                                                              (_vm.isRemoving = true)
                                                                           }
                                                                         }
                                                                       },
