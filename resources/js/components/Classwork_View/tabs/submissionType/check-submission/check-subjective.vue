@@ -42,7 +42,7 @@
                                                         <v-list-item-title class="font-weight-medium">{{CheckData.firstName +' '+CheckData.lastName}}</v-list-item-title>
                                                         <v-list-item-subtitle > {{CheckData.status == 'Submitted' ? 'Submitted: '+format_date(CheckData.updated_at) : CheckData.status == 'Submitting' ? 'Submitting...' : ''}}</v-list-item-subtitle>
                                                     </v-list-item-content>
-                                                    <v-list-item-action v-if="CheckData.status == 'Submitted' " class="mt-8">
+                                                    <v-list-item-action v-if="CheckData.status == 'Submitted'" class="mt-8">
                                                         <v-text-field :loading="isSavingScore" 
                                                     @keyup="SaveScore()" v-model="CheckData.points" 
                                                     dense outlined label="Score" type="number" :suffix="'/' +classworkDetails.points" :max="classworkDetails.points"  min="0"></v-text-field>

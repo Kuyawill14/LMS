@@ -187,29 +187,19 @@ class UserProfileController extends Controller
         $UpdatePicture = tbl_userDetails::where("tbl_user_details.user_id",$userId)->first();
         if($UpdatePicture){
             $file = $request->file('file');
-            if($file != ""){
-                $path =  str_replace(\Config::get('app.do_url').'/', "", $UpdatePicture->profile_pic);
+            if($file){
+            
                 if($UpdatePicture->profile_pic != null){
+                    $path =  str_replace(\Config::get('app.do_url').'/', "", $UpdatePicture->profile_pic);
                    $deleted = Storage::disk('DO_spaces')->delete($path);
-                   if($deleted){
-                        $upload_file = Storage::disk('DO_spaces')->putFile('ProfilePicture/'.$userId , $file, 'public');
-                        $UpdatePicture->profile_pic = \Config::get('app.do_url').'/'.$upload_file;  
-                   }
-                   else{
-                    $upload_file = Storage::disk('DO_spaces')->putFile('ProfilePicture/'.$userId , $file, 'public');
-                    $UpdatePicture->profile_pic = \Config::get('app.do_url').'/'.$upload_file;  
-                   }
                 }
-                else{
-                    $upload_file = Storage::disk('DO_spaces')->putFile('ProfilePicture/'.$userId , $file, 'public');
-                    $UpdatePicture->profile_pic = \Config::get('app.do_url').'/'.$upload_file;  
-                }
-                            
                 /* Storage::delete('public/'.$UpdatePicture->profile_pic);
                 $newFile = $file->store('public/upload/profile_picture/'.$userId);
                 $UpdatePicture->profile_pic = preg_replace('/\bpublic\/\b/', '', $newFile); */
-            
+                $upload_file = Storage::disk('DO_spaces')->putFile('ProfilePicture/'.$userId , $file, 'public');
+                $UpdatePicture->profile_pic = \Config::get('app.do_url').'/'.$upload_file;  
             }
+            
             $UpdatePicture->save();
             return "Profile Picture Updated";
         }
