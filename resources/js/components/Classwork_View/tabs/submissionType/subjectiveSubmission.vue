@@ -143,7 +143,7 @@
 
             <v-col cols="12">
                 <v-row>
-                    <v-col v-show="item.Submitted_Answers != null && item.Submitted_Answers != ''" link class="text-center" cols="6" md="3" lg="3" v-for="(item,i) in studentSubmissionList" :key="i">
+                    <v-col v-show="item.status == 'Submitted'" link class="text-center" cols="6" md="3" lg="3" v-for="(item,i) in studentSubmissionList" :key="i">
                           <v-card
                           v-if="selectedStatus == 'All' || selectedStatus == item.status || (selectedStatus == 'Graded' && item.graded == 1) || (selectedStatus == 'No Submission' && (item.status == null || item.status == ''))" style="cursor:pointer" 
                         class="mx-auto"
@@ -154,7 +154,14 @@
                                     <v-list-item-title  class="d-flex flex-column align-self-center">
                                         <div class="mb-2" style="max-height:30px;overflow:hidden">{{item.firstName +' '+item.lastName}}</div>
                                         <v-divider></v-divider>
-                                        <v-icon color="red" x-large>mdi-file-pdf</v-icon>
+                                        <v-icon 
+                                        :color=" item.Submitted_Answers != null ? (item.Submitted_Answers[0].fileExte == 'pdf' ? 'red' : item.Submitted_Answers[0].fileExte == 'docx' || item.Submitted_Answers[0].fileExte == 'doc'? 'blue': item.Submitted_Answers[0].fileExte == 'link' ? 'green':
+                                          item.Submitted_Answers[0].fileExte == 'jpg' ||  item.Submitted_Answers[0].fileExte == 'png' ||  item.Submitted_Answers[0].fileExte == 'bmp' ? 'info': '') : ''"
+                                         x-large>
+                                           {{item.Submitted_Answers != null ? (item.Submitted_Answers[0].fileExte == 'pdf' ? 'mdi-file-pdf': item.Submitted_Answers[0].fileExte == 'docx' ||  item.Submitted_Answers[0].fileExte == 'doc'? 'mdi-file-word': item.Submitted_Answers[0].fileExte == 'link'? 'mdi-file-link': 
+                                          item.Submitted_Answers[0].fileExte == 'jpg' ||  item.Submitted_Answers[0].fileExte == 'png' ||  item.Submitted_Answers[0].fileExte == 'bmp' ? 'mdi-image' :'') : ''}}
+                                         </v-icon>
+                                       
                                         <small style="max-height:12px;overflow:hidden;"> {{ item.Submitted_Answers != null ? item.Submitted_Answers[0].name : ''}}</small>
                                     </v-list-item-title>
                                 </v-list-item-content>

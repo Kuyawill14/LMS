@@ -191,6 +191,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 
 var checksubjective = function checksubjective() {
@@ -2941,6 +2948,7 @@ _utils_hooks__WEBPACK_IMPORTED_MODULE_4__.hooks.langData = (0,_utils_deprecate__
 
 
 
+
 /***/ }),
 
 /***/ "./node_modules/moment/src/lib/locale/locales.js":
@@ -3090,9 +3098,9 @@ function defineLocale(name, config) {
             (0,_utils_deprecate__WEBPACK_IMPORTED_MODULE_2__.deprecateSimple)(
                 'defineLocaleOverride',
                 'use moment.updateLocale(localeName, config) to change ' +
-                'an existing locale. moment.defineLocale(localeName, ' +
-                'config) should only be used for creating a new locale ' +
-                'See http://momentjs.com/guides/#/warnings/define-locale/ for more info.'
+                    'an existing locale. moment.defineLocale(localeName, ' +
+                    'config) should only be used for creating a new locale ' +
+                    'See http://momentjs.com/guides/#/warnings/define-locale/ for more info.'
             );
             parentConfig = locales[name]._config;
         } else if (config.parentLocale != null) {
@@ -3117,7 +3125,7 @@ function defineLocale(name, config) {
         locales[name] = new _constructor__WEBPACK_IMPORTED_MODULE_4__.Locale((0,_set__WEBPACK_IMPORTED_MODULE_3__.mergeConfigs)(parentConfig, config));
 
         if (localeFamilies[name]) {
-            localeFamilies[name].forEach(function(x) {
+            localeFamilies[name].forEach(function (x) {
                 defineLocale(x.name, x.config);
             });
         }
@@ -3207,6 +3215,7 @@ function getLocale(key) {
 function listLocales() {
     return (0,_utils_keys__WEBPACK_IMPORTED_MODULE_5__.default)(locales);
 }
+
 
 /***/ }),
 
@@ -9105,11 +9114,8 @@ var render = function() {
                                 {
                                   name: "show",
                                   rawName: "v-show",
-                                  value:
-                                    item.Submitted_Answers != null &&
-                                    item.Submitted_Answers != "",
-                                  expression:
-                                    "item.Submitted_Answers != null && item.Submitted_Answers != ''"
+                                  value: item.status == "Submitted",
+                                  expression: "item.status == 'Submitted'"
                                 }
                               ],
                               key: i,
@@ -9180,11 +9186,90 @@ var render = function() {
                                                     "v-icon",
                                                     {
                                                       attrs: {
-                                                        color: "red",
+                                                        color:
+                                                          item.Submitted_Answers !=
+                                                          null
+                                                            ? item
+                                                                .Submitted_Answers[0]
+                                                                .fileExte ==
+                                                              "pdf"
+                                                              ? "red"
+                                                              : item
+                                                                  .Submitted_Answers[0]
+                                                                  .fileExte ==
+                                                                  "docx" ||
+                                                                item
+                                                                  .Submitted_Answers[0]
+                                                                  .fileExte ==
+                                                                  "doc"
+                                                              ? "blue"
+                                                              : item
+                                                                  .Submitted_Answers[0]
+                                                                  .fileExte ==
+                                                                "link"
+                                                              ? "green"
+                                                              : item
+                                                                  .Submitted_Answers[0]
+                                                                  .fileExte ==
+                                                                  "jpg" ||
+                                                                item
+                                                                  .Submitted_Answers[0]
+                                                                  .fileExte ==
+                                                                  "png" ||
+                                                                item
+                                                                  .Submitted_Answers[0]
+                                                                  .fileExte ==
+                                                                  "bmp"
+                                                              ? "info"
+                                                              : ""
+                                                            : "",
                                                         "x-large": ""
                                                       }
                                                     },
-                                                    [_vm._v("mdi-file-pdf")]
+                                                    [
+                                                      _vm._v(
+                                                        "\r\n                                           " +
+                                                          _vm._s(
+                                                            item.Submitted_Answers !=
+                                                              null
+                                                              ? item
+                                                                  .Submitted_Answers[0]
+                                                                  .fileExte ==
+                                                                "pdf"
+                                                                ? "mdi-file-pdf"
+                                                                : item
+                                                                    .Submitted_Answers[0]
+                                                                    .fileExte ==
+                                                                    "docx" ||
+                                                                  item
+                                                                    .Submitted_Answers[0]
+                                                                    .fileExte ==
+                                                                    "doc"
+                                                                ? "mdi-file-word"
+                                                                : item
+                                                                    .Submitted_Answers[0]
+                                                                    .fileExte ==
+                                                                  "link"
+                                                                ? "mdi-file-link"
+                                                                : item
+                                                                    .Submitted_Answers[0]
+                                                                    .fileExte ==
+                                                                    "jpg" ||
+                                                                  item
+                                                                    .Submitted_Answers[0]
+                                                                    .fileExte ==
+                                                                    "png" ||
+                                                                  item
+                                                                    .Submitted_Answers[0]
+                                                                    .fileExte ==
+                                                                    "bmp"
+                                                                ? "mdi-image"
+                                                                : ""
+                                                              : ""
+                                                          ) +
+                                                          "\r\n                                         "
+                                                      )
+                                                    ]
                                                   ),
                                                   _vm._v(" "),
                                                   _c(

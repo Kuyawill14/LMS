@@ -40,9 +40,9 @@
                                                 
                                                     <v-list-item-content>
                                                         <v-list-item-title class="font-weight-medium">{{CheckData.firstName +' '+CheckData.lastName}}</v-list-item-title>
-                                                        <v-list-item-subtitle >Submitted: {{format_date(CheckData.updated_at)}}</v-list-item-subtitle>
+                                                        <v-list-item-subtitle > {{CheckData.status == 'Submitted' ? 'Submitted: '+format_date(CheckData.updated_at) : CheckData.status == 'Submitting' ? 'Submitting...' : ''}}</v-list-item-subtitle>
                                                     </v-list-item-content>
-                                                    <v-list-item-action class="mt-8">
+                                                    <v-list-item-action v-if="CheckData.status == 'Submitted' " class="mt-8">
                                                         <v-text-field :loading="isSavingScore" 
                                                     @keyup="SaveScore()" v-model="CheckData.points" 
                                                     dense outlined label="Score" type="number" :suffix="'/' +classworkDetails.points" :max="classworkDetails.points"  min="0"></v-text-field>
@@ -98,13 +98,13 @@
                                                                     </v-row>
                                                                     </v-alert> -->
                                                                     
-                                                                    <v-list nav>
+                                                                    <v-list nav outlined>
                                                                         <v-list-item class="rounded"  link v-for="(item, index) in CheckData.Submitted_Answers" :key="index">
                                                                             <v-list-item-icon class="pr-0 mr-0 mr-1">
-                                                                                    <v-icon large :color="item.fileExte == 'pdf' ? 'red' : item.fileExte == 'docx'? 'blue':
+                                                                                    <v-icon large :color="item.fileExte == 'pdf' ? 'red' : item.fileExte == 'docx' || item.fileExte == 'doc'? 'blue':
                                                                         item.fileExte == 'jpg' ||  item.fileExte == 'png' ||  item.fileExte == 'bmp' ? 'info': ''" >
-                                                                                        {{item.fileExte == 'pdf' ? 'mdi-file-pdf': item.fileExte == 'docx'? 'mdi-file-word': 
-                                                                                     item.fileExte == 'jpg' ||  item.fileExte == 'png' ||  item.fileExte == 'bmp' ? 'mdi-folder-multiple-image' :''}}
+                                                                                        {{item.fileExte == 'pdf' ? 'mdi-file-pdf': item.fileExte == 'docx' || item.fileExte == 'doc' ? 'mdi-file-word': 
+                                                                                     item.fileExte == 'jpg' ||  item.fileExte == 'png' ||  item.fileExte == 'bmp' ? 'mdi-image' :''}}
                                                                                     </v-icon>
                                                                             </v-list-item-icon>
                                                                             <v-list-item-content @click="OpenFile(item.fileExte, item.link)">
@@ -137,7 +137,7 @@
 
                                     </v-col>
                                 </v-row>
-                                 <v-list>
+                                 <v-list v-if="classworkDetails.rubrics.length != 0">
                                     <v-list-item v-for="(item, index) in classworkDetails.rubrics" :key="index" class="mb-0 pb-0">
                                         <v-list-item-avatar tile>
                                             <div class="font-weight-bold">{{item.points}}%</div>
@@ -156,7 +156,7 @@
                                             </v-list-item-action>
                                     </v-list-item>
                                 </v-list>
-                                <div class="text-right">
+                                <div v-if="classworkDetails.rubrics.length != 0" class="text-right">
                                     <v-btn @click="SaveRubricsScore()" small class="primary" dark>
                                         Save
                                     </v-btn>
@@ -245,23 +245,58 @@
                           </v-container>
                         
                          <v-container v-if="CheckData.Submitted_Answers != null && CheckData.Submitted_Answers != ''" fluid ma-0 pa-0>
-                            <v-card>
+                            <v-card >
                                <!--  <div class="pa-3">
                                      <h3 class="font-weight-bold">Document Preview</h3>
                                      <v-divider></v-divider>
                                 </div> -->
+                                
                               
-                                <div style="height:100vh;">
-                                    <iframe title="google pdf viewer" id="pdf-iframe" 
-                                    :src="'https://docs.google.com/viewer?embedded=true&amp;url=' + pdf_path" 
-                                    sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
-                                    style="position: absolute; top: 0px; left: 0px; width: 100%; height: 100%;"></iframe>             
+                                <div class="pa-3"  style="height:100vh;">
+                                    <div class="pa-3 text-center" >
+                                    <v-progress-circular
+                                        style="margin-top:23rem"
+                                        :size="50"
+                                        color="primary"
+                                        indeterminate
+                                        v-if="isOpening"
+                                        ></v-progress-circular>
+                                    </div>
+
+                                    <div v-if="!isOpening && OpenFileType == 'document'">
+                                        <iframe title="google pdf viewer" id="pdf-iframe" 
+                                        :src="'https://docs.google.com/viewer?embedded=true&amp;url=' + path" 
+                                        sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
+                                        style="position: absolute; top: 0px; left: 0px; width: 100%; height: 100%;"></iframe>
+                                    </div> 
+                                     <div v-if="!isOpening && OpenFileType == 'media'" class="pa-5">
+                                        <v-img
+                                            :src="path"
+                                            aspect-ratio="1"
+                                            class="grey lighten-2"
+                                            max-width="100%"
+                                            max-height="90vh"
+                                        >
+                                            <template v-slot:placeholder>
+                                            <v-row
+                                                class="fill-height ma-0"
+                                                align="center"
+                                                justify="center"
+                                            >
+                                                <v-progress-circular
+                                                indeterminate
+                                                color="grey lighten-5"
+                                                ></v-progress-circular>
+                                            </v-row>
+                                            </template>
+                                        </v-img>
+                                    </div>            
                                 </div>
                             </v-card>
                          </v-container>
                     </v-col>
                 </v-row>
-        
+ 
         </v-card-text>
             
       </v-card>
@@ -283,12 +318,14 @@ import {mapGetters} from "vuex";
         timeout: null,
         value: '',
         score: '',
-        pdf_path: null,
+        path: null,
         isSavingScore: false,
         isCommenting: false,
         comment: null,
         RubricsPoints:[],
         SaveRubricsData: [],
+        OpenFileType: null,
+        isOpening: true,
       }
     },
     computed:{
@@ -301,9 +338,9 @@ import {mapGetters} from "vuex";
             }
         },
         DownloadFile(link){
-            var host = window.location.protocol + "//" + window.location.host;
-            window.location = host+"/storage/"+link;
-
+            //var host = window.location.protocol + "//" + window.location.host;
+            //window.location = link
+            window.open(link,'_blank');
         },
         SaveScore(){
             clearTimeout(this.timeout);
@@ -370,8 +407,18 @@ import {mapGetters} from "vuex";
               })
           },
           OpenFile(extension, link){
-              console.log(link);
-              this.pdf_path = link;
+              this.isOpening = true;
+              if(extension == 'docx' || extension == 'doc' || extension == 'pdf' ){
+                  this.OpenFileType = 'document'
+                  this.path = link;
+                 setTimeout(() => (this.isOpening = false), 500);
+              }
+              else if(extension == 'png' || extension == 'jpg' || extension == 'bmp'){
+                  this.OpenFileType = 'media';
+                  this.path = link;
+                 setTimeout(() => (this.isOpening = false), 500);
+              }
+              
           },
          async addComment(details){
               let data = {};
@@ -399,11 +446,21 @@ import {mapGetters} from "vuex";
     created(){
         if(this.CheckData.Submitted_Answers != null && this.CheckData.Submitted_Answers != ''){
             let path = this.CheckData.Submitted_Answers[0].link;
-         
+            let extension = this.CheckData.Submitted_Answers[0].fileExte;
+             if(extension == 'docx' || extension == 'doc' || extension == 'pdf' ){
+                  this.OpenFileType = 'document'
+                  this.path = path;
+                  this.isOpening = false
+              }
+              else if(extension == 'png' || extension == 'jpg' || extension == 'bmp'){
+                  this.OpenFileType = 'media';
+                  this.path = path;
+                  this.isOpening = false
+              }
             //var host = window.location.protocol + "//" + window.location.host;
                //console.log(host)
             //let viewer ="https://docs.google.com/gview?url=https://path.com/to/your/pdf.pdf&embedded=true";
-            this.pdf_path = path;
+            //this.pdf_path = path;
         }
          this.$emit('isMounted');
     }
