@@ -495,6 +495,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 var attachlinkDiaglog = function attachlinkDiaglog() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_type_classworkType_attachLinkDialog_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./attachLinkDialog */ "./resources/js/components/Classwork_View/type/classworkType/attachLinkDialog.vue"));
 };
@@ -1738,7 +1739,9 @@ var render = function() {
                                                                         "pdf"
                                                                           ? "red"
                                                                           : item.fileExte ==
-                                                                            "docx"
+                                                                              "docx" ||
+                                                                            item.fileExte ==
+                                                                              "doc"
                                                                           ? "blue"
                                                                           : item.fileExte ==
                                                                             "link"
@@ -1755,13 +1758,15 @@ var render = function() {
                                                                   },
                                                                   [
                                                                     _vm._v(
-                                                                      "\r\n                                                " +
+                                                                      "\r\n\r\n                                                " +
                                                                         _vm._s(
                                                                           item.fileExte ==
                                                                             "pdf"
                                                                             ? "mdi-file-pdf"
                                                                             : item.fileExte ==
-                                                                              "docx"
+                                                                                "docx" ||
+                                                                              item.fileExte ==
+                                                                                "doc"
                                                                             ? "mdi-file-word"
                                                                             : item.fileExte ==
                                                                               "link"
@@ -1772,7 +1777,7 @@ var render = function() {
                                                                                 "png" ||
                                                                               item.fileExte ==
                                                                                 "bmp"
-                                                                            ? "mdi-folder-multiple-image"
+                                                                            ? "mdi-image"
                                                                             : ""
                                                                         ) +
                                                                         "\r\n                                              "

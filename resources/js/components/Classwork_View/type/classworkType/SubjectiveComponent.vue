@@ -162,10 +162,11 @@
                                       <v-list dense nav outlined>
                                          <v-list-item link >
                                            <v-list-item-avatar>
-                                              <v-icon  :color="item.fileExte == 'pdf' ? 'red' : item.fileExte == 'docx'? 'blue': item.fileExte == 'link' ? 'green':
+                                              <v-icon  :color="item.fileExte == 'pdf' ? 'red' : item.fileExte == 'docx' || item.fileExte == 'doc'? 'blue': item.fileExte == 'link' ? 'green':
                                           item.fileExte == 'jpg' ||  item.fileExte == 'png' ||  item.fileExte == 'bmp' ? 'info': ''">
-                                                {{item.fileExte == 'pdf' ? 'mdi-file-pdf': item.fileExte == 'docx'? 'mdi-file-word': item.fileExte == 'link'? 'mdi-file-link': 
-                                          item.fileExte == 'jpg' ||  item.fileExte == 'png' ||  item.fileExte == 'bmp' ? 'mdi-folder-multiple-image' :''}}
+
+                                                {{item.fileExte == 'pdf' ? 'mdi-file-pdf': item.fileExte == 'docx' ||  item.fileExte == 'doc'? 'mdi-file-word': item.fileExte == 'link'? 'mdi-file-link': 
+                                          item.fileExte == 'jpg' ||  item.fileExte == 'png' ||  item.fileExte == 'bmp' ? 'mdi-image' :''}}
                                               </v-icon>
                                            </v-list-item-avatar>
                                             <v-list-item-content @click="OpenFile(item.link)">

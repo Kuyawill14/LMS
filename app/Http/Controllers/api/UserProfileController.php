@@ -244,6 +244,7 @@ class UserProfileController extends Controller
         ,'tbl_class_classworks.classwork_id')
         ->leftJoin('tbl_class_classworks','tbl_class_classworks.class_id','=','tbl_userclasses.class_id')
         ->leftJoin('tbl_classworks','tbl_classworks.id','=','tbl_class_classworks.classwork_id')
+        ->whereNull('tbl_class_classworks.deleted_at')
         ->get();
         foreach($SubmitSubj as $sj){
             $StatusCheck = tbl_Submission::where('tbl_submissions.classwork_id', $sj->classwork_id)

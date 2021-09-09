@@ -186,6 +186,7 @@
             }
         },
         methods: {
+            
             format_date(value) {
                 if (value) {
                     return moment(String(value)).format('MMMM Do YYYY, hh:mm A')
