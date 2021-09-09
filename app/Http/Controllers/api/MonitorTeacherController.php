@@ -32,8 +32,8 @@ class MonitorTeacherController extends Controller
 
     public function getAllTeacherSummarryData() {
 
-        $course_count = '(SELECT COUNT(*) FROM tbl_teacher_courses WHERE user_id = users.id) AS course_count';
-        $class_count = '(SELECT COUNT(*) FROM tbl_userclasses WHERE user_id = users.id) AS class_count';
+        $course_count = '(SELECT COUNT(*) FROM tbl_teacher_courses WHERE user_id = users.id AND tbl_teacher_courses.deleted_at IS NULL) AS course_count ';
+        $class_count = '(SELECT COUNT(*) FROM tbl_userclasses WHERE user_id = users.id  AND tbl_userclasses.deleted_at IS NULL) AS class_count';
         $classwork_count = '(SELECT COUNT(*) FROM tbl_classworks WHERE user_id = users.id) AS classwork_count';
         $sub_module_count = '(SELECT COUNT(*) FROM tbl_main_modules 
         LEFT JOIN tbl_sub_modules ON  tbl_main_modules.id = tbl_sub_modules.main_module_id WHERE tbl_main_modules.created_by = users.id) AS sub_modules_count';
@@ -47,6 +47,7 @@ class MonitorTeacherController extends Controller
         ->selectRaw( $classwork_count)
         ->selectRaw( $sub_module_count)
         ->where('role','Teacher')
+        // ->whereNull("tbl_teacher_courses.deleted_at")
         ->get();
 
     //     $teachers = DB::table('users')

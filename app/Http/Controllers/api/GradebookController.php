@@ -106,6 +106,7 @@ class GradebookController extends Controller
         ->where('tbl_userclasses.class_id', $class_id )
         ->where('role', 'Student')
         ->where('tbl_userclasses.deleted_at', null)
+        ->orderBy('tbl_class_classworks.classwork_id', 'asc')
         ->get();
 
         $studentList = json_decode($studentList, true);
@@ -115,6 +116,7 @@ class GradebookController extends Controller
         ->leftJoin('tbl_class_classworks' , 'tbl_class_classworks.classwork_id' , '=' , 'tbl_submissions.classwork_id')
         ->where('tbl_submissions.user_id',$userId )
         ->where('tbl_class_classworks.class_id', $class_id )
+        ->orderBy('tbl_class_classworks.classwork_id', 'asc')
         ->get();
         $submissions = json_decode($submissions, true);
 
@@ -142,6 +144,7 @@ class GradebookController extends Controller
         ->selectRaw('sum(tbl_classworks.points) as total_points ')
         ->leftJoin('tbl_class_classworks' , 'tbl_class_classworks.classwork_id' , '=' , 'tbl_classworks.id')
         ->where('tbl_class_classworks.class_id', $class_id )
+   
         ->groupBy('grading_criteria')
         ->get();
         $classworks = json_decode($classworks, true);

@@ -272,7 +272,7 @@ class AdminController extends Controller
             $userTeacher->password =  Hash::make($newpassword);
             $userTeacher->save();
             Mail::to($userTeacher->email)->send(new SendNewPassword($newpassword));
-            return "Users password successfully reset!";
+            return "Users password successfully reset! " .$newpassword  ;
         }
 
     }

@@ -238,7 +238,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 var previewClassworkModal = function previewClassworkModal() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_tabs_classwork-tab_dialogs_previewClassworkModal_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../dialogs/previewClassworkModal */ "./resources/js/components/course-view/tabs/classwork-tab/dialogs/previewClassworkModal.vue"));
 };
@@ -519,7 +518,18 @@ var render = function() {
               _c(
                 "v-row",
                 [
-                  _c("v-col", { staticClass: "text-left mb-0 pb-0" }),
+                  _c(
+                    "v-col",
+                    {
+                      staticClass: "text-left mb-0 pb-0",
+                      attrs: { cols: "12", md: "9", lg: "9" }
+                    },
+                    [
+                      _c("h2", { staticClass: "mt-1" }, [
+                        _vm._v("My Classworks")
+                      ])
+                    ]
+                  ),
                   _vm._v(" "),
                   _c(
                     "v-col",

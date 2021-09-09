@@ -276,7 +276,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       phoneNumberRules: [function (v) {
         return v && v.length > 6 || 'min 11 characters';
       }, function (v) {
-        return v && v.length <= 6 || 'Max 15 characters';
+        return v && v.length <= 15 || 'Max 15 characters';
       }],
       StudentIdRules: [function (v) {
         return !!v || 'Student ID is required';
