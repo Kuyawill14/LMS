@@ -133,7 +133,7 @@ class StudentSubModuleProgressController extends Controller
             // ->where('tbl_student_sub_module_progress.student_id',1 )
             ->groupBy('tbl_student_sub_module_progress.id','tbl_sub_modules.id')
             ->orderBy('tbl_user_details.lastName', 'ASC')
-            ->orderBy('tbl_sub_modules.id', 'ASC')
+            ->orderBy('tbl_main_modules.position')
             ->get();
             $allSubModulesProgress = json_decode($allSubModulesProgress, true);
     
