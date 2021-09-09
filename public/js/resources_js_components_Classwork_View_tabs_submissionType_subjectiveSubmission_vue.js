@@ -197,7 +197,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
 
 
 var checksubjective = function checksubjective() {
@@ -901,6 +900,18 @@ var render = function() {
                                                                 item
                                                                   .Submitted_Answers[0]
                                                                   .fileExte ==
+                                                                  "jpeg" ||
+                                                                item
+                                                                  .Submitted_Answers[0]
+                                                                  .fileExte ==
+                                                                  "gif" ||
+                                                                item
+                                                                  .Submitted_Answers[0]
+                                                                  .fileExte ==
+                                                                  "svg" ||
+                                                                item
+                                                                  .Submitted_Answers[0]
+                                                                  .fileExte ==
                                                                   "png" ||
                                                                 item
                                                                   .Submitted_Answers[0]
@@ -941,6 +952,18 @@ var render = function() {
                                                                     .Submitted_Answers[0]
                                                                     .fileExte ==
                                                                     "jpg" ||
+                                                                  item
+                                                                    .Submitted_Answers[0]
+                                                                    .fileExte ==
+                                                                    "jpeg" ||
+                                                                  item
+                                                                    .Submitted_Answers[0]
+                                                                    .fileExte ==
+                                                                    "gif" ||
+                                                                  item
+                                                                    .Submitted_Answers[0]
+                                                                    .fileExte ==
+                                                                    "svg" ||
                                                                   item
                                                                     .Submitted_Answers[0]
                                                                     .fileExte ==

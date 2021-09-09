@@ -88,14 +88,25 @@
                                 <v-list-item v-for="(item, index) in file_name" :key="index" class="ma-0 pa-0">
                                     <v-list-item-avatar >
                                             <v-icon large
-                                            :color="item.extesion == 'docx' ? 'blue' : 'red'"
+                                             :color="item.extension == 'pdf' ? 'red' : item.extension == 'docx'? 'blue': item.extension == 'link' ? 'green':
+                                          item.extension == 'jpg' ||  item.extension == 'jpeg' || item.extension == 'gif' ||  item.extension == 'svg' || item.extension == 'png' ||  item.extension == 'bmp' ? 'info': ''"
                                             >
-                                                {{item.extesion == 'docx' ? 'mdi-file-word' : 'mdi-file-pdf'}}
+                                                  {{item.extension == 'pdf' ? 'mdi-file-pdf': item.extension == 'docx'? 'mdi-file-word': item.extension == 'link'? 'mdi-file-link': 
+                                          item.extension == 'jpg' ||  item.extension == 'jpeg' || item.extension == 'gif' ||  item.extension == 'svg' || item.extension == 'png' ||  item.extension == 'bmp' ? 'mdi-image' :''}}
                                             </v-icon>
                                     </v-list-item-avatar>
                                     <v-list-item-content>
                                         <v-list-item-title>{{item.name}}</v-list-item-title>
-                                         <v-list-item-subtitle> <v-progress-linear v-if="uploadIndex == index && uploadPercentage != 100"  rounded :value="uploadPercentage"></v-progress-linear></v-list-item-subtitle>
+                                         <v-list-item-subtitle> 
+                                             <!-- <v-progress-linear v-if="uploadIndex == index && uploadPercentage != 100"  rounded :value="uploadPercentage"></v-progress-linear> -->
+                                              <v-progress-linear
+                                                v-if="uploadIndex == index"
+                                                    color="primary"
+                                                    indeterminate
+                                                    rounded
+                                                    height="5">
+                                            </v-progress-linear>
+                                            </v-list-item-subtitle>
                                     </v-list-item-content>
                                     <v-list-item-action>
                                         <v-btn icon @click="RemoveFile(index)">

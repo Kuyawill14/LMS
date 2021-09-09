@@ -59,6 +59,7 @@
                                             </v-list-item-content>
                                             <v-list-item-action class="mt-8">
                                                     <v-text-field  
+                                                    v-if="ViewDetails.status == 'Submitted'"
                                                     v-model="ViewDetails.points" 
                                                     dense outlined label="Score" type="number" :suffix="'/' +classworkDetails.points" :max="classworkDetails.points"  min="0"></v-text-field>
                                             </v-list-item-action>
@@ -66,7 +67,7 @@
                                     </v-list>
                             
                                     <v-col  cols="12" class="ma-0 pa-0 pb-4">
-                                    <v-btn rounded v-if="this.ViewDetails.status != null && this.ViewDetails.status != ''"
+                                    <v-btn rounded v-if="ViewDetails.status != null && ViewDetails.status != ''"
                                      :loading="isReseting" @click="dialog = !dialog" color="primary" ><v-icon left>mdi-restart</v-icon> Reset Submission</v-btn>
                                     </v-col>
                                 </v-card>

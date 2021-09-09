@@ -496,6 +496,34 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var attachlinkDiaglog = function attachlinkDiaglog() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_type_classworkType_attachLinkDialog_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./attachLinkDialog */ "./resources/js/components/Classwork_View/type/classworkType/attachLinkDialog.vue"));
 };
@@ -529,7 +557,9 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
       linkFile: null,
       IsSaving: false,
       isDeleting: false,
-      isDeleting_id: null
+      isDeleting_id: null,
+      isUploadSaving: false,
+      isUploaded: false
     };
   },
   computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(['get_CurrentUser'])), {}, {
@@ -631,7 +661,14 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
       this.createFile(files[0]);
     },
     createFile: function createFile(file) {
-      var IndexFile = this.file.length;
+      var IndexFile;
+
+      if (this.StatusDetails.length == 0) {
+        IndexFile = this.file.length;
+      } else {
+        IndexFile = this.StatusDetails.Submitted_Answers.length;
+      }
+
       this.isUploading[IndexFile] = true;
       this.fileIndex = IndexFile; ////console.log(this.file.length)
 
@@ -660,7 +697,9 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
           fileExte: this.extension,
           file: this.tempFile
         });
+        this.isUpIndex = this.file.length - 1;
       } else {
+        this.isUpIndex = this.StatusDetails.Submitted_Answers.length;
         this.file.push({
           fileName: this.tempFile.name,
           fileSize: this.fileSize,
@@ -674,9 +713,10 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
         });
       }
 
-      this.fileIndex = this.file.length;
-      this.isUpIndex = this.file.length - 1; ////console.log(this.fileIndex);
+      this.fileIndex = this.file.length; //this.isUpIndex = this.file.length-1
+      ////console.log(this.fileIndex);
 
+      this.isUploadSaving = true;
       this.UpdateSubmission(this.file.length - 1);
     },
     removeFile: function removeFile(index) {
@@ -748,6 +788,8 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
           }
         }
       }).then(function (res) {
+        _this4.isUploadSaving = false;
+        _this4.isUpIndex = null;
         _this4.tempId = _this4.tempId == null ? res.data : _this4.tempId;
       });
     },
@@ -1460,7 +1502,15 @@ var render = function() {
                                                     [
                                                       _c(
                                                         "v-list-item",
-                                                        { attrs: { link: "" } },
+                                                        {
+                                                          attrs: {
+                                                            link: "",
+                                                            disabled:
+                                                              _vm.isUpIndex ==
+                                                                index &&
+                                                              _vm.isUploadSaving
+                                                          }
+                                                        },
                                                         [
                                                           _c(
                                                             "v-list-item-avatar",
@@ -1481,6 +1531,12 @@ var render = function() {
                                                                         ? "green"
                                                                         : item.fileExte ==
                                                                             "jpg" ||
+                                                                          item.fileExte ==
+                                                                            "jpeg" ||
+                                                                          item.fileExte ==
+                                                                            "gif" ||
+                                                                          item.fileExte ==
+                                                                            "svg" ||
                                                                           item.fileExte ==
                                                                             "png" ||
                                                                           item.fileExte ==
@@ -1505,10 +1561,16 @@ var render = function() {
                                                                           : item.fileExte ==
                                                                               "jpg" ||
                                                                             item.fileExte ==
+                                                                              "jpeg" ||
+                                                                            item.fileExte ==
+                                                                              "gif" ||
+                                                                            item.fileExte ==
+                                                                              "svg" ||
+                                                                            item.fileExte ==
                                                                               "png" ||
                                                                             item.fileExte ==
                                                                               "bmp"
-                                                                          ? "mdi-folder-multiple-image"
+                                                                          ? "mdi-image"
                                                                           : ""
                                                                       ) +
                                                                       "\r\n                                              "
@@ -1552,7 +1614,7 @@ var render = function() {
                                                               _vm.uploadPercentage !=
                                                                 100
                                                                 ? _c(
-                                                                    "div",
+                                                                    "v-list-item-subtitle",
                                                                     [
                                                                       _vm.isUpIndex ==
                                                                       index
@@ -1560,10 +1622,14 @@ var render = function() {
                                                                             "v-progress-linear",
                                                                             {
                                                                               attrs: {
+                                                                                color:
+                                                                                  "primary",
+                                                                                indeterminate:
+                                                                                  "",
                                                                                 rounded:
                                                                                   "",
-                                                                                value:
-                                                                                  _vm.uploadPercentage
+                                                                                height:
+                                                                                  "5"
                                                                               }
                                                                             }
                                                                           )
@@ -1724,7 +1790,13 @@ var render = function() {
                                                         _c(
                                                           "v-list-item",
                                                           {
-                                                            attrs: { link: "" }
+                                                            attrs: {
+                                                              link: "",
+                                                              disabled:
+                                                                _vm.isUpIndex ==
+                                                                  index &&
+                                                                _vm.isUploadSaving
+                                                            }
                                                           },
                                                           [
                                                             _c(
@@ -1748,6 +1820,12 @@ var render = function() {
                                                                           ? "green"
                                                                           : item.fileExte ==
                                                                               "jpg" ||
+                                                                            item.fileExte ==
+                                                                              "jpeg" ||
+                                                                            item.fileExte ==
+                                                                              "gif" ||
+                                                                            item.fileExte ==
+                                                                              "svg" ||
                                                                             item.fileExte ==
                                                                               "png" ||
                                                                             item.fileExte ==
@@ -1773,6 +1851,12 @@ var render = function() {
                                                                             ? "mdi-file-link"
                                                                             : item.fileExte ==
                                                                                 "jpg" ||
+                                                                              item.fileExte ==
+                                                                                "jpeg" ||
+                                                                              item.fileExte ==
+                                                                                "gif" ||
+                                                                              item.fileExte ==
+                                                                                "svg" ||
                                                                               item.fileExte ==
                                                                                 "png" ||
                                                                               item.fileExte ==
@@ -1813,7 +1897,37 @@ var render = function() {
                                                                         "\r\n                                                "
                                                                     )
                                                                   ]
-                                                                )
+                                                                ),
+                                                                _vm._v(" "),
+                                                                _vm.isUploading[
+                                                                  index
+                                                                ] &&
+                                                                _vm.isUploadSaving
+                                                                  ? _c(
+                                                                      "v-list-item-subtitle",
+                                                                      [
+                                                                        _vm.isUpIndex ==
+                                                                        index
+                                                                          ? _c(
+                                                                              "v-progress-linear",
+                                                                              {
+                                                                                attrs: {
+                                                                                  color:
+                                                                                    "primary",
+                                                                                  indeterminate:
+                                                                                    "",
+                                                                                  rounded:
+                                                                                    "",
+                                                                                  height:
+                                                                                    "5"
+                                                                                }
+                                                                              }
+                                                                            )
+                                                                          : _vm._e()
+                                                                      ],
+                                                                      1
+                                                                    )
+                                                                  : _vm._e()
                                                               ],
                                                               1
                                                             ),
@@ -1851,6 +1965,19 @@ var render = function() {
                                                                                     _vm._g(
                                                                                       _vm._b(
                                                                                         {
+                                                                                          directives: [
+                                                                                            {
+                                                                                              name:
+                                                                                                "show",
+                                                                                              rawName:
+                                                                                                "v-show",
+                                                                                              value:
+                                                                                                _vm.isUpIndex !=
+                                                                                                index,
+                                                                                              expression:
+                                                                                                "isUpIndex != index"
+                                                                                            }
+                                                                                          ],
                                                                                           attrs: {
                                                                                             loading:
                                                                                               _vm.isDeleting &&
