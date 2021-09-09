@@ -224,7 +224,7 @@
             ],
             StudentIdRules: [
                 v => !!v || 'Student ID is required',
-                v => (v && v.length >= 6) || 'min 8 characters',
+                v => (v && v.length >= 6) || 'min 6 characters',
                 v => (v && v.length <= 8) || 'Max 8 characters',
             ],
             show: false,
