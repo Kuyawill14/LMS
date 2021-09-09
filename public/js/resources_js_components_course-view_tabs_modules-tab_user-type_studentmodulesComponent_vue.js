@@ -652,7 +652,7 @@ var render = function() {
                                           title: "google drive viewer",
                                           id: "pdf-iframe",
                                           src:
-                                            "https://view.officeapps.live.com/op/view.aspx?src=" +
+                                            "https://view.officeapps.live.com/op/embed.aspx?src=" +
                                             _vm.docpath +
                                             _vm.subModuleData.file_attachment,
                                           sandbox:
