@@ -26,15 +26,14 @@ class AuthController extends Controller
 
     public function UserLogin(Request $request){
 
-        
-
+    
         $request->validate([
             'email' => ['required', 'email'],
             'password' => ['required']
         ]);
 
     
-        if($request->email != "admin@gmail.com"){
+      /*   if($request->email != "admin@gmail.com"){
             $user = User::where('email', $request->email)->whereNotNull('email_verified_at')->first();
 
             if(!$user){
@@ -43,7 +42,7 @@ class AuthController extends Controller
                     "success" => false
                 ]);
             }
-        }
+        } */
 
 
         if (method_exists($this, 'hasTooManyLoginAttempts') && $this->hasTooManyLoginAttempts($request)) {
@@ -58,12 +57,23 @@ class AuthController extends Controller
             $token = $request->user()->createToken('auth-token');          
             $request->session()->regenerate();
             //Auth::logoutOtherDevices($request->password);
-            return response()->json([
-                "message" => "Login Success",
-                //'token'=> $token->plainTextToken,
-                'token'=> $token->plainTextToken,
-                "success" => true
-            ]);            
+            if($request->email != "admin@gmail.com"){
+                return response()->json([
+                    "message" => "Login Success",
+                    "token"=> $token->plainTextToken,
+                    "verified" => auth("sanctum")->user()->email_verified_at != null ? true : false,
+                    "success" => true,
+                ]); 
+            }
+            else{
+                return response()->json([
+                    "message" => "Login Success",
+                    "token"=> $token->plainTextToken,
+                    "verified" => true,
+                    "success" => true,
+                ]); 
+            }
+                      
         }
         else{
             $this->incrementLoginAttempts($request);
@@ -139,6 +149,31 @@ class AuthController extends Controller
             return 0;
         } 
     }
+
+    public function ConfirmPassword(Request $request){
+        
+        $validated = $request->validate([
+            'password' => ['required']
+        ]);
+
+        if(Hash::check(strval($request->password), auth()->user()->password)){
+            return response()->json([
+                "message" => "Password confirmed!",
+                "success" => true
+            ]);
+        
+    
+        }
+        else{
+            return response()->json([
+                "message" => "Password Invalid!",
+                "success" => false
+            ]);
+        } 
+    }
+
+    
+
 
     /**
      * Log the user out of the application.

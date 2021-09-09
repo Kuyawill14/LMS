@@ -675,23 +675,23 @@ import courseNavbar from './navigation/course-navbar';
 import notifications from './notification/notification';
 import seeAllNotification from './notification/SeeAllNotification'; */
 var mainNavbar = function mainNavbar() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_layout_navigation_main-navbar_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./navigation/main-navbar */ "./resources/js/components/layout/navigation/main-navbar.vue"));
+  return __webpack_require__.e(/*! import() | layout */ "layout").then(__webpack_require__.bind(__webpack_require__, /*! ./navigation/main-navbar */ "./resources/js/components/layout/navigation/main-navbar.vue"));
 };
 
 var courseNavbar = function courseNavbar() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_layout_navigation_course-navbar_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./navigation/course-navbar */ "./resources/js/components/layout/navigation/course-navbar.vue"));
+  return __webpack_require__.e(/*! import() | layout */ "layout").then(__webpack_require__.bind(__webpack_require__, /*! ./navigation/course-navbar */ "./resources/js/components/layout/navigation/course-navbar.vue"));
 };
 
 var adminNavbar = function adminNavbar() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_layout_navigation_admin_admin-navbar_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./navigation/admin/admin-navbar */ "./resources/js/components/layout/navigation/admin/admin-navbar.vue"));
+  return __webpack_require__.e(/*! import() | layout */ "layout").then(__webpack_require__.bind(__webpack_require__, /*! ./navigation/admin/admin-navbar */ "./resources/js/components/layout/navigation/admin/admin-navbar.vue"));
 };
 
 var notifications = function notifications() {
-  return Promise.resolve(/*! import() */).then(__webpack_require__.bind(__webpack_require__, /*! ./notification/notification */ "./resources/js/components/layout/notification/notification.vue"));
+  return __webpack_require__.e(/*! import() | layout */ "layout").then(__webpack_require__.bind(__webpack_require__, /*! ./notification/notification */ "./resources/js/components/layout/notification/notification.vue"));
 };
 
 var invites = function invites() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_layout_notification_invites_vue-_c8ea1").then(__webpack_require__.bind(__webpack_require__, /*! ./notification/invites */ "./resources/js/components/layout/notification/invites.vue"));
+  return __webpack_require__.e(/*! import() | layout */ "layout").then(__webpack_require__.bind(__webpack_require__, /*! ./notification/invites */ "./resources/js/components/layout/notification/invites.vue"));
 };
 
 
@@ -3636,6 +3636,7 @@ _utils_hooks__WEBPACK_IMPORTED_MODULE_4__.hooks.langData = (0,_utils_deprecate__
 
 
 
+
 /***/ }),
 
 /***/ "./node_modules/moment/src/lib/locale/locales.js":
@@ -3785,9 +3786,9 @@ function defineLocale(name, config) {
             (0,_utils_deprecate__WEBPACK_IMPORTED_MODULE_2__.deprecateSimple)(
                 'defineLocaleOverride',
                 'use moment.updateLocale(localeName, config) to change ' +
-                'an existing locale. moment.defineLocale(localeName, ' +
-                'config) should only be used for creating a new locale ' +
-                'See http://momentjs.com/guides/#/warnings/define-locale/ for more info.'
+                    'an existing locale. moment.defineLocale(localeName, ' +
+                    'config) should only be used for creating a new locale ' +
+                    'See http://momentjs.com/guides/#/warnings/define-locale/ for more info.'
             );
             parentConfig = locales[name]._config;
         } else if (config.parentLocale != null) {
@@ -3812,7 +3813,7 @@ function defineLocale(name, config) {
         locales[name] = new _constructor__WEBPACK_IMPORTED_MODULE_4__.Locale((0,_set__WEBPACK_IMPORTED_MODULE_3__.mergeConfigs)(parentConfig, config));
 
         if (localeFamilies[name]) {
-            localeFamilies[name].forEach(function(x) {
+            localeFamilies[name].forEach(function (x) {
                 defineLocale(x.name, x.config);
             });
         }
@@ -3902,6 +3903,7 @@ function getLocale(key) {
 function listLocales() {
     return (0,_utils_keys__WEBPACK_IMPORTED_MODULE_5__.default)(locales);
 }
+
 
 /***/ }),
 

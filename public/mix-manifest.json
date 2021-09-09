@@ -1,6 +1,8 @@
 {
     "/js/app.js": "/js/app.js",
     "/js/manifest.js": "/js/manifest.js",
+    "/js/group-classworks_details_view.js": "/js/group-classworks_details_view.js",
+    "/js/group-classworks-details_view.js": "/js/group-classworks-details_view.js",
     "/js/login.js": "/js/login.js",
     "/js/register.js": "/js/register.js",
     "/js/verifyEmail.js": "/js/verifyEmail.js",
@@ -10,5 +12,9 @@
     "/js/vendor~utils-4.js": "/js/vendor~utils-4.js",
     "/js/vendor~utils-1.js": "/js/vendor~utils-1.js",
     "/js/vendor~utils-5.js": "/js/vendor~utils-5.js",
-    "/js/vendor~utils-3.js": "/js/vendor~utils-3.js"
+    "/js/vendor~utils-3.js": "/js/vendor~utils-3.js",
+    "/js/classworks-details-view.js": "/js/classworks-details-view.js",
+    "/js/layout.js": "/js/layout.js",
+    "/js/main-view.js": "/js/main-view.js",
+    "/js/verify-email.js": "/js/verify-email.js"
 }

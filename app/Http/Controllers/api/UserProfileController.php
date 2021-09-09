@@ -33,12 +33,12 @@ class UserProfileController extends Controller
         $userId = auth('sanctum')->id();
         
         $userDetails = User::where('users.id' ,$userId)
-        ->select('users.role','users.email',
+        ->select('users.role','users.email','users.email_verified_at as verified',
         'tbl_user_details.*')
         ->leftJoin('tbl_user_details', 'tbl_user_details.user_id', '=', 'users.id')
         ->first();
         
-
+        $userDetails->verified =  $userDetails->verified != null ? true : false;
        /*  $userDetails->profile_pic =  str_replace(return \Config::get('app.do_url');.'/', "",$userDetails->profile_pic);
         return $userDetails->profile_pic; */
         return $userDetails;

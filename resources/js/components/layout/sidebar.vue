@@ -95,11 +95,11 @@
      import adminNavbar from './navigation/admin/admin-navbar';
     import notifications from './notification/notification';
     import seeAllNotification from './notification/SeeAllNotification'; */
-    const mainNavbar = () => import("./navigation/main-navbar")
-    const courseNavbar = () => import("./navigation/course-navbar")
-    const adminNavbar = () => import("./navigation/admin/admin-navbar")
-    const notifications = () => import("./notification/notification")
-    const invites = () => import("./notification/invites")
+    const mainNavbar = () => import(/* webpackChunkName: "layout" */"./navigation/main-navbar")
+    const courseNavbar = () => import(/* webpackChunkName: "layout" */"./navigation/course-navbar")
+    const adminNavbar = () => import(/* webpackChunkName: "layout" */"./navigation/admin/admin-navbar")
+    const notifications = () => import(/* webpackChunkName: "layout" */"./notification/notification")
+    const invites = () => import(/* webpackChunkName: "layout" */"./notification/invites")
 
     
 

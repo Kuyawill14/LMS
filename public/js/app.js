@@ -2087,7 +2087,7 @@ var profile = function profile() {
 
 
 var mainApp = function mainApp() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_mainApp_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/mainApp */ "./resources/js/components/mainApp.vue"));
+  return __webpack_require__.e(/*! import() | main-view */ "main-view").then(__webpack_require__.bind(__webpack_require__, /*! ./components/mainApp */ "./resources/js/components/mainApp.vue"));
 };
 
 var dashboard = function dashboard() {
@@ -2109,10 +2109,14 @@ var SeeAllNotification = function SeeAllNotification() {
 };
 
 var invites = function invites() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_layout_notification_invites_vue-_c8ea0").then(__webpack_require__.bind(__webpack_require__, /*! ./components/layout/notification/invites */ "./resources/js/components/layout/notification/invites.vue"));
+  return __webpack_require__.e(/*! import() */ "resources_js_components_layout_notification_invites_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/layout/notification/invites */ "./resources/js/components/layout/notification/invites.vue"));
 }; // let classwork_main = () =>
 //     import ("./components/classwork_main/classwork_main");
-//class Not found
+
+
+var EmailPending = function EmailPending() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_verify_EmailPending_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/verify/EmailPending.vue */ "./resources/js/components/verify/EmailPending.vue"));
+}; //class Not found
 
 
 var ClassNotFound = function ClassNotFound() {
@@ -2200,35 +2204,35 @@ var courseView = function courseView() {
 
 
 var classworkView = function classworkView() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_classworkDetailsView_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/Classwork_View/classworkDetailsView */ "./resources/js/components/Classwork_View/classworkDetailsView.vue"));
+  return __webpack_require__.e(/*! import() | classworks-details-view */ "classworks-details-view").then(__webpack_require__.bind(__webpack_require__, /*! ./components/Classwork_View/classworkDetailsView */ "./resources/js/components/Classwork_View/classworkDetailsView.vue"));
 };
 
 var addQuestionTab = function addQuestionTab() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_tabs_addQuestionTab_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/Classwork_View/tabs/addQuestionTab */ "./resources/js/components/Classwork_View/tabs/addQuestionTab.vue"));
+  return __webpack_require__.e(/*! import() | classworks-details-view */ "classworks-details-view").then(__webpack_require__.bind(__webpack_require__, /*! ./components/Classwork_View/tabs/addQuestionTab */ "./resources/js/components/Classwork_View/tabs/addQuestionTab.vue"));
 };
 
 var questionList = function questionList() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_tabs_questionListTab_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/Classwork_View/tabs/questionListTab */ "./resources/js/components/Classwork_View/tabs/questionListTab.vue"));
+  return __webpack_require__.e(/*! import() | classworks-details-view */ "classworks-details-view").then(__webpack_require__.bind(__webpack_require__, /*! ./components/Classwork_View/tabs/questionListTab */ "./resources/js/components/Classwork_View/tabs/questionListTab.vue"));
 };
 
 var questionnAnalyticstab = function questionnAnalyticstab() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_tabs_questionnAnalyticstab_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/Classwork_View/tabs/questionnAnalyticstab */ "./resources/js/components/Classwork_View/tabs/questionnAnalyticstab.vue"));
+  return __webpack_require__.e(/*! import() | classworks-details-view */ "classworks-details-view").then(__webpack_require__.bind(__webpack_require__, /*! ./components/Classwork_View/tabs/questionnAnalyticstab */ "./resources/js/components/Classwork_View/tabs/questionnAnalyticstab.vue"));
 };
 
 var submissionListTab = function submissionListTab() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_tabs_submissionListTab_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/Classwork_View/tabs/submissionListTab */ "./resources/js/components/Classwork_View/tabs/submissionListTab.vue"));
+  return __webpack_require__.e(/*! import() | classworks-details-view */ "classworks-details-view").then(__webpack_require__.bind(__webpack_require__, /*! ./components/Classwork_View/tabs/submissionListTab */ "./resources/js/components/Classwork_View/tabs/submissionListTab.vue"));
 };
 
 var publishClassworkTab = function publishClassworkTab() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_tabs_publishClassworkTab_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/Classwork_View/tabs/publishClassworkTab */ "./resources/js/components/Classwork_View/tabs/publishClassworkTab.vue"));
+  return __webpack_require__.e(/*! import() | classworks-details-view */ "classworks-details-view").then(__webpack_require__.bind(__webpack_require__, /*! ./components/Classwork_View/tabs/publishClassworkTab */ "./resources/js/components/Classwork_View/tabs/publishClassworkTab.vue"));
 };
 
 var test = function test() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_tabs_test_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/Classwork_View/tabs/test */ "./resources/js/components/Classwork_View/tabs/test.vue"));
+  return __webpack_require__.e(/*! import() | classworks-details-view */ "classworks-details-view").then(__webpack_require__.bind(__webpack_require__, /*! ./components/Classwork_View/tabs/test */ "./resources/js/components/Classwork_View/tabs/test.vue"));
 };
 
 var classworkDetailsTab = function classworkDetailsTab() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_tabs_classworkDetailsTab_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/Classwork_View/tabs/classworkDetailsTab */ "./resources/js/components/Classwork_View/tabs/classworkDetailsTab.vue"));
+  return __webpack_require__.e(/*! import() | classworks-details-view */ "classworks-details-view").then(__webpack_require__.bind(__webpack_require__, /*! ./components/Classwork_View/tabs/classworkDetailsTab */ "./resources/js/components/Classwork_View/tabs/classworkDetailsTab.vue"));
 };
 
 var documentPreview = function documentPreview() {
@@ -2274,9 +2278,17 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_6__.default({
       _store_store__WEBPACK_IMPORTED_MODULE_2__.default.dispatch('IsAuthenticated').then(function () {
         if (_store_store__WEBPACK_IMPORTED_MODULE_2__.default.state.CurrentUser.IsAuthenticated == true) {
           _store_store__WEBPACK_IMPORTED_MODULE_2__.default.dispatch('fetchCurrentUser').then(function () {
-            next();
+            if (_store_store__WEBPACK_IMPORTED_MODULE_2__.default.state.CurrentUser.IsVerified == true) {
+              next();
+            } else {
+              return next({
+                path: "/EmailPending"
+              });
+            }
           })["catch"](function () {
-            next();
+            return next({
+              path: "/login"
+            });
           });
         } else {
           return next({
@@ -2920,6 +2932,31 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_6__.default({
     component: function component() {
       return __webpack_require__.e(/*! import() | verifyEmail */ "verifyEmail").then(__webpack_require__.bind(__webpack_require__, /*! ./components/verify/verifyEmail.vue */ "./resources/js/components/verify/verifyEmail.vue"));
     }
+  }, {
+    path: "/EmailPending",
+    name: "EmailPending",
+    component: EmailPending,
+    beforeEnter: function beforeEnter(to, form, next) {
+      if (_store_store__WEBPACK_IMPORTED_MODULE_2__.default.state.CurrentUser.IsAuthenticated == true) {
+        _store_store__WEBPACK_IMPORTED_MODULE_2__.default.dispatch('fetchCurrentUser').then(function () {
+          if (_store_store__WEBPACK_IMPORTED_MODULE_2__.default.state.CurrentUser.IsVerified == false) {
+            next();
+          } else {
+            return next({
+              path: "/"
+            });
+          }
+        })["catch"](function () {
+          return next({
+            path: "/"
+          });
+        });
+      } else {
+        return next({
+          path: "/login"
+        });
+      }
+    }
   } // {
   //     path: '/:pathMatch(.*)*',
   //     component: error404
@@ -2979,6 +3016,7 @@ var state = {
   MyCourses: [],
   CurrentStatus: {},
   IsAuthenticated: window.localStorage.getItem('IsAuthenticated'),
+  IsVerified: null,
   AccessToken: window.localStorage.getItem('personal_access_token')
 };
 var getters = {
@@ -3031,7 +3069,7 @@ var actions = {
               commit = _ref2.commit;
 
               if (!(state.CurrentUser.length == 0)) {
-                _context2.next = 8;
+                _context2.next = 9;
                 break;
               }
 
@@ -3042,9 +3080,10 @@ var actions = {
               res = _context2.sent;
               state.CurrentUser = res.data;
               state.UserRole = res.data.role;
+              state.IsVerified = res.data.verified;
               return _context2.abrupt("return", res.status);
 
-            case 8:
+            case 9:
             case "end":
               return _context2.stop();
           }

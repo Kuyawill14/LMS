@@ -254,9 +254,10 @@
                         .then((res) => {
                             if (res.data.success == true) {
                                 this.toastSuccess(res.data.message);
-                                this.$refs.RegisterForm.reset()
+                                this.login(this.form.email, this.form.password);
                                 this.valid = true;
                                 this.isRegistering = false;
+                                 this.$refs.RegisterForm.reset();
 
                             } else {
                                 this.toastError(res.data.message);
@@ -278,13 +279,13 @@
                 axios.get('/sanctum/csrf-cookie').then(response => {
                     this.loginForm.post('/api/login')
                         .then((res) => {
-                            if (res.status == 200) {
+                            if (res.data.success == true) {
                                 this.$store.dispatch('clear_current_user');
                                 this.$router.push({
                                     path: "/"
                                 })
                             } else {
-                                this.toastError(res.data);
+                                this.toastError(res.data.message);
                             }
                         })
 
