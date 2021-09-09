@@ -58,7 +58,7 @@
                                             src="https://www.youtube-nocookie.com/embed/cMb9NdAf11o?start=0&end=150&vq=hd1080&autoplay=1&modestbranding=1&showinfo=0&rel=0&cc_load_policy=1&iv_load_policy=3&color=white&disablekb=1"
                                                 title="YouTube video player" frameborder="0">
                                             </iframe> -->
-                                        <iframe src="https://player.vimeo.com/video/597374601?h=d67ddce656&muted=1&autoplay=1&loop=1&title=0&byline=0&portrait=0&muted=0&#t=150s" width="440"
+                                        <iframe src="https://player.vimeo.com/video/601244029?h=d67ddce656&muted=1&autoplay=1&loop=1&title=0&byline=0&portrait=0&muted=0&#t=150s" width="440"
                                             height="250" frameborder="0"
                                             allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
                                     </v-col>
