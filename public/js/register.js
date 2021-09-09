@@ -280,10 +280,12 @@ __webpack_require__.r(__webpack_exports__);
           if (res.data.success == true) {
             _this2.toastSuccess(res.data.message);
 
-            _this2.$refs.RegisterForm.reset();
+            _this2.login(_this2.form.email, _this2.form.password);
 
             _this2.valid = true;
             _this2.isRegistering = false;
+
+            _this2.$refs.RegisterForm.reset();
           } else {
             _this2.toastError(res.data.message);
 
@@ -304,14 +306,14 @@ __webpack_require__.r(__webpack_exports__);
       this.loginForm.password = password;
       axios.get('/sanctum/csrf-cookie').then(function (response) {
         _this3.loginForm.post('/api/login').then(function (res) {
-          if (res.status == 200) {
+          if (res.data.success == true) {
             _this3.$store.dispatch('clear_current_user');
 
             _this3.$router.push({
               path: "/"
             });
           } else {
-            _this3.toastError(res.data);
+            _this3.toastError(res.data.message);
           }
         });
       });

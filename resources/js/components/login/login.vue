@@ -55,11 +55,9 @@
                                 <v-row align="center" justify="center">
                                     <v-col cols="12" class="text-center">
                                         <!-- <iframe width="440" height="250"
-                                           src="https://www.youtube-nocookie.com/embed/cMb9NdAf11o?start=0&end=150&vq=hd1080&autoplay=1&modestbranding=1&showinfo=0&rel=0&cc_load_policy=1&iv_load_policy=3&color=white&disablekb=1"
-                                            title="YouTube video player" frameborder="0"
-                                        
-                                            ></iframe> -->
-
+                                            src="https://www.youtube-nocookie.com/embed/cMb9NdAf11o?start=0&end=150&vq=hd1080&autoplay=1&modestbranding=1&showinfo=0&rel=0&cc_load_policy=1&iv_load_policy=3&color=white&disablekb=1"
+                                                title="YouTube video player" frameborder="0">
+                                            </iframe> -->
                                         <iframe src="https://player.vimeo.com/video/597374601?h=d67ddce656&muted=1&autoplay=1&loop=1&title=0&byline=0&portrait=0&muted=0&#t=150s" width="440"
                                             height="250" frameborder="0"
                                             allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
@@ -114,8 +112,7 @@
                                                             </v-checkbox>
                                                         </v-col>
                                                         <v-col class="float-right">
-                                                            <a href="#" @click=" close();" class="float-right">Forgot
-                                                                Password?</a>
+                                                            <a href="#" @click="close();" class="float-right">Forgot Password?</a>
                                                         </v-col>
                                                     </v-row>
                                                 </v-col>
@@ -135,19 +132,19 @@
 
 
                             <!-- <v-container ma-0 pa-0 class="pb-5 pl-5 pr-5">
-                        <v-container ma-0 pa-0 class="mt-3">
-                        <h3>Login with Social media</h3>
-                            <v-btn  color="blue" class="mb-3 mt-1 mr-5 white--text">
-                            <v-icon class="mr-3">mdi-facebook</v-icon>
-                        Facebook
-                        </v-btn>
+                            <v-container ma-0 pa-0 class="mt-3">
+                            <h3>Login with Social media</h3>
+                                <v-btn  color="blue" class="mb-3 mt-1 mr-5 white--text">
+                                <v-icon class="mr-3">mdi-facebook</v-icon>
+                            Facebook
+                            </v-btn>
 
-                        <v-btn  color="red darken-1" class="mb-3 mt-1 white--text">
-                            <v-icon class="mr-3">mdi-google-plus</v-icon>
-                        Google Plus
-                        </v-btn>
-                        </v-container>
-                    </v-container>  -->
+                            <v-btn  color="red darken-1" class="mb-3 mt-1 white--text">
+                                <v-icon class="mr-3">mdi-google-plus</v-icon>
+                            Google Plus
+                            </v-btn>
+                            </v-container>
+                        </v-container>  -->
                         </v-col>
                     </v-row>
                 </v-col>
@@ -219,14 +216,13 @@
                 axios.get('/sanctum/csrf-cookie').then(response => {
                     this.form.post('/api/login')
                         .then((res) => {
-                            console
                             if (res.data.success == true) {
-                                // this.toastSuccess(res.data.message);
                                 this.$store.dispatch('clear_current_user');
                                 window.localStorage.setItem('personal_access_token', res.data.token);
                                 this.$router.push({
                                     path: "/"
-                                })
+                                }) 
+                                // this.toastSuccess(res.data.message);
                             } else {
                                 this.isLoggin = false;
                                 this.toastError(res.data.message);

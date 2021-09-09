@@ -384,7 +384,11 @@ Route::post('/logout', [AuthController::class, 'logout']);
 Route::post('/register', [AuthController::class, 'UserRegister']);
 
 Route::get('/email-verification', [VerificationController::class, 'verify'])->name('verification.verify');
+Route::post('/resend-verification', [VerificationController::class, 'resendVerificationEmail']);
+Route::post('/change-email', [VerificationController::class, 'UpdateAndResendEmail']);
+
 Route::middleware('auth:sanctum')->post('/change-password', [AuthController::class, 'ChangePassword']);
+Route::middleware('auth:sanctum')->post('/confirm-password', [AuthController::class, 'ConfirmPassword']);
 
 
     //pre na dc ka sa dicord?

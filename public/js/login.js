@@ -167,9 +167,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -239,17 +236,15 @@ __webpack_require__.r(__webpack_exports__);
       this.isLoggin = true;
       axios.get('/sanctum/csrf-cookie').then(function (response) {
         _this2.form.post('/api/login').then(function (res) {
-          console;
-
           if (res.data.success == true) {
-            // this.toastSuccess(res.data.message);
             _this2.$store.dispatch('clear_current_user');
 
             window.localStorage.setItem('personal_access_token', res.data.token);
 
             _this2.$router.push({
               path: "/"
-            });
+            }); // this.toastSuccess(res.data.message);
+
           } else {
             _this2.isLoggin = false;
 
@@ -898,7 +893,7 @@ var render = function() {
                                                             },
                                                             [
                                                               _vm._v(
-                                                                "Forgot\n                                                            Password?"
+                                                                "Forgot Password?"
                                                               )
                                                             ]
                                                           )

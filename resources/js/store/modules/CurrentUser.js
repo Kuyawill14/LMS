@@ -6,6 +6,7 @@ const state = {
     MyCourses: [],
     CurrentStatus: {},
     IsAuthenticated: window.localStorage.getItem('IsAuthenticated'),
+    IsVerified: null,
     AccessToken: window.localStorage.getItem('personal_access_token'),
 
 };
@@ -34,7 +35,8 @@ const actions = {
             );
 
             state.CurrentUser = res.data;
-            state.UserRole = res.data.role
+            state.UserRole = res.data.role;
+            state.IsVerified = res.data.verified;
             return res.status;
             /*   commit('FETCH_USER', res.data);
               commit('SET_USER_ROLE', res.data.role); */

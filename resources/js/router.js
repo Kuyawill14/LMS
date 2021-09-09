@@ -15,7 +15,7 @@ let profile = () =>
     import ("./components/profile/profile");
 //Main Pages
 let mainApp = () =>
-    import ("./components/mainApp");
+    import (/* webpackChunkName: "main-view" */"./components/mainApp");
 let dashboard = () =>
     import ("./components/dashboard/dashboardComponent");
 // let myclass = () =>
@@ -34,6 +34,8 @@ let invites = () =>
 // let classwork_main = () =>
 //     import ("./components/classwork_main/classwork_main");
 
+let EmailPending = () =>
+    import ("./components/verify/EmailPending.vue");
 
 
 //class Not found
@@ -96,23 +98,23 @@ let courseView = () =>
 
 //View Classworks Details
 let classworkView = () =>
-    import ("./components/Classwork_View/classworkDetailsView");
+    import (/* webpackChunkName: "classworks-details-view" */ "./components/Classwork_View/classworkDetailsView");
 let addQuestionTab = () =>
-    import ("./components/Classwork_View/tabs/addQuestionTab");
+    import (/* webpackChunkName: "classworks-details-view" */ "./components/Classwork_View/tabs/addQuestionTab");
 let questionList = () =>
-    import ("./components/Classwork_View/tabs/questionListTab");
+    import (/* webpackChunkName: "classworks-details-view" */ "./components/Classwork_View/tabs/questionListTab");
 
 let questionnAnalyticstab = () =>
-    import ("./components/Classwork_View/tabs/questionnAnalyticstab");
+    import (/* webpackChunkName: "classworks-details-view" */ "./components/Classwork_View/tabs/questionnAnalyticstab");
 let submissionListTab = () =>
-    import ("./components/Classwork_View/tabs/submissionListTab");
+    import (/* webpackChunkName: "classworks-details-view" */ "./components/Classwork_View/tabs/submissionListTab");
 let publishClassworkTab = () =>
-    import ("./components/Classwork_View/tabs/publishClassworkTab");
+    import (/* webpackChunkName: "classworks-details-view" */ "./components/Classwork_View/tabs/publishClassworkTab");
 let test = () =>
-    import ("./components/Classwork_View/tabs/test");
+    import (/* webpackChunkName: "classworks-details-view" */ "./components/Classwork_View/tabs/test");
 
 let classworkDetailsTab = () =>
-    import ("./components/Classwork_View/tabs/classworkDetailsTab");
+    import (/* webpackChunkName: "classworks-details-view" */ "./components/Classwork_View/tabs/classworkDetailsTab");
 
 let documentPreview = () =>
     import ("./components/course-view/tabs/classwork-tab/documentPreview");
@@ -147,9 +149,19 @@ const router = new Router({
                 store.dispatch('IsAuthenticated').then(() => {
                         if (store.state.CurrentUser.IsAuthenticated == true) {
                             store.dispatch('fetchCurrentUser').then(() => {
-                                next();
+                                if(store.state.CurrentUser.IsVerified == true){
+                                    next();
+                                }
+                                else{
+                                    return next({
+                                        path: "/EmailPending"
+                                    });  
+                                }
+                                
                             }).catch(() => {
-                                next();
+                                return next({
+                                    path: "/login"
+                                });
                             })
 
                         } else {
@@ -806,11 +818,43 @@ const router = new Router({
         {
             path: "/verify-email",
             name: "verifyEmail",
-            component: () =>
-                import ( /*webpackChunkName: "verifyEmail"*/ "./components/verify/verifyEmail.vue"),
+            component: () => import ( /*webpackChunkName: "verifyEmail"*/ "./components/verify/verifyEmail.vue"),
+            
+        },
+
+        {
+            path: "/EmailPending",
+            name: "EmailPending",
+            component: EmailPending,
+            beforeEnter: (to, form, next) => {
+                if (store.state.CurrentUser.IsAuthenticated == true) {
+                    store.dispatch('fetchCurrentUser').then(() => {
+                        if(store.state.CurrentUser.IsVerified == false){
+                            next();
+                        }
+                        else{
+                            return next({
+                                path: "/"
+                            });  
+                        }
+                    }).catch(() => {
+                        return next({
+                            path: "/"
+                        });
+                    })
+                } else {
+                    return next({
+                        path: "/login"
+                    });
+                }
+            },
         },
 
 
+
+        
+        
+       
 
 
         // {
