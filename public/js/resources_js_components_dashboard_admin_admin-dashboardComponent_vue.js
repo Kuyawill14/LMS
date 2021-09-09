@@ -38692,7 +38692,7 @@ var render = function() {
                         _vm._v(" "),
                         _c("div", { staticClass: "text-center" }, [
                           _vm._v(
-                            "\n                        Online Instructor\n                        "
+                            "\n                        Online Students\n                        "
                           )
                         ])
                       ]),
@@ -38718,7 +38718,7 @@ var render = function() {
                         _vm._v(" "),
                         _c("div", { staticClass: "text-center" }, [
                           _vm._v(
-                            "\n                            Offline Instructor\n                        "
+                            "\n                            Offline Students\n                        "
                           )
                         ])
                       ])

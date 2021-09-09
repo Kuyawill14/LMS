@@ -74,7 +74,7 @@
                             {{Count.ActiveStudent}}
                             </div>
                             <div class="text-center">
-                            Online Instructor
+                            Online Students
                             </div>
                         </v-col>
 
@@ -83,7 +83,7 @@
                                 {{Count.OfflineStudent}}
                             </div>
                             <div class="text-center">
-                                Offline Instructor
+                                Offline Students
                             </div>
                         </v-col>
                     </v-row>
@@ -162,7 +162,6 @@ import activeOfline from './ActiveOfflineView/ActiveOfline'
                 AO_teacher:[],
                 AO_Student:[],
                 isLoaded: false,
-
             };
         },
         methods: {
