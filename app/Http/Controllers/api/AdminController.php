@@ -49,7 +49,30 @@ class AdminController extends Controller
     public function getAllStudentAndTeacherCount() {
         $teacher = User::where("role","Teacher")->count();
         $student = User::where("role","Student")->count();
-        return ['teacher'=> $teacher,'student'=> $student];
+
+        $isActive = '(SELECT COUNT(*) FROM sessions WHERE user_id =  tbl_user_details.user_id) AS isActive';
+        $ActiveStudent = User::where("role","Student")
+        ->leftJoin('sessions', 'sessions.user_id', '=','users.id')
+        ->whereNotNull('sessions.user_id')
+        ->count();
+
+        $OfflineStudent = User::where("role","Student")
+        ->leftJoin('sessions', 'sessions.user_id', '=','users.id')
+        ->whereNull('sessions.user_id')
+        ->count();
+
+        $ActiveTeacher = User::where("role","Teacher")
+        ->leftJoin('sessions', 'sessions.user_id', '=','users.id')
+        ->whereNotNull('sessions.user_id')
+        ->count();
+
+        $OfflineTeacher = User::where("role","Teacher")
+        ->leftJoin('sessions', 'sessions.user_id', '=','users.id')
+        ->whereNull('sessions.user_id')
+        ->count();
+
+        return ['teacher'=> $teacher,'student'=> $student, 'ActiveStudent'=> $ActiveStudent, 'ActiveTeacher'=> $ActiveTeacher, 
+                'OfflineStudent'=> $OfflineStudent, 'OfflineTeacher'=> $OfflineTeacher];
     }
 
 

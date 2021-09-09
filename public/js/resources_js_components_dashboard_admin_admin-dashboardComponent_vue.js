@@ -387,14 +387,16 @@ var render = function() {
                   [
                     _vm._v(
                       "\n                   " +
-                        _vm._s(_vm.Count.teacher) +
+                        _vm._s(_vm.Count.ActiveTeacher) +
                         "\n                "
                     )
                   ]
                 ),
                 _vm._v(" "),
                 _c("div", { staticClass: "text-center" }, [
-                  _vm._v("\n                   Online\n                ")
+                  _vm._v(
+                    "\n                   Online Instructor\n                "
+                  )
                 ])
               ])
             ],
@@ -415,14 +417,16 @@ var render = function() {
                   [
                     _vm._v(
                       "\n                    " +
-                        _vm._s(_vm.Count.student) +
+                        _vm._s(_vm.Count.OfflineTeacher) +
                         "\n                "
                     )
                   ]
                 ),
                 _vm._v(" "),
                 _c("div", { staticClass: "text-center" }, [
-                  _vm._v("\n                    offline\n                ")
+                  _vm._v(
+                    "\n                    Offline Instructor\n                "
+                  )
                 ])
               ])
             ],
@@ -443,14 +447,16 @@ var render = function() {
                   [
                     _vm._v(
                       "\n                   " +
-                        _vm._s(_vm.Count.teacher) +
+                        _vm._s(_vm.Count.ActiveStudent) +
                         "\n                "
                     )
                   ]
                 ),
                 _vm._v(" "),
                 _c("div", { staticClass: "text-center" }, [
-                  _vm._v("\n                   Online\n                ")
+                  _vm._v(
+                    "\n                   Online Students\n                "
+                  )
                 ])
               ])
             ],
@@ -471,14 +477,16 @@ var render = function() {
                   [
                     _vm._v(
                       "\n                    " +
-                        _vm._s(_vm.Count.student) +
+                        _vm._s(_vm.Count.OfflineStudent) +
                         "\n                "
                     )
                   ]
                 ),
                 _vm._v(" "),
                 _c("div", { staticClass: "text-center" }, [
-                  _vm._v("\n                    offline\n                ")
+                  _vm._v(
+                    "\n                    Offline Students\n                "
+                  )
                 ])
               ])
             ],

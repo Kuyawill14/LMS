@@ -34,10 +34,10 @@
             <v-col lg="3" class="pt-0">
                 <v-card>
                     <div class="text-center" style="font-size: 3rem;color:#FF5400 ">
-                       {{Count.teacher}}
+                       {{Count.ActiveTeacher}}
                     </div>
                     <div class="text-center">
-                       Online
+                       Online Instructor
                     </div>
                 </v-card>
             </v-col>
@@ -46,10 +46,10 @@
             <v-col lg="3" class="pt-0">
                 <v-card>
                     <div class="text-center" style="font-size: 3rem;color:#FF5400 ">
-                        {{Count.student}}
+                        {{Count.OfflineTeacher}}
                     </div>
                     <div class="text-center">
-                        offline
+                        Offline Instructor
                     </div>
                 </v-card>
             </v-col>
@@ -59,10 +59,10 @@
             <v-col lg="3" class="pt-0">
                 <v-card>
                     <div class="text-center" style="font-size: 3rem;color:#FF5400 ">
-                       {{Count.teacher}}
+                       {{Count.ActiveStudent}}
                     </div>
                     <div class="text-center">
-                       Online
+                       Online Students
                     </div>
                 </v-card>
             </v-col>
@@ -71,10 +71,10 @@
             <v-col lg="3" class="pt-0">
                 <v-card>
                     <div class="text-center" style="font-size: 3rem;color:#FF5400 ">
-                        {{Count.student}}
+                        {{Count.OfflineStudent}}
                     </div>
                     <div class="text-center">
-                        offline
+                        Offline Students
                     </div>
                 </v-card>
             </v-col>
