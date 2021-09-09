@@ -675,23 +675,23 @@ import courseNavbar from './navigation/course-navbar';
 import notifications from './notification/notification';
 import seeAllNotification from './notification/SeeAllNotification'; */
 var mainNavbar = function mainNavbar() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_layout_navigation_main-navbar_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./navigation/main-navbar */ "./resources/js/components/layout/navigation/main-navbar.vue"));
+  return __webpack_require__.e(/*! import() | layout */ "layout").then(__webpack_require__.bind(__webpack_require__, /*! ./navigation/main-navbar */ "./resources/js/components/layout/navigation/main-navbar.vue"));
 };
 
 var courseNavbar = function courseNavbar() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_layout_navigation_course-navbar_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./navigation/course-navbar */ "./resources/js/components/layout/navigation/course-navbar.vue"));
+  return __webpack_require__.e(/*! import() | layout */ "layout").then(__webpack_require__.bind(__webpack_require__, /*! ./navigation/course-navbar */ "./resources/js/components/layout/navigation/course-navbar.vue"));
 };
 
 var adminNavbar = function adminNavbar() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_layout_navigation_admin_admin-navbar_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./navigation/admin/admin-navbar */ "./resources/js/components/layout/navigation/admin/admin-navbar.vue"));
+  return __webpack_require__.e(/*! import() | layout */ "layout").then(__webpack_require__.bind(__webpack_require__, /*! ./navigation/admin/admin-navbar */ "./resources/js/components/layout/navigation/admin/admin-navbar.vue"));
 };
 
 var notifications = function notifications() {
-  return Promise.resolve(/*! import() */).then(__webpack_require__.bind(__webpack_require__, /*! ./notification/notification */ "./resources/js/components/layout/notification/notification.vue"));
+  return __webpack_require__.e(/*! import() | layout */ "layout").then(__webpack_require__.bind(__webpack_require__, /*! ./notification/notification */ "./resources/js/components/layout/notification/notification.vue"));
 };
 
 var invites = function invites() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_layout_notification_invites_vue-_c8ea1").then(__webpack_require__.bind(__webpack_require__, /*! ./notification/invites */ "./resources/js/components/layout/notification/invites.vue"));
+  return __webpack_require__.e(/*! import() | layout */ "layout").then(__webpack_require__.bind(__webpack_require__, /*! ./notification/invites */ "./resources/js/components/layout/notification/invites.vue"));
 };
 
 

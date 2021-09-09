@@ -297,6 +297,41 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -311,12 +346,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       timeout: null,
       value: '',
       score: '',
-      pdf_path: null,
+      path: null,
       isSavingScore: false,
       isCommenting: false,
       comment: null,
       RubricsPoints: [],
-      SaveRubricsData: []
+      SaveRubricsData: [],
+      OpenFileType: null,
+      isOpening: true
     };
   },
   computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(['get_CurrentUser'])),
@@ -327,8 +364,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
     },
     DownloadFile: function DownloadFile(link) {
-      var host = window.location.protocol + "//" + window.location.host;
-      window.location = host + "/storage/" + link;
+      //var host = window.location.protocol + "//" + window.location.host;
+      //window.location = link
+      window.open(link, '_blank');
     },
     SaveScore: function SaveScore() {
       clearTimeout(this.timeout);
@@ -431,11 +469,26 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }))();
     },
     OpenFile: function OpenFile(extension, link) {
-      console.log(link);
-      this.pdf_path = link;
+      var _this4 = this;
+
+      this.isOpening = true;
+
+      if (extension == 'docx' || extension == 'doc' || extension == 'pdf') {
+        this.OpenFileType = 'document';
+        this.path = link;
+        setTimeout(function () {
+          return _this4.isOpening = false;
+        }, 500);
+      } else if (extension == 'png' || extension == 'jpg' || extension == 'bmp') {
+        this.OpenFileType = 'media';
+        this.path = link;
+        setTimeout(function () {
+          return _this4.isOpening = false;
+        }, 500);
+      }
     },
     addComment: function addComment(details) {
-      var _this4 = this;
+      var _this5 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
         var data;
@@ -444,24 +497,24 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             switch (_context3.prev = _context3.next) {
               case 0:
                 data = {};
-                _this4.isCommenting = true;
+                _this5.isCommenting = true;
                 data.classwork_id = details.classwork_id;
-                data.course_id = _this4.$route.params.id;
+                data.course_id = _this5.$route.params.id;
                 data.to_user = details.user_id;
-                data.comment = _this4.comment;
+                data.comment = _this5.comment;
                 axios.post('/api/post/classwork/comment/insert', data).then(function (res) {
                   if (res.status == 200) {
-                    _this4.CheckData.comments.push({
+                    _this5.CheckData.comments.push({
                       content: res.data.comment,
                       id: res.data.id,
                       name: res.data.name,
                       profile_pic: res.data.profile_pic
                     });
 
-                    _this4.comment = null;
+                    _this5.comment = null;
                   }
                 });
-                _this4.isCommenting = false;
+                _this5.isCommenting = false;
 
               case 8:
               case "end":
@@ -474,11 +527,22 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   created: function created() {
     if (this.CheckData.Submitted_Answers != null && this.CheckData.Submitted_Answers != '') {
-      var path = this.CheckData.Submitted_Answers[0].link; //var host = window.location.protocol + "//" + window.location.host;
+      var path = this.CheckData.Submitted_Answers[0].link;
+      var extension = this.CheckData.Submitted_Answers[0].fileExte;
+
+      if (extension == 'docx' || extension == 'doc' || extension == 'pdf') {
+        this.OpenFileType = 'document';
+        this.path = path;
+        this.isOpening = false;
+      } else if (extension == 'png' || extension == 'jpg' || extension == 'bmp') {
+        this.OpenFileType = 'media';
+        this.path = path;
+        this.isOpening = false;
+      } //var host = window.location.protocol + "//" + window.location.host;
       //console.log(host)
       //let viewer ="https://docs.google.com/gview?url=https://path.com/to/your/pdf.pdf&embedded=true";
+      //this.pdf_path = path;
 
-      this.pdf_path = path;
     }
 
     this.$emit('isMounted');
@@ -817,11 +881,20 @@ var render = function() {
                                               _vm._v(" "),
                                               _c("v-list-item-subtitle", [
                                                 _vm._v(
-                                                  "Submitted: " +
+                                                  " " +
                                                     _vm._s(
-                                                      _vm.format_date(
-                                                        _vm.CheckData.updated_at
-                                                      )
+                                                      _vm.CheckData.status ==
+                                                        "Submitted"
+                                                        ? "Submitted: " +
+                                                            _vm.format_date(
+                                                              _vm.CheckData
+                                                                .updated_at
+                                                            )
+                                                        : _vm.CheckData
+                                                            .status ==
+                                                          "Submitting"
+                                                        ? "Submitting..."
+                                                        : ""
                                                     )
                                                 )
                                               ])
@@ -829,44 +902,51 @@ var render = function() {
                                             1
                                           ),
                                           _vm._v(" "),
-                                          _c(
-                                            "v-list-item-action",
-                                            { staticClass: "mt-8" },
-                                            [
-                                              _c("v-text-field", {
-                                                attrs: {
-                                                  loading: _vm.isSavingScore,
-                                                  dense: "",
-                                                  outlined: "",
-                                                  label: "Score",
-                                                  type: "number",
-                                                  suffix:
-                                                    "/" +
-                                                    _vm.classworkDetails.points,
-                                                  max:
-                                                    _vm.classworkDetails.points,
-                                                  min: "0"
-                                                },
-                                                on: {
-                                                  keyup: function($event) {
-                                                    return _vm.SaveScore()
-                                                  }
-                                                },
-                                                model: {
-                                                  value: _vm.CheckData.points,
-                                                  callback: function($$v) {
-                                                    _vm.$set(
-                                                      _vm.CheckData,
-                                                      "points",
-                                                      $$v
-                                                    )
-                                                  },
-                                                  expression: "CheckData.points"
-                                                }
-                                              })
-                                            ],
-                                            1
-                                          )
+                                          _vm.CheckData.status == "Submitted"
+                                            ? _c(
+                                                "v-list-item-action",
+                                                { staticClass: "mt-8" },
+                                                [
+                                                  _c("v-text-field", {
+                                                    attrs: {
+                                                      loading:
+                                                        _vm.isSavingScore,
+                                                      dense: "",
+                                                      outlined: "",
+                                                      label: "Score",
+                                                      type: "number",
+                                                      suffix:
+                                                        "/" +
+                                                        _vm.classworkDetails
+                                                          .points,
+                                                      max:
+                                                        _vm.classworkDetails
+                                                          .points,
+                                                      min: "0"
+                                                    },
+                                                    on: {
+                                                      keyup: function($event) {
+                                                        return _vm.SaveScore()
+                                                      }
+                                                    },
+                                                    model: {
+                                                      value:
+                                                        _vm.CheckData.points,
+                                                      callback: function($$v) {
+                                                        _vm.$set(
+                                                          _vm.CheckData,
+                                                          "points",
+                                                          $$v
+                                                        )
+                                                      },
+                                                      expression:
+                                                        "CheckData.points"
+                                                    }
+                                                  })
+                                                ],
+                                                1
+                                              )
+                                            : _vm._e()
                                         ],
                                         1
                                       )
@@ -900,7 +980,12 @@ var render = function() {
                                             [
                                               _c(
                                                 "v-list",
-                                                { attrs: { nav: "" } },
+                                                {
+                                                  attrs: {
+                                                    nav: "",
+                                                    outlined: ""
+                                                  }
+                                                },
                                                 _vm._l(
                                                   _vm.CheckData
                                                     .Submitted_Answers,
@@ -930,7 +1015,9 @@ var render = function() {
                                                                     "pdf"
                                                                       ? "red"
                                                                       : item.fileExte ==
-                                                                        "docx"
+                                                                          "docx" ||
+                                                                        item.fileExte ==
+                                                                          "doc"
                                                                       ? "blue"
                                                                       : item.fileExte ==
                                                                           "jpg" ||
@@ -950,7 +1037,9 @@ var render = function() {
                                                                         "pdf"
                                                                         ? "mdi-file-pdf"
                                                                         : item.fileExte ==
-                                                                          "docx"
+                                                                            "docx" ||
+                                                                          item.fileExte ==
+                                                                            "doc"
                                                                         ? "mdi-file-word"
                                                                         : item.fileExte ==
                                                                             "jpg" ||
@@ -958,7 +1047,7 @@ var render = function() {
                                                                             "png" ||
                                                                           item.fileExte ==
                                                                             "bmp"
-                                                                        ? "mdi-folder-multiple-image"
+                                                                        ? "mdi-image"
                                                                         : ""
                                                                     ) +
                                                                     "\n                                                                                "
@@ -1112,118 +1201,125 @@ var render = function() {
                             1
                           ),
                           _vm._v(" "),
-                          _c(
-                            "v-list",
-                            _vm._l(_vm.classworkDetails.rubrics, function(
-                              item,
-                              index
-                            ) {
-                              return _c(
-                                "v-list-item",
-                                { key: index, staticClass: "mb-0 pb-0" },
-                                [
-                                  _c(
-                                    "v-list-item-avatar",
-                                    { attrs: { tile: "" } },
+                          _vm.classworkDetails.rubrics.length != 0
+                            ? _c(
+                                "v-list",
+                                _vm._l(_vm.classworkDetails.rubrics, function(
+                                  item,
+                                  index
+                                ) {
+                                  return _c(
+                                    "v-list-item",
+                                    { key: index, staticClass: "mb-0 pb-0" },
                                     [
                                       _c(
-                                        "div",
-                                        { staticClass: "font-weight-bold" },
-                                        [_vm._v(_vm._s(item.points) + "%")]
-                                      )
-                                    ]
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "v-list-item-content",
-                                    [
-                                      _c(
-                                        "v-list-item-title",
-                                        { staticClass: "font-weight-medium" },
+                                        "v-list-item-avatar",
+                                        { attrs: { tile: "" } },
                                         [
-                                          _vm._v(
-                                            "\n                                            " +
-                                              _vm._s(item.criteria_name) +
-                                              "\n                                        "
+                                          _c(
+                                            "div",
+                                            { staticClass: "font-weight-bold" },
+                                            [_vm._v(_vm._s(item.points) + "%")]
                                           )
                                         ]
                                       ),
                                       _vm._v(" "),
-                                      _c("v-list-item-subtitle", [
-                                        _vm._v(
-                                          "\n                                            " +
-                                            _vm._s(item.description) +
-                                            "\n                                        "
-                                        )
-                                      ])
-                                    ],
-                                    1
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "v-list-item-action",
-                                    { staticStyle: { width: "30%" } },
-                                    [
-                                      _c("v-text-field", {
-                                        staticClass: "ma-0 pa-0",
-                                        attrs: {
-                                          type: "number",
-                                          suffix: "/" + item.points,
-                                          dense: "",
-                                          outlined: "",
-                                          label: item.criteria_name
-                                        },
-                                        model: {
-                                          value:
-                                            _vm.CheckData.rubrics_score[index]
-                                              .points,
-                                          callback: function($$v) {
-                                            _vm.$set(
-                                              _vm.CheckData.rubrics_score[
-                                                index
-                                              ],
-                                              "points",
-                                              $$v
+                                      _c(
+                                        "v-list-item-content",
+                                        [
+                                          _c(
+                                            "v-list-item-title",
+                                            {
+                                              staticClass: "font-weight-medium"
+                                            },
+                                            [
+                                              _vm._v(
+                                                "\n                                            " +
+                                                  _vm._s(item.criteria_name) +
+                                                  "\n                                        "
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c("v-list-item-subtitle", [
+                                            _vm._v(
+                                              "\n                                            " +
+                                                _vm._s(item.description) +
+                                                "\n                                        "
                                             )
-                                          },
-                                          expression:
-                                            "CheckData.rubrics_score[index].points"
-                                        }
-                                      })
+                                          ])
+                                        ],
+                                        1
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-list-item-action",
+                                        { staticStyle: { width: "30%" } },
+                                        [
+                                          _c("v-text-field", {
+                                            staticClass: "ma-0 pa-0",
+                                            attrs: {
+                                              type: "number",
+                                              suffix: "/" + item.points,
+                                              dense: "",
+                                              outlined: "",
+                                              label: item.criteria_name
+                                            },
+                                            model: {
+                                              value:
+                                                _vm.CheckData.rubrics_score[
+                                                  index
+                                                ].points,
+                                              callback: function($$v) {
+                                                _vm.$set(
+                                                  _vm.CheckData.rubrics_score[
+                                                    index
+                                                  ],
+                                                  "points",
+                                                  $$v
+                                                )
+                                              },
+                                              expression:
+                                                "CheckData.rubrics_score[index].points"
+                                            }
+                                          })
+                                        ],
+                                        1
+                                      )
                                     ],
                                     1
+                                  )
+                                }),
+                                1
+                              )
+                            : _vm._e(),
+                          _vm._v(" "),
+                          _vm.classworkDetails.rubrics.length != 0
+                            ? _c(
+                                "div",
+                                { staticClass: "text-right" },
+                                [
+                                  _c(
+                                    "v-btn",
+                                    {
+                                      staticClass: "primary",
+                                      attrs: { small: "", dark: "" },
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.SaveRubricsScore()
+                                        }
+                                      }
+                                    },
+                                    [
+                                      _vm._v(
+                                        "\n                                    Save\n                                "
+                                      )
+                                    ]
                                   )
                                 ],
                                 1
                               )
-                            }),
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "div",
-                            { staticClass: "text-right" },
-                            [
-                              _c(
-                                "v-btn",
-                                {
-                                  staticClass: "primary",
-                                  attrs: { small: "", dark: "" },
-                                  on: {
-                                    click: function($event) {
-                                      return _vm.SaveRubricsScore()
-                                    }
-                                  }
-                                },
-                                [
-                                  _vm._v(
-                                    "\n                                    Save\n                                "
-                                  )
-                                ]
-                              )
-                            ],
-                            1
-                          )
+                            : _vm._e()
                         ],
                         1
                       ),
@@ -1534,26 +1630,115 @@ var render = function() {
                         { attrs: { fluid: "", "ma-0": "", "pa-0": "" } },
                         [
                           _c("v-card", [
-                            _c("div", { staticStyle: { height: "100vh" } }, [
-                              _c("iframe", {
-                                staticStyle: {
-                                  position: "absolute",
-                                  top: "0px",
-                                  left: "0px",
-                                  width: "100%",
-                                  height: "100%"
-                                },
-                                attrs: {
-                                  title: "google pdf viewer",
-                                  id: "pdf-iframe",
-                                  src:
-                                    "https://docs.google.com/viewer?embedded=true&url=" +
-                                    _vm.pdf_path,
-                                  sandbox:
-                                    "allow-same-origin allow-scripts allow-popups allow-forms"
-                                }
-                              })
-                            ])
+                            _c(
+                              "div",
+                              {
+                                staticClass: "pa-3",
+                                staticStyle: { height: "100vh" }
+                              },
+                              [
+                                _c(
+                                  "div",
+                                  { staticClass: "pa-3 text-center" },
+                                  [
+                                    _vm.isOpening
+                                      ? _c("v-progress-circular", {
+                                          staticStyle: {
+                                            "margin-top": "23rem"
+                                          },
+                                          attrs: {
+                                            size: 50,
+                                            color: "primary",
+                                            indeterminate: ""
+                                          }
+                                        })
+                                      : _vm._e()
+                                  ],
+                                  1
+                                ),
+                                _vm._v(" "),
+                                !_vm.isOpening && _vm.OpenFileType == "document"
+                                  ? _c("div", [
+                                      _c("iframe", {
+                                        staticStyle: {
+                                          position: "absolute",
+                                          top: "0px",
+                                          left: "0px",
+                                          width: "100%",
+                                          height: "100%"
+                                        },
+                                        attrs: {
+                                          title: "google pdf viewer",
+                                          id: "pdf-iframe",
+                                          src:
+                                            "https://docs.google.com/viewer?embedded=true&url=" +
+                                            _vm.path,
+                                          sandbox:
+                                            "allow-same-origin allow-scripts allow-popups allow-forms"
+                                        }
+                                      })
+                                    ])
+                                  : _vm._e(),
+                                _vm._v(" "),
+                                !_vm.isOpening && _vm.OpenFileType == "media"
+                                  ? _c(
+                                      "div",
+                                      { staticClass: "pa-5" },
+                                      [
+                                        _c("v-img", {
+                                          staticClass: "grey lighten-2",
+                                          attrs: {
+                                            src: _vm.path,
+                                            "aspect-ratio": "1",
+                                            "max-width": "100%",
+                                            "max-height": "90vh"
+                                          },
+                                          scopedSlots: _vm._u(
+                                            [
+                                              {
+                                                key: "placeholder",
+                                                fn: function() {
+                                                  return [
+                                                    _c(
+                                                      "v-row",
+                                                      {
+                                                        staticClass:
+                                                          "fill-height ma-0",
+                                                        attrs: {
+                                                          align: "center",
+                                                          justify: "center"
+                                                        }
+                                                      },
+                                                      [
+                                                        _c(
+                                                          "v-progress-circular",
+                                                          {
+                                                            attrs: {
+                                                              indeterminate: "",
+                                                              color:
+                                                                "grey lighten-5"
+                                                            }
+                                                          }
+                                                        )
+                                                      ],
+                                                      1
+                                                    )
+                                                  ]
+                                                },
+                                                proxy: true
+                                              }
+                                            ],
+                                            null,
+                                            false,
+                                            4034393411
+                                          )
+                                        })
+                                      ],
+                                      1
+                                    )
+                                  : _vm._e()
+                              ]
+                            )
                           ])
                         ],
                         1

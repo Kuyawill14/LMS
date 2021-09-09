@@ -49,7 +49,7 @@ mix.js('resources/js/app.js', 'public/js')
     .extract(['vue'], 'public/js/vendor~utils-6.js')
 
 
-if (mix.inProduction()) {
+/* if (mix.inProduction()) {
         mix.version();
     }
-    
+     */

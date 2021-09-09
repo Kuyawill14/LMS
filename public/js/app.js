@@ -2005,7 +2005,7 @@ axios.defaults.withCredentials = true;
 window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/dist/web/pusher.js");
 window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_1__.default({
   broadcaster: 'pusher',
-  key: "05597b24c42e8d5d33ef",
+  key: "b3ecbaa590cb9ca65930",
   cluster: "ap1",
   forceTLS: true
 });
@@ -2087,7 +2087,7 @@ var profile = function profile() {
 
 
 var mainApp = function mainApp() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_mainApp_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/mainApp */ "./resources/js/components/mainApp.vue"));
+  return __webpack_require__.e(/*! import() | main-view */ "main-view").then(__webpack_require__.bind(__webpack_require__, /*! ./components/mainApp */ "./resources/js/components/mainApp.vue"));
 };
 
 var dashboard = function dashboard() {
@@ -2109,10 +2109,14 @@ var SeeAllNotification = function SeeAllNotification() {
 };
 
 var invites = function invites() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_layout_notification_invites_vue-_c8ea0").then(__webpack_require__.bind(__webpack_require__, /*! ./components/layout/notification/invites */ "./resources/js/components/layout/notification/invites.vue"));
+  return __webpack_require__.e(/*! import() */ "resources_js_components_layout_notification_invites_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/layout/notification/invites */ "./resources/js/components/layout/notification/invites.vue"));
 }; // let classwork_main = () =>
 //     import ("./components/classwork_main/classwork_main");
-//class Not found
+
+
+var EmailPending = function EmailPending() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_verify_EmailPending_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/verify/EmailPending.vue */ "./resources/js/components/verify/EmailPending.vue"));
+}; //class Not found
 
 
 var ClassNotFound = function ClassNotFound() {
@@ -2200,35 +2204,35 @@ var courseView = function courseView() {
 
 
 var classworkView = function classworkView() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_classworkDetailsView_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/Classwork_View/classworkDetailsView */ "./resources/js/components/Classwork_View/classworkDetailsView.vue"));
+  return __webpack_require__.e(/*! import() | classworks-details-view */ "classworks-details-view").then(__webpack_require__.bind(__webpack_require__, /*! ./components/Classwork_View/classworkDetailsView */ "./resources/js/components/Classwork_View/classworkDetailsView.vue"));
 };
 
 var addQuestionTab = function addQuestionTab() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_tabs_addQuestionTab_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/Classwork_View/tabs/addQuestionTab */ "./resources/js/components/Classwork_View/tabs/addQuestionTab.vue"));
+  return __webpack_require__.e(/*! import() | classworks-details-view */ "classworks-details-view").then(__webpack_require__.bind(__webpack_require__, /*! ./components/Classwork_View/tabs/addQuestionTab */ "./resources/js/components/Classwork_View/tabs/addQuestionTab.vue"));
 };
 
 var questionList = function questionList() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_tabs_questionListTab_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/Classwork_View/tabs/questionListTab */ "./resources/js/components/Classwork_View/tabs/questionListTab.vue"));
+  return __webpack_require__.e(/*! import() | classworks-details-view */ "classworks-details-view").then(__webpack_require__.bind(__webpack_require__, /*! ./components/Classwork_View/tabs/questionListTab */ "./resources/js/components/Classwork_View/tabs/questionListTab.vue"));
 };
 
 var questionnAnalyticstab = function questionnAnalyticstab() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_tabs_questionnAnalyticstab_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/Classwork_View/tabs/questionnAnalyticstab */ "./resources/js/components/Classwork_View/tabs/questionnAnalyticstab.vue"));
+  return __webpack_require__.e(/*! import() | classworks-details-view */ "classworks-details-view").then(__webpack_require__.bind(__webpack_require__, /*! ./components/Classwork_View/tabs/questionnAnalyticstab */ "./resources/js/components/Classwork_View/tabs/questionnAnalyticstab.vue"));
 };
 
 var submissionListTab = function submissionListTab() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_tabs_submissionListTab_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/Classwork_View/tabs/submissionListTab */ "./resources/js/components/Classwork_View/tabs/submissionListTab.vue"));
+  return __webpack_require__.e(/*! import() | classworks-details-view */ "classworks-details-view").then(__webpack_require__.bind(__webpack_require__, /*! ./components/Classwork_View/tabs/submissionListTab */ "./resources/js/components/Classwork_View/tabs/submissionListTab.vue"));
 };
 
 var publishClassworkTab = function publishClassworkTab() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_tabs_publishClassworkTab_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/Classwork_View/tabs/publishClassworkTab */ "./resources/js/components/Classwork_View/tabs/publishClassworkTab.vue"));
+  return __webpack_require__.e(/*! import() | classworks-details-view */ "classworks-details-view").then(__webpack_require__.bind(__webpack_require__, /*! ./components/Classwork_View/tabs/publishClassworkTab */ "./resources/js/components/Classwork_View/tabs/publishClassworkTab.vue"));
 };
 
 var test = function test() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_tabs_test_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/Classwork_View/tabs/test */ "./resources/js/components/Classwork_View/tabs/test.vue"));
+  return __webpack_require__.e(/*! import() | classworks-details-view */ "classworks-details-view").then(__webpack_require__.bind(__webpack_require__, /*! ./components/Classwork_View/tabs/test */ "./resources/js/components/Classwork_View/tabs/test.vue"));
 };
 
 var classworkDetailsTab = function classworkDetailsTab() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_tabs_classworkDetailsTab_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/Classwork_View/tabs/classworkDetailsTab */ "./resources/js/components/Classwork_View/tabs/classworkDetailsTab.vue"));
+  return __webpack_require__.e(/*! import() | classworks-details-view */ "classworks-details-view").then(__webpack_require__.bind(__webpack_require__, /*! ./components/Classwork_View/tabs/classworkDetailsTab */ "./resources/js/components/Classwork_View/tabs/classworkDetailsTab.vue"));
 };
 
 var documentPreview = function documentPreview() {
@@ -2274,9 +2278,17 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_6__.default({
       _store_store__WEBPACK_IMPORTED_MODULE_2__.default.dispatch('IsAuthenticated').then(function () {
         if (_store_store__WEBPACK_IMPORTED_MODULE_2__.default.state.CurrentUser.IsAuthenticated == true) {
           _store_store__WEBPACK_IMPORTED_MODULE_2__.default.dispatch('fetchCurrentUser').then(function () {
-            next();
+            if (_store_store__WEBPACK_IMPORTED_MODULE_2__.default.state.CurrentUser.IsVerified == true) {
+              next();
+            } else {
+              return next({
+                path: "/EmailPending"
+              });
+            }
           })["catch"](function () {
-            next();
+            return next({
+              path: "/login"
+            });
           });
         } else {
           return next({
@@ -2920,6 +2932,31 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_6__.default({
     component: function component() {
       return __webpack_require__.e(/*! import() | verifyEmail */ "verifyEmail").then(__webpack_require__.bind(__webpack_require__, /*! ./components/verify/verifyEmail.vue */ "./resources/js/components/verify/verifyEmail.vue"));
     }
+  }, {
+    path: "/EmailPending",
+    name: "EmailPending",
+    component: EmailPending,
+    beforeEnter: function beforeEnter(to, form, next) {
+      if (_store_store__WEBPACK_IMPORTED_MODULE_2__.default.state.CurrentUser.IsAuthenticated == true) {
+        _store_store__WEBPACK_IMPORTED_MODULE_2__.default.dispatch('fetchCurrentUser').then(function () {
+          if (_store_store__WEBPACK_IMPORTED_MODULE_2__.default.state.CurrentUser.IsVerified == false) {
+            next();
+          } else {
+            return next({
+              path: "/"
+            });
+          }
+        })["catch"](function () {
+          return next({
+            path: "/"
+          });
+        });
+      } else {
+        return next({
+          path: "/login"
+        });
+      }
+    }
   } // {
   //     path: '/:pathMatch(.*)*',
   //     component: error404
@@ -2979,6 +3016,7 @@ var state = {
   MyCourses: [],
   CurrentStatus: {},
   IsAuthenticated: window.localStorage.getItem('IsAuthenticated'),
+  IsVerified: null,
   AccessToken: window.localStorage.getItem('personal_access_token')
 };
 var getters = {
@@ -3031,7 +3069,7 @@ var actions = {
               commit = _ref2.commit;
 
               if (!(state.CurrentUser.length == 0)) {
-                _context2.next = 8;
+                _context2.next = 9;
                 break;
               }
 
@@ -3042,9 +3080,10 @@ var actions = {
               res = _context2.sent;
               state.CurrentUser = res.data;
               state.UserRole = res.data.role;
+              state.IsVerified = res.data.verified;
               return _context2.abrupt("return", res.status);
 
-            case 8:
+            case 9:
             case "end":
               return _context2.stop();
           }
@@ -11227,27 +11266,6 @@ var PusherChannel = /*#__PURE__*/function (_Channel) {
       return this;
     }
     /**
-     * Listen for all events on the channel instance.
-     */
-
-  }, {
-    key: "listenToAll",
-    value: function listenToAll(callback) {
-      var _this2 = this;
-
-      this.subscription.bind_global(function (event, data) {
-        if (event.startsWith('pusher:')) {
-          return;
-        }
-
-        var namespace = _this2.options.namespace.replace(/\./g, '\\');
-
-        var formattedEvent = event.startsWith(namespace) ? event.substring(namespace.length + 1) : '.' + event;
-        callback(formattedEvent, data);
-      });
-      return this;
-    }
-    /**
      * Stop listening for an event on the channel instance.
      */
 
@@ -11258,21 +11276,6 @@ var PusherChannel = /*#__PURE__*/function (_Channel) {
         this.subscription.unbind(this.eventFormatter.format(event), callback);
       } else {
         this.subscription.unbind(this.eventFormatter.format(event));
-      }
-
-      return this;
-    }
-    /**
-     * Stop listening for all events on the channel instance.
-     */
-
-  }, {
-    key: "stopListeningToAll",
-    value: function stopListeningToAll(callback) {
-      if (callback) {
-        this.subscription.unbind_global(callback);
-      } else {
-        this.subscription.unbind_global();
       }
 
       return this;
@@ -16359,9 +16362,9 @@ var runtime = (function (exports) {
   // This is a polyfill for %IteratorPrototype% for environments that
   // don't natively support it.
   var IteratorPrototype = {};
-  define(IteratorPrototype, iteratorSymbol, function () {
+  IteratorPrototype[iteratorSymbol] = function () {
     return this;
-  });
+  };
 
   var getProto = Object.getPrototypeOf;
   var NativeIteratorPrototype = getProto && getProto(getProto(values([])));
@@ -16375,9 +16378,8 @@ var runtime = (function (exports) {
 
   var Gp = GeneratorFunctionPrototype.prototype =
     Generator.prototype = Object.create(IteratorPrototype);
-  GeneratorFunction.prototype = GeneratorFunctionPrototype;
-  define(Gp, "constructor", GeneratorFunctionPrototype);
-  define(GeneratorFunctionPrototype, "constructor", GeneratorFunction);
+  GeneratorFunction.prototype = Gp.constructor = GeneratorFunctionPrototype;
+  GeneratorFunctionPrototype.constructor = GeneratorFunction;
   GeneratorFunction.displayName = define(
     GeneratorFunctionPrototype,
     toStringTagSymbol,
@@ -16491,9 +16493,9 @@ var runtime = (function (exports) {
   }
 
   defineIteratorMethods(AsyncIterator.prototype);
-  define(AsyncIterator.prototype, asyncIteratorSymbol, function () {
+  AsyncIterator.prototype[asyncIteratorSymbol] = function () {
     return this;
-  });
+  };
   exports.AsyncIterator = AsyncIterator;
 
   // Note that simple async functions are implemented on top of
@@ -16686,13 +16688,13 @@ var runtime = (function (exports) {
   // iterator prototype chain incorrectly implement this, causing the Generator
   // object to not be returned from this call. This ensures that doesn't happen.
   // See https://github.com/facebook/regenerator/issues/274 for more details.
-  define(Gp, iteratorSymbol, function() {
+  Gp[iteratorSymbol] = function() {
     return this;
-  });
+  };
 
-  define(Gp, "toString", function() {
+  Gp.toString = function() {
     return "[object Generator]";
-  });
+  };
 
   function pushTryEntry(locs) {
     var entry = { tryLoc: locs[0] };
@@ -17011,19 +17013,14 @@ try {
 } catch (accidentalStrictMode) {
   // This module should not be running in strict mode, so the above
   // assignment should always work unless something is misconfigured. Just
-  // in case runtime.js accidentally runs in strict mode, in modern engines
-  // we can explicitly access globalThis. In older engines we can escape
+  // in case runtime.js accidentally runs in strict mode, we can escape
   // strict mode using a global Function call. This could conceivably fail
   // if a Content Security Policy forbids using Function, but in that case
   // the proper solution is to fix the accidental strict mode problem. If
   // you've misconfigured your bundler to force strict mode and applied a
   // CSP to forbid Function, and you're not willing to fix either of those
   // problems, please detail your unique predicament in a GitHub issue.
-  if (typeof globalThis === "object") {
-    globalThis.regeneratorRuntime = runtime;
-  } else {
-    Function("r", "regeneratorRuntime = r")(runtime);
-  }
+  Function("r", "regeneratorRuntime = r")(runtime);
 }
 
 
@@ -23298,7 +23295,7 @@ var index = {
 },
 /******/ __webpack_require__ => { // webpackRuntimeModules
 /******/ var __webpack_exec__ = (moduleId) => (__webpack_require__(__webpack_require__.s = moduleId))
-/******/ __webpack_require__.O(0, ["js/vendor~utils-0","css/app","js/vendor~utils-4","js/vendor~utils-6","js/vendor~utils-1","js/vendor~utils-5","js/vendor~utils-3"], () => (__webpack_exec__("./resources/js/app.js"), __webpack_exec__("./resources/sass/app.scss")));
+/******/ __webpack_require__.O(0, ["js/vendor~utils-0","css/app","js/vendor~utils-6","js/vendor~utils-4","js/vendor~utils-1","js/vendor~utils-5","js/vendor~utils-3"], () => (__webpack_exec__("./resources/js/app.js"), __webpack_exec__("./resources/sass/app.scss")));
 /******/ var __webpack_exports__ = __webpack_require__.O();
 /******/ }
 ]);

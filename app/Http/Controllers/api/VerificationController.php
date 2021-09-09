@@ -60,4 +60,24 @@ class VerificationController extends Controller
             "success" => true
         ]);
     }
+
+    public function UpdateAndResendEmail(Request $request){
+        $user = User::where('id',  $request->id)->first();
+
+        if(!$user){
+            return response()->json([
+                "message" => " Failed to update Email!",
+                "success" => false
+            ]);
+        }
+        $user->email = $request->email;
+        $user->save();
+
+        $user->sendEmailVerificationNotification();
+        return response()->json([
+            "message" => "Email successfully change, please check your for the email verification!",
+            "success" => true
+        ]);
+    }
+
 }

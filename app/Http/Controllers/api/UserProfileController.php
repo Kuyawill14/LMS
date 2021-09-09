@@ -33,12 +33,12 @@ class UserProfileController extends Controller
         $userId = auth('sanctum')->id();
         
         $userDetails = User::where('users.id' ,$userId)
-        ->select('users.role','users.email',
+        ->select('users.role','users.email','users.email_verified_at as verified',
         'tbl_user_details.*')
         ->leftJoin('tbl_user_details', 'tbl_user_details.user_id', '=', 'users.id')
         ->first();
         
-
+        $userDetails->verified =  $userDetails->verified != null ? true : false;
        /*  $userDetails->profile_pic =  str_replace(return \Config::get('app.do_url');.'/', "",$userDetails->profile_pic);
         return $userDetails->profile_pic; */
         return $userDetails;
@@ -244,6 +244,7 @@ class UserProfileController extends Controller
         ,'tbl_class_classworks.classwork_id')
         ->leftJoin('tbl_class_classworks','tbl_class_classworks.class_id','=','tbl_userclasses.class_id')
         ->leftJoin('tbl_classworks','tbl_classworks.id','=','tbl_class_classworks.classwork_id')
+        ->whereNull('tbl_class_classworks.deleted_at')
         ->get();
         foreach($SubmitSubj as $sj){
             $StatusCheck = tbl_Submission::where('tbl_submissions.classwork_id', $sj->classwork_id)
