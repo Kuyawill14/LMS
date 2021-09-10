@@ -8,7 +8,7 @@
               <p class="mt-2">Enter your email address and we'll send you link to reset your password</p>
             </v-col>
             <v-col class="ma-0 pa-0 mt-4" cols="12" md="8">
-                 <v-text-field outlined label="Email" v-model="form.email"
+                 <v-text-field outlined label="Email" v-model="email"
                     :rules="emailRules" name="Email" prepend-inner-icon="email"
                     dense type="email" color="primary" required />
             </v-col>
@@ -32,16 +32,15 @@ export default {
                 v => !!v || "Required",
                 v => /.+@.+\..+/.test(v) || "Email must be valid"
             ],
-            form: new Form({
-                email: "",
-            }),
+            
+            email: "",
             isSending: false
         }
     },
     methods:{
         async RequestPasswordReset(){
             this.isSending = true;
-            this.form.post('/api/send-reset-password')
+            axios.post('/api/send-reset-password', {email : this.email})
             .then(res=>{
                if(res.data.success == true){
                    this.toastSuccess(res.data.message);

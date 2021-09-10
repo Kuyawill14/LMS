@@ -53,9 +53,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }, function (v) {
         return /.+@.+\..+/.test(v) || "Email must be valid";
       }],
-      form: new Form({
-        email: ""
-      }),
+      email: "",
       isSending: false
     };
   },
@@ -69,7 +67,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context.prev = _context.next) {
               case 0:
                 _this.isSending = true;
-                axios.post('/api/send-reset-password', _this.form).then(function (res) {
+                axios.post('/api/send-reset-password', {
+                  email: _this.email
+                }).then(function (res) {
                   if (res.data.success == true) {
                     _this.toastSuccess(res.data.message);
 
@@ -565,11 +565,11 @@ var render = function() {
                   required: ""
                 },
                 model: {
-                  value: _vm.form.email,
+                  value: _vm.email,
                   callback: function($$v) {
-                    _vm.$set(_vm.form, "email", $$v)
+                    _vm.email = $$v
                   },
-                  expression: "form.email"
+                  expression: "email"
                 }
               })
             ],
