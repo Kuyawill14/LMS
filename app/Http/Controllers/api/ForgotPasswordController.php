@@ -20,9 +20,12 @@ use Carbon\Carbon;
 class ForgotPasswordController extends Controller
 {
 
-
-    
-
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function SendResetPassword(Request $request)
     {
        $request->validate([
@@ -64,7 +67,12 @@ class ForgotPasswordController extends Controller
     }
 
 
-
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function ConfirmResetPassword(Request $request){
 
         $request->validate([
