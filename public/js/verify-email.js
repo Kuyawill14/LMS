@@ -86,7 +86,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 })["catch"](function (err) {
                   _this.isSending = false;
 
-                  _this.toastError(err.response.data.message);
+                  _this.toastError('Something went wrong');
                 });
 
               case 2:

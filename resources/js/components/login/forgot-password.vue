@@ -55,7 +55,7 @@ export default {
             })
             .catch(err=> {
                 this.isSending = false;
-                this.toastError(err.response.data.message);
+                this.toastError('Something went wrong');
             })
             
         }
