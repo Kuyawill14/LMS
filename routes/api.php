@@ -29,6 +29,7 @@ use App\Http\Controllers\api\teacherProfileController;
 use App\Http\Controllers\api\SchoolyearSemesterController;
 use App\Http\Controllers\api\DepartmentController;
 use App\Http\Controllers\api\VerificationController;
+use App\Http\Controllers\api\ForgotPasswordController;
 use App\Models\tbl_subjective_rubrics;
 use App\Http\Controllers\api\SubjectiveTypeRubrics;
 
@@ -389,6 +390,7 @@ Route::post('/change-email', [VerificationController::class, 'UpdateAndResendEma
 
 Route::middleware('auth:sanctum')->post('/change-password', [AuthController::class, 'ChangePassword']);
 Route::middleware('auth:sanctum')->post('/confirm-password', [AuthController::class, 'ConfirmPassword']);
-
+Route::post('/send-reset-password', [ForgotPasswordController::class, 'SendResetPassword']);
+Route::post('/confirm-reset-password', [ForgotPasswordController::class, 'ConfirmResetPassword']);
 
     //pre na dc ka sa dicord?

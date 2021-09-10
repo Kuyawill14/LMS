@@ -258,11 +258,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   computed: {
     passwordMatch: function passwordMatch() {
-      var _this = this;
-
-      return function () {
-        return _this.password === _this.password_confirmation || "Password must match";
-      };
+      return this.form.password === this.form.password_confirmation || "Pasword does not match";
     }
   },
   methods: {
@@ -272,48 +268,48 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     validate: function validate() {
-      var _this2 = this;
+      var _this = this;
 
       if (this.$refs.RegisterForm.validate()) {
         this.isRegistering = true;
         this.form.post('/api/register').then(function (res) {
           if (res.data.success == true) {
-            _this2.toastSuccess(res.data.message);
+            _this.toastSuccess(res.data.message);
 
-            _this2.login(_this2.form.email, _this2.form.password);
+            _this.login(_this.form.email, _this.form.password);
 
-            _this2.valid = true;
-            _this2.isRegistering = false;
+            _this.valid = true;
+            _this.isRegistering = false;
 
-            _this2.$refs.RegisterForm.reset();
+            _this.$refs.RegisterForm.reset();
           } else {
-            _this2.toastError(res.data.message);
+            _this.toastError(res.data.message);
 
-            _this2.invalid_classcode_message = res.data.message;
-            _this2.isRegistering = false;
+            _this.invalid_classcode_message = res.data.message;
+            _this.isRegistering = false;
           }
         })["catch"](function (e) {
-          _this2.toastError(e.response.data.message);
+          _this.toastError(e.response.data.message);
 
-          _this2.isRegistering = false;
+          _this.isRegistering = false;
         });
       }
     },
     login: function login(email, password) {
-      var _this3 = this;
+      var _this2 = this;
 
       this.loginForm.email = email;
       this.loginForm.password = password;
       axios.get('/sanctum/csrf-cookie').then(function (response) {
-        _this3.loginForm.post('/api/login').then(function (res) {
+        _this2.loginForm.post('/api/login').then(function (res) {
           if (res.data.success == true) {
-            _this3.$store.dispatch('clear_current_user');
+            _this2.$store.dispatch('clear_current_user');
 
-            _this3.$router.push({
+            _this2.$router.push({
               path: "/"
             });
           } else {
-            _this3.toastError(res.data.message);
+            _this2.toastError(res.data.message);
           }
         });
       });

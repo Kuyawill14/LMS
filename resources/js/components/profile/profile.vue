@@ -300,8 +300,6 @@
                 else{
                     this.toastError('The File is more than 5mb');
                 }
-                
-                
             },
             async UpdateProfile(){
                 let fd = new FormData;

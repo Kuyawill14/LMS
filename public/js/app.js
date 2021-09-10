@@ -2933,6 +2933,12 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_6__.default({
       return __webpack_require__.e(/*! import() | verifyEmail */ "verifyEmail").then(__webpack_require__.bind(__webpack_require__, /*! ./components/verify/verifyEmail.vue */ "./resources/js/components/verify/verifyEmail.vue"));
     }
   }, {
+    path: "/reset-password",
+    name: "resetPassword",
+    component: function component() {
+      return __webpack_require__.e(/*! import() | ResetPassword */ "ResetPassword").then(__webpack_require__.bind(__webpack_require__, /*! ./components/ResetPassword/resetPassword.vue */ "./resources/js/components/ResetPassword/resetPassword.vue"));
+    }
+  }, {
     path: "/EmailPending",
     name: "EmailPending",
     component: EmailPending,

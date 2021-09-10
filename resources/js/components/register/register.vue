@@ -236,7 +236,7 @@
         }),
         computed: {
             passwordMatch() {
-                return () => this.password === this.password_confirmation || "Password must match";
+                return this.form.password === this.form.password_confirmation || "Pasword does not match";
             }
         },
         methods: {

@@ -180,7 +180,10 @@ class ClassworkController extends Controller
                 $tmpdata = ['name'=> $request->attachment_name[$counter], 'size'=> $request->attachment_size[$counter],
                 'attachment'=> preg_replace('/\bpublic\/\b/', '', $newFile), 'extension'=> $request->attachment_extension[$counter]];
                 array_push($attachments, $tmpdata); */
-                $upload_file = Storage::disk('DO_spaces')->putFile('classworkAttachments/'.$newClasswork->id.'/'.$userId, $file, 'public');
+
+                $original_file_name = preg_replace('/\\.[^.\\s]{3,4}$/', '', $request->attachment_name[$counter]);
+                $Uploadname = $original_file_name.'_'.time().'.'.$request->attachment_extension[$counter];
+                $upload_file = Storage::disk('DO_spaces')->putFileAs('classworkAttachments/'.$newClasswork->id.'/'.$userId, $file, $Uploadname , 'public');
                 $path = \Config::get('app.do_url').'/'. $upload_file;
                 $tmpdata = ['name'=> $request->attachment_name[$counter], 'size'=> $request->attachment_size[$counter],
                 'attachment'=> $path, 'extension'=> $request->attachment_extension[$counter]];

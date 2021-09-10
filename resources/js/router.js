@@ -823,6 +823,13 @@ const router = new Router({
         },
 
         {
+            path: "/reset-password",
+            name: "resetPassword",
+            component: () => import ( /*webpackChunkName: "ResetPassword"*/ "./components/ResetPassword/resetPassword.vue"),
+            
+        },
+
+        {
             path: "/EmailPending",
             name: "EmailPending",
             component: EmailPending,

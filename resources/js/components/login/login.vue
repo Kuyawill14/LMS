@@ -71,7 +71,7 @@
                             <vue-element-loading :active="isLoggin" spinner="bar-fade-scale" color="#EF6C00" />
                             <v-row align="center" justify="center">
                                 <v-col class="text-left" cols="12" md="8" lg="6" sm="7">
-                                    <v-card-text>
+                                    <v-card-text v-if="!isForgotPassword">
                                         <v-form class="text-center" ref="loginForm" v-model="valid" lazy-validation>
                                             <v-row align="center" justify="center">
                                                 <v-col class="ma-0 pa-0 text-left" cols="12" md="8">
@@ -105,16 +105,16 @@
                                                 </v-col>
                                                 <!--   <span class="error--text mt-0 pt-0 mb-2">{{ToManyAttepmtError}}</span> -->
 
-                                                <v-col class="ma-0 pa-0" cols="12" md="8">
-                                                    <v-row class="">
+                                                <v-col class="ma-0 pa-0 text-right" cols="12" md="8">
+                                                    <!-- <v-row class="">
                                                         <v-col>
                                                             <v-checkbox ma-0 pa-0 class="ma-0 pa-0" label="Remember me">
                                                             </v-checkbox>
                                                         </v-col>
-                                                        <v-col class="float-right">
-                                                            <a href="#" @click="close();" class="float-right">Forgot Password?</a>
-                                                        </v-col>
-                                                    </v-row>
+                                                        <v-col class="float-right"> -->
+                                                            <a href="#" @click.prevent="isForgotPassword = !isForgotPassword" class="float-right">Forgot Password?</a>
+                                                    <!--     </v-col>
+                                                    </v-row> -->
                                                 </v-col>
                                                 <v-col class="ma-0 pa-0 text-left" cols="12" md="8">
                                                     <v-btn color="primary" class="mb-5" :disabled="!valid"
@@ -125,6 +125,13 @@
                                                 </v-col>
                                             </v-row>
                                         </v-form>
+                                    </v-card-text>
+
+
+                                     <v-card-text v-if="isForgotPassword">
+                                          
+                                            <forgotPassword v-on:toggleLogin="isForgotPassword = !isForgotPassword"></forgotPassword>
+                                    
                                     </v-card-text>
                                 </v-col>
                             </v-row>
@@ -155,7 +162,11 @@
 </template>
 
 <script>
+    const forgotPassword = () => import(/* webpackChunkName: "verify-email" */"./forgot-password")
     export default {
+        components:{
+            forgotPassword
+        },
         data() {
             return {
                 isLoggin: false,
@@ -179,6 +190,7 @@
                     min: v => (v && v.length >= 6) || "Min 6 characters"
                 },
                 ToManyAttepmtError: null,
+                isForgotPassword: false
 
             }
         },
