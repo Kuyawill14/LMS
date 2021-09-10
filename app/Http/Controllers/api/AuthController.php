@@ -13,6 +13,7 @@ use Illuminate\Validation\ValidatationException;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SendEmailVerification;
+use Illuminate\Support\Str;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 
 
@@ -136,11 +137,9 @@ class AuthController extends Controller
         $validated = $request->validate([
             'new_password' => ['required', 'min:6'],
         ]);
-
         if(Hash::check(strval($request->current_password), auth()->user()->password)){
-           
             auth()->user()->password = Hash::make($request->new_password);
-            auth()->user()->save();
+            auth()->user()->update();
 
             // auth()->user();
             
