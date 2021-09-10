@@ -653,13 +653,13 @@ export default {
               //this.dragging = false;
               //
               if(this.StatusDetails.length == 0){
-                this.file.push({ fileName: this.tempFile.name, fileSize: this.fileSize, fileExte: this.extension, file: this.tempFile});
+                this.file.push({ fileName: this.tempFile.name, fileSize: this.fileSize, fileExte: this.extension, file: this.tempFile, link : ''});
                 this.isUpIndex = this.file.length-1
               }
               else{
                 this.isUpIndex = this.StatusDetails.Submitted_Answers.length;
-                this.file.push({ fileName: this.tempFile.name, fileSize: this.fileSize, fileExte: this.extension, file: this.tempFile});
-                 this.StatusDetails.Submitted_Answers.push({ name: this.tempFile.name, fileSize: this.fileSize, fileExte: this.extension});
+                this.file.push({ fileName: this.tempFile.name, fileSize: this.fileSize, fileExte: this.extension, file: this.tempFile, link: ''});
+                this.StatusDetails.Submitted_Answers.push({ name: this.tempFile.name, fileSize: this.fileSize, fileExte: this.extension, link: ''});
               }
                this.fileIndex = this.file.length;
                 //this.isUpIndex = this.file.length-1
@@ -716,9 +716,17 @@ export default {
                  }
                })
               .then(res=>{
+                console.log(res);
+                 if(this.StatusDetails.length == 0){
+                    this.file[this.isUpIndex].link = res.data.link;
+                }
+                else{
+                  this.StatusDetails.Submitted_Answers[this.isUpIndex].link = res.data.link;
+                }
+
                 this.isUploadSaving = false;
                 this.isUpIndex = null;
-                this.tempId = this.tempId == null ? res.data : this.tempId ;
+                this.tempId = this.tempId == null ? res.data.id : this.tempId ;
                 
               })
           },
