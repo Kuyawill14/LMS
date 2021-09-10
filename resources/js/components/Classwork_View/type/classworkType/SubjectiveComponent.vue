@@ -716,17 +716,15 @@ export default {
                  }
                })
               .then(res=>{
-                console.log(res);
                  if(this.StatusDetails.length == 0){
                     this.file[this.isUpIndex].link = res.data.link;
                 }
                 else{
-                  this.StatusDetails.Submitted_Answers[this.isUpIndex].link = res.data.link;
+                    this.StatusDetails.Submitted_Answers[this.isUpIndex].link = res.data.link;
                 }
-
+                this.tempId = this.tempId == null ? res.data.id : this.tempId ;
                 this.isUploadSaving = false;
                 this.isUpIndex = null;
-                this.tempId = this.tempId == null ? res.data.id : this.tempId ;
                 
               })
           },

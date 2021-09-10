@@ -791,17 +791,15 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
           }
         }
       }).then(function (res) {
-        console.log(res);
-
         if (_this4.StatusDetails.length == 0) {
           _this4.file[_this4.isUpIndex].link = res.data.link;
         } else {
           _this4.StatusDetails.Submitted_Answers[_this4.isUpIndex].link = res.data.link;
         }
 
+        _this4.tempId = _this4.tempId == null ? res.data.id : _this4.tempId;
         _this4.isUploadSaving = false;
         _this4.isUpIndex = null;
-        _this4.tempId = _this4.tempId == null ? res.data.id : _this4.tempId;
       });
     },
     DeleteUpload: function DeleteUpload(index) {
