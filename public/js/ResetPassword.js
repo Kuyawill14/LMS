@@ -206,8 +206,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               case 0:
                 _this.form.id = _this.$route.query.id;
                 _this.form.token = _this.$route.query.token;
-
-                _this.form.post('/api/confirm-reset-password').then(function (res) {
+                axios.put('/api/confirm-reset-password', _this.form).then(function (res) {
                   if (res.data.success == true) {
                     _this.toastSuccess(res.data.message);
 

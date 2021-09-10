@@ -390,7 +390,6 @@ Route::post('/change-email', [VerificationController::class, 'UpdateAndResendEma
 
 Route::middleware('auth:sanctum')->post('/change-password', [AuthController::class, 'ChangePassword']);
 Route::middleware('auth:sanctum')->post('/confirm-password', [AuthController::class, 'ConfirmPassword']);
-Route::post('/send-reset-password', [ForgotPasswordController::class, 'SendResetPassword']);
-Route::post('/confirm-reset-password', [ForgotPasswordController::class, 'ConfirmResetPassword']);
+Route::put('/send-reset-password', [ForgotPasswordController::class, 'SendResetPassword']);
+Route::put('/confirm-reset-password', [ForgotPasswordController::class, 'ConfirmResetPassword']);
 
-    //pre na dc ka sa dicord?
