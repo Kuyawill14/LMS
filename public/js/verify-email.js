@@ -67,9 +67,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context.prev = _context.next) {
               case 0:
                 _this.isSending = true;
+<<<<<<< HEAD
                 axios.post('/api/send-reset-password', {
                   email: _this.email
                 }).then(function (res) {
+=======
+
+                _this.form.post('/api/send-reset-password').then(function (res) {
+>>>>>>> 2450f84dee363c504e7fdf588d15921c3ca56d19
                   if (res.data.success == true) {
                     _this.toastSuccess(res.data.message);
 
