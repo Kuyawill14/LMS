@@ -41,7 +41,7 @@ export default {
     methods:{
         async RequestPasswordReset(){
             this.isSending = true;
-            axios.post('/api/send-reset-password', this.form)
+            this.form.post('/api/send-reset-password')
             .then(res=>{
                if(res.data.success == true){
                    this.toastSuccess(res.data.message);

@@ -168,7 +168,7 @@ export default {
             async ResetPassword(){
                 this.form.id = this.$route.query.id;
                 this.form.token = this.$route.query.token;
-                axios.post('/api/confirm-reset-password', this.form)
+                this.form.post('/api/confirm-reset-password')
                 .then(res=>{
                     if(res.data.success == true){
                         this.toastSuccess(res.data.message);
