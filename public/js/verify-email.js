@@ -73,7 +73,7 @@ __webpack_require__.r(__webpack_exports__);
       })["catch"](function (err) {
         _this.isSending = false;
 
-        _this.toastError(err.response.data.message);
+        _this.toastError('Something went wrong');
       });
     }
   }
