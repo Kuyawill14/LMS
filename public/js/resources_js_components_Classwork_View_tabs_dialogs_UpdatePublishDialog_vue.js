@@ -190,6 +190,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['Details'],
@@ -217,6 +223,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         ampmInTitle: true
       },
       showAns: false,
+      ReviewAns: false,
       EnableDue: false,
       response_late: false,
       availability: null,
@@ -340,7 +347,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 axios.get('/api/classwork/publishClassworkDetails/' + _this5.Details.classwork_id).then(function (res) {
                   //console.log(res.data);
                   _this5.PublishDetails = res.data;
-                  _this5.availability = _this5.PublishDetails.availability ? 'Set Date' : 'Always Available';
+                  _this5.availability = _this5.PublishDetails.availability == 1 ? 'Set Date' : _this5.PublishDetails.availability == 2 ? 'Unavailable' : 'Always Available';
                   _this5.showAnsType = _this5.PublishDetails.showAnswerType != null ? _this5.showAnsType = _this5.PublishDetails.showAnswerType ? 'Set Date' : 'After Classwork Done' : _this5.showAnsType = '';
                   _this5.isLoading = !_this5.isLoading;
                 });
@@ -771,7 +778,7 @@ var render = function() {
                                           _c("v-checkbox", {
                                             staticClass: "pa-0 ma-0",
                                             attrs: {
-                                              label: "Accept late response"
+                                              label: "Accept Late Response"
                                             },
                                             model: {
                                               value:
@@ -802,28 +809,58 @@ var render = function() {
                           _c(
                             "v-col",
                             {
-                              staticClass: "text-left mb-0 pb-0 ",
-                              attrs: { "ma-0": "", "pa-0": "", cols: "12" }
+                              staticClass: "text-left pb-0 mb-0",
+                              attrs: { cols: "12" }
                             },
                             [
                               _c("v-checkbox", {
                                 staticClass: "pa-0 ma-0",
-                                attrs: { label: "Show correct answer" },
+                                attrs: {
+                                  label: "Enable Review Answer After Submit"
+                                },
                                 model: {
-                                  value: _vm.PublishDetails.showAnswer,
+                                  value: _vm.PublishDetails.reviewAnswer,
                                   callback: function($$v) {
                                     _vm.$set(
                                       _vm.PublishDetails,
-                                      "showAnswer",
+                                      "reviewAnswer",
                                       $$v
                                     )
                                   },
-                                  expression: "PublishDetails.showAnswer"
+                                  expression: "PublishDetails.reviewAnswer"
                                 }
                               })
                             ],
                             1
                           ),
+                          _vm._v(" "),
+                          _vm.PublishDetails.reviewAnswer
+                            ? _c(
+                                "v-col",
+                                {
+                                  staticClass: "text-left mb-0 pb-0 mt-0 pt-0",
+                                  attrs: { "ma-0": "", "pa-0": "", cols: "12" }
+                                },
+                                [
+                                  _c("v-checkbox", {
+                                    staticClass: "pa-0 ma-0",
+                                    attrs: { label: "Show Correct Answer" },
+                                    model: {
+                                      value: _vm.PublishDetails.showAnswer,
+                                      callback: function($$v) {
+                                        _vm.$set(
+                                          _vm.PublishDetails,
+                                          "showAnswer",
+                                          $$v
+                                        )
+                                      },
+                                      expression: "PublishDetails.showAnswer"
+                                    }
+                                  })
+                                ],
+                                1
+                              )
+                            : _vm._e(),
                           _vm._v(" "),
                           _vm.PublishDetails.showAnswer
                             ? _c(

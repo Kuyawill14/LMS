@@ -101,6 +101,7 @@ class ClassworkController extends Controller
             ->where('tbl_userclasses.user_id','=', $userId)
             ->orderBy('created_at', 'DESC')
             ->where('tbl_class_classworks.grading_criteria', $item->id)
+            ->where('tbl_class_classworks.availability', '!=',2)
             ->get();
             $CheckSub = tbl_Submission::where("tbl_submissions.user_id",$userId)
             ->orderBy('classwork_id', 'DESC')
@@ -206,34 +207,47 @@ class ClassworkController extends Controller
      */
     public function ShareClasswork(Request $request)
     {
-
+        //return $request;
         $userId = auth('sanctum')->id();
-        $Check = tbl_classClassworks::where('class_id','=', $request->get('class_id'))
+        $Check = tbl_classClassworks::withTrashed()->where('class_id','=', $request->get('class_id'))
         ->where('classwork_id','=',$request->get('classwork_id'))
-        ->exists();
-
+        ->first();
+        
         if($Check){
-            $Unshare = tbl_classClassworks::where('class_id','=', $request->get('class_id'))
-            ->where('classwork_id','=',$request->get('classwork_id'))
-            ->delete();
-            return "Unshare";
+            $Check->restore();
+            $Check->availability = $request->availability== 'Set Date' ? 1 : ($request->availability == 'Unavailable' ? 2 : 0);
+            $Check->from_date = $request->from_date;
+            $Check->to_date = $request->to_date;
+            $Check->reviewAnswer =  $request->ReviewAnswer == true ? 1 : 0;
+            $Check->showAnswer = $request->showAnswer == true ? 1 : 0;
+            if($request->showAnswer == true){
+                $Check->showAnswerType = $request->showAnswerType == 'Set Date' ? 1 : 0;
+                $Check->showDateFrom = $request->showAnswerType == 'Set Date' ? $request->showAnswerDateFrom : '';
+                $Check->showDateTo = $request->showAnswerType == 'Set Date' ? $request->showAnswerDateTo : '';
+            }
+            $Check->response_late = $request->response_late == true  ? 1 : 0;
+            $Check->grading_criteria = $request->grading_id;
+            $Check->save();
+            return $Check;
         }
 
         $shareClasswork = new tbl_classClassworks;
-        $shareClasswork->class_id = $request->get('class_id');
-        $shareClasswork->classwork_id = $request->get('classwork_id');
-        $shareClasswork->availability =  $request->get('availability') == 'Set Date' ? 1 : 0;
-        $shareClasswork->from_date = $request->get('from_date');
-        $shareClasswork->to_date = $request->get('to_date');
-        $shareClasswork->showAnswer =  $request->get('showAnswer') == 'true' ? 1 : 0;
-        if($request->get('showAnswer') == 'true'){
-            $shareClasswork->showAnswerType = $request->get('showAnswerType') == 'Set Date' ? 1 : 0;
-            $shareClasswork->showDateFrom = $request->get('showAnswerType') == 'Set Date' ? $request->get('showAnswerDateFrom') : '';
-            $shareClasswork->showDateTo = $request->get('showAnswerType') == 'Set Date' ? $request->get('showAnswerDateTo') : '';
+        $shareClasswork->class_id = $request->class_id;
+        $shareClasswork->classwork_id = $request->classwork_id;
+        $shareClasswork->availability = $request->availability == 'Set Date' ? 1 : ($request->availability == 'Unavailable' ? 2 : 0);
+        $shareClasswork->from_date = $request->from_date;
+        $shareClasswork->to_date = $request->to_date;
+        $shareClasswork->reviewAnswer =  $request->ReviewAnswer == true ? 1 : 0;
+        $shareClasswork->showAnswer =  $request->showAnswer == true ? 1 : 0;
+       
+        if($request->showAnswer == true){
+            $shareClasswork->showAnswerType = $request->showAnswerType == 'Set Date' ? 1 : 0;
+            $shareClasswork->showDateFrom = $request->showAnswerType == 'Set Date' ? $request->showAnswerDateFrom : '';
+            $shareClasswork->showDateTo = $request->showAnswerType == 'Set Date' ? $request->showAnswerDateTo : '';
         }
         //$request->get('showAnswer') == 'true' ? $shareClasswork->showDate = $request->get('showAnswerDate') : '';
-        $shareClasswork->response_late = $request->get('response_late') == 'true'  ? 1 : 0;
-        $shareClasswork->grading_criteria = $request->get('grading_id');
+        $shareClasswork->response_late = $request->response_late == 'true'  ? 1 : 0;
+        $shareClasswork->grading_criteria = $request->grading_id;
         $shareClasswork->save();
         return $shareClasswork;
   
@@ -287,10 +301,14 @@ class ClassworkController extends Controller
         //return $request;
         $UpdatePublishDetails = tbl_classClassworks::find($id);
         if($UpdatePublishDetails){
-            $UpdatePublishDetails->availability = $request->availability == 'Set Date' ? 1: 0;
+            //$UpdatePublishDetails->availability = $request->availability == 'Set Date' ? 1: 0;
+            $UpdatePublishDetails->availability = $request->availability == 'Set Date' ? 1 : ($request->availability == 'Unavailable' ? 2 : 0);
             $UpdatePublishDetails->from_date = $request->availability == 'Set Date' ? $request->from_date : '';
             $UpdatePublishDetails->to_date = $request->availability == 'Set Date' ? $request->to_date : '';
+            $UpdatePublishDetails->reviewAnswer =  $request->reviewAnswer == true ? 1 : 0;
             $UpdatePublishDetails->showAnswer =  $request->showAnswer == true ? 1 : 0;
+           
+            
             if($request->showAnswer == true){
                 $UpdatePublishDetails->showAnswerType = $request->showAnswerType == 'Set Date' ? 1 : 0;
                 $UpdatePublishDetails->showDateFrom = $request->showAnswerType == 'Set Date' ? $request->showAnswerDateFrom : '';
@@ -472,7 +490,7 @@ class ClassworkController extends Controller
             }
             elseif($DelCLasswork->type == "Subjective Type"){
                 $DelClass_Classwork = tbl_classClassworks::where('tbl_class_classworks.classwork_id', $id)
-                ->delete();
+                ->forceDelete();
                 Storage::delete('public/'.$DelCLasswork->attachment);
 
             }
@@ -496,6 +514,11 @@ class ClassworkController extends Controller
             $class_classwork = tbl_classClassworks::where('classwork_id', $DelCLasswork->id)->delete();
             $DelCLasswork->delete();
 
+            return response()->json([
+                'message'=> 'Classwork put in archive',
+                "success" => true
+            ]);
+
 
            /*  if($DelCLasswork->type == "Objective Type"){
                 $DelClass_Classwork = tbl_classClassworks::where('tbl_class_classworks.classwork_id', $id)
@@ -514,8 +537,15 @@ class ClassworkController extends Controller
             $DelCLasswork->delete();
             return "Successfully Remove"; */
         }
+
+        return response()->json([
+            'message'=> 'Classwork not found!',
+            "success" => false
+        ]);
     }
 
+
+     
 
     
 

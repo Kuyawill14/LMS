@@ -225,6 +225,37 @@ class ArchiveController extends Controller
        
     }
 
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function restoreClasswork($id)
+    {
+        $userId = auth('sanctum')->id();
+        $RestoreClasswork = tbl_classwork::withTrashed()->where('tbl_classworks.id', $id)->first();
+
+        if($RestoreClasswork){
+            $class_classwork = tbl_classClassworks::withTrashed()->where('classwork_id', $RestoreClasswork->id)->restore();
+            $RestoreClasswork->restore();
+
+            return response()->json([
+                "message" => "Classword Restored!",
+                "success" => true
+            ]);
+        }
+
+        return response()->json([
+            "message" => "Classword not found!",
+            "success" => false
+        ]);
+    }
+
+
+    
+
     /**
      * Update the specified resource in storage.
      *

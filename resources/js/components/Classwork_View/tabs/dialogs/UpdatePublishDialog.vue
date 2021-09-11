@@ -90,19 +90,25 @@
                                     <v-checkbox
                                     class="pa-0 ma-0"
                                     v-model="PublishDetails.response_late"
-                                    label="Accept late response"
+                                    label="Accept Late Response"
                                     ></v-checkbox>    
                                 </v-col>
                              </v-row>
                            
                             </v-col>
 
-                            
-                            <v-col  ma-0 pa-0 class="text-left mb-0 pb-0 " cols="12">
+                             <v-col class="text-left pb-0 mb-0" cols="12">
+                                <v-checkbox
+                                    class="pa-0 ma-0"
+                                    v-model="PublishDetails.reviewAnswer"
+                                    label="Enable Review Answer After Submit"
+                                    ></v-checkbox>
+                                </v-col>
+                            <v-col v-if="PublishDetails.reviewAnswer" ma-0 pa-0 class="text-left mb-0 pb-0 mt-0 pt-0" cols="12">
                                 <v-checkbox
                                     class="pa-0 ma-0"
                                     v-model="PublishDetails.showAnswer"
-                                    label="Show correct answer"
+                                    label="Show Correct Answer"
                                     ></v-checkbox>
                                 </v-col>
 
@@ -196,6 +202,7 @@ export default {
                 ampmInTitle: true
             },
             showAns: false,
+            ReviewAns: false,
             EnableDue: false,
             response_late:false,
             availability: null,
@@ -270,11 +277,10 @@ export default {
             .then(res=>{
                 //console.log(res.data);
                 this.PublishDetails = res.data;
-                this.availability = this.PublishDetails.availability ? 'Set Date' : 'Always Available';
+                this.availability = this.PublishDetails.availability == 1 ? 'Set Date' : this.PublishDetails.availability == 2 ? 'Unavailable' : 'Always Available';
                 this.showAnsType = this.PublishDetails.showAnswerType != null ? 
                 this.showAnsType = this.PublishDetails.showAnswerType ? 'Set Date' : 'After Classwork Done' : 
                 this.showAnsType = '';
-
                 this.isLoading = !this.isLoading;
             })
         },

@@ -145,7 +145,7 @@ var submittedView = function submittedView() {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                axios.get('/api/student/check-status/' + _this.$route.params.id).then(function (res) {
+                axios.get('/api/student/fetch-score/' + _this.$route.params.id).then(function (res) {
                   _this.details = res.data;
                   _this.isloading = false;
                 });
@@ -608,28 +608,30 @@ var render = function() {
                                                   attrs: { cols: "12" }
                                                 },
                                                 [
-                                                  _c(
-                                                    "v-btn",
-                                                    {
-                                                      attrs: {
-                                                        rounded: "",
-                                                        text: "",
-                                                        color: "primary"
-                                                      },
-                                                      on: {
-                                                        click: function(
-                                                          $event
-                                                        ) {
-                                                          _vm.Viewdialog = !_vm.Viewdialog
-                                                        }
-                                                      }
-                                                    },
-                                                    [
-                                                      _vm._v(
-                                                        "\r\n                                            View Submission\r\n                                        "
+                                                  _vm.details.reviewAnswer == 1
+                                                    ? _c(
+                                                        "v-btn",
+                                                        {
+                                                          attrs: {
+                                                            rounded: "",
+                                                            text: "",
+                                                            color: "primary"
+                                                          },
+                                                          on: {
+                                                            click: function(
+                                                              $event
+                                                            ) {
+                                                              _vm.Viewdialog = !_vm.Viewdialog
+                                                            }
+                                                          }
+                                                        },
+                                                        [
+                                                          _vm._v(
+                                                            "\r\n                                            View Submission\r\n                                        "
+                                                          )
+                                                        ]
                                                       )
-                                                    ]
-                                                  )
+                                                    : _vm._e()
                                                 ],
                                                 1
                                               )

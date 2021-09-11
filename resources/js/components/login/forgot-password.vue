@@ -52,7 +52,7 @@ export default {
                    this.$refs.ResetForm.reset()
                }
                else{
-                   this.toastSuccess(res.data.message);
+                   this.toastError(res.data.message);
                    this.isSending = false;
                }
             })

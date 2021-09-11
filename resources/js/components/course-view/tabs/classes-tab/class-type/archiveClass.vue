@@ -10,19 +10,17 @@
         <v-card-actions class="pb-3">
           <v-spacer></v-spacer>
           <v-btn
-            color="primary"
-            rounded
-            outlined
+            text
             @click="$emit('toggleCancelDialog')"
           >
             Cancel
           </v-btn>
           <v-btn
             color="primary"
-            rounded
+            text
             @click="PutClasstoArchive(ArchiveDetails.class_id)"
           >
-            Confirm
+            Continue
           </v-btn>
         </v-card-actions>
       </v-card>

@@ -82,7 +82,7 @@
                                    </v-col>
 
                                      <v-col cols="12" class="text-right mt-4">
-                                        <v-btn @click="Viewdialog = !Viewdialog" rounded text color="primary" >
+                                        <v-btn v-if="details.reviewAnswer == 1" @click="Viewdialog = !Viewdialog" rounded text color="primary" >
                                             View Submission
                                         </v-btn>
                                     </v-col>
@@ -111,17 +111,14 @@ export default {
             testUnser: [],
             Viewdialog: false,
             ViewDetails: null
-
         }
     },
     methods:{
         async GetScoreDetails(){
-            axios.get('/api/student/check-status/'+this.$route.params.id)
+            axios.get('/api/student/fetch-score/'+this.$route.params.id)
             .then(res=>{
                 this.details = res.data;
-            
-              
-               this.isloading = false;
+                this.isloading = false;
             })
         }
     },

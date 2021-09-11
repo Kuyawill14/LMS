@@ -572,8 +572,12 @@ var render = function() {
                         {
                           name: "show",
                           rawName: "v-show",
-                          value: _vm.classworks.ClassworksList[i].length != 0,
-                          expression: "classworks.ClassworksList[i].length != 0"
+                          value:
+                            _vm.classworks.ClassworksList[i].length != 0 &&
+                            (_vm.SelectedFilter == "All" ||
+                              _vm.SelectedFilter == data.title),
+                          expression:
+                            "classworks.ClassworksList[i].length != 0 && (SelectedFilter == 'All' || SelectedFilter == data.title)"
                         }
                       ],
                       key: i,

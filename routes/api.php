@@ -163,6 +163,7 @@ Route::middleware('auth:sanctum')->prefix('/student')->group(function () {
 
     Route::put('/markAsSubmitting/{id}', [StudentController::class, 'markAsSubmitting']);
 
+    Route::get('/fetch-score/{id}', [StudentController::class, 'FetchScoreDetails']);
     
    
 
@@ -315,6 +316,7 @@ Route::middleware('auth:sanctum')->prefix('/archive')->group(function () {
     Route::get('/classes', [ArchiveController::class, 'showArchiveClasses']);
     Route::put('/restore-class/{id}', [ArchiveController::class, 'restoreClass']);
     Route::get('/classwork/{id}', [ArchiveController::class, 'ShowArchiveClasswork']);
+    Route::put('/restore-classwork/{id}', [ArchiveController::class, 'restoreClasswork']);
     
 });
 

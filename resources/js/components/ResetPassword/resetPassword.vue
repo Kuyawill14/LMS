@@ -176,7 +176,7 @@ export default {
                         this.isResetting = false;
                     }
                     else{
-                        this.toastSuccess(res.data.message);
+                        this.toastError(res.data.message);
                         this.isResetting = false;
                     }
                 })

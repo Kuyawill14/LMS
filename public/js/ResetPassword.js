@@ -197,7 +197,7 @@ __webpack_require__.r(__webpack_exports__);
 
           _this.isResetting = false;
         } else {
-          _this.toastSuccess(res.data.message);
+          _this.toastError(res.data.message);
 
           _this.isResetting = false;
         }

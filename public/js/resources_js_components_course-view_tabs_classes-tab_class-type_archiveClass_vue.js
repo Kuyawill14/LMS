@@ -46,8 +46,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['ArchiveDetails'],
   methods: {
@@ -192,7 +190,7 @@ var render = function() {
           _c(
             "v-btn",
             {
-              attrs: { color: "primary", rounded: "", outlined: "" },
+              attrs: { text: "" },
               on: {
                 click: function($event) {
                   return _vm.$emit("toggleCancelDialog")
@@ -205,14 +203,14 @@ var render = function() {
           _c(
             "v-btn",
             {
-              attrs: { color: "primary", rounded: "" },
+              attrs: { color: "primary", text: "" },
               on: {
                 click: function($event) {
                   return _vm.PutClasstoArchive(_vm.ArchiveDetails.class_id)
                 }
               }
             },
-            [_vm._v("\n        Confirm\n      ")]
+            [_vm._v("\n        Continue\n      ")]
           )
         ],
         1

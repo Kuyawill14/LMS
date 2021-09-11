@@ -67,7 +67,7 @@ __webpack_require__.r(__webpack_exports__);
 
           _this.$refs.ResetForm.reset();
         } else {
-          _this.toastSuccess(res.data.message);
+          _this.toastError(res.data.message);
 
           _this.isSending = false;
         }

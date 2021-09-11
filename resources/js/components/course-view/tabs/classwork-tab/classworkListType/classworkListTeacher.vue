@@ -59,6 +59,7 @@
 
         <v-dialog v-model="archiveDialog" persistent max-width="400">
                 <archiveClassworkDialog 
+                v-on:SuccessArchive="SliceClasswork"
                 :ArchiveDetails="ArchiveDetails"
                  v-on:toggleDialog="archiveDialog = !archiveDialog" v-if="archiveDialog"></archiveClassworkDialog>
         </v-dialog>
@@ -119,7 +120,7 @@
                                                 <v-list-item link :to="{name: 'clwk',params: {id: $route.params.id},query: {clwk: item.id}}" ma-0 pa-0>
                                                     <v-list-item-title> <v-icon left>mdi-notebook-edit-outline</v-icon>Edit classwork</v-list-item-title>
                                                 </v-list-item>
-                                                <v-list-item link @click="ArchiveClasswork(item)" ma-0 pa-0>
+                                                <v-list-item link @click="ArchiveClasswork(item, i, index)" ma-0 pa-0>
                                                     <v-list-item-title><v-icon left>mdi-archive</v-icon>Archive</v-list-item-title>
                                                 </v-list-item>
                                                 <v-list-item v-if="item.submittion_count == 0" link @click="RemoveCLasswork(item)" ma-0 pa-0>
@@ -182,7 +183,9 @@
                 FilterItems:['All', 'Objective Type','Subjective Type'],
                 SelectedFilter: 'All',
                 archiveDialog: false,
-                ArchiveDetails: []
+                ArchiveDetails: [],
+                ArchiveIndex: null,
+                classworkIndex: null,
             }
         },
         methods: {
@@ -201,7 +204,9 @@
                 this.DeleteDetails = details;
                 this.Removedialog = !this.Removedialog;
             },
-            async ArchiveClasswork(details){
+            async ArchiveClasswork(details,mainIndex ,index){
+                this.ArchiveIndex = index;
+                this.classworkIndex = mainIndex;
                 this.ArchiveDetails = details;
                 this.archiveDialog = !this.archiveDialog;
             },
@@ -209,6 +214,10 @@
                 this.classworks.forEach(element => {
                     this.ClassworkLength += element.length;
                 });
+            },
+            SliceClasswork(){
+                this.classworks[this.classworkIndex].splice(this.ArchiveIndex, 1);
+                this.archiveDialog = !this.archiveDialog;
             }
         },
         mounted(){

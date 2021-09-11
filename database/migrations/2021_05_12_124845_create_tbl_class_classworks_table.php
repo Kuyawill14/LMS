@@ -20,6 +20,8 @@ class CreateTblClassClassworksTable extends Migration
             $table->boolean("availability")->default(0);
             $table->dateTime("from_date")->nullable();
             $table->dateTime("to_date")->nullable();
+            
+            $table->boolean("reviewAnswer")->default(0);
             $table->boolean("showAnswer")->default(0);
             $table->boolean("showAnswerType")->nullable();
             $table->dateTime("showDateFrom")->nullable();

@@ -77,19 +77,19 @@
                             <template v-slot:activator="{ on, attrs }">
                                 <v-icon color="secondary " v-bind="attrs" v-on="on">mdi-dots-vertical</v-icon>
                             </template>
-                            <v-list>
-                                <v-list-item link @click="archiveClass(item, index)">
-                                    <v-list-item-title>Archive</v-list-item-title>
-
-                                </v-list-item>
+                            <v-list nav>
+                               
                                 <v-list-item link @click="openEditmodal(item.class_name, item.class_id)">
                                     <v-list-item-title>Edit</v-list-item-title>
 
                                 </v-list-item>
-                                <!-- <v-list-item link>
-                                    <v-list-item-title>Remove</v-list-item-title>
+                                 <v-list-item link @click="archiveClass(item, index)">
+                                    <v-list-item-title>Archive</v-list-item-title>
 
-                                </v-list-item> -->
+                                </v-list-item>
+                                <v-list-item link v-if="item.student_count == 0">
+                                    <v-list-item-title>Remove</v-list-item-title>
+                                </v-list-item>
                             </v-list>
                         </v-menu>
                     </v-list-item-action>
