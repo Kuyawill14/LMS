@@ -12,30 +12,111 @@
   </head>
   <body>
 
-  <div class="jumbotron text-center">
-  <h1 class="header-top mt-3">
-  " WELCOME TO YOU FIRST DAY OF TUTORIAL "<p>
-  ISUE ORANGE</ph1>
-  <p>Online Resources App for a New Guild of Education</p>
-</div>
+  <div class="bg-info jumbotron text-center" id="example">
+    <h1 class="header-top mt-3" sytle="font">
+      "WELCOME TO YOU FIRST DAY OF TUTORIAL"<p>
+        ISUE ORANGE</ph1>
+      <p>Online Resources App for a New Guild of Education</p>
+  </div>
 
-<div class="container">
-  <div class="row">
-    <div class="col-sm-8">
-      <h3>Teacher Tutorial</h3>
-      <p>Lorem ipsum dolor..</p>
+  <!--fist container-->
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">
+        <center>
+          <h3>Teacher Tutorial</h3>
+          <p>Learn and Teach</p>
+          <hr>
+        </center>
+      </div>
+
+
+      <!--List of Videos-->
+      <div class="card text-center" style="width: 18rem">
+        <div class="card-body">
+          <iframe src="https://www.youtube.com/embed/cMb9NdAf11o" allowfullscreen style="width:36vh"></iframe>
+          <h5 class="card-title">Introduction Teacher Side</h5>
+          <p class="card-text">Sample</p>
+        </div>
+      </div>
+
+      <div class="card text-center" style="width: 18rem">
+        <div class="card-body">
+          <iframe src="https://www.youtube.com/embed/Woa4oVBi-hY" allowfullscreen style="width:36vh"></iframe>
+          <h5 class="card-title">ISUE ORANGE | How to Create a Course</h5>
+          <p class="card-text">Some example text. Some example text.</p>
+        </div>
+      </div>
+
+      <div class="card text-center" style="width: 18rem">
+        <div class="card-body">
+          <iframe src="https://www.youtube.com/embed/XUW9DclikkQ" allowfullscreen style="width:36vh"></iframe>
+          <h5 class="card-title">ISUE ORANGE | How to create an Announcement</h5>
+          <p class="card-text">Some example text. Some example text.</p>
+        </div>
+      </div>
+
+      <div class="card text-center" style="width: 17rem">
+        <div class="card-body">
+          <iframe src="https://www.youtube.com/embed/jKAoA_akQXc" allowfullscreen style="width:36vh"></iframe>
+          <h5 class="card-title">Card title</h5>
+          <p class="card-text">Some example text. Some example text.</p>
+        </div>
+      </div>
     </div>
   </div>
-</div>
+  <br>
+  <br>
 
-<div class="container">
-  <div class="row">
-    <div class="col-sm-4">
-      <h3>Student Tutorial</h3>
-      <p>Lorem ipsum dolor..</p>
+
+    <!--fist container-->
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-12">
+          <center>
+            <h3>Student Tutorial</h3>
+            <p>Learn and Teach</p>
+            <hr>
+          </center>
+        </div>
+  
+  
+        <!--List of Videos-->
+        <div class="card text-center" style="width: 18rem">
+          <div class="card-body">
+            <iframe src="https://www.youtube.com/embed/cMb9NdAf11o" allowfullscreen style="width:36vh"></iframe>
+            <h5 class="card-title">Introduction Teacher Side</h5>
+            <p class="card-text">Sample</p>
+          </div>
+        </div>
+  
+        <div class="card text-center" style="width: 18rem">
+          <div class="card-body">
+            <iframe src="https://www.youtube.com/embed/Woa4oVBi-hY" allowfullscreen style="width:36vh"></iframe>
+            <h5 class="card-title">ISUE ORANGE | How to Create a Course</h5>
+            <p class="card-text">Some example text. Some example text.</p>
+          </div>
+        </div>
+  
+        <div class="card text-center" style="width: 18rem">
+          <div class="card-body">
+            <iframe src="https://www.youtube.com/embed/XUW9DclikkQ" allowfullscreen style="width:36vh"></iframe>
+            <h5 class="card-title">ISUE ORANGE | How to create an Announcement</h5>
+            <p class="card-text">Some example text. Some example text.</p>
+          </div>
+        </div>
+  
+        <div class="card text-center" style="width: 17rem">
+          <div class="card-body">
+            <iframe src="https://www.youtube.com/embed/jKAoA_akQXc" allowfullscreen style="width:36vh"></iframe>
+            <h5 class="card-title">Card title</h5>
+            <p class="card-text">Some example text. Some example text.</p>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
+    <br>
+    <br>
 
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
