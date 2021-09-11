@@ -100,7 +100,7 @@
                                                 </v-col>
 
                                                  <v-col class="ma-0 pa-0 mt-2 text-left" cols="12" md="8">
-                                                      <v-btn color="primary" class="mb-5" :disabled="!valid"
+                                                      <v-btn :loading="isResetting" color="primary" class="mb-5" :disabled="!valid"
                                                         @click="validate" >
                                                         <v-icon class="mr-3">mdi-lock</v-icon>
                                                         Submit
@@ -121,7 +121,6 @@
   </v-app>
 </template>
 <script>
- import {mapActions} from 'vuex';
 export default {
     data(){
         return{
@@ -149,7 +148,8 @@ export default {
                 min: v => (v && v.length >= 6) || "Min 6 characters"
             },
             ToManyAttepmtError: null,
-            isForgotPassword: false
+            isForgotPassword: false,
+            isResetting: false
 
         }
     },
@@ -159,21 +159,30 @@ export default {
             }
         },
     methods: {
-            ...mapActions(["verifyEmail"]),
-              validate() {
+            validate() {
                 if (this.$refs.ResetPassword.validate()) {
                    this.ResetPassword();
                 }
             },
-            async ResetPassword(){
+            ResetPassword(){
+                this.isResetting = true;
                 this.form.id = this.$route.query.id;
                 this.form.token = this.$route.query.token;
-                axios.put('/api/confirm-reset-password',  this.form)
+                this.form.post("/api/confirm_reset_password")
                 .then(res=>{
                     if(res.data.success == true){
                         this.toastSuccess(res.data.message);
                         this.$router.push({path: '/login'})
+                        this.isResetting = false;
                     }
+                    else{
+                        this.toastSuccess(res.data.message);
+                        this.isResetting = false;
+                    }
+                })
+                .catch(e=>{
+                    this.toastSuccess('Something went wrong while changing password!');
+                    this.isResetting = false;
                 })
             }
         },

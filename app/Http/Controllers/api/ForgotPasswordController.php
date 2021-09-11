@@ -19,7 +19,7 @@ use Carbon\Carbon;
 
 class ForgotPasswordController extends Controller
 {
-
+   
     /**
      * Store a newly created resource in storage.
      *
@@ -31,7 +31,8 @@ class ForgotPasswordController extends Controller
        $request->validate([
             'email' => ['required', 'email'],
         ]);
-        $user = User::where('users.email', $request->only('email'))->first();
+
+        $user = User::where('users.email', $request->email)->first();
 
         if(!$user){
             return response()->json([
@@ -39,6 +40,7 @@ class ForgotPasswordController extends Controller
                 "success" => false
             ]); 
         }
+
         
         //Create Password Reset Token
         DB::table('password_resets')->insert([
@@ -51,7 +53,9 @@ class ForgotPasswordController extends Controller
         $tokenData = DB::table('password_resets')
         ->where('email', $request->email)->first();
 
-       $status = Notification::send($user, new SendPasswordResetNotification($tokenData->token,  $user->id));
+       //$status = Notification::send($user, new SendPasswordResetNotification($tokenData->token,  $user->id));
+
+        Notification::send($user, new SendPasswordResetNotification($tokenData->token,  $user->id));
 
        if($tokenData){
             return response()->json([
@@ -93,10 +97,7 @@ class ForgotPasswordController extends Controller
         $user->remember_token = Str::random(60);
         $user->save();
 
-       $PassReset =  DB::table('password_resets')->where('email', $user->email)
-        ->delete();
-        
-     
+       $PassReset =  DB::table('password_resets')->where('email', $user->email)->delete();
         if($PassReset ){
             return response([
                 'message'=> 'Password reset successfully',

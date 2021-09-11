@@ -7,21 +7,21 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class SendPasswordResetNotification extends Notification implements ShouldQueue
+class SendPasswordResetNotification extends Notification
 {
     use Queueable;
 
-    public $token, $id;
+    public $token, $user_id;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($token, $id)
+    public function __construct($token, $user_id)
     {
         $this->token = $token;
-        $this->id = $id;
+        $this->user_id = $user_id;
     }
 
     /**
@@ -43,13 +43,7 @@ class SendPasswordResetNotification extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        $url = "reset-password?id=".$this->id.'&token='.$this->token;
-        //$url = "reset-password?token=".$this->token;
-        /* return (new MailMessage)
-            ->line('Password Reset.')
-            ->action('Confirm Reset', url($url))
-            ->line('Thank you for using our application!'); */
-            
+        $url = "reset-password?id=".$this->user_id.'&token='.$this->token;
         return (new MailMessage)->view('EmailTemplates.ForgotPassword', 
             ['url'=> $url]
         );

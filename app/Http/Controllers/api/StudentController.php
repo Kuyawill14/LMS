@@ -437,30 +437,42 @@ class StudentController extends Controller
         if(!$Class){
             return response()->json("Class doest exist",203);
         }
-        else{
-            $Check = tbl_userclass::withTrashed()
-            ->where('course_id','=', $Class->course_id)
-            ->where('user_id','=',$userId)
-            ->first();
-           
-            if($Check){
-                if($Check->deleted_at == null){
+    
+        $Check = tbl_userclass::withTrashed()
+        ->where('course_id','=', $Class->course_id)
+        ->where('user_id','=',$userId)
+        ->first();
+        
+        if($Check){
+            if($Check->deleted_at == null){
+                return response()->json([
+                'course_id'=>$Check->course_id, 
+                'status'=>1, 
+                'message'=>"You already join to this class"],202);
+            }
+            else{
+                if($Class->id ==  $Check->class_id){
+                    $Check->restore();
                     return response()->json([
-                    'course_id'=>$Check->course_id, 
-                    'status'=>1, 
-                    'message'=>"You already join to this class"],202);
+                        'course_id'=>$Check->course_id, 
+                        'status'=>1, 
+                        'message'=>"Class Restored"],200);
                 }
                 else{
                     $Check->restore();
+                    $Check->class_id = $Class->id;
+                    $Check->save();
                     return response()->json([
-                    'course_id'=>$Check->course_id, 
-                    'status'=>1, 
-                    'message'=>"Class Restored"],200);
+                        'course_id'=>$Check->course_id, 
+                        'status'=>1, 
+                        'message'=>"Join class success"],200);
                 }
-                
+               
             }
             
         }
+            
+        
            
         $JoinClass = new tbl_userclass;
         $JoinClass->class_id = $Class->id;

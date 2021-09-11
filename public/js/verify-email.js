@@ -11,14 +11,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
 //
 //
 //
@@ -53,7 +45,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }, function (v) {
         return /.+@.+\..+/.test(v) || "Email must be valid";
       }],
-      email: "",
+      form: new Form({
+        email: ''
+      }),
       isSending: false
     };
   },
@@ -61,41 +55,26 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     RequestPasswordReset: function RequestPasswordReset() {
       var _this = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                _this.isSending = true;
-                axios.put('/api/send-reset-password', {
-                  email: _this.email
-                }).then(function (res) {
-                  if (res.data.success == true) {
-                    _this.toastSuccess(res.data.message);
+      this.isSending = true;
+      this.form.post("/api/send_reset_password").then(function (res) {
+        if (res.data.success == true) {
+          _this.toastSuccess(res.data.message);
 
-                    _this.isSending = false;
+          _this.isSending = false;
 
-                    _this.$emit('toggleLogin');
+          _this.$emit('toggleLogin');
 
-                    _this.$refs.ResetForm.reset();
-                  } else {
-                    _this.toastSuccess(res.data.message);
+          _this.$refs.ResetForm.reset();
+        } else {
+          _this.toastSuccess(res.data.message);
 
-                    _this.isSending = false;
-                  }
-                })["catch"](function (err) {
-                  _this.isSending = false;
+          _this.isSending = false;
+        }
+      })["catch"](function (err) {
+        _this.isSending = false;
 
-                  _this.toastError(err.response.data.message);
-                });
-
-              case 2:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee);
-      }))();
+        _this.toastError(err.response.data.message);
+      });
     }
   }
 });
@@ -565,11 +544,11 @@ var render = function() {
                   required: ""
                 },
                 model: {
-                  value: _vm.email,
+                  value: _vm.form.email,
                   callback: function($$v) {
-                    _vm.email = $$v
+                    _vm.$set(_vm.form, "email", $$v)
                   },
-                  expression: "email"
+                  expression: "form.email"
                 }
               })
             ],
@@ -585,8 +564,7 @@ var render = function() {
                 {
                   staticClass: "pl-10 pr-10 pt-5 pb-5",
                   attrs: {
-                    disabled: !_vm.valid,
-                    loading: _vm.isSending,
+                    disabled: !_vm.valid || _vm.isSending,
                     rounded: "",
                     color: "primary"
                   },
@@ -596,7 +574,12 @@ var render = function() {
                     }
                   }
                 },
-                [_vm._v("Reset password")]
+                [
+                  _vm._v(
+                    " " +
+                      _vm._s(_vm.isSending ? "Sending..." : "Reset password")
+                  )
+                ]
               )
             ],
             1

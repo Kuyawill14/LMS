@@ -8,13 +8,13 @@
               <p class="mt-2">Enter your email address and we'll send you link to reset your password</p>
             </v-col>
             <v-col class="ma-0 pa-0 mt-4" cols="12" md="8">
-                 <v-text-field outlined label="Email" v-model="email"
+                 <v-text-field outlined label="Email" v-model="form.email"
                     :rules="emailRules" name="Email" prepend-inner-icon="email"
                     dense type="email" color="primary" required />
             </v-col>
 
              <v-col class="ma-0 pa-0" cols="12" md="8">
-               <v-btn :disabled="!valid" :loading="isSending"  @click="RequestPasswordReset()" class="pl-10 pr-10 pt-5 pb-5" rounded color="primary" >Reset password</v-btn>
+               <v-btn :disabled="!valid || isSending"  @click="RequestPasswordReset()" class="pl-10 pr-10 pt-5 pb-5" rounded color="primary" > {{isSending ? 'Sending...':'Reset password'}}</v-btn>
             </v-col>
 
              <v-col class="ma-0 pa-0 mt-4" cols="12" md="8">
@@ -33,14 +33,16 @@ export default {
                 v => /.+@.+\..+/.test(v) || "Email must be valid"
             ],
             
-            email: "",
+            form: new Form({
+                email: '',
+            }),
             isSending: false
         }
     },
     methods:{
-        async RequestPasswordReset(){
+        RequestPasswordReset(){
             this.isSending = true;
-            axios.put('/api/send-reset-password', {email : this.email})
+            this.form.post("/api/send_reset_password")
             .then(res=>{
                if(res.data.success == true){
                    this.toastSuccess(res.data.message);
