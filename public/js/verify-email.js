@@ -36,6 +36,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -493,6 +494,15 @@ var render = function() {
       }
     },
     [
+      _c("vue-element-loading", {
+        attrs: {
+          active: _vm.isSending,
+          text: "Sending please wait...",
+          spinner: "bar-fade-scale",
+          color: "#EF6C00"
+        }
+      }),
+      _vm._v(" "),
       _c(
         "v-row",
         { attrs: { align: "center", justify: "center" } },
@@ -533,6 +543,7 @@ var render = function() {
             [
               _c("v-text-field", {
                 attrs: {
+                  loading: _vm.isSending,
                   outlined: "",
                   label: "Email",
                   rules: _vm.emailRules,

@@ -52,15 +52,14 @@
                                         </p>
                                         <br>
                                         <p style="color:#455056; font-size:15px;line-height:24px; margin:0;">
-
                                             Please tap the button below to request a new password.
                                         </p>
                                        
                                         <a href="{{url($url)}}"
                                             style="background:#FF5400;text-decoration:none !important; font-weight:500; margin-top:10px;margin-bottom:10px;  color:#fff;text-transform:uppercase; font-size:14px;padding:10px 24px;display:inline-block;border-radius:50px;">RESET PASSWORD</a>
                                         <hr>
-                                        <p style="text-align:center ;color:#455056; font-size:15px;line-height:24px;  margin-top:15px;margin-bottom:0px">
-                                            Or paste this link into your browser:
+                                        <p style="text-align:center ;color:#455056; font-size:12px;line-height:24px;  margin-top:15px;margin-bottom:0px">
+                                            Or paste this link into your browser: <br>
                                             <a href="{{ url($url) }}">{{url($url)}}</a>
                                         </p>
                                     </td>

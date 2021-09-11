@@ -1,5 +1,6 @@
 <template>
 <v-form class="text-center" ref="ResetForm" v-model="valid" lazy-validation>
+     <vue-element-loading :active="isSending" text="Sending please wait..." spinner="bar-fade-scale" color="#EF6C00" />
         <v-row  align="center" justify="center">
              <v-col class="ma-0 pa-0 text-left mt-4" cols="12" md="8">
                 <div class=" text-md-h5 text-xs-h5 text-sm-h6 font-weight-bold">
@@ -8,7 +9,7 @@
               <p class="mt-2">Enter your email address and we'll send you link to reset your password</p>
             </v-col>
             <v-col class="ma-0 pa-0 mt-4" cols="12" md="8">
-                 <v-text-field outlined label="Email" v-model="form.email"
+                 <v-text-field :loading="isSending" outlined label="Email" v-model="form.email"
                     :rules="emailRules" name="Email" prepend-inner-icon="email"
                     dense type="email" color="primary" required />
             </v-col>
