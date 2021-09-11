@@ -33,7 +33,7 @@
                             <v-card style="height: 620px;"
                                v-if="(ext != 'mp4' && ext != 'pdf')   && type=='Document'">
                                 <iframe title="google drive viewer" id="pdf-iframe" class="holds-the-iframe"
-                                    :src="'https://view.officeapps.live.com/op/view.aspx?src=' +docpath + subModuleData.file_attachment"
+                                    :src="'https://view.officeapps.live.com/op/embed.aspx?src=' +docpath + subModuleData.file_attachment"
                                     sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
                                     style="width: 100% !important;height: 620px !important"></iframe>
 

@@ -58,20 +58,41 @@
                 >
                  <v-row >
                      <v-col cols="12" class="mb-0 pb-0 d-flex justify-center">
-                  
+                         
                             <v-avatar
                             
                             size="80"
                             @click="TestUpload()"
                             >
-                            <v-hover>
+
+                             <!-- <v-row
+                             v-if="!isUploading"
+                                class="fill-height ma-0"
+                                align="center"
+                                justify="center">
+                            <v-progress-circular
+                                indeterminate
+                                color="red"
+                            ></v-progress-circular>
+                            </v-row> -->
+                            <v-hover >
                                  <template v-slot:default="{ hover }">
                                      <div>
                                      <v-avatar
                                     size="80"
                                     style="cursor: pointer"
                                     >
-                                     <v-img alt="Proflie" :src="UserDetails.profile_pic == null || UserDetails.profile_pic == '' ? 'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=' + (UserDetails.firstName+' '+UserDetails.lastName) : UserDetails.profile_pic"></v-img>
+                                     <v-img alt="Proflie" 
+                                     :src="UserDetails.profile_pic == null || UserDetails.profile_pic == '' ? 'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=' + (UserDetails.firstName+' '+UserDetails.lastName) : UserDetails.profile_pic">
+                                     <v-row
+                                        v-if="isUploading"
+                                        class="fill-height ma-0"
+                                        align="center"
+                                        justify="center">
+                                    <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
+                                    </v-row>
+
+                                     </v-img>
                                     </v-avatar>
                                       <v-fade-transition>
                                         <v-overlay
@@ -81,7 +102,7 @@
                                             style="cursor: pointer;"
                                             
                                         >
-                                        <div class=""><v-icon small>mdi-camera</v-icon> Update</div>
+                                        <div class=""><v-icon small>mdi-camera</v-icon> {{!isUploading ? 'Update' : 'Uploading'}} </div>
                                           <!--   <v-btn rounded disabled class=" transition-fast-in-fast-out " text>Update</v-btn> -->
                                         </v-overlay>
                                         </v-fade-transition>
@@ -90,6 +111,7 @@
                              </v-hover>
                             </v-avatar>
                             <input
+                            :disabled="isUploading"
                             ref="fileInput"
                             class="d-none"
                             type="file"
@@ -229,6 +251,7 @@
                     link: 'profile_page',
                     },
                 ],
+                isUploading: false,
             }
         },
         methods: {
@@ -269,14 +292,14 @@
                 this.imageFile = element.target.files[0];
                 //console.log(this.imageFile);
                 //this.file_name = element.target.files[0].name;
-                if( this.imageFile.size <= 500000){
+                if( this.imageFile.size <= 5000000){
+                    this.isUploading = true;
                     this.UpdateProfile();
+                    this.UserDetails.profile_pic =   URL.createObjectURL(this.imageFile)
                 }
                 else{
-                    
+                    this.toastError('The File is more than 5mb');
                 }
-                this.UserDetails.profile_pic =   URL.createObjectURL(this.imageFile )
-                
             },
             async UpdateProfile(){
                 let fd = new FormData;
@@ -284,7 +307,11 @@
 
                 axios.post('/api/profile/profile_picture', fd)
                 .then(res=>{
-                   
+                 this.toastSuccess('Profile picture successfully updated');     
+                   this.isUploading = false;
+                })
+                .catch(e=>{
+                    this.toastError(e.response.data.message);
                 })
             },
             OpenSocialAccount(link){

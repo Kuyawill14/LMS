@@ -224,7 +224,7 @@
             ],
             StudentIdRules: [
                 v => !!v || 'Student ID is required',
-                v => (v && v.length >= 8) || 'min 8 characters',
+                v => (v && v.length >= 6) || 'min 6 characters',
                 v => (v && v.length <= 8) || 'Max 8 characters',
             ],
             show: false,
@@ -236,7 +236,7 @@
         }),
         computed: {
             passwordMatch() {
-                return () => this.password === this.password_confirmation || "Password must match";
+                return this.form.password === this.form.password_confirmation || "Pasword does not match";
             }
         },
         methods: {

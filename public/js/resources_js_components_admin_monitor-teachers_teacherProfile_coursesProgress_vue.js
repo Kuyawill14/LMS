@@ -609,7 +609,10 @@ var render = function() {
                                                         _vm._b(
                                                           {
                                                             staticClass:
-                                                              "text-center pl-2 pr-2"
+                                                              "text-center pl-2 pr-2",
+                                                            staticStyle: {
+                                                              overflow: "hidden"
+                                                            }
                                                           },
                                                           "div",
                                                           attrs,

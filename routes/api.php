@@ -29,6 +29,7 @@ use App\Http\Controllers\api\teacherProfileController;
 use App\Http\Controllers\api\SchoolyearSemesterController;
 use App\Http\Controllers\api\DepartmentController;
 use App\Http\Controllers\api\VerificationController;
+use App\Http\Controllers\api\ForgotPasswordController;
 use App\Models\tbl_subjective_rubrics;
 use App\Http\Controllers\api\SubjectiveTypeRubrics;
 
@@ -348,7 +349,7 @@ Route::middleware('auth:sanctum')->prefix('/admin')->group(function () {
     Route::get('/teachers/profile/ClassesList/{id}', [TeacherProfileController::class, 'getCourseAndClassesList']);
     Route::get('/teachers/classes/{id}/{user_id}', [TeacherProfileController::class, 'getCourseClassList']);
     Route::get('/teachers/studentList/{id}', [TeacherProfileController::class, 'getCourseStudentList']);
-    
+    Route::get('/teachers/classworkList/{id}', [TeacherProfileController::class, 'getCourseClassworkList']);
     
 });
 
@@ -389,6 +390,6 @@ Route::post('/change-email', [VerificationController::class, 'UpdateAndResendEma
 
 Route::middleware('auth:sanctum')->post('/change-password', [AuthController::class, 'ChangePassword']);
 Route::middleware('auth:sanctum')->post('/confirm-password', [AuthController::class, 'ConfirmPassword']);
+Route::put('/send_reset_password', [ForgotPasswordController::class, 'SendResetPassword']);
+Route::put('/confirm_reset_password', [ForgotPasswordController::class, 'ConfirmResetPassword']);
 
-
-    //pre na dc ka sa dicord?

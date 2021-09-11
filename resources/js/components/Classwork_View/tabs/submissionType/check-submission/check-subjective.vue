@@ -42,13 +42,17 @@
                                                         <v-list-item-title class="font-weight-medium">{{CheckData.firstName +' '+CheckData.lastName}}</v-list-item-title>
                                                         <v-list-item-subtitle > {{CheckData.status == 'Submitted' ? 'Submitted: '+format_date(CheckData.updated_at) : CheckData.status == 'Submitting' ? 'Submitting...' : ''}}</v-list-item-subtitle>
                                                     </v-list-item-content>
-                                                    <v-list-item-action v-if="CheckData.status == 'Submitted' " class="mt-8">
+                                                    <v-list-item-action v-if="CheckData.status == 'Submitted'" class="mt-8">
                                                         <v-text-field :loading="isSavingScore" 
                                                     @keyup="SaveScore()" v-model="CheckData.points" 
                                                     dense outlined label="Score" type="number" :suffix="'/' +classworkDetails.points" :max="classworkDetails.points"  min="0"></v-text-field>
                                                     </v-list-item-action>
                                                 </v-list-item>
                                         </v-list>
+                                    </v-col>
+                                    <v-col  cols="12" class="ma-0 pa-0 pb-4">
+                                        <v-btn rounded v-if="CheckData.status != null && CheckData.status != '' && CheckData.status != 'Submitting'"
+                                         color="primary" ><v-icon left>mdi-restart</v-icon> Reset Submission</v-btn>
                                     </v-col>
                                     <v-col cols="12">
                                         <v-row>
@@ -102,9 +106,9 @@
                                                                         <v-list-item class="rounded"  link v-for="(item, index) in CheckData.Submitted_Answers" :key="index">
                                                                             <v-list-item-icon class="pr-0 mr-0 mr-1">
                                                                                     <v-icon large :color="item.fileExte == 'pdf' ? 'red' : item.fileExte == 'docx' || item.fileExte == 'doc'? 'blue':
-                                                                        item.fileExte == 'jpg' ||  item.fileExte == 'png' ||  item.fileExte == 'bmp' ? 'info': ''" >
+                                                                        item.fileExte == 'jpg' || item.fileExte == 'jpeg' ||  item.fileExte == 'gif' ||  item.fileExte== 'svg' ||  item.fileExte == 'png' ||  item.fileExte == 'bmp' ? 'info': ''" >
                                                                                         {{item.fileExte == 'pdf' ? 'mdi-file-pdf': item.fileExte == 'docx' || item.fileExte == 'doc' ? 'mdi-file-word': 
-                                                                                     item.fileExte == 'jpg' ||  item.fileExte == 'png' ||  item.fileExte == 'bmp' ? 'mdi-image' :''}}
+                                                                                     item.fileExte == 'jpg' || item.fileExte == 'jpeg' || item.fileExte == 'gif' ||  item.fileExte== 'svg' ||  item.fileExte == 'png' ||  item.fileExte == 'bmp' ? 'mdi-image' :''}}
                                                                                     </v-icon>
                                                                             </v-list-item-icon>
                                                                             <v-list-item-content @click="OpenFile(item.fileExte, item.link)">
@@ -269,13 +273,14 @@
                                         sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
                                         style="position: absolute; top: 0px; left: 0px; width: 100%; height: 100%;"></iframe>
                                     </div> 
-                                     <div v-if="!isOpening && OpenFileType == 'media'" class="pa-5">
+                                     <div v-if="!isOpening && OpenFileType == 'media'" >
                                         <v-img
                                             :src="path"
-                                            aspect-ratio="1"
-                                            class="grey lighten-2"
+                                       
+                                           
                                             max-width="100%"
                                             max-height="90vh"
+                                            contain
                                         >
                                             <template v-slot:placeholder>
                                             <v-row
@@ -413,7 +418,7 @@ import {mapGetters} from "vuex";
                   this.path = link;
                  setTimeout(() => (this.isOpening = false), 500);
               }
-              else if(extension == 'png' || extension == 'jpg' || extension == 'bmp'){
+              else if(extension == 'png' || extension == 'jpg' || extension == 'jpeg' || extension == 'bmp'){
                   this.OpenFileType = 'media';
                   this.path = link;
                  setTimeout(() => (this.isOpening = false), 500);

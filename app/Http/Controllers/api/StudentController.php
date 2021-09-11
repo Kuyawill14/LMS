@@ -165,25 +165,34 @@ class StudentController extends Controller
                 $StatusUpdate->user_id =  $userId;
                 $StatusUpdate->status = "Submitting";
                 $file = $request->file('file');
-                if($file != ""){
+                if($file){
                     //$newFile = $file->store('public/upload/classworkSubmission/'.$request->class_classwork_id.'/'.$userId);
-                    $upload_file = Storage::disk('DO_spaces')->putFile('classworkSubmission/'.$request->class_classwork_id.'/'.$userId, $file, 'public');
+
+                    $original_file_name = preg_replace('/\\.[^.\\s]{3,4}$/', '', $request->fileName);
+                    $Uploadname = $original_file_name.'_'.time().'.'.$request->fileExte;
+                    $upload_file = Storage::disk('DO_spaces')->putFileAs('classworkSubmission/'.$request->class_classwork_id.'/'.$userId, $file, $Uploadname , 'public');
                     $path = \Config::get('app.do_url').'/'. $upload_file;
                     $tempAnswer[] = ["link"=> $path, 
                     "name"=> $request->fileName,"fileSize"=> $request->fileSize,"fileExte"=> $request->fileExte];
                     $StatusUpdate->Submitted_Answers = serialize($tempAnswer);
                 }
                 $StatusUpdate->save();
-                return $StatusUpdate->id;
+                return response()->json([
+                    "id" => $StatusUpdate->id,
+                    "link" => $path
+                ]);
            }
            else{
             
             $StatusUpdate = tbl_Submission::find($request->Submission_id);
             $TempOldAttach = $StatusUpdate->Submitted_Answers = unserialize($StatusUpdate->Submitted_Answers);
             $file = $request->file('file');
-            if($file != ""){
+            if($file){
                 //$newFile = $file->store('public/upload/classworkSubmission/'.$userId);
-                $upload_file = Storage::disk('DO_spaces')->putFile('classworkSubmission/'.$request->class_classwork_id.'/'.$userId, $file, 'public');
+
+                $original_file_name = preg_replace('/\\.[^.\\s]{3,4}$/', '', $request->fileName);
+                $Uploadname = $original_file_name.'_'.time().'.'.$request->fileExte;
+                $upload_file = Storage::disk('DO_spaces')->putFileAs('classworkSubmission/'.$request->class_classwork_id.'/'.$userId, $file,  $Uploadname , 'public');
                 $path = \Config::get('app.do_url').'/'. $upload_file;
                 $tempAnswer = ["link"=> $path, 
                 "name"=> $request->fileName,"fileSize"=> $request->fileSize,"fileExte"=> $request->fileExte];
@@ -191,7 +200,11 @@ class StudentController extends Controller
                 $StatusUpdate->Submitted_Answers = serialize($TempOldAttach);
                 $StatusUpdate->save();
             }
-            return unserialize($StatusUpdate->Submitted_Answers);
+            //return unserialize($StatusUpdate->Submitted_Answers);
+            return response()->json([
+                "id" => $StatusUpdate->id,
+                "link" => $path
+            ]);
            }
            
         }
@@ -246,7 +259,10 @@ class StudentController extends Controller
         if($Classwork){
 
             $TempOldAttach = $Classwork->Submitted_Answers = unserialize($Classwork->Submitted_Answers);
-            $upload_file = Storage::disk('DO_spaces')->putFile('classworkSubmission/'.$request->class_classwork_id.'/'.$userId, $file, 'public');
+
+            $original_file_name = preg_replace('/\\.[^.\\s]{3,4}$/', '', $request->name);
+            $Uploadname = $original_file_name.'_'.time().'.'.$request->extension;
+            $upload_file = Storage::disk('DO_spaces')->putFileAs('classworkSubmission/'.$request->class_classwork_id.'/'.$userId, $file, $Uploadname , 'public');
             $path = \Config::get('app.do_url').'/'. $upload_file;
             $tempAnswer = ["link"=> $path, 
             "name"=> $request->name,"fileSize"=> $request->size,"fileExte"=> $request->extension];
@@ -263,7 +279,9 @@ class StudentController extends Controller
             $newSubmission->status = "Submitting";
             $file = $request->file;
             if($file != ""){
-                $upload_file = Storage::disk('DO_spaces')->putFile('classworkSubmission/'.$request->class_classwork_id.'/'.$userId, $file, 'public');
+                $original_file_name = preg_replace('/\\.[^.\\s]{3,4}$/', '', $request->name);
+                $Uploadname = $original_file_name.'_'.time().'.'.$request->extension;
+                $upload_file = Storage::disk('DO_spaces')->putFileAs('classworkSubmission/'.$request->class_classwork_id.'/'.$userId, $file,  $Uploadname , 'public');
                 $path = \Config::get('app.do_url').'/'. $upload_file;
                 $tempAnswer[] = ["link"=> $path, 
                 "name"=> $request->name,"fileSize"=> $request->size,"fileExte"=> $request->extension];
@@ -419,30 +437,42 @@ class StudentController extends Controller
         if(!$Class){
             return response()->json("Class doest exist",203);
         }
-        else{
-            $Check = tbl_userclass::withTrashed()
-            ->where('course_id','=', $Class->course_id)
-            ->where('user_id','=',$userId)
-            ->first();
-           
-            if($Check){
-                if($Check->deleted_at == null){
+    
+        $Check = tbl_userclass::withTrashed()
+        ->where('course_id','=', $Class->course_id)
+        ->where('user_id','=',$userId)
+        ->first();
+        
+        if($Check){
+            if($Check->deleted_at == null){
+                return response()->json([
+                'course_id'=>$Check->course_id, 
+                'status'=>1, 
+                'message'=>"You already join to this class"],202);
+            }
+            else{
+                if($Class->id ==  $Check->class_id){
+                    $Check->restore();
                     return response()->json([
-                    'course_id'=>$Check->course_id, 
-                    'status'=>1, 
-                    'message'=>"You already join to this class"],202);
+                        'course_id'=>$Check->course_id, 
+                        'status'=>1, 
+                        'message'=>"Class Restored"],200);
                 }
                 else{
                     $Check->restore();
+                    $Check->class_id = $Class->id;
+                    $Check->save();
                     return response()->json([
-                    'course_id'=>$Check->course_id, 
-                    'status'=>1, 
-                    'message'=>"Class Restored"],200);
+                        'course_id'=>$Check->course_id, 
+                        'status'=>1, 
+                        'message'=>"Join class success"],200);
                 }
-                
+               
             }
             
         }
+            
+        
            
         $JoinClass = new tbl_userclass;
         $JoinClass->class_id = $Class->id;

@@ -24,6 +24,7 @@ class CreateTblSubjectCoursesTable extends Migration
             $table->integer('semester_id')->length(3)->nullable() ;
             $table->integer('school_year_id')->length(3)->nullable() ;
             $table->integer('department')->nullable();
+            $table->string('course_guide')->length(1024)->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

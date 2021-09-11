@@ -44,6 +44,7 @@ class VerificationController extends Controller
     }
 
     public function resendVerificationEmail(Request $request){
+
         $user = User::where('email',  $request->email)->first();
 
         if(!$user){
@@ -62,6 +63,8 @@ class VerificationController extends Controller
     }
 
     public function UpdateAndResendEmail(Request $request){
+        
+
         $user = User::where('id',  $request->id)->first();
 
         if(!$user){
@@ -70,6 +73,18 @@ class VerificationController extends Controller
                 "success" => false
             ]);
         }
+        if($request->email == $user->email ){
+            return response()->json([
+                "message" => "There is no changes in email!",
+                "success" => false
+            ]);
+        }
+        
+        $validated = $request->validate([
+            'email' => ['required', 'email', 'unique:users'],
+        ]);
+
+       
         $user->email = $request->email;
         $user->save();
 

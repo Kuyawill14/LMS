@@ -44,7 +44,7 @@
 
         <p >If you hvae not received a verification email or if you have mistyped your email
             address, you can resend the verification mail. </p>
-
+       
         <v-text-field outlined label="Email" 
         v-model="get_CurrentUser.email"
         :rules="loginEmailRules" name="Email" 
@@ -92,7 +92,13 @@ export default {
     methods:{
         async toggleEmailChange(){
             //this.isEmailChange = !this.isEmailChange;
-            this.ConfirmPassword = !this.ConfirmPassword;
+            if(!this.isEmailChange){
+                this.ConfirmPassword = !this.ConfirmPassword;
+            }
+            else{
+                this.isEmailChange = !this.isEmailChange;
+            }
+            
         },
         async ResendVerification(){
             this.isResending = true;
@@ -108,6 +114,7 @@ export default {
                 }
             })
             .catch((err)=>{
+                this.toastError(err.response.errors.email);
                 this.toastError(err.response.data.message);
                 this.isResending = false;
             })
@@ -121,7 +128,7 @@ export default {
                     this.ConfirmPassword = false;
                     this.isConfirming = false;
                     this.isEmailChange = true;
-                    this.toastSuccess(res.data.message);
+                
                 }
                 else if(res.data.success == false){
                     this.isConfirming = false;
@@ -145,7 +152,8 @@ export default {
                 }
             })
             .catch(err=>{
-                this.toastError(err.response.data.message);
+                 this.toastError(err.response.data.errors.email[0]);
+                 console.log(err.response.data.errors.email[0]);
             })
         }
     }

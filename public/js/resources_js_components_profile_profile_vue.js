@@ -215,6 +215,28 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var editProfile = function editProfile() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_profile_editprofile_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./editprofile */ "./resources/js/components/profile/editprofile.vue"));
 };
@@ -256,7 +278,8 @@ var myCalendar = function myCalendar() {
         text: 'profile Details',
         disabled: true,
         link: 'profile_page'
-      }]
+      }],
+      isUploading: false
     };
   },
   methods: {
@@ -294,11 +317,13 @@ var myCalendar = function myCalendar() {
       this.imageFile = element.target.files[0]; //console.log(this.imageFile);
       //this.file_name = element.target.files[0].name;
 
-      if (this.imageFile.size <= 500000) {
+      if (this.imageFile.size <= 5000000) {
+        this.isUploading = true;
         this.UpdateProfile();
-      } else {}
-
-      this.UserDetails.profile_pic = URL.createObjectURL(this.imageFile);
+        this.UserDetails.profile_pic = URL.createObjectURL(this.imageFile);
+      } else {
+        this.toastError('The File is more than 5mb');
+      }
     },
     UpdateProfile: function UpdateProfile() {
       var _this2 = this;
@@ -311,7 +336,13 @@ var myCalendar = function myCalendar() {
               case 0:
                 fd = new FormData();
                 fd.append('file', _this2.imageFile);
-                axios.post('/api/profile/profile_picture', fd).then(function (res) {});
+                axios.post('/api/profile/profile_picture', fd).then(function (res) {
+                  _this2.toastSuccess('Profile picture successfully updated');
+
+                  _this2.isUploading = false;
+                })["catch"](function (e) {
+                  _this2.toastError(e.response.data.message);
+                });
 
               case 3:
               case "end":
@@ -552,26 +583,64 @@ var render = function() {
                                                       attrs: { size: "80" }
                                                     },
                                                     [
-                                                      _c("v-img", {
-                                                        attrs: {
-                                                          alt: "Proflie",
-                                                          src:
-                                                            _vm.UserDetails
-                                                              .profile_pic ==
-                                                              null ||
-                                                            _vm.UserDetails
-                                                              .profile_pic == ""
-                                                              ? "https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=" +
-                                                                (_vm.UserDetails
-                                                                  .firstName +
-                                                                  " " +
-                                                                  _vm
+                                                      _c(
+                                                        "v-img",
+                                                        {
+                                                          attrs: {
+                                                            alt: "Proflie",
+                                                            src:
+                                                              _vm.UserDetails
+                                                                .profile_pic ==
+                                                                null ||
+                                                              _vm.UserDetails
+                                                                .profile_pic ==
+                                                                ""
+                                                                ? "https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=" +
+                                                                  (_vm
                                                                     .UserDetails
-                                                                    .lastName)
-                                                              : _vm.UserDetails
-                                                                  .profile_pic
-                                                        }
-                                                      })
+                                                                    .firstName +
+                                                                    " " +
+                                                                    _vm
+                                                                      .UserDetails
+                                                                      .lastName)
+                                                                : _vm
+                                                                    .UserDetails
+                                                                    .profile_pic
+                                                          }
+                                                        },
+                                                        [
+                                                          _vm.isUploading
+                                                            ? _c(
+                                                                "v-row",
+                                                                {
+                                                                  staticClass:
+                                                                    "fill-height ma-0",
+                                                                  attrs: {
+                                                                    align:
+                                                                      "center",
+                                                                    justify:
+                                                                      "center"
+                                                                  }
+                                                                },
+                                                                [
+                                                                  _c(
+                                                                    "v-progress-circular",
+                                                                    {
+                                                                      attrs: {
+                                                                        indeterminate:
+                                                                          "",
+                                                                        color:
+                                                                          "grey lighten-5"
+                                                                      }
+                                                                    }
+                                                                  )
+                                                                ],
+                                                                1
+                                                              )
+                                                            : _vm._e()
+                                                        ],
+                                                        1
+                                                      )
                                                     ],
                                                     1
                                                   ),
@@ -612,7 +681,13 @@ var render = function() {
                                                                     ]
                                                                   ),
                                                                   _vm._v(
-                                                                    " Update"
+                                                                    " " +
+                                                                      _vm._s(
+                                                                        !_vm.isUploading
+                                                                          ? "Update"
+                                                                          : "Uploading"
+                                                                      ) +
+                                                                      " "
                                                                   )
                                                                 ],
                                                                 1
@@ -632,7 +707,7 @@ var render = function() {
                                       ],
                                       null,
                                       false,
-                                      1122338967
+                                      1865174112
                                     )
                                   })
                                 ],
@@ -642,7 +717,11 @@ var render = function() {
                               _c("input", {
                                 ref: "fileInput",
                                 staticClass: "d-none",
-                                attrs: { type: "file", accept: "image/jpeg" },
+                                attrs: {
+                                  disabled: _vm.isUploading,
+                                  type: "file",
+                                  accept: "image/jpeg"
+                                },
                                 on: { change: _vm.onFileChange }
                               })
                             ],

@@ -102,17 +102,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
@@ -122,17 +111,57 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       courseDetails: [],
       school_year: [],
       semester: [],
-      departmentsList: []
+      departmentsList: [],
+      isInvalidFileType: false,
+      isInvalidFileSize: false,
+      isFileSize: null
     };
   },
   computed: (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)(["getcourseInfo"]),
   methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)(['fetchScourse'])), {}, {
-    fetchAllSchoolyear_semester: function fetchAllSchoolyear_semester() {
+    onFileChange: function onFileChange(file) {
+      console.log('selected file', file);
+
+      if (file != null) {
+        this.ext = this.getFileExt(file.name);
+        console.log(this.ext);
+        this.isInvalidFileSize = false;
+        this.isInvalidFileType = false;
+
+        if (file.size >= 10000000) {
+          this.isInvalidFileSize = true;
+          this.$refs.inputFile.value = null;
+          this.toastError('File size must be less than 10MB');
+        }
+
+        if (this.ext == 'pdf' || this.ext == 'docx' || this.ext == 'doc' || this.ext == 'pptx' || this.ext == 'ppt') {} else {
+          this.isInvalidFileType = true;
+          this.toastError('Invalid File Type, (.pdf , .docx and .mp4 are allowed)');
+          this.$refs.inputFile.value = null;
+        }
+      }
+
+      this.file = file;
+    },
+    removeFile: function removeFile(id) {
       var _this = this;
 
+      this.isDeleting = true;
+      axios.put('/api/sub_module/file-remove/' + id, {
+        file: this.getcourseInfo.course_guide
+      }).then(function (res) {
+        _this.oldFileInput = false;
+        console.log(res);
+        _this.isDeleting = false;
+        _this.isRemove = true;
+      });
+    },
+    fetchAllSchoolyear_semester: function fetchAllSchoolyear_semester() {
+      var _this2 = this;
+
       axios.get('/api/admin/schoolyears_semesters/all').then(function (res) {
-        _this.school_year = res.data.school_year;
-        _this.semester = res.data.semester;
+        _this2.school_year = res.data.school_year;
+        _this2.semester = res.data.semester;
       });
     },
     updateCourseDetails: function updateCourseDetails() {
@@ -147,10 +176,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
     },
     fetchDeparmentList: function fetchDeparmentList() {
-      var _this2 = this;
+      var _this3 = this;
 
       axios.get('/api/admin/department/all').then(function (res) {
-        _this2.departmentsList = res.data;
+        _this3.departmentsList = res.data;
       });
     }
   }),
@@ -272,7 +301,7 @@ var render = function() {
         { staticClass: "pa-0 ", attrs: { cols: "12" } },
         [
           _c("v-text-field", {
-            attrs: { outlined: "", color: "primary", label: "Course Name" },
+            attrs: { outlined: "", color: "primary", label: "Course Title" },
             model: {
               value: _vm.getcourseInfo.course_name,
               callback: function($$v) {
@@ -368,7 +397,26 @@ var render = function() {
       _vm._v(" "),
       _c(
         "v-col",
-        { staticClass: "pa-0 ma-0", attrs: { cols: "12" } },
+        { staticClass: "pa-0 ", attrs: { cols: "12" } },
+        [
+          _c("v-file-input", {
+            ref: "inputFile",
+            attrs: {
+              "show-size": "",
+              outlined: "",
+              label: "Course Guide",
+              "prepend-inner-icon": "mdi-file",
+              "prepend-icon": ""
+            },
+            on: { change: _vm.onFileChange }
+          })
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-col",
+        { staticClass: "pa-0 mx-0", attrs: { cols: "12" } },
         [
           _c(
             "v-card",

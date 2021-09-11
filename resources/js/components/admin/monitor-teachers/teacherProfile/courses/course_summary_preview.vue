@@ -123,32 +123,3 @@
     }
 
 </script>
-<style scoped>
-
-</style>
-<style>
-    .flip-list-move {
-        transition: transform 0.5s !important;
-    }
-
-    .no-move {
-        transition: transform 0s !important;
-    }
-
-    .pannel-btn {
-        position: absolute;
-        top: 15px;
-        right: 47px;
-        z-index: 100;
-    }
-
-    .v-expansion-panel-content__wrap {
-        padding: 0 !important;
-    }
-
-    .ghost {
-        border-left: 10px solid #FF5400 !important;
-        ;
-    }
-
-</style>

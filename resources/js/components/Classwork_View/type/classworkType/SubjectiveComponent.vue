@@ -112,21 +112,33 @@
                                 
 
                                    <v-list dense nav outlined>
-                                         <v-list-item link>
+                                         <v-list-item link :disabled="isUpIndex == index && isUploadSaving" >
                                            <v-list-item-avatar>
                                               <v-icon  :color="item.fileExte == 'pdf' ? 'red' : item.fileExte == 'docx'? 'blue': item.fileExte == 'link' ? 'green':
-                                          item.fileExte == 'jpg' ||  item.fileExte == 'png' ||  item.fileExte == 'bmp' ? 'info': ''">
+                                          item.fileExte == 'jpg' ||  item.fileExte == 'jpeg' || item.fileExte == 'gif' ||  item.fileExte == 'svg' || item.fileExte == 'png' ||  item.fileExte == 'bmp' ? 'info': ''">
                                                 {{item.fileExte == 'pdf' ? 'mdi-file-pdf': item.fileExte == 'docx'? 'mdi-file-word': item.fileExte == 'link'? 'mdi-file-link': 
-                                          item.fileExte == 'jpg' ||  item.fileExte == 'png' ||  item.fileExte == 'bmp' ? 'mdi-folder-multiple-image' :''}}
+                                          item.fileExte == 'jpg' ||  item.fileExte == 'jpeg' || item.fileExte == 'gif' ||  item.fileExte == 'svg' || item.fileExte == 'png' ||  item.fileExte == 'bmp' ? 'mdi-image' :''}}
                                               </v-icon>
                                            </v-list-item-avatar>
                                             <v-list-item-content @click="OpenFile(item.link)">
                                                 <v-list-item-title>
                                                     {{item.fileName}}
                                                 </v-list-item-title>
-                                                <div v-if="isUploading[index] && uploadPercentage != 100">
+                                              <!--   <div v-if="isUploading[index] && uploadPercentage != 100">
                                                    <v-progress-linear v-if="isUpIndex == index" rounded :value="uploadPercentage"></v-progress-linear>
-                                                </div>
+                                                </div> -->
+                                                  <v-list-item-subtitle v-if="isUploading[index] && uploadPercentage != 100">
+                                                   <!--  <v-progress-linear
+                                                        v-if="isUpIndex == index" rounded
+                                                        :value="uploadPercentage"></v-progress-linear> -->
+                                                          <v-progress-linear
+                                                            v-if="isUpIndex == index"
+                                                              color="primary"
+                                                              indeterminate
+                                                              rounded
+                                                              height="5">
+                                                      </v-progress-linear>
+                                                </v-list-item-subtitle>
                                                 
                                             </v-list-item-content>
                                             <v-list-item-action>
@@ -160,27 +172,43 @@
                                           item.fileExte == 'jpg' ||  item.fileExte == 'png' ||  item.fileExte == 'bmp' ? 'info': ''"
                                       > -->
                                       <v-list dense nav outlined>
-                                         <v-list-item link >
+                                         <v-list-item link :disabled="isUpIndex == index && isUploadSaving" >
                                            <v-list-item-avatar>
                                               <v-icon  :color="item.fileExte == 'pdf' ? 'red' : item.fileExte == 'docx' || item.fileExte == 'doc'? 'blue': item.fileExte == 'link' ? 'green':
-                                          item.fileExte == 'jpg' ||  item.fileExte == 'png' ||  item.fileExte == 'bmp' ? 'info': ''">
+                                          item.fileExte == 'jpg' ||  item.fileExte == 'jpeg' ||  item.fileExte == 'gif' ||  item.fileExte == 'svg' || item.fileExte == 'png' ||  item.fileExte == 'bmp' ? 'info': ''">
 
                                                 {{item.fileExte == 'pdf' ? 'mdi-file-pdf': item.fileExte == 'docx' ||  item.fileExte == 'doc'? 'mdi-file-word': item.fileExte == 'link'? 'mdi-file-link': 
-                                          item.fileExte == 'jpg' ||  item.fileExte == 'png' ||  item.fileExte == 'bmp' ? 'mdi-image' :''}}
+                                          item.fileExte == 'jpg' ||  item.fileExte == 'jpeg' || item.fileExte == 'gif' ||  item.fileExte == 'svg' || item.fileExte == 'png' ||  item.fileExte == 'bmp' ? 'mdi-image' :''}}
                                               </v-icon>
                                            </v-list-item-avatar>
                                             <v-list-item-content @click="OpenFile(item.link)">
                                                 <v-list-item-title>
                                                     {{item.name}}
                                                 </v-list-item-title>
+                                                 <v-list-item-subtitle v-if="isUploading[index] && isUploadSaving">
+                                                 <!--    <v-progress-linear
+                                                        v-if="isUpIndex == index" rounded
+                                                        :value="uploadPercentage"></v-progress-linear> -->
+                                                        <v-progress-linear
+                                                            v-if="isUpIndex == index"
+                                                              color="primary"
+                                                              indeterminate
+                                                              rounded
+                                                              height="5">
+                                                      </v-progress-linear>
+                                                </v-list-item-subtitle>
                                             </v-list-item-content>
                                             <v-list-item-action>
                                                  <v-tooltip v-if="StatusDetails.status == 'Submitting' || isResubmit" top>
                                                   <template v-slot:activator="{ on, attrs }">
+                                                      
                                                       <v-btn
+                                                      v-show="isUpIndex != index"
                                                       :loading="isDeleting && isDeleting_id == index"
                                                       v-bind="attrs" v-on="on" 
                                                       rounded small icon text @click="DeleteUpload(index)"> <v-icon>mdi-close</v-icon></v-btn>
+
+                                                     
                                                   </template>
                                                   <span>Delete</span>
                                                 </v-tooltip>
@@ -499,7 +527,9 @@ export default {
             linkFile:null,
             IsSaving: false,
             isDeleting: false,
-            isDeleting_id: null
+            isDeleting_id: null,
+            isUploadSaving: false,
+            isUploaded: false,
         }
     },
      computed: {
@@ -595,8 +625,14 @@ export default {
               this.createFile(files[0]);
             },
         createFile(file) {
-        
-              let IndexFile = this.file.length;
+              
+              let IndexFile;
+              if(this.StatusDetails.length == 0){
+                IndexFile = this.file.length;
+              }
+              else{
+                IndexFile = this.StatusDetails.Submitted_Answers.length;
+              }
               this.isUploading[IndexFile] = true;
               this.fileIndex = IndexFile;
               ////console.log(this.file.length)
@@ -617,15 +653,18 @@ export default {
               //this.dragging = false;
               //
               if(this.StatusDetails.length == 0){
-                this.file.push({ fileName: this.tempFile.name, fileSize: this.fileSize, fileExte: this.extension, file: this.tempFile});
+                this.file.push({ fileName: this.tempFile.name, fileSize: this.fileSize, fileExte: this.extension, file: this.tempFile, link : ''});
+                this.isUpIndex = this.file.length-1
               }
               else{
-                this.file.push({ fileName: this.tempFile.name, fileSize: this.fileSize, fileExte: this.extension, file: this.tempFile});
-                 this.StatusDetails.Submitted_Answers.push({ name: this.tempFile.name, fileSize: this.fileSize, fileExte: this.extension});
+                this.isUpIndex = this.StatusDetails.Submitted_Answers.length;
+                this.file.push({ fileName: this.tempFile.name, fileSize: this.fileSize, fileExte: this.extension, file: this.tempFile, link: ''});
+                this.StatusDetails.Submitted_Answers.push({ name: this.tempFile.name, fileSize: this.fileSize, fileExte: this.extension, link: ''});
               }
                this.fileIndex = this.file.length;
-                this.isUpIndex = this.file.length-1
+                //this.isUpIndex = this.file.length-1
                 ////console.log(this.fileIndex);
+                this.isUploadSaving = true;
                 this.UpdateSubmission(this.file.length-1);
             },
             removeFile(index) {
@@ -668,7 +707,7 @@ export default {
               fd.append('fileExte', this.extension);
               fd.append('file', this.file[index].file);
                axios.post('/api/student/update-status', fd,{
-                 onUploadProgress:(progressEvent)=>{
+                 onUploadProgress: (progressEvent)=>{
                    const total = progressEvent.total;
                    const totalLength = progressEvent.lengthComputable ? total : null;
                    if(totalLength != null){
@@ -677,7 +716,16 @@ export default {
                  }
                })
               .then(res=>{
-                this.tempId = this.tempId == null ? res.data : this.tempId ;
+                 if(this.StatusDetails.length == 0){
+                    this.file[this.isUpIndex].link = res.data.link;
+                }
+                else{
+                    this.StatusDetails.Submitted_Answers[this.isUpIndex].link = res.data.link;
+                }
+                this.tempId = this.tempId == null ? res.data.id : this.tempId ;
+                this.isUploadSaving = false;
+                this.isUpIndex = null;
+                
               })
           },
           DeleteUpload(index){

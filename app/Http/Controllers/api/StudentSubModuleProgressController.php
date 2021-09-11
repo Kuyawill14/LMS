@@ -108,7 +108,7 @@ class StudentSubModuleProgressController extends Controller
             ->groupBy('tbl_main_modules.id')
             
             ->where('tbl_main_modules.course_id', $studentList[0]['course_id'] )
-            ->orderBy('tbl_sub_modules.id', 'ASC')
+            ->orderBy('tbl_main_modules.position')
             ->get();
             $main_modules = json_decode($main_modules, true);
     
@@ -133,7 +133,7 @@ class StudentSubModuleProgressController extends Controller
             // ->where('tbl_student_sub_module_progress.student_id',1 )
             ->groupBy('tbl_student_sub_module_progress.id','tbl_sub_modules.id')
             ->orderBy('tbl_user_details.lastName', 'ASC')
-            ->orderBy('tbl_sub_modules.id', 'ASC')
+            ->orderBy('tbl_main_modules.position')
             ->get();
             $allSubModulesProgress = json_decode($allSubModulesProgress, true);
     

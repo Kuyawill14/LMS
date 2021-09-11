@@ -11,6 +11,111 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -39,12 +144,35 @@ __webpack_require__.r(__webpack_exports__);
   props: ['course_details'],
   data: function data() {
     return {
+      classworkList: [],
       isGetting: true
     };
   },
-  methods: {},
+  methods: {
+    GetCourseClassworkList: function GetCourseClassworkList() {
+      var _this = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                axios.get('/api/admin/teachers/classworkList/' + _this.course_details.course_id).then(function (res) {
+                  _this.classworkList = res.data;
+                  _this.isGetting = false;
+                });
+
+              case 1:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
+    }
+  },
   mounted: function mounted() {
-    this.isGetting = false;
+    this.GetCourseClassworkList();
   }
 });
 
@@ -174,32 +302,384 @@ var render = function() {
           )
         : _vm._e(),
       _vm._v(" "),
-      _c(
-        "v-row",
-        {
-          staticClass: "pt-10",
-          staticStyle: { "margin-top": "7rem" },
-          attrs: { align: "center", justify: "center" }
-        },
-        [
-          _c(
-            "v-col",
+      !_vm.isGetting && _vm.classworkList.lenght == 0
+        ? _c(
+            "v-row",
             {
-              staticClass: "text-center",
-              attrs: { cols: "12", sm: "8", md: "4" }
+              staticClass: "pt-10",
+              staticStyle: { "margin-top": "7rem" },
+              attrs: { align: "center", justify: "center" }
             },
             [
-              _c("v-icon", { staticStyle: { "font-size": "7rem" } }, [
-                _vm._v("\n                mdi-book-open-variant\n            ")
-              ]),
-              _vm._v(" "),
-              _c("h2", [_vm._v(" Empty Classwork ")])
+              _c(
+                "v-col",
+                {
+                  staticClass: "text-center",
+                  attrs: { cols: "12", sm: "8", md: "4" }
+                },
+                [
+                  _c("v-icon", { staticStyle: { "font-size": "7rem" } }, [
+                    _vm._v(
+                      "\n                mdi-book-open-variant\n            "
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("h2", [_vm._v(" Empty Classwork ")])
+                ],
+                1
+              )
             ],
             1
           )
-        ],
-        1
-      )
+        : _vm._e(),
+      _vm._v(" "),
+      !_vm.isGetting && _vm.classworkList.lenght != 0
+        ? _c(
+            "v-row",
+            _vm._l(_vm.classworkList, function(item, index) {
+              return _c(
+                "v-col",
+                {
+                  key: index,
+                  attrs: { cols: "12", md: "6", lg: "4", xl: "4" }
+                },
+                [
+                  _c(
+                    "v-expansion-panels",
+                    { attrs: { focusable: "" } },
+                    [
+                      _c(
+                        "v-expansion-panel",
+                        { staticClass: "ma-0 pa-0" },
+                        [
+                          _c(
+                            "v-expansion-panel-header",
+                            {
+                              staticClass: "ma-0 pa-0 pa-2",
+                              attrs: {
+                                "disable-icon-rotate": "",
+                                "hide-actions": ""
+                              }
+                            },
+                            [
+                              _c(
+                                "v-list",
+                                [
+                                  _c(
+                                    "v-list-item",
+                                    [
+                                      _c(
+                                        "v-list-item-avatar",
+                                        [
+                                          _c(
+                                            "v-avatar",
+                                            {
+                                              attrs: {
+                                                size: "45",
+                                                color: "blue"
+                                              }
+                                            },
+                                            [
+                                              _c(
+                                                "v-icon",
+                                                { attrs: { color: "white" } },
+                                                [
+                                                  _vm._v(
+                                                    "\n                                            mdi-book-open-variant\n                                        "
+                                                  )
+                                                ]
+                                              )
+                                            ],
+                                            1
+                                          )
+                                        ],
+                                        1
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-list-item-content",
+                                        [
+                                          _c("v-list-item-title", [
+                                            _vm._v(
+                                              "\n                                        " +
+                                                _vm._s(item.title) +
+                                                "\n                                    "
+                                            )
+                                          ]),
+                                          _vm._v(" "),
+                                          _c("v-list-item-subtitle", [
+                                            _vm._v(
+                                              "\n                                        Created: \n                                    "
+                                            )
+                                          ])
+                                        ],
+                                        1
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-list-item-action",
+                                        [
+                                          _c(
+                                            "v-menu",
+                                            {
+                                              attrs: {
+                                                bottom: "",
+                                                "offset-y": ""
+                                              },
+                                              scopedSlots: _vm._u(
+                                                [
+                                                  {
+                                                    key: "activator",
+                                                    fn: function(ref) {
+                                                      var on = ref.on
+                                                      var attrs = ref.attrs
+                                                      return [
+                                                        _c(
+                                                          "v-btn",
+                                                          _vm._g(
+                                                            _vm._b(
+                                                              {
+                                                                attrs: {
+                                                                  icon: ""
+                                                                }
+                                                              },
+                                                              "v-btn",
+                                                              attrs,
+                                                              false
+                                                            ),
+                                                            on
+                                                          ),
+                                                          [
+                                                            _c("v-icon", [
+                                                              _vm._v(
+                                                                "mdi-dots-vertical"
+                                                              )
+                                                            ])
+                                                          ],
+                                                          1
+                                                        )
+                                                      ]
+                                                    }
+                                                  }
+                                                ],
+                                                null,
+                                                true
+                                              )
+                                            },
+                                            [
+                                              _vm._v(" "),
+                                              _c(
+                                                "v-list",
+                                                { attrs: { rounded: "" } },
+                                                [
+                                                  _c(
+                                                    "v-list-item",
+                                                    {
+                                                      attrs: {
+                                                        link: "",
+                                                        "ma-0": "",
+                                                        "pa-0": ""
+                                                      }
+                                                    },
+                                                    [
+                                                      _c(
+                                                        "v-list-item-title",
+                                                        [
+                                                          _c(
+                                                            "v-icon",
+                                                            {
+                                                              attrs: {
+                                                                left: ""
+                                                              }
+                                                            },
+                                                            [_vm._v("mdi-eye")]
+                                                          ),
+                                                          _vm._v("View")
+                                                        ],
+                                                        1
+                                                      )
+                                                    ],
+                                                    1
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _c(
+                                                    "v-list-item",
+                                                    {
+                                                      attrs: {
+                                                        link: "",
+                                                        "ma-0": "",
+                                                        "pa-0": ""
+                                                      }
+                                                    },
+                                                    [
+                                                      _c(
+                                                        "v-list-item-title",
+                                                        [
+                                                          _c(
+                                                            "v-icon",
+                                                            {
+                                                              attrs: {
+                                                                left: ""
+                                                              }
+                                                            },
+                                                            [
+                                                              _vm._v(
+                                                                "mdi-delete"
+                                                              )
+                                                            ]
+                                                          ),
+                                                          _vm._v("Delete")
+                                                        ],
+                                                        1
+                                                      )
+                                                    ],
+                                                    1
+                                                  )
+                                                ],
+                                                1
+                                              )
+                                            ],
+                                            1
+                                          )
+                                        ],
+                                        1
+                                      )
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-expansion-panel-content",
+                            {
+                              staticClass: " expand ma-0 pa-0 mt-3",
+                              attrs: { id: "extend" }
+                            },
+                            [
+                              _c(
+                                "v-row",
+                                { attrs: { "no-gutters": "" } },
+                                [
+                                  _c("v-col", { attrs: { cols: "8" } }, [
+                                    _c(
+                                      "div",
+                                      { staticClass: "mb-5 ml-5 text-caption" },
+                                      [_vm._v(_vm._s(item.instruction))]
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("v-col", { attrs: { cols: "4" } }, [
+                                    _c("div", { staticClass: "flex-column" }, [
+                                      _c("h1", { staticClass: "mb-0 pb-0" }, [
+                                        _vm._v(
+                                          _vm._s(
+                                            item.submittion_count
+                                              ? item.submittion_count
+                                              : 0
+                                          )
+                                        )
+                                      ]),
+                                      _vm._v(" "),
+                                      _c(
+                                        "small",
+                                        { staticClass: "mt-0 pt-0" },
+                                        [_vm._v("Submitted")]
+                                      )
+                                    ])
+                                  ])
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-row",
+                                { attrs: { "no-gutters": "" } },
+                                [
+                                  _c("v-col", { attrs: { cols: "12" } }, [
+                                    _c(
+                                      "div",
+                                      { staticClass: "ml-5 font-weight-bold " },
+                                      [_vm._v("Publist to class:")]
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-col",
+                                    { attrs: { cols: "12" } },
+                                    [
+                                      _c(
+                                        "v-list",
+                                        { staticClass: "pt-0 pb-0" },
+                                        _vm._l(item.publish_in, function(
+                                          item,
+                                          i
+                                        ) {
+                                          return _c(
+                                            "v-list-item",
+                                            { key: i },
+                                            [
+                                              _c(
+                                                "v-list-item-icon",
+                                                { staticClass: "pr-0" },
+                                                [
+                                                  _c("v-icon", [
+                                                    _vm._v(
+                                                      "mdi-account-multiple"
+                                                    )
+                                                  ])
+                                                ],
+                                                1
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "v-list-item-content",
+                                                { staticClass: "pl-0" },
+                                                [
+                                                  _c("v-list-item-title", [
+                                                    _vm._v(
+                                                      "\n                                           " +
+                                                        _vm._s(
+                                                          item.class_name
+                                                        ) +
+                                                        "\n                                       "
+                                                    )
+                                                  ])
+                                                ],
+                                                1
+                                              )
+                                            ],
+                                            1
+                                          )
+                                        }),
+                                        1
+                                      )
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            }),
+            1
+          )
+        : _vm._e()
     ],
     1
   )

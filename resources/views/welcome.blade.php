@@ -42,7 +42,7 @@
             <script src="{{mix('js/vendor~utils-6.js')}}"></script>
             <script src="{{mix('js/app.js')}}"> </script>
             <script src="https://cdn.quilljs.com/1.0.0/quill.js"></script>
-            <script src="https://cdn.jsdelivr.net/npm/vue-pdf-cdn@1.0.10/dist/vue-pdf-cdn.umd.min.js"></script>
+     
             <script src="https://cdn.jsdelivr.net/npm/@morioh/v-quill-editor/dist/editor.min.js" type="text/javascript"></script>
         </body>
 </html>

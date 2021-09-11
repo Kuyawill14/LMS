@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::get('/test123', function () {
-    return view('EmailTemplates.NewClasswork');
+    return view('EmailTemplates.ForgotPassword');
 });
 
 Route::get('/tutorial', function () {
