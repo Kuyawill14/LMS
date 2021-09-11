@@ -168,7 +168,7 @@ export default {
                 this.isResetting = true;
                 this.form.id = this.$route.query.id;
                 this.form.token = this.$route.query.token;
-                this.form.post("/api/confirm_reset_password")
+                axios.put("/api/confirm_reset_password",  this.form)
                 .then(res=>{
                     if(res.data.success == true){
                         this.toastSuccess(res.data.message);

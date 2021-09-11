@@ -349,7 +349,7 @@ Route::middleware('auth:sanctum')->prefix('/admin')->group(function () {
     Route::get('/teachers/profile/ClassesList/{id}', [TeacherProfileController::class, 'getCourseAndClassesList']);
     Route::get('/teachers/classes/{id}/{user_id}', [TeacherProfileController::class, 'getCourseClassList']);
     Route::get('/teachers/studentList/{id}', [TeacherProfileController::class, 'getCourseStudentList']);
-    
+    Route::get('/teachers/classworkList/{id}', [TeacherProfileController::class, 'getCourseClassworkList']);
     
 });
 
@@ -390,6 +390,6 @@ Route::post('/change-email', [VerificationController::class, 'UpdateAndResendEma
 
 Route::middleware('auth:sanctum')->post('/change-password', [AuthController::class, 'ChangePassword']);
 Route::middleware('auth:sanctum')->post('/confirm-password', [AuthController::class, 'ConfirmPassword']);
-Route::post('/send_reset_password', [ForgotPasswordController::class, 'SendResetPassword']);
-Route::post('/confirm_reset_password', [ForgotPasswordController::class, 'ConfirmResetPassword']);
+Route::put('/send_reset_password', [ForgotPasswordController::class, 'SendResetPassword']);
+Route::put('/confirm_reset_password', [ForgotPasswordController::class, 'ConfirmResetPassword']);
 
