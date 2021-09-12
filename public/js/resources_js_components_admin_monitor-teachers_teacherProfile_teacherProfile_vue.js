@@ -735,59 +735,11 @@ var render = function() {
                                     [
                                       _c("v-icon", { attrs: { left: "" } }, [
                                         _vm._v(
-                                          "\n                                mdi-account\n                                "
-                                        )
-                                      ]),
-                                      _vm._v(
-                                        "\n                                Profile\n                            "
-                                      )
-                                    ],
-                                    1
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "v-tab",
-                                    { staticClass: "d-flex justify-start" },
-                                    [
-                                      _c("v-icon", { attrs: { left: "" } }, [
-                                        _vm._v(
                                           "\n                                mdi-google-classroom\n                                "
                                         )
                                       ]),
                                       _vm._v(
                                         "\n                                Courses\n                            "
-                                      )
-                                    ],
-                                    1
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "v-tab",
-                                    { staticClass: "d-flex justify-start" },
-                                    [
-                                      _c("v-icon", { attrs: { left: "" } }, [
-                                        _vm._v(
-                                          "\n                                mdi-calendar\n                                "
-                                        )
-                                      ]),
-                                      _vm._v(
-                                        "\n                                My Calendar\n                            "
-                                      )
-                                    ],
-                                    1
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "v-tab",
-                                    { staticClass: "d-flex justify-start" },
-                                    [
-                                      _c("v-icon", { attrs: { left: "" } }, [
-                                        _vm._v(
-                                          "\n                                mdi-lock\n                                "
-                                        )
-                                      ]),
-                                      _vm._v(
-                                        "\n                                Change Password\n                            "
                                       )
                                     ],
                                     1
@@ -833,34 +785,12 @@ var render = function() {
                                   _c(
                                     "v-tab-item",
                                     [
-                                      _c("editProfile", {
-                                        attrs: { UserDetails: _vm.UserDetails }
-                                      })
-                                    ],
-                                    1
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "v-tab-item",
-                                    [
                                       _c("coursesProgress", {
                                         attrs: { UserDetails: _vm.UserDetails }
                                       })
                                     ],
                                     1
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "v-tab-item",
-                                    [
-                                      _c("myCalendar", {
-                                        attrs: { role: _vm.role }
-                                      })
-                                    ],
-                                    1
-                                  ),
-                                  _vm._v(" "),
-                                  _c("v-tab-item", [_c("changePassword")], 1)
+                                  )
                                 ],
                                 1
                               )

@@ -11,7 +11,7 @@
             </v-col>
         </v-row>
         
-        <v-row v-if="!isGetting && classworkList.lenght == 0" style="margin-top: 7rem" align="center" justify="center" class="pt-10" >
+        <v-row v-if="!isGetting && classworkList.length == 0" style="margin-top: 7rem" align="center" justify="center" class="pt-10" >
             <v-col cols="12" sm="8" md="4" class="text-center">
                 <v-icon style="font-size:7rem">
                     mdi-book-open-variant
@@ -21,7 +21,7 @@
         </v-row>
 
 
-        <v-row v-if="!isGetting &&  classworkList.lenght != 0"    >
+        <v-row v-if="!isGetting &&  classworkList.length != 0"    >
             <v-col cols="12" md="6" lg="4" xl="4" v-for="(item, index) in classworkList" :key="index">
                 <v-expansion-panels focusable>
                     <v-expansion-panel  class="ma-0 pa-0">
@@ -29,7 +29,7 @@
                                 <v-list>
                                 <v-list-item>
                                     <v-list-item-avatar>
-                                        <v-avatar size="45"
+                                        <v-avatar size="50"
                                             color="blue">
                                                 <v-icon  color="white" >
                                                 mdi-book-open-variant
@@ -38,10 +38,10 @@
                                     </v-list-item-avatar>
                                     <v-list-item-content>
                                         <v-list-item-title>
-                                            {{item.title}}
+                                            {{item.title}}<small class="primary--text">({{item.points == null ? 0+'points' : item.points+'points'}})</small>
                                         </v-list-item-title>
                                         <v-list-item-subtitle>
-                                            Created: 
+                                            Created: {{format_date(item.created_at)}}
                                         </v-list-item-subtitle>
                                     </v-list-item-content>
                                     <v-list-item-action>
@@ -90,7 +90,7 @@
 
                         <v-row no-gutters>
                             <v-col cols="12"  >
-                                <div  class="ml-5 font-weight-bold ">Publist to class:</div>
+                                <div  class="ml-5 font-weight-bold ">Publish to class:</div>
                             </v-col>
 
                             <v-col cols="12"  >
@@ -120,6 +120,7 @@
     </div>
 </template>
 <script>
+ import moment from 'moment/src/moment';
 export default {
     props: ['course_details'],
     data(){
@@ -130,6 +131,11 @@ export default {
     },
  
     methods:{
+         format_date(value) {
+            if (value) {
+                return moment(String(value)).format('MMMM Do YYYY, hh:mm A')
+            }
+        },
         async GetCourseClassworkList(){
             axios.get('/api/admin/teachers/classworkList/'+this.course_details.course_id)
             .then(res=>{
@@ -139,10 +145,17 @@ export default {
         }
 
     },
-    mounted(){
+    beforeMount(){
         this.GetCourseClassworkList();
       
     },
+ /*    beforeRouteEnter(to, from, next) {
+        next(vm => {
+            vm.GetCourseClassworkList();
+        });
+    }, */
+
+    
 
 
 }

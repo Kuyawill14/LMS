@@ -96,6 +96,41 @@ class TeacherController extends Controller
         //
     }
 
+
+    
+     /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function MoveStudent(Request $request)
+    {
+        //return $request;
+
+        $StudentClass = tbl_userclass::where('user_id', $request->user_id)
+        ->where('class_id', $request->old_class_id)
+        ->where('course_id', $request->old_course_id)
+        ->first();
+
+
+        if($StudentClass){
+            $StudentClass->class_id = $request->new_class_id;
+            $StudentClass->course_id = $request->new_course_id;
+            $StudentClass->save();
+            return response()->json([
+                "message" => "Student Successfully move!",
+                "success" => true
+            ]);
+        }
+
+        return response()->json([
+            "message" => "Something went wrong while moving student!",
+            "success" => false
+        ]);
+     
+    }
+
        /**
      * Store a newly created resource in storage.
      *

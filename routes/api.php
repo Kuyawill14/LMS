@@ -181,6 +181,7 @@ Route::middleware('auth:sanctum')->prefix('/teacher')->group(function () {
     Route::post('/invite-instructor', [TeacherController::class, 'InviteInstructor']);
     Route::post('/alert-student', [TeacherController::class, 'AlertStudent']);
     Route::get('/student-classGrades/{id}', [TeacherController::class, 'getStudentGradesInClass']);
+    Route::post('/move-student', [TeacherController::class, 'MoveStudent']);
     
 });
 

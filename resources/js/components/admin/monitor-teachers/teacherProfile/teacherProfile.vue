@@ -121,19 +121,19 @@
                                 Edit Profile
                             </v-btn> -->
                             <v-tabs v-model="tab" vertical class="mt-2">
-                                 <v-tab class="d-flex justify-start">
+                              <!--    <v-tab class="d-flex justify-start">
                                     <v-icon left>
                                     mdi-account
                                     </v-icon>
                                     Profile
-                                </v-tab>
+                                </v-tab> -->
                                 <v-tab class="d-flex justify-start">
                                     <v-icon left>
                                     mdi-google-classroom
                                     </v-icon>
                                     Courses
                                 </v-tab>
-                                <v-tab class="d-flex justify-start">
+                              <!--   <v-tab class="d-flex justify-start">
                                     <v-icon left>
                                     mdi-calendar
                                     </v-icon>
@@ -145,7 +145,7 @@
                                     mdi-lock
                                     </v-icon>
                                     Change Password
-                                </v-tab>
+                                </v-tab> -->
 
                             </v-tabs>
                      </v-col>
@@ -163,18 +163,18 @@
                    <v-col cols="12">
                        
                        <v-tabs-items :value="tab">
-                            <v-tab-item>
+                         <!--    <v-tab-item>
                                 <editProfile :UserDetails="UserDetails"></editProfile>
-                            </v-tab-item>
+                            </v-tab-item> -->
                             <v-tab-item>
                                 <coursesProgress :UserDetails="UserDetails"></coursesProgress>
                             </v-tab-item>
-                            <v-tab-item>
+                           <!--  <v-tab-item>
                                <myCalendar :role="role"></myCalendar>
                             </v-tab-item>
                             <v-tab-item>
                                 <changePassword ></changePassword>
-                            </v-tab-item>
+                            </v-tab-item> -->
                        </v-tabs-items>
                    </v-col>
                </v-row>

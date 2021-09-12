@@ -1,16 +1,16 @@
 <template>
   <div>
-    <pie-chart :AO_teacher="AO_teacher"></pie-chart>
+    <doughnut :AO_teacher="AO_teacher"></doughnut>
   </div>
 </template>
 
 <script>
-import PieChart from './chart'
+import doughnut from './chart'
 
 export default {
   props:['AO_teacher'],
   components: {
-    PieChart
+    doughnut
   }
 }
 </script>
