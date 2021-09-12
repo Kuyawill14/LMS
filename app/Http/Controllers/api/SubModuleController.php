@@ -55,7 +55,8 @@ class SubModuleController extends Controller
         // return $request;
         $removeUpload =  tbl_sub_modules::find($id);
         if($removeUpload){
-            Storage::delete('public/'.$request->file);
+         
+            unlink(storage_path('app/public/'.$request->file));
                 $removeUpload->file_attachment = -1;
                 $removeUpload->save();
         }

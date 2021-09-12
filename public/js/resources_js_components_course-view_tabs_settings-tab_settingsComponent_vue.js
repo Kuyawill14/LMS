@@ -88,6 +88,89 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
@@ -105,49 +188,122 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }],
       school_year: [],
       semester: [],
-      isUpdating: false
+      isUpdating: false,
+      isInvalidFileType: false,
+      isInvalidFileSize: false,
+      isFileSize: null,
+      uploadPercentage: 0,
+      isDeleting: false,
+      file: null
     };
   },
   computed: (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)(["getcourseInfo"]),
   methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)(['fetchScourse'])), {}, {
-    toastSuccess: function toastSuccess() {
-      return this.$toasted.success("Your changes have been saved", {
-        theme: "toasted-primary",
-        position: "top-center",
-        icon: "done",
-        duration: 5000
+    getFileName: function getFileName(file) {
+      var name = file.split('/');
+      return name[name.length - 1];
+    },
+    getFileExt: function getFileExt(filename) {
+      var split = filename.split('.');
+      return split[split.length - 1];
+    },
+    onFileChange: function onFileChange(file) {
+      console.log('selected file', file);
+
+      if (file != null) {
+        this.ext = this.getFileExt(file.name);
+        console.log(this.ext);
+        this.isInvalidFileSize = false;
+        this.isInvalidFileType = false;
+
+        if (file.size >= 10000000) {
+          this.isInvalidFileSize = true;
+          this.$refs.inputFile.value = null;
+          this.toastError('File size must be less than 10MB');
+        }
+
+        if (this.ext == 'pdf' || this.ext == 'docx' || this.ext == 'doc' || this.ext == 'pptx' || this.ext == 'ppt') {} else {
+          this.isInvalidFileType = true;
+          this.toastError('Invalid File Type, (.pdf , .doc and  .docx  are allowed)');
+          this.$refs.inputFile.value = null;
+        }
+      }
+
+      this.file = file;
+    },
+    removeFile: function removeFile() {
+      var _this = this;
+
+      this.isDeleting = true;
+      axios.put('/api/course/file-remove/' + this.$route.params.id, {
+        course_guide: this.getcourseInfo.course_guide
+      }).then(function (res) {
+        _this.oldFileInput = false;
+        console.log(res);
+        _this.isDeleting = false;
+        _this.isRemove = true;
+        _this.getcourseInfo.course_guide = null;
+      })["catch"](function (e) {
+        _this.toastError('Something went wrong');
       });
     },
     fetchAllSchoolyear_semester: function fetchAllSchoolyear_semester() {
-      var _this = this;
-
-      axios.get('/api/admin/schoolyears_semesters/all').then(function (res) {
-        _this.school_year = res.data.school_year;
-        _this.semester = res.data.semester;
-      });
-    },
-    updateClass: function updateClass() {
       var _this2 = this;
 
-      this.isUpdating = true; //console.log(this.getcourseInfo.semester_id);
+      axios.get('/api/admin/schoolyears_semesters/all').then(function (res) {
+        _this2.school_year = res.data.school_year;
+        _this2.semester = res.data.semester;
+      });
+    },
+    updateCourseDetails: function updateCourseDetails() {
+      var _this3 = this;
 
+      ////console.log(this.getcourseInfo.semester_id);
       if (this.getcourseInfo.course_description.trim() == '' || this.getcourseInfo.course_name == '' || this.course_code == '' || this.getcourseInfo.semester_id === undefined || this.getcourseInfo.school_year_id === undefined) {
         this.toastError('Please complete all the field to proceed to the next step');
-        this.isUpdating = false;
       } else {
+        var fd = new FormData();
+        fd.append('file', this.file);
+        fd.append('courseItem', JSON.stringify(this.getcourseInfo));
         this.isUpdating = true;
-        this.$store.dispatch('updateCourse', this.getcourseInfo).then(function () {
-          _this2.isUpdating = false;
+        axios.post("/api/course/update/".concat(this.$route.params.id), fd, {
+          onUploadProgress: function onUploadProgress(progressEvent) {
+            var total = progressEvent.total;
+            var totalLength = progressEvent.lengthComputable ? total : null;
 
-          _this2.toastSuccess();
+            if (totalLength != null && _this3.$refs.inputFile != null) {
+              _this3.uploadPercentage = Math.round(progressEvent.loaded * 100 / totalLength);
+            }
+          }
+        }).then(function (res) {
+          _this3.getcourseInfo.course_guide = res.data.course_guide;
+
+          if (_this3.$refs.inputFile != null) {
+            _this3.$refs.inputFile.reset();
+          }
+
+          _this3.toastSuccess('Course Details Successfully updated');
+
+          _this3.isUpdating = false;
+          _this3.uploadPercentage = 0;
+        })["catch"](function (e) {
+          _this3.toastError('Something went wrong!');
+
+          _this3.isUpdating = false;
         });
       }
+    },
+    fetchDeparmentList: function fetchDeparmentList() {
+      var _this4 = this;
+
+      axios.get('/api/admin/department/all').then(function (res) {
+        _this4.departmentsList = res.data;
+      });
     }
   }),
   created: function created() {
-    var course_id = this.$route.params.id;
-    this.classInfo = this.fetchScourse(course_id);
     this.fetchAllSchoolyear_semester();
+    this.fetchDeparmentList();
   }
 });
 
@@ -322,9 +478,9 @@ var render = function() {
                   },
                   [
                     _vm._v(
-                      "\n                " +
+                      "\n                 " +
                         _vm._s(item.text.toUpperCase()) +
-                        "\n            "
+                        "\n             "
                     )
                   ]
                 )
@@ -361,7 +517,11 @@ var render = function() {
             { staticClass: "pa-0 ", attrs: { cols: "12" } },
             [
               _c("v-text-field", {
-                attrs: { outlined: "", color: "primary", label: "Course Name" },
+                attrs: {
+                  outlined: "",
+                  color: "primary",
+                  label: "Course Title"
+                },
                 model: {
                   value: _vm.getcourseInfo.course_name,
                   callback: function($$v) {
@@ -378,11 +538,25 @@ var render = function() {
             "v-col",
             { staticClass: "pa-0 ", attrs: { cols: "12" } },
             [
+              _c("small", { staticClass: "text-caption" }, [
+                _vm._v("Generate google meet here: "),
+                _c(
+                  "a",
+                  {
+                    attrs: {
+                      href: "https://meet.google.com/",
+                      target: "_blank"
+                    }
+                  },
+                  [_vm._v("meet.google.com ")]
+                )
+              ]),
+              _vm._v(" "),
               _c("v-text-field", {
                 attrs: {
                   outlined: "",
                   color: "primary",
-                  label: "Google Meet Link"
+                  label: "Video Conference Link"
                 },
                 model: {
                   value: _vm.getcourseInfo.v_classroom_link,
@@ -446,9 +620,143 @@ var render = function() {
             1
           ),
           _vm._v(" "),
+          _vm.getcourseInfo.course_guide == null
+            ? _c(
+                "v-col",
+                { staticClass: "pa-0 ", attrs: { cols: "12" } },
+                [
+                  _c("v-file-input", {
+                    ref: "inputFile",
+                    attrs: {
+                      "show-size": "",
+                      outlined: "",
+                      label: "Course Guide",
+                      "prepend-inner-icon": "mdi-file",
+                      "prepend-icon": ""
+                    },
+                    on: { change: _vm.onFileChange }
+                  })
+                ],
+                1
+              )
+            : _vm._e(),
+          _vm._v(" "),
           _c(
             "v-col",
-            { staticClass: "pa-0 ma-0", attrs: { cols: "12" } },
+            { attrs: { cols: "12 py-0 my-0" } },
+            [
+              _vm.uploadPercentage != 0
+                ? _c(
+                    "v-progress-linear",
+                    {
+                      attrs: {
+                        rounded: "",
+                        value: _vm.uploadPercentage,
+                        height: "14px"
+                      }
+                    },
+                    [
+                      _c("span", { staticStyle: { color: "#fff" } }, [
+                        _vm._v(_vm._s(_vm.uploadPercentage + "%") + " ")
+                      ])
+                    ]
+                  )
+                : _vm._e()
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _vm.getcourseInfo.course_guide != null
+            ? _c("small", { staticClass: "text-caption" }, [
+                _vm._v("Course Guide")
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.getcourseInfo.course_guide != null
+            ? _c(
+                "v-row",
+                {
+                  staticClass: "mb-5",
+                  staticStyle: {
+                    height: "55px",
+                    border: "1px solid",
+                    "border-radius": "4px",
+                    width: "100%",
+                    margin: "auto"
+                  },
+                  attrs: { align: "center", justify: "center" }
+                },
+                [
+                  _c("vue-element-loading", {
+                    attrs: { active: _vm.isDeleting, spinner: "bar-fade-scale" }
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "v-col",
+                    {
+                      staticClass: "grow text-left py-0 pr-0 col-1",
+                      staticStyle: { "max-width": "2.333333% !important" }
+                    },
+                    [_c("v-icon", [_vm._v("mdi-file")])],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c("v-col", [
+                    _c(
+                      "div",
+                      { staticClass: "text-decoration-underline':''" },
+                      [
+                        _vm._v(
+                          " " +
+                            _vm._s(
+                              _vm.getFileName(_vm.getcourseInfo.course_guide)
+                            )
+                        )
+                      ]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "v-col",
+                    { staticClass: "shrink d-flex py-0 shrink d-flex" },
+                    [
+                      _c("div", { staticClass: "black--text mt-1 mr-2" }),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        { staticClass: "py-0" },
+                        [
+                          _c(
+                            "v-btn",
+                            {
+                              attrs: {
+                                rounded: "",
+                                small: "",
+                                icon: "",
+                                text: ""
+                              },
+                              on: {
+                                click: function($event) {
+                                  return _vm.removeFile()
+                                }
+                              }
+                            },
+                            [_c("v-icon", [_vm._v("mdi-close")])],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ]
+                  )
+                ],
+                1
+              )
+            : _vm._e(),
+          _vm._v(" "),
+          _c(
+            "v-col",
+            { staticClass: "pa-0 mx-0", attrs: { cols: "12" } },
             [
               _c(
                 "v-card",
@@ -459,7 +767,7 @@ var render = function() {
                       staticClass: "pl-3 py-3",
                       staticStyle: { "font-size": "1rem", color: "grey" }
                     },
-                    [_vm._v("Course Description\n                ")]
+                    [_vm._v("Course Description\n                 ")]
                   ),
                   _vm._v(" "),
                   _c("v-divider"),
@@ -492,15 +800,18 @@ var render = function() {
                     tile: "",
                     color: "primary",
                     large: "",
+                    disabled: _vm.isUpdating,
                     loading: _vm.isUpdating
                   },
-                  on: { click: _vm.updateClass }
+                  on: { click: _vm.updateCourseDetails }
                 },
                 [
                   _c("v-icon", { attrs: { left: "" } }, [
-                    _vm._v("\n                    mdi-pencil\n                ")
+                    _vm._v(
+                      "\n                     mdi-pencil\n                 "
+                    )
                   ]),
-                  _vm._v("\n                Save Changes\n            ")
+                  _vm._v("\n                 Save Changes\n             ")
                 ],
                 1
               )

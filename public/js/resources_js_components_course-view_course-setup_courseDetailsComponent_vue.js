@@ -102,6 +102,66 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
@@ -114,11 +174,21 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       departmentsList: [],
       isInvalidFileType: false,
       isInvalidFileSize: false,
-      isFileSize: null
+      isFileSize: null,
+      uploadPercentage: 0,
+      isDeleting: false
     };
   },
   computed: (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)(["getcourseInfo"]),
   methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)(['fetchScourse'])), {}, {
+    getFileName: function getFileName(file) {
+      var name = file.split('/');
+      return name[name.length - 1];
+    },
+    getFileExt: function getFileExt(filename) {
+      var split = filename.split('.');
+      return split[split.length - 1];
+    },
     onFileChange: function onFileChange(file) {
       console.log('selected file', file);
 
@@ -136,24 +206,27 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
         if (this.ext == 'pdf' || this.ext == 'docx' || this.ext == 'doc' || this.ext == 'pptx' || this.ext == 'ppt') {} else {
           this.isInvalidFileType = true;
-          this.toastError('Invalid File Type, (.pdf , .docx and .mp4 are allowed)');
+          this.toastError('Invalid File Type, (.pdf , .doc and  .docx  are allowed)');
           this.$refs.inputFile.value = null;
         }
       }
 
       this.file = file;
     },
-    removeFile: function removeFile(id) {
+    removeFile: function removeFile() {
       var _this = this;
 
       this.isDeleting = true;
-      axios.put('/api/sub_module/file-remove/' + id, {
-        file: this.getcourseInfo.course_guide
+      axios.put('/api/course/file-remove/' + this.$route.params.id, {
+        course_guide: this.getcourseInfo.course_guide
       }).then(function (res) {
         _this.oldFileInput = false;
         console.log(res);
         _this.isDeleting = false;
         _this.isRemove = true;
+        _this.getcourseInfo.course_guide = null;
+      })["catch"](function (e) {
+        _this.toastError('Something went wrong');
       });
     },
     fetchAllSchoolyear_semester: function fetchAllSchoolyear_semester() {
@@ -165,21 +238,47 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
     },
     updateCourseDetails: function updateCourseDetails() {
+      var _this3 = this;
+
       ////console.log(this.getcourseInfo.semester_id);
       if (this.getcourseInfo.course_description.trim() == '' || this.getcourseInfo.course_name == '' || this.course_code == '' || this.getcourseInfo.semester_id === undefined || this.getcourseInfo.school_year_id === undefined) {
         this.toastError('Please complete all the field to proceed to the next step');
       } else {
+        var fd = new FormData();
+        fd.append('file', this.file);
+        fd.append('courseItem', JSON.stringify(this.getcourseInfo));
         this.isUpdating = true;
-        this.$store.dispatch('updateCourse', this.getcourseInfo);
-        this.isUpdating = false;
-        this.$emit('changeStep', this.el);
+        axios.post("/api/course/update/".concat(this.$route.params.id), fd, {
+          onUploadProgress: function onUploadProgress(progressEvent) {
+            var total = progressEvent.total;
+            var totalLength = progressEvent.lengthComputable ? total : null;
+
+            if (totalLength != null && _this3.$refs.inputFile != null) {
+              _this3.uploadPercentage = Math.round(progressEvent.loaded * 100 / totalLength);
+            }
+          }
+        }).then(function (res) {
+          _this3.getcourseInfo.course_guide = res.data.course_guide;
+
+          if (_this3.$refs.inputFile != null) {
+            _this3.$refs.inputFile.reset();
+          }
+
+          _this3.isUpdating = false;
+
+          _this3.$emit('changeStep', _this3.el);
+        })["catch"](function (e) {
+          _this3.toastError('Something went wrong!');
+
+          _this3.isUpdating = false;
+        });
       }
     },
     fetchDeparmentList: function fetchDeparmentList() {
-      var _this3 = this;
+      var _this4 = this;
 
       axios.get('/api/admin/department/all').then(function (res) {
-        _this3.departmentsList = res.data;
+        _this4.departmentsList = res.data;
       });
     }
   }),
@@ -395,24 +494,115 @@ var render = function() {
         1
       ),
       _vm._v(" "),
+      _vm.getcourseInfo.course_guide == null
+        ? _c(
+            "v-col",
+            { staticClass: "pa-0 ", attrs: { cols: "12" } },
+            [
+              _c("v-file-input", {
+                ref: "inputFile",
+                attrs: {
+                  "show-size": "",
+                  outlined: "",
+                  label: "Course Guide",
+                  "prepend-inner-icon": "mdi-file",
+                  "prepend-icon": ""
+                },
+                on: { change: _vm.onFileChange }
+              })
+            ],
+            1
+          )
+        : _vm._e(),
+      _vm._v(" "),
       _c(
         "v-col",
-        { staticClass: "pa-0 ", attrs: { cols: "12" } },
+        { attrs: { cols: "12 py-0 my-0" } },
         [
-          _c("v-file-input", {
-            ref: "inputFile",
-            attrs: {
-              "show-size": "",
-              outlined: "",
-              label: "Course Guide",
-              "prepend-inner-icon": "mdi-file",
-              "prepend-icon": ""
-            },
-            on: { change: _vm.onFileChange }
-          })
+          _vm.uploadPercentage != 0
+            ? _c(
+                "v-progress-linear",
+                {
+                  attrs: {
+                    rounded: "",
+                    value: _vm.uploadPercentage,
+                    height: "14px"
+                  }
+                },
+                [
+                  _c("span", { staticStyle: { color: "#fff" } }, [
+                    _vm._v(_vm._s(_vm.uploadPercentage + "%") + " ")
+                  ])
+                ]
+              )
+            : _vm._e()
         ],
         1
       ),
+      _vm._v(" "),
+      _vm.getcourseInfo.course_guide != null
+        ? _c(
+            "v-row",
+            {
+              staticClass: "mb-5",
+              staticStyle: {
+                height: "55px",
+                border: "1px solid",
+                "border-radius": "4px",
+                width: "100%",
+                margin: "auto"
+              },
+              attrs: { align: "center", justify: "center" }
+            },
+            [
+              _c("vue-element-loading", {
+                attrs: { active: _vm.isDeleting, spinner: "bar-fade-scale" }
+              }),
+              _vm._v(" "),
+              _c(
+                "v-col",
+                { staticClass: "grow text-left py-0 pr-0 col-1" },
+                [_c("v-icon", [_vm._v("mdi-file")])],
+                1
+              ),
+              _vm._v(" "),
+              _c("v-col", { staticStyle: { "margin-left": "-40px" } }, [
+                _c("div", { staticClass: "text-decoration-underline':''" }, [
+                  _vm._v(
+                    " " +
+                      _vm._s(_vm.getFileName(_vm.getcourseInfo.course_guide))
+                  )
+                ])
+              ]),
+              _vm._v(" "),
+              _c("v-col", { staticClass: "shrink d-flex py-0 shrink d-flex" }, [
+                _c("div", { staticClass: "black--text mt-1 mr-2" }),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "py-0" },
+                  [
+                    _c(
+                      "v-btn",
+                      {
+                        attrs: { rounded: "", small: "", icon: "", text: "" },
+                        on: {
+                          click: function($event) {
+                            return _vm.removeFile()
+                          }
+                        }
+                      },
+                      [_c("v-icon", [_vm._v("mdi-close")])],
+                      1
+                    )
+                  ],
+                  1
+                )
+              ])
+            ],
+            1
+          )
+        : _vm._e(),
       _vm._v(" "),
       _c(
         "v-col",

@@ -65,6 +65,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var selectBackgroundDialog = function selectBackgroundDialog() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_SelectBackgroundDialog_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./SelectBackgroundDialog */ "./resources/js/components/course-view/SelectBackgroundDialog.vue"));
 };
@@ -85,7 +95,8 @@ var selectBackgroundDialog = function selectBackgroundDialog() {
       class_id: '',
       routeName: '',
       showCard: true,
-      dialog: false
+      dialog: false,
+      path: window.origin + '/storage/'
     };
   },
   computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(["getcourseInfo"])), {}, {
@@ -476,7 +487,38 @@ var render = function() {
                       },
                       [_vm._v(_vm._s(_vm.getcourseInfo.v_classroom_link))]
                     )
-                  ])
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      staticStyle: {
+                        position: "absolute",
+                        "z-index": "999",
+                        bottom: "15px",
+                        right: "14px"
+                      },
+                      attrs: {
+                        depressed: "",
+                        color: "primary",
+                        small: "",
+                        target: "_blank",
+                        disabled: _vm.getcourseInfo.course_guide == null,
+                        href: _vm.path + _vm.getcourseInfo.course_guide
+                      }
+                    },
+                    [
+                      _c("v-icon", { attrs: { left: "", dark: "" } }, [
+                        _vm._v(
+                          "\n                        mdi-cloud-download\n                    "
+                        )
+                      ]),
+                      _vm._v(
+                        "\n                    Course Guide\n                "
+                      )
+                    ],
+                    1
+                  )
                 ],
                 1
               )
