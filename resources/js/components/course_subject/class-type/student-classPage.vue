@@ -13,7 +13,7 @@
                 </v-icon>
 
                 <h1> Join your first class </h1>
-                <p> Creating Module, you'll be able to upload and share it with your class. </p>
+                  <p> Join class, to be able to view modules and activities.</p>
                 <v-btn color="primary" @click="openJoinmodal"> Join Class </v-btn>
             </v-col>
         </v-row>

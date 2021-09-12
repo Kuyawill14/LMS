@@ -679,6 +679,15 @@ var render = function() {
                                               ref: "loginForm",
                                               staticClass: "text-center",
                                               attrs: { "lazy-validation": "" },
+                                              on: {
+                                                submit: function($event) {
+                                                  $event.preventDefault()
+                                                  return _vm.validate.apply(
+                                                    null,
+                                                    arguments
+                                                  )
+                                                }
+                                              },
                                               model: {
                                                 value: _vm.valid,
                                                 callback: function($$v) {
@@ -928,12 +937,10 @@ var render = function() {
                                                           staticClass: "mb-5",
                                                           attrs: {
                                                             color: "primary",
+                                                            type: "submit",
                                                             disabled: !_vm.valid,
                                                             loading:
                                                               _vm.isLoggin
-                                                          },
-                                                          on: {
-                                                            click: _vm.validate
                                                           }
                                                         },
                                                         [

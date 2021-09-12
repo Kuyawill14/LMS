@@ -72,7 +72,7 @@
                             <v-row align="center" justify="center">
                                 <v-col class="text-left" cols="12" md="8" lg="6" sm="7">
                                     <v-card-text v-if="!isForgotPassword">
-                                        <v-form class="text-center" ref="loginForm" v-model="valid" lazy-validation>
+                                        <v-form @submit.prevent="validate" class="text-center" ref="loginForm" v-model="valid" lazy-validation>
                                             <v-row align="center" justify="center">
                                                 <v-col class="ma-0 pa-0 text-left" cols="12" md="8">
                                                     <div class=" text-md-h5 text-xs-h5 text-sm-h6 font-weight-bold">
@@ -117,8 +117,8 @@
                                                     </v-row> -->
                                                 </v-col>
                                                 <v-col class="ma-0 pa-0 text-left" cols="12" md="8">
-                                                    <v-btn color="primary" class="mb-5" :disabled="!valid"
-                                                        @click="validate" :loading="isLoggin">
+                                                    <v-btn color="primary" class="mb-5" type="submit" :disabled="!valid"
+                                                       :loading="isLoggin">
                                                         <v-icon class="mr-3">mdi-login</v-icon>
                                                         Login
                                                     </v-btn>

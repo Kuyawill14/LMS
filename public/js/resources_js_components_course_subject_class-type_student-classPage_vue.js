@@ -458,7 +458,7 @@ var render = function() {
                   _vm._v(" "),
                   _c("p", [
                     _vm._v(
-                      " Creating Module, you'll be able to upload and share it with your class. "
+                      " Join class, to be able to view modules and activities."
                     )
                   ]),
                   _vm._v(" "),
