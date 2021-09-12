@@ -31,7 +31,7 @@
                                         <ul>
                                             <li>https://docs.google.com/presentation/d/[document-id]</li>
                                             <li>https://docs.google.com/document/d/[document-id]</li>
-                                            <li>https://www.youtube.com</li>
+                                            <li>https://www.youtube.com/watch?v=[video-id]</li>
                                         </ul>
                                     </span>
                                 </v-tooltip>
