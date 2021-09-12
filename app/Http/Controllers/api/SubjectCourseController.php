@@ -13,8 +13,9 @@ use App\Models\tbl_classClassworks;
 use App\Models\tbl_teacher_course;
 use App\Models\tbl_subject_course;
 use App\Models\tbl_userDetails;
-
-
+use Carbon\Carbon;
+use Validator,Redirect,Response,File;
+use Illuminate\Support\Facades\Storage;
 class SubjectCourseController extends Controller
 {
     /**
@@ -33,7 +34,7 @@ class SubjectCourseController extends Controller
         ->select("tbl_teacher_courses.id as useClass_id","tbl_subject_courses.id","tbl_subject_courses.course_code",
         "tbl_subject_courses.course_name","tbl_subject_courses.course_description","tbl_subject_courses.id as course_id",
         "tbl_subject_courses.course_picture","tbl_subject_courses.completed","tbl_subject_courses.created_at", "tbl_subject_courses.school_year_id",
-        "tbl_subject_courses.semester_id","tbl_subject_courses.department")
+        "tbl_subject_courses.semester_id","tbl_subject_courses.department","tbl_subject_courses.course_guide")
         ->selectRaw("count(tbl_userclasses.course_id ) as student_count")
         ->leftJoin("tbl_subject_courses", "tbl_teacher_courses.course_id", "=", "tbl_subject_courses.id")
         ->leftJoin("tbl_userclasses", "tbl_userclasses.course_id","=","tbl_subject_courses.id")
@@ -72,6 +73,7 @@ class SubjectCourseController extends Controller
             "tbl_subject_courses.course_description",
             "tbl_subject_courses.course_picture",
             "tbl_subject_courses.v_classroom_link",
+            "tbl_subject_courses.course_guide",
             DB::raw("CONCAT(tbl_user_details.firstName,' ',tbl_user_details.lastName) as name"),
             "school_year_id",
             "semester_id",
@@ -95,6 +97,7 @@ class SubjectCourseController extends Controller
             "school_year_id",
             "semester_id",
             "tbl_subject_courses.department",
+            "tbl_subject_courses.course_guide",
             "completed")
             ->first();
 
@@ -199,16 +202,31 @@ class SubjectCourseController extends Controller
      */
     public function update(Request $request, $id)
     {
-        
+      
+        $currentTime = Carbon::now()->format('YmdHs');
         $existingCourse = tbl_subject_course::find($id);
+        $courseItem  = json_decode($request->courseItem, true);
 
         if($existingCourse) {
-            $existingCourse->course_name = $request->courseItem["course_name"];
-            $existingCourse->course_code = $request->courseItem["course_code"];
-            $existingCourse->course_description = $request->courseItem["course_description"];
-            $existingCourse->v_classroom_link = $request->courseItem["v_classroom_link"];
-            $existingCourse->school_year_id = $request->courseItem["school_year_id"];
-            $existingCourse->semester_id = $request->courseItem["semester_id"];
+            if($request->file != 'null') {
+                $file_extension = $request->file->extension();
+                $file_mime_type = $request->file->getClientMimeType();
+                $original_file_name = $request->file->getClientOriginalName();
+
+                //name_time.extension
+                $name=preg_replace('/\\.[^.\\s]{3,4}$/', '', $original_file_name);
+                $filename =  $name. '_' . $currentTime . '.' .  $file_extension ;
+
+                $file = $request->file->storeAs('public/upload/courses/' .$id,$filename );
+                $existingCourse->course_guide = preg_replace('/\bpublic\/\b/', '', $file);;
+            }
+          
+            $existingCourse->course_name = $courseItem["course_name"];
+            $existingCourse->course_code = $courseItem["course_code"];
+            $existingCourse->course_description =$courseItem["course_description"];
+            $existingCourse->v_classroom_link = $courseItem["v_classroom_link"];
+            $existingCourse->school_year_id =$courseItem["school_year_id"];
+            $existingCourse->semester_id = $courseItem["semester_id"];
             $existingCourse->save();
             return $existingCourse;
         }
@@ -225,6 +243,22 @@ class SubjectCourseController extends Controller
         }
 
         return 1;
+    }
+
+    
+    public function RemoveUploadedFile(Request $request, $id)
+    {
+
+        // return $request;
+        $removeUpload =  tbl_subject_course::find($id);
+        if($removeUpload){
+        
+            unlink(storage_path('app/public/'.$request->course_guide));
+
+                $removeUpload->course_guide =null;
+                $removeUpload->save();
+                return 'File Successfully Deleted';
+        }
     }
 
     /**

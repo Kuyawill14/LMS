@@ -1,25 +1,25 @@
 <template>
     <div>
-        <v-dialog scrollable v-model="dialog" persistent max-width="800" >
+        <v-dialog scrollable v-model="dialog" persistent max-width="800">
             <selectBackgroundDialog v-on:SaveSelected="UpdateImage" v-on:CloseDialog="dialog = !dialog" v-if="dialog">
             </selectBackgroundDialog>
         </v-dialog>
         <v-card v-if="showCard">
-            
+
             <v-img :src="'../../images/' + getcourseInfo.course_picture " class="white--text align-end"
                 gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)" height="150px">
-                <v-app-bar  v-if="role == 'Teacher'" flat color="rgba(0, 0, 0, 0)">
+                <v-app-bar v-if="role == 'Teacher'" flat color="rgba(0, 0, 0, 0)">
                     <v-spacer></v-spacer>
                     <v-menu transition="slide-y-transition" bottom>
                         <template v-slot:activator="{ on, attrs }">
-                            <v-btn  icon v-bind="attrs" v-on="on" class="float-right mt-4" color="white">
+                            <v-btn icon v-bind="attrs" v-on="on" class="float-right mt-4" color="white">
                                 <v-icon>
                                     mdi-dots-vertical
                                 </v-icon>
                             </v-btn>
                         </template>
                         <v-list>
-                            <v-list-item link @click="dialog = !dialog" >
+                            <v-list-item link @click="dialog = !dialog">
                                 <v-list-item-title>Select Background</v-list-item-title>
                             </v-list-item>
                             <v-list-item link>
@@ -28,14 +28,24 @@
                         </v-list>
                     </v-menu>
                 </v-app-bar>
-           
+
                 <v-card-title class="text-lg-h5" v-text="getcourseInfo.course_code + ' - ' + getcourseInfo.course_name">
                 </v-card-title>
                 <v-card-subtitle class="white--text">Instructor: {{getcourseInfo.name}}
 
                     <br>
-                    Google Meet: <a link :href="getcourseInfo.v_classroom_link" target="_blank">{{getcourseInfo.v_classroom_link}}</a>
+                    Google Meet: <a link :href="getcourseInfo.v_classroom_link"
+                        target="_blank">{{getcourseInfo.v_classroom_link}}</a>
+
                 </v-card-subtitle>
+        
+                    <v-btn depressed color="primary" small style="position: absolute; z-index: 999; bottom: 15px;right: 14px;" target="_blank" :disabled="getcourseInfo.course_guide == null" :href="path+getcourseInfo.course_guide ">
+                        <v-icon left dark>
+                            mdi-cloud-download
+                        </v-icon>
+                        Course Guide
+                    </v-btn>
+            
             </v-img>
 
         </v-card>
@@ -44,7 +54,7 @@
     </div>
 </template>
 <script>
- const selectBackgroundDialog = () => import('./SelectBackgroundDialog')
+    const selectBackgroundDialog = () => import('./SelectBackgroundDialog')
     import {
         mapGetters,
         mapActions
@@ -52,7 +62,7 @@
     import axios from 'axios';
     export default {
         props: ['role', 'UserDetails'],
-        components:{
+        components: {
             selectBackgroundDialog
         },
         data() {
@@ -64,7 +74,8 @@
                 class_id: '',
                 routeName: '',
                 showCard: true,
-                dialog:false
+                dialog: false,
+                path: window.origin + '/storage/' ,
             }
         },
         computed: {
@@ -90,10 +101,11 @@
             hideCard() {
                 this.routeName = this.$route.matched[2].name;
 
-                if (this.routeName == 'student-modules' || this.routeName == 'modules-preview'|| this.routeName == 'courseSetup') {
+                if (this.routeName == 'student-modules' || this.routeName == 'modules-preview' || this.routeName ==
+                    'courseSetup') {
                     this.showCard = false;
                 } else {
-                      this.showCard = true;
+                    this.showCard = true;
                 }
 
             },
@@ -113,13 +125,13 @@
                 }
                 this.disconnect();
             },
-            UpdateImage(data){
+            UpdateImage(data) {
                 this.getcourseInfo.course_picture = data;
                 this.dialog = !this.dialog;
             }
 
         },
-    
+
         mounted() {
             this.hideCard();
             this.isloading = true;
