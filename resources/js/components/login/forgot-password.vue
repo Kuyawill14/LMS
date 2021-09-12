@@ -43,7 +43,7 @@ export default {
     methods:{
         RequestPasswordReset(){
             this.isSending = true;
-            this.form.post("/api/send_reset_password")
+            axios.put("/api/send_reset_password", this.form)
             .then(res=>{
                if(res.data.success == true){
                    this.toastSuccess(res.data.message);
@@ -52,7 +52,7 @@ export default {
                    this.$refs.ResetForm.reset()
                }
                else{
-                   this.toastSuccess(res.data.message);
+                   this.toastError(res.data.message);
                    this.isSending = false;
                }
             })

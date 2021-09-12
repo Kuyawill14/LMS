@@ -187,7 +187,7 @@ __webpack_require__.r(__webpack_exports__);
       this.isResetting = true;
       this.form.id = this.$route.query.id;
       this.form.token = this.$route.query.token;
-      this.form.post("/api/confirm_reset_password").then(function (res) {
+      axios.put("/api/confirm_reset_password", this.form).then(function (res) {
         if (res.data.success == true) {
           _this.toastSuccess(res.data.message);
 
@@ -197,7 +197,7 @@ __webpack_require__.r(__webpack_exports__);
 
           _this.isResetting = false;
         } else {
-          _this.toastSuccess(res.data.message);
+          _this.toastError(res.data.message);
 
           _this.isResetting = false;
         }

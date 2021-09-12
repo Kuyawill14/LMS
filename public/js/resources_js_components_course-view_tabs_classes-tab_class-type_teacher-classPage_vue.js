@@ -731,25 +731,8 @@ var render = function() {
                                 _vm._v(" "),
                                 _c(
                                   "v-list",
+                                  { attrs: { nav: "" } },
                                   [
-                                    _c(
-                                      "v-list-item",
-                                      {
-                                        attrs: { link: "" },
-                                        on: {
-                                          click: function($event) {
-                                            return _vm.archiveClass(item, index)
-                                          }
-                                        }
-                                      },
-                                      [
-                                        _c("v-list-item-title", [
-                                          _vm._v("Archive")
-                                        ])
-                                      ],
-                                      1
-                                    ),
-                                    _vm._v(" "),
                                     _c(
                                       "v-list-item",
                                       {
@@ -769,7 +752,38 @@ var render = function() {
                                         ])
                                       ],
                                       1
-                                    )
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "v-list-item",
+                                      {
+                                        attrs: { link: "" },
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.archiveClass(item, index)
+                                          }
+                                        }
+                                      },
+                                      [
+                                        _c("v-list-item-title", [
+                                          _vm._v("Archive")
+                                        ])
+                                      ],
+                                      1
+                                    ),
+                                    _vm._v(" "),
+                                    item.student_count == 0
+                                      ? _c(
+                                          "v-list-item",
+                                          { attrs: { link: "" } },
+                                          [
+                                            _c("v-list-item-title", [
+                                              _vm._v("Remove")
+                                            ])
+                                          ],
+                                          1
+                                        )
+                                      : _vm._e()
                                   ],
                                   1
                                 )

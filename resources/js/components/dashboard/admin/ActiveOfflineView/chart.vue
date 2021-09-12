@@ -1,8 +1,8 @@
 <script>
-  import { Pie } from 'vue-chartjs'
+ import { Doughnut } from 'vue-chartjs'
   export default {
     props:['AO_teacher'],
-    extends: Pie,
+    extends: Doughnut,
     data () {
       return {
         chartData: {

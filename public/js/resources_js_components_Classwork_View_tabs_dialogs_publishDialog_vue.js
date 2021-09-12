@@ -230,6 +230,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['Details', 'datetoday'],
@@ -258,6 +264,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         ampmInTitle: true
       },
       showAns: false,
+      ReviewAnswer: false,
       EnableDue: false,
       response_late: false,
       availability: null,
@@ -303,6 +310,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 form.from_date = (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_1__.default)(_this2.from_date).format("YYYY-MM-DD HH:MM:SS");
                 form.to_date = (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_1__.default)(_this2.to_date).format("YYYY-MM-DD HH:MM:SS");
                 form.showAnswer = _this2.showAns;
+                form.ReviewAnswer = _this2.ReviewAnswer;
                 form.showAnswerType = _this2.showAnsType;
                 form.showAnswerDateFrom = (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_1__.default)(_this2.ShowAnswerDateFrom).format("YYYY-MM-DD HH:MM:SS");
                 form.showAnswerDateTo = (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_1__.default)(_this2.ShowAnswerDateTo).format("YYYY-MM-DD HH:MM:SS");
@@ -336,7 +344,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 })["catch"](function (e) {//console.log(e);
                 });
 
-              case 14:
+              case 15:
               case "end":
                 return _context.stop();
             }
@@ -865,23 +873,49 @@ var render = function() {
                         "v-col",
                         {
                           staticClass: "text-left pb-0 mb-0",
-                          attrs: { "ma-0": "", "pa-0": "", cols: "12" }
+                          attrs: { cols: "12" }
                         },
                         [
                           _c("v-checkbox", {
                             staticClass: "pa-0 ma-0",
-                            attrs: { label: "Show correct answer" },
+                            attrs: {
+                              label: "Enable Review Answer After Submit"
+                            },
                             model: {
-                              value: _vm.showAns,
+                              value: _vm.ReviewAnswer,
                               callback: function($$v) {
-                                _vm.showAns = $$v
+                                _vm.ReviewAnswer = $$v
                               },
-                              expression: "showAns"
+                              expression: "ReviewAnswer"
                             }
                           })
                         ],
                         1
                       ),
+                      _vm._v(" "),
+                      _vm.ReviewAnswer
+                        ? _c(
+                            "v-col",
+                            {
+                              staticClass: "text-left pb-0 mb-0 mt-0 pt-0",
+                              attrs: { "ma-0": "", "pa-0": "", cols: "12" }
+                            },
+                            [
+                              _c("v-checkbox", {
+                                staticClass: "pa-0 ma-0",
+                                attrs: { label: "Show Correct Answer" },
+                                model: {
+                                  value: _vm.showAns,
+                                  callback: function($$v) {
+                                    _vm.showAns = $$v
+                                  },
+                                  expression: "showAns"
+                                }
+                              })
+                            ],
+                            1
+                          )
+                        : _vm._e(),
                       _vm._v(" "),
                       _vm.showAns
                         ? _c(

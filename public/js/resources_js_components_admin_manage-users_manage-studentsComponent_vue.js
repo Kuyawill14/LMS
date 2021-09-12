@@ -346,6 +346,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         _this2.IsResetting = false;
       });
     },
+    OpenupdatePassDialog: function OpenupdatePassDialog(id) {
+      this.IsResetting_id = id;
+      this.IsResetting = true;
+    },
     deleteUser: function deleteUser() {
       var _this3 = this;
 
@@ -801,7 +805,7 @@ var render = function() {
                                             },
                                             on: {
                                               click: function($event) {
-                                                return _vm.updatePass(
+                                                return _vm.OpenupdatePassDialog(
                                                   item.user_id
                                                 )
                                               }

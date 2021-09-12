@@ -146,6 +146,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var removeConfirmDialog = function removeConfirmDialog() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_tabs_people-list_dialog_removeConfirmDialog_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../dialog/removeConfirmDialog */ "./resources/js/components/course-view/tabs/people-list/dialog/removeConfirmDialog.vue"));
 };
@@ -154,11 +169,16 @@ var addStudentDialog = function addStudentDialog() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_tabs_people-list_dialog_addStudentDialog_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../dialog/addStudentDialog */ "./resources/js/components/course-view/tabs/people-list/dialog/addStudentDialog.vue"));
 };
 
+var moveStudentDialog = function moveStudentDialog() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_tabs_people-list_dialog_moveStudentDialog_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../dialog/moveStudentDialog */ "./resources/js/components/course-view/tabs/people-list/dialog/moveStudentDialog.vue"));
+};
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['getcourseInfo'],
   components: {
     removeConfirmDialog: removeConfirmDialog,
-    addStudentDialog: addStudentDialog
+    addStudentDialog: addStudentDialog,
+    moveStudentDialog: moveStudentDialog
   },
   data: function data() {
     return {
@@ -174,7 +194,9 @@ var addStudentDialog = function addStudentDialog() {
       classList: [],
       course_name: null,
       search: "",
-      isSearching: false
+      isSearching: false,
+      MoveStudent: false,
+      MoveDetails: null
     };
   },
   computed: {
@@ -275,6 +297,10 @@ var addStudentDialog = function addStudentDialog() {
     },
     OpenaddStudentDialog: function OpenaddStudentDialog() {
       this.AddStudent = !this.AddStudent;
+    },
+    OpenmoveStudentDialog: function OpenmoveStudentDialog(data) {
+      this.MoveStudent = !this.MoveStudent;
+      this.MoveDetails = data;
     }
   },
   mounted: function mounted() {
@@ -429,6 +455,37 @@ var render = function() {
                       },
                       toggleconfirm: function($event) {
                         _vm.AddStudent = !_vm.AddStudent
+                      }
+                    }
+                  })
+                : _vm._e()
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-dialog",
+            {
+              attrs: { persistent: "", "max-width": "400" },
+              model: {
+                value: _vm.MoveStudent,
+                callback: function($$v) {
+                  _vm.MoveStudent = $$v
+                },
+                expression: "MoveStudent"
+              }
+            },
+            [
+              _vm.MoveStudent
+                ? _c("moveStudentDialog", {
+                    attrs: { MoveDetails: _vm.MoveDetails },
+                    on: {
+                      toggleCancelDialog: function($event) {
+                        _vm.MoveStudent = !_vm.MoveStudent
+                      },
+                      toggleconfirm: function($event) {
+                        ;(_vm.MoveStudent = !_vm.MoveStudent),
+                          _vm.getStudentList()
                       }
                     }
                   })
@@ -823,7 +880,30 @@ var render = function() {
                                               _vm._v(" "),
                                               _c(
                                                 "v-list",
+                                                { attrs: { nav: "" } },
                                                 [
+                                                  _c(
+                                                    "v-list-item",
+                                                    {
+                                                      attrs: { link: "" },
+                                                      on: {
+                                                        click: function(
+                                                          $event
+                                                        ) {
+                                                          return _vm.OpenmoveStudentDialog(
+                                                            item
+                                                          )
+                                                        }
+                                                      }
+                                                    },
+                                                    [
+                                                      _c("v-list-item-title", [
+                                                        _vm._v("Move Student")
+                                                      ])
+                                                    ],
+                                                    1
+                                                  ),
+                                                  _vm._v(" "),
                                                   _c(
                                                     "v-list-item",
                                                     {

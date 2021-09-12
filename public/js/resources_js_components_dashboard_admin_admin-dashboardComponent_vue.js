@@ -22,7 +22,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['AO_teacher'],
   components: {
-    PieChart: _chart__WEBPACK_IMPORTED_MODULE_0__.default
+    doughnut: _chart__WEBPACK_IMPORTED_MODULE_0__.default
   }
 });
 
@@ -43,7 +43,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['AO_teacher'],
-  "extends": vue_chartjs__WEBPACK_IMPORTED_MODULE_0__.Pie,
+  "extends": vue_chartjs__WEBPACK_IMPORTED_MODULE_0__.Doughnut,
   data: function data() {
     return {
       chartData: {
@@ -38463,7 +38463,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    [_c("pie-chart", { attrs: { AO_teacher: _vm.AO_teacher } })],
+    [_c("doughnut", { attrs: { AO_teacher: _vm.AO_teacher } })],
     1
   )
 }

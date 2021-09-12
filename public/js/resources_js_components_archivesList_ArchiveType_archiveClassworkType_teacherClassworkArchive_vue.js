@@ -11,7 +11,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var moment_src_moment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! moment/src/moment */ "./node_modules/moment/src/moment.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var moment_src_moment__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! moment/src/moment */ "./node_modules/moment/src/moment.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 //
 //
 //
@@ -141,15 +149,38 @@ __webpack_require__.r(__webpack_exports__);
   props: ['ArchiveClasswork'],
   data: function data() {
     return {
-      ArchiveClasswork: [],
       isGetting: false
     };
   },
   methods: {
     format_date: function format_date(value) {
       if (value) {
-        return (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_0__.default)(String(value)).format('MMMM Do YYYY, hh:mm A');
+        return (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_1__.default)(String(value)).format('MMMM Do YYYY, hh:mm A');
       }
+    },
+    RestoreClasswork: function RestoreClasswork(id, index) {
+      var _this = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                axios.put('/api/archive/restore-classwork/' + id).then(function (res) {
+                  if (res.data.success == true) {
+                    _this.toastSuccess(res.data.message);
+
+                    _this.ArchiveClasswork.splice(index, 1);
+                  }
+                });
+
+              case 1:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
     }
   }
 });
@@ -8697,6 +8728,18 @@ var render = function() {
                                                 [
                                                   _c(
                                                     "v-list-item-title",
+                                                    {
+                                                      on: {
+                                                        click: function(
+                                                          $event
+                                                        ) {
+                                                          return _vm.RestoreClasswork(
+                                                            item.id,
+                                                            index
+                                                          )
+                                                        }
+                                                      }
+                                                    },
                                                     [
                                                       _c(
                                                         "v-icon",
@@ -8783,8 +8826,8 @@ var render = function() {
                                   _c("h1", { staticClass: "mb-0 pb-0" }, [
                                     _vm._v(
                                       _vm._s(
-                                        _vm.submittion_count
-                                          ? _vm.submittion_count
+                                        item.submittion_count
+                                          ? item.submittion_count
                                           : 0
                                       )
                                     )

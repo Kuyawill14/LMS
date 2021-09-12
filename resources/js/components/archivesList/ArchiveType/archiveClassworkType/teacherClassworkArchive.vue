@@ -86,7 +86,7 @@
                                                     <v-list rounded >
                                                     
                                                         <v-list-item link ma-0 pa-0>
-                                                            <v-list-item-title><v-icon left>mdi-archive</v-icon>Restore</v-list-item-title>
+                                                            <v-list-item-title @click="RestoreClasswork(item.id, index)"><v-icon left>mdi-archive</v-icon>Restore</v-list-item-title>
                                                         </v-list-item>
                                                         <v-list-item  link ma-0 pa-0>
                                                             <v-list-item-title><v-icon left>mdi-delete</v-icon>Delete</v-list-item-title>
@@ -109,7 +109,7 @@
                                     </v-col>
                                        <v-col cols="4">
                                            <div class="flex-column">
-                                               <h1 class="mb-0 pb-0">{{submittion_count ? submittion_count : 0}}</h1>
+                                               <h1 class="mb-0 pb-0">{{item.submittion_count ? item.submittion_count : 0}}</h1>
                                                <small class="mt-0 pt-0">Submitted</small>
                                            </div>
                                     </v-col>
@@ -129,7 +129,7 @@ export default {
     props:['ArchiveClasswork'],
     data(){
         return{
-            ArchiveClasswork: [],
+        
             isGetting: false,
         }
     },
@@ -139,6 +139,17 @@ export default {
                 return moment(String(value)).format('MMMM Do YYYY, hh:mm A')
             }
         },
+
+        async RestoreClasswork(id, index){
+            axios.put('/api/archive/restore-classwork/'+id)
+            .then(res=>{
+                if(res.data.success == true){
+                    this.toastSuccess(res.data.message);
+
+                    this.ArchiveClasswork.splice(index, 1);
+                }
+            })
+        }
     },
    
 }

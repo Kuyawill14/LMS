@@ -32,7 +32,7 @@
                                 
                                     <td>
                                         <v-btn color="primary" :loading="IsResetting && IsResetting_id == item.user_id"
-                                            @click="updatePass(item.user_id)">
+                                            @click="OpenupdatePassDialog(item.user_id)">
                                             Reset Password
                                         </v-btn>
                                     </td>
@@ -341,6 +341,13 @@
                         this.IsResetting = false;
                     })
             },
+
+             OpenupdatePassDialog(id) {
+                this.IsResetting_id = id;
+                this.IsResetting = true;
+               
+            },
+
             deleteUser() {
                 this.IsDeleting = true;
                 axios.delete('/api/admin/teachers/remove/' + this.delId)

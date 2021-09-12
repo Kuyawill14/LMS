@@ -163,6 +163,7 @@ Route::middleware('auth:sanctum')->prefix('/student')->group(function () {
 
     Route::put('/markAsSubmitting/{id}', [StudentController::class, 'markAsSubmitting']);
 
+    Route::get('/fetch-score/{id}', [StudentController::class, 'FetchScoreDetails']);
     
    
 
@@ -180,6 +181,7 @@ Route::middleware('auth:sanctum')->prefix('/teacher')->group(function () {
     Route::post('/invite-instructor', [TeacherController::class, 'InviteInstructor']);
     Route::post('/alert-student', [TeacherController::class, 'AlertStudent']);
     Route::get('/student-classGrades/{id}', [TeacherController::class, 'getStudentGradesInClass']);
+    Route::post('/move-student', [TeacherController::class, 'MoveStudent']);
     
 });
 
@@ -315,6 +317,7 @@ Route::middleware('auth:sanctum')->prefix('/archive')->group(function () {
     Route::get('/classes', [ArchiveController::class, 'showArchiveClasses']);
     Route::put('/restore-class/{id}', [ArchiveController::class, 'restoreClass']);
     Route::get('/classwork/{id}', [ArchiveController::class, 'ShowArchiveClasswork']);
+    Route::put('/restore-classwork/{id}', [ArchiveController::class, 'restoreClasswork']);
     
 });
 
@@ -349,7 +352,7 @@ Route::middleware('auth:sanctum')->prefix('/admin')->group(function () {
     Route::get('/teachers/profile/ClassesList/{id}', [TeacherProfileController::class, 'getCourseAndClassesList']);
     Route::get('/teachers/classes/{id}/{user_id}', [TeacherProfileController::class, 'getCourseClassList']);
     Route::get('/teachers/studentList/{id}', [TeacherProfileController::class, 'getCourseStudentList']);
-    
+    Route::get('/teachers/classworkList/{id}', [TeacherProfileController::class, 'getCourseClassworkList']);
     
 });
 
@@ -390,6 +393,6 @@ Route::post('/change-email', [VerificationController::class, 'UpdateAndResendEma
 
 Route::middleware('auth:sanctum')->post('/change-password', [AuthController::class, 'ChangePassword']);
 Route::middleware('auth:sanctum')->post('/confirm-password', [AuthController::class, 'ConfirmPassword']);
-Route::post('/send_reset_password', [ForgotPasswordController::class, 'SendResetPassword']);
-Route::post('/confirm_reset_password', [ForgotPasswordController::class, 'ConfirmResetPassword']);
+Route::put('/send_reset_password', [ForgotPasswordController::class, 'SendResetPassword']);
+Route::put('/confirm_reset_password', [ForgotPasswordController::class, 'ConfirmResetPassword']);
 

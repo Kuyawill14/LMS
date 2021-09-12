@@ -16,6 +16,8 @@ use App\Models\tbl_student_sub_module_progress;
 use App\Models\tbl_sub_modules;
 use App\Models\tbl_subject_course;
 use App\Models\tbl_Submission;
+use App\Models\tbl_classwork;
+use App\Models\tbl_classClassworks;
 use Illuminate\Support\Str;
 
 
@@ -200,6 +202,31 @@ class TeacherProfileController extends Controller
         ->get();
 
         return $allStudent;
+    }
+
+
+    public function getCourseClassworkList($id){
+
+        $Classwork = tbl_classwork::where('tbl_classworks.course_id', $id)
+        ->select('tbl_classworks.id', 'tbl_classworks.title', 'tbl_classworks.type', 'tbl_classworks.instruction', 'tbl_classworks.attachment','tbl_classworks.created_at',
+        'tbl_classworks.duration','tbl_classworks.points')->get();
+        foreach($Classwork as $item){
+            $item->attachment = unserialize($item->attachment);
+            $submissionCount = tbl_Submission::where('tbl_submissions.classwork_id', $item->id)
+            ->where('tbl_submissions.status', 'Submitted')->count();
+            $item->submittion_count =  $submissionCount;
+            
+
+
+            $publishIn = tbl_classClassworks::where('tbl_class_classworks.classwork_id', $item->id)
+            ->select('tbl_classes.class_name')
+            ->leftJoin('tbl_classes', 'tbl_classes.id','=','tbl_class_classworks.class_id')
+            ->get();
+
+            $item->publish_in = $publishIn;
+        }
+        
+        return $Classwork;
     }
 
 

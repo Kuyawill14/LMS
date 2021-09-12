@@ -178,6 +178,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 var deleteDialog = function deleteDialog() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_tabs_classwork-tab_dialogs_deleteDiaglog_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../dialogs/deleteDiaglog */ "./resources/js/components/course-view/tabs/classwork-tab/dialogs/deleteDiaglog.vue"));
 };
@@ -212,7 +213,9 @@ var newClassworkModal = function newClassworkModal() {
       FilterItems: ['All', 'Objective Type', 'Subjective Type'],
       SelectedFilter: 'All',
       archiveDialog: false,
-      ArchiveDetails: []
+      ArchiveDetails: [],
+      ArchiveIndex: null,
+      classworkIndex: null
     };
   },
   methods: {
@@ -245,7 +248,7 @@ var newClassworkModal = function newClassworkModal() {
         }, _callee);
       }))();
     },
-    ArchiveClasswork: function ArchiveClasswork(details) {
+    ArchiveClasswork: function ArchiveClasswork(details, mainIndex, index) {
       var _this2 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
@@ -253,10 +256,12 @@ var newClassworkModal = function newClassworkModal() {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
+                _this2.ArchiveIndex = index;
+                _this2.classworkIndex = mainIndex;
                 _this2.ArchiveDetails = details;
                 _this2.archiveDialog = !_this2.archiveDialog;
 
-              case 2:
+              case 4:
               case "end":
                 return _context2.stop();
             }
@@ -270,6 +275,10 @@ var newClassworkModal = function newClassworkModal() {
       this.classworks.forEach(function (element) {
         _this3.ClassworkLength += element.length;
       });
+    },
+    SliceClasswork: function SliceClasswork() {
+      this.classworks[this.classworkIndex].splice(this.ArchiveIndex, 1);
+      this.archiveDialog = !this.archiveDialog;
     }
   },
   mounted: function mounted() {
@@ -630,6 +639,7 @@ var render = function() {
                     ? _c("archiveClassworkDialog", {
                         attrs: { ArchiveDetails: _vm.ArchiveDetails },
                         on: {
+                          SuccessArchive: _vm.SliceClasswork,
                           toggleDialog: function($event) {
                             _vm.archiveDialog = !_vm.archiveDialog
                           }
@@ -960,7 +970,9 @@ var render = function() {
                                                                   $event
                                                                 ) {
                                                                   return _vm.ArchiveClasswork(
-                                                                    item
+                                                                    item,
+                                                                    i,
+                                                                    index
                                                                   )
                                                                 }
                                                               }

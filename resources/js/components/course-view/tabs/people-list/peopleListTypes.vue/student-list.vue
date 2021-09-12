@@ -17,6 +17,17 @@
                 :course_name="course_name"
                 v-if="AddStudent"></addStudentDialog>
             </v-dialog>
+
+               <v-dialog v-model="MoveStudent" persistent max-width="400">
+                <moveStudentDialog
+                v-on:toggleCancelDialog="MoveStudent = !MoveStudent"
+                v-on:toggleconfirm="MoveStudent = !MoveStudent, getStudentList()"
+                :MoveDetails="MoveDetails"
+                v-if="MoveStudent"></moveStudentDialog>
+            </v-dialog>
+
+
+            
         </div> 
             <v-container fluid>
             <v-container v-if="isGetting" style="height: 400px;">
@@ -106,13 +117,17 @@
                                                     </v-icon>
                                                 </v-btn>
                                             </template>
-                                            <v-list>
+                                            <v-list nav>
+                                                 <v-list-item @click="OpenmoveStudentDialog(item)" link>
+                                                    <v-list-item-title>Move Student</v-list-item-title>
+                                                </v-list-item>
                                                 <v-list-item link @click="RemoveConfirm(item.firstName, item.lastName, item.class_name,item.class_id, item.user_id)" >
                                                     <v-list-item-title>Remove student</v-list-item-title>
                                                 </v-list-item>
                                                 <v-list-item link>
                                                     <v-list-item-title>View Student</v-list-item-title>
                                                 </v-list-item>
+                                                
                                             </v-list>
                                         </v-menu>
                                     </v-app-bar>
@@ -128,11 +143,13 @@
 <script>
 const removeConfirmDialog = () => import('../dialog/removeConfirmDialog')
 const addStudentDialog = () => import('../dialog/addStudentDialog')
+const moveStudentDialog = () => import('../dialog/moveStudentDialog')
     export default {
          props:['getcourseInfo'],
         components:{
             removeConfirmDialog,
-            addStudentDialog
+            addStudentDialog,
+            moveStudentDialog
         },
         data: function () {
             return {
@@ -148,7 +165,10 @@ const addStudentDialog = () => import('../dialog/addStudentDialog')
                 classList: [],
                 course_name: null,
                 search: "",
-                isSearching: false
+                isSearching: false,
+                MoveStudent: false,
+                MoveDetails: null,
+                
             }
 
         },
@@ -200,10 +220,12 @@ const addStudentDialog = () => import('../dialog/addStudentDialog')
                    
                 })
             },
-
-             
             OpenaddStudentDialog(){
                 this.AddStudent = !this.AddStudent;
+            },
+            OpenmoveStudentDialog(data){
+                this.MoveStudent = !this.MoveStudent;
+                this.MoveDetails = data;
             }
         },
         

@@ -57,7 +57,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       this.isSending = true;
-      this.form.post("/api/send_reset_password").then(function (res) {
+      axios.put("/api/send_reset_password", this.form).then(function (res) {
         if (res.data.success == true) {
           _this.toastSuccess(res.data.message);
 
@@ -67,7 +67,7 @@ __webpack_require__.r(__webpack_exports__);
 
           _this.$refs.ResetForm.reset();
         } else {
-          _this.toastSuccess(res.data.message);
+          _this.toastError(res.data.message);
 
           _this.isSending = false;
         }

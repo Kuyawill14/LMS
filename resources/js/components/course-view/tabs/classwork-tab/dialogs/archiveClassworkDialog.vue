@@ -32,24 +32,18 @@
 export default {
     props:['ArchiveDetails'],
     methods:{
-         toastSuccess() {
-            return this.$toasted.success("Classwork Removed", {
-                theme: "toasted-primary",
-                position: "top-center",
-                icon: "done",
-                duration: 3000
-            });
-        },
          async ArchiveClasswork(){
            axios.delete('/api/classwork/archive/'+this.ArchiveDetails.id)
            .then((res)=>{
-
+                if(res.data.success == true){
+                  this.toastSuccess(res.data.message);
+                  this.$emit('SuccessArchive');
+                  
+                }
+                else{
+                  this.toastError(res.data.message);
+                }
            })
-            /* axios.delete('/api/classwork/remove/'+this.ArchiveDetails.id)
-            .then(res=>{
-                this.$emit("ToggleRefresh");
-                this.toastSuccess();
-            }) */
         }
     },
  

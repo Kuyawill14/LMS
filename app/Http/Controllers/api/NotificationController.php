@@ -290,10 +290,10 @@ class NotificationController extends Controller
                     ->leftJoin("user_notifications", "user_notifications.notification_id","=","tbl_notifications.id")
                     ->orderBy("tbl_notifications.created_at", "DESC")
                     ->where("tbl_notifications.from_id","!=", $userId)
+                    ->whereNull("user_notifications.status")
                     ->WhereIn('tbl_notifications.class_id', $list)
                     ->get();
 
-                    //return $allNotification;
         }
         else{
             $allNotification = tbl_userclass::whereNull("tbl_userclasses.deleted_at")
@@ -307,9 +307,11 @@ class NotificationController extends Controller
             ->leftJoin("user_notifications", "user_notifications.notification_id","=","tbl_notifications.id")
             ->orderBy("tbl_notifications.created_at", "DESC")
             ->where("tbl_notifications.from_id","!=", $userId)
+            ->whereNull("user_notifications.status")
             ->whereIn("tbl_notifications.notification_type", [1, 3, 4])
             ->get();
-
+          
+/* 
             foreach($allNotification as $item){
                 $checkNotifStatus = UserNotification::where("user_notifications.notification_id", $item->notif_id)
                 ->where("user_notifications.user_id", $userId)->first();
@@ -322,7 +324,8 @@ class NotificationController extends Controller
                         $item->status = null;
                     }
                 }
-            }
+            } */
+         
         }
         
         $count = 0;

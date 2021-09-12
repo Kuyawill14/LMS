@@ -52,14 +52,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['ArchiveDetails'],
   methods: {
-    toastSuccess: function toastSuccess() {
-      return this.$toasted.success("Classwork Removed", {
-        theme: "toasted-primary",
-        position: "top-center",
-        icon: "done",
-        duration: 3000
-      });
-    },
     ArchiveClasswork: function ArchiveClasswork() {
       var _this = this;
 
@@ -68,12 +60,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                axios["delete"]('/api/classwork/archive/' + _this.ArchiveDetails.id).then(function (res) {});
-                /* axios.delete('/api/classwork/remove/'+this.ArchiveDetails.id)
-                .then(res=>{
-                    this.$emit("ToggleRefresh");
-                    this.toastSuccess();
-                }) */
+                axios["delete"]('/api/classwork/archive/' + _this.ArchiveDetails.id).then(function (res) {
+                  if (res.data.success == true) {
+                    _this.toastSuccess(res.data.message);
+
+                    _this.$emit('SuccessArchive');
+                  } else {
+                    _this.toastError(res.data.message);
+                  }
+                });
 
               case 1:
               case "end":
