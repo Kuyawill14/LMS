@@ -357,9 +357,10 @@ class StudentController extends Controller
         $userId = auth('sanctum')->id();
         $name = tbl_userDetails::where('user_id',  $userId)->first();
         $UserFullName = $name->firstName.' '. $name ->lastName;
+
         $CheckStatus = tbl_Submission::where('tbl_submissions.classwork_id', $id)
         ->select('tbl_submissions.status','tbl_submissions.points as score','tbl_class_classworks.id as class_classwork_id'
-        ,'tbl_class_classworks.showAnswer','tbl_class_classworks.showAnswerType','tbl_class_classworks.showDateFrom','tbl_class_classworks.showDateTo','tbl_class_classworks.response_late',
+        ,'tbl_class_classworks.showAnswer', 'tbl_class_classworks.reviewAnswer','tbl_class_classworks.showAnswerType','tbl_class_classworks.showDateFrom','tbl_class_classworks.showDateTo','tbl_class_classworks.response_late',
 
         'tbl_classworks.title','tbl_classworks.points as totalPoints','tbl_classworks.id as cl_id','tbl_classworks.course_id'
         ,'tbl_submissions.Submitted_Answers','tbl_submissions.updated_at')
@@ -367,6 +368,8 @@ class StudentController extends Controller
         ->leftJoin('tbl_class_classworks', 'tbl_class_classworks.id','=','tbl_submissions.class_classwork_id')
         ->where('tbl_submissions.user_id',  $userId)
         ->first();
+
+
         if($CheckStatus){
             $ClassId = tbl_userclass::where('course_id',$CheckStatus->course_id)
             ->select('class_id')
@@ -375,9 +378,13 @@ class StudentController extends Controller
             $CheckStatus->name =  $UserFullName;
             $CheckStatus->class_id =  $ClassId->class_id;
             $CheckStatus->id = $userId;
-            if($CheckStatus){
+
+          if($CheckStatus->reviewAnswer == 1){
                 $TempAnswer = unserialize($CheckStatus->Submitted_Answers);
                 $CheckStatus->Submitted_Answers = $TempAnswer;
+            }
+            else{
+                $CheckStatus->Submitted_Answers = null;
             }
         }
        

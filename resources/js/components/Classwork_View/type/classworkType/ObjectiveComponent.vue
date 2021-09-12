@@ -105,7 +105,7 @@
                 </v-row>
             </v-card>
         </v-col>
-        <v-col :class="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm ? 'mt-2 pl-0 pt-2' : 'pt-0 pl-5'" cols="12" md="7" lg="8" >
+        <v-col v-if="!isViewingSubmission" :class="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm ? 'mt-2 pl-0 pt-2' : 'pt-0 pl-5'" cols="12" md="7" lg="8" >
             <vue-element-loading  :active="isLoaded" spinner="bar-fade-scale" />
             <v-card class="pa-3" elevation="1" outlined>
                 <v-row >
@@ -178,13 +178,22 @@
                         </v-btn>
 
                         <v-btn
-                            v-else
+                        v-if="status == 'Submitted' && statusDetails.reviewAnswer == 1"
+                        @click="isViewingSubmission = !isViewingSubmission"
+                         
                             rounded
                             color="primary">View Submission<v-icon right dark>mdi-book-arrow-right-outline</v-icon>
                         </v-btn>
                 </v-col>
                 </v-row>   
                 <v-row style="height:1vh"></v-row> 
+            </v-card> 
+        </v-col>
+
+          <v-col v-else :class="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm ? 'mt-2 pl-0 pt-2' : 'pt-0 pl-5'" cols="12" md="7" lg="8" >
+            <vue-element-loading  :active="isLoaded" spinner="bar-fade-scale" />
+            <v-card class="pa-3" elevation="1" outlined>
+                <viewSubmission v-on:closeViewing="isViewingSubmission = !isViewingSubmission" :classworkDetails="classworkDetails" :details="statusDetails"></viewSubmission>
             </v-card> 
         </v-col>
     </v-row>
@@ -194,11 +203,14 @@
 </template>
 
 <script>
-
+const viewSubmission = () => import('./submissionView/viewSubmission')
 import moment from 'moment/src/moment';
 import {mapGetters} from "vuex";
 export default {
     props:['classworkDetails','totalPoints','totalQuestion'],
+    components:{
+        viewSubmission
+    },
     data(){
         return{
             status: null,
@@ -207,6 +219,7 @@ export default {
             comment: null,
             isLoaded: true,
             statusDetails: [],
+            isViewingSubmission: false,
         }
         
     },

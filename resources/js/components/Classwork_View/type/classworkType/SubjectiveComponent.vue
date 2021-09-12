@@ -105,6 +105,7 @@
                      <input ref="AttAchMoreFile" accept="application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint,text/plain, application/pdf, image/*"
                      type="file" class="d-none" @change="onChange">
                        <input ref="UploadAttachFile" accept="application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint,text/plain, application/pdf, image/*" class="d-none" type="file" @change="onChange">
+                   
                    <v-col class="ma-0 pa-0" cols="12" v-if="!isloading">
                           <v-col cols="12" class="mb-0 pb-0" v-if="file[0] != '' || file[0] != null">
                               <v-row class="mb-5" v-if="StatusDetails.status != 'Submitting' && StatusDetails.status != 'Submitted' ">
@@ -127,7 +128,7 @@
                                               <!--   <div v-if="isUploading[index] && uploadPercentage != 100">
                                                    <v-progress-linear v-if="isUpIndex == index" rounded :value="uploadPercentage"></v-progress-linear>
                                                 </div> -->
-                                                  <v-list-item-subtitle v-if="isUploading[index] && uploadPercentage != 100">
+                                                  <v-list-item-subtitle v-if="isUploading[index] && isUploadSaving">
                                                    <!--  <v-progress-linear
                                                         v-if="isUpIndex == index" rounded
                                                         :value="uploadPercentage"></v-progress-linear> -->
@@ -142,7 +143,7 @@
                                                 
                                             </v-list-item-content>
                                             <v-list-item-action>
-                                                 <v-tooltip v-if="!isUploading[index] || uploadPercentage == 100" top>
+                                                 <v-tooltip v-if="isUpIndex != index" top>
                                                   <template v-slot:activator="{ on, attrs }">
                                                       <v-btn style="z-index:10" v-bind="attrs" v-on="on" 
                                                       rounded small :loading="isDeleting && isDeleting_id == index" icon text @click="removeFile(index, item)"> <v-icon>mdi-close</v-icon></v-btn>
@@ -491,19 +492,22 @@
                
            
         </v-col>
+      
     </v-row>
 </div>          
 </template>
 
 <script>
 const attachlinkDiaglog = () => import('./attachLinkDialog')
+
 import moment from 'moment/src/moment';
 
 import {mapGetters} from "vuex";
 export default {
     props:['classworkDetails'],
     components:{
-      attachlinkDiaglog
+      attachlinkDiaglog,
+
     },
     data(){
         return{
