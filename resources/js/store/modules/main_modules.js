@@ -22,13 +22,13 @@ const actions = {
     async fetchMainModule({ commit }, id) {
         await axios.get('/api/main_module/all-module/' + id)
             .then(res => {
-                console.log(res.data);
-                console.log(res.data.main_module.length);
+                // console.log(res.data);
+                // console.log(res.data.main_module.length);
                 commit('FETCH_MAIN_MODULE', res.data.main_module);
                 commit('FETCH_SUB_MODULE', res.data.sub_module);
 
             }).catch(e => {
-                this.toatError('Something went wrong');
+                // this.toatError('Something went wrong');
 
             })
 
