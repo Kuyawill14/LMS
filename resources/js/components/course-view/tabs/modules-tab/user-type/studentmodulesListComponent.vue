@@ -197,7 +197,7 @@
                         })
                         .then((res) => {
                             this.$store.dispatch('studentmodule_progress', this.$route.params.id);
-                            this.$store.dispatch('fetchClassList')
+                            // this.$store.dispatch('fetchClassList')
                             this.fetchStudentModuleProgress();
 
 
@@ -291,7 +291,7 @@
 
                             this.studentSubModuleProgress[i].time_spent = data.time_spent;
                             this.$store.dispatch('studentmodule_progress', this.$route.params.id);
-                            this.$store.dispatch('fetchClassList')
+                            // this.$store.dispatch('fetchClassList')
                             break;
                         }
                     }
@@ -313,12 +313,12 @@
         },
         async mounted() {
 
-            this.fetchClass();
+            // this.fetchClass();
 
             this.fetchStudentModuleProgress();
 
             this.$store.dispatch('fetchMainModule', this.$route.params.id);
-            this.$store.dispatch('fetchSubModule', this.$route.params.id);
+
             this.$store.dispatch('studentmodule_progress', this.$route.params.id);
             this.loading = false;
             setTimeout(() => {

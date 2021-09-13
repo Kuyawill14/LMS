@@ -69,7 +69,20 @@ const actions = {
         return newMainModule;
 
 
-    }
+    },
+
+
+    async createSubModule({ commit }, SubmoduleForm) {
+
+        const res = await axios.post(`/api/sub_module/insert`, SubmoduleForm);
+
+        let newSubModule = res.data;
+        // commit("CREATE_SUB_MODULE", newSubModule);
+        state.sub_module.push({...newSubModule })
+
+        return res;
+    },
+
 
 
 

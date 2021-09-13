@@ -59,6 +59,9 @@ class SubModuleController extends Controller
             unlink(storage_path('app/public/'.$request->file));
                 $removeUpload->file_attachment = -1;
                 $removeUpload->save();
+                return array( 
+                    'message' => 'Successfully Deleted'
+                );
         }
     }
 

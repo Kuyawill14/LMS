@@ -115,9 +115,9 @@ __webpack_require__.r(__webpack_exports__);
 
           _this.$emit('createdModule');
 
-          _this.toastSuccess("Module Successfully Created");
+          _this.toastSuccess("Module Successfully Saved");
 
-          _this.$store.dispatch('fetchSubModule', _this.$route.params.id);
+          _this.$store.dispatch('fetchMainModule', _this.$route.params.id);
         });
       } else {
         this.toastError('Please Fill up all the fields!.');
@@ -137,7 +137,7 @@ __webpack_require__.r(__webpack_exports__);
 
           _this2.$emit('closeModal');
 
-          _this2.toastSuccess("Module Successfully updated");
+          _this2.toastSuccess("Module Successfully Saved");
         });
       } else {
         this.toastError('Please Fill up all the fields!.');

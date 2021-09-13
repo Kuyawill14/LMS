@@ -222,7 +222,7 @@
             },
 
             toastSuccess() {
-                return this.$toasted.success("Lecture Successfully Created", {
+                return this.$toasted.success("Lecture Successfully saved", {
                     theme: "toasted-primary",
                     position: "top-center",
                     icon: "done",
@@ -344,7 +344,7 @@
                     }
                 }).then((res) => {
                     this.isSaving = false;
-                    this.$store.dispatch('fetchSubModule', this.$route.params.id)
+                    this.$store.dispatch('fetchMainModule', this.$route.params.id)
                     this.subModuleForm.sub_module_name = '';
                     this.subModuleForm.description = '';
 
