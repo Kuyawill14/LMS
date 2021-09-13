@@ -102,7 +102,7 @@
                         <v-card class="mx-auto">
                         
                           
-                                <v-img :src="'../images/'+item.course_picture" height="200px" link
+                               <!--  <v-img :src="'../images/'+item.course_picture" height="200px" link
                                   >
                                        <v-menu transition="slide-y-transition" bottom >
                                         <template v-slot:activator="{ on, attrs }">
@@ -130,7 +130,56 @@
                                     </v-menu>
                                     <v-spacer></v-spacer>
                                    
-                                </v-img>
+                                </v-img> -->
+
+
+                                 <v-img
+                               :src="'../images/'+item.course_picture" height="200px" link
+                                gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)" class="white--text grey lighten-2"
+                                aspect-ratio="1"
+                            
+                            >
+                               
+                                 <v-menu transition="slide-y-transition" bottom >
+                                        <template v-slot:activator="{ on, attrs }">
+                                            <v-btn icon v-bind="attrs" v-on="on" class="float-right" color="white" >
+                                                <v-icon>
+                                                    mdi-dots-vertical
+                                                </v-icon>
+
+                                            </v-btn>
+                                        </template>
+                                        <v-list>
+                                            <v-list-item link :to="{name: 'settings', params: {id: item.id}}">
+                                                <v-list-item-title>Edit</v-list-item-title>
+
+                                            </v-list-item>
+                                            <v-list-item link @click="archiveConfirm(item.course_name,item.id)">
+                                                <v-list-item-title>Archive</v-list-item-title>
+
+                                            </v-list-item>
+                                            <v-list-item v-if="item.student_count == 0" link>
+                                                <v-list-item-title>Delete</v-list-item-title>
+
+                                            </v-list-item>
+                                        </v-list>
+                                    </v-menu>
+                                    <v-spacer></v-spacer>
+
+                                     <template v-slot:placeholder>
+                                    <v-row
+                                        class="fill-height ma-0"
+                                        align="center"
+                                        justify="center"
+                                    >
+                                        <v-progress-circular
+                                        indeterminate
+                                        color="grey lighten-5"
+                                        ></v-progress-circular>
+                                    </v-row>
+                                    </template>
+
+                            </v-img>
                     
                             <v-card-subtitle>
                                 <router-link :to="{name: 'coursePage', params: {id: item.id}}"

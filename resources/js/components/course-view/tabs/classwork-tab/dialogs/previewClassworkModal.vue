@@ -207,8 +207,8 @@ export default {
 </script>
 
 <style >
-    p img{
+    span img{
         max-width: 100% !important;
-        max-height: 50rem !important;
+        max-height: 15rem !important;
     }
 </style>

@@ -182,6 +182,55 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var confirmArchiveCourse = function confirmArchiveCourse() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_course_subject_class-type_dialog_confirmArchiveCourse_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./dialog/confirmArchiveCourse */ "./resources/js/components/course_subject/class-type/dialog/confirmArchiveCourse.vue"));
 };
@@ -916,11 +965,48 @@ var render = function() {
                               _c(
                                 "v-img",
                                 {
+                                  staticClass: "white--text grey lighten-2",
                                   attrs: {
                                     src: "../images/" + item.course_picture,
                                     height: "200px",
-                                    link: ""
-                                  }
+                                    link: "",
+                                    gradient:
+                                      "to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)",
+                                    "aspect-ratio": "1"
+                                  },
+                                  scopedSlots: _vm._u(
+                                    [
+                                      {
+                                        key: "placeholder",
+                                        fn: function() {
+                                          return [
+                                            _c(
+                                              "v-row",
+                                              {
+                                                staticClass: "fill-height ma-0",
+                                                attrs: {
+                                                  align: "center",
+                                                  justify: "center"
+                                                }
+                                              },
+                                              [
+                                                _c("v-progress-circular", {
+                                                  attrs: {
+                                                    indeterminate: "",
+                                                    color: "grey lighten-5"
+                                                  }
+                                                })
+                                              ],
+                                              1
+                                            )
+                                          ]
+                                        },
+                                        proxy: true
+                                      }
+                                    ],
+                                    null,
+                                    true
+                                  )
                                 },
                                 [
                                   _c(

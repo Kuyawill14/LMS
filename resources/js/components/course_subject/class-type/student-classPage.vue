@@ -80,9 +80,38 @@
                 <v-col lg="3" md="6" v-for="(item, i) in allClassesData" :key="'class' + i">
                     <div class="card-expansion">
                         <v-card class="mx-auto">
-                            <v-img :src="'../images/'+item.course_picture" height="200px"
+                           <!--  <v-img :src="'../images/'+item.course_picture" height="200px"
                                 gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)" class="white--text align-end">
                                 <v-card-subtitle>
+                                    <v-progress-linear :value="item.progress" height="6" class="rounded-sm">
+                                    </v-progress-linear>
+                                    <span class="text-caption float-right"> {{ parseFloat(item.progress.toFixed(2))}}%
+                                    </span>
+                                    <span class="text-caption "> Completed </span>
+                                </v-card-subtitle>
+                            </v-img>
+ -->
+                             <v-img
+                               :src="'../images/'+item.course_picture"
+                                 height="200px"
+                                gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)" class="white--text align-end grey lighten-2"
+                                aspect-ratio="1"
+                            
+                            >
+                                <template v-slot:placeholder>
+                                <v-row
+                                    class="fill-height ma-0"
+                                    align="center"
+                                    justify="center"
+                                >
+                                    <v-progress-circular
+                                    indeterminate
+                                    color="grey lighten-5"
+                                    ></v-progress-circular>
+                                </v-row>
+                                </template>
+
+                                  <v-card-subtitle>
                                     <v-progress-linear :value="item.progress" height="6" class="rounded-sm">
                                     </v-progress-linear>
                                     <span class="text-caption float-right"> {{ parseFloat(item.progress.toFixed(2))}}%
