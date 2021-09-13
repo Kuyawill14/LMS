@@ -80,7 +80,7 @@
                               </v-btn>
                              <v-file-input
                                 multiple
-                                @change="onFileChange" ref="inputFile"
+                                @change="onFileChange" accept=".xlsx,.xls,image/*,.doc,.docx,.ppt, .pptx,.txt,.pdf,text/plain" ref="inputFile"
                                 class="d-none">
                             </v-file-input>
 
@@ -91,7 +91,7 @@
                                              :color="item.extension == 'pdf' ? 'red' : item.extension == 'docx'? 'blue': item.extension == 'link' ? 'green':
                                           item.extension == 'jpg' ||  item.extension == 'jpeg' || item.extension == 'gif' ||  item.extension == 'svg' || item.extension == 'png' ||  item.extension == 'bmp' ? 'info': ''"
                                             >
-                                                  {{item.extension == 'pdf' ? 'mdi-file-pdf': item.extension == 'docx'? 'mdi-file-word': item.extension == 'link'? 'mdi-file-link': 
+                                                  {{item.extension == 'pdf' ? 'mdi-file-pdf': item.extension == 'txt' ? 'mdi-file-pdf' :  item.extension == 'docx'? 'mdi-file-word': item.extension == 'link'? 'mdi-file-link': 
                                           item.extension == 'jpg' ||  item.extension == 'jpeg' || item.extension == 'gif' ||  item.extension == 'svg' || item.extension == 'png' ||  item.extension == 'bmp' ? 'mdi-image' :''}}
                                             </v-icon>
                                     </v-list-item-avatar>

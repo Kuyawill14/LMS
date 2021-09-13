@@ -919,7 +919,7 @@ var render = function() {
                                                                   "bmp"
                                                               ? "info"
                                                               : ""
-                                                            : "",
+                                                            : "primary",
                                                         "x-large": ""
                                                       }
                                                     },
@@ -934,6 +934,11 @@ var render = function() {
                                                                   .fileExte ==
                                                                 "pdf"
                                                                 ? "mdi-file-pdf"
+                                                                : item
+                                                                    .Submitted_Answers[0]
+                                                                    .fileExte ==
+                                                                  "txt"
+                                                                ? "mdi-note-text-outline"
                                                                 : item
                                                                     .Submitted_Answers[0]
                                                                     .fileExte ==

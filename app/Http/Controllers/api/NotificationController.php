@@ -285,15 +285,14 @@ class NotificationController extends Controller
                 }
 
                 $allNotification = tbl_notification::where("user_notifications.status", null)
-                    ->select("tbl_notifications.id as notif_id","tbl_notifications.notification_type",
-                    "user_notifications.status", "user_notifications.hide_notif", "user_notifications.notification_accepted")
-                    ->leftJoin("user_notifications", "user_notifications.notification_id","=","tbl_notifications.id")
-                    ->orderBy("tbl_notifications.created_at", "DESC")
-                    ->where("tbl_notifications.from_id","!=", $userId)
-                    ->whereNull("user_notifications.status")
-                    ->WhereIn('tbl_notifications.class_id', $list)
-                    ->get();
-
+                ->select("tbl_notifications.id as notif_id","tbl_notifications.notification_type",
+                "user_notifications.status", "user_notifications.hide_notif", "user_notifications.notification_accepted")
+                ->leftJoin("user_notifications", "user_notifications.notification_id","=","tbl_notifications.id")
+                ->orderBy("tbl_notifications.created_at", "DESC")
+                ->where("tbl_notifications.from_id","!=", $userId)
+                ->whereNull("user_notifications.status")
+                ->WhereIn('tbl_notifications.class_id', $list)
+                ->get();
         }
         else{
             $allNotification = tbl_userclass::whereNull("tbl_userclasses.deleted_at")
@@ -310,6 +309,8 @@ class NotificationController extends Controller
             ->whereNull("user_notifications.status")
             ->whereIn("tbl_notifications.notification_type", [1, 3, 4])
             ->get();
+
+        
           
 /* 
             foreach($allNotification as $item){
@@ -330,7 +331,7 @@ class NotificationController extends Controller
         
         $count = 0;
         foreach($allNotification as $item){
-            if($item->status == null){
+            if($item->status == null || $item->status == ''){
                 $NewUnread = new UserNotification;
                 $NewUnread->notification_id = $item["notif_id"];
                 $NewUnread->user_id = $userId;
@@ -339,7 +340,6 @@ class NotificationController extends Controller
                 $NewUnread->save();
                 $count++;
             }
-           
         }
         return $count;
       

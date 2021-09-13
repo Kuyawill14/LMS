@@ -13,7 +13,7 @@
                 </v-icon>
 
                 <h1> Join your first class </h1>
-                <p> Creating Module, you'll be able to upload and share it with your class. </p>
+                  <p> Join class, to be able to view modules and activities.</p>
                 <v-btn color="primary" @click="openJoinmodal"> Join Class </v-btn>
             </v-col>
         </v-row>
@@ -57,11 +57,7 @@
         </v-dialog>
 
         <div v-if="coursesLength != 0 && isGetting == false">
-            <v-col class="text-right">
-                <v-btn bottom color="primary" dark fab fixed right @click="openJoinmodal">
-                    <v-icon>mdi-plus</v-icon>
-                </v-btn>
-            </v-col>
+            
             <v-row style="margin-bottom: -40px;">
                 <v-col>
                     <h2>My Classes</h2>
@@ -113,6 +109,11 @@
                     </div>
 
                 </v-col>
+                <v-col class="text-right">
+                <v-btn bottom color="primary" dark fab fixed right @click="openJoinmodal">
+                    <v-icon>mdi-plus</v-icon>
+                </v-btn>
+            </v-col>
             </v-row>
         </div>
     </div>

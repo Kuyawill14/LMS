@@ -106,8 +106,8 @@
                                                                         <v-list-item class="rounded"  link v-for="(item, index) in CheckData.Submitted_Answers" :key="index">
                                                                             <v-list-item-icon class="pr-0 mr-0 mr-1">
                                                                                     <v-icon large :color="item.fileExte == 'pdf' ? 'red' : item.fileExte == 'docx' || item.fileExte == 'doc'? 'blue':
-                                                                        item.fileExte == 'jpg' || item.fileExte == 'jpeg' ||  item.fileExte == 'gif' ||  item.fileExte== 'svg' ||  item.fileExte == 'png' ||  item.fileExte == 'bmp' ? 'info': ''" >
-                                                                                        {{item.fileExte == 'pdf' ? 'mdi-file-pdf': item.fileExte == 'docx' || item.fileExte == 'doc' ? 'mdi-file-word': 
+                                                                        item.fileExte == 'jpg' || item.fileExte == 'jpeg' ||  item.fileExte == 'gif' ||  item.fileExte== 'svg' ||  item.fileExte == 'png' ||  item.fileExte == 'bmp' ? 'info': 'primary'" >
+                                                                                        {{item.fileExte == 'pdf' ? 'mdi-file-pdf': item.fileExte == 'txt' ? 'mdi-note-text-outline': item.fileExte == 'docx' || item.fileExte == 'doc' ? 'mdi-file-word': 
                                                                                      item.fileExte == 'jpg' || item.fileExte == 'jpeg' || item.fileExte == 'gif' ||  item.fileExte== 'svg' ||  item.fileExte == 'png' ||  item.fileExte == 'bmp' ? 'mdi-image' :''}}
                                                                                     </v-icon>
                                                                             </v-list-item-icon>
@@ -141,7 +141,7 @@
 
                                     </v-col>
                                 </v-row>
-                                 <v-list v-if="classworkDetails.rubrics.length != 0">
+                                 <v-list v-if="classworkDetails.rubrics.length != 0 && CheckData.status == 'Submitted'">
                                     <v-list-item v-for="(item, index) in classworkDetails.rubrics" :key="index" class="mb-0 pb-0">
                                         <v-list-item-avatar tile>
                                             <div class="font-weight-bold">{{item.points}}%</div>
@@ -413,12 +413,12 @@ import {mapGetters} from "vuex";
           },
           OpenFile(extension, link){
               this.isOpening = true;
-              if(extension == 'docx' || extension == 'doc' || extension == 'pdf' ){
+              if(extension != 'png' && extension != 'jpg' && extension != 'jpeg' && extension != 'bmp'){
                   this.OpenFileType = 'document'
                   this.path = link;
                  setTimeout(() => (this.isOpening = false), 500);
               }
-              else if(extension == 'png' || extension == 'jpg' || extension == 'jpeg' || extension == 'bmp'){
+              else{
                   this.OpenFileType = 'media';
                   this.path = link;
                  setTimeout(() => (this.isOpening = false), 500);
@@ -452,12 +452,12 @@ import {mapGetters} from "vuex";
         if(this.CheckData.Submitted_Answers != null && this.CheckData.Submitted_Answers != ''){
             let path = this.CheckData.Submitted_Answers[0].link;
             let extension = this.CheckData.Submitted_Answers[0].fileExte;
-             if(extension == 'docx' || extension == 'doc' || extension == 'pdf' ){
+             if(extension != 'png' || extension != 'jpg' || extension != 'bmp' ){
                   this.OpenFileType = 'document'
                   this.path = path;
                   this.isOpening = false
               }
-              else if(extension == 'png' || extension == 'jpg' || extension == 'bmp'){
+              else {
                   this.OpenFileType = 'media';
                   this.path = path;
                   this.isOpening = false

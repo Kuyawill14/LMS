@@ -133,15 +133,15 @@
                                         </v-icon>
                                         Attach file
                                     </v-btn>
-                                    <v-file-input multiple @change="onFileChange" ref="inputFile" class="d-none">
+                                    <v-file-input multiple @change="onFileChange" accept=".xlsx,.xls,image/*,.doc,.docx,.ppt, .pptx,.txt,.pdf,text/plain" ref="inputFile" class="d-none">
                                     </v-file-input>
 
                                     <v-list  class="ma-0 pa-0">
                                         <v-list-item v-for="(item, i) in Details.attachment" :key="i" class="ma-0 pa-0">
                                             <v-list-item-avatar>
                                                 <v-icon large :color="item.extension == 'pdf' ? 'red' : item.extension == 'docx'? 'blue': item.extension == 'link' ? 'green':
-                                          item.extension == 'jpg' ||  item.extension == 'jpeg' || item.extension == 'gif' ||  item.extension == 'svg' || item.extension == 'png' ||  item.extension == 'bmp' ? 'info': ''">
-                                                     {{item.extension == 'pdf' ? 'mdi-file-pdf': item.extension == 'docx'? 'mdi-file-word': item.extension == 'link'? 'mdi-file-link': 
+                                          item.extension == 'jpg' ||  item.extension == 'jpeg' || item.extension == 'gif' ||  item.extension == 'svg' || item.extension == 'png' ||  item.extension == 'bmp' ? 'info': 'primary'">
+                                                     {{item.extension == 'pdf' ? 'mdi-file-pdf': item.extension == 'txt' ? 'mdi-file-pdf' : item.extension == 'docx'? 'mdi-file-word': item.extension == 'link'? 'mdi-file-link': 
                                           item.extension == 'jpg' ||  item.extension == 'jpeg' || item.extension == 'gif' ||  item.extension == 'svg' || item.extension == 'png' ||  item.extension == 'bmp' ? 'mdi-image' :''}}
                                                 </v-icon>
                                             </v-list-item-avatar>
