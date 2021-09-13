@@ -311,26 +311,16 @@ var modulesListComponent = function modulesListComponent() {
       var _this = this;
 
       this.isGetting = true;
-      axios.get("/api/student_sub_module/all/".concat(this.$route.params.id)).then(function (res) {
-        _this.studentSubModuleProgress = res.data;
-
-        _this.$store.dispatch('fetchMainModule', _this.$route.params.id).then(function () {
-          _this.isGetting = false;
-          _this.moduleLength = _this.getmain_module.length;
-        });
-
-        _this.$store.dispatch('fetchSubModule', _this.$route.params.id);
-      })["catch"](function (error) {//console.log(error)
+      this.$store.dispatch('fetchMainModule', this.$route.params.id).then(function (res) {
+        _this.isGetting = false;
+        _this.moduleLength = _this.getmain_module.length;
       });
     },
     UpdateAllModule: function UpdateAllModule() {
       var _this2 = this;
 
-      axios.get("/api/student_sub_module/all/".concat(this.$route.params.id)).then(function (res) {
-        _this2.$store.dispatch('fetchMainModule', _this2.$route.params.id).then(function () {
-          _this2.moduleLength = _this2.getmain_module.length;
-        });
-      })["catch"](function (error) {//console.log(error)
+      this.$store.dispatch('fetchMainModule', this.$route.params.id).then(function () {
+        _this2.moduleLength = _this2.getmain_module.length;
       });
     }
   },

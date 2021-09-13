@@ -140,36 +140,25 @@
             },
             fetchAllModule() {
                 this.isGetting = true;
-                axios.get(
-                    `/api/student_sub_module/all/${this.$route.params.id}`
-                ).then((res) => {
-                    this.studentSubModuleProgress = res.data;
-                    this.$store.dispatch('fetchMainModule', this.$route.params.id).then(() => {
+               
+                  
+                    this.$store.dispatch('fetchMainModule', this.$route.params.id).then((res) => {
 
                         this.isGetting = false;
+            
                         this.moduleLength = this.getmain_module.length;
 
                     });
-                    this.$store.dispatch('fetchSubModule', this.$route.params.id);
+               
 
 
-                }).catch((error) => {
-                    //console.log(error)
-                })
             },
             UpdateAllModule() {
-
-                axios.get(
-                    `/api/student_sub_module/all/${this.$route.params.id}`
-                ).then((res) => {
-
+               
                     this.$store.dispatch('fetchMainModule', this.$route.params.id).then(() => {
                         this.moduleLength = this.getmain_module.length;
 
                     });
-                }).catch((error) => {
-                    //console.log(error)
-                })
             }
         },
         mounted() {

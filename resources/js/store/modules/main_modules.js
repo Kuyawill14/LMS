@@ -2,6 +2,7 @@ import axios from 'axios'
 
 const state = {
     main_module: [],
+    sub_module: [],
     single_main_module: []
 };
 const getters = {
@@ -10,16 +11,30 @@ const getters = {
     getmain_modulebyId: state => id => {
         return state.main_module.filter(main_module => main_module.main_module_id == id);
     },
+
+    getAll_sub_module: (state) => state.sub_module,
+    getSub_module: state => id => {
+        return state.sub_module.filter(sub_module => sub_module.main_module_id == id);
+    },
 };
 
 const actions = {
     async fetchMainModule({ commit }, id) {
+        await axios.get('/api/main_module/all-module/' + id)
+            .then(res => {
+                console.log(res.data);
+                console.log(res.data.main_module.length);
+                commit('FETCH_MAIN_MODULE', res.data.main_module);
+                commit('FETCH_SUB_MODULE', res.data.sub_module);
 
-        const res = await axios.get(
-            `/api/main_module/all/${id}`
-        );
-        ////console.log(res.data);
-        commit('FETCH_MAIN_MODULE', res.data);
+            }).catch(e => {
+                this.toatError('Something went wrong');
+
+            })
+
+        // const res = await axios.get(
+        //     `/api/main_module/all/${id}`
+        // );
 
     },
 
@@ -77,6 +92,12 @@ const mutations = {
         state.main_module.splice(index, 1)
 
     },
+
+
+    //submodules
+
+    CREATE_SUB_MODULE: (state, sub_module) => (state.sub_module = sub_module),
+    FETCH_SUB_MODULE: (state, sub_module) => (state.sub_module = sub_module),
 };
 
 export default {
