@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Carbon\Carbon;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -45,7 +46,9 @@ class User extends Authenticatable implements MustVerifyEmail
     ];
 
     public function sendEmailVerificationNotification() {
-        $this->notify(new VerifyNotification());
+        $now = now()->addSeconds(2);
+        $this->notify((new VerifyNotification())->delay($now));
+
     }
 
 }
