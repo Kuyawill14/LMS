@@ -1,5 +1,5 @@
 <template>
-<div class="pt-5">
+<div class="pt-3 pl-1 pr-1">
   <v-dialog v-model="AttachLink" persistent max-width="400">
          <!--    <attachlinkDiaglog 
             v-on:toggleCancelDialog="AttachLink = !AttachLink"
@@ -824,7 +824,7 @@ export default {
 </script>
 
 <style >
-  p img{
+  span img{
         max-width: 100% !important;
         max-height: 50rem !important;
     }

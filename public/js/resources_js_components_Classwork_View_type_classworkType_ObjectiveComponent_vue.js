@@ -408,7 +408,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\np img{\n    max-width: 100% !important;\n    max-height: 50rem !important;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\nspan img{\n    max-width: 100% !important;\n    max-height: 50rem !important;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -544,7 +544,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "pt-7" },
+    { staticClass: "pt-3 pt-3 pl-1 pr-1" },
     [
       _c(
         "v-row",

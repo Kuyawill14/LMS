@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\SendEmailVerification;
 use Illuminate\Support\Str;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
-
+use Carbon\Carbon;
 
 
 class AuthController extends Controller

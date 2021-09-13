@@ -144,6 +144,35 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {},
@@ -451,7 +480,7 @@ var render = function() {
                 [
                   _c("v-icon", { staticStyle: { "font-size": "14rem" } }, [
                     _vm._v(
-                      "\n                mdi-book-variant-multiple\n            "
+                      "\n                   mdi-book-variant-multiple\n               "
                     )
                   ]),
                   _vm._v(" "),
@@ -493,7 +522,7 @@ var render = function() {
                 [
                   _c("v-icon", { staticStyle: { "font-size": "14rem" } }, [
                     _vm._v(
-                      "\n                mdi-google-contacts\n            "
+                      "\n                   mdi-google-contacts\n               "
                     )
                   ]),
                   _vm._v(" "),
@@ -546,7 +575,7 @@ var render = function() {
             "v-card",
             [
               _c("v-card-title", {}, [
-                _vm._v("\n                Join Class\n            ")
+                _vm._v("\n                   Join Class\n               ")
               ]),
               _vm._v(" "),
               _c(
@@ -721,15 +750,52 @@ var render = function() {
                                 _c(
                                   "v-img",
                                   {
-                                    staticClass: "white--text align-end",
+                                    staticClass:
+                                      "white--text align-end grey lighten-2",
                                     attrs: {
                                       src: "../images/" + item.course_picture,
                                       height: "200px",
                                       gradient:
-                                        "to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
-                                    }
+                                        "to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)",
+                                      "aspect-ratio": "1"
+                                    },
+                                    scopedSlots: _vm._u(
+                                      [
+                                        {
+                                          key: "placeholder",
+                                          fn: function() {
+                                            return [
+                                              _c(
+                                                "v-row",
+                                                {
+                                                  staticClass:
+                                                    "fill-height ma-0",
+                                                  attrs: {
+                                                    align: "center",
+                                                    justify: "center"
+                                                  }
+                                                },
+                                                [
+                                                  _c("v-progress-circular", {
+                                                    attrs: {
+                                                      indeterminate: "",
+                                                      color: "grey lighten-5"
+                                                    }
+                                                  })
+                                                ],
+                                                1
+                                              )
+                                            ]
+                                          },
+                                          proxy: true
+                                        }
+                                      ],
+                                      null,
+                                      true
+                                    )
                                   },
                                   [
+                                    _vm._v(" "),
                                     _c(
                                       "v-card-subtitle",
                                       [
@@ -755,7 +821,7 @@ var render = function() {
                                                     item.progress.toFixed(2)
                                                   )
                                                 ) +
-                                                "%\n                                "
+                                                "%\n                                   "
                                             )
                                           ]
                                         ),
@@ -798,13 +864,13 @@ var render = function() {
                                           [
                                             _vm._v(
                                               _vm._s(item.course_code) +
-                                                "\n                                    "
+                                                "\n                                       "
                                             ),
                                             _c("br"),
                                             _vm._v(
                                               " " +
                                                 _vm._s(item.course_name) +
-                                                "\n                                "
+                                                "\n                                   "
                                             )
                                           ]
                                         )
@@ -813,15 +879,15 @@ var render = function() {
                                     _vm._v(" "),
                                     _c("hr"),
                                     _vm._v(
-                                      "\n                            " +
+                                      "\n                               " +
                                         _vm._s(item.class_name) +
                                         " "
                                     ),
                                     _c("br"),
                                     _vm._v(
-                                      "\n                            Class code:" +
+                                      "\n                               Class code:" +
                                         _vm._s(item.class_code) +
-                                        "\n                        "
+                                        "\n                           "
                                     )
                                   ],
                                   1

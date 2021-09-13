@@ -1,6 +1,6 @@
 <template>
 
-<div class="pt-7">
+<div class="pt-3 pt-3 pl-1 pr-1">
 
 
      
@@ -303,7 +303,7 @@ export default {
 }
 </script>
 <style>
-     p img{
+     span img{
         max-width: 100% !important;
         max-height: 50rem !important;
     }

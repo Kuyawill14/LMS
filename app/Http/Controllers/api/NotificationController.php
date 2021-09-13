@@ -17,6 +17,7 @@ use App\Events\NewPost;
 use App\Events\NewNotification;
 use App\Models\tbl_subject_course;
 use App\Jobs\SendNotificationMailToClass;
+use Carbon\Carbon;
 
 class NotificationController extends Controller
 {
@@ -49,7 +50,7 @@ class NotificationController extends Controller
             $ClassName = Tbl_class::where('tbl_classes.id',$request->class_id)->first();
             $url = '/classwork'.'/'.$request->course_id.'/classwork-details?clwk='.$request->classwork_id;
             $CourseClassName = $ClassName->class_name.' '.$clsssworkTitle->course_name;
-            SendNotificationMailToClass::dispatch($request->class_id, $clsssworkTitle->title, $clsssworkTitle->instruction, $request->due, $CourseClassName, $clsssworkTitle->lastName, $url);
+            SendNotificationMailToClass::dispatch($request->class_id, $clsssworkTitle->title, $clsssworkTitle->instruction, $request->due, $CourseClassName, $clsssworkTitle->lastName, $url)->delay(Carbon::now()->addSeconds(30));
             return;
         }
         elseif($request->type == "announcement"){

@@ -75,6 +75,67 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var selectBackgroundDialog = function selectBackgroundDialog() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_SelectBackgroundDialog_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./SelectBackgroundDialog */ "./resources/js/components/course-view/SelectBackgroundDialog.vue"));
 };
@@ -350,12 +411,46 @@ var render = function() {
                 {
                   staticClass: "white--text align-end",
                   attrs: {
+                    eager: "",
                     src: "../../images/" + _vm.getcourseInfo.course_picture,
                     gradient: "to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)",
-                    height: "150px"
-                  }
+                    height: "150px",
+                    "aspect-ratio": "2"
+                  },
+                  scopedSlots: _vm._u(
+                    [
+                      {
+                        key: "placeholder",
+                        fn: function() {
+                          return [
+                            _c(
+                              "v-row",
+                              {
+                                staticClass: "fill-height ma-0",
+                                attrs: { align: "center", justify: "center" }
+                              },
+                              [
+                                _c("v-progress-circular", {
+                                  attrs: {
+                                    indeterminate: "",
+                                    color: "grey lighten-5"
+                                  }
+                                })
+                              ],
+                              1
+                            )
+                          ]
+                        },
+                        proxy: true
+                      }
+                    ],
+                    null,
+                    false,
+                    4034393411
+                  )
                 },
                 [
+                  _vm._v(" "),
                   _vm.role == "Teacher"
                     ? _c(
                         "v-app-bar",
