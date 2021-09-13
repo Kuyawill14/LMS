@@ -6115,7 +6115,7 @@ var render = function() {
                                       _vm._v(" "),
                                       _c("li", [
                                         _vm._v(
-                                          "https://www.youtube.com/watch?v=['']"
+                                          "https://www.youtube.com/watch?v=[video-id]"
                                         )
                                       ])
                                     ])
