@@ -208,7 +208,7 @@ class SubjectCourseController extends Controller
         $courseItem  = json_decode($request->courseItem, true);
 
         if($existingCourse) {
-            if($request->file != 'null') {
+            if($request->file != 'null' && $request->file != 'undefined') {
                 $file_extension = $request->file->extension();
                 $file_mime_type = $request->file->getClientMimeType();
                 $original_file_name = $request->file->getClientOriginalName();
