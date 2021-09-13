@@ -453,7 +453,8 @@
                             </v-col>
 
                                 <v-col cols="12" class="pl-7 pr-5">
-                                    <div class="text-sm-body-2"> {{classworkDetails.instruction}}</div>
+                                  <!--   <div class="text-sm-body-2"> {{classworkDetails.instruction}}</div> -->
+                                    <span class="text-sm-body-2 " v-html="classworkDetails.instruction"></span>
                                 </v-col>
                                 <v-col v-if="classworkDetails.rubrics.length != 0" cols="12" class=" pb-5 pl-4 pr-4">
                                   <div  class="overline">Rubrics</div>
@@ -822,7 +823,11 @@ export default {
 }
 </script>
 
-<style scoped>
+<style >
+  p img{
+        max-width: 100% !important;
+        max-height: 50rem !important;
+    }
     .dropZone {
   width: 100%;
   height: 7rem;

@@ -146,7 +146,8 @@
                 </v-col>
 
                     <v-col cols="12" class="pl-10 pr-5 pb-5">
-                    <div class="text-body-1" style="max-width:98%"> {{classworkDetails.instruction}}</div>
+               <!--      <div class="text-body-1" style="max-width:98%"> {{classworkDetails.instruction}}</div> -->
+                     <span class="text-sm-body-2 " style="max-width:98%" v-html="classworkDetails.instruction"></span>
                     </v-col>
                      <v-col  cols="12" class=" pb-5 pl-5 pr-5">
                         <div class="overline" v-if="classworkDetails.attachment != null">Attachments</div>
@@ -301,3 +302,9 @@ export default {
     }
 }
 </script>
+<style>
+     p img{
+        max-width: 100% !important;
+        max-height: 50rem !important;
+    }
+</style>

@@ -59,10 +59,11 @@
                         </v-col>
 
                         <v-col cols="12" class="pl-8 pr-5 ">
-                            <div class="text-sm-body-2 "> {{Details.instruction}}</div>
+                            <span class="text-sm-body-2 " v-html="Details.instruction"></span>
+                            <!-- <div class="text-sm-body-2 "> {{Details.instruction}}</div> -->
                         </v-col>
 
-                        <v-col v-if="Details.type == 'Subjective Type'" cols="12" class="pl-5 pr-5 pb-2">
+                        <!-- <v-col v-if="Details.attachment != null" cols="12" class="pl-5 pr-5 pb-2">
                             <div class="text-caption font-weight-medium">Attachments</div>
                             <v-hover v-slot="{ hover }">
                                 <v-alert
@@ -83,7 +84,7 @@
                                 </v-row>
                                 </v-alert>
                             </v-hover>
-                        </v-col>
+                        </v-col> -->
 
                         <v-col v-if="Details.availability == 0" cols="12" class="pl-10 pr-5 pb-5 text-right">
                             <v-btn
@@ -205,6 +206,9 @@ export default {
 }
 </script>
 
-<style>
- 
+<style >
+    p img{
+        max-width: 100% !important;
+        max-height: 50rem !important;
+    }
 </style>

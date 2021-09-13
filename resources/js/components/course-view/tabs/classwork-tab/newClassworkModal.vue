@@ -32,15 +32,16 @@
                                 >
                             </v-textarea>
                         </v-col>
-                        <v-col class="mb-0 pb-0 pt-0 mt-0" cols="12">
-                            <v-textarea
+                        <v-col class="mb-8 pb-0 pt-0 mt-0" cols="12">
+                           <!--  <v-textarea
                                 outlined
                                 :rules="FieldRules"
                                 v-model="form.instruction"
                                 label="Instruction"
                                 auto-grow
                                 >
-                            </v-textarea>
+                            </v-textarea> -->
+                            <editor v-model="form.instruction" placeholder="Instruction" theme="snow"></editor>
                         </v-col>
 
                         <v-col v-if="form.type == 'Objective Type'" class="mb-0 pb-0 pt-0 mt-0" cols="12">
@@ -314,6 +315,3 @@ export default {
 }
 </script>
 
-<style>
- 
-</style>

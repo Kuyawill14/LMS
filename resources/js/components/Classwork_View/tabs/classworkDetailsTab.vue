@@ -43,10 +43,12 @@
                                         type="text" required>
                                     </v-text-field>
                                 </v-col>
-                                <v-col class="mb-0 pb-0 pt-0 mt-0" cols="12">
-                                    <v-textarea :rules="FieldRules" outlined v-model="Details.instruction"
+                                <v-col class="mb-8 pb-0 pt-0 mt-0" cols="12">
+                                 <!--    <v-textarea :rules="FieldRules" outlined v-model="Details.instruction"
                                         label="Instruction" auto-grow>
-                                    </v-textarea>
+                                    </v-textarea> -->
+
+                                    <editor v-model="Details.instruction" placeholder="Instruction" theme="snow"></editor>
                                 </v-col>
                                 <v-col v-if="Details.type == 'Objective Type'" class="mb-0 pb-0 pt-0 mt-0" cols="12">
 
@@ -377,7 +379,18 @@
 
 </script>
 
-<style scoped>
+<style >
+    iframe{
+        width: 100% !important;
+        height: 20rem !important;
+    }
+    .ql-editor img{
 
+        max-height: 25rem !important;
+        max-width: 100% !important;
+    }
+    .ql-container{
+        max-height: 70rem;
+    }
 
 </style>

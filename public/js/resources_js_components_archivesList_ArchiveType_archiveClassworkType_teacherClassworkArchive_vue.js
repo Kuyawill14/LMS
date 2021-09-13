@@ -144,6 +144,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['ArchiveClasswork'],
@@ -8815,11 +8816,12 @@ var render = function() {
                                 "v-col",
                                 { staticClass: "pr-2", attrs: { cols: "8" } },
                                 [
-                                  _c(
-                                    "div",
-                                    { staticClass: "mb-5 text-caption" },
-                                    [_vm._v(_vm._s(item.instruction))]
-                                  )
+                                  _c("span", {
+                                    staticClass: "text-sm-body-2 ",
+                                    domProps: {
+                                      innerHTML: _vm._s(item.instruction)
+                                    }
+                                  })
                                 ]
                               ),
                               _vm._v(" "),

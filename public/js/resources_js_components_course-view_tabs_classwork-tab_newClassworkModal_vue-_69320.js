@@ -163,6 +163,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -8865,16 +8866,14 @@ var render = function() {
                       _c(
                         "v-col",
                         {
-                          staticClass: "mb-0 pb-0 pt-0 mt-0",
+                          staticClass: "mb-8 pb-0 pt-0 mt-0",
                           attrs: { cols: "12" }
                         },
                         [
-                          _c("v-textarea", {
+                          _c("editor", {
                             attrs: {
-                              outlined: "",
-                              rules: _vm.FieldRules,
-                              label: "Instruction",
-                              "auto-grow": ""
+                              placeholder: "Instruction",
+                              theme: "snow"
                             },
                             model: {
                               value: _vm.form.instruction,

@@ -141,6 +141,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['course_details'],
@@ -8913,11 +8914,12 @@ var render = function() {
                                 { attrs: { "no-gutters": "" } },
                                 [
                                   _c("v-col", { attrs: { cols: "8" } }, [
-                                    _c(
-                                      "div",
-                                      { staticClass: "mb-5 ml-5 text-caption" },
-                                      [_vm._v(_vm._s(item.instruction))]
-                                    )
+                                    _c("span", {
+                                      staticClass: "mb-5 ml-5 text-sm-body-2 ",
+                                      domProps: {
+                                        innerHTML: _vm._s(item.instruction)
+                                      }
+                                    })
                                   ]),
                                   _vm._v(" "),
                                   _c("v-col", { attrs: { cols: "4" } }, [
