@@ -57340,7 +57340,11 @@ var render = function() {
                                       _c("v-file-input", {
                                         ref: "inputFile",
                                         staticClass: "d-none",
-                                        attrs: { multiple: "" },
+                                        attrs: {
+                                          multiple: "",
+                                          accept:
+                                            ".xlsx,.xls,image/*,.doc,.docx,.ppt, .pptx,.txt,.pdf,text/plain"
+                                        },
                                         on: { change: _vm.onFileChange }
                                       }),
                                       _vm._v(" "),
@@ -57389,7 +57393,7 @@ var render = function() {
                                                               item.extension ==
                                                                 "bmp"
                                                             ? "info"
-                                                            : ""
+                                                            : "primary"
                                                       }
                                                     },
                                                     [
@@ -57398,6 +57402,9 @@ var render = function() {
                                                           _vm._s(
                                                             item.extension ==
                                                               "pdf"
+                                                              ? "mdi-file-pdf"
+                                                              : item.extension ==
+                                                                "txt"
                                                               ? "mdi-file-pdf"
                                                               : item.extension ==
                                                                 "docx"

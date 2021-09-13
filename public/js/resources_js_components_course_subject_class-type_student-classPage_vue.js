@@ -628,30 +628,6 @@ var render = function() {
             "div",
             [
               _c(
-                "v-col",
-                { staticClass: "text-right" },
-                [
-                  _c(
-                    "v-btn",
-                    {
-                      attrs: {
-                        bottom: "",
-                        color: "primary",
-                        dark: "",
-                        fab: "",
-                        fixed: "",
-                        right: ""
-                      },
-                      on: { click: _vm.openJoinmodal }
-                    },
-                    [_c("v-icon", [_vm._v("mdi-plus")])],
-                    1
-                  )
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
                 "v-row",
                 { staticStyle: { "margin-bottom": "-40px" } },
                 [

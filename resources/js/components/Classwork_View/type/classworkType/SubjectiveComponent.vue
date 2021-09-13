@@ -102,9 +102,10 @@
                         </v-row>
                    </v-container>
                    </v-col>
-                     <input ref="AttAchMoreFile" accept="application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint,text/plain, application/pdf, image/*"
+                   
+                     <input ref="AttAchMoreFile" accept=".xlsx,.xls,image/*,.doc,.docx,.ppt, .pptx,.txt,.pdf"
                      type="file" class="d-none" @change="onChange">
-                       <input ref="UploadAttachFile" accept="application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint,text/plain, application/pdf, image/*" class="d-none" type="file" @change="onChange">
+                       <input ref="UploadAttachFile" accept=".xlsx,.xls,image/*,.doc,.docx,.ppt, .pptx,.txt,.pdf,text/plain" class="d-none" type="file" @change="onChange">
                    
                    <v-col class="ma-0 pa-0" cols="12" v-if="!isloading">
                           <v-col cols="12" class="mb-0 pb-0" v-if="file[0] != '' || file[0] != null">
@@ -116,8 +117,8 @@
                                          <v-list-item link :disabled="isUpIndex == index && isUploadSaving" >
                                            <v-list-item-avatar>
                                               <v-icon  :color="item.fileExte == 'pdf' ? 'red' : item.fileExte == 'docx'? 'blue': item.fileExte == 'link' ? 'green':
-                                          item.fileExte == 'jpg' ||  item.fileExte == 'jpeg' || item.fileExte == 'gif' ||  item.fileExte == 'svg' || item.fileExte == 'png' ||  item.fileExte == 'bmp' ? 'info': ''">
-                                                {{item.fileExte == 'pdf' ? 'mdi-file-pdf': item.fileExte == 'docx'? 'mdi-file-word': item.fileExte == 'link'? 'mdi-file-link': 
+                                          item.fileExte == 'jpg' ||  item.fileExte == 'jpeg' || item.fileExte == 'gif' ||  item.fileExte == 'svg' || item.fileExte == 'png' ||  item.fileExte == 'bmp' ? 'info': 'primary'">
+                                                {{item.fileExte == 'pdf' ? 'mdi-file-pdf': item.fileExte == 'txt' ? 'mdi-note-text-outline': item.fileExte == 'docx'? 'mdi-file-word': item.fileExte == 'link'? 'mdi-file-link': 
                                           item.fileExte == 'jpg' ||  item.fileExte == 'jpeg' || item.fileExte == 'gif' ||  item.fileExte == 'svg' || item.fileExte == 'png' ||  item.fileExte == 'bmp' ? 'mdi-image' :''}}
                                               </v-icon>
                                            </v-list-item-avatar>
@@ -176,11 +177,13 @@
                                          <v-list-item link :disabled="isUpIndex == index && isUploadSaving" >
                                            <v-list-item-avatar>
                                               <v-icon  :color="item.fileExte == 'pdf' ? 'red' : item.fileExte == 'docx' || item.fileExte == 'doc'? 'blue': item.fileExte == 'link' ? 'green':
-                                          item.fileExte == 'jpg' ||  item.fileExte == 'jpeg' ||  item.fileExte == 'gif' ||  item.fileExte == 'svg' || item.fileExte == 'png' ||  item.fileExte == 'bmp' ? 'info': ''">
+                                          item.fileExte == 'jpg' ||  item.fileExte == 'jpeg' ||  item.fileExte == 'gif' ||  item.fileExte == 'svg' || item.fileExte == 'png' ||  item.fileExte == 'bmp' ? 'info': 'primary'">
 
-                                                {{item.fileExte == 'pdf' ? 'mdi-file-pdf': item.fileExte == 'docx' ||  item.fileExte == 'doc'? 'mdi-file-word': item.fileExte == 'link'? 'mdi-file-link': 
+                                                {{item.fileExte == 'pdf' ? 'mdi-file-pdf': item.fileExte == 'txt' ? 'mdi-note-text-outline':  item.fileExte == 'docx' ||  item.fileExte == 'doc' ? 'mdi-file-word': item.fileExte == 'link'? 'mdi-file-link': 
                                           item.fileExte == 'jpg' ||  item.fileExte == 'jpeg' || item.fileExte == 'gif' ||  item.fileExte == 'svg' || item.fileExte == 'png' ||  item.fileExte == 'bmp' ? 'mdi-image' :''}}
                                               </v-icon>
+
+                                             
                                            </v-list-item-avatar>
                                             <v-list-item-content @click="OpenFile(item.link)">
                                                 <v-list-item-title>

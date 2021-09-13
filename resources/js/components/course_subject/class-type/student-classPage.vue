@@ -57,11 +57,11 @@
         </v-dialog>
 
         <div v-if="coursesLength != 0 && isGetting == false">
-            <v-col class="text-right">
+        <!--     <v-col class="text-right">
                 <v-btn bottom color="primary" dark fab fixed right @click="openJoinmodal">
                     <v-icon>mdi-plus</v-icon>
                 </v-btn>
-            </v-col>
+            </v-col> -->
             <v-row style="margin-bottom: -40px;">
                 <v-col>
                     <h2>My Classes</h2>

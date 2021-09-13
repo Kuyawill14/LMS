@@ -155,9 +155,9 @@
                                         <v-divider></v-divider>
                                         <v-icon 
                                         :color=" item.Submitted_Answers != null ? (item.Submitted_Answers[0].fileExte == 'pdf' ? 'red' : item.Submitted_Answers[0].fileExte == 'docx' || item.Submitted_Answers[0].fileExte == 'doc'? 'blue': item.Submitted_Answers[0].fileExte == 'link' ? 'green':
-                                          item.Submitted_Answers[0].fileExte == 'jpg' || item.Submitted_Answers[0].fileExte == 'jpeg' || item.Submitted_Answers[0].fileExte == 'gif' ||  item.Submitted_Answers[0].fileExte== 'svg' ||  item.Submitted_Answers[0].fileExte == 'png' ||  item.Submitted_Answers[0].fileExte == 'bmp' ? 'info': '') : ''"
+                                          item.Submitted_Answers[0].fileExte == 'jpg' || item.Submitted_Answers[0].fileExte == 'jpeg' || item.Submitted_Answers[0].fileExte == 'gif' ||  item.Submitted_Answers[0].fileExte== 'svg' ||  item.Submitted_Answers[0].fileExte == 'png' ||  item.Submitted_Answers[0].fileExte == 'bmp' ? 'info': '') : 'primary'"
                                          x-large>
-                                           {{item.Submitted_Answers != null ? (item.Submitted_Answers[0].fileExte == 'pdf' ? 'mdi-file-pdf': item.Submitted_Answers[0].fileExte == 'docx' ||  item.Submitted_Answers[0].fileExte == 'doc'? 'mdi-file-word': item.Submitted_Answers[0].fileExte == 'link'? 'mdi-file-link': 
+                                           {{item.Submitted_Answers != null ? (item.Submitted_Answers[0].fileExte == 'pdf' ? 'mdi-file-pdf': item.Submitted_Answers[0].fileExte == 'txt' ? 'mdi-note-text-outline': item.Submitted_Answers[0].fileExte == 'docx' ||  item.Submitted_Answers[0].fileExte == 'doc'? 'mdi-file-word': item.Submitted_Answers[0].fileExte == 'link'? 'mdi-file-link': 
                                           item.Submitted_Answers[0].fileExte == 'jpg' || item.Submitted_Answers[0].fileExte == 'jpeg' || item.Submitted_Answers[0].fileExte == 'gif' ||  item.Submitted_Answers[0].fileExte== 'svg' ||  item.Submitted_Answers[0].fileExte == 'png' ||  item.Submitted_Answers[0].fileExte == 'bmp' ? 'mdi-image' :'') : ''}}
                                          </v-icon>
                                        

@@ -478,13 +478,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       this.isOpening = true;
 
-      if (extension == 'docx' || extension == 'doc' || extension == 'pdf') {
+      if (extension != 'png' && extension != 'jpg' && extension != 'jpeg' && extension != 'bmp') {
         this.OpenFileType = 'document';
         this.path = link;
         setTimeout(function () {
           return _this4.isOpening = false;
         }, 500);
-      } else if (extension == 'png' || extension == 'jpg' || extension == 'jpeg' || extension == 'bmp') {
+      } else {
         this.OpenFileType = 'media';
         this.path = link;
         setTimeout(function () {
@@ -535,11 +535,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var path = this.CheckData.Submitted_Answers[0].link;
       var extension = this.CheckData.Submitted_Answers[0].fileExte;
 
-      if (extension == 'docx' || extension == 'doc' || extension == 'pdf') {
+      if (extension != 'png' || extension != 'jpg' || extension != 'bmp') {
         this.OpenFileType = 'document';
         this.path = path;
         this.isOpening = false;
-      } else if (extension == 'png' || extension == 'jpg' || extension == 'bmp') {
+      } else {
         this.OpenFileType = 'media';
         this.path = path;
         this.isOpening = false;
@@ -1070,7 +1070,7 @@ var render = function() {
                                                                         item.fileExte ==
                                                                           "bmp"
                                                                       ? "info"
-                                                                      : ""
+                                                                      : "primary"
                                                                 }
                                                               },
                                                               [
@@ -1080,6 +1080,9 @@ var render = function() {
                                                                       item.fileExte ==
                                                                         "pdf"
                                                                         ? "mdi-file-pdf"
+                                                                        : item.fileExte ==
+                                                                          "txt"
+                                                                        ? "mdi-note-text-outline"
                                                                         : item.fileExte ==
                                                                             "docx" ||
                                                                           item.fileExte ==
@@ -1251,7 +1254,8 @@ var render = function() {
                             1
                           ),
                           _vm._v(" "),
-                          _vm.classworkDetails.rubrics.length != 0
+                          _vm.classworkDetails.rubrics.length != 0 &&
+                          _vm.CheckData.status == "Submitted"
                             ? _c(
                                 "v-list",
                                 _vm._l(_vm.classworkDetails.rubrics, function(
