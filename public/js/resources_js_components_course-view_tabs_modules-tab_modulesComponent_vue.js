@@ -109,15 +109,16 @@ __webpack_require__.r(__webpack_exports__);
       if (this.moduleForm.module_name.trim().length > 0 && this.moduleForm.description.trim().length > 0) {
         this.$store.dispatch('createMainModule', this.moduleForm).then(function (res) {
           // //console.log(res);
+          _this.moduleForm.reset();
+
           _this.isSubmitting = false;
 
           _this.$emit('closeModal');
 
           _this.$emit('createdModule');
 
-          _this.toastSuccess("Module Successfully Saved");
+          _this.toastSuccess("Module Successfully Created"); // this.$store.dispatch('fetchSubModule', this.$route.params.id);
 
-          _this.$store.dispatch('fetchMainModule', _this.$route.params.id);
         });
       } else {
         this.toastError('Please Fill up all the fields!.');
@@ -137,7 +138,7 @@ __webpack_require__.r(__webpack_exports__);
 
           _this2.$emit('closeModal');
 
-          _this2.toastSuccess("Module Successfully Saved");
+          _this2.toastSuccess("Module Successfully updated");
         });
       } else {
         this.toastError('Please Fill up all the fields!.');

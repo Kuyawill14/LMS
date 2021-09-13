@@ -108,12 +108,12 @@
                         .then((res) => {
                             // //console.log(res);
 
-
+          this.moduleForm.reset();
                             this.isSubmitting = false;
                             this.$emit('closeModal');
                             this.$emit('createdModule');
-                            this.toastSuccess("Module Successfully Saved");
-                            this.$store.dispatch('fetchMainModule', this.$route.params.id);
+                            this.toastSuccess("Module Successfully Created");
+                            // this.$store.dispatch('fetchSubModule', this.$route.params.id);
 
 
 
@@ -136,7 +136,7 @@
                             this.isSubmitting = false;
                             this.$emit('closeModal');
 
-                            this.toastSuccess("Module Successfully Saved");
+                            this.toastSuccess("Module Successfully updated");
 
 
 

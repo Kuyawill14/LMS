@@ -678,9 +678,8 @@ __webpack_require__.r(__webpack_exports__);
 
         _this.$emit('closeModal');
 
-        _this.toastSuccess("Module Successfully Deleted");
+        _this.toastSuccess("Module Successfully Deleted"); //   this.$store.dispatch('fetchMainModule', this.$route.params.id)
 
-        _this.$store.dispatch('fetchMainModule', _this.$route.params.id);
       });
     }
   },
