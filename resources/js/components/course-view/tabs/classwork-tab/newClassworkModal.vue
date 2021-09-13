@@ -315,3 +315,17 @@ export default {
 }
 </script>
 
+<style  >
+    iframe{
+        width: 100% !important;
+    height: 20rem !important;
+    }
+    .ql-editor img{
+
+        max-height: 25rem !important;
+    }
+    .ql-container{
+        max-height: 70rem;
+    }
+        
+</style>
