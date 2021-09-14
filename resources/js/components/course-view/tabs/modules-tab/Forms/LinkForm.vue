@@ -90,7 +90,7 @@
                 this.file = file;
             },
             toastSuccess() {
-                return this.$toasted.success("Lecture Successfully Created", {
+                return this.$toasted.success("Lecture Successfully saved", {
                     theme: "toasted-primary",
                     position: "top-center",
                     icon: "done",
@@ -104,7 +104,7 @@
                 this.linkForm.submodule_id  =this.type_action == 'edit_link' ? this.sub_module_id : '';
                 this.$store.dispatch('createSubModule', this.linkForm)
                     .then((res) => {
-                        this.$store.dispatch('fetchSubModule', this.$route.params.id)
+                        this.$store.dispatch('fetchMainModule', this.$route.params.id)
                         this.linkForm.sub_module_name = '';
                         this.linkForm.link = '';
                         this.linkForm.type = '';

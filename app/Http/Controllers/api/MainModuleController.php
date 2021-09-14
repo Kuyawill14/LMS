@@ -25,6 +25,49 @@ class MainModuleController extends Controller
         ->get();
         return $allMainModules;
     }
+    
+    public function fetchMainAndSubModule($id ) {
+        
+
+        $data =[];
+
+        $data['main_module']= $this->fetchMainModule($id);
+        $data['sub_module']= $this->fetchSubmodule($id);
+
+
+        return $data;
+
+
+    
+
+                    
+    }
+
+    public function fetchMainModule($id)
+    {
+     
+        $allMainModules = DB::table('tbl_main_modules')
+        ->select('tbl_main_modules.*',DB::raw("(SELECT COUNT(*) FROM tbl_student_sub_module_progress WHERE tbl_student_sub_module_progress.main_module_id = tbl_main_modules.id) as student_progress_count"))
+
+        ->leftJoin('tbl_subject_courses', 'tbl_main_modules.course_id', '=', 'tbl_subject_courses.id')
+        ->where('tbl_main_modules.course_id', $id )
+        ->orderBy('position')
+        ->get();
+        return $allMainModules;
+    }
+
+
+    public function fetchSubmodule($id ) {
+        //
+        $allSubModules = DB::table('tbl_sub_modules')
+        ->select('tbl_sub_modules.*', "course_id")
+        ->leftJoin('tbl_main_modules', 'tbl_main_modules.id', '=', 'tbl_sub_modules.main_module_id')
+        ->where('tbl_main_modules.course_id', $id )
+        ->orderBy('tbl_sub_modules.id', 'ASC')
+        
+        ->get();
+        return $allSubModules;
+}
 
     /**
      * Show the form for creating a new resource.

@@ -215,6 +215,8 @@ Route::middleware('auth:sanctum')->prefix('/main_module')->group(function () {
     Route::post('/publish/{id}', [MainModuleController::class, 'publishModule']);
 
 
+    Route::get('/all-module/{id}', [MainModuleController::class, 'fetchMainAndSubModule']);
+
     
 });
 

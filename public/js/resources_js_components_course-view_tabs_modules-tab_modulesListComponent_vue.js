@@ -215,7 +215,7 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     toastSuccess: function toastSuccess() {
-      return this.$toasted.success("Lecture Successfully Created", {
+      return this.$toasted.success("Lecture Successfully saved", {
         theme: "toasted-primary",
         position: "top-center",
         icon: "done",
@@ -322,7 +322,7 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (res) {
         _this2.isSaving = false;
 
-        _this2.$store.dispatch('fetchSubModule', _this2.$route.params.id);
+        _this2.$store.dispatch('fetchMainModule', _this2.$route.params.id);
 
         _this2.subModuleForm.sub_module_name = '';
         _this2.subModuleForm.description = '';
@@ -463,7 +463,7 @@ __webpack_require__.r(__webpack_exports__);
       this.file = file;
     },
     toastSuccess: function toastSuccess() {
-      return this.$toasted.success("Lecture Successfully Created", {
+      return this.$toasted.success("Lecture Successfully saved", {
         theme: "toasted-primary",
         position: "top-center",
         icon: "done",
@@ -478,7 +478,7 @@ __webpack_require__.r(__webpack_exports__);
       this.linkForm.main_module_id = this.moduleId;
       this.linkForm.submodule_id = this.type_action == 'edit_link' ? this.sub_module_id : '';
       this.$store.dispatch('createSubModule', this.linkForm).then(function (res) {
-        _this.$store.dispatch('fetchSubModule', _this.$route.params.id);
+        _this.$store.dispatch('fetchMainModule', _this.$route.params.id);
 
         _this.linkForm.sub_module_name = '';
         _this.linkForm.link = '';
@@ -678,7 +678,8 @@ __webpack_require__.r(__webpack_exports__);
 
         _this.$emit('closeModal');
 
-        _this.toastSuccess("Module Successfully Deleted");
+        _this.toastSuccess("Module Successfully Deleted"); //   this.$store.dispatch('fetchMainModule', this.$route.params.id)
+
       });
     }
   },
@@ -760,7 +761,7 @@ __webpack_require__.r(__webpack_exports__);
         _this.$emit('closeModal'); // this.toastSuccess("Module Successfully Deleted");
 
 
-        _this.$store.dispatch('fetchSubModule', _this.$route.params.id);
+        _this.$store.dispatch('fetchMainModule', _this.$route.params.id);
       });
     }
   },

@@ -2005,7 +2005,7 @@ axios.defaults.withCredentials = true;
 window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/dist/web/pusher.js");
 window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_1__.default({
   broadcaster: 'pusher',
-  key: "b3ecbaa590cb9ca65930",
+  key: "05597b24c42e8d5d33ef",
   cluster: "ap1",
   forceTLS: true
 });
@@ -4343,6 +4343,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 var state = {
   main_module: [],
+  sub_module: [],
   single_main_module: []
 };
 var getters = {
@@ -4355,26 +4356,37 @@ var getters = {
         return main_module.main_module_id == id;
       });
     };
+  },
+  getAll_sub_module: function getAll_sub_module(state) {
+    return state.sub_module;
+  },
+  getSub_module: function getSub_module(state) {
+    return function (id) {
+      return state.sub_module.filter(function (sub_module) {
+        return sub_module.main_module_id == id;
+      });
+    };
   }
 };
 var actions = {
   fetchMainModule: function fetchMainModule(_ref, id) {
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
-      var commit, res;
+      var commit;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
               commit = _ref.commit;
               _context.next = 3;
-              return axios__WEBPACK_IMPORTED_MODULE_1___default().get("/api/main_module/all/".concat(id));
+              return axios__WEBPACK_IMPORTED_MODULE_1___default().get('/api/main_module/all-module/' + id).then(function (res) {
+                // console.log(res.data);
+                // console.log(res.data.main_module.length);
+                commit('FETCH_MAIN_MODULE', res.data.main_module);
+                commit('FETCH_SUB_MODULE', res.data.sub_module);
+              })["catch"](function (e) {// this.toatError('Something went wrong');
+              });
 
             case 3:
-              res = _context.sent;
-              ////console.log(res.data);
-              commit('FETCH_MAIN_MODULE', res.data);
-
-            case 5:
             case "end":
               return _context.stop();
           }
@@ -4463,6 +4475,32 @@ var actions = {
         }
       }, _callee4);
     }))();
+  },
+  createSubModule: function createSubModule(_ref5, SubmoduleForm) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5() {
+      var commit, res, newSubModule;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee5$(_context5) {
+        while (1) {
+          switch (_context5.prev = _context5.next) {
+            case 0:
+              commit = _ref5.commit;
+              _context5.next = 3;
+              return axios__WEBPACK_IMPORTED_MODULE_1___default().post("/api/sub_module/insert", SubmoduleForm);
+
+            case 3:
+              res = _context5.sent;
+              newSubModule = res.data; // commit("CREATE_SUB_MODULE", newSubModule);
+
+              state.sub_module.push(_objectSpread({}, newSubModule));
+              return _context5.abrupt("return", res);
+
+            case 7:
+            case "end":
+              return _context5.stop();
+          }
+        }
+      }, _callee5);
+    }))();
   }
 };
 var mutations = {
@@ -4484,6 +4522,13 @@ var mutations = {
       return item.id === main_module.id;
     });
     state.main_module.splice(index, 1);
+  },
+  //submodules
+  CREATE_SUB_MODULE: function CREATE_SUB_MODULE(state, sub_module) {
+    return state.sub_module = sub_module;
+  },
+  FETCH_SUB_MODULE: function FETCH_SUB_MODULE(state, sub_module) {
+    return state.sub_module = sub_module;
   }
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -5284,12 +5329,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -5298,146 +5337,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 var state = {
-  sub_module: [],
-  module_progress: []
-};
-var getters = {
-  getAll_sub_module: function getAll_sub_module(state) {
-    return state.sub_module;
-  },
-  getSub_module: function getSub_module(state) {
-    return function (id) {
-      return state.sub_module.filter(function (sub_module) {
-        return sub_module.main_module_id == id;
-      });
-    };
-  },
-  getStudentModuleProgress: function getStudentModuleProgress(state) {
-    return state.module_progress;
-  }
-};
-var actions = {
-  fetchSubModule: function fetchSubModule(_ref, id) {
-    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
-      var commit, res;
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
-        while (1) {
-          switch (_context.prev = _context.next) {
-            case 0:
-              commit = _ref.commit;
-              _context.next = 3;
-              return axios__WEBPACK_IMPORTED_MODULE_1___default().get("/api/sub_module/all/".concat(id));
-
-            case 3:
-              res = _context.sent;
-              ////console.log(res.data);
-              commit('FETCH_SUB_MODULE', res.data);
-
-            case 5:
-            case "end":
-              return _context.stop();
-          }
-        }
-      }, _callee);
-    }))();
-  },
-  createSubModule: function createSubModule(_ref2, SubmoduleForm) {
-    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
-      var commit, res, newSubModule;
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
-        while (1) {
-          switch (_context2.prev = _context2.next) {
-            case 0:
-              commit = _ref2.commit;
-              _context2.next = 3;
-              return axios__WEBPACK_IMPORTED_MODULE_1___default().post("/api/sub_module/insert", SubmoduleForm);
-
-            case 3:
-              res = _context2.sent;
-              newSubModule = res.data; // commit("CREATE_SUB_MODULE", newSubModule);
-
-              state.sub_module.push(_objectSpread({}, newSubModule));
-              return _context2.abrupt("return", res);
-
-            case 7:
-            case "end":
-              return _context2.stop();
-          }
-        }
-      }, _callee2);
-    }))();
-  },
-  studentmodule_progress: function studentmodule_progress(_ref3, id) {
-    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
-      var commit, res;
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
-        while (1) {
-          switch (_context3.prev = _context3.next) {
-            case 0:
-              commit = _ref3.commit;
-              _context3.next = 3;
-              return axios__WEBPACK_IMPORTED_MODULE_1___default().get("/api/student_sub_module/student_progress/".concat(id));
-
-            case 3:
-              res = _context3.sent;
-              commit('FETCH_STUDENT_MODULE_PROGRESS', res.data);
-              return _context3.abrupt("return");
-
-            case 6:
-            case "end":
-              return _context3.stop();
-          }
-        }
-      }, _callee3);
-    }))();
-  }
-};
-var mutations = {
-  CREATE_SUB_MODULE: function CREATE_SUB_MODULE(state, sub_module) {
-    return state.sub_module = sub_module;
-  },
-  FETCH_SUB_MODULE: function FETCH_SUB_MODULE(state, sub_module) {
-    return state.sub_module = sub_module;
-  },
-  FETCH_STUDENT_MODULE_PROGRESS: function FETCH_STUDENT_MODULE_PROGRESS(state, module_progress) {
-    return state.module_progress = module_progress;
-  }
-};
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  state: state,
-  getters: getters,
-  actions: actions,
-  mutations: mutations
-});
-
-/***/ }),
-
-/***/ "./resources/js/store/modules/sub_modules.js":
-/*!***************************************************!*\
-  !*** ./resources/js/store/modules/sub_modules.js ***!
-  \***************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
-
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
-
-var state = {
+  module_progress: [],
   sub_module_progress: []
 };
 var getters = {
+  getStudentModuleProgress: function getStudentModuleProgress(state) {
+    return state.module_progress;
+  },
   getStudentSubModuleProgress: function getStudentSubModuleProgress(state) {
     return state.sub_module_progress;
   } // getSub_module: state => id => {
@@ -5494,11 +5400,38 @@ var actions = {
         }
       }, _callee2);
     }))();
+  },
+  studentmodule_progress: function studentmodule_progress(_ref3, id) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
+      var commit, res;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              commit = _ref3.commit;
+              _context3.next = 3;
+              return axios__WEBPACK_IMPORTED_MODULE_1___default().get("/api/student_sub_module/student_progress/".concat(id));
+
+            case 3:
+              res = _context3.sent;
+              commit('FETCH_STUDENT_MODULE_PROGRESS', res.data);
+              return _context3.abrupt("return");
+
+            case 6:
+            case "end":
+              return _context3.stop();
+          }
+        }
+      }, _callee3);
+    }))();
   }
 };
 var mutations = {
   SET_STUDENT_PROGRESS: function SET_STUDENT_PROGRESS(state, sub_module_progress) {
     return state.sub_module_progress = sub_module_progress;
+  },
+  FETCH_STUDENT_MODULE_PROGRESS: function FETCH_STUDENT_MODULE_PROGRESS(state, module_progress) {
+    return state.module_progress = module_progress;
   }
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -5507,6 +5440,51 @@ var mutations = {
   actions: actions,
   mutations: mutations
 });
+
+/***/ }),
+
+/***/ "./resources/js/store/modules/sub_modules.js":
+/*!***************************************************!*\
+  !*** ./resources/js/store/modules/sub_modules.js ***!
+  \***************************************************/
+/***/ (() => {
+
+// import axios from 'axios'
+// const state = {
+//     sub_module: [],
+// };
+// const getters = {
+//     getAll_sub_module: (state) => state.sub_module,
+//     getSub_module: state => id => {
+//         return state.sub_module.filter(sub_module => sub_module.main_module_id == id);
+//     },
+// };
+// const actions = {
+//     async fetchSubModule({ commit }, id) {
+//         const res = await axios.get(
+//             `/api/sub_module/all/${id}`
+//         );
+//         ////console.log(res.data);
+//         commit('FETCH_SUB_MODULE', res.data);
+//     },
+//     async createSubModule({ commit }, SubmoduleForm) {
+//         const res = await axios.post(`/api/sub_module/insert`, SubmoduleForm);
+//         let newSubModule = res.data;
+//         // commit("CREATE_SUB_MODULE", newSubModule);
+//         state.sub_module.push({...newSubModule })
+//         return res;
+//     },
+// };
+// const mutations = {
+//     CREATE_SUB_MODULE: (state, sub_module) => (state.sub_module = sub_module),
+//     FETCH_SUB_MODULE: (state, sub_module) => (state.sub_module = sub_module),
+// };
+// export default {
+//     state,
+//     getters,
+//     actions,
+//     mutations
+// };
 
 /***/ }),
 
@@ -5674,6 +5652,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_notificationModule__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./modules/notificationModule */ "./resources/js/store/modules/notificationModule.js");
 /* harmony import */ var _modules_main_modules__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./modules/main_modules */ "./resources/js/store/modules/main_modules.js");
 /* harmony import */ var _modules_sub_modules__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./modules/sub_modules */ "./resources/js/store/modules/sub_modules.js");
+/* harmony import */ var _modules_sub_modules__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(_modules_sub_modules__WEBPACK_IMPORTED_MODULE_11__);
 /* harmony import */ var _modules_question__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./modules/question */ "./resources/js/store/modules/question.js");
 /* harmony import */ var _modules_gradingCriteria__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./modules/gradingCriteria */ "./resources/js/store/modules/gradingCriteria.js");
 /* harmony import */ var _modules_student_sub_moduleProgress__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./modules/student_sub_moduleProgress */ "./resources/js/store/modules/student_sub_moduleProgress.js");
@@ -5718,7 +5697,7 @@ vue__WEBPACK_IMPORTED_MODULE_0__.default.use(vuex__WEBPACK_IMPORTED_MODULE_1__.d
     CurrentUser: _modules_CurrentUser__WEBPACK_IMPORTED_MODULE_8__.default,
     Notification: _modules_notificationModule__WEBPACK_IMPORTED_MODULE_9__.default,
     MainModules: _modules_main_modules__WEBPACK_IMPORTED_MODULE_10__.default,
-    SubModules: _modules_sub_modules__WEBPACK_IMPORTED_MODULE_11__.default,
+    SubModules: (_modules_sub_modules__WEBPACK_IMPORTED_MODULE_11___default()),
     question: _modules_question__WEBPACK_IMPORTED_MODULE_12__.default,
     gradingCriteria: _modules_gradingCriteria__WEBPACK_IMPORTED_MODULE_13__.default,
     studentSubmoduleProgress: _modules_student_sub_moduleProgress__WEBPACK_IMPORTED_MODULE_14__.default,
@@ -11272,6 +11251,27 @@ var PusherChannel = /*#__PURE__*/function (_Channel) {
       return this;
     }
     /**
+     * Listen for all events on the channel instance.
+     */
+
+  }, {
+    key: "listenToAll",
+    value: function listenToAll(callback) {
+      var _this2 = this;
+
+      this.subscription.bind_global(function (event, data) {
+        if (event.startsWith('pusher:')) {
+          return;
+        }
+
+        var namespace = _this2.options.namespace.replace(/\./g, '\\');
+
+        var formattedEvent = event.startsWith(namespace) ? event.substring(namespace.length + 1) : '.' + event;
+        callback(formattedEvent, data);
+      });
+      return this;
+    }
+    /**
      * Stop listening for an event on the channel instance.
      */
 
@@ -11282,6 +11282,21 @@ var PusherChannel = /*#__PURE__*/function (_Channel) {
         this.subscription.unbind(this.eventFormatter.format(event), callback);
       } else {
         this.subscription.unbind(this.eventFormatter.format(event));
+      }
+
+      return this;
+    }
+    /**
+     * Stop listening for all events on the channel instance.
+     */
+
+  }, {
+    key: "stopListeningToAll",
+    value: function stopListeningToAll(callback) {
+      if (callback) {
+        this.subscription.unbind_global(callback);
+      } else {
+        this.subscription.unbind_global();
       }
 
       return this;
@@ -16368,9 +16383,9 @@ var runtime = (function (exports) {
   // This is a polyfill for %IteratorPrototype% for environments that
   // don't natively support it.
   var IteratorPrototype = {};
-  IteratorPrototype[iteratorSymbol] = function () {
+  define(IteratorPrototype, iteratorSymbol, function () {
     return this;
-  };
+  });
 
   var getProto = Object.getPrototypeOf;
   var NativeIteratorPrototype = getProto && getProto(getProto(values([])));
@@ -16384,8 +16399,9 @@ var runtime = (function (exports) {
 
   var Gp = GeneratorFunctionPrototype.prototype =
     Generator.prototype = Object.create(IteratorPrototype);
-  GeneratorFunction.prototype = Gp.constructor = GeneratorFunctionPrototype;
-  GeneratorFunctionPrototype.constructor = GeneratorFunction;
+  GeneratorFunction.prototype = GeneratorFunctionPrototype;
+  define(Gp, "constructor", GeneratorFunctionPrototype);
+  define(GeneratorFunctionPrototype, "constructor", GeneratorFunction);
   GeneratorFunction.displayName = define(
     GeneratorFunctionPrototype,
     toStringTagSymbol,
@@ -16499,9 +16515,9 @@ var runtime = (function (exports) {
   }
 
   defineIteratorMethods(AsyncIterator.prototype);
-  AsyncIterator.prototype[asyncIteratorSymbol] = function () {
+  define(AsyncIterator.prototype, asyncIteratorSymbol, function () {
     return this;
-  };
+  });
   exports.AsyncIterator = AsyncIterator;
 
   // Note that simple async functions are implemented on top of
@@ -16694,13 +16710,13 @@ var runtime = (function (exports) {
   // iterator prototype chain incorrectly implement this, causing the Generator
   // object to not be returned from this call. This ensures that doesn't happen.
   // See https://github.com/facebook/regenerator/issues/274 for more details.
-  Gp[iteratorSymbol] = function() {
+  define(Gp, iteratorSymbol, function() {
     return this;
-  };
+  });
 
-  Gp.toString = function() {
+  define(Gp, "toString", function() {
     return "[object Generator]";
-  };
+  });
 
   function pushTryEntry(locs) {
     var entry = { tryLoc: locs[0] };
@@ -17019,14 +17035,19 @@ try {
 } catch (accidentalStrictMode) {
   // This module should not be running in strict mode, so the above
   // assignment should always work unless something is misconfigured. Just
-  // in case runtime.js accidentally runs in strict mode, we can escape
+  // in case runtime.js accidentally runs in strict mode, in modern engines
+  // we can explicitly access globalThis. In older engines we can escape
   // strict mode using a global Function call. This could conceivably fail
   // if a Content Security Policy forbids using Function, but in that case
   // the proper solution is to fix the accidental strict mode problem. If
   // you've misconfigured your bundler to force strict mode and applied a
   // CSP to forbid Function, and you're not willing to fix either of those
   // problems, please detail your unique predicament in a GitHub issue.
-  Function("r", "regeneratorRuntime = r")(runtime);
+  if (typeof globalThis === "object") {
+    globalThis.regeneratorRuntime = runtime;
+  } else {
+    Function("r", "regeneratorRuntime = r")(runtime);
+  }
 }
 
 
@@ -23301,7 +23322,7 @@ var index = {
 },
 /******/ __webpack_require__ => { // webpackRuntimeModules
 /******/ var __webpack_exec__ = (moduleId) => (__webpack_require__(__webpack_require__.s = moduleId))
-/******/ __webpack_require__.O(0, ["js/vendor~utils-0","css/app","js/vendor~utils-6","js/vendor~utils-4","js/vendor~utils-1","js/vendor~utils-5","js/vendor~utils-3"], () => (__webpack_exec__("./resources/js/app.js"), __webpack_exec__("./resources/sass/app.scss")));
+/******/ __webpack_require__.O(0, ["js/vendor~utils-0","css/app","js/vendor~utils-4","js/vendor~utils-6","js/vendor~utils-1","js/vendor~utils-5","js/vendor~utils-3"], () => (__webpack_exec__("./resources/js/app.js"), __webpack_exec__("./resources/sass/app.scss")));
 /******/ var __webpack_exports__ = __webpack_require__.O();
 /******/ }
 ]);

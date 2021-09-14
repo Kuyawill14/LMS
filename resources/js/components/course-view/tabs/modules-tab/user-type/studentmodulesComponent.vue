@@ -297,12 +297,19 @@
     .ipOhDr {
     max-width: 100%;
     }
+   
 
 </style>
 
 <style>
+   .ipOhDr > .ly-iframe-wrapper > iframe{
+  width: 100% !important;
+  height: 620px !important
+    }
     .v-dialog--active {
         overflow-x: hidden;
     }
+
+
 
 </style>

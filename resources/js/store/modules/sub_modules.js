@@ -1,50 +1,50 @@
-import axios from 'axios'
+// import axios from 'axios'
 
-const state = {
-    sub_module_progress: []
-};
-const getters = {
-    getStudentSubModuleProgress: (state) => state.sub_module_progress,
-    // getSub_module: state => id => {
-    //     return state.sub_module.filter(sub_module => sub_module.main_module_id == id);
+// const state = {
+//     sub_module: [],
+// };
+// const getters = {
+//     getAll_sub_module: (state) => state.sub_module,
+//     getSub_module: state => id => {
+//         return state.sub_module.filter(sub_module => sub_module.main_module_id == id);
+//     },
+// };
 
+// const actions = {
+//     async fetchSubModule({ commit }, id) {
 
-    // }
+//         const res = await axios.get(
+//             `/api/sub_module/all/${id}`
+//         );
+//         ////console.log(res.data);
+//         commit('FETCH_SUB_MODULE', res.data);
 
-};
+//     },
 
-const actions = {
-    async fetchStudentSubModuleProgress({ commit }, id) {
+//     async createSubModule({ commit }, SubmoduleForm) {
 
-        const res = await axios.get(
-            `/api/student_sub_module/all/${id}`
-        );
-        ////console.log(res.data);
-        commit('SET_STUDENT_PROGRESS', res.data);
+//         const res = await axios.post(`/api/sub_module/insert`, SubmoduleForm);
 
-    },
+//         let newSubModule = res.data;
+//         // commit("CREATE_SUB_MODULE", newSubModule);
+//         state.sub_module.push({...newSubModule })
 
-    async addSubStudentProgress({ commit }, SubStudentProgressForm) {
-
-        const res = await axios.post(`/api/student_sub_module/insert`, SubStudentProgressForm);
-
-        let newSubModuleProgress = res.data;
-        commit("SET_STUDENT_PROGRESS", newSubModuleProgress);
-
-        return res;
-    },
+//         return res;
+//     },
 
 
 
-};
-const mutations = {
-    SET_STUDENT_PROGRESS: (state, sub_module_progress) => (state.sub_module_progress = sub_module_progress),
 
-};
+// };
+// const mutations = {
 
-export default {
-    state,
-    getters,
-    actions,
-    mutations
-};
+//     CREATE_SUB_MODULE: (state, sub_module) => (state.sub_module = sub_module),
+//     FETCH_SUB_MODULE: (state, sub_module) => (state.sub_module = sub_module),
+// };
+
+// export default {
+//     state,
+//     getters,
+//     actions,
+//     mutations
+// };

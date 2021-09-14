@@ -198,9 +198,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         axios.post("/api/student_sub_module/insert", {
           studentProgress: this.studentSubModuleProgressForm
         }).then(function (res) {
-          _this.$store.dispatch('studentmodule_progress', _this.$route.params.id);
+          _this.$store.dispatch('studentmodule_progress', _this.$route.params.id); // this.$store.dispatch('fetchClassList')
 
-          _this.$store.dispatch('fetchClassList');
 
           _this.fetchStudentModuleProgress();
         });
@@ -281,9 +280,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           if (_this3.studentSubModuleProgress[i].sub_module_id == data.sub_module_id) {
             _this3.studentSubModuleProgress[i].time_spent = data.time_spent;
 
-            _this3.$store.dispatch('studentmodule_progress', _this3.$route.params.id);
+            _this3.$store.dispatch('studentmodule_progress', _this3.$route.params.id); // this.$store.dispatch('fetchClassList')
 
-            _this3.$store.dispatch('fetchClassList');
 
             break;
           }
@@ -306,13 +304,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              _this5.fetchClass();
-
+              // this.fetchClass();
               _this5.fetchStudentModuleProgress();
 
               _this5.$store.dispatch('fetchMainModule', _this5.$route.params.id);
-
-              _this5.$store.dispatch('fetchSubModule', _this5.$route.params.id);
 
               _this5.$store.dispatch('studentmodule_progress', _this5.$route.params.id);
 
@@ -321,7 +316,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 _this5.firstLoad = false;
               }, 5000);
 
-            case 7:
+            case 5:
             case "end":
               return _context.stop();
           }

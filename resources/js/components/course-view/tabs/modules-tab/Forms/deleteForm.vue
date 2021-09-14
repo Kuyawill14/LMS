@@ -60,6 +60,7 @@
                         this.loading = false;
                         this.$emit('closeModal');
                         this.toastSuccess("Module Successfully Deleted");
+                    //   this.$store.dispatch('fetchMainModule', this.$route.params.id)
                     })
             },
         },
