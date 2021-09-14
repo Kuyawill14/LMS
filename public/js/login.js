@@ -174,6 +174,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var forgotPassword = function forgotPassword() {
   return __webpack_require__.e(/*! import() | verify-email */ "verify-email").then(__webpack_require__.bind(__webpack_require__, /*! ./forgot-password */ "./resources/js/components/login/forgot-password.vue"));
 };
@@ -211,7 +220,8 @@ var forgotPassword = function forgotPassword() {
         }
       },
       ToManyAttepmtError: null,
-      isForgotPassword: false
+      isForgotPassword: false,
+      IsloadingComponent: false
     };
   },
   computed: {
@@ -907,7 +917,8 @@ var render = function() {
                                                               $event
                                                             ) {
                                                               $event.preventDefault()
-                                                              _vm.isForgotPassword = !_vm.isForgotPassword
+                                                              ;(_vm.isForgotPassword = !_vm.isForgotPassword),
+                                                                (_vm.IsloadingComponent = !_vm.IsloadingComponent)
                                                             }
                                                           }
                                                         },
@@ -980,8 +991,29 @@ var render = function() {
                                     ? _c(
                                         "v-card-text",
                                         [
+                                          _c(
+                                            "div",
+                                            { staticClass: "text-center" },
+                                            [
+                                              _vm.IsloadingComponent
+                                                ? _c("v-progress-circular", {
+                                                    attrs: {
+                                                      color: "primary",
+                                                      indeterminate: ""
+                                                    }
+                                                  })
+                                                : _vm._e()
+                                            ],
+                                            1
+                                          ),
+                                          _vm._v(" "),
                                           _c("forgotPassword", {
                                             on: {
+                                              toggleIsloading: function(
+                                                $event
+                                              ) {
+                                                _vm.IsloadingComponent = !_vm.IsloadingComponent
+                                              },
                                               toggleLogin: function($event) {
                                                 _vm.isForgotPassword = !_vm.isForgotPassword
                                               }

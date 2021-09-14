@@ -53,6 +53,11 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
+    validate: function validate() {
+      if (this.$refs.ResetForm.validate()) {
+        this.RequestPasswordReset();
+      }
+    },
     RequestPasswordReset: function RequestPasswordReset() {
       var _this = this;
 
@@ -77,6 +82,9 @@ __webpack_require__.r(__webpack_exports__);
         _this.toastError('Something went wrong');
       });
     }
+  },
+  mounted: function mounted() {
+    this.$emit('toggleIsloading');
   }
 });
 
@@ -485,6 +493,12 @@ var render = function() {
       ref: "ResetForm",
       staticClass: "text-center",
       attrs: { "lazy-validation": "" },
+      on: {
+        submit: function($event) {
+          $event.preventDefault()
+          return _vm.validate()
+        }
+      },
       model: {
         value: _vm.valid,
         callback: function($$v) {
@@ -576,13 +590,9 @@ var render = function() {
                   staticClass: "pl-10 pr-10 pt-5 pb-5",
                   attrs: {
                     disabled: !_vm.valid || _vm.isSending,
+                    type: "submit",
                     rounded: "",
                     color: "primary"
-                  },
-                  on: {
-                    click: function($event) {
-                      return _vm.RequestPasswordReset()
-                    }
                   }
                 },
                 [

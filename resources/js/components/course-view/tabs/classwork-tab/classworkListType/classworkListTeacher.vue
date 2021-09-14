@@ -78,7 +78,7 @@
                             <!--  <v-hover v-slot="{ hover }"> -->
                             
                                 <v-expansion-panel-header  class="pa-5" disable-icon-rotate hide-actions>
-                                        <div class="d-flex flex-row justify-space-between">
+                                        <!-- <div class="d-flex flex-row justify-space-between">
                                         <div class="d-flex flex-row">
                                             <v-avatar size="45"
                                                 color="blue" class="mr-2">
@@ -89,7 +89,7 @@
                                             <div>
                                                 <div ma-0 pa-0 class="h1 ml-1 mt-2"> 
                                                     <span 
-                                                        style="width: 250px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;"
+                                                        style="width: 250px;overflow-x: hidden;white-space: nowrap;text-overflow: ellipsis;"
                                                         class="font-weight-bold">
                                                         {{item.title}}
                                                         <small class="primary--text font-weight-regular" v-if="item.type == 'Subjective Type'">({{item.points}} points)</small>
@@ -100,10 +100,56 @@
                                                 </div>
                                                 
                                             </div>
-                                        </div>
+                                        </div> -->
+
+                                        <v-list class="ma-0 pa-0">
+                                            <v-list-item class="ma-0 pa-0">
+                                                <v-list-item-avatar size="48" color="blue">                                    
+                                                        <v-icon  color="white" >
+                                                            mdi-book-open-variant
+                                                        </v-icon>
+                                                </v-list-item-avatar>
+                                     
+                                                <v-list-item-content style="width:10px">
+                                                    <v-list-item-title >
+                                                          {{item.title}}
+                                                    </v-list-item-title>
+                                                    <v-list-item-subtitle >
+                                                         Created: {{format_date(item.created_at)}}
+                                                    </v-list-item-subtitle>
+                                                </v-list-item-content>
+                                                <v-list-item-action>
+                                                    <v-menu  bottom offset-y>
+                                                        <template v-slot:activator="{ on, attrs }">
+                                                            <v-btn
+                                                            icon
+                                                            v-bind="attrs"
+                                                            v-on="on"
+                                                    
+                                                            >
+                                                            <v-icon >mdi-dots-vertical</v-icon>
+                                                        </v-btn>
+                                                    
+                                                        </template>
+                                                    
+                                                        <v-list rounded >
+                                                            <v-list-item link :to="{name: 'clwk',params: {id: $route.params.id},query: {clwk: item.id}}" ma-0 pa-0>
+                                                                <v-list-item-title> <v-icon left>mdi-notebook-edit-outline</v-icon>Edit classwork</v-list-item-title>
+                                                            </v-list-item>
+                                                            <v-list-item link @click="ArchiveClasswork(item, i, index)" ma-0 pa-0>
+                                                                <v-list-item-title><v-icon left>mdi-archive</v-icon>Archive</v-list-item-title>
+                                                            </v-list-item>
+                                                            <v-list-item v-if="item.submittion_count == 0" link @click="RemoveCLasswork(item)" ma-0 pa-0>
+                                                                <v-list-item-title><v-icon left>mdi-delete</v-icon>Delete</v-list-item-title>
+                                                            </v-list-item>
+                                                        </v-list>
+                                                    </v-menu>
+                                                </v-list-item-action>
+                                            </v-list-item>
+                                        </v-list>
                                         
                                         
-                                        <v-menu  bottom offset-y>
+                                       <!--  <v-menu  bottom offset-y>
                                             <template v-slot:activator="{ on, attrs }">
                                                 <v-btn
                                                 icon
@@ -127,8 +173,8 @@
                                                     <v-list-item-title><v-icon left>mdi-delete</v-icon>Delete</v-list-item-title>
                                                 </v-list-item>
                                             </v-list>
-                                        </v-menu>
-                                    </div>
+                                        </v-menu> -->
+                                   <!--  </div> -->
                                 </v-expansion-panel-header>
                             <!--  </v-hover> -->
                             <v-expansion-panel-content id="extend" class=" expand ma-0 pa-0 mt-3">

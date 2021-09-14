@@ -76,29 +76,28 @@
             <v-col cols="12" v-show="classworks.ClassworksList[i].length != 0 && (SelectedFilter == 'All' || SelectedFilter == data.title)" class="mt-1 ml-0  mr-0" v-for="(data, i) in classworks.ClassworkTitle" :key="i">
               
             <v-row v-if="classworks.ClassworksList[i].length != 0 && (SelectedFilter == 'All' || SelectedFilter == data.title)" >
-                <v-col v-if="classworks.ClassworksList[i].length != 0" cols="12"  class="ma-0 pa-0 "><h2 class="font-weight-regular">{{data.title}} <small class="font-weight-medium">({{data.percent}}%)</small> </h2></v-col>
-                <v-col cols="12"  md="6" lg="4" xl="4" class="pb-0 mb-0" v-for="(item, index) in classworks.ClassworksList[i]" :key="index">
+                <v-col v-if="classworks.ClassworksList[i].length != 0" cols="12"  class="ma-0 pa-0 "><h2 class="font-weight-regular text-body-1">{{data.title}} <small class="font-weight-medium">({{data.percent}}%)</small> </h2></v-col>
+                <v-col cols="12"  md="6" lg="4" xl="4" class="pb-0 mb-0 " v-for="(item, index) in classworks.ClassworksList[i]" :key="index">
                    
                     <v-hover v-slot="{ hover }">
-                        <v-card  outlined @click="OpenClaswork(item.type,item.status,item.score,item.classwork_id)" 
-                            link :elevation="hover ? 1 : 0"  >
+                        <v-card   @click="OpenClaswork(item.type,item.status,item.score,item.classwork_id)" 
+                            link :elevation="hover ? 4 : 3" class="pt-2 pb-2">
                              <vue-element-loading  :active="isLoading && Preview_id == item.classwork_id " text="Loading..." spinner="bar-fade-scale" />
                             
                                 <v-list>
                                     <v-list-item>
-                                        <v-list-item-avatar>
-                                            <v-avatar size="40"
-                                                :color="item.availability == 0 ?  item.status == 'Submitted' ?  'success' : 'blue'  : 
+                                        <v-list-item-avatar size="45" :color="item.availability == 0 ?  item.status == 'Submitted' ?  'success' : 'blue'  : 
                                                 CheckFormatDue(item.to_date) > DateToday ? item.status == 'Submitted' ? 'success' :'blue'
-                                                : item.status == 'Submitted' ? 'success': 'red darken-4'" >
+                                                : item.status == 'Submitted' ? 'success': 'red darken-4'"  >
+                                            
                                                     <v-icon 
                                                 class="pl-2 pr-2" color="white" >
                                                     {{item.status == 'Submitted' ? 'mdi-check':'mdi-book-open-variant'}}
                                                 </v-icon>
-                                            </v-avatar>
+                                       
                                         </v-list-item-avatar>
                                         <v-list-item-content>
-                                            <v-list-item-title>
+                                            <v-list-item-title >
                                                 <v-tooltip top>
                                                     <template v-slot:activator="{ on, attrs }">
                                                     <div v-bind="attrs" v-on="on"  ma-0 pa-0 class="h1 ml-1"> 

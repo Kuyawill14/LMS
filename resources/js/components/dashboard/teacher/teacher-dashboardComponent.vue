@@ -56,12 +56,12 @@
                             <v-dialog transition="dialog-bottom-transition" max-width="1000px"  v-model="calendarDialog" id="calendar_modal">
 
                                 <v-card class="pt-3">
-
+                                  <!--   <v-card-actions>
+                                    <v-btn icon  @click="calendarDialog = false"> <v-icon>mdi-close</v-icon> </v-btn>
+                                </v-card-actions> -->
                                     <myCalendar :role="role"></myCalendar>
                                     <br> 
-                                    <v-card-actions class="justify-end">
-                                        <v-btn text @click="calendarDialog = false">Close</v-btn>
-                                    </v-card-actions>
+                                  
                                 </v-card>
 
                             </v-dialog>

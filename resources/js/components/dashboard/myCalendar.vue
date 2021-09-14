@@ -104,37 +104,38 @@
           :close-on-content-click="false"
           :activator="selectedElement"
           offset-x
+          max-width="350px"
         >
-          <v-card color="grey lighten-4" min-width="350px" flat>
+          <v-card color="grey lighten-4" min-width="350px" max-width="350px" flat>
             <v-toolbar
               :color="selectedEvent.color"
               dark
+              dense
             >
-              <v-btn icon>
-                <v-icon>mdi-pencil</v-icon>
-              </v-btn>
-              <v-toolbar-title v-html="selectedEvent.name"></v-toolbar-title>
+
+           
+              <v-toolbar-title style="width:100%" v-html="selectedEvent.name"></v-toolbar-title>
               <v-spacer></v-spacer>
             <!--   <v-btn icon>
                 <v-icon>mdi-heart</v-icon>
               </v-btn> -->
-              <v-btn icon>
-                <v-icon>mdi-dots-vertical</v-icon>
+              <v-btn  @click="selectedOpen = false" icon>
+                <v-icon>mdi-close</v-icon>
               </v-btn>
             </v-toolbar>
-            <v-card-text>
-              <span v-html="selectedEvent.details"></span>
-              <div>Sample</div>
-            </v-card-text>
-            <v-card-actions>
-              <v-btn
-                text
-                color="secondary"
-                @click="selectedOpen = false"
-              >
-                Close
+            <v-card-text >
+       
+               <div> <span class="font-weight-bold">Due date: </span> {{format_date(selectedEvent.end)}}</div>
+               <div >
+                  <v-btn @click="$router.push({path: '/classwork/'+selectedEvent.course_id+'/classwork-details?clwk='+selectedEvent.classwork_id})" 
+                  rounded text :color="selectedEvent.color">
+                    View Classwork
+                <v-icon right>mdi-eye</v-icon>
               </v-btn>
-            </v-card-actions>
+               </div>
+               
+            </v-card-text>
+         
           </v-card>
         </v-menu>
       </v-sheet>
@@ -170,6 +171,11 @@ import moment from 'moment/src/moment';
       this.DateToday = moment(newDate).format("YYYY-MM-DDTHH:mm:ss");
     },
     methods: {
+    format_date(value) {
+        if (value) {
+            return moment(String(value)).format('dddd, h:mm a')
+        }
+    },
     async getGeneralClassworks() {
         axios.get('/api/profile/mycalendar')
         .then(res=>{
@@ -205,6 +211,10 @@ import moment from 'moment/src/moment';
                       start: moment(this.CalendarSched[index].from_date)._d,
                       end: moment(this.CalendarSched[index].to_date)._d,
                       color: color,
+                      classwork_id: this.CalendarSched[index].classwork_id,
+                      course_id: this.CalendarSched[index].course_id,
+                      class_id: this.CalendarSched[index].class_id
+
                     })
                 this.$emit('RecieveTotalClasswork', this.unfinishCount)
               }

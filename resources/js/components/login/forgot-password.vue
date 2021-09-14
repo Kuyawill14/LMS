@@ -1,5 +1,5 @@
 <template>
-<v-form class="text-center" ref="ResetForm" v-model="valid" lazy-validation>
+<v-form @submit.prevent="validate()" class="text-center" ref="ResetForm" v-model="valid" lazy-validation>
      <vue-element-loading :active="isSending" text="Sending please wait..." spinner="bar-fade-scale" color="#EF6C00" />
         <v-row  align="center" justify="center">
              <v-col class="ma-0 pa-0 text-left mt-4" cols="12" md="8">
@@ -15,7 +15,7 @@
             </v-col>
 
              <v-col class="ma-0 pa-0" cols="12" md="8">
-               <v-btn :disabled="!valid || isSending"  @click="RequestPasswordReset()" class="pl-10 pr-10 pt-5 pb-5" rounded color="primary" > {{isSending ? 'Sending...':'Reset password'}}</v-btn>
+               <v-btn :disabled="!valid || isSending" type="submit" class="pl-10 pr-10 pt-5 pb-5" rounded color="primary" > {{isSending ? 'Sending...':'Reset password'}}</v-btn>
             </v-col>
 
              <v-col class="ma-0 pa-0 mt-4" cols="12" md="8">
@@ -41,6 +41,11 @@ export default {
         }
     },
     methods:{
+        validate () {
+            if(this.$refs.ResetForm.validate()){
+                this.RequestPasswordReset();
+            }
+        },
         RequestPasswordReset(){
             this.isSending = true;
             axios.put("/api/send_reset_password", this.form)
@@ -63,6 +68,9 @@ export default {
             })
             
         }
+    },
+    mounted(){
+        this.$emit('toggleIsloading');
     }
 }
 </script>

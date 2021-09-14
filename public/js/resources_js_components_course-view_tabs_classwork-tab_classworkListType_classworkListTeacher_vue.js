@@ -180,6 +180,52 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var deleteDialog = function deleteDialog() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_tabs_classwork-tab_dialogs_deleteDiaglog_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../dialogs/deleteDiaglog */ "./resources/js/components/course-view/tabs/classwork-tab/dialogs/deleteDiaglog.vue"));
 };
@@ -724,25 +770,20 @@ var render = function() {
                                             },
                                             [
                                               _c(
-                                                "div",
-                                                {
-                                                  staticClass:
-                                                    "d-flex flex-row justify-space-between"
-                                                },
+                                                "v-list",
+                                                { staticClass: "ma-0 pa-0" },
                                                 [
                                                   _c(
-                                                    "div",
+                                                    "v-list-item",
                                                     {
-                                                      staticClass:
-                                                        "d-flex flex-row"
+                                                      staticClass: "ma-0 pa-0"
                                                     },
                                                     [
                                                       _c(
-                                                        "v-avatar",
+                                                        "v-list-item-avatar",
                                                         {
-                                                          staticClass: "mr-2",
                                                           attrs: {
-                                                            size: "45",
+                                                            size: "48",
                                                             color: "blue"
                                                           }
                                                         },
@@ -756,7 +797,7 @@ var render = function() {
                                                             },
                                                             [
                                                               _vm._v(
-                                                                "\r\n                                                    mdi-book-open-variant\r\n                                                "
+                                                                "\r\n                                                            mdi-book-open-variant\r\n                                                        "
                                                               )
                                                             ]
                                                           )
@@ -764,295 +805,277 @@ var render = function() {
                                                         1
                                                       ),
                                                       _vm._v(" "),
-                                                      _c("div", [
-                                                        _c(
-                                                          "div",
-                                                          {
-                                                            staticClass:
-                                                              "h1 ml-1 mt-2",
-                                                            attrs: {
-                                                              "ma-0": "",
-                                                              "pa-0": ""
-                                                            }
-                                                          },
-                                                          [
-                                                            _c(
-                                                              "span",
-                                                              {
-                                                                staticClass:
-                                                                  "font-weight-bold",
-                                                                staticStyle: {
-                                                                  width:
-                                                                    "250px",
-                                                                  overflow:
-                                                                    "hidden",
-                                                                  "white-space":
-                                                                    "nowrap",
-                                                                  "text-overflow":
-                                                                    "ellipsis"
-                                                                }
-                                                              },
-                                                              [
-                                                                _vm._v(
-                                                                  "\r\n                                                        " +
-                                                                    _vm._s(
-                                                                      item.title
-                                                                    ) +
-                                                                    "\r\n                                                        "
-                                                                ),
-                                                                item.type ==
-                                                                "Subjective Type"
-                                                                  ? _c(
-                                                                      "small",
-                                                                      {
-                                                                        staticClass:
-                                                                          "primary--text font-weight-regular"
-                                                                      },
-                                                                      [
-                                                                        _vm._v(
-                                                                          "(" +
-                                                                            _vm._s(
-                                                                              item.points
-                                                                            ) +
-                                                                            " points)"
-                                                                        )
-                                                                      ]
-                                                                    )
-                                                                  : _vm._e()
-                                                              ]
-                                                            )
-                                                          ]
-                                                        ),
-                                                        _vm._v(" "),
-                                                        _c("div", [
+                                                      _c(
+                                                        "v-list-item-content",
+                                                        {
+                                                          staticStyle: {
+                                                            width: "10px"
+                                                          }
+                                                        },
+                                                        [
                                                           _c(
-                                                            "small",
-                                                            {
-                                                              staticClass:
-                                                                "card-subtitle text-50 mb-0 pb-0"
-                                                            },
+                                                            "v-list-item-title",
                                                             [
                                                               _vm._v(
-                                                                "Created: " +
+                                                                "\r\n                                                          " +
+                                                                  _vm._s(
+                                                                    item.title
+                                                                  ) +
+                                                                  "\r\n                                                    "
+                                                              )
+                                                            ]
+                                                          ),
+                                                          _vm._v(" "),
+                                                          _c(
+                                                            "v-list-item-subtitle",
+                                                            [
+                                                              _vm._v(
+                                                                "\r\n                                                         Created: " +
                                                                   _vm._s(
                                                                     _vm.format_date(
                                                                       item.created_at
                                                                     )
-                                                                  )
-                                                              ),
-                                                              _c("br")
+                                                                  ) +
+                                                                  "\r\n                                                    "
+                                                              )
                                                             ]
                                                           )
-                                                        ])
-                                                      ])
-                                                    ],
-                                                    1
-                                                  ),
-                                                  _vm._v(" "),
-                                                  _c(
-                                                    "v-menu",
-                                                    {
-                                                      attrs: {
-                                                        bottom: "",
-                                                        "offset-y": ""
-                                                      },
-                                                      scopedSlots: _vm._u(
-                                                        [
-                                                          {
-                                                            key: "activator",
-                                                            fn: function(ref) {
-                                                              var on = ref.on
-                                                              var attrs =
-                                                                ref.attrs
-                                                              return [
-                                                                _c(
-                                                                  "v-btn",
-                                                                  _vm._g(
-                                                                    _vm._b(
-                                                                      {
-                                                                        attrs: {
-                                                                          icon:
-                                                                            ""
-                                                                        }
-                                                                      },
-                                                                      "v-btn",
-                                                                      attrs,
-                                                                      false
-                                                                    ),
-                                                                    on
-                                                                  ),
-                                                                  [
-                                                                    _c(
-                                                                      "v-icon",
-                                                                      [
-                                                                        _vm._v(
-                                                                          "mdi-dots-vertical"
-                                                                        )
-                                                                      ]
-                                                                    )
-                                                                  ],
-                                                                  1
-                                                                )
-                                                              ]
-                                                            }
-                                                          }
                                                         ],
-                                                        null,
-                                                        true
-                                                      )
-                                                    },
-                                                    [
+                                                        1
+                                                      ),
                                                       _vm._v(" "),
                                                       _c(
-                                                        "v-list",
-                                                        {
-                                                          attrs: { rounded: "" }
-                                                        },
+                                                        "v-list-item-action",
                                                         [
                                                           _c(
-                                                            "v-list-item",
+                                                            "v-menu",
                                                             {
                                                               attrs: {
-                                                                link: "",
-                                                                to: {
-                                                                  name: "clwk",
-                                                                  params: {
-                                                                    id:
-                                                                      _vm.$route
-                                                                        .params
-                                                                        .id
-                                                                  },
-                                                                  query: {
-                                                                    clwk:
-                                                                      item.id
-                                                                  }
-                                                                },
-                                                                "ma-0": "",
-                                                                "pa-0": ""
-                                                              }
-                                                            },
-                                                            [
-                                                              _c(
-                                                                "v-list-item-title",
-                                                                [
-                                                                  _c(
-                                                                    "v-icon",
-                                                                    {
-                                                                      attrs: {
-                                                                        left: ""
-                                                                      }
-                                                                    },
-                                                                    [
-                                                                      _vm._v(
-                                                                        "mdi-notebook-edit-outline"
-                                                                      )
-                                                                    ]
-                                                                  ),
-                                                                  _vm._v(
-                                                                    "Edit classwork"
-                                                                  )
-                                                                ],
-                                                                1
-                                                              )
-                                                            ],
-                                                            1
-                                                          ),
-                                                          _vm._v(" "),
-                                                          _c(
-                                                            "v-list-item",
-                                                            {
-                                                              attrs: {
-                                                                link: "",
-                                                                "ma-0": "",
-                                                                "pa-0": ""
+                                                                bottom: "",
+                                                                "offset-y": ""
                                                               },
-                                                              on: {
-                                                                click: function(
-                                                                  $event
-                                                                ) {
-                                                                  return _vm.ArchiveClasswork(
-                                                                    item,
-                                                                    i,
-                                                                    index
-                                                                  )
-                                                                }
-                                                              }
-                                                            },
-                                                            [
-                                                              _c(
-                                                                "v-list-item-title",
+                                                              scopedSlots: _vm._u(
                                                                 [
-                                                                  _c(
-                                                                    "v-icon",
-                                                                    {
-                                                                      attrs: {
-                                                                        left: ""
-                                                                      }
-                                                                    },
-                                                                    [
-                                                                      _vm._v(
-                                                                        "mdi-archive"
-                                                                      )
-                                                                    ]
-                                                                  ),
-                                                                  _vm._v(
-                                                                    "Archive"
-                                                                  )
-                                                                ],
-                                                                1
-                                                              )
-                                                            ],
-                                                            1
-                                                          ),
-                                                          _vm._v(" "),
-                                                          item.submittion_count ==
-                                                          0
-                                                            ? _c(
-                                                                "v-list-item",
-                                                                {
-                                                                  attrs: {
-                                                                    link: "",
-                                                                    "ma-0": "",
-                                                                    "pa-0": ""
-                                                                  },
-                                                                  on: {
-                                                                    click: function(
-                                                                      $event
+                                                                  {
+                                                                    key:
+                                                                      "activator",
+                                                                    fn: function(
+                                                                      ref
                                                                     ) {
-                                                                      return _vm.RemoveCLasswork(
-                                                                        item
-                                                                      )
+                                                                      var on =
+                                                                        ref.on
+                                                                      var attrs =
+                                                                        ref.attrs
+                                                                      return [
+                                                                        _c(
+                                                                          "v-btn",
+                                                                          _vm._g(
+                                                                            _vm._b(
+                                                                              {
+                                                                                attrs: {
+                                                                                  icon:
+                                                                                    ""
+                                                                                }
+                                                                              },
+                                                                              "v-btn",
+                                                                              attrs,
+                                                                              false
+                                                                            ),
+                                                                            on
+                                                                          ),
+                                                                          [
+                                                                            _c(
+                                                                              "v-icon",
+                                                                              [
+                                                                                _vm._v(
+                                                                                  "mdi-dots-vertical"
+                                                                                )
+                                                                              ]
+                                                                            )
+                                                                          ],
+                                                                          1
+                                                                        )
+                                                                      ]
                                                                     }
                                                                   }
+                                                                ],
+                                                                null,
+                                                                true
+                                                              )
+                                                            },
+                                                            [
+                                                              _vm._v(" "),
+                                                              _c(
+                                                                "v-list",
+                                                                {
+                                                                  attrs: {
+                                                                    rounded: ""
+                                                                  }
                                                                 },
                                                                 [
                                                                   _c(
-                                                                    "v-list-item-title",
-                                                                    [
-                                                                      _c(
-                                                                        "v-icon",
-                                                                        {
-                                                                          attrs: {
-                                                                            left:
-                                                                              ""
+                                                                    "v-list-item",
+                                                                    {
+                                                                      attrs: {
+                                                                        link:
+                                                                          "",
+                                                                        to: {
+                                                                          name:
+                                                                            "clwk",
+                                                                          params: {
+                                                                            id:
+                                                                              _vm
+                                                                                .$route
+                                                                                .params
+                                                                                .id
+                                                                          },
+                                                                          query: {
+                                                                            clwk:
+                                                                              item.id
                                                                           }
                                                                         },
+                                                                        "ma-0":
+                                                                          "",
+                                                                        "pa-0":
+                                                                          ""
+                                                                      }
+                                                                    },
+                                                                    [
+                                                                      _c(
+                                                                        "v-list-item-title",
                                                                         [
+                                                                          _c(
+                                                                            "v-icon",
+                                                                            {
+                                                                              attrs: {
+                                                                                left:
+                                                                                  ""
+                                                                              }
+                                                                            },
+                                                                            [
+                                                                              _vm._v(
+                                                                                "mdi-notebook-edit-outline"
+                                                                              )
+                                                                            ]
+                                                                          ),
                                                                           _vm._v(
-                                                                            "mdi-delete"
+                                                                            "Edit classwork"
                                                                           )
-                                                                        ]
-                                                                      ),
-                                                                      _vm._v(
-                                                                        "Delete"
+                                                                        ],
+                                                                        1
                                                                       )
                                                                     ],
                                                                     1
-                                                                  )
+                                                                  ),
+                                                                  _vm._v(" "),
+                                                                  _c(
+                                                                    "v-list-item",
+                                                                    {
+                                                                      attrs: {
+                                                                        link:
+                                                                          "",
+                                                                        "ma-0":
+                                                                          "",
+                                                                        "pa-0":
+                                                                          ""
+                                                                      },
+                                                                      on: {
+                                                                        click: function(
+                                                                          $event
+                                                                        ) {
+                                                                          return _vm.ArchiveClasswork(
+                                                                            item,
+                                                                            i,
+                                                                            index
+                                                                          )
+                                                                        }
+                                                                      }
+                                                                    },
+                                                                    [
+                                                                      _c(
+                                                                        "v-list-item-title",
+                                                                        [
+                                                                          _c(
+                                                                            "v-icon",
+                                                                            {
+                                                                              attrs: {
+                                                                                left:
+                                                                                  ""
+                                                                              }
+                                                                            },
+                                                                            [
+                                                                              _vm._v(
+                                                                                "mdi-archive"
+                                                                              )
+                                                                            ]
+                                                                          ),
+                                                                          _vm._v(
+                                                                            "Archive"
+                                                                          )
+                                                                        ],
+                                                                        1
+                                                                      )
+                                                                    ],
+                                                                    1
+                                                                  ),
+                                                                  _vm._v(" "),
+                                                                  item.submittion_count ==
+                                                                  0
+                                                                    ? _c(
+                                                                        "v-list-item",
+                                                                        {
+                                                                          attrs: {
+                                                                            link:
+                                                                              "",
+                                                                            "ma-0":
+                                                                              "",
+                                                                            "pa-0":
+                                                                              ""
+                                                                          },
+                                                                          on: {
+                                                                            click: function(
+                                                                              $event
+                                                                            ) {
+                                                                              return _vm.RemoveCLasswork(
+                                                                                item
+                                                                              )
+                                                                            }
+                                                                          }
+                                                                        },
+                                                                        [
+                                                                          _c(
+                                                                            "v-list-item-title",
+                                                                            [
+                                                                              _c(
+                                                                                "v-icon",
+                                                                                {
+                                                                                  attrs: {
+                                                                                    left:
+                                                                                      ""
+                                                                                  }
+                                                                                },
+                                                                                [
+                                                                                  _vm._v(
+                                                                                    "mdi-delete"
+                                                                                  )
+                                                                                ]
+                                                                              ),
+                                                                              _vm._v(
+                                                                                "Delete"
+                                                                              )
+                                                                            ],
+                                                                            1
+                                                                          )
+                                                                        ],
+                                                                        1
+                                                                      )
+                                                                    : _vm._e()
                                                                 ],
                                                                 1
                                                               )
-                                                            : _vm._e()
+                                                            ],
+                                                            1
+                                                          )
                                                         ],
                                                         1
                                                       )
@@ -1062,7 +1085,8 @@ var render = function() {
                                                 ],
                                                 1
                                               )
-                                            ]
+                                            ],
+                                            1
                                           ),
                                           _vm._v(" "),
                                           _c(

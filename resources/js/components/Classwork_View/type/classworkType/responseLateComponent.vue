@@ -1,28 +1,27 @@
 <template>
-<div class=" mt-5 d-flex align-center" >
-    <v-row justify="center" align="center">
-        <v-col cols="12" md="12" class="pl-7 pr-9 pt-5">
-            <v-card elevation="1" outlined class="pa-3" >
+<div class=" mt-12 d-flex align-center" >
+    <v-row style="margin-top:10rem"  justify="center" align="center">
+        <v-col cols="12" md="10" lg="8" xl="8" class="pl-7 pr-7 pt-5">
+            <v-card elevation="1" outlined class="pa-3 text-center" >
+                <div class="text-left">
+                    <v-btn icon @click="$router.push({name: 'classwork', params:{id: course_id}})">
+                        <v-icon>
+                            mdi-arrow-left
+                        </v-icon>
+                    </v-btn>
+                </div>
                 <v-row style="height:4vh"></v-row>
-                    <v-row>
-                        <v-col cols="12">
-                            <v-container ma-0 pa-0 class="d-flex flex-row justify-space-between">
-                            <v-btn
-                            class="mx-2"
-                            fab
-                            dark
+                    <v-row justify="center" align="center">
+                        <v-col cols="12" >
                             
-                            color="red"
-                            >
-                            <v-icon x-large>
+                            <v-avatar  color="red"  size="65">
+                                 <v-icon color="white" x-large>
                             mdi-lock
                             </v-icon>
-                            </v-btn>
-                            
-                        </v-container>
+                            </v-avatar>
                         </v-col>
                         <v-col cols="12">
-                            <div class="h1">
+                            <div class="text-h5">
                                 Classwork is Lock!
                             </div>
                         </v-col>
@@ -34,4 +33,9 @@
     </v-row>
 </div>      
 </template>
+<script>
+export default {
+    props:['course_id']
+}
+</script>
 

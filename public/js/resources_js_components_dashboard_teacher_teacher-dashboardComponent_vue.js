@@ -533,27 +533,7 @@ var render = function() {
                                     attrs: { role: _vm.role }
                                   }),
                                   _vm._v(" "),
-                                  _c("br"),
-                                  _vm._v(" "),
-                                  _c(
-                                    "v-card-actions",
-                                    { staticClass: "justify-end" },
-                                    [
-                                      _c(
-                                        "v-btn",
-                                        {
-                                          attrs: { text: "" },
-                                          on: {
-                                            click: function($event) {
-                                              _vm.calendarDialog = false
-                                            }
-                                          }
-                                        },
-                                        [_vm._v("Close")]
-                                      )
-                                    ],
-                                    1
-                                  )
+                                  _c("br")
                                 ],
                                 1
                               )

@@ -295,7 +295,13 @@ var render = function() {
                             {
                               attrs: { cols: "12", md: "7", lg: "6", xl: "6" }
                             },
-                            [_c("responseLatePageWarning")],
+                            [
+                              _c("responseLatePageWarning", {
+                                attrs: {
+                                  course_id: _vm.classworkDetails.course_id
+                                }
+                              })
+                            ],
                             1
                           )
                         : _c(

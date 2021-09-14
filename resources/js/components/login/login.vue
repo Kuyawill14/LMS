@@ -112,7 +112,7 @@
                                                             </v-checkbox>
                                                         </v-col>
                                                         <v-col class="float-right"> -->
-                                                            <a href="#" @click.prevent="isForgotPassword = !isForgotPassword" class="float-right">Forgot Password?</a>
+                                                            <a href="#" @click.prevent="isForgotPassword = !isForgotPassword, IsloadingComponent = !IsloadingComponent" class="float-right">Forgot Password?</a>
                                                     <!--     </v-col>
                                                     </v-row> -->
                                                 </v-col>
@@ -129,8 +129,17 @@
 
 
                                      <v-card-text v-if="isForgotPassword">
-                                          
-                                            <forgotPassword v-on:toggleLogin="isForgotPassword = !isForgotPassword"></forgotPassword>
+                                 <!--            <vue-element-loading :active="IsloadingComponent" spinner="bar-fade-scale" color="#EF6C00" /> -->
+                                            <div class="text-center">
+                                                <v-progress-circular
+                                           
+                                                v-if="IsloadingComponent"
+                                                color="primary"
+                                                indeterminate
+                                                ></v-progress-circular>
+                                            </div>
+                                         
+                                            <forgotPassword v-on:toggleIsloading="IsloadingComponent = !IsloadingComponent" v-on:toggleLogin="isForgotPassword = !isForgotPassword"></forgotPassword>
                                     
                                     </v-card-text>
                                 </v-col>
@@ -190,7 +199,8 @@
                     min: v => (v && v.length >= 6) || "Min 6 characters"
                 },
                 ToManyAttepmtError: null,
-                isForgotPassword: false
+                isForgotPassword: false,
+                IsloadingComponent: false
 
             }
         },

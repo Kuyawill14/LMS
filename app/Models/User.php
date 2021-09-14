@@ -13,7 +13,6 @@ use Carbon\Carbon;
 class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable;
-
     /**
      * The attributes that are mass assignable.
      *
@@ -48,7 +47,5 @@ class User extends Authenticatable implements MustVerifyEmail
     public function sendEmailVerificationNotification() {
         $now = now()->addSeconds(2);
         $this->notify((new VerifyNotification())->delay($now));
-
     }
-
 }

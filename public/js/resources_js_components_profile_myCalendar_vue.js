@@ -167,16 +167,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['role'],
@@ -206,6 +196,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     this.DateToday = (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_1__.default)(newDate).format("YYYY-MM-DDTHH:mm:ss");
   },
   methods: {
+    format_date: function format_date(value) {
+      if (value) {
+        return (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_1__.default)(String(value)).format('dddd, h:mm a');
+      }
+    },
     getGeneralClassworks: function getGeneralClassworks() {
       var _this = this;
 
@@ -250,7 +245,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                         start: (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_1__.default)(_this.CalendarSched[index].from_date)._d,
                         end: (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_1__.default)(_this.CalendarSched[index].to_date)._d,
                         color: color,
-                        timed: !allDay
+                        timed: !allDay,
+                        classwork_id: _this.CalendarSched[index].classwork_id,
+                        course_id: _this.CalendarSched[index].course_id,
+                        class_id: _this.CalendarSched[index].class_id
                       });
                     }
                   }
@@ -9033,7 +9031,8 @@ var render = function() {
                       attrs: {
                         "close-on-content-click": false,
                         activator: _vm.selectedElement,
-                        "offset-x": ""
+                        "offset-x": "",
+                        "max-width": "350px"
                       },
                       model: {
                         value: _vm.selectedOpen,
@@ -9050,6 +9049,7 @@ var render = function() {
                           attrs: {
                             color: "grey lighten-4",
                             "min-width": "350px",
+                            "max-width": "350px",
                             flat: ""
                           }
                         },
@@ -9059,18 +9059,13 @@ var render = function() {
                             {
                               attrs: {
                                 color: _vm.selectedEvent.color,
-                                dark: ""
+                                dark: "",
+                                dense: ""
                               }
                             },
                             [
-                              _c(
-                                "v-btn",
-                                { attrs: { icon: "" } },
-                                [_c("v-icon", [_vm._v("mdi-pencil")])],
-                                1
-                              ),
-                              _vm._v(" "),
                               _c("v-toolbar-title", {
+                                staticStyle: { width: "100%" },
                                 domProps: {
                                   innerHTML: _vm._s(_vm.selectedEvent.name)
                                 }
@@ -9080,8 +9075,15 @@ var render = function() {
                               _vm._v(" "),
                               _c(
                                 "v-btn",
-                                { attrs: { icon: "" } },
-                                [_c("v-icon", [_vm._v("mdi-dots-vertical")])],
+                                {
+                                  attrs: { icon: "" },
+                                  on: {
+                                    click: function($event) {
+                                      _vm.selectedOpen = false
+                                    }
+                                  }
+                                },
+                                [_c("v-icon", [_vm._v("mdi-close")])],
                                 1
                               )
                             ],
@@ -9089,53 +9091,53 @@ var render = function() {
                           ),
                           _vm._v(" "),
                           _c("v-card-text", [
-                            _c("span", {
-                              domProps: {
-                                innerHTML: _vm._s(_vm.selectedEvent.details)
-                              }
-                            }),
-                            _vm._v(" "),
-                            _c("div", [_vm._v("Sample")])
-                          ]),
-                          _vm._v(" "),
-                          _c(
-                            "v-card-actions",
-                            [
-                              _c(
-                                "v-btn",
-                                {
-                                  attrs: {
-                                    text: "",
-                                    rounded: "",
-                                    color: "secondary"
-                                  },
-                                  on: {
-                                    click: function($event) {
-                                      _vm.selectedOpen = false
-                                    }
-                                  }
-                                },
-                                [_vm._v("\n              Close\n            ")]
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "v-btn",
-                                {
-                                  attrs: {
-                                    rounded: "",
-                                    color: _vm.selectedEvent.color
-                                  },
-                                  on: {
-                                    click: function($event) {
-                                      _vm.selectedOpen = false
-                                    }
-                                  }
-                                },
-                                [_vm._v("\n              Open\n            ")]
+                            _c("div", [
+                              _c("span", { staticClass: "font-weight-bold" }, [
+                                _vm._v("Due date: ")
+                              ]),
+                              _vm._v(
+                                " " +
+                                  _vm._s(_vm.format_date(_vm.selectedEvent.end))
                               )
-                            ],
-                            1
-                          )
+                            ]),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              [
+                                _c(
+                                  "v-btn",
+                                  {
+                                    attrs: {
+                                      rounded: "",
+                                      text: "",
+                                      color: _vm.selectedEvent.color
+                                    },
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.$router.push({
+                                          path:
+                                            "/classwork/" +
+                                            _vm.selectedEvent.course_id +
+                                            "/classwork-details?clwk=" +
+                                            _vm.selectedEvent.classwork_id
+                                        })
+                                      }
+                                    }
+                                  },
+                                  [
+                                    _vm._v(
+                                      "\n                    View Classwork\n                "
+                                    ),
+                                    _c("v-icon", { attrs: { right: "" } }, [
+                                      _vm._v("mdi-eye")
+                                    ])
+                                  ],
+                                  1
+                                )
+                              ],
+                              1
+                            )
+                          ])
                         ],
                         1
                       )
