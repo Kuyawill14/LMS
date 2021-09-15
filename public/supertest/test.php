@@ -30,11 +30,12 @@
         // Use the Google API Loader script to load the google.picker script.
         function loadPicker() {
             gapi.load('auth', {
-                'callback': self.onAuthApiLoad.bind(this)
+                'callback': onAuthApiLoad
             });
             gapi.load('picker', {
                 'callback': onPickerApiLoad
             });
+
         }
 
         function onAuthApiLoad() {
@@ -109,28 +110,39 @@
         // A simple callback implementation.
         function pickerCallback(data) {
             if (data.action == google.picker.Action.PICKED) {
-                var doc = data[google.picker.Response.DOCUMENTS][0];
-                url = doc[google.picker.Document.URL];
+                var doc = "";
+                var fileID = "";
 
-                alert('The user selected: ' + url);
+                var gdurl = "";
+                var type = "anyone";
+                var role = "reader";
+                for (var i = 0; i < data[google.picker.Response.DOCUMENTS].length; i++) {
+                    doc = data[google.picker.Response.DOCUMENTS][i];
+                    gdurl = gdurl + " " + doc[google.picker.Document.URL];
 
-                var fileId = data.docs[0].id;
-                fileID = doc[google.picker.Document.ID];
-                var request1 = gapi.client.request({
-                    'path': '/drive/v3/files/' + fileID + '/permissions',
-                    'method': 'POST',
-                    'headers': {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + oauthToken
-                    },
-                    'body': {
-                        'role': role,
-                        'type': type
-                    }
-                });
-                request1.execute(function (resp) {
-                    console.log(resp);
-                });
+                    //change the file permissions to share with anyone with the link
+                    fileID = doc[google.picker.Document.ID];
+                    var request1 = gapi.client.request({
+                        'path': '/drive/v3/files/' + fileID + '/permissions',
+                        'method': 'POST',
+                        'headers': {
+                            'Content-Type': 'application/json',
+                            'Authorization': 'Bearer ' + oauthToken
+                        },
+                        'body': {
+                            'role': role,
+                            'type': type
+                        }
+                    });
+                    request1.execute(function (resp) {
+                        console.log(resp);
+                    });
+                }
+                // Form and display the message with hyperlinks included
+                var message = 'Google Drive media link(s): ' + gdurl;
+                alert('Success! Here are the hyperlinks for anyone to view: ' + message);
+
+
             }
         }
 
