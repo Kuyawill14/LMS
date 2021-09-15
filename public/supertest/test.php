@@ -115,25 +115,24 @@
                 alert('The user selected: ' + url);
 
                 var fileId = data.docs[0].id;
-               gapi.client.drive.about.get({
-                        "alt": "json",
-                        "fields": "user",
-                        "prettyPrint": true
-                    })
-                    .then(function (response) {
-                            // Handle the results here (response.result has the parsed body).
-                            console.log("Response", response);
-                        },
-
-                        function (err) {
-                            console.error("Execute error", err);
-                        });
+                fileID = doc[google.picker.Document.ID];
+                var request1 = gapi.client.request({
+                    'path': '/drive/v3/files/' + fileID + '/permissions',
+                    'method': 'POST',
+                    'headers': {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + oauthToken
+                    },
+                    'body': {
+                        'role': role,
+                        'type': type
+                    }
+                });
+                request1.execute(function (resp) {
+                    console.log(resp);
+                });
             }
-            request2.execute(function (resp) {
-                console.log(resp);
-            });
         }
-        
 
     </script>
 </head>
