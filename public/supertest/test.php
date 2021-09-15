@@ -19,18 +19,18 @@
 
         // Scope to use to access user's Drive items.
         var scope = [
-    "https://www.googleapis.com/auth/drive.file",
-    "https://www.googleapis.com/auth/drive",
-    "https://www.googleapis.com/auth/drive.metadata",
-    "https://www.googleapis.com/auth/drive.readonly",
-];
+            "https://www.googleapis.com/auth/drive.file",
+            "https://www.googleapis.com/auth/drive",
+            "https://www.googleapis.com/auth/drive.metadata",
+            "https://www.googleapis.com/auth/drive.readonly",
+        ];
         var pickerApiLoaded = false;
         var oauthToken;
 
         // Use the Google API Loader script to load the google.picker script.
         function loadPicker() {
             gapi.load('auth', {
-                'callback': onAuthApiLoad
+                'callback': self.onAuthApiLoad.bind(this)
             });
             gapi.load('picker', {
                 'callback': onPickerApiLoad
@@ -116,23 +116,22 @@
 
                 var fileId = data.docs[0].id;
                 var request2 = gapi.client.request({
-            'path': '/drive/v3/files/' +fileId,
-            'method': 'PATCH',
-            'headers': {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + oauthToken
-            },
-            'body': {
-                copyRequiresWriterPermission: true
-            }
+                    'path': '/drive/v3/files/' + fileId,
+                    'method': 'PATCH',
+                    'headers': {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + oauthToken
+                    },
+                    'body': {
+                        copyRequiresWriterPermission: true
+                    }
 
-        });
-        request2.execute(function (resp) {
-            console.log(resp);
-        });
+                });
+                request2.execute(function (resp) {
+                    console.log(resp);
+                });
             }
         }
-       
 
     </script>
 </head>
