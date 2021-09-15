@@ -76,8 +76,10 @@
         // A simple callback implementation.
         function pickerCallback(data) {
             if (data.action == google.picker.Action.PICKED) {
-                var fileId = data.docs[0].id;
-                alert('The user selected: ' + fileId);
+                var doc = data[google.picker.Response.DOCUMENTS][0];
+                url = doc[google.picker.Document.URL];
+
+                alert('The user selected: ' + url);
             }
         }
     </script>
