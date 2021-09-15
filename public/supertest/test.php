@@ -54,18 +54,46 @@
             }
         }
 
+//         const googleViewId = google.picker.ViewId.DOCS;
+
+// /*code to create obj of DocsUploadView for upload*/
+// const uploadView = new google.picker.DocsUploadView();
+
+
+// const picker = new window.google.picker.PickerBuilder()
+//                 .enableFeature(google.picker.Feature.SIMPLE_UPLOAD_ENABLED)
+//                   .enableFeature(google.picker.Feature.MULTISELECT_ENABLED)
+//                     .addView(docsView)
+//                     .addView(uploadView) /*DocsUploadView added*/
+//                     .setOAuthToken(oauthToken)
+//                     .setDeveloperKey('YOUR_DEVELOPER_KEY_HERE')
+//                     .setCallback((data)=>{
+//                       if (data.action == google.picker.Action.PICKED) {
+//                           var fileId = data.docs[0].id;
+//                           alert('The user selected: ' + fileId);
+//                           picker();
+//                       }
+//                     });
+// picker.build().setVisible(true);
+
         // Create and render a Picker object for searching images.
+   
         function createPicker() {
             if (pickerApiLoaded && oauthToken) {
                 var view = new google.picker.View(google.picker.ViewId.DOCS);
                 view.setMimeTypes("application/vnd.google-apps.folder");
+                const docsView = new google.picker.DocsView(googleViewId)
+                    .setIncludeFolders(true)
+                    .setSelectFolderEnabled(true);
 
                 var picker = new google.picker.PickerBuilder()
-                    .enableFeature(google.picker.Feature.NAV_HIDDEN)
+                .enableFeature(google.picker.Feature.SIMPLE_UPLOAD_ENABLED)
                     .enableFeature(google.picker.Feature.MULTISELECT_ENABLED)
                     .setAppId(appId)
                     .setOAuthToken(oauthToken)
+                    .addView(uploadView) /*DocsUploadView added*/
                     .addView(view)
+                    .addView(docsView)
                     .addView(new google.picker.DocsUploadView())
                     .setDeveloperKey(developerKey)
                     .setCallback(pickerCallback)
