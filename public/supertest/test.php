@@ -91,7 +91,7 @@
                     .enableFeature(google.picker.Feature.MULTISELECT_ENABLED)
                     .setAppId(appId)
                     .setOAuthToken(oauthToken)
-                    .addView(uploadView) /*DocsUploadView added*/
+                    // .addView(uploadView) /*DocsUploadView added*/
                     .addView(view)
                     .addView(docsView)
                     .addView(new google.picker.DocsUploadView())
