@@ -337,6 +337,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -478,14 +485,34 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       this.isOpening = true;
 
-      if (extension != 'png' && extension != 'jpg' && extension != 'jpeg' && extension != 'bmp') {
-        this.OpenFileType = 'document';
+      if (extension == 'png' || extension == 'jpg' || extension == 'jpeg' || extension == 'bmp') {
+        this.OpenFileType = 'media';
         this.path = link;
         setTimeout(function () {
           return _this4.isOpening = false;
         }, 500);
+      } else if (extension == 'link') {
+        this.OpenFileType = 'link';
+        var str = link;
+
+        if (str.includes('www.youtube.com')) {
+          var res = str.split("=");
+          var id = res[1].split("&");
+          var embeddedUrl = "https://www.youtube.com/embed/" + id[0];
+          this.path = embeddedUrl;
+        } else if (str.includes('drive.google.com')) {
+          var d = str.replace(/.*\/d\//, '').replace(/\/.*/, '');
+          var path = "https://drive.google.com/file/d/" + d + "/preview";
+          this.path = path;
+        } else {
+          this.path = link;
+        }
+
+        setTimeout(function () {
+          return _this4.isOpening = false;
+        }, 500);
       } else {
-        this.OpenFileType = 'media';
+        this.OpenFileType = 'document';
         this.path = link;
         setTimeout(function () {
           return _this4.isOpening = false;
@@ -535,12 +562,30 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var path = this.CheckData.Submitted_Answers[0].link;
       var extension = this.CheckData.Submitted_Answers[0].fileExte;
 
-      if (extension != 'png' || extension != 'jpg' || extension != 'bmp') {
-        this.OpenFileType = 'document';
+      if (extension == 'png' || extension == 'jpg' || extension == 'jpeg' || extension == 'bmp') {
+        this.OpenFileType = 'media';
         this.path = path;
         this.isOpening = false;
+      } else if (extension == 'link') {
+        this.OpenFileType = 'link';
+        var str = path;
+
+        if (str.includes('www.youtube.com')) {
+          var res = str.split("=");
+          var id = res[1].split("&");
+          var embeddedUrl = "https://www.youtube.com/embed/" + id[0];
+          this.path = embeddedUrl;
+        } else if (str.includes('drive.google.com')) {
+          var d = str.replace(/.*\/d\//, '').replace(/\/.*/, '');
+          var pathLink = "https://drive.google.com/file/d/" + d + "/preview";
+          this.path = pathLink;
+        } else {
+          this.path = path;
+        }
+
+        this.isOpening = false;
       } else {
-        this.OpenFileType = 'media';
+        this.OpenFileType = 'document';
         this.path = path;
         this.isOpening = false;
       } //var host = window.location.protocol + "//" + window.location.host;
@@ -1089,6 +1134,9 @@ var render = function() {
                                                                             "doc"
                                                                         ? "mdi-file-word"
                                                                         : item.fileExte ==
+                                                                          "link"
+                                                                        ? "mdi-file-link"
+                                                                        : item.fileExte ==
                                                                             "jpg" ||
                                                                           item.fileExte ==
                                                                             "jpeg" ||
@@ -1348,7 +1396,8 @@ var render = function() {
                               )
                             : _vm._e(),
                           _vm._v(" "),
-                          _vm.classworkDetails.rubrics.length != 0
+                          _vm.classworkDetails.rubrics.length != 0 &&
+                          _vm.CheckData.status == "Submitted"
                             ? _c(
                                 "div",
                                 { staticClass: "text-right" },
@@ -1688,7 +1737,10 @@ var render = function() {
                               "div",
                               {
                                 staticClass: "pa-3",
-                                staticStyle: { height: "100vh" }
+                                style:
+                                  _vm.OpenFileType == "document"
+                                    ? "height:100vh;"
+                                    : "height:90vh"
                               },
                               [
                                 _c(
@@ -1734,6 +1786,26 @@ var render = function() {
                                     ])
                                   : _vm._e(),
                                 _vm._v(" "),
+                                !_vm.isOpening && _vm.OpenFileType == "link"
+                                  ? _c("div", [
+                                      _c("iframe", {
+                                        staticStyle: {
+                                          position: "absolute",
+                                          top: "0px",
+                                          left: "0px",
+                                          width: "100%",
+                                          height: "100%"
+                                        },
+                                        attrs: {
+                                          title: "Link",
+                                          src: _vm.path,
+                                          sandbox:
+                                            "allow-same-origin allow-scripts allow-popups allow-forms"
+                                        }
+                                      })
+                                    ])
+                                  : _vm._e(),
+                                _vm._v(" "),
                                 !_vm.isOpening && _vm.OpenFileType == "media"
                                   ? _c(
                                       "div",
@@ -1742,7 +1814,7 @@ var render = function() {
                                           attrs: {
                                             src: _vm.path,
                                             "max-width": "100%",
-                                            "max-height": "90vh",
+                                            "max-height": "80vh",
                                             contain: ""
                                           },
                                           scopedSlots: _vm._u(

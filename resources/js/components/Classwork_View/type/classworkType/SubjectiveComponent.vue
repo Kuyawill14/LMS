@@ -679,12 +679,13 @@ export default {
               fd.append('fileName', this.file[index].fileName);
               fd.append('fileSize', this.file[index].fileSize);
               fd.append('fileExte', this.file[index].fileExte);
-              fd.append('file', this.file[index].file);
+              fd.append('file', this.file[index].link);
               axios.post('/api/student/linkAndstatus', fd)
               .then(res=>{
                     this.AttachLink = false;
                     this.linkName = null;
                     this.linkFile = null;
+                    this.tempId = res.data;
               })
           },
         UploadFile(){

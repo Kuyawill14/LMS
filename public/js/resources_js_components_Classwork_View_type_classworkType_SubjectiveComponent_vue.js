@@ -720,11 +720,12 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
       fd.append('fileName', this.file[index].fileName);
       fd.append('fileSize', this.file[index].fileSize);
       fd.append('fileExte', this.file[index].fileExte);
-      fd.append('file', this.file[index].file);
+      fd.append('file', this.file[index].link);
       axios.post('/api/student/linkAndstatus', fd).then(function (res) {
         _this2.AttachLink = false;
         _this2.linkName = null;
         _this2.linkFile = null;
+        _this2.tempId = res.data;
       });
     },
     UploadFile: function UploadFile() {

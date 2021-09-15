@@ -107,7 +107,7 @@
                                                                             <v-list-item-icon class="pr-0 mr-0 mr-1">
                                                                                     <v-icon large :color="item.fileExte == 'pdf' ? 'red' : item.fileExte == 'docx' || item.fileExte == 'doc'? 'blue':
                                                                         item.fileExte == 'jpg' || item.fileExte == 'jpeg' ||  item.fileExte == 'gif' ||  item.fileExte== 'svg' ||  item.fileExte == 'png' ||  item.fileExte == 'bmp' ? 'info': 'primary'" >
-                                                                                        {{item.fileExte == 'pdf' ? 'mdi-file-pdf': item.fileExte == 'txt' ? 'mdi-note-text-outline': item.fileExte == 'docx' || item.fileExte == 'doc' ? 'mdi-file-word': 
+                                                                                        {{item.fileExte == 'pdf' ? 'mdi-file-pdf': item.fileExte == 'txt' ? 'mdi-note-text-outline': item.fileExte == 'docx' || item.fileExte == 'doc' ? 'mdi-file-word': item.fileExte == 'link'? 'mdi-file-link': 
                                                                                      item.fileExte == 'jpg' || item.fileExte == 'jpeg' || item.fileExte == 'gif' ||  item.fileExte== 'svg' ||  item.fileExte == 'png' ||  item.fileExte == 'bmp' ? 'mdi-image' :''}}
                                                                                     </v-icon>
                                                                             </v-list-item-icon>
@@ -160,7 +160,7 @@
                                             </v-list-item-action>
                                     </v-list-item>
                                 </v-list>
-                                <div v-if="classworkDetails.rubrics.length != 0" class="text-right">
+                                <div v-if="classworkDetails.rubrics.length != 0 && CheckData.status == 'Submitted'" class="text-right">
                                     <v-btn @click="SaveRubricsScore()" small class="primary" dark>
                                         Save
                                     </v-btn>
@@ -256,7 +256,7 @@
                                 </div> -->
                                 
                               
-                                <div class="pa-3"  style="height:100vh;">
+                                <div class="pa-3"  :style="OpenFileType == 'document' ? 'height:100vh;': 'height:90vh'">
                                     <div class="pa-3 text-center" >
                                     <v-progress-circular
                                         style="margin-top:23rem"
@@ -273,13 +273,20 @@
                                         sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
                                         style="position: absolute; top: 0px; left: 0px; width: 100%; height: 100%;"></iframe>
                                     </div> 
+
+                                    <div v-if="!isOpening && OpenFileType == 'link'">
+                                        <iframe title="Link" 
+                                        :src="path" 
+                                        sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
+                                        style="position: absolute; top: 0px; left: 0px; width: 100%; height: 100%;"></iframe>
+
+                                     
+                                    </div> 
                                      <div v-if="!isOpening && OpenFileType == 'media'" >
                                         <v-img
                                             :src="path"
-                                       
-                                           
                                             max-width="100%"
-                                            max-height="90vh"
+                                            max-height="80vh"
                                             contain
                                         >
                                             <template v-slot:placeholder>
@@ -413,17 +420,38 @@ import {mapGetters} from "vuex";
           },
           OpenFile(extension, link){
               this.isOpening = true;
-              if(extension != 'png' && extension != 'jpg' && extension != 'jpeg' && extension != 'bmp'){
+              if(extension == 'png' || extension == 'jpg' || extension == 'jpeg' || extension == 'bmp'){
+                          this.OpenFileType = 'media';
+                  this.path = link;
+                 setTimeout(() => (this.isOpening = false), 500);
+              }
+              else if(extension == 'link'){
+                  this.OpenFileType = 'link';
+
+                     let str = link;
+                    if(str.includes('www.youtube.com')){
+                        let res = str.split("=");
+                        let id = res[1].split("&");
+                        let embeddedUrl = "https://www.youtube.com/embed/"+id[0];
+                        
+                        this.path = embeddedUrl;
+                    }
+                    else if(str.includes('drive.google.com')){
+                        let d = str.replace(/.*\/d\//, '').replace(/\/.*/, '');
+                        let path = "https://drive.google.com/file/d/" + d + "/preview";
+                        this.path = path;
+                    }
+                    else{
+                        this.path = link;
+                    }
+                  setTimeout(() => (this.isOpening = false), 500);
+              }
+              else{
+         
                   this.OpenFileType = 'document'
                   this.path = link;
                  setTimeout(() => (this.isOpening = false), 500);
               }
-              else{
-                  this.OpenFileType = 'media';
-                  this.path = link;
-                 setTimeout(() => (this.isOpening = false), 500);
-              }
-              
           },
          async addComment(details){
               let data = {};
@@ -452,13 +480,32 @@ import {mapGetters} from "vuex";
         if(this.CheckData.Submitted_Answers != null && this.CheckData.Submitted_Answers != ''){
             let path = this.CheckData.Submitted_Answers[0].link;
             let extension = this.CheckData.Submitted_Answers[0].fileExte;
-             if(extension != 'png' || extension != 'jpg' || extension != 'bmp' ){
-                  this.OpenFileType = 'document'
+             if(extension == 'png' || extension == 'jpg' || extension == 'jpeg' || extension == 'bmp'){
+                this.OpenFileType = 'media';
                   this.path = path;
                   this.isOpening = false
               }
+               else if(extension == 'link'){
+                  this.OpenFileType = 'link';
+                  let str = path;
+                  if(str.includes('www.youtube.com')){
+                    let res = str.split("=");
+                    let id = res[1].split("&");
+                    let embeddedUrl = "https://www.youtube.com/embed/"+id[0];
+                    this.path = embeddedUrl;
+                  }
+                 else if(str.includes('drive.google.com')){
+                        let d = str.replace(/.*\/d\//, '').replace(/\/.*/, '');
+                        let pathLink = "https://drive.google.com/file/d/" + d + "/preview";
+                        this.path = pathLink;
+                    }
+                  else{
+                    this.path = path;
+                  }
+                  this.isOpening = false
+              }
               else {
-                  this.OpenFileType = 'media';
+                this.OpenFileType = 'document'
                   this.path = path;
                   this.isOpening = false
               }
