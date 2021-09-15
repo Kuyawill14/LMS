@@ -5,12 +5,35 @@
             v-on:toggleCancelDialog="AttachLink = !AttachLink"
             v-on:ToggleRefresh="$emit('ToggleRefresh'), AttachLink = !AttachLink"
             v-if="AttachLink"></attachlinkDiaglog> -->
+            <v-form @submit.prevent="validate()" ref="form" v-model="valid" lazy-validation>
             <v-card >
                 <v-card-title >
                   <v-btn icon  @click="AttachLink = false">
                     <v-icon>mdi-close</v-icon>
                   </v-btn>
-                  <span class="text-h6"> Attach Link</span>
+                  <span class="text-h6"> Attach Link 
+                    
+                     <v-tooltip top>
+                          <template v-slot:activator="{ on, attrs }">
+                            <v-icon
+                              color="primary"
+                              dark
+                              v-bind="attrs"
+                              v-on="on"
+                            >
+                              mdi-information
+                            </v-icon>
+                          </template>
+                           <span>
+                                Supported Links:
+                                <ul>
+                                    <li>https://docs.google.com/presentation/d/[document-id]</li>
+                                    <li>https://docs.google.com/document/d/[document-id]</li>
+                                    <li>https://www.youtube.com/watch?v=[video-id]</li>
+                                </ul>
+                            </span>
+                        </v-tooltip>
+                     </span>
               
                 </v-card-title>
                 <v-card-text >
@@ -18,6 +41,7 @@
                       <v-col cols="12" class="mb-0 pb-0">
                           <v-textarea
                           v-model="linkName"
+                          :rules="linkNameRule"
                           class="mb-0 pb-0"
                           outlined
                           dense
@@ -30,6 +54,7 @@
                       <v-col cols="12" class="mb-0 pb-0 mt-0 pt-0">
                           <v-textarea
                           v-model="linkFile"
+                          :rules="linkRules"
                           class="mb-0 pb-0"
                           outlined
                           dense
@@ -45,12 +70,14 @@
                     color="primary"
                     block
                     rounded
-                    @click="scrapeDocID"
+                    type="submit"
+                    :disabled="!valid"
                   >
                     Confirm
                   </v-btn>
                 </v-card-actions>
               </v-card>
+            </v-form>
       </v-dialog>
 
 
@@ -274,7 +301,7 @@
 
                            <v-col class="ma-0 pa-0 mb-1 " cols="12" >
                               <v-btn
-                              
+                             
                               block
                                class="pl-12 pr-12 pb-3 pt-3"
                                :loading="IsSaving"
@@ -538,6 +565,14 @@ export default {
             isDeleting_id: null,
             isUploadSaving: false,
             isUploaded: false,
+            valid: true,
+            linkRules: [
+                (value) => !!value || "Required.",
+                (value) => this.isURL(value) || "URL is not valid",
+              ],
+            linkNameRule: [
+                (value) => !!value || "Required.",
+              ],
         }
     },
      computed: {
@@ -555,24 +590,43 @@ export default {
         }
     },
     methods:{
+      validate () {
+        if(this.$refs.form.validate()){
+          this.scrapeDocID();
+        }
+        
+      },
+
+      isURL(str) {
+        let url;
+
+        try {
+          url = new URL(str);
+        } catch (_) {
+          return false;
+        }
+
+        return url.protocol === "http:" || url.protocol === "https:";
+      },
       OpenFile(file){
         window.open(file,'_blank');
       },
       scrapeDocID() {
 
-              var d = this.linkFile.replace(/.*\/d\//, '').replace(/\/.*/, '');
-              var path = "https://drive.google.com/file/d/" + d + "/preview";
-
+              //var d = this.linkFile.replace(/.*\/d\//, '').replace(/\/.*/, '');
+              //var path = "https://drive.google.com/file/d/" + d + "/preview";
+              let path = this.linkFile;
+              
               if(this.StatusDetails.length == 0){
-                this.file.push({ fileName: this.linkName, fileSize: '', fileExte: 'link', file: path});
+                this.file.push({ fileName: this.linkName, fileSize: '', fileExte: 'link', link: path});
               }
               else{
-                this.file.push({ fileName: this.linkName, fileSize: '', fileExte: 'link', file: path});
+                this.file.push({ fileName: this.linkName, fileSize: '', fileExte: 'link', link: path});
                  this.StatusDetails.Submitted_Answers.push({ name: this.linkName, fileSize: '', fileExte: 'link', link: path});
  
               }
-
-               this.AddLinkInSubmittedAnswer();
+              this.AttachLink = !this.AttachLink;
+              this.AddLinkInSubmittedAnswer();
               // this.AddLinkInSubmittedAnswer(index);
             
           },
@@ -826,7 +880,7 @@ export default {
 <style >
   span img{
         max-width: 100% !important;
-        max-height: 50rem !important;
+        max-height: 20rem !important;
     }
     .dropZone {
   width: 100%;

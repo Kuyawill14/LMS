@@ -530,6 +530,33 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var attachlinkDiaglog = function attachlinkDiaglog() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_type_classworkType_attachLinkDialog_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./attachLinkDialog */ "./resources/js/components/Classwork_View/type/classworkType/attachLinkDialog.vue"));
 };
@@ -542,6 +569,8 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
     attachlinkDiaglog: attachlinkDiaglog
   },
   data: function data() {
+    var _this = this;
+
     return {
       AttachLink: false,
       file: [],
@@ -565,7 +594,16 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
       isDeleting: false,
       isDeleting_id: null,
       isUploadSaving: false,
-      isUploaded: false
+      isUploaded: false,
+      valid: true,
+      linkRules: [function (value) {
+        return !!value || "Required.";
+      }, function (value) {
+        return _this.isURL(value) || "URL is not valid";
+      }],
+      linkNameRule: [function (value) {
+        return !!value || "Required.";
+      }]
     };
   },
   computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(['get_CurrentUser'])), {}, {
@@ -582,26 +620,43 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
     }
   }),
   methods: {
+    validate: function validate() {
+      if (this.$refs.form.validate()) {
+        this.scrapeDocID();
+      }
+    },
+    isURL: function isURL(str) {
+      var url;
+
+      try {
+        url = new URL(str);
+      } catch (_) {
+        return false;
+      }
+
+      return url.protocol === "http:" || url.protocol === "https:";
+    },
     OpenFile: function OpenFile(file) {
       window.open(file, '_blank');
     },
     scrapeDocID: function scrapeDocID() {
-      var d = this.linkFile.replace(/.*\/d\//, '').replace(/\/.*/, '');
-      var path = "https://drive.google.com/file/d/" + d + "/preview";
+      //var d = this.linkFile.replace(/.*\/d\//, '').replace(/\/.*/, '');
+      //var path = "https://drive.google.com/file/d/" + d + "/preview";
+      var path = this.linkFile;
 
       if (this.StatusDetails.length == 0) {
         this.file.push({
           fileName: this.linkName,
           fileSize: '',
           fileExte: 'link',
-          file: path
+          link: path
         });
       } else {
         this.file.push({
           fileName: this.linkName,
           fileSize: '',
           fileExte: 'link',
-          file: path
+          link: path
         });
         this.StatusDetails.Submitted_Answers.push({
           name: this.linkName,
@@ -611,10 +666,11 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
         });
       }
 
+      this.AttachLink = !this.AttachLink;
       this.AddLinkInSubmittedAnswer(); // this.AddLinkInSubmittedAnswer(index);
     },
     AddLinkInSubmittedAnswer: function AddLinkInSubmittedAnswer() {
-      var _this = this;
+      var _this2 = this;
 
       var index = this.file.length - 1;
       var sub_id = this.tempId == null ? 'empty' : this.tempId;
@@ -628,9 +684,9 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
       fd.append('fileExte', this.file[index].fileExte);
       fd.append('file', this.file[index].file);
       axios.post('/api/student/linkAndstatus', fd).then(function (res) {
-        _this.AttachLink = false;
-        _this.linkName = null;
-        _this.linkFile = null;
+        _this2.AttachLink = false;
+        _this2.linkName = null;
+        _this2.linkFile = null;
       });
     },
     UploadFile: function UploadFile() {
@@ -729,40 +785,40 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
       this.UpdateSubmission(this.file.length - 1);
     },
     removeFile: function removeFile(index) {
-      var _this2 = this;
+      var _this3 = this;
 
       this.isDeleting_id = index;
       this.isDeleting = true;
       axios.put('/api/submission/file-remove/' + this.tempId, {
         Fileindex: index
       }).then(function (res) {
-        _this2.uploadPercentage = 0;
+        _this3.uploadPercentage = 0;
 
-        _this2.file.splice(index, 1);
+        _this3.file.splice(index, 1);
 
-        _this2.tempId = null;
-        _this2.isUploading[index] = false;
-        _this2.isDeleting = false;
-        _this2.isDeleting_id = null;
+        _this3.tempId = null;
+        _this3.isUploading[index] = false;
+        _this3.isDeleting = false;
+        _this3.isDeleting_id = null;
       });
     },
     test: function test() {
       var data = '<iframe class="ql-video" frameborder="0" allowfullscreen="true" src="' + this.link + '"></iframe><div><br></div>'; //console.log(data);
     },
     checkStatus: function checkStatus(type) {
-      var _this3 = this;
+      var _this4 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                axios.get('/api/submission/check-sbj/' + _this3.classworkDetails.id).then(function (res) {
-                  _this3.StatusDetails = res.data;
-                  _this3.tempId = res.data.Sub_id;
+                axios.get('/api/submission/check-sbj/' + _this4.classworkDetails.id).then(function (res) {
+                  _this4.StatusDetails = res.data;
+                  _this4.tempId = res.data.Sub_id;
 
                   if (type != 'submit') {
-                    _this3.isloading = !_this3.isloading;
+                    _this4.isloading = !_this4.isloading;
                   }
                 });
 
@@ -775,7 +831,7 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
       }))();
     },
     UpdateSubmission: function UpdateSubmission(index) {
-      var _this4 = this;
+      var _this5 = this;
 
       var sub_id = this.tempId == null ? 'empty' : this.tempId;
       var fd = new FormData();
@@ -793,23 +849,23 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
           var totalLength = progressEvent.lengthComputable ? total : null;
 
           if (totalLength != null) {
-            _this4.uploadPercentage = Math.round(progressEvent.loaded * 100 / totalLength);
+            _this5.uploadPercentage = Math.round(progressEvent.loaded * 100 / totalLength);
           }
         }
       }).then(function (res) {
-        if (_this4.StatusDetails.length == 0) {
-          _this4.file[_this4.isUpIndex].link = res.data.link;
+        if (_this5.StatusDetails.length == 0) {
+          _this5.file[_this5.isUpIndex].link = res.data.link;
         } else {
-          _this4.StatusDetails.Submitted_Answers[_this4.isUpIndex].link = res.data.link;
+          _this5.StatusDetails.Submitted_Answers[_this5.isUpIndex].link = res.data.link;
         }
 
-        _this4.tempId = _this4.tempId == null ? res.data.id : _this4.tempId;
-        _this4.isUploadSaving = false;
-        _this4.isUpIndex = null;
+        _this5.tempId = _this5.tempId == null ? res.data.id : _this5.tempId;
+        _this5.isUploadSaving = false;
+        _this5.isUpIndex = null;
       });
     },
     DeleteUpload: function DeleteUpload(index) {
-      var _this5 = this;
+      var _this6 = this;
 
       this.isDeleting_id = index;
       this.isDeleting = true;
@@ -817,16 +873,16 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
       axios.put('/api/submission/file-remove/' + this.tempId, {
         Fileindex: index
       }).then(function (res) {
-        _this5.checkStatus(type);
+        _this6.checkStatus(type);
 
-        _this5.uploadPercentage = 0;
-        _this5.isUploading[index] = false;
-        _this5.isDeleting = false;
-        _this5.isDeleting_id = null;
+        _this6.uploadPercentage = 0;
+        _this6.isUploading[index] = false;
+        _this6.isDeleting = false;
+        _this6.isDeleting_id = null;
       });
     },
     SubmitClasswork: function SubmitClasswork() {
-      var _this6 = this;
+      var _this7 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
         var rubrics, type;
@@ -836,8 +892,8 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
               case 0:
                 rubrics = [];
 
-                if (_this6.classworkDetails.rubrics.length != 0) {
-                  _this6.classworkDetails.rubrics.forEach(function (item) {
+                if (_this7.classworkDetails.rubrics.length != 0) {
+                  _this7.classworkDetails.rubrics.forEach(function (item) {
                     rubrics.push({
                       id: item.id,
                       points: null
@@ -847,16 +903,16 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
                   rubrics = null;
                 }
 
-                _this6.IsSaving = true;
+                _this7.IsSaving = true;
                 type = 'submit';
-                axios.put('/api/student/submit-classwork/' + _this6.tempId, {
+                axios.put('/api/student/submit-classwork/' + _this7.tempId, {
                   data: rubrics
                 }).then(function (res) {
                   if (res.status == 200) {
-                    _this6.checkStatus(type);
+                    _this7.checkStatus(type);
 
-                    _this6.IsSaving = false;
-                    _this6.isResubmit = false;
+                    _this7.IsSaving = false;
+                    _this7.isResubmit = false;
                   }
                 });
 
@@ -869,7 +925,7 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
       }))();
     },
     addComment: function addComment(details) {
-      var _this7 = this;
+      var _this8 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
         var data;
@@ -878,26 +934,26 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
             switch (_context3.prev = _context3.next) {
               case 0:
                 data = {};
-                _this7.isCommenting = true;
+                _this8.isCommenting = true;
                 data.classwork_id = details.id;
                 data.to_user = details.user_id;
                 data.type = 'Private';
-                data.course_id = _this7.$route.params.id;
-                data.comment = _this7.comment;
+                data.course_id = _this8.$route.params.id;
+                data.comment = _this8.comment;
                 axios.post('/api/post/classwork/comment/insert', data).then(function (res) {
                   //console.log(res.data);
                   if (res.status == 200) {
-                    _this7.classworkDetails.comments.push({
+                    _this8.classworkDetails.comments.push({
                       content: res.data.comment,
                       id: res.data.id,
                       name: res.data.name,
                       profile_pic: res.data.profile_pic
                     });
 
-                    _this7.comment = null;
+                    _this8.comment = null;
                   }
                 });
-                _this7.isCommenting = false;
+                _this8.isCommenting = false;
 
               case 9:
               case "end":
@@ -908,7 +964,7 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
       }))();
     },
     DeleteComment: function DeleteComment(id, index) {
-      var _this8 = this;
+      var _this9 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
@@ -917,7 +973,7 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
               case 0:
                 axios["delete"]('/api/post/classwork/comment/delete/' + id).then(function (res) {
                   if (res.data.success == true) {
-                    _this8.classworkDetails.comments.splice(index, 1);
+                    _this9.classworkDetails.comments.splice(index, 1);
                   }
                 });
 
@@ -969,7 +1025,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\nspan img{\n        max-width: 100% !important;\n        max-height: 50rem !important;\n}\n.dropZone {\n  width: 100%;\n  height: 7rem;\n  position: relative;\n  border: 2px dashed #eee;\n  border-radius: .3rem;\n}\n\n/* .dropZone:hover {\n  border: 1px dashed #2196F3;\n} */\n\n/* .dropZone:hover .dropZone-title {\n  color: #2196F3;\n} */\n.dropZone-info {\n  color: #A8A8A8;\n  position: absolute;\n  top: 50%;\n  width: 100%;\n  transform: translate(0, -50%);\n  text-align: center;\n}\n.dropZone-title {\n  color: #787878;\n}\n.dropZone input {\n  position: absolute;\n  cursor: pointer;\n  top: 0px;\n  right: 0;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  opacity: 0;\n}\n.dropZone-upload-limit-info {\n  display: flex;\n  justify-content: flex-start;\n  flex-direction: column;\n}\n.dropZone-over {\n  background: #E0E0E0;\n  opacity: 0.8;\n}\n.dropZone-uploaded {\n  padding-top: 4rem;\n  height: auto;\n  position: relative;\n}\n.dropZone-uploaded-info {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  color: #A8A8A8;\n  position: absolute;\n  top: 50%;\n  width: 100%;\n  transform: translate(0, -50%);\n  text-align: center;\n}\n.filePreview{\n  width: 100%;\n}\n.removeFile {\n  width: 200px;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\nspan img{\n        max-width: 100% !important;\n        max-height: 20rem !important;\n}\n.dropZone {\n  width: 100%;\n  height: 7rem;\n  position: relative;\n  border: 2px dashed #eee;\n  border-radius: .3rem;\n}\n\n/* .dropZone:hover {\n  border: 1px dashed #2196F3;\n} */\n\n/* .dropZone:hover .dropZone-title {\n  color: #2196F3;\n} */\n.dropZone-info {\n  color: #A8A8A8;\n  position: absolute;\n  top: 50%;\n  width: 100%;\n  transform: translate(0, -50%);\n  text-align: center;\n}\n.dropZone-title {\n  color: #787878;\n}\n.dropZone input {\n  position: absolute;\n  cursor: pointer;\n  top: 0px;\n  right: 0;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  opacity: 0;\n}\n.dropZone-upload-limit-info {\n  display: flex;\n  justify-content: flex-start;\n  flex-direction: column;\n}\n.dropZone-over {\n  background: #E0E0E0;\n  opacity: 0.8;\n}\n.dropZone-uploaded {\n  padding-top: 4rem;\n  height: auto;\n  position: relative;\n}\n.dropZone-uploaded-info {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  color: #A8A8A8;\n  position: absolute;\n  top: 50%;\n  width: 100%;\n  transform: translate(0, -50%);\n  text-align: center;\n}\n.filePreview{\n  width: 100%;\n}\n.removeFile {\n  width: 200px;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -1121,112 +1177,215 @@ var render = function() {
         },
         [
           _c(
-            "v-card",
+            "v-form",
+            {
+              ref: "form",
+              attrs: { "lazy-validation": "" },
+              on: {
+                submit: function($event) {
+                  $event.preventDefault()
+                  return _vm.validate()
+                }
+              },
+              model: {
+                value: _vm.valid,
+                callback: function($$v) {
+                  _vm.valid = $$v
+                },
+                expression: "valid"
+              }
+            },
             [
               _c(
-                "v-card-title",
+                "v-card",
                 [
                   _c(
-                    "v-btn",
-                    {
-                      attrs: { icon: "" },
-                      on: {
-                        click: function($event) {
-                          _vm.AttachLink = false
-                        }
-                      }
-                    },
-                    [_c("v-icon", [_vm._v("mdi-close")])],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c("span", { staticClass: "text-h6" }, [
-                    _vm._v(" Attach Link")
-                  ])
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "v-card-text",
-                [
-                  _c(
-                    "v-row",
+                    "v-card-title",
                     [
                       _c(
-                        "v-col",
-                        { staticClass: "mb-0 pb-0", attrs: { cols: "12" } },
-                        [
-                          _c("v-textarea", {
-                            staticClass: "mb-0 pb-0",
-                            attrs: {
-                              outlined: "",
-                              dense: "",
-                              rows: "1",
-                              label: "Title",
-                              "auto-grow": ""
-                            },
-                            model: {
-                              value: _vm.linkName,
-                              callback: function($$v) {
-                                _vm.linkName = $$v
-                              },
-                              expression: "linkName"
+                        "v-btn",
+                        {
+                          attrs: { icon: "" },
+                          on: {
+                            click: function($event) {
+                              _vm.AttachLink = false
                             }
-                          })
-                        ],
+                          }
+                        },
+                        [_c("v-icon", [_vm._v("mdi-close")])],
                         1
                       ),
                       _vm._v(" "),
                       _c(
-                        "v-col",
-                        {
-                          staticClass: "mb-0 pb-0 mt-0 pt-0",
-                          attrs: { cols: "12" }
-                        },
+                        "span",
+                        { staticClass: "text-h6" },
                         [
-                          _c("v-textarea", {
-                            staticClass: "mb-0 pb-0",
-                            attrs: {
-                              outlined: "",
-                              dense: "",
-                              rows: "1",
-                              label: "Link",
-                              "auto-grow": ""
+                          _vm._v(
+                            " Attach Link \r\n                    \r\n                     "
+                          ),
+                          _c(
+                            "v-tooltip",
+                            {
+                              attrs: { top: "" },
+                              scopedSlots: _vm._u([
+                                {
+                                  key: "activator",
+                                  fn: function(ref) {
+                                    var on = ref.on
+                                    var attrs = ref.attrs
+                                    return [
+                                      _c(
+                                        "v-icon",
+                                        _vm._g(
+                                          _vm._b(
+                                            {
+                                              attrs: {
+                                                color: "primary",
+                                                dark: ""
+                                              }
+                                            },
+                                            "v-icon",
+                                            attrs,
+                                            false
+                                          ),
+                                          on
+                                        ),
+                                        [
+                                          _vm._v(
+                                            "\r\n                              mdi-information\r\n                            "
+                                          )
+                                        ]
+                                      )
+                                    ]
+                                  }
+                                }
+                              ])
                             },
-                            model: {
-                              value: _vm.linkFile,
-                              callback: function($$v) {
-                                _vm.linkFile = $$v
-                              },
-                              expression: "linkFile"
-                            }
-                          })
+                            [
+                              _vm._v(" "),
+                              _c("span", [
+                                _vm._v(
+                                  "\r\n                                Supported Links:\r\n                                "
+                                ),
+                                _c("ul", [
+                                  _c("li", [
+                                    _vm._v(
+                                      "https://docs.google.com/presentation/d/[document-id]"
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("li", [
+                                    _vm._v(
+                                      "https://docs.google.com/document/d/[document-id]"
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("li", [
+                                    _vm._v(
+                                      "https://www.youtube.com/watch?v=[video-id]"
+                                    )
+                                  ])
+                                ])
+                              ])
+                            ]
+                          )
                         ],
                         1
                       )
                     ],
                     1
-                  )
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "v-card-actions",
-                { staticClass: "pb-2 pl-5 pr-5" },
-                [
+                  ),
+                  _vm._v(" "),
                   _c(
-                    "v-btn",
-                    {
-                      attrs: { color: "primary", block: "", rounded: "" },
-                      on: { click: _vm.scrapeDocID }
-                    },
+                    "v-card-text",
                     [
-                      _vm._v(
-                        "\r\n                    Confirm\r\n                  "
+                      _c(
+                        "v-row",
+                        [
+                          _c(
+                            "v-col",
+                            { staticClass: "mb-0 pb-0", attrs: { cols: "12" } },
+                            [
+                              _c("v-textarea", {
+                                staticClass: "mb-0 pb-0",
+                                attrs: {
+                                  rules: _vm.linkNameRule,
+                                  outlined: "",
+                                  dense: "",
+                                  rows: "1",
+                                  label: "Title",
+                                  "auto-grow": ""
+                                },
+                                model: {
+                                  value: _vm.linkName,
+                                  callback: function($$v) {
+                                    _vm.linkName = $$v
+                                  },
+                                  expression: "linkName"
+                                }
+                              })
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-col",
+                            {
+                              staticClass: "mb-0 pb-0 mt-0 pt-0",
+                              attrs: { cols: "12" }
+                            },
+                            [
+                              _c("v-textarea", {
+                                staticClass: "mb-0 pb-0",
+                                attrs: {
+                                  rules: _vm.linkRules,
+                                  outlined: "",
+                                  dense: "",
+                                  rows: "1",
+                                  label: "Link",
+                                  "auto-grow": ""
+                                },
+                                model: {
+                                  value: _vm.linkFile,
+                                  callback: function($$v) {
+                                    _vm.linkFile = $$v
+                                  },
+                                  expression: "linkFile"
+                                }
+                              })
+                            ],
+                            1
+                          )
+                        ],
+                        1
                       )
-                    ]
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-card-actions",
+                    { staticClass: "pb-2 pl-5 pr-5" },
+                    [
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: {
+                            color: "primary",
+                            block: "",
+                            rounded: "",
+                            type: "submit",
+                            disabled: !_vm.valid
+                          }
+                        },
+                        [
+                          _vm._v(
+                            "\r\n                    Confirm\r\n                  "
+                          )
+                        ]
+                      )
+                    ],
+                    1
                   )
                 ],
                 1

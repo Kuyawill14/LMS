@@ -60,7 +60,6 @@ export default {
         DateToday: null
       }
     },
-  
     methods:{
          format_date(value) {
             if (value) {

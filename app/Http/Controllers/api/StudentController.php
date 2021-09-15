@@ -217,6 +217,7 @@ class StudentController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function AddLinkToSubmittedAnswer(Request $request){
+        $userId = auth('sanctum')->id();
         if($request->Submission_id == 'empty'){
             
             $StatusUpdate = new tbl_Submission;
