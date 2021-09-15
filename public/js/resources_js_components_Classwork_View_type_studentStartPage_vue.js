@@ -278,10 +278,7 @@ var render = function() {
               )
             : _c(
                 "v-col",
-                {
-                  staticClass: "ma-0 pa-0",
-                  attrs: { cols: "12", sm: "12", justify: "center" }
-                },
+                { attrs: { cols: "12", sm: "12", justify: "center" } },
                 [
                   _c(
                     "v-row",

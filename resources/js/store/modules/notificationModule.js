@@ -116,6 +116,13 @@ const actions = {
 
     async LessNotificationCount({ commit }) {
         state.notificationCount -= 1;
+        let text = document.title.substring( document.title.indexOf(' ') + 1);
+        if(state.notificationCount != 0){
+            document.title = '('+state.notificationCount+') '+text;
+        }
+        else{
+            document.title = text;
+        }
     },
 
     async HideNotification({ commit }, id) {
@@ -151,7 +158,10 @@ const actions = {
                 count = response.data.notificationCount;
                 inviteCount = response.data.invitesCount;
             })
-
+        if(count != 0){
+            let text = document.title.substring( document.title.indexOf(' ') + 1);
+            document.title = '('+count+') '+text;
+        }
         commit('NOTIFICATION_COUNT', count);
         commit('INVITE_COUNT', inviteCount);
     },

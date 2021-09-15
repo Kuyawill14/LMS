@@ -851,31 +851,13 @@ var render = function() {
                 "v-row",
                 { staticStyle: { "margin-bottom": "-40px" } },
                 [
-                  _c("v-col", [_c("h2", [_vm._v("My Courses")])]),
-                  _vm._v(" "),
                   _c(
                     "v-col",
-                    { staticClass: "text-right mt-1", attrs: { lg: "1" } },
-                    [
-                      _vm.school_year_id != 0 || _vm.semester_id != 0
-                        ? _c(
-                            "v-btn",
-                            {
-                              attrs: { icon: "" },
-                              on: { click: _vm.fetchCourses }
-                            },
-                            [
-                              _c("v-icon", [
-                                _vm._v(
-                                  "\n                        mdi-close\n                    "
-                                )
-                              ])
-                            ],
-                            1
-                          )
-                        : _vm._e()
-                    ],
-                    1
+                    {
+                      staticClass: "mb-0 pb-0",
+                      attrs: { cols: "12", md: "12", lg: "8" }
+                    },
+                    [_c("h2", [_vm._v("My Courses")])]
                   ),
                   _vm._v(" "),
                   _c(
@@ -952,7 +934,11 @@ var render = function() {
                 _vm._l(_vm.allCoursesData, function(item, i) {
                   return _c(
                     "v-col",
-                    { key: "course" + i, attrs: { lg: "3", md: "6" } },
+                    {
+                      key: "course" + i,
+                      staticClass: "12",
+                      attrs: { xl: "3", lg: "3", md: "6" }
+                    },
                     [
                       _c(
                         "div",

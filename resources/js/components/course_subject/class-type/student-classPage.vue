@@ -59,7 +59,7 @@
         <div v-if="coursesLength != 0 && isGetting == false">
             
             <v-row style="margin-bottom: -40px;">
-                <v-col>
+                <v-col class="mb-0 pb-0" cols="12" md="12" lg="8">
                     <h2>My Classes</h2>
                 </v-col>
                 <v-col lg="2" class="text-right">
@@ -70,14 +70,12 @@
                 <v-col class="text-right" lg="2">
                     <v-select class="mr-2 my-0" dense :items="semester" item-text="semester" item-value="id" label="Semester"
                         v-model="semester_id" outlined small @change="semesterFilter()"></v-select>
-
-
                 </v-col>
 
             </v-row>
 
             <v-row class="mt-3">
-                <v-col lg="3" md="6" v-for="(item, i) in allClassesData" :key="'class' + i">
+                <v-col cols="12" xl="3" lg="3" md="6"  v-for="(item, i) in allClassesData" :key="'class' + i">
                     <div class="card-expansion">
                         <v-card class="mx-auto">
                            <!--  <v-img :src="'../images/'+item.course_picture" height="200px"

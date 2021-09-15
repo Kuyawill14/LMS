@@ -72,17 +72,17 @@
             <v-btn bottom color="primary" dark fab fixed right @click="openAddmodal()">
                 <v-icon>mdi-plus</v-icon>
             </v-btn>
-            <v-row style="margin-bottom: -40px;">
-                <v-col>
+            <v-row style="margin-bottom: -40px;" >
+                <v-col class="mb-0 pb-0" cols="12" md="12" lg="8">
                     <h2>My Courses</h2>
                 </v-col>
-                <v-col lg="1" class="text-right mt-1">
+               <!--  <v-col lg="2" class="text-right">
                     <v-btn icon @click="fetchCourses" v-if="school_year_id != 0 || semester_id !=0 ">
                         <v-icon>
                             mdi-close
                         </v-icon>
                     </v-btn>
-                </v-col>
+                </v-col> -->
                 <v-col lg="2" class="text-right">
                     <v-select class="mr-2 my-0" dense :items="school_year" item-text="schoolyear" item-value="id"
                         label="School Year" v-model="school_year_id" outlined small @change=" schoolYearFilter()">
@@ -97,7 +97,7 @@
                 </v-col>
             </v-row>
             <v-row class="mt-3">
-                <v-col lg="3" md="6" v-for="(item, i) in allCoursesData" :key="'course'+i">
+                <v-col class="12" xl="3" lg="3" md="6" v-for="(item, i) in allCoursesData" :key="'course'+i">
                     <div class="card-expansion">
                         <v-card class="mx-auto">
                         

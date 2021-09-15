@@ -16,7 +16,7 @@
         </v-row> 
       </v-col>
       
-      <v-col v-else cols="12" sm="12"   justify="center" class="ma-0 pa-0">
+      <v-col v-else cols="12" sm="12"   justify="center">
         <v-row align="center" justify="center">
           <v-col  v-if="classworkDetails.response_late == 0 && CheckFormatDue(classworkDetails.to_date) < DateToday" cols="12" md="7" lg="6" xl="6">
                   <responseLatePageWarning :course_id="classworkDetails.course_id" ></responseLatePageWarning>

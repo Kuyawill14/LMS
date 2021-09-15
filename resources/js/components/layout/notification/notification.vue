@@ -224,10 +224,13 @@
                 let newVm = this;
               /*   this.fetchNotification(); */
                 this.fetchNotificationCount();
+                //document.title = '('+1+')ORANGE'; 
+                   
                 window.Echo.private("notification")
                     .listen('NewNotification', e => {
                          newVm.$store.dispatch("fetchNotification", this.notifType )
                         newVm.fetchNotificationCount();
+                     
                     })
                     
                  /*    Echo.channel('notification')
@@ -386,6 +389,7 @@
         },
         mounted() {
             this.connect();
+            
         }
     }
 

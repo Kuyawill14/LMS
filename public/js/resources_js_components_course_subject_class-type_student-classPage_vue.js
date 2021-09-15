@@ -171,8 +171,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {},
@@ -661,7 +659,14 @@ var render = function() {
                 "v-row",
                 { staticStyle: { "margin-bottom": "-40px" } },
                 [
-                  _c("v-col", [_c("h2", [_vm._v("My Classes")])]),
+                  _c(
+                    "v-col",
+                    {
+                      staticClass: "mb-0 pb-0",
+                      attrs: { cols: "12", md: "12", lg: "8" }
+                    },
+                    [_c("h2", [_vm._v("My Classes")])]
+                  ),
                   _vm._v(" "),
                   _c(
                     "v-col",
@@ -737,7 +742,10 @@ var render = function() {
                   _vm._l(_vm.allClassesData, function(item, i) {
                     return _c(
                       "v-col",
-                      { key: "class" + i, attrs: { lg: "3", md: "6" } },
+                      {
+                        key: "class" + i,
+                        attrs: { cols: "12", xl: "3", lg: "3", md: "6" }
+                      },
                       [
                         _c(
                           "div",
