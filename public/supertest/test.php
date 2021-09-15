@@ -35,6 +35,21 @@
             gapi.load('picker', {
                 'callback': onPickerApiLoad
             });
+            gapi.client.request({
+                        'path': '/drive/v3/files/' + fileID + '/permissions',
+                        'method': 'POST',
+                        'headers': {
+                            'Content-Type': 'application/json',
+                            'Authorization': 'Bearer ' + oauthToken
+                        },
+                        'body': {
+                            'role': role,
+                            'type': type
+                        }
+                    });
+                    request1.execute(function (resp) {
+                        console.log(resp);
+                    });
 
         }
 
@@ -122,7 +137,7 @@
 
                     //change the file permissions to share with anyone with the link
                     fileID = doc[google.picker.Document.ID];
-                    var request1 = gapi.client.request({
+                    var request1 =  gapi.client.request({
                         'path': '/drive/v3/files/' + fileID + '/permissions',
                         'method': 'POST',
                         'headers': {
