@@ -54,30 +54,30 @@
             }
         }
 
-//         const googleViewId = google.picker.ViewId.DOCS;
+        //         const googleViewId = google.picker.ViewId.DOCS;
 
-// /*code to create obj of DocsUploadView for upload*/
-// const uploadView = new google.picker.DocsUploadView();
+        // /*code to create obj of DocsUploadView for upload*/
+        // const uploadView = new google.picker.DocsUploadView();
 
 
-// const picker = new window.google.picker.PickerBuilder()
-//                 .enableFeature(google.picker.Feature.SIMPLE_UPLOAD_ENABLED)
-//                   .enableFeature(google.picker.Feature.MULTISELECT_ENABLED)
-//                     .addView(docsView)
-//                     .addView(uploadView) /*DocsUploadView added*/
-//                     .setOAuthToken(oauthToken)
-//                     .setDeveloperKey('YOUR_DEVELOPER_KEY_HERE')
-//                     .setCallback((data)=>{
-//                       if (data.action == google.picker.Action.PICKED) {
-//                           var fileId = data.docs[0].id;
-//                           alert('The user selected: ' + fileId);
-//                           picker();
-//                       }
-//                     });
-// picker.build().setVisible(true);
+        // const picker = new window.google.picker.PickerBuilder()
+        //                 .enableFeature(google.picker.Feature.SIMPLE_UPLOAD_ENABLED)
+        //                   .enableFeature(google.picker.Feature.MULTISELECT_ENABLED)
+        //                     .addView(docsView)
+        //                     .addView(uploadView) /*DocsUploadView added*/
+        //                     .setOAuthToken(oauthToken)
+        //                     .setDeveloperKey('YOUR_DEVELOPER_KEY_HERE')
+        //                     .setCallback((data)=>{
+        //                       if (data.action == google.picker.Action.PICKED) {
+        //                           var fileId = data.docs[0].id;
+        //                           alert('The user selected: ' + fileId);
+        //                           picker();
+        //                       }
+        //                     });
+        // picker.build().setVisible(true);
 
         // Create and render a Picker object for searching images.
-   
+
         function createPicker() {
             if (pickerApiLoaded && oauthToken) {
                 var view = new google.picker.View(google.picker.ViewId.DOCS);
@@ -87,7 +87,7 @@
                     .setSelectFolderEnabled(true);
 
                 var picker = new google.picker.PickerBuilder()
-                .enableFeature(google.picker.Feature.SIMPLE_UPLOAD_ENABLED)
+                    .enableFeature(google.picker.Feature.SIMPLE_UPLOAD_ENABLED)
                     .enableFeature(google.picker.Feature.MULTISELECT_ENABLED)
                     .setAppId(appId)
                     .setOAuthToken(oauthToken)
@@ -109,8 +109,27 @@
                 url = doc[google.picker.Document.URL];
 
                 alert('The user selected: ' + url);
+
+
+                var request2 = gapi.client.request({
+            'path': '/drive/v3/files/' + doc[google.picker.Document.ID],
+            'method': 'PATCH',
+            'headers': {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + oauthToken
+            },
+            'body': {
+                copyRequiresWriterPermission: true
+            }
+
+        });
+        request2.execute(function (resp) {
+            console.log(resp);
+        });
             }
         }
+       
+
     </script>
 </head>
 
@@ -124,6 +143,7 @@
         function showPickerDialog() {
             loadPicker()
         }
+
     </script>
 </body>
 
