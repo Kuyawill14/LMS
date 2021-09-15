@@ -301,7 +301,7 @@
 
                            <v-col class="ma-0 pa-0 mb-1 " cols="12" >
                               <v-btn
-                             
+                              :disabled="StatusDetails.length == 0 && file.length == 0"
                               block
                                class="pl-12 pr-12 pb-3 pt-3"
                                :loading="IsSaving"

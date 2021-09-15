@@ -2395,6 +2395,9 @@ var render = function() {
                                     {
                                       staticClass: "pl-12 pr-12 pb-3 pt-3",
                                       attrs: {
+                                        disabled:
+                                          _vm.StatusDetails.length == 0 &&
+                                          _vm.file.length == 0,
                                         block: "",
                                         loading: _vm.IsSaving,
                                         color:
