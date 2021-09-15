@@ -4717,7 +4717,7 @@ var actions = {
   },
   LessNotificationCount: function LessNotificationCount(_ref4) {
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
-      var commit, text;
+      var commit, text, nunber;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
         while (1) {
           switch (_context4.prev = _context4.next) {
@@ -4727,7 +4727,8 @@ var actions = {
               text = document.title.substring(document.title.indexOf(' ') + 1);
 
               if (state.notificationCount != 0) {
-                document.title = '(' + state.notificationCount + ') ' + text;
+                nunber = '(' + state.notificationCount + ') ';
+                document.title = nunber + text;
               } else {
                 document.title = text;
               }
@@ -4816,7 +4817,7 @@ var actions = {
   },
   fetchNotificationCount: function fetchNotificationCount(_ref8, id) {
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee8() {
-      var commit, NotifList, count, inviteCount, res, text;
+      var commit, NotifList, count, inviteCount, res, text, nunber;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee8$(_context8) {
         while (1) {
           switch (_context8.prev = _context8.next) {
@@ -4835,7 +4836,8 @@ var actions = {
 
               if (count != 0) {
                 text = document.title.substring(document.title.indexOf(' ') + 1);
-                document.title = '(' + count + ') ' + text;
+                nunber = '(' + count + ') ';
+                document.title = nunber + text;
               }
 
               commit('NOTIFICATION_COUNT', count);

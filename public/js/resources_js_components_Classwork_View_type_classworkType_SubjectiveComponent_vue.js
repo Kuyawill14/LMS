@@ -557,6 +557,34 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var attachlinkDiaglog = function attachlinkDiaglog() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_type_classworkType_attachLinkDialog_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./attachLinkDialog */ "./resources/js/components/Classwork_View/type/classworkType/attachLinkDialog.vue"));
 };
@@ -603,7 +631,8 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
       }],
       linkNameRule: [function (value) {
         return !!value || "Required.";
-      }]
+      }],
+      DateToday: new Date()
     };
   },
   computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(['get_CurrentUser'])), {}, {
@@ -620,6 +649,11 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
     }
   }),
   methods: {
+    format_date1: function format_date1(value) {
+      if (value) {
+        return (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_1__.default)(String(value)).format("YYYY-MM-DDTHH:mm:ss");
+      }
+    },
     validate: function validate() {
       if (this.$refs.form.validate()) {
         this.scrapeDocID();
@@ -2383,62 +2417,193 @@ var render = function() {
                                 1
                               ),
                               _vm._v(" "),
-                              _c(
-                                "v-col",
-                                {
-                                  staticClass: "ma-0 pa-0 mb-1 ",
-                                  attrs: { cols: "12" }
-                                },
-                                [
-                                  _c(
-                                    "v-btn",
+                              _vm.classworkDetails.availability == 0
+                                ? _c(
+                                    "v-col",
                                     {
-                                      staticClass: "pl-12 pr-12 pb-3 pt-3",
-                                      attrs: {
-                                        disabled:
-                                          _vm.StatusDetails.length == 0 &&
-                                          _vm.file.length == 0,
-                                        block: "",
-                                        loading: _vm.IsSaving,
-                                        color:
-                                          _vm.StatusDetails.status ==
-                                            "Submitted" && !_vm.isResubmit
-                                            ? "success"
-                                            : "primary"
-                                      },
-                                      on: {
-                                        click: function($event) {
-                                          _vm.StatusDetails.status ==
-                                            "Submitted" && !_vm.isResubmit
-                                            ? ""
-                                            : _vm.SubmitClasswork()
-                                        }
-                                      }
+                                      staticClass: "ma-0 pa-0 mb-1 ",
+                                      attrs: { cols: "12" }
                                     },
                                     [
-                                      _vm.StatusDetails.status == "Submitted" &&
-                                      !_vm.isResubmit
-                                        ? _c(
-                                            "v-icon",
-                                            { attrs: { left: "" } },
-                                            [_vm._v("mdi-check")]
+                                      _c(
+                                        "v-btn",
+                                        {
+                                          staticClass: "pl-12 pr-12 pb-3 pt-3",
+                                          attrs: {
+                                            disabled:
+                                              _vm.StatusDetails.length == 0 &&
+                                              _vm.file.length == 0,
+                                            block: "",
+                                            loading: _vm.IsSaving,
+                                            color:
+                                              _vm.StatusDetails.status ==
+                                                "Submitted" && !_vm.isResubmit
+                                                ? "success"
+                                                : "primary"
+                                          },
+                                          on: {
+                                            click: function($event) {
+                                              _vm.StatusDetails.status ==
+                                                "Submitted" && !_vm.isResubmit
+                                                ? ""
+                                                : _vm.SubmitClasswork()
+                                            }
+                                          }
+                                        },
+                                        [
+                                          _vm.StatusDetails.status ==
+                                            "Submitted" && !_vm.isResubmit
+                                            ? _c(
+                                                "v-icon",
+                                                { attrs: { left: "" } },
+                                                [_vm._v("mdi-check")]
+                                              )
+                                            : _vm._e(),
+                                          _vm._v(
+                                            "\r\n                                " +
+                                              _vm._s(
+                                                _vm.StatusDetails.status ==
+                                                  "Submitted" && !_vm.isResubmit
+                                                  ? "Submitted"
+                                                  : "Submit Classwork"
+                                              )
                                           )
-                                        : _vm._e(),
-                                      _vm._v(
-                                        "\r\n                                " +
-                                          _vm._s(
-                                            _vm.StatusDetails.status ==
-                                              "Submitted" && !_vm.isResubmit
-                                              ? "Submitted"
-                                              : "Submit Classwork"
-                                          )
+                                        ],
+                                        1
                                       )
                                     ],
                                     1
                                   )
-                                ],
-                                1
-                              )
+                                : _c(
+                                    "v-col",
+                                    {
+                                      staticClass: "ma-0 pa-0 mb-1 ",
+                                      attrs: { cols: "12" }
+                                    },
+                                    [
+                                      _c(
+                                        "v-row",
+                                        [
+                                          _vm.format_date1(_vm.DateToday) >=
+                                          _vm.format_date1(
+                                            _vm.classworkDetails.from_date
+                                          )
+                                            ? _c(
+                                                "v-col",
+                                                { attrs: { cols: "12" } },
+                                                [
+                                                  _c(
+                                                    "v-btn",
+                                                    {
+                                                      staticClass:
+                                                        "pl-12 pr-12 pb-3 pt-3",
+                                                      attrs: {
+                                                        disabled:
+                                                          _vm.StatusDetails
+                                                            .length == 0 &&
+                                                          _vm.file.length == 0,
+                                                        block: "",
+                                                        loading: _vm.IsSaving,
+                                                        color:
+                                                          _vm.StatusDetails
+                                                            .status ==
+                                                            "Submitted" &&
+                                                          !_vm.isResubmit
+                                                            ? "success"
+                                                            : "primary"
+                                                      },
+                                                      on: {
+                                                        click: function(
+                                                          $event
+                                                        ) {
+                                                          _vm.StatusDetails
+                                                            .status ==
+                                                            "Submitted" &&
+                                                          !_vm.isResubmit
+                                                            ? ""
+                                                            : _vm.SubmitClasswork()
+                                                        }
+                                                      }
+                                                    },
+                                                    [
+                                                      _vm.StatusDetails
+                                                        .status ==
+                                                        "Submitted" &&
+                                                      !_vm.isResubmit
+                                                        ? _c(
+                                                            "v-icon",
+                                                            {
+                                                              attrs: {
+                                                                left: ""
+                                                              }
+                                                            },
+                                                            [
+                                                              _vm._v(
+                                                                "mdi-check"
+                                                              )
+                                                            ]
+                                                          )
+                                                        : _vm._e(),
+                                                      _vm._v(
+                                                        "\r\n                                    " +
+                                                          _vm._s(
+                                                            _vm.StatusDetails
+                                                              .status ==
+                                                              "Submitted" &&
+                                                              !_vm.isResubmit
+                                                              ? "Submitted"
+                                                              : "Submit Classwork"
+                                                          )
+                                                      )
+                                                    ],
+                                                    1
+                                                  )
+                                                ],
+                                                1
+                                              )
+                                            : _c(
+                                                "v-col",
+                                                { attrs: { cols: "12" } },
+                                                [
+                                                  _c(
+                                                    "v-btn",
+                                                    {
+                                                      attrs: {
+                                                        rounded: "",
+                                                        color: "primary",
+                                                        disabled: ""
+                                                      }
+                                                    },
+                                                    [
+                                                      _vm._v(
+                                                        "\r\n                                    Not Yet Available"
+                                                      ),
+                                                      _c(
+                                                        "v-icon",
+                                                        {
+                                                          attrs: {
+                                                            right: "",
+                                                            dark: ""
+                                                          }
+                                                        },
+                                                        [
+                                                          _vm._v(
+                                                            "mdi-book-arrow-right-outline"
+                                                          )
+                                                        ]
+                                                      )
+                                                    ],
+                                                    1
+                                                  )
+                                                ],
+                                                1
+                                              )
+                                        ],
+                                        1
+                                      )
+                                    ],
+                                    1
+                                  )
                             ],
                             1
                           )

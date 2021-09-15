@@ -167,10 +167,10 @@
                             </v-list-item>
                         </v-list>
                     </v-col>
-
-                    <v-col cols="12" class="pl-10 pr-5 pb-10 text-right">
+         
+                    <v-col v-if="classworkDetails.availability == 0" cols="12" class="pl-10 pr-5 pb-10 text-right">
                          <v-btn
-                         v-if="(status == null || status == '') && status != 'Submitted'"
+                            v-if="(status == null || status == '') && status != 'Submitted'"
                             rounded
                             color="primary"
                             :dark="totalQuestion != 0"
@@ -186,12 +186,42 @@
                             color="primary">View Submission<v-icon right dark>mdi-book-arrow-right-outline</v-icon>
                         </v-btn>
                 </v-col>
+                   
+                 <v-col v-else-if="classworkDetails.availability == 1" cols="12" class="pl-10 pr-5 pb-10 text-right"> 
+                     <v-row>
+                           <v-col cols="12" v-if="format_date1(DateToday) >= format_date1(classworkDetails.from_date)">
+                                <v-btn
+                                    v-if="(status == null || status == '') && status != 'Submitted'"
+                                    rounded
+                                    color="primary"
+                                    :dark="totalQuestion != 0"
+                                    :disabled="totalQuestion == 0"
+                                    @click="(status == null || status == '') && status != 'Submitted' ? start(): ''">Take Quiz<v-icon right dark>mdi-book-arrow-right-outline</v-icon>
+                                </v-btn>
+
+                                <v-btn
+                                v-if="status == 'Submitted' && statusDetails.reviewAnswer == 1"
+                                @click="isViewingSubmission = !isViewingSubmission"
+                                    rounded
+                                    color="primary">View Submission<v-icon right dark>mdi-book-arrow-right-outline</v-icon>
+                                </v-btn>
+                        </v-col>
+                         <v-col v-else cols="12">
+                                <v-btn
+                                rounded
+                                color="primary"
+                                disabled>
+                                Not Yet Available<v-icon right dark>mdi-book-arrow-right-outline</v-icon>
+                            </v-btn>
+                         </v-col>
+                     </v-row>
+                </v-col>
                 </v-row>   
                 <v-row style="height:1vh"></v-row> 
             </v-card> 
         </v-col>
-
-          <v-col v-else :class="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm ? 'mt-2 pl-0 pt-2' : 'pt-0 pl-5'" cols="12" md="7" lg="8" >
+        
+        <v-col v-else :class="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm ? 'mt-2 pl-0 pt-2' : 'pt-0 pl-5'" cols="12" md="7" lg="8" >
             <vue-element-loading  :active="isLoaded" spinner="bar-fade-scale" />
             <v-card class="pa-3" elevation="1" outlined>
                 <viewSubmission v-on:closeViewing="isViewingSubmission = !isViewingSubmission" :classworkDetails="classworkDetails" :details="statusDetails"></viewSubmission>
@@ -221,6 +251,7 @@ export default {
             isLoaded: true,
             statusDetails: [],
             isViewingSubmission: false,
+            DateToday: new Date(),
         }
         
     },
@@ -231,6 +262,12 @@ export default {
          format_date(value) {
             if (value) {
                 return moment(String(value)).format('dddd, h:mm a')
+            }
+        },
+
+        format_date1(value) {
+            if (value) {
+                return moment(String(value)).format("YYYY-MM-DDTHH:mm:ss")
             }
         },
         start(){
@@ -298,6 +335,7 @@ export default {
     },
     mounted(){
         this.checkStatus();
+   
       //window.history.forward(1)
     }
 }

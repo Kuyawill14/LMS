@@ -232,6 +232,36 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var viewSubmission = function viewSubmission() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_type_classworkType_submissionView_viewSubmission_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./submissionView/viewSubmission */ "./resources/js/components/Classwork_View/type/classworkType/submissionView/viewSubmission.vue"));
 };
@@ -251,7 +281,8 @@ var viewSubmission = function viewSubmission() {
       comment: null,
       isLoaded: true,
       statusDetails: [],
-      isViewingSubmission: false
+      isViewingSubmission: false,
+      DateToday: new Date()
     };
   },
   computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(['get_CurrentUser'])),
@@ -259,6 +290,11 @@ var viewSubmission = function viewSubmission() {
     format_date: function format_date(value) {
       if (value) {
         return (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_1__.default)(String(value)).format('dddd, h:mm a');
+      }
+    },
+    format_date1: function format_date1(value) {
+      if (value) {
+        return (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_1__.default)(String(value)).format("YYYY-MM-DDTHH:mm:ss");
       }
     },
     start: function start() {
@@ -1248,72 +1284,238 @@ var render = function() {
                             1
                           ),
                           _vm._v(" "),
-                          _c(
-                            "v-col",
-                            {
-                              staticClass: "pl-10 pr-5 pb-10 text-right",
-                              attrs: { cols: "12" }
-                            },
-                            [
-                              (_vm.status == null || _vm.status == "") &&
-                              _vm.status != "Submitted"
-                                ? _c(
-                                    "v-btn",
-                                    {
-                                      attrs: {
-                                        rounded: "",
-                                        color: "primary",
-                                        dark: _vm.totalQuestion != 0,
-                                        disabled: _vm.totalQuestion == 0
-                                      },
-                                      on: {
-                                        click: function($event) {
-                                          ;(_vm.status == null ||
-                                            _vm.status == "") &&
-                                          _vm.status != "Submitted"
-                                            ? _vm.start()
-                                            : ""
-                                        }
-                                      }
-                                    },
-                                    [
-                                      _vm._v("Take Quiz"),
-                                      _c(
-                                        "v-icon",
-                                        { attrs: { right: "", dark: "" } },
-                                        [_vm._v("mdi-book-arrow-right-outline")]
+                          _vm.classworkDetails.availability == 0
+                            ? _c(
+                                "v-col",
+                                {
+                                  staticClass: "pl-10 pr-5 pb-10 text-right",
+                                  attrs: { cols: "12" }
+                                },
+                                [
+                                  (_vm.status == null || _vm.status == "") &&
+                                  _vm.status != "Submitted"
+                                    ? _c(
+                                        "v-btn",
+                                        {
+                                          attrs: {
+                                            rounded: "",
+                                            color: "primary",
+                                            dark: _vm.totalQuestion != 0,
+                                            disabled: _vm.totalQuestion == 0
+                                          },
+                                          on: {
+                                            click: function($event) {
+                                              ;(_vm.status == null ||
+                                                _vm.status == "") &&
+                                              _vm.status != "Submitted"
+                                                ? _vm.start()
+                                                : ""
+                                            }
+                                          }
+                                        },
+                                        [
+                                          _vm._v("Take Quiz"),
+                                          _c(
+                                            "v-icon",
+                                            { attrs: { right: "", dark: "" } },
+                                            [
+                                              _vm._v(
+                                                "mdi-book-arrow-right-outline"
+                                              )
+                                            ]
+                                          )
+                                        ],
+                                        1
                                       )
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  _vm.status == "Submitted" &&
+                                  _vm.statusDetails.reviewAnswer == 1
+                                    ? _c(
+                                        "v-btn",
+                                        {
+                                          attrs: {
+                                            rounded: "",
+                                            color: "primary"
+                                          },
+                                          on: {
+                                            click: function($event) {
+                                              _vm.isViewingSubmission = !_vm.isViewingSubmission
+                                            }
+                                          }
+                                        },
+                                        [
+                                          _vm._v("View Submission"),
+                                          _c(
+                                            "v-icon",
+                                            { attrs: { right: "", dark: "" } },
+                                            [
+                                              _vm._v(
+                                                "mdi-book-arrow-right-outline"
+                                              )
+                                            ]
+                                          )
+                                        ],
+                                        1
+                                      )
+                                    : _vm._e()
+                                ],
+                                1
+                              )
+                            : _vm.classworkDetails.availability == 1
+                            ? _c(
+                                "v-col",
+                                {
+                                  staticClass: "pl-10 pr-5 pb-10 text-right",
+                                  attrs: { cols: "12" }
+                                },
+                                [
+                                  _c(
+                                    "v-row",
+                                    [
+                                      _vm.format_date1(_vm.DateToday) >=
+                                      _vm.format_date1(
+                                        _vm.classworkDetails.from_date
+                                      )
+                                        ? _c(
+                                            "v-col",
+                                            { attrs: { cols: "12" } },
+                                            [
+                                              (_vm.status == null ||
+                                                _vm.status == "") &&
+                                              _vm.status != "Submitted"
+                                                ? _c(
+                                                    "v-btn",
+                                                    {
+                                                      attrs: {
+                                                        rounded: "",
+                                                        color: "primary",
+                                                        dark:
+                                                          _vm.totalQuestion !=
+                                                          0,
+                                                        disabled:
+                                                          _vm.totalQuestion == 0
+                                                      },
+                                                      on: {
+                                                        click: function(
+                                                          $event
+                                                        ) {
+                                                          ;(_vm.status ==
+                                                            null ||
+                                                            _vm.status == "") &&
+                                                          _vm.status !=
+                                                            "Submitted"
+                                                            ? _vm.start()
+                                                            : ""
+                                                        }
+                                                      }
+                                                    },
+                                                    [
+                                                      _vm._v("Take Quiz"),
+                                                      _c(
+                                                        "v-icon",
+                                                        {
+                                                          attrs: {
+                                                            right: "",
+                                                            dark: ""
+                                                          }
+                                                        },
+                                                        [
+                                                          _vm._v(
+                                                            "mdi-book-arrow-right-outline"
+                                                          )
+                                                        ]
+                                                      )
+                                                    ],
+                                                    1
+                                                  )
+                                                : _vm._e(),
+                                              _vm._v(" "),
+                                              _vm.status == "Submitted" &&
+                                              _vm.statusDetails.reviewAnswer ==
+                                                1
+                                                ? _c(
+                                                    "v-btn",
+                                                    {
+                                                      attrs: {
+                                                        rounded: "",
+                                                        color: "primary"
+                                                      },
+                                                      on: {
+                                                        click: function(
+                                                          $event
+                                                        ) {
+                                                          _vm.isViewingSubmission = !_vm.isViewingSubmission
+                                                        }
+                                                      }
+                                                    },
+                                                    [
+                                                      _vm._v("View Submission"),
+                                                      _c(
+                                                        "v-icon",
+                                                        {
+                                                          attrs: {
+                                                            right: "",
+                                                            dark: ""
+                                                          }
+                                                        },
+                                                        [
+                                                          _vm._v(
+                                                            "mdi-book-arrow-right-outline"
+                                                          )
+                                                        ]
+                                                      )
+                                                    ],
+                                                    1
+                                                  )
+                                                : _vm._e()
+                                            ],
+                                            1
+                                          )
+                                        : _c(
+                                            "v-col",
+                                            { attrs: { cols: "12" } },
+                                            [
+                                              _c(
+                                                "v-btn",
+                                                {
+                                                  attrs: {
+                                                    rounded: "",
+                                                    color: "primary",
+                                                    disabled: ""
+                                                  }
+                                                },
+                                                [
+                                                  _vm._v(
+                                                    "\r\n                                Not Yet Available"
+                                                  ),
+                                                  _c(
+                                                    "v-icon",
+                                                    {
+                                                      attrs: {
+                                                        right: "",
+                                                        dark: ""
+                                                      }
+                                                    },
+                                                    [
+                                                      _vm._v(
+                                                        "mdi-book-arrow-right-outline"
+                                                      )
+                                                    ]
+                                                  )
+                                                ],
+                                                1
+                                              )
+                                            ],
+                                            1
+                                          )
                                     ],
                                     1
                                   )
-                                : _vm._e(),
-                              _vm._v(" "),
-                              _vm.status == "Submitted" &&
-                              _vm.statusDetails.reviewAnswer == 1
-                                ? _c(
-                                    "v-btn",
-                                    {
-                                      attrs: { rounded: "", color: "primary" },
-                                      on: {
-                                        click: function($event) {
-                                          _vm.isViewingSubmission = !_vm.isViewingSubmission
-                                        }
-                                      }
-                                    },
-                                    [
-                                      _vm._v("View Submission"),
-                                      _c(
-                                        "v-icon",
-                                        { attrs: { right: "", dark: "" } },
-                                        [_vm._v("mdi-book-arrow-right-outline")]
-                                      )
-                                    ],
-                                    1
-                                  )
-                                : _vm._e()
-                            ],
-                            1
-                          )
+                                ],
+                                1
+                              )
+                            : _vm._e()
                         ],
                         1
                       ),

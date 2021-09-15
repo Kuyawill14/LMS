@@ -118,7 +118,8 @@ const actions = {
         state.notificationCount -= 1;
         let text = document.title.substring( document.title.indexOf(' ') + 1);
         if(state.notificationCount != 0){
-            document.title = '('+state.notificationCount+') '+text;
+            let nunber = '('+state.notificationCount+') ';
+            document.title =  nunber+text;
         }
         else{
             document.title = text;
@@ -160,7 +161,8 @@ const actions = {
             })
         if(count != 0){
             let text = document.title.substring( document.title.indexOf(' ') + 1);
-            document.title = '('+count+') '+text;
+            let nunber = '('+count+') ';
+            document.title =  nunber+text;
         }
         commit('NOTIFICATION_COUNT', count);
         commit('INVITE_COUNT', inviteCount);

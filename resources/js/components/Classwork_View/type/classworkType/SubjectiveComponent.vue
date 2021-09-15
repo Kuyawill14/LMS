@@ -299,7 +299,7 @@
                               </v-menu>
                           </v-col>
 
-                           <v-col class="ma-0 pa-0 mb-1 " cols="12" >
+                           <v-col v-if="classworkDetails.availability == 0" class="ma-0 pa-0 mb-1 " cols="12" >
                               <v-btn
                               :disabled="StatusDetails.length == 0 && file.length == 0"
                               block
@@ -309,6 +309,34 @@
                                 :color="StatusDetails.status == 'Submitted' && !isResubmit  ? 'success': 'primary'">
                                 <v-icon left v-if="StatusDetails.status == 'Submitted' && !isResubmit ">mdi-check</v-icon>
                                 {{StatusDetails.status == 'Submitted' && !isResubmit ? 'Submitted' :'Submit Classwork'}}</v-btn>
+                           
+                          </v-col>
+
+                           <v-col v-else class="ma-0 pa-0 mb-1 " cols="12" >
+
+                             <v-row>
+                               <v-col cols="12" v-if="format_date1(DateToday) >= format_date1(classworkDetails.from_date)">
+                                 <v-btn
+                                  :disabled="StatusDetails.length == 0 && file.length == 0"
+                                  block
+                                  class="pl-12 pr-12 pb-3 pt-3"
+                                  :loading="IsSaving"
+                                    @click="StatusDetails.status == 'Submitted' && !isResubmit ? '' :SubmitClasswork()"  
+                                    :color="StatusDetails.status == 'Submitted' && !isResubmit  ? 'success': 'primary'">
+                                    <v-icon left v-if="StatusDetails.status == 'Submitted' && !isResubmit ">mdi-check</v-icon>
+                                    {{StatusDetails.status == 'Submitted' && !isResubmit ? 'Submitted' :'Submit Classwork'}}</v-btn>
+                               </v-col>
+
+                               <v-col cols="12" v-else>
+                                 <v-btn
+                                    rounded
+                                    color="primary"
+                                    disabled>
+                                    Not Yet Available<v-icon right dark>mdi-book-arrow-right-outline</v-icon>
+                                </v-btn>
+                               </v-col>
+                             </v-row>
+                              
                            
                           </v-col>
                           
@@ -573,6 +601,7 @@ export default {
             linkNameRule: [
                 (value) => !!value || "Required.",
               ],
+            DateToday: new Date(),
         }
     },
      computed: {
@@ -590,6 +619,11 @@ export default {
         }
     },
     methods:{
+      format_date1(value) {
+            if (value) {
+                return moment(String(value)).format("YYYY-MM-DDTHH:mm:ss")
+            }
+        },
       validate () {
         if(this.$refs.form.validate()){
           this.scrapeDocID();
