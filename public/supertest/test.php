@@ -18,8 +18,12 @@
         var appId = "632002309900";
 
         // Scope to use to access user's Drive items.
-        var scope = ['https://www.googleapis.com/auth/drive.file'];
-
+        var scope = [
+    "https://www.googleapis.com/auth/drive.file",
+    "https://www.googleapis.com/auth/drive",
+    "https://www.googleapis.com/auth/drive.metadata",
+    "https://www.googleapis.com/auth/drive.readonly",
+];
         var pickerApiLoaded = false;
         var oauthToken;
 
@@ -110,9 +114,9 @@
 
                 alert('The user selected: ' + url);
 
-
+                var fileId = data.docs[0].id;
                 var request2 = gapi.client.request({
-            'path': '/drive/v3/files/' + doc[google.picker.Document.ID],
+            'path': '/drive/v3/files/' +fileId,
             'method': 'PATCH',
             'headers': {
                 'Content-Type': 'application/json',
