@@ -602,12 +602,16 @@ export default {
                 (value) => !!value || "Required.",
               ],
             DateToday: new Date(),
+            CheckeFileExtention: null
         }
     },
      computed: {
        ...mapGetters(['get_CurrentUser']),
         extension() {
             return (this.tempFile) ? this.tempFile.name.split('.').pop() : '';
+        },
+        Checkextension() {
+            return (this.CheckeFileExtention) ? this.CheckeFileExtention.name.split('.').pop() : '';
         },
          Fileextension() {
              let attach = this.classworkDetails.attachment;
@@ -717,8 +721,23 @@ export default {
                 this.dragging = false;
                 return;
             } */
+
+            this.CheckeFileExtention = files[0];
+            if(this.Checkextension != 'mp4' && this.Checkextension != 'mkv' && this.Checkextension != 'avi' && this.Checkextension != 'mov' && this.Checkextension != 'wmv' && this.Checkextension != 'webm' && this.Checkextension != 'flv'){
             
-              this.createFile(files[0]);
+
+              if(files[0].size <= 10000000){
+                  this.createFile(files[0]);
+              }
+              else{
+                 this.toastError('Your file is to big, maximum file size is 10mb only!');
+              }
+             
+            }
+            else{
+               this.toastError('This file format is not yet supported for upload!');
+            }
+              
             },
         createFile(file) {
               

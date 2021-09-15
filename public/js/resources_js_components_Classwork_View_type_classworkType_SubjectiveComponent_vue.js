@@ -632,12 +632,16 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
       linkNameRule: [function (value) {
         return !!value || "Required.";
       }],
-      DateToday: new Date()
+      DateToday: new Date(),
+      CheckeFileExtention: null
     };
   },
   computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(['get_CurrentUser'])), {}, {
     extension: function extension() {
       return this.tempFile ? this.tempFile.name.split('.').pop() : '';
+    },
+    Checkextension: function Checkextension() {
+      return this.CheckeFileExtention ? this.CheckeFileExtention.name.split('.').pop() : '';
     },
     Fileextension: function Fileextension() {
       var attach = this.classworkDetails.attachment;
@@ -754,7 +758,17 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
            return;
        } */
 
-      this.createFile(files[0]);
+      this.CheckeFileExtention = files[0];
+
+      if (this.Checkextension != 'mp4' && this.Checkextension != 'mkv' && this.Checkextension != 'avi' && this.Checkextension != 'mov' && this.Checkextension != 'wmv' && this.Checkextension != 'webm' && this.Checkextension != 'flv') {
+        if (files[0].size <= 10000000) {
+          this.createFile(files[0]);
+        } else {
+          this.toastError('Your file is to big, maximum file size is 10mb only!');
+        }
+      } else {
+        this.toastError('This file format is not yet supported for upload!');
+      }
     },
     createFile: function createFile(file) {
       var IndexFile;
