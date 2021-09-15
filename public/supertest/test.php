@@ -82,7 +82,7 @@
             if (pickerApiLoaded && oauthToken) {
                 var view = new google.picker.View(google.picker.ViewId.DOCS);
                 view.setMimeTypes("application/vnd.google-apps.folder");
-                const docsView = new google.picker.DocsView(googleViewId)
+                const docsView = new google.picker.DocsView(google.picker.ViewId.DOCS)
                     .setIncludeFolders(true)
                     .setSelectFolderEnabled(true);
 
