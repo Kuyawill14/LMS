@@ -92,7 +92,7 @@
                     .setAppId(appId)
                     .setOAuthToken(oauthToken)
                     // .addView(uploadView) /*DocsUploadView added*/
-                    .addView(view)
+                    // .addView(view)
                     .addView(docsView)
                     .addView(new google.picker.DocsUploadView())
                     .setDeveloperKey(developerKey)
