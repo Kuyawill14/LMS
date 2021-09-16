@@ -44,9 +44,13 @@
             </template>
         </v-breadcrumbs>
 
+
+
+
         <div class="ml-0 mr-0">
             <classworkList v-on:ToggleRefresh="getGeneralClassworks()" 
-            v-if="!isGetting && ClassworkLength != 0" 
+            v-if="ClassworkLength != 0" 
+            v-on:isMouted="isGetting = false"
             v-on:reloadClassworks="getGeneralClassworks()"
             :classworks="get_Classworks" :role="role"></classworkList>
         </div>
@@ -113,22 +117,20 @@
                 this.$store.dispatch('fetchClassworks', this.$route.params.id)
                 .then(res => {
                     if (res == 200) {
-                        
-                       
-                      
-                      
-                        this.isGetting = false;
+                        //this.isGetting = false;
                     }
                    
                 })
             },
         },
-        mounted() {
-            this.getGeneralClassworks();
-        },
           beforeRouteLeave(to, from, next) {
             this.isLeaving = true;
             next();
+        },
+        async beforeRouteEnter(to, from, next) {
+        next(vm => {
+                vm.getGeneralClassworks();
+            });
         },
 
     }

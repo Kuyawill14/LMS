@@ -175,7 +175,7 @@
 
 </template>
 <script>
-import moment from 'moment/src/moment';
+import moment from 'moment-timezone';
 export default {
     props:['Details'],
     data(){
@@ -189,8 +189,8 @@ export default {
             duedate:null,
             ShowAnswerDate: null,
             datetime: new Date(),
-            datetimeString: '2019-01-01 12:00',
-            formattedDatetime: '09/01/2019 12:00',
+            datetimeString: '2021-01-01 12:00',
+            formattedDatetime: '09-01-2021 12:00',
             textFieldProps: {
                 appendIcon: 'event'
             },
@@ -229,32 +229,13 @@ export default {
                 }, 1000);
             }
         },
-        async shareClasswork() {
-            const fd = new FormData();
-            fd.append("classwork_id", this.ClassDetails.id);
-            fd.append("class_id", this.ClassDetails.class_id);
-            fd.append("EnableDue", this.EnableDue);
-            fd.append("due_date", this.duedate);
-            fd.append("showAnswer", this.showAns);
-            fd.append("showAnswerType", this.showAnsType);
-            fd.append("showAnswerDate", this.ShowAnswerDate);
-            fd.append("response_late", this.response_late);
-            fd.append("grading_id", this.GradingCriteria_id);
-            axios.post('/api/classwork/share', fd)
-                .then(res => {
-                    if(res.dat != 'Unshare'){
-                        this.$emit('successPublish', res.data)
-                         this.isPublishing = !this.isPublishing;
-                    }
-                    else{
-                        this.$emit('UnPublish')
-                    }
-                    
-                }).catch(e => {
-                    //console.log(e);
-                })
-        },
+      
         async UpdateShareClassworkDetails(){
+            
+            this.PublishDetails.from_date =  moment(this.PublishDetails.from_date).tz("Asia/Manila").format('YYYY-MM-DD HH:MM:SS');
+            this.PublishDetails.to_date = moment(this.PublishDetails.to_date).tz("Asia/Manila").format('YYYY-MM-DD HH:MM:SS');
+             this.PublishDetails.showDateFrom =  moment(this.PublishDetails.showDateFrom).tz("Asia/Manila").format('YYYY-MM-DD HH:MM:SS');
+            this.PublishDetails.showDateTo = moment(this.PublishDetails.showDateTo).tz("Asia/Manila").format('YYYY-MM-DD HH:MM:SS');
             this.PublishDetails.availability = this.availability;
             this.PublishDetails.showAnswerType = this.showAnsType;
             axios.put('/api/classwork/UpdatePublish/'+this.PublishDetails.id, this.PublishDetails)
@@ -281,12 +262,14 @@ export default {
                 this.showAnsType = this.PublishDetails.showAnswerType != null ? 
                 this.showAnsType = this.PublishDetails.showAnswerType ? 'Set Date' : 'After Classwork Done' : 
                 this.showAnsType = '';
+                this.PublishDetails.from_date =  moment(this.PublishDetails.from_date).tz("Asia/Manila").format('YYYY-MM-DD HH:MM:SS');
+                this.PublishDetails.to_date = moment(this.PublishDetails.to_date).tz("Asia/Manila").format('YYYY-MM-DD HH:MM:SS');
                 this.isLoading = !this.isLoading;
             })
         },
         format_date(value) {
             if (value) {
-                return moment(String(value)).format("YYYY-MM-DDTHH:mm:ss")
+                return moment.parseZone(String(value)).format("YYYY-MM-DD HH:MM:SS")
             }
         },
  

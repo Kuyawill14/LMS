@@ -291,7 +291,7 @@
 
 </template>
 <script>
-import moment from 'moment/src/moment';
+import moment from 'moment-timezone';
 const resetConfirmation = () => import('../../dialogs/resetConfirmation')
  import {mapGetters, mapActions } from "vuex";
  
@@ -321,7 +321,9 @@ const resetConfirmation = () => import('../../dialogs/resetConfirmation')
       methods:{
            format_date(value) {
             if (value) {
-                return moment(String(value)).format('MM/d/YYYY, hh:mm A')
+                //return moment(String(value)).format('MM/d/YYYY, hh:mm A');
+                return moment(String(value)).tz("Asia/Manila").format('MM/d/YYYY, hh:mm A');
+                
             }
         },
           fetchQuestions(){

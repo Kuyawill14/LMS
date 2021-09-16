@@ -30,7 +30,6 @@
 </div>
 </template>
 <script>
-import moment from 'moment/src/moment';
 export default {
     props:['duration','StopTimer','StartTime'],
     data: ()=> ({
@@ -43,7 +42,7 @@ export default {
         displaySeconds: 0,
         SecondProgress:1000,
         isLoaded: false,
-        endAt:  (new Date).getTime()+5000,
+        endAt:  (new Date).getTime()+7000,
         timeSpent: null,
     }),
     watch: {

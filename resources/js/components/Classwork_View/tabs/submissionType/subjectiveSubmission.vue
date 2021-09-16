@@ -176,7 +176,7 @@
 </div>
 </template>
 <script>
-import moment from 'moment/src/moment';
+import moment from 'moment-timezone';
 const checksubjective = () => import('./check-submission/check-subjective')
 export default {
     props:["ListData","classworkDetails","Submitted", "Graded","ClassList"],
@@ -227,7 +227,8 @@ export default {
     methods:{
         format_date(value) {
             if (value) {
-                return moment(String(value)).format('MM/d/YYYY, hh:mm A')
+                //return moment(String(value)).format('MM/d/YYYY, hh:mm A')
+                return moment(String(value)).tz("Asia/Manila").format('MM/d/YYYY, hh:mm A');
             }
         },
          SaveScore(id, points){

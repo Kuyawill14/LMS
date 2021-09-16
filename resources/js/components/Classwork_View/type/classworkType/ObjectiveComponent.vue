@@ -200,6 +200,15 @@
                                 </v-btn>
 
                                 <v-btn
+                                    v-if="status == 'Taking'"
+                                    rounded
+                                    color="primary"
+                                    dark
+                                    @click="$router.push({name: 'quizstart',params: {id: $route.params.id},query: {clwk: classworkDetails.id}})">
+                                    Continue<v-icon right dark>mdi-book-arrow-right-outline</v-icon>
+                                </v-btn>
+
+                                <v-btn
                                 v-if="status == 'Submitted' && statusDetails.reviewAnswer == 1"
                                 @click="isViewingSubmission = !isViewingSubmission"
                                     rounded
@@ -235,7 +244,7 @@
 
 <script>
 const viewSubmission = () => import('./submissionView/viewSubmission')
-import moment from 'moment/src/moment';
+import moment from 'moment-timezone';
 import {mapGetters} from "vuex";
 export default {
     props:['classworkDetails','totalPoints','totalQuestion'],
@@ -261,25 +270,28 @@ export default {
     methods:{
          format_date(value) {
             if (value) {
-                return moment(String(value)).format('dddd, h:mm a')
+                //return moment(String(value)).format('dddd, h:mm a')
+                return moment(String(value)).tz("Asia/Manila").format('dddd, h:mm a');
+            
             }
+
+           
         },
 
         format_date1(value) {
             if (value) {
-                return moment(String(value)).format("YYYY-MM-DDTHH:mm:ss")
+                //return moment(String(value)).format("YYYY-MM-DDTHH:mm:ss")
+                return moment(String(value)).tz("Asia/Manila").format("YYYY-MM-DDTHH:mm:ss");
             }
         },
         start(){
           
           if(this.totalQuestion != 0 && (this.status == null || this.status == '')){
               this.UpdateStatus( this.classworkDetails.id);
-            localStorage.removeItem(btoa('timer_time'));
-            localStorage.removeItem(btoa('CurrentAnswers'));
-            this.$router.push({name: 'quizstart',params: {id: this.$route.params.id},query: {clwk: this.classworkDetails.id}})
+            
           }
         },
-        async checkStatus(){
+        checkStatus(){
             axios.get('/api/student/check-status/'+this.classworkDetails.id)
             .then(res=>{
                 this.status = res.data.status;
@@ -294,8 +306,14 @@ export default {
             this.updateDetails.type = this.classworkDetails.type;
             axios.post('/api/student/update-status',this.updateDetails)
             .then(res=>{
-
-            })
+                if(res.data.success == true){
+                    this.$router.push({name: 'quizstart',params: {id: this.$route.params.id},query: {clwk: this.classworkDetails.id}})
+                }
+                else{
+                     this.toastError('Something went wrong while loading this classwork!');
+                }
+              
+                })
         },
          async addComment(details){
               let data = {};
@@ -333,11 +351,15 @@ export default {
             window.open(file,'_blank');
         },
     },
-    mounted(){
+   async created(){
         this.checkStatus();
-   
-      //window.history.forward(1)
-    }
+    },
+   /*   beforeRouteEnter(to, from, next) {
+        next(vm => {
+            //vm.isExamStart = true
+            vm.checkStatus();
+        });
+    }, */
 }
 </script>
 <style>

@@ -11,8 +11,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var moment_src_moment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! moment/src/moment */ "./node_modules/moment/src/moment.js");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 //
 //
 //
@@ -192,7 +191,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ["classworkDetails", "details"],
@@ -209,13 +207,8 @@ __webpack_require__.r(__webpack_exports__);
       Alphabet: null
     };
   },
-  computed: (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(["getAll_questions"]),
+  computed: (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)(["getAll_questions"]),
   methods: {
-    format_date: function format_date(value) {
-      if (value) {
-        return (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_0__.default)(String(value)).format('MM/d/YYYY, hh:mm A');
-      }
-    },
     fetchQuestions: function fetchQuestions() {
       var _this = this;
 
@@ -386,6 +379,7 @@ var update = _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_in
 
 /***/ }),
 
+<<<<<<< HEAD
 /***/ "./node_modules/moment/src/lib/create/check-overflow.js":
 /*!**************************************************************!*\
   !*** ./node_modules/moment/src/lib/create/check-overflow.js ***!
@@ -8698,6 +8692,8 @@ _lib_utils_hooks__WEBPACK_IMPORTED_MODULE_0__.hooks.HTML5_FMT = {
 
 /***/ }),
 
+=======
+>>>>>>> 36f84309ee51b068c9238050990067b6ee25b65e
 /***/ "./resources/js/components/Classwork_View/StudentPage/viewSubmittedPage.vue":
 /*!**********************************************************************************!*\
   !*** ./resources/js/components/Classwork_View/StudentPage/viewSubmittedPage.vue ***!

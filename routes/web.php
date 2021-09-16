@@ -12,8 +12,8 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/test123', function () {
-    return view('EmailTemplates.ForgotPassword');
+Route::get('/Guides', function () {
+    return view('Guides.login_guide');
 });
 
 Route::get('/tutorial', function () {

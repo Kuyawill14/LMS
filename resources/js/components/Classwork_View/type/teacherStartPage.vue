@@ -97,6 +97,11 @@ export default {
             ],
             tabs: null,
         }
+        
     },
+    mounted(){
+        this.$emit('isMounted');
+    },
+   
 }
 </script>

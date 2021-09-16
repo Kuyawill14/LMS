@@ -276,10 +276,10 @@
                                 <template v-slot:activator="{ on, attrs }">
                                   <v-btn
                                     block
-                            
                                     class="pl-12 pr-12 pb-3 pt-3"
                                     color="primary"
                                     dark
+                                    :disabled="classworkDetails.availability == 1 && format_date1(DateToday) < format_date1(classworkDetails.from_date)"
                                     outlined
                                     v-bind="attrs"
                                     v-on="on"
@@ -329,7 +329,8 @@
 
                                <v-col cols="12" v-else>
                                  <v-btn
-                                    rounded
+                                    block
+                         
                                     color="primary"
                                     disabled>
                                     Not Yet Available<v-icon right dark>mdi-book-arrow-right-outline</v-icon>
@@ -559,7 +560,7 @@
 <script>
 const attachlinkDiaglog = () => import('./attachLinkDialog')
 
-import moment from 'moment/src/moment';
+import moment from 'moment-timezone';
 
 import {mapGetters} from "vuex";
 export default {
@@ -625,7 +626,8 @@ export default {
     methods:{
       format_date1(value) {
             if (value) {
-                return moment(String(value)).format("YYYY-MM-DDTHH:mm:ss")
+                //return moment(String(value)).format("YYYY-MM-DDTHH:mm:ss")
+                return moment(String(value)).tz("Asia/Manila").format("YYYY-MM-DDTHH:mm:ss");
             }
         },
       validate () {
@@ -703,7 +705,8 @@ export default {
         },
          format_date(value) {
             if (value) {
-                return moment(String(value)).format('dddd, h:mm a')
+                /* return moment(String(value)).format('dddd, h:mm a') */
+                return moment(String(value)).tz("Asia/Manila").format('dddd, h:mm a');
             }
         },
         DownLoadFile(file, extension){
@@ -919,14 +922,16 @@ export default {
 
            })
          }
-        
-
-            
-
     },
-    created(){
+    async created(){
       this.checkStatus();
-    }
+    },
+   /*  async beforeRouteEnter(to, from, next) {
+        next(vm => {
+            //vm.isExamStart = true
+            vm.checkStatus();
+        });
+    }, */
     
 }
 </script>

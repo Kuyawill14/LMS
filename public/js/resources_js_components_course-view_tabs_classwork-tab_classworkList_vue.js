@@ -8449,7 +8449,12 @@ var render = function() {
             [
               _vm.role == "Teacher"
                 ? _c("classworkListTeacher", {
-                    attrs: { classworks: _vm.classworks }
+                    attrs: { classworks: _vm.classworks },
+                    on: {
+                      ismounted: function($event) {
+                        return _vm.$emit("isMouted")
+                      }
+                    }
                   })
                 : _vm._e()
             ],
@@ -8464,7 +8469,12 @@ var render = function() {
             [
               _vm.role == "Student"
                 ? _c("classworkListStudent", {
-                    attrs: { classworks: _vm.classworks }
+                    attrs: { classworks: _vm.classworks },
+                    on: {
+                      ismounted: function($event) {
+                        return _vm.$emit("isMouted")
+                      }
+                    }
                   })
                 : _vm._e()
             ],

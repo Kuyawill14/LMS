@@ -273,6 +273,7 @@
                                         sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
                                         style="position: absolute; top: 0px; left: 0px; width: 100%; height: 100%;"></iframe>
                                     </div> 
+                                    {{path}}
                                     <div v-if="!isOpening && OpenFileType == 'link'">
                                         <iframe title="Link" 
                                         :src="path" 
@@ -315,7 +316,7 @@
 
 </template>
 <script>
-import moment from 'moment/src/moment';
+import moment from 'moment-timezone';
 import {mapGetters} from "vuex";
   export default {
     props:['CheckData','classworkDetails'],
@@ -345,7 +346,8 @@ import {mapGetters} from "vuex";
     methods:{
          format_date(value) {
             if (value) {
-                return moment(String(value)).format('MM/d/YYYY, hh:mm A')
+                //return moment(String(value)).format('MM/d/YYYY, hh:mm A')
+                return moment(String(value)).tz("Asia/Manila").format('MM/d/YYYY, hh:mm A');
             }
         },
         DownloadFile(link){
@@ -426,13 +428,11 @@ import {mapGetters} from "vuex";
               }
               else if(extension == 'link'){
                   this.OpenFileType = 'link';
-
-                     let str = link;
-                    if(str.includes('www.youtube.com')){
+                    let str = link;
+                    if(str.includes('www.youtube.com') || str.includes('m.youtube.com' )){
                         let res = str.split("=");
                         let id = res[1].split("&");
                         let embeddedUrl = "https://www.youtube.com/embed/"+id[0];
-
                         this.path = embeddedUrl;
                     }
                     else if(str.includes('youtu.be')){
@@ -450,7 +450,6 @@ import {mapGetters} from "vuex";
                   setTimeout(() => (this.isOpening = false), 500);
               }
               else{
-         
                   this.OpenFileType = 'document'
                   this.path = link;
                  setTimeout(() => (this.isOpening = false), 500);

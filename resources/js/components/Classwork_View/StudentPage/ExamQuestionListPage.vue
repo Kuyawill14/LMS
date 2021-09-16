@@ -286,9 +286,10 @@
 
 </template>
 <script>
-import confirmDialog from './confirmDialog'
-import dialogWarning from './warningDialog'
-import quizTimer from './QuizTimer'
+import confirmDialog from './confirmDialog';
+import dialogWarning from './warningDialog';
+import quizTimer from './QuizTimer';
+import moment from 'moment-timezone';
  import {mapGetters, mapActions } from "vuex";
 export default {
     components:{
@@ -601,13 +602,14 @@ export default {
             // Chrome requires returnValue to be set.
             event.returnValue = "";
         },
-        async CheckStatus(){
+         CheckStatus(){
             axios.get('/api/student/checking/'+this.$route.query.clwk)
             .then(res=>{
-                this.Submitted_Answers = res.data.Submitted_Answers;
-                this.StartTime = res.data.startTime;
-                this.submission_id = res.data.submission_id;
-                if(res.data.status == 'Taking' || res.data.status == ''){
+               
+                if(res.data.status == 'Taking' || res.data.status == '' || res.data.status == null){
+                    this.Submitted_Answers = res.data.Submitted_Answers;
+                    this.StartTime = res.data.startTime;
+                    this.submission_id = res.data.submission_id;
                     this.StartQuiz();
                     this.preventNav = !this.preventNav;
                 }
@@ -671,12 +673,15 @@ export default {
         triggerWarning(){
             ////console.log("test 123");
             this.leaveStrike += 1;
-           /*  if(this.leaveStrike == 5){
-                this.SubmitAnswer();
-            } */
+            if(this.leaveStrike == 5){
+                this.isExamStart = false;
+                this.$router.push({name: 'clwk',params: {id: this.$route.params.id},query: {clwk: this.$route.query.clwk}})
+            }
             if(!this.preventWarning){
                 this.warningDialog = true;
             }
+           
+            
         },
     },
     beforeMount() {
@@ -684,15 +689,10 @@ export default {
             e.preventDefault();
         });
         window.addEventListener("onbeforeunload", this.preventNav);
-        
         let self = this;
         $(window).blur(function(){
             self.triggerWarning()
         });
-
-        
-
-       
         //window.addEventListener("beforeunload", this.preventNav)
            /*  this.$once("hook:beforeDestroy", () => {
             window.removeEventListener("beforeunload", this.preventNav);
@@ -721,12 +721,17 @@ export default {
       text-align: center
     }
     .post-content img{
-        
-     max-height: 8rem !important;
-}
- .centered-input input {
-  text-align: center
- }
+        border:  1px solid lightgray;
+        max-width: 80%;
+        max-height: 13rem !important;
+    }
+    .ql-editor img{
+        max-height: 20rem !important;
+        max-width: 80%;
+    }
+    .centered-input input {
+        text-align: center
+    }
 
  
 

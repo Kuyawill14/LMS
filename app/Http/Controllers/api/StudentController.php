@@ -134,6 +134,7 @@ class StudentController extends Controller
         if($request->type == 'Objective Type'){
             $Check = tbl_Submission::where('classwork_id', $request->id)
             ->where('user_id',  $userId)->first();
+
             if($Check){
                 if($Check->status == "Taking"){
                     $Check->status = "Taking";
@@ -144,7 +145,10 @@ class StudentController extends Controller
                     $Check->updated_at = date('Y-m-d H:i:s');
                 }
                 $Check->save();
-                return;
+                return response()->json([
+                    "success"=> true, 
+                    "Exam_status"=>$Check->status, 
+                ]);
             }
             $StatusUpdate = new tbl_Submission;
             $StatusUpdate->classwork_id = $request->id;
@@ -153,7 +157,10 @@ class StudentController extends Controller
             $StatusUpdate->user_id =  $userId;
             $StatusUpdate->status = "Taking";
             $StatusUpdate->save();
-            return;
+            return response()->json([
+                "success"=> true, 
+                "Exam_status"=> $StatusUpdate->status, 
+            ]);
         }
         elseif($request->type == 'Subjective Type'){
             
@@ -403,11 +410,10 @@ class StudentController extends Controller
     {
        
         $userId = auth('sanctum')->id();
-        $CheckStatus = tbl_Submission::where("tbl_submissions.user_id",$userId)
+        $CheckStatus = tbl_Submission::where("tbl_submissions.user_id", $userId)
         ->where('tbl_submissions.classwork_id',$id)
         ->select('tbl_submissions.id','tbl_submissions.status','tbl_submissions.Submitted_Answers','tbl_submissions.created_at')
         ->first();
-        
         $tempAnswer = $CheckStatus->Submitted_Answers != null ? unserialize($CheckStatus->Submitted_Answers) : null;
 
         if($CheckStatus){

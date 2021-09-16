@@ -13,7 +13,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var moment_src_moment__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! moment/src/moment */ "./node_modules/moment/src/moment.js");
+/* harmony import */ var moment_timezone__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! moment-timezone */ "./node_modules/moment-timezone/index.js");
+/* harmony import */ var moment_timezone__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(moment_timezone__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 
 
@@ -27,6 +28,7 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
 //
 //
 //
@@ -371,7 +373,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   methods: {
     format_date: function format_date(value) {
       if (value) {
-        return (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_1__.default)(String(value)).format('MM/d/YYYY, hh:mm A');
+        //return moment(String(value)).format('MM/d/YYYY, hh:mm A')
+        return moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(String(value)).tz("Asia/Manila").format('MM/d/YYYY, hh:mm A');
       }
     },
     DownloadFile: function DownloadFile(link) {
@@ -494,7 +497,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         this.OpenFileType = 'link';
         var str = link;
 
-        if (str.includes('www.youtube.com')) {
+        if (str.includes('www.youtube.com') || str.includes('m.youtube.com')) {
           var res = str.split("=");
           var id = res[1].split("&");
           var embeddedUrl = "https://www.youtube.com/embed/" + id[0];
@@ -1787,7 +1790,11 @@ var render = function() {
                                       })
                                     ])
                                   : _vm._e(),
-                                _vm._v(" "),
+                                _vm._v(
+                                  " \n                                " +
+                                    _vm._s(_vm.path) +
+                                    "\n                                "
+                                ),
                                 !_vm.isOpening && _vm.OpenFileType == "link"
                                   ? _c("div", [
                                       _c("iframe", {

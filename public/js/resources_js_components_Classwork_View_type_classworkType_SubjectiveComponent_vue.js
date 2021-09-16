@@ -13,7 +13,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var moment_src_moment__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! moment/src/moment */ "./node_modules/moment/src/moment.js");
+/* harmony import */ var moment_timezone__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! moment-timezone */ "./node_modules/moment-timezone/index.js");
+/* harmony import */ var moment_timezone__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(moment_timezone__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 
 
@@ -27,6 +28,7 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
 //
 //
 //
@@ -655,7 +657,8 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
   methods: {
     format_date1: function format_date1(value) {
       if (value) {
-        return (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_1__.default)(String(value)).format("YYYY-MM-DDTHH:mm:ss");
+        //return moment(String(value)).format("YYYY-MM-DDTHH:mm:ss")
+        return moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(String(value)).tz("Asia/Manila").format("YYYY-MM-DDTHH:mm:ss");
       }
     },
     validate: function validate() {
@@ -738,7 +741,8 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
     },
     format_date: function format_date(value) {
       if (value) {
-        return (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_1__.default)(String(value)).format('dddd, h:mm a');
+        /* return moment(String(value)).format('dddd, h:mm a') */
+        return moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(String(value)).tz("Asia/Manila").format('dddd, h:mm a');
       }
     },
     DownLoadFile: function DownLoadFile(file, extension) {
@@ -1052,8 +1056,30 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
     }
   },
   created: function created() {
-    this.checkStatus();
+    var _this10 = this;
+
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee6() {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee6$(_context6) {
+        while (1) {
+          switch (_context6.prev = _context6.next) {
+            case 0:
+              _this10.checkStatus();
+
+            case 1:
+            case "end":
+              return _context6.stop();
+          }
+        }
+      }, _callee6);
+    }))();
   }
+  /*  async beforeRouteEnter(to, from, next) {
+       next(vm => {
+           //vm.isExamStart = true
+           vm.checkStatus();
+       });
+   }, */
+
 });
 
 /***/ }),
@@ -2326,6 +2352,19 @@ var render = function() {
                                                               block: "",
                                                               color: "primary",
                                                               dark: "",
+                                                              disabled:
+                                                                _vm
+                                                                  .classworkDetails
+                                                                  .availability ==
+                                                                  1 &&
+                                                                _vm.format_date1(
+                                                                  _vm.DateToday
+                                                                ) <
+                                                                  _vm.format_date1(
+                                                                    _vm
+                                                                      .classworkDetails
+                                                                      .from_date
+                                                                  ),
                                                               outlined: ""
                                                             }
                                                           },
@@ -2359,7 +2398,7 @@ var render = function() {
                                             ],
                                             null,
                                             false,
-                                            857056327
+                                            1484783155
                                           )
                                         },
                                         [
@@ -2584,7 +2623,7 @@ var render = function() {
                                                     "v-btn",
                                                     {
                                                       attrs: {
-                                                        rounded: "",
+                                                        block: "",
                                                         color: "primary",
                                                         disabled: ""
                                                       }
