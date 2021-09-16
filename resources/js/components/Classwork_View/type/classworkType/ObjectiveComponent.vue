@@ -207,7 +207,7 @@
                                     @click="$router.push({name: 'quizstart',params: {id: $route.params.id},query: {clwk: classworkDetails.id}})">
                                     Continue<v-icon right dark>mdi-book-arrow-right-outline</v-icon>
                                 </v-btn>
-                                
+
                                 <v-btn
                                 v-if="status == 'Submitted' && statusDetails.reviewAnswer == 1"
                                 @click="isViewingSubmission = !isViewingSubmission"
@@ -307,8 +307,6 @@ export default {
             axios.post('/api/student/update-status',this.updateDetails)
             .then(res=>{
                 if(res.data.success == true){
-                    localStorage.removeItem(btoa('timer_time'));
-                    localStorage.removeItem(btoa('CurrentAnswers'));
                     this.$router.push({name: 'quizstart',params: {id: this.$route.params.id},query: {clwk: this.classworkDetails.id}})
                 }
                 else{

@@ -105,14 +105,12 @@
                                             :number="index+1" 
                                             :Question="item" 
                                             :SubQuestion="getAll_questions.Answer[index].SubQuestion"
-                                            :Answers="getAll_questions.Answer[index].SubAnswer"
-                                            ></matchingType>
+                                            :Answers="getAll_questions.Answer[index].SubAnswer">
+                                            </matchingType>
                                     </div>
                                      <div v-if="item.type == 'Essay'" class="mb-2">
-                                            <essayType v-on:updateQuestion="updateQuestion" :previewAll="previewAll" v-on:reloadList="fetchQuestionsList()" v-if="item.type == 'Essay'" :number="index+1" :Question="item"></essayType>
+                                        <essayType v-on:updateQuestion="updateQuestion" :previewAll="previewAll" v-on:reloadList="fetchQuestionsList()" v-if="item.type == 'Essay'" :number="index+1" :Question="item"></essayType>
                                     </div>
-
-                                    
                             </v-container>
                         </v-col>
                     </v-row>
@@ -156,14 +154,12 @@ export default {
             DeleteDetails:{},
             QuestionsList:[],
             isFetching: true,
-            isLeaving: false
-          
+            isLeaving: false,
         }
     },
     computed: mapGetters(["getAll_questions"]),
     methods:{
         removePropt(num, id){
-        
             this.DeleteDetails.number = num;
             this.DeleteDetails.id = id;
             this.isRemoving = true;
@@ -201,8 +197,7 @@ export default {
                 this.isFetching = false;
             });
         },
-
-         async updateQuestion(data){
+        async updateQuestion(data){
             await axios.put('/api/question/update/'+data.id, {type: data.type, question: data})
             .then(res=>{
                 if(res.status == 200){
@@ -210,29 +205,29 @@ export default {
                 }
             })
         }
-       
-        
     },
     beforeMount(){
         //this.getAllQuestion();
         this.isLoading = true;
         this.Show = false
         this.fetchQuestionsList();
-         this.Show = true
+        this.Show = true
         this.isLoading = false;
-      
     },
     beforeRouteLeave(to, from, next) {
         this.isLeaving = true;
         next();
     },
   
-  
 }
 </script>
 
 <style>
   
-
+ .post-content img{
+        border:  1px solid lightgray;
+        max-width: 80%;
+        max-height: 13rem !important;
+    }
         
 </style>

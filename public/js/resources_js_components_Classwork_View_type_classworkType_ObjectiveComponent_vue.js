@@ -336,9 +336,6 @@ var viewSubmission = function viewSubmission() {
                 _this2.updateDetails.type = _this2.classworkDetails.type;
                 axios.post('/api/student/update-status', _this2.updateDetails).then(function (res) {
                   if (res.data.success == true) {
-                    localStorage.removeItem(btoa('timer_time'));
-                    localStorage.removeItem(btoa('CurrentAnswers'));
-
                     _this2.$router.push({
                       name: 'quizstart',
                       params: {

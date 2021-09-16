@@ -410,11 +410,10 @@ class StudentController extends Controller
     {
        
         $userId = auth('sanctum')->id();
-        $CheckStatus = tbl_Submission::where("tbl_submissions.user_id",$userId)
+        $CheckStatus = tbl_Submission::where("tbl_submissions.user_id", $userId)
         ->where('tbl_submissions.classwork_id',$id)
         ->select('tbl_submissions.id','tbl_submissions.status','tbl_submissions.Submitted_Answers','tbl_submissions.created_at')
         ->first();
-        
         $tempAnswer = $CheckStatus->Submitted_Answers != null ? unserialize($CheckStatus->Submitted_Answers) : null;
 
         if($CheckStatus){

@@ -662,39 +662,26 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     CheckStatus: function CheckStatus() {
       var _this7 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                axios.get('/api/student/checking/' + _this7.$route.query.clwk).then(function (res) {
-                  _this7.Submitted_Answers = res.data.Submitted_Answers;
-                  _this7.StartTime = moment_timezone__WEBPACK_IMPORTED_MODULE_4___default()(res.data.startTime).tz("Asia/Manila").format('YYYY-MM-DD HH:MM:SS');
-                  _this7.submission_id = res.data.submission_id;
+      axios.get('/api/student/checking/' + this.$route.query.clwk).then(function (res) {
+        if (res.data.status == 'Taking' || res.data.status == '' || res.data.status == null) {
+          _this7.Submitted_Answers = res.data.Submitted_Answers;
+          _this7.StartTime = res.data.startTime;
+          _this7.submission_id = res.data.submission_id;
 
-                  if (res.data.status == 'Taking' || res.data.status == '' || res.data.status == null) {
-                    _this7.StartQuiz();
+          _this7.StartQuiz();
 
-                    _this7.preventNav = !_this7.preventNav;
-                  } else {
-                    _this7.isLoading = false;
+          _this7.preventNav = !_this7.preventNav;
+        } else {
+          _this7.isLoading = false;
 
-                    _this7.$router.push({
-                      name: 'result-page',
-                      params: {
-                        id: _this7.$route.query.clwk
-                      }
-                    });
-                  }
-                });
-
-              case 1:
-              case "end":
-                return _context2.stop();
+          _this7.$router.push({
+            name: 'result-page',
+            params: {
+              id: _this7.$route.query.clwk
             }
-          }
-        }, _callee2);
-      }))();
+          });
+        }
+      });
     },
     SelectMatch: function SelectMatch(id, main_index, second_index) {
       var Answer = this.FinalAnswers[main_index].Answer[second_index].Ans_letter;
@@ -725,9 +712,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     triggerWarning: function triggerWarning() {
       ////console.log("test 123");
       this.leaveStrike += 1;
-      /*  if(this.leaveStrike == 5){
-           this.SubmitAnswer();
-       } */
+
+      if (this.leaveStrike == 5) {
+        this.isExamStart = false;
+        this.$router.push({
+          name: 'clwk',
+          params: {
+            id: this.$route.params.id
+          },
+          query: {
+            clwk: this.$route.query.clwk
+          }
+        });
+      }
 
       if (!this.preventWarning) {
         this.warningDialog = true;
@@ -758,10 +755,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     next();
   },
   beforeRouteEnter: function beforeRouteEnter(to, from, next) {
-    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
         while (1) {
-          switch (_context3.prev = _context3.next) {
+          switch (_context2.prev = _context2.next) {
             case 0:
               next(function (vm) {
                 vm.isExamStart = true;
@@ -770,10 +767,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
             case 1:
             case "end":
-              return _context3.stop();
+              return _context2.stop();
           }
         }
-      }, _callee3);
+      }, _callee2);
     }))();
   }
 });
@@ -835,7 +832,7 @@ __webpack_require__.r(__webpack_exports__);
       displaySeconds: 0,
       SecondProgress: 1000,
       isLoaded: false,
-      endAt: new Date().getTime() + 5000,
+      endAt: new Date().getTime() + 7000,
       timeSpent: null
     };
   },
@@ -971,7 +968,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.centered-input >>> input {\n      text-align: center\n}\n.post-content img{\n        \n     max-height: 8rem !important;\n}\n.centered-input input {\n  text-align: center\n}\n\n \n\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.centered-input >>> input {\n  text-align: center\n}\n.post-content img{\n    border:  1px solid lightgray;\n    max-width: 80%;\n    max-height: 13rem !important;\n}\n.ql-editor img{\n    max-height: 20rem !important;\n    max-width: 80%;\n}\n.centered-input input {\n    text-align: center\n}\n\n\n\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
