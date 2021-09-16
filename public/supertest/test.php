@@ -169,6 +169,8 @@
     <button onclick="showPickerDialog()">Show Picker Dialog</button>
 
     <!-- The Google API Loader script. -->
+    <script src="https://apis.google.com/js/client.js?onload=googleApiClientReady"></script>
+
     <script type="text/javascript" src="https://apis.google.com/js/api.js"></script>
     <script>
         function showPickerDialog() {
