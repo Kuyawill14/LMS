@@ -208,7 +208,7 @@
     const deleteDialog = () => import('../dialogs/deleteDiaglog');
     const archiveClassworkDialog = () => import('../dialogs/archiveClassworkDialog');
     const newClassworkModal = () => import('../newClassworkModal')
-    import moment from 'moment/src/moment';
+    import moment from 'moment-timezone';
     export default {
         props: ['classworks'],
         components: {
@@ -239,12 +239,14 @@
             
             format_date(value) {
                 if (value) {
-                    return moment(String(value)).format('MMMM Do YYYY, hh:mm A')
+                   // return moment(String(value)).format('MMMM Do YYYY, hh:mm A')
+                    return moment(String(value)).tz("Asia/Manila").format('MMMM Do YYYY, hh:mm A');
                 }
             },
             CheckFormatDue(value){
                 if (value) {
-                    return moment(String(value)).format("YYYY-MM-DDTHH:mm:ss")
+                    //return moment(String(value)).format("YYYY-MM-DDTHH:mm:ss")
+                    return moment(String(value)).tz("Asia/Manila").format("YYYY-MM-DDTHH:mm:ss");
                 }
             },
             async RemoveCLasswork(details){
@@ -270,7 +272,8 @@
         mounted(){
             this.CheckClassworkCount();
             let newDate = new Date();
-            this.DateToday = moment(newDate).format("YYYY-MM-DDTHH:mm:ss");
+            //this.DateToday = moment(newDate).format("YYYY-MM-DDTHH:mm:ss");
+            this.DateToday =  moment(newDate).tz("Asia/Manila").format("YYYY-MM-DDTHH:mm:ss");
 
         }
        

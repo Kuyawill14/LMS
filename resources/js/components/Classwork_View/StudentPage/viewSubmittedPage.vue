@@ -178,7 +178,6 @@
 
 </template>
 <script>
-import moment from 'moment/src/moment';
  import {mapGetters, mapActions } from "vuex";
  
   export default {
@@ -198,11 +197,7 @@ import moment from 'moment/src/moment';
       },
       computed:mapGetters(["getAll_questions"]),
       methods:{
-           format_date(value) {
-            if (value) {
-                return moment(String(value)).format('MM/d/YYYY, hh:mm A')
-            }
-        },
+           
           fetchQuestions(){
               this.ViewSubmiisionConditions.showAnswer = this.details.showAnswer;
                this.ViewSubmiisionConditions.showAnswerType = this.details.showAnswerType;

@@ -30,7 +30,6 @@
 </div>
 </template>
 <script>
-import moment from 'moment/src/moment';
 export default {
     props:['duration','StopTimer','StartTime'],
     data: ()=> ({

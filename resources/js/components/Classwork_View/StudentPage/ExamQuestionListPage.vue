@@ -286,9 +286,10 @@
 
 </template>
 <script>
-import confirmDialog from './confirmDialog'
-import dialogWarning from './warningDialog'
-import quizTimer from './QuizTimer'
+import confirmDialog from './confirmDialog';
+import dialogWarning from './warningDialog';
+import quizTimer from './QuizTimer';
+import moment from 'moment-timezone';
  import {mapGetters, mapActions } from "vuex";
 export default {
     components:{
@@ -605,7 +606,7 @@ export default {
             axios.get('/api/student/checking/'+this.$route.query.clwk)
             .then(res=>{
                 this.Submitted_Answers = res.data.Submitted_Answers;
-                this.StartTime = res.data.startTime;
+                this.StartTime = moment(res.data.startTime).tz("Asia/Manila").format('YYYY-MM-DD HH:MM:SS');
                 this.submission_id = res.data.submission_id;
                 if(res.data.status == 'Taking' || res.data.status == ''){
                     this.StartQuiz();

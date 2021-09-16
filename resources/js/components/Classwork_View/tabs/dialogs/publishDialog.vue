@@ -215,7 +215,7 @@
     </v-card>
 </template>
 <script>
-import moment from 'moment/src/moment';
+import moment from 'moment-timezone';
 export default {
     props:['Details', 'datetoday'],
   
@@ -279,13 +279,13 @@ export default {
             form.classwork_id = this.ClassDetails.id;
             form.class_id = this.ClassDetails.class_id;
             form.availability = this.availability;
-            form.from_date = moment(this.from_date).format("YYYY-MM-DD HH:MM:SS");
-            form.to_date = moment(this.to_date).format("YYYY-MM-DD HH:MM:SS");
+            form.from_date = moment(this.PublishDetails.from_date).tz("Asia/Manila").format('YYYY-MM-DD HH:MM:SS');
+            form.to_date = moment(this.PublishDetails.to_date).tz("Asia/Manila").format('YYYY-MM-DD HH:MM:SS');
             form.showAnswer = this.showAns;
             form.ReviewAnswer = this.ReviewAnswer
             form.showAnswerType = this.showAnsType;
-            form.showAnswerDateFrom = moment(this.ShowAnswerDateFrom).format("YYYY-MM-DD HH:MM:SS");
-            form.showAnswerDateTo = moment(this.ShowAnswerDateTo).format("YYYY-MM-DD HH:MM:SS");
+            form.showAnswerDateFrom = moment(this.PublishDetails.ShowAnswerDateFrom).tz("Asia/Manila").format('YYYY-MM-DD HH:MM:SS');
+            form.showAnswerDateTo = moment(this.PublishDetails.ShowAnswerDateTo).tz("Asia/Manila").format('YYYY-MM-DD HH:MM:SS');
             form.response_late = this.response_late;
             form.grading_id = this.GradingCriteria_id;
 

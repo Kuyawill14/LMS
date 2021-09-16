@@ -47,7 +47,7 @@ const objectiveType = () => import('./classworkType/ObjectiveComponent')
 const subjectiveType = () => import('./classworkType/SubjectiveComponent')
 const responseLatePageWarning = () => import('./classworkType/responseLateComponent')
 
-import moment from 'moment/src/moment';
+import moment from 'moment-timezone';
 export default {
     props:['classworkDetails','totalPoints','totalQuestion'],
     components:{
@@ -63,7 +63,8 @@ export default {
     methods:{
          format_date(value) {
             if (value) {
-                return moment(String(value)).format('dddd, h:mm a')
+                //return moment(String(value)).format('dddd, h:mm a')
+                 return moment(String(value)).tz("Asia/Manila").format('dddd, h:mm a');
             }
         },
         start(){
@@ -74,7 +75,8 @@ export default {
         },
         CheckFormatDue(value){
               if (value) {
-                  return moment(String(value)).format("YYYY-MM-DDTHH:mm:ss")
+                  //return moment(String(value)).format("YYYY-MM-DDTHH:mm:ss")
+                   return moment(String(value)).tz("Asia/Manila").format("YYYY-MM-DDTHH:mm:ss");
               }
           },
     },
@@ -83,7 +85,9 @@ export default {
     },
     mounted(){
       let newDate = new Date();
-      this.DateToday = moment(newDate).format("YYYY-MM-DDTHH:mm:ss")
+      //this.DateToday = moment(newDate).format("YYYY-MM-DDTHH:mm:ss")
+      this.DateToday = moment(newDate).tz("Asia/Manila").format("YYYY-MM-DDTHH:mm:ss");
+      
     }
 }
 </script>

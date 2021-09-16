@@ -225,7 +225,7 @@
 
 <script>
     const previewClassworkModal = () => import('../dialogs/previewClassworkModal');
-    import moment from 'moment/src/moment';
+    import moment from 'moment-timezone';
     export default {
         props: ['classworks'],
         components: {
@@ -247,12 +247,14 @@
         methods: {
             format_date(value) {
                 if (value) {
-                    return moment(String(value)).format('MMMM DD YYYY, hh:mm A')
+                    //return moment(String(value)).format('MMMM DD YYYY, hh:mm A')
+                    return moment(String(value)).tz("Asia/Manila").format('MMMM DD YYYY, hh:mm A');
                 }
             },
             CheckFormatDue(value){
                 if (value) {
-                    return moment(String(value)).format("YYYY-MM-DDTHH:mm:ss")
+                    //return moment(String(value)).format("YYYY-MM-DDTHH:mm:ss")
+                    return moment(String(value)).tz("Asia/Manila").format("YYYY-MM-DDTHH:mm:ss");
                 }
             },
             continueClasswork(classwork_id){
@@ -299,7 +301,8 @@
             this.CheckClassworkCount();
             this.setFilterItems();
             let newDate = new Date();
-            this.DateToday = moment(newDate).format("YYYY-MM-DDTHH:mm:ss");
+            //this.DateToday = moment(newDate).format("YYYY-MM-DDTHH:mm:ss");
+            this.DateToday =  moment(newDate).tz("Asia/Manila").format("YYYY-MM-DDTHH:mm:ss");
         },
        
        

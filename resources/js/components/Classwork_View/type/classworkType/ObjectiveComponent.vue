@@ -235,7 +235,7 @@
 
 <script>
 const viewSubmission = () => import('./submissionView/viewSubmission')
-import moment from 'moment/src/moment';
+import moment from 'moment-timezone';
 import {mapGetters} from "vuex";
 export default {
     props:['classworkDetails','totalPoints','totalQuestion'],
@@ -261,13 +261,18 @@ export default {
     methods:{
          format_date(value) {
             if (value) {
-                return moment(String(value)).format('dddd, h:mm a')
+                //return moment(String(value)).format('dddd, h:mm a')
+                return moment(String(value)).tz("Asia/Manila").format('dddd, h:mm a');
+            
             }
+
+           
         },
 
         format_date1(value) {
             if (value) {
-                return moment(String(value)).format("YYYY-MM-DDTHH:mm:ss")
+                //return moment(String(value)).format("YYYY-MM-DDTHH:mm:ss")
+                return moment(String(value)).tz("Asia/Manila").format("YYYY-MM-DDTHH:mm:ss");
             }
         },
         start(){
