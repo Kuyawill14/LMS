@@ -344,6 +344,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -496,7 +497,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         this.OpenFileType = 'link';
         var str = link;
 
-        if (str.includes('www.youtube.com')) {
+        if (str.includes('www.youtube.com') || str.includes('m.youtube.com')) {
           var res = str.split("=");
           var id = res[1].split("&");
           var embeddedUrl = "https://www.youtube.com/embed/" + id[0];
@@ -1789,7 +1790,11 @@ var render = function() {
                                       })
                                     ])
                                   : _vm._e(),
-                                _vm._v(" "),
+                                _vm._v(
+                                  " \n                                " +
+                                    _vm._s(_vm.path) +
+                                    "\n                                "
+                                ),
                                 !_vm.isOpening && _vm.OpenFileType == "link"
                                   ? _c("div", [
                                       _c("iframe", {
