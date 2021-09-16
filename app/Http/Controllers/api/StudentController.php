@@ -183,7 +183,7 @@ class StudentController extends Controller
                 ]);
            }
            else{
-            
+                
             $StatusUpdate = tbl_Submission::find($request->Submission_id);
             $TempOldAttach = $StatusUpdate->Submitted_Answers = unserialize($StatusUpdate->Submitted_Answers);
             $file = $request->file('file');
@@ -229,7 +229,7 @@ class StudentController extends Controller
             "name"=> $request->fileName,"fileSize"=> $request->fileSize,"fileExte"=> $request->fileExte];
             $StatusUpdate->Submitted_Answers = serialize($tempAnswer);
             $StatusUpdate->save();
-            return;
+            return $StatusUpdate->id;
        }
        else{
         
@@ -240,7 +240,7 @@ class StudentController extends Controller
         array_push($TempOldAttach, $tempAnswer);
         $StatusUpdate->Submitted_Answers = serialize($TempOldAttach);
         $StatusUpdate->save();
-        return;
+        return $StatusUpdate->id;
        }
     }
 
