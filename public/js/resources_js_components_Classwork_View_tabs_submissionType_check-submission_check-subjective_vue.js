@@ -343,7 +343,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -500,6 +499,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           var id = res[1].split("&");
           var embeddedUrl = "https://www.youtube.com/embed/" + id[0];
           this.path = embeddedUrl;
+        } else if (str.includes('youtu.be')) {
+          var newpath = str.replace('youtu.be/', 'www.youtube.com/embed/');
+          this.path = newpath;
         } else if (str.includes('drive.google.com')) {
           var d = str.replace(/.*\/d\//, '').replace(/\/.*/, '');
           var path = "https://drive.google.com/file/d/" + d + "/preview";

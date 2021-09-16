@@ -273,7 +273,6 @@
                                         sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
                                         style="position: absolute; top: 0px; left: 0px; width: 100%; height: 100%;"></iframe>
                                     </div> 
-
                                     <div v-if="!isOpening && OpenFileType == 'link'">
                                         <iframe title="Link" 
                                         :src="path" 
@@ -433,8 +432,12 @@ import {mapGetters} from "vuex";
                         let res = str.split("=");
                         let id = res[1].split("&");
                         let embeddedUrl = "https://www.youtube.com/embed/"+id[0];
-                        
+
                         this.path = embeddedUrl;
+                    }
+                    else if(str.includes('youtu.be')){
+                        let newpath = str.replace('youtu.be/', 'www.youtube.com/embed/');
+                        this.path = newpath;
                     }
                     else if(str.includes('drive.google.com')){
                         let d = str.replace(/.*\/d\//, '').replace(/\/.*/, '');

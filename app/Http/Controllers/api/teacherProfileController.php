@@ -219,7 +219,7 @@ class TeacherProfileController extends Controller
 
 
             $publishIn = tbl_classClassworks::where('tbl_class_classworks.classwork_id', $item->id)
-            ->select('tbl_classes.class_name')
+            ->select('tbl_classes.class_name','tbl_class_classworks.from_date', 'tbl_class_classworks.to_date','tbl_class_classworks.availability')
             ->leftJoin('tbl_classes', 'tbl_classes.id','=','tbl_class_classworks.class_id')
             ->get();
 

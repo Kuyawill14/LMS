@@ -142,6 +142,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['course_details'],
@@ -189,6 +193,58 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
      }, */
 
 });
+
+/***/ }),
+
+/***/ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/admin/monitor-teachers/teacherProfile/courses/summary_content/classwork.vue?vue&type=style&index=0&lang=css&":
+/*!***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/admin/monitor-teachers/teacherProfile/courses/summary_content/classwork.vue?vue&type=style&index=0&lang=css& ***!
+  \***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../../../../../node_modules/laravel-mix/node_modules/css-loader/dist/runtime/api.js */ "./node_modules/laravel-mix/node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+// Imports
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, "\nspan img{\n    max-width: 100% !important;\n    max-height: 15rem !important;\n}\n", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/admin/monitor-teachers/teacherProfile/courses/summary_content/classwork.vue?vue&type=style&index=0&lang=css&":
+/*!********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/admin/monitor-teachers/teacherProfile/courses/summary_content/classwork.vue?vue&type=style&index=0&lang=css& ***!
+  \********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../../../../../node_modules/laravel-mix/node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/laravel-mix/node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_classwork_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../../../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./classwork.vue?vue&type=style&index=0&lang=css& */ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/admin/monitor-teachers/teacherProfile/courses/summary_content/classwork.vue?vue&type=style&index=0&lang=css&");
+
+            
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_classwork_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_1__.default, options);
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_classwork_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_1__.default.locals || {});
 
 /***/ }),
 
@@ -8518,15 +8574,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _classwork_vue_vue_type_template_id_7b45b06b___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./classwork.vue?vue&type=template&id=7b45b06b& */ "./resources/js/components/admin/monitor-teachers/teacherProfile/courses/summary_content/classwork.vue?vue&type=template&id=7b45b06b&");
 /* harmony import */ var _classwork_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./classwork.vue?vue&type=script&lang=js& */ "./resources/js/components/admin/monitor-teachers/teacherProfile/courses/summary_content/classwork.vue?vue&type=script&lang=js&");
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* harmony import */ var _classwork_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./classwork.vue?vue&type=style&index=0&lang=css& */ "./resources/js/components/admin/monitor-teachers/teacherProfile/courses/summary_content/classwork.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
+;
 
 
 /* normalize component */
-;
-var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__.default)(
+
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__.default)(
   _classwork_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
   _classwork_vue_vue_type_template_id_7b45b06b___WEBPACK_IMPORTED_MODULE_0__.render,
   _classwork_vue_vue_type_template_id_7b45b06b___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
@@ -8556,6 +8614,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_classwork_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./classwork.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/admin/monitor-teachers/teacherProfile/courses/summary_content/classwork.vue?vue&type=script&lang=js&");
  /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_classwork_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
+
+/***/ }),
+
+/***/ "./resources/js/components/admin/monitor-teachers/teacherProfile/courses/summary_content/classwork.vue?vue&type=style&index=0&lang=css&":
+/*!**********************************************************************************************************************************************!*\
+  !*** ./resources/js/components/admin/monitor-teachers/teacherProfile/courses/summary_content/classwork.vue?vue&type=style&index=0&lang=css& ***!
+  \**********************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_laravel_mix_node_modules_style_loader_dist_cjs_js_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_classwork_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../../../node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!../../../../../../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./classwork.vue?vue&type=style&index=0&lang=css& */ "./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/admin/monitor-teachers/teacherProfile/courses/summary_content/classwork.vue?vue&type=style&index=0&lang=css&");
+
 
 /***/ }),
 
@@ -8727,27 +8797,34 @@ var render = function() {
                                       _c(
                                         "v-list-item-content",
                                         [
-                                          _c("v-list-item-title", [
-                                            _vm._v(
-                                              "\n                                        " +
-                                                _vm._s(item.title)
-                                            ),
-                                            _c(
-                                              "small",
-                                              { staticClass: "primary--text" },
-                                              [
-                                                _vm._v(
-                                                  "(" +
-                                                    _vm._s(
-                                                      item.points == null
-                                                        ? 0 + "points"
-                                                        : item.points + "points"
-                                                    ) +
-                                                    ")"
-                                                )
-                                              ]
-                                            )
-                                          ]),
+                                          _c(
+                                            "v-list-item-title",
+                                            { staticStyle: { width: "10px" } },
+                                            [
+                                              _vm._v(
+                                                "\n                                        " +
+                                                  _vm._s(item.title)
+                                              ),
+                                              _c(
+                                                "small",
+                                                {
+                                                  staticClass: "primary--text"
+                                                },
+                                                [
+                                                  _vm._v(
+                                                    "(" +
+                                                      _vm._s(
+                                                        item.points == null
+                                                          ? 0 + "points"
+                                                          : item.points +
+                                                              "points"
+                                                      ) +
+                                                      ")"
+                                                  )
+                                                ]
+                                              )
+                                            ]
+                                          ),
                                           _vm._v(" "),
                                           _c("v-list-item-subtitle", [
                                             _vm._v(
@@ -8913,41 +8990,66 @@ var render = function() {
                                 "v-row",
                                 { attrs: { "no-gutters": "" } },
                                 [
-                                  _c("v-col", { attrs: { cols: "8" } }, [
-                                    _c("span", {
-                                      staticClass: "mb-5 ml-5 text-sm-body-2 ",
-                                      domProps: {
-                                        innerHTML: _vm._s(item.instruction)
-                                      }
-                                    })
-                                  ]),
+                                  _c(
+                                    "v-col",
+                                    {
+                                      staticClass: " pl-5",
+                                      attrs: { cols: "8" }
+                                    },
+                                    [
+                                      _c("span", {
+                                        staticClass: "mb-5 text-sm-body-2 ",
+                                        domProps: {
+                                          innerHTML: _vm._s(item.instruction)
+                                        }
+                                      })
+                                    ]
+                                  ),
                                   _vm._v(" "),
-                                  _c("v-col", { attrs: { cols: "4" } }, [
-                                    _c("div", { staticClass: "flex-column" }, [
-                                      _c("h1", { staticClass: "mb-0 pb-0" }, [
-                                        _vm._v(
-                                          _vm._s(
-                                            item.submittion_count
-                                              ? item.submittion_count
-                                              : 0
-                                          )
-                                        )
-                                      ]),
-                                      _vm._v(" "),
+                                  _c(
+                                    "v-col",
+                                    {
+                                      staticClass: "pl-3",
+                                      attrs: { cols: "4" }
+                                    },
+                                    [
                                       _c(
-                                        "small",
-                                        { staticClass: "mt-0 pt-0" },
-                                        [_vm._v("Submitted")]
+                                        "div",
+                                        { staticClass: "flex-column" },
+                                        [
+                                          _c(
+                                            "h1",
+                                            { staticClass: "mb-0 pb-0" },
+                                            [
+                                              _vm._v(
+                                                _vm._s(
+                                                  item.submittion_count
+                                                    ? item.submittion_count
+                                                    : 0
+                                                )
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "small",
+                                            { staticClass: "mt-0 pt-0" },
+                                            [_vm._v("Submitted")]
+                                          )
+                                        ]
                                       )
-                                    ])
-                                  ])
+                                    ]
+                                  )
                                 ],
                                 1
                               ),
                               _vm._v(" "),
                               _c(
                                 "v-row",
-                                { attrs: { "no-gutters": "" } },
+                                {
+                                  staticClass: "pt-2",
+                                  attrs: { "no-gutters": "" }
+                                },
                                 [
                                   _c("v-col", { attrs: { cols: "12" } }, [
                                     _c(
@@ -8973,8 +9075,7 @@ var render = function() {
                                             { key: i },
                                             [
                                               _c(
-                                                "v-list-item-icon",
-                                                { staticClass: "pr-0" },
+                                                "v-list-item-avatar",
                                                 [
                                                   _c("v-icon", [
                                                     _vm._v(
@@ -8989,11 +9090,40 @@ var render = function() {
                                                 "v-list-item-content",
                                                 { staticClass: "pl-0" },
                                                 [
-                                                  _c("v-list-item-title", [
+                                                  _c(
+                                                    "v-list-item-title",
+                                                    {
+                                                      staticClass:
+                                                        "font-weight-medium"
+                                                    },
+                                                    [
+                                                      _vm._v(
+                                                        "\n                                           " +
+                                                          _vm._s(
+                                                            item.class_name
+                                                          ) +
+                                                          "\n                                       "
+                                                      )
+                                                    ]
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _c("v-list-item-subtitle", [
+                                                    _c(
+                                                      "span",
+                                                      {
+                                                        staticClass:
+                                                          "font-weight-medium"
+                                                      },
+                                                      [_vm._v("Due:")]
+                                                    ),
                                                     _vm._v(
-                                                      "\n                                           " +
+                                                      "\n                                          " +
                                                         _vm._s(
-                                                          item.class_name
+                                                          item.availability == 1
+                                                            ? _vm.format_date(
+                                                                item.to_date
+                                                              )
+                                                            : "Always available"
                                                         ) +
                                                         "\n                                       "
                                                     )
