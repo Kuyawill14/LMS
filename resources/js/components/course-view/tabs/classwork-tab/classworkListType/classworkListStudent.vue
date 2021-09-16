@@ -86,13 +86,14 @@
                             
                                 <v-list>
                                     <v-list-item>
-                                        <v-list-item-avatar size="45" :color="item.availability == 0 ?  item.status == 'Submitted' ?  'success' : 'blue'  : 
-                                                CheckFormatDue(item.to_date) > DateToday ? item.status == 'Submitted' ? 'success' :'blue'
+                                        <v-list-item-avatar size="45" :color="item.availability == 0 ?  item.status == 'Submitted' ?  'success' : 
+                                        item.status == 'Taking' ?  'primary' :  'blue'  : 
+                                                CheckFormatDue(item.to_date) > DateToday ? item.status == 'Submitted' ? 'success' : item.status == 'Taking' ?  'primary' :'blue'
                                                 : item.status == 'Submitted' ? 'success': 'red darken-4'"  >
-                                            
-                                                    <v-icon 
+                                                <v-icon 
+                                               
                                                 class="pl-2 pr-2" color="white" >
-                                                    {{item.status == 'Submitted' ? 'mdi-check':'mdi-book-open-variant'}}
+                                                    {{item.status == 'Submitted' ? 'mdi-check': item.status == 'Taking' ? 'mdi-clock' : 'mdi-book-open-variant'}}
                                                 </v-icon>
                                        
                                         </v-list-item-avatar>
@@ -110,7 +111,7 @@
                                             </v-list-item-title>
                                             <v-list-item-subtitle>
                                                  <small
-                                                    v-if="item.status == null || item.status == 'Submitting'|| item.status == 'Taking'" :class="item.availability != 0 ? CheckFormatDue(item.to_date) > DateToday ? 'card-subtitle text-50': item.status == 'Submitted' ? 'card-subtitle text-50':'card-subtitle text-50 red--text':'card-subtitle text-50'">
+                                                    v-if="item.status == null || item.status == 'Submitting'" :class="item.availability != 0 ? CheckFormatDue(item.to_date) > DateToday ? 'card-subtitle text-50': item.status == 'Submitted' ? 'card-subtitle text-50':'card-subtitle text-50 red--text':'card-subtitle text-50'">
                                                     <v-icon :color="item.availability != 0 ? CheckFormatDue(item.to_date) > DateToday ? '': item.status == 'Submitted' ? '':'red darken-4':''" small>mdi-clock</v-icon> 
                                                     {{item.availability != 0 ? CheckFormatDue(item.to_date) > DateToday ? '' : "Late" :''}}
                                                     {{item.availability != 0 ? ' Due Date:' : 'No Due Date'}}
@@ -121,13 +122,18 @@
                                                     <v-icon color="" small>mdi-clock</v-icon> 
                                                     Submitted: {{format_date(item.Sub_date)}} 
                                                 </small>
+
+                                                 <small v-if="item.status == 'Taking'" class="card-subtitle text-50 primary--text">
+                                                    <v-icon color="primary" small>mdi-clock</v-icon> 
+                                                    Taking
+                                                </small>
                                             </v-list-item-subtitle>
                                         </v-list-item-content>
                                         <v-list-item-action>
                                              <v-chip color="green" class="mt-1 " outlined v-if="item.status == 'Submitted' && item.score != null">
                                                 <span class="success--text" >{{item.score}} <span class="black--text">/ </span>{{item.points}}</span>
                                                 </v-chip>
-                                                <v-tooltip top>
+                                              <!--   <v-tooltip top>
                                                     <template v-slot:activator="{ on, attrs }">
                                                         <v-btn
                                                             v-if="item.status == 'Taking' && item.status != null"
@@ -141,7 +147,7 @@
                                                         </v-btn>
                                                     </template>
                                                     <span>Continue Classwork</span>
-                                                </v-tooltip>
+                                                </v-tooltip> -->
                                         </v-list-item-action>
                                     </v-list-item>
                                 </v-list>
@@ -273,7 +279,7 @@
                         this.$router.push({name: 'clwk',params: {id: this.$route.params.id},query: {clwk: classwork_id}})
                     }
                 }
-                else if(status == 'Submitting' || status == null){
+                else if(status == 'Submitting' || status == null || status == 'Taking'){
                     this.Previewdialog = !this.Previewdialog;
                     this.Preview_id = classwork_id
                 }
@@ -303,6 +309,7 @@
             let newDate = new Date();
             //this.DateToday = moment(newDate).format("YYYY-MM-DDTHH:mm:ss");
             this.DateToday =  moment(newDate).tz("Asia/Manila").format("YYYY-MM-DDTHH:mm:ss");
+            this.$emit('ismounted');
         },
        
        

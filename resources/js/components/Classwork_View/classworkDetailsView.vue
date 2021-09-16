@@ -18,7 +18,7 @@
                 </v-col>
            </v-row> -->
 
-     <!--  <v-container class="fill-height" v-if="isloading" style="height: 500px;">
+      <v-container class="fill-height" v-if="isloading" style="height: 500px;">
             <v-row  align-content="center" justify="center">
                 <v-col class="text-subtitle-1 text-center" cols="12">
                     Loading
@@ -27,7 +27,7 @@
                     <v-progress-linear color="primary" indeterminate rounded height="6"></v-progress-linear>
                 </v-col>
             </v-row>
-        </v-container> -->
+        </v-container>
        <!--  <v-row v-if="!isloading && classworkDetails.success == false" align="center" justify="center"> -->
            <!--  <v-col align="center" justify="center">
                 <h1>Classwork Not Found</h1>
@@ -66,6 +66,7 @@
                  <teacherStartPage v-if="role == 'Teacher'" 
                   :totalPoints="totalPoints"
                   :totalQuestion="totalQuestion"
+                  v-on:isMounted="isloading = false"
                   :classworkDetails="classworkDetails.Details"
                 ></teacherStartPage>
             </v-col>
@@ -73,6 +74,7 @@
                  <studentStartPage v-if="role == 'Student'" 
                 :classworkDetails="classworkDetails.Details"
                 :totalPoints="totalPoints"
+                v-on:isMounted="isloading = false"
                 :totalQuestion="totalQuestion"
                 ></studentStartPage>
             </v-col>
@@ -126,16 +128,11 @@ export default {
                 this.isloading = false;
             })
         },
-         format_date(value) {
-            if (value) {
-                return moment(String(value)).format('dddd, h:mm a')
-            }
-        },
     },
-    mounted(){
-        this.getClassworkDetails();
+    async beforeRouteEnter(to, from, next) {
+        next(vm => {
+            vm.getClassworkDetails();
+        });
     },
-  
-    
 }
 </script>

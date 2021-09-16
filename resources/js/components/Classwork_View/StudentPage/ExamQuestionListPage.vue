@@ -608,7 +608,7 @@ export default {
                 this.Submitted_Answers = res.data.Submitted_Answers;
                 this.StartTime = moment(res.data.startTime).tz("Asia/Manila").format('YYYY-MM-DD HH:MM:SS');
                 this.submission_id = res.data.submission_id;
-                if(res.data.status == 'Taking' || res.data.status == ''){
+                if(res.data.status == 'Taking' || res.data.status == '' || res.data.status == null){
                     this.StartQuiz();
                     this.preventNav = !this.preventNav;
                 }

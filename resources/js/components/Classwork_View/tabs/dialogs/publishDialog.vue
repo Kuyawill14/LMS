@@ -70,7 +70,9 @@
                                       <v-datetime-picker label="From"
                                         v-model="from_date"
                                         class="mt-0 pt-0"
-                                        date-format="MM/dd/yyyy"
+                                        :text-field-props="textFieldProps"
+                                        :date-picker-props="dateProps"
+                                        :time-picker-props="timeProps"
                                         time-format="HH:mm"
                                         color="primary"
                                         > 
@@ -97,8 +99,7 @@
                                      <v-datetime-picker label="To"
                                         v-model="to_date"
                                         class="Datetimepicker"
-                                        date-format="MM/dd/yyyy"
-                                     
+                                        
                                         time-format="HH:mm"
                                         color="primary"
                                         >
@@ -163,7 +164,9 @@
                                             
                                             v-model="ShowAnswerDateFrom"
                                             class="mt-0 pt-0"
-                                            date-format="MM/dd/yyyy"
+                                            :text-field-props="textFieldProps"
+                                            :date-picker-props="dateProps"
+                                            :time-picker-props="timeProps"
                                             time-format="HH:mm"
                                             color="primary"
                                             > 
@@ -180,7 +183,9 @@
                                         <v-datetime-picker label="To"
                                         v-model="ShowAnswerDateTo"
                                         class="mt-0 pt-0"
-                                        date-format="MM/dd/yyyy"
+                                        :text-field-props="textFieldProps"
+                                        :date-picker-props="dateProps"
+                                        :time-picker-props="timeProps"
                                         time-format="HH:mm"
                                         color="primary"
                                         > 
@@ -227,12 +232,12 @@ export default {
             ClassDetails:{},
             loading:false,
             duedate:null,
-            ShowAnswerDateFrom: this.datetoday,
-            ShowAnswerDateTo:this.datetoday,
-            from_date: this.datetoday,
-            to_date: this.datetoday,
-            datetimeString: '2021-08-31 12:00',
-            formattedDatetime: '08/31/2021 12:00',
+            ShowAnswerDateFrom: null,
+            ShowAnswerDateTo:null,
+            from_date: null,
+            to_date: null,
+            datetimeString: '2021-01-01 12:00:00',
+            formattedDatetime: '09-01-2021 12:00:00',
             textFieldProps: {
                 appendIcon: 'event'
             },
@@ -265,7 +270,26 @@ export default {
          validate () {
             this.isPublishing = !this.isPublishing;
             if(this.$refs.publishForm.validate()){
-                this.shareClasswork();
+               /*  if(this.availability == 'Set Date'){
+                     if(this.from_date == null && this.to_date == null){
+                     this.toastError('Please set the From date and To date value!');
+                    }
+                    else if(this.from_date == null && this.to_date != null){
+                        this.toastError('Please set the From date value!');
+                    }
+                    else if(this.from_date != null && this.to_date == null){
+                        this.toastError('Please set the To date value!');
+                    }
+                    else if(this.from_date != null && this.to_date != null){
+                        this.shareClasswork();
+                    }   
+                }
+                else if(this.availability == 'Always Available'){
+                    this.shareClasswork();
+                }
+                else if(this.availability == 'Unavailable'){ */
+                     this.shareClasswork();
+                //}
             }
             else{
                 setTimeout(() => {
@@ -279,13 +303,13 @@ export default {
             form.classwork_id = this.ClassDetails.id;
             form.class_id = this.ClassDetails.class_id;
             form.availability = this.availability;
-            form.from_date = moment(this.PublishDetails.from_date).tz("Asia/Manila").format('YYYY-MM-DD HH:MM:SS');
-            form.to_date = moment(this.PublishDetails.to_date).tz("Asia/Manila").format('YYYY-MM-DD HH:MM:SS');
+            form.from_date = moment(this.from_date).tz("Asia/Manila").format('YYYY-MM-DD HH:MM:SS');
+            form.to_date = moment(this.to_date).tz("Asia/Manila").format('YYYY-MM-DD HH:MM:SS');
             form.showAnswer = this.showAns;
             form.ReviewAnswer = this.ReviewAnswer
             form.showAnswerType = this.showAnsType;
-            form.showAnswerDateFrom = moment(this.PublishDetails.ShowAnswerDateFrom).tz("Asia/Manila").format('YYYY-MM-DD HH:MM:SS');
-            form.showAnswerDateTo = moment(this.PublishDetails.ShowAnswerDateTo).tz("Asia/Manila").format('YYYY-MM-DD HH:MM:SS');
+            form.showAnswerDateFrom = moment(this.ShowAnswerDateFrom).tz("Asia/Manila").format('YYYY-MM-DD HH:MM:SS');
+            form.showAnswerDateTo = moment(this.ShowAnswerDateTo).tz("Asia/Manila").format('YYYY-MM-DD HH:MM:SS');
             form.response_late = this.response_late;
             form.grading_id = this.GradingCriteria_id;
 
@@ -335,6 +359,12 @@ export default {
         
     },
     mounted(){
+        const Newdate = new Date();
+
+        this.from_date = Newdate;
+        this.to_date = Newdate;
+        this.showAnswerDateFrom = Newdate;
+        this.ShowAnswerDateTo = Newdate;
         this.getGradingCriteria();
         this.getPublishDetails();
     }

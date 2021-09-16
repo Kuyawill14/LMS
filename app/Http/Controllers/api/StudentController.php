@@ -134,6 +134,7 @@ class StudentController extends Controller
         if($request->type == 'Objective Type'){
             $Check = tbl_Submission::where('classwork_id', $request->id)
             ->where('user_id',  $userId)->first();
+
             if($Check){
                 if($Check->status == "Taking"){
                     $Check->status = "Taking";
@@ -144,7 +145,10 @@ class StudentController extends Controller
                     $Check->updated_at = date('Y-m-d H:i:s');
                 }
                 $Check->save();
-                return;
+                return response()->json([
+                    "success"=> true, 
+                    "Exam_status"=>$Check->status, 
+                ]);
             }
             $StatusUpdate = new tbl_Submission;
             $StatusUpdate->classwork_id = $request->id;
@@ -153,7 +157,10 @@ class StudentController extends Controller
             $StatusUpdate->user_id =  $userId;
             $StatusUpdate->status = "Taking";
             $StatusUpdate->save();
-            return;
+            return response()->json([
+                "success"=> true, 
+                "Exam_status"=> $StatusUpdate->status, 
+            ]);
         }
         elseif($request->type == 'Subjective Type'){
             

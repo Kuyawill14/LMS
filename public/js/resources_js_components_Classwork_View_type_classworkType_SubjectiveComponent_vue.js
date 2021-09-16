@@ -1056,8 +1056,30 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
     }
   },
   created: function created() {
-    this.checkStatus();
+    var _this10 = this;
+
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee6() {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee6$(_context6) {
+        while (1) {
+          switch (_context6.prev = _context6.next) {
+            case 0:
+              _this10.checkStatus();
+
+            case 1:
+            case "end":
+              return _context6.stop();
+          }
+        }
+      }, _callee6);
+    }))();
   }
+  /*  async beforeRouteEnter(to, from, next) {
+       next(vm => {
+           //vm.isExamStart = true
+           vm.checkStatus();
+       });
+   }, */
+
 });
 
 /***/ }),

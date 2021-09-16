@@ -110,13 +110,14 @@ var responseLatePageWarning = function responseLatePageWarning() {
       }
     }
   },
-  beforeMount: function beforeMount() {
-    window.history.forward(1);
-  },
-  mounted: function mounted() {
-    var newDate = new Date(); //this.DateToday = moment(newDate).format("YYYY-MM-DDTHH:mm:ss")
 
+  /*     beforeMount(){
+        window.history.forward(1)
+      }, */
+  mounted: function mounted() {
+    var newDate = new Date();
     this.DateToday = moment_timezone__WEBPACK_IMPORTED_MODULE_0___default()(newDate).tz("Asia/Manila").format("YYYY-MM-DDTHH:mm:ss");
+    this.$emit('isMounted');
   }
 });
 

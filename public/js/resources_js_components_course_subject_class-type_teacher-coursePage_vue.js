@@ -936,8 +936,7 @@ var render = function() {
                     "v-col",
                     {
                       key: "course" + i,
-                      staticClass: "12",
-                      attrs: { xl: "3", lg: "3", md: "6" }
+                      attrs: { cols: "12", xl: "3", lg: "3", md: "6" }
                     },
                     [
                       _c(

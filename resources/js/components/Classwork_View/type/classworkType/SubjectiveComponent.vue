@@ -922,14 +922,16 @@ export default {
 
            })
          }
-        
-
-            
-
     },
-    created(){
+    async created(){
       this.checkStatus();
-    }
+    },
+   /*  async beforeRouteEnter(to, from, next) {
+        next(vm => {
+            //vm.isExamStart = true
+            vm.checkStatus();
+        });
+    }, */
     
 }
 </script>

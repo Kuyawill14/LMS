@@ -200,6 +200,15 @@
                                 </v-btn>
 
                                 <v-btn
+                                    v-if="status == 'Taking'"
+                                    rounded
+                                    color="primary"
+                                    dark
+                                    @click="$router.push({name: 'quizstart',params: {id: $route.params.id},query: {clwk: classworkDetails.id}})">
+                                    Continue<v-icon right dark>mdi-book-arrow-right-outline</v-icon>
+                                </v-btn>
+                                
+                                <v-btn
                                 v-if="status == 'Submitted' && statusDetails.reviewAnswer == 1"
                                 @click="isViewingSubmission = !isViewingSubmission"
                                     rounded
@@ -279,12 +288,10 @@ export default {
           
           if(this.totalQuestion != 0 && (this.status == null || this.status == '')){
               this.UpdateStatus( this.classworkDetails.id);
-            localStorage.removeItem(btoa('timer_time'));
-            localStorage.removeItem(btoa('CurrentAnswers'));
-            this.$router.push({name: 'quizstart',params: {id: this.$route.params.id},query: {clwk: this.classworkDetails.id}})
+            
           }
         },
-        async checkStatus(){
+        checkStatus(){
             axios.get('/api/student/check-status/'+this.classworkDetails.id)
             .then(res=>{
                 this.status = res.data.status;
@@ -299,8 +306,16 @@ export default {
             this.updateDetails.type = this.classworkDetails.type;
             axios.post('/api/student/update-status',this.updateDetails)
             .then(res=>{
-
-            })
+                if(res.data.success == true){
+                    localStorage.removeItem(btoa('timer_time'));
+                    localStorage.removeItem(btoa('CurrentAnswers'));
+                    this.$router.push({name: 'quizstart',params: {id: this.$route.params.id},query: {clwk: this.classworkDetails.id}})
+                }
+                else{
+                     this.toastError('Something went wrong while loading this classwork!');
+                }
+              
+                })
         },
          async addComment(details){
               let data = {};
@@ -338,11 +353,15 @@ export default {
             window.open(file,'_blank');
         },
     },
-    mounted(){
+   async created(){
         this.checkStatus();
-   
-      //window.history.forward(1)
-    }
+    },
+   /*   beforeRouteEnter(to, from, next) {
+        next(vm => {
+            //vm.isExamStart = true
+            vm.checkStatus();
+        });
+    }, */
 }
 </script>
 <style>

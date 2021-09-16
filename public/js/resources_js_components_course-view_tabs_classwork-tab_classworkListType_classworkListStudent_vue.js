@@ -238,6 +238,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 var previewClassworkModal = function previewClassworkModal() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_tabs_classwork-tab_dialogs_previewClassworkModal_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../dialogs/previewClassworkModal */ "./resources/js/components/course-view/tabs/classwork-tab/dialogs/previewClassworkModal.vue"));
 };
@@ -311,7 +317,7 @@ var previewClassworkModal = function previewClassworkModal() {
             }
           });
         }
-      } else if (status == 'Submitting' || status == null) {
+      } else if (status == 'Submitting' || status == null || status == 'Taking') {
         this.Previewdialog = !this.Previewdialog;
         this.Preview_id = classwork_id;
       }
@@ -343,6 +349,7 @@ var previewClassworkModal = function previewClassworkModal() {
     var newDate = new Date(); //this.DateToday = moment(newDate).format("YYYY-MM-DDTHH:mm:ss");
 
     this.DateToday = moment_timezone__WEBPACK_IMPORTED_MODULE_0___default()(newDate).tz("Asia/Manila").format("YYYY-MM-DDTHH:mm:ss");
+    this.$emit('ismounted');
   }
 });
 
@@ -22860,6 +22867,9 @@ var render = function() {
                                                                       ? item.status ==
                                                                         "Submitted"
                                                                         ? "success"
+                                                                        : item.status ==
+                                                                          "Taking"
+                                                                        ? "primary"
                                                                         : "blue"
                                                                       : _vm.CheckFormatDue(
                                                                           item.to_date
@@ -22868,6 +22878,9 @@ var render = function() {
                                                                       ? item.status ==
                                                                         "Submitted"
                                                                         ? "success"
+                                                                        : item.status ==
+                                                                          "Taking"
+                                                                        ? "primary"
                                                                         : "blue"
                                                                       : item.status ==
                                                                         "Submitted"
@@ -22893,6 +22906,9 @@ var render = function() {
                                                                           item.status ==
                                                                             "Submitted"
                                                                             ? "mdi-check"
+                                                                            : item.status ==
+                                                                              "Taking"
+                                                                            ? "mdi-clock"
                                                                             : "mdi-book-open-variant"
                                                                         ) +
                                                                         "\r\n                                                "
@@ -23020,9 +23036,7 @@ var render = function() {
                                                                     item.status ==
                                                                       null ||
                                                                     item.status ==
-                                                                      "Submitting" ||
-                                                                    item.status ==
-                                                                      "Taking"
+                                                                      "Submitting"
                                                                       ? _c(
                                                                           "small",
                                                                           {
@@ -23141,6 +23155,39 @@ var render = function() {
                                                                           ],
                                                                           1
                                                                         )
+                                                                      : _vm._e(),
+                                                                    _vm._v(" "),
+                                                                    item.status ==
+                                                                    "Taking"
+                                                                      ? _c(
+                                                                          "small",
+                                                                          {
+                                                                            staticClass:
+                                                                              "card-subtitle text-50 primary--text"
+                                                                          },
+                                                                          [
+                                                                            _c(
+                                                                              "v-icon",
+                                                                              {
+                                                                                attrs: {
+                                                                                  color:
+                                                                                    "primary",
+                                                                                  small:
+                                                                                    ""
+                                                                                }
+                                                                              },
+                                                                              [
+                                                                                _vm._v(
+                                                                                  "mdi-clock"
+                                                                                )
+                                                                              ]
+                                                                            ),
+                                                                            _vm._v(
+                                                                              " \r\n                                                    Taking\r\n                                                "
+                                                                            )
+                                                                          ],
+                                                                          1
+                                                                        )
                                                                       : _vm._e()
                                                                   ]
                                                                 )
@@ -23202,84 +23249,7 @@ var render = function() {
                                                                         )
                                                                       ]
                                                                     )
-                                                                  : _vm._e(),
-                                                                _vm._v(" "),
-                                                                _c(
-                                                                  "v-tooltip",
-                                                                  {
-                                                                    attrs: {
-                                                                      top: ""
-                                                                    },
-                                                                    scopedSlots: _vm._u(
-                                                                      [
-                                                                        {
-                                                                          key:
-                                                                            "activator",
-                                                                          fn: function(
-                                                                            ref
-                                                                          ) {
-                                                                            var on =
-                                                                              ref.on
-                                                                            var attrs =
-                                                                              ref.attrs
-                                                                            return [
-                                                                              item.status ==
-                                                                                "Taking" &&
-                                                                              item.status !=
-                                                                                null
-                                                                                ? _c(
-                                                                                    "v-btn",
-                                                                                    _vm._g(
-                                                                                      _vm._b(
-                                                                                        {
-                                                                                          staticClass:
-                                                                                            "mt-1 mr-5 pa-2 blue--text",
-                                                                                          attrs: {
-                                                                                            text:
-                                                                                              "",
-                                                                                            rounded:
-                                                                                              ""
-                                                                                          },
-                                                                                          on: {
-                                                                                            click: function(
-                                                                                              $event
-                                                                                            ) {
-                                                                                              return _vm.continueClasswork(
-                                                                                                item.classwork_id
-                                                                                              )
-                                                                                            }
-                                                                                          }
-                                                                                        },
-                                                                                        "v-btn",
-                                                                                        attrs,
-                                                                                        false
-                                                                                      ),
-                                                                                      on
-                                                                                    ),
-                                                                                    [
-                                                                                      _vm._v(
-                                                                                        "\r\n                                                            Continue\r\n                                                        "
-                                                                                      )
-                                                                                    ]
-                                                                                  )
-                                                                                : _vm._e()
-                                                                            ]
-                                                                          }
-                                                                        }
-                                                                      ],
-                                                                      null,
-                                                                      true
-                                                                    )
-                                                                  },
-                                                                  [
-                                                                    _vm._v(" "),
-                                                                    _c("span", [
-                                                                      _vm._v(
-                                                                        "Continue Classwork"
-                                                                      )
-                                                                    ])
-                                                                  ]
-                                                                )
+                                                                  : _vm._e()
                                                               ],
                                                               1
                                                             )

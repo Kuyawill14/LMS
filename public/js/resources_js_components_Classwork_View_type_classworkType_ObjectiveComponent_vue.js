@@ -263,6 +263,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var viewSubmission = function viewSubmission() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_type_classworkType_submissionView_viewSubmission_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./submissionView/viewSubmission */ "./resources/js/components/Classwork_View/type/classworkType/submissionView/viewSubmission.vue"));
 };
@@ -303,34 +312,48 @@ var viewSubmission = function viewSubmission() {
     start: function start() {
       if (this.totalQuestion != 0 && (this.status == null || this.status == '')) {
         this.UpdateStatus(this.classworkDetails.id);
-        localStorage.removeItem(btoa('timer_time'));
-        localStorage.removeItem(btoa('CurrentAnswers'));
-        this.$router.push({
-          name: 'quizstart',
-          params: {
-            id: this.$route.params.id
-          },
-          query: {
-            clwk: this.classworkDetails.id
-          }
-        });
       }
     },
     checkStatus: function checkStatus() {
       var _this = this;
+
+      axios.get('/api/student/check-status/' + this.classworkDetails.id).then(function (res) {
+        _this.status = res.data.status;
+        _this.statusDetails = res.data;
+        _this.isLoaded = false;
+      });
+    },
+    UpdateStatus: function UpdateStatus(id) {
+      var _this2 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                axios.get('/api/student/check-status/' + _this.classworkDetails.id).then(function (res) {
-                  _this.status = res.data.status;
-                  _this.statusDetails = res.data;
-                  _this.isLoaded = false;
+                _this2.updateDetails.id = id;
+                _this2.updateDetails.class_classwork_id = _this2.classworkDetails.class_classwork_id;
+                _this2.updateDetails.type = _this2.classworkDetails.type;
+                axios.post('/api/student/update-status', _this2.updateDetails).then(function (res) {
+                  if (res.data.success == true) {
+                    localStorage.removeItem(btoa('timer_time'));
+                    localStorage.removeItem(btoa('CurrentAnswers'));
+
+                    _this2.$router.push({
+                      name: 'quizstart',
+                      params: {
+                        id: _this2.$route.params.id
+                      },
+                      query: {
+                        clwk: _this2.classworkDetails.id
+                      }
+                    });
+                  } else {
+                    _this2.toastError('Something went wrong while loading this classwork!');
+                  }
                 });
 
-              case 1:
+              case 4:
               case "end":
                 return _context.stop();
             }
@@ -338,35 +361,14 @@ var viewSubmission = function viewSubmission() {
         }, _callee);
       }))();
     },
-    UpdateStatus: function UpdateStatus(id) {
-      var _this2 = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                _this2.updateDetails.id = id;
-                _this2.updateDetails.class_classwork_id = _this2.classworkDetails.class_classwork_id;
-                _this2.updateDetails.type = _this2.classworkDetails.type;
-                axios.post('/api/student/update-status', _this2.updateDetails).then(function (res) {});
-
-              case 4:
-              case "end":
-                return _context2.stop();
-            }
-          }
-        }, _callee2);
-      }))();
-    },
     addComment: function addComment(details) {
       var _this3 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
         var data;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context2.prev = _context2.next) {
               case 0:
                 data = {};
                 _this3.isCommenting = true;
@@ -392,19 +394,19 @@ var viewSubmission = function viewSubmission() {
 
               case 9:
               case "end":
-                return _context3.stop();
+                return _context2.stop();
             }
           }
-        }, _callee3);
+        }, _callee2);
       }))();
     },
     DeleteComment: function DeleteComment(id, index) {
       var _this4 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
           while (1) {
-            switch (_context4.prev = _context4.next) {
+            switch (_context3.prev = _context3.next) {
               case 0:
                 axios["delete"]('/api/post/classwork/comment/delete/' + id).then(function (res) {
                   if (res.data.success == true) {
@@ -414,19 +416,41 @@ var viewSubmission = function viewSubmission() {
 
               case 1:
               case "end":
-                return _context4.stop();
+                return _context3.stop();
             }
           }
-        }, _callee4);
+        }, _callee3);
       }))();
     },
     DownLoadFile: function DownLoadFile(file) {
       window.open(file, '_blank');
     }
   },
-  mounted: function mounted() {
-    this.checkStatus(); //window.history.forward(1)
+  created: function created() {
+    var _this5 = this;
+
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
+        while (1) {
+          switch (_context4.prev = _context4.next) {
+            case 0:
+              _this5.checkStatus();
+
+            case 1:
+            case "end":
+              return _context4.stop();
+          }
+        }
+      }, _callee4);
+    }))();
   }
+  /*   beforeRouteEnter(to, from, next) {
+       next(vm => {
+           //vm.isExamStart = true
+           vm.checkStatus();
+       });
+   }, */
+
 });
 
 /***/ }),
@@ -1415,6 +1439,61 @@ var render = function() {
                                                     },
                                                     [
                                                       _vm._v("Take Quiz"),
+                                                      _c(
+                                                        "v-icon",
+                                                        {
+                                                          attrs: {
+                                                            right: "",
+                                                            dark: ""
+                                                          }
+                                                        },
+                                                        [
+                                                          _vm._v(
+                                                            "mdi-book-arrow-right-outline"
+                                                          )
+                                                        ]
+                                                      )
+                                                    ],
+                                                    1
+                                                  )
+                                                : _vm._e(),
+                                              _vm._v(" "),
+                                              _vm.status == "Taking"
+                                                ? _c(
+                                                    "v-btn",
+                                                    {
+                                                      attrs: {
+                                                        rounded: "",
+                                                        color: "primary",
+                                                        dark: ""
+                                                      },
+                                                      on: {
+                                                        click: function(
+                                                          $event
+                                                        ) {
+                                                          return _vm.$router.push(
+                                                            {
+                                                              name: "quizstart",
+                                                              params: {
+                                                                id:
+                                                                  _vm.$route
+                                                                    .params.id
+                                                              },
+                                                              query: {
+                                                                clwk:
+                                                                  _vm
+                                                                    .classworkDetails
+                                                                    .id
+                                                              }
+                                                            }
+                                                          )
+                                                        }
+                                                      }
+                                                    },
+                                                    [
+                                                      _vm._v(
+                                                        "\r\n                                    Continue"
+                                                      ),
                                                       _c(
                                                         "v-icon",
                                                         {

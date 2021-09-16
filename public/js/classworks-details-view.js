@@ -106,6 +106,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
 var studentStartPage = function studentStartPage() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_type_studentStartPage_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./type/studentStartPage */ "./resources/js/components/Classwork_View/type/studentStartPage.vue"));
 };
@@ -165,15 +167,25 @@ var teacherStartPage = function teacherStartPage() {
           }
         }, _callee);
       }))();
-    },
-    format_date: function format_date(value) {
-      if (value) {
-        return (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_1__.default)(String(value)).format('dddd, h:mm a');
-      }
     }
   },
-  mounted: function mounted() {
-    this.getClassworkDetails();
+  beforeRouteEnter: function beforeRouteEnter(to, from, next) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              next(function (vm) {
+                vm.getClassworkDetails();
+              });
+
+            case 1:
+            case "end":
+              return _context2.stop();
+          }
+        }
+      }, _callee2);
+    }))();
   }
 });
 
@@ -51733,6 +51745,47 @@ var render = function() {
         1
       ),
       _vm._v(" "),
+      _vm.isloading
+        ? _c(
+            "v-container",
+            { staticClass: "fill-height", staticStyle: { height: "500px" } },
+            [
+              _c(
+                "v-row",
+                { attrs: { "align-content": "center", justify: "center" } },
+                [
+                  _c(
+                    "v-col",
+                    {
+                      staticClass: "text-subtitle-1 text-center",
+                      attrs: { cols: "12" }
+                    },
+                    [_vm._v("\n                  Loading\n              ")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-col",
+                    { attrs: { cols: "6" } },
+                    [
+                      _c("v-progress-linear", {
+                        attrs: {
+                          color: "primary",
+                          indeterminate: "",
+                          rounded: "",
+                          height: "6"
+                        }
+                      })
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        : _vm._e(),
+      _vm._v(" "),
       !_vm.isloading && _vm.classworkDetails.success == false
         ? _c(
             "v-row",
@@ -51818,6 +51871,11 @@ var render = function() {
                               totalPoints: _vm.totalPoints,
                               totalQuestion: _vm.totalQuestion,
                               classworkDetails: _vm.classworkDetails.Details
+                            },
+                            on: {
+                              isMounted: function($event) {
+                                _vm.isloading = false
+                              }
                             }
                           })
                         : _vm._e()
@@ -51837,6 +51895,11 @@ var render = function() {
                               classworkDetails: _vm.classworkDetails.Details,
                               totalPoints: _vm.totalPoints,
                               totalQuestion: _vm.totalQuestion
+                            },
+                            on: {
+                              isMounted: function($event) {
+                                _vm.isloading = false
+                              }
                             }
                           })
                         : _vm._e()

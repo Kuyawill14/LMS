@@ -672,7 +672,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   _this7.StartTime = moment_timezone__WEBPACK_IMPORTED_MODULE_4___default()(res.data.startTime).tz("Asia/Manila").format('YYYY-MM-DD HH:MM:SS');
                   _this7.submission_id = res.data.submission_id;
 
-                  if (res.data.status == 'Taking' || res.data.status == '') {
+                  if (res.data.status == 'Taking' || res.data.status == '' || res.data.status == null) {
                     _this7.StartQuiz();
 
                     _this7.preventNav = !_this7.preventNav;

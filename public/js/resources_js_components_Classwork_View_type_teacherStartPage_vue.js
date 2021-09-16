@@ -132,6 +132,9 @@ __webpack_require__.r(__webpack_exports__);
       }],
       tabs: null
     };
+  },
+  mounted: function mounted() {
+    this.$emit('isMounted');
   }
 });
 

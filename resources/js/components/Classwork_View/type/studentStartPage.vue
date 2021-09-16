@@ -80,14 +80,15 @@ export default {
               }
           },
     },
-    beforeMount(){
+/*     beforeMount(){
       window.history.forward(1)
-    },
+    }, */
     mounted(){
       let newDate = new Date();
-      //this.DateToday = moment(newDate).format("YYYY-MM-DDTHH:mm:ss")
       this.DateToday = moment(newDate).tz("Asia/Manila").format("YYYY-MM-DDTHH:mm:ss");
-      
-    }
+      this.$emit('isMounted');
+
+    },
+    
 }
 </script>

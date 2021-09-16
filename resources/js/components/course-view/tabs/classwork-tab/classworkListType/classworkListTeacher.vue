@@ -274,7 +274,7 @@
             let newDate = new Date();
             //this.DateToday = moment(newDate).format("YYYY-MM-DDTHH:mm:ss");
             this.DateToday =  moment(newDate).tz("Asia/Manila").format("YYYY-MM-DDTHH:mm:ss");
-
+            this.$emit('ismounted');
         }
        
     }

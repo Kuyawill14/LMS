@@ -97,7 +97,7 @@
                 </v-col>
             </v-row>
             <v-row class="mt-3">
-                <v-col class="12" xl="3" lg="3" md="6" v-for="(item, i) in allCoursesData" :key="'course'+i">
+                <v-col cols="12" xl="3" lg="3" md="6" v-for="(item, i) in allCoursesData" :key="'course'+i">
                     <div class="card-expansion">
                         <v-card class="mx-auto">
                         

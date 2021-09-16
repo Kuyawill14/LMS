@@ -237,6 +237,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['Details', 'datetoday'],
@@ -248,12 +253,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       ClassDetails: {},
       loading: false,
       duedate: null,
-      ShowAnswerDateFrom: this.datetoday,
-      ShowAnswerDateTo: this.datetoday,
-      from_date: this.datetoday,
-      to_date: this.datetoday,
-      datetimeString: '2021-08-31 12:00',
-      formattedDatetime: '08/31/2021 12:00',
+      ShowAnswerDateFrom: null,
+      ShowAnswerDateTo: null,
+      from_date: null,
+      to_date: null,
+      datetimeString: '2021-01-01 12:00:00',
+      formattedDatetime: '09-01-2021 12:00:00',
       textFieldProps: {
         appendIcon: 'event'
       },
@@ -287,7 +292,25 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.isPublishing = !this.isPublishing;
 
       if (this.$refs.publishForm.validate()) {
-        this.shareClasswork();
+        /*  if(this.availability == 'Set Date'){
+              if(this.from_date == null && this.to_date == null){
+              this.toastError('Please set the From date and To date value!');
+             }
+             else if(this.from_date == null && this.to_date != null){
+                 this.toastError('Please set the From date value!');
+             }
+             else if(this.from_date != null && this.to_date == null){
+                 this.toastError('Please set the To date value!');
+             }
+             else if(this.from_date != null && this.to_date != null){
+                 this.shareClasswork();
+             }   
+         }
+         else if(this.availability == 'Always Available'){
+             this.shareClasswork();
+         }
+         else if(this.availability == 'Unavailable'){ */
+        this.shareClasswork(); //}
       } else {
         setTimeout(function () {
           _this.isPublishing = !_this.isPublishing;
@@ -308,13 +331,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 form.classwork_id = _this2.ClassDetails.id;
                 form.class_id = _this2.ClassDetails.class_id;
                 form.availability = _this2.availability;
-                form.from_date = moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(_this2.PublishDetails.from_date).tz("Asia/Manila").format('YYYY-MM-DD HH:MM:SS');
-                form.to_date = moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(_this2.PublishDetails.to_date).tz("Asia/Manila").format('YYYY-MM-DD HH:MM:SS');
+                form.from_date = moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(_this2.from_date).tz("Asia/Manila").format('YYYY-MM-DD HH:MM:SS');
+                form.to_date = moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(_this2.to_date).tz("Asia/Manila").format('YYYY-MM-DD HH:MM:SS');
                 form.showAnswer = _this2.showAns;
                 form.ReviewAnswer = _this2.ReviewAnswer;
                 form.showAnswerType = _this2.showAnsType;
-                form.showAnswerDateFrom = moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(_this2.PublishDetails.ShowAnswerDateFrom).tz("Asia/Manila").format('YYYY-MM-DD HH:MM:SS');
-                form.showAnswerDateTo = moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(_this2.PublishDetails.ShowAnswerDateTo).tz("Asia/Manila").format('YYYY-MM-DD HH:MM:SS');
+                form.showAnswerDateFrom = moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(_this2.ShowAnswerDateFrom).tz("Asia/Manila").format('YYYY-MM-DD HH:MM:SS');
+                form.showAnswerDateTo = moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(_this2.ShowAnswerDateTo).tz("Asia/Manila").format('YYYY-MM-DD HH:MM:SS');
                 form.response_late = _this2.response_late;
                 form.grading_id = _this2.GradingCriteria_id;
                 /* fd.append("classwork_id", this.ClassDetails.id);
@@ -399,6 +422,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }
   },
   mounted: function mounted() {
+    var Newdate = new Date();
+    this.from_date = Newdate;
+    this.to_date = Newdate;
+    this.showAnswerDateFrom = Newdate;
+    this.ShowAnswerDateTo = Newdate;
     this.getGradingCriteria();
     this.getPublishDetails();
   }
@@ -1470,7 +1498,10 @@ var render = function() {
                                           staticClass: "mt-0 pt-0",
                                           attrs: {
                                             label: "From",
-                                            "date-format": "MM/dd/yyyy",
+                                            "text-field-props":
+                                              _vm.textFieldProps,
+                                            "date-picker-props": _vm.dateProps,
+                                            "time-picker-props": _vm.timeProps,
                                             "time-format": "HH:mm",
                                             color: "primary"
                                           },
@@ -1524,7 +1555,6 @@ var render = function() {
                                           staticClass: "Datetimepicker",
                                           attrs: {
                                             label: "To",
-                                            "date-format": "MM/dd/yyyy",
                                             "time-format": "HH:mm",
                                             color: "primary"
                                           },
@@ -1701,7 +1731,10 @@ var render = function() {
                                           staticClass: "mt-0 pt-0",
                                           attrs: {
                                             label: "From",
-                                            "date-format": "MM/dd/yyyy",
+                                            "text-field-props":
+                                              _vm.textFieldProps,
+                                            "date-picker-props": _vm.dateProps,
+                                            "time-picker-props": _vm.timeProps,
                                             "time-format": "HH:mm",
                                             color: "primary"
                                           },
@@ -1752,7 +1785,10 @@ var render = function() {
                                           staticClass: "mt-0 pt-0",
                                           attrs: {
                                             label: "To",
-                                            "date-format": "MM/dd/yyyy",
+                                            "text-field-props":
+                                              _vm.textFieldProps,
+                                            "date-picker-props": _vm.dateProps,
+                                            "time-picker-props": _vm.timeProps,
                                             "time-format": "HH:mm",
                                             color: "primary"
                                           },
