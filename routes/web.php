@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::get('/Guides', function () {
-    return view('Guides.login_guide');
+    return view('Guides.introduction.0-introduction');
 });
 
 Route::get('/tutorial', function () {
