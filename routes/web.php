@@ -12,8 +12,13 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+<<<<<<< HEAD
 Route::get('/guides', function () {
     return view('Guides.login_guide');
+=======
+Route::get('/Guides', function () {
+    return view('Guides.introduction.0-introduction');
+>>>>>>> e649fac95f73e2b87a7c52acc5d7858197ea72d3
 });
 
 Route::get('/tutorial', function () {
