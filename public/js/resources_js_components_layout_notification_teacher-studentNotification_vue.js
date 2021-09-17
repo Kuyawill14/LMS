@@ -1070,7 +1070,12 @@ var render = function() {
                                                     [
                                                       _vm._v(
                                                         "\r\n                                " +
-                                                          _vm._s(item.name) +
+                                                          _vm._s(
+                                                            item.notification_type !=
+                                                              2
+                                                              ? item.name
+                                                              : "Join Class"
+                                                          ) +
                                                           "   \r\n                                "
                                                       )
                                                     ]

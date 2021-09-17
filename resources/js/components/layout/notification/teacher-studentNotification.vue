@@ -136,7 +136,7 @@
                                 <v-badge :content="item.status == 1 ? '' :'new'" :value="item.status == 1 ? '' :'new'" 
                                 :color="item.notification_type == 1  ? 'red' : item.notification_type == 3 || item.notification_type == 2 ? 'blue' : 
                                 item.notification_type == 4 ? 'green' : ''" >
-                                {{item.name}}   
+                                {{item.notification_type != 2 ? item.name : "Join Class"}}   
                                 </v-badge>
                                 </v-list-item-title>
                            

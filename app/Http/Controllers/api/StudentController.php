@@ -10,6 +10,7 @@ use App\Models\tbl_userclass;
 use App\Models\User;
 use App\Models\Tbl_class;
 use App\Models\tbl_notification;
+use App\Models\UserNotification;
 use App\Models\tbl_Submission;
 use App\Events\NewNotification;
 use App\Models\tbl_teacher_course;
@@ -550,23 +551,61 @@ class StudentController extends Controller
         ->where('tbl_userclasses.class_id', $JoinClass->class_id)
         ->first();
 
-       /*  $newNotification = new tbl_notification;
-        $newNotification->userid_from = $userId;
-        $newNotification->userid_to = $userInClass[0]->user_id;
-        $newNotification->class_id = $JoinClass->class_id;
-        $newNotification->message = "Join to your ".$userInClass[0]->course_name." - " .$userInClass[0]->class_name ." class";
-        $newNotification->notification_type = 1;
-        $newNotification->status = 0;
-        $newNotification->save(); */
+        
+        $userCount = DB::table('tbl_userclasses')->whereNull('deleted_at')
+        ->leftJoin('users', 'users.id', '=', 'tbl_userclasses.user_id')
+        ->where('users.role', 'Student')
+        ->where('tbl_userclasses.class_id', $JoinClass->class_id)
+        ->count();
+        
 
-        $newNotification = new tbl_notification;
-        $newNotification->course_id = $userInClass->course_id;
-        $newNotification->class_id = $JoinClass->class_id;
-        $newNotification->from_id =  $userId;
-        $newNotification->message = "Join to your ".$userInClass->course_name." - " .$userInClass->class_name ." class";
-        $newNotification->notification_type = 2;
-        $newNotification->save();
-        broadcast(new NewNotification($newNotification))->toOthers();
+        $CheckNotif = tbl_notification::where('course_id', $userInClass->course_id)
+        ->where('class_id', $JoinClass->class_id)
+        ->first();
+
+        $user = tbl_userDetails::where('user_id', $userId)
+        ->select('firstName', 'lastName')
+        ->first();
+
+        if($CheckNotif){
+            $CheckNotifIfRead = UserNotification::where('notification_id', $CheckNotif->id)->first();
+
+            if($CheckNotifIfRead){
+                $CheckNotifIfRead->delete();
+            }
+
+            if($userCount <= 2){
+                $CheckNotif->message = $user->firstName." ".$user->lastName." join to your ".$userInClass->course_name." - " .$userInClass->class_name ." class";
+            }   
+            else{
+                $userCount = $userCount - 1;
+                $CheckNotif->message = $user->firstName." ".$user->lastName." and ".$userCount." others join to your ".$userInClass->course_name." - " .$userInClass->class_name ." class";
+            }
+            $CheckNotif->from_id =  $userId;
+            $CheckNotif->save();
+            broadcast(new NewNotification($CheckNotif))->toOthers();
+
+        }
+        else{
+            $newNotification = new tbl_notification;
+            $newNotification->course_id = $userInClass->course_id;
+            $newNotification->class_id = $JoinClass->class_id;
+            $newNotification->from_id =  $userId;
+
+            if($userCount <= 2){
+                $newNotification->message = $user->firstName." ".$user->lastName." join to your ".$userInClass->course_name." - " .$userInClass->class_name ." class";
+            }   
+            else{
+                $userCount = $userCount - 1;
+                $newNotification->message = $user->firstName." ".$user->lastName." and ".$userCount." others join to your ".$userInClass->course_name." - " .$userInClass->class_name ." class";
+            }
+        /*     $newNotification->message = $userCount." Student join to your ".$userInClass->course_name." - " .$userInClass->class_name ." class"; */
+            $newNotification->notification_type = 2;
+            $newNotification->save();
+            broadcast(new NewNotification($newNotification))->toOthers();
+        }
+
+        
         return response()->json([
             'course_id'=>$userInClass->course_id, 
             'status'=>$userInClass->status, 

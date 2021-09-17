@@ -289,9 +289,9 @@ class NotificationController extends Controller
                 ->select("tbl_notifications.id as notif_id","tbl_notifications.notification_type",
                 "user_notifications.status", "user_notifications.hide_notif", "user_notifications.notification_accepted")
                 ->leftJoin("user_notifications", "user_notifications.notification_id","=","tbl_notifications.id")
+                ->whereNull("user_notifications.status")
                 ->orderBy("tbl_notifications.created_at", "DESC")
                 ->where("tbl_notifications.from_id","!=", $userId)
-                ->whereNull("user_notifications.status")
                 ->WhereIn('tbl_notifications.class_id', $list)
                 ->get();
         }
@@ -305,11 +305,13 @@ class NotificationController extends Controller
                     ->orOn("tbl_notifications.class_id", "=", "tbl_userclasses.class_id");
             })
             ->leftJoin("user_notifications", "user_notifications.notification_id","=","tbl_notifications.id")
+            ->whereNull("user_notifications.status")
             ->orderBy("tbl_notifications.created_at", "DESC")
             ->where("tbl_notifications.from_id","!=", $userId)
-            ->whereNull("user_notifications.status")
             ->whereIn("tbl_notifications.notification_type", [1, 3, 4])
             ->get();
+
+          
 
         
           
