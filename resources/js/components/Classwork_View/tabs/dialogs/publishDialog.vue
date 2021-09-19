@@ -70,9 +70,7 @@
                                       <v-datetime-picker label="From"
                                         v-model="from_date"
                                         class="mt-0 pt-0"
-                                        :text-field-props="textFieldProps"
-                                        :date-picker-props="dateProps"
-                                        :time-picker-props="timeProps"
+                                
                                         time-format="HH:mm"
                                         color="primary"
                                         > 
@@ -303,13 +301,13 @@ export default {
             form.classwork_id = this.ClassDetails.id;
             form.class_id = this.ClassDetails.class_id;
             form.availability = this.availability;
-            form.from_date = moment(this.from_date).tz("Asia/Manila").format('YYYY-MM-DD HH:MM:SS');
-            form.to_date = moment(this.to_date).tz("Asia/Manila").format('YYYY-MM-DD HH:MM:SS');
+            form.from_date = moment(this.from_date).tz("Asia/Manila").format('YYYY-MM-DD HH:mm:ss');
+            form.to_date = moment(this.to_date).tz("Asia/Manila").format('YYYY-MM-DD HH:mm:ss');
             form.showAnswer = this.showAns;
             form.ReviewAnswer = this.ReviewAnswer
             form.showAnswerType = this.showAnsType;
-            form.showAnswerDateFrom = moment(this.ShowAnswerDateFrom).tz("Asia/Manila").format('YYYY-MM-DD HH:MM:SS');
-            form.showAnswerDateTo = moment(this.ShowAnswerDateTo).tz("Asia/Manila").format('YYYY-MM-DD HH:MM:SS');
+            form.showAnswerDateFrom = moment(this.ShowAnswerDateFrom).tz("Asia/Manila").format('YYYY-MM-DD HH:mm:ss');
+            form.showAnswerDateTo = moment(this.ShowAnswerDateTo).tz("Asia/Manila").format('YYYY-MM-DD HH:mm:ss');
             form.response_late = this.response_late;
             form.grading_id = this.GradingCriteria_id;
 
@@ -343,7 +341,7 @@ export default {
         },
         async getPublishDetails(){
             let newDate = new Date();
-            this.duedate = moment(newDate).format("YYYY-MM-DDTHH:mm:ss");
+            this.duedate = moment(newDate).format('YYYY-MM-DD HH:mm:ss');
             this.ClassDetails = this.Details;
            /*  this.ShowAnswerDate =  this.duedate;
             this.from_date =  this.duedate;
@@ -360,7 +358,6 @@ export default {
     },
     mounted(){
         const Newdate = new Date();
-
         this.from_date = Newdate;
         this.to_date = Newdate;
         this.showAnswerDateFrom = Newdate;

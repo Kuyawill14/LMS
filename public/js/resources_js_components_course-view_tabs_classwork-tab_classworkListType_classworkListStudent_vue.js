@@ -276,8 +276,8 @@ var previewClassworkModal = function previewClassworkModal() {
     },
     CheckFormatDue: function CheckFormatDue(value) {
       if (value) {
-        //return moment(String(value)).format("YYYY-MM-DDTHH:mm:ss")
-        return moment_timezone__WEBPACK_IMPORTED_MODULE_0___default()(String(value)).tz("Asia/Manila").format("YYYY-MM-DDTHH:mm:ss");
+        //return moment(String(value)).format('YYYY-MM-DD HH:mm:ss')
+        return moment_timezone__WEBPACK_IMPORTED_MODULE_0___default()(String(value)).tz("Asia/Manila").format('YYYY-MM-DD HH:mm:ss');
       }
     },
     continueClasswork: function continueClasswork(classwork_id) {
@@ -346,9 +346,9 @@ var previewClassworkModal = function previewClassworkModal() {
   mounted: function mounted() {
     this.CheckClassworkCount();
     this.setFilterItems();
-    var newDate = new Date(); //this.DateToday = moment(newDate).format("YYYY-MM-DDTHH:mm:ss");
+    var newDate = new Date(); //this.DateToday = moment(newDate).format('YYYY-MM-DD HH:mm:ss');
 
-    this.DateToday = moment_timezone__WEBPACK_IMPORTED_MODULE_0___default()(newDate).tz("Asia/Manila").format("YYYY-MM-DDTHH:mm:ss");
+    this.DateToday = moment_timezone__WEBPACK_IMPORTED_MODULE_0___default()(newDate).tz("Asia/Manila").format('YYYY-MM-DD HH:mm:ss');
     this.$emit('ismounted');
   }
 });
@@ -22800,6 +22800,18 @@ var render = function() {
                                 return _c(
                                   "v-col",
                                   {
+                                    directives: [
+                                      {
+                                        name: "show",
+                                        rawName: "v-show",
+                                        value:
+                                          item.availability == 1
+                                            ? _vm.DateToday > item.from_date
+                                            : item.availability == 0,
+                                        expression:
+                                          "item.availability == 1 ? DateToday > item.from_date: item.availability == 0"
+                                      }
+                                    ],
                                     key: index,
                                     staticClass: "pb-0 mb-0 ",
                                     attrs: {

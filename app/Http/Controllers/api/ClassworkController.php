@@ -90,7 +90,7 @@ class ClassworkController extends Controller
         $GradingCategory = tbl_main_gradeCategory::where('tbl_main_grade_categories.course_id', $id)->get();
         $ClassworksList = array();
         $ClassworkTitle = array();
-
+        $dateToday = date('Y-m-d H:i:s');
         foreach($GradingCategory as $item){
             $classworkAll = tbl_classClassworks::whereNull('tbl_class_classworks.deleted_at')
             ->where('tbl_userclasses.course_id','=', $id)
@@ -99,9 +99,10 @@ class ClassworkController extends Controller
             ->leftJoin('tbl_classworks', 'tbl_classworks.id', '=', 'tbl_class_classworks.classwork_id')
             ->leftJoin('tbl_userclasses', 'tbl_class_classworks.class_id', '=', 'tbl_userclasses.class_id')
             ->where('tbl_userclasses.user_id','=', $userId)
-            ->orderBy('created_at', 'DESC')
+      /*       ->whereDate('tbl_class_classworks.from_date', '<', $dateToday) */
             ->where('tbl_class_classworks.grading_criteria', $item->id)
             ->where('tbl_class_classworks.availability', '!=',2)
+            ->orderBy('created_at', 'DESC')
             ->get();
             $CheckSub = tbl_Submission::where("tbl_submissions.user_id",$userId)
             ->orderBy('classwork_id', 'DESC')

@@ -178,7 +178,7 @@ export default {
             axios.get('/api/classwork/showDetails/'+ this.Preview_id+'/'+this.$route.params.id)
             .then(res=>{
                 this.Details = res.data.Details;
-                this.Details.from_date = moment(this.Details.from_date).format("YYYY-MM-DDTHH:mm:ss")
+                this.Details.from_date = moment(this.Details.from_date).format('YYYY-MM-DD HH:mm:ss')
                 this.isloading = !this.isloading;
                 this.totalPoints = res.data.totalpoints;
                 this.totalQuestion = res.data.ItemsCount;
@@ -196,7 +196,7 @@ export default {
     mounted(){
         this.getClassworkDetails();
         let newDate = new Date();
-        this.DateToday = moment(newDate).format("YYYY-MM-DDTHH:mm:ss");
+        this.DateToday = moment(newDate).format('YYYY-MM-DD HH:mm:ss');
     },
     created(){
         this.$emit('isMounted');

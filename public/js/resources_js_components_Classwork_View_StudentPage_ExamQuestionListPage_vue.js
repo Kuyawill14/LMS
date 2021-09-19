@@ -10563,6 +10563,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 })));
 
+
 /***/ }),
 
 /***/ "./node_modules/moment/locale/lt.js":
@@ -10612,24 +10613,6 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
     function special(number) {
         return number % 10 === 0 || (number > 10 && number < 20);
     }
-<<<<<<< HEAD
-
-    return globalLocale._abbr;
-}
-
-function defineLocale(name, config) {
-    if (config !== null) {
-        var locale,
-            parentConfig = _base_config__WEBPACK_IMPORTED_MODULE_6__.baseConfig;
-        config.abbr = name;
-        if (locales[name] != null) {
-            (0,_utils_deprecate__WEBPACK_IMPORTED_MODULE_2__.deprecateSimple)(
-                'defineLocaleOverride',
-                'use moment.updateLocale(localeName, config) to change ' +
-                'an existing locale. moment.defineLocale(localeName, ' +
-                'config) should only be used for creating a new locale ' +
-                'See http://momentjs.com/guides/#/warnings/define-locale/ for more info.'
-=======
     function forms(key) {
         return units[key].split('_');
     }
@@ -10638,7 +10621,6 @@ function defineLocale(name, config) {
         if (number === 1) {
             return (
                 result + translateSingular(number, withoutSuffix, key[0], isFuture)
->>>>>>> 36f84309ee51b068c9238050990067b6ee25b65e
             );
         } else if (withoutSuffix) {
             return result + (special(number) ? forms(key)[1] : forms(key)[0]);
@@ -10719,15 +10701,7 @@ function defineLocale(name, config) {
         },
     });
 
-<<<<<<< HEAD
-        if (localeFamilies[name]) {
-            localeFamilies[name].forEach(function(x) {
-                defineLocale(x.name, x.config);
-            });
-        }
-=======
     return lt;
->>>>>>> 36f84309ee51b068c9238050990067b6ee25b65e
 
 })));
 
@@ -10788,40 +10762,6 @@ function defineLocale(name, config) {
         return withoutSuffix ? 'dažas sekundes' : 'dažām sekundēm';
     }
 
-<<<<<<< HEAD
-    return chooseLocale(key);
-}
-
-function listLocales() {
-    return (0,_utils_keys__WEBPACK_IMPORTED_MODULE_5__.default)(locales);
-}
-
-/***/ }),
-
-/***/ "./node_modules/moment/src/lib/locale/ordinal.js":
-/*!*******************************************************!*\
-  !*** ./node_modules/moment/src/lib/locale/ordinal.js ***!
-  \*******************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "defaultOrdinal": () => (/* binding */ defaultOrdinal),
-/* harmony export */   "defaultDayOfMonthOrdinalParse": () => (/* binding */ defaultDayOfMonthOrdinalParse),
-/* harmony export */   "ordinal": () => (/* binding */ ordinal)
-/* harmony export */ });
-var defaultOrdinal = '%d',
-    defaultDayOfMonthOrdinalParse = /\d{1,2}/;
-
-
-
-function ordinal(number) {
-    return this._ordinal.replace('%d', number);
-}
-
-
-/***/ }),
-=======
     var lv = moment.defineLocale('lv', {
         months: 'janvāris_februāris_marts_aprīlis_maijs_jūnijs_jūlijs_augusts_septembris_oktobris_novembris_decembris'.split(
             '_'
@@ -10872,7 +10812,6 @@ function ordinal(number) {
             doy: 4, // The week that contains Jan 4th is the first week of the year.
         },
     });
->>>>>>> 36f84309ee51b068c9238050990067b6ee25b65e
 
     return lv;
 

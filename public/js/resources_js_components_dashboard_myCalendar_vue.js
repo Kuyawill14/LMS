@@ -191,7 +191,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   mounted: function mounted() {
     this.getGeneralClassworks();
     var newDate = new Date();
-    this.DateToday = (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_1__.default)(newDate).format("YYYY-MM-DDTHH:mm:ss");
+    this.DateToday = (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_1__.default)(newDate).format('YYYY-MM-DD HH:mm:ss');
   },
   methods: {
     format_date: function format_date(value) {
@@ -223,10 +223,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                       if (_this.role == 'Student' && _this.CalendarSched[index].status == 'Submitted') {
                         name = _this.CalendarSched[index].title + '(submitted)';
                         color = "success";
-                      } else if (_this.role == 'Student' && _this.CalendarSched[index].status != 'Submitted' && _this.CheckFormatDue(_this.CalendarSched[index].to_date) < _this.DateToday) {
+                      } else if (_this.role == 'Student' && _this.CalendarSched[index].status != 'Submitted' && _this.CalendarSched[index].availability == 1 && _this.CheckFormatDue(_this.CalendarSched[index].to_date) < _this.DateToday) {
                         name = _this.CalendarSched[index].title + '(missing)';
                         color = "error";
                         _this.unfinishCount++;
+                      } else if (_this.role == 'Student' && _this.CalendarSched[index].status != 'Submitted' && _this.CalendarSched[index].availability == 0 && _this.CheckFormatDue(_this.CalendarSched[index].to_date) < _this.DateToday) {
+                        name = _this.CalendarSched[index].title;
+                        color = _this.colors[_this.rnd(0, _this.colors.length - 1)];
+                      } else if (_this.role == 'Student' && _this.CalendarSched[index].status == 'Submitting' || _this.CalendarSched[index].status == 'Taking') {
+                        name = _this.CalendarSched[index].title + _this.CalendarSched[index].status;
+                        color = "info"; //console.log(this.CalendarSched[index].status);
                       } else {
                         name = _this.CalendarSched[index].title;
                         color = _this.colors[_this.rnd(0, _this.colors.length - 1)];
@@ -315,7 +321,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     CheckFormatDue: function CheckFormatDue(value) {
       if (value) {
-        return (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_1__.default)(String(value)).format("YYYY-MM-DDTHH:mm:ss");
+        return (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_1__.default)(String(value)).format('YYYY-MM-DD HH:mm:ss');
       }
     }
   }
@@ -339,7 +345,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\r\n/* .v-calendar-weekly {\r\ndisplay: table;\r\ntable-layout: fixed;\r\n} */\r\n/* .v-calendar-weekly__week {\r\nheight: auto;\r\ndisplay: table-row;\r\n}\r\n.v-calendar-weekly__day {\r\ndisplay: table-cell;\r\nwidth: calc(100% / 7)\r\n} */\r\n\r\n\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\r\n/* .v-calendar-weekly {\r\ndisplay: table;\r\ntable-layout: fixed;\r\n} */\r\n/* .v-calendar-weekly__week {\r\nheight: auto;\r\ndisplay: table-row;\r\n}\r\n.v-calendar-weekly__day {\r\ndisplay: table-cell;\r\nwidth: calc(100% / 7)\r\n} */\r\n\r\n\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -3001,6 +3007,7 @@ _utils_hooks__WEBPACK_IMPORTED_MODULE_4__.hooks.langData = (0,_utils_deprecate__
 
 
 
+
 /***/ }),
 
 /***/ "./node_modules/moment/src/lib/locale/locales.js":
@@ -3150,9 +3157,9 @@ function defineLocale(name, config) {
             (0,_utils_deprecate__WEBPACK_IMPORTED_MODULE_2__.deprecateSimple)(
                 'defineLocaleOverride',
                 'use moment.updateLocale(localeName, config) to change ' +
-                'an existing locale. moment.defineLocale(localeName, ' +
-                'config) should only be used for creating a new locale ' +
-                'See http://momentjs.com/guides/#/warnings/define-locale/ for more info.'
+                    'an existing locale. moment.defineLocale(localeName, ' +
+                    'config) should only be used for creating a new locale ' +
+                    'See http://momentjs.com/guides/#/warnings/define-locale/ for more info.'
             );
             parentConfig = locales[name]._config;
         } else if (config.parentLocale != null) {
@@ -3177,7 +3184,7 @@ function defineLocale(name, config) {
         locales[name] = new _constructor__WEBPACK_IMPORTED_MODULE_4__.Locale((0,_set__WEBPACK_IMPORTED_MODULE_3__.mergeConfigs)(parentConfig, config));
 
         if (localeFamilies[name]) {
-            localeFamilies[name].forEach(function(x) {
+            localeFamilies[name].forEach(function (x) {
                 defineLocale(x.name, x.config);
             });
         }
@@ -3267,6 +3274,7 @@ function getLocale(key) {
 function listLocales() {
     return (0,_utils_keys__WEBPACK_IMPORTED_MODULE_5__.default)(locales);
 }
+
 
 /***/ }),
 

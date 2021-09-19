@@ -270,7 +270,7 @@ class UserProfileController extends Controller
                 }
             }
             else{
-                if($sj->status == ''){
+                if($sj->status == '' || $sj->status == null){
                     $sj->status = null;
                 }
             }

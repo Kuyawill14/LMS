@@ -22,14 +22,12 @@
                 <v-list v-if="!isClose">
                     <v-list-item>
                         <v-list-item-content>
-                            <v-list-item-title>Notification</v-list-item-title>
+                            <v-list-item-title><v-icon>mdi-bell</v-icon> Notification</v-list-item-title>
                         </v-list-item-content>
                         <v-list-item-action>
-
                             <v-btn @click="closing = true, $router.push({name: 'notifications', params:{slug: 'all'}})" class="white--text caption" color="blue" text depressed rounded>
                                 See all
                             </v-btn>
-
                         </v-list-item-action>
                     </v-list-item>
 

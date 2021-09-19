@@ -167,7 +167,7 @@ import moment from 'moment/src/moment';
     mounted () {
       this.getGeneralClassworks();
       const newDate = new Date();
-      this.DateToday = moment(newDate).format("YYYY-MM-DDTHH:mm:ss");
+      this.DateToday = moment(newDate).format('YYYY-MM-DD HH:mm:ss');
     },
     methods: {
     async getGeneralClassworks() {
@@ -257,7 +257,7 @@ import moment from 'moment/src/moment';
       },
       CheckFormatDue(value){
           if (value) {
-              return moment(String(value)).format("YYYY-MM-DDTHH:mm:ss")
+              return moment(String(value)).format('YYYY-MM-DD HH:mm:ss')
           }
       },
 

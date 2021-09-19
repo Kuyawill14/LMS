@@ -105,8 +105,8 @@ var responseLatePageWarning = function responseLatePageWarning() {
     },
     CheckFormatDue: function CheckFormatDue(value) {
       if (value) {
-        //return moment(String(value)).format("YYYY-MM-DDTHH:mm:ss")
-        return moment_timezone__WEBPACK_IMPORTED_MODULE_0___default()(String(value)).tz("Asia/Manila").format("YYYY-MM-DDTHH:mm:ss");
+        //return moment(String(value)).format('YYYY-MM-DD HH:mm:ss')
+        return moment_timezone__WEBPACK_IMPORTED_MODULE_0___default()(String(value)).tz("Asia/Manila").format('YYYY-MM-DD HH:mm:ss');
       }
     }
   },
@@ -116,7 +116,7 @@ var responseLatePageWarning = function responseLatePageWarning() {
       }, */
   mounted: function mounted() {
     var newDate = new Date();
-    this.DateToday = moment_timezone__WEBPACK_IMPORTED_MODULE_0___default()(newDate).tz("Asia/Manila").format("YYYY-MM-DDTHH:mm:ss");
+    this.DateToday = moment_timezone__WEBPACK_IMPORTED_MODULE_0___default()(newDate).tz("Asia/Manila").format('YYYY-MM-DD HH:mm:ss');
     this.$emit('isMounted');
   }
 });

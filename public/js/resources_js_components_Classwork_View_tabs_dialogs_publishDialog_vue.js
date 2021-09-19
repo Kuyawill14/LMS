@@ -240,8 +240,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['Details', 'datetoday'],
@@ -331,13 +329,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 form.classwork_id = _this2.ClassDetails.id;
                 form.class_id = _this2.ClassDetails.class_id;
                 form.availability = _this2.availability;
-                form.from_date = moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(_this2.from_date).tz("Asia/Manila").format('YYYY-MM-DD HH:MM:SS');
-                form.to_date = moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(_this2.to_date).tz("Asia/Manila").format('YYYY-MM-DD HH:MM:SS');
+                form.from_date = moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(_this2.from_date).tz("Asia/Manila").format('YYYY-MM-DD HH:mm:ss');
+                form.to_date = moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(_this2.to_date).tz("Asia/Manila").format('YYYY-MM-DD HH:mm:ss');
                 form.showAnswer = _this2.showAns;
                 form.ReviewAnswer = _this2.ReviewAnswer;
                 form.showAnswerType = _this2.showAnsType;
-                form.showAnswerDateFrom = moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(_this2.ShowAnswerDateFrom).tz("Asia/Manila").format('YYYY-MM-DD HH:MM:SS');
-                form.showAnswerDateTo = moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(_this2.ShowAnswerDateTo).tz("Asia/Manila").format('YYYY-MM-DD HH:MM:SS');
+                form.showAnswerDateFrom = moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(_this2.ShowAnswerDateFrom).tz("Asia/Manila").format('YYYY-MM-DD HH:mm:ss');
+                form.showAnswerDateTo = moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(_this2.ShowAnswerDateTo).tz("Asia/Manila").format('YYYY-MM-DD HH:mm:ss');
                 form.response_late = _this2.response_late;
                 form.grading_id = _this2.GradingCriteria_id;
                 /* fd.append("classwork_id", this.ClassDetails.id);
@@ -386,7 +384,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context2.prev = _context2.next) {
               case 0:
                 newDate = new Date();
-                _this3.duedate = moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(newDate).format("YYYY-MM-DDTHH:mm:ss");
+                _this3.duedate = moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(newDate).format('YYYY-MM-DD HH:mm:ss');
                 _this3.ClassDetails = _this3.Details;
                 /*  this.ShowAnswerDate =  this.duedate;
                  this.from_date =  this.duedate;
@@ -1498,10 +1496,6 @@ var render = function() {
                                           staticClass: "mt-0 pt-0",
                                           attrs: {
                                             label: "From",
-                                            "text-field-props":
-                                              _vm.textFieldProps,
-                                            "date-picker-props": _vm.dateProps,
-                                            "time-picker-props": _vm.timeProps,
                                             "time-format": "HH:mm",
                                             color: "primary"
                                           },

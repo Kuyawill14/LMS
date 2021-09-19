@@ -168,7 +168,7 @@ import moment from 'moment/src/moment';
     mounted () {
       this.getGeneralClassworks();
       const newDate = new Date();
-      this.DateToday = moment(newDate).format("YYYY-MM-DDTHH:mm:ss");
+      this.DateToday = moment(newDate).format('YYYY-MM-DD HH:mm:ss');
     },
     methods: {
     format_date(value) {
@@ -195,12 +195,21 @@ import moment from 'moment/src/moment';
                     name = this.CalendarSched[index].title+'(submitted)';
                     color = "success";
                   }
-                  else if(this.role == 'Student' &&  this.CalendarSched[index].status != 'Submitted' && this.CheckFormatDue(this.CalendarSched[index].to_date) < this.DateToday){
+                   else if((this.role == 'Student' &&  this.CalendarSched[index].status != 'Submitted'  &&  this.CalendarSched[index].availability == 1) && this.CheckFormatDue(this.CalendarSched[index].to_date) < this.DateToday){
                     name = this.CalendarSched[index].title+'(missing)';
                     color = "error";
-                    this.unfinishCount++;
-          
+                     this.unfinishCount++;
                   }
+                  else if((this.role == 'Student' &&  this.CalendarSched[index].status != 'Submitted'  &&  this.CalendarSched[index].availability == 0) && this.CheckFormatDue(this.CalendarSched[index].to_date) < this.DateToday){
+                    name = this.CalendarSched[index].title;
+                    color = this.colors[this.rnd(0, this.colors.length - 1)];
+                  }
+                  else if(this.role == 'Student' &&  this.CalendarSched[index].status == 'Submitting' || this.CalendarSched[index].status == 'Taking'){
+                     name = this.CalendarSched[index].title+(this.CalendarSched[index].status);
+                     color = "info";
+                     //console.log(this.CalendarSched[index].status);
+                  }
+                  
                   else{
                     name =  this.CalendarSched[index].title;
                     color = this.colors[this.rnd(0, this.colors.length - 1)];
@@ -267,7 +276,7 @@ import moment from 'moment/src/moment';
       },
       CheckFormatDue(value){
           if (value) {
-              return moment(String(value)).format("YYYY-MM-DDTHH:mm:ss")
+              return moment(String(value)).format('YYYY-MM-DD HH:mm:ss')
           }
       },
 

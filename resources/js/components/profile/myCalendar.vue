@@ -170,7 +170,7 @@ import moment from 'moment/src/moment';
     mounted () {
       this.getGeneralClassworks();
       const newDate = new Date();
-      this.DateToday = moment(newDate).format("YYYY-MM-DDTHH:mm:ss");
+      this.DateToday = moment(newDate).format('YYYY-MM-DD HH:mm:ss');
     },
     methods: {
     format_date(value) {
@@ -188,6 +188,7 @@ import moment from 'moment/src/moment';
                
             if(res.data.length != 0){
                 const data = moment(this.CalendarSched[0].from_date)._d
+
                 for (let index = 0; index < this.CalendarSched.length; index++) {
                   const allDay = this.rnd(0, 3) === 0;
                   let test = moment(this.CalendarSched[index].from_date);
@@ -275,7 +276,7 @@ import moment from 'moment/src/moment';
       },
       CheckFormatDue(value){
           if (value) {
-              return moment(String(value)).format("YYYY-MM-DDTHH:mm:ss")
+              return moment(String(value)).format('YYYY-MM-DD HH:mm:ss')
           }
       },
 

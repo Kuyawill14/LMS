@@ -191,12 +191,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['Details'],
@@ -261,10 +255,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _this2.PublishDetails.from_date = moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(_this2.PublishDetails.from_date).tz("Asia/Manila").format('YYYY-MM-DD HH:MM:SS');
-                _this2.PublishDetails.to_date = moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(_this2.PublishDetails.to_date).tz("Asia/Manila").format('YYYY-MM-DD HH:MM:SS');
-                _this2.PublishDetails.showDateFrom = moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(_this2.PublishDetails.showDateFrom).tz("Asia/Manila").format('YYYY-MM-DD HH:MM:SS');
-                _this2.PublishDetails.showDateTo = moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(_this2.PublishDetails.showDateTo).tz("Asia/Manila").format('YYYY-MM-DD HH:MM:SS');
+                _this2.PublishDetails.from_date = moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(_this2.PublishDetails.from_date).tz("Asia/Manila").format('YYYY-MM-DD HH:mm:ss');
+                _this2.PublishDetails.to_date = moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(_this2.PublishDetails.to_date).tz("Asia/Manila").format('YYYY-MM-DD HH:mm:ss');
+                _this2.PublishDetails.showDateFrom = moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(_this2.PublishDetails.showDateFrom).tz("Asia/Manila").format('YYYY-MM-DD HH:mm:ss');
+                _this2.PublishDetails.showDateTo = moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(_this2.PublishDetails.showDateTo).tz("Asia/Manila").format('YYYY-MM-DD HH:mm:ss');
                 _this2.PublishDetails.availability = _this2.availability;
                 _this2.PublishDetails.showAnswerType = _this2.showAnsType;
                 axios.put('/api/classwork/UpdatePublish/' + _this2.PublishDetails.id, _this2.PublishDetails).then(function (res) {
@@ -316,8 +310,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   _this4.PublishDetails = res.data;
                   _this4.availability = _this4.PublishDetails.availability == 1 ? 'Set Date' : _this4.PublishDetails.availability == 2 ? 'Unavailable' : 'Always Available';
                   _this4.showAnsType = _this4.PublishDetails.showAnswerType != null ? _this4.showAnsType = _this4.PublishDetails.showAnswerType ? 'Set Date' : 'After Classwork Done' : _this4.showAnsType = '';
-                  _this4.PublishDetails.from_date = moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(_this4.PublishDetails.from_date).tz("Asia/Manila").format('YYYY-MM-DD HH:MM:SS');
-                  _this4.PublishDetails.to_date = moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(_this4.PublishDetails.to_date).tz("Asia/Manila").format('YYYY-MM-DD HH:MM:SS');
+                  _this4.PublishDetails.from_date = moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(_this4.PublishDetails.from_date).tz("Asia/Manila").format('YYYY-MM-DD HH:mm');
+                  _this4.PublishDetails.to_date = moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(_this4.PublishDetails.to_date).tz("Asia/Manila").format('YYYY-MM-DD HH:mm');
                   _this4.isLoading = !_this4.isLoading;
                 });
 
@@ -1395,13 +1389,7 @@ var render = function() {
                                             staticClass: "mt-0 pt-0",
                                             attrs: {
                                               label: "From",
-                                              "text-field-props":
-                                                _vm.textFieldProps,
-                                              "date-picker-props":
-                                                _vm.dateProps,
-                                              "time-picker-props":
-                                                _vm.timeProps,
-                                              "time-format": "HH:mm:ss",
+                                              "time-format": "HH:mm",
                                               color: "primary"
                                             },
                                             model: {
@@ -1433,13 +1421,7 @@ var render = function() {
                                             staticClass: "Datetimepicker",
                                             attrs: {
                                               label: "To",
-                                              "text-field-props":
-                                                _vm.textFieldProps,
-                                              "date-picker-props":
-                                                _vm.dateProps,
-                                              "time-picker-props":
-                                                _vm.timeProps,
-                                              "time-format": "HH:mm:ss",
+                                              "time-format": "HH:mm",
                                               color: "primary"
                                             },
                                             model: {

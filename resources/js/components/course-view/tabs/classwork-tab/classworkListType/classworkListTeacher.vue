@@ -245,8 +245,8 @@
             },
             CheckFormatDue(value){
                 if (value) {
-                    //return moment(String(value)).format("YYYY-MM-DDTHH:mm:ss")
-                    return moment(String(value)).tz("Asia/Manila").format("YYYY-MM-DDTHH:mm:ss");
+                    //return moment(String(value)).format('YYYY-MM-DD HH:mm:ss')
+                    return moment(String(value)).tz("Asia/Manila").format('YYYY-MM-DD HH:mm:ss');
                 }
             },
             async RemoveCLasswork(details){
@@ -272,8 +272,8 @@
         mounted(){
             this.CheckClassworkCount();
             let newDate = new Date();
-            //this.DateToday = moment(newDate).format("YYYY-MM-DDTHH:mm:ss");
-            this.DateToday =  moment(newDate).tz("Asia/Manila").format("YYYY-MM-DDTHH:mm:ss");
+            //this.DateToday = moment(newDate).format('YYYY-MM-DD HH:mm:ss');
+            this.DateToday =  moment(newDate).tz("Asia/Manila").format('YYYY-MM-DD HH:mm:ss');
             this.$emit('ismounted');
         }
        

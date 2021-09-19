@@ -17,6 +17,7 @@ use App\Events\NewPost;
 use App\Events\NewNotification;
 use App\Models\tbl_subject_course;
 use App\Jobs\SendNotificationMailToClass;
+use App\Jobs\SendClassworkNotification;
 use Carbon\Carbon;
 
 class NotificationController extends Controller
@@ -37,15 +38,25 @@ class NotificationController extends Controller
             
             
 
-
-            $newNotification = new tbl_notification;
+            //return $request->from_date;
+           /*  $newNotification = new tbl_notification;
             $newNotification->course_id = null;
             $newNotification->class_id = $request->class_id;
             $newNotification->from_id =  $userId;
-            $newNotification->notification_attachments =  $request->classwork_id;
+            $newNotification->notification_attachments = $request->classwork_id;
             $newNotification->message = $clsssworkTitle->title." assigned in your ".$clsssworkTitle->course_name;
             $newNotification->notification_type = 4;
-            $newNotification->save();
+            $newNotification->save(); */
+            
+            $type = 4;
+            $message = $clsssworkTitle->title." assigned in your ".$clsssworkTitle->course_name;
+
+            $dateToday = date('Y-m-d H:i:s');
+            $to = \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $dateToday);
+            $from = \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $request->from_date);
+            $diff_in_minutes = $to->diffInMinutes($from);
+            $seconds =  $diff_in_minutes * 60;
+            SendClassworkNotification::dispatch($request->class_id, $userId, $request->classwork_id, $message, $type)->delay(Carbon::now()->addSeconds($seconds));
 
             $ClassName = Tbl_class::where('tbl_classes.id',$request->class_id)->first();
             $url = '/classwork'.'/'.$request->course_id.'/classwork-details?clwk='.$request->classwork_id;
@@ -296,39 +307,37 @@ class NotificationController extends Controller
                 ->get();
         }
         else{
+
             $allNotification = tbl_userclass::whereNull("tbl_userclasses.deleted_at")
             ->where("tbl_userclasses.user_id", $userId)
-            ->select("tbl_notifications.id as notif_id","tbl_notifications.notification_type",
-            "user_notifications.status", "user_notifications.hide_notif", "user_notifications.notification_accepted")
+            ->select("tbl_notifications.id as notif_id","tbl_notifications.notification_type")
             ->leftJoin("tbl_notifications", function($join){
                 $join->on("tbl_notifications.course_id", "=", "tbl_userclasses.course_id")
                     ->orOn("tbl_notifications.class_id", "=", "tbl_userclasses.class_id");
             })
-            ->leftJoin("user_notifications", "user_notifications.notification_id","=","tbl_notifications.id")
-            ->whereNull("user_notifications.status")
-            ->orderBy("tbl_notifications.created_at", "DESC")
             ->where("tbl_notifications.from_id","!=", $userId)
             ->whereIn("tbl_notifications.notification_type", [1, 3, 4])
+            ->orderBy("tbl_notifications.created_at", "DESC")
             ->get();
 
-          
-
-        
-          
-/* 
             foreach($allNotification as $item){
                 $checkNotifStatus = UserNotification::where("user_notifications.notification_id", $item->notif_id)
                 ->where("user_notifications.user_id", $userId)->first();
                 $item->status = "";
                 if($checkNotifStatus){
                     $item->status = $checkNotifStatus->status;
+                    $item->hide_notif = $checkNotifStatus->hide_notif;
+                    $item->notification_accepted = $checkNotifStatus->notification_accepted;
                 }
                 else{
                     if($item->status == ""){
                         $item->status = null;
+                        $item->hide_notif = null;
+                        $item->notification_accepted = null;
                     }
                 }
-            } */
+            }
+    
          
         }
         
@@ -345,7 +354,6 @@ class NotificationController extends Controller
             }
         }
         return $count;
-      
     }
     
 

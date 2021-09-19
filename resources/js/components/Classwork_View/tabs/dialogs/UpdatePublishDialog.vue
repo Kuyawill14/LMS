@@ -65,10 +65,7 @@
                                       <v-datetime-picker label="From"
                                         v-model="PublishDetails.from_date"
                                         class="mt-0 pt-0"
-                                        :text-field-props="textFieldProps"
-                                        :date-picker-props="dateProps"
-                                        :time-picker-props="timeProps"
-                                        time-format="HH:mm:ss"
+                                        time-format="HH:mm"
                                         color="primary"
                                         > 
                                     </v-datetime-picker>
@@ -78,10 +75,7 @@
                                      <v-datetime-picker label="To"
                                         v-model="PublishDetails.to_date"
                                         class="Datetimepicker"
-                                        :text-field-props="textFieldProps"
-                                        :date-picker-props="dateProps"
-                                        :time-picker-props="timeProps"
-                                        time-format="HH:mm:ss"
+                                        time-format="HH:mm"
                                         color="primary"
                                         > 
                                     </v-datetime-picker>
@@ -232,10 +226,10 @@ export default {
       
         async UpdateShareClassworkDetails(){
             
-            this.PublishDetails.from_date =  moment(this.PublishDetails.from_date).tz("Asia/Manila").format('YYYY-MM-DD HH:MM:SS');
-            this.PublishDetails.to_date = moment(this.PublishDetails.to_date).tz("Asia/Manila").format('YYYY-MM-DD HH:MM:SS');
-             this.PublishDetails.showDateFrom =  moment(this.PublishDetails.showDateFrom).tz("Asia/Manila").format('YYYY-MM-DD HH:MM:SS');
-            this.PublishDetails.showDateTo = moment(this.PublishDetails.showDateTo).tz("Asia/Manila").format('YYYY-MM-DD HH:MM:SS');
+            this.PublishDetails.from_date =  moment(this.PublishDetails.from_date).tz("Asia/Manila").format('YYYY-MM-DD HH:mm:ss');
+            this.PublishDetails.to_date = moment(this.PublishDetails.to_date).tz("Asia/Manila").format('YYYY-MM-DD HH:mm:ss');
+             this.PublishDetails.showDateFrom =  moment(this.PublishDetails.showDateFrom).tz("Asia/Manila").format('YYYY-MM-DD HH:mm:ss');
+            this.PublishDetails.showDateTo = moment(this.PublishDetails.showDateTo).tz("Asia/Manila").format('YYYY-MM-DD HH:mm:ss');
             this.PublishDetails.availability = this.availability;
             this.PublishDetails.showAnswerType = this.showAnsType;
             axios.put('/api/classwork/UpdatePublish/'+this.PublishDetails.id, this.PublishDetails)
@@ -262,8 +256,8 @@ export default {
                 this.showAnsType = this.PublishDetails.showAnswerType != null ? 
                 this.showAnsType = this.PublishDetails.showAnswerType ? 'Set Date' : 'After Classwork Done' : 
                 this.showAnsType = '';
-                this.PublishDetails.from_date =  moment(this.PublishDetails.from_date).tz("Asia/Manila").format('YYYY-MM-DD HH:MM:SS');
-                this.PublishDetails.to_date = moment(this.PublishDetails.to_date).tz("Asia/Manila").format('YYYY-MM-DD HH:MM:SS');
+                this.PublishDetails.from_date =  moment(this.PublishDetails.from_date).tz("Asia/Manila").format('YYYY-MM-DD HH:mm');
+                this.PublishDetails.to_date = moment(this.PublishDetails.to_date).tz("Asia/Manila").format('YYYY-MM-DD HH:mm');
                 this.isLoading = !this.isLoading;
             })
         },

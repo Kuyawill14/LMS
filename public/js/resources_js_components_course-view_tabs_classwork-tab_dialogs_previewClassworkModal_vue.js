@@ -192,7 +192,7 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.get('/api/classwork/showDetails/' + this.Preview_id + '/' + this.$route.params.id).then(function (res) {
         _this.Details = res.data.Details;
-        _this.Details.from_date = (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_0__.default)(_this.Details.from_date).format("YYYY-MM-DDTHH:mm:ss");
+        _this.Details.from_date = (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_0__.default)(_this.Details.from_date).format('YYYY-MM-DD HH:mm:ss');
         _this.isloading = !_this.isloading;
         _this.totalPoints = res.data.totalpoints;
         _this.totalQuestion = res.data.ItemsCount;
@@ -210,7 +210,7 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     this.getClassworkDetails();
     var newDate = new Date();
-    this.DateToday = (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_0__.default)(newDate).format("YYYY-MM-DDTHH:mm:ss");
+    this.DateToday = (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_0__.default)(newDate).format('YYYY-MM-DD HH:mm:ss');
   },
   created: function created() {
     this.$emit('isMounted');
