@@ -55,7 +55,13 @@ class NotificationController extends Controller
             $to = \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $dateToday);
             $from = \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $request->from_date);
             $diff_in_minutes = $to->diffInMinutes($from);
-            $seconds =  $diff_in_minutes * 60;
+            $seconds;
+            if( $diff_in_minutes <= 0){
+                $seconds = 0;
+            }
+            else{
+                $seconds =  $diff_in_minutes * 60;
+            }
             SendClassworkNotification::dispatch($request->class_id, $userId, $request->classwork_id, $message, $type)->delay(Carbon::now()->addSeconds($seconds));
 
             $ClassName = Tbl_class::where('tbl_classes.id',$request->class_id)->first();

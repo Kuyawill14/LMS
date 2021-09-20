@@ -799,6 +799,14 @@ const router = new Router({
                 }
             },
         },
+
+        {
+            path: "/testpicker",
+            component: () =>
+                import ( /*webpackChunkName: "login"*/ "./components/login/test"),
+            name: "testpicker",
+         
+        },
         {
             path: "/register",
             component: () =>

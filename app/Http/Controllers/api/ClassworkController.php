@@ -99,7 +99,7 @@ class ClassworkController extends Controller
             ->leftJoin('tbl_classworks', 'tbl_classworks.id', '=', 'tbl_class_classworks.classwork_id')
             ->leftJoin('tbl_userclasses', 'tbl_class_classworks.class_id', '=', 'tbl_userclasses.class_id')
             ->where('tbl_userclasses.user_id','=', $userId)
-          /*   ->whereDate('tbl_class_classworks.from_date', '<=', date('Y-m-d H:i:s')) */
+            ->where('tbl_class_classworks.from_date', '<=', date('Y-m-d H:i:s'))
             ->where('tbl_class_classworks.grading_criteria', $item->id)
             ->where('tbl_class_classworks.availability', '!=',2)
             ->orderBy('created_at', 'DESC')
@@ -115,7 +115,6 @@ class ClassworkController extends Controller
                     $classW->graded = 0;
                     $classW->Sub_date = null;
                 }
-                
             }
             else{
                 foreach($CheckSub as $subM){

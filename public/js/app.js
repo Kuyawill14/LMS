@@ -2911,6 +2911,12 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_6__.default({
       }
     }
   }, {
+    path: "/testpicker",
+    component: function component() {
+      return __webpack_require__.e(/*! import() | login */ "login").then(__webpack_require__.bind(__webpack_require__, /*! ./components/login/test */ "./resources/js/components/login/test.vue"));
+    },
+    name: "testpicker"
+  }, {
     path: "/register",
     component: function component() {
       return __webpack_require__.e(/*! import() | register */ "register").then(__webpack_require__.bind(__webpack_require__, /*! ./components/register/register.vue */ "./resources/js/components/register/register.vue"));

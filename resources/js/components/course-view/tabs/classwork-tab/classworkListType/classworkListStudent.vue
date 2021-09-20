@@ -77,7 +77,7 @@
               
             <v-row v-if="classworks.ClassworksList[i].length != 0 && (SelectedFilter == 'All' || SelectedFilter == data.title)" >
                 <v-col v-if="classworks.ClassworksList[i].length != 0" cols="12"  class="ma-0 pa-0 "><h2 class="font-weight-regular text-body-1">{{data.title}} <small class="font-weight-medium">({{data.percent}}%)</small> </h2></v-col>
-                <v-col cols="12"  md="6" lg="4" xl="4" class="pb-0 mb-0 " v-for="(item, index) in classworks.ClassworksList[i]" :key="index">
+                <v-col cols="12"  md="6" lg="4" xl="4" class="pb-0 mb-0" v-for="(item, index) in classworks.ClassworksList[i]" :key="index">
                    
                     <v-hover v-slot="{ hover }">
                         <v-card   @click="OpenClaswork(item.type,item.status,item.score,item.classwork_id)" 
@@ -311,6 +311,9 @@
             this.DateToday =  moment(newDate).tz("Asia/Manila").format('YYYY-MM-DD HH:mm:ss');
             this.$emit('ismounted');
         },
+        created(){
+             this.$emit('ismounted');
+        }
        
        
     }
