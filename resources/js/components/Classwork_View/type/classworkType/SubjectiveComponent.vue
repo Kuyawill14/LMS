@@ -626,8 +626,8 @@ export default {
     methods:{
       format_date1(value) {
             if (value) {
-                //return moment(String(value)).format("YYYY-MM-DDTHH:mm:ss")
-                return moment(String(value)).tz("Asia/Manila").format("YYYY-MM-DDTHH:mm:ss");
+                //return moment(String(value)).format('YYYY-MM-DD HH:mm:ss')
+                return moment(String(value)).tz("Asia/Manila").format('YYYY-MM-DD HH:mm:ss');
             }
         },
       validate () {

@@ -197,7 +197,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   mounted: function mounted() {
     this.getGeneralClassworks();
     var newDate = new Date();
-    this.DateToday = (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_1__.default)(newDate).format("YYYY-MM-DDTHH:mm:ss");
+    this.DateToday = (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_1__.default)(newDate).format('YYYY-MM-DD HH:mm:ss');
   },
   methods: {
     getGeneralClassworks: function getGeneralClassworks() {
@@ -317,7 +317,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     CheckFormatDue: function CheckFormatDue(value) {
       if (value) {
-        return (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_1__.default)(String(value)).format("YYYY-MM-DDTHH:mm:ss");
+        return (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_1__.default)(String(value)).format('YYYY-MM-DD HH:mm:ss');
       }
     }
   }

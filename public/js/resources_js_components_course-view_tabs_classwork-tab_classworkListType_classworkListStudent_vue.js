@@ -22800,18 +22800,6 @@ var render = function() {
                                 return _c(
                                   "v-col",
                                   {
-                                    directives: [
-                                      {
-                                        name: "show",
-                                        rawName: "v-show",
-                                        value:
-                                          item.availability == 1
-                                            ? _vm.DateToday > item.from_date
-                                            : item.availability == 0,
-                                        expression:
-                                          "item.availability == 1 ? DateToday > item.from_date: item.availability == 0"
-                                      }
-                                    ],
                                     key: index,
                                     staticClass: "pb-0 mb-0 ",
                                     attrs: {
