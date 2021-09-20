@@ -337,6 +337,9 @@ var newClassworkModal = function newClassworkModal() {
 
     this.DateToday = moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(newDate).tz("Asia/Manila").format('YYYY-MM-DD HH:mm:ss');
     this.$emit('ismounted');
+  },
+  created: function created() {
+    this.$emit('ismounted');
   }
 });
 

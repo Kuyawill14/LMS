@@ -350,6 +350,9 @@ var previewClassworkModal = function previewClassworkModal() {
 
     this.DateToday = moment_timezone__WEBPACK_IMPORTED_MODULE_0___default()(newDate).tz("Asia/Manila").format('YYYY-MM-DD HH:mm:ss');
     this.$emit('ismounted');
+  },
+  created: function created() {
+    this.$emit('ismounted');
   }
 });
 
@@ -22801,7 +22804,7 @@ var render = function() {
                                   "v-col",
                                   {
                                     key: index,
-                                    staticClass: "pb-0 mb-0 ",
+                                    staticClass: "pb-0 mb-0",
                                     attrs: {
                                       cols: "12",
                                       md: "6",
