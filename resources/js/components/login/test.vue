@@ -19,7 +19,8 @@ data() {
       developerKey: "AIzaSyBEcuSSkfSt9_xQY-b5SjJle7OL8S4vpLQ",
       clientId: "50494717699-ef0j944ojc06eb8ofqipepfd0enj2sg3.apps.googleusercontent.com",
       scope: "https://www.googleapis.com/auth/drive.readonly",
-      oauthToken: null
+      oauthToken: null,
+      appId : "632002309900"
   }
 },
 methods:{
@@ -51,12 +52,18 @@ methods:{
     },
      createPicker() {
       console.log("Create Picker", google.picker);
+      const docsView = new google.picker.DocsView(google.picker.ViewId.DOCS)
+              .setIncludeFolders(true)
+              .setSelectFolderEnabled(true);
       if (this.pickerApiLoaded && this.oauthToken) {
         var picker = new google.picker.PickerBuilder()
+          .enableFeature(google.picker.Feature.SIMPLE_UPLOAD_ENABLED)
           .enableFeature(google.picker.Feature.MULTISELECT_ENABLED)
-          .addView(google.picker.ViewId.DOCS)
+          .setAppId(this.appId)
+          .addView(docsView)
+          .addView(new google.picker.DocsUploadView())
           .setOAuthToken(this.oauthToken)
-          .setDeveloperKey("AIzaSyBEcuSSkfSt9_xQY-b5SjJle7OL8S4vpLQ")
+          .setDeveloperKey(this.developerKey)
           .setCallback(this.pickerCallback)
           .build();
         picker.setVisible(true);
@@ -66,9 +73,16 @@ methods:{
       console.log("PickerCallback", data);
       var url = "nothing";
       var name = "nothing";
+      var doc = "";
+      var fileID = "";
+      var gdurl = "";
+      var type = "anyone";
+      var role = "reader";
+
+   
       if (data[google.picker.Response.ACTION] === google.picker.Action.PICKED) {
         // Array of Picked Files
-        console.log(data.docs);   
+        console.log(data.docs[0].url);   
       }
     }
 },

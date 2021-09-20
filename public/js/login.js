@@ -333,7 +333,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       developerKey: "AIzaSyBEcuSSkfSt9_xQY-b5SjJle7OL8S4vpLQ",
       clientId: "50494717699-ef0j944ojc06eb8ofqipepfd0enj2sg3.apps.googleusercontent.com",
       scope: "https://www.googleapis.com/auth/drive.readonly",
-      oauthToken: null
+      oauthToken: null,
+      appId: "632002309900"
     };
   },
   methods: {
@@ -382,15 +383,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     createPicker: function createPicker() {
       console.log("Create Picker", google.picker);
+      var docsView = new google.picker.DocsView(google.picker.ViewId.DOCS).setIncludeFolders(true).setSelectFolderEnabled(true);
 
       if (this.pickerApiLoaded && this.oauthToken) {
-        var picker = new google.picker.PickerBuilder().enableFeature(google.picker.Feature.MULTISELECT_ENABLED).addView(google.picker.ViewId.DOCS).setOAuthToken(this.oauthToken).setDeveloperKey("AIzaSyBEcuSSkfSt9_xQY-b5SjJle7OL8S4vpLQ").setCallback(this.pickerCallback).build();
+        var picker = new google.picker.PickerBuilder().enableFeature(google.picker.Feature.SIMPLE_UPLOAD_ENABLED).enableFeature(google.picker.Feature.MULTISELECT_ENABLED).setAppId(this.appId).addView(docsView).addView(new google.picker.DocsUploadView()).setOAuthToken(this.oauthToken).setDeveloperKey(this.developerKey).setCallback(this.pickerCallback).build();
         picker.setVisible(true);
       }
     },
     pickerCallback: function pickerCallback(data) {
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
-        var url, name;
+        var url, name, doc, fileID, gdurl, type, role;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
@@ -398,13 +400,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 console.log("PickerCallback", data);
                 url = "nothing";
                 name = "nothing";
+                doc = "";
+                fileID = "";
+                gdurl = "";
+                type = "anyone";
+                role = "reader";
 
                 if (data[google.picker.Response.ACTION] === google.picker.Action.PICKED) {
                   // Array of Picked Files
-                  console.log(data.docs);
+                  console.log(data.docs[0].url);
                 }
 
-              case 4:
+              case 9:
               case "end":
                 return _context2.stop();
             }
