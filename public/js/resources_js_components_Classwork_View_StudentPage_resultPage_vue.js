@@ -119,6 +119,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
 var submittedView = function submittedView() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_StudentPage_viewSubmittedPage_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./viewSubmittedPage */ "./resources/js/components/Classwork_View/StudentPage/viewSubmittedPage.vue"));
 };
@@ -435,30 +438,16 @@ var render = function() {
                                                 { attrs: { cols: "12" } },
                                                 [
                                                   _c(
-                                                    "v-container",
-                                                    {
-                                                      staticClass:
-                                                        "d-flex flex-row justify-space-between",
-                                                      attrs: {
-                                                        "ma-0": "",
-                                                        "pa-0": ""
-                                                      }
-                                                    },
+                                                    "v-list",
                                                     [
                                                       _c(
-                                                        "div",
-                                                        {
-                                                          staticClass: "d-flex"
-                                                        },
+                                                        "v-list-item",
                                                         [
                                                           _c(
-                                                            "v-btn",
+                                                            "v-list-item-avatar",
                                                             {
-                                                              staticClass:
-                                                                "mx-1",
                                                               attrs: {
-                                                                fab: "",
-                                                                dark: "",
+                                                                size: "58",
                                                                 color: "primary"
                                                               }
                                                             },
@@ -467,12 +456,14 @@ var render = function() {
                                                                 "v-icon",
                                                                 {
                                                                   attrs: {
+                                                                    color:
+                                                                      "white",
                                                                     large: ""
                                                                   }
                                                                 },
                                                                 [
                                                                   _vm._v(
-                                                                    "\r\n                                                    mdi-book-open-variant\r\n                                                    "
+                                                                    "\r\n                                                         mdi-book-open-variant\r\n                                                    "
                                                                   )
                                                                 ]
                                                               )
@@ -481,26 +472,30 @@ var render = function() {
                                                           ),
                                                           _vm._v(" "),
                                                           _c(
-                                                            "div",
-                                                            {
-                                                              staticClass:
-                                                                "mt-3 ml-2"
-                                                            },
+                                                            "v-list-item-content",
                                                             [
-                                                              _c("h3", [
-                                                                _vm._v(
-                                                                  _vm._s(
-                                                                    _vm.details
-                                                                      .title
-                                                                  )
-                                                                )
-                                                              ])
-                                                            ]
+                                                              _c(
+                                                                "v-list-item-title",
+                                                                [
+                                                                  _c("h3", [
+                                                                    _vm._v(
+                                                                      _vm._s(
+                                                                        _vm
+                                                                          .details
+                                                                          .title
+                                                                      )
+                                                                    )
+                                                                  ])
+                                                                ]
+                                                              )
+                                                            ],
+                                                            1
                                                           )
                                                         ],
                                                         1
                                                       )
-                                                    ]
+                                                    ],
+                                                    1
                                                   )
                                                 ],
                                                 1
@@ -604,7 +599,7 @@ var render = function() {
                                                 "v-col",
                                                 {
                                                   staticClass:
-                                                    "text-right mt-4",
+                                                    "text-right mt-4 mb-2",
                                                   attrs: { cols: "12" }
                                                 },
                                                 [

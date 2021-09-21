@@ -199,6 +199,25 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -206,12 +225,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     return {
       isVerifying: false,
       Deldialog: false,
+      ResetPassworddialog: false,
       dialog: false,
       temp_id: '',
       IsDeleting: false,
       IsAddUpdating: false,
       IsResetting: false,
       IsResetting_id: null,
+      isConfirmReset: false,
       type: '',
       search: "",
       valid: true,
@@ -335,19 +356,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.delId = id;
       this.Deldialog = true;
     },
-    updatePass: function updatePass(id) {
+    updatePass: function updatePass() {
       var _this2 = this;
 
-      this.IsResetting_id = id;
-      this.IsResetting = true;
-      axios__WEBPACK_IMPORTED_MODULE_1___default().post('/api/admin/teachers/reset-password/' + id).then(function (res) {
+      this.isConfirmReset = true;
+      axios__WEBPACK_IMPORTED_MODULE_1___default().post('/api/admin/teachers/reset-password/' + this.IsResetting_id).then(function (res) {
         _this2.toastSuccess(res.data);
 
+        _this2.isConfirmReset = false;
         _this2.IsResetting = false;
+        _this2.ResetPassworddialog = false;
       });
     },
     OpenupdatePassDialog: function OpenupdatePassDialog(id) {
       this.IsResetting_id = id;
+      this.ResetPassworddialog = true;
       this.IsResetting = true;
     },
     deleteUser: function deleteUser() {
@@ -1337,6 +1360,73 @@ var render = function() {
                       on: {
                         click: function($event) {
                           return _vm.deleteUser()
+                        }
+                      }
+                    },
+                    [_vm._v("\n                    Yes\n                ")]
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-dialog",
+        {
+          attrs: { persistent: "", "max-width": "290" },
+          model: {
+            value: _vm.ResetPassworddialog,
+            callback: function($$v) {
+              _vm.ResetPassworddialog = $$v
+            },
+            expression: "ResetPassworddialog"
+          }
+        },
+        [
+          _c(
+            "v-card",
+            [
+              _c("v-card-title", { staticClass: "headline" }, [
+                _vm._v(
+                  "\n                Are you sure you want to reset this user password?\n            "
+                )
+              ]),
+              _vm._v(" "),
+              _c(
+                "v-card-actions",
+                [
+                  _c("v-spacer"),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: { text: "" },
+                      on: {
+                        click: function($event) {
+                          ;(_vm.ResetPassworddialog = false),
+                            (_vm.IsResetting = false)
+                        }
+                      }
+                    },
+                    [_vm._v("\n                    No\n                ")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: {
+                        loading: _vm.isConfirmReset,
+                        color: "primary",
+                        text: ""
+                      },
+                      on: {
+                        click: function($event) {
+                          return _vm.updatePass()
                         }
                       }
                     },

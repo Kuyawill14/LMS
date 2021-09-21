@@ -42,13 +42,13 @@ export default {
         displaySeconds: 0,
         SecondProgress:1000,
         isLoaded: false,
-        endAt:  (new Date).getTime()+7000,
+        endAt:  (new Date).getTime()+10000,
         timeSpent: null,
     }),
     watch: {
       'StopTimer': function(arMsg) {
          if(arMsg == true){
-             this.$emit('TimerStop', this.timeSpent);
+             this.getTimeSpent();
          }
       }
    },
@@ -56,14 +56,19 @@ export default {
         startTimer(){
             let due = (this.duration*60) * 1000;
             this.EndDate = new Date(this.StartTime).getTime()+due;
-            let timeConsumed = this.Startdate - new Date(this.StartTime).getTime();
-            this.timeSpent = Math.floor((timeConsumed / 1000)/60);
+/*             let timeConsumed = this.Startdate - new Date(this.StartTime).getTime();
+            this.timeSpent = Math.floor((timeConsumed / 1000)/60); */
         },
         EndTimer(){
             clearInterval(this.NewTimer);
             localStorage.removeItem(name);
             this.$emit('TimesUp');
         },
+        getTimeSpent(){
+            const timeConsumed = this.Startdate - new Date(this.StartTime).getTime();
+            this.timeSpent = Math.floor((timeConsumed / 1000)/60);
+            this.$emit('TimerStop', this.timeSpent);
+        }
     },
     beforeMount(){
         this.startTimer();

@@ -339,9 +339,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         if (res.status == 200) {
           _this3.getTeachers.splice(_this3.deleteIndex, 1);
 
-          _this3.toastSuccess('User Successfully removed!');
+          _this3.toastSuccess('User successfully removed!');
 
           _this3.IsDeleting = false;
+          _this3.deleteIndex = null;
         } else {
           _this3.toastError('Something went wrong!');
 
@@ -380,16 +381,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
         if (this.type == 'add') {
           this.form.password_confirmation = this.form.password;
-          this.form.post('/api/admin/add/teacher').then(function (res) {
-            if (res.status == 200) {
+          axios__WEBPACK_IMPORTED_MODULE_1___default().post('/api/admin/add/teacher', this.form).then(function (response) {
+            if (response.status == 200) {
               _this4.$refs.RegisterForm.reset();
 
               _this4.valid = true;
               _this4.dialog = false; //this.$store.dispatch('fetchAllTeachers');
 
-              _this4.StudentList.push(res.data);
+              _this4.teacherList.push(response.data);
 
-              _this4.toastSuccess('User Successfully Added!');
+              _this4.toastSuccess('User successfully Added!');
 
               _this4.IsAddUpdating = false;
             } else {
@@ -402,9 +403,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
             _this4.toastError('Something went wrong!');
           });
-        }
-
-        if (this.type == 'edit') {
+        } else if (this.type == 'edit') {
           this.form.post('/api/admin/teachers/update/' + this.form.user_id).then(function (res) {
             if (res.status == 200) {
               _this4.$refs.RegisterForm.reset();

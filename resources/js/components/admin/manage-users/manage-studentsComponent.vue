@@ -167,6 +167,25 @@
             </v-card>
         </v-dialog>
 
+          <v-dialog v-model="ResetPassworddialog" persistent max-width="290">
+
+            <v-card>
+                <v-card-title class="headline">
+                    Are you sure you want to reset this user password?
+                </v-card-title>
+                <!-- <v-card-text>{some message} </v-card-text> -->
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn text @click="ResetPassworddialog = false, IsResetting = false">
+                        No
+                    </v-btn>
+                    <v-btn :loading="isConfirmReset" @click="updatePass()" color="primary" text >
+                        Yes
+                    </v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
+
     </div>
 
 
@@ -187,12 +206,14 @@
             return {
                 isVerifying: false,
                 Deldialog: false,
+                ResetPassworddialog: false,
                 dialog: false,
                 temp_id: '',
                 IsDeleting: false,
                 IsAddUpdating: false,
                 IsResetting: false,
                 IsResetting_id: null,
+                isConfirmReset: false,
                 type: '',
                 search: "",
                 valid: true,
@@ -332,18 +353,20 @@
                 this.delId = id;
                 this.Deldialog = true;
             },
-            updatePass(id) {
-                this.IsResetting_id = id;
-                this.IsResetting = true;
-                axios.post('/api/admin/teachers/reset-password/' + id)
+            updatePass() {
+                this.isConfirmReset = true;
+                axios.post('/api/admin/teachers/reset-password/' + this.IsResetting_id)
                     .then(res => {
                         this.toastSuccess(res.data);
+                        this.isConfirmReset = false;
                         this.IsResetting = false;
+                         this.ResetPassworddialog = false;
                     })
             },
 
              OpenupdatePassDialog(id) {
                 this.IsResetting_id = id;
+                this.ResetPassworddialog = true;
                 this.IsResetting = true;
                
             },

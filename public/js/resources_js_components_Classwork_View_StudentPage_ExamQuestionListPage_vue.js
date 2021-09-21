@@ -312,6 +312,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
 
 
 
@@ -402,6 +404,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.tempCounter = 0;
       this.CountTime();
     },
+    setAnswer: function setAnswer(index, Choices) {},
     SetWarning: function SetWarning() {
       this.preventWarning = !this.preventWarning;
     },
@@ -527,12 +530,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _this6 = this;
 
       this.$store.dispatch('fetchQuestions', this.$route.query.clwk).then(function () {
-        _this6.Qlength = _this6.getAll_questions.Question.length;
-        _this6.isLoading = false; //let AnswersList = JSON.parse(localStorage.getItem(name));
+        _this6.Qlength = _this6.getAll_questions.Question.length; //let AnswersList = JSON.parse(localStorage.getItem(name));
 
         var AnswersList = _this6.Submitted_Answers;
 
-        if (AnswersList == null) {
+        if (AnswersList == null || AnswersList.length == 0) {
           for (var index = 0; index < _this6.getAll_questions.Question.length; index++) {
             if (_this6.getAll_questions.Question[index].type == 'Identification' || _this6.getAll_questions.Question[index].type == 'Multiple Choice' || _this6.getAll_questions.Question[index].type == 'True or False') {
               _this6.FinalAnswers.push({
@@ -651,6 +653,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             }
           }
         }
+
+        _this6.isLoading = false;
       });
     },
     preventNav: function preventNav(event) {
@@ -663,24 +667,49 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _this7 = this;
 
       axios.get('/api/student/checking/' + this.$route.query.clwk).then(function (res) {
-        if (res.data.status == 'Taking' || res.data.status == '' || res.data.status == null) {
-          _this7.Submitted_Answers = res.data.Submitted_Answers;
-          _this7.StartTime = res.data.startTime;
-          _this7.submission_id = res.data.submission_id;
+        if (res.data.success == true) {
+          if (res.data.status == 'Taking' || res.data.status == '' || res.data.status == null) {
+            _this7.Submitted_Answers = res.data.Submitted_Answers;
+            _this7.StartTime = res.data.startTime;
+            _this7.submission_id = res.data.submission_id;
+            _this7.preventNav = !_this7.preventNav;
 
-          _this7.StartQuiz();
+            _this7.StartQuiz();
+          } else {
+            _this7.isLoading = false;
 
-          _this7.preventNav = !_this7.preventNav;
+            _this7.$router.push({
+              name: 'result-page',
+              params: {
+                id: _this7.$route.query.clwk
+              }
+            });
+          }
         } else {
-          _this7.isLoading = false;
+          _this7.toastError('Something went wrong while loading Questions!');
 
           _this7.$router.push({
-            name: 'result-page',
+            name: 'clwk',
             params: {
-              id: _this7.$route.query.clwk
+              id: _this7.$route.params.id
+            },
+            query: {
+              clwk: _this7.$route.query.clwk
             }
           });
         }
+      })["catch"](function (e) {
+        _this7.toastError('Something went wrong while loading Questions!');
+
+        _this7.$router.push({
+          name: 'clwk',
+          params: {
+            id: _this7.$route.params.id
+          },
+          query: {
+            clwk: _this7.$route.query.clwk
+          }
+        });
       });
     },
     SelectMatch: function SelectMatch(id, main_index, second_index) {
@@ -715,6 +744,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
       if (this.leaveStrike == 5) {
         this.isExamStart = false;
+        this.toastError('You are lossing focus to examination page many times!');
         this.$router.push({
           name: 'clwk',
           params: {
@@ -832,14 +862,14 @@ __webpack_require__.r(__webpack_exports__);
       displaySeconds: 0,
       SecondProgress: 1000,
       isLoaded: false,
-      endAt: new Date().getTime() + 7000,
+      endAt: new Date().getTime() + 10000,
       timeSpent: null
     };
   },
   watch: {
     'StopTimer': function StopTimer(arMsg) {
       if (arMsg == true) {
-        this.$emit('TimerStop', this.timeSpent);
+        this.getTimeSpent();
       }
     }
   },
@@ -847,13 +877,18 @@ __webpack_require__.r(__webpack_exports__);
     startTimer: function startTimer() {
       var due = this.duration * 60 * 1000;
       this.EndDate = new Date(this.StartTime).getTime() + due;
-      var timeConsumed = this.Startdate - new Date(this.StartTime).getTime();
-      this.timeSpent = Math.floor(timeConsumed / 1000 / 60);
+      /*             let timeConsumed = this.Startdate - new Date(this.StartTime).getTime();
+                  this.timeSpent = Math.floor((timeConsumed / 1000)/60); */
     },
     EndTimer: function EndTimer() {
       clearInterval(this.NewTimer);
       localStorage.removeItem(name);
       this.$emit('TimesUp');
+    },
+    getTimeSpent: function getTimeSpent() {
+      var timeConsumed = this.Startdate - new Date(this.StartTime).getTime();
+      this.timeSpent = Math.floor(timeConsumed / 1000 / 60);
+      this.$emit('TimerStop', this.timeSpent);
     }
   },
   beforeMount: function beforeMount() {
@@ -24326,6 +24361,7 @@ var render = function() {
                                                                                 staticClass:
                                                                                   "ma-0 pa-0",
                                                                                 attrs: {
+                                                                                  max: 1,
                                                                                   name:
                                                                                     "option" +
                                                                                     index
@@ -24357,11 +24393,12 @@ var render = function() {
                                                                                 _c(
                                                                                   "v-radio",
                                                                                   {
-                                                                                    key:
-                                                                                      Ans.id,
                                                                                     attrs: {
                                                                                       color:
                                                                                         "primary",
+                                                                                      name:
+                                                                                        "option" +
+                                                                                        index,
                                                                                       value:
                                                                                         Ans.Choice
                                                                                     },

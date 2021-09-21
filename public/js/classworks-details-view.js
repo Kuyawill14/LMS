@@ -108,6 +108,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
 var studentStartPage = function studentStartPage() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_type_studentStartPage_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./type/studentStartPage */ "./resources/js/components/Classwork_View/type/studentStartPage.vue"));
 };
@@ -129,8 +131,9 @@ var teacherStartPage = function teacherStartPage() {
       classworkDetails: {},
       totalPoints: null,
       totalQuestion: null,
-      CurrentUser: [],
-      iChange: false
+      statusDetails: [],
+      iChange: false,
+      Isloaded: false
     };
   },
   watch: {
@@ -153,6 +156,9 @@ var teacherStartPage = function teacherStartPage() {
                   _this.classworkDetails = res.data;
                   _this.totalPoints = res.data.totalpoints;
                   _this.totalQuestion = res.data.ItemsCount;
+
+                  _this.checkStatus(res.data.Details.type);
+
                   _this.iChange = false;
                   _this.isloading = false;
                 })["catch"](function (e) {
@@ -167,13 +173,41 @@ var teacherStartPage = function teacherStartPage() {
           }
         }, _callee);
       }))();
+    },
+    checkStatus: function checkStatus(type) {
+      var _this2 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                if (_this2.role == 'Student') {
+                  if (type == 'Objective Type') {
+                    axios.get('/api/student/check-status/' + _this2.$route.query.clwk).then(function (res) {
+                      _this2.statusDetails = res.data;
+                    });
+                  } else if (type == 'Subjective Type') {
+                    axios.get('/api/submission/check-sbj/' + _this2.$route.query.clwk).then(function (res) {
+                      _this2.statusDetails = res.data;
+                    });
+                  }
+                }
+
+              case 1:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }))();
     }
   },
   beforeRouteEnter: function beforeRouteEnter(to, from, next) {
-    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
         while (1) {
-          switch (_context2.prev = _context2.next) {
+          switch (_context3.prev = _context3.next) {
             case 0:
               next(function (vm) {
                 vm.getClassworkDetails();
@@ -181,10 +215,10 @@ var teacherStartPage = function teacherStartPage() {
 
             case 1:
             case "end":
-              return _context2.stop();
+              return _context3.stop();
           }
         }
-      }, _callee2);
+      }, _callee3);
     }))();
   }
 });
@@ -51962,7 +51996,8 @@ var render = function() {
                             attrs: {
                               classworkDetails: _vm.classworkDetails.Details,
                               totalPoints: _vm.totalPoints,
-                              totalQuestion: _vm.totalQuestion
+                              totalQuestion: _vm.totalQuestion,
+                              statusDetails: _vm.statusDetails
                             },
                             on: {
                               isMounted: function($event) {

@@ -71,7 +71,7 @@ var responseLatePageWarning = function responseLatePageWarning() {
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['classworkDetails', 'totalPoints', 'totalQuestion'],
+  props: ['classworkDetails', 'totalPoints', 'totalQuestion', 'statusDetails'],
   components: {
     objectiveType: objectiveType,
     subjectiveType: subjectiveType,
@@ -79,7 +79,8 @@ var responseLatePageWarning = function responseLatePageWarning() {
   },
   data: function data() {
     return {
-      DateToday: null
+      DateToday: null,
+      loaded: false
     };
   },
   methods: {
@@ -1013,8 +1014,9 @@ var render = function() {
                     { attrs: { align: "center", justify: "center" } },
                     [
                       _vm.classworkDetails.response_late == 0 &&
-                      _vm.CheckFormatDue(_vm.classworkDetails.to_date) <
-                        _vm.DateToday
+                      _vm.CheckFormatDue(_vm.classworkDetails.to_date) <=
+                        _vm.DateToday &&
+                      _vm.statusDetails.status != "Submitted"
                         ? _c(
                             "v-col",
                             {
@@ -1058,6 +1060,8 @@ var render = function() {
                                                 attrs: {
                                                   classworkDetails:
                                                     _vm.classworkDetails,
+                                                  statusDetails:
+                                                    _vm.statusDetails,
                                                   totalPoints: _vm.totalPoints,
                                                   totalQuestion:
                                                     _vm.totalQuestion

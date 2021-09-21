@@ -260,10 +260,6 @@
                 ],
                 teacherList: [],
 
-
-
-
-
             }
 
         },
@@ -328,8 +324,9 @@
                     .then((res) => {
                         if (res.status == 200) {
                             this.getTeachers.splice(this.deleteIndex, 1);
-                            this.toastSuccess('User Successfully removed!')
+                            this.toastSuccess('User successfully removed!')
                             this.IsDeleting = false;
+                            this.deleteIndex = null;
                         } else {
                             this.toastError('Something went wrong!')
                             this.IsDeleting = false;
@@ -352,33 +349,34 @@
                     this.IsAddUpdating = true;
                     if (this.type == 'add') {
                         this.form.password_confirmation = this.form.password
-
-
-                        this.form.post('/api/admin/add/teacher')
-                            .then((res) => {
-
-                                if (res.status == 200) {
+                         axios.post('/api/admin/add/teacher', this.form)
+                            .then((response) => {
+                           
+                                if(response.status == 200) {
+                                
                                     this.$refs.RegisterForm.reset()
                                     this.valid = true;
                                     this.dialog = false;
                                     //this.$store.dispatch('fetchAllTeachers');
-                                    this.StudentList.push(res.data);
-                                    this.toastSuccess('User Successfully Added!')
+                                    this.teacherList.push(response.data);
+                                    this.toastSuccess('User successfully Added!')
                                     this.IsAddUpdating = false;
                                 } else {
                                     this.IsAddUpdating = false;
                                     this.toastError('Something went wrong!')
 
                                 }
-                            }).catch((err) => {
-                                this.IsAddUpdating = false;
-                                this.toastError('Something went wrong!')
                             })
+                            .catch((err) => {
+                                this.IsAddUpdating = false;
+                                this.toastError('Something went wrong!');
+                            })
+                            
 
                     }
 
 
-                    if (this.type == 'edit') {
+                    else if (this.type == 'edit') {
                         this.form.post('/api/admin/teachers/update/' + this.form.user_id)
                             .then((res) => {
 

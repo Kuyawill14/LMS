@@ -65,9 +65,12 @@
                                             </v-list-item-action>
                                         </v-list-item>
                                     </v-list>
-                            
+                                     <v-col  cols="12" class="ma-0 pa-0 pb-4">
+                                     
+                                         <span class="font-weight-bold">Time Spent: </span><span>{{ViewDetails.timeSpent+' minutes'}}</span>
+                                    </v-col>
                                     <v-col  cols="12" class="ma-0 pa-0 pb-4">
-                                    <v-btn rounded v-if="ViewDetails.status != null && ViewDetails.status != ''"
+                                    <v-btn rounded v-if="ViewDetails.status == 'Submitted'"
                                      :loading="isReseting" @click="dialog = !dialog" color="primary" ><v-icon left>mdi-restart</v-icon> Reset Submission</v-btn>
                                     </v-col>
                                 </v-card>

@@ -76,6 +76,8 @@
                 :totalPoints="totalPoints"
                 v-on:isMounted="isloading = false"
                 :totalQuestion="totalQuestion"
+                :statusDetails="statusDetails"
+          
                 ></studentStartPage>
             </v-col>
         </v-row>
@@ -102,8 +104,9 @@ export default {
             classworkDetails:{},
             totalPoints:null,
             totalQuestion:null,
-            CurrentUser:[],
+            statusDetails: [],
             iChange: false,
+            Isloaded: false,
         }
     },
     watch: {
@@ -120,6 +123,7 @@ export default {
                this.classworkDetails = res.data;
                 this.totalPoints = res.data.totalpoints;
                 this.totalQuestion = res.data.ItemsCount;
+                this.checkStatus(res.data.Details.type);
                 this.iChange = false;
                 this.isloading = false;
             })
@@ -128,10 +132,32 @@ export default {
                 this.isloading = false;
             })
         },
+        async checkStatus(type){
+            if(this.role == 'Student'){
+                if(type == 'Objective Type'){
+                     axios.get('/api/student/check-status/'+this.$route.query.clwk)
+                    .then(res=>{
+                        this.statusDetails = res.data;
+                     
+                    })
+                }
+                else if(type == 'Subjective Type'){
+                    axios.get('/api/submission/check-sbj/'+this.$route.query.clwk)
+                    .then(res=>{
+                        this.statusDetails = res.data;
+                                         
+                    })
+                }
+          
+            }
+            
+        }
     },
     async beforeRouteEnter(to, from, next) {
         next(vm => {
+            
             vm.getClassworkDetails();
+            
         });
     },
 }

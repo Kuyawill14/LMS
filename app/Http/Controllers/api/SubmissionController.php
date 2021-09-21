@@ -42,8 +42,10 @@ class SubmissionController extends Controller
                     $Sub->status = null;
                     $Sub->points = null;
                     $Sub->graded = null;
+                    $Sub->timeSpent = null;
                     $Sub->updated_at = null;
                     $Sub->Submitted_Answers = null;
+                  
                     $Sub->rubrics_score = null;
                     
                 }
@@ -52,6 +54,7 @@ class SubmissionController extends Controller
                     $Sub->status = $Submission->status;
                     $Sub->points = $Submission->points;
                     $Sub->graded = $Submission->graded;
+                    $Sub->timeSpent =  $Submission->timeSpent;
                     $Sub->updated_at = $Submission->updated_at;
                     $Sub->Submitted_Answers = unserialize($Submission->Submitted_Answers);
                     $Sub->rubrics_score = unserialize($Submission->rubrics_score);

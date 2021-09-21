@@ -140,16 +140,18 @@
                                                 <v-col cols="12" md="12">
                                                 <v-container >
                                                     <v-container class="d-flex flex-row ma-0 pa-0 mb-1" v-for="(Ans,i) in getAll_questions.Answer[index]" :key="i">
-                                                    <v-radio-group :name="'option'+index"  class="ma-0 pa-0" v-model="FinalAnswers[index].Answer">
+                                                    <v-radio-group  :max="1" :name="'option'+index"  class="ma-0 pa-0" v-model="FinalAnswers[index].Answer">
                                                         <v-radio
                                                         color="primary"
-                                                        :key="Ans.id"
+                                                        
+                                                        :name="'option'+index"
                                                         @click="SelectAnswer()"
+                                                        
                                                         :value="Ans.Choice"
                                                         ></v-radio>
                                                         </v-radio-group>
                                                         <div style="line-height:1.4" class="Subtitle-1 ma-0 pa-0">
-                                                            <!--   {{Ans.Choice}} -->
+                                                   
                                                             <span style="user-select: none" v-html="Ans.Choice" class="post-content"></span>
                                                         </div>
                                                         </v-container>
@@ -380,6 +382,9 @@ export default {
             this.tempCounter = 0;
             this.CountTime();
         },
+        setAnswer(index, Choices){
+
+        },
         SetWarning(){
             this.preventWarning = !this.preventWarning;
         },
@@ -468,11 +473,11 @@ export default {
         fetchQuestions(){
             this.$store.dispatch('fetchQuestions', this.$route.query.clwk).then(()=>{
                 this.Qlength = this.getAll_questions.Question.length;
-                this.isLoading = false;
+              
                
                 //let AnswersList = JSON.parse(localStorage.getItem(name));
                 let AnswersList = this.Submitted_Answers;
-                if(AnswersList == null){
+                if(AnswersList == null || AnswersList.length == 0){
                     for (let index = 0; index < this.getAll_questions.Question.length; index++) {
                         if(this.getAll_questions.Question[index].type == 'Identification' || this.getAll_questions.Question[index].type == 'Multiple Choice' || this.getAll_questions.Question[index].type == 'True or False'){
                             this.FinalAnswers.push({
@@ -592,6 +597,7 @@ export default {
                          }
                     }
                 }
+                  this.isLoading = false;
                 
             });
 
@@ -605,18 +611,28 @@ export default {
          CheckStatus(){
             axios.get('/api/student/checking/'+this.$route.query.clwk)
             .then(res=>{
+               if(res.data.success == true){
+                    if(res.data.status == 'Taking' || res.data.status == '' || res.data.status == null){
+                        this.Submitted_Answers = res.data.Submitted_Answers;
+                        this.StartTime = res.data.startTime;
+                        this.submission_id = res.data.submission_id;
+                        this.preventNav = !this.preventNav;
+                        this.StartQuiz();
+                    }
+                    else{
+                        this.isLoading = false;
+                        this.$router.push({name: 'result-page', params:{id: this.$route.query.clwk}})
+                    }
+               }
+               else{
+                   this.toastError('Something went wrong while loading Questions!');
+                  this.$router.push({name: 'clwk',params: {id: this.$route.params.id},query: {clwk: this.$route.query.clwk}}) 
+               }
                
-                if(res.data.status == 'Taking' || res.data.status == '' || res.data.status == null){
-                    this.Submitted_Answers = res.data.Submitted_Answers;
-                    this.StartTime = res.data.startTime;
-                    this.submission_id = res.data.submission_id;
-                    this.StartQuiz();
-                    this.preventNav = !this.preventNav;
-                }
-                else{
-                     this.isLoading = false;
-                    this.$router.push({name: 'result-page', params:{id: this.$route.query.clwk}})
-                }
+            })
+            .catch(e=>{
+                this.toastError('Something went wrong while loading Questions!');
+                this.$router.push({name: 'clwk',params: {id: this.$route.params.id},query: {clwk: this.$route.query.clwk}})
             })
         },
         SelectMatch(id, main_index, second_index){
@@ -675,6 +691,7 @@ export default {
             this.leaveStrike += 1;
             if(this.leaveStrike == 5){
                 this.isExamStart = false;
+                this.toastError('You are lossing focus to examination page many times!');
                 this.$router.push({name: 'clwk',params: {id: this.$route.params.id},query: {clwk: this.$route.query.clwk}})
             }
             if(!this.preventWarning){

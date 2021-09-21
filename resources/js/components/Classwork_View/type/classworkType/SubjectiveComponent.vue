@@ -103,7 +103,7 @@
                     </v-col>
                     <v-col  cols="12" class="pt-0 mt-0 pl-1 pr-1 pb-0 mb-0 d-flex justify-space-between">
                         <div class="font-weight-medium text-body-2 mt-3">Your Work</div>
-                        <v-btn v-if="StatusDetails.status == 'Submitted' && !StatusDetails.graded" @click="isResubmit = !isResubmit, MarkAsSubmitting(StatusDetails.Sub_id)" rounded text class="blue--text">{{isResubmit ? 'Cancel': 'Resubmit'}}</v-btn>
+                        <v-btn v-if="StatusDetails.status == 'Submitted' && !StatusDetails.graded && format_date1(DateToday) <= format_date1(classworkDetails.to_date)" @click="isResubmit = !isResubmit, MarkAsSubmitting(StatusDetails.Sub_id)" rounded text class="blue--text">{{isResubmit ? 'Cancel': 'Resubmit'}}</v-btn>
                         <v-chip v-if="StatusDetails.graded"
                           class="ma-2" color="green" outlined>
                          Graded: {{StatusDetails.score}} /{{StatusDetails.totalPoints}}

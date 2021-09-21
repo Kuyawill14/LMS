@@ -112,18 +112,18 @@
                     
                     <v-col cols="12">
                         <div class="text-right pt-1">
-                            <v-chip v-if="status == 'Submitted'" color="success"> <v-icon left>mdi-check</v-icon> Score: {{statusDetails.score+'/'+statusDetails.totalPoints}}</v-chip>
+                            <v-chip v-if="statusDetails.status == 'Submitted'" color="success"> <v-icon left>mdi-check</v-icon> Score: {{statusDetails.score+'/'+statusDetails.totalPoints}}</v-chip>
                         </div>
                         <v-row style="height:4vh"></v-row>
-                        <v-divider v-if="status == 'Submitted'"></v-divider>
+                        <v-divider v-if="statusDetails.status == 'Submitted'"></v-divider>
                     </v-col>
                     <v-col cols="12">
                         <v-container ma-0 pa-0 class="d-flex flex-row justify-space-between">
                             <v-btn
                             class="mx-2" fab dark
-                            color="primary">
+                            :color="statusDetails.status == 'Submitted' ? 'success': 'primary'">
                                 <v-icon x-large>
-                                mdi-book-open-variant
+                                {{statusDetails.status == 'Submitted' ? 'mdi-check': 'mdi-book-open-variant'}}
                                 </v-icon>
                             </v-btn>
                             <div
@@ -170,16 +170,16 @@
          
                     <v-col v-if="classworkDetails.availability == 0" cols="12" class="pl-10 pr-5 pb-10 text-right">
                          <v-btn
-                            v-if="(status == null || status == '') && status != 'Submitted'"
+                            v-if="(statusDetails.status == null || statusDetails.status == '') && statusDetails.status != 'Submitted'"
                             rounded
                             color="primary"
                             :dark="totalQuestion != 0"
                             :disabled="totalQuestion == 0"
-                            @click="(status == null || status == '') && status != 'Submitted' ? start(): ''">Take Quiz<v-icon right dark>mdi-book-arrow-right-outline</v-icon>
+                            @click="(statusDetails.status == null || statusDetails.status == '') && statusDetails.status != 'Submitted' ? start(): ''">Take Quiz<v-icon right dark>mdi-book-arrow-right-outline</v-icon>
                         </v-btn>
 
                         <v-btn
-                        v-if="status == 'Submitted' && statusDetails.reviewAnswer == 1"
+                        v-if="statusDetails.status == 'Submitted' && statusDetails.reviewAnswer == 1"
                         @click="isViewingSubmission = !isViewingSubmission"
                          
                             rounded
@@ -188,19 +188,20 @@
                 </v-col>
                    
                  <v-col v-else-if="classworkDetails.availability == 1" cols="12" class="pl-10 pr-5 pb-10 text-right"> 
+                     
                      <v-row>
-                           <v-col cols="12" v-if="format_date1(DateToday) >= format_date1(classworkDetails.from_date)">
+                           <v-col cols="12" v-if="DateToday >= format_date1(classworkDetails.from_date)">
                                 <v-btn
-                                    v-if="(status == null || status == '') && status != 'Submitted'"
+                                    v-if="(statusDetails.status == null || statusDetails.status == '') && statusDetails.status != 'Submitted'"
                                     rounded
                                     color="primary"
                                     :dark="totalQuestion != 0"
                                     :disabled="totalQuestion == 0"
-                                    @click="(status == null || status == '') && status != 'Submitted' ? start(): ''">Take Quiz<v-icon right dark>mdi-book-arrow-right-outline</v-icon>
+                                    @click="(statusDetails.status == null || statusDetails.status == '') && statusDetails.status != 'Submitted' ? start(): ''">Take Quiz<v-icon right dark>mdi-book-arrow-right-outline</v-icon>
                                 </v-btn>
 
                                 <v-btn
-                                    v-if="status == 'Taking'"
+                                    v-if="statusDetails.status == 'Taking'"
                                     rounded
                                     color="primary"
                                     dark
@@ -209,7 +210,7 @@
                                 </v-btn>
 
                                 <v-btn
-                                v-if="status == 'Submitted' && statusDetails.reviewAnswer == 1"
+                                v-if="statusDetails.status == 'Submitted' && statusDetails.reviewAnswer == 1"
                                 @click="isViewingSubmission = !isViewingSubmission"
                                     rounded
                                     color="primary">View Submission<v-icon right dark>mdi-book-arrow-right-outline</v-icon>
@@ -247,7 +248,7 @@ const viewSubmission = () => import('./submissionView/viewSubmission')
 import moment from 'moment-timezone';
 import {mapGetters} from "vuex";
 export default {
-    props:['classworkDetails','totalPoints','totalQuestion'],
+    props:['classworkDetails','totalPoints','totalQuestion','statusDetails'],
     components:{
         viewSubmission
     },
@@ -258,9 +259,9 @@ export default {
             isCommenting: false,
             comment: null,
             isLoaded: true,
-            statusDetails: [],
+            //statusDetails: [],
             isViewingSubmission: false,
-            DateToday: new Date(),
+            DateToday: null,
         }
         
     },
@@ -274,8 +275,6 @@ export default {
                 return moment(String(value)).tz("Asia/Manila").format('dddd, h:mm a');
             
             }
-
-           
         },
 
         format_date1(value) {
@@ -296,7 +295,7 @@ export default {
             .then(res=>{
                 this.status = res.data.status;
                 this.statusDetails = res.data;
-                this.isLoaded = false
+                
             })
         },
         async UpdateStatus(id){
@@ -352,8 +351,13 @@ export default {
         },
     },
    async created(){
-        this.checkStatus();
+       // this.checkStatus();
+       this.isLoaded = false;
     },
+    mounted(){
+        const newDate = new Date();
+        this.DateToday = moment(newDate).tz("Asia/Manila").format('YYYY-MM-DD HH:mm:ss');
+    }
    /*   beforeRouteEnter(to, from, next) {
         next(vm => {
             //vm.isExamStart = true

@@ -411,29 +411,47 @@ class StudentController extends Controller
     {
        
         $userId = auth('sanctum')->id();
+
         $CheckStatus = tbl_Submission::where("tbl_submissions.user_id", $userId)
         ->where('tbl_submissions.classwork_id',$id)
         ->select('tbl_submissions.id','tbl_submissions.status','tbl_submissions.Submitted_Answers','tbl_submissions.created_at')
         ->first();
-        $tempAnswer = $CheckStatus->Submitted_Answers != null ? unserialize($CheckStatus->Submitted_Answers) : null;
 
         if($CheckStatus){
-         
+            $tempAnswer = $CheckStatus->Submitted_Answers != null ? unserialize($CheckStatus->Submitted_Answers) : null;
             return response()->json([
                 'submission_id'=> $CheckStatus->id, 
-                //'user_id'=> $userId, 
                 'status' => $CheckStatus->status,
                 'startTime' => $CheckStatus->created_at,
-                'Submitted_Answers'=>$tempAnswer
+                'Submitted_Answers'=>$tempAnswer,
+                'success'=>true
             ]);
         }
         else{
+            $class = tbl_userclass::where('user_id', $userId)->get();
+            $class_classwork_id;
+            foreach($class as $item){
+                $check = tbl_classClassworks::where('class_id', $item->class_id)
+                ->where('classwork_id', $id)->first();
+                if($check){
+                    $class_classwork_id =  $check->id;
+                    goto targetLocation;
+                }
+            }
+            targetLocation:
+            $NewSubmission = new tbl_Submission;
+            $NewSubmission->classwork_id = $id;
+            $NewSubmission->class_classwork_id = $class_classwork_id;
+            $NewSubmission->user_id =  $userId;
+            $NewSubmission->status = "Taking";
+            $NewSubmission->save();
+
             return response()->json([
-                'submission_id'=> $CheckStatus->id, 
-                //'user_id'=> $userId, 
-                'status' => null,
-                'startTime' => $CheckStatus->created_at,
-                'Submitted_Answers'=>$tempAnswer
+                'submission_id'=> $NewSubmission->id, 
+                'status' => 'Taking',
+                'startTime' =>  $NewSubmission->created_at,
+                'Submitted_Answers'=> null,
+                'success'=>true
             ]);  
         }
     }

@@ -18,18 +18,18 @@
       
       <v-col v-else cols="12" sm="12"   justify="center">
         <v-row align="center" justify="center">
-          <v-col  v-if="classworkDetails.response_late == 0 && CheckFormatDue(classworkDetails.to_date) < DateToday" cols="12" md="7" lg="6" xl="6">
-                  <responseLatePageWarning :course_id="classworkDetails.course_id" ></responseLatePageWarning>
+          <v-col  v-if="classworkDetails.response_late == 0 && CheckFormatDue(classworkDetails.to_date) <= DateToday && statusDetails.status != 'Submitted'" cols="12" md="7" lg="6" xl="6">
+                <responseLatePageWarning :course_id="classworkDetails.course_id" ></responseLatePageWarning>
           </v-col>
             <v-col v-else cols="12" >
               <v-row align="center" justify="center">
                 <v-col v-if="classworkDetails.type == 'Objective Type'" sm="12" md="12" lg="10" xl="10" cols="12">
-                  <objectiveType v-if="classworkDetails.type == 'Objective Type'" :classworkDetails="classworkDetails"
+                  <objectiveType v-if="classworkDetails.type == 'Objective Type'" :classworkDetails="classworkDetails" :statusDetails="statusDetails"
                 :totalPoints="totalPoints" :totalQuestion="totalQuestion"
                 ></objectiveType>  
                 </v-col>
                 <v-col v-if="classworkDetails.type == 'Subjective Type'" cols="12" sm="12" md="12" lg="10" xl="10">
-                    <subjectiveType v-if="classworkDetails.type == 'Subjective Type'" :classworkDetails="classworkDetails"
+                    <subjectiveType v-if="classworkDetails.type == 'Subjective Type'" :classworkDetails="classworkDetails" 
                   :totalPoints="totalPoints" :totalQuestion="totalQuestion"
                   ></subjectiveType> 
                 </v-col>
@@ -49,7 +49,7 @@ const responseLatePageWarning = () => import('./classworkType/responseLateCompon
 
 import moment from 'moment-timezone';
 export default {
-    props:['classworkDetails','totalPoints','totalQuestion'],
+    props:['classworkDetails','totalPoints','totalQuestion','statusDetails'],
     components:{
       objectiveType,
       subjectiveType,
@@ -57,7 +57,8 @@ export default {
     },
     data(){
       return{
-        DateToday: null
+        DateToday: null,
+        loaded: false,
       }
     },
     methods:{
@@ -73,6 +74,7 @@ export default {
             this.$router.push({name: 'quizstart',params: {id: this.$route.params.id},query: {clwk: this.classworkDetails.id}})
           }
         },
+       
         CheckFormatDue(value){
               if (value) {
                   //return moment(String(value)).format('YYYY-MM-DD HH:mm:ss')
@@ -84,10 +86,10 @@ export default {
       window.history.forward(1)
     }, */
     mounted(){
-      let newDate = new Date();
+      const newDate = new Date();
       this.DateToday = moment(newDate).tz("Asia/Manila").format('YYYY-MM-DD HH:mm:ss');
       this.$emit('isMounted');
-
+ 
     },
     
 }
